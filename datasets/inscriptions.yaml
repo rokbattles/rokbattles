@@ -1,6 +1,6 @@
 inscriptions:
   # null / empty string = no armaments on march
-  # -1 = no inscriptions on armament
+  # -1 = no inscriptions on armament slot
 
   # 1XX -> Scroll
   # 2XX -> Instrument
