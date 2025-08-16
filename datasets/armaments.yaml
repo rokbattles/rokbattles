@@ -1,0 +1,84 @@
+armaments:
+  2004_0:
+    name:
+      en: "Gold Gathering Speed"
+
+  3001_0:
+    name:
+      en: "Infantry Attack"
+
+  3002_0:
+    name:
+      en: "Cavalry Attack"
+
+  3003_0:
+    name:
+      en: "Archer Attack"
+
+  3004_0:
+    name:
+      en: "Siege Unit Attack"
+
+  4001_0:
+    name:
+      en: "Infantry Defense"
+
+  4002_0:
+    name:
+      en: "Cavalry Defense"
+
+  4003_0:
+    name:
+      en: "Archer Defense"
+
+  4004_0:
+    name:
+      en: "Siege Unit Defense"
+
+  5001_0:
+    name:
+      en: "Infantry Health"
+
+  5002_0:
+    name:
+      en: "Cavalry Health"
+
+  5003_0:
+    name:
+      en: "Archer Health"
+
+  5004_0:
+    name:
+      en: "Siege Unit Health"
+
+  6001_0:
+    name:
+      en: "March Speed (Infantry)"
+
+  6002_0:
+    name:
+      en: "March Speed (Cavalry)"
+
+  6003_0:
+    name:
+      en: "March Speed (Archers)"
+
+  6004_0:
+    name:
+      en: "March Speed (Siege Units)"
+
+  8000_0:
+    name:
+      en: "Troop Load"
+
+  10002_0:
+    name:
+      en: "All Damage"
+
+  10016_0:
+    name:
+      en: "Damage to Barbarians"
+
+  10101_0:
+    name:
+      en: "Damage Reduction vs Barbarians"
