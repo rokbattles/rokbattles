@@ -3,612 +3,734 @@ commanders:
   22:
     name:
       en: "City Keeper"
+      es: "Guardián de la Ciudad"
     prime: false
 
   23:
     name:
       en: "Markswoman"
+      es: "Francotiradora"
     prime: false
 
   24:
     name:
       en: "Centurion"
+      es: "Centurión"
     prime: false
 
   25:
     name:
       en: "Dragon Lancer"
+      es: "Lancero de Dragón"
     prime: false
 
   # Elite
   33:
     name:
       en: "Constance"
+      es: "Constanza"
     prime: false
 
   34:
     name:
       en: "Gaius Marius"
+      es: "Cayo Mario"
     prime: false
 
   35:
     name:
       en: "Tomoe Gozen"
+      es: "Tomoe Gozen"
     prime: false
 
   36:
     name:
       en: "Lancelot"
+      es: "Lanzarote"
     prime: false
 
   38:
     name:
       en: "Šárka"
+      es: "Sárka"
     prime: false
 
   # Epic
   3:
     name:
       en: "Sun Tzu"
+      es: "Sun Tzu"
     prime: false
 
   12:
     name:
       en: "Hermann"
+      es: "Hermann"
     prime: false
 
   13:
     name:
       en: "Kusunoki Masashige"
+      es: "Kusunoki Masashige"
     prime: false
 
   14:
     name:
       en: "Scipio Africanus"
+      es: "Escipión el Africano"
     prime: false
 
   15:
     name:
       en: "Joan of Arc"
+      es: "Juana de Arco"
     prime: false
 
   16:
     name:
       en: "Eulji Mundeok"
+      es: "Eulji Mundeok"
     prime: false
 
   17:
     name:
       en: "Boudica"
+      es: "Boudica"
     prime: false
 
   18:
     name:
       en: "Pelagius"
+      es: "Pelayo"
     prime: false
 
   37:
     name:
       en: "Lohar"
+      es: "Lohar"
     prime: false
 
   61:
     name:
       en: "Belisarius"
+      es: "Belisario"
     prime: false
 
   62:
     name:
       en: "Baibars"
+      es: "Baibars"
     prime: false
 
   63:
     name:
       en: "Osman I"
+      es: "Osmán I"
     prime: false
 
   112:
     name:
       en: "Keira"
+      es: "Keira"
     prime: false
 
   116:
     name:
       en: "Matilda of Flanders"
+      es: "Matilde de Flandes"
     prime: false
 
   120:
     name:
       en: "Diaochan"
+      es: "Diaochan"
     prime: false
 
   128:
     name:
       en: "Björn Ironside"
+      es: "Björn Brazo de Hierro"
     prime: false
 
   134:
     name:
       en: "Queen Tamar of Georgia"
+      es: "Reina Tamara de Georgia"
     prime: false
 
   142:
     name:
       en: "Imhotep"
+      es: "Imhotep"
     prime: false
 
   181:
     name:
       en: "Pericles"
+      es: "Pericles"
     prime: false
 
   463:
     name:
       en: "Wak Chanil Ajaw"
+      es: "Wak Chanil Ajaw"
     prime: false
 
   536:
     name:
       en: "Catherine de' Medici"
+      es: "Catalina de Médici"
     prime: false
 
   537:
     name:
       en: "Narses"
+      es: "Narsés"
     prime: false
 
   # Legendary
   1:
     name:
       en: "Julius Caesar"
+      es: "Julio César"
     prime: false
 
   4:
     name:
       en: "Frederick I"
+      es: "Federico I"
     prime: false
 
   5:
     name:
       en: "Constantine I"
+      es: "Constantino I"
     prime: false
 
   6:
     name:
       en: "Yi Seong-Gye"
+      es: "Yi Seong-Gye"
     prime: false
 
   7:
     name:
       en: "Cao Cao"
+      es: "Cao Cao"
     prime: false
 
   8:
     name:
       en: "Richard I"
+      es: "Ricardo I"
     prime: false
 
   9:
     name:
       en: "Minamoto no Yoshitsune"
+      es: "Minamoto no Yoshitsune"
     prime: false
 
   10:
     name:
       en: "Charles Martel"
+      es: "Carlos Martel"
     prime: false
 
   11:
     name:
       en: "El Cid"
+      es: "El Cid"
     prime: false
 
   30:
     name:
       en: "Hannibal Barca"
+      es: "Aníbal Barca"
     prime: false
 
   32:
     name:
       en: "Cleopatra VII"
+      es: "Cleopatra VII"
     prime: false
 
   64:
     name:
       en: "Saladin"
+      es: "Saladino"
     prime: false
 
   65:
     name:
       en: "Mehmed II"
+      es: "Mehmed II"
     prime: false
 
   66:
     name:
       en: "Mulan"
+      es: "Mulan"
     prime: false
 
   95:
     name:
       en: "Wu Zetian"
+      es: "Wu Zetian"
     prime: false
 
   96:
     name:
       en: "Genghis Khan"
+      es: "Genghis Khan"
     prime: false
 
   97:
     name:
       en: "Charlemagne"
+      es: "Carlomagno"
     prime: false
 
   98:
     name:
       en: "Alexander the Great"
+      es: "Alejandro Magno"
     prime: false
 
   99:
     name:
       en: "Æthelflæd"
+      es: "Ethelfleda"
     prime: false
 
   100:
     name:
       en: "Tomyris"
+      es: "Tomiris"
     prime: false
 
   101:
     name:
       en: "Edward of Woodstock"
+      es: "Eduardo de Woodstock"
     prime: false
 
   102:
     name:
       en: "Seondeok"
+      es: "Seondeok"
     prime: false
 
   103:
     name:
       en: "Attila"
+      es: "Atila"
     prime: false
 
   104:
     name:
       en: "Takeda Shingen"
+      es: "Takeda Shingen"
     prime: false
 
   105:
     name:
       en: "Ishida Mitsunari"
+      es: "Ishida Mitsunari"
     prime: false
 
   106:
     name:
       en: "Theodora"
+      es: "Teodora"
     prime: false
 
   108:
     name:
       en: "Guan Yu"
+      es: "Guan Yu"
     prime: false
 
   109:
     name:
       en: "Leonidas I"
+      es: "Leónidas I"
     prime: false
 
   110:
     name:
       en: "Ramesses II"
+      es: "Ramsés II"
     prime: false
 
   111:
     name:
       en: "Artemisia I"
+      es: "Artemisia I"
     prime: false
 
   113:
     name:
       en: "Yi Sun-sin"
+      es: "Yi Sun-sin"
     prime: false
 
   114:
     name:
       en: "Chandragupta Maurya"
+      es: "Chandragupta Maurya"
     prime: false
 
   115:
     name:
       en: "William I"
+      es: "Guillermo I"
     prime: false
 
   117:
     name:
       en: "Harald Sigurdsson"
+      es: "Harald Sigurdsson"
     prime: false
 
   118:
     name:
       en: "Zenobia"
+      es: "Zenobia"
     prime: false
 
   119:
     name:
       en: "Lu Bu"
+      es: "Lu Bu"
     prime: false
 
   121:
     name:
       en: "Cyrus the Great"
+      es: "Ciro el Grande"
     prime: false
 
   122:
     name:
       en: "Nebuchadnezzar II"
+      es: "Nabucodonosor II"
     prime: false
 
   124:
     name:
       en: "Moctezuma I"
+      es: "Moctezuma I"
     prime: false
 
   125:
     name:
       en: "Trajan"
+      es: "Trajano"
     prime: false
 
   126:
     name:
       en: "Jadwiga"
+      es: "Jadwiga"
     prime: false
 
   127:
     name:
       en: "Xiang Yu"
+      es: "Xiang Yu"
     prime: false
 
   129:
     name:
       en: "Ragnar Lodbrok"
+      es: "Ragnar Lodbrok"
     prime: false
 
   130:
     name:
       en: "Cheok Jun-gyeong"
+      es: "Cheok Jun-gyeong"
     prime: false
 
   131:
     name:
       en: "K'inich Janaab' Pakal"
+      es: "K'inich Janaab' Pakal"
     prime: false
 
   132:
     name:
       en: "Gilgamesh"
+      es: "Gilgamesh"
     prime: false
 
   133:
     name:
       en: "Amanitore"
+      es: "Amanitore"
     prime: false
 
   135:
     name:
       en: "Honda Tadakatsu"
+      es: "Honda Tadakatsu"
     prime: false
 
   136:
     name:
       en: "Suleiman I"
+      es: "Solimán I"
     prime: false
 
   137:
     name:
       en: "Bertrand du Guesclin"
+      es: "Bertrand du Guesclin"
     prime: false
 
   138:
     name:
       en: "Alexander Nevsky"
+      es: "Alejandro Nevsky"
     prime: false
 
   139:
     name:
       en: "Flavius Aetius"
+      es: "Flavio Aecio"
     prime: false
 
   140:
     name:
       en: "Scipio Africanus"
+      es: "Escipión el Africano"
     prime: true
 
   141:
     name:
       en: "Thutmose III"
+      es: "Tutmosis III"
     prime: false
 
   145:
     name:
       en: "Henry V"
+      es: "Enrique V"
     prime: false
 
   146:
     name:
       en: "Boudica"
+      es: "Boudica"
     prime: true
 
   147:
     name:
       en: "Jan Žižka"
+      es: "Jan Žižka"
     prime: false
 
   148:
     name:
       en: "Joan of Arc"
+      es: "Juana de Arco"
     prime: true
 
   161:
     name:
       en: "Tariq ibn Ziyad"
+      es: "Tariq ibn Ziyad"
     prime: false
 
   162:
     name:
       en: "Sargon the Great"
+      es: "Sargón el Grande"
     prime: false
 
   175:
     name:
       en: "Margaret I"
+      es: "Margarita I"
     prime: false
 
   176:
     name:
       en: "Babur"
+      es: "Babur"
     prime: false
 
   177:
     name:
       en: "Heraclius"
+      es: "Heraclio"
     prime: false
 
   178:
     name:
       en: "Dido"
+      es: "Dido"
     prime: false
 
   179:
     name:
       en: "Zhuge Liang"
+      es: "Zhuge Liang"
     prime: false
 
   180:
     name:
       en: "Pyrrhus"
+      es: "Pirro"
     prime: false
 
   182:
     name:
       en: "Huo Qubing"
+      es: "Huo Qubing"
     prime: false
 
   183:
     name:
       en: "Justinian I"
+      es: "Justiniano I"
     prime: false
 
   184:
     name:
       en: "Gorgo"
+      es: "Gorgo"
     prime: false
 
   185:
     name:
       en: "Liu Che"
+      es: "Liu Che"
     prime: false
 
   186:
     name:
       en: "Ashurbanipal"
+      es: "Asurbanipal"
     prime: false
 
   187:
     name:
       en: "Hermann"
+      es: "Hermann"
     prime: true
 
   188:
     name:
       en: "Lapulapu"
+      es: "Lapulapu"
     prime: false
 
   189:
     name:
       en: "Gonzalo de Córdoba"
+      es: "Gonzalo de Córdoba"
     prime: false
 
   190:
     name:
       en: "Gajah Mada"
+      es: "Gajah Mada"
     prime: false
 
   191:
     name:
       en: "Eleanor of Aquitaine"
+      es: "Leonor de Aquitania"
     prime: false
 
   192:
     name:
       en: "Belisarius"
+      es: "Belisario"
     prime: true
 
   194:
     name:
       en: "William Wallace"
+      es: "William Wallace"
     prime: false
 
   195:
     name:
       en: "Shajar al-Durr"
+      es: "Shajar al-Durr"
     prime: false
 
   196:
     name:
       en: "Choe Yeong"
+      es: "Choe Yeong"
     prime: false
 
   197:
     name:
       en: "Scipio Aemilianus"
+      es: "Escipión Emiliano"
     prime: false
 
   198:
     name:
       en: "Ragnar Lodbrok"
+      es: "Ragnar Lodbrok"
     prime: true
 
   459:
     name:
       en: "Philip II"
+      es: "Filipo II"
     prime: false
 
   460:
     name:
       en: "Stephen III"
+      es: "Esteban III"
     prime: false
 
   461:
     name:
       en: "John Hunyadi"
+      es: "John Hunyadi"
     prime: false
 
   462:
     name:
       en: "Siyaj K'ak'"
+      es: "Siyaj K'ak'"
     prime: false
 
   503:
     name:
       en: "Tokugawa Ieyasu"
+      es: "Tokugawa Ieyasu"
     prime: false
 
   509:
     name:
       en: "Qin Shi Huang"
+      es: "Qin Shi Huang"
     prime: false
 
   539:
     name:
       en: "Subutai"
+      es: "Subotai"
     prime: false
 
   540:
     name:
       en: "Arthur Pendragon"
+      es: "Arturo Pendragon"
     prime: false
 
   545:
     name:
       en: "Bai Qi"
+      es: "Bai Qi"
     prime: false
