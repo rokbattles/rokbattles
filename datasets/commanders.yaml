@@ -1,0 +1,614 @@
+commanders:
+  # Advanced
+  22:
+    name:
+      en: "City Keeper"
+    prime: false
+
+  23:
+    name:
+      en: "Markswoman"
+    prime: false
+
+  24:
+    name:
+      en: "Centurion"
+    prime: false
+
+  25:
+    name:
+      en: "Dragon Lancer"
+    prime: false
+
+  # Elite
+  33:
+    name:
+      en: "Constance"
+    prime: false
+
+  34:
+    name:
+      en: "Gaius Marius"
+    prime: false
+
+  35:
+    name:
+      en: "Tomoe Gozen"
+    prime: false
+
+  36:
+    name:
+      en: "Lancelot"
+    prime: false
+
+  38:
+    name:
+      en: "Šárka"
+    prime: false
+
+  # Epic
+  3:
+    name:
+      en: "Sun Tzu"
+    prime: false
+
+  12:
+    name:
+      en: "Hermann"
+    prime: false
+
+  13:
+    name:
+      en: "Kusunoki Masashige"
+    prime: false
+
+  14:
+    name:
+      en: "Scipio Africanus"
+    prime: false
+
+  15:
+    name:
+      en: "Joan of Arc"
+    prime: false
+
+  16:
+    name:
+      en: "Eulji Mundeok"
+    prime: false
+
+  17:
+    name:
+      en: "Boudica"
+    prime: false
+
+  18:
+    name:
+      en: "Pelagius"
+    prime: false
+
+  37:
+    name:
+      en: "Lohar"
+    prime: false
+
+  61:
+    name:
+      en: "Belisarius"
+    prime: false
+
+  62:
+    name:
+      en: "Baibars"
+    prime: false
+
+  63:
+    name:
+      en: "Osman I"
+    prime: false
+
+  112:
+    name:
+      en: "Keira"
+    prime: false
+
+  116:
+    name:
+      en: "Matilda of Flanders"
+    prime: false
+
+  120:
+    name:
+      en: "Diaochan"
+    prime: false
+
+  128:
+    name:
+      en: "Björn Ironside"
+    prime: false
+
+  134:
+    name:
+      en: "Queen Tamar of Georgia"
+    prime: false
+
+  142:
+    name:
+      en: "Imhotep"
+    prime: false
+
+  181:
+    name:
+      en: "Pericles"
+    prime: false
+
+  463:
+    name:
+      en: "Wak Chanil Ajaw"
+    prime: false
+
+  536:
+    name:
+      en: "Catherine de' Medici"
+    prime: false
+
+  537:
+    name:
+      en: "Narses"
+    prime: false
+
+  # Legendary
+  1:
+    name:
+      en: "Julius Caesar"
+    prime: false
+
+  4:
+    name:
+      en: "Frederick I"
+    prime: false
+
+  5:
+    name:
+      en: "Constantine I"
+    prime: false
+
+  6:
+    name:
+      en: "Yi Seong-Gye"
+    prime: false
+
+  7:
+    name:
+      en: "Cao Cao"
+    prime: false
+
+  8:
+    name:
+      en: "Richard I"
+    prime: false
+
+  9:
+    name:
+      en: "Minamoto no Yoshitsune"
+    prime: false
+
+  10:
+    name:
+      en: "Charles Martel"
+    prime: false
+
+  11:
+    name:
+      en: "El Cid"
+    prime: false
+
+  30:
+    name:
+      en: "Hannibal Barca"
+    prime: false
+
+  32:
+    name:
+      en: "Cleopatra VII"
+    prime: false
+
+  64:
+    name:
+      en: "Saladin"
+    prime: false
+
+  65:
+    name:
+      en: "Mehmed II"
+    prime: false
+
+  66:
+    name:
+      en: "Mulan"
+    prime: false
+
+  95:
+    name:
+      en: "Wu Zetian"
+    prime: false
+
+  96:
+    name:
+      en: "Genghis Khan"
+    prime: false
+
+  97:
+    name:
+      en: "Charlemagne"
+    prime: false
+
+  98:
+    name:
+      en: "Alexander the Great"
+    prime: false
+
+  99:
+    name:
+      en: "Æthelflæd"
+    prime: false
+
+  100:
+    name:
+      en: "Tomyris"
+    prime: false
+
+  101:
+    name:
+      en: "Edward of Woodstock"
+    prime: false
+
+  102:
+    name:
+      en: "Seondeok"
+    prime: false
+
+  103:
+    name:
+      en: "Attila"
+    prime: false
+
+  104:
+    name:
+      en: "Takeda Shingen"
+    prime: false
+
+  105:
+    name:
+      en: "Ishida Mitsunari"
+    prime: false
+
+  106:
+    name:
+      en: "Theodora"
+    prime: false
+
+  108:
+    name:
+      en: "Guan Yu"
+    prime: false
+
+  109:
+    name:
+      en: "Leonidas I"
+    prime: false
+
+  110:
+    name:
+      en: "Ramesses II"
+    prime: false
+
+  111:
+    name:
+      en: "Artemisia I"
+    prime: false
+
+  113:
+    name:
+      en: "Yi Sun-sin"
+    prime: false
+
+  114:
+    name:
+      en: "Chandragupta Maurya"
+    prime: false
+
+  115:
+    name:
+      en: "William I"
+    prime: false
+
+  117:
+    name:
+      en: "Harald Sigurdsson"
+    prime: false
+
+  118:
+    name:
+      en: "Zenobia"
+    prime: false
+
+  119:
+    name:
+      en: "Lu Bu"
+    prime: false
+
+  121:
+    name:
+      en: "Cyrus the Great"
+    prime: false
+
+  122:
+    name:
+      en: "Nebuchadnezzar II"
+    prime: false
+
+  124:
+    name:
+      en: "Moctezuma I"
+    prime: false
+
+  125:
+    name:
+      en: "Trajan"
+    prime: false
+
+  126:
+    name:
+      en: "Jadwiga"
+    prime: false
+
+  127:
+    name:
+      en: "Xiang Yu"
+    prime: false
+
+  129:
+    name:
+      en: "Ragnar Lodbrok"
+    prime: false
+
+  130:
+    name:
+      en: "Cheok Jun-gyeong"
+    prime: false
+
+  131:
+    name:
+      en: "K'inich Janaab' Pakal"
+    prime: false
+
+  132:
+    name:
+      en: "Gilgamesh"
+    prime: false
+
+  133:
+    name:
+      en: "Amanitore"
+    prime: false
+
+  135:
+    name:
+      en: "Honda Tadakatsu"
+    prime: false
+
+  136:
+    name:
+      en: "Suleiman I"
+    prime: false
+
+  137:
+    name:
+      en: "Bertrand du Guesclin"
+    prime: false
+
+  138:
+    name:
+      en: "Alexander Nevsky"
+    prime: false
+
+  139:
+    name:
+      en: "Flavius Aetius"
+    prime: false
+
+  140:
+    name:
+      en: "Scipio Africanus"
+    prime: true
+
+  141:
+    name:
+      en: "Thutmose III"
+    prime: false
+
+  145:
+    name:
+      en: "Henry V"
+    prime: false
+
+  146:
+    name:
+      en: "Boudica"
+    prime: true
+
+  147:
+    name:
+      en: "Jan Žižka"
+    prime: false
+
+  148:
+    name:
+      en: "Joan of Arc"
+    prime: true
+
+  161:
+    name:
+      en: "Tariq ibn Ziyad"
+    prime: false
+
+  162:
+    name:
+      en: "Sargon the Great"
+    prime: false
+
+  175:
+    name:
+      en: "Margaret I"
+    prime: false
+
+  176:
+    name:
+      en: "Babur"
+    prime: false
+
+  177:
+    name:
+      en: "Heraclius"
+    prime: false
+
+  178:
+    name:
+      en: "Dido"
+    prime: false
+
+  179:
+    name:
+      en: "Zhuge Liang"
+    prime: false
+
+  180:
+    name:
+      en: "Pyrrhus"
+    prime: false
+
+  182:
+    name:
+      en: "Huo Qubing"
+    prime: false
+
+  183:
+    name:
+      en: "Justinian I"
+    prime: false
+
+  184:
+    name:
+      en: "Gorgo"
+    prime: false
+
+  185:
+    name:
+      en: "Liu Che"
+    prime: false
+
+  186:
+    name:
+      en: "Ashurbanipal"
+    prime: false
+
+  187:
+    name:
+      en: "Hermann"
+    prime: true
+
+  188:
+    name:
+      en: "Lapulapu"
+    prime: false
+
+  189:
+    name:
+      en: "Gonzalo de Córdoba"
+    prime: false
+
+  190:
+    name:
+      en: "Gajah Mada"
+    prime: false
+
+  191:
+    name:
+      en: "Eleanor of Aquitaine"
+    prime: false
+
+  192:
+    name:
+      en: "Belisarius"
+    prime: true
+
+  194:
+    name:
+      en: "William Wallace"
+    prime: false
+
+  195:
+    name:
+      en: "Shajar al-Durr"
+    prime: false
+
+  196:
+    name:
+      en: "Choe Yeong"
+    prime: false
+
+  197:
+    name:
+      en: "Scipio Aemilianus"
+    prime: false
+
+  198:
+    name:
+      en: "Ragnar Lodbrok"
+    prime: true
+
+  459:
+    name:
+      en: "Philip II"
+    prime: false
+
+  460:
+    name:
+      en: "Stephen III"
+    prime: false
+
+  461:
+    name:
+      en: "John Hunyadi"
+    prime: false
+
+  462:
+    name:
+      en: "Siyaj K'ak'"
+    prime: false
+
+  503:
+    name:
+      en: "Tokugawa Ieyasu"
+    prime: false
+
+  509:
+    name:
+      en: "Qin Shi Huang"
+    prime: false
+
+  539:
+    name:
+      en: "Subutai"
+    prime: false
+
+  540:
+    name:
+      en: "Arthur Pendragon"
+    prime: false
+
+  545:
+    name:
+      en: "Bai Qi"
+    prime: false
