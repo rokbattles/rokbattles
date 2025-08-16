@@ -1,0 +1,268 @@
+inscriptions:
+  # null / empty string = no armaments on march
+  # -1 = no inscriptions on armament
+
+  # 1XX -> Scroll
+  # 2XX -> Instrument
+  # 3XX -> Flag
+  # 4XX -> Emblem
+
+  104:
+    name:
+      en: "Robust"
+
+  105:
+    name:
+      en: "Swift"
+
+  106:
+    name:
+      en: "Payback"
+
+  107:
+    name:
+      en: "Onslaught"
+
+  110:
+    name:
+      en: "Valiant"
+
+  111:
+    name:
+      en: "Iron Wall"
+
+  112:
+    name:
+      en: "Bellicose"
+
+  113:
+    name:
+      en: "Pulverize"
+
+  114:
+    name:
+      en: "Breaker"
+
+  117:
+    name:
+      en: "Phalanx"
+
+  118:
+    name:
+      en: "Hurried"
+
+  120:
+    name:
+      en: "Calm"
+
+  121:
+    name:
+      en: "Loosed"
+
+  124:
+    name:
+      en: "Well Clad"
+
+  137:
+    name:
+      en: "Enrichment"
+
+  204:
+    name:
+      en: "Fit"
+
+  205:
+    name:
+      en: "Fine Horse"
+
+  207:
+    name:
+      en: "Warhunger"
+
+  210:
+    name:
+      en: "Fearsome"
+
+  211:
+    name:
+      en: "Evasive"
+
+  212:
+    name:
+      en: "Requital"
+
+  213:
+    name:
+      en: "Respite"
+
+  214:
+    name:
+      en: "Guarded"
+
+  216:
+    name:
+      en: "Vengeful"
+
+  217:
+    name:
+      en: "Patronage"
+
+  219:
+    name:
+      en: "Uplifting"
+
+  220:
+    name:
+      en: "Spirited"
+
+  221:
+    name:
+      en: "Bluster"
+
+  229:
+    name:
+      en: "Alert"
+
+  237:
+    name:
+      en: "Brisk"
+
+  303:
+    name:
+      en: "Metallics"
+
+  305:
+    name:
+      en: "Galloping"
+
+  308:
+    name:
+      en: "Rebuff"
+
+  310:
+    name:
+      en: "Warflames"
+
+  311:
+    name:
+      en: "Eclipsed"
+
+  312:
+    name:
+      en: "Brave"
+
+  315:
+    name:
+      en: "Cohesive"
+
+  321:
+    name:
+      en: "Ballistics"
+
+  322:
+    name:
+      en: "Spiked"
+
+  337:
+    name:
+      en: "Harvester"
+
+  401:
+    name:
+      en: "Infamy"
+
+  404:
+    name:
+      en: "Hardy"
+
+  405:
+    name:
+      en: "Haste"
+
+  407:
+    name:
+      en: "Militant"
+
+  408:
+    name:
+      en: "Resistant"
+
+  412:
+    name:
+      en: "Smite"
+
+  414:
+    name:
+      en: "Artisan"
+
+  415:
+    name:
+      en: "Rapacious"
+
+  416:
+    name:
+      en: "Guardians"
+
+  418:
+    name:
+      en: "Deflecter"
+
+  419:
+    name:
+      en: "Watchmen"
+
+  426:
+    name:
+      en: "Haste"
+
+  437:
+    name:
+      en: "Bountiful"
+
+  2101:
+    name:
+      en: "Hunter"
+
+  2102:
+    name:
+      en: "Crazed"
+
+  2202:
+    name:
+      en: "Boiling Blood"
+
+  2302:
+    name:
+      en: "Defiant"
+
+  2402:
+    name:
+      en: "Focus Fire"
+
+  4102:
+    name:
+      en: "Drums of War"
+
+  13201:
+    name:
+      en: "Butterfly"
+
+  13301:
+    name:
+      en: "Steelskin"
+
+  17101:
+    name:
+      en: "Toppler"
+
+  17202:
+    name:
+      en: "Raider"
+
+  17302:
+    name:
+      en: "Hardheaded"
+
+  17402:
+    name:
+      en: "Rattling"
