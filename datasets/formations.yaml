@@ -1,4 +1,6 @@
 formations:
+  # null = no formation
+
   1:
     name:
       en: "Arch Formation"
