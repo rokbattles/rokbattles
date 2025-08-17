@@ -4,7 +4,7 @@ equipment:
 
   # attributes can be confusing but the breakdown is
   # YX = ST + Iconic Level, so 32 is Cav ST + Iconic 2
-  # Y = 1 inf, 2 arch, 3 cav, 4 siege
+  # Y = 1 inf, 2 arch, 3 cav, 4 integration, 16 siege
   # X  = Iconic Level, so 2 is Iconic 2
   # 0  = No ST or Iconic Level
   # Y0 = ST but no Iconic Level
@@ -136,6 +136,74 @@ equipment:
     20040:
       name:
         en: "Horn of Fury"
+
+    20045:
+      name:
+        en: "Trial of the Lost Kingdom"
+
+    20055:
+      name:
+        en: "Scepter of the Forest Guardian"
+
+    20056:
+      name:
+        en: "Mask of the Forest Guardian"
+
+    20057:
+      name:
+        en: "Robe of the Forest Guardian"
+
+    20058:
+      name:
+        en: "Claws of the Forest Guardian"
+
+    20074:
+      name:
+        en: "The Bard's Pendant"
+
+    20077:
+      name:
+        en: "Peter's Sickle"
+
+    20081:
+      name:
+        en: "Harvester Breeches"
+
+    20082:
+      name:
+        en: "Harvester Boots"
+
+    20128:
+      name:
+        en: "Knight's Oathsworn Bow"
+
+    20129:
+      name:
+        en: "Knight's Steel Diadem"
+
+    20130:
+      name:
+        en: "Knight's Valorous Cloak"
+
+    20131:
+      name:
+        en: "Knight's Battleworn Gauntlets"
+
+    20132:
+      name:
+        en: "Knight's Triumphant Tassets"
+
+    20133:
+      name:
+        en: "Knight's Winter Sabatons"
+
+    20135:
+      name:
+        end: "Witch's Deadwood Crown"
+
+    20136:
+      name:
+        end: "Witch's Hexed Cloak"
 
     20137:
       name:
