@@ -405,6 +405,18 @@ inscriptions:
     name:
       en: "Bountiful"
 
+  1101:
+    name:
+      en: "Destructive"
+
+  1102:
+    name:
+      en: "Battle-Ready"
+
+  1201:
+    name:
+      en: "Straight to the Point"
+
   1202:
     name:
       en: "Even-Keeled"
@@ -412,6 +424,14 @@ inscriptions:
   1301:
     name:
       en: "Invincible"
+
+  1302:
+    name:
+      en: "Unswerving"
+
+  1401:
+    name:
+      en: "Fearless"
 
   1402:
     name:
@@ -425,9 +445,17 @@ inscriptions:
     name:
       en: "Crazed"
 
+  2201:
+    name:
+      en: "Unstoppable"
+
   2202:
     name:
       en: "Boiling Blood"
+
+  2301:
+    name:
+      en: "Balanced"
 
   2302:
     name:
@@ -441,13 +469,265 @@ inscriptions:
     name:
       en: "Focus Fire"
 
+  3101:
+    name:
+      en: "Sharpshooter"
+
+  3102:
+    name:
+      en: "Full Draw"
+
+  3201:
+    name:
+      en: "Drilled"
+
+  3202:
+    name:
+      en: "Bloody Bolt"
+
+  3301:
+    name:
+      en: "Merciless"
+
+  3302:
+    name:
+      en: "Tempered"
+
+  3401:
+    name:
+      en: "Astute"
+
+  3402:
+    name:
+      en: "Sharp Arrows"
+
+  4101:
+    name:
+      en: "Influential Leader"
+
   4102:
     name:
       en: "Drums of War"
 
+  4201:
+    name:
+      en: "Loaded"
+
+  4202:
+    name:
+      en: "Nullify"
+
+  4301:
+    name:
+      en: "Civilized"
+
+  4302:
+    name:
+      en: "Counter-Parry"
+
+  4401:
+    name:
+      en: "Fixed"
+
+  4402:
+    name:
+      en: "Persevering"
+
+  5101:
+    name:
+      en: "Cocoon"
+
+  5102:
+    name:
+      en: "Self-Defense"
+
+  5201:
+    name:
+      en: "Inviolable"
+
   5202:
     name:
       en: "Aegis"
+
+  5301:
+    name:
+      en: "Crowned"
+
+  5302:
+    name:
+      en: "Reinforced"
+
+  5401:
+    name:
+      en: "Rounded"
+
+  5402:
+    name:
+      en: "Tenacious"
+
+  6101:
+    name:
+      en: "Rich"
+
+  6102:
+    name:
+      en: "Gold Panner"
+
+  6201:
+    name:
+      en: "Battlements"
+
+  6202:
+    name:
+      en: "Safeguard"
+
+  6301:
+    name:
+      en: "Moneyed"
+
+  6302:
+    name:
+      en: "Plentitude"
+
+  6401:
+    name:
+      en: "Transporter"
+
+  6402:
+    name:
+      en: "Sturdy Back"
+
+  7101:
+    name:
+      en: "Emmeshed"
+
+  7102:
+    name:
+      en: "Entangling"
+
+  7201:
+    name:
+      en: "Logistical"
+
+  7202:
+    name:
+      en: "Arms Race"
+
+  7301:
+    name:
+      en: "Unassailed"
+
+  7302:
+    name:
+      en: "Sprinter"
+
+  7401:
+    name:
+      en: "Winged"
+
+  7402:
+    name:
+      en: "Strider"
+
+  8101:
+    name:
+      en: "Irreproachable"
+
+  8102:
+    name:
+      en: "Ironclad"
+
+  8201:
+    name:
+      en: "Cautious"
+
+  8202:
+    name:
+      en: "Strike & Parry"
+
+  8301:
+    name:
+      en: "Shield Bash"
+
+  8302:
+    name:
+      en: "Unshakeable"
+
+  8401:
+    name:
+      en: "Rock Solid"
+
+  8402:
+    name:
+      en: "Convalescing"
+
+  9101:
+    name:
+      en: "Avenger"
+
+  9102:
+    name:
+      en: "Back In Action"
+
+  9201:
+    name:
+      en: "Guarding Light"
+
+  9202:
+    name:
+      en: "Medic"
+
+  9301:
+    name:
+      en: "Turn the Corner"
+
+  9302:
+    name:
+      en: "Rise Up"
+
+  9401:
+    name:
+      en: "Panacea"
+
+  9402:
+    name:
+      en: "Refreshing"
+
+  10101:
+    name:
+      en: "Hasty Retreat"
+
+  10102:
+    name:
+      en: "Fall Back"
+
+  10201:
+    name:
+      en: "Blast Shield"
+
+  10202:
+    name:
+      en: "Spread Out"
+
+  10301:
+    name:
+      en: "Full Force"
+
+  10302:
+    name:
+      en: "Shock Troops"
+
+  10401:
+    name:
+      en: "United Front"
+
+  10402:
+    name:
+      en: "Mutual Defense"
+
+  13101:
+    name:
+      en: "Trasher"
 
   13102:
     name:
@@ -457,21 +737,85 @@ inscriptions:
     name:
       en: "Butterfly"
 
+  13202:
+    name:
+      en: "Causative"
+
   13301:
     name:
       en: "Steelskin"
+
+  13302:
+    name:
+      en: "Determined"
+
+  13401:
+    name:
+      en: "Flurry"
+
+  13402:
+    name:
+      en: "Relentless"
+
+  14101:
+    name:
+      en: "Battle Ready"
+
+  14102:
+    name:
+      en: "Vigilant"
+
+  14201:
+    name:
+      en: "Fortified"
+
+  14202:
+    name:
+      en: "Resolute"
+
+  14301:
+    name:
+      en: "Chokepoint"
+
+  14302:
+    name:
+      en: "Precautions"
+
+  14401:
+    name:
+      en: "Steelheart"
+
+  14402:
+    name:
+      en: "Ironsides"
 
   17101:
     name:
       en: "Toppler"
 
+  17102:
+    name:
+      en: "Imploder"
+
+  17201:
+    name:
+      en: "Demolisher"
+
   17202:
     name:
       en: "Raider"
 
+  17301:
+    name:
+      en: "Airtight"
+
   17302:
     name:
       en: "Hardheaded"
+
+  17401:
+    name:
+      en: "Thundering"
 
   17402:
     name:
