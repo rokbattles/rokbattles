@@ -7,6 +7,8 @@ inscriptions:
   # 3XX -> Flag
   # 4XX -> Emblem
 
+  # 102 - Warcry (verify)
+
   103:
     name:
       en: "Well Clad"
@@ -55,6 +57,8 @@ inscriptions:
     name:
       en: "Breaker"
 
+  # 115 - Furious (verify)
+
   116:
     name:
       en: "Ward"
@@ -66,6 +70,8 @@ inscriptions:
   118:
     name:
       en: "Hurried"
+
+  # 119 - Tremors (verify)
 
   120:
     name:
@@ -83,9 +89,13 @@ inscriptions:
     name:
       en: "Well Clad"
 
+  # 125 - Robust (verify)
+
   126:
     name:
       en: "Swift"
+
+  # 127 - Payback (verify)
 
   128:
     name:
@@ -94,6 +104,8 @@ inscriptions:
   129:
     name:
       en: "Retaliatory"
+
+  # 130 - Enraged (verify)
 
   137:
     name:
@@ -114,6 +126,8 @@ inscriptions:
   205:
     name:
       en: "Fine Horse"
+
+  # 206 - Annexer (verify)
 
   207:
     name:
@@ -159,6 +173,8 @@ inscriptions:
     name:
       en: "Patronage"
 
+  # 218 - Primed (verify)
+
   219:
     name:
       en: "Uplifting"
@@ -175,21 +191,35 @@ inscriptions:
     name:
       en: "Brutal"
 
+  # 223 - Armored (verify)
+
+  # 224 - Fit (verify)
+
   226:
     name:
       en: "Fine Horse"
+
+  # 227 - Annexer (verify)
+
+  # 228 - Warhunger (verify)
 
   229:
     name:
       en: "Alert"
 
+  # 230 - Devious (verify)
+
   237:
     name:
       en: "Brisk"
 
+  # 302 - Spiked (verify)
+
   303:
     name:
       en: "Metallics"
+
+  # 304 - Vitality (verify)
 
   305:
     name:
@@ -206,6 +236,8 @@ inscriptions:
   308:
     name:
       en: "Rebuff"
+
+  # 309 - Brawler (verify)
 
   310:
     name:
@@ -243,6 +275,8 @@ inscriptions:
     name:
       en: "Wary"
 
+  # 319 - Siegework (verify)
+
   320:
     name:
       en: "Sentries"
@@ -255,9 +289,17 @@ inscriptions:
     name:
       en: "Spiked"
 
+  # 323 - Metallics (verify)
+
   325:
     name:
       en: "Vitality"
+
+  # 326 - Galloping (verify)
+
+  # 327 - Cleanser (verify)
+
+  # 328 - Striker (verify)
 
   329:
     name:
@@ -283,6 +325,8 @@ inscriptions:
     name:
       en: "Haste"
 
+  # 406 - Pacifier (verify)
+
   407:
     name:
       en: "Militant"
@@ -298,6 +342,8 @@ inscriptions:
   410:
     name:
       en: "Elite"
+
+  # 411 - Evasive (verify)
 
   412:
     name:
@@ -339,9 +385,21 @@ inscriptions:
     name:
       en: "Infamy"
 
+  # 423 - Shielded (verify)
+
+  # 424 - Hardy (verify)
+
   426:
     name:
       en: "Haste"
+
+  # 427 - Pacifier (verify)
+
+  # 428 - Militant (verify)
+
+  # 429 - Resistant (verify)
+
+  # 430 - Daring (verify)
 
   437:
     name:
