@@ -5,13 +5,24 @@
 
 ## What is ROK Toolkit
 
-ROK Toolkit is a community-driven analytics and tooling platform for Rise of Kingdoms. By opting in, governors can automatically relay in-game mails (primarily battle reports) to our backend, where it's parsed and aggregated. The resulting insights are published on the site for everyone to explore. No account required to browse.
+ROK Toolkit is a community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms. With explicit opt-in, in-game mails (primarily battle reports) are relayed to our backend, parsed, and aggregated into public datasets. These datasets power real-time browsing of battle reports alongside battle details—including commanders, equipment, armaments, and inscriptions—and drive trend exploration; no account required to explore.
 
-## Feature highlights
+## Project goals
 
-* Discover meta trends: See which commanders, equipment, armaments, and inscriptions are being used across the community.
-* Explore loadouts: Browse common equipment and armament combinations, and filter by troop type, commander pairings, and more.
-* Benchmark performance: Understand which loadouts show up most in successful reports and how usage shifts over time.
+- Short-term
+  - Publish and maintain public datasets (commanders, equipment, armaments, inscriptions).
+  - Deliver transparent trend views (usage rates, popularity over time) and simple loadout exploration with basic filters.
+  - Stabilize the ingestion and parsing pipeline with validation and public schemas.
+
+- Long-term
+  - Provide rich meta analytics: common pairings, performance benchmarks, counters, and shifts across patches/time.
+  - Ship developer APIs/SDKs for third-party tools and research.
+  - Add advanced filtering and personalized insights while keeping browsing account-free.
+
+## Current status
+
+- Datasets: initial datasets are available and mostly complete; translations are in progress.
+- Code: the first crates are available and primarily internal at this stage.
 
 ## License
 
