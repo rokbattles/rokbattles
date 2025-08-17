@@ -439,7 +439,9 @@ inscriptions:
     name:
       en: "Shielded"
 
-  # 425 - Hardy (verify)
+  425:
+    name:
+      en: Hardy
 
   426:
     name:
