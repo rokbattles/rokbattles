@@ -59,7 +59,9 @@ inscriptions:
     name:
       en: "Breaker"
 
-  # 115 - Furious (verify)
+  115:
+    name:
+      en: "Furious"
 
   116:
     name:
@@ -73,7 +75,9 @@ inscriptions:
     name:
       en: "Hurried"
 
-  # 119 - Tremors (verify)
+  119:
+    name:
+      en: "Tremors"
 
   120:
     name:
@@ -135,7 +139,9 @@ inscriptions:
     name:
       en: "Fine Horse"
 
-  # 206 - Annexer (verify)
+  206:
+    name:
+      en: "Annexer"
 
   207:
     name:
@@ -181,7 +187,9 @@ inscriptions:
     name:
       en: "Patronage"
 
-  # 218 - Primed (verify)
+  218:
+    name:
+      en: "Primed"
 
   219:
     name:
@@ -211,7 +219,9 @@ inscriptions:
     name:
       en: "Fine Horse"
 
-  # 227 - Annexer (verify)
+  227:
+    name:
+      en: "Annexer"
 
   228:
     name:
@@ -221,19 +231,25 @@ inscriptions:
     name:
       en: "Alert"
 
-  # 230 - Devious (verify)
+  230:
+    name:
+      en: "Devious"
 
   237:
     name:
       en: "Brisk"
 
-  # 302 - Spiked (verify)
+  301:
+    name:
+      en: "Spiked"
 
   303:
     name:
       en: "Metallics"
 
-  # 304 - Vitality (verify)
+  304:
+    name:
+      en: "Vitality"
 
   305:
     name:
@@ -251,7 +267,9 @@ inscriptions:
     name:
       en: "Rebuff"
 
-  # 309 - Brawler (verify)
+  309:
+    name:
+      en: "Brawler"
 
   310:
     name:
@@ -289,7 +307,9 @@ inscriptions:
     name:
       en: "Wary"
 
-  # 319 - Siegework (verify)
+  319:
+    name:
+      en: "Siegework"
 
   320:
     name:
@@ -311,13 +331,17 @@ inscriptions:
     name:
       en: "Vitality"
 
-  # 326 - Galloping (verify)
+  326:
+    name:
+      en: "Galloping"
 
   327:
     name:
       en: "Cleanser"
 
-  # 328 - Striker (verify)
+  328:
+    name:
+      en: "Striker"
 
   329:
     name:
@@ -347,7 +371,9 @@ inscriptions:
     name:
       en: "Haste"
 
-  # 406 - Pacifier (verify)
+  406:
+    name:
+      en: "Pacifier"
 
   407:
     name:
@@ -365,7 +391,9 @@ inscriptions:
     name:
       en: "Elite"
 
-  # 411 - Evasive (verify)
+  411:
+    name:
+      en: "Evasive"
 
   412:
     name:
@@ -417,7 +445,9 @@ inscriptions:
     name:
       en: "Haste"
 
-  # 427 - Pacifier (verify)
+  427:
+    name:
+      en: "Pacifier"
 
   428:
     name:
@@ -427,7 +457,9 @@ inscriptions:
     name:
       en: "Resistant"
 
-  # 430 - Daring (verify)
+  430:
+    name:
+      en: "Daring"
 
   437:
     name:
