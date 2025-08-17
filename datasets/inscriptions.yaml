@@ -7,7 +7,9 @@ inscriptions:
   # 3XX -> Flag
   # 4XX -> Emblem
 
-  # 102 - Warcry (verify)
+  101:
+    name:
+      en: "Warcry"
 
   103:
     name:
@@ -89,13 +91,17 @@ inscriptions:
     name:
       en: "Well Clad"
 
-  # 125 - Robust (verify)
+  125:
+    name:
+      en: "Robust"
 
   126:
     name:
       en: "Swift"
 
-  # 127 - Payback (verify)
+  127:
+    name:
+      en: "Payback"
 
   128:
     name:
@@ -105,7 +111,9 @@ inscriptions:
     name:
       en: "Retaliatory"
 
-  # 130 - Enraged (verify)
+  130:
+    name:
+      en: "Enraged"
 
   137:
     name:
@@ -191,9 +199,13 @@ inscriptions:
     name:
       en: "Brutal"
 
-  # 223 - Armored (verify)
+  224:
+    name:
+      en: "Armored"
 
-  # 224 - Fit (verify)
+  225:
+    name:
+      en: "Fit"
 
   226:
     name:
@@ -201,7 +213,9 @@ inscriptions:
 
   # 227 - Annexer (verify)
 
-  # 228 - Warhunger (verify)
+  228:
+    name:
+      en: "Warhunger"
 
   229:
     name:
@@ -289,7 +303,9 @@ inscriptions:
     name:
       en: "Spiked"
 
-  # 323 - Metallics (verify)
+  324:
+    name:
+      en: "Metallics"
 
   325:
     name:
@@ -297,13 +313,19 @@ inscriptions:
 
   # 326 - Galloping (verify)
 
-  # 327 - Cleanser (verify)
+  327:
+    name:
+      en: "Cleanser"
 
   # 328 - Striker (verify)
 
   329:
     name:
       en: "Rebuff"
+
+  330:
+    name:
+      en: "Brawler"
 
   337:
     name:
@@ -385,9 +407,11 @@ inscriptions:
     name:
       en: "Infamy"
 
-  # 423 - Shielded (verify)
+  424:
+    name:
+      en: "Shielded"
 
-  # 424 - Hardy (verify)
+  # 425 - Hardy (verify)
 
   426:
     name:
@@ -395,9 +419,13 @@ inscriptions:
 
   # 427 - Pacifier (verify)
 
-  # 428 - Militant (verify)
+  428:
+    name:
+      en: "Militant"
 
-  # 429 - Resistant (verify)
+  429:
+    name:
+      en: "Resistant"
 
   # 430 - Daring (verify)
 
