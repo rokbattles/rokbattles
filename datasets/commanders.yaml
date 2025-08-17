@@ -1,5 +1,5 @@
 commanders:
-  # Missing Shapur I, Mary I, and Archimedes
+  # Missing Mary I and Archimedes
 
   # Advanced
   22:
@@ -830,6 +830,12 @@ commanders:
       es: "Tokugawa Ieyasu"
       kr: "도쿠가와 이에야스"
     prime: false
+
+  506:
+    name:
+      en: "Shapur I"
+      es: "Sapor I"
+      kr: "샤푸르 1세"
 
   509:
     name:
