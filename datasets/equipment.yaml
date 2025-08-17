@@ -21,42 +21,134 @@ equipment:
     8: accessory
 
   item:
-    20001_380:
+    20001:
       name:
         en: "Sacred Dominion"
 
-    20004_379:
+    20002:
+      name:
+        en: "Hammer of the Sun and Moon"
+
+    20003:
+      name:
+        en: "The Hydra's Blast"
+
+    20004:
       name:
         en: "Pride of the Khan"
 
-    20009_190:
+    20005:
+      name:
+        en: "Helm of the Conqueror"
+
+    20006:
+      name:
+        en: "Ancestral Mask of Night"
+
+    20007:
+      name:
+        en: "Lance of the Hellish Wasteland"
+
+    20008:
+      name:
+        en: "War Helm of the Hellish Wasteland"
+
+    20009:
       name:
         en: "Heavy Armor of the Hellish Wasteland"
 
-    20012_266:
+    20012:
       name:
         en: "Boots of the Hellish Wasteland"
 
-    20028_265:
+    20013:
+      name:
+        en: "Shield of the Eternal Empire"
+
+    20014:
+      name:
+        en: "Gold Helm of the Eternal Empire"
+
+    20019:
+      name:
+        en: "Dragon's Breath Bow"
+
+    20020:
+      name:
+        en: "Dragon's Breath Helm"
+
+    20021:
+      name:
+        en: "Dragon's Breath Plate"
+
+    20022:
+      name:
+        en: "Dragon's Breath Vambraces"
+
+    20023:
+      name:
+        en: "Dragon's Breath Tassets"
+
+    20024:
+      name:
+        en: "Dragon's Breath Boots"
+
+    20026:
+      name:
+        en: "Hope Cloak"
+
+    20027:
+      name:
+        en: "The Milky Way"
+
+    20028:
       name:
         en: "Navar's Control"
 
-    20033_261:
+    20029:
+      name:
+        en: "Sacred Grips"
+
+    20030:
+      name:
+        en: "Ian's Choice"
+
+    20032:
+      name:
+        en: "Eternal Night"
+
+    20033:
       name:
         en: "Ash of the Dawn"
 
-    20037_398:
+    20034:
+      name:
+        en: "Shio's Return"
+
+    20037:
       name:
         en: "Ring of Doom"
 
-    20040_264:
+    20038:
+      name:
+        en: "Greatest Glory"
+
+    20040:
       name:
         en: "Horn of Fury"
 
-    20137_395:
+    20137:
       name:
         en: "Witch's Crimson Bracers"
 
-    20139_407:
+    20139:
       name:
         en: "Witch's Mire-Waders"
+
+    20144:
+      name:
+        en: "Chausses of the Glorious Goddess"
+
+    20145:
+      name:
+        en: "Greaves of the Glorious Goddess"
