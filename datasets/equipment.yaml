@@ -3,10 +3,11 @@ equipment:
   # example: {2:20004_379:32}
 
   # attributes can be confusing but the breakdown is
-  # 3X = ST + Iconic Level, so 32 is ST + Iconic 2
+  # YX = ST + Iconic Level, so 32 is Cav ST + Iconic 2
+  # Y = 1 inf, 2 arch, 3 cav, 4 siege
   # X  = Iconic Level, so 2 is Iconic 2
   # 0  = No ST or Iconic Level
-  # 40 = ST but no Iconic Level
+  # Y0 = ST but no Iconic Level
 
   slot:
     1: weapon
@@ -16,6 +17,8 @@ equipment:
     5: pants
     6: boots
     7: accessory
+    # right accessory if two accessory equipped
+    8: accessory
 
   item:
     20001_380:
