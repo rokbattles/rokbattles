@@ -7,6 +7,10 @@ inscriptions:
   # 3XX -> Flag
   # 4XX -> Emblem
 
+  103:
+    name:
+      en: "Well Clad"
+
   104:
     name:
       en: "Robust"
@@ -22,6 +26,14 @@ inscriptions:
   107:
     name:
       en: "Onslaught"
+
+  108:
+    name:
+      en: "Retaliatory"
+
+  109:
+    name:
+      en: "Enraged"
 
   110:
     name:
@@ -43,6 +55,10 @@ inscriptions:
     name:
       en: "Breaker"
 
+  116:
+    name:
+      en: "Ward"
+
   117:
     name:
       en: "Phalanx"
@@ -59,13 +75,37 @@ inscriptions:
     name:
       en: "Loosed"
 
+  122:
+    name:
+      en: "Warcry"
+
   124:
     name:
       en: "Well Clad"
 
+  126:
+    name:
+      en: "Swift"
+
+  128:
+    name:
+      en: "Onslaught"
+
+  129:
+    name:
+      en: "Retaliatory"
+
   137:
     name:
       en: "Enrichment"
+
+  201:
+    name:
+      en: "Brutal"
+
+  203:
+    name:
+      en: "Armored"
 
   204:
     name:
@@ -78,6 +118,14 @@ inscriptions:
   207:
     name:
       en: "Warhunger"
+
+  208:
+    name:
+      en: "Alert"
+
+  209:
+    name:
+      en: "Devious"
 
   210:
     name:
@@ -99,6 +147,10 @@ inscriptions:
     name:
       en: "Guarded"
 
+  215:
+    name:
+      en: "Embattled"
+
   216:
     name:
       en: "Vengeful"
@@ -119,6 +171,14 @@ inscriptions:
     name:
       en: "Bluster"
 
+  222:
+    name:
+      en: "Brutal"
+
+  226:
+    name:
+      en: "Fine Horse"
+
   229:
     name:
       en: "Alert"
@@ -134,6 +194,14 @@ inscriptions:
   305:
     name:
       en: "Galloping"
+
+  306:
+    name:
+      en: "Cleanser"
+
+  307:
+    name:
+      en: "Striker"
 
   308:
     name:
@@ -151,9 +219,33 @@ inscriptions:
     name:
       en: "Brave"
 
+  313:
+    name:
+      en: "Strategic"
+
+  314:
+    name:
+      en: "Desperado"
+
   315:
     name:
       en: "Cohesive"
+
+  316:
+    name:
+      en: "Pursuer"
+
+  317:
+    name:
+      en: "Assertive"
+
+  318:
+    name:
+      en: "Wary"
+
+  320:
+    name:
+      en: "Sentries"
 
   321:
     name:
@@ -163,6 +255,14 @@ inscriptions:
     name:
       en: "Spiked"
 
+  325:
+    name:
+      en: "Vitality"
+
+  329:
+    name:
+      en: "Rebuff"
+
   337:
     name:
       en: "Harvester"
@@ -170,6 +270,10 @@ inscriptions:
   401:
     name:
       en: "Infamy"
+
+  403:
+    name:
+      en: "Shielded"
 
   404:
     name:
@@ -187,9 +291,21 @@ inscriptions:
     name:
       en: "Resistant"
 
+  409:
+    name:
+      en: "Daring"
+
+  410:
+    name:
+      en: "Elite"
+
   412:
     name:
       en: "Smite"
+
+  413:
+    name:
+      en: "Enduring"
 
   414:
     name:
@@ -203,6 +319,10 @@ inscriptions:
     name:
       en: "Guardians"
 
+  417:
+    name:
+      en: "Counterer"
+
   418:
     name:
       en: "Deflecter"
@@ -211,6 +331,14 @@ inscriptions:
     name:
       en: "Watchmen"
 
+  420:
+    name:
+      en: "Lineshot"
+
+  422:
+    name:
+      en: "Infamy"
+
   426:
     name:
       en: "Haste"
@@ -218,6 +346,18 @@ inscriptions:
   437:
     name:
       en: "Bountiful"
+
+  1202:
+    name:
+      en: "Even-Keeled"
+
+  1301:
+    name:
+      en: "Invincible"
+
+  1402:
+    name:
+      en: "Forceful"
 
   2101:
     name:
@@ -235,6 +375,10 @@ inscriptions:
     name:
       en: "Defiant"
 
+  2401:
+    name:
+      en: "Intrepid"
+
   2402:
     name:
       en: "Focus Fire"
@@ -242,6 +386,14 @@ inscriptions:
   4102:
     name:
       en: "Drums of War"
+
+  5202:
+    name:
+      en: "Aegis"
+
+  13102:
+    name:
+      en: "Pummeler"
 
   13201:
     name:
