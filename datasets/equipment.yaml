@@ -1,0 +1,59 @@
+equipment:
+  # equipment come in as {slot:id:attributes}
+  # example: {2:20004_379:32}
+
+  # attributes can be confusing but the breakdown is
+  # 3X = ST + Iconic Level, so 32 is ST + Iconic 2
+  # X  = Iconic Level, so 2 is Iconic 2
+  # 0  = No ST or Iconic Level
+  # 40 = ST but no Iconic Level
+
+  slot:
+    1: weapon
+    2: helm
+    3: chest
+    4: gloves
+    5: pants
+    6: boots
+    7: accessory
+
+  item:
+    20001_380:
+      name:
+        en: "Sacred Dominion"
+
+    20004_379:
+      name:
+        en: "Pride of the Khan"
+
+    20009_190:
+      name:
+        en: "Heavy Armor of the Hellish Wasteland"
+
+    20012_266:
+      name:
+        en: "Boots of the Hellish Wasteland"
+
+    20028_265:
+      name:
+        en: "Navar's Control"
+
+    20033_261:
+      name:
+        en: "Ash of the Dawn"
+
+    20037_398:
+      name:
+        en: "Ring of Doom"
+
+    20040_264:
+      name:
+        en: "Horn of Fury"
+
+    20137_395:
+      name:
+        en: "Witch's Crimson Bracers"
+
+    20139_407:
+      name:
+        en: "Witch's Mire-Waders"
