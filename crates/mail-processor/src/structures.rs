@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct ParsedMail {
     pub metadata: Metadata,
     #[serde(rename = "self")]
@@ -10,7 +10,7 @@ pub struct ParsedMail {
     pub battle_results: BattleResults,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
     pub hash: Option<String>,
 
@@ -31,14 +31,14 @@ pub struct Metadata {
     pub players: Option<i32>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Commander {
     pub id: Option<i32>,
     pub level: Option<i32>,
     pub skills: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Participant {
     pub player_id: Option<i64>,
     pub player_name: Option<String>,
@@ -69,7 +69,7 @@ pub struct Participant {
     pub inscriptions: Option<String>,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct BattleResults {
     pub power: Option<i64>,
     pub init_max: Option<i64>,
