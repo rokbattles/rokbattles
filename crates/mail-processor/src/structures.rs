@@ -1,4 +1,5 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Debug, Serialize)]
 pub struct ParsedMail {
@@ -89,4 +90,9 @@ pub struct BattleResults {
     pub enemy_wounded: Option<i64>,
     pub enemy_count: Option<i64>,
     pub enemy_kill_score: Option<i64>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct DecodedMail {
+    pub sections: Vec<Value>,
 }
