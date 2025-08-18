@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: rustfmt
+        run: cargo fmt --all -- --check
+
+      - name: clippy (all targets, all features)
+        run: |
+          cargo clippy --workspace --all-targets --all-features
+          cargo clippy --workspace --all-targets --no-default-features
+
+  test:
+    name: Test (${{ matrix.os }} - ${{ matrix.toolchain }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        toolchain: [stable, beta, nightly]
+        include:
+          - toolchain: nightly
+            allow-failure: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        id: toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.toolchain }}
+
+      - name: Show versions
+        run: |
+          rustc -Vv
+          cargo -V
+
+      - name: Build (default features)
+        run: cargo build --workspace --all-targets --verbose
+
+      - name: Build (no default features)
+        run: cargo build --workspace --all-targets --no-default-features --verbose
+
+      - name: Test (default features)
+        run: cargo test --workspace --all-features --verbose
+
+      - name: Test (no default features)
+        run: cargo test --workspace --no-default-features --verbose
+
+      - name: Allow nightly failures
+        if: matrix.toolchain == 'nightly'
+        continue-on-error: true
+        run: echo "Nightly allowed to fail"
