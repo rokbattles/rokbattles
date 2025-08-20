@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/mail-decoder", "crates/mail-decoder-cli", "crates/mail-processor"]
+members = ["crates/mail-decoder", "crates/mail-decoder-cli", "crates/mail-processor", "crates/mail-processor-cli"]
 resolver = "3"
 
 [workspace.dependencies]
