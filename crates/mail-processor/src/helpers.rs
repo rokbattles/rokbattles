@@ -464,16 +464,11 @@ pub fn compose_enemy_hss(
     {
         let start = i.saturating_sub(2);
         let end = (i + 2).min(group.len().saturating_sub(1));
-        for j in start..=end {
-            if let Some(sl) = group[j]
-                .get("HSS2")
+        secondary = group.iter().take(end + 1).skip(start).find_map(|v| {
+            v.get("HSS2")
                 .and_then(|o| o.get("SkillLevel"))
                 .and_then(|x| x.as_i64())
-            {
-                secondary = Some(sl);
-                break;
-            }
-        }
+        });
     }
 
     let tail = secondary.unwrap_or(primary);
