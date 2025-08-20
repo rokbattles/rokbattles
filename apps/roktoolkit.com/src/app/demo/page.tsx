@@ -1,4 +1,4 @@
-import { Funnel, Swords } from "lucide-react";
+import { Forward, Funnel, Star, Swords } from "lucide-react";
 
 export default function LivePage() {
   return (
@@ -50,8 +50,32 @@ export default function LivePage() {
         </div>
       </aside>
       <main className="flex flex-1 flex-col lg:min-w-0 lg:pl-96">
-        <div className="grow lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
-          Battle report
+        <div className="grow p-6 lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-between gap-3">
+              <h1 className="text-xl font-semibold text-zinc-100">Battle Report</h1>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="group inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-zinc-900/60 px-2.5 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-white/20"
+                >
+                  <Star
+                    className="size-4 text-zinc-300 group-hover:text-amber-400"
+                    aria-hidden="true"
+                  />
+                  <span className="tabular-nums text-zinc-300">128</span>
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-zinc-900/60 px-2.5 py-1.5 text-sm text-zinc-200 hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-white/20"
+                >
+                  <Forward className="size-4 text-zinc-300" aria-hidden="true" />
+                  <span className="hidden sm:inline">Share</span>
+                </button>
+              </div>
+            </div>
+            <div className="my-4 border-t border-white/10" />
+          </div>
         </div>
       </main>
     </div>
