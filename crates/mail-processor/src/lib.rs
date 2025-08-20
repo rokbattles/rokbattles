@@ -1,8 +1,14 @@
 pub mod resolvers;
 pub mod structures;
 
-use crate::resolvers::ResolverChain;
-use crate::structures::{DecodedMail, ParsedMail};
+use crate::resolvers::ResolverContext;
+use crate::{
+    resolvers::ResolverChain,
+    resolvers::battle::BattleResolver,
+    resolvers::metadata::MetadataResolver,
+    resolvers::participant::ParticipantResolver,
+    structures::{DecodedMail, ParsedMail},
+};
 use anyhow::{Result, bail};
 use serde_json::json;
 use std::cmp::Ordering;
@@ -68,10 +74,14 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
     let last = battles.last().unwrap();
     battle_groups.push((last.attack_id.clone(), last.index, sections.len()));
 
-    let chain = ResolverChain::new();
+    let chain = ResolverChain::new()
+        .with(MetadataResolver::new())
+        .with(ParticipantResolver::new())
+        .with(BattleResolver::new());
+
     let mut entries: Vec<ParsedMail> = Vec::new();
 
-    for (attack, start, end) in battle_groups {
+    for (attack_id, start, end) in battle_groups {
         let mut entry = json!({
             "metadata": {},
             "self": {},
@@ -79,7 +89,13 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
             "battle_results": {}
         });
 
-        chain.apply(&mut entry)?;
+        let ctx = ResolverContext {
+            sections,
+            group: &sections[start..end],
+            attack_id: &attack_id,
+        };
+
+        chain.apply(&ctx, &mut entry)?;
 
         let parsed: ParsedMail = serde_json::from_value(entry)?;
         entries.push(parsed);
