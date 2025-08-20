@@ -73,7 +73,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
 
     for (attack, start, end) in battle_groups {
         let mut entry = json!({
-           "metadata": {},
+            "metadata": {},
             "self": {},
             "enemy": {},
             "battle_results": {}

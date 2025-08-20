@@ -12,8 +12,6 @@ pub struct ParsedMail {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
-    pub hash: Option<String>,
-
     pub email_id: Option<String>,
     pub email_time: Option<i64>,
     pub email_type: Option<String>,
@@ -33,21 +31,27 @@ pub struct Metadata {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Commander {
+    // hid/hid2
     pub id: Option<i32>,
+    // hlv/hlv2
     pub level: Option<i32>,
     pub skills: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Participant {
+    // PId
     pub player_id: Option<i64>,
+    // PName
     pub player_name: Option<String>,
+    // Abbr
     pub alliance_tag: Option<String>,
-    pub ct: Option<i32>,
 
+    // CastlePos X
     pub castle_x: Option<f64>,
+    // CastlePos Y
     pub castle_y: Option<f64>,
-
+    // IsRally
     pub is_rally: Option<i32>,
 
     pub npc_type: Option<i32>,
@@ -56,39 +60,65 @@ pub struct Participant {
     pub primary_commander: Option<Commander>,
     pub secondary_commander: Option<Commander>,
 
-    pub COSId: Option<i32>,
-    pub CId: Option<i64>,
-    pub CtId: Option<i64>,
-    pub Idt: Option<i64>,
-    pub AId: Option<i64>,
-    pub tour_id: Option<String>,
+    // COSId
+    pub kingdom_id: Option<i32>,
+    // CTK (pid_timestamp
+    pub tracking_key: Option<String>,
 
+    // HEq
     pub equipment: Option<String>,
+    // HFMs
     pub formation: Option<i32>,
+    // HWBs (Buffs)
     pub armament_buffs: Option<String>,
+    // HWBs (Affix)
     pub inscriptions: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BattleResults {
     pub power: Option<i64>,
+    // InitMax
     pub init_max: Option<i64>,
+    // Max
     pub max: Option<i64>,
+    // Healing
     pub healing: Option<i64>,
+    // Death
     pub death: Option<i64>,
+    // BadHurt
     pub severely_wounded: Option<i64>,
+    // Hurt
     pub wounded: Option<i64>,
-    pub count: Option<i64>,
+    // Cnt
+    pub remaining: Option<i64>,
+    // Gt
+    pub watchtower: Option<i64>,
+    // GtMax
+    pub watchtower_max: Option<i64>,
+    // KillScore
     pub kill_score: Option<i64>,
 
     pub enemy_power: Option<i64>,
+    // InitMax
     pub enemy_init_max: Option<i64>,
+    // Max
     pub enemy_max: Option<i64>,
+    // Healing
     pub enemy_healing: Option<i64>,
+    // Death
     pub enemy_death: Option<i64>,
+    // BadHurt
     pub enemy_severely_wounded: Option<i64>,
+    // Hurt
     pub enemy_wounded: Option<i64>,
-    pub enemy_count: Option<i64>,
+    // Cnt
+    pub enemy_remaining: Option<i64>,
+    // Gt
+    pub enemy_watchtower: Option<i64>,
+    // GtMax
+    pub enemy_watchtower_max: Option<i64>,
+    // KillScore
     pub enemy_kill_score: Option<i64>,
 }
 
