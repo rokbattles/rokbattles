@@ -1,0 +1,13 @@
+{
+  "name": "@roktoolkit/root",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "format": "biome check --write .",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0"
+  },
+  "packageManager": "pnpm@10.14.0"
+}
