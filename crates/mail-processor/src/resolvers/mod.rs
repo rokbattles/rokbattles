@@ -19,6 +19,12 @@ pub struct ResolverChain {
     steps: Vec<Box<dyn Resolver + Send + Sync>>,
 }
 
+impl Default for ResolverChain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ResolverChain {
     pub fn new() -> Self {
         Self { steps: vec![] }
