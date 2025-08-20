@@ -62,7 +62,7 @@ pub struct Participant {
 
     // COSId
     pub kingdom_id: Option<i32>,
-    // CTK (pid_timestamp
+    // CTK (format: pid_timestamp_hid_hid2[_rallyType])
     pub tracking_key: Option<String>,
 
     // HEq
