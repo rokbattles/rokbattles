@@ -10,15 +10,46 @@ equipment:
   # Y0 = ST but no Iconic Level
 
   slot:
-    1: weapon
-    2: helm
-    3: chest
-    4: gloves
-    5: pants
-    6: boots
-    7: accessory
+    1:
+      en: "Weapons"
+      es: "Armas"
+      kr: "병장기"
+
+    2:
+      en: "Helms"
+      es: "Cascos"
+      kr: "투구"
+
+    3:
+      en: "Chest"
+      es: "Pecho"
+      kr: "상의"
+
+    4:
+      en: "Gloves"
+      es: "Guantes"
+      kr: "장갑"
+
+    5:
+      en: "Legs"
+      es: "Piernas"
+      kr: "하의"
+
+    6:
+      en: "Boots"
+      es: "Botas"
+      kr: "신발"
+
+    7:
+      en: "Accessories"
+      es: "Accesorios"
+      kr: "장신구"
+
     # right accessory if two accessory equipped
-    8: accessory
+    8:
+      en: "Accessories"
+      es: "Accesorios"
+      kr: "장신구"
 
   # Missing Crimson Ring
   item:
