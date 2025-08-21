@@ -83,10 +83,14 @@ pub fn group_epoch_ets(group: &[Value]) -> Option<i64> {
 pub fn first_epoch_bts(sections: &[Value]) -> Option<i64> {
     for s in sections {
         if let Some(x) = epoch_seconds_val(s.get("Bts")) {
-            return Some(x);
+            if x >= 1_000_000_000 {
+                return Some(x);
+            }
         }
-        if let Some(b) = s.get("body").and_then(|b| epoch_seconds_val(b.get("Bts"))) {
-            return Some(b);
+        if let Some(x) = s.get("body").and_then(|b| epoch_seconds_val(b.get("Bts"))) {
+            if x >= 1_000_000_000 {
+                return Some(x);
+            }
         }
     }
     None
@@ -94,10 +98,22 @@ pub fn first_epoch_bts(sections: &[Value]) -> Option<i64> {
 
 pub fn first_small_tickstart(sections: &[Value]) -> Option<i64> {
     for s in sections {
-        if let Some(ts) = pick_i64(s.get("TS")) {
+        if let Some(ts) = s.get("TickStart").and_then(|v| v.as_i64()) {
             return Some(ts);
         }
-        if let Some(ts) = s.get("body").and_then(|b| pick_i64(b.get("TS"))) {
+        if let Some(ts) = s
+            .get("Bts")
+            .and_then(|v| v.as_i64())
+            .filter(|b| *b < 1_000_000_000)
+        {
+            return Some(ts);
+        }
+        if let Some(ts) = s
+            .get("body")
+            .and_then(|b| b.get("Bts"))
+            .and_then(|v| v.as_i64())
+            .filter(|b| *b < 1_000_000_000)
+        {
             return Some(ts);
         }
     }
@@ -105,25 +121,35 @@ pub fn first_small_tickstart(sections: &[Value]) -> Option<i64> {
 }
 
 pub fn small_tick_pair(group: &[Value]) -> Option<(i64, i64)> {
-    let mut ts: Option<i64> = None;
-    let mut ets: Option<i64> = None;
     for s in group {
-        if ts.is_none() {
-            ts =
-                pick_i64(s.get("TS")).or_else(|| s.get("body").and_then(|b| pick_i64(b.get("TS"))));
-        }
-        if ets.is_none() {
-            ets = pick_i64(s.get("ETS"))
-                .or_else(|| s.get("body").and_then(|b| pick_i64(b.get("ETS"))));
-        }
-        if ts.is_some() && ets.is_some() {
-            break;
+        let ts = s.get("TickStart").and_then(|v| v.as_i64()).or_else(|| {
+            s.get("Bts")
+                .and_then(|v| v.as_i64())
+                .filter(|b| *b < 1_000_000_000)
+        });
+        let ets = s
+            .get("Ets")
+            .and_then(|v| v.as_i64())
+            .filter(|e| *e < 1_000_000_000);
+        if let (Some(ts), Some(ets)) = (ts, ets) {
+            if ets >= ts {
+                return Some((ts, ets));
+            }
         }
     }
-    match (ts, ets) {
-        (Some(a), Some(b)) => Some((a, b)),
-        _ => None,
+    for s in group {
+        if let (Some(ts), Some(t)) = (
+            s.get("TickStart").and_then(|v| v.as_i64()),
+            s.get("T")
+                .and_then(|v| v.as_i64())
+                .filter(|t| *t < 1_000_000_000),
+        ) {
+            if t > ts {
+                return Some((ts, ts + (t - ts - 1)));
+            }
+        }
     }
+    None
 }
 
 pub fn join_buffs(hwbs: Option<&Value>) -> String {
