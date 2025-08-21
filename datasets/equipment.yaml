@@ -1,10 +1,10 @@
 equipment:
-  # equipment come in as {slot:id:attributes}
+  # equipment come in as {slot:id[_craftNumber]:attributes}
   # example: {2:20004_379:32}
 
   # attributes can be confusing but the breakdown is
   # YX = ST + Iconic Level, so 32 is Cav ST + Iconic 2
-  # Y = 1 inf, 2 arch, 3 cav, 4 integration, 16 siege
+  # Y = 1 infantry, 2 archer, 3 cavalry, 4 integration, 5 leadership, 16 engineering
   # X  = Iconic Level, so 2 is Iconic 2
   # 0  = No ST or Iconic Level
   # Y0 = ST but no Iconic Level
