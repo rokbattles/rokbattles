@@ -102,17 +102,15 @@ impl Resolver for ParticipantResolver {
                     .get("HId2")
                     .and_then(|v| v.as_i64())
                     .map(|x| x as i32);
-                let hlv2 = Some(pick_hlv2(sections, &self_snap));
+                let hlv2 = pick_hlv2(sections, &self_snap);
                 let hss2 = pick_hss2_fourdigits(sections);
-                if hid2.is_some() || hlv2.unwrap_or(0) != 0 || !hss2.is_empty() {
+                if hid2.is_some() || hlv2 != 0 || !hss2.is_empty() {
                     let mut cmd2 = json!({});
                     if let Some(id) = hid2 {
                         cmd2["id"] = Value::from(id);
                     }
-                    if let Some(lv) = hlv2
-                        && lv != 0
-                    {
-                        cmd2["level"] = Value::from(lv);
+                    if hlv2 != 0 {
+                        cmd2["level"] = Value::from(hlv2);
                     }
                     if !hss2.is_empty() {
                         cmd2["skills"] = Value::String(hss2);
