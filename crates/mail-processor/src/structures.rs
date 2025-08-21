@@ -54,7 +54,12 @@ pub struct Participant {
     // IsRally
     pub is_rally: Option<i32>,
 
+    // npc lvl
+    // barb - 1-40 (for HK) - need to verify range in LK
+    // barb fort - 100-110 (for HK) - need to verify range in LK
     pub npc_type: Option<i32>,
+    // barb - 1
+    // barb fort - 2
     pub npc_btype: Option<i32>,
 
     pub primary_commander: Option<Commander>,
