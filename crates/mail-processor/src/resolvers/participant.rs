@@ -4,7 +4,7 @@ use crate::{
 };
 use serde_json::{Value, json};
 
-pub struct ParticipantResolver {}
+pub struct ParticipantResolver;
 
 impl Default for ParticipantResolver {
     fn default() -> Self {
@@ -14,7 +14,7 @@ impl Default for ParticipantResolver {
 
 impl ParticipantResolver {
     pub fn new() -> Self {
-        Self {}
+        Self
     }
 }
 

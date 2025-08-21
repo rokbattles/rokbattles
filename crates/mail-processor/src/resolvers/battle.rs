@@ -4,7 +4,7 @@ use crate::{
 };
 use serde_json::Value;
 
-pub struct BattleResolver {}
+pub struct BattleResolver;
 
 impl Default for BattleResolver {
     fn default() -> Self {
@@ -14,7 +14,7 @@ impl Default for BattleResolver {
 
 impl BattleResolver {
     pub fn new() -> Self {
-        Self {}
+        Self
     }
 }
 
