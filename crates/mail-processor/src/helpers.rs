@@ -82,16 +82,14 @@ pub fn group_epoch_ets(group: &[Value]) -> Option<i64> {
 
 pub fn first_epoch_bts(sections: &[Value]) -> Option<i64> {
     for s in sections {
-        if let Some(x) = epoch_seconds_val(s.get("Bts")) {
-            if x >= 1_000_000_000 {
+        if let Some(x) = epoch_seconds_val(s.get("Bts"))
+            && x >= 1_000_000_000 {
                 return Some(x);
             }
-        }
-        if let Some(x) = s.get("body").and_then(|b| epoch_seconds_val(b.get("Bts"))) {
-            if x >= 1_000_000_000 {
+        if let Some(x) = s.get("body").and_then(|b| epoch_seconds_val(b.get("Bts")))
+            && x >= 1_000_000_000 {
                 return Some(x);
             }
-        }
     }
     None
 }
@@ -131,11 +129,10 @@ pub fn small_tick_pair(group: &[Value]) -> Option<(i64, i64)> {
             .get("Ets")
             .and_then(|v| v.as_i64())
             .filter(|e| *e < 1_000_000_000);
-        if let (Some(ts), Some(ets)) = (ts, ets) {
-            if ets >= ts {
+        if let (Some(ts), Some(ets)) = (ts, ets)
+            && ets >= ts {
                 return Some((ts, ets));
             }
-        }
     }
     for s in group {
         if let (Some(ts), Some(t)) = (
@@ -143,11 +140,10 @@ pub fn small_tick_pair(group: &[Value]) -> Option<(i64, i64)> {
             s.get("T")
                 .and_then(|v| v.as_i64())
                 .filter(|t| *t < 1_000_000_000),
-        ) {
-            if t > ts {
+        )
+            && t > ts {
                 return Some((ts, ts + (t - ts - 1)));
             }
-        }
     }
     None
 }
