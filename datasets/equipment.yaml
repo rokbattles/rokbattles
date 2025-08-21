@@ -20,6 +20,7 @@ equipment:
     # right accessory if two accessory equipped
     8: accessory
 
+  # Missing Crimson Ring
   item:
     20001:
       name:
@@ -57,6 +58,14 @@ equipment:
       name:
         en: "Heavy Armor of the Hellish Wasteland"
 
+    20010:
+      name:
+        en: "Armband of the Hellish Wasteland"
+
+    20011:
+      name:
+        en: "Tassets of the Hellish Wasteland"
+
     20012:
       name:
         en: "Boots of the Hellish Wasteland"
@@ -68,6 +77,22 @@ equipment:
     20014:
       name:
         en: "Gold Helm of the Eternal Empire"
+
+    20015:
+      name:
+        en: "Plate of the Eternal Empire"
+
+    20016:
+      name:
+        en: "Vambraces of the Eternal Empire"
+
+    20017:
+      name:
+        en: "Greaves of the Eternal Empire"
+
+    20018:
+      name:
+        en: "Sturdy Boots of the Eternal Empire"
 
     20019:
       name:
@@ -93,6 +118,10 @@ equipment:
       name:
         en: "Dragon's Breath Boots"
 
+    20025:
+      name:
+        en: "Shadow Legion's Retribution"
+
     20026:
       name:
         en: "Hope Cloak"
@@ -113,6 +142,10 @@ equipment:
       name:
         en: "Ian's Choice"
 
+    20031:
+      name:
+        en: "Tassets of the War God"
+
     20032:
       name:
         en: "Eternal Night"
@@ -125,6 +158,14 @@ equipment:
       name:
         en: "Shio's Return"
 
+    20035:
+      name:
+        en: "Mountain Crushers"
+
+    20036:
+      name:
+        en: "Commander's Boots"
+
     20037:
       name:
         en: "Ring of Doom"
@@ -133,13 +174,49 @@ equipment:
       name:
         en: "Greatest Glory"
 
+    20039:
+      name:
+        en: "Pendant of Eternal Night"
+
     20040:
       name:
         en: "Horn of Fury"
 
+    20041:
+      name:
+        en: "Concealed Dagger"
+
+    20042:
+      name:
+        en: "Mora's Web"
+
+    20043:
+      name:
+        en: "Scolas' Lucky Coin"
+
+    20044:
+      name:
+        en: "Vengeance"
+
     20045:
       name:
         en: "Trial of the Lost Kingdom"
+
+    20051:
+      name:
+        en: "Revival Helm"
+
+    20052:
+      name:
+        en: "Revival Plate"
+
+    20053:
+      name:
+        en: "Revival Gauntlets"
+
+    20054:
+      name:
+        en: "Revival Greaves"
 
     20055:
       name:
@@ -157,13 +234,89 @@ equipment:
       name:
         en: "Claws of the Forest Guardian"
 
+    20059:
+      name:
+        en: "Sakura Fubuki"
+
+    20060:
+      name:
+        en: "Golden Age"
+
+    20061:
+      name:
+        en: "Heart of the Saint"
+
+    20062:
+      name:
+        en: "Abyssal Visage"
+
+    20063:
+      name:
+        en: "Witch's Lineage"
+
+    20064:
+      name:
+        en: "Dark Lord's Blessing"
+
+    20065:
+      name:
+        en: "Quinn's Soul"
+
+    20066:
+      name:
+        en: "Iset's Sufferance"
+
+    20067:
+      name:
+        en: "Seth's Brutality"
+
+    20068:
+      name:
+        en: "Karuak's Humility"
+
+    20069:
+      name:
+        en: "Fanatic's Tassets"
+
+    20070:
+      name:
+        en: "Gladiator"
+
+    20071:
+      name:
+        en: "Cloud Racers"
+
+    20072:
+      name:
+        en: "Frost Treads"
+
+    20073:
+      name:
+        en: "Flame Treads"
+
     20074:
       name:
         en: "The Bard's Pendant"
 
+    20075:
+      name:
+        en: "Silent Trial"
+
+    20076:
+      name:
+        en: "Delane's Amulet"
+
     20077:
       name:
         en: "Peter's Sickle"
+
+    20079:
+      name:
+        en: "Harvester's Headscarf"
+
+    20080:
+      name:
+        en: "Harvester Robes"
 
     20081:
       name:
@@ -172,6 +325,186 @@ equipment:
     20082:
       name:
         en: "Harvester Boots"
+
+    20083:
+      name:
+        en: "Windswept War Helm"
+
+    20084:
+      name:
+        en: "Windswept Breastplate"
+
+    20085:
+      name:
+        en: "Windswept Bracers"
+
+    20086:
+      name:
+        en: "Windswept Boots"
+
+    20087:
+      name:
+        en: "Blazing Axe"
+
+    20088:
+      name:
+        en: "Staff of the Lost"
+
+    20089:
+      name:
+        en: "Gatekeeper's Shield"
+
+    20090:
+      name:
+        en: "Expedition War Helm"
+
+    20091:
+      name:
+        en: "Commander's Heavy Armor"
+
+    20092:
+      name:
+        en: "Saint's Song"
+
+    20093:
+      name:
+        en: "Calvin's Hand"
+
+    20094:
+      name:
+        en: "Greaves of the Exile"
+
+    20095:
+      name:
+        en: "Sentry Breeches"
+
+    20096:
+      name:
+        en: "The Scarlet Hounds"
+
+    20097:
+      name:
+        en: "Call of the Loyal"
+
+    20098:
+      name:
+        en: "Lohar's Bone Necklace"
+
+    20099:
+      name:
+        en: "Savage Totem"
+
+    20100:
+      name:
+        en: "Vanguard Halberd"
+
+    20101:
+      name:
+        en: "Vanguard Greaves"
+
+    20102:
+      name:
+        en: "Blessed Blade"
+
+    20103:
+      name:
+        en: "Helm of Fear"
+
+    20104:
+      name:
+        en: "Helm of the Phoenix"
+
+    20105:
+      name:
+        en: "Infantry Breastplate"
+
+    20106:
+      name:
+        en: "Milanese Plate"
+
+    20107:
+      name:
+        en: "Ranger Trousers"
+
+    20108:
+      name:
+        en: "Leather Gloves"
+
+    20109:
+      name:
+        en: "Bronze Bracers"
+
+    20110:
+      name:
+        en: "Edged Boots"
+
+    20111:
+      name:
+        en: "Boots of Reverence"
+
+    20112:
+      name:
+        en: "Sharp Longsword"
+
+    20113:
+      name:
+        en: "Iron Helm"
+
+    20114:
+      name:
+        en: "Chain Mail"
+
+    20115:
+      name:
+        en: "Coarse Breeches"
+
+    20116:
+      name:
+        en: "Cloth Gloves"
+
+    20117:
+      name:
+        en: "Sturdy Boots"
+
+    20118:
+      name:
+        en: "Karuak's War Drums"
+
+    20119:
+      name:
+        en: "Seth's Call"
+
+    20120:
+      name:
+        en: "Wind Scars"
+
+    20121:
+      name:
+        en: "Ancient Stratagems"
+
+    20122:
+      name:
+        en: "Twilight Epiphany"
+
+    20123:
+      name:
+        en: "Fierce Wolf's Helmet"
+
+    20124:
+      name:
+        en: "Vigilant Wolf's Leather Armor"
+
+    20125:
+      name:
+        en: "Wailing Wolf's Gauntlets"
+
+    20126:
+      name:
+        en: "Lone Wolf's Leather Tassets"
+
+    20127:
+      name:
+        en: "Roaring Wolf's Claws"
 
     20128:
       name:
@@ -197,6 +530,10 @@ equipment:
       name:
         en: "Knight's Winter Sabatons"
 
+    20134:
+      name:
+        en: "Witch's Feathered Staff"
+
     20135:
       name:
         end: "Witch's Deadwood Crown"
@@ -209,9 +546,29 @@ equipment:
       name:
         en: "Witch's Crimson Bracers"
 
+    20138:
+      name:
+        en: "Witch's Ornamented Pants"
+
     20139:
       name:
         en: "Witch's Mire-Waders"
+
+    20140:
+      name:
+        en: "Scepter of the Glorious Goddess"
+
+    20141:
+      name:
+        en: "Diadem of the Glorious Goddess"
+
+    20142:
+      name:
+        en: "Plat of the Glorious Goddess"
+
+    20143:
+      name:
+        en: "Gauntlets of the Glorious Goddess"
 
     20144:
       name:
@@ -220,3 +577,15 @@ equipment:
     20145:
       name:
         en: "Greaves of the Glorious Goddess"
+
+    20164:
+      name:
+        en: "Immolating Plume"
+
+    20166:
+      name:
+        en: "Hero's Hilt"
+
+    20167:
+      name:
+        en: "Saddle of Thousand Blessings"
