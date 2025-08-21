@@ -17,6 +17,8 @@ pub struct Metadata {
     pub email_type: Option<String>,
     pub email_receiver: Option<String>,
     pub email_box: Option<String>,
+    // HK/LK - gsmp
+    // AOO/OL - dungeon
     pub email_role: Option<String>,
 
     pub is_kvk: Option<i32>,
