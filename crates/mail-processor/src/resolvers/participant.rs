@@ -30,6 +30,7 @@ impl Resolver for ParticipantResolver {
             let self_body = find_self_body(sections);
 
             if let Some(obj) = self_obj.as_object_mut() {
+                // player id & name
                 if let Some(pid) = self_snap
                     .get("PId")
                     .and_then(|v| v.as_i64())
@@ -51,6 +52,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("player_name".to_string(), Value::String(pname));
                 }
 
+                // alliance
                 let (abbr, _ct, formation) = pick_self_abbr_ct_form(sections);
                 if !abbr.is_empty() {
                     obj.insert("alliance_tag".to_string(), Value::String(abbr));
@@ -59,6 +61,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("formation".to_string(), Value::from(formation));
                 }
 
+                // castle pos
                 if let Some(castle) = self_snap.get("CastlePos") {
                     if let Some(x) = pick_f64(castle.get("X")) {
                         obj.insert("castle_x".to_string(), Value::from(x));
@@ -68,6 +71,7 @@ impl Resolver for ParticipantResolver {
                     }
                 }
 
+                // rally
                 let is_rally = self_snap
                     .get("IsRally")
                     .and_then(|v| v.as_bool())
@@ -76,6 +80,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("is_rally".to_string(), Value::from(is_rally));
                 }
 
+                // commanders
                 let hid = self_body
                     .pointer("/SelfChar/HId")
                     .and_then(|v| v.as_i64())
@@ -118,6 +123,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("secondary_commander".to_string(), cmd2);
                 }
 
+                // kingdom
                 if let Some(k) = self_snap
                     .get("COSId")
                     .and_then(|v| v.as_i64())
@@ -131,10 +137,12 @@ impl Resolver for ParticipantResolver {
                     obj.insert("tracking_key".to_string(), Value::String(ctk.to_string()));
                 }
 
+                // equipment
                 if let Some(eq) = self_snap.get("HEq").and_then(|v| v.as_str()) {
                     obj.insert("equipment".to_string(), Value::String(eq.to_string()));
                 }
 
+                // formation & armaments & inscriptions
                 if let Some(fm) = self_snap
                     .get("HFMs")
                     .and_then(|v| v.as_i64())
@@ -167,6 +175,7 @@ impl Resolver for ParticipantResolver {
             let attack_cid = ctx.attack_id.parse::<i64>().unwrap_or(0);
 
             if let Some(obj) = enemy_obj.as_object_mut() {
+                // player id & name
                 if let Some(pid) = c_idt.get("PId").and_then(|v| v.as_i64()).or_else(|| {
                     group_ots_entry(group, enemy_ctid)
                         .and_then(|o| o.get("PId"))
@@ -186,10 +195,12 @@ impl Resolver for ParticipantResolver {
                     obj.insert("player_name".to_string(), Value::String(name));
                 }
 
+                // alliance
                 if !enemy_abbr.trim().is_empty() {
                     obj.insert("alliance_tag".to_string(), Value::String(enemy_abbr));
                 }
 
+                // castle pos
                 if let Some(castle) = enemy_snap.get("CastlePos") {
                     if let Some(x) = pick_f64(castle.get("X")) {
                         obj.insert("castle_x".to_string(), Value::from(x));
@@ -199,6 +210,7 @@ impl Resolver for ParticipantResolver {
                     }
                 }
 
+                // tracking key & rally
                 let ctk = enemy_snap
                     .get("CTK")
                     .and_then(|v| v.as_str())
@@ -218,7 +230,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("is_rally".to_string(), Value::from(is_rally));
                 }
 
-                // Set NPC type info from the attack block when present
+                // npc
                 if let Some(nt) = atk_block
                     .get("NpcType")
                     .and_then(|v| v.as_i64())
@@ -234,6 +246,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("npc_btype".to_string(), Value::from(nbt));
                 }
 
+                // commanders
                 let hid = c_idt
                     .get("HId")
                     .and_then(|v| v.as_i64())
@@ -323,6 +336,7 @@ impl Resolver for ParticipantResolver {
                     obj.insert("secondary_commander".to_string(), cmd2);
                 }
 
+                // kingdom
                 if let Some(k) = enemy_snap
                     .get("COSId")
                     .and_then(|v| v.as_i64())
@@ -336,10 +350,12 @@ impl Resolver for ParticipantResolver {
                     obj.insert("tracking_key".to_string(), Value::String(ctk.to_string()));
                 }
 
+                // equipment
                 if let Some(eq) = enemy_snap.get("HEq").and_then(|v| v.as_str()) {
                     obj.insert("equipment".to_string(), Value::String(eq.to_string()));
                 }
 
+                // formation & armaments & inscriptions
                 if let Some(fm) = enemy_snap
                     .get("HFMs")
                     .and_then(|v| v.as_i64())
