@@ -378,43 +378,109 @@ pub fn pick_hlv2(sections: &[Value], self_snap: &Value) -> i32 {
 }
 
 pub fn pick_hss2_fourdigits(sections: &[Value]) -> String {
-    let lvl = sections.iter().find_map(|s| {
-        s.get("HSS2")
-            .and_then(|o| o.get("SkillLevel"))
-            .and_then(|x| x.as_i64())
-    });
-    match lvl {
-        Some(x) => format!("{0}{0}{0}{0}", x),
-        None => String::new(),
+    let idx = sections.iter().position(|s| s.get("HSS2").is_some());
+    if idx.is_none() {
+        return String::new();
     }
-}
+    let i = idx.unwrap();
 
-pub fn compose_hss_mailwide(sections: &[Value], self_body: &Value) -> String {
-    fn sl(v: Option<&Value>) -> Option<i64> {
-        v.and_then(|o| o.get("SkillLevel")).and_then(|x| x.as_i64())
+    let mut digits: Vec<i64> = Vec::new();
+    if let Some(x) = sections[i]
+        .get("HSS2")
+        .and_then(|o| o.get("SkillLevel"))
+        .and_then(|x| x.as_i64())
+    {
+        digits.push(x);
     }
-    let mut lv: Vec<i64> = Vec::new();
-    if let Some(n) = sl(self_body.pointer("/SelfChar/HSS")) {
-        lv.push(n);
+    if let Some(x) = sections[i].get("SkillLevel").and_then(|x| x.as_i64()) {
+        digits.push(x);
     }
-    for s in sections {
-        for key in ["HSS", "HSS2", "HSS3", "HSS4"] {
-            if let Some(n) = sl(s.get(key)) {
-                lv.push(n);
+    for s in sections.iter().skip(i + 1) {
+        if let Some(x) = s.get("SkillLevel").and_then(|x| x.as_i64()) {
+            digits.push(x);
+            if digits.len() >= 4 {
+                break;
             }
         }
     }
-    if lv.is_empty() {
+
+    if digits.is_empty() {
         return String::new();
     }
-    if lv.len() == 1 {
-        return format!("{0}{0}{0}{0}", lv[0]);
+
+    while digits.len() < 4 {
+        digits.push(0);
     }
-    while lv.len() < 4 {
-        lv.push(0);
+    digits.truncate(4);
+
+    let hst2 = sections
+        .iter()
+        .find_map(|s| s.get("HSt2").and_then(|v| v.as_i64()))
+        .unwrap_or(0);
+    if hst2 >= 6 && digits.first().copied().unwrap_or(0) >= 5 {
+        for d in digits.iter_mut().skip(1) {
+            if *d <= 1 {
+                *d = 5;
+            }
+        }
     }
-    lv.truncate(4);
-    lv.into_iter().map(|n| n.to_string()).collect::<String>()
+
+    digits
+        .into_iter()
+        .map(|n| n.to_string())
+        .collect::<String>()
+}
+
+pub fn compose_hss_mailwide(sections: &[Value], self_body: &Value) -> String {
+    let mut digits: [Option<i64>; 4] = [None, None, None, None];
+
+    let self_idx = sections.iter().position(|s| {
+        s.pointer("/body/content/SelfChar").is_some() || s.pointer("/content/SelfChar").is_some()
+    });
+
+    if let Some(x) = self_body
+        .pointer("/SelfChar/HSS/SkillLevel")
+        .and_then(|v| v.as_i64())
+    {
+        digits[0] = Some(x);
+    }
+    if let Some(x) = self_body
+        .pointer("/SelfChar/SkillLevel")
+        .and_then(|v| v.as_i64())
+    {
+        digits[1] = Some(x);
+    }
+    if let Some(x) = self_body.pointer("/SkillLevel").and_then(|v| v.as_i64()) {
+        digits[2] = Some(x);
+    }
+    if let Some(i) = self_idx
+        && let Some(x) = sections[i]
+            .pointer("/body/SkillLevel")
+            .and_then(|v| v.as_i64())
+            .or_else(|| sections[i].get("SkillLevel").and_then(|v| v.as_i64()))
+    {
+        digits[3] = Some(x);
+    }
+
+    if digits.iter().all(|d| d.is_none()) {
+        return String::new();
+    }
+
+    let mut out: Vec<i64> = digits.iter().map(|d| d.unwrap_or(0)).collect::<Vec<_>>();
+
+    let hst = sections
+        .iter()
+        .find_map(|s| s.get("HSt").and_then(|v| v.as_i64()))
+        .unwrap_or(0);
+    if hst >= 6 && out.first().copied().unwrap_or(0) >= 5 {
+        for d in out.iter_mut().skip(1) {
+            if *d <= 1 {
+                *d = 5;
+            }
+        }
+    }
+
+    out.into_iter().map(|n| n.to_string()).collect::<String>()
 }
 
 fn digits_all_leq_one(s: &str) -> bool {
