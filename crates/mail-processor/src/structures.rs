@@ -14,6 +14,26 @@ pub struct ParsedMail {
 pub struct Metadata {
     pub email_id: Option<String>,
     pub email_time: Option<i64>,
+    // empty string - unknown (might be the mail brief)
+    // Alliance - alliance related mails
+    // AllianceApply - people applying to join the alliance
+    // AllianceBuilding - alliance building related mails
+    // ArenaRankRewardReport - unknown (might be AOO reward)
+    // Battle - battle reports
+    // CarriageSentReport - unknown (might be resource assistance)
+    // Event - event related mails
+    // EventAsRank - event related mails
+    // EventMemberLootReport - event related mails
+    // EventPlyRank - event related mails
+    // Gm - unknown
+    // KillBigDreamReport - unknown
+    // Mlang - unknown
+    // Player - player mail sent/received mails
+    // Rss - resource collected
+    // ScoutReport - scout reports
+    // System - system related mails
+    // TeamGachaResult - unknown
+    // Temple - system related mails (kingdom buffs, etc.)
     pub email_type: Option<String>,
     pub email_receiver: Option<String>,
     pub email_box: Option<String>,
