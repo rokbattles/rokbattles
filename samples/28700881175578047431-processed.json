@@ -48,8 +48,8 @@
       "castle_x": null,
       "castle_y": null,
       "is_rally": null,
-      "npc_type": null,
-      "npc_btype": null,
+      "npc_type": 107,
+      "npc_btype": 2,
       "primary_commander": {
         "id": 201,
         "level": null,

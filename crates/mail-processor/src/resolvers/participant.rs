@@ -218,6 +218,22 @@ impl Resolver for ParticipantResolver {
                     obj.insert("is_rally".to_string(), Value::from(is_rally));
                 }
 
+                // Set NPC type info from the attack block when present
+                if let Some(nt) = atk_block
+                    .get("NpcType")
+                    .and_then(|v| v.as_i64())
+                    .map(|x| x as i32)
+                {
+                    obj.insert("npc_type".to_string(), Value::from(nt));
+                }
+                if let Some(nbt) = atk_block
+                    .get("NpcBType")
+                    .and_then(|v| v.as_i64())
+                    .map(|x| x as i32)
+                {
+                    obj.insert("npc_btype".to_string(), Value::from(nbt));
+                }
+
                 let hid = c_idt
                     .get("HId")
                     .and_then(|v| v.as_i64())
