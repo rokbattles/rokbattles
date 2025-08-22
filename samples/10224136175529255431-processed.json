@@ -26,20 +26,20 @@
       "npc_btype": null,
       "primary_commander": {
         "id": 509,
-        "level": null,
-        "skills": "5555"
-      },
-      "secondary_commander": {
-        "id": null,
         "level": 60,
         "skills": "5555"
       },
-      "kingdom_id": null,
-      "tracking_key": null,
-      "equipment": null,
+      "secondary_commander": {
+        "id": 179,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "71738515_1755292475_509_179",
+      "equipment": "{3:20021_392:1,4:20022_387:1,2:20006_384:21,7:20037_312:1,5:20023_314:22,6:20024_373:2,8:20040_371:1,1:20003_385:1}",
       "formation": 2,
-      "armament_buffs": null,
-      "inscriptions": null
+      "armament_buffs": "3003_0.015000;3003_0.016000;3003_0.022000;3003_0.029000;4003_0.016000;4004_0.016000;5003_0.018000;5003_0.023000;5003_0.024000;5003_0.029000;6003_0.029000;6003_0.034000",
+      "inscriptions": "104;118;204;312;2402"
     },
     "enemy": {
       "player_id": 129155556,
@@ -119,20 +119,20 @@
       "npc_btype": null,
       "primary_commander": {
         "id": 509,
-        "level": null,
-        "skills": "5555"
-      },
-      "secondary_commander": {
-        "id": null,
         "level": 60,
         "skills": "5555"
       },
-      "kingdom_id": null,
-      "tracking_key": null,
-      "equipment": null,
+      "secondary_commander": {
+        "id": 179,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "71738515_1755292475_509_179",
+      "equipment": "{3:20021_392:1,4:20022_387:1,2:20006_384:21,7:20037_312:1,5:20023_314:22,6:20024_373:2,8:20040_371:1,1:20003_385:1}",
       "formation": 2,
-      "armament_buffs": null,
-      "inscriptions": null
+      "armament_buffs": "3003_0.015000;3003_0.016000;3003_0.022000;3003_0.029000;4003_0.016000;4004_0.016000;5003_0.018000;5003_0.023000;5003_0.024000;5003_0.029000;6003_0.029000;6003_0.034000",
+      "inscriptions": "104;118;204;312;2402"
     },
     "enemy": {
       "player_id": 129155556,

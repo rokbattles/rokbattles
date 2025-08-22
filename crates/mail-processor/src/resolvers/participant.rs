@@ -146,6 +146,11 @@ impl Resolver for ParticipantResolver {
                 let hlv = self_snap
                     .get("HLv")
                     .and_then(|v| v.as_i64())
+                    .or_else(|| {
+                        sections
+                            .iter()
+                            .find_map(|s| s.get("HLv").and_then(|v| v.as_i64()))
+                    })
                     .map(|x| x as i32);
                 let hss = compose_hss_mailwide(sections, &self_body);
                 if hid.is_some() || hlv.is_some() || !hss.is_empty() {
@@ -164,6 +169,11 @@ impl Resolver for ParticipantResolver {
                 let hid2 = self_snap
                     .get("HId2")
                     .and_then(|v| v.as_i64())
+                    .or_else(|| {
+                        let (_, h2) =
+                            parse_hids_from_ctk(self_snap.get("CTK").and_then(|v| v.as_str()));
+                        h2
+                    })
                     .map(|x| x as i32);
                 let hlv2 = pick_hlv2(sections, &self_snap);
                 let hss2 = pick_hss2_fourdigits(sections);

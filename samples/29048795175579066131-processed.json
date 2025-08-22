@@ -26,20 +26,20 @@
       "npc_btype": null,
       "primary_commander": {
         "id": 7,
-        "level": null,
+        "level": 60,
         "skills": "5500"
       },
       "secondary_commander": {
-        "id": null,
+        "id": 96,
         "level": 60,
         "skills": "5555"
       },
-      "kingdom_id": null,
-      "tracking_key": null,
-      "equipment": null,
+      "kingdom_id": 1804,
+      "tracking_key": "71738515_1755790649_7_96",
+      "equipment": "{1:20100_442:0}",
       "formation": 7,
-      "armament_buffs": null,
-      "inscriptions": null
+      "armament_buffs": "10002_0.007000;10002_0.013000;2004_0.048000;3002_0.025000;4002_0.012000;5001_0.035000;5003_0.010000;6002_0.021000;6002_0.028000;8000_0.030000;8000_0.040000;8000_0.044000",
+      "inscriptions": "-1;-1;305;426"
     },
     "enemy": {
       "player_id": -2,

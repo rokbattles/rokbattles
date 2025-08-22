@@ -197,6 +197,11 @@ pub fn find_self_snapshot(sections: &[Value]) -> Value {
             return s.clone();
         }
     }
+    for s in sections {
+        if s.get("AppUid").is_some() {
+            return s.clone();
+        }
+    }
     Value::Null
 }
 
