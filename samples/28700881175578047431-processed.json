@@ -1,0 +1,91 @@
+[
+  {
+    "metadata": {
+      "email_id": "28700881175578047431",
+      "email_time": 1755780474538040,
+      "email_type": "Battle",
+      "email_receiver": "71738515",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "155217801",
+      "start_date": 1755780407,
+      "end_date": 1755780474,
+      "pos_x": null,
+      "pos_y": null,
+      "players": 2
+    },
+    "self": {
+      "player_id": 71738515,
+      "player_name": null,
+      "alliance_tag": "SO4L",
+      "castle_x": null,
+      "castle_y": null,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 182,
+        "level": null,
+        "skills": "5500"
+      },
+      "secondary_commander": {
+        "id": null,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": null,
+      "tracking_key": null,
+      "equipment": null,
+      "formation": 2,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": -2,
+      "player_name": null,
+      "alliance_tag": null,
+      "castle_x": null,
+      "castle_y": null,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 201,
+        "level": null,
+        "skills": "5555"
+      },
+      "secondary_commander": null,
+      "kingdom_id": null,
+      "tracking_key": null,
+      "equipment": null,
+      "formation": null,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "battle_results": {
+      "power": -6980,
+      "init_max": 440805,
+      "max": 440805,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 698,
+      "wounded": 56668,
+      "remaining": 387680,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": -5600000,
+      "enemy_init_max": 1400000,
+      "enemy_max": 1400000,
+      "enemy_healing": 0,
+      "enemy_death": 1400000,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 0
+    }
+  }
+]
