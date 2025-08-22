@@ -10,875 +10,1094 @@ inscriptions:
   101:
     name:
       en: "Warcry"
+      es: "Grito de guerra"
 
   103:
     name:
       en: "Well Clad"
+      es: "Fortalecimiento"
 
   104:
     name:
       en: "Robust"
+      es: "Robustez"
 
   105:
     name:
       en: "Swift"
+      es: "Celeridad"
 
   106:
     name:
       en: "Payback"
+      es: "Revancha"
 
   107:
     name:
       en: "Onslaught"
+      es: "Embestida"
 
   108:
     name:
       en: "Retaliatory"
+      es: "Represalia"
 
   109:
     name:
       en: "Enraged"
+      es: "Furia"
 
   110:
     name:
       en: "Valiant"
+      es: "Valentía"
 
   111:
     name:
       en: "Iron Wall"
+      es: "Muro de hierro"
 
   112:
     name:
       en: "Bellicose"
+      es: "Belicismo"
 
   113:
     name:
       en: "Pulverize"
+      es: "Pulverizar"
 
   114:
     name:
       en: "Breaker"
+      es: "Quebrantamiento"
 
   115:
     name:
       en: "Furious"
+      es: "Furia"
 
   116:
     name:
       en: "Ward"
+      es: "Protección"
 
   117:
     name:
       en: "Phalanx"
+      es: "Falange"
 
   118:
     name:
       en: "Hurried"
+      es: "Apremio"
 
   119:
     name:
       en: "Tremors"
+      es: "Sacudida"
 
   120:
     name:
       en: "Calm"
+      es: "Calma"
 
   121:
     name:
       en: "Loosed"
+      es: "Puntería"
 
   122:
     name:
       en: "Warcry"
+      es: "Grito de guerra"
 
   124:
     name:
       en: "Well Clad"
+      es: "Fortalecimiento"
 
   125:
     name:
       en: "Robust"
+      es: "Robustez"
 
   126:
     name:
       en: "Swift"
+      es: "Celeridad"
 
   127:
     name:
       en: "Payback"
+      es: "Revancha"
 
   128:
     name:
       en: "Onslaught"
+      es: "Embestida"
 
   129:
     name:
       en: "Retaliatory"
+      es: "Represalia"
 
   130:
     name:
       en: "Enraged"
+      es: "Furia"
 
   137:
     name:
       en: "Enrichment"
+      es: "Enriquecimiento"
 
   201:
     name:
       en: "Brutal"
+      es: "Brutalidad"
 
   203:
     name:
       en: "Armored"
+      es: "Blindaje"
 
   204:
     name:
       en: "Fit"
+      es: "Sanidad"
 
   205:
     name:
       en: "Fine Horse"
+      es: "Caballo Fino"
 
   206:
     name:
       en: "Annexer"
+      es: "Anexo"
 
   207:
     name:
       en: "Warhunger"
+      es: "Sed de guerra"
 
   208:
     name:
       en: "Alert"
+      es: "Alerta"
 
   209:
     name:
       en: "Devious"
+      es: "Impudor"
 
   210:
     name:
       en: "Fearsome"
+      es: "Temible"
 
   211:
     name:
       en: "Evasive"
+      es: "Evasión"
 
   212:
     name:
       en: "Requital"
+      es: "Compensación"
 
   213:
     name:
       en: "Respite"
+      es: "Alivio"
 
   214:
     name:
       en: "Guarded"
+      es: "Custodia"
 
   215:
     name:
       en: "Embattled"
+      es: "Asediado"
 
   216:
     name:
       en: "Vengeful"
+      es: "Venganza"
 
   217:
     name:
       en: "Patronage"
+      es: "Amparo"
 
   218:
     name:
       en: "Primed"
+      es: "Superación"
 
   219:
     name:
       en: "Uplifting"
+      es: "Inspiración"
 
   220:
     name:
       en: "Spirited"
+      es: "Vivaz"
 
   221:
     name:
       en: "Bluster"
+      es: "Arrogancia"
 
   222:
     name:
       en: "Brutal"
+      es: "Brutalidad"
 
   224:
     name:
       en: "Armored"
+      es: "Blindaje"
 
   225:
     name:
       en: "Fit"
+      es: "Sanidad"
 
   226:
     name:
       en: "Fine Horse"
+      es: "Caballo Fino"
 
   227:
     name:
       en: "Annexer"
+      es: "Anexo"
 
   228:
     name:
       en: "Warhunger"
+      es: "Sed de guerra"
 
   229:
     name:
       en: "Alert"
+      es: "Alerta"
 
   230:
     name:
       en: "Devious"
+      es: "Impudor"
 
   237:
     name:
       en: "Brisk"
+      es: "Presteza"
 
   301:
     name:
       en: "Spiked"
+      es: "Punzante"
 
   303:
     name:
       en: "Metallics"
+      es: "Metalizado"
 
   304:
     name:
       en: "Vitality"
+      es: "Vitalidad"
 
   305:
     name:
       en: "Galloping"
+      es: "Galope"
 
   306:
     name:
       en: "Cleanser"
+      es: "Purificación"
 
   307:
     name:
       en: "Striker"
+      es: "Empoderamiento"
 
   308:
     name:
       en: "Rebuff"
+      es: "Repelente"
 
   309:
     name:
       en: "Brawler"
+      es: "Matón"
 
   310:
     name:
       en: "Warflames"
+      es: "Llamas bélicas"
 
   311:
     name:
       en: "Eclipsed"
+      es: "Eclipsado"
 
   312:
     name:
       en: "Brave"
+      es: "Coraje"
 
   313:
     name:
       en: "Strategic"
+      es: "Estrategia"
 
   314:
     name:
       en: "Desperado"
+      es: "Forajido"
 
   315:
     name:
       en: "Cohesive"
+      es: "Unión"
 
   316:
     name:
       en: "Pursuer"
+      es: "Persecución"
 
   317:
     name:
       en: "Assertive"
+      es: "Aserción"
 
   318:
     name:
       en: "Wary"
+      es: "Cautela"
 
   319:
     name:
       en: "Siegework"
+      es: "Maquinaria de asedio"
 
   320:
     name:
       en: "Sentries"
+      es: "Centinela"
 
   321:
     name:
       en: "Ballistics"
+      es: "Balística"
 
   322:
     name:
       en: "Spiked"
+      es: "Punzante"
 
   324:
     name:
       en: "Metallics"
+      es: "Metalizado"
 
   325:
     name:
       en: "Vitality"
+      es: "Vitalidad"
 
   326:
     name:
       en: "Galloping"
+      es: "Galope"
 
   327:
     name:
       en: "Cleanser"
+      es: "Purificación"
 
   328:
     name:
       en: "Striker"
+      es: "Empoderamiento"
 
   329:
     name:
       en: "Rebuff"
+      es: "Repelente"
 
   330:
     name:
       en: "Brawler"
+      es: "Matón"
 
   337:
     name:
       en: "Harvester"
+      es: "Cosecha"
 
   401:
     name:
       en: "Infamy"
+      es: "Infamia"
 
   403:
     name:
       en: "Shielded"
+      es: "Escudo"
 
   404:
     name:
       en: "Hardy"
+      es: "Dureza"
 
   405:
     name:
       en: "Haste"
+      es: "Prisa"
 
   406:
     name:
       en: "Pacifier"
+      es: "Pacificador"
 
   407:
     name:
       en: "Militant"
+      es: "Militancia"
 
   408:
     name:
       en: "Resistant"
+      es: "Resistencia"
 
   409:
     name:
       en: "Daring"
+      es: "Osadía"
 
   410:
     name:
       en: "Elite"
+      es: "Élite"
 
   411:
     name:
       en: "Evasive"
+      es: "Evasión"
 
   412:
     name:
       en: "Smite"
+      es: "Aniquilación"
 
   413:
     name:
       en: "Enduring"
+      es: "Durable"
 
   414:
     name:
       en: "Artisan"
+      es: "Artista"
 
   415:
     name:
       en: "Rapacious"
+      es: "Rapaz"
 
   416:
     name:
       en: "Guardians"
+      es: "Guardianes"
 
   417:
     name:
       en: "Counterer"
+      es: "Contraatacante"
 
   418:
     name:
       en: "Deflecter"
+      es: "Desvío"
 
   419:
     name:
       en: "Watchmen"
+      es: "Vigilante"
 
   420:
     name:
       en: "Lineshot"
+      es: "Tiro directo"
 
   422:
     name:
       en: "Infamy"
+      es: "Infamia"
 
   424:
     name:
       en: "Shielded"
+      es: "Escudo"
 
   425:
     name:
-      en: Hardy
+      en: "Hardy"
+      es: "Dureza"
 
   426:
     name:
       en: "Haste"
+      es: "Prisa"
 
   427:
     name:
       en: "Pacifier"
+      es: "Pacificador"
 
   428:
     name:
       en: "Militant"
+      es: "Militancia"
 
   429:
     name:
       en: "Resistant"
+      es: "Resistencia"
 
   430:
     name:
       en: "Daring"
+      es: "Osadía"
 
   437:
     name:
       en: "Bountiful"
+      es: "Abundancia"
 
   1101:
     name:
       en: "Destructive"
+      es: "Destrucción"
 
   1102:
     name:
       en: "Battle-Ready"
+      es: "Listo para la batalla"
 
   1201:
     name:
       en: "Straight to the Point"
+      es: "Directo al grano"
 
   1202:
     name:
       en: "Even-Keeled"
+      es: "Estable"
 
   1301:
     name:
       en: "Invincible"
+      es: "Invencible"
 
   1302:
     name:
       en: "Unswerving"
+      es: "Inmutable"
 
   1401:
     name:
       en: "Fearless"
+      es: "Audacia"
 
   1402:
     name:
       en: "Forceful"
+      es: "Contundente"
 
   2101:
     name:
       en: "Hunter"
+      es: "Cazador"
 
   2102:
     name:
       en: "Crazed"
+      es: "Exaltado"
 
   2201:
     name:
       en: "Unstoppable"
+      es: "Imparable"
 
   2202:
     name:
       en: "Boiling Blood"
+      es: "Sangre caliente"
 
   2301:
     name:
       en: "Balanced"
+      es: "Equilibrio"
 
   2302:
     name:
       en: "Defiant"
+      es: "Desafiante"
 
   2401:
     name:
       en: "Intrepid"
+      es: "Intrépido"
 
   2402:
     name:
       en: "Focus Fire"
+      es: "Fuego concentrado"
 
   3101:
     name:
       en: "Sharpshooter"
+      es: "Francotirador"
 
   3102:
     name:
       en: "Full Draw"
+      es: "Arcos tensados"
 
   3201:
     name:
       en: "Drilled"
+      es: "Perforación"
 
   3202:
     name:
       en: "Bloody Bolt"
+      es: "Virote sangriento"
 
   3301:
     name:
       en: "Merciless"
+      es: "Sin piedad"
 
   3302:
     name:
       en: "Tempered"
+      es: "Templado"
 
   3401:
     name:
       en: "Astute"
+      es: "Astucia"
 
   3402:
     name:
       en: "Sharp Arrows"
+      es: "Flechas filosas"
 
   4101:
     name:
       en: "Influential Leader"
+      es: "Líder prestigioso"
 
   4102:
     name:
       en: "Drums of War"
+      es: "Tambores de guerra"
 
   4201:
     name:
       en: "Loaded"
+      es: "Cargado"
 
   4202:
     name:
       en: "Nullify"
+      es: "Anulación"
 
   4301:
     name:
       en: "Civilized"
+      es: "Civilizado"
 
   4302:
     name:
       en: "Counter-Parry"
+      es: "Contrabloqueo"
 
   4401:
     name:
       en: "Fixed"
+      es: "Reparación"
 
   4402:
     name:
       en: "Persevering"
+      es: "Perseverancia"
 
   5101:
     name:
       en: "Cocoon"
+      es: "Capullo"
 
   5102:
     name:
       en: "Self-Defense"
+      es: "Defensa propia"
 
   5201:
     name:
       en: "Inviolable"
+      es: "Irrompible"
 
   5202:
     name:
       en: "Aegis"
+      es: "Égida"
 
   5301:
     name:
       en: "Crowned"
+      es: "Coronación"
 
   5302:
     name:
       en: "Reinforced"
+      es: "Refuerzo"
 
   5401:
     name:
       en: "Rounded"
+      es: "Integral"
 
   5402:
     name:
       en: "Tenacious"
+      es: "Tenaz"
 
   6101:
     name:
       en: "Rich"
+      es: "Riqueza"
 
   6102:
     name:
       en: "Gold Panner"
+      es: "Bateo de oro"
 
   6201:
     name:
       en: "Battlements"
+      es: "Almena"
 
   6202:
     name:
       en: "Safeguard"
+      es: "Salvaguarda"
 
   6301:
     name:
       en: "Moneyed"
+      es: "Pudiente"
 
   6302:
     name:
       en: "Plentitude"
+      es: "Abundancia"
 
   6401:
     name:
       en: "Transporter"
+      es: "Transportista"
 
   6402:
     name:
       en: "Sturdy Back"
+      es: "Retaguardia fornida"
 
   7101:
     name:
       en: "Emmeshed"
+      es: "Maraña"
 
   7102:
     name:
       en: "Entangling"
+      es: "Enredo"
 
   7201:
     name:
       en: "Logistical"
+      es: "Logística"
 
   7202:
     name:
       en: "Arms Race"
+      es: "Carrera armamentista"
 
   7301:
     name:
       en: "Unassailed"
+      es: "Retirada"
 
   7302:
     name:
       en: "Sprinter"
+      es: "Velocista"
 
   7401:
     name:
       en: "Winged"
+      es: "Alado"
 
   7402:
     name:
       en: "Strider"
+      es: "Pasos largos"
 
   8101:
     name:
       en: "Irreproachable"
+      es: "Irreprochable"
 
   8102:
     name:
       en: "Ironclad"
+      es: "Invulnerable"
 
   8201:
     name:
       en: "Cautious"
+      es: "Cautela"
 
   8202:
     name:
       en: "Strike & Parry"
+      es: "Golpe y bloqueo"
 
   8301:
     name:
       en: "Shield Bash"
+      es: "Glope de escudo"
 
   8302:
     name:
       en: "Unshakeable"
+      es: "Imperturbable"
 
   8401:
     name:
       en: "Rock Solid"
+      es: "Firme como una roca"
 
   8402:
     name:
       en: "Convalescing"
+      es: "Convaleciente"
 
   9101:
     name:
       en: "Avenger"
+      es: "Vengador"
 
   9102:
     name:
       en: "Back In Action"
+      es: "De vuelta al ruedo"
 
   9201:
     name:
       en: "Guarding Light"
+      es: "Luz protectora"
 
   9202:
     name:
       en: "Medic"
+      es: "Medicina"
 
   9301:
     name:
       en: "Turn the Corner"
+      es: "Apuro superado"
 
   9302:
     name:
       en: "Rise Up"
+      es: "De pie"
 
   9401:
     name:
       en: "Panacea"
+      es: "Panacea"
 
   9402:
     name:
       en: "Refreshing"
+      es: "Refrescante"
 
   10101:
     name:
       en: "Hasty Retreat"
+      es: "Retirada rauda"
 
   10102:
     name:
       en: "Fall Back"
+      es: "Emprender la retirada"
 
   10201:
     name:
       en: "Blast Shield"
+      es: "Escudo explosivo"
 
   10202:
     name:
       en: "Spread Out"
+      es: "Dispersión"
 
   10301:
     name:
       en: "Full Force"
+      es: "Fuerza total"
 
   10302:
     name:
       en: "Shock Troops"
+      es: "Tropas de choque"
 
   10401:
     name:
       en: "United Front"
+      es: "Frente unido"
 
   10402:
     name:
       en: "Mutual Defense"
+      es: "Defensa mutua"
 
   13101:
     name:
       en: "Trasher"
+      es: "Trilladora"
 
   13102:
     name:
       en: "Pummeler"
+      es: "Vapuleo"
 
   13201:
     name:
       en: "Butterfly"
+      es: "Efecto mariposa"
 
   13202:
     name:
       en: "Causative"
+      es: "Causa"
 
   13301:
     name:
       en: "Steelskin"
+      es: "Piel acerada"
 
   13302:
     name:
       en: "Determined"
+      es: "Determinación"
 
   13401:
     name:
       en: "Flurry"
+      es: "Ráfaga"
 
   13402:
     name:
       en: "Relentless"
+      es: "Implacable"
 
   14101:
     name:
       en: "Battle Ready"
+      es: "Lista para la batalla"
 
   14102:
     name:
       en: "Vigilant"
+      es: "Alerta"
 
   14201:
     name:
       en: "Fortified"
+      es: "Fortificación"
 
   14202:
     name:
       en: "Resolute"
+      es: "Resolución"
 
   14301:
     name:
       en: "Chokepoint"
+      es: "Cuello de botella"
 
   14302:
     name:
       en: "Precautions"
+      es: "Precauciones"
 
   14401:
     name:
       en: "Steelheart"
+      es: "Corazón de acero"
 
   14402:
     name:
       en: "Ironsides"
+      es: "Coraza de hierro"
 
   17101:
     name:
       en: "Toppler"
+      es: "Derribador"
 
   17102:
     name:
       en: "Imploder"
+      es: "Implosionador"
 
   17201:
     name:
       en: "Demolisher"
+      es: "Demoledor"
 
   17202:
     name:
       en: "Raider"
+      es: "Incursor"
 
   17301:
     name:
       en: "Airtight"
+      es: "Hermético"
 
   17302:
     name:
       en: "Hardheaded"
+      es: "Testarudo"
 
   17401:
     name:
       en: "Thundering"
+      es: "Atronador"
 
   17402:
     name:
       en: "Rattling"
+      es: "Estremecedor"
