@@ -85,7 +85,19 @@ impl Resolver for MetadataResolver {
             meta.entry("end_date").or_insert(Value::from(end_date));
 
             // position
-            if let Some(pos) = group.iter().find_map(|s| s.get("Pos")) {
+            if let Some(pos) = group.iter().find_map(|s| {
+                s.get("Pos")
+                    .or_else(|| s.get("Attacks").and_then(|a| a.get("Pos")))
+            }) {
+                let x = pick_f64(pos.get("X")).unwrap_or(0.0);
+                let y = pick_f64(pos.get("Y")).unwrap_or(0.0);
+                meta.entry("pos_x").or_insert(Value::from(x));
+                meta.entry("pos_y").or_insert(Value::from(y));
+            } else if let Some(attacks_obj) = sections
+                .iter()
+                .find_map(|s| s.get("Attacks").filter(|a| a.get(ctx.attack_id).is_some()))
+                && let Some(pos) = attacks_obj.get("Pos")
+            {
                 let x = pick_f64(pos.get("X")).unwrap_or(0.0);
                 let y = pick_f64(pos.get("Y")).unwrap_or(0.0);
                 meta.entry("pos_x").or_insert(Value::from(x));
