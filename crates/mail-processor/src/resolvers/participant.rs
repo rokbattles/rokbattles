@@ -31,14 +31,15 @@ impl Resolver for ParticipantResolver {
 
             if let Some(obj) = self_obj.as_object_mut() {
                 // player id & name
-                if let Some(pid) = self_snap
+                let player_pid = self_snap
                     .get("PId")
                     .and_then(|v| v.as_i64())
-                    .or_else(|| self_body.pointer("/SelfChar/PId").and_then(|v| v.as_i64()))
-                {
+                    .or_else(|| self_body.pointer("/SelfChar/PId").and_then(|v| v.as_i64()));
+                if let Some(pid) = player_pid {
                     obj.insert("player_id".to_string(), Value::from(pid));
                 }
-                if let Some(pname) = self_snap
+
+                let mut pname_opt = self_snap
                     .get("PName")
                     .and_then(|v| v.as_str())
                     .map(|s| s.to_string())
@@ -47,8 +48,44 @@ impl Resolver for ParticipantResolver {
                             .pointer("/PName")
                             .and_then(|v| v.as_str())
                             .map(|s| s.to_string())
-                    })
+                    });
+
+                if pname_opt.is_none()
+                    && let Some(pid) = player_pid
                 {
+                    for sec in sections.iter() {
+                        if let Some(sts) = sec.get("STs").and_then(|v| v.as_object()) {
+                            for (_k, entry) in sts.iter() {
+                                if entry.get("PId").and_then(|v| v.as_i64()) == Some(pid)
+                                    && let Some(pn) = entry.get("PName").and_then(|v| v.as_str())
+                                {
+                                    pname_opt = Some(pn.to_string());
+                                    break;
+                                }
+                            }
+                            if pname_opt.is_some() {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if pname_opt.is_none()
+                    && let Some(pid) = player_pid
+                {
+                    let prefix = format!("{}_", pid);
+                    for sec in sections.iter() {
+                        if let Some(ctk) = sec.get("CTK").and_then(|v| v.as_str())
+                            && ctk.starts_with(&prefix)
+                            && let Some(pn) = sec.get("PName").and_then(|v| v.as_str())
+                        {
+                            pname_opt = Some(pn.to_string());
+                            break;
+                        }
+                    }
+                }
+
+                if let Some(pname) = pname_opt {
                     obj.insert("player_name".to_string(), Value::String(pname));
                 }
 
@@ -68,6 +105,27 @@ impl Resolver for ParticipantResolver {
                     }
                     if let Some(y) = pick_f64(castle.get("Y")) {
                         obj.insert("castle_y".to_string(), Value::from(y));
+                    }
+                }
+
+                if (obj.get("castle_x").is_none() || obj.get("castle_y").is_none())
+                    && let Some(pid) = player_pid
+                {
+                    let prefix = format!("{}_", pid);
+                    for sec in sections.iter() {
+                        if let Some(ctk) = sec.get("CTK").and_then(|v| v.as_str())
+                            && ctk.starts_with(&prefix)
+                        {
+                            if let Some(castle) = sec.get("CastlePos") {
+                                if let Some(x) = pick_f64(castle.get("X")) {
+                                    obj.insert("castle_x".to_string(), Value::from(x));
+                                }
+                                if let Some(y) = pick_f64(castle.get("Y")) {
+                                    obj.insert("castle_y".to_string(), Value::from(y));
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
 
