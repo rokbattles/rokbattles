@@ -147,6 +147,7 @@ name = "mail-processor"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "itoa",
  "serde",
  "serde_json",
 ]
