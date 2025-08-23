@@ -277,6 +277,16 @@ impl Resolver for ParticipantResolver {
                         obj.insert("castle_y".to_string(), Value::from(y));
                     }
                 }
+                if (obj.get("castle_x").is_none() || obj.get("castle_y").is_none())
+                    && let Some(castle) = atk_block.get("CastlePos")
+                {
+                    if let Some(x) = pick_f64(castle.get("X")) {
+                        obj.insert("castle_x".to_string(), Value::from(x));
+                    }
+                    if let Some(y) = pick_f64(castle.get("Y")) {
+                        obj.insert("castle_y".to_string(), Value::from(y));
+                    }
+                }
 
                 // tracking key & rally
                 let ctk = enemy_snap
@@ -337,6 +347,7 @@ impl Resolver for ParticipantResolver {
                             .and_then(|o| o.get("HLv"))
                             .and_then(|v| v.as_i64())
                     })
+                    .or_else(|| atk_block.get("HLv").and_then(|v| v.as_i64()))
                     .map(|x| x as i32);
                 if hid.is_some() || hlv.is_some() {
                     let mut cmd = json!({});
@@ -408,19 +419,48 @@ impl Resolver for ParticipantResolver {
                 if let Some(k) = enemy_snap
                     .get("COSId")
                     .and_then(|v| v.as_i64())
+                    .filter(|&x| x != 0)
                     .map(|x| x as i32)
                 {
                     obj.insert("kingdom_id".to_string(), Value::from(k));
+                } else if let Some(k2) = c_idt
+                    .get("COSId")
+                    .and_then(|v| v.as_i64())
+                    .filter(|&x| x != 0)
+                    .map(|x| x as i32)
+                {
+                    obj.insert("kingdom_id".to_string(), Value::from(k2));
+                } else {
+                    let k3 = sections
+                        .iter()
+                        .find_map(|s| s.get("GsId").and_then(|v| v.as_i64()))
+                        .or_else(|| {
+                            sections
+                                .first()
+                                .and_then(|s| s.get("serverId").and_then(|v| v.as_i64()))
+                        });
+                    if let Some(k3v) = k3 {
+                        obj.insert("kingdom_id".to_string(), Value::from(k3v as i32));
+                    }
                 }
                 if let Some(ctk) = enemy_snap.get("CTK").and_then(|v| v.as_str())
                     && !ctk.is_empty()
                 {
                     obj.insert("tracking_key".to_string(), Value::String(ctk.to_string()));
+                } else if let Some(ctk2) = atk_block.get("CTK").and_then(|v| v.as_str())
+                    && !ctk2.is_empty()
+                {
+                    obj.insert("tracking_key".to_string(), Value::String(ctk2.to_string()));
                 }
 
                 // equipment
                 if let Some(eq) = enemy_snap.get("HEq").and_then(|v| v.as_str()) {
                     obj.insert("equipment".to_string(), Value::String(eq.to_string()));
+                }
+                if obj.get("equipment").is_none()
+                    && let Some(eq2) = atk_block.get("HEq").and_then(|v| v.as_str())
+                {
+                    obj.insert("equipment".to_string(), Value::String(eq2.to_string()));
                 }
 
                 // formation & armaments & inscriptions

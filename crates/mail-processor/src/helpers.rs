@@ -567,6 +567,12 @@ pub fn compose_enemy_hss(
         });
     }
 
+    // npc
+    if c_idt.get("PId").and_then(|v| v.as_i64()) == Some(-2) {
+        let s = format!("{}000", primary.clamp(0, 9));
+        return normalize_hss(s, enemy_snap, c_idt);
+    }
+
     let tail = secondary.unwrap_or(primary);
     let s = format!(
         "{}{}{}{}",

@@ -45,20 +45,20 @@
       "player_id": -2,
       "player_name": null,
       "alliance_tag": null,
-      "castle_x": null,
-      "castle_y": null,
+      "castle_x": 3882.378,
+      "castle_y": 3684.0989,
       "is_rally": null,
       "npc_type": 37,
       "npc_btype": 1,
       "primary_commander": {
         "id": 86,
-        "level": null,
-        "skills": "5555"
+        "level": 37,
+        "skills": "5000"
       },
       "secondary_commander": null,
-      "kingdom_id": null,
-      "tracking_key": null,
-      "equipment": null,
+      "kingdom_id": 1804,
+      "tracking_key": "-2_1755774080_86",
+      "equipment": "{}",
       "formation": null,
       "armament_buffs": null,
       "inscriptions": null
