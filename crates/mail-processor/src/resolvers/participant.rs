@@ -408,7 +408,13 @@ impl Resolver for ParticipantResolver {
                     if let Some(lv) = hlv2 {
                         cmd2["level"] = Value::from(lv);
                     }
-                    let hss2 = compose_enemy_hss2(group, &enemy_snap);
+                    let hss2 = if enemy_snap.get("HSt2").and_then(|v| v.as_i64()).unwrap_or(0) >= 6
+                    {
+                        compose_enemy_hss2(group, &enemy_snap)
+                    } else {
+                        compose_enemy_hss2_precise(group, attack_cid)
+                            .unwrap_or_else(|| compose_enemy_hss2(group, &enemy_snap))
+                    };
                     if !hss2.is_empty() {
                         cmd2["skills"] = Value::String(hss2);
                     }

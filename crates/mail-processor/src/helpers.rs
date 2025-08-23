@@ -534,12 +534,183 @@ fn normalize_hss2(mut hss2: String, enemy_snap: &Value) -> String {
     hss2
 }
 
+fn find_attack_container(
+    group: &[Value],
+    attack_cid: i64,
+) -> Option<(usize, bool, &Value, &Value)> {
+    let key = attack_cid.to_string();
+    for (i, sec) in group.iter().enumerate() {
+        if let Some(attacks) = sec.get("Attacks")
+            && let Some(obj) = attacks.get(&key)
+        {
+            return Some((i, true, attacks, obj));
+        }
+        if let Some(obj) = sec.get(&key) {
+            return Some((i, false, sec, obj));
+        }
+    }
+    None
+}
+
+fn group_players_count(group: &[Value]) -> usize {
+    for s in group {
+        if let Some(sts) = s.get("STs").and_then(|v| v.as_object()) {
+            return sts.keys().filter(|k| k.as_str() != "-2").count();
+        }
+    }
+    0
+}
+
+fn compose_enemy_hss_precise(group: &[Value], attack_cid: i64, c_idt: &Value) -> Option<String> {
+    if group_players_count(group) > 1 {
+        return None;
+    }
+
+    let s1 = c_idt.get("SkillLevel").and_then(|v| v.as_i64())?;
+    let s4 = c_idt
+        .get("HSS")
+        .and_then(|o| o.get("SkillLevel"))
+        .and_then(|v| v.as_i64())?;
+
+    let (_idx, is_attacks, container, obj) = find_attack_container(group, attack_cid)?;
+
+    if is_attacks {
+        return None;
+    }
+
+    let mut pairs: Vec<(i64, i64)> = Vec::new();
+
+    if let Some(id) = obj.get("SkillId").and_then(|v| v.as_i64())
+        && let Some(lv) = obj.get("SkillLevel").and_then(|v| v.as_i64())
+    {
+        pairs.push((id, lv));
+    }
+
+    if let Some(id) = container.get("SkillId").and_then(|v| v.as_i64())
+        && let Some(lv) = container.get("SkillLevel").and_then(|v| v.as_i64())
+    {
+        pairs.push((id, lv));
+    }
+
+    if pairs.len() < 2 {
+        return None;
+    }
+
+    let cid_skill_id = c_idt
+        .get("SkillId")
+        .and_then(|v| v.as_i64())
+        .unwrap_or_default();
+    let both_mid_high = pairs.iter().all(|(id, _)| *id >= 1000);
+    if !(cid_skill_id > 0 && cid_skill_id < 1000 && both_mid_high) {
+        return None;
+    }
+
+    pairs.sort_by_key(|(id, _)| *id);
+    if (pairs[1].0 - pairs[0].0).abs() != 1 {
+        return None;
+    }
+    let s2 = pairs[0].1;
+    let s3 = pairs[1].1;
+
+    if s2 >= 5 && s3 >= 5 && s4 < 5 {
+        return None;
+    }
+
+    Some(format!(
+        "{}{}{}{}",
+        s1.clamp(0, 9),
+        s2.clamp(0, 9),
+        s3.clamp(0, 9),
+        s4.clamp(0, 9)
+    ))
+}
+
+pub fn compose_enemy_hss2_precise(group: &[Value], attack_cid: i64) -> Option<String> {
+    if group_players_count(group) > 1 {
+        return None;
+    }
+    let mut base_idx: Option<usize> = None;
+    let mut s4: Option<i64> = None;
+    for (i, sec) in group.iter().enumerate() {
+        if sec.get("CId").and_then(|v| v.as_i64()) == Some(attack_cid)
+            && let Some(hss2) = sec.get("HSS2")
+            && let Some(lv) = hss2.get("SkillLevel").and_then(|v| v.as_i64())
+        {
+            base_idx = Some(i);
+            s4 = Some(lv);
+            break;
+        }
+    }
+    let base_idx = base_idx?;
+    let s4 = s4?;
+
+    let mut pairs: Vec<(i64, i64)> = Vec::new();
+    let base = &group[base_idx];
+    if let Some(id) = base.get("SkillId").and_then(|v| v.as_i64())
+        && let Some(lv) = base.get("SkillLevel").and_then(|v| v.as_i64())
+    {
+        pairs.push((id, lv));
+    }
+
+    let mut j = base_idx + 1;
+    while pairs.len() < 3 && j < group.len() && j < base_idx + 6 {
+        let sec = &group[j];
+        if let (Some(id), Some(lv)) = (
+            sec.get("SkillId").and_then(|v| v.as_i64()),
+            sec.get("SkillLevel").and_then(|v| v.as_i64()),
+        ) {
+            pairs.push((id, lv));
+        }
+        j += 1;
+    }
+
+    if pairs.is_empty() {
+        return None;
+    }
+
+    let base_id = base.get("SkillId").and_then(|v| v.as_i64())?;
+    let mut filtered: Vec<(i64, i64)> = pairs
+        .into_iter()
+        .filter(|(id, _)| (id / 100) == (base_id / 100) || (id - base_id).abs() <= 10)
+        .collect();
+
+    if filtered.len() < 3 {
+        return None;
+    }
+
+    filtered.sort_by_key(|(id, _)| (id - base_id).abs());
+    let mut chosen: Vec<(i64, i64)> = filtered.into_iter().take(3).collect();
+    chosen.sort_by_key(|(id, _)| *id);
+
+    if !(chosen[1].0 == chosen[0].0 + 1 && chosen[2].0 == chosen[1].0 + 1) {
+        return None;
+    }
+
+    let s1 = chosen[0].1;
+    let s2 = chosen[1].1;
+    let s3 = chosen[2].1;
+
+    Some(format!(
+        "{}{}{}{}",
+        s1.clamp(0, 9),
+        s2.clamp(0, 9),
+        s3.clamp(0, 9),
+        s4.clamp(0, 9)
+    ))
+}
+
 pub fn compose_enemy_hss(
     group: &[Value],
     attack_cid: i64,
     c_idt: &Value,
     enemy_snap: &Value,
 ) -> String {
+    if c_idt.get("PId").and_then(|v| v.as_i64()) != Some(-2)
+        && let Some(smart) = compose_enemy_hss_precise(group, attack_cid, c_idt)
+    {
+        return normalize_hss(smart, enemy_snap, c_idt);
+    }
+
     let primary = compute_primary_level(c_idt, enemy_snap);
     if primary <= 0 {
         return String::new();
