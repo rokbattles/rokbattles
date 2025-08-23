@@ -1,0 +1,188 @@
+[
+  {
+    "metadata": {
+      "email_id": "10224136175529255431",
+      "email_time": 1755292554783132,
+      "email_type": "Battle",
+      "email_receiver": "71738515",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "69345901",
+      "start_date": 1755292491,
+      "end_date": 1755292540,
+      "pos_x": 3872.8352,
+      "pos_y": 3697.2314,
+      "players": 1
+    },
+    "self": {
+      "player_id": 71738515,
+      "player_name": "Griggasaurus",
+      "alliance_tag": null,
+      "castle_x": 3849.4902,
+      "castle_y": 3702.17,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 509,
+        "level": 60,
+        "skills": "5553"
+      },
+      "secondary_commander": {
+        "id": 179,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "71738515_1755292475_509_179",
+      "equipment": "{3:20021_392:1,4:20022_387:1,2:20006_384:21,7:20037_312:1,5:20023_314:22,6:20024_373:2,8:20040_371:1,1:20003_385:1}",
+      "formation": 2,
+      "armament_buffs": "3003_0.015000;3003_0.016000;3003_0.022000;3003_0.029000;4003_0.016000;4004_0.016000;5003_0.018000;5003_0.023000;5003_0.024000;5003_0.029000;6003_0.029000;6003_0.034000",
+      "inscriptions": "104;118;204;312;2402"
+    },
+    "enemy": {
+      "player_id": 129155556,
+      "player_name": "ˢNinoveraptor",
+      "alliance_tag": "04Z",
+      "castle_x": 3863.5352,
+      "castle_y": 3716.6406,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 138,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 148,
+        "level": 40,
+        "skills": "5535"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "129155556_1755292427_138_148",
+      "equipment": "{5:20033_30:1,7:20040_53:1,8:20118_98:1,6:20012_55:1,2:20008_49:31,3:20009_47:1,4:20028_62:1,1:20007_48:1}",
+      "formation": 2,
+      "armament_buffs": "10002_0.018000;3002_0.015000;3002_0.024000;3002_0.031000;4002_0.022000;4002_0.023000;4002_0.029000;4002_0.033000;5002_0.015000;5002_0.030000;5002_0.033000;6002_0.024000",
+      "inscriptions": "212;312;411;2101;2401"
+    },
+    "battle_results": {
+      "power": -75060,
+      "init_max": 230000,
+      "max": 229363,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 7506,
+      "wounded": 39196,
+      "remaining": 132597,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 144880,
+      "enemy_power": -57952,
+      "enemy_init_max": 210000,
+      "enemy_max": 208491,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 14488,
+      "enemy_wounded": 67968,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 150120
+    }
+  },
+  {
+    "metadata": {
+      "email_id": "10224136175529255431",
+      "email_time": 1755292554783132,
+      "email_type": "Battle",
+      "email_receiver": "71738515",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "69344001",
+      "start_date": 1755292491,
+      "end_date": 1755292554,
+      "pos_x": 3872.8352,
+      "pos_y": 3697.2314,
+      "players": 1
+    },
+    "self": {
+      "player_id": 71738515,
+      "player_name": "Griggasaurus",
+      "alliance_tag": null,
+      "castle_x": 3849.4902,
+      "castle_y": 3702.17,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 509,
+        "level": 60,
+        "skills": "5553"
+      },
+      "secondary_commander": {
+        "id": 179,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "71738515_1755292475_509_179",
+      "equipment": "{3:20021_392:1,4:20022_387:1,2:20006_384:21,7:20037_312:1,5:20023_314:22,6:20024_373:2,8:20040_371:1,1:20003_385:1}",
+      "formation": 2,
+      "armament_buffs": "3003_0.015000;3003_0.016000;3003_0.022000;3003_0.029000;4003_0.016000;4004_0.016000;5003_0.018000;5003_0.023000;5003_0.024000;5003_0.029000;6003_0.029000;6003_0.034000",
+      "inscriptions": "104;118;204;312;2402"
+    },
+    "enemy": {
+      "player_id": 129155556,
+      "player_name": "ˢNinoveraptor",
+      "alliance_tag": "04Z",
+      "castle_x": 3863.5352,
+      "castle_y": 3716.6406,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 545,
+        "level": 60,
+        "skills": "5521"
+      },
+      "secondary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "129155556_1755292421_545_185",
+      "equipment": "{1:20002_76:11,7:20037_64:1,8:20040_97:11,3:20026_67:1,5:20032_60:1,2:20005_63:1,4:20029_58:1,6:20034_77:1}",
+      "formation": 17,
+      "armament_buffs": "3001_0.015000;3001_0.030000;3001_0.034000;4001_0.016000;4001_0.017000;4001_0.023000;4001_0.027000;5001_0.015000;5001_0.015000;5001_0.017000;5001_0.031000;6001_0.023000",
+      "inscriptions": "106;17102;17202;17301;17402"
+    },
+    "battle_results": {
+      "power": -70220,
+      "init_max": 230000,
+      "max": 230000,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 7022,
+      "wounded": 46558,
+      "remaining": 129718,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 162210,
+      "enemy_power": -64884,
+      "enemy_init_max": 210000,
+      "enemy_max": 210000,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 16221,
+      "enemy_wounded": 98540,
+      "enemy_remaining": 17659,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 140440
+    }
+  }
+]
