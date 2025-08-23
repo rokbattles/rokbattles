@@ -8,12 +8,6 @@ pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value 
     map.get_mut(key).unwrap()
 }
 
-pub fn get_i64_alt(v: &Value, k1: &str, k2: &str) -> Option<i64> {
-    v.get(k1)
-        .and_then(|x| x.as_i64())
-        .or_else(|| v.get(k2).and_then(|x| x.as_i64()))
-}
-
 pub fn pick_f64(v: Option<&Value>) -> Option<f64> {
     match v {
         Some(Value::Number(n)) => n.as_f64(),
