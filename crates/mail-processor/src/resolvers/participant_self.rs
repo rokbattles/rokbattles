@@ -1,5 +1,7 @@
 use crate::{
-    helpers::*,
+    helpers::{
+        find_self_body, find_self_snapshot, get_or_insert_object, join_affix, join_buffs, pick_f64,
+    },
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Value, json};
@@ -15,6 +17,181 @@ impl Default for ParticipantSelfResolver {
 impl ParticipantSelfResolver {
     pub fn new() -> Self {
         Self
+    }
+
+    fn parse_hids_from_ctk(ctk: Option<&str>) -> (Option<i64>, Option<i64>) {
+        if let Some(ctk) = ctk {
+            let parts: Vec<&str> = ctk.split('_').collect();
+            if parts.len() >= 4 {
+                let h1 = parts[2].parse::<i64>().ok();
+                let h2 = parts[3].parse::<i64>().ok();
+                return (h1, h2);
+            }
+        }
+        (None, None)
+    }
+
+    fn pick_hlv2(sections: &[Value], self_snap: &Value) -> i32 {
+        self_snap
+            .get("HLv2")
+            .and_then(|v| v.as_i64())
+            .or_else(|| {
+                sections
+                    .iter()
+                    .find_map(|s| s.get("HLv2").and_then(|v| v.as_i64()))
+            })
+            .unwrap_or(0) as i32
+    }
+
+    fn pick_hss2_fourdigits(sections: &[Value]) -> String {
+        let idx = sections.iter().position(|s| s.get("HSS2").is_some());
+        if idx.is_none() {
+            return String::new();
+        }
+        let i = idx.unwrap();
+
+        let mut digits: Vec<i64> = Vec::new();
+        if let Some(x) = sections[i]
+            .get("HSS2")
+            .and_then(|o| o.get("SkillLevel"))
+            .and_then(|x| x.as_i64())
+        {
+            digits.push(x);
+        }
+        if let Some(x) = sections[i].get("SkillLevel").and_then(|x| x.as_i64()) {
+            digits.push(x);
+        }
+        for s in sections.iter().skip(i + 1) {
+            if let Some(x) = s.get("SkillLevel").and_then(|x| x.as_i64()) {
+                digits.push(x);
+                if digits.len() >= 4 {
+                    break;
+                }
+            }
+        }
+
+        if digits.is_empty() {
+            return String::new();
+        }
+
+        while digits.len() < 4 {
+            digits.push(0);
+        }
+        digits.truncate(4);
+
+        let hst2 = sections
+            .iter()
+            .find_map(|s| s.get("HSt2").and_then(|v| v.as_i64()))
+            .unwrap_or(0);
+        if hst2 >= 6 && digits.first().copied().unwrap_or(0) >= 5 {
+            for d in digits.iter_mut().skip(1) {
+                if *d <= 1 {
+                    *d = 5;
+                }
+            }
+        }
+
+        digits
+            .into_iter()
+            .map(|n| n.to_string())
+            .collect::<String>()
+    }
+
+    fn compose_hss_mailwide(sections: &[Value], self_body: &Value) -> String {
+        let mut digits: [Option<i64>; 4] = [None, None, None, None];
+
+        let self_idx = sections.iter().position(|s| {
+            s.pointer("/body/content/SelfChar").is_some()
+                || s.pointer("/content/SelfChar").is_some()
+        });
+
+        if let Some(x) = self_body
+            .pointer("/SelfChar/HSS/SkillLevel")
+            .and_then(|v| v.as_i64())
+        {
+            digits[0] = Some(x);
+        }
+        if let Some(x) = self_body
+            .pointer("/SelfChar/SkillLevel")
+            .and_then(|v| v.as_i64())
+        {
+            digits[1] = Some(x);
+        }
+        if let Some(x) = self_body.pointer("/SkillLevel").and_then(|v| v.as_i64()) {
+            digits[2] = Some(x);
+        }
+        if let Some(i) = self_idx
+            && let Some(x) = sections[i]
+                .pointer("/body/SkillLevel")
+                .and_then(|v| v.as_i64())
+                .or_else(|| sections[i].get("SkillLevel").and_then(|v| v.as_i64()))
+        {
+            digits[3] = Some(x);
+        }
+
+        if digits.iter().all(|d| d.is_none()) {
+            return String::new();
+        }
+
+        let mut out: Vec<i64> = digits.iter().map(|d| d.unwrap_or(0)).collect::<Vec<_>>();
+
+        let hst = sections
+            .iter()
+            .find_map(|s| s.get("HSt").and_then(|v| v.as_i64()))
+            .unwrap_or(0);
+        if hst >= 6 && out.first().copied().unwrap_or(0) >= 5 {
+            for d in out.iter_mut().skip(1) {
+                if *d <= 1 {
+                    *d = 5;
+                }
+            }
+        }
+
+        out.into_iter().map(|n| n.to_string()).collect::<String>()
+    }
+
+    fn pick_self_abbr_ct_form(sections: &[Value]) -> (String, i32, i32) {
+        if let Some(b) = sections.iter().find(|s| s.get("AName").is_some()) {
+            let abbr = b
+                .get("Abbr")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string();
+            let ct = b.get("CT").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+            let fm = b.get("HFMs").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+            return (abbr, ct, fm);
+        }
+        if let Some(sts0) = sections
+            .iter()
+            .find_map(|s| s.get("STs").and_then(|m| m.get("0")))
+        {
+            let abbr = sts0
+                .get("Abbr")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                .to_string();
+            let ct = sts0.get("CT").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+            let fm = sections
+                .iter()
+                .find_map(|s| s.get("HFMs").and_then(|v| v.as_i64()))
+                .unwrap_or(0) as i32;
+            return (abbr, ct, fm);
+        }
+        (
+            sections
+                .iter()
+                .find_map(|s| s.get("Abbr").and_then(|v| v.as_str()))
+                .unwrap_or("")
+                .to_string(),
+            sections
+                .iter()
+                .find_map(|s| s.get("CT").and_then(|v| v.as_i64()))
+                .unwrap_or(0) as i32,
+            sections
+                .iter()
+                .find_map(|s| s.get("HFMs").and_then(|v| v.as_i64()))
+                .unwrap_or(0) as i32,
+        )
     }
 }
 
@@ -90,7 +267,7 @@ impl Resolver for ParticipantSelfResolver {
                 }
 
                 // alliance
-                let (abbr, _ct, formation) = pick_self_abbr_ct_form(sections);
+                let (abbr, _ct, formation) = Self::pick_self_abbr_ct_form(sections);
                 if !abbr.is_empty() {
                     obj.insert("alliance_tag".to_string(), Value::String(abbr));
                 }
@@ -152,7 +329,7 @@ impl Resolver for ParticipantSelfResolver {
                             .find_map(|s| s.get("HLv").and_then(|v| v.as_i64()))
                     })
                     .map(|x| x as i32);
-                let hss = compose_hss_mailwide(sections, &self_body);
+                let hss = Self::compose_hss_mailwide(sections, &self_body);
                 if hid.is_some() || hlv.is_some() || !hss.is_empty() {
                     let mut cmd = json!({});
                     if let Some(id) = hid {
@@ -170,13 +347,14 @@ impl Resolver for ParticipantSelfResolver {
                     .get("HId2")
                     .and_then(|v| v.as_i64())
                     .or_else(|| {
-                        let (_, h2) =
-                            parse_hids_from_ctk(self_snap.get("CTK").and_then(|v| v.as_str()));
+                        let (_, h2) = Self::parse_hids_from_ctk(
+                            self_snap.get("CTK").and_then(|v| v.as_str()),
+                        );
                         h2
                     })
                     .map(|x| x as i32);
-                let hlv2 = pick_hlv2(sections, &self_snap);
-                let hss2 = pick_hss2_fourdigits(sections);
+                let hlv2 = Self::pick_hlv2(sections, &self_snap);
+                let hss2 = Self::pick_hss2_fourdigits(sections);
                 if hid2.is_some() || hlv2 != 0 || !hss2.is_empty() {
                     let mut cmd2 = json!({});
                     if let Some(id) = hid2 {
