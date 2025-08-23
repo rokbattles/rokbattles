@@ -1,9 +1,9 @@
-use serde_json::{Value, json};
+use serde_json::{Map, Value};
 
 pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value {
     let map = obj.as_object_mut().expect("mail root must be an object");
-    if !map.get(key).map(|v| v.is_object()).unwrap_or(false) {
-        map.insert(key.to_string(), json!({}));
+    if !map.get(key).map(Value::is_object).unwrap_or(false) {
+        map.insert(key.to_string(), Value::Object(Map::new()));
     }
     map.get_mut(key).unwrap()
 }
@@ -11,92 +11,102 @@ pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value 
 pub fn pick_f64(v: Option<&Value>) -> Option<f64> {
     match v {
         Some(Value::Number(n)) => n.as_f64(),
-        Some(Value::String(s)) => s.parse::<f64>().ok(),
+        Some(Value::String(s)) => s.trim().parse::<f64>().ok(),
         _ => None,
     }
 }
 
+fn split_semicolons(s: &str) -> impl Iterator<Item = &str> {
+    s.split(';').filter(|p| !p.is_empty())
+}
+
 pub fn join_buffs(hwbs: Option<&Value>) -> String {
-    let mut buffs: Vec<String> = Vec::new();
-    if let Some(obj) = hwbs.and_then(|v| v.as_object()) {
-        for (_k, v) in obj {
-            if let Some(b) = v.get("Buffs").and_then(|x| x.as_str()) {
-                buffs.extend(
-                    b.split(';')
-                        .filter(|s| !s.is_empty())
-                        .map(|s| s.to_string()),
-                );
+    let mut items: Vec<&str> = Vec::new();
+    if let Some(obj) = hwbs.and_then(Value::as_object) {
+        for v in obj.values() {
+            if let Some(b) = v.get("Buffs").and_then(Value::as_str) {
+                items.extend(split_semicolons(b));
             }
         }
     }
-    buffs.sort();
-    buffs.join(";")
+    items.sort_unstable();
+    items.join(";")
 }
 
 pub fn join_affix(hwbs: Option<&Value>) -> String {
-    let mut aff: Vec<String> = Vec::new();
-    if let Some(obj) = hwbs.and_then(|v| v.as_object()) {
-        for (_k, v) in obj {
-            if let Some(a) = v.get("Affix").and_then(|x| x.as_str()) {
-                aff.extend(
-                    a.split(';')
-                        .filter(|s| !s.is_empty())
-                        .map(|s| s.to_string()),
-                );
+    let mut items: Vec<&str> = Vec::new();
+    if let Some(obj) = hwbs.and_then(Value::as_object) {
+        for v in obj.values() {
+            if let Some(a) = v.get("Affix").and_then(Value::as_str) {
+                items.extend(split_semicolons(a));
             }
         }
     }
-    aff.sort_by(|a, b| {
-        let (ia, ib) = (a.parse::<i32>().ok(), b.parse::<i32>().ok());
-        match (ia, ib) {
-            (Some(x), Some(y)) => x.cmp(&y),
-            _ => a.cmp(b),
-        }
+    items.sort_unstable_by(|a, b| match (a.parse::<i32>(), b.parse::<i32>()) {
+        (Ok(x), Ok(y)) => x.cmp(&y),
+        _ => a.cmp(b),
     });
-    aff.join(";")
+    items.join(";")
+}
+
+pub fn find_self_snapshot_ref(sections: &[Value]) -> Option<&Value> {
+    let mut first_appuid: Option<&Value> = None;
+    for s in sections {
+        if s.get("AppUid").is_some() {
+            if s.get("CtId").and_then(Value::as_i64) == Some(0) {
+                return Some(s);
+            }
+            if first_appuid.is_none() {
+                first_appuid = Some(s);
+            }
+        }
+    }
+    first_appuid
 }
 
 pub fn find_self_snapshot(sections: &[Value]) -> Value {
-    for s in sections {
-        if s.get("AppUid").is_some() && s.get("CtId").and_then(|v| v.as_i64()).unwrap_or(-1) == 0 {
-            return s.clone();
-        }
-    }
-    for s in sections {
-        if s.get("AppUid").is_some() {
-            return s.clone();
-        }
-    }
-    Value::Null
+    find_self_snapshot_ref(sections)
+        .cloned()
+        .unwrap_or(Value::Null)
 }
 
-pub fn find_self_body(sections: &[Value]) -> Value {
+pub fn find_self_body_ref(sections: &[Value]) -> Option<&Value> {
     for s in sections {
         if s.pointer("/body/content/SelfChar").is_some() || s.pointer("/content/SelfChar").is_some()
         {
-            return s
-                .pointer("/body/content")
-                .cloned()
-                .or_else(|| s.get("content").cloned())
-                .unwrap_or(Value::Null);
+            if let Some(v) = s.pointer("/body/content") {
+                return Some(v);
+            }
+            if let Some(v) = s.get("content") {
+                return Some(v);
+            }
         }
     }
-    Value::Null
+    None
 }
 
-pub fn find_best_attack_block(group: &[Value], attack_id: &str) -> (Option<usize>, Value) {
-    let mut idx: Option<usize> = None;
-    let mut best: Option<Value> = None;
+pub fn find_self_body(sections: &[Value]) -> Value {
+    find_self_body_ref(sections).cloned().unwrap_or(Value::Null)
+}
+
+pub fn find_best_attack_block_ref<'a>(
+    group: &'a [Value],
+    attack_id: &str,
+) -> (Option<usize>, Option<&'a Value>) {
+    let mut path = String::with_capacity(9 + attack_id.len());
+    path.push_str("/Attacks/");
+    path.push_str(attack_id);
+
+    let mut best_idx: Option<usize> = None;
+    let mut best_val: Option<&Value> = None;
     let mut best_has_hss = false;
-    for (gi, s) in group.iter().enumerate() {
-        if let Some(b) = s
-            .get(attack_id)
-            .or_else(|| s.pointer(&format!("/Attacks/{}", attack_id)))
-        {
+
+    for (i, s) in group.iter().enumerate() {
+        if let Some(b) = s.get(attack_id).or_else(|| s.pointer(&path)) {
             let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
-            if best.is_none() || (!best_has_hss && has_hss) {
-                idx = Some(gi);
-                best = Some(b.clone());
+            if best_val.is_none() || (!best_has_hss && has_hss) {
+                best_idx = Some(i);
+                best_val = Some(b);
                 best_has_hss = has_hss;
                 if best_has_hss {
                     break;
@@ -104,25 +114,37 @@ pub fn find_best_attack_block(group: &[Value], attack_id: &str) -> (Option<usize
             }
         }
     }
-    if best.is_none() {
-        for (gi, s) in group.iter().enumerate() {
+
+    if best_val.is_none() {
+        for (i, s) in group.iter().enumerate() {
             let idt_match = s
                 .get("Idt")
-                .and_then(|v| v.as_str())
-                .map(|x| x == attack_id)
-                .unwrap_or(false)
-                || s.get("Idt")
-                    .and_then(|v| v.as_i64())
-                    .map(|x| x.to_string() == attack_id)
-                    .unwrap_or(false);
+                .map(|v| {
+                    v.as_str().map(|x| x == attack_id).unwrap_or_else(|| {
+                        v.as_i64()
+                            .map(|n| {
+                                let mut buf = itoa::Buffer::new();
+                                buf.format(n) == attack_id
+                            })
+                            .unwrap_or(false)
+                    })
+                })
+                .unwrap_or(false);
+
             if idt_match
                 && (s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some())
             {
-                idx = Some(gi);
-                best = Some(Value::Object(serde_json::Map::new()));
-                break;
+                return (Some(i), None);
             }
         }
     }
-    (idx, best.unwrap_or(Value::Null))
+
+    (best_idx, best_val)
+}
+
+pub fn find_best_attack_block(group: &[Value], attack_id: &str) -> (Option<usize>, Value) {
+    match find_best_attack_block_ref(group, attack_id) {
+        (idx, Some(v)) => (idx, v.clone()),
+        (idx, None) => (idx, Value::Object(Map::new())),
+    }
 }
