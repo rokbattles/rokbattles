@@ -1,9 +1,11 @@
 [package]
-name = "mail-processor-cli"
+name = "mail-cli"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
 anyhow = { workspace = true }
 serde_json = { workspace = true }
+clap = { workspace = true }
+mail-decoder = { path = "../mail-decoder" }
 mail-processor = { path = "../mail-processor" }
