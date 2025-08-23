@@ -12,7 +12,7 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
 
-  apps/roktoolkit.com:
+  apps/rokbattles.com:
     dependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.12
