@@ -1,5 +1,5 @@
 use crate::{
-    helpers::*,
+    helpers::{find_self_body, find_self_snapshot, get_or_insert_object, pick_f64},
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::Value;
@@ -15,6 +15,145 @@ impl Default for MetadataResolver {
 impl MetadataResolver {
     pub fn new() -> Self {
         Self
+    }
+
+    fn pick_i64(v: Option<&Value>) -> Option<i64> {
+        match v {
+            Some(Value::Number(n)) => n.as_i64(),
+            Some(Value::String(s)) if s.chars().all(|c| c == '-' || c.is_ascii_digit()) => {
+                s.parse().ok()
+            }
+            _ => None,
+        }
+    }
+
+    fn epoch_seconds_raw(n: i128) -> Option<i64> {
+        let abs = if n < 0 { -n } else { n };
+        let digits = abs.to_string().len();
+        let secs = if digits >= 16 {
+            n / 1_000_000
+        } else if digits >= 13 {
+            n / 1_000
+        } else {
+            n
+        };
+        i64::try_from(secs).ok()
+    }
+
+    fn epoch_seconds_val(v: Option<&Value>) -> Option<i64> {
+        match v {
+            Some(Value::Number(num)) => num
+                .as_i64()
+                .and_then(|x| Self::epoch_seconds_raw(x as i128)),
+            Some(Value::String(s)) if s.chars().all(|c| c == '-' || c.is_ascii_digit()) => {
+                let val: i128 = s.parse().ok()?;
+                Self::epoch_seconds_raw(val)
+            }
+            _ => None,
+        }
+    }
+
+    fn group_epoch_bts(group: &[Value]) -> Option<i64> {
+        for s in group {
+            if let Some(x) = Self::epoch_seconds_val(s.get("Bts")) {
+                return Some(x);
+            }
+            if let Some(b) = s
+                .get("body")
+                .and_then(|b| Self::epoch_seconds_val(b.get("Bts")))
+            {
+                return Some(b);
+            }
+        }
+        None
+    }
+
+    fn group_epoch_ets(group: &[Value]) -> Option<i64> {
+        for s in group {
+            if let Some(x) = Self::epoch_seconds_val(s.get("Ets")) {
+                return Some(x);
+            }
+            if let Some(b) = s
+                .get("body")
+                .and_then(|b| Self::epoch_seconds_val(b.get("Ets")))
+            {
+                return Some(b);
+            }
+        }
+        None
+    }
+
+    fn first_epoch_bts(sections: &[Value]) -> Option<i64> {
+        for s in sections {
+            if let Some(x) = Self::epoch_seconds_val(s.get("Bts"))
+                && x >= 1_000_000_000
+            {
+                return Some(x);
+            }
+            if let Some(x) = s
+                .get("body")
+                .and_then(|b| Self::epoch_seconds_val(b.get("Bts")))
+                && x >= 1_000_000_000
+            {
+                return Some(x);
+            }
+        }
+        None
+    }
+
+    fn first_small_tickstart(sections: &[Value]) -> Option<i64> {
+        for s in sections {
+            if let Some(ts) = s.get("TickStart").and_then(|v| v.as_i64()) {
+                return Some(ts);
+            }
+            if let Some(ts) = s
+                .get("Bts")
+                .and_then(|v| v.as_i64())
+                .filter(|b| *b < 1_000_000_000)
+            {
+                return Some(ts);
+            }
+            if let Some(ts) = s
+                .get("body")
+                .and_then(|b| b.get("Bts"))
+                .and_then(|v| v.as_i64())
+                .filter(|b| *b < 1_000_000_000)
+            {
+                return Some(ts);
+            }
+        }
+        None
+    }
+
+    fn small_tick_pair(group: &[Value]) -> Option<(i64, i64)> {
+        for s in group {
+            let ts = s.get("TickStart").and_then(|v| v.as_i64()).or_else(|| {
+                s.get("Bts")
+                    .and_then(|v| v.as_i64())
+                    .filter(|b| *b < 1_000_000_000)
+            });
+            let ets = s
+                .get("Ets")
+                .and_then(|v| v.as_i64())
+                .filter(|e| *e < 1_000_000_000);
+            if let (Some(ts), Some(ets)) = (ts, ets)
+                && ets >= ts
+            {
+                return Some((ts, ets));
+            }
+        }
+        for s in group {
+            if let (Some(ts), Some(t)) = (
+                s.get("TickStart").and_then(|v| v.as_i64()),
+                s.get("T")
+                    .and_then(|v| v.as_i64())
+                    .filter(|t| *t < 1_000_000_000),
+            ) && t > ts
+            {
+                return Some((ts, ts + (t - ts - 1)));
+            }
+        }
+        None
     }
 }
 
@@ -43,7 +182,7 @@ impl Resolver for MetadataResolver {
                 meta.entry("email_box")
                     .or_insert(Value::String(bx.to_string()));
             }
-            if let Some(t) = pick_i64(g0.get("time")) {
+            if let Some(t) = Self::pick_i64(g0.get("time")) {
                 meta.entry("email_time").or_insert(Value::from(t));
             }
 
@@ -64,19 +203,19 @@ impl Resolver for MetadataResolver {
             meta.entry("is_kvk").or_insert(Value::from(is_kvk));
 
             // time anchors
-            let base_epoch = first_epoch_bts(sections)
+            let base_epoch = Self::first_epoch_bts(sections)
                 .or_else(|| {
                     sections
                         .iter()
-                        .find_map(|s| epoch_seconds_val(s.get("Bts")))
+                        .find_map(|s| Self::epoch_seconds_val(s.get("Bts")))
                 })
                 .unwrap_or(0);
-            let base_small = first_small_tickstart(sections).unwrap_or(0);
-            let (ts, ets) = if let Some((ts, ets)) = small_tick_pair(group) {
+            let base_small = Self::first_small_tickstart(sections).unwrap_or(0);
+            let (ts, ets) = if let Some((ts, ets)) = Self::small_tick_pair(group) {
                 (ts, ets)
             } else {
-                let gba = group_epoch_bts(group).unwrap_or(base_epoch);
-                let gea = group_epoch_ets(group).unwrap_or(base_epoch);
+                let gba = Self::group_epoch_bts(group).unwrap_or(base_epoch);
+                let gea = Self::group_epoch_ets(group).unwrap_or(base_epoch);
                 (gba - base_epoch + base_small, gea - base_epoch + base_small)
             };
             let start_date = base_epoch + (ts - base_small);
