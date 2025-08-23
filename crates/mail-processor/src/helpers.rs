@@ -64,12 +64,6 @@ pub fn find_self_snapshot_ref(sections: &[Value]) -> Option<&Value> {
     first_appuid
 }
 
-pub fn find_self_snapshot(sections: &[Value]) -> Value {
-    find_self_snapshot_ref(sections)
-        .cloned()
-        .unwrap_or(Value::Null)
-}
-
 pub fn find_self_body_ref(sections: &[Value]) -> Option<&Value> {
     for s in sections {
         if s.pointer("/body/content/SelfChar").is_some() || s.pointer("/content/SelfChar").is_some()
@@ -83,10 +77,6 @@ pub fn find_self_body_ref(sections: &[Value]) -> Option<&Value> {
         }
     }
     None
-}
-
-pub fn find_self_body(sections: &[Value]) -> Value {
-    find_self_body_ref(sections).cloned().unwrap_or(Value::Null)
 }
 
 pub fn find_best_attack_block_ref<'a>(
@@ -140,11 +130,4 @@ pub fn find_best_attack_block_ref<'a>(
     }
 
     (best_idx, best_val)
-}
-
-pub fn find_best_attack_block(group: &[Value], attack_id: &str) -> (Option<usize>, Value) {
-    match find_best_attack_block_ref(group, attack_id) {
-        (idx, Some(v)) => (idx, v.clone()),
-        (idx, None) => (idx, Value::Object(Map::new())),
-    }
 }

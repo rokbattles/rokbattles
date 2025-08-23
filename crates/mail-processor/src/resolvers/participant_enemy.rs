@@ -1,5 +1,5 @@
 use crate::{
-    helpers::{find_best_attack_block, get_or_insert_object, join_affix, join_buffs, pick_f64},
+    helpers::{find_best_attack_block_ref, get_or_insert_object, join_affix, join_buffs, pick_f64},
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
@@ -371,7 +371,8 @@ impl Resolver for ParticipantEnemyResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let sections = ctx.sections;
         let group = ctx.group;
-        let (_idx, atk_block) = find_best_attack_block(group, ctx.attack_id);
+        let (_idx, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
+        let atk_block = atk_block_opt.unwrap_or(&Value::Null);
         let (attack_cid_opt, attack_id_str) = Self::parse_attack_id(ctx.attack_id);
         let attack_cid = attack_cid_opt.unwrap_or(0);
 

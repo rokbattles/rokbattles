@@ -1,5 +1,5 @@
 use crate::{
-    helpers::{find_self_body, find_self_snapshot, get_or_insert_object, pick_f64},
+    helpers::{find_self_body_ref, find_self_snapshot_ref, get_or_insert_object, pick_f64},
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
@@ -226,8 +226,8 @@ impl Resolver for MetadataResolver {
         }
 
         // email receiver
-        let self_snap = find_self_snapshot(sections);
-        let self_body = find_self_body(sections);
+        let self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
+        let self_body = find_self_body_ref(sections).unwrap_or(&Value::Null);
         if let Some(pid) = self_snap
             .get("PId")
             .and_then(Value::as_i64)

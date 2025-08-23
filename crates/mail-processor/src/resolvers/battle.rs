@@ -1,5 +1,5 @@
 use crate::{
-    helpers::{find_best_attack_block, get_or_insert_object},
+    helpers::{find_best_attack_block_ref, get_or_insert_object},
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
@@ -69,7 +69,8 @@ impl BattleResolver {
 impl Resolver for BattleResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let group = ctx.group;
-        let (_idx, atk_block) = find_best_attack_block(group, ctx.attack_id);
+        let (_idx, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
+        let atk_block = atk_block_opt.unwrap_or(&Value::Null);
 
         let damage = Self::json_as_obj(atk_block.get("Damage"));
         let kill = Self::json_as_obj(atk_block.get("Kill"));

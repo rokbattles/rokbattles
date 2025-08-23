@@ -1,6 +1,7 @@
 use crate::{
     helpers::{
-        find_self_body, find_self_snapshot, get_or_insert_object, join_affix, join_buffs, pick_f64,
+        find_self_body_ref, find_self_snapshot_ref, get_or_insert_object, join_affix, join_buffs,
+        pick_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -262,8 +263,8 @@ impl ParticipantSelfResolver {
 impl Resolver for ParticipantSelfResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let sections = ctx.sections;
-        let self_snap = find_self_snapshot(sections);
-        let self_body = find_self_body(sections);
+        let self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
+        let self_body = find_self_body_ref(sections).unwrap_or(&Value::Null);
         let self_idx = Self::find_self_idx(sections);
 
         let obj = match get_or_insert_object(mail, "self") {
@@ -275,7 +276,7 @@ impl Resolver for ParticipantSelfResolver {
         let player_pid = self_snap
             .get("PId")
             .and_then(Value::as_i64)
-            .or_else(|| Self::get_i64_at(&self_body, "/SelfChar/PId"));
+            .or_else(|| Self::get_i64_at(self_body, "/SelfChar/PId"));
         Self::put_i64(obj, "player_id", player_pid);
 
         // player name
@@ -332,7 +333,7 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // commanders
-        let hid = Self::get_i64_at(&self_body, "/SelfChar/HId").map(|x| x as i32);
+        let hid = Self::get_i64_at(self_body, "/SelfChar/HId").map(|x| x as i32);
         let hlv = self_snap
             .get("HLv")
             .and_then(Value::as_i64)
@@ -342,7 +343,7 @@ impl Resolver for ParticipantSelfResolver {
                     .find_map(|s| s.get("HLv").and_then(Value::as_i64))
             })
             .map(|x| x as i32);
-        let hss = Self::compose_hss_mailwide(sections, &self_body, self_idx);
+        let hss = Self::compose_hss_mailwide(sections, self_body, self_idx);
 
         if hid.is_some() || hlv.is_some() || !hss.is_empty() {
             let mut cmd = Map::new();
@@ -359,7 +360,7 @@ impl Resolver for ParticipantSelfResolver {
             .and_then(Value::as_i64)
             .or_else(|| Self::parse_hids_from_ctk(self_snap.get("CTK").and_then(Value::as_str)).1)
             .map(|x| x as i32);
-        let hlv2 = Self::pick_hlv2(sections, &self_snap);
+        let hlv2 = Self::pick_hlv2(sections, self_snap);
         let hss2 = Self::pick_hss2_fourdigits(sections);
 
         if hid2.is_some() || hlv2 != 0 || !hss2.is_empty() {
