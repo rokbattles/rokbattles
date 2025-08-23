@@ -1,11 +1,11 @@
-# ROK Toolkit
+# ROK Battles
 
 > [!IMPORTANT]
-> ROK Toolkit is a fan-made project and is not affiliated with Lilith Games. Rise of Kingdoms® is a registered trademark of Lilith Games.
+> ROK Battles is a fan-made project and is not affiliated with Lilith Games. Rise of Kingdoms® is a registered trademark of Lilith Games.
 
-## What is ROK Toolkit
+## What is ROK Battles
 
-ROK Toolkit is a community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms. With explicit opt-in, in-game mails (primarily battle reports) are relayed to our backend, parsed, and aggregated into public datasets. These datasets power real-time browsing of battle reports alongside battle details—including commanders, equipment, armaments, and inscriptions—and drive trend exploration; no account required to explore.
+ROK Battles is a community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms. With explicit opt-in, in-game mails (primarily battle reports) are relayed to our backend, parsed, and aggregated into public datasets. These datasets power real-time browsing of battle reports alongside battle details—including commanders, equipment, armaments, and inscriptions—and drive trend exploration; no account required to explore.
 
 ## Project goals
 
