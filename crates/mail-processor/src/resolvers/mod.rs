@@ -1,6 +1,7 @@
 pub mod battle;
 pub mod metadata;
-pub mod participant;
+pub mod participant_enemy;
+pub mod participant_self;
 
 use anyhow::Result;
 use serde_json::Value;

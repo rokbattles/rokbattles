@@ -1,8 +1,8 @@
 use crate::{
-    helpers::*,
+    helpers::{find_best_attack_block_ref, get_or_insert_object},
     resolvers::{Resolver, ResolverContext},
 };
-use serde_json::Value;
+use serde_json::{Map, Value};
 
 pub struct BattleResolver;
 
@@ -16,87 +16,74 @@ impl BattleResolver {
     pub fn new() -> Self {
         Self
     }
+
+    fn json_as_obj(v: Option<&Value>) -> Option<&Map<String, Value>> {
+        v.and_then(Value::as_object)
+    }
+
+    fn i64_field(m: &Map<String, Value>, key: &str) -> Option<i64> {
+        m.get(key).and_then(Value::as_i64)
+    }
+
+    fn i64_any(m: &Map<String, Value>, keys: &[&str]) -> Option<i64> {
+        keys.iter().find_map(|k| Self::i64_field(m, k))
+    }
+
+    fn put_i64_pref(dst: &mut Map<String, Value>, prefix: &str, name: &str, val: Option<i64>) {
+        if let Some(v) = val {
+            dst.insert(format!("{prefix}{name}"), Value::from(v));
+        }
+    }
+
+    fn copy_std_fields(dst: &mut Map<String, Value>, src: &Map<String, Value>, prefix: &str) {
+        const FIELDS: &[(&str, &str)] = &[
+            ("InitMax", "init_max"),
+            ("Max", "max"),
+            ("Healing", "healing"),
+            ("Death", "death"),
+            ("BadHurt", "severely_wounded"),
+            ("Hurt", "wounded"),
+            ("Cnt", "remaining"),
+            ("Gt", "watchtower"),
+            ("GtMax", "watchtower_max"),
+            ("KillScore", "kill_score"),
+        ];
+        for &(from, to) in FIELDS {
+            Self::put_i64_pref(dst, prefix, to, Self::i64_field(src, from));
+        }
+    }
+
+    fn copy_side(dst: &mut Map<String, Value>, src: Option<&Map<String, Value>>, prefix: &str) {
+        if let Some(m) = src {
+            Self::put_i64_pref(
+                dst,
+                prefix,
+                "power",
+                Self::i64_any(m, &["Power", "AtkPower"]),
+            );
+            Self::copy_std_fields(dst, m, prefix);
+        }
+    }
 }
 
 impl Resolver for BattleResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let group = ctx.group;
-        let (_idx, atk_block) = find_best_attack_block(group, ctx.attack_id);
-        let damage = atk_block.get("Damage").cloned().unwrap_or(Value::Null);
-        let kill = atk_block.get("Kill").cloned().unwrap_or(Value::Null);
+        let (_idx, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
+        let atk_block = atk_block_opt.unwrap_or(&Value::Null);
 
-        let results_obj = get_or_insert_object(mail, "battle_results");
-        if let Some(obj) = results_obj.as_object_mut() {
-            // self
-            if let Some(v) = get_i64_alt(&damage, "Power", "AtkPower") {
-                obj.insert("power".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("InitMax").and_then(|x| x.as_i64()) {
-                obj.insert("init_max".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Max").and_then(|x| x.as_i64()) {
-                obj.insert("max".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Healing").and_then(|x| x.as_i64()) {
-                obj.insert("healing".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Death").and_then(|x| x.as_i64()) {
-                obj.insert("death".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("BadHurt").and_then(|x| x.as_i64()) {
-                obj.insert("severely_wounded".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Hurt").and_then(|x| x.as_i64()) {
-                obj.insert("wounded".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Cnt").and_then(|x| x.as_i64()) {
-                obj.insert("remaining".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("Gt").and_then(|x| x.as_i64()) {
-                obj.insert("watchtower".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("GtMax").and_then(|x| x.as_i64()) {
-                obj.insert("watchtower_max".to_string(), Value::from(v));
-            }
-            if let Some(v) = damage.get("KillScore").and_then(|x| x.as_i64()) {
-                obj.insert("kill_score".to_string(), Value::from(v));
-            }
+        let damage = Self::json_as_obj(atk_block.get("Damage"));
+        let kill = Self::json_as_obj(atk_block.get("Kill"));
 
-            // enemy
-            if let Some(v) = get_i64_alt(&kill, "Power", "AtkPower") {
-                obj.insert("enemy_power".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("InitMax").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_init_max".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Max").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_max".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Healing").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_healing".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Death").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_death".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("BadHurt").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_severely_wounded".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Hurt").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_wounded".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Cnt").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_remaining".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("Gt").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_watchtower".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("GtMax").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_watchtower_max".to_string(), Value::from(v));
-            }
-            if let Some(v) = kill.get("KillScore").and_then(|x| x.as_i64()) {
-                obj.insert("enemy_kill_score".to_string(), Value::from(v));
-            }
-        }
+        let obj = match get_or_insert_object(mail, "battle_results") {
+            Value::Object(m) => m,
+            _ => unreachable!("battle_results must be an object"),
+        };
+
+        // self
+        Self::copy_side(obj, damage, "");
+        // enemy
+        Self::copy_side(obj, kill, "enemy_");
 
         Ok(())
     }

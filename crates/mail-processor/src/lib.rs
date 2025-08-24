@@ -7,7 +7,8 @@ use crate::{
     resolvers::ResolverContext,
     resolvers::battle::BattleResolver,
     resolvers::metadata::MetadataResolver,
-    resolvers::participant::ParticipantResolver,
+    resolvers::participant_enemy::ParticipantEnemyResolver,
+    resolvers::participant_self::ParticipantSelfResolver,
     structures::{DecodedMail, ParsedMail},
 };
 use anyhow::{Result, bail};
@@ -77,7 +78,8 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
 
     let chain = ResolverChain::new()
         .with(MetadataResolver::new())
-        .with(ParticipantResolver::new())
+        .with(ParticipantSelfResolver::new())
+        .with(ParticipantEnemyResolver::new())
         .with(BattleResolver::new());
 
     let mut entries: Vec<ParsedMail> = Vec::new();

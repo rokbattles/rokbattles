@@ -1,8 +1,8 @@
 use crate::{
-    helpers::*,
+    helpers::{find_self_body_ref, find_self_snapshot_ref, get_or_insert_object, pick_f64},
     resolvers::{Resolver, ResolverContext},
 };
-use serde_json::Value;
+use serde_json::{Map, Value};
 
 pub struct MetadataResolver;
 
@@ -16,116 +16,226 @@ impl MetadataResolver {
     pub fn new() -> Self {
         Self
     }
+
+    fn put_str(meta: &mut Map<String, Value>, key: &str, val: Option<&str>) {
+        if meta.get(key).is_none()
+            && let Some(s) = val
+        {
+            meta.insert(key.to_string(), Value::String(s.to_owned()));
+        }
+    }
+
+    fn put_i64(meta: &mut Map<String, Value>, key: &str, val: Option<i64>) {
+        if meta.get(key).is_none()
+            && let Some(n) = val
+        {
+            meta.insert(key.to_string(), Value::from(n));
+        }
+    }
+
+    fn put_f64(meta: &mut Map<String, Value>, key: &str, val: Option<f64>) {
+        if meta.get(key).is_none()
+            && let Some(n) = val
+        {
+            meta.insert(key.to_string(), Value::from(n));
+        }
+    }
+
+    fn json_as_i128(v: Option<&Value>) -> Option<i128> {
+        match v {
+            Some(Value::Number(n)) => n.as_i64().map(|x| x as i128),
+            Some(Value::String(s)) => s.trim().parse::<i128>().ok(),
+            _ => None,
+        }
+    }
+
+    fn normalize_epoch(n: i128) -> Option<i64> {
+        // 1e12 -> ms, 1e15 -> µs
+        let abs = n.abs();
+        let secs = if abs >= 1_000_000_000_000_000 {
+            n / 1_000_000 // microseconds
+        } else if abs >= 1_000_000_000_000 {
+            n / 1_000 // milliseconds
+        } else {
+            n // seconds
+        };
+        i64::try_from(secs).ok()
+    }
+
+    fn epoch_seconds(v: Option<&Value>) -> Option<i64> {
+        Self::json_as_i128(v).and_then(Self::normalize_epoch)
+    }
+
+    fn find_epoch(group: &[Value], key: &str) -> Option<i64> {
+        group.iter().find_map(|s| {
+            Self::epoch_seconds(s.get(key))
+                .or_else(|| s.get("body").and_then(|b| Self::epoch_seconds(b.get(key))))
+        })
+    }
+
+    fn first_epoch_ge(sections: &[Value], key: &str, min: i64) -> Option<i64> {
+        sections.iter().find_map(|s| {
+            if let Some(x) = Self::epoch_seconds(s.get(key)).filter(|&x| x >= min) {
+                Some(x)
+            } else {
+                s.get("body")
+                    .and_then(|b| Self::epoch_seconds(b.get(key)).filter(|&x| x >= min))
+            }
+        })
+    }
+
+    fn first_small_tickstart(sections: &[Value]) -> Option<i64> {
+        sections.iter().find_map(|s| {
+            s.get("TickStart")
+                .and_then(Value::as_i64)
+                .or_else(|| {
+                    s.get("Bts")
+                        .and_then(Value::as_i64)
+                        .filter(|&b| b < 1_000_000_000)
+                })
+                .or_else(|| {
+                    s.get("body")
+                        .and_then(|b| b.get("Bts").and_then(Value::as_i64))
+                        .filter(|&b| b < 1_000_000_000)
+                })
+        })
+    }
+
+    fn small_tick_pair(group: &[Value]) -> Option<(i64, i64)> {
+        // direct (ts, ets)
+        if let Some(pair) = group.iter().find_map(|s| {
+            let ts = s.get("TickStart").and_then(Value::as_i64).or_else(|| {
+                s.get("Bts")
+                    .and_then(Value::as_i64)
+                    .filter(|&b| b < 1_000_000_000)
+            });
+            let ets = s
+                .get("Ets")
+                .and_then(Value::as_i64)
+                .filter(|&e| e < 1_000_000_000);
+            match (ts, ets) {
+                (Some(ts), Some(ets)) if ets >= ts => Some((ts, ets)),
+                _ => None,
+            }
+        }) {
+            return Some(pair);
+        }
+
+        // TickStart + (T-1) derived
+        group.iter().find_map(|s| {
+            let ts = s.get("TickStart").and_then(Value::as_i64)?;
+            let t = s
+                .get("T")
+                .and_then(Value::as_i64)
+                .filter(|&t| t < 1_000_000_000)?;
+            (t > ts).then_some((ts, ts + (t - ts - 1)))
+        })
+    }
 }
 
 impl Resolver for MetadataResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
-        let metadata = get_or_insert_object(mail, "metadata");
+        let meta = match get_or_insert_object(mail, "metadata") {
+            Value::Object(meta) => meta,
+            _ => unreachable!("metadata must be an object"),
+        };
+
         let sections = ctx.sections;
         let group = ctx.group;
 
-        if let Some(meta) = metadata.as_object_mut() {
-            // attack id
-            meta.entry("attack_id")
-                .or_insert_with(|| Value::String(ctx.attack_id.to_string()));
+        // attack id
+        meta.entry("attack_id")
+            .or_insert_with(|| Value::String(ctx.attack_id.to_string()));
 
-            // email basics
-            let g0 = sections.first().cloned().unwrap_or(Value::Null);
-            if let Some(id) = g0.get("id").and_then(|v| v.as_str()) {
-                meta.entry("email_id")
-                    .or_insert(Value::String(id.to_string()));
-            }
-            if let Some(tp) = g0.get("type").and_then(|v| v.as_str()) {
-                meta.entry("email_type")
-                    .or_insert(Value::String(tp.to_string()));
-            }
-            if let Some(bx) = g0.get("box").and_then(|v| v.as_str()) {
-                meta.entry("email_box")
-                    .or_insert(Value::String(bx.to_string()));
-            }
-            if let Some(t) = pick_i64(g0.get("time")) {
-                meta.entry("email_time").or_insert(Value::from(t));
-            }
+        // email basics
+        if let Some(g0) = sections.first() {
+            Self::put_str(meta, "email_id", g0.get("id").and_then(Value::as_str));
+            Self::put_str(meta, "email_type", g0.get("type").and_then(Value::as_str));
+            Self::put_str(meta, "email_box", g0.get("box").and_then(Value::as_str));
+            Self::put_i64(
+                meta,
+                "email_time",
+                Self::json_as_i128(g0.get("time")).and_then(|n| i64::try_from(n).ok()),
+            );
+        }
 
-            // role and kvk flag
-            let stats_block = sections
-                .iter()
-                .find(|s| s.get("STs").is_some() || s.get("Role").is_some());
-            if let Some(role) = stats_block
-                .and_then(|s| s.get("Role"))
-                .and_then(|v| v.as_str())
-            {
-                meta.entry("email_role")
-                    .or_insert(Value::String(role.to_string()));
-            }
-            let is_kvk = stats_block
-                .and_then(|s| s.get("isConquerSeason").and_then(|v| v.as_bool()))
-                .unwrap_or(false) as i32;
-            meta.entry("is_kvk").or_insert(Value::from(is_kvk));
+        // email role
+        let stats_block = sections
+            .iter()
+            .find(|s| s.get("STs").is_some() || s.get("Role").is_some());
 
-            // time anchors
-            let base_epoch = first_epoch_bts(sections)
-                .or_else(|| {
-                    sections
-                        .iter()
-                        .find_map(|s| epoch_seconds_val(s.get("Bts")))
-                })
-                .unwrap_or(0);
-            let base_small = first_small_tickstart(sections).unwrap_or(0);
-            let (ts, ets) = if let Some((ts, ets)) = small_tick_pair(group) {
-                (ts, ets)
-            } else {
-                let gba = group_epoch_bts(group).unwrap_or(base_epoch);
-                let gea = group_epoch_ets(group).unwrap_or(base_epoch);
-                (gba - base_epoch + base_small, gea - base_epoch + base_small)
-            };
-            let start_date = base_epoch + (ts - base_small);
-            let end_date = base_epoch + (ets - base_small);
-            meta.entry("start_date").or_insert(Value::from(start_date));
-            meta.entry("end_date").or_insert(Value::from(end_date));
+        if let Some(role) = stats_block
+            .and_then(|s| s.get("Role"))
+            .and_then(Value::as_str)
+        {
+            Self::put_str(meta, "email_role", Some(role));
+        }
 
-            // position
-            if let Some(pos) = group.iter().find_map(|s| {
-                s.get("Pos")
-                    .or_else(|| s.get("Attacks").and_then(|a| a.get("Pos")))
-            }) {
-                let x = pick_f64(pos.get("X")).unwrap_or(0.0);
-                let y = pick_f64(pos.get("Y")).unwrap_or(0.0);
-                meta.entry("pos_x").or_insert(Value::from(x));
-                meta.entry("pos_y").or_insert(Value::from(y));
-            } else if let Some(attacks_obj) = sections
-                .iter()
-                .find_map(|s| s.get("Attacks").filter(|a| a.get(ctx.attack_id).is_some()))
-                && let Some(pos) = attacks_obj.get("Pos")
-            {
-                let x = pick_f64(pos.get("X")).unwrap_or(0.0);
-                let y = pick_f64(pos.get("Y")).unwrap_or(0.0);
-                meta.entry("pos_x").or_insert(Value::from(x));
-                meta.entry("pos_y").or_insert(Value::from(y));
-            }
+        // kvk
+        let is_kvk = stats_block
+            .and_then(|s| s.get("isConquerSeason").and_then(Value::as_bool))
+            .unwrap_or(false);
+        meta.entry("is_kvk").or_insert(Value::from(is_kvk as i32));
 
-            // players
-            if let Some(sts) = stats_block
-                .and_then(|s| s.get("STs"))
-                .and_then(|v| v.as_object())
-            {
-                let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
-                meta.entry("players").or_insert(Value::from(cnt));
-            }
+        // start and end time
+        let base_epoch = Self::first_epoch_ge(sections, "Bts", 1_000_000_000)
+            .or_else(|| {
+                sections
+                    .iter()
+                    .find_map(|s| Self::epoch_seconds(s.get("Bts")))
+            })
+            .unwrap_or(0);
+        let base_small = Self::first_small_tickstart(sections).unwrap_or(0);
 
-            // email_receiver derived from self pid
-            // fetch self snapshot/body
-            let self_snap = find_self_snapshot(sections);
-            let self_body = find_self_body(sections);
-            let pid = self_snap
-                .get("PId")
-                .and_then(|v| v.as_i64())
-                .or_else(|| self_body.pointer("/SelfChar/PId").and_then(|v| v.as_i64()))
-                .unwrap_or(0);
-            if pid != 0 {
-                meta.entry("email_receiver")
-                    .or_insert(Value::String(pid.to_string()));
-            }
+        let (ts_small, ets_small) = if let Some(pair) = Self::small_tick_pair(group) {
+            pair
+        } else {
+            let gba = Self::find_epoch(group, "Bts").unwrap_or(base_epoch);
+            let gea = Self::find_epoch(group, "Ets").unwrap_or(base_epoch);
+            (gba - base_epoch + base_small, gea - base_epoch + base_small)
+        };
+
+        let start_date = base_epoch + (ts_small - base_small);
+        let end_date = base_epoch + (ets_small - base_small);
+        Self::put_i64(meta, "start_date", Some(start_date));
+        Self::put_i64(meta, "end_date", Some(end_date));
+
+        // position
+        if let Some(pos) = group.iter().find_map(|s| {
+            s.get("Pos")
+                .or_else(|| s.get("Attacks").and_then(|a| a.get("Pos")))
+        }) {
+            Self::put_f64(meta, "pos_x", pick_f64(pos.get("X")));
+            Self::put_f64(meta, "pos_y", pick_f64(pos.get("Y")));
+        } else if let Some(attacks_obj) = sections
+            .iter()
+            .find_map(|s| s.get("Attacks").filter(|a| a.get(ctx.attack_id).is_some()))
+            .and_then(|a| a.get("Pos"))
+        {
+            Self::put_f64(meta, "pos_x", pick_f64(attacks_obj.get("X")));
+            Self::put_f64(meta, "pos_y", pick_f64(attacks_obj.get("Y")));
+        }
+
+        // player count
+        if let Some(sts) = stats_block
+            .and_then(|s| s.get("STs"))
+            .and_then(Value::as_object)
+        {
+            let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
+            meta.entry("players").or_insert(Value::from(cnt));
+        }
+
+        // email receiver
+        let self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
+        let self_body = find_self_body_ref(sections).unwrap_or(&Value::Null);
+        if let Some(pid) = self_snap
+            .get("PId")
+            .and_then(Value::as_i64)
+            .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))
+            && pid != 0
+        {
+            meta.entry("email_receiver")
+                .or_insert(Value::String(pid.to_string()));
         }
 
         Ok(())
