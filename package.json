@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev:site": "pnpm -F @rokbattles/site run dev",
+    "dev:tauri": "pnpm -F @rokbattles/tauri run tauri dev",
+    "dev:tauri:site": "pnpm -F @rokbattles/tauri run dev",
     "format": "biome check --write .",
     "preinstall": "npx only-allow pnpm"
   },
