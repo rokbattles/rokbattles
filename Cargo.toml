@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/mail-cli", "crates/mail-decoder", "crates/mail-processor", "crates/rokbattles-api"]
+members = ["crates/mail-cli", "crates/mail-decoder", "crates/mail-processor", "crates/rokbattles-api", "crates/rokbattles-tauri/src-tauri"]
 resolver = "3"
 
 [workspace.dependencies]
@@ -14,3 +14,6 @@ tower-http = { version = "0.6.6", features = ["fs", "trace"] }
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 tikv-jemallocator = "0.6.0"
+tauri-build = { version = "2.4.0", features = [] }
+tauri = { version = "2.8.2", features = [] }
+tauri-plugin-opener = "2.5.0"

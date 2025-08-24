@@ -1,3 +1,7 @@
 .idea
 target
 *.iml
+node_modules
+.next
+**/gen/schemas
+dist

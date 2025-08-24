@@ -1,0 +1,6 @@
+packages:
+  - apps/*
+  - crates/*
+
+onlyBuiltDependencies:
+  - esbuild
