@@ -36,6 +36,7 @@ function App() {
           greet();
         }}
       >
+        {/* biome-ignore lint/correctness/useUniqueElementIds: fix later */}
         <input
           id="greet-input"
           onChange={(e) => setName(e.currentTarget.value)}

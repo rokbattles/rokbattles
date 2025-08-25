@@ -3,4 +3,6 @@ packages:
   - crates/*
 
 onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
   - esbuild
+  - sharp
