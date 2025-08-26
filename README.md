@@ -7,22 +7,24 @@
 
 ROK Battles is a community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms. With explicit opt-in, in-game mails (primarily battle reports) are relayed to our backend, parsed, and aggregated into public datasets. These datasets power real-time browsing of battle reports alongside battle details—including commanders, equipment, armaments, and inscriptions—and drive trend exploration; no account required to explore.
 
-## Project goals
+## Project Status
 
-- Short-term
-  - Publish and maintain public datasets (commanders, equipment, armaments, inscriptions).
-  - Deliver transparent trend views (usage rates, popularity over time) and simple loadout exploration with basic filters.
-  - Stabilize the ingestion and parsing pipeline with validation and public schemas.
+This project is currently in early development. We're excited to share our work with the community and welcome your feedback! While we're actively improving things, please note that:
 
-- Long-term
-  - Provide rich meta analytics: common pairings, performance benchmarks, counters, and shifts across patches/time.
-  - Ship developer APIs/SDKs for third-party tools and research.
-  - Add advanced filtering and personalized insights while keeping browsing account-free.
+* Some APIs may change as we refine our approach
+* Documentation might be incomplete in places
+* There may be rough edges we haven't smoothed out yet
 
-## Current status
+We welcome contributions through GitHub issues and pull requests.
 
-- Datasets: initial datasets are available and mostly complete; translations are in progress.
-- Code: the first crates are available and primarily internal at this stage.
+## System Requirements
+
+Our current MSRV is effectively 1.89.
+
+Some of the crates in this repository have dependencies on additional tools and libraries that must be satisfied in order to build them:
+
+* Make sure that [Clang](https://clang.llvm.org/) is installed on your system
+* Make sure that [Node.js 22.x](https://nodejs.org/en/download) (or newer) and [pnpm](https://pnpm.io/installation) is installed on your system
 
 ## License
 
