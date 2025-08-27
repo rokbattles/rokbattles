@@ -1,3 +1,6 @@
+mod watcher;
+
+use crate::watcher::spawn_watcher;
 use anyhow::Context;
 use std::{collections::BTreeSet, fs, path::PathBuf};
 use tauri::{AppHandle, Manager};
@@ -68,6 +71,10 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .setup(|app| {
+            spawn_watcher(app.handle());
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![list_dirs, add_dir, remove_dir])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
