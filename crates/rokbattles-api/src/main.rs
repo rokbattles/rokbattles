@@ -1,3 +1,5 @@
+mod v1;
+
 use axum::Router;
 use std::net::SocketAddr;
 use tower_http::trace::TraceLayer;
@@ -18,7 +20,9 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let router = Router::new().layer(TraceLayer::new_for_http());
+    let router = Router::new()
+        .nest("/v1", v1::router())
+        .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
