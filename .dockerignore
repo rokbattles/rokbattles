@@ -1,0 +1,11 @@
+.idea
+*.iml
+node_modules
+**/node_modules
+**/.next
+target
+**/target
+samples
+datasets
+**/gen/schemas
+dist
