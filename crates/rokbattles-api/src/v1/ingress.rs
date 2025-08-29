@@ -143,6 +143,7 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
     let mut total = 0usize;
     let mut peek = Vec::with_capacity(BUFFER_LEN);
     let mut remaining: Option<Vec<u8>> = None;
+    let mut buf = Vec::with_capacity(content_len.min(MAX_UPLOAD));
 
     let mut stream = req.into_body().into_data_stream();
 
@@ -165,8 +166,10 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
         let rem = BUFFER_LEN - peek.len();
         if chunk.len() <= rem {
             peek.extend_from_slice(&chunk);
+            buf.extend_from_slice(&chunk);
         } else {
             peek.extend_from_slice(&chunk[..rem]);
+            buf.extend_from_slice(&chunk[..rem]);
             remaining = Some(chunk[rem..].to_vec());
             break;
         }
@@ -184,10 +187,11 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
     if let Err(e) = clamd_send_chunk(&mut clamd, &peek).await {
         return e.into_response();
     }
-    if let Some(buf) = remaining.take()
-        && let Err(e) = clamd_send_chunk(&mut clamd, &buf).await
-    {
-        return e.into_response();
+    if let Some(r) = remaining.take() {
+        if let Err(e) = clamd_send_chunk(&mut clamd, &r).await {
+            return e.into_response();
+        }
+        buf.extend_from_slice(&r);
     }
 
     loop {
@@ -203,6 +207,7 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
                 if let Err(e) = clamd_send_chunk(&mut clamd, &chunk).await {
                     return e.into_response();
                 }
+                buf.extend_from_slice(&chunk);
             }
             Ok(None) => break,
             Err(_) => {
@@ -220,10 +225,22 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
     }
 
     // decode mail
+    let decoded_mail = match mail_decoder::decode(&buf) {
+        Ok(m) => m,
+        Err(_) => {
+            return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail decoder failed").into_response();
+        }
+    };
 
-    // insert into db
+    println!("{:?}", decoded_mail);
+
+    // verify type = Battle
+
+    // compress decoded mail with zstd
+
+    // insert into mongodb
 
     // return decoded mail
 
-    (StatusCode::OK, "Success").into_response()
+    (StatusCode::CREATED, "").into_response()
 }

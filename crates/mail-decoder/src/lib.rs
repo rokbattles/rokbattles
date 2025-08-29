@@ -1,5 +1,5 @@
 use anyhow::{Result, anyhow};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value};
 
 #[derive(Clone, Copy)]
@@ -194,7 +194,7 @@ fn parse_sections(buffer: &[u8]) -> Result<Vec<Value>> {
     Ok(sections)
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Mail {
     pub sections: Vec<Value>,
 }

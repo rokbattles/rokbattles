@@ -37,10 +37,20 @@ services:
       - clamav-log:/var/log/clamav
     networks:
       - rokbattles
+  mongo:
+    image: mongo:8.0
+    restart: unless-stopped
+    ports:
+      - "4446:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - rokbattles
 
 volumes:
   clamav-db:
   clamav-log:
+  mongo-data:
 
 networks:
   rokbattles:
