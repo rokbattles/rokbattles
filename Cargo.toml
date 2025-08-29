@@ -18,3 +18,4 @@ tauri-build = { version = "2.4.0", features = [] }
 tauri = { version = "2.8.2", features = [] }
 tauri-plugin-opener = "2.5.0"
 tauri-plugin-dialog = "2.3.3"
+futures-util = "0.3.31"
