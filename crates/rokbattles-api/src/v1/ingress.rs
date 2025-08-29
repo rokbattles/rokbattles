@@ -10,7 +10,7 @@ use tokio::{
     net::TcpStream,
 };
 
-const MAX_UPLOAD: usize = 2500000; // 2.5mb
+const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
 const BUFFER_LEN: usize = 32;
 
 #[derive(Clone)]

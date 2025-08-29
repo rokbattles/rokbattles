@@ -7,7 +7,7 @@ use tower_http::limit::RequestBodyLimitLayer;
 pub fn router() -> Router {
     Router::new()
         .route("/ingress", post(ingress::ingress))
-        .layer(RequestBodyLimitLayer::new(2500000)) // 2.5mb
+        .layer(RequestBodyLimitLayer::new(5 * 1024 * 1024)) // 5 MB
         .with_state(IngressState {
             clamd_addr: std::env::var("CLAMD_ADDR").unwrap_or("clamd:3310".into()),
         })
