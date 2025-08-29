@@ -1,8 +1,8 @@
 mod v1;
 
 use axum::Router;
-use std::net::SocketAddr;
-use tower_http::trace::TraceLayer;
+use std::{net::SocketAddr, time::Duration};
+use tower_http::{timeout::TimeoutLayer, trace::TraceLayer};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[cfg(not(target_env = "msvc"))]
@@ -22,6 +22,7 @@ async fn main() {
 
     let router = Router::new()
         .nest("/v1", v1::router())
+        .layer(TimeoutLayer::new(Duration::from_secs(40)))
         .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
