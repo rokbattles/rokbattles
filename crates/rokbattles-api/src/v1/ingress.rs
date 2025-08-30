@@ -10,7 +10,7 @@ use futures_util::{StreamExt, TryStreamExt};
 use mongodb::{
     bson::Document,
     bson::spec::BinarySubtype,
-    bson::{Binary, DateTime, doc}
+    bson::{Binary, DateTime, doc},
 };
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
