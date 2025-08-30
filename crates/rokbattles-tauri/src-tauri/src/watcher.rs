@@ -1,5 +1,5 @@
 use crate::read_dirs;
-use anyhow::Context;
+use anyhow::{Context, bail};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
@@ -14,6 +14,10 @@ const PROCESSED_FILE: &str = "processed.json";
 // TODO determine what our rate limit will be for the API
 const RATE_LIMIT: u32 = 128;
 const TICK: u64 = 60000 / RATE_LIMIT as u64;
+
+// TODO change this to prod url
+const API_INGRESS_URL: &str = "http://127.0.0.1:4445/v1/ingress";
+const API_USER_AGENT: &str = "ROKBattles/0.1.0";
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 struct ProcessedStore {
@@ -203,6 +207,25 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
     None
 }
 
+async fn post_file_to_api(bytes: &[u8]) -> anyhow::Result<()> {
+    let client = reqwest::Client::new();
+    let resp = client
+        .post(API_INGRESS_URL)
+        .header(reqwest::header::USER_AGENT, API_USER_AGENT)
+        .header(reqwest::header::CONTENT_TYPE, "application/octet-stream")
+        .body(bytes.to_vec())
+        .send()
+        .await
+        .context("failed to send mail to API")?;
+
+    let status = resp.status();
+    if !status.is_success() {
+        let text = resp.text().await.unwrap_or_default();
+        bail!("API rejected upload: {} {}", status, text);
+    }
+    Ok(())
+}
+
 pub fn spawn_watcher(app: &AppHandle) {
     let app = app.clone();
     tauri::async_runtime::spawn(async move {
@@ -214,7 +237,36 @@ pub fn spawn_watcher(app: &AppHandle) {
                 Some(path) => {
                     eprintln!("[rokbattles] processing {:?}", path);
 
-                    // TODO post to the API
+                    let bytes = match fs::read(&path) {
+                        Ok(b) => b,
+                        Err(e) => {
+                            eprintln!("[rokbattles] failed to read file {:?}: {}", path, e);
+                            continue;
+                        }
+                    };
+
+                    let decoded = match mail_decoder::decode(&bytes) {
+                        Ok(m) => m,
+                        Err(e) => {
+                            eprintln!("[rokbattles] decode failed for {:?}: {}", path, e);
+                            continue;
+                        }
+                    };
+
+                    let first_type = mail_type_detector::detect_type_str(&decoded);
+                    if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+                        eprintln!(
+                            "[rokbattles] skipping non-Battle mail {:?} (detected: {:?})",
+                            path, first_type
+                        );
+                        continue;
+                    }
+
+                    if let Err(e) = post_file_to_api(&bytes).await {
+                        eprintln!("[rokbattles] failed to upload {:?}: {}", path, e);
+                    } else {
+                        eprintln!("[rokbattles] uploaded Battle mail {:?}", path);
+                    }
                 }
                 None => {
                     tokio::time::sleep(Duration::from_millis(TICK)).await;

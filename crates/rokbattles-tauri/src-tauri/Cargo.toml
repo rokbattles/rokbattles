@@ -25,3 +25,6 @@ serde_json = { workspace = true }
 tauri-plugin-dialog = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true }
+reqwest = { workspace = true }
+mail-decoder = { path = "../../mail-decoder" }
+mail-type-detector = { path = "../../mail-type-detector" }
