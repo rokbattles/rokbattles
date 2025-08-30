@@ -14,11 +14,14 @@ services:
       context: .
       dockerfile: api.Dockerfile
     depends_on:
+      mongo:
+        condition: service_healthy
       clamd:
         condition: service_healthy
     ports:
       - "4445:8000"
     environment:
+      MONGO_URI: mongodb://mongo:27017/rokbattles
       CLAMD_ADDR: clamd:3310
     networks:
       - rokbattles
@@ -30,7 +33,7 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "printf 'zPING\\0' | nc -w 2 127.0.0.1 3310 | grep -q PONG"]
       interval: 30s
-      timeout: 3s
+      timeout: 5s
       retries: 5
     volumes:
       - clamav-db:/var/lib/clamav
@@ -40,6 +43,11 @@ services:
   mongo:
     image: mongo:8.0
     restart: unless-stopped
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh --port 27017 --quiet
+      interval: 30s
+      timeout: 5s
+      retries: 5
     ports:
       - "4446:27017"
     volumes:
