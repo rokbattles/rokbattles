@@ -7,6 +7,11 @@ use axum::{
 };
 use blake3::Hasher;
 use futures_util::{StreamExt, TryStreamExt};
+use mongodb::{
+    bson::Document,
+    bson::spec::BinarySubtype,
+    bson::{Binary, DateTime, doc}
+};
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     net::TcpStream,
@@ -265,7 +270,35 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         tracing_ratio * 100.0
     );
 
-    // insert into mongodb
+    let current_time = DateTime::now();
+    let doc = doc! {
+        "mail": {
+            "hash": &decoded_mail_hash,
+            "codec": "zstd",
+            "value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail },
+        },
+        "metadata": {
+            "userAgent": headers.get("user-agent").and_then(|v| v.to_str().ok()).unwrap_or("unknown"),
+        },
+        "status": "pending",
+        "createdAt": current_time,
+    };
+
+    let filter = doc! { "mail.hash": &decoded_mail_hash };
+    let update = doc! {
+        "$setOnInsert": doc,
+        "$set": { "lastSeenAt": current_time },
+    };
+    let result = st
+        .db
+        .collection::<Document>("mails")
+        .update_one(filter, update)
+        .upsert(true)
+        .await;
+
+    if result.is_err() {
+        return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+    }
 
     (StatusCode::CREATED, "").into_response()
 }
