@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "rokbattles-tauri",
+  "productName": "ROK Battles",
   "version": "0.1.0",
   "identifier": "com.rokbattles.tauri",
   "build": {
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "rokbattles-tauri",
+        "title": "ROK Battles",
         "width": 800,
         "height": 600
       }
