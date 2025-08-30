@@ -1,4 +1,4 @@
-use crate::read_dirs;
+use crate::{read_api_ingress_url, read_dirs};
 use anyhow::{Context, bail};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -6,18 +6,19 @@ use std::{
     fs,
     io::Read,
     path::PathBuf,
+    sync::OnceLock,
     time::{Duration, SystemTime},
 };
 use tauri::{AppHandle, Manager};
 
+// Likely want switch over to sqlite for 0.2.0, this will be fine for first prerelease
 const PROCESSED_FILE: &str = "processed.json";
-// TODO determine what our rate limit will be for the API
 const RATE_LIMIT: u32 = 128;
 const TICK: u64 = 60000 / RATE_LIMIT as u64;
 
-// TODO change this to prod url
-const API_INGRESS_URL: &str = "http://127.0.0.1:4445/v1/ingress";
 const API_USER_AGENT: &str = "ROKBattles/0.1.0";
+
+static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 struct ProcessedStore {
@@ -28,6 +29,18 @@ struct ProcessedStore {
 struct FileSig {
     size: u64,
     modified: u128,
+}
+
+fn http_client() -> &'static reqwest::Client {
+    HTTP_CLIENT.get_or_init(|| {
+        reqwest::Client::builder()
+            .user_agent(API_USER_AGENT)
+            .tcp_keepalive(Some(Duration::from_secs(60)))
+            .pool_idle_timeout(Some(Duration::from_secs(90)))
+            .pool_max_idle_per_host(8)
+            .build()
+            .expect("failed to build HTTP client")
+    })
 }
 
 fn processed_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
@@ -207,11 +220,13 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
     None
 }
 
-async fn post_file_to_api(bytes: &[u8]) -> anyhow::Result<()> {
-    let client = reqwest::Client::new();
+async fn post_file_to_api(
+    client: &reqwest::Client,
+    api_url: &str,
+    bytes: &[u8],
+) -> anyhow::Result<()> {
     let resp = client
-        .post(API_INGRESS_URL)
-        .header(reqwest::header::USER_AGENT, API_USER_AGENT)
+        .post(api_url)
         .header(reqwest::header::CONTENT_TYPE, "application/octet-stream")
         .body(bytes.to_vec())
         .send()
@@ -228,6 +243,11 @@ async fn post_file_to_api(bytes: &[u8]) -> anyhow::Result<()> {
 
 pub fn spawn_watcher(app: &AppHandle) {
     let app = app.clone();
+
+    let api_url = read_api_ingress_url(&app)
+        .unwrap_or_else(|_| "https://rokbattles.com/api/v1/ingress".to_string());
+    let client = http_client();
+
     tauri::async_runtime::spawn(async move {
         let mut ticker = tokio::time::interval(Duration::from_millis(TICK));
         loop {
@@ -262,7 +282,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         continue;
                     }
 
-                    if let Err(e) = post_file_to_api(&bytes).await {
+                    if let Err(e) = post_file_to_api(client, &api_url, &bytes).await {
                         eprintln!("[rokbattles] failed to upload {:?}: {}", path, e);
                     } else {
                         eprintln!("[rokbattles] uploaded Battle mail {:?}", path);
