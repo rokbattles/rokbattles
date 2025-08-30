@@ -5,6 +5,7 @@ use axum::{
     http::{HeaderMap, StatusCode},
     response::IntoResponse,
 };
+use blake3::Hasher;
 use futures_util::{StreamExt, TryStreamExt};
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
@@ -122,6 +123,13 @@ fn zstd_compress(s: &str, level: i32) -> anyhow::Result<Vec<u8>> {
     Ok(encode_all(s.as_bytes(), level)?)
 }
 
+fn blake3_hash(data: &[u8]) -> String {
+    let mut hasher = Hasher::new();
+    hasher.update(data);
+    let hash = hasher.finalize();
+    hash.to_hex().to_string()
+}
+
 pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl IntoResponse {
     let headers = req.headers().clone();
 
@@ -237,6 +245,9 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
+
+    let decoded_mail_hash = blake3_hash(&buf);
+    debug!("decoded mail hash: {}", decoded_mail_hash);
 
     let decoded_mail_json = serde_json::to_value(&decoded_mail).unwrap();
     let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json).unwrap();
