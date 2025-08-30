@@ -1,3 +1,4 @@
+use crate::AppState;
 use axum::{
     body::Body,
     extract::{Request, State},
@@ -14,11 +15,6 @@ use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
 const BUFFER_LEN: usize = 32;
-
-#[derive(Clone)]
-pub struct IngressState {
-    pub clamd_addr: String,
-}
 
 fn ua_ok(h: &HeaderMap) -> bool {
     h.get("user-agent")
@@ -126,7 +122,7 @@ fn zstd_compress(s: &str, level: i32) -> anyhow::Result<Vec<u8>> {
     Ok(encode_all(s.as_bytes(), level)?)
 }
 
-pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl IntoResponse {
+pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl IntoResponse {
     let headers = req.headers().clone();
 
     if !ua_ok(&headers) {
