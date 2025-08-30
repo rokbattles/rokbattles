@@ -12,6 +12,7 @@ tracing-subscriber = { workspace = true }
 futures-util = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
 mongodb = { workspace = true }
+mail-type-detector = { path = "../mail-type-detector" }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }

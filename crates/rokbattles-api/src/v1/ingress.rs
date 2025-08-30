@@ -224,7 +224,6 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
         return e.into_response();
     }
 
-    // decode mail
     let decoded_mail = match mail_decoder::decode(&buf) {
         Ok(m) => m,
         Err(_) => {
@@ -232,15 +231,12 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
         }
     };
 
-    println!("{:?}", decoded_mail);
-
-    // verify type = Battle
-
-    // compress decoded mail with zstd
+    let first_type = mail_type_detector::detect_type_str(&decoded_mail);
+    if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+        return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
+    }
 
     // insert into mongodb
-
-    // return decoded mail
 
     (StatusCode::CREATED, "").into_response()
 }

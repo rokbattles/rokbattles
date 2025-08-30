@@ -2439,6 +2439,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-type-detector"
+version = "0.1.0"
+dependencies = [
+ "mail-decoder",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "markup5ever"
 version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3723,6 +3732,7 @@ dependencies = [
  "axum",
  "futures-util",
  "mail-decoder",
+ "mail-type-detector",
  "mongodb",
  "tikv-jemallocator",
  "tokio",
