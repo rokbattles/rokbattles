@@ -13,6 +13,9 @@ futures-util = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
 mongodb = { workspace = true }
 mail-type-detector = { path = "../mail-type-detector" }
+zstd = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }

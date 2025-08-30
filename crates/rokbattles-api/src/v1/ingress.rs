@@ -9,6 +9,8 @@ use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     net::TcpStream,
 };
+use tracing::debug;
+use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
 const BUFFER_LEN: usize = 32;
@@ -118,6 +120,10 @@ async fn clamd_end(mut s: TcpStream) -> Result<(), (StatusCode, &'static str)> {
         return Err((StatusCode::UNPROCESSABLE_ENTITY, "service rejected entity"));
     }
     Ok(())
+}
+
+fn zstd_compress(s: &str, level: i32) -> anyhow::Result<Vec<u8>> {
+    Ok(encode_all(s.as_bytes(), level)?)
 }
 
 pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl IntoResponse {
@@ -235,6 +241,22 @@ pub async fn ingress(State(st): State<IngressState>, req: Request<Body>) -> impl
     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
+
+    let decoded_mail_json = serde_json::to_value(&decoded_mail).unwrap();
+    let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json).unwrap();
+
+    let compressed_mail = match zstd_compress(&decoded_mail_json_text, 5) {
+        Ok(c) => c,
+        Err(_) => return (StatusCode::INTERNAL_SERVER_ERROR, "compression failed").into_response(),
+    };
+
+    let tracing_ratio = (compressed_mail.len() as f64) / (decoded_mail_json_text.len() as f64);
+    debug!(
+        "original: {} bytes, compressed: {} bytes, ratio: {:.2}%",
+        decoded_mail_json_text.len(),
+        compressed_mail.len(),
+        tracing_ratio * 100.0
+    );
 
     // insert into mongodb
 
