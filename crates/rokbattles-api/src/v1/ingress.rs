@@ -251,6 +251,11 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
 
+    let mail_time = match mail_time_detector::detect_time(&decoded_mail) {
+        Some(t) => t,
+        None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing time").into_response(),
+    };
+
     let decoded_mail_hash = blake3_hash(&buf);
     debug!("decoded mail hash: {}", decoded_mail_hash);
 
@@ -276,6 +281,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             "hash": &decoded_mail_hash,
             "codec": "zstd",
             "value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail },
+            "time": mail_time,
         },
         "metadata": {
             "userAgent": headers.get("user-agent").and_then(|v| v.to_str().ok()).unwrap_or("unknown"),
