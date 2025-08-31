@@ -669,13 +669,13 @@ equipment:
       name:
         en: "Bronze Bracers"
         es: "Brazales de bronce"
-        kr: ""
+        kr: "청동 보호대"
 
     20110:
       name:
         en: "Edged Boots"
         es: "Botas filosas"
-        kr: "청동 보호대"
+        kr: "칼날 장화"
 
     20111:
       name:
