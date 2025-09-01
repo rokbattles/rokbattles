@@ -1,4 +1,5 @@
 pub mod ingress;
+pub mod report;
 pub mod reports;
 
 use crate::AppState;
@@ -9,5 +10,6 @@ pub fn router() -> Router<AppState> {
     Router::new()
         .route("/ingress", post(ingress::ingress))
         .route("/reports", get(reports::list_reports))
+        .route("/report/{parent_hash}", get(report::report_by_parent))
         .layer(RequestBodyLimitLayer::new(5 * 1024 * 1024)) // 5 MB
 }
