@@ -1,0 +1,95 @@
+[
+  {
+    "battle_results": {
+      "death": 0,
+      "enemy_death": 0,
+      "enemy_healing": 0,
+      "enemy_init_max": 230747,
+      "enemy_kill_score": 449860,
+      "enemy_max": 229270,
+      "enemy_power": -3520,
+      "enemy_remaining": 228918,
+      "enemy_severely_wounded": 352,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_wounded": 0,
+      "healing": 0,
+      "init_max": 44986,
+      "kill_score": 7040,
+      "max": 44986,
+      "power": -179944,
+      "remaining": 0,
+      "severely_wounded": 44986,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "wounded": 0
+    },
+    "enemy": {
+      "alliance_tag": "SO4L",
+      "armament_buffs": "10002_0.015000;3001_0.016000;3001_0.018000;3001_0.020000;3001_0.033000;4001_0.016000;4001_0.025000;4001_0.027000;4001_0.031000;5001_0.017000;5001_0.022000;5001_0.033000",
+      "castle_x": 3850.293,
+      "castle_y": 3689.0928,
+      "equipment": "{7:20038_321:1,2:20014_208:2,8:20037_290:2,3:20026_226:2,1:20002_237:12,4:20016_225:2,5:20032_132:15,6:20034_149:12}",
+      "formation": 17,
+      "inscriptions": "317;412;17101;17202",
+      "is_rally": null,
+      "kingdom_id": 1804,
+      "npc_btype": null,
+      "npc_type": null,
+      "player_id": 29862805,
+      "player_name": "Titanobenbu",
+      "primary_commander": {
+        "id": 545,
+        "level": 60,
+        "skills": "5551"
+      },
+      "secondary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "5555"
+      },
+      "tracking_key": "29862805_1756585085_545_185"
+    },
+    "metadata": {
+      "attack_id": "334677901",
+      "email_box": "Report",
+      "email_id": "58600202175658527723",
+      "email_receiver": "109813467",
+      "email_role": null,
+      "email_time": 1756585277535072,
+      "email_type": "Battle",
+      "end_date": 1756585277,
+      "is_kvk": 0,
+      "players": null,
+      "pos_x": 3859.4285,
+      "pos_y": 3693.5112,
+      "start_date": 1756585271
+    },
+    "self": {
+      "alliance_tag": "SO4L",
+      "armament_buffs": "10002_0.015000;3001_0.016000;3001_0.018000;3001_0.020000;3001_0.033000;4001_0.016000;4001_0.025000;4001_0.027000;4001_0.031000;5001_0.017000;5001_0.022000;5001_0.033000",
+      "castle_x": 3850.293,
+      "castle_y": 3689.0928,
+      "equipment": "{7:20038_321:1,2:20014_208:2,8:20037_290:2,3:20026_226:2,1:20002_237:12,4:20016_225:2,5:20032_132:15,6:20034_149:12}",
+      "formation": 17,
+      "inscriptions": "317;412;17101;17202",
+      "is_rally": null,
+      "kingdom_id": 1804,
+      "npc_btype": null,
+      "npc_type": null,
+      "player_id": 109813467,
+      "player_name": "Titanobenbu",
+      "primary_commander": {
+        "id": 25,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "1555"
+      },
+      "tracking_key": "29862805_1756585085_545_185"
+    }
+  }
+]
