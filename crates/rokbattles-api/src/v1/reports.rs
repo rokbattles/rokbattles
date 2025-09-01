@@ -63,6 +63,7 @@ pub async fn list_reports(
     let (cursor_ts, cursor_ph) = parse_cursor(params.after.as_deref());
 
     let mut pipeline = vec![
+        doc! { "$match": { "report.enemy.player_id": { "$ne": -2 } } },
         doc! { "$project": {
             "entryHash": "$metadata.hash",
             "parentHash": "$metadata.parentHash",
