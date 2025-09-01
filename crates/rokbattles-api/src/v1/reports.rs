@@ -20,7 +20,7 @@ pub struct ListParams {
     after: Option<String>,
 
     #[serde(default)]
-    player_id: Option<i64>
+    player_id: Option<i64>,
 }
 
 #[derive(Debug, Serialize)]
