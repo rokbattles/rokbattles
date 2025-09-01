@@ -25,6 +25,17 @@ services:
       CLAMD_ADDR: clamd:3310
     networks:
       - rokbattles
+  site-processor:
+    build:
+      context: .
+      dockerfile: processor.Dockerfile
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/rokbattles
+    networks:
+      - rokbattles
   clamd:
     image: clamav/clamav:latest
     restart: unless-stopped
