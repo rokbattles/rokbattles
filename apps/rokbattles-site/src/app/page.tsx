@@ -1,7 +1,5 @@
-import { Forward, Star } from "lucide-react";
 import type React from "react";
 import type { SVGProps } from "react";
-import { cn } from "@/lib/cn";
 
 export default function Page() {
   return (
@@ -10,26 +8,36 @@ export default function Page() {
         <div className="absolute left-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
         <div className="absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
       </div>
-      <main className="mx-auto max-w-7xl px-6 py-12 md:py-20">
-        <section className="grid items-start gap-10 md:grid-cols-[1.1fr,1fr]">
+      <main className="mx-auto grid min-h-dvh max-w-7xl place-items-center px-6 py-12 md:py-20">
+        <section className="grid items-start gap-6 text-center">
           <div className="space-y-5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500" />
-              Launching soon
-            </div>
             <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
               <span className="text-white">ROK</span> <span className="text-blue-500">BATTLES</span>
             </h1>
-            <p className="max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+            <p className="mx-auto max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
               A community-driven platform for sharing battle reports and surfacing actionable trends
               in Rise of Kingdoms.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
+                href="https://github.com/rokbattles/rokbattles/releases"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-500 focus-visible:outline-none"
+              >
+                <span>Download App</span>
+              </a>
+              <a
+                href="/live"
+                className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 text-white transition hover:bg-zinc-700 focus-visible:outline-none"
+              >
+                <span>Live Reports</span>
+              </a>
               <a
                 href="https://discord.gg/G33SzQgx6d"
                 target="_blank"
                 rel="noreferrer noopener"
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 transition hover:bg-blue-500 focus-visible:outline-none"
+                className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 transition hover:bg-zinc-700 focus-visible:outline-none"
               >
                 <DiscordIcon className="h-5 w-5 fill-white" />
                 <span className="text-white">Discord</span>
@@ -45,121 +53,8 @@ export default function Page() {
               </a>
             </div>
           </div>
-          <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-4 shadow-sm">
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-xs uppercase tracking-wide text-zinc-400">Data Preview</span>
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-zinc-400" />
-                <Forward className="h-4 w-4 text-zinc-400" />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="h-3 animate-pulse rounded bg-white/10 w-1/2" />
-                <div className="flex flex-wrap gap-1.5">
-                  {["Gorgo", "Heraclius"].map((x) => (
-                    <Badge key={x}>{x}</Badge>
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-xs text-zinc-300">
-                  <Stat label="Dead" value="3,439" />
-                  <Stat label="Sev Wnd" value="121k" />
-                  <Stat label="KP" value="2.02M" />
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <InscriptionBadge>Reflector</InscriptionBadge>
-                  <InscriptionBadge rarity="special">Toppler</InscriptionBadge>
-                  <InscriptionBadge rarity="rare">Raider</InscriptionBadge>
-                  <InscriptionBadge rarity="rare">Hardheaded</InscriptionBadge>
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="h-3 animate-pulse rounded bg-white/10 w-1/2" />
-                <div className="flex flex-wrap gap-1.5">
-                  {["Ashurbanipal", "Zhuge"].map((x) => (
-                    <Badge key={x}>{x}</Badge>
-                  ))}
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-xs text-zinc-300">
-                  <Stat label="Dead" value="139k" />
-                  <Stat label="Sev Wnd" value="0" />
-                  <Stat label="KP" value="2.30M" />
-                </div>
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <InscriptionBadge>Counterer</InscriptionBadge>
-                  <InscriptionBadge rarity="special">Hunter</InscriptionBadge>
-                  <InscriptionBadge rarity="special">Unstoppable</InscriptionBadge>
-                  <InscriptionBadge rarity="special">Intrepid</InscriptionBadge>
-                  <InscriptionBadge rarity="special">Balanced</InscriptionBadge>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="mt-6">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-sm transition hover:border-white/15 md:col-span-2">
-              <h3 className="text-base font-semibold text-white">Real-time battle reports</h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Live reports that highlight what actually matters in a fight.
-              </p>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-400">
-                <li>Battle results: kills, deads, wounded, power, KP</li>
-                <li>Commanders & skills for both sides</li>
-                <li>Inscriptions and armament buffs used</li>
-                <li>Favorite and share reports with one tap</li>
-              </ul>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-sm transition hover:border-white/15">
-              <h3 className="text-base font-semibold text-white">Filters</h3>
-              <p className="mt-1 text-sm text-zinc-400">Slice reports your way.</p>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-400">
-                <li>KVK only or Ark only</li>
-                <li>Kingdom #</li>
-                <li>Commander(s)</li>
-                <li>Kills, deads, wounded, severely wounded</li>
-              </ul>
-            </div>
-          </div>
         </section>
       </main>
-    </div>
-  );
-}
-
-function Badge({ children }: React.PropsWithChildren) {
-  return (
-    <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[11px] text-zinc-300">
-      {children}
-    </span>
-  );
-}
-
-function InscriptionBadge({
-  children,
-  rarity = "common",
-}: React.PropsWithChildren<{ rarity?: "common" | "rare" | "special" }>) {
-  return (
-    <span
-      className={cn(
-        "select-none rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px]",
-        rarity === "common"
-          ? "text-zinc-300"
-          : rarity === "rare"
-            ? "text-blue-300"
-            : "text-yellow-300"
-      )}
-    >
-      {children}
-    </span>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg border border-white/10 bg-white/5 p-2">
-      <div className="text-[10px] text-zinc-400">{label}</div>
-      <div className="text-sm text-white">{value}</div>
     </div>
   );
 }
