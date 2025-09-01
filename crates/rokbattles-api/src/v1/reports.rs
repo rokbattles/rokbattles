@@ -18,6 +18,9 @@ pub struct ListParams {
 
     #[serde(default)]
     after: Option<String>,
+
+    #[serde(default)]
+    player_id: Option<i64>
 }
 
 #[derive(Debug, Serialize)]
@@ -64,8 +67,24 @@ pub async fn list_reports(
     let limit = params.limit.unwrap_or(100).clamp(1, 100) as i64;
     let (cursor_ts, cursor_ph) = parse_cursor(params.after.as_deref());
 
+    let mut filters: Vec<Document> = vec![doc! { "report.enemy.player_id": { "$ne": -2 } }];
+    if let Some(pid) = params.player_id {
+        filters.push(doc! {
+            "$or": [
+                { "report.self.player_id": pid },
+                { "report.enemy.player_id": pid }
+            ]
+        });
+    }
+
+    let first_match = if filters.len() == 1 {
+        filters.remove(0)
+    } else {
+        doc! { "$and": filters }
+    };
+
     let mut pipeline = vec![
-        doc! { "$match": { "report.enemy.player_id": { "$ne": -2 } } },
+        doc! { "$match": first_match },
         doc! { "$project": {
             "entryHash": "$metadata.hash",
             "parentHash": "$metadata.parentHash",
