@@ -24,7 +24,9 @@ pub struct ListParams {
 pub struct ApiEntry {
     hash: String,
     self_commander_id: i64,
+    self_secondary_commander_id: i64,
     enemy_commander_id: i64,
+    enemy_secondary_commander_id: i64,
     start_date: i64,
 }
 
@@ -69,7 +71,9 @@ pub async fn list_reports(
             "parentHash": "$metadata.parentHash",
             "startDate": "$report.metadata.start_date",
             "selfCommanderId": "$report.self.primary_commander.id",
+            "selfSecondaryCommanderId": "$report.self.secondary_commander.id",
             "enemyCommanderId": "$report.enemy.primary_commander.id",
+            "enemySecondaryCommanderId": "$report.enemy.secondary_commander.id",
         }},
         doc! { "$sort": { "startDate": -1_i32 } },
         doc! { "$group": {
@@ -78,7 +82,9 @@ pub async fn list_reports(
             "entry": { "$first": {
                 "hash": "$entryHash",
                 "self_commander_id": "$selfCommanderId",
+                "self_secondary_commander_id": "$selfSecondaryCommanderId",
                 "enemy_commander_id": "$enemyCommanderId",
+                "enemy_secondary_commander_id": "$enemySecondaryCommanderId",
                 "start_date": "$startDate",
             }},
         }},
@@ -119,15 +125,17 @@ pub async fn list_reports(
         let latest_start = doc.get_i64("latestStart").unwrap_or(0);
 
         let entry_doc = doc.get_document("entry").ok();
-        let (hash, self_id, enemy_id, start_date) = if let Some(ed) = entry_doc {
+        let (hash, self_id, self_second_id, enemy_id, enemy_second_id, start_date) = if let Some(ed) = entry_doc {
             (
                 ed.get_str("hash").unwrap_or_default().to_string(),
                 ed.get_i32("self_commander_id").unwrap_or(0) as i64,
+                ed.get_i32("self_secondary_commander_id").unwrap_or(0) as i64,
                 ed.get_i32("enemy_commander_id").unwrap_or(0) as i64,
+                ed.get_i32("enemy_secondary_commander_id").unwrap_or(0) as i64,
                 ed.get_i64("start_date").unwrap_or(latest_start),
             )
         } else {
-            (String::new(), 0, 0, latest_start)
+            (String::new(), 0, 0, 0, 0, latest_start)
         };
 
         items.push(ApiGroup {
@@ -135,7 +143,9 @@ pub async fn list_reports(
             entries: vec![ApiEntry {
                 hash,
                 self_commander_id: self_id,
+                self_secondary_commander_id: self_second_id,
                 enemy_commander_id: enemy_id,
+                enemy_secondary_commander_id: enemy_second_id,
                 start_date,
             }],
         });
