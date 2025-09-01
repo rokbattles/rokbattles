@@ -18,6 +18,7 @@ serde_json = { workspace = true }
 anyhow = { workspace = true }
 blake3 = { workspace = true }
 mail-time-detector = { path = "../mail-time-detector" }
+serde = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }
