@@ -1,7 +1,7 @@
 [
   {
     "battle_results": {
-      "death": null,
+      "death": 0,
       "enemy_death": 0,
       "enemy_healing": 0,
       "enemy_init_max": 2817739,
@@ -13,16 +13,16 @@
       "enemy_watchtower": 0,
       "enemy_watchtower_max": 26000,
       "enemy_wounded": 0,
-      "healing": null,
-      "init_max": null,
-      "kill_score": null,
-      "max": null,
-      "power": null,
-      "remaining": null,
-      "severely_wounded": null,
-      "watchtower": null,
-      "watchtower_max": null,
-      "wounded": null
+      "healing": 0,
+      "init_max": 224250,
+      "kill_score": 0,
+      "max": 224250,
+      "power": 0,
+      "remaining": 224250,
+      "severely_wounded": 0,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "wounded": 0
     },
     "enemy": {
       "alliance_tag": null,

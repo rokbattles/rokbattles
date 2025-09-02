@@ -64,16 +64,49 @@ impl BattleResolver {
             Self::copy_std_fields(dst, m, prefix);
         }
     }
+
+    fn find_nearby_obj<'a>(
+        group: &'a [Value],
+        start: usize,
+        key: &str,
+        max_span: usize,
+    ) -> Option<&'a Map<String, Value>> {
+        for d in 1..=max_span {
+            if start >= d
+                && let Some(m) = group
+                    .get(start - d)
+                    .and_then(|s| s.get(key))
+                    .and_then(Value::as_object)
+            {
+                return Some(m);
+            }
+            if let Some(m) = group
+                .get(start + d)
+                .and_then(|s| s.get(key))
+                .and_then(Value::as_object)
+            {
+                return Some(m);
+            }
+        }
+        None
+    }
 }
 
 impl Resolver for BattleResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let group = ctx.group;
-        let (_idx, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
-        let atk_block = atk_block_opt.unwrap_or(&Value::Null);
+        let (idx_opt, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
 
-        let damage = Self::json_as_obj(atk_block.get("Damage"));
-        let kill = Self::json_as_obj(atk_block.get("Kill"));
+        let section = idx_opt.and_then(|i| group.get(i)).unwrap_or(&Value::Null);
+        let atk_block = atk_block_opt.unwrap_or(section);
+
+        let damage = Self::json_as_obj(atk_block.get("Damage"))
+            .or_else(|| Self::json_as_obj(section.get("Damage")))
+            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_obj(group, i, "Damage", 3)));
+
+        let kill = Self::json_as_obj(atk_block.get("Kill"))
+            .or_else(|| Self::json_as_obj(section.get("Kill")))
+            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_obj(group, i, "Kill", 3)));
 
         let obj = match get_or_insert_object(mail, "battle_results") {
             Value::Object(m) => m,
