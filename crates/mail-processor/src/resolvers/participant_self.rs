@@ -44,32 +44,6 @@ impl ParticipantSelfResolver {
         }
     }
 
-    fn get_i64_at(v: &Value, ptr: &str) -> Option<i64> {
-        v.pointer(ptr).and_then(Value::as_i64)
-    }
-
-    fn parse_hids_from_ctk(ctk: Option<&str>) -> (Option<i64>, Option<i64>) {
-        if let Some(ctk) = ctk {
-            let mut it = ctk.split('_');
-            let h1 = it.nth(2).and_then(|s| s.parse().ok());
-            let h2 = it.next().and_then(|s| s.parse().ok());
-            return (h1, h2);
-        }
-        (None, None)
-    }
-
-    fn pick_hlv2(sections: &[Value], self_snap: &Value) -> i32 {
-        self_snap
-            .get("HLv2")
-            .and_then(Value::as_i64)
-            .or_else(|| {
-                sections
-                    .iter()
-                    .find_map(|s| s.get("HLv2").and_then(Value::as_i64))
-            })
-            .unwrap_or(0) as i32
-    }
-
     fn find_self_idx(sections: &[Value]) -> Option<usize> {
         sections.iter().position(|s| {
             s.pointer("/body/content/SelfChar").is_some()
@@ -77,113 +51,192 @@ impl ParticipantSelfResolver {
         })
     }
 
-    fn pick_hss2_fourdigits(sections: &[Value]) -> String {
+    fn clamp_stars(raw: i64) -> usize {
+        if raw <= 0 {
+            return 0;
+        }
+        core::cmp::min(raw, 4) as usize
+    }
+
+    fn digits_to_string(d: [u8; 4]) -> String {
+        let mut s = String::with_capacity(4);
+        s.push((b'0' + d[0]) as char);
+        s.push((b'0' + d[1]) as char);
+        s.push((b'0' + d[2]) as char);
+        s.push((b'0' + d[3]) as char);
+        s
+    }
+
+    fn push_skill(v: &Value, dst: &mut [u8; 5], cnt: &mut usize) {
+        if *cnt >= dst.len() {
+            return;
+        }
+        if let Some(x) = v.get("SkillLevel").and_then(Value::as_i64)
+            && (1..=5).contains(&x)
+        {
+            dst[*cnt] = x as u8;
+            *cnt += 1;
+        }
+    }
+
+    fn section_ctk(sec: &Value) -> Option<&str> {
+        sec.get("CTK")
+            .and_then(Value::as_str)
+            .or_else(|| sec.pointer("/body/content/CTK").and_then(Value::as_str))
+            .or_else(|| sec.pointer("/content/CTK").and_then(Value::as_str))
+    }
+
+    fn section_self_obj(sec: &Value) -> &Value {
+        sec.pointer("/body/content")
+            .or_else(|| sec.get("content"))
+            .unwrap_or(sec)
+    }
+
+    fn ctk_belongs_to_pid(ctk: &str, pid: i64) -> bool {
+        if ctk.is_empty() {
+            return false;
+        }
+        if let Some(pos) = ctk.as_bytes().iter().position(|&b| b == b'_') {
+            ctk[..pos].parse::<i64>().ok() == Some(pid)
+        } else {
+            ctk.parse::<i64>().ok() == Some(pid)
+        }
+    }
+
+    fn has_selfish_fields(content: &Value) -> bool {
+        content.get("HEq").is_some()
+            || content.get("CastlePos").is_some()
+            || content.get("COSId").is_some()
+    }
+
+    fn is_self_section(sec: &Value, pid_opt: Option<i64>) -> bool {
+        if let Some(pid) = pid_opt {
+            if let Some(ctk) = Self::section_ctk(sec)
+                && Self::ctk_belongs_to_pid(ctk, pid)
+            {
+                return true;
+            }
+            let content = Self::section_self_obj(sec);
+            return content.get("PId").and_then(Value::as_i64) == Some(pid);
+        }
+        Self::section_self_obj(sec).pointer("/SelfChar").is_some()
+    }
+
+    fn compose_primary_skills_star_capped(
+        sections: &[Value],
+        self_body: &Value,
+        self_idx: Option<usize>,
+        hst_stars: usize,
+        pid_opt: Option<i64>,
+    ) -> String {
+        if hst_stars == 0 {
+            return String::new();
+        }
+
+        const MAX_DIGITS_TO_OBSERVE: usize = 5;
+        let mut observed: [u8; MAX_DIGITS_TO_OBSERVE] = [0; MAX_DIGITS_TO_OBSERVE];
+        let mut count = 0usize;
+
+        if let Some(hss) = self_body.pointer("/SelfChar/HSS") {
+            Self::push_skill(hss, &mut observed, &mut count);
+        }
+        Self::push_skill(
+            self_body.pointer("/SelfChar").unwrap_or(&Value::Null),
+            &mut observed,
+            &mut count,
+        );
+        Self::push_skill(self_body, &mut observed, &mut count);
+
+        if let Some(i) = self_idx {
+            if let Some(body) = sections[i].pointer("/body") {
+                Self::push_skill(body, &mut observed, &mut count);
+            }
+            Self::push_skill(&sections[i], &mut observed, &mut count);
+
+            for s in sections.iter().skip(i + 1) {
+                if count >= MAX_DIGITS_TO_OBSERVE {
+                    break;
+                }
+                if !Self::is_self_section(s, pid_opt) {
+                    continue;
+                }
+                Self::push_skill(s, &mut observed, &mut count);
+            }
+        }
+
+        if count >= 5 {
+            return "5555".to_string();
+        }
+
+        let mut d = [0u8; 4];
+        let take = core::cmp::min(hst_stars, 4);
+        d[..take.min(count)].copy_from_slice(&observed[..take.min(count)]);
+        Self::digits_to_string(d)
+    }
+
+    fn compose_secondary_skills_star_capped(sections: &[Value], hst2_stars: usize) -> String {
+        if hst2_stars == 0 {
+            return String::new();
+        }
+
         let i = match sections.iter().position(|s| s.get("HSS2").is_some()) {
             Some(i) => i,
             None => return String::new(),
         };
 
-        let mut out = [0i64; 4];
-        let mut len = 0usize;
+        const MAX_DIGITS_TO_OBSERVE: usize = 5;
+        let mut observed: [u8; MAX_DIGITS_TO_OBSERVE] = [0; MAX_DIGITS_TO_OBSERVE];
+        let mut count = 0usize;
 
-        if let Some(x) = sections[i]
-            .get("HSS2")
-            .and_then(|o| o.get("SkillLevel"))
-            .and_then(Value::as_i64)
-        {
-            out[len] = x;
-            len += 1;
+        if let Some(hss2) = sections[i].get("HSS2") {
+            Self::push_skill(hss2, &mut observed, &mut count);
         }
-        if let Some(x) = sections[i].get("SkillLevel").and_then(Value::as_i64)
-            && len < 4
-        {
-            out[len] = x;
-            len += 1;
-        }
+        Self::push_skill(&sections[i], &mut observed, &mut count);
         for s in sections.iter().skip(i + 1) {
-            if len >= 4 {
+            if count >= MAX_DIGITS_TO_OBSERVE {
                 break;
             }
-            if let Some(x) = s.get("SkillLevel").and_then(Value::as_i64) {
-                out[len] = x;
-                len += 1;
-            }
-        }
-        if len == 0 {
-            return String::new();
+            Self::push_skill(s, &mut observed, &mut count);
         }
 
-        let hst2 = sections
-            .iter()
-            .find_map(|s| s.get("HSt2").and_then(Value::as_i64))
-            .unwrap_or(0);
-        if hst2 >= 6 && out[0] >= 5 {
-            for d in out[1..].iter_mut() {
-                if *d <= 1 {
-                    *d = 5;
-                }
-            }
+        if count >= 5 {
+            return "5555".to_string();
         }
 
-        let mut s = String::with_capacity(4);
-        for &d in out.iter() {
-            use core::fmt::Write;
-            let _ = write!(&mut s, "{d}");
-        }
-        s
+        let mut d = [0u8; 4];
+        let take = core::cmp::min(hst2_stars, 4);
+        d[..take.min(count)].copy_from_slice(&observed[..take.min(count)]);
+        Self::digits_to_string(d)
     }
 
-    fn compose_hss_mailwide(
-        sections: &[Value],
-        self_body: &Value,
-        self_idx: Option<usize>,
-    ) -> String {
-        let mut digits = [0i64; 4];
-        let mut any = false;
+    fn best_self_snapshot_for_pid<'a>(
+        sections: &'a [Value],
+        pid: i64,
+        self_name_hint: Option<&str>,
+    ) -> Option<&'a Value> {
+        let mut best_ix: Option<usize> = None;
+        let mut best_key = (false, false, false, false);
 
-        if let Some(x) = Self::get_i64_at(self_body, "/SelfChar/HSS/SkillLevel") {
-            digits[0] = x;
-            any = true;
-        }
-        if let Some(x) = Self::get_i64_at(self_body, "/SelfChar/SkillLevel") {
-            digits[1] = x;
-            any = true;
-        }
-        if let Some(x) = Self::get_i64_at(self_body, "/SkillLevel") {
-            digits[2] = x;
-            any = true;
-        }
-        if let Some(i) = self_idx
-            && let Some(x) = sections[i]
-                .pointer("/body/SkillLevel")
-                .and_then(Value::as_i64)
-                .or_else(|| sections[i].get("SkillLevel").and_then(Value::as_i64))
-        {
-            digits[3] = x;
-            any = true;
-        }
-        if !any {
-            return String::new();
-        }
+        for (ix, sec) in sections.iter().enumerate() {
+            let content = Self::section_self_obj(sec);
+            let ctk_ok = Self::section_ctk(sec)
+                .map(|ctk| Self::ctk_belongs_to_pid(ctk, pid))
+                .unwrap_or(false);
+            let pid_ok = content.get("PId").and_then(Value::as_i64) == Some(pid);
+            let name_ok = matches!(
+                (self_name_hint, content.get("PName").and_then(Value::as_str)),
+                (Some(h), Some(pn)) if !h.is_empty() && h == pn
+            );
+            let selfish = Self::has_selfish_fields(content);
 
-        let hst = sections
-            .iter()
-            .find_map(|s| s.get("HSt").and_then(Value::as_i64))
-            .unwrap_or(0);
-        if hst >= 6 && digits[0] >= 5 {
-            for d in digits[1..].iter_mut() {
-                if *d <= 1 {
-                    *d = 5;
-                }
+            let key = (ctk_ok, pid_ok, name_ok, selfish);
+            if key > best_key {
+                best_key = key;
+                best_ix = Some(ix);
             }
         }
 
-        let mut s = String::with_capacity(4);
-        for &d in digits.iter() {
-            use core::fmt::Write;
-            let _ = write!(&mut s, "{d}");
-        }
-        s
+        best_ix.map(|ix| Self::section_self_obj(&sections[ix]))
     }
 
     fn pick_self_abbr_ct_form(sections: &[Value]) -> (Option<String>, i32, i32) {
@@ -224,36 +277,79 @@ impl ParticipantSelfResolver {
         )
     }
 
-    fn resolve_name_by_pid(sections: &[Value], pid: i64) -> Option<String> {
+    fn best_ctk_for_pid(sections: &[Value], pid: i64) -> Option<String> {
+        for sec in sections {
+            if let Some(ctk) = Self::section_ctk(sec)
+                && !ctk.is_empty()
+                && Self::ctk_belongs_to_pid(ctk, pid)
+            {
+                return Some(ctk.to_owned());
+            }
+        }
+        None
+    }
+
+    fn find_hlv2(sections: &[Value], self_snap: &Value, pid: i64, hid2: i32) -> Option<i32> {
+        if let Some(lv2) = self_snap.get("HLv2").and_then(Value::as_i64)
+            && lv2 != 0
+        {
+            return Some(lv2 as i32);
+        }
+
         for sec in sections {
             if let Some(sts) = sec.get("STs").and_then(Value::as_object) {
                 for (_k, entry) in sts {
                     if entry.get("PId").and_then(Value::as_i64) == Some(pid)
-                        && let Some(pn) = entry.get("PName").and_then(Value::as_str)
+                        && let Some(lv2) = entry.get("HLv2").and_then(Value::as_i64)
+                        && lv2 != 0
                     {
-                        return Some(pn.to_owned());
+                        return Some(lv2 as i32);
                     }
+                }
+            }
+        }
+
+        if hid2 != 0 {
+            let target = hid2 as i64;
+            for sec in sections {
+                if sec.get("HId2").and_then(Value::as_i64) == Some(target)
+                    && let Some(lv2) = sec.get("HLv2").and_then(Value::as_i64)
+                    && lv2 != 0
+                {
+                    return Some(lv2 as i32);
+                }
+                let content = Self::section_self_obj(sec);
+                if content.get("HId2").and_then(Value::as_i64) == Some(target)
+                    && let Some(lv2) = content.get("HLv2").and_then(Value::as_i64)
+                    && lv2 != 0
+                {
+                    return Some(lv2 as i32);
                 }
             }
         }
         None
     }
 
-    fn resolve_name_by_ctk_prefix(sections: &[Value], pid: i64) -> Option<String> {
-        let prefix = {
-            let mut s = itoa::Buffer::new();
-            let pid_str = s.format(pid);
-            let mut owned = String::with_capacity(pid_str.len() + 1);
-            owned.push_str(pid_str);
-            owned.push('_');
-            owned
-        };
+    fn find_selfchar_pid(sections: &[Value]) -> Option<i64> {
         for sec in sections {
-            if let Some(ctk) = sec.get("CTK").and_then(Value::as_str)
-                && ctk.starts_with(&prefix)
-                && let Some(pn) = sec.get("PName").and_then(Value::as_str)
+            if let Some(pid) = sec
+                .pointer("/body/content/SelfChar/PId")
+                .and_then(Value::as_i64)
+                .or_else(|| sec.pointer("/content/SelfChar/PId").and_then(Value::as_i64))
             {
-                return Some(pn.to_owned());
+                return Some(pid);
+            }
+        }
+        None
+    }
+
+    fn find_receiver_pid(sections: &[Value]) -> Option<i64> {
+        for sec in sections {
+            if let Some(r) = sec.get("receiver").and_then(Value::as_str)
+                && let Some(stripped) = r.strip_prefix("player_")
+                && let Ok(pid) = stripped.parse::<i64>()
+            {
+                return Some(pid);
             }
         }
         None
@@ -263,9 +359,7 @@ impl ParticipantSelfResolver {
 impl Resolver for ParticipantSelfResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let sections = ctx.sections;
-        let self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
         let self_body = find_self_body_ref(sections).unwrap_or(&Value::Null);
-        let self_idx = Self::find_self_idx(sections);
 
         let obj = match get_or_insert_object(mail, "self") {
             Value::Object(m) => m,
@@ -273,11 +367,40 @@ impl Resolver for ParticipantSelfResolver {
         };
 
         // player id
-        let player_pid = self_snap
-            .get("PId")
-            .and_then(Value::as_i64)
-            .or_else(|| Self::get_i64_at(self_body, "/SelfChar/PId"));
+        let player_pid = Self::find_selfchar_pid(sections)
+            .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))
+            .or_else(|| Self::find_receiver_pid(sections));
         Self::put_i64(obj, "player_id", player_pid);
+
+        let self_name_hint = self_body.pointer("/PName").and_then(Value::as_str);
+
+        let mut self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
+        if let Some(pid) = player_pid {
+            let use_override = match Self::section_ctk(self_snap) {
+                Some(ctk) => !Self::ctk_belongs_to_pid(ctk, pid),
+                None => true,
+            };
+            if use_override {
+                if let Some(best) = Self::best_self_snapshot_for_pid(sections, pid, self_name_hint)
+                {
+                    self_snap = best;
+                } else {
+                    let ok_by_pid = self_snap.get("PId").and_then(Value::as_i64) == Some(pid);
+                    let ok_by_name = self_snap
+                        .get("PName")
+                        .and_then(Value::as_str)
+                        .and_then(|pn| self_name_hint.map(|h| pn == h))
+                        .unwrap_or(false);
+                    if ok_by_pid || ok_by_name {
+                        self_snap = Self::section_self_obj(self_snap);
+                    } else {
+                        self_snap = &Value::Null;
+                    }
+                }
+            } else {
+                self_snap = Self::section_self_obj(self_snap);
+            }
+        }
 
         // player name
         if obj.get("player_name").is_none()
@@ -285,97 +408,86 @@ impl Resolver for ParticipantSelfResolver {
                 .get("PName")
                 .and_then(Value::as_str)
                 .or_else(|| self_body.pointer("/PName").and_then(Value::as_str))
-                .map(|s| s.to_owned())
-                .or_else(|| player_pid.and_then(|pid| Self::resolve_name_by_pid(sections, pid)))
-                .or_else(|| {
-                    player_pid.and_then(|pid| Self::resolve_name_by_ctk_prefix(sections, pid))
-                })
         {
-            obj.insert("player_name".into(), Value::String(pname));
+            obj.insert("player_name".into(), Value::String(pname.to_owned()));
         }
 
-        // alliance
+        // alliance and castle pos
         let (abbr_opt, _ct, fm_guess) = Self::pick_self_abbr_ct_form(sections);
         if let Some(abbr) = abbr_opt {
             obj.insert("alliance_tag".into(), Value::String(abbr));
         }
-
-        // castle pos
         if let Some(castle) = self_snap.get("CastlePos") {
             Self::put_f64(obj, "castle_x", pick_f64(castle.get("X")));
             Self::put_f64(obj, "castle_y", pick_f64(castle.get("Y")));
         }
-        if (obj.get("castle_x").is_none() || obj.get("castle_y").is_none())
-            && let Some(pid) = player_pid
-        {
-            let mut b = itoa::Buffer::new();
-            let s = b.format(pid);
-            let mut prefix = String::with_capacity(s.len() + 1);
-            prefix.push_str(s);
-            prefix.push('_');
-
-            if let Some(castle) = sections.iter().find_map(|sec| {
-                sec.get("CTK")
-                    .and_then(Value::as_str)
-                    .filter(|ctk| ctk.starts_with(&prefix))
-                    .and_then(|_| sec.get("CastlePos"))
-            }) {
-                Self::put_f64(obj, "castle_x", pick_f64(castle.get("X")));
-                Self::put_f64(obj, "castle_y", pick_f64(castle.get("Y")));
-            }
-        }
 
         // rally
-        if let Some(b) = self_snap.get("IsRally").and_then(Value::as_bool)
-            && b
-        {
+        if let Some(true) = self_snap.get("IsRally").and_then(Value::as_bool) {
             obj.insert("is_rally".into(), Value::from(1));
         }
 
-        // commanders
-        let hid = Self::get_i64_at(self_body, "/SelfChar/HId").map(|x| x as i32);
-        let hlv = self_snap
-            .get("HLv")
-            .and_then(Value::as_i64)
-            .or_else(|| {
-                sections
-                    .iter()
-                    .find_map(|s| s.get("HLv").and_then(Value::as_i64))
-            })
-            .map(|x| x as i32);
-        let hss = Self::compose_hss_mailwide(sections, self_body, self_idx);
+        // primary commander
+        let primary_id = self_body.pointer("/SelfChar/HId").and_then(Value::as_i64);
+        let primary_lvl = self_snap.get("HLv").and_then(Value::as_i64).unwrap_or(0) as i32;
 
-        if hid.is_some() || hlv.is_some() || !hss.is_empty() {
+        if primary_id.is_some() || primary_lvl != 0 {
             let mut cmd = Map::new();
-            Self::put_i32(&mut cmd, "id", hid);
-            Self::put_i32(&mut cmd, "level", hlv);
+            Self::put_i32(&mut cmd, "id", primary_id.map(|x| x as i32));
+            Self::put_i32(&mut cmd, "level", Some(primary_lvl));
+
+            let self_idx = Self::find_self_idx(sections);
+            let hst_stars = sections
+                .iter()
+                .find_map(|s| s.get("HSt").and_then(Value::as_i64))
+                .map(Self::clamp_stars)
+                .unwrap_or(0);
+
+            let hss = Self::compose_primary_skills_star_capped(
+                sections,
+                self_body,
+                self_idx,
+                hst_stars,
+                obj.get("player_id").and_then(Value::as_i64),
+            );
             if !hss.is_empty() {
                 cmd.insert("skills".into(), Value::String(hss));
             }
+
             obj.insert("primary_commander".into(), Value::Object(cmd));
         }
 
-        let hid2 = self_snap
-            .get("HId2")
-            .and_then(Value::as_i64)
-            .or_else(|| Self::parse_hids_from_ctk(self_snap.get("CTK").and_then(Value::as_str)).1)
-            .map(|x| x as i32);
-        let hlv2 = Self::pick_hlv2(sections, self_snap);
-        let hss2 = Self::pick_hss2_fourdigits(sections);
+        // secondary commander
+        let hid2 = self_snap.get("HId2").and_then(Value::as_i64).unwrap_or(0) as i32;
 
-        if hid2.is_some() || hlv2 != 0 || !hss2.is_empty() {
-            let mut cmd2 = Map::new();
-            Self::put_i32(&mut cmd2, "id", hid2);
-            if hlv2 != 0 {
-                cmd2.insert("level".into(), Value::from(hlv2));
-            }
+        let mut hlv2 = self_snap.get("HLv2").and_then(Value::as_i64).unwrap_or(0) as i32;
+        if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
+            && hlv2 == 0
+            && let Some(found) = Self::find_hlv2(sections, self_snap, pid, hid2)
+        {
+            hlv2 = found;
+        }
+
+        let mut cmd2 = Map::new();
+        cmd2.insert("id".into(), Value::from(hid2));
+        cmd2.insert(
+            "level".into(),
+            Value::from(if hid2 == 0 { 0 } else { hlv2 }),
+        );
+        if hid2 != 0 {
+            let hst2_stars = sections
+                .iter()
+                .find_map(|s| s.get("HSt2").and_then(Value::as_i64))
+                .map(Self::clamp_stars)
+                .unwrap_or(0);
+            let hss2 = Self::compose_secondary_skills_star_capped(sections, hst2_stars);
             if !hss2.is_empty() {
                 cmd2.insert("skills".into(), Value::String(hss2));
             }
-            obj.insert("secondary_commander".into(), Value::Object(cmd2));
         }
+        obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
-        // kingdom & tracking key
+        // kingdom and tracking key
         Self::put_i32(
             obj,
             "kingdom_id",
@@ -384,40 +496,38 @@ impl Resolver for ParticipantSelfResolver {
                 .and_then(Value::as_i64)
                 .map(|x| x as i32),
         );
-        if let Some(ctk) = self_snap
-            .get("CTK")
-            .and_then(Value::as_str)
-            .filter(|s| !s.is_empty())
+        if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
+            && let Some(ctk) = Self::section_ctk(self_snap)
+                .filter(|s| !s.is_empty())
+                .filter(|s| Self::ctk_belongs_to_pid(s, pid))
+                .map(|s| s.to_owned())
+                .or_else(|| Self::best_ctk_for_pid(sections, pid))
         {
-            obj.insert("tracking_key".into(), Value::String(ctk.to_owned()));
+            obj.insert("tracking_key".into(), Value::String(ctk));
         }
 
-        // equipment
+        // equipment and formation
         Self::put_str(
             obj,
             "equipment",
             self_snap.get("HEq").and_then(Value::as_str),
         );
-
-        // formation, armament buffs, inscriptions
-        if let Some(fm) = self_snap
-            .get("HFMs")
-            .and_then(Value::as_i64)
-            .map(|x| x as i32)
-        {
-            obj.insert("formation".into(), Value::from(fm));
+        if let Some(fm) = self_snap.get("HFMs").and_then(Value::as_i64) {
+            obj.insert("formation".into(), Value::from(fm as i32));
         } else if fm_guess != 0 && obj.get("formation").is_none() {
             obj.insert("formation".into(), Value::from(fm_guess));
         }
 
-        let buffs = join_buffs(self_snap.get("HWBs"));
-        if !buffs.is_empty() {
-            obj.insert("armament_buffs".into(), Value::String(buffs));
-        }
-
-        let insc = join_affix(self_snap.get("HWBs"));
-        if !insc.is_empty() {
-            obj.insert("inscriptions".into(), Value::String(insc));
+        // armaments and inscriptions
+        if let Some(hwbs) = self_snap.get("HWBs") {
+            let buffs = join_buffs(Some(hwbs));
+            if !buffs.is_empty() {
+                obj.insert("armament_buffs".into(), Value::String(buffs));
+            }
+            let insc = join_affix(Some(hwbs));
+            if !insc.is_empty() {
+                obj.insert("inscriptions".into(), Value::String(insc));
+            }
         }
 
         Ok(())
