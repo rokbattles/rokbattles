@@ -34,9 +34,9 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
         "mail.time": { "$gte": cutoff_microseconds }
     };
 
-    // 25 raw reports at a time
+    // 50 raw reports at a time
     let opts = FindOptions::builder()
-        .limit(25)
+        .limit(50)
         .sort(doc! { "mail.time": 1 })
         .projection(doc! {
             "_id": 1,
