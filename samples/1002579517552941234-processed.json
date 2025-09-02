@@ -1,0 +1,95 @@
+[
+  {
+    "battle_results": {
+      "death": null,
+      "enemy_death": 0,
+      "enemy_healing": 0,
+      "enemy_init_max": 2817739,
+      "enemy_kill_score": 0,
+      "enemy_max": 0,
+      "enemy_power": 0,
+      "enemy_remaining": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 26000,
+      "enemy_wounded": 0,
+      "healing": null,
+      "init_max": null,
+      "kill_score": null,
+      "max": null,
+      "power": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "watchtower": null,
+      "watchtower_max": null,
+      "wounded": null
+    },
+    "enemy": {
+      "alliance_tag": null,
+      "armament_buffs": null,
+      "castle_x": 2206.4922,
+      "castle_y": 6292.705,
+      "equipment": "{2:20062_27:0}",
+      "formation": 1,
+      "inscriptions": null,
+      "is_rally": null,
+      "kingdom_id": 1804,
+      "npc_btype": null,
+      "npc_type": null,
+      "player_id": 130014943,
+      "player_name": "xAvarice",
+      "primary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "secondary_commander": {
+        "id": 7,
+        "level": 42,
+        "skills": "2222"
+      },
+      "tracking_key": null
+    },
+    "metadata": {
+      "attack_id": "603103",
+      "email_box": "Report",
+      "email_id": "1002579517552941234",
+      "email_receiver": "110176153",
+      "email_role": "gsmp",
+      "email_time": 1755294123041275,
+      "email_type": "Battle",
+      "end_date": 1755294123,
+      "is_kvk": 0,
+      "players": 1,
+      "pos_x": 2200.1484,
+      "pos_y": 6296.3677,
+      "start_date": 1755294123
+    },
+    "self": {
+      "alliance_tag": "SO4L",
+      "armament_buffs": "10002_0.005000;10101_0.042000;2004_0.052000;2004_0.058000;2004_0.060000;2004_0.070000;4001_0.011000;5001_0.015000;5004_0.010000;8000_0.032000;8000_0.038000;8000_0.060000",
+      "castle_x": 2200.8281,
+      "castle_y": 6305.255,
+      "equipment": "{7:20077_7:0,8:20074_10:0,3:20057_3:0,2:20056_8:40,5:20081_4:0,1:20055_5:40,4:20058_6:0,6:20082_0:0}",
+      "formation": 6,
+      "inscriptions": "-1;-1;-1;427",
+      "is_rally": null,
+      "kingdom_id": 1804,
+      "npc_btype": null,
+      "npc_type": null,
+      "player_id": 110176153,
+      "player_name": "F7yst",
+      "primary_commander": {
+        "id": 116,
+        "level": 50,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 15,
+        "level": 40,
+        "skills": "5555"
+      },
+      "tracking_key": "110176153_1755294119_116_15"
+    }
+  }
+]
