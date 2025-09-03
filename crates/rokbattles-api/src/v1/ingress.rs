@@ -22,6 +22,7 @@ use zstd::encode_all;
 const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
 const BUFFER_LEN: usize = 32;
 
+// TODO we'll be changing this to load supported versions at runtime, we'll stop supporting older versions over time
 fn ua_ok(h: &HeaderMap) -> bool {
     h.get("user-agent")
         .and_then(|v| v.to_str().ok())

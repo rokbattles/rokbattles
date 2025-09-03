@@ -16,6 +16,7 @@ const PROCESSED_FILE: &str = "processed.json";
 const RATE_LIMIT: u32 = 128;
 const TICK: u64 = 60000 / RATE_LIMIT as u64;
 
+// TODO we'll begin incrementing this in 0.2.0
 const API_USER_AGENT: &str = "ROKBattles/0.1.0";
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
