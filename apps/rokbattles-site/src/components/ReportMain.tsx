@@ -25,12 +25,12 @@ function CommanderRow({
   const skills = info?.skills && info.skills.length > 0 ? info.skills : undefined;
 
   if (!nm && !lvl && !skills) {
-    return <div className="text-sm text-zinc-400">—</div>;
+    return <div className="text-sm text-zinc-400">&mdash;</div>;
   }
 
   return (
     <div className="flex items-center justify-between">
-      <div className="text-sm text-zinc-200">{nm ?? "—"}</div>
+      <div className="text-sm text-zinc-200">{nm ?? "\u2014"}</div>
       <div className="flex items-center gap-1.5">
         {typeof lvl === "number" && (
           <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold ring-1 ring-inset ring-white/20 text-zinc-100">

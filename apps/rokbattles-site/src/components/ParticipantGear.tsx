@@ -1,4 +1,6 @@
 import { resolveNames } from "@/actions/datasets";
+import { cn } from "@/lib/cn";
+import { roman } from "@/lib/roman";
 import type { ParticipantInfo } from "@/lib/types/reports";
 
 function SectionHeading({ title }: { title: string }) {
@@ -14,48 +16,22 @@ function Badge({
   color?: "gray" | "blue" | "amber";
   size?: "sm" | "md";
 }) {
-  const ring =
-    color === "blue"
-      ? "ring-blue-400/50"
-      : color === "amber"
-        ? "ring-amber-400/50"
-        : "ring-white/20";
-  const text = color === "gray" || !color ? "text-zinc-100" : "text-zinc-100";
-  const sz = size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[10px]";
   return (
     <span
-      className={`inline-flex items-center rounded-md ${sz} font-semibold ring-1 ring-inset ${ring} ${text}`}
+      className={cn(
+        "inline-flex items-center rounded-md font-semibold ring-1 ring-inset",
+        size === "md" ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[10px]",
+        color === "blue"
+          ? "ring-blue-400/50"
+          : color === "amber"
+            ? "ring-amber-400/50"
+            : "ring-white/20",
+        color === "gray" || !color ? "text-zinc-100" : "text-zinc-100"
+      )}
     >
       {children}
     </span>
   );
-}
-
-function roman(n: number): string {
-  const map: [number, string][] = [
-    [1000, "M"],
-    [900, "CM"],
-    [500, "D"],
-    [400, "CD"],
-    [100, "C"],
-    [90, "XC"],
-    [50, "L"],
-    [40, "XL"],
-    [10, "X"],
-    [9, "IX"],
-    [5, "V"],
-    [4, "IV"],
-    [1, "I"],
-  ];
-  let res = "";
-  let num = Math.max(0, Math.floor(n));
-  for (const [val, sym] of map) {
-    while (num >= val) {
-      res += sym;
-      num -= val;
-    }
-  }
-  return res || "I";
 }
 
 type EquipToken = { slot: number; id: number; craft?: number; attr?: number };
@@ -112,10 +88,10 @@ function parseArmamentPairs(raw?: string): Array<{ id: number; value: number }> 
 function deriveTierAndST(attr?: number): { tier?: number; isST: boolean } {
   if (!Number.isFinite(attr) || attr === undefined) return { isST: false };
   const n = Number(attr);
-  if (n === 0) return { tier: 0, isST: false };
-  if (n < 10) return { tier: n, isST: false };
-  const level = n % 10;
-  return { tier: level, isST: true };
+  const isST = n >= 10;
+  const base = isST ? n % 10 : n;
+  const tier = Math.max(0, Math.min(5, base));
+  return { tier, isST };
 }
 
 function getInscriptionRarity(id: number): "common" | "rare" | "special" {

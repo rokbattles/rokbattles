@@ -8,8 +8,11 @@ import { formatUTCShort } from "@/lib/utc";
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const hashParam = (await searchParams)?.hash;
+  const localeParam = (await searchParams)?.locale;
+
   let data: ReportsResponse | null = null;
   try {
     const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
@@ -41,7 +44,6 @@ export default async function Page({
   );
 
   // locale
-  const localeParam = searchParams?.locale;
   const candidateLocale = Array.isArray(localeParam) ? localeParam[0] : localeParam;
   const locale: "en" | "es" | "kr" =
     candidateLocale === "es" || candidateLocale === "kr" ? candidateLocale : "en";
@@ -49,8 +51,7 @@ export default async function Page({
   const nameMap =
     commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
 
-  const hashRaw = searchParams?.hash;
-  const parentHash = Array.isArray(hashRaw) ? hashRaw[0] : hashRaw;
+  const parentHash = Array.isArray(hashParam) ? hashParam[0] : hashParam;
 
   let selectedItems: SingleReportItem[] = [];
   if (parentHash && parentHash.length > 0) {
@@ -72,7 +73,7 @@ export default async function Page({
               <h1 className="text-xl font-semibold text-zinc-100 mb-4">Report Details</h1>
               {selectedItems.map((it, idx) => {
                 const ts = it.start_date ?? it.report?.metadata?.start_date;
-                const label = formatUTCShort(ts) ?? "UTC —";
+                const label = formatUTCShort(ts) ?? "UTC \u2014";
                 return (
                   <div key={`${it.hash}:${idx}`}>
                     <div className="my-6 flex items-center gap-3">
