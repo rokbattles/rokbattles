@@ -13,6 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin --bundles dmg'
           - platform: 'windows-latest'
             args: '--bundles nsis'
 
