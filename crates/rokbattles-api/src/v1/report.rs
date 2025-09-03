@@ -69,7 +69,7 @@ pub async fn report_by_parent(
             "report": "$report",
             "startDate": "$report.metadata.start_date",
         }},
-        doc! { "$sort": { "startDate": -1_i32, "hash": -1_i32 }},
+        doc! { "$sort": { "startDate": 1_i32, "hash": 1_i32 }},
     ];
 
     if let (Some(ts), Some(h)) = (cursor_ts, cursor_hash.as_deref()) {
