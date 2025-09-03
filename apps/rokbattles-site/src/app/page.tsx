@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type React from "react";
 import type { SVGProps } from "react";
 
@@ -27,12 +28,12 @@ export default function Page() {
               >
                 <span>Download App</span>
               </a>
-              <a
+              <Link
                 href="/live"
                 className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 text-white transition hover:bg-zinc-700 focus-visible:outline-none"
               >
                 <span>Live Reports</span>
-              </a>
+              </Link>
               <a
                 href="https://discord.gg/G33SzQgx6d"
                 target="_blank"
