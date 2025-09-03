@@ -18,6 +18,7 @@ const config: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   reactStrictMode: !isProvEnv,
+  typedRoutes: true,
 };
 
 export default config;
