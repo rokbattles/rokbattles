@@ -27,6 +27,7 @@
     "enemy": {
       "alliance_tag": "04Z",
       "armament_buffs": null,
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
       "castle_x": 3718.2246,
       "castle_y": 5000.6074,
       "equipment": null,
@@ -68,6 +69,7 @@
     "self": {
       "alliance_tag": "",
       "armament_buffs": null,
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/141393181/23/08/22/05bbba99719497e4_640x640.jpg",
       "castle_x": 3732.539,
       "castle_y": 5001.4316,
       "equipment": "{}",

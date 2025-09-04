@@ -173,3 +173,18 @@ pub fn map_insert_str_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<&
         map_put_str(m, k, v);
     }
 }
+
+pub fn extract_avatar_url(v: Option<&Value>) -> Option<String> {
+    match v {
+        Some(Value::String(s)) => serde_json::from_str::<Value>(s).ok().and_then(|vv| {
+            vv.get("avatar")
+                .and_then(Value::as_str)
+                .map(|s| s.to_owned())
+        }),
+        Some(Value::Object(obj)) => obj
+            .get("avatar")
+            .and_then(Value::as_str)
+            .map(|s| s.to_owned()),
+        _ => None,
+    }
+}

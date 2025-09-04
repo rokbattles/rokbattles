@@ -1,8 +1,8 @@
 use crate::{
     helpers::{
-        collect_affix_from_hwbs, collect_buffs_from_hwbs, find_self_content_root,
-        find_self_snapshot_section, get_or_insert_object, map_put_f64, map_put_i32, map_put_i64,
-        map_put_str, parse_f64,
+        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_avatar_url,
+        find_self_content_root, find_self_snapshot_section, get_or_insert_object, map_put_f64,
+        map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -441,6 +441,15 @@ impl Resolver for ParticipantSelfResolver {
                 .or_else(|| self_body.pointer("/PName").and_then(Value::as_str))
         {
             obj.insert("player_name".into(), Value::String(pname.to_owned()));
+        }
+
+        // avatar url
+        if obj.get("avatar_url").is_none() {
+            if let Some(url) = extract_avatar_url(self_body.pointer("/SelfChar/Avatar")) {
+                obj.insert("avatar_url".into(), Value::String(url));
+            } else if let Some(url) = extract_avatar_url(self_snap.get("Avatar")) {
+                obj.insert("avatar_url".into(), Value::String(url));
+            }
         }
 
         // alliance and castle pos

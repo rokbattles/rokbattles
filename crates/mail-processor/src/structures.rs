@@ -69,6 +69,9 @@ pub struct Participant {
     // Abbr
     pub alliance_tag: Option<String>,
 
+    // Avatar
+    pub avatar_url: Option<String>,
+
     // CastlePos X
     pub castle_x: Option<f64>,
     // CastlePos Y

@@ -27,6 +27,7 @@
     "enemy": {
       "alliance_tag": null,
       "armament_buffs": null,
+      "avatar_url": null,
       "castle_x": 3882.378,
       "castle_y": 3684.0989,
       "equipment": "{}",
@@ -64,6 +65,7 @@
     "self": {
       "alliance_tag": "SO4L",
       "armament_buffs": "10002_0.007000;10002_0.013000;2004_0.048000;3002_0.025000;4002_0.012000;5001_0.035000;5003_0.010000;6002_0.021000;6002_0.028000;8000_0.030000;8000_0.040000;8000_0.044000",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-08-05/0439DD1061F65AFF1ABAF81479C4267A_250x250.jpg",
       "castle_x": 3850.0684,
       "castle_y": 3702.2334,
       "equipment": "{1:20100_442:0}",
