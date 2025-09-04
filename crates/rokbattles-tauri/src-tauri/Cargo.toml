@@ -28,3 +28,4 @@ tokio = { workspace = true }
 reqwest = { workspace = true }
 mail-decoder = { path = "../../mail-decoder" }
 mail-type-detector = { path = "../../mail-type-detector" }
+tauri-plugin-updater = { workspace = true }

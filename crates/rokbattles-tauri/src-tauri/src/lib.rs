@@ -4,6 +4,7 @@ use crate::watcher::spawn_watcher;
 use anyhow::Context;
 use std::{collections::BTreeSet, fs, path::PathBuf};
 use tauri::{AppHandle, Manager};
+use tauri_plugin_updater::UpdaterExt;
 
 fn config_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
     let dir = app
@@ -60,6 +61,30 @@ pub fn read_api_ingress_url(app: &AppHandle) -> anyhow::Result<String> {
     Ok(DEFAULT_URL.to_string())
 }
 
+// https://tauri.app/plugin/updater/#checking-for-updates
+async fn update(app: AppHandle) -> tauri_plugin_updater::Result<()> {
+    if let Some(update) = app.updater()?.check().await? {
+        let mut downloaded = 0;
+
+        update
+            .download_and_install(
+                |chunk_length, content_length| {
+                    downloaded += chunk_length;
+                    println!("downloaded {downloaded} from {content_length:?}");
+                },
+                || {
+                    println!("download finished");
+                },
+            )
+            .await?;
+
+        println!("update installed");
+        app.restart();
+    }
+
+    Ok(())
+}
+
 #[tauri::command]
 fn list_dirs(app: AppHandle) -> Result<Vec<String>, String> {
     read_dirs(&app).map_err(|e| e.to_string())
@@ -93,9 +118,15 @@ fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .setup(|app| {
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                update(handle).await.unwrap();
+            });
+
             spawn_watcher(app.handle());
             Ok(())
         })

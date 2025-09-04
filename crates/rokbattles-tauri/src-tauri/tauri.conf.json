@@ -36,6 +36,13 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDIwMDgzRUM1OTFCQjkxMDcKUldRSGtidVJ4VDRJSUNkSFQ5cnN2Z2lUbkx1ek94WS8yZFJLRTNhMWl3NEt3TGY3MHp1TjRsWEsK",
+      "endpoints": ["https://github.com/rokbattles/rokbattles/releases/latest/download/latest.json"]
+    }
   }
 }
