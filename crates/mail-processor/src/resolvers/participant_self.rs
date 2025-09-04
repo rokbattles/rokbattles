@@ -1,7 +1,8 @@
 use crate::{
     helpers::{
-        find_self_body_ref, find_self_snapshot_ref, get_or_insert_object, join_affix, join_buffs,
-        pick_f64,
+        collect_affix_from_hwbs, collect_buffs_from_hwbs, find_self_content_root,
+        find_self_snapshot_section, get_or_insert_object, map_put_f64, map_put_i32, map_put_i64,
+        map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -18,30 +19,6 @@ impl Default for ParticipantSelfResolver {
 impl ParticipantSelfResolver {
     pub fn new() -> Self {
         Self
-    }
-
-    fn put_i64(obj: &mut Map<String, Value>, k: &str, v: Option<i64>) {
-        if let Some(x) = v {
-            obj.insert(k.to_string(), Value::from(x));
-        }
-    }
-
-    fn put_i32(obj: &mut Map<String, Value>, k: &str, v: Option<i32>) {
-        if let Some(x) = v {
-            obj.insert(k.to_string(), Value::from(x));
-        }
-    }
-
-    fn put_f64(obj: &mut Map<String, Value>, k: &str, v: Option<f64>) {
-        if let Some(x) = v {
-            obj.insert(k.to_string(), Value::from(x));
-        }
-    }
-
-    fn put_str(obj: &mut Map<String, Value>, k: &str, v: Option<&str>) {
-        if let Some(s) = v {
-            obj.insert(k.to_string(), Value::String(s.to_owned()));
-        }
     }
 
     fn find_self_idx(sections: &[Value]) -> Option<usize> {
@@ -79,20 +56,20 @@ impl ParticipantSelfResolver {
         }
     }
 
-    fn section_ctk(sec: &Value) -> Option<&str> {
+    fn section_tracking_key(sec: &Value) -> Option<&str> {
         sec.get("CTK")
             .and_then(Value::as_str)
             .or_else(|| sec.pointer("/body/content/CTK").and_then(Value::as_str))
             .or_else(|| sec.pointer("/content/CTK").and_then(Value::as_str))
     }
 
-    fn section_self_obj(sec: &Value) -> &Value {
+    fn section_content_root(sec: &Value) -> &Value {
         sec.pointer("/body/content")
             .or_else(|| sec.get("content"))
             .unwrap_or(sec)
     }
 
-    fn ctk_belongs_to_pid(ctk: &str, pid: i64) -> bool {
+    fn tracking_key_belongs_to_pid(ctk: &str, pid: i64) -> bool {
         if ctk.is_empty() {
             return false;
         }
@@ -103,26 +80,28 @@ impl ParticipantSelfResolver {
         }
     }
 
-    fn has_selfish_fields(content: &Value) -> bool {
+    fn has_self_related_fields(content: &Value) -> bool {
         content.get("HEq").is_some()
             || content.get("CastlePos").is_some()
             || content.get("COSId").is_some()
     }
 
-    fn is_self_section(sec: &Value, pid_opt: Option<i64>) -> bool {
+    fn is_self_section_for_pid(sec: &Value, pid_opt: Option<i64>) -> bool {
         if let Some(pid) = pid_opt {
-            if let Some(ctk) = Self::section_ctk(sec)
-                && Self::ctk_belongs_to_pid(ctk, pid)
+            if let Some(ctk) = Self::section_tracking_key(sec)
+                && Self::tracking_key_belongs_to_pid(ctk, pid)
             {
                 return true;
             }
-            let content = Self::section_self_obj(sec);
+            let content = Self::section_content_root(sec);
             return content.get("PId").and_then(Value::as_i64) == Some(pid);
         }
-        Self::section_self_obj(sec).pointer("/SelfChar").is_some()
+        Self::section_content_root(sec)
+            .pointer("/SelfChar")
+            .is_some()
     }
 
-    fn compose_primary_skills_star_capped(
+    fn compose_primary_commander_skills_capped(
         sections: &[Value],
         self_body: &Value,
         self_idx: Option<usize>,
@@ -157,7 +136,7 @@ impl ParticipantSelfResolver {
                 if count >= MAX_DIGITS_TO_OBSERVE {
                     break;
                 }
-                if !Self::is_self_section(s, pid_opt) {
+                if !Self::is_self_section_for_pid(s, pid_opt) {
                     continue;
                 }
                 Self::push_skill(s, &mut observed, &mut count);
@@ -174,7 +153,7 @@ impl ParticipantSelfResolver {
         Self::digits_to_string(d)
     }
 
-    fn compose_secondary_skills_star_capped(sections: &[Value], hst2_stars: usize) -> String {
+    fn compose_secondary_commander_skills_capped(sections: &[Value], hst2_stars: usize) -> String {
         if hst2_stars == 0 {
             return String::new();
         }
@@ -209,7 +188,7 @@ impl ParticipantSelfResolver {
         Self::digits_to_string(d)
     }
 
-    fn best_self_snapshot_for_pid<'a>(
+    fn select_best_self_snapshot_for_pid<'a>(
         sections: &'a [Value],
         pid: i64,
         self_name_hint: Option<&str>,
@@ -218,16 +197,16 @@ impl ParticipantSelfResolver {
         let mut best_key = (false, false, false, false);
 
         for (ix, sec) in sections.iter().enumerate() {
-            let content = Self::section_self_obj(sec);
-            let ctk_ok = Self::section_ctk(sec)
-                .map(|ctk| Self::ctk_belongs_to_pid(ctk, pid))
+            let content = Self::section_content_root(sec);
+            let ctk_ok = Self::section_tracking_key(sec)
+                .map(|ctk| Self::tracking_key_belongs_to_pid(ctk, pid))
                 .unwrap_or(false);
             let pid_ok = content.get("PId").and_then(Value::as_i64) == Some(pid);
             let name_ok = matches!(
                 (self_name_hint, content.get("PName").and_then(Value::as_str)),
                 (Some(h), Some(pn)) if !h.is_empty() && h == pn
             );
-            let selfish = Self::has_selfish_fields(content);
+            let selfish = Self::has_self_related_fields(content);
 
             let key = (ctk_ok, pid_ok, name_ok, selfish);
             if key > best_key {
@@ -236,10 +215,10 @@ impl ParticipantSelfResolver {
             }
         }
 
-        best_ix.map(|ix| Self::section_self_obj(&sections[ix]))
+        best_ix.map(|ix| Self::section_content_root(&sections[ix]))
     }
 
-    fn pick_self_abbr_ct_form(sections: &[Value]) -> (Option<String>, i32, i32) {
+    fn pick_self_alliance_ct_formation(sections: &[Value]) -> (Option<String>, i32, i32) {
         if let Some(b) = sections.iter().find(|s| s.get("AName").is_some()) {
             let abbr = b.get("Abbr").and_then(Value::as_str).map(|s| s.to_owned());
             let ct = b.get("CT").and_then(Value::as_i64).unwrap_or(0) as i32;
@@ -277,11 +256,11 @@ impl ParticipantSelfResolver {
         )
     }
 
-    fn best_ctk_for_pid(sections: &[Value], pid: i64) -> Option<String> {
+    fn best_tracking_key_for_pid(sections: &[Value], pid: i64) -> Option<String> {
         for sec in sections {
-            if let Some(ctk) = Self::section_ctk(sec)
+            if let Some(ctk) = Self::section_tracking_key(sec)
                 && !ctk.is_empty()
-                && Self::ctk_belongs_to_pid(ctk, pid)
+                && Self::tracking_key_belongs_to_pid(ctk, pid)
             {
                 return Some(ctk.to_owned());
             }
@@ -289,7 +268,12 @@ impl ParticipantSelfResolver {
         None
     }
 
-    fn find_hlv2(sections: &[Value], self_snap: &Value, pid: i64, hid2: i32) -> Option<i32> {
+    fn find_secondary_commander_level(
+        sections: &[Value],
+        self_snap: &Value,
+        pid: i64,
+        hid2: i32,
+    ) -> Option<i32> {
         if let Some(lv2) = self_snap.get("HLv2").and_then(Value::as_i64)
             && lv2 != 0
         {
@@ -318,7 +302,7 @@ impl ParticipantSelfResolver {
                 {
                     return Some(lv2 as i32);
                 }
-                let content = Self::section_self_obj(sec);
+                let content = Self::section_content_root(sec);
                 if content.get("HId2").and_then(Value::as_i64) == Some(target)
                     && let Some(lv2) = content.get("HLv2").and_then(Value::as_i64)
                     && lv2 != 0
@@ -330,7 +314,53 @@ impl ParticipantSelfResolver {
         None
     }
 
-    fn find_selfchar_pid(sections: &[Value]) -> Option<i64> {
+    fn find_primary_commander_level(
+        sections: &[Value],
+        self_snap: &Value,
+        pid: i64,
+        hid: i32,
+    ) -> Option<i32> {
+        if let Some(lv) = self_snap.get("HLv").and_then(Value::as_i64)
+            && lv != 0
+        {
+            return Some(lv as i32);
+        }
+
+        for sec in sections {
+            if let Some(sts) = sec.get("STs").and_then(Value::as_object) {
+                for (_k, entry) in sts {
+                    if entry.get("PId").and_then(Value::as_i64) == Some(pid)
+                        && let Some(lv) = entry.get("HLv").and_then(Value::as_i64)
+                        && lv != 0
+                    {
+                        return Some(lv as i32);
+                    }
+                }
+            }
+        }
+
+        if hid != 0 {
+            let target = hid as i64;
+            for sec in sections {
+                if sec.get("HId").and_then(Value::as_i64) == Some(target)
+                    && let Some(lv) = sec.get("HLv").and_then(Value::as_i64)
+                    && lv != 0
+                {
+                    return Some(lv as i32);
+                }
+                let content = Self::section_content_root(sec);
+                if content.get("HId").and_then(Value::as_i64) == Some(target)
+                    && let Some(lv) = content.get("HLv").and_then(Value::as_i64)
+                    && lv != 0
+                {
+                    return Some(lv as i32);
+                }
+            }
+        }
+        None
+    }
+
+    fn find_selfchar_player_id(sections: &[Value]) -> Option<i64> {
         for sec in sections {
             if let Some(pid) = sec
                 .pointer("/body/content/SelfChar/PId")
@@ -343,7 +373,7 @@ impl ParticipantSelfResolver {
         None
     }
 
-    fn find_receiver_pid(sections: &[Value]) -> Option<i64> {
+    fn find_mail_receiver_player_id(sections: &[Value]) -> Option<i64> {
         for sec in sections {
             if let Some(r) = sec.get("receiver").and_then(Value::as_str)
                 && let Some(stripped) = r.strip_prefix("player_")
@@ -359,7 +389,7 @@ impl ParticipantSelfResolver {
 impl Resolver for ParticipantSelfResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let sections = ctx.sections;
-        let self_body = find_self_body_ref(sections).unwrap_or(&Value::Null);
+        let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
 
         let obj = match get_or_insert_object(mail, "self") {
             Value::Object(m) => m,
@@ -367,21 +397,22 @@ impl Resolver for ParticipantSelfResolver {
         };
 
         // player id
-        let player_pid = Self::find_selfchar_pid(sections)
+        let player_pid = Self::find_selfchar_player_id(sections)
             .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))
-            .or_else(|| Self::find_receiver_pid(sections));
-        Self::put_i64(obj, "player_id", player_pid);
+            .or_else(|| Self::find_mail_receiver_player_id(sections));
+        map_put_i64(obj, "player_id", player_pid);
 
         let self_name_hint = self_body.pointer("/PName").and_then(Value::as_str);
 
-        let mut self_snap = find_self_snapshot_ref(sections).unwrap_or(&Value::Null);
+        let mut self_snap = find_self_snapshot_section(sections).unwrap_or(&Value::Null);
         if let Some(pid) = player_pid {
-            let use_override = match Self::section_ctk(self_snap) {
-                Some(ctk) => !Self::ctk_belongs_to_pid(ctk, pid),
+            let use_override = match Self::section_tracking_key(self_snap) {
+                Some(ctk) => !Self::tracking_key_belongs_to_pid(ctk, pid),
                 None => true,
             };
             if use_override {
-                if let Some(best) = Self::best_self_snapshot_for_pid(sections, pid, self_name_hint)
+                if let Some(best) =
+                    Self::select_best_self_snapshot_for_pid(sections, pid, self_name_hint)
                 {
                     self_snap = best;
                 } else {
@@ -392,13 +423,13 @@ impl Resolver for ParticipantSelfResolver {
                         .and_then(|pn| self_name_hint.map(|h| pn == h))
                         .unwrap_or(false);
                     if ok_by_pid || ok_by_name {
-                        self_snap = Self::section_self_obj(self_snap);
+                        self_snap = Self::section_content_root(self_snap);
                     } else {
                         self_snap = &Value::Null;
                     }
                 }
             } else {
-                self_snap = Self::section_self_obj(self_snap);
+                self_snap = Self::section_content_root(self_snap);
             }
         }
 
@@ -413,13 +444,69 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // alliance and castle pos
-        let (abbr_opt, _ct, fm_guess) = Self::pick_self_abbr_ct_form(sections);
-        if let Some(abbr) = abbr_opt {
-            obj.insert("alliance_tag".into(), Value::String(abbr));
+        let mut alliance_abbr: Option<String> = None;
+        if let Some(pid) = player_pid {
+            let mut abbr_zero: Option<String> = None;
+            let mut abbr_any: Option<String> = None;
+            for s in sections {
+                if let Some(sts) = s.get("STs").and_then(Value::as_object) {
+                    for (k, entry) in sts {
+                        if entry.get("PId").and_then(Value::as_i64) == Some(pid)
+                            && let Some(a) = entry.get("Abbr").and_then(Value::as_str)
+                            && !a.is_empty()
+                        {
+                            if k == "0" {
+                                abbr_zero.get_or_insert_with(|| a.to_owned());
+                            } else if abbr_any.is_none() {
+                                abbr_any = Some(a.to_owned());
+                            }
+                        }
+                    }
+                }
+            }
+            alliance_abbr = abbr_zero.or(abbr_any);
         }
+        let (abbr_guess, _ct, fm_guess) = Self::pick_self_alliance_ct_formation(sections);
+        if alliance_abbr.is_none() {
+            alliance_abbr = abbr_guess;
+        }
+        let final_abbr = alliance_abbr.unwrap_or_default();
+        obj.insert("alliance_tag".into(), Value::String(final_abbr.clone()));
+
         if let Some(castle) = self_snap.get("CastlePos") {
-            Self::put_f64(obj, "castle_x", pick_f64(castle.get("X")));
-            Self::put_f64(obj, "castle_y", pick_f64(castle.get("Y")));
+            map_put_f64(obj, "castle_x", parse_f64(castle.get("X")));
+            map_put_f64(obj, "castle_y", parse_f64(castle.get("Y")));
+        }
+        if (obj.get("castle_x").is_none() || obj.get("castle_y").is_none())
+            && !final_abbr.is_empty()
+        {
+            let want_abbr = final_abbr.as_str();
+            if let Some(sec) = sections.iter().find(|s| {
+                s.get("AName").is_some()
+                    && s.get("Abbr")
+                        .and_then(Value::as_str)
+                        .map(|a| a == want_abbr)
+                        .unwrap_or(false)
+                    && s.get("CastlePos").is_some()
+            }) && let Some(castle) = sec.get("CastlePos")
+            {
+                map_put_f64(obj, "castle_x", parse_f64(castle.get("X")));
+                map_put_f64(obj, "castle_y", parse_f64(castle.get("Y")));
+            }
+        }
+        if (obj.get("castle_x").is_none() || obj.get("castle_y").is_none())
+            && !final_abbr.is_empty()
+            && let Some(sec) = sections.iter().find(|s| {
+                s.get("Abbr")
+                    .and_then(Value::as_str)
+                    .map(|a| a == final_abbr)
+                    .unwrap_or(false)
+                    && s.get("CastlePos").is_some()
+            })
+            && let Some(castle) = sec.get("CastlePos")
+        {
+            map_put_f64(obj, "castle_x", parse_f64(castle.get("X")));
+            map_put_f64(obj, "castle_y", parse_f64(castle.get("Y")));
         }
 
         // rally
@@ -429,12 +516,20 @@ impl Resolver for ParticipantSelfResolver {
 
         // primary commander
         let primary_id = self_body.pointer("/SelfChar/HId").and_then(Value::as_i64);
-        let primary_lvl = self_snap.get("HLv").and_then(Value::as_i64).unwrap_or(0) as i32;
+        let mut primary_lvl = self_snap.get("HLv").and_then(Value::as_i64).unwrap_or(0) as i32;
+        if let (Some(pid), Some(hid)) = (
+            obj.get("player_id").and_then(Value::as_i64),
+            primary_id.map(|x| x as i32),
+        ) && primary_lvl == 0
+            && let Some(found) = Self::find_primary_commander_level(sections, self_snap, pid, hid)
+        {
+            primary_lvl = found;
+        }
 
         if primary_id.is_some() || primary_lvl != 0 {
             let mut cmd = Map::new();
-            Self::put_i32(&mut cmd, "id", primary_id.map(|x| x as i32));
-            Self::put_i32(&mut cmd, "level", Some(primary_lvl));
+            map_put_i32(&mut cmd, "id", primary_id.map(|x| x as i32));
+            map_put_i32(&mut cmd, "level", Some(primary_lvl));
 
             let self_idx = Self::find_self_idx(sections);
             let hst_stars = sections
@@ -443,7 +538,7 @@ impl Resolver for ParticipantSelfResolver {
                 .map(Self::clamp_stars)
                 .unwrap_or(0);
 
-            let hss = Self::compose_primary_skills_star_capped(
+            let hss = Self::compose_primary_commander_skills_capped(
                 sections,
                 self_body,
                 self_idx,
@@ -463,7 +558,8 @@ impl Resolver for ParticipantSelfResolver {
         let mut hlv2 = self_snap.get("HLv2").and_then(Value::as_i64).unwrap_or(0) as i32;
         if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
             && hlv2 == 0
-            && let Some(found) = Self::find_hlv2(sections, self_snap, pid, hid2)
+            && let Some(found) =
+                Self::find_secondary_commander_level(sections, self_snap, pid, hid2)
         {
             hlv2 = found;
         }
@@ -480,7 +576,7 @@ impl Resolver for ParticipantSelfResolver {
                 .find_map(|s| s.get("HSt2").and_then(Value::as_i64))
                 .map(Self::clamp_stars)
                 .unwrap_or(0);
-            let hss2 = Self::compose_secondary_skills_star_capped(sections, hst2_stars);
+            let hss2 = Self::compose_secondary_commander_skills_capped(sections, hst2_stars);
             if !hss2.is_empty() {
                 cmd2.insert("skills".into(), Value::String(hss2));
             }
@@ -488,7 +584,7 @@ impl Resolver for ParticipantSelfResolver {
         obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
         // kingdom and tracking key
-        Self::put_i32(
+        map_put_i32(
             obj,
             "kingdom_id",
             self_snap
@@ -497,17 +593,17 @@ impl Resolver for ParticipantSelfResolver {
                 .map(|x| x as i32),
         );
         if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
-            && let Some(ctk) = Self::section_ctk(self_snap)
+            && let Some(ctk) = Self::section_tracking_key(self_snap)
                 .filter(|s| !s.is_empty())
-                .filter(|s| Self::ctk_belongs_to_pid(s, pid))
+                .filter(|s| Self::tracking_key_belongs_to_pid(s, pid))
                 .map(|s| s.to_owned())
-                .or_else(|| Self::best_ctk_for_pid(sections, pid))
+                .or_else(|| Self::best_tracking_key_for_pid(sections, pid))
         {
             obj.insert("tracking_key".into(), Value::String(ctk));
         }
 
         // equipment and formation
-        Self::put_str(
+        map_put_str(
             obj,
             "equipment",
             self_snap.get("HEq").and_then(Value::as_str),
@@ -520,11 +616,11 @@ impl Resolver for ParticipantSelfResolver {
 
         // armaments and inscriptions
         if let Some(hwbs) = self_snap.get("HWBs") {
-            let buffs = join_buffs(Some(hwbs));
+            let buffs = collect_buffs_from_hwbs(Some(hwbs));
             if !buffs.is_empty() {
                 obj.insert("armament_buffs".into(), Value::String(buffs));
             }
-            let insc = join_affix(Some(hwbs));
+            let insc = collect_affix_from_hwbs(Some(hwbs));
             if !insc.is_empty() {
                 obj.insert("inscriptions".into(), Value::String(insc));
             }

@@ -8,7 +8,7 @@ pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value 
     map.get_mut(key).unwrap()
 }
 
-pub fn pick_f64(v: Option<&Value>) -> Option<f64> {
+pub fn parse_f64(v: Option<&Value>) -> Option<f64> {
     match v {
         Some(Value::Number(n)) => n.as_f64(),
         Some(Value::String(s)) => s.trim().parse::<f64>().ok(),
@@ -20,7 +20,7 @@ fn split_semicolons(s: &str) -> impl Iterator<Item = &str> {
     s.split(';').filter(|p| !p.is_empty())
 }
 
-pub fn join_buffs(hwbs: Option<&Value>) -> String {
+pub fn collect_buffs_from_hwbs(hwbs: Option<&Value>) -> String {
     let mut items: Vec<&str> = Vec::new();
     if let Some(obj) = hwbs.and_then(Value::as_object) {
         for v in obj.values() {
@@ -33,7 +33,7 @@ pub fn join_buffs(hwbs: Option<&Value>) -> String {
     items.join(";")
 }
 
-pub fn join_affix(hwbs: Option<&Value>) -> String {
+pub fn collect_affix_from_hwbs(hwbs: Option<&Value>) -> String {
     let mut items: Vec<&str> = Vec::new();
     if let Some(obj) = hwbs.and_then(Value::as_object) {
         for v in obj.values() {
@@ -49,7 +49,7 @@ pub fn join_affix(hwbs: Option<&Value>) -> String {
     items.join(";")
 }
 
-pub fn find_self_snapshot_ref(sections: &[Value]) -> Option<&Value> {
+pub fn find_self_snapshot_section(sections: &[Value]) -> Option<&Value> {
     let mut first_appuid: Option<&Value> = None;
     for s in sections {
         if s.get("AppUid").is_some() {
@@ -64,7 +64,7 @@ pub fn find_self_snapshot_ref(sections: &[Value]) -> Option<&Value> {
     first_appuid
 }
 
-pub fn find_self_body_ref(sections: &[Value]) -> Option<&Value> {
+pub fn find_self_content_root(sections: &[Value]) -> Option<&Value> {
     for s in sections {
         if s.pointer("/body/content/SelfChar").is_some() || s.pointer("/content/SelfChar").is_some()
         {
@@ -79,7 +79,7 @@ pub fn find_self_body_ref(sections: &[Value]) -> Option<&Value> {
     None
 }
 
-pub fn find_best_attack_block_ref<'a>(
+pub fn find_attack_block_best_match<'a>(
     group: &'a [Value],
     attack_id: &str,
 ) -> (Option<usize>, Option<&'a Value>) {
@@ -130,4 +130,46 @@ pub fn find_best_attack_block_ref<'a>(
     }
 
     (best_idx, best_val)
+}
+
+pub fn map_put_i64(m: &mut Map<String, Value>, k: &str, v: Option<i64>) {
+    if let Some(x) = v {
+        m.insert(k.into(), Value::from(x));
+    }
+}
+
+pub fn map_put_i32(m: &mut Map<String, Value>, k: &str, v: Option<i32>) {
+    if let Some(x) = v {
+        m.insert(k.into(), Value::from(x));
+    }
+}
+
+pub fn map_put_f64(m: &mut Map<String, Value>, k: &str, v: Option<f64>) {
+    if let Some(x) = v {
+        m.insert(k.into(), Value::from(x));
+    }
+}
+
+pub fn map_put_str(m: &mut Map<String, Value>, k: &str, v: Option<&str>) {
+    if let Some(s) = v {
+        m.insert(k.into(), Value::String(s.to_owned()));
+    }
+}
+
+pub fn map_insert_i64_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<i64>) {
+    if m.get(k).is_none() {
+        map_put_i64(m, k, v);
+    }
+}
+
+pub fn map_insert_f64_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<f64>) {
+    if m.get(k).is_none() {
+        map_put_f64(m, k, v);
+    }
+}
+
+pub fn map_insert_str_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<&str>) {
+    if m.get(k).is_none() {
+        map_put_str(m, k, v);
+    }
 }

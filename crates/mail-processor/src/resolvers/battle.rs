@@ -1,5 +1,5 @@
 use crate::{
-    helpers::{find_best_attack_block_ref, get_or_insert_object},
+    helpers::{find_attack_block_best_match, get_or_insert_object},
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
@@ -17,25 +17,34 @@ impl BattleResolver {
         Self
     }
 
-    fn json_as_obj(v: Option<&Value>) -> Option<&Map<String, Value>> {
+    fn as_object_opt(v: Option<&Value>) -> Option<&Map<String, Value>> {
         v.and_then(Value::as_object)
     }
 
-    fn i64_field(m: &Map<String, Value>, key: &str) -> Option<i64> {
+    fn get_i64_field(m: &Map<String, Value>, key: &str) -> Option<i64> {
         m.get(key).and_then(Value::as_i64)
     }
 
-    fn i64_any(m: &Map<String, Value>, keys: &[&str]) -> Option<i64> {
-        keys.iter().find_map(|k| Self::i64_field(m, k))
+    fn get_first_i64(m: &Map<String, Value>, keys: &[&str]) -> Option<i64> {
+        keys.iter().find_map(|k| Self::get_i64_field(m, k))
     }
 
-    fn put_i64_pref(dst: &mut Map<String, Value>, prefix: &str, name: &str, val: Option<i64>) {
+    fn insert_i64_with_prefix(
+        dst: &mut Map<String, Value>,
+        prefix: &str,
+        name: &str,
+        val: Option<i64>,
+    ) {
         if let Some(v) = val {
             dst.insert(format!("{prefix}{name}"), Value::from(v));
         }
     }
 
-    fn copy_std_fields(dst: &mut Map<String, Value>, src: &Map<String, Value>, prefix: &str) {
+    fn copy_standard_stat_fields(
+        dst: &mut Map<String, Value>,
+        src: &Map<String, Value>,
+        prefix: &str,
+    ) {
         const FIELDS: &[(&str, &str)] = &[
             ("InitMax", "init_max"),
             ("Max", "max"),
@@ -49,23 +58,27 @@ impl BattleResolver {
             ("KillScore", "kill_score"),
         ];
         for &(from, to) in FIELDS {
-            Self::put_i64_pref(dst, prefix, to, Self::i64_field(src, from));
+            Self::insert_i64_with_prefix(dst, prefix, to, Self::get_i64_field(src, from));
         }
     }
 
-    fn copy_side(dst: &mut Map<String, Value>, src: Option<&Map<String, Value>>, prefix: &str) {
+    fn copy_side_stats(
+        dst: &mut Map<String, Value>,
+        src: Option<&Map<String, Value>>,
+        prefix: &str,
+    ) {
         if let Some(m) = src {
-            Self::put_i64_pref(
+            Self::insert_i64_with_prefix(
                 dst,
                 prefix,
                 "power",
-                Self::i64_any(m, &["Power", "AtkPower"]),
+                Self::get_first_i64(m, &["Power", "AtkPower"]),
             );
-            Self::copy_std_fields(dst, m, prefix);
+            Self::copy_standard_stat_fields(dst, m, prefix);
         }
     }
 
-    fn find_nearby_obj<'a>(
+    fn find_nearby_object_by_key<'a>(
         group: &'a [Value],
         start: usize,
         key: &str,
@@ -95,18 +108,20 @@ impl BattleResolver {
 impl Resolver for BattleResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let group = ctx.group;
-        let (idx_opt, atk_block_opt) = find_best_attack_block_ref(group, ctx.attack_id);
+        let (idx_opt, atk_block_opt) = find_attack_block_best_match(group, ctx.attack_id);
 
         let section = idx_opt.and_then(|i| group.get(i)).unwrap_or(&Value::Null);
         let atk_block = atk_block_opt.unwrap_or(section);
 
-        let damage = Self::json_as_obj(atk_block.get("Damage"))
-            .or_else(|| Self::json_as_obj(section.get("Damage")))
-            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_obj(group, i, "Damage", 3)));
+        let damage = Self::as_object_opt(atk_block.get("Damage"))
+            .or_else(|| Self::as_object_opt(section.get("Damage")))
+            .or_else(|| {
+                idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Damage", 3))
+            });
 
-        let kill = Self::json_as_obj(atk_block.get("Kill"))
-            .or_else(|| Self::json_as_obj(section.get("Kill")))
-            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_obj(group, i, "Kill", 3)));
+        let kill = Self::as_object_opt(atk_block.get("Kill"))
+            .or_else(|| Self::as_object_opt(section.get("Kill")))
+            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 3)));
 
         let obj = match get_or_insert_object(mail, "battle_results") {
             Value::Object(m) => m,
@@ -114,9 +129,9 @@ impl Resolver for BattleResolver {
         };
 
         // self
-        Self::copy_side(obj, damage, "");
+        Self::copy_side_stats(obj, damage, "");
         // enemy
-        Self::copy_side(obj, kill, "enemy_");
+        Self::copy_side_stats(obj, kill, "enemy_");
 
         Ok(())
     }

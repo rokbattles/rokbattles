@@ -25,7 +25,7 @@
       "wounded": 0
     },
     "enemy": {
-      "alliance_tag": null,
+      "alliance_tag": "04Z",
       "armament_buffs": null,
       "castle_x": 3718.2246,
       "castle_y": 5000.6074,
@@ -39,8 +39,8 @@
       "player_id": 181252461,
       "player_name": "F4 Benbu",
       "primary_commander": {
-        "id": 0,
-        "level": 0,
+        "id": 23,
+        "level": 1,
         "skills": null
       },
       "secondary_commander": {
