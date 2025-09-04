@@ -9,3 +9,6 @@ serde_json = { workspace = true }
 clap = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
 mail-processor = { path = "../mail-processor" }
+mongodb = { workspace = true }
+tokio = { workspace = true }
+zstd = { workspace = true }

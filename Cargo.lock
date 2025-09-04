@@ -2604,7 +2604,10 @@ dependencies = [
  "clap",
  "mail-decoder",
  "mail-processor",
+ "mongodb",
  "serde_json",
+ "tokio",
+ "zstd",
 ]
 
 [[package]]
