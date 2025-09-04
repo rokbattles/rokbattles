@@ -1,0 +1,325 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": false,
+      "box": "Report",
+      "reportMerge": 0,
+      "serverId": 1804,
+      "time": 1755383965547515,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "type": "Battle",
+      "holdTag": 0,
+      "id": "1375164117553839651",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "body": {
+        "content": {
+          "SelfChar": {
+            "HAw2": true,
+            "HTJ": 0,
+            "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png\"}",
+            "PId": 29862805,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 545,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 393
+            },
+            "SkillLevel": 5,
+            "SkillId": 1751
+          },
+          "SkillLevel": 5,
+          "SkillId": 1752
+        },
+        "SkillLevel": 5,
+        "SkillId": 1753
+      },
+      "SkillLevel": 1,
+      "SkillId": 1754
+    },
+    {
+      "AId": 4805441,
+      "CId": 87338301,
+      "HSS2": {
+        "SkillLevel": 1,
+        "SkillId": 1547
+      },
+      "SkillLevel": 5,
+      "SkillId": 251
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1544
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1545
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1546
+    },
+    {
+      "Idt": "87338301",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75117011_17502",
+          "Buffs": "3001_0.018000;4001_0.031000;10002_0.015000",
+          "Affix": "17101"
+        },
+        "4": {
+          "Id": "75417011_17505",
+          "Buffs": "3001_0.016000;4001_0.027000;5001_0.022000",
+          "Affix": "412"
+        },
+        "3": {
+          "Id": "75317011_17504",
+          "Buffs": "3001_0.020000;4001_0.025000;5001_0.017000",
+          "Affix": "317"
+        },
+        "2": {
+          "Id": "75217011_17503",
+          "Buffs": "3001_0.033000;4001_0.016000;5001_0.033000",
+          "Affix": "17202"
+        }
+      },
+      "SerSeason": "100",
+      "Udid": "232405308239503154",
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "HSt": 6,
+      "HEq": "{5:20032_132:15,6:20034_149:12,7:20038_321:1,2:20014_208:2,8:20037_290:2,3:20026_226:2,1:20002_237:12,4:20016_225:2}",
+      "IfAI": 0,
+      "HId2": 185,
+      "CAHAH": {},
+      "AppUid": "26855535",
+      "PName": "Titanobenbu",
+      "HFMs": 17,
+      "CtId": 729247,
+      "HEq2": "{}",
+      "HAw": true,
+      "CastleLevel": 25,
+      "COSId": 1804,
+      "CTK": "29862805_1755383700_545_185",
+      "CastlePos": {
+        "Y": 3689.1318,
+        "X": 3850.2246
+      },
+      "HSt2": 6,
+      "Abbr": "SO4L",
+      "HFMs2": 17,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HTE": -1,
+      "HLv": 60,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "魂社会SoulReapers"
+    },
+    {
+      "Role": "gsmp",
+      "isConquerSeason": false,
+      "STs": {
+        "729247": {
+          "Abbr": "SO4L",
+          "HLv": 60,
+          "PId": 29862805,
+          "HId2": 185,
+          "HLv2": 60,
+          "PName": "Titanobenbu",
+          "HId": 545
+        }
+      },
+      "Bts": 1755383954,
+      "Btk": 402304,
+      "Id": 5400106,
+      "Samples": {
+        "Cnt": 223931,
+        "T": 402304
+      },
+      "Cnt": 222465,
+      "T": 402315
+    },
+    {
+      "Schema": 10,
+      "TickSkip": 100,
+      "Attacks": {
+        "87377701": {
+          "Kill": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 5094,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "RetreatCnt": 0,
+            "Power": -379624,
+            "HurtCntEnd": 0,
+            "Healing": 0,
+            "WarExploits": 0,
+            "Max": 100000,
+            "InitMax": 100000,
+            "AddCnt": 0,
+            "BadHurt": 94906,
+            "Death": 0,
+            "SkillPower": -217120,
+            "AtkPower": -162504,
+            "KillScore": 29320
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": {},
+          "NpcAtkExp": 0,
+          "Tick": 11,
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Damage": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 0,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 222465,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "RetreatCnt": 0,
+            "Power": -14660,
+            "HurtCntEnd": 181,
+            "Healing": 0,
+            "WarExploits": 0,
+            "Max": 223931,
+            "InitMax": 230747,
+            "AddCnt": 0,
+            "BadHurt": 1466,
+            "Death": 0,
+            "SkillPower": -660,
+            "AtkPower": -14000,
+            "KillScore": 949060
+          },
+          "CIdt": {
+            "HAw2": false,
+            "HTJ": 0,
+            "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/46387535/230222/C483914BF87CDDDFDB17C0627925C470_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "PId": 46387535,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 462,
+            "HSS": {
+              "SkillLevel": 3,
+              "SkillId": 386
+            }
+          },
+          "HTE": 0,
+          "CId": 87377701,
+          "Idt": "87377701",
+          "HTJ2": 0,
+          "SerSeason": "100",
+          "Udid": "232405308239503154",
+          "HSt": 1,
+          "HEq": "{}",
+          "Titan": {
+            "Round": 0,
+            "BattleId": "",
+            "TeamId": 0
+          },
+          "HId2": 0,
+          "PkgNameNew": "com.lilithgames.rok.pc.int",
+          "IsAuto": 0,
+          "PName": "F1 벤부",
+          "IfAI": 0,
+          "CtId": 729550,
+          "HLv": 1,
+          "HAw": false,
+          "CAHAH": {},
+          "AppUid": "26855535",
+          "CastleLevel": 25,
+          "CastlePos": {
+            "Y": 3689.0303,
+            "X": 3836.916
+          },
+          "HSt2": 0,
+          "Abbr": "2804",
+          "COSId": 1804,
+          "CASS": {
+            "ENABLE": false,
+            "Ban": false
+          },
+          "CTK": "46387535_1755383951_462",
+          "AId": 4805332,
+          "HLv2": 0,
+          "CT": 1,
+          "AName": "Shinigami"
+        },
+        "ReportShowType": 0,
+        "Def": 2,
+        "Bts": 402304,
+        "OpsKvkModBuffIds": {},
+        "Ets": 402314,
+        "TickStart": 402304,
+        "OTs": {
+          "729550": {
+            "Abbr": "2804",
+            "HLv": 1,
+            "PId": 46387535,
+            "HId2": 0,
+            "HLv2": 0,
+            "PName": "F1 벤부",
+            "HId": 462
+          }
+        },
+        "Pos": {
+          "Y": 3683.9946,
+          "X": 3844.6309
+        },
+        "RewardLimited": false
+      }
+    },
+    {
+      "GsId": 1804,
+      "Events": {},
+      "Ets": 1755383965,
+      "LLScriptSchema": 224,
+      "DataOmit": false,
+      "RoomId": 0,
+      "LoadSource": "oss"
+    },
+    {
+      "receiver": "player_29862805",
+      "flaglist": {},
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}
