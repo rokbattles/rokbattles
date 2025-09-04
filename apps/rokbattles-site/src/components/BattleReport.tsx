@@ -1,14 +1,12 @@
+import type React from "react";
 import { resolveNames } from "@/actions/datasets";
+import { BattleParticipant } from "@/components/battle/BattleParticipant";
+import { BattleResult } from "@/components/battle/BattleResult";
 import type { CommanderInfo, SingleReportItem } from "@/lib/types/reports";
-import BattleResultsView from "./BattleResults";
-import ParticipantGear from "./ParticipantGear";
 
-function Section({ title, children }: { title?: string; children: React.ReactNode }) {
+function Section({ children }: { children: React.ReactNode }) {
   return (
-    <section className="rounded-lg border border-white/10 bg-zinc-900/60 p-4">
-      {title ? <h3 className="text-base font-semibold text-zinc-100">{title}</h3> : null}
-      <div className={title ? "mt-2" : ""}>{children}</div>
-    </section>
+    <section className="rounded-lg bg-zinc-800/50 p-3 ring-1 ring-white/5">{children}</section>
   );
 }
 
@@ -47,7 +45,7 @@ function CommanderRow({
   );
 }
 
-export default async function ReportMain({
+export async function BattleReport({
   item,
   locale = "en",
 }: {
@@ -65,9 +63,6 @@ export default async function ReportMain({
   const self = item.report?.self;
   const enemy = item.report?.enemy;
 
-  const leftName = self?.player_name ?? "Unknown";
-  const rightName = enemy?.player_name ?? "Unknown";
-
   const ids: string[] = [];
   if (self?.primary_commander?.id) ids.push(String(self.primary_commander.id));
   if (self?.secondary_commander?.id) ids.push(String(self.secondary_commander.id));
@@ -76,37 +71,25 @@ export default async function ReportMain({
   const nameMap = ids.length > 0 ? await resolveNames("commanders", ids, locale) : {};
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      <BattleResultsView
-        data={item.report?.battle_results}
-        leftName={leftName}
-        rightName={rightName}
-      />
+    <div className="max-w-6xl mx-auto space-y-4">
+      <BattleResult data={item.report.battle_results} self={self} enemy={enemy} locale={locale} />
       <div className="grid gap-4 md:grid-cols-2">
         <Section>
-          <div className="text-sm text-zinc-300">
-            {self?.alliance_tag ? `[${self.alliance_tag}] ` : ""}
-            {leftName}
-          </div>
-          <div className="mt-1 space-y-0.5">
+          <div className="space-y-0.5">
             <CommanderRow info={self?.primary_commander} names={nameMap} />
             <CommanderRow info={self?.secondary_commander} names={nameMap} />
           </div>
           <div className="mt-3">
-            <ParticipantGear participant={self} locale={locale} />
+            <BattleParticipant participant={self} locale={locale} />
           </div>
         </Section>
         <Section>
-          <div className="text-sm text-zinc-300">
-            {enemy?.alliance_tag ? `[${enemy.alliance_tag}] ` : ""}
-            {rightName}
-          </div>
-          <div className="mt-1 space-y-0.5">
+          <div className="space-y-0.5">
             <CommanderRow info={enemy?.primary_commander} names={nameMap} />
             <CommanderRow info={enemy?.secondary_commander} names={nameMap} />
           </div>
           <div className="mt-3">
-            <ParticipantGear participant={enemy} locale={locale} />
+            <BattleParticipant participant={enemy} locale={locale} />
           </div>
         </Section>
       </div>

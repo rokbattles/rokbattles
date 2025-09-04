@@ -1,7 +1,7 @@
 import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
+import { BattleReport } from "@/components/BattleReport";
 import LiveSidebar from "@/components/LiveSidebar";
-import ReportMain from "@/components/ReportMain";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
@@ -81,7 +81,7 @@ export default async function Page({
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <ReportMain item={it} locale={locale} />
+                    <BattleReport item={it} locale={locale} />
                   </div>
                 );
               })}
