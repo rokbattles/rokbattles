@@ -1,232 +1,18 @@
 commanders:
   # Missing Mary I
 
-  # Advanced
-  22:
-    name:
-      en: "City Keeper"
-      es: "Guardián de la Ciudad"
-      kr: "수호자"
-    prime: false
-
-  23:
-    name:
-      en: "Markswoman"
-      es: "Francotiradora"
-      kr: "명시수"
-    prime: false
-
-  24:
-    name:
-      en: "Centurion"
-      es: "Centurión"
-      kr: "명시수"
-    prime: false
-
-  25:
-    name:
-      en: "Dragon Lancer"
-      es: "Lancero de Dragón"
-      kr: "명시수"
-    prime: false
-
-  # Elite
-  33:
-    name:
-      en: "Constance"
-      es: "Constanza"
-      kr: "쿠스탄차"
-    prime: false
-
-  34:
-    name:
-      en: "Gaius Marius"
-      es: "Cayo Mario"
-      kr: "가이우스 마리우스"
-    prime: false
-
-  35:
-    name:
-      en: "Tomoe Gozen"
-      es: "Tomoe Gozen"
-      kr: "토모에 고젠"
-    prime: false
-
-  36:
-    name:
-      en: "Lancelot"
-      es: "Lanzarote"
-      kr: "랜슬롯"
-    prime: false
-
-  38:
-    name:
-      en: "Šárka"
-      es: "Sárka"
-      kr: "샤르카"
-    prime: false
-
-  # Epic
-  3:
-    name:
-      en: "Sun Tzu"
-      es: "Sun Tzu"
-      kr: "손무"
-    prime: false
-
-  12:
-    name:
-      en: "Hermann"
-      es: "Hermann"
-      kr: "헤르만"
-    prime: false
-
-  13:
-    name:
-      en: "Kusunoki Masashige"
-      es: "Kusunoki Masashige"
-      kr: "구스노키 마사시게"
-    prime: false
-
-  14:
-    name:
-      en: "Scipio Africanus"
-      es: "Escipión el Africano"
-      kr: "스키피오"
-    prime: false
-
-  15:
-    name:
-      en: "Joan of Arc"
-      es: "Juana de Arco"
-      kr: "잔 다르크"
-    prime: false
-
-  16:
-    name:
-      en: "Eulji Mundeok"
-      es: "Eulji Mundeok"
-      kr: "을지문덕"
-    prime: false
-
-  17:
-    name:
-      en: "Boudica"
-      es: "Boudica"
-      kr: "부디카"
-    prime: false
-
-  18:
-    name:
-      en: "Pelagius"
-      es: "Pelayo"
-      kr: "펠라기우스"
-    prime: false
-
-  37:
-    name:
-      en: "Lohar"
-      es: "Lohar"
-      kr: "로하"
-    prime: false
-
-  61:
-    name:
-      en: "Belisarius"
-      es: "Belisario"
-      kr: "벨리사리우스"
-    prime: false
-
-  62:
-    name:
-      en: "Baibars"
-      es: "Baibars"
-      kr: "바이바르스"
-    prime: false
-
-  63:
-    name:
-      en: "Osman I"
-      es: "Osmán I"
-      kr: "오스만 1세"
-    prime: false
-
-  112:
-    name:
-      en: "Keira"
-      es: "Keira"
-      kr: "카일라"
-    prime: false
-
-  116:
-    name:
-      en: "Matilda of Flanders"
-      es: "Matilde de Flandes"
-      kr: "마틸다 1세"
-    prime: false
-
-  120:
-    name:
-      en: "Diaochan"
-      es: "Diaochan"
-      kr: "초선"
-    prime: false
-
-  128:
-    name:
-      en: "Björn Ironside"
-      es: "Björn Brazo de Hierro"
-      kr: "비에른"
-    prime: false
-
-  134:
-    name:
-      en: "Queen Tamar of Georgia"
-      es: "Reina Tamara de Georgia"
-      kr: "타마르 여왕"
-    prime: false
-
-  142:
-    name:
-      en: "Imhotep"
-      es: "Imhotep"
-      kr: "임호텝"
-    prime: false
-
-  181:
-    name:
-      en: "Pericles"
-      es: "Pericles"
-      kr: "페리클레스"
-    prime: false
-
-  463:
-    name:
-      en: "Wak Chanil Ajaw"
-      es: "Wak Chanil Ajaw"
-      kr: "왁 차닐 아하우"
-    prime: false
-
-  536:
-    name:
-      en: "Catherine de' Medici"
-      es: "Catalina de Médici"
-      kr: "카트린 드 메디시스"
-    prime: false
-
-  537:
-    name:
-      en: "Narses"
-      es: "Narsés"
-      kr: "나르세스"
-    prime: false
-
-  # Legendary
   1:
     name:
       en: "Julius Caesar"
       es: "Julio César"
       kr: "율리우스 카이사르"
+    prime: false
+
+  3:
+    name:
+      en: "Sun Tzu"
+      es: "Sun Tzu"
+      kr: "손무"
     prime: false
 
   4:
@@ -285,6 +71,83 @@ commanders:
       kr: "엘 시드"
     prime: false
 
+  12:
+    name:
+      en: "Hermann"
+      es: "Hermann"
+      kr: "헤르만"
+    prime: false
+
+  13:
+    name:
+      en: "Kusunoki Masashige"
+      es: "Kusunoki Masashige"
+      kr: "구스노키 마사시게"
+    prime: false
+
+  14:
+    name:
+      en: "Scipio Africanus"
+      es: "Escipión el Africano"
+      kr: "스키피오"
+    prime: false
+
+  15:
+    name:
+      en: "Joan of Arc"
+      es: "Juana de Arco"
+      kr: "잔 다르크"
+    prime: false
+
+  16:
+    name:
+      en: "Eulji Mundeok"
+      es: "Eulji Mundeok"
+      kr: "을지문덕"
+    prime: false
+
+  17:
+    name:
+      en: "Boudica"
+      es: "Boudica"
+      kr: "부디카"
+    prime: false
+
+  18:
+    name:
+      en: "Pelagius"
+      es: "Pelayo"
+      kr: "펠라기우스"
+    prime: false
+
+  22:
+    name:
+      en: "City Keeper"
+      es: "Guardián de la Ciudad"
+      kr: "수호자"
+    prime: false
+
+  23:
+    name:
+      en: "Markswoman"
+      es: "Francotiradora"
+      kr: "명시수"
+    prime: false
+
+  24:
+    name:
+      en: "Centurion"
+      es: "Centurión"
+      kr: "명시수"
+    prime: false
+
+  25:
+    name:
+      en: "Dragon Lancer"
+      es: "Lancero de Dragón"
+      kr: "명시수"
+    prime: false
+
   30:
     name:
       en: "Hannibal Barca"
@@ -297,6 +160,69 @@ commanders:
       en: "Cleopatra VII"
       es: "Cleopatra VII"
       kr: "틀레오파트라 7세"
+    prime: false
+
+  33:
+    name:
+      en: "Constance"
+      es: "Constanza"
+      kr: "쿠스탄차"
+    prime: false
+
+  34:
+    name:
+      en: "Gaius Marius"
+      es: "Cayo Mario"
+      kr: "가이우스 마리우스"
+    prime: false
+
+  35:
+    name:
+      en: "Tomoe Gozen"
+      es: "Tomoe Gozen"
+      kr: "토모에 고젠"
+    prime: false
+
+  36:
+    name:
+      en: "Lancelot"
+      es: "Lanzarote"
+      kr: "랜슬롯"
+    prime: false
+
+  37:
+    name:
+      en: "Lohar"
+      es: "Lohar"
+      kr: "로하"
+    prime: false
+
+  38:
+    name:
+      en: "Šárka"
+      es: "Sárka"
+      kr: "샤르카"
+    prime: false
+
+  61:
+    name:
+      en: "Belisarius"
+      es: "Belisario"
+      kr: "벨리사리우스"
+    prime: false
+
+  62:
+    name:
+      en: "Baibars"
+      es: "Baibars"
+      kr: "바이바르스"
+    prime: false
+
+  63:
+    name:
+      en: "Osman I"
+      es: "Osmán I"
+      kr: "오스만 1세"
     prime: false
 
   64:
@@ -432,6 +358,13 @@ commanders:
       kr: "아르테미시아 1세"
     prime: false
 
+  112:
+    name:
+      en: "Keira"
+      es: "Keira"
+      kr: "카일라"
+    prime: false
+
   113:
     name:
       en: "Yi Sun-sin"
@@ -453,6 +386,13 @@ commanders:
       kr: "윌리엄 1세"
     prime: false
 
+  116:
+    name:
+      en: "Matilda of Flanders"
+      es: "Matilde de Flandes"
+      kr: "마틸다 1세"
+    prime: false
+
   117:
     name:
       en: "Harald Sigurdsson"
@@ -472,6 +412,13 @@ commanders:
       en: "Lu Bu"
       es: "Lu Bu"
       kr: "여포"
+    prime: false
+
+  120:
+    name:
+      en: "Diaochan"
+      es: "Diaochan"
+      kr: "초선"
     prime: false
 
   121:
@@ -516,6 +463,13 @@ commanders:
       kr: "야드비가"
     prime: false
 
+  128:
+    name:
+      en: "Björn Ironside"
+      es: "Björn Brazo de Hierro"
+      kr: "비에른"
+    prime: false
+
   129:
     name:
       en: "Ragnar Lodbrok"
@@ -549,6 +503,13 @@ commanders:
       en: "Amanitore"
       es: "Amanitore"
       kr: "아마니토레"
+    prime: false
+
+  134:
+    name:
+      en: "Queen Tamar of Georgia"
+      es: "Reina Tamara de Georgia"
+      kr: "타마르 여왕"
     prime: false
 
   135:
@@ -598,6 +559,13 @@ commanders:
       en: "Thutmose III"
       es: "Tutmosis III"
       kr: "투트모세 3세"
+    prime: false
+
+  142:
+    name:
+      en: "Imhotep"
+      es: "Imhotep"
+      kr: "임호텝"
     prime: false
 
   145:
@@ -682,6 +650,13 @@ commanders:
       en: "Pyrrhus"
       es: "Pirro"
       kr: "피로스"
+    prime: false
+
+  181:
+    name:
+      en: "Pericles"
+      es: "Pericles"
+      kr: "페리클레스"
     prime: false
 
   182:
@@ -824,6 +799,13 @@ commanders:
       kr: "시야칵"
     prime: false
 
+  463:
+    name:
+      en: "Wak Chanil Ajaw"
+      es: "Wak Chanil Ajaw"
+      kr: "왁 차닐 아하우"
+    prime: false
+
   503:
     name:
       en: "Tokugawa Ieyasu"
@@ -842,6 +824,20 @@ commanders:
       en: "Qin Shi Huang"
       es: "Qin Shi Huang"
       kr: "영정"
+    prime: false
+
+  536:
+    name:
+      en: "Catherine de' Medici"
+      es: "Catalina de Médici"
+      kr: "카트린 드 메디시스"
+    prime: false
+
+  537:
+    name:
+      en: "Narses"
+      es: "Narsés"
+      kr: "나르세스"
     prime: false
 
   539:
