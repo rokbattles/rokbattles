@@ -2615,7 +2615,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "clap",
@@ -2629,7 +2629,7 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "serde",
@@ -2638,7 +2638,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "itoa",
@@ -2648,7 +2648,7 @@ dependencies = [
 
 [[package]]
 name = "mail-time-detector"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "mail-decoder",
  "serde_json",
@@ -2656,7 +2656,7 @@ dependencies = [
 
 [[package]]
 name = "mail-type-detector"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "mail-decoder",
  "serde",
@@ -4100,7 +4100,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-api"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "axum",
@@ -4122,7 +4122,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "blake3",
@@ -4139,7 +4139,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-tauri"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "mail-decoder",
