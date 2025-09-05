@@ -5,7 +5,7 @@
 
 ## What is ROK Battles
 
-ROK Battles is a community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms. With explicit opt-in, in-game mails (primarily battle reports) are relayed to our backend, parsed, and aggregated into public datasets. These datasets power real-time browsing of battle reports alongside battle details—including commanders, equipment, armaments, and inscriptions—and drive trend exploration; no account required to explore.
+ROK Battles is a community-driven platform for sharing, exploring, and analyzing battle reports and viewing trends in Rise of Kingdoms.
 
 ## Project Status
 
