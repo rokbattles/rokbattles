@@ -1,5 +1,5 @@
 commanders:
-  # Missing Mary I and Archimedes
+  # Missing Mary I
 
   # Advanced
   22:
@@ -863,4 +863,11 @@ commanders:
       en: "Bai Qi"
       es: "Bai Qi"
       kr: "백기"
+    prime: false
+
+  564:
+    name:
+      en: "Archimedes"
+      es: "Arquímedes"
+      kr: "아르키메데스"
     prime: false
