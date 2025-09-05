@@ -48,6 +48,7 @@ export interface ParticipantInfo {
   player_id?: number;
   player_name?: string;
   alliance_tag?: string;
+  avatar_url?: string;
   castle_x?: number;
   castle_y?: number;
   is_rally?: boolean | null;

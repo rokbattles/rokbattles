@@ -11,7 +11,12 @@ export async function BattleResultHeader({ self, enemy }: Props) {
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-blue-400/50">
-            <div className="h-full w-full bg-blue-500" />
+            {self.avatar_url ? (
+              // biome-ignore lint/performance/noImgElement: switch to next/image in future
+              <img src={self.avatar_url} alt={self.player_name} className="h-full w-full" />
+            ) : (
+              <div className="h-full w-full bg-blue-500" />
+            )}
           </div>
           <div>
             <div className="text-sm font-semibold text-zinc-100">{self.player_name}</div>
@@ -29,7 +34,12 @@ export async function BattleResultHeader({ self, enemy }: Props) {
             <div className="text-[11px] text-zinc-400">{enemy.alliance_tag}</div>
           </div>
           <div className="h-9 w-9 overflow-hidden rounded-full ring-2 ring-red-400/50">
-            <div className="h-full w-full bg-red-500" />
+            {enemy.avatar_url ? (
+              // biome-ignore lint/performance/noImgElement: switch to next/image in future
+              <img src={enemy.avatar_url} alt={enemy.player_name} className="h-full w-full" />
+            ) : (
+              <div className="h-full w-full bg-red-500" />
+            )}
           </div>
         </div>
       </div>
