@@ -5,11 +5,12 @@ use std::{
     collections::HashMap,
     fs,
     io::Read,
+    path::Path,
     path::PathBuf,
     sync::OnceLock,
     time::{Duration, SystemTime},
 };
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Emitter, Manager};
 
 // Likely want switch over to sqlite for 0.2.0, this will be fine for first prerelease
 const PROCESSED_FILE: &str = "processed.json";
@@ -32,6 +33,11 @@ struct FileSig {
     modified: u128,
 }
 
+#[derive(Debug, Clone, Serialize)]
+struct LogPayload {
+    message: String,
+}
+
 fn http_client() -> &'static reqwest::Client {
     HTTP_CLIENT.get_or_init(|| {
         reqwest::Client::builder()
@@ -42,6 +48,22 @@ fn http_client() -> &'static reqwest::Client {
             .build()
             .expect("failed to build HTTP client")
     })
+}
+
+fn emit_log(app: &AppHandle, message: impl Into<String>) {
+    let _ = app.emit(
+        "rokbattles",
+        LogPayload {
+            message: message.into(),
+        },
+    );
+}
+
+fn filename_only(path: &Path) -> String {
+    path.file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or_default()
+        .to_string()
 }
 
 fn processed_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
@@ -135,6 +157,7 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
     let dirs = match read_dirs(app) {
         Ok(d) => d,
         Err(e) => {
+            emit_log(app, format!("Failed to read config: {}", e));
             eprintln!("[rokbattles] failed to read config: {}", e);
             return None;
         }
@@ -143,6 +166,7 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
     let mut store = match read_processed(app) {
         Ok(s) => s,
         Err(e) => {
+            emit_log(app, format!("Failed to read processed store: {}", e));
             eprintln!("[rokbattles] failed to read processed store: {}", e);
             return None;
         }
@@ -256,11 +280,14 @@ pub fn spawn_watcher(app: &AppHandle) {
 
             match next_file(&app).await {
                 Some(path) => {
+                    let fname = filename_only(&path);
+                    emit_log(&app, format!("Processing {}", fname));
                     eprintln!("[rokbattles] processing {:?}", path);
 
                     let bytes = match fs::read(&path) {
                         Ok(b) => b,
                         Err(e) => {
+                            emit_log(&app, format!("Failed to read file {}: {}", fname, e));
                             eprintln!("[rokbattles] failed to read file {:?}: {}", path, e);
                             continue;
                         }
@@ -269,6 +296,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                     let decoded = match mail_decoder::decode(&bytes) {
                         Ok(m) => m,
                         Err(e) => {
+                            emit_log(&app, format!("Decode failed for {}: {}", fname, e));
                             eprintln!("[rokbattles] decode failed for {:?}: {}", path, e);
                             continue;
                         }
@@ -276,17 +304,28 @@ pub fn spawn_watcher(app: &AppHandle) {
 
                     let first_type = mail_type_detector::detect_type_str(&decoded);
                     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+                        emit_log(
+                            &app,
+                            format!(
+                                "Skipping non-battle mail {} (detected: {})",
+                                fname,
+                                first_type.unwrap_or("Unknown")
+                            ),
+                        );
                         eprintln!(
-                            "[rokbattles] skipping non-Battle mail {:?} (detected: {:?})",
-                            path, first_type
+                            "[rokbattles] skipping non-battle mail {:?} (detected: {:?})",
+                            path,
+                            first_type.unwrap_or("Unknown")
                         );
                         continue;
                     }
 
                     if let Err(e) = post_file_to_api(client, &api_url, &bytes).await {
+                        emit_log(&app, format!("Failed to upload {}: {}", fname, e));
                         eprintln!("[rokbattles] failed to upload {:?}: {}", path, e);
                     } else {
-                        eprintln!("[rokbattles] uploaded Battle mail {:?}", path);
+                        emit_log(&app, format!("Uploaded {}", fname));
+                        eprintln!("[rokbattles] uploaded battle mail {:?}", path);
                     }
                 }
                 None => {

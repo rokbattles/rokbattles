@@ -1,12 +1,14 @@
 import "./App.css";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { open } from "@tauri-apps/plugin-dialog";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [dirs, setDirs] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [logs, setLogs] = useState<string[]>([]);
 
   const refresh = async () => {
     try {
@@ -26,11 +28,29 @@ function App() {
     refresh();
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+    const unlisten = listen<{ message: string }>("rokbattles", (e) => {
+      // biome-ignore lint/suspicious/noExplicitAny: ignore for now
+      const payload: any = e.payload as any;
+      const msg =
+        payload && typeof payload === "object" && "message" in payload
+          ? String(payload.message)
+          : String(payload);
+      if (!isMounted) return;
+      setLogs((prev) => {
+        const next = [...prev, msg];
+        return next.length > 100 ? next.slice(next.length - 100) : next;
+      });
+    });
+
+    return () => {
+      isMounted = false;
+      unlisten.then((fn) => fn()).catch(() => {});
+    };
+  }, []);
+
   const hasDirs = dirs.length > 0;
-  const heading = useMemo(
-    () => (isLoading ? "Loading..." : hasDirs ? "Watched directories" : "No directories yet"),
-    [hasDirs, isLoading]
-  );
 
   const handleAdd = async () => {
     try {
@@ -77,15 +97,14 @@ function App() {
         </header>
         <section className="rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
           <div className="flex items-center justify-between border-b border-zinc-800 p-4">
-            <h2 className="text-base font-medium">{heading}</h2>
-            {!isLoading && hasDirs && <span className="text-xs text-zinc-400">{dirs.length}</span>}
+            <h2 className="text-base font-medium">Watched Directories</h2>
           </div>
           {isLoading ? (
             <div className="p-8 text-center text-sm text-zinc-400">Loading directories...</div>
           ) : hasDirs ? (
             <ul className="divide-y divide-zinc-800">
               {dirs.map((dir) => (
-                <li key={dir} className="flex items-center justify-between gap-4 p-4">
+                <li key={dir} className="flex items-center justify-between gap-4 p-3">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-zinc-200">{dir}</p>
                   </div>
@@ -101,9 +120,31 @@ function App() {
             </ul>
           ) : (
             <div className="p-8 text-center text-sm text-zinc-400">
-              Click "Add directory" to start watching folders.
+              Click "Add directory" to start watching a directory.
             </div>
           )}
+        </section>
+        <section className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
+          <div className="flex items-center justify-between border-b border-zinc-800 p-4">
+            <h2 className="text-base font-medium">Logs</h2>
+          </div>
+          <div className="h-64 overflow-y-auto overflow-x-hidden">
+            {logs.length === 0 ? (
+              <div className="h-full p-8 text-center text-sm text-zinc-400">No logs yet.</div>
+            ) : (
+              <div className="divide-y-0">
+                {logs.map((log, idx) => (
+                  <div
+                    // biome-ignore lint/suspicious/noArrayIndexKey: will change later
+                    key={idx}
+                    className="px-3 py-1 text-xs text-zinc-300 font-mono break-words whitespace-pre-wrap"
+                  >
+                    {log}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </section>
       </div>
     </main>
