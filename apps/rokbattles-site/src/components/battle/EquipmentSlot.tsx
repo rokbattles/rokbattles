@@ -31,7 +31,7 @@ export async function EquipmentSlot({ token }: Props) {
       <div className="h-full w-full overflow-hidden rounded-lg ring-1 ring-white/10 bg-zinc-900/60 shadow-sm">
         {id ? (
           <Image
-            src={`/images/equipment/${id}.png`}
+            src={`/lilith/images/equipment/${id}.png`}
             alt={`equipment-${id}`}
             width={64}
             height={64}
