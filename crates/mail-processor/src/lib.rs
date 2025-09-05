@@ -67,14 +67,20 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
     });
     battles.dedup_by(|a, b| a.index == b.index && a.attack_id == b.attack_id);
 
-    // [start, end) groups per attack id
     let mut battle_groups = Vec::new();
-    for pair in battles.windows(2) {
-        battle_groups.push((pair[0].attack_id.clone(), pair[0].index, pair[1].index));
-    }
 
-    let last = battles.last().unwrap();
-    battle_groups.push((last.attack_id.clone(), last.index, sections.len()));
+    let mut boundaries: Vec<usize> = battles.iter().map(|b| b.index).collect();
+    boundaries.sort_unstable();
+    boundaries.dedup();
+
+    for b in &battles {
+        let end = boundaries
+            .iter()
+            .copied()
+            .find(|&i| i > b.index)
+            .unwrap_or(sections.len());
+        battle_groups.push((b.attack_id.clone(), b.index, end));
+    }
 
     let chain = ResolverChain::new()
         .with(MetadataResolver::new())
