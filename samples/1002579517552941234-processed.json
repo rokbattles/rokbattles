@@ -46,7 +46,7 @@
       "player_id": 130014943,
       "player_name": "xAvarice",
       "alliance_tag": null,
-      "avatar_url": null,
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head10.png",
       "castle_x": 2206.4922,
       "castle_y": 6292.705,
       "is_rally": null,
@@ -55,7 +55,7 @@
       "primary_commander": {
         "id": 9,
         "level": 50,
-        "skills": null
+        "skills": "2222"
       },
       "secondary_commander": {
         "id": 7,
