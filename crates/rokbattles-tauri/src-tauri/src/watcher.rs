@@ -1,4 +1,3 @@
-use crate::{read_api_ingress_url, read_dirs};
 use anyhow::{Context, bail};
 use serde::{Deserialize, Serialize};
 use std::{
@@ -167,7 +166,7 @@ fn has_rok_fileheader_from_file(path: &PathBuf) -> anyhow::Result<bool> {
 }
 
 async fn next_file(app: &AppHandle) -> Option<PathBuf> {
-    let dirs = match read_dirs(app) {
+    let dirs = match crate::app_config::read_watch_dirs(app) {
         Ok(d) => d,
         Err(e) => {
             emit_log(app, format!("Failed to read config: {}", e));
@@ -285,7 +284,7 @@ async fn post_file_to_api(
 pub fn spawn_watcher(app: &AppHandle) {
     let app = app.clone();
 
-    let api_url = read_api_ingress_url(&app)
+    let api_url = crate::app_config::read_ingress_url(&app)
         .unwrap_or_else(|_| "https://rokbattles.com/api/v1/ingress".to_string());
     let client = http_client();
 
