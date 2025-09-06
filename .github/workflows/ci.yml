@@ -73,6 +73,9 @@ jobs:
         with:
           components: rustfmt, clippy
 
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+
       - name: rustfmt
         run: cargo fmt --all -- --check
 
@@ -107,6 +110,9 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
 
       - name: Build (default features)
         run: cargo build --workspace --all-targets --verbose
