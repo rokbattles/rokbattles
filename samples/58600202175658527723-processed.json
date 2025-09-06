@@ -6,14 +6,14 @@
       "email_type": "Battle",
       "email_receiver": "109813467",
       "email_box": "Report",
-      "email_role": null,
+      "email_role": "gsmp",
       "is_kvk": 0,
       "attack_id": "334677901",
       "start_date": 1756585271,
       "end_date": 1756585277,
       "pos_x": 3859.4285,
       "pos_y": 3693.5112,
-      "players": null
+      "players": 1
     },
     "self": {
       "player_id": 109813467,

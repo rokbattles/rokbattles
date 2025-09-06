@@ -32,20 +32,25 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
 
     for (index, section) in sections.iter().enumerate() {
         if let Some(obj) = section.as_object() {
-            // The first attack is at the top level section
-            for key in obj.keys() {
-                if key.chars().all(|c| c.is_ascii_digit()) {
-                    battles.push(Battle {
-                        index,
-                        attack_id: key.to_string(),
-                    })
-                }
-            }
-
-            // All other attacks are in an Attacks object
             if let Some(att) = obj.get("Attacks").and_then(|v| v.as_object()) {
                 for key in att.keys() {
                     if key.chars().all(|c| c.is_ascii_digit()) {
+                        battles.push(Battle {
+                            index,
+                            attack_id: key.to_string(),
+                        })
+                    }
+                }
+            }
+
+            for (key, val) in obj.iter() {
+                if key.chars().all(|c| c.is_ascii_digit())
+                    && let Some(m) = val.as_object()
+                {
+                    let has_battle = m.get("Kill").is_some()
+                        || m.get("Damage").is_some()
+                        || m.get("CIdt").is_some();
+                    if has_battle {
                         battles.push(Battle {
                             index,
                             attack_id: key.to_string(),
@@ -105,6 +110,15 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
         };
 
         chain.apply(&ctx, &mut entry)?;
+
+        let keep = entry
+            .pointer("/battle_results")
+            .and_then(|v| v.as_object())
+            .map(|m| m.values().any(|v| !v.is_null()))
+            .unwrap_or(false);
+        if !keep {
+            continue;
+        }
 
         let parsed: ParsedMail = serde_json::from_value(entry)?;
         entries.push(parsed);

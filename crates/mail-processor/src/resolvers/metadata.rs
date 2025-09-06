@@ -75,6 +75,14 @@ impl MetadataResolver {
                         .filter(|&b| b < 1_000_000_000)
                 })
                 .or_else(|| {
+                    s.get("Attacks").and_then(|a| {
+                        a.get("TickStart")
+                            .and_then(Value::as_i64)
+                            .or_else(|| a.get("Bts").and_then(Value::as_i64))
+                    })
+                })
+                .filter(|&b| b < 1_000_000_000)
+                .or_else(|| {
                     s.get("body")
                         .and_then(|b| b.get("Bts").and_then(Value::as_i64))
                         .filter(|&b| b < 1_000_000_000)
@@ -141,12 +149,19 @@ impl Resolver for MetadataResolver {
         }
 
         // email role
-        let stats_block = sections
-            .iter()
-            .find(|s| s.get("STs").is_some() || s.get("Role").is_some());
+        let stats_block = sections.iter().find(|s| {
+            s.get("STs").is_some()
+                || s.get("Role").is_some()
+                || s.get("body")
+                    .and_then(|b| b.get("STs").or_else(|| b.get("Role")))
+                    .is_some()
+        });
 
         if let Some(role) = stats_block
-            .and_then(|s| s.get("Role"))
+            .and_then(|s| {
+                s.get("Role")
+                    .or_else(|| s.get("body").and_then(|b| b.get("Role")))
+            })
             .and_then(Value::as_str)
         {
             map_insert_str_if_absent(meta, "email_role", Some(role));
@@ -154,7 +169,11 @@ impl Resolver for MetadataResolver {
 
         // kvk
         let is_kvk = stats_block
-            .and_then(|s| s.get("isConquerSeason").and_then(Value::as_bool))
+            .and_then(|s| {
+                s.get("isConquerSeason")
+                    .or_else(|| s.get("body").and_then(|b| b.get("isConquerSeason")))
+                    .and_then(Value::as_bool)
+            })
             .unwrap_or(false);
         meta.entry("is_kvk").or_insert(Value::from(is_kvk as i32));
 
@@ -173,7 +192,17 @@ impl Resolver for MetadataResolver {
         } else {
             let gba = Self::find_epoch_in_group(group, "Bts").unwrap_or(base_epoch);
             let gea = Self::find_epoch_in_group(group, "Ets").unwrap_or(base_epoch);
-            (gba - base_epoch + base_small, gea - base_epoch + base_small)
+            let ts_small = if gba < 1_000_000_000 {
+                gba
+            } else {
+                gba - base_epoch + base_small
+            };
+            let ets_small = if gea < 1_000_000_000 {
+                gea
+            } else {
+                gea - base_epoch + base_small
+            };
+            (ts_small, ets_small)
         };
 
         let start_date = base_epoch + (ts_small - base_small);
@@ -199,7 +228,10 @@ impl Resolver for MetadataResolver {
 
         // player count
         if let Some(sts) = stats_block
-            .and_then(|s| s.get("STs"))
+            .and_then(|s| {
+                s.get("STs")
+                    .or_else(|| s.get("body").and_then(|b| b.get("STs")))
+            })
             .and_then(Value::as_object)
         {
             let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
