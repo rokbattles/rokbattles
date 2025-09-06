@@ -451,6 +451,12 @@ impl Resolver for ParticipantEnemyResolver {
                     )
                 });
 
+        let resolved_pid = c_idt.get("PId").and_then(Value::as_i64).or_else(|| {
+            Self::get_ots_entry_for_ctid(group, enemy_ctid)
+                .and_then(|o| o.get("PId"))
+                .and_then(Value::as_i64)
+        });
+
         if c_idt.get("PId").and_then(Value::as_i64).is_none() || c_idt.get("Avatar").is_none() {
             if let Some(anchor) = idx_opt {
                 let mut candidate: Option<&Value> = None;
@@ -463,7 +469,7 @@ impl Resolver for ParticipantEnemyResolver {
                         && let Some(ci) = sec.get("CIdt")
                     {
                         let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
-                        if enemy_pid != -2 && pid_match == enemy_pid {
+                        if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
                             candidate = Some(ci);
                             break;
                         }
@@ -475,7 +481,7 @@ impl Resolver for ParticipantEnemyResolver {
                         && let Some(ci) = sec.get("CIdt")
                     {
                         let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
-                        if enemy_pid != -2 && pid_match == enemy_pid {
+                        if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
                             candidate = Some(ci);
                             break;
                         }
@@ -489,11 +495,11 @@ impl Resolver for ParticipantEnemyResolver {
                 }
             }
             if (c_idt.get("PId").and_then(Value::as_i64).is_none() || c_idt.get("Avatar").is_none())
-                && enemy_pid != -2
+                && resolved_pid.is_some()
                 && let Some(ci) = group
                     .iter()
                     .find_map(|s| s.get("CIdt"))
-                    .filter(|ci| ci.get("PId").and_then(Value::as_i64) == Some(enemy_pid))
+                    .filter(|ci| ci.get("PId").and_then(Value::as_i64) == resolved_pid)
             {
                 c_idt = ci;
             }
@@ -502,11 +508,7 @@ impl Resolver for ParticipantEnemyResolver {
         let players = Self::count_group_players(group);
 
         // player id
-        let pid = c_idt.get("PId").and_then(Value::as_i64).or_else(|| {
-            Self::get_ots_entry_for_ctid(group, enemy_ctid)
-                .and_then(|o| o.get("PId"))
-                .and_then(Value::as_i64)
-        });
+        let pid = resolved_pid.or_else(|| c_idt.get("PId").and_then(Value::as_i64));
         map_put_i64(enemy_obj, "player_id", pid);
 
         // player name

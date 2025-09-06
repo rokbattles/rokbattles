@@ -104,6 +104,24 @@ impl BattleResolver {
         None
     }
 
+    fn find_closest_object_by_key<'a>(
+        group: &'a [Value],
+        start: Option<usize>,
+        key: &str,
+    ) -> Option<&'a Map<String, Value>> {
+        let anchor = start.unwrap_or(0);
+        let mut best: Option<(usize, &Map<String, Value>)> = None;
+        for (i, s) in group.iter().enumerate() {
+            if let Some(m) = s.get(key).and_then(Value::as_object) {
+                let dist = anchor.abs_diff(i);
+                if best.map(|(d, _)| dist < d).unwrap_or(true) {
+                    best = Some((dist, m));
+                }
+            }
+        }
+        best.map(|(_, m)| m)
+    }
+
     fn match_idt_in_sections(sections: &[Value], attack_id: &str) -> Option<usize> {
         for (i, s) in sections.iter().enumerate() {
             let idt_match = s
@@ -201,6 +219,13 @@ impl Resolver for BattleResolver {
                         })
                     });
             }
+        }
+
+        if damage_opt.is_none() {
+            damage_opt = Self::find_closest_object_by_key(group, idx_opt, "Damage");
+        }
+        if kill_opt.is_none() {
+            kill_opt = Self::find_closest_object_by_key(group, idx_opt, "Kill");
         }
 
         Self::copy_side_stats(obj, damage_opt, "");
