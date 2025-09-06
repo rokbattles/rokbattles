@@ -14,8 +14,50 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
-  lint:
-    name: Lint
+  lint-ts:
+    name: Lint TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      - name: Run Biome
+        run: biome ci .
+
+  test-ts:
+    name: Test TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build @rokbattles/site
+        run: pnpm -F @rokbattles/site build
+
+      - name: Build @rokbattles/tauri
+        run: pnpm -F @rokbattles/tauri build
+
+  lint-rs:
+    name: Lint Rust
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,23 +81,8 @@ jobs:
           cargo clippy --workspace --all-targets --all-features
           cargo clippy --workspace --all-targets --no-default-features
 
-  lint-ts:
-    name: Lint TypeScript
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Biome
-        uses: biomejs/setup-biome@v2
-        with:
-          version: latest
-
-      - name: Run Biome
-        run: biome ci .
-
-  test:
-    name: Test (${{ matrix.os }} - ${{ matrix.toolchain }})
+  test-rs:
+    name: Test Rust (${{ matrix.os }} - ${{ matrix.toolchain }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -80,11 +107,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
-
-      - name: Show versions
-        run: |
-          rustc -Vv
-          cargo -V
 
       - name: Build (default features)
         run: cargo build --workspace --all-targets --verbose
