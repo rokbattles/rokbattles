@@ -56,35 +56,6 @@ fn cl_ok(h: &HeaderMap) -> Result<usize, (StatusCode, &'static str)> {
     Ok(len)
 }
 
-fn has_rok_fileheader(buf: &[u8]) -> bool {
-    if buf.len() < BUFFER_LEN {
-        return false;
-    }
-    if buf[0] != 0xFF {
-        return false;
-    }
-    if buf[9] != 0x05 || buf[10] != 0x04 {
-        return false;
-    }
-    let len = {
-        let start = 11;
-        let end = start + 4;
-        let Some(bytes) = buf.get(start..end) else {
-            return false;
-        };
-        u32::from_le_bytes(bytes.try_into().unwrap_or([0; 4]))
-    };
-    if len != 9 {
-        return false;
-    }
-    let start = 15;
-    let end = start + 9;
-    let Some(bytes) = buf.get(start..end) else {
-        return false;
-    };
-    bytes == b"mailScene"
-}
-
 async fn clamd_begin(addr: &str) -> Result<TcpStream, (StatusCode, &'static str)> {
     let mut s = TcpStream::connect(addr)
         .await
@@ -191,7 +162,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     }
 
-    if !has_rok_fileheader(&peek) {
+    if !mail_decoder::has_rok_mail_header(&peek) {
         return (StatusCode::UNSUPPORTED_MEDIA_TYPE, "not rok mail").into_response();
     }
 
