@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "16018327175543957430",
+      "email_time": 1755439574952851,
+      "email_type": "Battle",
+      "email_receiver": "34961809",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 1,
+      "attack_id": "201115101",
+      "start_date": 1755439573,
+      "end_date": 1755439573,
+      "pos_x": 3139.526,
+      "pos_y": 3133.7524,
+      "players": 1
+    },
+    "self": {
+      "player_id": 34961809,
+      "player_name": "Viatina乂Fayst",
+      "alliance_tag": "FCK",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg",
+      "castle_x": 3081.745,
+      "castle_y": 3187.8926,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 509,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 6,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 1425,
+      "tracking_key": "34961809_1755439497_509_6",
+      "equipment": "{1:20019_697:23,4:20022_694:23,5:20023_721:23,6:20024_695:23,7:20040_705:3,8:20037_444:3,2:20020_720:23,3:20021_696:23}",
+      "formation": 2,
+      "armament_buffs": "3003_0.019000;3003_0.023000;3003_0.025000;3003_0.035000;4003_0.017000;4003_0.021000;4003_0.032000;4003_0.033000;5003_0.020000;5003_0.025000;5003_0.033000;5003_0.034000",
+      "inscriptions": "304;2101;2202;2402"
+    },
+    "enemy": {
+      "player_id": 9567803,
+      "player_name": "ᶦFᶦ Zhoë",
+      "alliance_tag": "IMP\"",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/8786970/2024-07-27/11D285695122C6613A724BA4BC9220D9_250x250.jpg",
+      "castle_x": 3467.3848,
+      "castle_y": 2884.457,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 545,
+        "level": 60,
+        "skills": "5545"
+      },
+      "kingdom_id": 787,
+      "tracking_key": "9567803_1755439192_185_545",
+      "equipment": "{7:20044_125:1,8:20097_111:0,2:20014_127:1,3:20026_92:1,1:20059_80:10,4:20067_55:10,5:20068_65:10,6:20072_87:10}",
+      "formation": null,
+      "armament_buffs": "10002_0.019000;3001_0.022000;3001_0.025000;3001_0.033000;4001_0.015000;4001_0.022000;4001_0.033000;5001_0.015000;5001_0.017000;5002_0.028000;6001_0.026000;8000_0.054000",
+      "inscriptions": "-1;304;418;1101"
+    },
+    "battle_results": {
+      "power": 0,
+      "init_max": 444284,
+      "max": 439288,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 0,
+      "wounded": 0,
+      "remaining": 439288,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 360000,
+      "enemy_max": 0,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 0
+    }
+  }
+]
