@@ -1,6 +1,7 @@
+mod health;
 mod v1;
 
-use axum::Router;
+use axum::{Router, routing::get};
 use std::{net::SocketAddr, time::Duration};
 use tower_http::{timeout::TimeoutLayer, trace::TraceLayer};
 use tracing::debug;
@@ -42,6 +43,7 @@ async fn main() {
     };
 
     let router = Router::new()
+        .route("/health", get(health::health))
         .nest("/v1", v1::router())
         .with_state(app_state)
         .layer(TimeoutLayer::new(Duration::from_secs(40)))
