@@ -1,0 +1,406 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": false,
+      "box": "Report",
+      "reportMerge": 0,
+      "serverId": 15597,
+      "time": 1755439574952851,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "type": "Battle",
+      "holdTag": 0,
+      "id": "16018327175543957430",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "body": {
+        "content": {
+          "SelfChar": {
+            "HClt2": {},
+            "HAw2": true,
+            "HTJ": 0,
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_113.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg\"}",
+            "SideId": 4,
+            "PId": 34961809,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 509,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 362
+            },
+            "SkillLevel": 5,
+            "SkillId": 1673
+          },
+          "SkillLevel": 5,
+          "SkillId": 1676
+        },
+        "SkillLevel": 5,
+        "SkillId": 1675
+      }
+    },
+    {
+      "AId": 3724982,
+      "CId": 201199301,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 63
+      },
+      "SkillLevel": 5,
+      "SkillId": 1009
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1010
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1011
+    },
+    {
+      "Idt": "201199301",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75102001_9146",
+          "Buffs": "3003_0.035000;4003_0.032000;5003_0.025000",
+          "Affix": "2101"
+        },
+        "4": {
+          "Id": "75402010_13206",
+          "Buffs": "3003_0.019000;4003_0.033000;5003_0.033000",
+          "Affix": "2402"
+        },
+        "3": {
+          "Id": "75302011_21946",
+          "Buffs": "3003_0.023000;4003_0.021000;5003_0.034000",
+          "Affix": "304"
+        },
+        "2": {
+          "Id": "75202011_10477",
+          "Buffs": "3003_0.025000;4003_0.017000;5003_0.020000",
+          "Affix": "2202"
+        }
+      },
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "SerSeason": "100",
+      "Udid": "AC6CBB3420008748CA2CD6664601B0F6",
+      "PkgNameNew": "com.lilithgames.rok.gpkr",
+      "IsAuto": 0,
+      "IfAI": 0,
+      "HSt": 6,
+      "HEq": "{1:20019_697:23,4:20022_694:23,5:20023_721:23,6:20024_695:23,7:20040_705:3,8:20037_444:3,2:20020_720:23,3:20021_696:23}",
+      "CAHAH": {},
+      "HId2": 6,
+      "AppUid": "8518744-399975",
+      "HFMs": 2,
+      "PName": "Viatina乂Fayst",
+      "CastleLevel": 25,
+      "CtId": 1449685,
+      "HEq2": "{}",
+      "HAw": true,
+      "COSId": 1425,
+      "CTK": "34961809_1755439497_509_6",
+      "HCte2": {
+        "ColId": 20008
+      }
+    },
+    {
+      "CastlePos": {
+        "Y": 3187.8926,
+        "X": 3081.745
+      },
+      "HSt2": 6,
+      "Abbr": "FCK",
+      "HFMs2": 2,
+      "CASS": {
+        "Ban": false,
+        "ENABLE": true,
+        "SKILLS": {
+          "HeroId": 142,
+          "SkillLevel": 5,
+          "SkillId": 1417
+        },
+        "HeroId": 112,
+        "SkillLevel": 5,
+        "SkillId": 1303
+      }
+    },
+    {
+      "HTE": -1,
+      "HLv": 60,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "Fight Club:Kingdom"
+    },
+    {
+      "Role": "gsmp",
+      "isConquerSeason": true,
+      "STs": {
+        "1449685": {
+          "Abbr": "FCK",
+          "HLv": 60,
+          "PId": 34961809,
+          "HId2": 6,
+          "HLv2": 60,
+          "PName": "Viatina乂Fayst",
+          "HId": 509
+        }
+      },
+      "Bts": 1755439573,
+      "Btk": 457022,
+      "Id": 6766129,
+      "Samples": {
+        "Cnt": 439288,
+        "T": 457022
+      },
+      "Cnt": 439288,
+      "T": 457023
+    },
+    {
+      "Schema": 224,
+      "TickSkip": 100,
+      "Attacks": {
+        "201115101": {
+          "Kill": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 0,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "RetreatCnt": 0,
+            "Power": 0,
+            "HurtCntEnd": 296719,
+            "Healing": 0,
+            "WarExploits": 0,
+            "Max": 0,
+            "InitMax": 360000,
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Death": 0,
+            "SkillPower": 0,
+            "AtkPower": 0,
+            "KillScore": 0
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": {},
+          "NpcAtkExp": 0,
+          "Tick": 1,
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Damage": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 0,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 439288,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "RetreatCnt": 0,
+            "Power": 0,
+            "HurtCntEnd": 3926,
+            "Healing": 0,
+            "WarExploits": 0,
+            "Max": 439288,
+            "InitMax": 444284,
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Death": 0,
+            "SkillPower": 0,
+            "AtkPower": 0,
+            "KillScore": 0
+          },
+          "CIdt": {
+            "HAw2": false,
+            "HTJ": 0,
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/IM/10043/0/8786970/2024-07-27/11D285695122C6613A724BA4BC9220D9_250x250.jpg\"}",
+            "SideId": 3,
+            "PId": 9567803,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 185,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 1546
+            },
+            "SkillLevel": 1,
+            "SkillId": 1547
+          },
+          "SkillLevel": 5,
+          "SkillId": 251
+        },
+        "SkillLevel": 5,
+        "SkillId": 1544
+      },
+      "SkillLevel": 5,
+      "SkillId": 1545
+    },
+    {
+      "AId": 1872994,
+      "CId": 201115101,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 393
+      },
+      "SkillLevel": 5,
+      "SkillId": 1751
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1752
+    },
+    {
+      "SkillLevel": 4,
+      "SkillId": 1753
+    },
+    {
+      "Idt": "201115101",
+      "HWBs2": {
+        "1": "75117011_13003",
+        "4": "75417011_12176",
+        "3": "75317010_13089",
+        "2": "75217011_13001"
+      },
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75101010_4827",
+          "Buffs": "3001_0.025000;4001_0.022000;5001_0.015000",
+          "Affix": "1101"
+        },
+        "4": {
+          "Id": "75401011_6813",
+          "Buffs": "3001_0.022000;4001_0.015000;5002_0.028000",
+          "Affix": "418"
+        },
+        "3": {
+          "Id": "75301011_6727",
+          "Buffs": "6001_0.026000;8000_0.054000;5001_0.017000",
+          "Affix": "304"
+        },
+        "2": {
+          "Id": "75201010_5661",
+          "Buffs": "3001_0.033000;4001_0.033000;10002_0.019000",
+          "Affix": "-1"
+        }
+      },
+      "SerSeason": "100",
+      "Udid": "0B3CBBC7C360B4B7DBB96C547B136CB4",
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "PkgNameNew": "com.lilithgame.roc.gp",
+      "IsAuto": 0,
+      "HSt": 6,
+      "HEq": "{7:20044_125:1,8:20097_111:0,2:20014_127:1,3:20026_92:1,1:20059_80:10,4:20067_55:10,5:20068_65:10,6:20072_87:10}",
+      "IfAI": 0,
+      "HId2": 545,
+      "CAHAH": {},
+      "AppUid": "8786970",
+      "PName": "ᶦFᶦ Zhoë",
+      "HEq2": "{}",
+      "CtId": 1449276,
+      "HLv": 60,
+      "HAw": true,
+      "CastleLevel": 25,
+      "COSId": 787,
+      "CTK": "9567803_1755439192_185_545",
+      "CastlePos": {
+        "Y": 2884.457,
+        "X": 3467.3848
+      },
+      "CASS": {
+        "Ban": false,
+        "ENABLE": true,
+        "SKILLS": {
+          "HeroId": 10,
+          "SkillLevel": 5,
+          "SkillId": 1019
+        },
+        "HeroId": 17,
+        "SkillLevel": 5,
+        "SkillId": 1051
+      }
+    },
+    {
+      "Abbr": "IMP\"",
+      "HFMs2": 17,
+      "HFMs": 1,
+      "HSt2": 6,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": ":MERAH PUTIH:"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 2,
+      "Bts": 457022,
+      "OpsKvkModBuffIds": {},
+      "Ets": 457022,
+      "TickStart": 457022,
+      "OTs": {
+        "1449276": {
+          "Abbr": "IMP\"",
+          "HLv": 60,
+          "PId": 9567803,
+          "HId2": 545,
+          "HLv2": 60,
+          "PName": "ᶦFᶦ Zhoë",
+          "HId": 185
+        }
+      },
+      "Pos": {
+        "Y": 3133.7524,
+        "X": 3139.526
+      },
+      "RewardLimited": false
+    },
+    {
+      "GsId": 15597,
+      "Events": {},
+      "Ets": 1755439574,
+      "LLScriptSchema": 224,
+      "DataOmit": false,
+      "RoomId": 0,
+      "LoadSource": "oss"
+    },
+    {
+      "receiver": "player_34961809",
+      "flaglist": {},
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}

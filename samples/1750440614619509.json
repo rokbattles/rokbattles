@@ -1,0 +1,885 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": false,
+      "box": "Archive",
+      "reportMerge": 0,
+      "serverId": 15549,
+      "time": 1750440614619509,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "type": "Battle",
+      "holdTag": 0,
+      "id": "2235343017504406148",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "body": {
+        "content": {
+          "SelfChar": {
+            "HAw2": true,
+            "HTJ": 0,
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/31471838/19/11/29/e98b77a47a5c7a39_200x200.jpg\"}",
+            "SideId": 5,
+            "PId": 31471838,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 103,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 1260
+            },
+            "SkillLevel": 1,
+            "SkillId": 1261
+          },
+          "SkillLevel": 5,
+          "SkillId": 143
+        },
+        "SkillLevel": 5,
+        "SkillId": 1258
+      },
+      "SkillLevel": 5,
+      "SkillId": 1259
+    },
+    {
+      "AId": 987708,
+      "CId": 294935001,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 388
+      },
+      "SkillLevel": 5,
+      "SkillId": 1731
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1732
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1733
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1734
+    },
+    {
+      "Idt": "294935001",
+      "HTJ2": 0,
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "HWBs": {
+        "1": {
+          "Id": "75101011_19341",
+          "Buffs": "3002_0.026000;4002_0.033000;10002_0.017000",
+          "Affix": "1101"
+        },
+        "4": {
+          "Id": "75401011_19485",
+          "Buffs": "3002_0.016000;4002_0.030000;10002_0.018000",
+          "Affix": "415"
+        },
+        "3": {
+          "Id": "75301010_8998",
+          "Buffs": "3002_0.027000;4002_0.026000;10002_0.013000",
+          "Affix": "310"
+        },
+        "2": {
+          "Id": "75201011_10227",
+          "Buffs": "3002_0.023000;4002_0.022000;5002_0.020000",
+          "Affix": "210"
+        }
+      },
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "SerSeason": "100",
+      "Udid": "296645925138137148",
+      "IfAI": 0,
+      "PolicyCards": {},
+      "CAHAH": {},
+      "HSt": 6,
+      "HEq": "{3:20009_1016:32,7:20040_1128:3,8:20037_575:1,1:20001_929:34,5:20033_1007:33,4:20028_780:34,6:20012_1057:32,2:20004_894:31}",
+      "AppUid": "103439411",
+      "HId2": 539,
+      "HClt": {},
+      "CastleLevel": 25,
+      "PName": "霸氣包大人",
+      "COSId": 447,
+      "CtId": 2296339,
+      "HEq2": "{}",
+      "HAw": true,
+      "IsRally": true,
+      "CTK": "31471838_1750440263_103_539_SquareRally",
+      "HLv2": 31,
+      "CastlePos": {
+        "Y": 2685.3757,
+        "X": 7013.6377
+      },
+      "HSt2": 4,
+      "Abbr": "HP47",
+      "HFMs2": 1,
+      "HFMs": 1,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HTE": -1,
+      "HLv": 60,
+      "CT": 1,
+      "AName": "嘻哈樁腳情"
+    },
+    {
+      "Role": "gsmp",
+      "isConquerSeason": true,
+      "STs": {
+        "2296377": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 182010622,
+          "HId2": 540,
+          "HLv2": 40,
+          "PName": "ᴬᴵEnkoko",
+          "HId": 61
+        },
+        "2295192": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 22131382,
+          "HId2": 148,
+          "HLv2": 60,
+          "PName": "Хуpшид",
+          "HId": 138
+        },
+        "2296630": {
+          "Abbr": "HP47",
+          "HLv": 57,
+          "PId": 180814624,
+          "HId2": 463,
+          "HLv2": 40,
+          "PName": "iw Zamalek 20",
+          "HId": 99
+        },
+        "2296339": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 31471838,
+          "HId2": 539,
+          "HLv2": 31,
+          "PName": "霸氣包大人",
+          "HId": 103
+        },
+        "2296372": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 23657750,
+          "HId2": 540,
+          "HLv2": 40,
+          "PName": "嘻哈空空",
+          "HId": 127
+        },
+        "2296623": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 20584355,
+          "HId2": 148,
+          "HLv2": 60,
+          "PName": "淑芬ᴱᴸᶠ",
+          "HId": 138
+        },
+        "2296394": {
+          "Abbr": "XP47",
+          "HLv": 60,
+          "PId": 26158438,
+          "HId2": 124,
+          "HLv2": 40,
+          "PName": "褲褲2",
+          "HId": 99
+        },
+        "2296363": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 31446170,
+          "HId2": 148,
+          "HLv2": 60,
+          "PName": "霸氣乄Rica",
+          "HId": 182
+        },
+        "2296792": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 27711185,
+          "HId2": 115,
+          "HLv2": 60,
+          "PName": "AlphaMark",
+          "HId": 7
+        },
+        "2296506": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 11992139,
+          "HId2": 459,
+          "HLv2": 60,
+          "PName": "G哥Z撕L拉A",
+          "HId": 540
+        },
+        "2296366": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 38330853,
+          "HId2": 103,
+          "HLv2": 60,
+          "PName": "Lilith丨汤阮",
+          "HId": 7
+        },
+        "2296364": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 25207304,
+          "HId2": 135,
+          "HLv2": 49,
+          "PName": "遊戲不老松",
+          "HId": 192
+        },
+        "2296369": {
+          "Abbr": "XP47",
+          "HLv": 47,
+          "PId": 180707880,
+          "HId2": 3,
+          "HLv2": 60,
+          "PName": "yw 小山羊",
+          "HId": 98
+        },
+        "2295383": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 56958159,
+          "HId2": 540,
+          "HLv2": 40,
+          "PName": "土匪丶漢",
+          "HId": 138
+        },
+        "2296367": {
+          "Abbr": "HP47",
+          "HLv": 60,
+          "PId": 180427551,
+          "HId2": 37,
+          "HLv2": 60,
+          "PName": "林苏苏",
+          "HId": 99
+        }
+      },
+      "Bts": 1750440587,
+      "Btk": 728433,
+      "Id": 1762715,
+      "Samples": {
+        "Cnt": 2740000,
+        "T": 728433
+      },
+      "Cnt": 2413887,
+      "T": 728460
+    },
+    {
+      "Schema": 412,
+      "TickSkip": 100,
+      "Attacks": {
+        "717203": {
+          "Kill": {
+            "Gt": 2499,
+            "DeadReduceCnt": 0,
+            "Hurt": 1249583,
+            "BadReduceCnt": 0,
+            "GtMax": 50000,
+            "Cnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "RetreatCnt": 0,
+            "Power": -7205667,
+            "HurtCntEnd": 1119047,
+            "Healing": 0,
+            "WarExploits": 0,
+            "Max": 2484367,
+            "InitMax": 20417708,
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Death": 1231634,
+            "SkillPower": -2182507,
+            "AtkPower": -5023160,
+            "KillScore": 2185928
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": {},
+          "NpcAtkExp": 0,
+          "SelfRobRess2": {
+            "2296377": {
+              "Value": 801178,
+              "Type": 1,
+              "SubType": 4
+            },
+            "Value": 801178,
+            "Type": 1,
+            "SubType": 3
+          },
+          "Value": 801178,
+          "Type": 1,
+          "SubType": 2
+        },
+        "Value": 801178,
+        "Type": 1,
+        "SubType": 1
+      }
+    },
+    {
+      "2296366": {
+        "Value": 732811,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 732811,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 732811,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 732811,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296372": {
+        "Value": 167370,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 167370,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 167370,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 167370,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296506": {
+        "Value": 1180174,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 1180174,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 1180174,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 1180174,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296394": {
+        "Value": 13608,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 13608,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 13608,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 13608,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296363": {
+        "Value": 994593,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296792": {
+        "Value": 693151,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 693151,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 693151,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 693151,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296623": {
+        "Value": 994593,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 994593,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296630": {
+        "Value": 576338,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 576338,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 576338,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 576338,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296364": {
+        "Value": 813501,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 813501,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 813501,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 813501,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296369": {
+        "Value": 723366,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 723366,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 723366,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 723366,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2295383": {
+        "Value": 809835,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 809835,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 809835,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 809835,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "2296367": {
+        "Value": 99039,
+        "Type": 1,
+        "SubType": 4
+      },
+      "Value": 99039,
+      "Type": 1,
+      "SubType": 3
+    },
+    {
+      "Value": 99039,
+      "Type": 1,
+      "SubType": 2
+    },
+    {
+      "Value": 99039,
+      "Type": 1,
+      "SubType": 1
+    },
+    {
+      "SelfKvkPolicyStats": {
+        "EffectType": "",
+        "EffectTick": 0,
+        "Value": 0,
+        "TriggerTimes": 0,
+        "Id": 7
+      },
+      "EffectType": "DestroyDurability",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 2
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 23
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 30
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 2,
+      "Id": 11
+    },
+    {
+      "Tick": 28,
+      "OppositeDu": {
+        "DuCnt": 0,
+        "DuMax": 0
+      },
+      "Damage": {
+        "Gt": 0,
+        "DeadReduceCnt": 0,
+        "Hurt": 183835,
+        "BadReduceCnt": 0,
+        "GtMax": 0,
+        "Cnt": 2413887,
+        "UnitStifleBadHurtReduceCnt": 0,
+        "RetreatCnt": 0,
+        "Power": -1036602,
+        "HurtCntEnd": 242337,
+        "Healing": 0,
+        "WarExploits": 0,
+        "Max": 2740000,
+        "InitMax": 2824418,
+        "AddCnt": 0,
+        "BadHurt": 0,
+        "Death": 142278,
+        "SkillPower": -521780,
+        "AtkPower": -514822,
+        "KillScore": 14356649
+      },
+      "TickStart": 728433,
+      "ReportShowType": 0,
+      "Def": 2,
+      "OpsKvkModBuffIds": {},
+      "Bts": 728433,
+      "OpsKvkPolicyStats": {
+        "EffectType": "Kill",
+        "EffectTick": 0,
+        "Value": 0,
+        "TriggerTimes": 0,
+        "Id": 4
+      },
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 23
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 27
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 30
+    },
+    {
+      "EffectType": "",
+      "EffectTick": 0,
+      "Value": 0,
+      "TriggerTimes": 0,
+      "Id": 22
+    },
+    {
+      "KillScoreExtralResource": {
+        "2296366": {
+          "Stone": 402560,
+          "TotalLimit": 0,
+          "Coin": 161024,
+          "Food": 536747,
+          "TotalFood": 23905433,
+          "TotalCoin": 7171016,
+          "TotalStone": 17928854,
+          "Source": "policy.31",
+          "TotalWood": 23905433,
+          "IsSeasonRefresh": true,
+          "PlayerId": 38330853,
+          "Wood": 536747,
+          "LastDailyRefreshTs": 0
+        }
+      },
+      "Ets": 728460,
+      "CIdt": {
+        "HAw2": true,
+        "HTJ": 0,
+        "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44920491/2025-01-17/E2FA80CBFBC43E5239FB88DDA8A871F5_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+        "SideId": 4,
+        "GtLevel": 25,
+        "PId": 54726874,
+        "KVKMorale": {
+          "CampX": 0,
+          "Distance": 0,
+          "CampY": 0,
+          "Morale": 0
+        },
+        "HId": 194,
+        "HSS": {
+          "SkillLevel": 5,
+          "SkillId": 258
+        },
+        "SkillLevel": 5,
+        "SkillId": 1560
+      },
+      "SkillLevel": 5,
+      "SkillId": 1561
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1562
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1563
+    },
+    {
+      "AId": 4891113,
+      "CId": 717203,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 251
+      },
+      "SkillLevel": 5,
+      "SkillId": 1544
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1545
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1546
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1547
+    },
+    {
+      "Idt": "717203",
+      "HWBs2": {
+        "1": "75101011_2470",
+        "4": "75401011_1560",
+        "3": "75301011_3701",
+        "2": "75201011_1116"
+      },
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75117011_7155",
+          "Buffs": "3001_0.015000;4001_0.020000;5001_0.022000",
+          "Affix": "109"
+        },
+        "4": {
+          "Id": "75417011_7165",
+          "Buffs": "6001_0.016000;4001_0.021000;5001_0.019000",
+          "Affix": "417"
+        },
+        "3": {
+          "Id": "75317010_7157",
+          "Buffs": "3001_0.017000;4001_0.032000;5003_0.020000",
+          "Affix": "-1"
+        },
+        "2": {
+          "Id": "75217010_7161",
+          "Buffs": "2004_0.058000;8000_0.050000;5001_0.031000",
+          "Affix": "-1"
+        }
+      },
+      "SerSeason": "100",
+      "Udid": "FD8EC3FA1BD0D3CBBD700B96745E4B99",
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "PkgNameNew": "com.lilithgame.roc.gp",
+      "HSt": 6,
+      "HEq": "{3:20026_64:11,4:20029_87:11,6:20034_79:1,7:20041_85:11,1:20013_69:11,8:20037_99:1,5:20032_66:1,2:20005_102:1}",
+      "IfAI": 0,
+      "HId2": 185,
+      "CAHAH": {},
+      "AppUid": "44920491",
+      "PName": "туя",
+      "HEq2": "{2:20063_65:10}",
+      "CtId": 0,
+      "HLv": 60,
+      "HAw": true,
+      "CastleLevel": 25,
+      "COSId": 1837,
+      "CTK": "",
+      "CastlePos": {
+        "Y": 2871.228,
+        "X": 7019.741
+      },
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "Abbr": "D@Rk",
+      "HFMs2": 1,
+      "HFMs": 17,
+      "HSt2": 6,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 3,
+      "AName": "D@rK Asguard"
+    },
+    {
+      "OTs": {
+        "2297528": {
+          "Abbr": "D@Rk",
+          "HLv": 60,
+          "PId": 118648021,
+          "HId2": 112,
+          "HLv2": 60,
+          "PName": "义BanZai义",
+          "HId": 99
+        },
+        "0": {
+          "Abbr": "D@Rk",
+          "HLv": 60,
+          "PId": 54726874,
+          "HId2": 185,
+          "HLv2": 60,
+          "PName": "туя",
+          "HId": 194
+        },
+        "-2": {
+          "Abbr": "",
+          "HLv": 0,
+          "PId": 54726874,
+          "HId2": 0,
+          "HLv2": 0,
+          "PName": "",
+          "HId": 0
+        }
+      },
+      "RewardLimited": false,
+      "Pos": {
+        "Y": 2864.428,
+        "X": 7019.741
+      }
+    },
+    {
+      "GsId": 15549,
+      "Events": {},
+      "Ets": 1750440614,
+      "LLScriptSchema": 412,
+      "DataOmit": false,
+      "RoomId": 0,
+      "LoadSource": "oss"
+    },
+    {
+      "receiver": "player_22131382",
+      "flaglist": {},
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}

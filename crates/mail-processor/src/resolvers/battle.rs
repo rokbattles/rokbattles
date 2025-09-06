@@ -103,6 +103,69 @@ impl BattleResolver {
         }
         None
     }
+
+    fn find_closest_object_by_key<'a>(
+        group: &'a [Value],
+        start: Option<usize>,
+        key: &str,
+    ) -> Option<&'a Map<String, Value>> {
+        let anchor = start.unwrap_or(0);
+        let mut best: Option<(usize, &Map<String, Value>)> = None;
+        for (i, s) in group.iter().enumerate() {
+            if let Some(m) = s.get(key).and_then(Value::as_object) {
+                let dist = anchor.abs_diff(i);
+                if best.map(|(d, _)| dist < d).unwrap_or(true) {
+                    best = Some((dist, m));
+                }
+            }
+        }
+        best.map(|(_, m)| m)
+    }
+
+    fn match_idt_in_sections(sections: &[Value], attack_id: &str) -> Option<usize> {
+        for (i, s) in sections.iter().enumerate() {
+            let idt_match = s
+                .get("Idt")
+                .map(|v| {
+                    v.as_str().map(|x| x == attack_id).unwrap_or_else(|| {
+                        v.as_i64()
+                            .map(|n| {
+                                let mut buf = itoa::Buffer::new();
+                                buf.format(n) == attack_id
+                            })
+                            .unwrap_or(false)
+                    })
+                })
+                .unwrap_or(false);
+            if idt_match
+                && (s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some())
+            {
+                return Some(i);
+            }
+        }
+        None
+    }
+
+    fn find_attacks_object_for_id<'a>(
+        sections: &'a [Value],
+        attack_id: &str,
+    ) -> Option<&'a Map<String, Value>> {
+        let mut path = String::with_capacity(9 + attack_id.len());
+        path.push_str("/Attacks/");
+        path.push_str(attack_id);
+
+        for s in sections {
+            if let Some(b) = s.pointer(&path).and_then(Value::as_object) {
+                return Some(b);
+            }
+            if let Some(b) = s.get(attack_id).and_then(Value::as_object)
+                && (b.get("Kill").is_some() || b.get("Damage").is_some() || b.get("CIdt").is_some())
+            {
+                return Some(b);
+            }
+        }
+        None
+    }
 }
 
 impl Resolver for BattleResolver {
@@ -116,22 +179,57 @@ impl Resolver for BattleResolver {
         let damage = Self::as_object_opt(atk_block.get("Damage"))
             .or_else(|| Self::as_object_opt(section.get("Damage")))
             .or_else(|| {
-                idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Damage", 3))
+                idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Damage", 8))
             });
 
         let kill = Self::as_object_opt(atk_block.get("Kill"))
             .or_else(|| Self::as_object_opt(section.get("Kill")))
-            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 3)));
+            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 8)));
 
         let obj = match get_or_insert_object(mail, "battle_results") {
             Value::Object(m) => m,
             _ => unreachable!("battle_results must be an object"),
         };
 
-        // self
-        Self::copy_side_stats(obj, damage, "");
-        // enemy
-        Self::copy_side_stats(obj, kill, "enemy_");
+        let mut damage_opt = damage;
+        let mut kill_opt = kill;
+
+        if damage_opt.is_none() || kill_opt.is_none() {
+            let full_sections = ctx.sections;
+            let anchor_idx = Self::match_idt_in_sections(full_sections, ctx.attack_id).or(idx_opt);
+
+            let attacks_obj = Self::find_attacks_object_for_id(full_sections, ctx.attack_id);
+
+            if damage_opt.is_none() {
+                damage_opt = attacks_obj
+                    .and_then(|m| m.get("Damage").and_then(Value::as_object))
+                    .or_else(|| {
+                        anchor_idx.and_then(|i| {
+                            Self::find_nearby_object_by_key(full_sections, i, "Damage", 16)
+                        })
+                    });
+            }
+
+            if kill_opt.is_none() {
+                kill_opt = attacks_obj
+                    .and_then(|m| m.get("Kill").and_then(Value::as_object))
+                    .or_else(|| {
+                        anchor_idx.and_then(|i| {
+                            Self::find_nearby_object_by_key(full_sections, i, "Kill", 16)
+                        })
+                    });
+            }
+        }
+
+        if damage_opt.is_none() {
+            damage_opt = Self::find_closest_object_by_key(group, idx_opt, "Damage");
+        }
+        if kill_opt.is_none() {
+            kill_opt = Self::find_closest_object_by_key(group, idx_opt, "Kill");
+        }
+
+        Self::copy_side_stats(obj, damage_opt, "");
+        Self::copy_side_stats(obj, kill_opt, "enemy_");
 
         Ok(())
     }

@@ -87,26 +87,36 @@ pub fn find_attack_block_best_match<'a>(
     path.push_str("/Attacks/");
     path.push_str(attack_id);
 
-    let mut best_idx: Option<usize> = None;
-    let mut best_val: Option<&Value> = None;
-    let mut best_has_hss = false;
+    let mut atk_idx: Option<usize> = None;
+    let mut atk_val: Option<&Value> = None;
+    let mut atk_has_hss = false;
+    let mut idt_idx: Option<usize> = None;
 
     for (i, s) in group.iter().enumerate() {
-        if let Some(b) = s.get(attack_id).or_else(|| s.pointer(&path)) {
-            let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
-            if best_val.is_none() || (!best_has_hss && has_hss) {
-                best_idx = Some(i);
-                best_val = Some(b);
-                best_has_hss = has_hss;
-                if best_has_hss {
-                    break;
+        if let Some(b) = s.get(attack_id) {
+            let is_battleish = b
+                .get("Kill")
+                .or_else(|| b.get("Damage"))
+                .or_else(|| b.get("CIdt"))
+                .is_some();
+            if is_battleish {
+                let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
+                if atk_val.is_none() || (!atk_has_hss && has_hss) {
+                    atk_idx = Some(i);
+                    atk_val = Some(b);
+                    atk_has_hss = has_hss;
                 }
             }
+        } else if let Some(b) = s.pointer(&path) {
+            let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
+            if atk_val.is_none() || (!atk_has_hss && has_hss) {
+                atk_idx = Some(i);
+                atk_val = Some(b);
+                atk_has_hss = has_hss;
+            }
         }
-    }
 
-    if best_val.is_none() {
-        for (i, s) in group.iter().enumerate() {
+        if idt_idx.is_none() {
             let idt_match = s
                 .get("Idt")
                 .map(|v| {
@@ -124,12 +134,13 @@ pub fn find_attack_block_best_match<'a>(
             if idt_match
                 && (s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some())
             {
-                return (Some(i), None);
+                idt_idx = Some(i);
             }
         }
     }
 
-    (best_idx, best_val)
+    let idx = idt_idx.or(atk_idx);
+    (idx, atk_val)
 }
 
 pub fn map_put_i64(m: &mut Map<String, Value>, k: &str, v: Option<i64>) {

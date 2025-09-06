@@ -63,6 +63,18 @@ impl ParticipantEnemyResolver {
         })
     }
 
+    fn find_any_snapshot_by_pid(sections: &[Value], pid: i64) -> Option<&Value> {
+        sections.iter().find(|s| {
+            s.get("AppUid").is_some() && s.get("PId").and_then(Value::as_i64) == Some(pid)
+        })
+    }
+
+    fn find_any_snapshot_by_ctid(sections: &[Value], ctid: i64) -> Option<&Value> {
+        sections.iter().find(|s| {
+            s.get("AppUid").is_some() && s.get("CtId").and_then(Value::as_i64) == Some(ctid)
+        })
+    }
+
     fn count_group_players(group: &[Value]) -> usize {
         group
             .iter()
@@ -422,7 +434,7 @@ impl Resolver for ParticipantEnemyResolver {
             _ => unreachable!("enemy must be an object"),
         };
 
-        let c_idt = atk_block.get("CIdt").unwrap_or(&Value::Null);
+        let mut c_idt = atk_block.get("CIdt").unwrap_or(&Value::Null);
 
         let enemy_pid = c_idt.get("PId").and_then(Value::as_i64).unwrap_or(-2);
         let (enemy_ctid, enemy_abbr, enemy_ct, enemy_pname) =
@@ -439,14 +451,64 @@ impl Resolver for ParticipantEnemyResolver {
                     )
                 });
 
-        let players = Self::count_group_players(group);
-
-        // player id
-        let pid = c_idt.get("PId").and_then(Value::as_i64).or_else(|| {
+        let resolved_pid = c_idt.get("PId").and_then(Value::as_i64).or_else(|| {
             Self::get_ots_entry_for_ctid(group, enemy_ctid)
                 .and_then(|o| o.get("PId"))
                 .and_then(Value::as_i64)
         });
+
+        if c_idt.get("PId").and_then(Value::as_i64).is_none() || c_idt.get("Avatar").is_none() {
+            if let Some(anchor) = idx_opt {
+                let mut candidate: Option<&Value> = None;
+                for d in 0..=8 {
+                    if candidate.is_some() {
+                        break;
+                    }
+                    if anchor >= d
+                        && let Some(sec) = group.get(anchor - d)
+                        && let Some(ci) = sec.get("CIdt")
+                    {
+                        let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
+                        if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
+                            candidate = Some(ci);
+                            break;
+                        }
+                        if candidate.is_none() {
+                            candidate = Some(ci);
+                        }
+                    }
+                    if let Some(sec) = group.get(anchor + d)
+                        && let Some(ci) = sec.get("CIdt")
+                    {
+                        let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
+                        if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
+                            candidate = Some(ci);
+                            break;
+                        }
+                        if candidate.is_none() {
+                            candidate = Some(ci);
+                        }
+                    }
+                }
+                if let Some(ci) = candidate {
+                    c_idt = ci;
+                }
+            }
+            if (c_idt.get("PId").and_then(Value::as_i64).is_none() || c_idt.get("Avatar").is_none())
+                && resolved_pid.is_some()
+                && let Some(ci) = group
+                    .iter()
+                    .find_map(|s| s.get("CIdt"))
+                    .filter(|ci| ci.get("PId").and_then(Value::as_i64) == resolved_pid)
+            {
+                c_idt = ci;
+            }
+        }
+
+        let players = Self::count_group_players(group);
+
+        // player id
+        let pid = resolved_pid.or_else(|| c_idt.get("PId").and_then(Value::as_i64));
         map_put_i64(enemy_obj, "player_id", pid);
 
         // player name
@@ -478,6 +540,33 @@ impl Resolver for ParticipantEnemyResolver {
                 enemy_obj.insert("avatar_url".into(), Value::String(url));
             } else if let Some(url) = enemy_snap.and_then(|s| extract_avatar_url(s.get("Avatar"))) {
                 enemy_obj.insert("avatar_url".into(), Value::String(url));
+            } else if let Some(pid) = pid
+                && let Some(full_snap) = Self::find_any_snapshot_by_pid(sections, pid)
+                && let Some(url) = extract_avatar_url(full_snap.get("Avatar"))
+            {
+                enemy_obj.insert("avatar_url".into(), Value::String(url));
+            } else if let Some(anchor) = idx_opt {
+                let mut found: Option<String> = None;
+                for d in 1..=6 {
+                    if found.is_some() {
+                        break;
+                    }
+                    if anchor >= d
+                        && let Some(url) = extract_avatar_url(group[anchor - d].get("Avatar"))
+                    {
+                        found = Some(url);
+                        break;
+                    }
+                    if let Some(sec) = group.get(anchor + d)
+                        && let Some(url) = extract_avatar_url(sec.get("Avatar"))
+                    {
+                        found = Some(url);
+                        break;
+                    }
+                }
+                if let Some(url) = found {
+                    enemy_obj.insert("avatar_url".into(), Value::String(url));
+                }
             }
         }
 
@@ -504,11 +593,45 @@ impl Resolver for ParticipantEnemyResolver {
         }
         if (enemy_obj.get("castle_x").is_none() || enemy_obj.get("castle_y").is_none())
             && let Some(i) = idx_opt
-            && let Some(sec) = group.get(i)
-            && let Some(castle) = sec.get("CastlePos")
         {
-            map_put_f64(enemy_obj, "castle_x", parse_f64(castle.get("X")));
-            map_put_f64(enemy_obj, "castle_y", parse_f64(castle.get("Y")));
+            if let Some(castle) = group.get(i).and_then(|sec| sec.get("CastlePos")) {
+                map_put_f64(enemy_obj, "castle_x", parse_f64(castle.get("X")));
+                map_put_f64(enemy_obj, "castle_y", parse_f64(castle.get("Y")));
+            }
+            if enemy_obj.get("castle_x").is_none() || enemy_obj.get("castle_y").is_none() {
+                for d in 1..=8 {
+                    if i >= d
+                        && let Some(castle) = group.get(i - d).and_then(|sec| sec.get("CastlePos"))
+                    {
+                        map_put_f64(enemy_obj, "castle_x", parse_f64(castle.get("X")));
+                        map_put_f64(enemy_obj, "castle_y", parse_f64(castle.get("Y")));
+                        break;
+                    }
+                    if let Some(castle) = group.get(i + d).and_then(|sec| sec.get("CastlePos")) {
+                        map_put_f64(enemy_obj, "castle_x", parse_f64(castle.get("X")));
+                        map_put_f64(enemy_obj, "castle_y", parse_f64(castle.get("Y")));
+                        break;
+                    }
+                }
+            }
+        }
+
+        if enemy_obj.get("castle_x").is_none() || enemy_obj.get("castle_y").is_none() {
+            if let Some(pid) = pid
+                && let Some(snap) =
+                    Self::find_any_snapshot_by_pid(sections, pid).and_then(|s| s.get("CastlePos"))
+            {
+                map_put_f64(enemy_obj, "castle_x", parse_f64(snap.get("X")));
+                map_put_f64(enemy_obj, "castle_y", parse_f64(snap.get("Y")));
+            }
+            if (enemy_obj.get("castle_x").is_none() || enemy_obj.get("castle_y").is_none())
+                && enemy_ctid != 0
+                && let Some(snap) = Self::find_any_snapshot_by_ctid(sections, enemy_ctid)
+                    .and_then(|s| s.get("CastlePos"))
+            {
+                map_put_f64(enemy_obj, "castle_x", parse_f64(snap.get("X")));
+                map_put_f64(enemy_obj, "castle_y", parse_f64(snap.get("Y")));
+            }
         }
 
         // rally

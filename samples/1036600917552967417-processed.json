@@ -46,7 +46,7 @@
       "player_id": 181252461,
       "player_name": "F4 Benbu",
       "alliance_tag": "04Z",
-      "avatar_url": null,
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
       "castle_x": 3718.2246,
       "castle_y": 5000.6074,
       "is_rally": null,
@@ -55,7 +55,7 @@
       "primary_commander": {
         "id": 23,
         "level": 1,
-        "skills": null
+        "skills": "2221"
       },
       "secondary_commander": {
         "id": 24,
