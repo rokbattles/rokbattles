@@ -1,6 +1,6 @@
 mod watcher;
 
-use crate::watcher::spawn_watcher;
+use crate::watcher::{delete_processed, spawn_watcher};
 use anyhow::Context;
 use std::{collections::BTreeSet, fs, path::PathBuf};
 use tauri::{AppHandle, Manager};
@@ -115,6 +115,12 @@ fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
     Ok(current)
 }
 
+#[tauri::command]
+fn reprocess_all(app: AppHandle) -> Result<(), String> {
+    delete_processed(&app).map_err(|e| e.to_string())?;
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -130,7 +136,12 @@ pub fn run() {
             spawn_watcher(app.handle());
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![list_dirs, add_dir, remove_dir])
+        .invoke_handler(tauri::generate_handler![
+            list_dirs,
+            add_dir,
+            remove_dir,
+            reprocess_all
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

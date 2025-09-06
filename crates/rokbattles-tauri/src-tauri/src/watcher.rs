@@ -75,6 +75,14 @@ fn processed_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
     Ok(dir.join(PROCESSED_FILE))
 }
 
+pub fn delete_processed(app: &AppHandle) -> anyhow::Result<()> {
+    let path = processed_file(app)?;
+    if path.exists() {
+        fs::remove_file(&path).with_context(|| format!("Failed removing {:?}", path))?;
+    }
+    Ok(())
+}
+
 fn file_sig(meta: &fs::Metadata) -> anyhow::Result<FileSig> {
     let size = meta.len();
     let modified_time = meta.modified().unwrap_or(SystemTime::UNIX_EPOCH);

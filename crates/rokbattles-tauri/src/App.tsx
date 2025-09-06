@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [dirs, setDirs] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
+  const [isReprocessing, setIsReprocessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [logs, setLogs] = useState<string[]>([]);
 
@@ -81,19 +82,40 @@ function App() {
     }
   };
 
+  const handleReprocess = async () => {
+    try {
+      setIsReprocessing(true);
+      await invoke("reprocess_all");
+    } catch (e) {
+      console.error("Failed to trigger reprocess", e);
+    } finally {
+      setIsReprocessing(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="mx-auto max-w-3xl p-6">
-        <header className="mb-6 flex items-center justify-between">
+        <header className="mb-6 flex items-center justify-between gap-3">
           <h1 className="text-xl font-semibold tracking-tight">ROK Battles</h1>
-          <button
-            type="button"
-            onClick={handleAdd}
-            disabled={isAdding}
-            className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
-          >
-            {isAdding ? "Adding..." : "Add directory"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleReprocess}
+              disabled={isReprocessing}
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
+            >
+              {isReprocessing ? "Reprocessing..." : "Reprocess all"}
+            </button>
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={isAdding}
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
+            >
+              {isAdding ? "Adding..." : "Add directory"}
+            </button>
+          </div>
         </header>
         <section className="rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
           <div className="flex items-center justify-between border-b border-zinc-800 p-4">
