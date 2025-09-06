@@ -12,12 +12,15 @@ use std::{
 };
 use tauri::{AppHandle, Emitter, Manager};
 
-// Likely want switch over to sqlite for 0.2.0, this will be fine for first prerelease
+// TODO Replace JSON store with SQLite (or sled)
+//  Migration: import existing processed.json on first run, then remove it.
 const PROCESSED_FILE: &str = "processed.json";
+// TODO Fetch rate limit from API (or response headers) on startup and adjust dynamically.
+//  If app remains open for long sessions, monitor headers to keep this value in sync.
 const RATE_LIMIT: u32 = 128;
 const TICK: u64 = 60000 / RATE_LIMIT as u64;
 
-// TODO we'll begin incrementing this in 0.2.0
+// TODO Update User-Agent dynamically from crate version + OS (e.g., ROKBattles/<app_version> (<os>; <arch>)).
 const API_USER_AGENT: &str = "ROKBattles/0.1.0";
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
@@ -45,6 +48,7 @@ fn http_client() -> &'static reqwest::Client {
             .tcp_keepalive(Some(Duration::from_secs(60)))
             .pool_idle_timeout(Some(Duration::from_secs(90)))
             .pool_max_idle_per_host(8)
+            // TODO Add connect/read timeouts and a retry policy with exponential backoff
             .build()
             .expect("failed to build HTTP client")
     })
@@ -111,6 +115,7 @@ fn write_processed(app: &AppHandle, store: &ProcessedStore) -> anyhow::Result<()
     let path = processed_file(app)?;
     let json =
         serde_json::to_vec_pretty(store).context("Failed to serialize processed store to JSON")?;
+    // TODO Atomic write (write to temp + fsync + rename)
     fs::write(&path, json).with_context(|| format!("Failed writing {:?}", path))?;
     Ok(())
 }
@@ -180,6 +185,7 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
         }
     };
 
+    // TODO Replace periodic scans with OS file notifications (notify crate) and maintain a pending queue.
     for dir in dirs {
         let dir_path = PathBuf::from(dir);
         let read_dir = match fs::read_dir(&dir_path) {
@@ -232,6 +238,7 @@ async fn next_file(app: &AppHandle) -> Option<PathBuf> {
             match has_rok_fileheader_from_file(&path) {
                 Ok(true) => {
                     store.entries.insert(key.clone(), sig);
+                    // TODO Debounce/flush writes every N updates or on a timer.
                     if let Err(e) = write_processed(app, &store) {
                         eprintln!("[rokbattles] failed to update processed store: {}", e);
                     }
@@ -269,6 +276,7 @@ async fn post_file_to_api(
     let status = resp.status();
     if !status.is_success() {
         let text = resp.text().await.unwrap_or_default();
+        // TODO Apply backoff+retry for 429/5xx. Persist failed attempts for later retry.
         bail!("API rejected upload: {} {}", status, text);
     }
     Ok(())
@@ -292,6 +300,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                     emit_log(&app, format!("Processing {}", fname));
                     eprintln!("[rokbattles] processing {:?}", path);
 
+                    // TODO Use tokio::fs or spawn_blocking for file I/O to avoid blocking the async runtime.
                     let bytes = match fs::read(&path) {
                         Ok(b) => b,
                         Err(e) => {
@@ -328,6 +337,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         continue;
                     }
 
+                    // TODO When offline/API unavailable, queue uploads locally and retry.
                     if let Err(e) = post_file_to_api(client, &api_url, &bytes).await {
                         emit_log(&app, format!("Failed to upload {}: {}", fname, e));
                         eprintln!("[rokbattles] failed to upload {:?}: {}", path, e);

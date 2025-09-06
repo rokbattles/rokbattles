@@ -118,6 +118,7 @@ fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
 #[tauri::command]
 fn reprocess_all(app: AppHandle) -> Result<(), String> {
     delete_processed(&app).map_err(|e| e.to_string())?;
+    // TODO Clear any local upload queues (see watcher TODOs)
     Ok(())
 }
 
