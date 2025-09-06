@@ -48,7 +48,8 @@ fn http_client() -> &'static reqwest::Client {
             .tcp_keepalive(Some(Duration::from_secs(60)))
             .pool_idle_timeout(Some(Duration::from_secs(90)))
             .pool_max_idle_per_host(8)
-            // TODO Add connect/read timeouts and a retry policy with exponential backoff
+            .connect_timeout(Duration::from_secs(5))
+            .timeout(Duration::from_secs(20))
             .build()
             .expect("failed to build HTTP client")
     })
@@ -265,21 +266,75 @@ async fn post_file_to_api(
     api_url: &str,
     bytes: &[u8],
 ) -> anyhow::Result<()> {
-    let resp = client
-        .post(api_url)
-        .header(reqwest::header::CONTENT_TYPE, "application/octet-stream")
-        .body(bytes.to_vec())
-        .send()
-        .await
-        .context("failed to send mail to API")?;
+    const MAX_RETRIES: usize = 3;
+    let mut attempt: usize = 0;
 
-    let status = resp.status();
-    if !status.is_success() {
-        let text = resp.text().await.unwrap_or_default();
-        // TODO Apply backoff+retry for 429/5xx. Persist failed attempts for later retry.
-        bail!("API rejected upload: {} {}", status, text);
+    loop {
+        attempt += 1;
+
+        let result = client
+            .post(api_url)
+            .header(reqwest::header::CONTENT_TYPE, "application/octet-stream")
+            .body(bytes.to_vec())
+            .send()
+            .await;
+
+        match result {
+            Ok(resp) => {
+                let status = resp.status();
+                if status.is_success() {
+                    return Ok(());
+                }
+
+                let is_error = status.as_u16() == 429 || status.is_server_error();
+                let retry_after = resp
+                    .headers()
+                    .get(reqwest::header::RETRY_AFTER)
+                    .and_then(|h| h.to_str().ok())
+                    .and_then(|s| s.parse::<u64>().ok())
+                    .map(Duration::from_secs);
+
+                if is_error && attempt <= MAX_RETRIES {
+                    let backoff = retry_after.unwrap_or_else(|| {
+                        let base_ms = 300u64 * (1u64 << (attempt as u32 - 1)); // 300, 600, 1200 ms
+                        Duration::from_millis(base_ms)
+                    });
+                    eprintln!(
+                        "[rokbattles] API status {} on attempt {}/{}; retrying in {:?}",
+                        status,
+                        attempt,
+                        MAX_RETRIES + 1,
+                        backoff
+                    );
+                    tokio::time::sleep(backoff).await;
+                    continue;
+                }
+
+                let text = resp.text().await.unwrap_or_default();
+                bail!("API rejected upload: {} {}", status, text);
+            }
+            Err(err) => {
+                let is_timeout = err.is_timeout();
+                let is_connect = err.is_connect();
+                if (is_timeout || is_connect) && attempt <= MAX_RETRIES {
+                    let base_ms = 300u64 * (1u64 << (attempt as u32 - 1));
+                    let backoff = Duration::from_millis(base_ms);
+                    eprintln!(
+                        "[rokbattles] network error on attempt {}/{} (timeout={}, connect={}); retrying in {:?}",
+                        attempt,
+                        MAX_RETRIES + 1,
+                        is_timeout,
+                        is_connect,
+                        backoff
+                    );
+                    tokio::time::sleep(backoff).await;
+                    continue;
+                }
+
+                return Err(err).context("failed to send mail to API");
+            }
+        }
     }
-    Ok(())
 }
 
 pub fn spawn_watcher(app: &AppHandle) {
