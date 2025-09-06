@@ -128,42 +128,12 @@ fn is_rok_filename(filename: &str) -> bool {
     }
 }
 
-// Taken from our mail-decoder test case
-fn has_rok_fileheader(buf: &[u8]) -> bool {
-    if buf.len() < 32 {
-        return false;
-    }
-    if buf[0] != 0xFF {
-        return false;
-    }
-    if buf[9] != 0x05 || buf[10] != 0x04 {
-        return false;
-    }
-    let len = {
-        let start = 11;
-        let end = start + 4;
-        let Some(bytes) = buf.get(start..end) else {
-            return false;
-        };
-        u32::from_le_bytes(bytes.try_into().unwrap_or([0; 4]))
-    };
-    if len != 9 {
-        return false;
-    }
-    let start = 15;
-    let end = start + 9;
-    let Some(bytes) = buf.get(start..end) else {
-        return false;
-    };
-    bytes == b"mailScene"
-}
-
 fn has_rok_fileheader_from_file(path: &PathBuf) -> anyhow::Result<bool> {
     let mut f = fs::File::open(path)
         .with_context(|| format!("Failed to open file for header check: {:?}", path))?;
     let mut buf = [0u8; 32];
     let _ = f.read(&mut buf)?;
-    Ok(has_rok_fileheader(&buf))
+    Ok(mail_decoder::has_rok_mail_header(&buf))
 }
 
 async fn next_file(app: &AppHandle) -> Option<PathBuf> {

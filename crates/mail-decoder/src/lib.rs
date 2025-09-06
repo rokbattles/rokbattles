@@ -205,49 +205,44 @@ pub fn decode(buffer: &[u8]) -> Result<Mail> {
     Ok(Mail { sections })
 }
 
+pub fn has_rok_mail_header(buf: &[u8]) -> bool {
+    // Require a small minimum size so all fixed offsets used below are safe.
+    if buf.len() < 32 {
+        return false;
+    }
+    // Leading sentinel byte for this record type.
+    if buf[0] != 0xFF {
+        return false;
+    }
+    // 0x05 denotes a nested object; 0x04 denotes a UTF‑8 string key tag.
+    if buf[9] != 0x05 || buf[10] != 0x04 {
+        return false;
+    }
+    // Read the length (LE u32) of the upcoming key; expect "mailScene" (9 bytes).
+    let len = {
+        let start = 11;
+        let end = start + 4;
+        let Some(bytes) = buf.get(start..end) else {
+            return false;
+        };
+        u32::from_le_bytes(bytes.try_into().unwrap_or([0; 4]))
+    };
+    if len != 9 {
+        return false;
+    }
+    // Verify the key bytes equal "mailScene".
+    let start = 15;
+    let end = start + 9;
+    let Some(bytes) = buf.get(start..end) else {
+        return false;
+    };
+    bytes == b"mailScene"
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::{fs, path::Path};
-
-    fn has_mailscene_header(buf: &[u8]) -> bool {
-        // Require a small minimum size so all fixed offsets used below are safe.
-        if buf.len() < 32 {
-            return false;
-        }
-
-        // Leading sentinel byte for this record type.
-        if buf[0] != 0xFF {
-            return false;
-        }
-
-        // 0x05 denotes a nested object; 0x04 denotes a UTF‑8 string key tag.
-        if buf[9] != 0x05 || buf[10] != 0x04 {
-            return false;
-        }
-
-        // Read the length (LE u32) of the upcoming key; expect "mailScene" (9 bytes).
-        let len = {
-            let start = 11;
-            let end = start + 4;
-            let Some(bytes) = buf.get(start..end) else {
-                return false;
-            };
-            u32::from_le_bytes(bytes.try_into().unwrap())
-        };
-
-        if len != 9 {
-            return false;
-        }
-
-        // Verify the key bytes equal "mailScene".
-        let start = 15;
-        let end = start + 9;
-        let Some(bytes) = buf.get(start..end) else {
-            return false;
-        };
-        bytes == b"mailScene"
-    }
 
     #[test]
     fn validate_mailscene_header_bytes() {
@@ -267,16 +262,16 @@ mod tests {
         buf[15..24].copy_from_slice(b"mailScene");
 
         // The exact header should be recognized.
-        assert!(has_mailscene_header(&buf), "expected valid header to pass");
+        assert!(has_rok_mail_header(&buf), "expected valid header to pass");
 
         // Truncated input should be safely rejected (no panics, returns false).
-        assert!(!has_mailscene_header(&buf[..16]), "short buffers must fail");
+        assert!(!has_rok_mail_header(&buf[..16]), "short buffers must fail");
 
         // Flip the leading sentinel to ensure we detect the mismatch.
         let mut wrong0 = buf.clone();
         wrong0[0] = 0x00;
         assert!(
-            !has_mailscene_header(&wrong0),
+            !has_rok_mail_header(&wrong0),
             "wrong leading byte must fail"
         );
 
@@ -284,7 +279,7 @@ mod tests {
         let mut wrong_tags = buf.clone();
         wrong_tags[9] = 0x00;
         assert!(
-            !has_mailscene_header(&wrong_tags),
+            !has_rok_mail_header(&wrong_tags),
             "wrong tag at index 9 must fail"
         );
 
@@ -292,7 +287,7 @@ mod tests {
         let mut wrong_tags2 = buf.clone();
         wrong_tags2[10] = 0x00;
         assert!(
-            !has_mailscene_header(&wrong_tags2),
+            !has_rok_mail_header(&wrong_tags2),
             "wrong tag at index 10 must fail"
         );
 
@@ -300,7 +295,7 @@ mod tests {
         let mut wrong_len = buf.clone();
         wrong_len[11..15].copy_from_slice(8u32.to_le_bytes().as_slice());
         assert!(
-            !has_mailscene_header(&wrong_len),
+            !has_rok_mail_header(&wrong_len),
             "wrong LE length must fail"
         );
 
@@ -308,7 +303,7 @@ mod tests {
         let mut wrong_scene = buf.clone();
         wrong_scene[15..24].copy_from_slice(b"mailScena");
         assert!(
-            !has_mailscene_header(&wrong_scene),
+            !has_rok_mail_header(&wrong_scene),
             "wrong scene string must fail"
         );
     }
@@ -327,7 +322,7 @@ mod tests {
         // The header check is a heuristic; passing here indicates the sample looks like
         // a valid RoK mail payload at a glance.
         assert!(
-            has_mailscene_header(&input),
+            has_rok_mail_header(&input),
             "expected sample mail to have the mailScene header"
         );
 
