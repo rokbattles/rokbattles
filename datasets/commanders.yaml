@@ -1,6 +1,4 @@
 commanders:
-  # Missing Mary I
-
   1:
     name:
       en: "Julius Caesar"
@@ -866,4 +864,11 @@ commanders:
       en: "Archimedes"
       es: "Arquímedes"
       kr: "아르키메데스"
+    prime: false
+
+  565:
+    name:
+      en: "Mary I"
+      es: "María I"
+      kr: "메리 1세"
     prime: false
