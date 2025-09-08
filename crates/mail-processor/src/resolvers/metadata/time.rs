@@ -1,21 +1,16 @@
-use crate::{
-    helpers::{
-        find_self_content_root, find_self_snapshot_section, get_or_insert_object,
-        map_insert_f64_if_absent, map_insert_i64_if_absent, map_insert_str_if_absent, parse_f64,
-    },
-    resolvers::{Resolver, ResolverContext},
-};
+use crate::helpers::{get_or_insert_object, map_insert_i64_if_absent};
+use crate::resolvers::{Resolver, ResolverContext};
 use serde_json::Value;
 
-pub struct MetadataResolver;
+pub struct TimeResolver;
 
-impl Default for MetadataResolver {
+impl Default for TimeResolver {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl MetadataResolver {
+impl TimeResolver {
     pub fn new() -> Self {
         Self
     }
@@ -122,7 +117,7 @@ impl MetadataResolver {
     }
 }
 
-impl Resolver for MetadataResolver {
+impl Resolver for TimeResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let meta = match get_or_insert_object(mail, "metadata") {
             Value::Object(meta) => meta,
@@ -132,52 +127,7 @@ impl Resolver for MetadataResolver {
         let sections = ctx.sections;
         let group = ctx.group;
 
-        // attack id
-        meta.entry("attack_id")
-            .or_insert_with(|| Value::String(ctx.attack_id.to_string()));
-
-        // email basics
-        if let Some(g0) = sections.first() {
-            map_insert_str_if_absent(meta, "email_id", g0.get("id").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_type", g0.get("type").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_box", g0.get("box").and_then(Value::as_str));
-            map_insert_i64_if_absent(
-                meta,
-                "email_time",
-                Self::parse_i128(g0.get("time")).and_then(|n| i64::try_from(n).ok()),
-            );
-        }
-
-        // email role
-        let stats_block = sections.iter().find(|s| {
-            s.get("STs").is_some()
-                || s.get("Role").is_some()
-                || s.get("body")
-                    .and_then(|b| b.get("STs").or_else(|| b.get("Role")))
-                    .is_some()
-        });
-
-        if let Some(role) = stats_block
-            .and_then(|s| {
-                s.get("Role")
-                    .or_else(|| s.get("body").and_then(|b| b.get("Role")))
-            })
-            .and_then(Value::as_str)
-        {
-            map_insert_str_if_absent(meta, "email_role", Some(role));
-        }
-
-        // kvk
-        let is_kvk = stats_block
-            .and_then(|s| {
-                s.get("isConquerSeason")
-                    .or_else(|| s.get("body").and_then(|b| b.get("isConquerSeason")))
-                    .and_then(Value::as_bool)
-            })
-            .unwrap_or(false);
-        meta.entry("is_kvk").or_insert(Value::from(is_kvk as i32));
-
-        // start and end time
+        // compute base epoch and small tick base
         let base_epoch = Self::first_epoch_geq(sections, "Bts", 1_000_000_000)
             .or_else(|| {
                 sections
@@ -209,47 +159,6 @@ impl Resolver for MetadataResolver {
         let end_date = base_epoch + (ets_small - base_small);
         map_insert_i64_if_absent(meta, "start_date", Some(start_date));
         map_insert_i64_if_absent(meta, "end_date", Some(end_date));
-
-        // position
-        if let Some(pos) = group.iter().find_map(|s| {
-            s.get("Pos")
-                .or_else(|| s.get("Attacks").and_then(|a| a.get("Pos")))
-        }) {
-            map_insert_f64_if_absent(meta, "pos_x", parse_f64(pos.get("X")));
-            map_insert_f64_if_absent(meta, "pos_y", parse_f64(pos.get("Y")));
-        } else if let Some(attacks_obj) = sections
-            .iter()
-            .find_map(|s| s.get("Attacks").filter(|a| a.get(ctx.attack_id).is_some()))
-            .and_then(|a| a.get("Pos"))
-        {
-            map_insert_f64_if_absent(meta, "pos_x", parse_f64(attacks_obj.get("X")));
-            map_insert_f64_if_absent(meta, "pos_y", parse_f64(attacks_obj.get("Y")));
-        }
-
-        // player count
-        if let Some(sts) = stats_block
-            .and_then(|s| {
-                s.get("STs")
-                    .or_else(|| s.get("body").and_then(|b| b.get("STs")))
-            })
-            .and_then(Value::as_object)
-        {
-            let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
-            meta.entry("players").or_insert(Value::from(cnt));
-        }
-
-        // email receiver
-        let self_snap = find_self_snapshot_section(sections).unwrap_or(&Value::Null);
-        let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
-        if let Some(pid) = self_snap
-            .get("PId")
-            .and_then(Value::as_i64)
-            .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))
-            && pid != 0
-        {
-            meta.entry("email_receiver")
-                .or_insert(Value::String(pid.to_string()));
-        }
 
         Ok(())
     }
