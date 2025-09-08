@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": null,
+      "email_time": null,
+      "email_type": null,
+      "email_receiver": "36195367",
+      "email_box": null,
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "557403",
+      "start_date": 1752843964,
+      "end_date": 1753210756,
+      "pos_x": 979.84283,
+      "pos_y": 7092.085,
+      "players": 1
+    },
+    "self": {
+      "player_id": 36195367,
+      "player_name": null,
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/30948458/2025-04-27/E26A11AFE1AFFA94A08691D700D1F4DC_250x250.jpg",
+      "castle_x": 975.05273,
+      "castle_y": 7082.921,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 99,
+        "level": 60,
+        "skills": "5550"
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "kingdom_id": null,
+      "tracking_key": "36195367_1752843939_99_12",
+      "equipment": null,
+      "formation": null,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 38608124,
+      "player_name": "SnowMan亗",
+      "alliance_tag": null,
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/38608124/22/07/11/5f3cd49a87cb3b2c_420x420.jpg",
+      "castle_x": 976.55035,
+      "castle_y": 7097.7876,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 118,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 139,
+        "level": 60,
+        "skills": null
+      },
+      "kingdom_id": 1804,
+      "tracking_key": null,
+      "equipment": "{7:20037_145:1,8:20040_170:1,6:20018_172:11,2:20014_161:11,3:20026_159:11,5:20032_171:11,4:20029_162:11,1:20013_94:11}",
+      "formation": 2,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "battle_results": {
+      "power": -1804,
+      "init_max": 256000,
+      "max": 248843,
+      "healing": 0,
+      "death": 451,
+      "severely_wounded": 0,
+      "wounded": 3472,
+      "remaining": 244920,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 14060,
+      "enemy_power": -6786,
+      "enemy_init_max": 203248,
+      "enemy_max": 21534,
+      "enemy_healing": 1280,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 825,
+      "enemy_wounded": 2716,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 50000,
+      "enemy_kill_score": 4510
+    }
+  }
+]

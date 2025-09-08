@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "79062741175727676228",
+      "email_time": 1757276762433967,
+      "email_type": "Battle",
+      "email_receiver": "51384743",
+      "email_box": "Archive",
+      "email_role": "dungeon",
+      "is_kvk": 0,
+      "attack_id": "235901",
+      "start_date": 1757276749,
+      "end_date": 1757276761,
+      "pos_x": 1132.6538,
+      "pos_y": 1162.8,
+      "players": 3
+    },
+    "self": {
+      "player_id": 51384743,
+      "player_name": null,
+      "alliance_tag": "LX17",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/42078406/2024-10-15/3BD791DF7796BD52D668D352B3375241_250x250.jpg",
+      "castle_x": 1091.8351,
+      "castle_y": 1238.2734,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 99,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "kingdom_id": 127,
+      "tracking_key": null,
+      "equipment": null,
+      "formation": 7,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 131144092,
+      "player_name": "Solárokú",
+      "alliance_tag": "SiP",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103762427/2025-07-06/B17D54921A6C646EBF60C4C73467042D_250x250.jpg",
+      "castle_x": 1280.9766,
+      "castle_y": 1059.9531,
+      "is_rally": 1,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 103,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 539,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 127,
+      "tracking_key": "131144092_1757276578_103_539_SquareRally",
+      "equipment": null,
+      "formation": 13,
+      "armament_buffs": "10002_0.015000;3002_0.027000;3002_0.029000;3002_0.032000;3002_0.034000;4002_0.027000;4002_0.029000;4002_0.033000;4002_0.033000;5002_0.031000;5002_0.032000;5002_0.032000",
+      "inscriptions": "13101;13201;13301;13401"
+    },
+    "battle_results": {
+      "power": -156130,
+      "init_max": 726000,
+      "max": 179200,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 15613,
+      "wounded": 62035,
+      "remaining": 331084,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 91300,
+      "enemy_power": -45650,
+      "enemy_init_max": 1227799,
+      "enemy_max": 187468,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 4565,
+      "enemy_wounded": 18486,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 312260
+    }
+  }
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "7901118217572542736",
+      "email_time": 1757254273234667,
+      "email_type": "Battle",
+      "email_receiver": "40693070",
+      "email_box": "Report",
+      "email_role": "dungeon",
+      "is_kvk": 0,
+      "attack_id": "1904",
+      "start_date": 1757254273,
+      "end_date": 1757254273,
+      "pos_x": null,
+      "pos_y": null,
+      "players": 1
+    },
+    "self": {
+      "player_id": 40693070,
+      "player_name": "ˢ snow leopard",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/33623437/2025-09-05/5317F355081E95A30E588AE324E20E48_250x250.jpg",
+      "castle_x": 1024.8372,
+      "castle_y": 886.2119,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 147,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 177,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 130,
+      "tracking_key": "40693070_1757253975_147_177",
+      "equipment": "{2:20004_133:31,6:20012_100:31,7:20041_126:31,8:20037_127:31,1:20001_140:32,5:20033_137:35,4:20028_87:31,3:20009_107:32}",
+      "formation": 2,
+      "armament_buffs": "10002_0.015000;10002_0.018000;3002_0.015000;3002_0.019000;3002_0.022000;3002_0.035000;4002_0.016000;4002_0.020000;4002_0.021000;4002_0.023000;5002_0.019000;5002_0.022000",
+      "inscriptions": "209;310;315;415;2101;2201"
+    },
+    "enemy": {
+      "player_id": 0,
+      "player_name": null,
+      "alliance_tag": null,
+      "avatar_url": null,
+      "castle_x": null,
+      "castle_y": null,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "kingdom_id": 3926,
+      "tracking_key": null,
+      "equipment": null,
+      "formation": null,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "battle_results": {
+      "power": 0,
+      "init_max": 260845,
+      "max": 260497,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 0,
+      "wounded": 0,
+      "remaining": 260497,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 0,
+      "enemy_max": 0,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 0
+    }
+  }
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": null,
+      "email_time": null,
+      "email_type": null,
+      "email_receiver": "40693070",
+      "email_box": null,
+      "email_role": "dungeon",
+      "is_kvk": 0,
+      "attack_id": "205101",
+      "start_date": 1757256338,
+      "end_date": 1757258898,
+      "pos_x": 870.1875,
+      "pos_y": 1084.7455,
+      "players": 1
+    },
+    "self": {
+      "player_id": 40693070,
+      "player_name": "ˢ snow leopard",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/33623437/2025-09-05/5317F355081E95A30E588AE324E20E48_250x250.jpg",
+      "castle_x": 1024.8372,
+      "castle_y": 886.2119,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 540,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "kingdom_id": 130,
+      "tracking_key": "40693070_1757255924_540_9",
+      "equipment": null,
+      "formation": 13,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 29400604,
+      "player_name": "KSC Sư IV Moon",
+      "alliance_tag": "2367",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26417940/2025-02-20/32AA585FDEB88F2A998A772A54CA546A_250x250.jpg",
+      "castle_x": 863.37506,
+      "castle_y": 1073.7402,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 545,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "5555"
+      },
+      "kingdom_id": 130,
+      "tracking_key": "29400604_1757256327_545_185",
+      "equipment": "{7:20044_1103:1,2:20005_1224:12,3:20026_1021:15,5:20032_958:15,6:20034_871:13,1:20002_1183:12,4:20029_1077:12,8:20167_1254:1}",
+      "formation": 17,
+      "armament_buffs": "10002_0.018000;3001_0.018000;3001_0.019000;3001_0.033000;3001_0.035000;4001_0.025000;4001_0.026000;4001_0.028000;4001_0.033000;5001_0.027000;5001_0.034000;5001_0.035000",
+      "inscriptions": "211;216;304;403;17102"
+    },
+    "battle_results": {
+      "power": -8280,
+      "init_max": 266000,
+      "max": 98314,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 828,
+      "wounded": 4310,
+      "remaining": 93176,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 262210,
+      "enemy_max": 199966,
+      "enemy_healing": 1974,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 60678,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 16560
+    }
+  }
+]

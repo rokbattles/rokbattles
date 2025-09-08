@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "10294406175284352313",
+      "email_time": 1752843523696750,
+      "email_type": "Battle",
+      "email_receiver": "36195367",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "564103",
+      "start_date": 1752843523,
+      "end_date": 1752843523,
+      "pos_x": 5760.0845,
+      "pos_y": 5330.852,
+      "players": 1
+    },
+    "self": {
+      "player_id": 36195367,
+      "player_name": "Fayst 25 GGGG X",
+      "alliance_tag": "04Z",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/30948458/2025-04-27/E26A11AFE1AFFA94A08691D700D1F4DC_250x250.jpg",
+      "castle_x": 5777.377,
+      "castle_y": 5353.459,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 34,
+        "level": 37,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 32,
+        "level": 38,
+        "skills": "5555"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "36195367_1752843504_34_32",
+      "equipment": "{}",
+      "formation": null,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 129664812,
+      "player_name": "1PUSHOK1",
+      "alliance_tag": null,
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129664812/22/05/18/ac59ee339389002f_800x800.jpg",
+      "castle_x": 5753.9604,
+      "castle_y": 5327.241,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 99,
+        "level": 52,
+        "skills": "5551"
+      },
+      "secondary_commander": {
+        "id": 10,
+        "level": 43,
+        "skills": "4311"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": null,
+      "equipment": "{6:20073_18:0,5:20132_31:0,1:20128_41:0,3:20064_40:0,2:20062_16:0,4:20067_15:0}",
+      "formation": 6,
+      "armament_buffs": "10016_0.038000;3002_0.017000;3003_0.012000;3004_0.018000;3004_0.024000;4001_0.015000;4002_0.015000;5001_0.015000;5002_0.016000;5004_0.015000;6003_0.019000;8000_0.052000",
+      "inscriptions": "-1;-1;115;210"
+    },
+    "battle_results": {
+      "power": 0,
+      "init_max": 218750,
+      "max": 218750,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 0,
+      "wounded": 0,
+      "remaining": 218750,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 2559493,
+      "enemy_max": 0,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 22000,
+      "enemy_kill_score": 0
+    }
+  }
+]

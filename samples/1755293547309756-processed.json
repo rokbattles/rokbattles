@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "10159512175529354725",
+      "email_time": 1755293547309756,
+      "email_type": "Battle",
+      "email_receiver": "129397124",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "595003",
+      "start_date": 1755293532,
+      "end_date": 1755293547,
+      "pos_x": 3878.3936,
+      "pos_y": 3711.55,
+      "players": 1
+    },
+    "self": {
+      "player_id": 129397124,
+      "player_name": "F6yst",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129397124/23/08/22/873da7c8f8852a46_640x640.jpg",
+      "castle_x": 3862.754,
+      "castle_y": 3674.8818,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 116,
+        "level": 45,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 102,
+        "level": 40,
+        "skills": "1143"
+      },
+      "kingdom_id": 1804,
+      "tracking_key": "129397124_1755292889_116_102",
+      "equipment": "{7:20077_6:40,2:20056_8:0,8:20074_11:0,3:20057_9:0,1:20055_5:0,4:20058_7:0,6:20082_2:0,5:20081_4:0}",
+      "formation": 6,
+      "armament_buffs": "10002_0.006000;10002_0.019000;2004_0.056000;2004_0.056000;2004_0.060000;2004_0.070000;4003_0.011000;4004_0.012000;5002_0.022000;5003_0.012000;8000_0.044000;8000_0.056000",
+      "inscriptions": "-1;-1;206;326"
+    },
+    "enemy": {
+      "player_id": 181252461,
+      "player_name": null,
+      "alliance_tag": null,
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+      "castle_x": 3883.5469,
+      "castle_y": 3714.4297,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 23,
+        "level": 0,
+        "skills": "2222"
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "kingdom_id": 1804,
+      "tracking_key": null,
+      "equipment": null,
+      "formation": null,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "battle_results": {
+      "power": -9476,
+      "init_max": 211600,
+      "max": 198893,
+      "healing": 330,
+      "death": 2369,
+      "severely_wounded": 0,
+      "wounded": 3728,
+      "remaining": 193126,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 52816,
+      "enemy_power": -52816,
+      "enemy_init_max": 254801,
+      "enemy_max": 142877,
+      "enemy_healing": 0,
+      "enemy_death": 26408,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 29249,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 20,
+      "enemy_watchtower_max": 2000,
+      "enemy_kill_score": 23690
+    }
+  }
+]
