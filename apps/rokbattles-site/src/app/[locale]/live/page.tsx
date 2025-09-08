@@ -1,3 +1,5 @@
+import type { Locale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
 import { BattleReport } from "@/components/BattleReport";
@@ -5,13 +7,13 @@ import LiveSidebar from "@/components/LiveSidebar";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const hashParam = (await searchParams)?.hash;
-  const localeParam = (await searchParams)?.locale;
+// TODO Replace async by using "use" from React
+export default async function LivePage({ params, searchParams }: PageProps<"/[locale]/live">) {
+  const { locale } = await params;
+  setRequestLocale(locale as Locale);
+
+  const sp = await searchParams;
+  const hashParam = sp?.hash;
 
   let data: ReportsResponse | null = null;
   try {
@@ -43,13 +45,9 @@ export default async function Page({
     )
   );
 
-  // locale
-  const candidateLocale = Array.isArray(localeParam) ? localeParam[0] : localeParam;
-  const locale: "en" | "es" | "kr" =
-    candidateLocale === "es" || candidateLocale === "kr" ? candidateLocale : "en";
-
   const nameMap =
-    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
+    // @ts-expect-error underlying function needs to be updated to use Locale type
+    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale as string) : {};
 
   const parentHash = Array.isArray(hashParam) ? hashParam[0] : hashParam;
 
@@ -61,6 +59,7 @@ export default async function Page({
 
   return (
     <div className="relative isolate flex min-h-svh w-full max-lg:flex-col bg-zinc-900 lg:bg-zinc-950">
+      {/* TODO: Update component to passed in locale (or fetch it via next-intl hook) */}
       <LiveSidebar
         initialItems={items}
         initialNameMap={nameMap}
@@ -81,7 +80,8 @@ export default async function Page({
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <BattleReport item={it} locale={locale} />
+                    {/* @ts-expect-error underlying function needs to be updated to use Locale type */}
+                    <BattleReport item={it} locale={locale as string} />
                   </div>
                 );
               })}

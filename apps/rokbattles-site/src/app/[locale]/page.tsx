@@ -1,8 +1,12 @@
 import Link from "next/link";
-import type React from "react";
-import type { SVGProps } from "react";
+import type { Locale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import React, { type SVGProps, use } from "react";
 
-export default function Page() {
+export default function IndexPage({ params }: PageProps<"/[locale]">) {
+  const { locale } = use(params);
+  setRequestLocale(locale as Locale);
+
   return (
     <div className="relative min-h-dvh bg-zinc-950 text-zinc-100 antialiased">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 mx-auto max-w-7xl">
