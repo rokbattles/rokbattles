@@ -34,9 +34,9 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
         "mail.time": { "$gte": cutoff_microseconds }
     };
 
-    // 50 raw reports at a time
+    // 100 raw reports at a time
     let opts = FindOptions::builder()
-        .limit(50)
+        .limit(100)
         .sort(doc! { "mail.time": 1 })
         .projection(doc! {
             "_id": 1,
@@ -167,11 +167,11 @@ async fn main() -> Result<()> {
     debug!("connected to MongoDB, using database '{}'", db.name());
 
     // We'll process older reports over time, but first few days or week, we're only processing newer reports
-    // June 1st 2025 00:00 UTC
-    let cutoff_microseconds: i64 = 1748736000000000;
+    // January 1st 2025 00:00 UTC
+    let cutoff_microseconds: i64 = 1735689600000000;
 
-    // 30 second interval
-    let mut tick = tokio::time::interval(Duration::from_secs(30));
+    // 15 second interval
+    let mut tick = tokio::time::interval(Duration::from_secs(15));
     loop {
         tick.tick().await;
         if let Err(e) = process(&db, cutoff_microseconds).await {
