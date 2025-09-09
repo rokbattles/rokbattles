@@ -1,11 +1,13 @@
-import Link from "next/link";
-import type { Locale } from "next-intl";
+import { type Locale, useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import React, { type SVGProps, use } from "react";
+import { Link } from "@/i18n/navigation";
 
 export default function IndexPage({ params }: PageProps<"/[locale]">) {
   const { locale } = use(params);
   setRequestLocale(locale as Locale);
+
+  const t = useTranslations("IndexPage.Hero");
 
   return (
     <div className="relative min-h-dvh bg-zinc-950 text-zinc-100 antialiased">
@@ -20,8 +22,7 @@ export default function IndexPage({ params }: PageProps<"/[locale]">) {
               <span className="text-white">ROK</span> <span className="text-blue-500">BATTLES</span>
             </h1>
             <p className="mx-auto max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-              A community-driven platform for sharing battle reports and surfacing actionable trends
-              in Rise of Kingdoms.
+              {t("title")}
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <a
@@ -30,13 +31,13 @@ export default function IndexPage({ params }: PageProps<"/[locale]">) {
                 rel="noreferrer noopener"
                 className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-500 focus-visible:outline-none"
               >
-                <span>Download App</span>
+                <span>{t("downloadButton")}</span>
               </a>
               <Link
                 href="/live"
                 className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 text-white transition hover:bg-zinc-700 focus-visible:outline-none"
               >
-                <span>Live Reports</span>
+                <span>{t("liveButton")}</span>
               </Link>
               <a
                 href="https://discord.gg/G33SzQgx6d"
@@ -45,7 +46,7 @@ export default function IndexPage({ params }: PageProps<"/[locale]">) {
                 className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 transition hover:bg-zinc-700 focus-visible:outline-none"
               >
                 <DiscordIcon className="h-5 w-5 fill-white" />
-                <span className="text-white">Discord</span>
+                <span className="text-white">{t("discordButton")}</span>
               </a>
               <a
                 href="https://github.com/rokbattles/rokbattles"
@@ -54,7 +55,7 @@ export default function IndexPage({ params }: PageProps<"/[locale]">) {
                 className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 transition hover:bg-zinc-700 focus-visible:outline-none"
               >
                 <GitHubIcon className="h-5 w-5 fill-white" />
-                <span className="text-white">GitHub</span>
+                <span className="text-white">{t("githubButton")}</span>
               </a>
             </div>
           </div>

@@ -1,0 +1,11 @@
+{
+  "IndexPage": {
+    "Hero": {
+      "title": "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms.",
+      "downloadButton": "Download App",
+      "liveButton": "Live Reports",
+      "discordButton": "Discord",
+      "githubButton": "GitHub"
+    }
+  }
+}
