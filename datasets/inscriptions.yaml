@@ -1273,6 +1273,54 @@ inscriptions:
       es: "Coraza de hierro"
       kr: "강첼의 뼈"
 
+  16101:
+    name:
+      en: "Vanquisher"
+      es: "Vencedor"
+      kr: "필승 전략"
+
+  16102:
+    name:
+      en: "Overwhelm"
+      es: "Abrumar"
+      kr: "방어 돌파"
+
+  16201:
+    name:
+      en: "Self Heal"
+      es: "Autosanación"
+      kr: "회복의 힘"
+
+  16202:
+    name:
+      en: "Self Tend"
+      es: "Autocuidado"
+      kr: "자가 치유"
+
+  16301:
+    name:
+      en: "Brilliant"
+      es: "Brillante"
+      kr: "빠른 성장"
+
+  16302:
+    name:
+      en: "Astute"
+      es: "Astucia"
+      kr: "단련"
+
+  16401:
+    name:
+      en: "Mountain"
+      es: "Montaña"
+      kr: "산악철벽"
+
+  16402:
+    name:
+      en: "Stone"
+      es: "Piedra"
+      kr: "장벽"
+
   17101:
     name:
       en: "Toppler"
