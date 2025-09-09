@@ -7,7 +7,7 @@
       "email_receiver": "71738515",
       "email_box": "Report",
       "email_role": "gsmp",
-      "is_kvk": 0,
+      "is_kvk": 1,
       "attack_id": "18266901",
       "start_date": 1757431048,
       "end_date": 1757431048,
@@ -55,7 +55,7 @@
       "primary_commander": {
         "id": 273,
         "level": 45,
-        "skills": null
+        "skills": "5000"
       },
       "secondary_commander": {
         "id": 0,
@@ -70,17 +70,17 @@
       "inscriptions": null
     },
     "battle_results": {
-      "power": null,
-      "init_max": null,
-      "max": null,
-      "healing": null,
-      "death": null,
-      "severely_wounded": null,
-      "wounded": null,
-      "remaining": null,
-      "watchtower": null,
-      "watchtower_max": null,
-      "kill_score": null,
+      "power": -1,
+      "init_max": 1,
+      "max": 1,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 1,
+      "wounded": 0,
+      "remaining": 0,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
       "enemy_power": -4,
       "enemy_init_max": 180000,
       "enemy_max": 180000,
