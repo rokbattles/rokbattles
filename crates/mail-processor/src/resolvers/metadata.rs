@@ -168,14 +168,41 @@ impl Resolver for MetadataResolver {
         }
 
         // kvk
-        let is_kvk = stats_block
-            .and_then(|s| {
-                s.get("isConquerSeason")
-                    .or_else(|| s.get("body").and_then(|b| b.get("isConquerSeason")))
-                    .and_then(Value::as_bool)
-            })
-            .unwrap_or(false);
-        meta.entry("is_kvk").or_insert(Value::from(is_kvk as i32));
+        let legacy_is_kvk = stats_block.and_then(|s| {
+            s.get("isConquerSeason")
+                .or_else(|| s.get("body").and_then(|b| b.get("isConquerSeason")))
+                .and_then(Value::as_bool)
+        });
+
+        let computed_is_kvk = {
+            let server_id = sections
+                .first()
+                .and_then(|s| s.get("serverId").and_then(Value::as_i64))
+                .or_else(|| {
+                    sections
+                        .iter()
+                        .find_map(|s| s.get("GsId").and_then(Value::as_i64))
+                });
+
+            let self_snap = find_self_snapshot_section(sections);
+            let self_cosid = self_snap
+                .and_then(|s| s.get("COSId").and_then(Value::as_i64))
+                .or_else(|| {
+                    find_self_content_root(sections)
+                        .and_then(|r| r.pointer("/SelfChar/COSId").and_then(Value::as_i64))
+                });
+
+            match (server_id, self_cosid) {
+                (Some(sid), Some(cos)) if sid != 0 && cos != 0 => Some((sid != cos) as i32),
+                _ => None,
+            }
+        };
+
+        let is_kvk_val = legacy_is_kvk
+            .map(|b| if b { 1 } else { 0 })
+            .or(computed_is_kvk)
+            .unwrap_or(0);
+        meta.entry("is_kvk").or_insert(Value::from(is_kvk_val));
 
         // start and end time
         let base_epoch = Self::first_epoch_geq(sections, "Bts", 1_000_000_000)

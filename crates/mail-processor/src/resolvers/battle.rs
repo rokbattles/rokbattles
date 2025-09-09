@@ -204,9 +204,37 @@ impl Resolver for BattleResolver {
                 damage_opt = attacks_obj
                     .and_then(|m| m.get("Damage").and_then(Value::as_object))
                     .or_else(|| {
+                        let key = ctx.attack_id;
+                        full_sections.iter().find_map(|s| {
+                            s.get("Attacks")
+                                .and_then(Value::as_object)
+                                .and_then(|a| a.get(key))
+                                .and_then(|_| {
+                                    s.get("Attacks")
+                                        .and_then(Value::as_object)
+                                        .and_then(|a| a.get("Damage"))
+                                        .and_then(Value::as_object)
+                                })
+                        })
+                    })
+                    .or_else(|| {
                         anchor_idx.and_then(|i| {
                             Self::find_nearby_object_by_key(full_sections, i, "Damage", 16)
                         })
+                    })
+                    .or_else(|| {
+                        let mut path = String::with_capacity(9 + ctx.attack_id.len());
+                        path.push_str("/Attacks/");
+                        path.push_str(ctx.attack_id);
+                        full_sections
+                            .iter()
+                            .find(|s| s.pointer(&path).is_some())
+                            .and_then(|s| s.get("Damage").and_then(Value::as_object))
+                    })
+                    .or_else(|| {
+                        anchor_idx
+                            .and_then(|i| full_sections.get(i))
+                            .and_then(|s| s.get("Damage").and_then(Value::as_object))
                     });
             }
 

@@ -434,7 +434,12 @@ impl Resolver for ParticipantEnemyResolver {
             _ => unreachable!("enemy must be an object"),
         };
 
-        let mut c_idt = atk_block.get("CIdt").unwrap_or(&Value::Null);
+        let mut c_idt = atk_block.get("CIdt").unwrap_or_else(|| {
+            group
+                .iter()
+                .find_map(|s| s.get("Attacks").and_then(|a| a.get("CIdt")))
+                .unwrap_or(&Value::Null)
+        });
 
         let enemy_pid = c_idt.get("PId").and_then(Value::as_i64).unwrap_or(-2);
         let (enemy_ctid, enemy_abbr, enemy_ct, enemy_pname) =
@@ -466,7 +471,9 @@ impl Resolver for ParticipantEnemyResolver {
                     }
                     if anchor >= d
                         && let Some(sec) = group.get(anchor - d)
-                        && let Some(ci) = sec.get("CIdt")
+                        && let Some(ci) = sec
+                            .get("CIdt")
+                            .or_else(|| sec.get("Attacks").and_then(|a| a.get("CIdt")))
                     {
                         let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
                         if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
@@ -478,7 +485,9 @@ impl Resolver for ParticipantEnemyResolver {
                         }
                     }
                     if let Some(sec) = group.get(anchor + d)
-                        && let Some(ci) = sec.get("CIdt")
+                        && let Some(ci) = sec
+                            .get("CIdt")
+                            .or_else(|| sec.get("Attacks").and_then(|a| a.get("CIdt")))
                     {
                         let pid_match = ci.get("PId").and_then(Value::as_i64).unwrap_or(-3);
                         if resolved_pid.is_some() && Some(pid_match) == resolved_pid {
