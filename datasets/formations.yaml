@@ -73,6 +73,12 @@ formations:
       es: "Formación de tercios"
       kr: "대형 방진"
 
+  16:
+    name:
+      en: "Double Line Formation"
+      es: "Formación en línea doble"
+      kr: "양익진"
+
   17:
     name:
       en: "Pincer Formation"
