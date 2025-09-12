@@ -10,15 +10,28 @@ export default async function Page({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const hashParam = (await searchParams)?.hash;
-  const localeParam = (await searchParams)?.locale;
+  const { hash, locale, player_id, kvk_only, ark_only } = await searchParams;
 
   let data: ReportsResponse | null = null;
   try {
     const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
-    const res = await fetch(`${apiBase}/v1/reports`, {
+    const search = new URLSearchParams();
+    const pidStr = Array.isArray(player_id) ? player_id[0] : player_id;
+    const pid = pidStr && /^\d+$/.test(pidStr) ? pidStr : undefined;
+    const kvk = Array.isArray(kvk_only) ? kvk_only[0] : kvk_only;
+    const ark = Array.isArray(ark_only) ? ark_only[0] : ark_only;
+
+    if (pid) search.set("player_id", pid);
+    if (kvk === "true") search.set("kvk_only", "true");
+    if (ark === "true") search.set("ark_only", "true");
+
+    const qs = search.toString();
+    const url = qs ? `${apiBase}/v1/reports?${qs}` : `${apiBase}/v1/reports`;
+
+    const res = await fetch(url, {
       cache: "no-store",
     });
+
     if (res.ok) {
       data = (await res.json()) as ReportsResponse;
     }
@@ -43,15 +56,14 @@ export default async function Page({
     )
   );
 
-  // locale
-  const candidateLocale = Array.isArray(localeParam) ? localeParam[0] : localeParam;
-  const locale: "en" | "es" | "kr" =
+  const candidateLocale = Array.isArray(locale) ? locale[0] : locale;
+  const finalLocale: "en" | "es" | "kr" =
     candidateLocale === "es" || candidateLocale === "kr" ? candidateLocale : "en";
 
   const nameMap =
-    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
+    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, finalLocale) : {};
 
-  const parentHash = Array.isArray(hashParam) ? hashParam[0] : hashParam;
+  const parentHash = Array.isArray(hash) ? hash[0] : hash;
 
   let selectedItems: SingleReportItem[] = [];
   if (parentHash && parentHash.length > 0) {
@@ -81,7 +93,7 @@ export default async function Page({
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <BattleReport item={it} locale={locale} />
+                    <BattleReport item={it} locale={finalLocale} />
                   </div>
                 );
               })}
