@@ -21,6 +21,12 @@ pub struct ListParams {
 
     #[serde(default)]
     player_id: Option<i64>,
+
+    #[serde(default)]
+    kvk_only: Option<bool>,
+
+    #[serde(default)]
+    ark_only: Option<bool>,
 }
 
 #[derive(Debug, Serialize)]
@@ -75,6 +81,12 @@ pub async fn list_reports(
                 { "report.enemy.player_id": pid }
             ]
         });
+    }
+    if params.kvk_only.unwrap_or(false) {
+        filters.push(doc! { "report.metadata.is_kvk": 1 });
+    }
+    if params.ark_only.unwrap_or(false) {
+        filters.push(doc! { "report.metadata.email_role": "dungeon" });
     }
 
     let first_match = if filters.len() == 1 {
