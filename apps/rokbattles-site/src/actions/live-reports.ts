@@ -9,11 +9,22 @@ import { resolveNames } from "./datasets";
 
 export async function fetchLiveReports(
   after?: string,
-  locale: "en" | "es" | "kr" = "en"
+  locale: "en" | "es" | "kr" = "en",
+  opts?: { playerId?: number; kvkOnly?: boolean; arkOnly?: boolean }
 ): Promise<ReportsWithNamesResponse> {
   const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
   const base = `${apiBase}/v1/reports`;
-  const url = after ? `${base}?after=${encodeURIComponent(after)}` : base;
+  const params = new URLSearchParams();
+
+  if (after) params.set("after", after);
+  if (opts?.playerId && Number.isFinite(opts.playerId)) {
+    params.set("player_id", String(opts.playerId));
+  }
+  if (opts?.kvkOnly) params.set("kvk_only", "true");
+  if (opts?.arkOnly) params.set("ark_only", "true");
+
+  const query = params.toString();
+  const url = query ? `${base}?${query}` : base;
 
   let data: ReportsResponse | null = null;
   try {

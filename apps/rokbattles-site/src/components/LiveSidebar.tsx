@@ -3,7 +3,7 @@
 import { Swords } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { fetchLiveReports } from "@/actions/live-reports";
 import type { ReportItem } from "@/lib/types/reports";
 
@@ -61,6 +61,7 @@ export default function LiveSidebar({
 }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const inputId = useId();
 
   const [items, setItems] = useState<ReportItem[]>(() => initialItems ?? []);
   const [nameMap, setNameMap] = useState<Record<string, string | undefined>>(
@@ -84,11 +85,35 @@ export default function LiveSidebar({
   const locParam = sp?.get("locale");
   const currentLocale = locParam === "es" || locParam === "kr" ? (locParam as "es" | "kr") : "en";
 
+  const pidParam = sp?.get("player_id");
+  const kvkParam = sp?.get("kvk_only") === "true";
+  const arkParam = sp?.get("ark_only") === "true";
+
+  const [playerId, setPlayerId] = useState<string>(
+    pidParam && /^\d+$/.test(pidParam) ? pidParam : ""
+  );
+  const initialMode: "all" | "kvk" | "ark" = kvkParam ? "kvk" : arkParam ? "ark" : "all";
+  const [mode, setMode] = useState<"all" | "kvk" | "ark">(initialMode);
+
   useEffect(() => {
-    fetchLiveReports(undefined, currentLocale)
-      .then((data) => setNameMap(data.names ?? {}))
+    setItems([]);
+    setNextCursor(undefined);
+    setEndReached(false);
+    seenKeysRef.current = new Set();
+
+    const pid = playerId && /^\d+$/.test(playerId) ? Number(playerId) : undefined;
+    const kvkOnly = mode === "kvk";
+    const arkOnly = mode === "ark";
+
+    fetchLiveReports(undefined, currentLocale, { playerId: pid, kvkOnly, arkOnly })
+      .then((data) => {
+        setNameMap(data.names ?? {});
+        setItems(data.items ?? []);
+        setNextCursor(data.next_cursor);
+        setEndReached(!data.next_cursor);
+      })
       .catch(() => {});
-  }, [currentLocale]);
+  }, [currentLocale, mode, playerId]);
 
   useEffect(() => {
     if (!sentinelRef.current) return;
@@ -97,11 +122,18 @@ export default function LiveSidebar({
     const io = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
+
         if (!entry.isIntersecting) return;
         if (loading || endReached || !nextCursor) return;
+
         setLoading(true);
         setError(null);
-        fetchLiveReports(nextCursor, currentLocale)
+
+        const pid = playerId && /^\d+$/.test(playerId) ? Number(playerId) : undefined;
+        const kvkOnly = mode === "kvk";
+        const arkOnly = mode === "ark";
+
+        fetchLiveReports(nextCursor, currentLocale, { playerId: pid, kvkOnly, arkOnly })
           .then((data) => {
             const newItems = data.items ?? [];
             const newNames = data.names ?? {};
@@ -111,6 +143,7 @@ export default function LiveSidebar({
             if (newItems.length > 0) {
               const newFlat = flattenItems(newItems);
               const filtered = newFlat.filter((e) => !seenKeysRef.current.has(e.key));
+
               if (filtered.length > 0) {
                 setItems((prev) => [...prev, ...newItems]);
                 filtered.forEach((e) => {
@@ -133,13 +166,27 @@ export default function LiveSidebar({
 
     io.observe(sentinelRef.current);
     return () => io.disconnect();
-  }, [nextCursor, loading, endReached, currentLocale]);
+  }, [nextCursor, loading, endReached, currentLocale, mode, playerId]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: ignore for now
   useEffect(() => {
-    fetchLiveReports(undefined, currentLocale)
-      .then((data) => setNameMap(data.names ?? {}))
-      .catch(() => {});
-  }, [currentLocale]);
+    const params = new URLSearchParams(Array.from(sp?.entries?.() ?? []));
+
+    if (playerId && /^\d+$/.test(playerId)) {
+      params.set("player_id", playerId);
+    } else {
+      params.delete("player_id");
+    }
+
+    params.delete("kvk_only");
+    params.delete("ark_only");
+
+    if (mode === "kvk") params.set("kvk_only", "true");
+    if (mode === "ark") params.set("ark_only", "true");
+
+    // @ts-expect-error - will fix later
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [playerId, mode, pathname]);
 
   return (
     <aside className="fixed inset-y-0 left-0 w-96 max-lg:hidden">
@@ -175,7 +222,59 @@ export default function LiveSidebar({
             </select>
           </div>
         </div>
-        <div className="border-t border-white/10" />
+        <div className="py-3 px-5 border-t border-b border-white/10">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="text-sm/6 text-gray-300 w-28">Governor</div>
+            <input
+              id={inputId}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={playerId}
+              onChange={(e) => {
+                const onlyDigits = e.target.value.replace(/[^0-9]/g, "");
+                setPlayerId(onlyDigits);
+              }}
+              placeholder="71738515"
+              className="block w-full rounded-md px-2 py-1 outline-1 -outline-offset-1 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6 bg-white/5 text-white outline-white/10 placeholder:text-gray-500 focus:outline-blue-500"
+            />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-sm/6 text-gray-300 w-20">Mode</div>
+            <label className="flex items-center gap-1 text-xs text-zinc-300">
+              <input
+                type="radio"
+                name="mode"
+                value="all"
+                checked={mode === "all"}
+                onChange={() => setMode("all")}
+                className="relative size-4 appearance-none rounded-full border before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden focus-visible:outline-2 focus-visible:outline-offset-2 border-white/10 bg-white/5 checked:border-blue-500 checked:bg-blue-500 focus-visible:outline-blue-500 disabled:border-white/5 disabled:bg-white/10 disabled:before:bg-white/20"
+              />
+              <span className="ml-1 block text-sm/6 font-medium text-white">All</span>
+            </label>
+            <label className="flex items-center gap-1 text-xs text-zinc-300">
+              <input
+                type="radio"
+                name="mode"
+                value="kvk"
+                checked={mode === "kvk"}
+                onChange={() => setMode("kvk")}
+                className="relative size-4 appearance-none rounded-full border before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden focus-visible:outline-2 focus-visible:outline-offset-2 border-white/10 bg-white/5 checked:border-blue-500 checked:bg-blue-500 focus-visible:outline-blue-500 disabled:border-white/5 disabled:bg-white/10 disabled:before:bg-white/20"
+              />
+              <span className="ml-1 block text-sm/6 font-medium text-white">KVK</span>
+            </label>
+            <label className="flex items-center gap-1 text-xs text-zinc-300">
+              <input
+                type="radio"
+                name="mode"
+                value="ark"
+                checked={mode === "ark"}
+                onChange={() => setMode("ark")}
+                className="relative size-4 appearance-none rounded-full border before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden focus-visible:outline-2 focus-visible:outline-offset-2 border-white/10 bg-white/5 checked:border-blue-500 checked:bg-blue-500 focus-visible:outline-blue-500 disabled:border-white/5 disabled:bg-white/10 disabled:before:bg-white/20"
+              />
+              <span className="ml-1 block text-sm/6 font-medium text-white">Ark</span>
+            </label>
+          </div>
+        </div>
         <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
           {error && <div className="p-5 text-sm text-red-400">Failed to load: {error}</div>}
           {flat.length === 0 && !loading && !error && (
@@ -196,7 +295,16 @@ export default function LiveSidebar({
               ? (nameMap?.[String(e.enemy_secondary_commander_id)] ??
                 String(e.enemy_secondary_commander_id))
               : "";
-            const href = `/live?hash=${encodeURIComponent(e.parent)}&locale=${encodeURIComponent(currentLocale)}`;
+            const params = new URLSearchParams();
+            params.set("hash", e.parent);
+            params.set("locale", currentLocale);
+
+            if (playerId && /^\d+$/.test(playerId)) params.set("player_id", playerId);
+            if (mode === "kvk") params.set("kvk_only", "true");
+            if (mode === "ark") params.set("ark_only", "true");
+
+            const href = `/live?${params.toString()}`;
+
             return (
               <ListItem
                 key={e.key}
