@@ -1,5 +1,5 @@
 [package]
-name = "mail-type-detector"
+name = "mail-helper"
 version = "0.1.6"
 edition = "2024"
 

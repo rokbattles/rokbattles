@@ -1,8 +1,0 @@
-[package]
-name = "mail-time-detector"
-version = "0.1.6"
-edition = "2024"
-
-[dependencies]
-mail-decoder = { path = "../mail-decoder" }
-serde_json = { workspace = true }

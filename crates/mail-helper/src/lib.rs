@@ -69,3 +69,15 @@ pub fn detect_type_str(mail: &Mail) -> Option<&str> {
 pub fn detect_type(mail: &Mail) -> Option<EmailType> {
     detect_type_str(mail).map(EmailType::from_str)
 }
+
+pub fn detect_time(mail: &Mail) -> Option<i64> {
+    for section in &mail.sections {
+        if let Some(obj) = section.as_object()
+            && let Some(Value::Number(n)) = obj.get("time")
+            && let Some(i) = n.as_i64()
+        {
+            return Some(i);
+        }
+    }
+    None
+}
