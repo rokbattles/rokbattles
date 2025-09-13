@@ -256,18 +256,6 @@ impl ParticipantSelfResolver {
         )
     }
 
-    fn best_tracking_key_for_pid(sections: &[Value], pid: i64) -> Option<String> {
-        for sec in sections {
-            if let Some(ctk) = Self::section_tracking_key(sec)
-                && !ctk.is_empty()
-                && Self::tracking_key_belongs_to_pid(ctk, pid)
-            {
-                return Some(ctk.to_owned());
-            }
-        }
-        None
-    }
-
     fn find_secondary_commander_level(
         sections: &[Value],
         self_snap: &Value,
@@ -601,15 +589,6 @@ impl Resolver for ParticipantSelfResolver {
                 .and_then(Value::as_i64)
                 .map(|x| x as i32),
         );
-        if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
-            && let Some(ctk) = Self::section_tracking_key(self_snap)
-                .filter(|s| !s.is_empty())
-                .filter(|s| Self::tracking_key_belongs_to_pid(s, pid))
-                .map(|s| s.to_owned())
-                .or_else(|| Self::best_tracking_key_for_pid(sections, pid))
-        {
-            obj.insert("tracking_key".into(), Value::String(ctk));
-        }
 
         // equipment and formation
         map_put_str(

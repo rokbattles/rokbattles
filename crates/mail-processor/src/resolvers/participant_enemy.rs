@@ -656,20 +656,6 @@ impl Resolver for ParticipantEnemyResolver {
             enemy_obj.insert("is_rally".into(), Value::from(1));
         }
 
-        // tracking key
-        if let Some(ctk) = enemy_snap
-            .and_then(|s| s.get("CTK").and_then(Value::as_str))
-            .filter(|s| !s.is_empty())
-        {
-            enemy_obj.insert("tracking_key".into(), Value::String(ctk.to_owned()));
-        } else if let Some(ctk2) = atk_block
-            .get("CTK")
-            .and_then(Value::as_str)
-            .filter(|s| !s.is_empty())
-        {
-            enemy_obj.insert("tracking_key".into(), Value::String(ctk2.to_owned()));
-        }
-
         // npc
         map_put_i32(
             enemy_obj,
