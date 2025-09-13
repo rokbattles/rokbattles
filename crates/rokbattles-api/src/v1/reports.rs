@@ -73,7 +73,7 @@ pub async fn list_reports(
     let limit = params.limit.unwrap_or(100).clamp(1, 100) as i64;
     let (cursor_ts, cursor_ph) = parse_cursor(params.after.as_deref());
 
-    let mut filters: Vec<Document> = vec![doc! { "report.enemy.player_id": { "$ne": -2 } }];
+    let mut filters: Vec<Document> = vec![doc! { "report.enemy.player_id": { "$nin": [ -2_i64, 0_i64 ] } }];
     if let Some(pid) = params.player_id {
         filters.push(doc! {
             "$or": [
