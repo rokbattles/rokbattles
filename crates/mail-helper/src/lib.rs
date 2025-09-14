@@ -55,7 +55,7 @@ impl EmailType {
     }
 }
 
-pub fn detect_type_str(mail: &Mail) -> Option<&str> {
+pub fn detect_mail_type_str(mail: &Mail) -> Option<&str> {
     for section in &mail.sections {
         if let Some(obj) = section.as_object()
             && let Some(Value::String(t)) = obj.get("type")
@@ -66,17 +66,31 @@ pub fn detect_type_str(mail: &Mail) -> Option<&str> {
     None
 }
 
-pub fn detect_type(mail: &Mail) -> Option<EmailType> {
-    detect_type_str(mail).map(EmailType::from_str)
+pub fn detect_mail_type(mail: &Mail) -> Option<EmailType> {
+    detect_mail_type_str(mail).map(EmailType::from_str)
 }
 
-pub fn detect_time(mail: &Mail) -> Option<i64> {
+pub fn detect_mail_time(mail: &Mail) -> Option<i64> {
     for section in &mail.sections {
         if let Some(obj) = section.as_object()
             && let Some(Value::Number(n)) = obj.get("time")
             && let Some(i) = n.as_i64()
         {
             return Some(i);
+        }
+    }
+    None
+}
+
+pub fn detect_email_id(mail: &Mail) -> Option<String> {
+    for section in &mail.sections {
+        if let Some(obj) = section.as_object() {
+            if let Some(Value::String(s)) = obj.get("id") {
+                return Some(s.clone());
+            }
+            if let Some(Value::Number(n)) = obj.get("id") {
+                return Some(n.to_string());
+            }
         }
     }
     None
