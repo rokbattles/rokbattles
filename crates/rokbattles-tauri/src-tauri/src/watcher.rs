@@ -289,7 +289,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         }
                     };
 
-                    let first_type = mail_helper::detect_type_str(&decoded);
+                    let first_type = mail_helper::detect_mail_type_str(&decoded);
                     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
                         emit_log(
                             &app,
