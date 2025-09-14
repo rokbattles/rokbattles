@@ -2637,28 +2637,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-processor"
+name = "mail-helper"
 version = "0.1.6"
 dependencies = [
- "anyhow",
- "itoa",
+ "mail-decoder",
  "serde",
  "serde_json",
 ]
 
 [[package]]
-name = "mail-time-detector"
+name = "mail-processor"
 version = "0.1.6"
 dependencies = [
- "mail-decoder",
- "serde_json",
-]
-
-[[package]]
-name = "mail-type-detector"
-version = "0.1.6"
-dependencies = [
- "mail-decoder",
+ "anyhow",
+ "itoa",
  "serde",
  "serde_json",
 ]
@@ -4107,8 +4099,7 @@ dependencies = [
  "blake3",
  "futures-util",
  "mail-decoder",
- "mail-time-detector",
- "mail-type-detector",
+ "mail-helper",
  "mongodb",
  "serde",
  "serde_json",
@@ -4143,7 +4134,7 @@ version = "0.1.6"
 dependencies = [
  "anyhow",
  "mail-decoder",
- "mail-type-detector",
+ "mail-helper",
  "reqwest",
  "serde",
  "serde_json",

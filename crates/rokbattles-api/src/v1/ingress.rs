@@ -218,12 +218,12 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     };
 
-    let first_type = mail_type_detector::detect_type_str(&decoded_mail);
+    let first_type = mail_helper::detect_type_str(&decoded_mail);
     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
 
-    let mail_time = match mail_time_detector::detect_time(&decoded_mail) {
+    let mail_time = match mail_helper::detect_time(&decoded_mail) {
         Some(t) => t,
         None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing time").into_response(),
     };

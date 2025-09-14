@@ -27,5 +27,5 @@ anyhow = { workspace = true }
 tokio = { workspace = true }
 reqwest = { workspace = true }
 mail-decoder = { path = "../../mail-decoder" }
-mail-type-detector = { path = "../../mail-type-detector" }
+mail-helper = { path = "../../mail-helper" }
 tauri-plugin-updater = { workspace = true }

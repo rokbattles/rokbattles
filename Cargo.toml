@@ -1,5 +1,13 @@
 [workspace]
-members = ["crates/mail-cli", "crates/mail-decoder", "crates/mail-processor", "crates/mail-time-detector", "crates/mail-type-detector", "crates/rokbattles-api", "crates/rokbattles-processor", "crates/rokbattles-tauri/src-tauri"]
+members = [
+    "crates/mail-cli",
+    "crates/mail-decoder",
+    "crates/mail-processor",
+    "crates/mail-helper",
+    "crates/rokbattles-api",
+    "crates/rokbattles-processor",
+    "crates/rokbattles-tauri/src-tauri"
+]
 resolver = "3"
 
 [workspace.dependencies]
