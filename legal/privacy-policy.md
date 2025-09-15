@@ -4,7 +4,7 @@ Effective date: 15 September 2025
 
 **1\. Introduction & Scope**
 
-This Privacy Policy explains how Sylke Technologies, LLC, a Wisconsin limited liability company (“Sylke Technologies,” “we,” “our,” or “us”) collects, uses, shares, and safeguards information in connection with the ROK Battles website located at \[[www.rokbattles.com](http://www.rokbattles.com)\], the ROK Battles desktop application (the “App”), our APIs, and related features and services (collectively, the “Services”).
+This Privacy Policy explains how Sylke Technologies, LLC, a Wisconsin limited liability company (“Sylke Technologies,” “we,” “our,” or “us”) collects, uses, shares, and safeguards information in connection with the ROK Battles website located at [www.rokbattles.com](https://www.rokbattles.com), the ROK Battles desktop application (the “App”), our APIs, and related features and services (collectively, the “Services”).
 
 This Privacy Policy applies exclusively to ROK Battles. It does not extend to other projects, products, or websites operated by Sylke Technologies.
 
@@ -186,7 +186,7 @@ Because contributions are public, you should avoid including any personal inform
 
 We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or the Services themselves.
 
-- **Notification of Changes.** If we make material changes, we will post the updated Privacy Policy on \[[www.rokbattles.com](http://www.rokbattles.com)\] with a revised “last updated” date. In some cases, we may provide additional notice (such as via a banner on the site or an email to registered users).
+- **Notification of Changes.** If we make material changes, we will post the updated Privacy Policy on [www.rokbattles.com](https://www.rokbattles.com) with a revised “last updated” date. In some cases, we may provide additional notice (such as via a banner on the site or an email to registered users).
 - **Your Continued Use.** By continuing to use the Services after the updated Privacy Policy takes effect, you acknowledge and agree to the revised terms.
 
 We encourage you to review this Privacy Policy periodically to stay informed about how we handle your information.
