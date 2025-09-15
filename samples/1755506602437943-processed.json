@@ -36,9 +36,9 @@
         "skills": null
       },
       "kingdom_id": 1425,
-      "tracking_key": "34961809_1755506537_565",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -63,9 +63,9 @@
         "skills": "1111"
       },
       "kingdom_id": 1425,
-      "tracking_key": "32500671_1755506590_105_32",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -131,9 +131,9 @@
         "skills": null
       },
       "kingdom_id": 1425,
-      "tracking_key": "34961809_1755506537_565",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -158,9 +158,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1425,
-      "tracking_key": "32500671_1755506586_102_463",
       "equipment": "{2:20056_8:0,3:20057_7:0,1:20055_6:0,4:20058_5:0,5:20081_1:40,6:20082_2:40,7:20077_0:40,8:20074_21:40}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": "10101_0.022000;2004_0.044000;2004_0.048000;2004_0.056000;2004_0.058000;4002_0.005000;4002_0.012000;4004_0.005000;5003_0.021000;5004_0.006000;5004_0.017000;8000_0.050000",
       "inscriptions": "-1;-1;-1;130"
     },
@@ -226,9 +226,9 @@
         "skills": null
       },
       "kingdom_id": 1425,
-      "tracking_key": "34961809_1755506537_565",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -253,9 +253,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1425,
-      "tracking_key": "32500671_1755506596_116_134",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": "10101_0.028000;2004_0.030000;4004_0.007000",
       "inscriptions": "-1"
     },
@@ -321,9 +321,9 @@
         "skills": null
       },
       "kingdom_id": 1425,
-      "tracking_key": "34961809_1755506537_565",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -348,9 +348,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1425,
-      "tracking_key": "32500671_1755506583_99_9",
       "equipment": "{2:20062_17:0,3:20064_15:0,1:20087_9:50,4:20066_18:0,5:20070_16:50,6:20071_22:0}",
       "formation": null,
+      "is_ranged_tower": false,
       "armament_buffs": "10016_0.070000;2004_0.075000;3001_0.024000;4002_0.015000;4002_0.016000;5002_0.015000;5002_0.022000;5002_0.026000;6001_0.020000;6002_0.018000;6003_0.019000;6004_0.018000",
       "inscriptions": "-1;103;209;304"
     },
@@ -416,9 +416,9 @@
         "skills": null
       },
       "kingdom_id": 1425,
-      "tracking_key": "34961809_1755506537_565",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -443,9 +443,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1425,
-      "tracking_key": "32500671_1755506593_7_61",
       "equipment": "{}",
       "formation": 7,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },

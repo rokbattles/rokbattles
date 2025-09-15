@@ -36,9 +36,9 @@
         "skills": "5552"
       },
       "kingdom_id": 1804,
-      "tracking_key": "71738515_1755790649_7_96",
       "equipment": "{1:20100_442:0}",
       "formation": 7,
+      "is_ranged_tower": false,
       "armament_buffs": "10002_0.007000;10002_0.013000;2004_0.048000;3002_0.025000;4002_0.012000;5001_0.035000;5003_0.010000;6002_0.021000;6002_0.028000;8000_0.030000;8000_0.040000;8000_0.044000",
       "inscriptions": "-1;-1;305;426"
     },
@@ -59,9 +59,9 @@
       },
       "secondary_commander": null,
       "kingdom_id": 1804,
-      "tracking_key": "-2_1755774080_86",
       "equipment": "{}",
       "formation": null,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },

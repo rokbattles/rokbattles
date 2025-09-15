@@ -97,6 +97,8 @@ pub struct Participant {
     pub equipment: Option<String>,
     // HFMs
     pub formation: Option<i32>,
+    // IsRangeTower
+    pub is_ranged_tower: Option<bool>,
     // HWBs (Buffs)
     pub armament_buffs: Option<String>,
     // HWBs (Affix)

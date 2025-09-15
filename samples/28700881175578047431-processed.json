@@ -36,9 +36,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1804,
-      "tracking_key": "71738515_1755779982_182_138_SquareRally",
       "equipment": "{6:20012_266:3,1:20001_380:2,4:20028_265:33,7:20040_264:1,8:20037_398:31,2:20004_379:32,3:20009_190:2,5:20033_261:32}",
       "formation": 2,
+      "is_ranged_tower": false,
       "armament_buffs": "10002_0.010000;3002_0.017000;3002_0.026000;3002_0.028000;3002_0.035000;4002_0.021000;4002_0.024000;4002_0.028000;4002_0.030000;5002_0.017000;5002_0.029000;5002_0.030000",
       "inscriptions": "-1;219;2101;2302"
     },
@@ -59,9 +59,9 @@
       },
       "secondary_commander": null,
       "kingdom_id": 1804,
-      "tracking_key": "-2_1755713680_201",
       "equipment": "{}",
       "formation": null,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },

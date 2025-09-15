@@ -434,6 +434,8 @@ impl Resolver for ParticipantEnemyResolver {
             _ => unreachable!("enemy must be an object"),
         };
 
+        enemy_obj.insert("is_ranged_tower".into(), Value::Bool(false));
+
         let mut c_idt = atk_block.get("CIdt").unwrap_or_else(|| {
             group
                 .iter()
@@ -455,6 +457,54 @@ impl Resolver for ParticipantEnemyResolver {
                         attack_cid_opt,
                     )
                 });
+
+        let mut is_ranged_tower = enemy_snap
+            .and_then(|snap| snap.get("IsRangeTower").and_then(Value::as_bool))
+            .unwrap_or(false);
+        if !is_ranged_tower {
+            if let Some(flag) = c_idt.get("IsRangeTower").and_then(Value::as_bool) {
+                is_ranged_tower = flag;
+            } else if let Some(flag) = atk_block.get("IsRangeTower").and_then(Value::as_bool) {
+                is_ranged_tower = flag;
+            }
+        }
+        if !is_ranged_tower {
+            let matches_attack = |sec: &Value| {
+                let by_str = sec
+                    .get("Idt")
+                    .and_then(Value::as_str)
+                    .map(|id| id == attack_id_str)
+                    .unwrap_or(false);
+                let by_num = attack_cid_opt.is_some_and(|cid| {
+                    sec.get("Idt")
+                        .and_then(Value::as_str)
+                        .and_then(|id| id.parse::<i64>().ok())
+                        == Some(cid)
+                        || sec.get("CId").and_then(Value::as_i64) == Some(cid)
+                });
+                let by_ctid = sec
+                    .get("CtId")
+                    .and_then(Value::as_i64)
+                    .map(|v| v == enemy_ctid)
+                    .unwrap_or(false);
+                by_str || by_num || by_ctid
+            };
+
+            if group.iter().any(|s| {
+                s.get("IsRangeTower")
+                    .and_then(Value::as_bool)
+                    .unwrap_or(false)
+                    && matches_attack(s)
+            }) || sections.iter().any(|s| {
+                s.get("IsRangeTower")
+                    .and_then(Value::as_bool)
+                    .unwrap_or(false)
+                    && matches_attack(s)
+            }) {
+                is_ranged_tower = true;
+            }
+        }
+        enemy_obj.insert("is_ranged_tower".into(), Value::Bool(is_ranged_tower));
 
         let resolved_pid = c_idt.get("PId").and_then(Value::as_i64).or_else(|| {
             Self::get_ots_entry_for_ctid(group, enemy_ctid)
