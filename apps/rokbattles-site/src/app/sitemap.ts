@@ -1,8 +1,16 @@
 import type { MetadataRoute } from "next";
 
+import { getLegalDocuments } from "@/lib/legal-docs";
+
+const BASE_URL = "https://rokbattles.com";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ["", "/live"].map((route) => ({
-    url: `https://rokbattles.com${route}`,
-    lastModified: new Date().toISOString().split("T")[0],
+  const lastModified = new Date().toISOString().split("T")[0];
+  const legalRoutes = getLegalDocuments().map((doc) => `/legal/${doc.slug}`);
+  const routes = ["", "/live", ...legalRoutes];
+
+  return routes.map((route) => ({
+    url: `${BASE_URL}${route}`,
+    lastModified,
   }));
 }

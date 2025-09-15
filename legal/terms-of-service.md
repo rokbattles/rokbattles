@@ -34,7 +34,7 @@ The Services are made available to a global audience. However, you are solely re
 
 ROK Battles is a community-driven platform built by players, for players. Its purpose is to make the strategic elements of _Rise of Kingdoms_ more transparent and engaging by enabling the sharing and analysis of battle reports.
 
-- **The Website.** The primary experience is hosted at \[[www.rokbattles.com](http://www.rokbattles.com)\]. The website allows users to explore uploaded reports, view aggregated statistics, and analyze trends.
+- **The Website.** The primary experience is hosted at [www.rokbattles.com](https://www.rokbattles.com). The website allows users to explore uploaded reports, view aggregated statistics, and analyze trends.
 - **The Application.** We provide a downloadable desktop app that allows users to upload reports to the platform. The app is for submission only; exploration and analysis take place on the website.
 
 The Services are offered on a free-to-use basis at this time. In the future, we may introduce additional features, including account-based services, authentication through Discord, and premium offerings available through Stripe-powered payment processing.
