@@ -384,6 +384,8 @@ impl Resolver for ParticipantSelfResolver {
             _ => unreachable!("self must be an object"),
         };
 
+        obj.insert("is_ranged_tower".into(), Value::Bool(false));
+
         // player id
         let player_pid = Self::find_selfchar_player_id(sections)
             .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))

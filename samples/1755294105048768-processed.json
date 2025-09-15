@@ -36,9 +36,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1804,
-      "tracking_key": "110176153_1755294095_15_38",
       "equipment": "{}",
       "formation": 6,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -63,9 +63,9 @@
         "skills": "5555"
       },
       "kingdom_id": 1804,
-      "tracking_key": null,
       "equipment": "{2:20062_27:0}",
       "formation": 1,
+      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
