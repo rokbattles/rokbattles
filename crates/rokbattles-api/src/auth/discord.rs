@@ -221,7 +221,6 @@ async fn persist_session(
         "createdAt": created_at,
         "updatedAt": created_at,
         "expiresAt": expires_at,
-        "lastUsedAt": created_at,
     };
 
     sessions
