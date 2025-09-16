@@ -1,3 +1,4 @@
+mod auth;
 mod health;
 mod v1;
 
@@ -15,6 +16,14 @@ static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
 struct AppState {
     db: mongodb::Database,
     clamd_addr: String,
+    http_client: reqwest::Client,
+    discord_client_id: String,
+    discord_client_secret: String,
+    discord_redirect_uri: String,
+    auth_redirect_url: String,
+    session_cookie_name: String,
+    session_cookie_domain: Option<String>,
+    session_cookie_secure: bool,
 }
 
 #[tokio::main]
@@ -40,11 +49,33 @@ async fn main() {
     let app_state = AppState {
         db,
         clamd_addr: std::env::var("CLAMD_ADDR").unwrap_or("clamd:3310".into()),
+        http_client: reqwest::Client::new(),
+        discord_client_id: std::env::var("DISCORD_CLIENT_ID")
+            .expect("DISCORD_CLIENT_ID environment variable must be set"),
+        discord_client_secret: std::env::var("DISCORD_CLIENT_SECRET")
+            .expect("DISCORD_CLIENT_SECRET environment variable must be set"),
+        discord_redirect_uri: std::env::var("DISCORD_REDIRECT_URI")
+            .expect("DISCORD_REDIRECT_URI environment variable must be set"),
+        auth_redirect_url: std::env::var("AUTH_REDIRECT_URL").unwrap_or_else(|_| "/".into()),
+        session_cookie_name: std::env::var("SESSION_COOKIE_NAME")
+            .unwrap_or_else(|_| "rok_session".into()),
+        session_cookie_domain: std::env::var("SESSION_COOKIE_DOMAIN").ok().and_then(|v| {
+            let trimmed = v.trim();
+            if trimmed.is_empty() {
+                None
+            } else {
+                Some(trimmed.to_string())
+            }
+        }),
+        session_cookie_secure: std::env::var("SESSION_COOKIE_SECURE")
+            .map(|v| matches!(v.as_str(), "1" | "true" | "yes"))
+            .unwrap_or(true),
     };
 
     let router = Router::new()
         .route("/health", get(health::health))
         .nest("/v1", v1::router())
+        .nest("/auth", auth::router())
         .with_state(app_state)
         .layer(TimeoutLayer::new(Duration::from_secs(40)))
         .layer(TraceLayer::new_for_http());

@@ -18,6 +18,8 @@ anyhow = { workspace = true }
 blake3 = { workspace = true }
 mail-helper = { path = "../mail-helper" }
 serde = { workspace = true }
+reqwest = { workspace = true }
+rand = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }
