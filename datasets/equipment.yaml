@@ -51,7 +51,6 @@ equipment:
       es: "Accesorios"
       kr: "장신구"
 
-  # Missing Crimson Ring
   item:
     20001:
       name:
@@ -904,3 +903,9 @@ equipment:
         en: "Saddle of Thousand Blessings"
         es: "Silla de montar de las mil bendiciones"
         kr: "축복 안장"
+
+    20202:
+      name:
+        en: "Crimson Ring"
+        es: "Anillo carmesí"
+        kr: "적혈의 반지"
