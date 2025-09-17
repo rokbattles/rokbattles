@@ -11,6 +11,7 @@ use mongodb::{
     options::AggregateOptions,
 };
 use serde::{Deserialize, Serialize};
+use serde_json::{Map as JsonMap, Value as JsonValue};
 
 #[derive(Debug, Deserialize)]
 pub struct DetailParams {
@@ -24,8 +25,14 @@ pub struct DetailParams {
 #[derive(Debug, Serialize)]
 pub struct ApiReportEntry {
     hash: String,
-    report: serde_json::Value,
+    report: JsonValue,
     start_date: i64,
+}
+
+#[derive(Debug, Serialize, Default)]
+pub struct ApiReportSummary {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    battle_results: Option<JsonValue>,
 }
 
 #[derive(Debug, Serialize)]
@@ -34,6 +41,8 @@ pub struct ApiDetailResponse {
     items: Vec<ApiReportEntry>,
     next_cursor: Option<String>,
     count: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    report: Option<ApiReportSummary>,
 }
 
 fn parse_cursor(after: Option<&str>) -> (Option<i64>, Option<String>) {
@@ -47,9 +56,8 @@ fn parse_cursor(after: Option<&str>) -> (Option<i64>, Option<String>) {
     }
 }
 
-fn doc_to_json(doc: &Document) -> serde_json::Value {
-    bson::from_bson::<serde_json::Value>(Bson::Document(doc.clone()))
-        .unwrap_or(serde_json::Value::Null)
+fn doc_to_json(doc: &Document) -> JsonValue {
+    bson::from_bson::<JsonValue>(Bson::Document(doc.clone())).unwrap_or(JsonValue::Null)
 }
 
 pub async fn report_by_parent(
@@ -62,11 +70,13 @@ pub async fn report_by_parent(
     let limit = params.limit.unwrap_or(50).clamp(1, 200) as i64;
     let (cursor_ts, cursor_hash) = parse_cursor(params.after.as_deref());
 
+    let base_filter = doc! {
+        "metadata.parentHash": &parent_hash,
+        "report.enemy.player_id": { "$ne": -2 }
+    };
+
     let mut pipeline = vec![
-        doc! { "$match": {
-            "metadata.parentHash": &parent_hash,
-            "report.enemy.player_id": { "$ne": -2 }
-        }},
+        doc! { "$match": base_filter.clone() },
         doc! { "$project": {
             "hash": "$metadata.hash",
             "report": "$report",
@@ -110,7 +120,7 @@ pub async fn report_by_parent(
 
         let report_val = match doc.get("report") {
             Some(Bson::Document(d)) => doc_to_json(d),
-            _ => serde_json::Value::Null,
+            _ => JsonValue::Null,
         };
 
         items.push(ApiReportEntry {
@@ -129,10 +139,103 @@ pub async fn report_by_parent(
     };
 
     let count = items.len();
+
+    let mut combined_results: JsonMap<String, JsonValue> = JsonMap::new();
+
+    let final_pipeline = vec![
+        doc! { "$match": base_filter.clone() },
+        doc! { "$sort": { "report.metadata.start_date": -1_i32, "metadata.hash": -1_i32 } },
+        doc! { "$limit": 1 },
+        doc! { "$project": { "battle_results": "$report.battle_results" } },
+    ];
+
+    let final_opts = AggregateOptions::builder().allow_disk_use(true).build();
+    let mut final_cursor = col
+        .aggregate(final_pipeline)
+        .with_options(final_opts)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    if let Some(doc) = final_cursor
+        .try_next()
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+        && let Ok(br_doc) = doc.get_document("battle_results")
+        && let JsonValue::Object(obj) = doc_to_json(br_doc)
+    {
+        for (key, value) in obj {
+            if !key.starts_with("enemy_") {
+                combined_results.insert(key, value);
+            }
+        }
+    }
+
+    let totals_pipeline = vec![
+        doc! { "$match": base_filter.clone() },
+        doc! { "$group": {
+            "_id": null,
+            "enemy_power": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_power", 0 ] } },
+            "enemy_init_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_init_max", 0 ] } },
+            "enemy_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_max", 0 ] } },
+            "enemy_healing": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_healing", 0 ] } },
+            "enemy_death": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_death", 0 ] } },
+            "enemy_severely_wounded": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_severely_wounded", 0 ] } },
+            "enemy_wounded": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_wounded", 0 ] } },
+            "enemy_remaining": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_remaining", 0 ] } },
+            "enemy_watchtower": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_watchtower", 0 ] } },
+            "enemy_watchtower_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_watchtower_max", 0 ] } },
+            "enemy_kill_score": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_kill_score", 0 ] } },
+        }},
+        doc! { "$project": {
+            "_id": 0,
+            "battle_results": {
+                "enemy_power": "$enemy_power",
+                "enemy_init_max": "$enemy_init_max",
+                "enemy_max": "$enemy_max",
+                "enemy_healing": "$enemy_healing",
+                "enemy_death": "$enemy_death",
+                "enemy_severely_wounded": "$enemy_severely_wounded",
+                "enemy_wounded": "$enemy_wounded",
+                "enemy_remaining": "$enemy_remaining",
+                "enemy_watchtower": "$enemy_watchtower",
+                "enemy_watchtower_max": "$enemy_watchtower_max",
+                "enemy_kill_score": "$enemy_kill_score",
+            }
+        }},
+    ];
+
+    let totals_opts = AggregateOptions::builder().allow_disk_use(true).build();
+    let mut totals_cursor = col
+        .aggregate(totals_pipeline)
+        .with_options(totals_opts)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    if let Some(doc) = totals_cursor
+        .try_next()
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+        && let Ok(br_doc) = doc.get_document("battle_results")
+        && let JsonValue::Object(obj) = doc_to_json(br_doc)
+    {
+        for (key, value) in obj {
+            combined_results.insert(key, value);
+        }
+    }
+
+    let report_summary = if combined_results.is_empty() {
+        None
+    } else {
+        Some(ApiReportSummary {
+            battle_results: Some(JsonValue::Object(combined_results)),
+        })
+    };
+
     Ok(Json(ApiDetailResponse {
         parent_hash,
         items,
         next_cursor,
         count,
+        report: report_summary,
     }))
 }
