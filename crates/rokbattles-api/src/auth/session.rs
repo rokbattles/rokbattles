@@ -8,6 +8,7 @@ use std::{future::Future, time::SystemTime};
 
 use crate::AppState;
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct SessionUser {
     pub id: String,
@@ -63,6 +64,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 fn extract_cookie(header_value: &str, name: &str) -> Option<String> {
     header_value
         .split(';')
