@@ -1,12 +1,10 @@
-use std::future::Future;
-use std::time::SystemTime;
-
 use axum::{
     extract::{FromRef, FromRequestParts},
     http::{StatusCode, header, request::Parts},
 };
 use blake3::hash;
 use mongodb::bson::{DateTime, Document, doc};
+use std::{future::Future, time::SystemTime};
 
 use crate::AppState;
 
