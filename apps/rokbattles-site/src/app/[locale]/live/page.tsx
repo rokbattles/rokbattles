@@ -5,6 +5,8 @@ import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
 import { BattleReport } from "@/components/BattleReport";
 import LiveSidebar from "@/components/LiveSidebar";
+import { Divider } from "@/components/ui/divider";
+import { Heading } from "@/components/ui/heading";
 import { routing } from "@/i18n/routing";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
@@ -95,7 +97,7 @@ export default async function Page({ params, searchParams }: PageProps<"/[locale
         <div className="grow p-6 lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
           {selectedItems.length > 0 ? (
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-xl font-semibold text-zinc-100 mb-4">Report Details</h1>
+              <Heading className="mb-4">Report details</Heading>
               {selectedItems.map((item) => {
                 const startTimestamp = item.report?.metadata?.start_date;
                 const endTimestamp = item.report?.metadata?.end_date;
@@ -114,7 +116,8 @@ export default async function Page({ params, searchParams }: PageProps<"/[locale
             </div>
           ) : (
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-xl font-semibold text-zinc-100">Live Reports</h1>
+              <Heading>Live reports</Heading>
+              <Divider className="my-4" />
               <p className="mt-2 text-sm text-zinc-400">Select a report from the left sidebar.</p>
             </div>
           )}

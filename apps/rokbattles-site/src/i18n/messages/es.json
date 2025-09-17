@@ -10,6 +10,10 @@
       "slightlyWounded": "Levemente Heridos",
       "watchtowerDamage": "Daño de la Torre de Vigilancia",
       "killPoints": "Puntos de muerte"
+    },
+    "participant": {
+      "equipmentHeading": "Equipamiento",
+      "armamentHeading": "Información de armamento"
     }
   }
 }

@@ -3,6 +3,7 @@ import { resolveNames } from "@/actions/datasets";
 import { BattleCommanderSummary } from "@/components/battle/BattleCommanderSummary";
 import { BattleParticipant } from "@/components/battle/BattleParticipant";
 import { BattleResult } from "@/components/battle/BattleResult";
+import { Heading } from "@/components/ui/heading";
 import { routing } from "@/i18n/routing";
 import type { SingleReportItem } from "@/lib/types/reports";
 
@@ -15,7 +16,7 @@ export async function BattleReport({ item, locale = routing.defaultLocale }: Bat
   if (!item) {
     return (
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-xl font-semibold text-zinc-100">Report</h1>
+        <Heading>Report</Heading>
         <p className="mt-2 text-sm text-zinc-400">No item selected.</p>
       </div>
     );
