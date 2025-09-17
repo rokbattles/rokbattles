@@ -1,5 +1,7 @@
 "use server";
 
+import type { Locale } from "next-intl";
+import { routing } from "@/i18n/routing";
 import type {
   ReportsResponse,
   ReportsWithNamesResponse,
@@ -9,7 +11,7 @@ import { resolveNames } from "./datasets";
 
 export async function fetchLiveReports(
   after?: string,
-  locale: "en" | "es" | "kr" = "en",
+  locale: Locale = routing.defaultLocale,
   opts?: { playerId?: number; kvkOnly?: boolean; arkOnly?: boolean }
 ): Promise<ReportsWithNamesResponse> {
   const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";

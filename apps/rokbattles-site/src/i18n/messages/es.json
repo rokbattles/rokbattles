@@ -1,0 +1,15 @@
+{
+  "battle": {
+    "levelTag": "nv. {level}",
+    "metrics": {
+      "units": "Unidades",
+      "remaining": "Restante",
+      "healing": "Sanar",
+      "dead": "Muerto",
+      "severelyWounded": "Severamente Heridos",
+      "slightlyWounded": "Levemente Heridos",
+      "watchtowerDamage": "Daño de la Torre de Vigilancia",
+      "killPoints": "Puntos de muerte"
+    }
+  }
+}

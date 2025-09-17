@@ -2,9 +2,12 @@
 
 import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { Locale } from "next-intl";
+import { hasLocale } from "next-intl";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { fetchLiveReports } from "@/actions/live-reports";
 import { LiveReportListItem } from "@/components/live/LiveReportListItem";
+import { routing } from "@/i18n/routing";
 import type { ReportItem } from "@/lib/types/reports";
 
 function flattenItems(items: ReportItem[]) {
@@ -17,10 +20,12 @@ export default function LiveSidebar({
   initialItems,
   initialNameMap,
   initialNextCursor,
+  locale,
 }: {
   initialItems: ReportItem[];
   initialNameMap: Record<string, string | undefined>;
   initialNextCursor?: string;
+  locale: Locale;
 }) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -45,13 +50,12 @@ export default function LiveSidebar({
   const sp = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const activeLocale = locale;
+  const basePath = useMemo(() => pathname ?? `/${activeLocale}/live`, [pathname, activeLocale]);
   const toRoute = (params: URLSearchParams): Route => {
     const query = params.toString();
-    const basePath = pathname ?? "/live";
     return (query ? `${basePath}?${query}` : basePath) as Route;
   };
-  const locParam = sp?.get("locale");
-  const currentLocale = locParam === "es" || locParam === "kr" ? (locParam as "es" | "kr") : "en";
 
   const pidParam = sp?.get("player_id");
   const kvkParam = sp?.get("kvk_only") === "true";
@@ -73,7 +77,7 @@ export default function LiveSidebar({
     const kvkOnly = mode === "kvk";
     const arkOnly = mode === "ark";
 
-    fetchLiveReports(undefined, currentLocale, { playerId: pid, kvkOnly, arkOnly })
+    fetchLiveReports(undefined, activeLocale, { playerId: pid, kvkOnly, arkOnly })
       .then((data) => {
         setNameMap(data.names ?? {});
         setItems(data.items ?? []);
@@ -81,7 +85,7 @@ export default function LiveSidebar({
         setEndReached(!data.next_cursor);
       })
       .catch(() => {});
-  }, [currentLocale, mode, playerId]);
+  }, [activeLocale, mode, playerId]);
 
   useEffect(() => {
     if (!sentinelRef.current) return;
@@ -101,7 +105,7 @@ export default function LiveSidebar({
         const kvkOnly = mode === "kvk";
         const arkOnly = mode === "ark";
 
-        fetchLiveReports(nextCursor, currentLocale, { playerId: pid, kvkOnly, arkOnly })
+        fetchLiveReports(nextCursor, activeLocale, { playerId: pid, kvkOnly, arkOnly })
           .then((data) => {
             const newItems = data.items ?? [];
             const newNames = data.names ?? {};
@@ -134,7 +138,7 @@ export default function LiveSidebar({
 
     io.observe(sentinelRef.current);
     return () => io.disconnect();
-  }, [nextCursor, loading, endReached, currentLocale, mode, playerId]);
+  }, [nextCursor, loading, endReached, activeLocale, mode, playerId]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: ignore for now
   useEffect(() => {
@@ -148,12 +152,13 @@ export default function LiveSidebar({
 
     params.delete("kvk_only");
     params.delete("ark_only");
+    params.delete("locale");
 
     if (mode === "kvk") params.set("kvk_only", "true");
     if (mode === "ark") params.set("ark_only", "true");
 
     router.replace(toRoute(params));
-  }, [playerId, mode, pathname]);
+  }, [playerId, mode, sp?.entries]);
 
   return (
     <aside className="fixed inset-y-0 left-0 w-96 max-lg:hidden">
@@ -173,12 +178,19 @@ export default function LiveSidebar({
             {/* biome-ignore lint/correctness/useUniqueElementIds: ignore */}
             <select
               id="locale"
-              value={currentLocale}
+              value={activeLocale}
               onChange={(e) => {
-                const next = e.target.value;
+                const nextValue = e.target.value;
+                const next = hasLocale(routing.locales, nextValue) ? nextValue : activeLocale;
+                if (next === activeLocale) return;
+
                 const params = new URLSearchParams(Array.from(sp?.entries?.() ?? []));
-                params.set("locale", next);
-                router.replace(toRoute(params));
+                params.delete("locale");
+                const query = params.toString();
+
+                const nextPath = `/${next}/live`;
+                const route = (query ? `${nextPath}?${query}` : nextPath) as Route;
+                router.replace(route);
               }}
               className="rounded-md bg-zinc-800/60 px-2 py-1 text-xs text-zinc-100 ring-1 ring-inset ring-white/10"
             >
@@ -263,7 +275,6 @@ export default function LiveSidebar({
               : "";
             const params = new URLSearchParams();
             params.set("hash", entry.parent);
-            params.set("locale", currentLocale);
 
             if (playerId && /^\d+$/.test(playerId)) params.set("player_id", playerId);
             if (mode === "kvk") params.set("kvk_only", "true");
@@ -279,6 +290,7 @@ export default function LiveSidebar({
                 leftSecondary={leftSecondary}
                 rightSecondary={rightSecondary}
                 query={query}
+                locale={activeLocale}
               />
             );
           })}

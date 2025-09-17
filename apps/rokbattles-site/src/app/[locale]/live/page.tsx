@@ -1,7 +1,11 @@
+import type { Locale } from "next-intl";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
 import { BattleReport } from "@/components/BattleReport";
 import LiveSidebar from "@/components/LiveSidebar";
+import { routing } from "@/i18n/routing";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
@@ -12,14 +16,19 @@ function getFirstValue(value: string | string[] | undefined) {
   return value;
 }
 
-export default async function Page({ searchParams }: PageProps<"/live">) {
-  const params = await searchParams;
+export default async function Page({ params, searchParams }: PageProps<"/[locale]/live">) {
+  const [routeParams, queryParams] = await Promise.all([params, searchParams]);
+  const normalizedLocale = hasLocale(routing.locales, routeParams.locale)
+    ? routeParams.locale
+    : routing.defaultLocale;
+  const locale: Locale = normalizedLocale;
 
-  const hash = getFirstValue(params.hash);
-  const localeParam = getFirstValue(params.locale);
-  const playerIdParam = getFirstValue(params.player_id);
-  const kvkParam = getFirstValue(params.kvk_only);
-  const arkParam = getFirstValue(params.ark_only);
+  setRequestLocale(locale);
+
+  const hash = getFirstValue(queryParams.hash);
+  const playerIdParam = getFirstValue(queryParams.player_id);
+  const kvkParam = getFirstValue(queryParams.kvk_only);
+  const arkParam = getFirstValue(queryParams.ark_only);
 
   const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
   const query = new URLSearchParams();
@@ -65,11 +74,8 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
     )
   );
 
-  const resolvedLocale: "en" | "es" | "kr" =
-    localeParam === "es" || localeParam === "kr" ? localeParam : "en";
-
   const nameMap =
-    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, resolvedLocale) : {};
+    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
 
   let selectedItems: SingleReportItem[] = [];
   if (hash && hash.length > 0) {
@@ -83,6 +89,7 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
         initialItems={items}
         initialNameMap={nameMap}
         initialNextCursor={data?.next_cursor}
+        locale={locale}
       />
       <main className="flex flex-1 flex-col lg:min-w-0 lg:pl-96">
         <div className="grow p-6 lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
@@ -99,7 +106,7 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <BattleReport item={item} locale={resolvedLocale} />
+                    <BattleReport item={item} locale={locale} />
                   </div>
                 );
               })}

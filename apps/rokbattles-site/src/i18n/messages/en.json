@@ -1,0 +1,15 @@
+{
+  "battle": {
+    "levelTag": "Lvl {level}",
+    "metrics": {
+      "units": "Units",
+      "remaining": "Remaining",
+      "healing": "Heal",
+      "dead": "Dead",
+      "severelyWounded": "Severely Wounded",
+      "slightlyWounded": "Slightly Wounded",
+      "watchtowerDamage": "Watchtower Damage",
+      "killPoints": "Kill Points"
+    }
+  }
+}
