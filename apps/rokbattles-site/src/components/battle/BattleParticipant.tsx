@@ -1,7 +1,9 @@
+import type { Locale } from "next-intl";
 import { resolveNames } from "@/actions/datasets";
 import { EquipmentGrid } from "@/components/battle/EquipmentGrid";
 import type { EquipmentToken } from "@/components/battle/EquipmentSlot";
 import { InscriptionBadge } from "@/components/battle/InscriptionBadge";
+import { routing } from "@/i18n/routing";
 import type { ParticipantInfo } from "@/lib/types/reports";
 
 function parseEquipment(raw?: string): EquipmentToken[] {
@@ -64,10 +66,10 @@ function getInscriptionRarity(id: number): "common" | "rare" | "special" {
 
 export async function BattleParticipant({
   participant,
-  locale = "en",
+  locale = routing.defaultLocale,
 }: {
   participant?: ParticipantInfo;
-  locale?: "en" | "es" | "kr";
+  locale?: Locale;
 }) {
   if (!participant) return null;
 
