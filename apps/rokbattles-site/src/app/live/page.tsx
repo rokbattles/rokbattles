@@ -5,69 +5,75 @@ import LiveSidebar from "@/components/LiveSidebar";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const { hash, locale, player_id, kvk_only, ark_only } = await searchParams;
+function getFirstValue(value: string | string[] | undefined) {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
+export default async function Page({ searchParams }: PageProps<"/live">) {
+  const params = await searchParams;
+
+  const hash = getFirstValue(params.hash);
+  const localeParam = getFirstValue(params.locale);
+  const playerIdParam = getFirstValue(params.player_id);
+  const kvkParam = getFirstValue(params.kvk_only);
+  const arkParam = getFirstValue(params.ark_only);
+
+  const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
+  const query = new URLSearchParams();
+
+  if (playerIdParam && /^\d+$/.test(playerIdParam)) {
+    query.set("player_id", playerIdParam);
+  }
+  if (kvkParam === "true") query.set("kvk_only", "true");
+  if (arkParam === "true") query.set("ark_only", "true");
 
   let data: ReportsResponse | null = null;
   try {
-    const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
-    const search = new URLSearchParams();
-    const pidStr = Array.isArray(player_id) ? player_id[0] : player_id;
-    const pid = pidStr && /^\d+$/.test(pidStr) ? pidStr : undefined;
-    const kvk = Array.isArray(kvk_only) ? kvk_only[0] : kvk_only;
-    const ark = Array.isArray(ark_only) ? ark_only[0] : ark_only;
-
-    if (pid) search.set("player_id", pid);
-    if (kvk === "true") search.set("kvk_only", "true");
-    if (ark === "true") search.set("ark_only", "true");
-
-    const qs = search.toString();
-    const url = qs ? `${apiBase}/v1/reports?${qs}` : `${apiBase}/v1/reports`;
-
-    const res = await fetch(url, {
-      cache: "no-store",
-    });
-
+    const url =
+      query.size > 0 ? `${apiBase}/v1/reports?${query.toString()}` : `${apiBase}/v1/reports`;
+    const res = await fetch(url, { cache: "no-store" });
     if (res.ok) {
       data = (await res.json()) as ReportsResponse;
     }
-  } catch {}
+  } catch {
+    data = null;
+  }
 
   const items = data?.items ?? [];
 
-  const entries = items.flatMap((it) =>
-    it.entries.map((e, idx) => ({ key: `${it.hash}:${idx}`, ...e }))
+  const entries = items.flatMap((item) =>
+    item.entries.map((entry) => ({
+      key: item.hash,
+      ...entry,
+    }))
   );
+
   const commanderIds = Array.from(
     new Set(
       entries
-        .flatMap((e) => [
-          e.self_commander_id,
-          e.self_secondary_commander_id,
-          e.enemy_commander_id,
-          e.enemy_secondary_commander_id,
+        .flatMap((entry) => [
+          entry.self_commander_id,
+          entry.self_secondary_commander_id,
+          entry.enemy_commander_id,
+          entry.enemy_secondary_commander_id,
         ])
-        .filter((v): v is number => typeof v === "number" && !Number.isNaN(v))
-        .map((n) => String(n))
+        .filter((value): value is number => typeof value === "number" && Number.isFinite(value))
+        .map((value) => String(value))
     )
   );
 
-  const candidateLocale = Array.isArray(locale) ? locale[0] : locale;
-  const finalLocale: "en" | "es" | "kr" =
-    candidateLocale === "es" || candidateLocale === "kr" ? candidateLocale : "en";
+  const resolvedLocale: "en" | "es" | "kr" =
+    localeParam === "es" || localeParam === "kr" ? localeParam : "en";
 
   const nameMap =
-    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, finalLocale) : {};
-
-  const parentHash = Array.isArray(hash) ? hash[0] : hash;
+    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, resolvedLocale) : {};
 
   let selectedItems: SingleReportItem[] = [];
-  if (parentHash && parentHash.length > 0) {
-    const report = await fetchSingleReport(parentHash);
+  if (hash && hash.length > 0) {
+    const report = await fetchSingleReport(hash);
     selectedItems = (report.items ?? []).slice();
   }
 
@@ -83,17 +89,17 @@ export default async function Page({
           {selectedItems.length > 0 ? (
             <div className="max-w-6xl mx-auto">
               <h1 className="text-xl font-semibold text-zinc-100 mb-4">Report Details</h1>
-              {selectedItems.map((it, idx) => {
-                const ts = it.start_date ?? it.report?.metadata?.start_date;
-                const label = formatUTCShort(ts) ?? "UTC \u2014";
+              {selectedItems.map((item) => {
+                const timestamp = item.start_date ?? item.report?.metadata?.start_date;
+                const label = formatUTCShort(timestamp) ?? "UTC \u2014";
                 return (
-                  <div key={`${it.hash}:${idx}`}>
+                  <div key={item.hash}>
                     <div className="my-6 flex items-center gap-3">
                       <div className="h-px flex-1 bg-white/10" />
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <BattleReport item={it} locale={finalLocale} />
+                    <BattleReport item={item} locale={resolvedLocale} />
                   </div>
                 );
               })}
