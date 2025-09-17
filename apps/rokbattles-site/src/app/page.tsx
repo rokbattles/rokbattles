@@ -57,11 +57,15 @@ export default function Page() {
               <Link href="/legal/terms-of-service" className="transition hover:text-zinc-300">
                 Terms of Service
               </Link>
-              <span aria-hidden="true" className="text-zinc-700">|</span>
+              <span aria-hidden="true" className="text-zinc-700">
+                |
+              </span>
               <Link href="/legal/privacy-policy" className="transition hover:text-zinc-300">
                 Privacy Policy
               </Link>
-              <span aria-hidden="true" className="text-zinc-700">|</span>
+              <span aria-hidden="true" className="text-zinc-700">
+                |
+              </span>
               <Link href="/legal/cookie-policy" className="transition hover:text-zinc-300">
                 Cookie Policy
               </Link>
