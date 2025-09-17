@@ -53,6 +53,19 @@ export default function Page() {
                 <span className="text-white">GitHub</span>
               </a>
             </div>
+            <div className="mt-4 flex flex-wrap justify-center gap-4 text-xs text-zinc-500">
+              <Link href="/legal/terms-of-service" className="transition hover:text-zinc-300">
+                Terms of Service
+              </Link>
+              <span aria-hidden="true" className="text-zinc-700">|</span>
+              <Link href="/legal/privacy-policy" className="transition hover:text-zinc-300">
+                Privacy Policy
+              </Link>
+              <span aria-hidden="true" className="text-zinc-700">|</span>
+              <Link href="/legal/cookie-policy" className="transition hover:text-zinc-300">
+                Cookie Policy
+              </Link>
+            </div>
           </div>
         </section>
       </main>
