@@ -10,6 +10,10 @@
       "slightlyWounded": "경상",
       "watchtowerDamage": "경계탑 피해",
       "killPoints": "처치 포인트"
+    },
+    "participant": {
+      "equipmentHeading": "장비",
+      "armamentHeading": "무기 정보"
     }
   }
 }
