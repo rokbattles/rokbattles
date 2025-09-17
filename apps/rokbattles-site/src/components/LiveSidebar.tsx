@@ -1,52 +1,15 @@
 "use client";
 
-import { Swords } from "lucide-react";
-import Link from "next/link";
+import type { Route } from "next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { fetchLiveReports } from "@/actions/live-reports";
+import { LiveReportListItem } from "@/components/live/LiveReportListItem";
 import type { ReportItem } from "@/lib/types/reports";
 
 function flattenItems(items: ReportItem[]) {
   return items.flatMap((it) =>
     it.entries.map((e, idx) => ({ key: `${it.hash}:${idx}`, parent: it.hash, index: idx, ...e }))
-  );
-}
-
-function ListItem({
-  left,
-  right,
-  leftSecondary,
-  rightSecondary,
-  itemKey,
-  href,
-}: {
-  left: string;
-  right: string;
-  leftSecondary?: string;
-  rightSecondary?: string;
-  itemKey: string;
-  href: string;
-}) {
-  return (
-    <Link
-      // @ts-expect-error - will fix later
-      href={href}
-      key={itemKey}
-      className="flex items-center justify-between py-3 px-5 hover:bg-zinc-800 transition"
-    >
-      <div className="w-36">
-        <div className="truncate text-sm font-medium text-zinc-100">{left}</div>
-        <div className="truncate text-[11px] text-zinc-400">{leftSecondary ?? ""}</div>
-      </div>
-      <div className="mx-2 flex shrink-0 items-center justify-center">
-        <Swords className="size-5 text-zinc-300" aria-hidden="true" />
-      </div>
-      <div className="w-36 text-right">
-        <div className="truncate text-sm font-medium text-zinc-100">{right}</div>
-        <div className="truncate text-[11px] text-zinc-400">{rightSecondary ?? ""}</div>
-      </div>
-    </Link>
   );
 }
 
@@ -82,6 +45,11 @@ export default function LiveSidebar({
   const sp = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const toRoute = (params: URLSearchParams): Route => {
+    const query = params.toString();
+    const basePath = pathname ?? "/live";
+    return (query ? `${basePath}?${query}` : basePath) as Route;
+  };
   const locParam = sp?.get("locale");
   const currentLocale = locParam === "es" || locParam === "kr" ? (locParam as "es" | "kr") : "en";
 
@@ -184,8 +152,7 @@ export default function LiveSidebar({
     if (mode === "kvk") params.set("kvk_only", "true");
     if (mode === "ark") params.set("ark_only", "true");
 
-    // @ts-expect-error - will fix later
-    router.replace(`${pathname}?${params.toString()}`);
+    router.replace(toRoute(params));
   }, [playerId, mode, pathname]);
 
   return (
@@ -211,8 +178,7 @@ export default function LiveSidebar({
                 const next = e.target.value;
                 const params = new URLSearchParams(Array.from(sp?.entries?.() ?? []));
                 params.set("locale", next);
-                // @ts-expect-error - will fix later
-                router.replace(`${pathname}?${params.toString()}`);
+                router.replace(toRoute(params));
               }}
               className="rounded-md bg-zinc-800/60 px-2 py-1 text-xs text-zinc-100 ring-1 ring-inset ring-white/10"
             >
@@ -280,40 +246,39 @@ export default function LiveSidebar({
           {flat.length === 0 && !loading && !error && (
             <div className="p-5 text-sm text-zinc-400">No reports found.</div>
           )}
-          {flat.map((e) => {
-            const left = e.self_commander_id
-              ? (nameMap?.[String(e.self_commander_id)] ?? String(e.self_commander_id))
+          {flat.map((entry) => {
+            const left = entry.self_commander_id
+              ? (nameMap?.[String(entry.self_commander_id)] ?? String(entry.self_commander_id))
               : "Unknown";
-            const right = e.enemy_commander_id
-              ? (nameMap?.[String(e.enemy_commander_id)] ?? String(e.enemy_commander_id))
+            const right = entry.enemy_commander_id
+              ? (nameMap?.[String(entry.enemy_commander_id)] ?? String(entry.enemy_commander_id))
               : "Unknown";
-            const leftSecondary = e.self_secondary_commander_id
-              ? (nameMap?.[String(e.self_secondary_commander_id)] ??
-                String(e.self_secondary_commander_id))
+            const leftSecondary = entry.self_secondary_commander_id
+              ? (nameMap?.[String(entry.self_secondary_commander_id)] ??
+                String(entry.self_secondary_commander_id))
               : "";
-            const rightSecondary = e.enemy_secondary_commander_id
-              ? (nameMap?.[String(e.enemy_secondary_commander_id)] ??
-                String(e.enemy_secondary_commander_id))
+            const rightSecondary = entry.enemy_secondary_commander_id
+              ? (nameMap?.[String(entry.enemy_secondary_commander_id)] ??
+                String(entry.enemy_secondary_commander_id))
               : "";
             const params = new URLSearchParams();
-            params.set("hash", e.parent);
+            params.set("hash", entry.parent);
             params.set("locale", currentLocale);
 
             if (playerId && /^\d+$/.test(playerId)) params.set("player_id", playerId);
             if (mode === "kvk") params.set("kvk_only", "true");
             if (mode === "ark") params.set("ark_only", "true");
 
-            const href = `/live?${params.toString()}`;
+            const query = Object.fromEntries(params.entries()) as Record<string, string>;
 
             return (
-              <ListItem
-                key={e.key}
-                itemKey={e.key}
+              <LiveReportListItem
+                key={entry.key}
                 left={left}
                 right={right}
                 leftSecondary={leftSecondary}
                 rightSecondary={rightSecondary}
-                href={href}
+                query={query}
               />
             );
           })}

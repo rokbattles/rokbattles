@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import "./globals.css";
 import type { Metadata } from "next";
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
     "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={cn(inter.variable, "antialiased")}>
       <body>
