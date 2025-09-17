@@ -97,8 +97,9 @@ export default async function Page({ params, searchParams }: PageProps<"/[locale
             <div className="max-w-6xl mx-auto">
               <h1 className="text-xl font-semibold text-zinc-100 mb-4">Report Details</h1>
               {selectedItems.map((item) => {
-                const timestamp = item.start_date ?? item.report?.metadata?.start_date;
-                const label = formatUTCShort(timestamp) ?? "UTC \u2014";
+                const startTimestamp = item.report?.metadata?.start_date;
+                const endTimestamp = item.report?.metadata?.end_date;
+                const label = formatUTCShort(startTimestamp, endTimestamp) ?? "Unknown";
                 return (
                   <div key={item.hash}>
                     <div className="my-6 flex items-center gap-3">
