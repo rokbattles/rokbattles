@@ -2,125 +2,146 @@ armaments:
   2004:
     name:
       en: "Gold Gathering Speed"
+      de: "Goldsammelgeschwindigkeit"
       es: "Velocidad de Recolección de Oro"
       kr: "금화 채집 솝도"
 
   3001:
     name:
       en: "Infantry Attack"
+      de: "Infanterieangriff"
       es: "Ataque de Infantería"
       kr: "보병 유닛 공격력"
 
   3002:
     name:
       en: "Cavalry Attack"
+      de: "Kavallerieangriff"
       es: "Ataque de la Caballería"
       kr: "기마병 유닛 공격력"
 
   3003:
     name:
       en: "Archer Attack"
+      de: "Bogenschützenangriff"
       es: "Ataque del Arquero"
       kr: "궁병 유닛 공격력"
 
   3004:
     name:
       en: "Siege Unit Attack"
+      de: "Belagerungstruppenangriff"
       es: "Ataque de la Unidad de Asedio"
       kr: "공성 유닛 공격력"
 
   4001:
     name:
       en: "Infantry Defense"
+      de: "Infanterieverteidigung"
       es: "Defensa de la Infantería"
       kr: "보병 유닛 방어력"
 
   4002:
     name:
       en: "Cavalry Defense"
+      de: "Kavallerieverteidigung"
       es: "Defensa de la Caballería"
       kr: "기마병 유닛 방어력"
 
   4003:
     name:
       en: "Archer Defense"
+      de: "Bogenschützenverteidigung"
       es: "Defensa del Arquero"
       kr: "궁병 유닛 방어력"
 
   4004:
     name:
       en: "Siege Unit Defense"
+      de: "Belagerungstruppenverteidigung"
       es: "Defensa de la Unidad de Asedio"
       kr: "공성 유닛 방어력"
 
   5001:
     name:
       en: "Infantry Health"
+      de: "Infanteriegesundheit"
       es: "Salud de la Infantería"
       kr: "보병 유닛 생명력"
 
   5002:
     name:
       en: "Cavalry Health"
+      de: "Kavalleriegesundheit"
       es: "Salud de la Caballería"
       kr: "기마병 유닛 생명력"
 
   5003:
     name:
       en: "Archer Health"
+      de: "Bogenschützengesundheit"
       es: "Salud del Arquero"
       kr: "궁병 유닛 생명력"
 
   5004:
     name:
       en: "Siege Unit Health"
+      de: "Belagerungstruppengesundheit"
       es: "Salud de la Unidad de Asedio"
       kr: "공성 유닛 생명력"
 
   6001:
     name:
       en: "March Speed (Infantry)"
+      de: "Marschtempo (Infanterie)"
       es: "Velocidad de marcha (infantería)"
       kr: "보병 속도"
 
   6002:
     name:
       en: "March Speed (Cavalry)"
+      de: "Marschtempo (Kavallerie)"
       es: "Velocidad de marcha (caballería)"
       kr: "기마병 속도"
 
   6003:
     name:
       en: "March Speed (Archers)"
+      de: "Marschtempo (Bogenschützen)"
       es: "Velocidad de marcha (arqueros)"
       kr: "궁병 속도"
 
   6004:
     name:
       en: "March Speed (Siege Units)"
+      de: "Marschtempo (Belagerungseinheiten)"
       es: "Velocidad de marcha (unidades de asedio)"
       kr: "공성 유닛 속도"
 
   8000:
     name:
       en: "Troop Load"
+      de: "Truppentraglast"
       es: "Carga de las Tropas"
       kr: "부대 적재량"
 
   10002:
     name:
       en: "All Damage"
+      de: "Aller Schaden"
       es: "Daño Total"
       kr: "전체 피해"
 
   10016:
     name:
       en: "Damage to Barbarians"
+      de: "Schaden an Barbaren"
       es: "Daño a Bárbaros"
       kr: "야만인에게 입히는 피해"
 
   10101:
     name:
       en: "Damage Reduction vs Barbarians"
+      de: "Schadenverringerung gegen Barbaren"
       es: "Reducción de daño vs bárbaros"
       kr: "야만인 피해 경감"
