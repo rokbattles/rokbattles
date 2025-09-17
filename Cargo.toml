@@ -6,7 +6,8 @@ members = [
     "crates/mail-helper",
     "crates/rokbattles-api",
     "crates/rokbattles-processor",
-    "crates/rokbattles-tauri/src-tauri"
+    "crates/rokbattles-tauri/src-tauri",
+    "crates/rokbattles-trends"
 ]
 resolver = "3"
 
@@ -33,3 +34,4 @@ blake3 = "1.8.2"
 reqwest = "0.12.23"
 futures = "0.3.31"
 tauri-plugin-updater = "2.9.0"
+chrono = { version = "0.4.41", features = ["clock", "serde"] }
