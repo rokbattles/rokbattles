@@ -10,7 +10,7 @@ use futures_util::{StreamExt, TryStreamExt};
 use mongodb::{
     bson::Document,
     bson::spec::BinarySubtype,
-    bson::{Binary, DateTime, doc},
+    bson::{Binary, Bson, DateTime, doc},
 };
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
@@ -218,14 +218,18 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     };
 
-    let first_type = mail_helper::detect_mail_type_str(&decoded_mail);
-    if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+    let mail_type = mail_helper::detect_mail_type_str(&decoded_mail);
+    if !mail_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
 
     let mail_time = match mail_helper::detect_mail_time(&decoded_mail) {
         Some(t) => t,
         None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing time").into_response(),
+    };
+    let mail_id = match mail_helper::detect_email_id(&decoded_mail) {
+        Some(id) => id,
+        None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing id").into_response(),
     };
 
     let decoded_mail_hash = blake3_hash(&buf);
@@ -239,13 +243,101 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         Err(_) => return (StatusCode::INTERNAL_SERVER_ERROR, "compression failed").into_response(),
     };
 
-    let tracing_ratio = (compressed_mail.len() as f64) / (decoded_mail_json_text.len() as f64);
+    let compression_ratio = (compressed_mail.len() as f64) / (decoded_mail_json_text.len() as f64);
     debug!(
         "original: {} bytes, compressed: {} bytes, ratio: {:.2}%",
         decoded_mail_json_text.len(),
         compressed_mail.len(),
-        tracing_ratio * 100.0
+        compression_ratio * 100.0
     );
+
+    let original_size = decoded_mail_json_text.len() as i64;
+    let user_agent = headers
+        .get("user-agent")
+        .and_then(|v| v.to_str().ok())
+        .unwrap_or("unknown");
+
+    let mails_collection = st.db.collection::<Document>("mails");
+    let existing_mail = match mails_collection
+        .find_one(doc! { "mail.id": &mail_id })
+        .await
+    {
+        Ok(doc) => doc,
+        Err(_) => return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
+    };
+
+    if let Some(existing_doc) = existing_mail {
+        let existing_size = existing_doc
+            .get_document("metadata")
+            .ok()
+            .and_then(|metadata| metadata.get("originalSize"))
+            .and_then(|value| match value {
+                Bson::Int32(v) => Some(i64::from(*v)),
+                Bson::Int64(v) => Some(*v),
+                Bson::Double(v) => Some(*v as i64),
+                _ => None,
+            })
+            .unwrap_or(0);
+
+        let mut previous_hashes = existing_doc
+            .get_document("metadata")
+            .ok()
+            .and_then(|metadata| metadata.get("previousHashes"))
+            .and_then(|value| match value {
+                Bson::Array(values) => Some(
+                    values
+                        .iter()
+                        .filter_map(|value| value.as_str().map(|v| v.to_string()))
+                        .collect::<Vec<String>>(),
+                ),
+                _ => None,
+            })
+            .unwrap_or_default();
+
+        let previous_hash = existing_doc
+            .get_document("mail")
+            .ok()
+            .and_then(|mail| mail.get_str("hash").ok())
+            .map(|hash| hash.to_string());
+
+        if original_size > existing_size {
+            let mut update = doc! {
+                "mail.hash": &decoded_mail_hash,
+                "mail.value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail.clone() },
+                "mail.time": mail_time,
+                "mail.id": &mail_id,
+                "metadata.userAgent": user_agent,
+                "metadata.originalSize": original_size,
+                "status": "reprocess"
+            };
+
+            if let Some(prev_hash) = &previous_hash
+                && !previous_hashes.iter().any(|hash| hash == prev_hash)
+            {
+                previous_hashes.push(prev_hash.clone());
+            }
+
+            if !previous_hashes.is_empty() {
+                let bson_previous_hashes = previous_hashes
+                    .iter()
+                    .cloned()
+                    .map(Bson::String)
+                    .collect::<Vec<Bson>>();
+                update.insert("metadata.previousHashes", Bson::Array(bson_previous_hashes));
+            }
+
+            let result = mails_collection
+                .update_one(doc! { "mail.id": &mail_id }, doc! { "$set": update })
+                .await;
+
+            return match result {
+                Ok(_) => (StatusCode::CREATED, "").into_response(),
+                Err(_) => (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
+            };
+        }
+
+        return (StatusCode::CREATED, "").into_response();
+    }
 
     let current_time = DateTime::now();
     let doc = doc! {
@@ -254,29 +346,23 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             "codec": "zstd",
             "value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail },
             "time": mail_time,
+            "id": &mail_id
         },
         "metadata": {
-            "userAgent": headers.get("user-agent").and_then(|v| v.to_str().ok()).unwrap_or("unknown"),
+            "userAgent": user_agent,
+            "originalSize": original_size,
         },
         "status": "pending",
         "createdAt": current_time,
     };
 
-    let filter = doc! { "mail.hash": &decoded_mail_hash };
-    let update = doc! {
-        "$setOnInsert": doc,
-        "$set": { "lastSeenAt": current_time },
-    };
-    let result = st
-        .db
-        .collection::<Document>("mails")
-        .update_one(filter, update)
+    let result = mails_collection
+        .update_one(doc! { "mail.id": &mail_id }, doc! { "$setOnInsert": doc })
         .upsert(true)
         .await;
 
-    if result.is_err() {
-        return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+    match result {
+        Ok(_) => (StatusCode::CREATED, "").into_response(),
+        Err(_) => (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
     }
-
-    (StatusCode::CREATED, "").into_response()
 }
