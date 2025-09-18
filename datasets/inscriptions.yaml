@@ -10,1361 +10,1588 @@ inscriptions:
   101:
     name:
       en: "Warcry"
+      de: "Krigsschrei"
       es: "Grito de guerra"
       kr: "전재의 포효"
 
   103:
     name:
       en: "Well Clad"
+      de: "Gut gekleidet"
       es: "Fortalecimiento"
       kr: "단단한 갑옷"
 
   104:
     name:
       en: "Robust"
+      de: "Robust"
       es: "Robustez"
       kr: "활력"
 
   105:
     name:
       en: "Swift"
+      de: "Flink"
       es: "Celeridad"
       kr: "질주"
 
   106:
     name:
       en: "Payback"
+      de: "Rache"
       es: "Revancha"
       kr: "복수"
 
   107:
     name:
       en: "Onslaught"
+      de: "Ansturm"
       es: "Embestida"
       kr: "맹공"
 
   108:
     name:
       en: "Retaliatory"
+      de: "Vergeltung"
       es: "Represalia"
       kr: "반공"
 
   109:
     name:
       en: "Enraged"
+      de: "In Rage"
       es: "Furia"
       kr: "난폭"
 
   110:
     name:
       en: "Valiant"
+      de: "Tapfer"
       es: "Valentía"
       kr: "용맹무쌍"
 
   111:
     name:
       en: "Iron Wall"
+      de: "Eisenwand"
       es: "Muro de hierro"
       kr: "철벽"
 
   112:
     name:
       en: "Bellicose"
+      de: "Kriegerisch"
       es: "Belicismo"
       kr: "투지"
 
   113:
     name:
       en: "Pulverize"
+      de: "Pulverisieren"
       es: "Pulverizar"
       kr: "펀치"
 
   114:
     name:
       en: "Breaker"
+      de: "Zerbrecher"
       es: "Quebrantamiento"
       kr: "갑옷 패진"
 
   115:
     name:
       en: "Furious"
+      de: "Erzürnt"
       es: "Furia"
       kr: "격노"
 
   116:
     name:
       en: "Ward"
+      de: "Schutzbefohelm"
       es: "Protección"
       kr: "수호자"
 
   117:
     name:
       en: "Phalanx"
+      de: "Phalanx"
       es: "Falange"
       kr: "방패진"
 
   118:
     name:
       en: "Hurried"
+      de: "In Eile"
       es: "Apremio"
       kr: "질속"
 
   119:
     name:
       en: "Tremors"
+      de: "Erdstöße"
       es: "Sacudida"
       kr: "진동"
 
   120:
     name:
       en: "Calm"
+      de: "Ruhe"
       es: "Calma"
       kr: "침악"
 
   121:
     name:
       en: "Loosed"
+      de: "Gelöst"
       es: "Puntería"
       kr: "강슛"
 
   122:
     name:
       en: "Warcry"
+      de: "Kriegsschrei"
       es: "Grito de guerra"
       kr: "전재의 포효"
 
   124:
     name:
       en: "Well Clad"
+      de: "Gut gekleidet"
       es: "Fortalecimiento"
       kr: "단단한 갑옷"
 
   125:
     name:
       en: "Robust"
+      de: "Robust"
       es: "Robustez"
       kr: "활력"
 
   126:
     name:
       en: "Swift"
+      de: "Flink"
       es: "Celeridad"
       kr: "질주"
 
   127:
     name:
       en: "Payback"
+      de: "Rache"
       es: "Revancha"
       kr: "복수"
 
   128:
     name:
       en: "Onslaught"
+      de: "Ansturm"
       es: "Embestida"
       kr: "맹공"
 
   129:
     name:
       en: "Retaliatory"
+      de: "Vergeltung"
       es: "Represalia"
       kr: "반공"
 
   130:
     name:
       en: "Enraged"
+      de: "In Rage"
       es: "Furia"
       kr: "난폭"
 
   137:
     name:
       en: "Enrichment"
+      de: "Bereicherung"
       es: "Enriquecimiento"
       kr: "일핰천금"
 
   201:
     name:
       en: "Brutal"
+      de: "Brutal"
       es: "Brutalidad"
       kr: "담금질"
 
   203:
     name:
       en: "Armored"
+      de: "Gepanzert"
       es: "Blindaje"
       kr: "중갑옷"
 
   204:
     name:
       en: "Fit"
+      de: "Fit"
       es: "Sanidad"
       kr: "왕성"
 
   205:
     name:
       en: "Fine Horse"
+      de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
       kr: "명마"
 
   206:
     name:
       en: "Annexer"
+      de: "Annexion"
       es: "Anexo"
       kr: "완납"
 
   207:
     name:
       en: "Warhunger"
+      de: "Kriegshunger"
       es: "Sed de guerra"
       kr: "백열전"
 
   208:
     name:
       en: "Alert"
+      de: "Aufmerksam"
       es: "Alerta"
       kr: "경비"
 
   209:
     name:
       en: "Devious"
+      de: "Verschlagen"
       es: "Impudor"
       kr: "묘책"
 
   210:
     name:
       en: "Fearsome"
+      de: "Furchterregend"
       es: "Temible"
       kr: "위퐁당당"
 
   211:
     name:
       en: "Evasive"
+      de: "Ausweichend"
       es: "Evasión"
       kr: "희피"
 
   212:
     name:
       en: "Requital"
+      de: "Vergeltung"
       es: "Compensación"
       kr: "반항"
 
   213:
     name:
       en: "Respite"
+      de: "Atempause"
       es: "Alivio"
       kr: "숨결"
 
   214:
     name:
       en: "Guarded"
+      de: "Bewacht"
       es: "Custodia"
       kr: "고수"
 
   215:
     name:
       en: "Embattled"
+      de: "Bedrängt"
       es: "Asediado"
       kr: "악전고투"
 
   216:
     name:
       en: "Vengeful"
+      de: "Rachgierig"
       es: "Venganza"
       kr: "격노"
 
   217:
     name:
       en: "Patronage"
+      de: "Protektion"
       es: "Amparo"
       kr: "보살핌"
 
   218:
     name:
       en: "Primed"
+      de: "Gerüstet"
       es: "Superación"
       kr: "노련"
 
   219:
     name:
       en: "Uplifting"
+      de: "Aufmungterung"
       es: "Inspiración"
       kr: "격려"
 
   220:
     name:
       en: "Spirited"
+      de: "Beherzt"
       es: "Vivaz"
       kr: "드높은 기개"
 
   221:
     name:
       en: "Bluster"
+      de: "Toben"
       es: "Arrogancia"
       kr: "여세"
 
   222:
     name:
       en: "Brutal"
+      de: "Brutal"
       es: "Brutalidad"
       kr: "담금질"
 
   224:
     name:
       en: "Armored"
+      de: "Gepanzert"
       es: "Blindaje"
       kr: "중갑옷"
 
   225:
     name:
       en: "Fit"
+      de: "Fit"
       es: "Sanidad"
       kr: "왕성"
 
   226:
     name:
       en: "Fine Horse"
+      de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
       kr: "명마"
 
   227:
     name:
       en: "Annexer"
+      de: "Annexion"
       es: "Anexo"
       kr: "완납"
 
   228:
     name:
       en: "Warhunger"
+      de: "Kriegshunger"
       es: "Sed de guerra"
       kr: "백열전"
 
   229:
     name:
       en: "Alert"
+      de: "Aufmerksam"
       es: "Alerta"
       kr: "경비"
 
   230:
     name:
       en: "Devious"
+      de: "Verschlagen"
       es: "Impudor"
       kr: "묘책"
 
   237:
     name:
       en: "Brisk"
+      de: "Flott"
       es: "Presteza"
       kr: "돈속"
 
   301:
     name:
       en: "Spiked"
+      de: "Stachelig"
       es: "Punzante"
       kr: "날카로움"
 
   303:
     name:
       en: "Metallics"
+      de: "Metallisch"
       es: "Metalizado"
       kr: "철제 갑옷"
 
   304:
     name:
       en: "Vitality"
+      de: "Reaktionskraft"
       es: "Vitalidad"
       kr: "건장"
 
   305:
     name:
       en: "Galloping"
+      de: "Im Galopp"
       es: "Galope"
       kr: "분치"
 
   306:
     name:
       en: "Cleanser"
+      de: "Reinigung"
       es: "Purificación"
       kr: "악당 제거"
 
   307:
     name:
       en: "Striker"
+      de: "Sturm"
       es: "Empoderamiento"
       kr: "강격"
 
   308:
     name:
       en: "Rebuff"
+      de: "Abfuhr"
       es: "Repelente"
       kr: "반격"
 
   309:
     name:
       en: "Brawler"
+      de: "Rauferei"
       es: "Matón"
       kr: "박투"
 
   310:
     name:
       en: "Warflames"
+      de: "Kriegsflammen"
       es: "Llamas bélicas"
       kr: "전화"
 
   311:
     name:
       en: "Eclipsed"
+      de: "Fertiggemacht"
       es: "Eclipsado"
       kr: "압도"
 
   312:
     name:
       en: "Brave"
+      de: "Mutig"
       es: "Coraje"
       kr: "일당백"
 
   313:
     name:
       en: "Strategic"
+      de: "Strategisch"
       es: "Estrategia"
       kr: "전술"
 
   314:
     name:
       en: "Desperado"
+      de: "Desperado"
       es: "Forajido"
       kr: "궁지"
 
   315:
     name:
       en: "Cohesive"
+      de: "Geschlossen"
       es: "Unión"
       kr: "중지"
 
   316:
     name:
       en: "Pursuer"
+      de: "Verfolger"
       es: "Persecución"
       kr: "궁지로 몰기"
 
   317:
     name:
       en: "Assertive"
+      de: "Durchsetzungsfähig"
       es: "Aserción"
       kr: "만발"
 
   318:
     name:
       en: "Wary"
+      de: "Auf der Hut"
       es: "Cautela"
       kr: "경계"
 
   319:
     name:
       en: "Siegework"
+      de: "Belagerungswerk"
       es: "Maquinaria de asedio"
       kr: "도시 파괴"
 
   320:
     name:
       en: "Sentries"
+      de: "Wachleute"
       es: "Centinela"
       kr: "수호"
 
   321:
     name:
       en: "Ballistics"
+      de: "Ballistik"
       es: "Balística"
       kr: "쇠뇌"
 
   322:
     name:
       en: "Spiked"
+      de: "Stachelig"
       es: "Punzante"
       kr: "날카로움"
 
   324:
     name:
       en: "Metallics"
+      de: "Metallisch"
       es: "Metalizado"
       kr: "철제 갑옷"
 
   325:
     name:
       en: "Vitality"
+      de: "Reaktionskraft"
       es: "Vitalidad"
       kr: "건장"
 
   326:
     name:
       en: "Galloping"
+      de: "Im Galopp"
       es: "Galope"
       kr: "분치"
 
   327:
     name:
       en: "Cleanser"
+      de: "Reinigung"
       es: "Purificación"
       kr: "악당 제거"
 
   328:
     name:
       en: "Striker"
+      de: "Sturm"
       es: "Empoderamiento"
       kr: "강격"
 
   329:
     name:
       en: "Rebuff"
+      de: "Abfuhr"
       es: "Repelente"
       kr: "반격"
 
   330:
     name:
       en: "Brawler"
+      de: "Rauferei"
       es: "Matón"
       kr: "박투"
 
   337:
     name:
       en: "Harvester"
+      de: "Erntehelfer"
       es: "Cosecha"
       kr: "풍작"
 
   401:
     name:
       en: "Infamy"
+      de: "Niedertracht"
       es: "Infamia"
       kr: "위력"
 
   403:
     name:
       en: "Shielded"
+      de: "Abgeschirmt"
       es: "Escudo"
       kr: "철갑"
 
   404:
     name:
       en: "Hardy"
+      de: "Abgehärtet"
       es: "Dureza"
       kr: "웅건"
 
   405:
     name:
       en: "Haste"
+      de: "In Eile"
       es: "Prisa"
       kr: "신속"
 
   406:
     name:
       en: "Pacifier"
+      de: "Friedensstifter"
       es: "Pacificador"
       kr: "평란"
 
   407:
     name:
       en: "Militant"
+      de: "Militant"
       es: "Militancia"
       kr: "병기"
 
   408:
     name:
       en: "Resistant"
+      de: "Resistent"
       es: "Resistencia"
       kr: "저항"
 
   409:
     name:
       en: "Daring"
+      de: "Verwegen"
       es: "Osadía"
       kr: "담대"
 
   410:
     name:
       en: "Elite"
+      de: "Elite"
       es: "Élite"
       kr: "신평"
 
   411:
     name:
       en: "Evasive"
+      de: "Ausweichend"
       es: "Evasión"
       kr: "적회피"
 
   412:
     name:
       en: "Smite"
+      de: "Smite"
       es: "Aniquilación"
       kr: "강공"
 
   413:
     name:
       en: "Enduring"
+      de: "Ausdauernd"
       es: "Durable"
       kr: "강인"
 
   414:
     name:
       en: "Artisan"
+      de: "Kunsthandwerker"
       es: "Artista"
       kr: "숙련공"
 
   415:
     name:
       en: "Rapacious"
+      de: "Habgierig"
       es: "Rapaz"
       kr: "강습"
 
   416:
     name:
       en: "Guardians"
+      de: "Wächter"
       es: "Guardianes"
       kr: "호신부"
 
   417:
     name:
       en: "Counterer"
+      de: "Widersetzer"
       es: "Contraatacante"
       kr: "극복"
 
   418:
     name:
       en: "Deflecter"
+      de: "Parierer"
       es: "Desvío"
       kr: "그림자"
 
   419:
     name:
       en: "Watchmen"
+      de: "Wachmänner"
       es: "Vigilante"
       kr: "엄수"
 
   420:
     name:
       en: "Lineshot"
+      de: "Genauer Schuss"
       es: "Tiro directo"
       kr: "화살"
 
   422:
     name:
       en: "Infamy"
+      de: "Niedertracht"
       es: "Infamia"
       kr: "위력"
 
   424:
     name:
       en: "Shielded"
+      de: "Abgeschirmt"
       es: "Escudo"
       kr: "철갑"
 
   425:
     name:
       en: "Hardy"
+      de: "Abgehärtet"
       es: "Dureza"
       kr: "웅건"
 
   426:
     name:
       en: "Haste"
+      de: "In Eile"
       es: "Prisa"
       kr: "신속"
 
   427:
     name:
       en: "Pacifier"
+      de: "Friedensstifter"
       es: "Pacificador"
       kr: "평란"
 
   428:
     name:
       en: "Militant"
+      de: "Militant"
       es: "Militancia"
       kr: "병기"
 
   429:
     name:
       en: "Resistant"
+      de: "Resistent"
       es: "Resistencia"
       kr: "저항"
 
   430:
     name:
       en: "Daring"
+      de: "Verwegen"
       es: "Osadía"
       kr: "담대"
 
   437:
     name:
       en: "Bountiful"
+      de: "Überreich"
       es: "Abundancia"
       kr: "철철 넘침"
 
   1101:
     name:
       en: "Destructive"
+      de: "Zerstörerisch"
       es: "Destrucción"
       kr: "파죽지세"
 
   1102:
     name:
       en: "Battle-Ready"
+      de: "Kampfbereit"
       es: "Listo para la batalla"
       kr: "응전"
 
   1201:
     name:
       en: "Straight to the Point"
+      de: "Direkt zum Punkt"
       es: "Directo al grano"
       kr: "단도직입"
 
   1202:
     name:
       en: "Even-Keeled"
+      de: "Ausgewogen"
       es: "Estable"
       kr: "침착"
 
   1301:
     name:
       en: "Invincible"
+      de: "Unbesiegbar"
       es: "Invencible"
       kr: "완전무장"
 
   1302:
     name:
       en: "Unswerving"
+      de: "Unerschütterlich"
       es: "Inmutable"
       kr: "의연"
 
   1401:
     name:
       en: "Fearless"
+      de: "Furchtlos"
       es: "Audacia"
       kr: "두려움을 모르는 힘"
 
   1402:
     name:
       en: "Forceful"
+      de: "Kraftvoll"
       es: "Contundente"
       kr: "맹격"
 
   2101:
     name:
       en: "Hunter"
+      de: "Jäger"
       es: "Cazador"
       kr: "전력 맹공"
 
   2102:
     name:
       en: "Crazed"
+      de: "Rasend"
       es: "Exaltado"
       kr: "열전"
 
   2201:
     name:
       en: "Unstoppable"
+      de: "Unaufhaltsam"
       es: "Imparable"
       kr: "위풍당당"
 
   2202:
     name:
       en: "Boiling Blood"
+      de: "Siedendes Blut"
       es: "Sangre caliente"
       kr: "열혈"
 
   2301:
     name:
       en: "Balanced"
+      de: "Ausgewogen"
       es: "Equilibrio"
       kr: "공수겸비"
 
   2302:
     name:
       en: "Defiant"
+      de: "Herausfordernd"
       es: "Desafiante"
       kr: "대적"
 
   2401:
     name:
       en: "Intrepid"
+      de: "Unerschroken"
       es: "Intrépido"
       kr: "맹렬한 기세"
 
   2402:
     name:
       en: "Focus Fire"
+      de: "Konzentriertes Feuer"
       es: "Fuego concentrado"
       kr: "집중 공격"
 
   3101:
     name:
       en: "Sharpshooter"
+      de: "Scharfschütze"
       es: "Francotirador"
       kr: "백발백중"
 
   3102:
     name:
       en: "Full Draw"
+      de: "Vollständig spannen"
       es: "Arcos tensados"
       kr: "발사준비"
 
   3201:
     name:
       en: "Drilled"
+      de: "Auf Zack"
       es: "Perforación"
       kr: "일발필중"
 
   3202:
     name:
       en: "Bloody Bolt"
+      de: "Blutiges Geschoss"
       es: "Virote sangriento"
       kr: "화살"
 
   3301:
     name:
       en: "Merciless"
+      de: "Gnadenlos"
       es: "Sin piedad"
       kr: "만반의 준비"
 
   3302:
     name:
       en: "Tempered"
+      de: "Gehärtet"
       es: "Templado"
       kr: "강력한 저항"
 
   3401:
     name:
       en: "Astute"
+      de: "Gerissen"
       es: "Astucia"
       kr: "늠름한 자태"
 
   3402:
     name:
       en: "Sharp Arrows"
+      de: "Scharfe Pfeile"
       es: "Flechas filosas"
       kr: "예리한 화살"
 
   4101:
     name:
       en: "Influential Leader"
+      de: "Einflussreicher Anführer"
       es: "Líder prestigioso"
       kr: "영향력 있는 지도자"
 
   4102:
     name:
       en: "Drums of War"
+      de: "Kriegstrommeln"
       es: "Tambores de guerra"
       kr: "전고"
 
   4201:
     name:
       en: "Loaded"
+      de: "Belastbar"
       es: "Cargado"
       kr: "적당한 밀당"
 
   4202:
     name:
       en: "Nullify"
+      de: "Zunichtemachen"
       es: "Anulación"
       kr: "면역"
 
   4301:
     name:
       en: "Civilized"
+      de: "Zivilisiert"
       es: "Civilizado"
       kr: "전투력 비축"
 
   4302:
     name:
       en: "Counter-Parry"
+      de: "Gegenparade"
       es: "Contrabloqueo"
       kr: "인내"
 
   4401:
     name:
       en: "Fixed"
+      de: "Feststehend"
       es: "Reparación"
       kr: "난공불락"
 
   4402:
     name:
       en: "Persevering"
+      de: "Beharrlich"
       es: "Perseverancia"
       kr: "분발"
 
   5101:
     name:
       en: "Cocoon"
+      de: "Kokon"
       es: "Capullo"
       kr: "굳건한 방어"
 
   5102:
     name:
       en: "Self-Defense"
+      de: "Selbstverteidigung"
       es: "Defensa propia"
       kr: "가시 갑주"
 
   5201:
     name:
       en: "Inviolable"
+      de: "Unantastbar"
       es: "Irrompible"
       kr: "철옹성"
 
   5202:
     name:
       en: "Aegis"
+      de: "Aegis"
       es: "Égida"
       kr: "견고한 방패"
 
   5301:
     name:
       en: "Crowned"
+      de: "Gekrönt"
       es: "Coronación"
       kr: "용감우쌍"
 
   5302:
     name:
       en: "Reinforced"
+      de: "Verstärkt"
       es: "Refuerzo"
       kr: "보강"
 
   5401:
     name:
       en: "Rounded"
+      de: "Rundum"
       es: "Integral"
       kr: "정교한 무기"
 
   5402:
     name:
       en: "Tenacious"
+      de: "Hartnäckig"
       es: "Tenaz"
       kr: "결연"
 
   6101:
     name:
       en: "Rich"
+      de: "Reich"
       es: "Riqueza"
       kr: "황금의 산"
 
   6102:
     name:
       en: "Gold Panner"
+      de: "Goldwäscher"
       es: "Bateo de oro"
       kr: "골드 디거"
 
   6201:
     name:
       en: "Battlements"
+      de: "Wehrgang"
       es: "Almena"
       kr: "견벽청야"
 
   6202:
     name:
       en: "Safeguard"
+      de: "Absichern"
       es: "Salvaguarda"
       kr: "세이프가츠"
 
   6301:
     name:
       en: "Moneyed"
+      de: "Begütert"
       es: "Pudiente"
       kr: "점석겅금"
 
   6302:
     name:
       en: "Plentitude"
+      de: "Fülle"
       es: "Abundancia"
       kr: "추수"
 
   6401:
     name:
       en: "Transporter"
+      de: "Transporter"
       es: "Transportista"
       kr: "군량과 말 준비"
 
   6402:
     name:
       en: "Sturdy Back"
+      de: "Starker Rücken"
       es: "Retaguardia fornida"
       kr: "풍요"
 
   7101:
     name:
       en: "Emmeshed"
+      de: "Verstrickt"
       es: "Maraña"
       kr: "빈틈없는 경계망"
 
   7102:
     name:
       en: "Entangling"
+      de: "Umschlingend"
       es: "Enredo"
       kr: "속박"
 
   7201:
     name:
       en: "Logistical"
+      de: "Logistik"
       es: "Logística"
       kr: "겡한 군세"
 
   7202:
     name:
       en: "Arms Race"
+      de: "Waffenwettkampf"
       es: "Carrera armamentista"
       kr: "군비 확장"
 
   7301:
     name:
       en: "Unassailed"
+      de: "Uneinholbar"
       es: "Retirada"
       kr: "용맹한 군대"
 
   7302:
     name:
       en: "Sprinter"
+      de: "Sprinter"
       es: "Velocista"
       kr: "겐각"
 
   7401:
     name:
       en: "Winged"
+      de: "Beflügelt"
       es: "Alado"
       kr: "선두자"
 
   7402:
     name:
       en: "Strider"
+      de: "Läufer"
       es: "Pasos largos"
       kr: "질주"
 
   8101:
     name:
       en: "Irreproachable"
+      de: "Unbescholten"
       es: "Irreprochable"
       kr: "완벽"
 
   8102:
     name:
       en: "Ironclad"
+      de: "Eisern"
       es: "Invulnerable"
       kr: "호신"
 
   8201:
     name:
       en: "Cautious"
+      de: "Vorsichtig"
       es: "Cautela"
       kr: "삼엄한 경비"
 
   8202:
     name:
       en: "Strike & Parry"
+      de: "Zushlagen und parieren"
       es: "Golpe y bloqueo"
       kr: "역습"
 
   8301:
     name:
       en: "Shield Bash"
+      de: "Schild-Schlag"
       es: "Glope de escudo"
       kr: "방패 강타"
 
   8302:
     name:
       en: "Unshakeable"
+      de: "Unbeugsam"
       es: "Imperturbable"
       kr: "끈기"
 
   8401:
     name:
       en: "Rock Solid"
+      de: "Felsenfest"
       es: "Firme como una roca"
       kr: "견여반석"
 
   8402:
     name:
       en: "Convalescing"
+      de: "Genesend"
       es: "Convaleciente"
       kr: "회복"
 
   9101:
     name:
       en: "Avenger"
+      de: "Rächer"
       es: "Vengador"
       kr: "눈에는눈"
 
   9102:
     name:
       en: "Back In Action"
+      de: "Wieder im Einsatz"
       es: "De vuelta al ruedo"
       kr: "완쾌"
 
   9201:
     name:
       en: "Guarding Light"
+      de: "Schützendes Licht"
       es: "Luz protectora"
       kr: "수호의빛"
 
   9202:
     name:
       en: "Medic"
+      de: "Sanitäter"
       es: "Medicina"
       kr: "의료"
 
   9301:
     name:
       en: "Turn the Corner"
+      de: "Die Kurve kriegen"
       es: "Apuro superado"
       kr: "전회위복"
 
   9302:
     name:
       en: "Rise Up"
+      de: "Aufsteigen"
       es: "De pie"
       kr: "완강"
 
   9401:
     name:
       en: "Panacea"
+      de: "Wundermittel"
       es: "Panacea"
       kr: "특효약"
 
   9402:
     name:
       en: "Refreshing"
+      de: "Erfischend"
       es: "Refrescante"
       kr: "생기발랄"
 
   10101:
     name:
       en: "Hasty Retreat"
+      de: "Eiliger Rückzug"
       es: "Retirada rauda"
       kr: "즉시 퇴각"
 
   10102:
     name:
       en: "Fall Back"
+      de: "Zurückfallen lassen"
       es: "Emprender la retirada"
       kr: "퇴수"
 
   10201:
     name:
       en: "Blast Shield"
+      de: "Sprengschutz-Schild"
       es: "Escudo explosivo"
       kr: "튼튼한 장벽"
 
   10202:
     name:
       en: "Spread Out"
+      de: "Verteilen"
       es: "Dispersión"
       kr: "호신"
 
   10301:
     name:
       en: "Full Force"
+      de: "Voller Einsatz"
       es: "Fuerza total"
       kr: "천군만마"
 
   10302:
     name:
       en: "Shock Troops"
+      de: "Stoßtruppen"
       es: "Tropas de choque"
       kr: "강팀"
 
   10401:
     name:
       en: "United Front"
+      de: "Vereinte Front"
       es: "Frente unido"
       kr: "연합 방어"
 
   10402:
     name:
       en: "Mutual Defense"
+      de: "Gemeinsame Verteidigung"
       es: "Defensa mutua"
       kr: "공동 방어"
 
   13101:
     name:
       en: "Trasher"
+      de: "Verdrescher"
       es: "Trilladora"
       kr: "쉬운 제압"
 
   13102:
     name:
       en: "Pummeler"
+      de: "Schläger"
       es: "Vapuleo"
       kr: "박살"
 
   13201:
     name:
       en: "Butterfly"
+      de: "Schmetterlingseffekt"
       es: "Efecto mariposa"
       kr: "나비 효과"
 
   13202:
     name:
       en: "Causative"
+      de: "Ursache"
       es: "Causa"
       kr: "연격 시너지"
 
   13301:
     name:
       en: "Steelskin"
+      de: "Stahlhaut"
       es: "Piel acerada"
       kr: "강철의몸"
 
   13302:
     name:
       en: "Determined"
+      de: "Entschlossen"
       es: "Determinación"
       kr: "당당한 기개"
 
   13401:
     name:
       en: "Flurry"
+      de: "Schlaghagel"
       es: "Ráfaga"
       kr: "폭우"
 
   13402:
     name:
       en: "Relentless"
+      de: "Erbarmungslos"
       es: "Implacable"
       kr: "묵직한 연격"
 
   14101:
     name:
       en: "Battle Ready"
+      de: "Kampfbereit"
       es: "Lista para la batalla"
       kr: "전투 태세"
 
   14102:
     name:
       en: "Vigilant"
+      de: "Wachsam"
       es: "Alerta"
       kr: "곙각심"
 
   14201:
     name:
       en: "Fortified"
+      de: "Befestigt"
       es: "Fortificación"
       kr: "금성첼벽"
 
   14202:
     name:
       en: "Resolute"
+      de: "Entschlossen"
       es: "Resolución"
       kr: "불굴의 투지"
 
   14301:
     name:
       en: "Chokepoint"
+      de: "Engpass"
       es: "Cuello de botella"
       kr: "일기당천"
 
   14302:
     name:
       en: "Precautions"
+      de: "Vorsichtsmaßnahmen"
       es: "Precauciones"
       kr: "첼벽"
 
   14401:
     name:
       en: "Steelheart"
+      de: "Stahlherz"
       es: "Corazón de acero"
       kr: "강철의몸"
 
   14402:
     name:
       en: "Ironsides"
+      de: "Eisenseiten"
       es: "Coraza de hierro"
       kr: "강첼의 뼈"
 
   16101:
     name:
       en: "Vanquisher"
+      de: "Sieger"
       es: "Vencedor"
       kr: "필승 전략"
 
   16102:
     name:
       en: "Overwhelm"
+      de: "Überwältigen"
       es: "Abrumar"
       kr: "방어 돌파"
 
   16201:
     name:
       en: "Self Heal"
+      de: "Selbstheilung"
       es: "Autosanación"
       kr: "회복의 힘"
 
   16202:
     name:
       en: "Self Tend"
+      de: "Selbstversorgung"
       es: "Autocuidado"
       kr: "자가 치유"
 
   16301:
     name:
       en: "Brilliant"
+      de: "Brillant"
       es: "Brillante"
       kr: "빠른 성장"
 
   16302:
     name:
       en: "Astute"
+      de: "Gerissen"
       es: "Astucia"
       kr: "단련"
 
   16401:
     name:
       en: "Mountain"
+      de: "Gebirge"
       es: "Montaña"
       kr: "산악철벽"
 
   16402:
     name:
       en: "Stone"
+      de: "Stein"
       es: "Piedra"
       kr: "장벽"
 
   17101:
     name:
       en: "Toppler"
+      de: "Umstürzer"
       es: "Derribador"
       kr: "산해개벽"
 
   17102:
     name:
       en: "Imploder"
+      de: "Implodierer"
       es: "Implosionador"
       kr: "붕괴"
 
   17201:
     name:
       en: "Demolisher"
+      de: "Abreißer"
       es: "Demoledor"
       kr: "잴풍 소탕"
 
   17202:
     name:
       en: "Raider"
+      de: "Plünderer"
       es: "Incursor"
       kr: "파멸의 급습"
 
   17301:
     name:
       en: "Airtight"
+      de: "Luftdicht"
       es: "Hermético"
       kr: "첼벽수비"
 
   17302:
     name:
       en: "Hardheaded"
+      de: "Dickköpfig"
       es: "Testarudo"
       kr: "첼갑진"
 
   17401:
     name:
       en: "Thundering"
+      de: "Donnernd"
       es: "Atronador"
       kr: "번개의 일격"
 
   17402:
     name:
       en: "Rattling"
+      de: "Rasselnd"
       es: "Estremecedor"
       kr: "진격참"

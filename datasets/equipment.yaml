@@ -12,42 +12,50 @@ equipment:
   slot:
     1:
       en: "Weapons"
+      de: "Waffen"
       es: "Armas"
       kr: "병장기"
 
     2:
       en: "Helms"
+      de: "Helme"
       es: "Cascos"
       kr: "투구"
 
     3:
       en: "Chest"
+      de: "Brust"
       es: "Pecho"
       kr: "상의"
 
     4:
       en: "Gloves"
+      de: "Handschuhe"
       es: "Guantes"
       kr: "장갑"
 
     5:
       en: "Legs"
+      de: "Hosen"
       es: "Piernas"
       kr: "하의"
 
     6:
       en: "Boots"
+      de: "Stiefel"
       es: "Botas"
       kr: "신발"
 
     7:
       en: "Accessories"
+      de: "Accessoires"
       es: "Accesorios"
       kr: "장신구"
 
     # right accessory if two accessory equipped
     8:
       en: "Accessories"
+      de: "Accessoires"
       es: "Accesorios"
       kr: "장신구"
 
@@ -55,857 +63,1000 @@ equipment:
     20001:
       name:
         en: "Sacred Dominion"
+        de: "Heilige Herrschaft"
         es: "Dominio sagrado"
         kr: "찬란.신성한 심판"
 
     20002:
       name:
         en: "Hammer of the Sun and Moon"
+        de: "Hammer von Mond und Sonne"
         es: "Martillo del sol y la luna"
         kr: "강림.왕의 망치"
 
     20003:
       name:
         en: "The Hydra's Blast"
+        de: "Die Böe der Hydra"
         es: "Asalto de la hidra"
         kr: "질퐁.히드라 석궁"
 
     20004:
       name:
         en: "Pride of the Khan"
+        de: "Stolz des Kahn"
         es: "Orgullo de Khan"
         kr: "강세.칸의 분노"
 
     20005:
       name:
         en: "Helm of the Conqueror"
+        de: "Helm des Eroberers"
         es: "Casco de conquistador"
         kr: "정복.왕자의 투구"
 
     20006:
       name:
         en: "Ancestral Mask of Night"
+        de: "Ahnenmaske der Nacht"
         es: "Máscara nocturna ancestral"
         kr: "암야.저주의 가면"
 
     20007:
       name:
         en: "Lance of the Hellish Wasteland"
+        de: "Lanze des Höllischen Ödlands"
         es: "Lanza del páramo infernal"
         kr: "지옥의 땅 장창"
 
     20008:
       name:
         en: "War Helm of the Hellish Wasteland"
+        de: "Kriegshelm des Höllischen Ödlands"
         es: "Casco de guerra del páramo infernal"
         kr: "지옥의 땅 투구"
 
     20009:
       name:
         en: "Heavy Armor of the Hellish Wasteland"
+        de: "Schwere Rüstung des Höllischen Ödlands"
         es: "Armadura pesada del páramo infernal"
         kr: "지옥의 땅 중갑"
 
     20010:
       name:
         en: "Armband of the Hellish Wasteland"
+        de: "Armband des Höllischen Ödlands"
         es: "Brazalete del páramo infernal"
         kr: "지옥의 땅 완장"
 
     20011:
       name:
         en: "Tassets of the Hellish Wasteland"
+        de: "Tassetten des Höllischen Ödlands"
         es: "Escarcela del páramo infernal"
         kr: "지옥의 땅 하갑"
 
     20012:
       name:
         en: "Boots of the Hellish Wasteland"
+        de: "Stiefel des Höllischen Ödlands"
         es: "Botas del páramo infernal"
         kr: "지옥의 땅 부츠"
 
     20013:
       name:
         en: "Shield of the Eternal Empire"
+        de: "Schild des Ewigen Reiches"
         es: "Escudo del imperio eterno"
         kr: "영원한 제국 방패"
 
     20014:
       name:
         en: "Gold Helm of the Eternal Empire"
+        de: "Goldhelm des Ewigen Reiches"
         es: "Casco de oro del imperio eterno"
         kr: "영원한 제국 투구"
 
     20015:
       name:
         en: "Plate of the Eternal Empire"
+        de: "Panzer des Ewigen Reiches"
         es: "Peto del imperio eterno"
         kr: "영원한 제국 갑옷"
 
     20016:
       name:
         en: "Vambraces of the Eternal Empire"
+        de: "Armschienen des Ewigen Reiches"
         es: "Avambrazo del imperio eterno"
         kr: "영원한 제국 보호대"
 
     20017:
       name:
         en: "Greaves of the Eternal Empire"
+        de: "Beinschienen des Ewigen Reiches"
         es: "Grebas del imperio eterno"
         kr: "영원한 제국 다리갑옷"
 
     20018:
       name:
         en: "Sturdy Boots of the Eternal Empire"
+        de: "Robuste Stiefel des Ewigen Reiches"
         es: "Botas resistentes del imperio eterno"
         kr: "영원한 제국 부츠"
 
     20019:
       name:
         en: "Dragon's Breath Bow"
+        de: "Drachenhauch-Bogen"
         es: "Arco de aliento de dragón"
         kr: "용의 숨결 석궁"
 
     20020:
       name:
         en: "Dragon's Breath Helm"
+        de: "Drachenhauch-Helm"
         es: "Casco de aliento de dragón"
         kr: "용의 숨결 철투구"
 
     20021:
       name:
         en: "Dragon's Breath Plate"
+        de: "Drachenhauch-Panzer"
         es: "Peto de aliento de dragón"
         kr: "용의 숨결 갑옷"
 
     20022:
       name:
         en: "Dragon's Breath Vambraces"
+        de: "Drachenhauch-Armschienen"
         es: "Avambrazo de aliento de dragón"
         kr: "용의 숨결 보호대"
 
     20023:
       name:
         en: "Dragon's Breath Tassets"
+        de: "Drachenhauch-Tassetten"
         es: "Escarcela de aliento de dragón"
         kr: "용의 숨결 하갑"
 
     20024:
       name:
         en: "Dragon's Breath Boots"
+        de: "Drachenhauch-Stiefel"
         es: "Botas de aliento de dragón"
         kr: "용의 숨결 부츠"
 
     20025:
       name:
         en: "Shadow Legion's Retribution"
+        de: "Vergeltung der Schattenlegion"
         es: "Venganza de la Legión de las Sombras"
         kr: "그림자 부대의 복수"
 
     20026:
       name:
         en: "Hope Cloak"
+        de: "Hoffnungsumhang"
         es: "Capa de esperanza"
         kr: "희망의 망토"
 
     20027:
       name:
         en: "The Milky Way"
+        de: "Die Milchstraße"
         es: "La Vía Láctea"
         kr: "은하의 기백"
 
     20028:
       name:
         en: "Navar's Control"
+        de: "Navars Kontrolle"
         es: "Control de Navar"
         kr: "나바스의 제어"
 
     20029:
       name:
         en: "Sacred Grips"
+        de: "Heilige Klemmen"
         es: "Empuñaduras sagradas"
         kr: "신성한 제어"
 
     20030:
       name:
         en: "Ian's Choice"
+        de: "Ians Wahl"
         es: "La decisión de Ian"
         kr: "이안의 선택"
 
     20031:
       name:
         en: "Tassets of the War God"
+        de: "Tassetten des Kriegsgottes"
         es: "Cinto del dios de la guerra"
         kr: "피의 전사"
 
     20032:
       name:
         en: "Eternal Night"
+        de: "Ewige Nacht"
         es: "Noche eterna"
         kr: "영원한 어둠"
 
     20033:
       name:
         en: "Ash of the Dawn"
+        de: "Esche der Dämmerung"
         es: "Ceniza del alba"
         kr: "여명의 잿더미"
 
     20034:
       name:
         en: "Shio's Return"
+        de: "Shios Rückkehr"
         es: "El regreso de Shio"
         kr: "시오의 귀환"
 
     20035:
       name:
         en: "Mountain Crushers"
+        de: "Bergbrecher"
         es: "Destructores de montañas"
         kr: "천산타파"
 
     20036:
       name:
         en: "Commander's Boots"
+        de: "Stiefel des Kommandanten"
         es: "Botas de comandante"
         kr: "통솔자의 부츠"
 
     20037:
       name:
         en: "Ring of Doom"
+        de: "Ring der Verhängnis"
         es: "Anillo de la perdición"
         kr: "심판의 반자"
 
     20038:
       name:
         en: "Greatest Glory"
+        de: "Größte Glorie"
         es: "Gloria mayor"
         kr: "극한의 영광"
 
     20039:
       name:
         en: "Pendant of Eternal Night"
+        de: "Anhänger der Ewigen Nacht"
         es: "Pendiente de la noche eterna"
         kr: "어둠의 빛"
 
     20040:
       name:
         en: "Horn of Fury"
+        de: "Horn der Wut"
         es: "Cuerno de furia"
         kr: "분노의 뿔"
 
     20041:
       name:
         en: "Concealed Dagger"
+        de: "Verborgener Dolch"
         es: "Daga oculta"
         kr: "날카로운 비수"
 
     20042:
       name:
         en: "Mora's Web"
+        de: "Moras Netz"
         es: "Red de Mora"
         kr: "모라의 거미줄"
 
     20043:
       name:
         en: "Scolas' Lucky Coin"
+        de: "Scolas Glücksmünze"
         es: "Moneda de la suerete de Scola"
         kr: "스콜라스의 행운 코인"
 
     20044:
       name:
         en: "Vengeance"
+        de: "Rache"
         es: "Venganza"
         kr: "복수자의 분노"
 
     20045:
       name:
         en: "Trial of the Lost Kingdom"
+        de: "Prüfung des Verlorenen Königreichs"
         es: "Prueba del Reino Perdido"
         kr: "잃어버린 왕국의 시련"
 
     20051:
       name:
         en: "Revival Helm"
+        de: "Helm der Erweckung"
         es: "Casco de resurgimiento"
         kr: "부할자의 투구"
 
     20052:
       name:
         en: "Revival Plate"
+        de: "Panzer der Erweckung"
         es: "Peto de resurgimiento"
         kr: "부할자의 갑옷"
 
     20053:
       name:
         en: "Revival Gauntlets"
+        de: "Fehdehandschuh der Erweckung"
         es: "Guanteletes de resurgimiento"
         kr: "부할자의 장갑"
 
     20054:
       name:
         en: "Revival Greaves"
+        de: "Beinschienen der Erweckung"
         es: "Grebas de resurgimiento"
         kr: "부할자의 다리갑옷"
 
     20055:
       name:
         en: "Scepter of the Forest Guardian"
+        de: "Zepter des Waldwächters"
         es: "Cetro del guardián del bosque"
         kr: "밀림 수호자의 지팡이"
 
     20056:
       name:
         en: "Mask of the Forest Guardian"
+        de: "Maske des Waldwächters"
         es: "Máscara del guardián del bosque"
         kr: "밀림 수호자의 가면"
 
     20057:
       name:
         en: "Robe of the Forest Guardian"
+        de: "Robe des Waldwächters"
         es: "Túnica del guardián del bosque"
         kr: "밀림 수호자의 로브"
 
     20058:
       name:
         en: "Claws of the Forest Guardian"
+        de: "Klauen des Waldwächters"
         es: "Garras del guardián del bosque"
         kr: "밀림 수호자의 발톱"
 
     20059:
       name:
         en: "Sakura Fubuki"
+        de: "Sakura Fubuki"
         es: "Sakura Fubuki"
         kr: "떨어지는 벚꽃"
 
     20060:
       name:
         en: "Golden Age"
+        de: "Goldenes Zeitalter"
         es: "Edad dorada"
         kr: "유금세월"
 
     20061:
       name:
         en: "Heart of the Saint"
+        de: "Herz des Heiligen"
         es: "Corazón del santo"
         kr: "성자의마음"
 
     20062:
       name:
         en: "Abyssal Visage"
+        de: "Antlitz des Abgrundes"
         es: "Faz abismal"
         kr: "심연의 눈빛"
 
     20063:
       name:
         en: "Witch's Lineage"
+        de: "Geblüt der Hexe"
         es: "Linaje de bruja"
         kr: "마녀의 후예"
 
     20064:
       name:
         en: "Dark Lord's Blessing"
+        de: "Segnung des Dunklen Lords"
         es: "Bendición del señor oscuro"
         kr: "조로의 축복"
 
     20065:
       name:
         en: "Quinn's Soul"
+        de: "Quinns Seele"
         es: "Alma de Quinn"
         kr: "퀸의 영혼"
 
     20066:
       name:
         en: "Iset's Sufferance"
+        de: "Isets Duldung"
         es: "Tolerancia de Iset"
         kr: "이세트의 고통"
 
     20067:
       name:
         en: "Seth's Brutality"
+        de: "Seths Brutalität"
         es: "Brutalidad de Seth"
         kr: "잔혹한 세스"
 
     20068:
       name:
         en: "Karuak's Humility"
+        de: "Karuaks Demut"
         es: "Humildad de Karuak"
         kr: "칼스루에의 겸손"
 
     20069:
       name:
         en: "Fanatic's Tassets"
+        de: "Tassetten des Fanatikers"
         es: "Escarcela de fanático"
         kr: "광자의 하갑"
 
     20070:
       name:
         en: "Gladiator"
+        de: "Gladiator"
         es: "Gladiador"
         kr: "글래디에이터"
 
     20071:
       name:
         en: "Cloud Racers"
+        de: "Wolkenrenner"
         es: "Corredores de nubes"
         kr: "구름 추종자"
 
     20072:
       name:
         en: "Frost Treads"
+        de: "Frosttritte"
         es: "Andadores helados"
         kr: "극한의 경계"
 
     20073:
       name:
         en: "Flame Treads"
+        de: "Flammentritte"
         es: "Andadores ígneos"
         kr: "불타는 벌판"
 
     20074:
       name:
         en: "The Bard's Pendant"
+        de: "Anhänger des Barden"
         es: "Pendiente del bardo"
         kr: "음유시인의 노래"
 
     20075:
       name:
         en: "Silent Trial"
+        de: "Stumme Prufüng"
         es: "Jucio silencioso"
         kr: "고요한 심판"
 
     20076:
       name:
         en: "Delane's Amulet"
+        de: "Delanes Amulet"
         es: "Amuleto de Delane"
         kr: "드레인의 부적"
 
     20077:
       name:
         en: "Peter's Sickle"
+        de: "Peters Sichel"
         es: "Hoz de Pedro"
         kr: "피터의 낫"
 
     20079:
       name:
         en: "Harvester's Headscarf"
+        de: "Kopftuch des Ernters"
         es: "Velo de sagador"
         kr: "수확자의 두건"
 
     20080:
       name:
         en: "Harvester Robes"
+        de: "Robe des Ernters"
         es: "Túnica de segador"
         kr: "수확자의 로브"
 
     20081:
       name:
         en: "Harvester Breeches"
+        de: "Kniehosen des Ernters"
         es: "Pantalones de segador"
         kr: "수확자의 바지"
 
     20082:
       name:
         en: "Harvester Boots"
+        de: "Stiefel des Ernters"
         es: "Botas de segador"
         kr: "수확자의 장화"
 
     20083:
       name:
         en: "Windswept War Helm"
+        de: "Windgepeitschter Kriegshelm"
         es: "Casco de guerra ventoso"
         kr: "광풍의 투구"
 
     20084:
       name:
         en: "Windswept Breastplate"
+        de: "Windgepeitschter Brustpanzer"
         es: "Pechera ventosa"
         kr: "광풍의 흉갑"
 
     20085:
       name:
         en: "Windswept Bracers"
+        de: "Windgepeitschte Armschienen"
         es: "Brazales ventosos"
         kr: "광풍의 보호대"
 
     20086:
       name:
         en: "Windswept Boots"
+        de: "Windgepeitschte Stiefel"
         es: "Botas ventosas"
         kr: "광풍의 부츠"
 
     20087:
       name:
         en: "Blazing Axe"
+        de: "Lodernde Axt"
         es: "Hacha llameante"
         kr: "화염의 도끼"
 
     20088:
       name:
         en: "Staff of the Lost"
+        de: "Stab der Verlorenen"
         es: "Báculo de los perdidos"
         kr: "잃어버린 지팡이"
 
     20089:
       name:
         en: "Gatekeeper's Shield"
+        de: "Schild des Torwächters"
         es: "Escudo del guardián"
         kr: "가문의 방패"
 
     20090:
       name:
         en: "Expedition War Helm"
+        de: "Feldzug-Kriegshelm"
         es: "Casco de guerra de expedición"
         kr: "원정 투구"
 
     20091:
       name:
         en: "Commander's Heavy Armor"
+        de: "Schwere Rüstung des Kommandanten"
         es: "Armadura pesada de comandante"
         kr: "지휘관 중갑"
 
     20092:
       name:
         en: "Saint's Song"
+        de: "Lied des Heiligen"
         es: "Canción del santo"
         kr: "성녀의 노래"
 
     20093:
       name:
         en: "Calvin's Hand"
+        de: "Calvins Hand"
         es: "Mano de Calvin"
         kr: "캘빈의 손"
 
     20094:
       name:
         en: "Greaves of the Exile"
+        de: "Beinschienen des Exils"
         es: "Grebas de exiliado"
         kr: "유배자의 다리 보호대"
 
     20095:
       name:
         en: "Sentry Breeches"
+        de: "Wachkniehosen"
         es: "Pantalones de centinela"
         kr: "수호자의 바지"
 
     20096:
       name:
         en: "The Scarlet Hounds"
+        de: "Die Scharlachroten Hunde"
         es: "Los sabuesos escarlata"
         kr: "피의 사냥개"
 
     20097:
       name:
         en: "Call of the Loyal"
+        de: "Ruf des Loyalen"
         es: "Llamado de los leales"
         kr: "충성심의 소환"
 
     20098:
       name:
         en: "Lohar's Bone Necklace"
+        de: "Lohars Knochen-Halskette"
         es: "Collar de huesos de Lohar"
         kr: "로하의 뼈 목걸이"
 
     20099:
       name:
         en: "Savage Totem"
+        de: "Wildes Totem"
         es: "Tótem salvaje"
         kr: "야만 토템"
 
     20100:
       name:
         en: "Vanguard Halberd"
+        de: "Hellebarde der Vorhut"
         es: "Alabarda de vanguardia"
         kr: "선봉 장창"
 
     20101:
       name:
         en: "Vanguard Greaves"
+        de: "Beinschienen der Vorhut"
         es: "Greba de vanguardia"
         kr: "선봉 다리 보호대"
 
     20102:
       name:
         en: "Blessed Blade"
+        de: "Gesegnete Klinge"
         es: "Hoja sagrada"
         kr: "축복의 칼날"
 
     20103:
       name:
         en: "Helm of Fear"
+        de: "Helm der Furcht"
         es: "Casco del terror"
         kr: "경외의 투구"
 
     20104:
       name:
         en: "Helm of the Phoenix"
+        de: "Helm des Phönix"
         es: "Casco del fénix"
         kr: "피닉스 날개투구"
 
     20105:
       name:
         en: "Infantry Breastplate"
+        de: "Infanterie-Brustpanzer"
         es: "Pechera de infantería"
         kr: "보병대 갑옷"
 
     20106:
       name:
         en: "Milanese Plate"
+        de: "Mailänder Panzer"
         es: "Peto milanés"
         kr: "미들랜드 갑옷"
 
     20107:
       name:
         en: "Ranger Trousers"
+        de: "Jägerhosen"
         es: "Pantalones de explorador"
         kr: "협객 장화"
 
     20108:
       name:
         en: "Leather Gloves"
+        de: "Lederhandschuhe"
         es: "Guantes de cuero"
         kr: "가죽 장갑"
 
     20109:
       name:
         en: "Bronze Bracers"
+        de: "Bronze-Armschienen"
         es: "Brazales de bronce"
         kr: "청동 보호대"
 
     20110:
       name:
         en: "Edged Boots"
+        de: "Gesäumte Stiefel"
         es: "Botas filosas"
         kr: "칼날 장화"
 
     20111:
       name:
         en: "Boots of Reverence"
+        de: "Stiefel der Ehrfurcht"
         es: "Botas de reverencia"
         kr: "경외의 부츠"
 
     20112:
       name:
         en: "Sharp Longsword"
+        de: "Scharfes Langschwert"
         es: "Espada larga afilada"
         kr: "날카로운 장검"
 
     20113:
       name:
         en: "Iron Helm"
+        de: "Eisenhelm"
         es: "Casco de hierro"
         kr: "철제 투구"
 
     20114:
       name:
         en: "Chain Mail"
+        de: "Kettenhemd"
         es: "Cota de malla"
         kr: "체인 갑옷"
 
     20115:
       name:
         en: "Coarse Breeches"
+        de: "Grobe Kniehosen"
         es: "Pantalones gruesos"
         kr: "거친 천 바지"
 
     20116:
       name:
         en: "Cloth Gloves"
+        de: "Stoffhandschuhe"
         es: "Guantes de tela"
         kr: "면 장갑"
 
     20117:
       name:
         en: "Sturdy Boots"
+        de: "Robuste Stiefel"
         es: "Botas resistentes"
         kr: "튼튼한 천 신발"
 
     20118:
       name:
         en: "Karuak's War Drums"
+        de: "Karuaks Kriegstrommeln"
         es: "Tambores de guerra de Karuak"
         kr: "클라크의 전투북"
 
     20119:
       name:
         en: "Seth's Call"
+        de: "Seths Ruf"
         es: "Llamado de Seth"
         kr: "샤이트의 외침"
 
     20120:
       name:
         en: "Wind Scars"
+        de: "Narben des Windes"
         es: "Cicatrices del viento"
         kr: "칼바람의 상처"
 
     20121:
       name:
         en: "Ancient Stratagems"
+        de: "Uralte Kriegslist"
         es: "Estratagemas antiguas"
         kr: "고대의 병서"
 
     20122:
       name:
         en: "Twilight Epiphany"
+        de: "Erleuchtung in der Dämmerung"
         es: "Epifanía del crepúsculo"
         kr: "황혼 게시자"
 
     20123:
       name:
         en: "Fierce Wolf's Helmet"
+        de: "Helm des wilden Wolfs"
         es: "Casco de lobo feroz"
         kr: "분노한 늑대의 투구"
 
     20124:
       name:
         en: "Vigilant Wolf's Leather Armor"
+        de: "Lederrüstung des Wachsamen Wolfs"
         es: "Armadura de cuero de lobo alerta"
         kr: "늑대의 수호갑옷"
 
     20125:
       name:
         en: "Wailing Wolf's Gauntlets"
+        de: "Stulpen des heulenden Wolfs"
         es: "Guanteletes de lobo aullador"
         kr: "울부짖는 늑대의 손목보호대"
 
     20126:
       name:
         en: "Lone Wolf's Leather Tassets"
+        de: "Lederquasten des einsamen Wolfs"
         es: "Escarcelas de cuero de lobo solitario"
         kr: "거만한 늑대의 치마바지"
 
     20127:
       name:
         en: "Roaring Wolf's Claws"
+        de: "Gesäumte Stiefel des brüllenden Wolfs"
         es: "Garras de lobo rugidor"
         kr: "포효하는 늑대의 칼날 장화"
 
     20128:
       name:
         en: "Knight's Oathsworn Bow"
+        de: "Eidesschwur-Bogen des Ritters"
         es: "Arco juramentado de caballero"
         kr: "기사 서약의 활"
 
     20129:
       name:
         en: "Knight's Steel Diadem"
+        de: "Stahl-Stirnband des Ritters"
         es: "Diadema de acero de caballero"
         kr: "기사의 강철 이마 보호대"
 
     20130:
       name:
         en: "Knight's Valorous Cloak"
+        de: "Tapferkeitsumhang des Ritters"
         es: "Capa valerosa de caballero"
         kr: "기사의 영혼 망토"
 
     20131:
       name:
         en: "Knight's Battleworn Gauntlets"
+        de: "Kampferprobte Stulpen des Ritters"
         es: "Guanteletes curtidoes de caballero"
         kr: "날카로운 기사의 장갑"
 
     20132:
       name:
         en: "Knight's Triumphant Tassets"
+        de: "Triumphquaste des Ritters"
         es: "Escarcelas triunfantes de caballero"
         kr: "기사의 승리 하갑"
 
     20133:
       name:
         en: "Knight's Winter Sabatons"
+        de: "Winter-Eisenschuh des Ritters"
         es: "Escarpes invernales de caballero"
         kr: "기사의 콜드 부츠"
 
     20134:
       name:
         en: "Witch's Feathered Staff"
+        de: "Federstab der Hexe"
         es: "Báculo emplumado de bruja"
         kr: "마법의 지팡이"
 
     20135:
       name:
         en: "Witch's Deadwood Crown"
+        de: "Totholz-Krone der Hexe"
         es: "Corona de madera seca de bruja"
         kr: "마법의 고목 왕관"
 
     20136:
       name:
         en: "Witch's Hexed Cloak"
+        de: "Verfluchter Umhang der Hexe"
         es: "Capa hechizada de bruja"
         kr: "마법의 저주 망토"
 
     20137:
       name:
         en: "Witch's Crimson Bracers"
+        de: "Purpurne Armschienen der Hexe"
         es: "Brazales carmesíes de bruja"
         kr: "마법의 빨간 손목보호대"
 
     20138:
       name:
         en: "Witch's Ornamented Pants"
+        de: "Verzierte Hose der Hexe"
         es: "Pantalones adornados de bruja"
         kr: "마법의 달빛 바지"
 
     20139:
       name:
         en: "Witch's Mire-Waders"
+        de: "Sumpfstiefel der Hexe"
         es: "Botas de lodazal de bruja"
         kr: "마법의 앵글부츠"
 
     20140:
       name:
         en: "Scepter of the Glorious Goddess"
+        de: "Zepter der Glorreichen Göttin"
         es: "Cetro de la diosa gloriosa"
         kr: "여신의 지팡이"
 
     20141:
       name:
         en: "Diadem of the Glorious Goddess"
+        de: "Diadem der Glorreichen Göttin"
         es: "Diadema de la diosa gloriosa"
         kr: "여신의 헬멧"
 
     20142:
       name:
         en: "Plate of the Glorious Goddess"
+        de: "Platte der Glorreichen Göttin"
         es: "Placa de la diosa gloriosa"
         kr: "여신의 갑옷"
 
     20143:
       name:
         en: "Gauntlets of the Glorious Goddess"
+        de: "Stulpen der Glorreichen Göttin"
         es: "Guanteletes de la diosa gloriosa"
         kr: "여신의 한갑"
 
     20144:
       name:
         en: "Chausses of the Glorious Goddess"
+        de: "Beinlinge der Glorreichen Göttin"
         es: "Perneras de la diosa gloriosa"
         kr: "여신의 각반"
 
     20145:
       name:
         en: "Greaves of the Glorious Goddess"
+        de: "Beinschienen der Glorreichen Göttin"
         es: "Grebas de la diosa gloriosa"
         kr: "여신의 부츠"
 
     20164:
       name:
         en: "Immolating Plume"
+        de: "Opferfeder"
         es: "Pluma inmoladora"
         kr: "볼타는 깃털"
 
     20166:
       name:
         en: "Hero's Hilt"
+        de: "Griff des Helden"
         es: "Empuñadura del héroe"
         kr: "전설의 검자루"
 
     20167:
       name:
         en: "Saddle of Thousand Blessings"
+        de: "Sattel der tausend Segnungen"
         es: "Silla de montar de las mil bendiciones"
         kr: "축복 안장"
 
     20202:
       name:
         en: "Crimson Ring"
+        de: "Karminroter Ring"
         es: "Anillo carmesí"
         kr: "적혈의 반지"

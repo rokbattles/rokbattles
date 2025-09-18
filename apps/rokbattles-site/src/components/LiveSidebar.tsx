@@ -195,6 +195,7 @@ export default function LiveSidebar({
               className="rounded-md bg-zinc-800/60 px-2 py-1 text-xs text-zinc-100 ring-1 ring-inset ring-white/10"
             >
               <option value="en">English</option>
+              <option value="de">Deutsch</option>
               <option value="es">Español</option>
               <option value="kr">한국어</option>
             </select>
