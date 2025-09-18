@@ -1,6 +1,6 @@
 {
   "name": "@rokbattles/root",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "dev:site": "pnpm -F @rokbattles/site run dev",
