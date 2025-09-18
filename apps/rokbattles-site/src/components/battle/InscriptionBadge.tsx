@@ -30,7 +30,7 @@ export async function InscriptionBadge({ color, children }: Props) {
       />
       <span
         className={cn(
-          "relative z-10 break-all line-clamp-2 leading-none text-center px-2",
+          "relative z-10 truncate leading-none text-center px-2",
           color === "amber" && "text-[rgb(217,98,0)]",
           color === "blue" && "text-[rgb(57,99,255)]",
           color === "gray" && "text-[rgb(68,68,68)]"
