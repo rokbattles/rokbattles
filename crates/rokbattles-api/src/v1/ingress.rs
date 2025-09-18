@@ -279,20 +279,55 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             })
             .unwrap_or(0);
 
+        let mut previous_hashes = existing_doc
+            .get_document("metadata")
+            .ok()
+            .and_then(|metadata| metadata.get("previousHashes"))
+            .and_then(|value| match value {
+                Bson::Array(values) => Some(
+                    values
+                        .iter()
+                        .filter_map(|value| value.as_str().map(|v| v.to_string()))
+                        .collect::<Vec<String>>(),
+                ),
+                _ => None,
+            })
+            .unwrap_or_default();
+
+        let previous_hash = existing_doc
+            .get_document("mail")
+            .ok()
+            .and_then(|mail| mail.get_str("hash").ok())
+            .map(|hash| hash.to_string());
+
         if original_size > existing_size {
-            let update = doc! {
-                "$set": {
-                    "mail.hash": &decoded_mail_hash,
-                    "mail.value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail.clone() },
-                    "mail.time": mail_time,
-                    "mail.id": &mail_id,
-                    "metadata.userAgent": user_agent,
-                    "metadata.originalSize": original_size,
-                },
+            let mut update = doc! {
+                "mail.hash": &decoded_mail_hash,
+                "mail.value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail.clone() },
+                "mail.time": mail_time,
+                "mail.id": &mail_id,
+                "metadata.userAgent": user_agent,
+                "metadata.originalSize": original_size,
+                "status": "reprocess"
             };
 
+            if let Some(prev_hash) = &previous_hash
+                && !previous_hashes.iter().any(|hash| hash == prev_hash)
+            {
+                previous_hashes.push(prev_hash.clone());
+            }
+
+            if !previous_hashes.is_empty() {
+                let bson_previous_hashes = previous_hashes
+                    .iter()
+                    .cloned()
+                    .map(Bson::String)
+                    .collect::<Vec<Bson>>();
+                update.insert("metadata.previousHashes", Bson::Array(bson_previous_hashes));
+            }
+
             let result = mails_collection
-                .update_one(doc! { "mail.id": &mail_id }, update)
+                .update_one(doc! { "mail.id": &mail_id }, doc! { "$set": update })
                 .await;
 
             return match result {
