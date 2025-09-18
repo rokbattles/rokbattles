@@ -5,6 +5,7 @@ commanders:
       es: "Julio César"
       kr: "율리우스 카이사르"
     prime: false
+    rarity: legendary
 
   3:
     name:
@@ -12,6 +13,7 @@ commanders:
       es: "Sun Tzu"
       kr: "손무"
     prime: false
+    rarity: epic
 
   4:
     name:
@@ -19,6 +21,7 @@ commanders:
       es: "Federico I"
       kr: "프리드리히 1세"
     prime: false
+    rarity: legendary
 
   5:
     name:
@@ -26,6 +29,7 @@ commanders:
       es: "Constantino I"
       kr: "콘스탄티누스 1세"
     prime: false
+    rarity: legendary
 
   6:
     name:
@@ -33,6 +37,7 @@ commanders:
       es: "Yi Seong-Gye"
       kr: "이성계"
     prime: false
+    rarity: legendary
 
   7:
     name:
@@ -40,6 +45,7 @@ commanders:
       es: "Cao Cao"
       kr: "조조"
     prime: false
+    rarity: legendary
 
   8:
     name:
@@ -47,6 +53,7 @@ commanders:
       es: "Ricardo I"
       kr: "리처드 1세"
     prime: false
+    rarity: legendary
 
   9:
     name:
@@ -54,6 +61,7 @@ commanders:
       es: "Minamoto no Yoshitsune"
       kr: "미나모토노 요시쓰네"
     prime: false
+    rarity: legendary
 
   10:
     name:
@@ -61,6 +69,7 @@ commanders:
       es: "Carlos Martel"
       kr: "카를 마르텔"
     prime: false
+    rarity: legendary
 
   11:
     name:
@@ -68,6 +77,7 @@ commanders:
       es: "El Cid"
       kr: "엘 시드"
     prime: false
+    rarity: legendary
 
   12:
     name:
@@ -75,6 +85,7 @@ commanders:
       es: "Hermann"
       kr: "헤르만"
     prime: false
+    rarity: epic
 
   13:
     name:
@@ -82,6 +93,7 @@ commanders:
       es: "Kusunoki Masashige"
       kr: "구스노키 마사시게"
     prime: false
+    rarity: epic
 
   14:
     name:
@@ -89,6 +101,7 @@ commanders:
       es: "Escipión el Africano"
       kr: "스키피오"
     prime: false
+    rarity: epic
 
   15:
     name:
@@ -96,6 +109,7 @@ commanders:
       es: "Juana de Arco"
       kr: "잔 다르크"
     prime: false
+    rarity: epic
 
   16:
     name:
@@ -103,6 +117,7 @@ commanders:
       es: "Eulji Mundeok"
       kr: "을지문덕"
     prime: false
+    rarity: epic
 
   17:
     name:
@@ -110,6 +125,7 @@ commanders:
       es: "Boudica"
       kr: "부디카"
     prime: false
+    rarity: epic
 
   18:
     name:
@@ -117,6 +133,7 @@ commanders:
       es: "Pelayo"
       kr: "펠라기우스"
     prime: false
+    rarity: epic
 
   22:
     name:
@@ -124,6 +141,7 @@ commanders:
       es: "Guardián de la Ciudad"
       kr: "수호자"
     prime: false
+    rarity: advanced
 
   23:
     name:
@@ -131,6 +149,7 @@ commanders:
       es: "Francotiradora"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   24:
     name:
@@ -138,6 +157,7 @@ commanders:
       es: "Centurión"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   25:
     name:
@@ -145,6 +165,7 @@ commanders:
       es: "Lancero de Dragón"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   30:
     name:
@@ -152,6 +173,7 @@ commanders:
       es: "Aníbal Barca"
       kr: "한니발 바르카"
     prime: false
+    rarity: legendary
 
   32:
     name:
@@ -159,6 +181,7 @@ commanders:
       es: "Cleopatra VII"
       kr: "틀레오파트라 7세"
     prime: false
+    rarity: legendary
 
   33:
     name:
@@ -166,6 +189,7 @@ commanders:
       es: "Constanza"
       kr: "쿠스탄차"
     prime: false
+    rarity: elite
 
   34:
     name:
@@ -173,6 +197,7 @@ commanders:
       es: "Cayo Mario"
       kr: "가이우스 마리우스"
     prime: false
+    rarity: elite
 
   35:
     name:
@@ -180,6 +205,7 @@ commanders:
       es: "Tomoe Gozen"
       kr: "토모에 고젠"
     prime: false
+    rarity: elite
 
   36:
     name:
@@ -187,6 +213,7 @@ commanders:
       es: "Lanzarote"
       kr: "랜슬롯"
     prime: false
+    rarity: elite
 
   37:
     name:
@@ -194,6 +221,7 @@ commanders:
       es: "Lohar"
       kr: "로하"
     prime: false
+    rarity: epic
 
   38:
     name:
@@ -201,6 +229,7 @@ commanders:
       es: "Sárka"
       kr: "샤르카"
     prime: false
+    rarity: elite
 
   61:
     name:
@@ -208,6 +237,7 @@ commanders:
       es: "Belisario"
       kr: "벨리사리우스"
     prime: false
+    rarity: epic
 
   62:
     name:
@@ -215,6 +245,7 @@ commanders:
       es: "Baibars"
       kr: "바이바르스"
     prime: false
+    rarity: epic
 
   63:
     name:
@@ -222,6 +253,7 @@ commanders:
       es: "Osmán I"
       kr: "오스만 1세"
     prime: false
+    rarity: epic
 
   64:
     name:
@@ -229,6 +261,7 @@ commanders:
       es: "Saladino"
       kr: "살라딘"
     prime: false
+    rarity: legendary
 
   65:
     name:
@@ -236,6 +269,7 @@ commanders:
       es: "Mehmed II"
       kr: "메흐메트 2세"
     prime: false
+    rarity: legendary
 
   66:
     name:
@@ -243,6 +277,7 @@ commanders:
       es: "Mulan"
       kr: "호목란"
     prime: false
+    rarity: legendary
 
   95:
     name:
@@ -250,6 +285,7 @@ commanders:
       es: "Wu Zetian"
       kr: "측천무후"
     prime: false
+    rarity: legendary
 
   96:
     name:
@@ -257,6 +293,7 @@ commanders:
       es: "Genghis Khan"
       kr: "칭기즈칸"
     prime: false
+    rarity: legendary
 
   97:
     name:
@@ -264,6 +301,7 @@ commanders:
       es: "Carlomagno"
       kr: "샤를마뉴"
     prime: false
+    rarity: legendary
 
   98:
     name:
@@ -271,6 +309,7 @@ commanders:
       es: "Alejandro Magno"
       kr: "알렉산더 대왕"
     prime: false
+    rarity: legendary
 
   99:
     name:
@@ -278,6 +317,7 @@ commanders:
       es: "Ethelfleda"
       kr: "애설플레드"
     prime: false
+    rarity: legendary
 
   100:
     name:
@@ -285,6 +325,7 @@ commanders:
       es: "Tomiris"
       kr: "토미리스"
     prime: false
+    rarity: legendary
 
   101:
     name:
@@ -292,6 +333,7 @@ commanders:
       es: "Eduardo de Woodstock"
       kr: "에드워드 우드스톡"
     prime: false
+    rarity: legendary
 
   102:
     name:
@@ -299,6 +341,7 @@ commanders:
       es: "Seondeok"
       kr: "선덕여왕"
     prime: false
+    rarity: legendary
 
   103:
     name:
@@ -306,6 +349,7 @@ commanders:
       es: "Atila"
       kr: "아틸라"
     prime: false
+    rarity: legendary
 
   104:
     name:
@@ -313,6 +357,7 @@ commanders:
       es: "Takeda Shingen"
       kr: "다케다 신겐"
     prime: false
+    rarity: legendary
 
   105:
     name:
@@ -320,6 +365,7 @@ commanders:
       es: "Ishida Mitsunari"
       kr: "이시다 미츠나리"
     prime: false
+    rarity: legendary
 
   106:
     name:
@@ -327,6 +373,7 @@ commanders:
       es: "Teodora"
       kr: "테오도라"
     prime: false
+    rarity: legendary
 
   108:
     name:
@@ -334,6 +381,7 @@ commanders:
       es: "Guan Yu"
       kr: "관우"
     prime: false
+    rarity: legendary
 
   109:
     name:
@@ -341,6 +389,7 @@ commanders:
       es: "Leónidas I"
       kr: "레오니다스 1세"
     prime: false
+    rarity: legendary
 
   110:
     name:
@@ -348,6 +397,7 @@ commanders:
       es: "Ramsés II"
       kr: "람세스 2세"
     prime: false
+    rarity: legendary
 
   111:
     name:
@@ -355,6 +405,7 @@ commanders:
       es: "Artemisia I"
       kr: "아르테미시아 1세"
     prime: false
+    rarity: legendary
 
   112:
     name:
@@ -362,6 +413,7 @@ commanders:
       es: "Keira"
       kr: "카일라"
     prime: false
+    rarity: epic
 
   113:
     name:
@@ -369,6 +421,7 @@ commanders:
       es: "Yi Sun-sin"
       kr: "이순신"
     prime: false
+    rarity: legendary
 
   114:
     name:
@@ -376,6 +429,7 @@ commanders:
       es: "Chandragupta Maurya"
       kr: "찬드라굽타"
     prime: false
+    rarity: legendary
 
   115:
     name:
@@ -383,6 +437,7 @@ commanders:
       es: "Guillermo I"
       kr: "윌리엄 1세"
     prime: false
+    rarity: legendary
 
   116:
     name:
@@ -390,6 +445,7 @@ commanders:
       es: "Matilde de Flandes"
       kr: "마틸다 1세"
     prime: false
+    rarity: epic
 
   117:
     name:
@@ -397,6 +453,7 @@ commanders:
       es: "Harald Sigurdsson"
       kr: "하랄 3세"
     prime: false
+    rarity: legendary
 
   118:
     name:
@@ -404,6 +461,7 @@ commanders:
       es: "Zenobia"
       kr: "제노비아"
     prime: false
+    rarity: legendary
 
   119:
     name:
@@ -411,6 +469,7 @@ commanders:
       es: "Lu Bu"
       kr: "여포"
     prime: false
+    rarity: legendary
 
   120:
     name:
@@ -418,6 +477,7 @@ commanders:
       es: "Diaochan"
       kr: "초선"
     prime: false
+    rarity: epic
 
   121:
     name:
@@ -425,6 +485,7 @@ commanders:
       es: "Ciro el Grande"
       kr: "키루스 대제"
     prime: false
+    rarity: legendary
 
   122:
     name:
@@ -432,6 +493,7 @@ commanders:
       es: "Nabucodonosor II"
       kr: "네부카드네자르 2세"
     prime: false
+    rarity: legendary
 
   124:
     name:
@@ -439,6 +501,7 @@ commanders:
       es: "Moctezuma I"
       kr: "몬테수마 1세"
     prime: false
+    rarity: legendary
 
   125:
     name:
@@ -446,6 +509,7 @@ commanders:
       es: "Trajano"
       kr: "트라야누스"
     prime: false
+    rarity: legendary
 
   126:
     name:
@@ -453,6 +517,7 @@ commanders:
       es: "Jadwiga"
       kr: ""
     prime: false
+    rarity: legendary
 
   127:
     name:
@@ -460,6 +525,7 @@ commanders:
       es: "Xiang Yu"
       kr: "야드비가"
     prime: false
+    rarity: legendary
 
   128:
     name:
@@ -467,6 +533,7 @@ commanders:
       es: "Björn Brazo de Hierro"
       kr: "비에른"
     prime: false
+    rarity: epic
 
   129:
     name:
@@ -474,6 +541,7 @@ commanders:
       es: "Ragnar Lodbrok"
       kr: "라그나르 로드브로크"
     prime: false
+    rarity: legendary
 
   130:
     name:
@@ -481,6 +549,7 @@ commanders:
       es: "Cheok Jun-gyeong"
       kr: "척준경"
     prime: false
+    rarity: legendary
 
   131:
     name:
@@ -488,6 +557,7 @@ commanders:
       es: "K'inich Janaab' Pakal"
       kr: "파칼 2세"
     prime: false
+    rarity: legendary
 
   132:
     name:
@@ -495,6 +565,7 @@ commanders:
       es: "Gilgamesh"
       kr: "길가메시"
     prime: false
+    rarity: legendary
 
   133:
     name:
@@ -502,6 +573,7 @@ commanders:
       es: "Amanitore"
       kr: "아마니토레"
     prime: false
+    rarity: legendary
 
   134:
     name:
@@ -509,6 +581,7 @@ commanders:
       es: "Reina Tamara de Georgia"
       kr: "타마르 여왕"
     prime: false
+    rarity: epic
 
   135:
     name:
@@ -516,6 +589,7 @@ commanders:
       es: "Honda Tadakatsu"
       kr: "혼다 타다카츠"
     prime: false
+    rarity: legendary
 
   136:
     name:
@@ -523,6 +597,7 @@ commanders:
       es: "Solimán I"
       kr: "쉴레이만 1세"
     prime: false
+    rarity: legendary
 
   137:
     name:
@@ -530,6 +605,7 @@ commanders:
       es: "Bertrand du Guesclin"
       kr: "베르트랑 뒤게클랭"
     prime: false
+    rarity: legendary
 
   138:
     name:
@@ -537,6 +613,7 @@ commanders:
       es: "Alejandro Nevsky"
       kr: "알렉산드르 넵스키"
     prime: false
+    rarity: legendary
 
   139:
     name:
@@ -544,6 +621,7 @@ commanders:
       es: "Flavio Aecio"
       kr: "아에티우스"
     prime: false
+    rarity: legendary
 
   140:
     name:
@@ -551,6 +629,7 @@ commanders:
       es: "Escipión el Africano"
       kr: "스키피오 아프리카누스"
     prime: true
+    rarity: legendary
 
   141:
     name:
@@ -558,6 +637,7 @@ commanders:
       es: "Tutmosis III"
       kr: "투트모세 3세"
     prime: false
+    rarity: legendary
 
   142:
     name:
@@ -565,6 +645,7 @@ commanders:
       es: "Imhotep"
       kr: "임호텝"
     prime: false
+    rarity: epic
 
   145:
     name:
@@ -572,6 +653,7 @@ commanders:
       es: "Enrique V"
       kr: "헨리 5세"
     prime: false
+    rarity: legendary
 
   146:
     name:
@@ -579,6 +661,7 @@ commanders:
       es: "Boudica"
       kr: "부디카"
     prime: true
+    rarity: legendary
 
   147:
     name:
@@ -586,6 +669,7 @@ commanders:
       es: "Jan Žižka"
       kr: "얀 지슈카"
     prime: false
+    rarity: legendary
 
   148:
     name:
@@ -593,6 +677,7 @@ commanders:
       es: "Juana de Arco"
       kr: "잔 다르크"
     prime: true
+    rarity: legendary
 
   161:
     name:
@@ -600,6 +685,7 @@ commanders:
       es: "Tariq ibn Ziyad"
       kr: "타리크 이븐 지야드"
     prime: false
+    rarity: legendary
 
   162:
     name:
@@ -607,6 +693,7 @@ commanders:
       es: "Sargón el Grande"
       kr: "사르곤 1세"
     prime: false
+    rarity: legendary
 
   175:
     name:
@@ -614,6 +701,7 @@ commanders:
       es: "Margarita I"
       kr: "마르그레테 1세"
     prime: false
+    rarity: legendary
 
   176:
     name:
@@ -621,6 +709,7 @@ commanders:
       es: "Babur"
       kr: "바부르"
     prime: false
+    rarity: legendary
 
   177:
     name:
@@ -628,6 +717,7 @@ commanders:
       es: "Heraclio"
       kr: "플라비우스 헤라클리우스"
     prime: false
+    rarity: legendary
 
   178:
     name:
@@ -635,6 +725,7 @@ commanders:
       es: "Dido"
       kr: "디도"
     prime: false
+    rarity: legendary
 
   179:
     name:
@@ -642,6 +733,7 @@ commanders:
       es: "Zhuge Liang"
       kr: "제갈량"
     prime: false
+    rarity: legendary
 
   180:
     name:
@@ -649,6 +741,7 @@ commanders:
       es: "Pirro"
       kr: "피로스"
     prime: false
+    rarity: legendary
 
   181:
     name:
@@ -656,6 +749,7 @@ commanders:
       es: "Pericles"
       kr: "페리클레스"
     prime: false
+    rarity: epic
 
   182:
     name:
@@ -663,6 +757,7 @@ commanders:
       es: "Huo Qubing"
       kr: "곽거병"
     prime: false
+    rarity: legendary
 
   183:
     name:
@@ -670,6 +765,7 @@ commanders:
       es: "Justiniano I"
       kr: "유스티니아누스 1세"
     prime: false
+    rarity: legendary
 
   184:
     name:
@@ -677,6 +773,7 @@ commanders:
       es: "Gorgo"
       kr: "고르곤"
     prime: false
+    rarity: legendary
 
   185:
     name:
@@ -684,6 +781,7 @@ commanders:
       es: "Liu Che"
       kr: "유철"
     prime: false
+    rarity: legendary
 
   186:
     name:
@@ -691,6 +789,7 @@ commanders:
       es: "Asurbanipal"
       kr: "아슈르바니팔"
     prime: false
+    rarity: legendary
 
   187:
     name:
@@ -698,6 +797,7 @@ commanders:
       es: "Hermann"
       kr: "헤르만"
     prime: true
+    rarity: legendary
 
   188:
     name:
@@ -705,6 +805,7 @@ commanders:
       es: "Lapulapu"
       kr: "라푸라푸"
     prime: false
+    rarity: legendary
 
   189:
     name:
@@ -712,6 +813,7 @@ commanders:
       es: "Gonzalo de Córdoba"
       kr: "곤살로 페르난데스 데 코르도바"
     prime: false
+    rarity: legendary
 
   190:
     name:
@@ -719,6 +821,7 @@ commanders:
       es: "Gajah Mada"
       kr: "가자 마다"
     prime: false
+    rarity: legendary
 
   191:
     name:
@@ -726,6 +829,7 @@ commanders:
       es: "Leonor de Aquitania"
       kr: "엘레오노르 다키텐"
     prime: false
+    rarity: legendary
 
   192:
     name:
@@ -733,6 +837,7 @@ commanders:
       es: "Belisario"
       kr: "벨리사리우스"
     prime: true
+    rarity: legendary
 
   194:
     name:
@@ -740,6 +845,7 @@ commanders:
       es: "William Wallace"
       kr: "윌리엄 월리스"
     prime: false
+    rarity: legendary
 
   195:
     name:
@@ -747,6 +853,7 @@ commanders:
       es: "Shajar al-Durr"
       kr: "샤쟈르 알두르"
     prime: false
+    rarity: legendary
 
   196:
     name:
@@ -754,6 +861,7 @@ commanders:
       es: "Choe Yeong"
       kr: "최영"
     prime: false
+    rarity: legendary
 
   197:
     name:
@@ -761,6 +869,7 @@ commanders:
       es: "Escipión Emiliano"
       kr: "스키피오 아이밀리아누스"
     prime: false
+    rarity: legendary
 
   198:
     name:
@@ -768,6 +877,7 @@ commanders:
       es: "Ragnar Lodbrok"
       kr: "라그나르 로드브로크"
     prime: true
+    rarity: legendary
 
   459:
     name:
@@ -775,6 +885,7 @@ commanders:
       es: "Filipo II"
       kr: "필리포스 2세"
     prime: false
+    rarity: legendary
 
   460:
     name:
@@ -782,6 +893,7 @@ commanders:
       es: "Esteban III"
       kr: "슈테판 3세"
     prime: false
+    rarity: legendary
 
   461:
     name:
@@ -789,6 +901,7 @@ commanders:
       es: "John Hunyadi"
       kr: "후녀디 야노시"
     prime: false
+    rarity: legendary
 
   462:
     name:
@@ -796,6 +909,7 @@ commanders:
       es: "Siyaj K'ak'"
       kr: "시야칵"
     prime: false
+    rarity: legendary
 
   463:
     name:
@@ -803,6 +917,7 @@ commanders:
       es: "Wak Chanil Ajaw"
       kr: "왁 차닐 아하우"
     prime: false
+    rarity: epic
 
   503:
     name:
@@ -810,6 +925,7 @@ commanders:
       es: "Tokugawa Ieyasu"
       kr: "도쿠가와 이에야스"
     prime: false
+    rarity: legendary
 
   506:
     name:
@@ -823,6 +939,7 @@ commanders:
       es: "Qin Shi Huang"
       kr: "영정"
     prime: false
+    rarity: legendary
 
   536:
     name:
@@ -830,6 +947,7 @@ commanders:
       es: "Catalina de Médici"
       kr: "카트린 드 메디시스"
     prime: false
+    rarity: epic
 
   537:
     name:
@@ -837,6 +955,7 @@ commanders:
       es: "Narsés"
       kr: "나르세스"
     prime: false
+    rarity: epic
 
   539:
     name:
@@ -844,6 +963,7 @@ commanders:
       es: "Subotai"
       kr: "수부타이"
     prime: false
+    rarity: legendary
 
   540:
     name:
@@ -851,6 +971,7 @@ commanders:
       es: "Arturo Pendragon"
       kr: "아서펜드래곤"
     prime: false
+    rarity: legendary
 
   545:
     name:
@@ -858,6 +979,7 @@ commanders:
       es: "Bai Qi"
       kr: "백기"
     prime: false
+    rarity: legendary
 
   564:
     name:
@@ -865,6 +987,7 @@ commanders:
       es: "Arquímedes"
       kr: "아르키메데스"
     prime: false
+    rarity: legendary
 
   565:
     name:
@@ -872,3 +995,4 @@ commanders:
       es: "María I"
       kr: "메리 1세"
     prime: false
+    rarity: legendary
