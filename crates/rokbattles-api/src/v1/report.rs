@@ -142,63 +142,33 @@ pub async fn report_by_parent(
 
     let mut combined_results: JsonMap<String, JsonValue> = JsonMap::new();
 
-    let final_pipeline = vec![
-        doc! { "$match": base_filter.clone() },
-        doc! { "$sort": { "report.metadata.start_date": -1_i32, "metadata.hash": -1_i32 } },
-        doc! { "$limit": 1 },
-        doc! { "$project": { "battle_results": "$report.battle_results" } },
-    ];
-
-    let final_opts = AggregateOptions::builder().allow_disk_use(true).build();
-    let mut final_cursor = col
-        .aggregate(final_pipeline)
-        .with_options(final_opts)
-        .await
-        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
-
-    if let Some(doc) = final_cursor
-        .try_next()
-        .await
-        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
-        && let Ok(br_doc) = doc.get_document("battle_results")
-        && let JsonValue::Object(obj) = doc_to_json(br_doc)
-    {
-        for (key, value) in obj {
-            if !key.starts_with("enemy_") {
-                combined_results.insert(key, value);
-            }
-        }
-    }
-
     let totals_pipeline = vec![
         doc! { "$match": base_filter.clone() },
         doc! { "$group": {
             "_id": null,
-            "enemy_power": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_power", 0 ] } },
-            "enemy_init_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_init_max", 0 ] } },
-            "enemy_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_max", 0 ] } },
-            "enemy_healing": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_healing", 0 ] } },
+            "death": { "$sum": { "$ifNull": [ "$report.battle_results.death", 0 ] } },
+            "severely_wounded": { "$sum": { "$ifNull": [ "$report.battle_results.severely_wounded", 0 ] } },
+            "wounded": { "$sum": { "$ifNull": [ "$report.battle_results.wounded", 0 ] } },
+            "remaining": { "$min": "$report.battle_results.remaining" },
+            "kill_score": { "$sum": { "$ifNull": [ "$report.battle_results.kill_score", 0 ] } },
             "enemy_death": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_death", 0 ] } },
             "enemy_severely_wounded": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_severely_wounded", 0 ] } },
             "enemy_wounded": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_wounded", 0 ] } },
             "enemy_remaining": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_remaining", 0 ] } },
-            "enemy_watchtower": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_watchtower", 0 ] } },
-            "enemy_watchtower_max": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_watchtower_max", 0 ] } },
             "enemy_kill_score": { "$sum": { "$ifNull": [ "$report.battle_results.enemy_kill_score", 0 ] } },
         }},
         doc! { "$project": {
             "_id": 0,
             "battle_results": {
-                "enemy_power": "$enemy_power",
-                "enemy_init_max": "$enemy_init_max",
-                "enemy_max": "$enemy_max",
-                "enemy_healing": "$enemy_healing",
+                "death": "$death",
+                "severely_wounded": "$severely_wounded",
+                "wounded": "$wounded",
+                "remaining": "$remaining",
+                "kill_score": "$kill_score",
                 "enemy_death": "$enemy_death",
                 "enemy_severely_wounded": "$enemy_severely_wounded",
                 "enemy_wounded": "$enemy_wounded",
                 "enemy_remaining": "$enemy_remaining",
-                "enemy_watchtower": "$enemy_watchtower",
-                "enemy_watchtower_max": "$enemy_watchtower_max",
                 "enemy_kill_score": "$enemy_kill_score",
             }
         }},
