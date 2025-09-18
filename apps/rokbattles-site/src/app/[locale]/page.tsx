@@ -1,8 +1,16 @@
-import Link from "next/link";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
+import { Heading } from "@/components/ui/heading";
+import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 
-export default function Page() {
+export default async function Page({ params }: PageProps<"/[locale]">) {
+  const { locale: rawLocale } = await params;
+  const locale = hasLocale(routing.locales, rawLocale) ? rawLocale : routing.defaultLocale;
+  setRequestLocale(locale);
+
   return (
     <div className="relative min-h-dvh bg-zinc-950 text-zinc-100 antialiased">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 mx-auto max-w-7xl">
@@ -12,9 +20,9 @@ export default function Page() {
       <main className="mx-auto grid min-h-dvh max-w-7xl place-items-center px-6 py-12 md:py-20">
         <section className="grid items-start gap-6 text-center">
           <div className="space-y-5">
-            <h1 className="text-3xl font-semibold leading-tight sm:text-4xl">
+            <Heading>
               <span className="text-white">ROK</span> <span className="text-blue-500">BATTLES</span>
-            </h1>
+            </Heading>
             <p className="mx-auto max-w-xl text-sm leading-relaxed text-zinc-400 sm:text-base">
               A community-driven platform for sharing battle reports and surfacing actionable trends
               in Rise of Kingdoms.
@@ -54,19 +62,28 @@ export default function Page() {
               </a>
             </div>
             <div className="mt-4 flex flex-wrap justify-center gap-4 text-xs text-zinc-500">
-              <Link href="/legal/terms-of-service" className="transition hover:text-zinc-300">
+              <Link
+                href={{ pathname: "/legal/terms-of-service" }}
+                className="transition hover:text-zinc-300"
+              >
                 Terms of Service
               </Link>
               <span aria-hidden="true" className="text-zinc-700">
                 |
               </span>
-              <Link href="/legal/privacy-policy" className="transition hover:text-zinc-300">
+              <Link
+                href={{ pathname: "/legal/privacy-policy" }}
+                className="transition hover:text-zinc-300"
+              >
                 Privacy Policy
               </Link>
               <span aria-hidden="true" className="text-zinc-700">
                 |
               </span>
-              <Link href="/legal/cookie-policy" className="transition hover:text-zinc-300">
+              <Link
+                href={{ pathname: "/legal/cookie-policy" }}
+                className="transition hover:text-zinc-300"
+              >
                 Cookie Policy
               </Link>
             </div>

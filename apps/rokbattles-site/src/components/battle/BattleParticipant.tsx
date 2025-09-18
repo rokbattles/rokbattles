@@ -1,7 +1,11 @@
+import type { Locale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { resolveNames } from "@/actions/datasets";
 import { EquipmentGrid } from "@/components/battle/EquipmentGrid";
 import type { EquipmentToken } from "@/components/battle/EquipmentSlot";
 import { InscriptionBadge } from "@/components/battle/InscriptionBadge";
+import { Subheading } from "@/components/ui/heading";
+import { routing } from "@/i18n/routing";
 import type { ParticipantInfo } from "@/lib/types/reports";
 
 function parseEquipment(raw?: string): EquipmentToken[] {
@@ -10,8 +14,8 @@ function parseEquipment(raw?: string): EquipmentToken[] {
   if (!inner) return [];
   const parts = inner.split(",");
   const out: EquipmentToken[] = [];
-  for (const p of parts) {
-    const segs = p.split(":");
+  for (const part of parts) {
+    const segs = part.split(":");
     if (segs.length < 2) continue;
     const slot = Number(segs[0]);
     const idCraft = segs[1] ?? "";
@@ -64,47 +68,47 @@ function getInscriptionRarity(id: number): "common" | "rare" | "special" {
 
 export async function BattleParticipant({
   participant,
-  locale = "en",
+  locale = routing.defaultLocale,
 }: {
   participant?: ParticipantInfo;
-  locale?: "en" | "es" | "kr";
+  locale?: Locale;
 }) {
   if (!participant) return null;
 
+  const t = await getTranslations("battle.participant");
+
   const equip = parseEquipment(participant.equipment);
   const equipBySlot: Record<number, EquipmentToken | undefined> = {};
-  for (const t of equip) equipBySlot[t.slot] = t;
 
   const inscriptionIds = parseSemicolonIds(participant.inscriptions);
   const inscriptionNameMap =
     inscriptionIds.length > 0
       ? await resolveNames("inscriptions", inscriptionIds.map(String), locale)
       : {};
+  for (const token of equip) equipBySlot[token.slot] = token;
 
   const armPairs = parseArmamentPairs(participant.armament_buffs);
   const agg: Record<number, number> = {};
   for (const { id, value } of armPairs) {
     agg[id] = (agg[id] ?? 0) + (Number.isFinite(value) ? value : 0);
   }
-  const armamentIds = Object.keys(agg).map((k) => Number(k));
+  const armamentIds = Object.keys(agg).map((key) => Number(key));
   const armamentNameMap =
     armamentIds.length > 0 ? await resolveNames("armaments", armamentIds.map(String), locale) : {};
 
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-base font-semibold text-zinc-100">Equipment</h2>
+        <Subheading>{t("equipmentHeading")}</Subheading>
         <div className="mt-3 flex items-start justify-center">
           <EquipmentGrid slots={equipBySlot} />
         </div>
       </div>
       <div>
-        <h2 className="text-base font-semibold text-zinc-100">Inscriptions</h2>
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {inscriptionIds.length === 0 ? (
-            <div className="text-sm text-zinc-400">None</div>
-          ) : (
-            inscriptionIds.map((id) => {
+        <Subheading>{t("armamentHeading")}</Subheading>
+        {inscriptionIds.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {inscriptionIds.map((id) => {
               const label = inscriptionNameMap[String(id)] ?? String(id);
               const rarity = getInscriptionRarity(id);
               const color = rarity === "special" ? "amber" : rarity === "rare" ? "blue" : "gray";
@@ -113,17 +117,12 @@ export async function BattleParticipant({
                   {label}
                 </InscriptionBadge>
               );
-            })
-          )}
-        </div>
-      </div>
-      <div>
-        <h2 className="text-base font-semibold text-zinc-100">Armament Buffs</h2>
-        <div className="mt-2 space-y-1">
-          {armamentIds.length === 0 ? (
-            <div className="text-sm text-zinc-400">None</div>
-          ) : (
-            armamentIds.map((id) => {
+            })}
+          </div>
+        )}
+        {armamentIds.length > 0 && (
+          <div className="mt-2 space-y-1">
+            {armamentIds.map((id) => {
               const name = armamentNameMap[String(id)] ?? String(id);
               const total = agg[id] ?? 0;
               const pct = `${(total * 100).toFixed(3)}%`;
@@ -133,9 +132,9 @@ export async function BattleParticipant({
                   <div className="tabular-nums text-zinc-100">{pct}</div>
                 </div>
               );
-            })
-          )}
-        </div>
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

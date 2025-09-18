@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { CommanderInfo } from "@/lib/types/reports";
 
 type Props = {
@@ -5,7 +6,8 @@ type Props = {
   names: Record<string, string | undefined>;
 };
 
-export function BattleCommanderSummary({ info, names }: Props) {
+export async function BattleCommanderSummary({ info, names }: Props) {
+  const t = await getTranslations("battle");
   const id = info?.id;
   const nameKey = typeof id === "number" ? String(id) : undefined;
   const name = nameKey ? (names[nameKey] ?? nameKey) : undefined;
@@ -22,7 +24,7 @@ export function BattleCommanderSummary({ info, names }: Props) {
       <div className="flex items-center gap-1.5">
         {typeof level === "number" && (
           <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold text-zinc-100 ring-1 ring-inset ring-white/20">
-            Lv {level}
+            {t("levelTag", { level })}
           </span>
         )}
         {skills && (

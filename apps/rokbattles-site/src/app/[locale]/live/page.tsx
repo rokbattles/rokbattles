@@ -1,7 +1,13 @@
+import type { Locale } from "next-intl";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
 import { BattleReport } from "@/components/BattleReport";
 import LiveSidebar from "@/components/LiveSidebar";
+import { Divider } from "@/components/ui/divider";
+import { Heading } from "@/components/ui/heading";
+import { routing } from "@/i18n/routing";
 import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
@@ -12,14 +18,19 @@ function getFirstValue(value: string | string[] | undefined) {
   return value;
 }
 
-export default async function Page({ searchParams }: PageProps<"/live">) {
-  const params = await searchParams;
+export default async function Page({ params, searchParams }: PageProps<"/[locale]/live">) {
+  const [routeParams, queryParams] = await Promise.all([params, searchParams]);
+  const normalizedLocale = hasLocale(routing.locales, routeParams.locale)
+    ? routeParams.locale
+    : routing.defaultLocale;
+  const locale: Locale = normalizedLocale;
 
-  const hash = getFirstValue(params.hash);
-  const localeParam = getFirstValue(params.locale);
-  const playerIdParam = getFirstValue(params.player_id);
-  const kvkParam = getFirstValue(params.kvk_only);
-  const arkParam = getFirstValue(params.ark_only);
+  setRequestLocale(locale);
+
+  const hash = getFirstValue(queryParams.hash);
+  const playerIdParam = getFirstValue(queryParams.player_id);
+  const kvkParam = getFirstValue(queryParams.kvk_only);
+  const arkParam = getFirstValue(queryParams.ark_only);
 
   const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
   const query = new URLSearchParams();
@@ -65,11 +76,8 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
     )
   );
 
-  const resolvedLocale: "en" | "es" | "kr" =
-    localeParam === "es" || localeParam === "kr" ? localeParam : "en";
-
   const nameMap =
-    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, resolvedLocale) : {};
+    commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
 
   let selectedItems: SingleReportItem[] = [];
   if (hash && hash.length > 0) {
@@ -83,15 +91,17 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
         initialItems={items}
         initialNameMap={nameMap}
         initialNextCursor={data?.next_cursor}
+        locale={locale}
       />
       <main className="flex flex-1 flex-col lg:min-w-0 lg:pl-96">
         <div className="grow p-6 lg:bg-zinc-900 lg:shadow-xs lg:ring-1 lg:ring-white/10">
           {selectedItems.length > 0 ? (
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-xl font-semibold text-zinc-100 mb-4">Report Details</h1>
+              <Heading className="mb-4">Report details</Heading>
               {selectedItems.map((item) => {
-                const timestamp = item.start_date ?? item.report?.metadata?.start_date;
-                const label = formatUTCShort(timestamp) ?? "UTC \u2014";
+                const startTimestamp = item.report?.metadata?.start_date;
+                const endTimestamp = item.report?.metadata?.end_date;
+                const label = formatUTCShort(startTimestamp, endTimestamp) ?? "Unknown";
                 return (
                   <div key={item.hash}>
                     <div className="my-6 flex items-center gap-3">
@@ -99,14 +109,15 @@ export default async function Page({ searchParams }: PageProps<"/live">) {
                       <div className="text-xs text-zinc-400">{label}</div>
                       <div className="h-px flex-1 bg-white/10" />
                     </div>
-                    <BattleReport item={item} locale={resolvedLocale} />
+                    <BattleReport item={item} locale={locale} />
                   </div>
                 );
               })}
             </div>
           ) : (
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-xl font-semibold text-zinc-100">Live Reports</h1>
+              <Heading>Live reports</Heading>
+              <Divider className="my-4" />
               <p className="mt-2 text-sm text-zinc-400">Select a report from the left sidebar.</p>
             </div>
           )}
