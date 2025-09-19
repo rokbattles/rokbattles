@@ -1,6 +1,6 @@
 import { Swords } from "lucide-react";
 import type { Locale } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link } from "@/components/ui/link";
 
 type LiveReportListItemProps = {
   left: string;

@@ -3,7 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { Heading } from "@/components/ui/heading";
-import { Link } from "@/i18n/navigation";
+import { Link } from "@/components/ui/link";
 import { routing } from "@/i18n/routing";
 
 export default async function Page({ params }: PageProps<"/[locale]">) {
