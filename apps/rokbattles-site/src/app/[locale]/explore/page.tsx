@@ -1,5 +1,6 @@
-import { FunnelIcon } from "lucide-react";
+import { FunnelIcon, LanguagesIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "@/components/ui/dropdown";
 import { Heading } from "@/components/ui/heading";
 import {
   Table,
@@ -15,10 +16,23 @@ export default function Page() {
     <>
       <div className="flex items-end justify-between gap-4">
         <Heading>Explore Battle Reports</Heading>
-        <Button className="-my-0.5">
-          <FunnelIcon data-slot="lucide" />
-          Filters
-        </Button>
+        <div className="flex gap-x-2">
+          <Dropdown>
+            <DropdownButton plain aria-label="Change language">
+              <LanguagesIcon data-slot="lucide" />
+            </DropdownButton>
+            <DropdownMenu anchor="bottom end">
+              <DropdownItem href="/en/explore">English</DropdownItem>
+              <DropdownItem href="/de/explore">Deutsch</DropdownItem>
+              <DropdownItem href="/es/explore">Español</DropdownItem>
+              <DropdownItem href="/kr/explore">한국어</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <Button className="-my-0.5">
+            <FunnelIcon data-slot="lucide" />
+            Filters
+          </Button>
+        </div>
       </div>
       <Table className="mt-8">
         <TableHead>
