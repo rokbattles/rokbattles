@@ -1,0 +1,152 @@
+loot:
+  # type
+  # sub type
+
+  1:
+    9:
+      name:
+        en: "Crystals"
+        de: "Kristalle"
+        es: "Cristales"
+        kr: "수정"
+
+  2:
+    26:
+      name:
+        en: "10 Gems"
+        de: "10 Edelsteine"
+        es: "10 gemas"
+        kr: "보석 10개"
+
+    28:
+      name:
+        en: "100 Gems"
+        de: "100 Edelsteine"
+        es: "100 gemas"
+        kr: "보석 100개"
+
+    34:
+      name:
+        en: "1-Minute Speedup"
+        de: "1 Minute Beschleunigung"
+        es: "1 minuto de Aceleración"
+        kr: "1분 가속"
+
+    71:
+      name:
+        en: "1-Minute Training Speedup"
+        de: "1 Minute Ausbildungsbeschleunigung"
+        es: "1 minutos de Aceleración de Entrenamiento"
+        kr: "1분 훈련 가속"
+
+    72:
+      name:
+        en: "5-Minute Training Speedup"
+        de: "5 Minuten Ausbildungsbeschleunigung"
+        es: "5 minutos de Aceleración de Entrenamiento"
+        kr: "5분 훈련 가속"
+
+    92:
+      name:
+        en: "5-Minute Healing Speedup"
+        de: "5 Minuten Heilungsbeschleunigung"
+        es: "5 minutos de Aceleración de Sanación"
+        kr: "5분 치료 가속"
+
+    130:
+      name:
+        en: "Lvl 3 Tome of Knowledge"
+        de: "Lv.-3-Wissenskompendium"
+        es: "Tomo de conocimiento de nv. 3"
+        kr: "3레벨 지직의 서"
+
+    141:
+      name:
+        en: "1,000 Food"
+        de: "1.000 Proviant"
+        es: "1 000 de Alimento"
+        kr: "식량 1,000개"
+
+    142:
+      name:
+        en: "1,000 Wood"
+        de: "1.000 Holz"
+        es: "1 000 de Madera"
+        kr: "목재 1,000개"
+
+    143:
+      name:
+        en: "750 Stone"
+        de: "750 Steine"
+        es: "750 de Piedra"
+        kr: "석재 750개"
+
+    144:
+      name:
+        en: "500 Gold"
+        de: "500 Gold"
+        es: "500 de Oro"
+        kr: "금화 500개"
+
+    412:
+      name:
+        en: "Leather (NORMAL)"
+        de: "Leder (NORMAL)"
+        es: "Cuero (NORMAL)"
+        kr: "가죽 (일반)"
+
+    413:
+      name:
+        en: "Iron Ore (NORMAL)"
+        de: "Eisenerz (NORMAL)"
+        es: "Mineral de hierro (NORMAL)"
+        kr: "철광석 (일반)"
+
+    414:
+      name:
+        en: "Animal Bone (NORMAL)"
+        de: "Tierknochen (NORMAL)"
+        es: "Hueso animal (NORMAL)"
+        kr: "짐승뼈 (일반)"
+
+    417:
+      name:
+        en: "Ebony (NORMAL)"
+        de: "Ebenholz (NORMAL)"
+        es: "Ébano (NORMAL)"
+        kr: "흑단 (일반)"
+
+    419:
+      name:
+        en: "Leather (ADVANCED)"
+        de: "Leder (FORTGESCHRITTEN)"
+        es: "Cuero (AVANZADO)"
+        kr: "가죽 (우수)"
+
+    420:
+      name:
+        en: "Iron Ore (ADVANCED)"
+        de: "Eisenerz (FORTGESCHRITTEN)"
+        es: "Mineral de hierro (AVANZADO)"
+        kr: "철광석 (우수)"
+
+    421:
+      name:
+        en: "Animal Bone (ADVANCED)"
+        de: "Tierknochen (FORTGESCHRITTEN)"
+        es: "Hueso animal (AVANZADO)"
+        kr: "짐승뼈 (우수)"
+
+    424:
+      name:
+        en: "Ebony (ADVANCED)"
+        de: "Ebenholz (FORTGESCHRITTEN)"
+        es: "Ébano (AVANZADO)"
+        kr: "흑단 (우수)"
+
+    7005:
+      name:
+        en: "Lvl 1 Resource Pack C"
+        de: "Lv.-1-Ressourcenpack C"
+        es: "Paquete de recursos C de nv. 1"
+        kr: "초급 자원 포켓 C"
