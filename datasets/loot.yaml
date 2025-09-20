@@ -1,0 +1,29 @@
+loot:
+  # type
+  # sub type
+
+  1:
+    9:
+      name:
+        en: "Crystals"
+
+  2:
+    71:
+      name:
+        en: "1-Minute Training Speedup"
+
+    130:
+      name:
+        en: "Lvl 3 Tome of Knowledge"
+
+    141:
+      name:
+        en: "1,000 Food"
+
+    144:
+      name:
+        en: "1,000 Gold"
+
+    419:
+      name:
+        en: "Leather (ADVANCED)"
