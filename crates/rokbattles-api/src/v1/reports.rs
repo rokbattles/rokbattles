@@ -85,6 +85,7 @@ pub async fn list_reports(
     }
     if params.kvk_only.unwrap_or(false) {
         filters.push(doc! { "report.metadata.is_kvk": 1 });
+        filters.push(doc! { "report.metadata.email_role": { "$ne": "dungeon" } });
     }
     if params.ark_only.unwrap_or(false) {
         filters.push(doc! { "report.metadata.email_role": "dungeon" });
