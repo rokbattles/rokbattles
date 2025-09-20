@@ -30,9 +30,12 @@ pub struct ApiReportEntry {
 }
 
 #[derive(Debug, Serialize, Default)]
-pub struct ApiReportSummary {
+pub struct ApiBattleResultsSummary {
     #[serde(skip_serializing_if = "Option::is_none")]
-    battle_results: Option<JsonValue>,
+    total: Option<JsonValue>,
+
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    timeline: Vec<JsonValue>,
 }
 
 #[derive(Debug, Serialize)]
@@ -42,7 +45,7 @@ pub struct ApiDetailResponse {
     next_cursor: Option<String>,
     count: usize,
     #[serde(skip_serializing_if = "Option::is_none")]
-    report: Option<ApiReportSummary>,
+    battle_results: Option<ApiBattleResultsSummary>,
 }
 
 fn parse_cursor(after: Option<&str>) -> (Option<i64>, Option<String>) {
@@ -141,6 +144,7 @@ pub async fn report_by_parent(
     let count = items.len();
 
     let mut combined_results: JsonMap<String, JsonValue> = JsonMap::new();
+    let mut timeline_results: Vec<JsonValue> = Vec::new();
 
     let totals_pipeline = vec![
         doc! { "$match": base_filter.clone() },
@@ -193,11 +197,58 @@ pub async fn report_by_parent(
         }
     }
 
-    let report_summary = if combined_results.is_empty() {
+    let timeline_pipeline = vec![
+        doc! { "$match": base_filter.clone() },
+        doc! { "$sort": { "report.metadata.start_date": 1_i32, "metadata.hash": 1_i32 } },
+        doc! { "$project": {
+            "_id": 0,
+            "start_date": "$report.metadata.start_date",
+            "end_time": "$report.metadata.end_date",
+            "death": { "$ifNull": [ "$report.battle_results.death", 0 ] },
+            "severely_wounded": { "$ifNull": [ "$report.battle_results.severely_wounded", 0 ] },
+            "wounded": { "$ifNull": [ "$report.battle_results.wounded", 0 ] },
+            "remaining": { "$ifNull": [ "$report.battle_results.remaining", 0 ] },
+            "kill_score": { "$ifNull": [ "$report.battle_results.kill_score", 0 ] },
+            "enemy_death": { "$ifNull": [ "$report.battle_results.enemy_death", 0 ] },
+            "enemy_severely_wounded": { "$ifNull": [ "$report.battle_results.enemy_severely_wounded", 0 ] },
+            "enemy_wounded": { "$ifNull": [ "$report.battle_results.enemy_wounded", 0 ] },
+            "enemy_remaining": { "$ifNull": [ "$report.battle_results.enemy_remaining", 0 ] },
+            "enemy_kill_score": { "$ifNull": [ "$report.battle_results.enemy_kill_score", 0 ] },
+        }},
+    ];
+
+    let timeline_opts = AggregateOptions::builder().allow_disk_use(true).build();
+    let mut timeline_cursor = col
+        .aggregate(timeline_pipeline)
+        .with_options(timeline_opts)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    while let Some(doc) = timeline_cursor
+        .try_next()
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+    {
+        if let JsonValue::Object(obj) = doc_to_json(&doc) {
+            timeline_results.push(JsonValue::Object(obj));
+        }
+    }
+
+    let total_battle_results = if combined_results.is_empty() {
         None
     } else {
-        Some(ApiReportSummary {
-            battle_results: Some(JsonValue::Object(combined_results)),
+        Some(JsonValue::Object(combined_results))
+    };
+
+    let has_total = total_battle_results.is_some();
+    let has_timeline = !timeline_results.is_empty();
+
+    let battle_results = if !has_total && !has_timeline {
+        None
+    } else {
+        Some(ApiBattleResultsSummary {
+            total: total_battle_results,
+            timeline: timeline_results,
         })
     };
 
@@ -206,6 +257,6 @@ pub async fn report_by_parent(
         items,
         next_cursor,
         count,
-        report: report_summary,
+        battle_results,
     }))
 }
