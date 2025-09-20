@@ -89,6 +89,26 @@ export interface BattleResults {
   enemy_kill_score?: number;
 }
 
+export interface BattleResultsTimelineEntry {
+  start_date?: number;
+  end_time?: number | null;
+  death?: number;
+  severely_wounded?: number;
+  wounded?: number;
+  remaining?: number;
+  kill_score?: number;
+  enemy_death?: number;
+  enemy_severely_wounded?: number;
+  enemy_wounded?: number;
+  enemy_remaining?: number;
+  enemy_kill_score?: number;
+}
+
+export interface BattleResultsSummary {
+  total?: BattleResults;
+  timeline?: BattleResultsTimelineEntry[];
+}
+
 export interface SingleReportInner {
   metadata?: ReportMetadata;
   self?: ParticipantInfo;
@@ -107,4 +127,5 @@ export interface SingleReportResponse {
   items: SingleReportItem[];
   next_cursor?: string;
   count?: number;
+  battle_results?: BattleResultsSummary;
 }
