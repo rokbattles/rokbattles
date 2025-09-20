@@ -91,7 +91,7 @@ export interface BattleResults {
 
 export interface BattleResultsTimelineEntry {
   start_date?: number;
-  end_time?: number | null;
+  end_time?: number;
   death?: number;
   severely_wounded?: number;
   wounded?: number;
