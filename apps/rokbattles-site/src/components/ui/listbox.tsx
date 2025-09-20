@@ -129,6 +129,10 @@ export function ListboxOption<T>({
     "*:data-[slot=icon]:size-5 *:data-[slot=icon]:shrink-0 sm:*:data-[slot=icon]:size-4",
     "*:data-[slot=icon]:text-zinc-500 group-data-focus/option:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400",
     "forced-colors:*:data-[slot=icon]:text-[CanvasText] forced-colors:group-data-focus/option:*:data-[slot=icon]:text-[Canvas]",
+    // Lucide
+    "*:data-[slot=lucide]:size-5 *:data-[slot=lucide]:shrink-0 sm:*:data-[slot=lucide]:size-4",
+    "*:data-[slot=lucide]:text-zinc-500 group-data-focus/option:*:data-[slot=lucide]:text-white dark:*:data-[slot=lucide]:text-zinc-400",
+    "forced-colors:*:data-[slot=lucide]:text-[CanvasText] forced-colors:group-data-focus/option:*:data-[slot=lucide]:text-[Canvas]",
     // Avatars
     "*:data-[slot=avatar]:-mx-0.5 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:size-5"
   );
