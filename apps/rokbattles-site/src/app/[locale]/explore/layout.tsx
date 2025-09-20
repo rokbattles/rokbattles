@@ -4,6 +4,7 @@ import {
   DownloadIcon,
   SwordsIcon,
 } from "lucide-react";
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Heading } from "@/components/ui/heading";
 import { Link } from "@/components/ui/link";
@@ -21,7 +22,7 @@ import { SidebarLayout } from "@/components/ui/sidebar-layout";
 export default function Layout({ children }: LayoutProps<"/[locale]/explore">) {
   return (
     <SidebarLayout
-      navbar={<></>}
+      navbar={<React.Fragment />}
       sidebar={
         <Sidebar>
           <SidebarHeader>
