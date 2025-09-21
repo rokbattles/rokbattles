@@ -22,10 +22,18 @@ export default function Page() {
               <LanguagesIcon data-slot="lucide" />
             </DropdownButton>
             <DropdownMenu anchor="bottom end">
-              <DropdownItem href="/explore" locale="en">English</DropdownItem>
-              <DropdownItem href="/explore" locale="de">Deutsch</DropdownItem>
-              <DropdownItem href="/explore" locale="es">Español</DropdownItem>
-              <DropdownItem href="/explore" locale="kr">한국어</DropdownItem>
+              <DropdownItem href="/explore" locale="en">
+                English
+              </DropdownItem>
+              <DropdownItem href="/explore" locale="de">
+                Deutsch
+              </DropdownItem>
+              <DropdownItem href="/explore" locale="es">
+                Español
+              </DropdownItem>
+              <DropdownItem href="/explore" locale="kr">
+                한국어
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Button className="-my-0.5">
@@ -45,20 +53,24 @@ export default function Page() {
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell className="tabular-nums text-zinc-400 sm:w-1/6">UTC 9/20 15:04</TableCell>
+            <TableCell className="tabular-nums text-zinc-500 dark:text-zinc-400 sm:w-1/6">
+              UTC 9/20 15:04
+            </TableCell>
             <TableCell className="sm:w-1/3">
               <div className="flex flex-col">
                 <span>Ragnar Lodbrok</span>
-                <span className="text-zinc-400">Scipio Africanus</span>
+                <span className="text-zinc-500 dark:text-zinc-400">Scipio Africanus</span>
               </div>
             </TableCell>
             <TableCell className="sm:w-1/3">
               <div className="flex flex-col">
                 <span>Bai Qi</span>
-                <span className="text-zinc-400">William Wallace</span>
+                <span className="text-zinc-500 dark:text-zinc-400">William Wallace</span>
               </div>
             </TableCell>
-            <TableCell className="tabular-nums text-zinc-400 sm:w-1/6">9</TableCell>
+            <TableCell className="tabular-nums  text-zinc-500 dark:text-zinc-400 sm:w-1/6">
+              9
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
