@@ -82,7 +82,7 @@ async fn process_mail(
     let mail_hash = mail.get_str("hash").context("missing mail hash")?;
     let codec = mail.get_str("codec").unwrap_or("zstd");
     let status = doc.get_str("status").unwrap_or("pending");
-    let previous_hashes: Vec<String> = doc
+    let previous_parent_hashes: Vec<String> = doc
         .get_document("metadata")
         .ok()
         .and_then(|metadata| metadata.get_array("previousHashes").ok())
@@ -94,11 +94,11 @@ async fn process_mail(
         .unwrap_or_default();
 
     if status == "reprocess" {
-        if previous_hashes.is_empty() {
+        if previous_parent_hashes.is_empty() {
             warn!(mail_hash = %mail_hash, "reprocess requested without previous hashes");
         } else {
             let delete_filter = doc! {
-                "metadata.hash": { "$in": previous_hashes.clone() }
+                "metadata.parentHash": { "$in": previous_parent_hashes.clone() }
             };
             let delete_result = battle_reports.delete_many(delete_filter).await?;
             info!(mail_hash = %mail_hash, removed = delete_result.deleted_count, "removed previous battle reports");
