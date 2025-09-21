@@ -35,7 +35,7 @@ async fn main() {
     let db = client
         .default_database()
         .expect("MONGO_URI environment variable must include a database name");
-    debug!("connected to MongoDB, using database '{}'", db.name());
+    debug!(db_name = %db.name(), "connected to MongoDB");
 
     let app_state = AppState {
         db,
@@ -51,6 +51,7 @@ async fn main() {
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
-    debug!("listening on {}", listener.local_addr().unwrap());
+    let bound_addr = listener.local_addr().unwrap();
+    debug!(%bound_addr, "listening on address");
     axum::serve(listener, router).await.unwrap();
 }

@@ -233,7 +233,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     };
 
     let decoded_mail_hash = blake3_hash(&buf);
-    debug!("decoded mail hash: {}", decoded_mail_hash);
+    debug!(decoded_mail_hash = %decoded_mail_hash, "computed decoded mail hash");
 
     let decoded_mail_json = serde_json::to_value(&decoded_mail).unwrap();
     let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json).unwrap();
@@ -245,10 +245,11 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
 
     let compression_ratio = (compressed_mail.len() as f64) / (decoded_mail_json_text.len() as f64);
     debug!(
-        "original: {} bytes, compressed: {} bytes, ratio: {:.2}%",
-        decoded_mail_json_text.len(),
-        compressed_mail.len(),
-        compression_ratio * 100.0
+        original_bytes = decoded_mail_json_text.len(),
+        compressed_bytes = compressed_mail.len(),
+        compression_ratio,
+        compression_ratio_pct = compression_ratio * 100.0,
+        "compressed decoded mail"
     );
 
     let original_size = decoded_mail_json_text.len() as i64;
