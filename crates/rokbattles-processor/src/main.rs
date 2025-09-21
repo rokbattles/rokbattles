@@ -11,7 +11,7 @@ use mongodb::{
     options::InsertManyOptions,
 };
 use std::time::Duration;
-use tracing::{debug, error, info};
+use tracing::{debug, error, info, warn};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[cfg(not(target_env = "msvc"))]
@@ -30,7 +30,7 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
     let battle_reports = db.collection::<Document>("battleReports");
 
     let filter = doc! {
-        "status": "pending",
+        "status": { "$in": ["pending", "reprocess"] },
         "mail.time": { "$gte": cutoff_microseconds }
     };
 
@@ -51,8 +51,12 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
 
     while let Some(doc) = cursor.try_next().await? {
         count += 1;
+        let status = doc
+            .get_str("status")
+            .map(|s| s.to_string())
+            .unwrap_or_else(|_| "pending".to_string());
         if let Err(e) = process_mail(&mails, &battle_reports, &doc).await {
-            error!(error = %e, "processing mail failed");
+            error!(error = %e, status = %status, "processing mail failed");
         }
     }
 
@@ -77,6 +81,29 @@ async fn process_mail(
         .with_context(|| "missing mail doc")?;
     let mail_hash = mail.get_str("hash").context("missing mail hash")?;
     let codec = mail.get_str("codec").unwrap_or("zstd");
+    let status = doc.get_str("status").unwrap_or("pending");
+    let previous_hashes: Vec<String> = doc
+        .get_document("metadata")
+        .ok()
+        .and_then(|metadata| metadata.get_array("previousHashes").ok())
+        .map(|arr| {
+            arr.iter()
+                .filter_map(|value| value.as_str().map(|s| s.to_string()))
+                .collect()
+        })
+        .unwrap_or_default();
+
+    if status == "reprocess" {
+        if previous_hashes.is_empty() {
+            warn!(mail_hash = %mail_hash, "reprocess requested without previous hashes");
+        } else {
+            let delete_filter = doc! {
+                "metadata.hash": { "$in": previous_hashes.clone() }
+            };
+            let delete_result = battle_reports.delete_many(delete_filter).await?;
+            info!(mail_hash = %mail_hash, removed = delete_result.deleted_count, "removed previous battle reports");
+        }
+    }
 
     let raw = match mail.get("value") {
         Some(Bson::Binary(bin)) => &bin.bytes,
@@ -104,15 +131,14 @@ async fn process_mail(
         let rep_hash = blake3_hash(&rep_json);
 
         let report_doc = bson::to_document(report)?;
+        let mut metadata_doc = Document::new();
+        metadata_doc.insert("hash", rep_hash);
+        metadata_doc.insert("parentHash", mail_hash);
 
-        let insert_doc = doc! {
-            "metadata": {
-                "hash": &rep_hash,
-                "parentHash": mail_hash
-            },
-            "report": report_doc,
-            "createdAt": now
-        };
+        let mut insert_doc = Document::new();
+        insert_doc.insert("metadata", metadata_doc);
+        insert_doc.insert("report", report_doc);
+        insert_doc.insert("createdAt", now);
 
         docs.push(insert_doc);
     }
@@ -137,10 +163,21 @@ async fn process_mail(
         }
     }
 
+    let mut update_doc = doc! {
+        "$set": {
+            "status": "processed",
+            "processedAt": now,
+        },
+    };
+
+    if status == "reprocess" {
+        update_doc.insert("$unset", doc! { "metadata.previousHashes": "" });
+    }
+
     mails
         .update_one(
             doc! { "_id": id, "status": { "$ne": "processed" } },
-            doc! { "$set": { "status": "processed", "processedAt": now } },
+            update_doc,
         )
         .await?;
 
