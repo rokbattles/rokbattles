@@ -52,12 +52,12 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
     while let Some(doc) = cursor.try_next().await? {
         count += 1;
         if let Err(e) = process_mail(&mails, &battle_reports, &doc).await {
-            error!("processing mail failed: {}", e)
+            error!(error = %e, "processing mail failed");
         }
     }
 
     if count > 0 {
-        info!("processed {} mails", count);
+        info!(processed_count = count, "processed mails");
     } else {
         debug!("no pending mails")
     }
@@ -164,7 +164,7 @@ async fn main() -> Result<()> {
     let db = client
         .default_database()
         .expect("MONGO_URI environment variable must include a database name");
-    debug!("connected to MongoDB, using database '{}'", db.name());
+    debug!(database = %db.name(), "connected to MongoDB");
 
     // We'll process older reports over time, but first few days or week, we're only processing newer reports
     // January 1st 2025 00:00 UTC
@@ -175,7 +175,7 @@ async fn main() -> Result<()> {
     loop {
         tick.tick().await;
         if let Err(e) = process(&db, cutoff_microseconds).await {
-            error!("processing failed: {}", e)
+            error!(error = %e, "processing failed");
         }
     }
 }
