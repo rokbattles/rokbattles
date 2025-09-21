@@ -35,7 +35,7 @@ async fn main() {
     let db = client
         .default_database()
         .expect("MONGO_URI environment variable must include a database name");
-    debug!(db_name = %db.name(), "connected to MongoDB");
+    debug!(database = %db.name(), "connected to MongoDB");
 
     let app_state = AppState {
         db,
