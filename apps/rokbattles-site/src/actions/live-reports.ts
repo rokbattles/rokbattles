@@ -91,6 +91,7 @@ export async function fetchSingleReport(parentHash: string): Promise<SingleRepor
     items: [],
     next_cursor: undefined,
     count: 0,
+    battle_results: undefined,
   };
   try {
     const res = await fetch(url, { cache: "no-store" });
@@ -105,5 +106,6 @@ export async function fetchSingleReport(parentHash: string): Promise<SingleRepor
     items,
     count: items.length,
     next_cursor: undefined,
+    battle_results: data?.battle_results,
   };
 }
