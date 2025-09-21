@@ -417,7 +417,7 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
 
       {totalsData.length > 0 ? (
         <div>
-          <h4 className="text-sm font-semibold text-zinc-100">Totals comparison</h4>
+          <h4 className="text-sm font-semibold text-zinc-100">Battle comparison</h4>
           <div className="mt-3" style={{ height: totalsChartHeight }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
