@@ -75,7 +75,7 @@ pub async fn report_by_parent(
 
     let base_filter = doc! {
         "metadata.parentHash": &parent_hash,
-        "report.enemy.player_id": { "$ne": -2 }
+        "report.enemy.player_id": { "$nin": [ -2_i64, 0_i64 ] }
     };
 
     let mut pipeline = vec![
