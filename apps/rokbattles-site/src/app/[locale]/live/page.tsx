@@ -4,11 +4,12 @@ import { setRequestLocale } from "next-intl/server";
 import { resolveNames } from "@/actions/datasets";
 import { fetchSingleReport } from "@/actions/live-reports";
 import { BattleReport } from "@/components/BattleReport";
+import { BattleResultsTimelineChart } from "@/components/battle/BattleResultsTimelineChart";
 import LiveSidebar from "@/components/LiveSidebar";
 import { Divider } from "@/components/ui/divider";
 import { Heading } from "@/components/ui/heading";
 import { routing } from "@/i18n/routing";
-import type { ReportsResponse, SingleReportItem } from "@/lib/types/reports";
+import type { ReportsResponse, SingleReportItem, SingleReportResponse } from "@/lib/types/reports";
 import { formatUTCShort } from "@/lib/utc";
 
 function getFirstValue(value: string | string[] | undefined) {
@@ -79,11 +80,16 @@ export default async function Page({ params, searchParams }: PageProps<"/[locale
   const nameMap =
     commanderIds.length > 0 ? await resolveNames("commanders", commanderIds, locale) : {};
 
+  let selectedReport: SingleReportResponse | null = null;
   let selectedItems: SingleReportItem[] = [];
   if (hash && hash.length > 0) {
-    const report = await fetchSingleReport(hash);
-    selectedItems = (report.items ?? []).slice();
+    selectedReport = await fetchSingleReport(hash);
+    selectedItems = (selectedReport.items ?? []).slice();
   }
+
+  const battleSummary = selectedReport?.battle_results;
+  const timelineCount = battleSummary?.timeline?.length ?? 0;
+  const showTimelineChart = !!battleSummary && timelineCount > 1 && selectedItems.length > 1;
 
   return (
     <div className="relative isolate flex min-h-svh w-full max-lg:flex-col bg-zinc-900 lg:bg-zinc-950">
@@ -98,6 +104,11 @@ export default async function Page({ params, searchParams }: PageProps<"/[locale
           {selectedItems.length > 0 ? (
             <div className="max-w-6xl mx-auto">
               <Heading className="mb-4">Report details</Heading>
+              {showTimelineChart && battleSummary ? (
+                <div className="mb-6">
+                  <BattleResultsTimelineChart summary={battleSummary} locale={locale} />
+                </div>
+              ) : null}
               {selectedItems.map((item) => {
                 const startTimestamp = item.report?.metadata?.start_date;
                 const endTimestamp = item.report?.metadata?.end_date;
