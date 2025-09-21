@@ -153,6 +153,11 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
     return null;
   }
 
+  const firstTimestamp = timelineData[0]?.timestamp ?? 0;
+  const lastTimestamp = timelineData[timelineData.length - 1]?.timestamp ?? firstTimestamp;
+  const axisTicks =
+    firstTimestamp === lastTimestamp ? [firstTimestamp] : [firstTimestamp, lastTimestamp];
+
   const handleMetricToggle = (metricKey: MetricKey) => {
     setActiveMetrics((prev) => {
       const next = new Set(prev);
@@ -354,7 +359,6 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
           })}
         </div>
       </div>
-
       <div className="h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={timelineData} margin={{ top: 10, right: 16, bottom: 0, left: 0 }}>
@@ -364,6 +368,7 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
               type="number"
               domain={["dataMin", "dataMax"]}
               scale="time"
+              ticks={axisTicks}
               tickFormatter={(value) => formatTimestampLabel(Number(value), locale)}
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
@@ -414,7 +419,6 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-
       {totalsData.length > 0 ? (
         <div>
           <h4 className="text-sm font-semibold text-zinc-100">Battle comparison</h4>
