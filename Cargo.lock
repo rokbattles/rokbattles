@@ -2617,7 +2617,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "clap",
@@ -2631,7 +2631,7 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "serde",
@@ -2640,7 +2640,7 @@ dependencies = [
 
 [[package]]
 name = "mail-helper"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "mail-decoder",
  "serde",
@@ -2649,7 +2649,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "itoa",
@@ -4094,7 +4094,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-api"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "axum",
@@ -4115,7 +4115,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "blake3",
@@ -4132,7 +4132,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-tauri"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "anyhow",
  "mail-decoder",

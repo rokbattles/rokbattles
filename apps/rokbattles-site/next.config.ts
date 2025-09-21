@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
+const plugins = [createNextIntlPlugin()];
 const isProvEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {
@@ -21,4 +23,4 @@ const config: NextConfig = {
   typedRoutes: true,
 };
 
-export default config;
+module.exports = () => plugins.reduce((acc, next) => next(acc), config);

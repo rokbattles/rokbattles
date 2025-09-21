@@ -10,1361 +10,1815 @@ inscriptions:
   101:
     name:
       en: "Warcry"
+      de: "Krigsschrei"
       es: "Grito de guerra"
       kr: "전재의 포효"
+    rarity: common
 
   103:
     name:
       en: "Well Clad"
+      de: "Gut gekleidet"
       es: "Fortalecimiento"
       kr: "단단한 갑옷"
+    rarity: common
 
   104:
     name:
       en: "Robust"
+      de: "Robust"
       es: "Robustez"
       kr: "활력"
+    rarity: common
 
   105:
     name:
       en: "Swift"
+      de: "Flink"
       es: "Celeridad"
       kr: "질주"
+    rarity: common
 
   106:
     name:
       en: "Payback"
+      de: "Rache"
       es: "Revancha"
       kr: "복수"
+    rarity: common
 
   107:
     name:
       en: "Onslaught"
+      de: "Ansturm"
       es: "Embestida"
       kr: "맹공"
+    rarity: common
 
   108:
     name:
       en: "Retaliatory"
+      de: "Vergeltung"
       es: "Represalia"
       kr: "반공"
+    rarity: common
 
   109:
     name:
       en: "Enraged"
+      de: "In Rage"
       es: "Furia"
       kr: "난폭"
+    rarity: common
 
   110:
     name:
       en: "Valiant"
+      de: "Tapfer"
       es: "Valentía"
       kr: "용맹무쌍"
+    rarity: common
 
   111:
     name:
       en: "Iron Wall"
+      de: "Eisenwand"
       es: "Muro de hierro"
       kr: "철벽"
+    rarity: common
 
   112:
     name:
       en: "Bellicose"
+      de: "Kriegerisch"
       es: "Belicismo"
       kr: "투지"
+    rarity: common
 
   113:
     name:
       en: "Pulverize"
+      de: "Pulverisieren"
       es: "Pulverizar"
       kr: "펀치"
+    rarity: common
 
   114:
     name:
       en: "Breaker"
+      de: "Zerbrecher"
       es: "Quebrantamiento"
       kr: "갑옷 패진"
+    rarity: common
 
   115:
     name:
       en: "Furious"
+      de: "Erzürnt"
       es: "Furia"
       kr: "격노"
+    rarity: common
 
   116:
     name:
       en: "Ward"
+      de: "Schutzbefohelm"
       es: "Protección"
       kr: "수호자"
+    rarity: common
 
   117:
     name:
       en: "Phalanx"
+      de: "Phalanx"
       es: "Falange"
       kr: "방패진"
+    rarity: common
 
   118:
     name:
       en: "Hurried"
+      de: "In Eile"
       es: "Apremio"
       kr: "질속"
+    rarity: common
 
   119:
     name:
       en: "Tremors"
+      de: "Erdstöße"
       es: "Sacudida"
       kr: "진동"
+    rarity: common
 
   120:
     name:
       en: "Calm"
+      de: "Ruhe"
       es: "Calma"
       kr: "침악"
+    rarity: common
 
   121:
     name:
       en: "Loosed"
+      de: "Gelöst"
       es: "Puntería"
       kr: "강슛"
+    rarity: common
 
   122:
     name:
       en: "Warcry"
+      de: "Kriegsschrei"
       es: "Grito de guerra"
       kr: "전재의 포효"
+    rarity: common
 
   124:
     name:
       en: "Well Clad"
+      de: "Gut gekleidet"
       es: "Fortalecimiento"
       kr: "단단한 갑옷"
+    rarity: common
 
   125:
     name:
       en: "Robust"
+      de: "Robust"
       es: "Robustez"
       kr: "활력"
+    rarity: common
 
   126:
     name:
       en: "Swift"
+      de: "Flink"
       es: "Celeridad"
       kr: "질주"
+    rarity: common
 
   127:
     name:
       en: "Payback"
+      de: "Rache"
       es: "Revancha"
       kr: "복수"
+    rarity: common
 
   128:
     name:
       en: "Onslaught"
+      de: "Ansturm"
       es: "Embestida"
       kr: "맹공"
+    rarity: common
 
   129:
     name:
       en: "Retaliatory"
+      de: "Vergeltung"
       es: "Represalia"
       kr: "반공"
+    rarity: common
 
   130:
     name:
       en: "Enraged"
+      de: "In Rage"
       es: "Furia"
       kr: "난폭"
+    rarity: common
 
   137:
     name:
       en: "Enrichment"
+      de: "Bereicherung"
       es: "Enriquecimiento"
       kr: "일핰천금"
+    rarity: common
 
   201:
     name:
       en: "Brutal"
+      de: "Brutal"
       es: "Brutalidad"
       kr: "담금질"
+    rarity: common
 
   203:
     name:
       en: "Armored"
+      de: "Gepanzert"
       es: "Blindaje"
       kr: "중갑옷"
+    rarity: common
 
   204:
     name:
       en: "Fit"
+      de: "Fit"
       es: "Sanidad"
       kr: "왕성"
+    rarity: common
 
   205:
     name:
       en: "Fine Horse"
+      de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
       kr: "명마"
+    rarity: common
 
   206:
     name:
       en: "Annexer"
+      de: "Annexion"
       es: "Anexo"
       kr: "완납"
+    rarity: common
 
   207:
     name:
       en: "Warhunger"
+      de: "Kriegshunger"
       es: "Sed de guerra"
       kr: "백열전"
+    rarity: common
 
   208:
     name:
       en: "Alert"
+      de: "Aufmerksam"
       es: "Alerta"
       kr: "경비"
+    rarity: common
 
   209:
     name:
       en: "Devious"
+      de: "Verschlagen"
       es: "Impudor"
       kr: "묘책"
+    rarity: common
 
   210:
     name:
       en: "Fearsome"
+      de: "Furchterregend"
       es: "Temible"
       kr: "위퐁당당"
+    rarity: common
 
   211:
     name:
       en: "Evasive"
+      de: "Ausweichend"
       es: "Evasión"
       kr: "희피"
+    rarity: common
 
   212:
     name:
       en: "Requital"
+      de: "Vergeltung"
       es: "Compensación"
       kr: "반항"
+    rarity: common
 
   213:
     name:
       en: "Respite"
+      de: "Atempause"
       es: "Alivio"
       kr: "숨결"
+    rarity: common
 
   214:
     name:
       en: "Guarded"
+      de: "Bewacht"
       es: "Custodia"
       kr: "고수"
+    rarity: common
 
   215:
     name:
       en: "Embattled"
+      de: "Bedrängt"
       es: "Asediado"
       kr: "악전고투"
+    rarity: common
 
   216:
     name:
       en: "Vengeful"
+      de: "Rachgierig"
       es: "Venganza"
       kr: "격노"
+    rarity: common
 
   217:
     name:
       en: "Patronage"
+      de: "Protektion"
       es: "Amparo"
       kr: "보살핌"
+    rarity: common
 
   218:
     name:
       en: "Primed"
+      de: "Gerüstet"
       es: "Superación"
       kr: "노련"
+    rarity: common
 
   219:
     name:
       en: "Uplifting"
+      de: "Aufmungterung"
       es: "Inspiración"
       kr: "격려"
+    rarity: common
 
   220:
     name:
       en: "Spirited"
+      de: "Beherzt"
       es: "Vivaz"
       kr: "드높은 기개"
+    rarity: common
 
   221:
     name:
       en: "Bluster"
+      de: "Toben"
       es: "Arrogancia"
       kr: "여세"
+    rarity: common
 
   222:
     name:
       en: "Brutal"
+      de: "Brutal"
       es: "Brutalidad"
       kr: "담금질"
+    rarity: common
 
   224:
     name:
       en: "Armored"
+      de: "Gepanzert"
       es: "Blindaje"
       kr: "중갑옷"
+    rarity: common
 
   225:
     name:
       en: "Fit"
+      de: "Fit"
       es: "Sanidad"
       kr: "왕성"
+    rarity: common
 
   226:
     name:
       en: "Fine Horse"
+      de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
       kr: "명마"
+    rarity: common
 
   227:
     name:
       en: "Annexer"
+      de: "Annexion"
       es: "Anexo"
       kr: "완납"
+    rarity: common
 
   228:
     name:
       en: "Warhunger"
+      de: "Kriegshunger"
       es: "Sed de guerra"
       kr: "백열전"
+    rarity: common
 
   229:
     name:
       en: "Alert"
+      de: "Aufmerksam"
       es: "Alerta"
       kr: "경비"
+    rarity: common
 
   230:
     name:
       en: "Devious"
+      de: "Verschlagen"
       es: "Impudor"
       kr: "묘책"
+    rarity: common
 
   237:
     name:
       en: "Brisk"
+      de: "Flott"
       es: "Presteza"
       kr: "돈속"
+    rarity: common
 
   301:
     name:
       en: "Spiked"
+      de: "Stachelig"
       es: "Punzante"
       kr: "날카로움"
+    rarity: common
 
   303:
     name:
       en: "Metallics"
+      de: "Metallisch"
       es: "Metalizado"
       kr: "철제 갑옷"
+    rarity: common
 
   304:
     name:
       en: "Vitality"
+      de: "Reaktionskraft"
       es: "Vitalidad"
       kr: "건장"
+    rarity: common
 
   305:
     name:
       en: "Galloping"
+      de: "Im Galopp"
       es: "Galope"
       kr: "분치"
+    rarity: common
 
   306:
     name:
       en: "Cleanser"
+      de: "Reinigung"
       es: "Purificación"
       kr: "악당 제거"
+    rarity: common
 
   307:
     name:
       en: "Striker"
+      de: "Sturm"
       es: "Empoderamiento"
       kr: "강격"
+    rarity: common
 
   308:
     name:
       en: "Rebuff"
+      de: "Abfuhr"
       es: "Repelente"
       kr: "반격"
+    rarity: common
 
   309:
     name:
       en: "Brawler"
+      de: "Rauferei"
       es: "Matón"
       kr: "박투"
+    rarity: common
 
   310:
     name:
       en: "Warflames"
+      de: "Kriegsflammen"
       es: "Llamas bélicas"
       kr: "전화"
+    rarity: common
 
   311:
     name:
       en: "Eclipsed"
+      de: "Fertiggemacht"
       es: "Eclipsado"
       kr: "압도"
+    rarity: common
 
   312:
     name:
       en: "Brave"
+      de: "Mutig"
       es: "Coraje"
       kr: "일당백"
+    rarity: common
 
   313:
     name:
       en: "Strategic"
+      de: "Strategisch"
       es: "Estrategia"
       kr: "전술"
+    rarity: common
 
   314:
     name:
       en: "Desperado"
+      de: "Desperado"
       es: "Forajido"
       kr: "궁지"
+    rarity: common
 
   315:
     name:
       en: "Cohesive"
+      de: "Geschlossen"
       es: "Unión"
       kr: "중지"
+    rarity: common
 
   316:
     name:
       en: "Pursuer"
+      de: "Verfolger"
       es: "Persecución"
       kr: "궁지로 몰기"
+    rarity: common
 
   317:
     name:
       en: "Assertive"
+      de: "Durchsetzungsfähig"
       es: "Aserción"
       kr: "만발"
+    rarity: common
 
   318:
     name:
       en: "Wary"
+      de: "Auf der Hut"
       es: "Cautela"
       kr: "경계"
+    rarity: common
 
   319:
     name:
       en: "Siegework"
+      de: "Belagerungswerk"
       es: "Maquinaria de asedio"
       kr: "도시 파괴"
+    rarity: common
 
   320:
     name:
       en: "Sentries"
+      de: "Wachleute"
       es: "Centinela"
       kr: "수호"
+    rarity: common
 
   321:
     name:
       en: "Ballistics"
+      de: "Ballistik"
       es: "Balística"
       kr: "쇠뇌"
+    rarity: common
 
   322:
     name:
       en: "Spiked"
+      de: "Stachelig"
       es: "Punzante"
       kr: "날카로움"
+    rarity: common
 
   324:
     name:
       en: "Metallics"
+      de: "Metallisch"
       es: "Metalizado"
       kr: "철제 갑옷"
+    rarity: common
 
   325:
     name:
       en: "Vitality"
+      de: "Reaktionskraft"
       es: "Vitalidad"
       kr: "건장"
+    rarity: common
 
   326:
     name:
       en: "Galloping"
+      de: "Im Galopp"
       es: "Galope"
       kr: "분치"
+    rarity: common
 
   327:
     name:
       en: "Cleanser"
+      de: "Reinigung"
       es: "Purificación"
       kr: "악당 제거"
+    rarity: common
 
   328:
     name:
       en: "Striker"
+      de: "Sturm"
       es: "Empoderamiento"
       kr: "강격"
+    rarity: common
 
   329:
     name:
       en: "Rebuff"
+      de: "Abfuhr"
       es: "Repelente"
       kr: "반격"
+    rarity: common
 
   330:
     name:
       en: "Brawler"
+      de: "Rauferei"
       es: "Matón"
       kr: "박투"
+    rarity: common
 
   337:
     name:
       en: "Harvester"
+      de: "Erntehelfer"
       es: "Cosecha"
       kr: "풍작"
+    rarity: common
 
   401:
     name:
       en: "Infamy"
+      de: "Niedertracht"
       es: "Infamia"
       kr: "위력"
+    rarity: common
 
   403:
     name:
       en: "Shielded"
+      de: "Abgeschirmt"
       es: "Escudo"
       kr: "철갑"
+    rarity: common
 
   404:
     name:
       en: "Hardy"
+      de: "Abgehärtet"
       es: "Dureza"
       kr: "웅건"
+    rarity: common
 
   405:
     name:
       en: "Haste"
+      de: "In Eile"
       es: "Prisa"
       kr: "신속"
+    rarity: common
 
   406:
     name:
       en: "Pacifier"
+      de: "Friedensstifter"
       es: "Pacificador"
       kr: "평란"
+    rarity: common
 
   407:
     name:
       en: "Militant"
+      de: "Militant"
       es: "Militancia"
       kr: "병기"
+    rarity: common
 
   408:
     name:
       en: "Resistant"
+      de: "Resistent"
       es: "Resistencia"
       kr: "저항"
+    rarity: common
 
   409:
     name:
       en: "Daring"
+      de: "Verwegen"
       es: "Osadía"
       kr: "담대"
+    rarity: common
 
   410:
     name:
       en: "Elite"
+      de: "Elite"
       es: "Élite"
       kr: "신평"
+    rarity: common
 
   411:
     name:
       en: "Evasive"
+      de: "Ausweichend"
       es: "Evasión"
       kr: "적회피"
+    rarity: common
 
   412:
     name:
       en: "Smite"
+      de: "Smite"
       es: "Aniquilación"
       kr: "강공"
+    rarity: common
 
   413:
     name:
       en: "Enduring"
+      de: "Ausdauernd"
       es: "Durable"
       kr: "강인"
+    rarity: common
 
   414:
     name:
       en: "Artisan"
+      de: "Kunsthandwerker"
       es: "Artista"
       kr: "숙련공"
+    rarity: common
 
   415:
     name:
       en: "Rapacious"
+      de: "Habgierig"
       es: "Rapaz"
       kr: "강습"
+    rarity: common
 
   416:
     name:
       en: "Guardians"
+      de: "Wächter"
       es: "Guardianes"
       kr: "호신부"
+    rarity: common
 
   417:
     name:
       en: "Counterer"
+      de: "Widersetzer"
       es: "Contraatacante"
       kr: "극복"
+    rarity: common
 
   418:
     name:
       en: "Deflecter"
+      de: "Parierer"
       es: "Desvío"
       kr: "그림자"
+    rarity: common
 
   419:
     name:
       en: "Watchmen"
+      de: "Wachmänner"
       es: "Vigilante"
       kr: "엄수"
+    rarity: common
 
   420:
     name:
       en: "Lineshot"
+      de: "Genauer Schuss"
       es: "Tiro directo"
       kr: "화살"
+    rarity: common
 
   422:
     name:
       en: "Infamy"
+      de: "Niedertracht"
       es: "Infamia"
       kr: "위력"
+    rarity: common
 
   424:
     name:
       en: "Shielded"
+      de: "Abgeschirmt"
       es: "Escudo"
       kr: "철갑"
+    rarity: common
 
   425:
     name:
       en: "Hardy"
+      de: "Abgehärtet"
       es: "Dureza"
       kr: "웅건"
+    rarity: common
 
   426:
     name:
       en: "Haste"
+      de: "In Eile"
       es: "Prisa"
       kr: "신속"
+    rarity: common
 
   427:
     name:
       en: "Pacifier"
+      de: "Friedensstifter"
       es: "Pacificador"
       kr: "평란"
+    rarity: common
 
   428:
     name:
       en: "Militant"
+      de: "Militant"
       es: "Militancia"
       kr: "병기"
+    rarity: common
 
   429:
     name:
       en: "Resistant"
+      de: "Resistent"
       es: "Resistencia"
       kr: "저항"
+    rarity: common
 
   430:
     name:
       en: "Daring"
+      de: "Verwegen"
       es: "Osadía"
       kr: "담대"
+    rarity: common
 
   437:
     name:
       en: "Bountiful"
+      de: "Überreich"
       es: "Abundancia"
       kr: "철철 넘침"
+    rarity: common
 
   1101:
     name:
       en: "Destructive"
+      de: "Zerstörerisch"
       es: "Destrucción"
       kr: "파죽지세"
+    rarity: special
 
   1102:
     name:
       en: "Battle-Ready"
+      de: "Kampfbereit"
       es: "Listo para la batalla"
       kr: "응전"
+    rarity: rare
 
   1201:
     name:
       en: "Straight to the Point"
+      de: "Direkt zum Punkt"
       es: "Directo al grano"
       kr: "단도직입"
+    rarity: special
 
   1202:
     name:
       en: "Even-Keeled"
+      de: "Ausgewogen"
       es: "Estable"
       kr: "침착"
+    rarity: rare
 
   1301:
     name:
       en: "Invincible"
+      de: "Unbesiegbar"
       es: "Invencible"
       kr: "완전무장"
+    rarity: special
 
   1302:
     name:
       en: "Unswerving"
+      de: "Unerschütterlich"
       es: "Inmutable"
       kr: "의연"
+    rarity: rare
 
   1401:
     name:
       en: "Fearless"
+      de: "Furchtlos"
       es: "Audacia"
       kr: "두려움을 모르는 힘"
+    rarity: special
 
   1402:
     name:
       en: "Forceful"
+      de: "Kraftvoll"
       es: "Contundente"
       kr: "맹격"
+    rarity: rare
 
   2101:
     name:
       en: "Hunter"
+      de: "Jäger"
       es: "Cazador"
       kr: "전력 맹공"
+    rarity: special
 
   2102:
     name:
       en: "Crazed"
+      de: "Rasend"
       es: "Exaltado"
       kr: "열전"
+    rarity: rare
 
   2201:
     name:
       en: "Unstoppable"
+      de: "Unaufhaltsam"
       es: "Imparable"
       kr: "위풍당당"
+    rarity: special
 
   2202:
     name:
       en: "Boiling Blood"
+      de: "Siedendes Blut"
       es: "Sangre caliente"
       kr: "열혈"
+    rarity: rare
 
   2301:
     name:
       en: "Balanced"
+      de: "Ausgewogen"
       es: "Equilibrio"
       kr: "공수겸비"
+    rarity: special
 
   2302:
     name:
       en: "Defiant"
+      de: "Herausfordernd"
       es: "Desafiante"
       kr: "대적"
+    rarity: rare
 
   2401:
     name:
       en: "Intrepid"
+      de: "Unerschroken"
       es: "Intrépido"
       kr: "맹렬한 기세"
+    rarity: special
 
   2402:
     name:
       en: "Focus Fire"
+      de: "Konzentriertes Feuer"
       es: "Fuego concentrado"
       kr: "집중 공격"
+    rarity: rare
 
   3101:
     name:
       en: "Sharpshooter"
+      de: "Scharfschütze"
       es: "Francotirador"
       kr: "백발백중"
+    rarity: special
 
   3102:
     name:
       en: "Full Draw"
+      de: "Vollständig spannen"
       es: "Arcos tensados"
       kr: "발사준비"
+    rarity: rare
 
   3201:
     name:
       en: "Drilled"
+      de: "Auf Zack"
       es: "Perforación"
       kr: "일발필중"
+    rarity: special
 
   3202:
     name:
       en: "Bloody Bolt"
+      de: "Blutiges Geschoss"
       es: "Virote sangriento"
       kr: "화살"
+    rarity: rare
 
   3301:
     name:
       en: "Merciless"
+      de: "Gnadenlos"
       es: "Sin piedad"
       kr: "만반의 준비"
+    rarity: special
 
   3302:
     name:
       en: "Tempered"
+      de: "Gehärtet"
       es: "Templado"
       kr: "강력한 저항"
+    rarity: rare
 
   3401:
     name:
       en: "Astute"
+      de: "Gerissen"
       es: "Astucia"
       kr: "늠름한 자태"
+    rarity: special
 
   3402:
     name:
       en: "Sharp Arrows"
+      de: "Scharfe Pfeile"
       es: "Flechas filosas"
       kr: "예리한 화살"
+    rarity: rare
 
   4101:
     name:
       en: "Influential Leader"
+      de: "Einflussreicher Anführer"
       es: "Líder prestigioso"
       kr: "영향력 있는 지도자"
+    rarity: special
 
   4102:
     name:
       en: "Drums of War"
+      de: "Kriegstrommeln"
       es: "Tambores de guerra"
       kr: "전고"
+    rarity: rare
 
   4201:
     name:
       en: "Loaded"
+      de: "Belastbar"
       es: "Cargado"
       kr: "적당한 밀당"
+    rarity: special
 
   4202:
     name:
       en: "Nullify"
+      de: "Zunichtemachen"
       es: "Anulación"
       kr: "면역"
+    rarity: rare
 
   4301:
     name:
       en: "Civilized"
+      de: "Zivilisiert"
       es: "Civilizado"
       kr: "전투력 비축"
+    rarity: special
 
   4302:
     name:
       en: "Counter-Parry"
+      de: "Gegenparade"
       es: "Contrabloqueo"
       kr: "인내"
+    rarity: rare
 
   4401:
     name:
       en: "Fixed"
+      de: "Feststehend"
       es: "Reparación"
       kr: "난공불락"
+    rarity: special
 
   4402:
     name:
       en: "Persevering"
+      de: "Beharrlich"
       es: "Perseverancia"
       kr: "분발"
+    rarity: rare
 
   5101:
     name:
       en: "Cocoon"
+      de: "Kokon"
       es: "Capullo"
       kr: "굳건한 방어"
+    rarity: special
 
   5102:
     name:
       en: "Self-Defense"
+      de: "Selbstverteidigung"
       es: "Defensa propia"
       kr: "가시 갑주"
+    rarity: rare
 
   5201:
     name:
       en: "Inviolable"
+      de: "Unantastbar"
       es: "Irrompible"
       kr: "철옹성"
+    rarity: special
 
   5202:
     name:
       en: "Aegis"
+      de: "Aegis"
       es: "Égida"
       kr: "견고한 방패"
+    rarity: rare
 
   5301:
     name:
       en: "Crowned"
+      de: "Gekrönt"
       es: "Coronación"
       kr: "용감우쌍"
+    rarity: special
 
   5302:
     name:
       en: "Reinforced"
+      de: "Verstärkt"
       es: "Refuerzo"
       kr: "보강"
+    rarity: rare
 
   5401:
     name:
       en: "Rounded"
+      de: "Rundum"
       es: "Integral"
       kr: "정교한 무기"
+    rarity: special
 
   5402:
     name:
       en: "Tenacious"
+      de: "Hartnäckig"
       es: "Tenaz"
       kr: "결연"
+    rarity: rare
 
   6101:
     name:
       en: "Rich"
+      de: "Reich"
       es: "Riqueza"
       kr: "황금의 산"
+    rarity: special
 
   6102:
     name:
       en: "Gold Panner"
+      de: "Goldwäscher"
       es: "Bateo de oro"
       kr: "골드 디거"
+    rarity: rare
 
   6201:
     name:
       en: "Battlements"
+      de: "Wehrgang"
       es: "Almena"
       kr: "견벽청야"
+    rarity: special
 
   6202:
     name:
       en: "Safeguard"
+      de: "Absichern"
       es: "Salvaguarda"
       kr: "세이프가츠"
+    rarity: rare
 
   6301:
     name:
       en: "Moneyed"
+      de: "Begütert"
       es: "Pudiente"
       kr: "점석겅금"
+    rarity: special
 
   6302:
     name:
       en: "Plentitude"
+      de: "Fülle"
       es: "Abundancia"
       kr: "추수"
+    rarity: rare
 
   6401:
     name:
       en: "Transporter"
+      de: "Transporter"
       es: "Transportista"
       kr: "군량과 말 준비"
+    rarity: special
 
   6402:
     name:
       en: "Sturdy Back"
+      de: "Starker Rücken"
       es: "Retaguardia fornida"
       kr: "풍요"
+    rarity: rare
 
   7101:
     name:
       en: "Emmeshed"
+      de: "Verstrickt"
       es: "Maraña"
       kr: "빈틈없는 경계망"
+    rarity: special
 
   7102:
     name:
       en: "Entangling"
+      de: "Umschlingend"
       es: "Enredo"
       kr: "속박"
+    rarity: rare
 
   7201:
     name:
       en: "Logistical"
+      de: "Logistik"
       es: "Logística"
       kr: "겡한 군세"
+    rarity: special
 
   7202:
     name:
       en: "Arms Race"
+      de: "Waffenwettkampf"
       es: "Carrera armamentista"
       kr: "군비 확장"
+    rarity: rare
 
   7301:
     name:
       en: "Unassailed"
+      de: "Uneinholbar"
       es: "Retirada"
       kr: "용맹한 군대"
+    rarity: special
 
   7302:
     name:
       en: "Sprinter"
+      de: "Sprinter"
       es: "Velocista"
       kr: "겐각"
+    rarity: rare
 
   7401:
     name:
       en: "Winged"
+      de: "Beflügelt"
       es: "Alado"
       kr: "선두자"
+    rarity: special
 
   7402:
     name:
       en: "Strider"
+      de: "Läufer"
       es: "Pasos largos"
       kr: "질주"
+    rarity: rare
 
   8101:
     name:
       en: "Irreproachable"
+      de: "Unbescholten"
       es: "Irreprochable"
       kr: "완벽"
+    rarity: special
 
   8102:
     name:
       en: "Ironclad"
+      de: "Eisern"
       es: "Invulnerable"
       kr: "호신"
+    rarity: rare
 
   8201:
     name:
       en: "Cautious"
+      de: "Vorsichtig"
       es: "Cautela"
       kr: "삼엄한 경비"
+    rarity: special
 
   8202:
     name:
       en: "Strike & Parry"
+      de: "Zushlagen und parieren"
       es: "Golpe y bloqueo"
       kr: "역습"
+    rarity: rare
 
   8301:
     name:
       en: "Shield Bash"
+      de: "Schild-Schlag"
       es: "Glope de escudo"
       kr: "방패 강타"
+    rarity: special
 
   8302:
     name:
       en: "Unshakeable"
+      de: "Unbeugsam"
       es: "Imperturbable"
       kr: "끈기"
+    rarity: rare
 
   8401:
     name:
       en: "Rock Solid"
+      de: "Felsenfest"
       es: "Firme como una roca"
       kr: "견여반석"
+    rarity: special
 
   8402:
     name:
       en: "Convalescing"
+      de: "Genesend"
       es: "Convaleciente"
       kr: "회복"
+    rarity: rare
 
   9101:
     name:
       en: "Avenger"
+      de: "Rächer"
       es: "Vengador"
       kr: "눈에는눈"
+    rarity: special
 
   9102:
     name:
       en: "Back In Action"
+      de: "Wieder im Einsatz"
       es: "De vuelta al ruedo"
       kr: "완쾌"
+    rarity: rare
 
   9201:
     name:
       en: "Guarding Light"
+      de: "Schützendes Licht"
       es: "Luz protectora"
       kr: "수호의빛"
+    rarity: special
 
   9202:
     name:
       en: "Medic"
+      de: "Sanitäter"
       es: "Medicina"
       kr: "의료"
+    rarity: rare
 
   9301:
     name:
       en: "Turn the Corner"
+      de: "Die Kurve kriegen"
       es: "Apuro superado"
       kr: "전회위복"
+    rarity: special
 
   9302:
     name:
       en: "Rise Up"
+      de: "Aufsteigen"
       es: "De pie"
       kr: "완강"
+    rarity: rare
 
   9401:
     name:
       en: "Panacea"
+      de: "Wundermittel"
       es: "Panacea"
       kr: "특효약"
+    rarity: special
 
   9402:
     name:
       en: "Refreshing"
+      de: "Erfischend"
       es: "Refrescante"
       kr: "생기발랄"
+    rarity: rare
 
   10101:
     name:
       en: "Hasty Retreat"
+      de: "Eiliger Rückzug"
       es: "Retirada rauda"
       kr: "즉시 퇴각"
+    rarity: special
 
   10102:
     name:
       en: "Fall Back"
+      de: "Zurückfallen lassen"
       es: "Emprender la retirada"
       kr: "퇴수"
+    rarity: rare
 
   10201:
     name:
       en: "Blast Shield"
+      de: "Sprengschutz-Schild"
       es: "Escudo explosivo"
       kr: "튼튼한 장벽"
+    rarity: special
 
   10202:
     name:
       en: "Spread Out"
+      de: "Verteilen"
       es: "Dispersión"
       kr: "호신"
+    rarity: rare
 
   10301:
     name:
       en: "Full Force"
+      de: "Voller Einsatz"
       es: "Fuerza total"
       kr: "천군만마"
+    rarity: special
 
   10302:
     name:
       en: "Shock Troops"
+      de: "Stoßtruppen"
       es: "Tropas de choque"
       kr: "강팀"
+    rarity: rare
 
   10401:
     name:
       en: "United Front"
+      de: "Vereinte Front"
       es: "Frente unido"
       kr: "연합 방어"
+    rarity: special
 
   10402:
     name:
       en: "Mutual Defense"
+      de: "Gemeinsame Verteidigung"
       es: "Defensa mutua"
       kr: "공동 방어"
+    rarity: rare
 
   13101:
     name:
       en: "Trasher"
+      de: "Verdrescher"
       es: "Trilladora"
       kr: "쉬운 제압"
+    rarity: special
 
   13102:
     name:
       en: "Pummeler"
+      de: "Schläger"
       es: "Vapuleo"
       kr: "박살"
+    rarity: rare
 
   13201:
     name:
       en: "Butterfly"
+      de: "Schmetterlingseffekt"
       es: "Efecto mariposa"
       kr: "나비 효과"
+    rarity: special
 
   13202:
     name:
       en: "Causative"
+      de: "Ursache"
       es: "Causa"
       kr: "연격 시너지"
+    rarity: rare
 
   13301:
     name:
       en: "Steelskin"
+      de: "Stahlhaut"
       es: "Piel acerada"
       kr: "강철의몸"
+    rarity: special
 
   13302:
     name:
       en: "Determined"
+      de: "Entschlossen"
       es: "Determinación"
       kr: "당당한 기개"
+    rarity: rare
 
   13401:
     name:
       en: "Flurry"
+      de: "Schlaghagel"
       es: "Ráfaga"
       kr: "폭우"
+    rarity: special
 
   13402:
     name:
       en: "Relentless"
+      de: "Erbarmungslos"
       es: "Implacable"
       kr: "묵직한 연격"
+    rarity: rare
 
   14101:
     name:
       en: "Battle Ready"
+      de: "Kampfbereit"
       es: "Lista para la batalla"
       kr: "전투 태세"
+    rarity: special
 
   14102:
     name:
       en: "Vigilant"
+      de: "Wachsam"
       es: "Alerta"
       kr: "곙각심"
+    rarity: rare
 
   14201:
     name:
       en: "Fortified"
+      de: "Befestigt"
       es: "Fortificación"
       kr: "금성첼벽"
+    rarity: special
 
   14202:
     name:
       en: "Resolute"
+      de: "Entschlossen"
       es: "Resolución"
       kr: "불굴의 투지"
+    rarity: rare
 
   14301:
     name:
       en: "Chokepoint"
+      de: "Engpass"
       es: "Cuello de botella"
       kr: "일기당천"
+    rarity: special
 
   14302:
     name:
       en: "Precautions"
+      de: "Vorsichtsmaßnahmen"
       es: "Precauciones"
       kr: "첼벽"
+    rarity: rare
 
   14401:
     name:
       en: "Steelheart"
+      de: "Stahlherz"
       es: "Corazón de acero"
       kr: "강철의몸"
+    rarity: special
 
   14402:
     name:
       en: "Ironsides"
+      de: "Eisenseiten"
       es: "Coraza de hierro"
       kr: "강첼의 뼈"
+    rarity: rare
 
   16101:
     name:
       en: "Vanquisher"
+      de: "Sieger"
       es: "Vencedor"
       kr: "필승 전략"
+    rarity: special
 
   16102:
     name:
       en: "Overwhelm"
+      de: "Überwältigen"
       es: "Abrumar"
       kr: "방어 돌파"
+    rarity: rare
 
   16201:
     name:
       en: "Self Heal"
+      de: "Selbstheilung"
       es: "Autosanación"
       kr: "회복의 힘"
+    rarity: special
 
   16202:
     name:
       en: "Self Tend"
+      de: "Selbstversorgung"
       es: "Autocuidado"
       kr: "자가 치유"
+    rarity: rare
 
   16301:
     name:
       en: "Brilliant"
+      de: "Brillant"
       es: "Brillante"
       kr: "빠른 성장"
+    rarity: special
 
   16302:
     name:
       en: "Astute"
+      de: "Gerissen"
       es: "Astucia"
       kr: "단련"
+    rarity: rare
 
   16401:
     name:
       en: "Mountain"
+      de: "Gebirge"
       es: "Montaña"
       kr: "산악철벽"
+    rarity: special
 
   16402:
     name:
       en: "Stone"
+      de: "Stein"
       es: "Piedra"
       kr: "장벽"
+    rarity: rare
 
   17101:
     name:
       en: "Toppler"
+      de: "Umstürzer"
       es: "Derribador"
       kr: "산해개벽"
+    rarity: special
 
   17102:
     name:
       en: "Imploder"
+      de: "Implodierer"
       es: "Implosionador"
       kr: "붕괴"
+    rarity: rare
 
   17201:
     name:
       en: "Demolisher"
+      de: "Abreißer"
       es: "Demoledor"
       kr: "잴풍 소탕"
+    rarity: special
 
   17202:
     name:
       en: "Raider"
+      de: "Plünderer"
       es: "Incursor"
       kr: "파멸의 급습"
+    rarity: rare
 
   17301:
     name:
       en: "Airtight"
+      de: "Luftdicht"
       es: "Hermético"
       kr: "첼벽수비"
+    rarity: special
 
   17302:
     name:
       en: "Hardheaded"
+      de: "Dickköpfig"
       es: "Testarudo"
       kr: "첼갑진"
+    rarity: rare
 
   17401:
     name:
       en: "Thundering"
+      de: "Donnernd"
       es: "Atronador"
       kr: "번개의 일격"
+    rarity: special
 
   17402:
     name:
       en: "Rattling"
+      de: "Rasselnd"
       es: "Estremecedor"
       kr: "진격참"
+    rarity: rare

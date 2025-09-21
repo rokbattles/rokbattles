@@ -3,10 +3,12 @@
 import * as fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
+import type { Locale } from "next-intl";
 import { cache } from "react";
 import { parse as parseYAML } from "yaml";
+import { routing } from "@/i18n/routing";
 
-type Locale = "en" | "es" | "kr";
+const DEFAULT_LOCALE: Locale = routing.defaultLocale;
 
 type LocalizedName = {
   en?: string;
@@ -92,7 +94,7 @@ function pickLocalizedName(entry: DatasetEntry | undefined, locale: Locale): str
 export async function resolveName(
   datasetName: string,
   id: string | number,
-  locale: Locale = "en"
+  locale: Locale = DEFAULT_LOCALE
 ): Promise<string | undefined> {
   const ds = await loadDataset(datasetName);
   const key = String(id);
@@ -103,7 +105,7 @@ export async function resolveName(
 export async function resolveNames(
   datasetName: string,
   ids: Array<string | number>,
-  locale: Locale = "en"
+  locale: Locale = DEFAULT_LOCALE
 ): Promise<Record<string, string | undefined>> {
   const ds = await loadDataset(datasetName);
   const out: Record<string, string | undefined> = {};

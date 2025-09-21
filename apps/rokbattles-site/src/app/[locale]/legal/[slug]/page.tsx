@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { Locale } from "next-intl";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import ReactMarkdown from "react-markdown";
-
+import { routing } from "@/i18n/routing";
 import { getLegalDocument, getLegalDocuments, loadLegalDocument } from "@/lib/legal-docs";
 
 export const dynamic = "error";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getLegalDocuments().map((doc) => ({ slug: doc.slug }));
+  return routing.locales.flatMap((locale) =>
+    getLegalDocuments().map((doc) => ({ locale, slug: doc.slug }))
+  );
 }
 
-export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/legal/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const doc = getLegalDocument(slug);
 
@@ -20,8 +27,13 @@ export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): 
   };
 }
 
-export default async function LegalDocumentPage({ params }: PageProps<"/legal/[slug]">) {
-  const { slug } = await params;
+export default async function LegalDocumentPage({ params }: PageProps<"/[locale]/legal/[slug]">) {
+  const { locale: rawLocale, slug } = await params;
+  const resolvedLocale = hasLocale(routing.locales, rawLocale) ? rawLocale : routing.defaultLocale;
+  const locale: Locale = resolvedLocale;
+
+  setRequestLocale(locale);
+
   const doc = await loadLegalDocument(slug);
 
   if (!doc) {

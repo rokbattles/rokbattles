@@ -1,5 +1,6 @@
 import { Swords } from "lucide-react";
-import Link from "next/link";
+import type { Locale } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 type LiveReportListItemProps = {
   left: string;
@@ -7,6 +8,7 @@ type LiveReportListItemProps = {
   leftSecondary?: string;
   rightSecondary?: string;
   query: Record<string, string>;
+  locale: Locale;
 };
 
 export function LiveReportListItem({
@@ -15,10 +17,12 @@ export function LiveReportListItem({
   leftSecondary,
   rightSecondary,
   query,
+  locale,
 }: LiveReportListItemProps) {
   return (
     <Link
       href={{ pathname: "/live", query }}
+      locale={locale}
       className="flex items-center justify-between px-5 py-3 transition hover:bg-zinc-800"
     >
       <div className="w-36">

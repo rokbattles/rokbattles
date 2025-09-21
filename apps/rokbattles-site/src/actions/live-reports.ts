@@ -1,5 +1,7 @@
 "use server";
 
+import type { Locale } from "next-intl";
+import { routing } from "@/i18n/routing";
 import type {
   ReportsResponse,
   ReportsWithNamesResponse,
@@ -9,7 +11,7 @@ import { resolveNames } from "./datasets";
 
 export async function fetchLiveReports(
   after?: string,
-  locale: "en" | "es" | "kr" = "en",
+  locale: Locale = routing.defaultLocale,
   opts?: { playerId?: number; kvkOnly?: boolean; arkOnly?: boolean }
 ): Promise<ReportsWithNamesResponse> {
   const apiBase = process.env.ROKB_API_URL ?? "http://localhost:4445";
@@ -89,6 +91,7 @@ export async function fetchSingleReport(parentHash: string): Promise<SingleRepor
     items: [],
     next_cursor: undefined,
     count: 0,
+    battle_results: undefined,
   };
   try {
     const res = await fetch(url, { cache: "no-store" });
@@ -103,5 +106,6 @@ export async function fetchSingleReport(parentHash: string): Promise<SingleRepor
     items,
     count: items.length,
     next_cursor: undefined,
+    battle_results: data?.battle_results,
   };
 }

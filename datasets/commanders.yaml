@@ -2,873 +2,1122 @@ commanders:
   1:
     name:
       en: "Julius Caesar"
+      de: "Julius Cäsar"
       es: "Julio César"
       kr: "율리우스 카이사르"
     prime: false
+    rarity: legendary
 
   3:
     name:
       en: "Sun Tzu"
+      de: "Sun Tzu"
       es: "Sun Tzu"
       kr: "손무"
     prime: false
+    rarity: epic
 
   4:
     name:
       en: "Frederick I"
+      de: "Friedrich I"
       es: "Federico I"
       kr: "프리드리히 1세"
     prime: false
+    rarity: legendary
 
   5:
     name:
       en: "Constantine I"
+      de: "Konstantin I"
       es: "Constantino I"
       kr: "콘스탄티누스 1세"
     prime: false
+    rarity: legendary
 
   6:
     name:
       en: "Yi Seong-Gye"
+      de: "Yi Seong-Gye"
       es: "Yi Seong-Gye"
       kr: "이성계"
     prime: false
+    rarity: legendary
 
   7:
     name:
       en: "Cao Cao"
+      de: "Cao Cao"
       es: "Cao Cao"
       kr: "조조"
     prime: false
+    rarity: legendary
 
   8:
     name:
       en: "Richard I"
+      de: "Richard I"
       es: "Ricardo I"
       kr: "리처드 1세"
     prime: false
+    rarity: legendary
 
   9:
     name:
       en: "Minamoto no Yoshitsune"
+      de: "Minamoto no Yoshitsune"
       es: "Minamoto no Yoshitsune"
       kr: "미나모토노 요시쓰네"
     prime: false
+    rarity: legendary
 
   10:
     name:
       en: "Charles Martel"
+      de: "Charles Martel"
       es: "Carlos Martel"
       kr: "카를 마르텔"
     prime: false
+    rarity: legendary
 
   11:
     name:
       en: "El Cid"
+      de: "El Cid"
       es: "El Cid"
       kr: "엘 시드"
     prime: false
+    rarity: legendary
 
   12:
     name:
       en: "Hermann"
+      de: "Hermann"
       es: "Hermann"
       kr: "헤르만"
     prime: false
+    rarity: epic
 
   13:
     name:
       en: "Kusunoki Masashige"
+      de: "Kusunoki Masashige"
       es: "Kusunoki Masashige"
       kr: "구스노키 마사시게"
     prime: false
+    rarity: epic
 
   14:
     name:
       en: "Scipio Africanus"
+      de: "Scipio Africanus"
       es: "Escipión el Africano"
       kr: "스키피오"
     prime: false
+    rarity: epic
 
   15:
     name:
       en: "Joan of Arc"
+      de: "Johanna von Orléans"
       es: "Juana de Arco"
       kr: "잔 다르크"
     prime: false
+    rarity: epic
 
   16:
     name:
       en: "Eulji Mundeok"
+      de: "Eulji Mundeok"
       es: "Eulji Mundeok"
       kr: "을지문덕"
     prime: false
+    rarity: epic
 
   17:
     name:
       en: "Boudica"
+      de: "Boundicca"
       es: "Boudica"
       kr: "부디카"
     prime: false
+    rarity: epic
 
   18:
     name:
       en: "Pelagius"
+      de: "Pelayo"
       es: "Pelayo"
       kr: "펠라기우스"
     prime: false
+    rarity: epic
 
   22:
     name:
       en: "City Keeper"
+      de: "Stadthüter"
       es: "Guardián de la Ciudad"
       kr: "수호자"
     prime: false
+    rarity: advanced
 
   23:
     name:
       en: "Markswoman"
+      de: "Scharfschützin"
       es: "Francotiradora"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   24:
     name:
       en: "Centurion"
+      de: "Zenturio"
       es: "Centurión"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   25:
     name:
       en: "Dragon Lancer"
+      de: "Drachenulan"
       es: "Lancero de Dragón"
       kr: "명시수"
     prime: false
+    rarity: advanced
 
   30:
     name:
       en: "Hannibal Barca"
+      de: "Hannibal Barca"
       es: "Aníbal Barca"
       kr: "한니발 바르카"
     prime: false
+    rarity: legendary
 
   32:
     name:
       en: "Cleopatra VII"
+      de: "Kleopatra VII"
       es: "Cleopatra VII"
       kr: "틀레오파트라 7세"
     prime: false
+    rarity: legendary
 
   33:
     name:
       en: "Constance"
+      de: "Constance"
       es: "Constanza"
       kr: "쿠스탄차"
     prime: false
+    rarity: elite
 
   34:
     name:
       en: "Gaius Marius"
+      de: "Gaius Marius"
       es: "Cayo Mario"
       kr: "가이우스 마리우스"
     prime: false
+    rarity: elite
 
   35:
     name:
       en: "Tomoe Gozen"
+      de: "Tomoe Gozen"
       es: "Tomoe Gozen"
       kr: "토모에 고젠"
     prime: false
+    rarity: elite
 
   36:
     name:
       en: "Lancelot"
+      de: "Lancelot"
       es: "Lanzarote"
       kr: "랜슬롯"
     prime: false
+    rarity: elite
 
   37:
     name:
       en: "Lohar"
+      de: "Lohar"
       es: "Lohar"
       kr: "로하"
     prime: false
+    rarity: epic
 
   38:
     name:
       en: "Šárka"
+      de: "Sarka"
       es: "Sárka"
       kr: "샤르카"
     prime: false
+    rarity: elite
 
   61:
     name:
       en: "Belisarius"
+      de: "Belisarius"
       es: "Belisario"
       kr: "벨리사리우스"
     prime: false
+    rarity: epic
 
   62:
     name:
       en: "Baibars"
+      de: "Baibars"
       es: "Baibars"
       kr: "바이바르스"
     prime: false
+    rarity: epic
 
   63:
     name:
       en: "Osman I"
+      de: "Osman I"
       es: "Osmán I"
       kr: "오스만 1세"
     prime: false
+    rarity: epic
 
   64:
     name:
       en: "Saladin"
+      de: "Saladin"
       es: "Saladino"
       kr: "살라딘"
     prime: false
+    rarity: legendary
 
   65:
     name:
       en: "Mehmed II"
+      de: "Mehmed II"
       es: "Mehmed II"
       kr: "메흐메트 2세"
     prime: false
+    rarity: legendary
 
   66:
     name:
       en: "Mulan"
+      de: "Mulan"
       es: "Mulan"
       kr: "호목란"
     prime: false
+    rarity: legendary
 
   95:
     name:
       en: "Wu Zetian"
+      de: "Wu Zetian"
       es: "Wu Zetian"
       kr: "측천무후"
     prime: false
+    rarity: legendary
 
   96:
     name:
       en: "Genghis Khan"
+      de: "Dschingis Khan"
       es: "Genghis Khan"
       kr: "칭기즈칸"
     prime: false
+    rarity: legendary
 
   97:
     name:
       en: "Charlemagne"
+      de: "Karl der Große"
       es: "Carlomagno"
       kr: "샤를마뉴"
     prime: false
+    rarity: legendary
 
   98:
     name:
       en: "Alexander the Great"
+      de: "Alexander der Große"
       es: "Alejandro Magno"
       kr: "알렉산더 대왕"
     prime: false
+    rarity: legendary
 
   99:
     name:
       en: "Æthelflæd"
+      de: "Ethelfleda"
       es: "Ethelfleda"
       kr: "애설플레드"
     prime: false
+    rarity: legendary
 
   100:
     name:
       en: "Tomyris"
+      de: "Tomyris"
       es: "Tomiris"
       kr: "토미리스"
     prime: false
+    rarity: legendary
 
   101:
     name:
       en: "Edward of Woodstock"
+      de: "Eduard of Woodstock"
       es: "Eduardo de Woodstock"
       kr: "에드워드 우드스톡"
     prime: false
+    rarity: legendary
 
   102:
     name:
       en: "Seondeok"
+      de: "Seondeok"
       es: "Seondeok"
       kr: "선덕여왕"
     prime: false
+    rarity: legendary
 
   103:
     name:
       en: "Attila"
+      de: "Attila"
       es: "Atila"
       kr: "아틸라"
     prime: false
+    rarity: legendary
 
   104:
     name:
       en: "Takeda Shingen"
+      de: "Takeda Shingen"
       es: "Takeda Shingen"
       kr: "다케다 신겐"
     prime: false
+    rarity: legendary
 
   105:
     name:
       en: "Ishida Mitsunari"
+      de: "Ishida Mitsunari"
       es: "Ishida Mitsunari"
       kr: "이시다 미츠나리"
     prime: false
+    rarity: legendary
 
   106:
     name:
       en: "Theodora"
+      de: "Theodora"
       es: "Teodora"
       kr: "테오도라"
     prime: false
+    rarity: legendary
 
   108:
     name:
       en: "Guan Yu"
+      de: "Guan Yu"
       es: "Guan Yu"
       kr: "관우"
     prime: false
+    rarity: legendary
 
   109:
     name:
       en: "Leonidas I"
+      de: "Leonidas I"
       es: "Leónidas I"
       kr: "레오니다스 1세"
     prime: false
+    rarity: legendary
 
   110:
     name:
       en: "Ramesses II"
+      de: "Ramesses II"
       es: "Ramsés II"
       kr: "람세스 2세"
     prime: false
+    rarity: legendary
 
   111:
     name:
       en: "Artemisia I"
+      de: "Artemisia I"
       es: "Artemisia I"
       kr: "아르테미시아 1세"
     prime: false
+    rarity: legendary
 
   112:
     name:
       en: "Keira"
+      de: "Keira"
       es: "Keira"
       kr: "카일라"
     prime: false
+    rarity: epic
 
   113:
     name:
       en: "Yi Sun-sin"
+      de: "Yi Sun-sin"
       es: "Yi Sun-sin"
       kr: "이순신"
     prime: false
+    rarity: legendary
 
   114:
     name:
       en: "Chandragupta Maurya"
+      de: "Chandragupta Maurya"
       es: "Chandragupta Maurya"
       kr: "찬드라굽타"
     prime: false
+    rarity: legendary
 
   115:
     name:
       en: "William I"
+      de: "Wilhelm I"
       es: "Guillermo I"
       kr: "윌리엄 1세"
     prime: false
+    rarity: legendary
 
   116:
     name:
       en: "Matilda of Flanders"
+      de: "Mathilde von Flandern"
       es: "Matilde de Flandes"
       kr: "마틸다 1세"
     prime: false
+    rarity: epic
 
   117:
     name:
       en: "Harald Sigurdsson"
+      de: "Harald III"
       es: "Harald Sigurdsson"
       kr: "하랄 3세"
     prime: false
+    rarity: legendary
 
   118:
     name:
       en: "Zenobia"
+      de: "Zenobia"
       es: "Zenobia"
       kr: "제노비아"
     prime: false
+    rarity: legendary
 
   119:
     name:
       en: "Lu Bu"
+      de: "Lü Bu"
       es: "Lu Bu"
       kr: "여포"
     prime: false
+    rarity: legendary
 
   120:
     name:
       en: "Diaochan"
+      de: "Diaochan"
       es: "Diaochan"
       kr: "초선"
     prime: false
+    rarity: epic
 
   121:
     name:
       en: "Cyrus the Great"
+      de: "Kyros der Große"
       es: "Ciro el Grande"
       kr: "키루스 대제"
     prime: false
+    rarity: legendary
 
   122:
     name:
       en: "Nebuchadnezzar II"
+      de: "Nebukadnezar II"
       es: "Nabucodonosor II"
       kr: "네부카드네자르 2세"
     prime: false
+    rarity: legendary
 
   124:
     name:
       en: "Moctezuma I"
+      de: "Moctezuma I"
       es: "Moctezuma I"
       kr: "몬테수마 1세"
     prime: false
+    rarity: legendary
 
   125:
     name:
       en: "Trajan"
+      de: "Trajan"
       es: "Trajano"
       kr: "트라야누스"
     prime: false
+    rarity: legendary
 
   126:
     name:
       en: "Jadwiga"
+      de: "Hedwig"
       es: "Jadwiga"
-      kr: ""
+      kr: "야드비가"
     prime: false
+    rarity: legendary
 
   127:
     name:
       en: "Xiang Yu"
+      de: "Xiang Yu"
       es: "Xiang Yu"
-      kr: "야드비가"
+      kr: "항우"
     prime: false
+    rarity: legendary
 
   128:
     name:
       en: "Björn Ironside"
+      de: "Björn Ironside"
       es: "Björn Brazo de Hierro"
       kr: "비에른"
     prime: false
+    rarity: epic
 
   129:
     name:
       en: "Ragnar Lodbrok"
+      de: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
       kr: "라그나르 로드브로크"
     prime: false
+    rarity: legendary
 
   130:
     name:
       en: "Cheok Jun-gyeong"
+      de: "Cheok Jun-gyeong"
       es: "Cheok Jun-gyeong"
       kr: "척준경"
     prime: false
+    rarity: legendary
 
   131:
     name:
       en: "K'inich Janaab' Pakal"
+      de: "K'inich Janaab Pakal"
       es: "K'inich Janaab' Pakal"
       kr: "파칼 2세"
     prime: false
+    rarity: legendary
 
   132:
     name:
       en: "Gilgamesh"
+      de: "Gilgamesch"
       es: "Gilgamesh"
       kr: "길가메시"
     prime: false
+    rarity: legendary
 
   133:
     name:
       en: "Amanitore"
+      de: "Amanitore"
       es: "Amanitore"
       kr: "아마니토레"
     prime: false
+    rarity: legendary
 
   134:
     name:
       en: "Queen Tamar of Georgia"
+      de: "Königin Tamar von Georgien"
       es: "Reina Tamara de Georgia"
       kr: "타마르 여왕"
     prime: false
+    rarity: epic
 
   135:
     name:
       en: "Honda Tadakatsu"
+      de: "Honda Tadakatsu"
       es: "Honda Tadakatsu"
       kr: "혼다 타다카츠"
     prime: false
+    rarity: legendary
 
   136:
     name:
       en: "Suleiman I"
+      de: "Süleiman I"
       es: "Solimán I"
       kr: "쉴레이만 1세"
     prime: false
+    rarity: legendary
 
   137:
     name:
       en: "Bertrand du Guesclin"
+      de: "Bertrand du Guesclin"
       es: "Bertrand du Guesclin"
       kr: "베르트랑 뒤게클랭"
     prime: false
+    rarity: legendary
 
   138:
     name:
       en: "Alexander Nevsky"
+      de: "Alexander Newski"
       es: "Alejandro Nevsky"
       kr: "알렉산드르 넵스키"
     prime: false
+    rarity: legendary
 
   139:
     name:
       en: "Flavius Aetius"
+      de: "Flavius Aëtius"
       es: "Flavio Aecio"
       kr: "아에티우스"
     prime: false
+    rarity: legendary
 
   140:
     name:
       en: "Scipio Africanus"
+      de: "Scipio Africanus"
       es: "Escipión el Africano"
       kr: "스키피오 아프리카누스"
     prime: true
+    rarity: legendary
 
   141:
     name:
       en: "Thutmose III"
+      de: "Thutmosis III"
       es: "Tutmosis III"
       kr: "투트모세 3세"
     prime: false
+    rarity: legendary
 
   142:
     name:
       en: "Imhotep"
+      de: "Imhotep"
       es: "Imhotep"
       kr: "임호텝"
     prime: false
+    rarity: epic
 
   145:
     name:
       en: "Henry V"
+      de: "Heinrich V"
       es: "Enrique V"
       kr: "헨리 5세"
     prime: false
+    rarity: legendary
 
   146:
     name:
       en: "Boudica"
+      de: "Boudicca"
       es: "Boudica"
       kr: "부디카"
     prime: true
+    rarity: legendary
 
   147:
     name:
       en: "Jan Žižka"
+      de: "Jan Žižka"
       es: "Jan Žižka"
       kr: "얀 지슈카"
     prime: false
+    rarity: legendary
 
   148:
     name:
       en: "Joan of Arc"
+      de: "Johanna von Orléans"
       es: "Juana de Arco"
       kr: "잔 다르크"
     prime: true
+    rarity: legendary
 
   161:
     name:
       en: "Tariq ibn Ziyad"
+      de: "Tariq ibn Ziyad"
       es: "Tariq ibn Ziyad"
       kr: "타리크 이븐 지야드"
     prime: false
+    rarity: legendary
 
   162:
     name:
       en: "Sargon the Great"
+      de: "Sargon von Akkad"
       es: "Sargón el Grande"
       kr: "사르곤 1세"
     prime: false
+    rarity: legendary
 
   175:
     name:
       en: "Margaret I"
+      de: "Margarethe I"
       es: "Margarita I"
       kr: "마르그레테 1세"
     prime: false
+    rarity: legendary
 
   176:
     name:
       en: "Babur"
+      de: "Babur"
       es: "Babur"
       kr: "바부르"
     prime: false
+    rarity: legendary
 
   177:
     name:
       en: "Heraclius"
+      de: "Herakleios"
       es: "Heraclio"
       kr: "플라비우스 헤라클리우스"
     prime: false
+    rarity: legendary
 
   178:
     name:
       en: "Dido"
+      de: "Dido"
       es: "Dido"
       kr: "디도"
     prime: false
+    rarity: legendary
 
   179:
     name:
       en: "Zhuge Liang"
+      de: "Zhuge Liang"
       es: "Zhuge Liang"
       kr: "제갈량"
     prime: false
+    rarity: legendary
 
   180:
     name:
       en: "Pyrrhus"
+      de: "Pyrrhos"
       es: "Pirro"
       kr: "피로스"
     prime: false
+    rarity: legendary
 
   181:
     name:
       en: "Pericles"
+      de: "Perikles"
       es: "Pericles"
       kr: "페리클레스"
     prime: false
+    rarity: epic
 
   182:
     name:
       en: "Huo Qubing"
+      de: "Huo Qubing"
       es: "Huo Qubing"
       kr: "곽거병"
     prime: false
+    rarity: legendary
 
   183:
     name:
       en: "Justinian I"
+      de: "Justinian I"
       es: "Justiniano I"
       kr: "유스티니아누스 1세"
     prime: false
+    rarity: legendary
 
   184:
     name:
       en: "Gorgo"
+      de: "Gorgo"
       es: "Gorgo"
       kr: "고르곤"
     prime: false
+    rarity: legendary
 
   185:
     name:
       en: "Liu Che"
+      de: "Liu Che"
       es: "Liu Che"
       kr: "유철"
     prime: false
+    rarity: legendary
 
   186:
     name:
       en: "Ashurbanipal"
+      de: "Assurbanipal"
       es: "Asurbanipal"
       kr: "아슈르바니팔"
     prime: false
+    rarity: legendary
 
   187:
     name:
       en: "Hermann"
+      de: "Hermann"
       es: "Hermann"
       kr: "헤르만"
     prime: true
+    rarity: legendary
 
   188:
     name:
       en: "Lapulapu"
+      de: "Lapu-Lapu"
       es: "Lapulapu"
       kr: "라푸라푸"
     prime: false
+    rarity: legendary
 
   189:
     name:
       en: "Gonzalo de Córdoba"
+      de: "Gonzalo de Córdoba"
       es: "Gonzalo de Córdoba"
       kr: "곤살로 페르난데스 데 코르도바"
     prime: false
+    rarity: legendary
 
   190:
     name:
       en: "Gajah Mada"
+      de: "Gajah Mada"
       es: "Gajah Mada"
       kr: "가자 마다"
     prime: false
+    rarity: legendary
 
   191:
     name:
       en: "Eleanor of Aquitaine"
+      de: "Eleonore von Aquitanien"
       es: "Leonor de Aquitania"
       kr: "엘레오노르 다키텐"
     prime: false
+    rarity: legendary
 
   192:
     name:
       en: "Belisarius"
+      de: "Belisarius"
       es: "Belisario"
       kr: "벨리사리우스"
     prime: true
+    rarity: legendary
 
   194:
     name:
       en: "William Wallace"
+      de: "William Wallace"
       es: "William Wallace"
       kr: "윌리엄 월리스"
     prime: false
+    rarity: legendary
 
   195:
     name:
       en: "Shajar al-Durr"
+      de: "Shajar al-Durr"
       es: "Shajar al-Durr"
       kr: "샤쟈르 알두르"
     prime: false
+    rarity: legendary
 
   196:
     name:
       en: "Choe Yeong"
+      de: "Choe Yeong"
       es: "Choe Yeong"
       kr: "최영"
     prime: false
+    rarity: legendary
 
   197:
     name:
       en: "Scipio Aemilianus"
+      de: "Scipio Aemilianus"
       es: "Escipión Emiliano"
       kr: "스키피오 아이밀리아누스"
     prime: false
+    rarity: legendary
 
   198:
     name:
       en: "Ragnar Lodbrok"
+      de: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
       kr: "라그나르 로드브로크"
     prime: true
+    rarity: legendary
 
   459:
     name:
       en: "Philip II"
+      de: "Philipp II"
       es: "Filipo II"
       kr: "필리포스 2세"
     prime: false
+    rarity: legendary
 
   460:
     name:
       en: "Stephen III"
+      de: "Stephan III"
       es: "Esteban III"
       kr: "슈테판 3세"
     prime: false
+    rarity: legendary
 
   461:
     name:
       en: "John Hunyadi"
+      de: "Johann Hunyadi"
       es: "John Hunyadi"
       kr: "후녀디 야노시"
     prime: false
+    rarity: legendary
 
   462:
     name:
       en: "Siyaj K'ak'"
+      de: "Siyaj K'ak'"
       es: "Siyaj K'ak'"
       kr: "시야칵"
     prime: false
+    rarity: legendary
 
   463:
     name:
       en: "Wak Chanil Ajaw"
+      de: "Wak Chanil Ajaw"
       es: "Wak Chanil Ajaw"
       kr: "왁 차닐 아하우"
     prime: false
+    rarity: epic
 
   503:
     name:
       en: "Tokugawa Ieyasu"
+      de: "Tokugawa Ieyasu"
       es: "Tokugawa Ieyasu"
       kr: "도쿠가와 이에야스"
     prime: false
+    rarity: legendary
 
   506:
     name:
       en: "Shapur I"
+      de: "Shapur I"
       es: "Sapor I"
       kr: "샤푸르 1세"
 
   509:
     name:
       en: "Qin Shi Huang"
+      de: "Qin Shi Huang"
       es: "Qin Shi Huang"
       kr: "영정"
     prime: false
+    rarity: legendary
 
   536:
     name:
       en: "Catherine de' Medici"
+      de: "Caterina de' Medici"
       es: "Catalina de Médici"
       kr: "카트린 드 메디시스"
     prime: false
+    rarity: epic
 
   537:
     name:
       en: "Narses"
+      de: "Narses"
       es: "Narsés"
       kr: "나르세스"
     prime: false
+    rarity: epic
 
   539:
     name:
       en: "Subutai"
+      de: "Subutai"
       es: "Subotai"
       kr: "수부타이"
     prime: false
+    rarity: legendary
 
   540:
     name:
       en: "Arthur Pendragon"
+      de: "Artus Pendragon"
       es: "Arturo Pendragon"
       kr: "아서펜드래곤"
     prime: false
+    rarity: legendary
 
   545:
     name:
       en: "Bai Qi"
+      de: "Bai Qi"
       es: "Bai Qi"
       kr: "백기"
     prime: false
+    rarity: legendary
 
   564:
     name:
       en: "Archimedes"
+      de: "Archimedes"
       es: "Arquímedes"
       kr: "아르키메데스"
     prime: false
+    rarity: legendary
 
   565:
     name:
       en: "Mary I"
+      de: "Mary I"
       es: "María I"
       kr: "메리 1세"
     prime: false
+    rarity: legendary

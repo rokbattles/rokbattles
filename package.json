@@ -1,6 +1,6 @@
 {
   "name": "@rokbattles/root",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "dev:site": "pnpm -F @rokbattles/site run dev",
@@ -10,7 +10,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2"
+    "@biomejs/biome": "^2.2.4"
   },
-  "packageManager": "pnpm@10.15.1"
+  "packageManager": "pnpm@10.17.0"
 }
