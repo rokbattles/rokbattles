@@ -22,10 +22,10 @@ export default function Page() {
               <LanguagesIcon data-slot="lucide" />
             </DropdownButton>
             <DropdownMenu anchor="bottom end">
-              <DropdownItem href="/en/explore">English</DropdownItem>
-              <DropdownItem href="/de/explore">Deutsch</DropdownItem>
-              <DropdownItem href="/es/explore">Español</DropdownItem>
-              <DropdownItem href="/kr/explore">한국어</DropdownItem>
+              <DropdownItem href="/explore" locale="en">English</DropdownItem>
+              <DropdownItem href="/explore" locale="de">Deutsch</DropdownItem>
+              <DropdownItem href="/explore" locale="es">Español</DropdownItem>
+              <DropdownItem href="/explore" locale="kr">한국어</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Button className="-my-0.5">
