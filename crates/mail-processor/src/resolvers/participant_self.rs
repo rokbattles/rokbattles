@@ -100,22 +100,32 @@ impl ParticipantSelfResolver {
 
         for sec in sections {
             let content = Self::section_content_root(sec);
-            if ptr::eq(content, primary) {
+            if ptr::eq(sec, primary) || ptr::eq(content, primary) {
                 continue;
             }
-            if content.get("CtId").and_then(Value::as_i64) != Some(ctid) {
+            let section_ctid = sec
+                .get("CtId")
+                .and_then(Value::as_i64)
+                .or_else(|| content.get("CtId").and_then(Value::as_i64))
+                .or_else(|| sec.pointer("/body/CtId").and_then(Value::as_i64));
+            if section_ctid != Some(ctid) {
                 continue;
             }
 
-            let flags = (
-                content.get("HEq").is_some(),
-                content.get("HWBs").is_some(),
-                content.get("HId2").and_then(Value::as_i64).unwrap_or(0) != 0,
-                content.get("HSS2").is_some(),
-            );
+            let has_heq = sec.get("HEq").is_some() || content.get("HEq").is_some();
+            let has_hwbs = sec.get("HWBs").is_some() || content.get("HWBs").is_some();
+            let has_hid2 = sec
+                .get("HId2")
+                .and_then(Value::as_i64)
+                .or_else(|| content.get("HId2").and_then(Value::as_i64))
+                .unwrap_or(0)
+                != 0;
+            let has_hss2 = sec.get("HSS2").is_some() || content.get("HSS2").is_some();
+
+            let flags = (has_heq, has_hwbs, has_hid2, has_hss2);
 
             if best.is_none() || flags > best_flags {
-                best = Some(content);
+                best = Some(sec);
                 best_flags = flags;
             }
         }
@@ -128,9 +138,29 @@ impl ParticipantSelfResolver {
         secondary: Option<&'a Value>,
         key: &str,
     ) -> Option<&'a Value> {
-        primary
-            .get(key)
-            .or_else(|| secondary.and_then(|sec| sec.get(key)))
+        fn extend_candidates<'a>(out: &mut Vec<&'a Value>, value: &'a Value) {
+            out.push(value);
+            if let Some(body) = value.pointer("/body/content") {
+                out.push(body);
+            }
+            if let Some(content) = value.get("content") {
+                out.push(content);
+            }
+        }
+
+        let mut candidates: Vec<&Value> =
+            Vec::with_capacity(if secondary.is_some() { 6 } else { 3 });
+        extend_candidates(&mut candidates, primary);
+        if let Some(sec) = secondary {
+            extend_candidates(&mut candidates, sec);
+        }
+
+        for candidate in candidates {
+            if let Some(val) = candidate.get(key) {
+                return Some(val);
+            }
+        }
+        None
     }
 
     fn tracking_key_belongs_to_pid(ctk: &str, pid: i64) -> bool {
@@ -670,14 +700,22 @@ impl Resolver for ParticipantSelfResolver {
         obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
         // kingdom and tracking key
-        map_put_i32(
-            obj,
-            "kingdom_id",
-            self_snap
-                .get("COSId")
-                .and_then(Value::as_i64)
-                .map(|x| x as i32),
-        );
+        if obj.get("kingdom_id").is_none() {
+            map_put_i32(
+                obj,
+                "kingdom_id",
+                Self::get_with_fallback(self_snap, fallback_snap, "COSId")
+                    .and_then(Value::as_i64)
+                    .filter(|&x| x != 0)
+                    .map(|x| x as i32),
+            );
+        }
+        if obj.get("kingdom_id").is_none() {
+            let kingdom_guess = sections
+                .iter()
+                .find_map(|s| s.get("GsId").and_then(Value::as_i64));
+            map_put_i32(obj, "kingdom_id", kingdom_guess.map(|x| x as i32));
+        }
 
         // equipment and formation
         map_put_str(
@@ -685,10 +723,15 @@ impl Resolver for ParticipantSelfResolver {
             "equipment",
             Self::get_with_fallback(self_snap, fallback_snap, "HEq").and_then(Value::as_str),
         );
-        if let Some(fm) = self_snap.get("HFMs").and_then(Value::as_i64) {
-            obj.insert("formation".into(), Value::from(fm as i32));
-        } else if fm_guess != 0 && obj.get("formation").is_none() {
-            obj.insert("formation".into(), Value::from(fm_guess));
+        if obj.get("formation").is_none() {
+            if let Some(fm) = Self::get_with_fallback(self_snap, fallback_snap, "HFMs")
+                .and_then(Value::as_i64)
+                .filter(|&x| x != 0)
+            {
+                obj.insert("formation".into(), Value::from(fm as i32));
+            } else if fm_guess != 0 {
+                obj.insert("formation".into(), Value::from(fm_guess));
+            }
         }
 
         // armaments and inscriptions

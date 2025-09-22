@@ -64,7 +64,7 @@
       },
       "kingdom_id": 1804,
       "equipment": "{}",
-      "formation": null,
+      "formation": 6,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null

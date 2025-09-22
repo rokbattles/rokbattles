@@ -60,7 +60,7 @@
       "secondary_commander": null,
       "kingdom_id": 1804,
       "equipment": "{}",
-      "formation": null,
+      "formation": 2,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
@@ -151,7 +151,7 @@
       "secondary_commander": null,
       "kingdom_id": 1804,
       "equipment": "{}",
-      "formation": null,
+      "formation": 2,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null

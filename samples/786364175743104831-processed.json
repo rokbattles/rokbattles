@@ -60,7 +60,7 @@
       "secondary_commander": null,
       "kingdom_id": 15660,
       "equipment": "{}",
-      "formation": null,
+      "formation": 16,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
