@@ -7,6 +7,7 @@ use crate::{
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
+use std::ptr;
 
 pub struct ParticipantSelfResolver;
 
@@ -67,6 +68,69 @@ impl ParticipantSelfResolver {
         sec.pointer("/body/content")
             .or_else(|| sec.get("content"))
             .unwrap_or(sec)
+    }
+
+    fn find_self_ctid(sections: &[Value], pid_opt: Option<i64>, snap: &Value) -> Option<i64> {
+        if let Some(ctid) = snap.get("CtId").and_then(Value::as_i64) {
+            return Some(ctid);
+        }
+
+        let pid = pid_opt?;
+        for sec in sections {
+            if let Some(sts) = sec.get("STs").and_then(Value::as_object) {
+                for (key, entry) in sts {
+                    if entry.get("PId").and_then(Value::as_i64) == Some(pid)
+                        && let Ok(ctid) = key.parse::<i64>()
+                    {
+                        return Some(ctid);
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn select_ct_snapshot<'a>(
+        sections: &'a [Value],
+        ctid: i64,
+        primary: &'a Value,
+    ) -> Option<&'a Value> {
+        let mut best: Option<&Value> = None;
+        let mut best_flags = (false, false, false, false);
+
+        for sec in sections {
+            let content = Self::section_content_root(sec);
+            if ptr::eq(content, primary) {
+                continue;
+            }
+            if content.get("CtId").and_then(Value::as_i64) != Some(ctid) {
+                continue;
+            }
+
+            let flags = (
+                content.get("HEq").is_some(),
+                content.get("HWBs").is_some(),
+                content.get("HId2").and_then(Value::as_i64).unwrap_or(0) != 0,
+                content.get("HSS2").is_some(),
+            );
+
+            if best.is_none() || flags > best_flags {
+                best = Some(content);
+                best_flags = flags;
+            }
+        }
+
+        best
+    }
+
+    fn get_with_fallback<'a>(
+        primary: &'a Value,
+        secondary: Option<&'a Value>,
+        key: &str,
+    ) -> Option<&'a Value> {
+        primary
+            .get(key)
+            .or_else(|| secondary.and_then(|sec| sec.get(key)))
     }
 
     fn tracking_key_belongs_to_pid(ctk: &str, pid: i64) -> bool {
@@ -423,6 +487,9 @@ impl Resolver for ParticipantSelfResolver {
             }
         }
 
+        let fallback_snap = Self::find_self_ctid(sections, player_pid, self_snap)
+            .and_then(|ctid| Self::select_ct_snapshot(sections, ctid, self_snap));
+
         // player name
         if obj.get("player_name").is_none()
             && let Some(pname) = self_snap
@@ -568,9 +635,13 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // secondary commander
-        let hid2 = self_snap.get("HId2").and_then(Value::as_i64).unwrap_or(0) as i32;
+        let hid2 = Self::get_with_fallback(self_snap, fallback_snap, "HId2")
+            .and_then(Value::as_i64)
+            .unwrap_or(0) as i32;
 
-        let mut hlv2 = self_snap.get("HLv2").and_then(Value::as_i64).unwrap_or(0) as i32;
+        let mut hlv2 = Self::get_with_fallback(self_snap, fallback_snap, "HLv2")
+            .and_then(Value::as_i64)
+            .unwrap_or(0) as i32;
         if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
             && hlv2 == 0
             && let Some(found) =
@@ -612,7 +683,7 @@ impl Resolver for ParticipantSelfResolver {
         map_put_str(
             obj,
             "equipment",
-            self_snap.get("HEq").and_then(Value::as_str),
+            Self::get_with_fallback(self_snap, fallback_snap, "HEq").and_then(Value::as_str),
         );
         if let Some(fm) = self_snap.get("HFMs").and_then(Value::as_i64) {
             obj.insert("formation".into(), Value::from(fm as i32));
@@ -621,7 +692,7 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // armaments and inscriptions
-        if let Some(hwbs) = self_snap.get("HWBs") {
+        if let Some(hwbs) = Self::get_with_fallback(self_snap, fallback_snap, "HWBs") {
             let buffs = collect_buffs_from_hwbs(Some(hwbs));
             if !buffs.is_empty() {
                 obj.insert("armament_buffs".into(), Value::String(buffs));

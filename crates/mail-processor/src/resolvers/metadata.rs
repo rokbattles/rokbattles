@@ -148,6 +148,34 @@ impl Resolver for MetadataResolver {
             );
         }
 
+        if meta.get("email_id").is_none() {
+            let id = sections
+                .iter()
+                .find_map(|s| s.get("id").and_then(Value::as_str));
+            map_insert_str_if_absent(meta, "email_id", id);
+        }
+
+        if meta.get("email_type").is_none() {
+            let email_type = sections
+                .iter()
+                .find_map(|s| s.get("type").and_then(Value::as_str));
+            map_insert_str_if_absent(meta, "email_type", email_type);
+        }
+
+        if meta.get("email_box").is_none() {
+            let email_box = sections
+                .iter()
+                .find_map(|s| s.get("box").and_then(Value::as_str));
+            map_insert_str_if_absent(meta, "email_box", email_box);
+        }
+
+        if meta.get("email_time").is_none() {
+            let email_time = sections
+                .iter()
+                .find_map(|s| Self::parse_i128(s.get("time")).and_then(|n| i64::try_from(n).ok()));
+            map_insert_i64_if_absent(meta, "email_time", email_time);
+        }
+
         // email role
         let stats_block = sections.iter().find(|s| {
             s.get("STs").is_some()

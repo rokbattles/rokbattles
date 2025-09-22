@@ -31,16 +31,16 @@
         "skills": "5555"
       },
       "secondary_commander": {
-        "id": 0,
-        "level": 0,
-        "skills": null
+        "id": 1,
+        "level": 60,
+        "skills": "5555"
       },
       "kingdom_id": 127,
       "equipment": null,
       "formation": 7,
       "is_ranged_tower": false,
-      "armament_buffs": null,
-      "inscriptions": null
+      "armament_buffs": "10002_0.005000;3001_0.014000;4001_0.020000;5002_0.015000;5004_0.011000;6001_0.019000;6001_0.025000;6003_0.026000;8000_0.044000",
+      "inscriptions": "-1;226;428"
     },
     "enemy": {
       "player_id": 131144092,
