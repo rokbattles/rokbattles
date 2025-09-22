@@ -2,7 +2,11 @@ use crate::AppState;
 use axum::{
     Json,
     extract::{Path, Query, State},
-    http::StatusCode,
+    http::{
+        HeaderMap, HeaderValue, StatusCode,
+        header::{CACHE_CONTROL, CONTENT_TYPE, ETAG, VARY},
+    },
+    response::IntoResponse,
 };
 use futures_util::TryStreamExt;
 use mongodb::{
@@ -67,7 +71,7 @@ pub async fn report_by_parent(
     State(st): State<AppState>,
     Path(parent_hash): Path<String>,
     Query(params): Query<DetailParams>,
-) -> Result<Json<ApiDetailResponse>, StatusCode> {
+) -> Result<impl IntoResponse, StatusCode> {
     let col = st.db.collection::<Document>("battleReports");
 
     let limit = params.limit.unwrap_or(50).clamp(1, 200) as i64;
@@ -252,11 +256,26 @@ pub async fn report_by_parent(
         })
     };
 
-    Ok(Json(ApiDetailResponse {
-        parent_hash,
-        items,
-        next_cursor,
-        count,
-        battle_results,
-    }))
+    let mut headers = HeaderMap::new();
+    headers.insert(
+        CACHE_CONTROL,
+        HeaderValue::from_static("public, max-age=604800, s-maxage=604800, immutable"),
+    );
+    headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+    headers.insert(VARY, HeaderValue::from_static("Accept-Encoding"));
+
+    let etag_value =
+        HeaderValue::from_str(&parent_hash).map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    headers.insert(ETAG, etag_value);
+
+    Ok((
+        headers,
+        Json(ApiDetailResponse {
+            parent_hash,
+            items,
+            next_cursor,
+            count,
+            battle_results,
+        }),
+    ))
 }
