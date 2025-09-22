@@ -44,8 +44,8 @@
     },
     "enemy": {
       "player_id": 46387535,
-      "player_name": null,
-      "alliance_tag": null,
+      "player_name": "F1 벤부",
+      "alliance_tag": "2804",
       "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/46387535/230222/C483914BF87CDDDFDB17C0627925C470_250x250.jpg",
       "castle_x": 3836.916,
       "castle_y": 3689.0303,
@@ -60,7 +60,7 @@
       "secondary_commander": null,
       "kingdom_id": 1804,
       "equipment": "{}",
-      "formation": null,
+      "formation": 17,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null

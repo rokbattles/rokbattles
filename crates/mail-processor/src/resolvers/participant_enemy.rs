@@ -98,61 +98,156 @@ impl ParticipantEnemyResolver {
         })
     }
 
-    fn select_enemy_from_ots(group: &[Value], enemy_pid: i64) -> (i64, String, i32, String) {
-        if let Some(ots) = group
-            .iter()
-            .find_map(|s| s.get("OTs").and_then(Value::as_object))
+    fn section_formation(section: &Value) -> Option<i32> {
+        section
+            .get("HFMs")
+            .and_then(Value::as_i64)
+            .filter(|&val| val != 0)
+            .map(|val| val as i32)
+    }
+
+    fn find_formation_hint(
+        sections: &[Value],
+        enemy_ctid: i64,
+        enemy_ct: i32,
+        enemy_abbr: &str,
+    ) -> Option<i32> {
+        if enemy_ctid != 0
+            && let Some(found) = sections.iter().find_map(|sec| {
+                if sec.get("CtId").and_then(Value::as_i64) == Some(enemy_ctid) {
+                    Self::section_formation(sec)
+                } else {
+                    None
+                }
+            })
         {
-            let mut candidates: Vec<(&str, &Value)> = ots
-                .iter()
-                .filter(|(_k, v)| v.get("PId").and_then(Value::as_i64) == Some(enemy_pid))
-                .map(|(k, v)| (k.as_str(), v))
-                .collect();
-            if candidates.is_empty() {
-                candidates.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
+            return Some(found);
+        }
+
+        if enemy_ct != 0
+            && let Some(found) = sections.iter().find_map(|sec| {
+                if sec.get("CT").and_then(Value::as_i64).map(|ct| ct as i32) == Some(enemy_ct) {
+                    Self::section_formation(sec)
+                } else {
+                    None
+                }
+            })
+        {
+            return Some(found);
+        }
+
+        let abbr_trimmed = enemy_abbr.trim();
+        if !abbr_trimmed.is_empty()
+            && let Some(found) = sections.iter().find_map(|sec| {
+                if let Some(sec_abbr) = sec.get("Abbr").and_then(Value::as_str) {
+                    let trimmed = sec_abbr.trim();
+                    if !trimmed.is_empty() && trimmed == abbr_trimmed {
+                        return Self::section_formation(sec);
+                    }
+                }
+                None
+            })
+        {
+            return Some(found);
+        }
+
+        None
+    }
+
+    fn select_enemy_from_ots(group: &[Value], enemy_pid: i64) -> (i64, String, i32, String) {
+        let mut sources: Vec<(&str, &Value)> = Vec::new();
+
+        for sec in group {
+            if let Some(ots) = sec.get("OTs").and_then(Value::as_object) {
+                sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
             }
 
-            let mut best_k: Option<&str> = None;
-            let mut best_v: Option<&Value> = None;
-            let mut best_flags: (bool, bool, bool) = (false, false, false);
-
-            for (k, v) in candidates {
-                let pname = v.get("PName").and_then(Value::as_str).unwrap_or("").trim();
-                let abbr = v.get("Abbr").and_then(Value::as_str).unwrap_or("").trim();
-
-                let flags = (k != "-2", !pname.is_empty(), !abbr.is_empty());
-
-                if best_k.is_none() {
-                    best_k = Some(k);
-                    best_v = Some(v);
-                    best_flags = flags;
-                    continue;
+            if let Some(attacks) = sec.get("Attacks").and_then(Value::as_object) {
+                if let Some(ots) = attacks.get("OTs").and_then(Value::as_object) {
+                    sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
                 }
 
-                if flags > best_flags {
-                    best_k = Some(k);
-                    best_v = Some(v);
-                    best_flags = flags;
+                for attack in attacks.values() {
+                    if let Some(obj) = attack.as_object()
+                        && let Some(ots) = obj.get("OTs").and_then(Value::as_object)
+                    {
+                        sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
+                    }
                 }
-            }
-
-            if let (Some(ctid_str), Some(v)) = (best_k, best_v) {
-                let ctid = ctid_str.parse::<i64>().unwrap_or(0);
-                let abbr = v
-                    .get("Abbr")
-                    .and_then(Value::as_str)
-                    .unwrap_or(" ")
-                    .to_owned();
-                let ct = v.get("CT").and_then(Value::as_i64).unwrap_or(1) as i32;
-                let pn = v
-                    .get("PName")
-                    .and_then(Value::as_str)
-                    .unwrap_or(" ")
-                    .to_owned();
-                return (ctid, abbr, ct, pn);
             }
         }
+
+        if sources.is_empty() {
+            return (0, " ".into(), 1, " ".into());
+        }
+
+        let mut candidates: Vec<(&str, &Value)> = sources
+            .iter()
+            .copied()
+            .filter(|(_, v)| v.get("PId").and_then(Value::as_i64) == Some(enemy_pid))
+            .collect();
+
+        if candidates.is_empty() {
+            candidates = sources.clone();
+        }
+
+        let mut best_k: Option<&str> = None;
+        let mut best_v: Option<&Value> = None;
+        let mut best_flags: (bool, bool, bool) = (false, false, false);
+
+        for (k, v) in candidates {
+            let pname = v.get("PName").and_then(Value::as_str).unwrap_or("").trim();
+            let abbr = v.get("Abbr").and_then(Value::as_str).unwrap_or("").trim();
+
+            let flags = (k != "-2", !pname.is_empty(), !abbr.is_empty());
+
+            if best_k.is_none() {
+                best_k = Some(k);
+                best_v = Some(v);
+                best_flags = flags;
+                continue;
+            }
+
+            if flags > best_flags {
+                best_k = Some(k);
+                best_v = Some(v);
+                best_flags = flags;
+            }
+        }
+
+        if let (Some(ctid_str), Some(v)) = (best_k, best_v) {
+            let ctid = ctid_str.parse::<i64>().unwrap_or(0);
+            let abbr = v
+                .get("Abbr")
+                .and_then(Value::as_str)
+                .unwrap_or(" ")
+                .to_owned();
+            let ct = v.get("CT").and_then(Value::as_i64).unwrap_or(1) as i32;
+            let pn = v
+                .get("PName")
+                .and_then(Value::as_str)
+                .unwrap_or(" ")
+                .to_owned();
+            return (ctid, abbr, ct, pn);
+        }
+
         (0, " ".into(), 1, " ".into())
+    }
+
+    fn attack_section_get<'a>(attack_section: Option<&'a Value>, key: &str) -> Option<&'a Value> {
+        attack_section.and_then(|sec| {
+            sec.get(key).or_else(|| {
+                sec.get("Attacks")
+                    .and_then(Value::as_object)
+                    .and_then(|att| att.get(key))
+            })
+        })
+    }
+
+    fn value_i32_nonzero(v: Option<&Value>) -> Option<i32> {
+        v.and_then(Value::as_i64)
+            .filter(|&x| x != 0)
+            .map(|x| x as i32)
     }
 
     fn is_all_digits_zero_or_one(s: &str) -> bool {
@@ -428,6 +523,28 @@ impl Resolver for ParticipantEnemyResolver {
         let attack_cid = Self::parse_attack_identifier(ctx.attack_id).0.unwrap_or(0);
         let attack_container = Self::find_attack_record_container(group, attack_cid);
         let (attack_cid_opt, attack_id_str) = Self::parse_attack_identifier(ctx.attack_id);
+        let attack_section = idx_opt.and_then(|idx| group.get(idx)).or_else(|| {
+            group.iter().find(|sec| {
+                let idt_match = sec
+                    .get("Idt")
+                    .and_then(Value::as_str)
+                    .map(|id| id == attack_id_str)
+                    .unwrap_or(false)
+                    || attack_cid_opt.is_some_and(|cid| {
+                        sec.get("Idt")
+                            .and_then(Value::as_str)
+                            .and_then(|id| id.parse::<i64>().ok())
+                            == Some(cid)
+                            || sec.get("CId").and_then(Value::as_i64) == Some(cid)
+                    });
+                let has_metadata = sec
+                    .get("PName")
+                    .or_else(|| sec.get("Abbr"))
+                    .or_else(|| sec.get("HId2"))
+                    .is_some();
+                idt_match && has_metadata
+            })
+        });
 
         let enemy_obj = match get_or_insert_object(mail, "enemy") {
             Value::Object(m) => m,
@@ -447,7 +564,7 @@ impl Resolver for ParticipantEnemyResolver {
         let (enemy_ctid, enemy_abbr, enemy_ct, enemy_pname) =
             Self::select_enemy_from_ots(group, enemy_pid);
 
-        let enemy_snap =
+        let mut enemy_snap =
             Self::find_enemy_snapshot_by_identifier_strict(group, attack_id_str, attack_cid_opt)
                 .or_else(|| Self::find_enemy_snapshot_by_ctid(group, enemy_ctid))
                 .or_else(|| {
@@ -457,6 +574,9 @@ impl Resolver for ParticipantEnemyResolver {
                         attack_cid_opt,
                     )
                 });
+        if enemy_snap.is_none() {
+            enemy_snap = attack_section;
+        }
 
         let mut is_ranged_tower = enemy_snap
             .and_then(|snap| snap.get("IsRangeTower").and_then(Value::as_bool))
@@ -571,19 +691,24 @@ impl Resolver for ParticipantEnemyResolver {
         map_put_i64(enemy_obj, "player_id", pid);
 
         // player name
+        let attack_section_name = Self::attack_section_get(attack_section, "PName")
+            .and_then(Value::as_str)
+            .map(|s| s.to_owned());
+
         if let Some(name) = (!enemy_pname.trim().is_empty())
             .then_some(enemy_pname.clone())
             .or_else(|| {
                 enemy_snap
                     .and_then(|s| s.get("PName").and_then(Value::as_str).map(|s| s.to_owned()))
             })
+            .or_else(|| attack_section_name.clone())
         {
             enemy_obj.insert("player_name".into(), Value::String(name));
         }
 
         // alliance
         if !enemy_abbr.trim().is_empty() {
-            enemy_obj.insert("alliance_tag".into(), Value::String(enemy_abbr));
+            enemy_obj.insert("alliance_tag".into(), Value::String(enemy_abbr.clone()));
         } else if let Some(snap) = enemy_snap
             && let Some(abbr2) = snap
                 .get("Abbr")
@@ -591,6 +716,11 @@ impl Resolver for ParticipantEnemyResolver {
                 .filter(|s| !s.trim().is_empty())
         {
             enemy_obj.insert("alliance_tag".into(), Value::String(abbr2.to_owned()));
+        } else if let Some(abbr3) = Self::attack_section_get(attack_section, "Abbr")
+            .and_then(Value::as_str)
+            .filter(|s| !s.trim().is_empty())
+        {
+            enemy_obj.insert("alliance_tag".into(), Value::String(abbr3.to_owned()));
         }
 
         // avatar url
@@ -725,30 +855,23 @@ impl Resolver for ParticipantEnemyResolver {
         );
 
         // commanders
-        let hid = c_idt
-            .get("HId")
-            .and_then(Value::as_i64)
+        let hid = Self::value_i32_nonzero(c_idt.get("HId"))
             .or_else(|| {
                 Self::get_ots_entry_for_ctid(group, enemy_ctid)
-                    .and_then(|o| o.get("HId"))
-                    .and_then(Value::as_i64)
+                    .and_then(|o| Self::value_i32_nonzero(o.get("HId")))
             })
-            .map(|x| x as i32);
-        let hlv = c_idt
-            .get("HLv")
-            .and_then(Value::as_i64)
+            .or_else(|| Self::value_i32_nonzero(Self::attack_section_get(attack_section, "HId")));
+        let hlv = Self::value_i32_nonzero(c_idt.get("HLv"))
             .or_else(|| {
                 Self::find_alliance_section_by_ct(group, enemy_ct)
-                    .and_then(|a| a.get("HLv"))
-                    .and_then(Value::as_i64)
+                    .and_then(|a| Self::value_i32_nonzero(a.get("HLv")))
             })
             .or_else(|| {
                 Self::get_ots_entry_for_ctid(group, enemy_ctid)
-                    .and_then(|o| o.get("HLv"))
-                    .and_then(Value::as_i64)
+                    .and_then(|o| Self::value_i32_nonzero(o.get("HLv")))
             })
-            .or_else(|| atk_block.get("HLv").and_then(Value::as_i64))
-            .map(|x| x as i32);
+            .or_else(|| Self::value_i32_nonzero(atk_block.get("HLv")))
+            .or_else(|| Self::value_i32_nonzero(Self::attack_section_get(attack_section, "HLv")));
 
         if hid.is_some() || hlv.is_some() {
             let mut cmd = Map::new();
@@ -767,43 +890,36 @@ impl Resolver for ParticipantEnemyResolver {
             enemy_obj.insert("primary_commander".into(), Value::Object(cmd));
         }
 
-        let hid2 = c_idt
-            .get("HId2")
-            .and_then(Value::as_i64)
+        let hid2 = Self::value_i32_nonzero(c_idt.get("HId2"))
             .or_else(|| {
                 group
                     .iter()
                     .find(|s| s.get("AppUid").is_some())
-                    .and_then(|snap| snap.get("HId2"))
-                    .and_then(Value::as_i64)
+                    .and_then(|snap| Self::value_i32_nonzero(snap.get("HId2")))
             })
             .or_else(|| {
                 Self::get_ots_entry_for_ctid(group, enemy_ctid)
-                    .and_then(|o| o.get("HId2"))
-                    .and_then(Value::as_i64)
+                    .and_then(|o| Self::value_i32_nonzero(o.get("HId2")))
             })
-            .map(|x| x as i32);
-        let hlv2 = c_idt
-            .get("HLv2")
-            .and_then(Value::as_i64)
+            .or_else(|| Self::value_i32_nonzero(Self::attack_section_get(attack_section, "HId2")))
+            .or_else(|| Self::value_i32_nonzero(atk_block.get("HId2")));
+        let hlv2 = Self::value_i32_nonzero(c_idt.get("HLv2"))
             .or_else(|| {
                 Self::find_alliance_section_by_ct(group, enemy_ct)
-                    .and_then(|a| a.get("HLv2"))
-                    .and_then(Value::as_i64)
+                    .and_then(|a| Self::value_i32_nonzero(a.get("HLv2")))
             })
             .or_else(|| {
                 group
                     .iter()
                     .find(|s| s.get("AppUid").is_some())
-                    .and_then(|snap| snap.get("HLv2"))
-                    .and_then(Value::as_i64)
+                    .and_then(|snap| Self::value_i32_nonzero(snap.get("HLv2")))
             })
             .or_else(|| {
                 Self::get_ots_entry_for_ctid(group, enemy_ctid)
-                    .and_then(|o| o.get("HLv2"))
-                    .and_then(Value::as_i64)
+                    .and_then(|o| Self::value_i32_nonzero(o.get("HLv2")))
             })
-            .map(|x| x as i32);
+            .or_else(|| Self::value_i32_nonzero(atk_block.get("HLv2")))
+            .or_else(|| Self::value_i32_nonzero(Self::attack_section_get(attack_section, "HLv2")));
 
         if hid2.is_some() || hlv2.is_some() {
             let mut cmd2 = Map::new();
@@ -879,6 +995,13 @@ impl Resolver for ParticipantEnemyResolver {
                 atk_block.get("HEq").and_then(Value::as_str),
             );
         }
+        if enemy_obj.get("equipment").is_none() {
+            map_put_str(
+                enemy_obj,
+                "equipment",
+                Self::attack_section_get(attack_section, "HEq").and_then(Value::as_str),
+            );
+        }
 
         // formation / buffs / inscriptions
         if let Some(snap) = enemy_snap {
@@ -894,6 +1017,36 @@ impl Resolver for ParticipantEnemyResolver {
             }
 
             let insc = collect_affix_from_hwbs(snap.get("HWBs"));
+            if !insc.is_empty() {
+                enemy_obj.insert("inscriptions".into(), Value::String(insc));
+            }
+        }
+        if enemy_obj.get("formation").is_none() {
+            map_put_i32(
+                enemy_obj,
+                "formation",
+                Self::attack_section_get(attack_section, "HFMs")
+                    .and_then(Value::as_i64)
+                    .map(|x| x as i32),
+            );
+        }
+        if enemy_obj.get("formation").is_none() {
+            let mut formation_hint =
+                Self::find_formation_hint(group, enemy_ctid, enemy_ct, &enemy_abbr);
+            if formation_hint.is_none() {
+                formation_hint =
+                    Self::find_formation_hint(sections, enemy_ctid, enemy_ct, &enemy_abbr);
+            }
+            map_put_i32(enemy_obj, "formation", formation_hint);
+        }
+        if (enemy_obj.get("armament_buffs").is_none() || enemy_obj.get("inscriptions").is_none())
+            && let Some(hwbs) = Self::attack_section_get(attack_section, "HWBs")
+        {
+            let buffs = collect_buffs_from_hwbs(Some(hwbs));
+            if !buffs.is_empty() {
+                enemy_obj.insert("armament_buffs".into(), Value::String(buffs));
+            }
+            let insc = collect_affix_from_hwbs(Some(hwbs));
             if !insc.is_empty() {
                 enemy_obj.insert("inscriptions".into(), Value::String(insc));
             }
