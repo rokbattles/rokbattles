@@ -99,59 +99,82 @@ impl ParticipantEnemyResolver {
     }
 
     fn select_enemy_from_ots(group: &[Value], enemy_pid: i64) -> (i64, String, i32, String) {
-        if let Some(ots) = group
-            .iter()
-            .find_map(|s| s.get("OTs").and_then(Value::as_object))
-        {
-            let mut candidates: Vec<(&str, &Value)> = ots
-                .iter()
-                .filter(|(_k, v)| v.get("PId").and_then(Value::as_i64) == Some(enemy_pid))
-                .map(|(k, v)| (k.as_str(), v))
-                .collect();
-            if candidates.is_empty() {
-                candidates.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
+        let mut sources: Vec<(&str, &Value)> = Vec::new();
+
+        for sec in group {
+            if let Some(ots) = sec.get("OTs").and_then(Value::as_object) {
+                sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
             }
 
-            let mut best_k: Option<&str> = None;
-            let mut best_v: Option<&Value> = None;
-            let mut best_flags: (bool, bool, bool) = (false, false, false);
-
-            for (k, v) in candidates {
-                let pname = v.get("PName").and_then(Value::as_str).unwrap_or("").trim();
-                let abbr = v.get("Abbr").and_then(Value::as_str).unwrap_or("").trim();
-
-                let flags = (k != "-2", !pname.is_empty(), !abbr.is_empty());
-
-                if best_k.is_none() {
-                    best_k = Some(k);
-                    best_v = Some(v);
-                    best_flags = flags;
-                    continue;
+            if let Some(attacks) = sec.get("Attacks").and_then(Value::as_object) {
+                if let Some(ots) = attacks.get("OTs").and_then(Value::as_object) {
+                    sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
                 }
 
-                if flags > best_flags {
-                    best_k = Some(k);
-                    best_v = Some(v);
-                    best_flags = flags;
+                for attack in attacks.values() {
+                    if let Some(obj) = attack.as_object()
+                        && let Some(ots) = obj.get("OTs").and_then(Value::as_object)
+                    {
+                        sources.extend(ots.iter().map(|(k, v)| (k.as_str(), v)));
+                    }
                 }
-            }
-
-            if let (Some(ctid_str), Some(v)) = (best_k, best_v) {
-                let ctid = ctid_str.parse::<i64>().unwrap_or(0);
-                let abbr = v
-                    .get("Abbr")
-                    .and_then(Value::as_str)
-                    .unwrap_or(" ")
-                    .to_owned();
-                let ct = v.get("CT").and_then(Value::as_i64).unwrap_or(1) as i32;
-                let pn = v
-                    .get("PName")
-                    .and_then(Value::as_str)
-                    .unwrap_or(" ")
-                    .to_owned();
-                return (ctid, abbr, ct, pn);
             }
         }
+
+        if sources.is_empty() {
+            return (0, " ".into(), 1, " ".into());
+        }
+
+        let mut candidates: Vec<(&str, &Value)> = sources
+            .iter()
+            .copied()
+            .filter(|(_, v)| v.get("PId").and_then(Value::as_i64) == Some(enemy_pid))
+            .collect();
+
+        if candidates.is_empty() {
+            candidates = sources.clone();
+        }
+
+        let mut best_k: Option<&str> = None;
+        let mut best_v: Option<&Value> = None;
+        let mut best_flags: (bool, bool, bool) = (false, false, false);
+
+        for (k, v) in candidates {
+            let pname = v.get("PName").and_then(Value::as_str).unwrap_or("").trim();
+            let abbr = v.get("Abbr").and_then(Value::as_str).unwrap_or("").trim();
+
+            let flags = (k != "-2", !pname.is_empty(), !abbr.is_empty());
+
+            if best_k.is_none() {
+                best_k = Some(k);
+                best_v = Some(v);
+                best_flags = flags;
+                continue;
+            }
+
+            if flags > best_flags {
+                best_k = Some(k);
+                best_v = Some(v);
+                best_flags = flags;
+            }
+        }
+
+        if let (Some(ctid_str), Some(v)) = (best_k, best_v) {
+            let ctid = ctid_str.parse::<i64>().unwrap_or(0);
+            let abbr = v
+                .get("Abbr")
+                .and_then(Value::as_str)
+                .unwrap_or(" ")
+                .to_owned();
+            let ct = v.get("CT").and_then(Value::as_i64).unwrap_or(1) as i32;
+            let pn = v
+                .get("PName")
+                .and_then(Value::as_str)
+                .unwrap_or(" ")
+                .to_owned();
+            return (ctid, abbr, ct, pn);
+        }
+
         (0, " ".into(), 1, " ".into())
     }
 

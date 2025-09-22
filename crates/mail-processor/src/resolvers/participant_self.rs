@@ -431,6 +431,22 @@ impl Resolver for ParticipantSelfResolver {
                 .or_else(|| self_body.pointer("/PName").and_then(Value::as_str))
         {
             obj.insert("player_name".into(), Value::String(pname.to_owned()));
+        } else if obj.get("player_name").is_none()
+            && let Some(pid) = player_pid
+            && let Some(name) = sections.iter().find_map(|sec| {
+                sec.get("STs").and_then(Value::as_object).and_then(|sts| {
+                    sts.values().find_map(|entry| {
+                        if entry.get("PId").and_then(Value::as_i64) == Some(pid) {
+                            entry.get("PName").and_then(Value::as_str).map(|s| s.trim())
+                        } else {
+                            None
+                        }
+                    })
+                })
+            })
+            && !name.is_empty()
+        {
+            obj.insert("player_name".into(), Value::String(name.to_owned()));
         }
 
         // avatar url
