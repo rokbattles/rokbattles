@@ -43,6 +43,8 @@ async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
             "mail.hash": 1,
             "mail.codec": 1,
             "mail.value": 1,
+            "status": 1,
+            "metadata.previousHashes": 1,
         })
         .build();
 
