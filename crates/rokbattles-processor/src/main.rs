@@ -11,7 +11,7 @@ use mongodb::{
     options::InsertManyOptions,
 };
 use std::time::Duration;
-use tracing::{debug, error, info, warn};
+use tracing::{debug, error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 #[cfg(not(target_env = "msvc"))]
@@ -94,15 +94,18 @@ async fn process_mail(
         .unwrap_or_default();
 
     if status == "reprocess" {
-        if previous_parent_hashes.is_empty() {
-            warn!(mail_hash = %mail_hash, "reprocess requested without previous hashes");
-        } else {
-            let delete_filter = doc! {
-                "metadata.parentHash": { "$in": previous_parent_hashes.clone() }
-            };
-            let delete_result = battle_reports.delete_many(delete_filter).await?;
-            info!(mail_hash = %mail_hash, removed = delete_result.deleted_count, "removed previous battle reports");
-        }
+        let parent_hashes_to_remove =
+            parent_hashes_for_reprocess(&previous_parent_hashes, mail_hash);
+
+        let delete_filter = doc! {
+            "metadata.parentHash": { "$in": parent_hashes_to_remove.clone() }
+        };
+        let delete_result = battle_reports.delete_many(delete_filter).await?;
+        info!(
+            mail_hash = %mail_hash,
+            removed = delete_result.deleted_count,
+            "removed battle reports for previous hashes"
+        );
     }
 
     let raw = match mail.get("value") {
@@ -184,6 +187,16 @@ async fn process_mail(
     Ok(())
 }
 
+fn parent_hashes_for_reprocess(previous_parent_hashes: &[String], mail_hash: &str) -> Vec<String> {
+    let mut hashes = previous_parent_hashes.to_vec();
+
+    if !hashes.iter().any(|hash| hash == mail_hash) {
+        hashes.push(mail_hash.to_string());
+    }
+
+    hashes
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     tracing_subscriber::registry()
@@ -214,5 +227,32 @@ async fn main() -> Result<()> {
         if let Err(e) = process(&db, cutoff_microseconds).await {
             error!(error = %e, "processing failed");
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parent_hashes_for_reprocess;
+
+    #[test]
+    fn includes_current_mail_hash_when_missing() {
+        let previous = vec!["prev1".to_string(), "prev2".to_string()];
+        let result = parent_hashes_for_reprocess(&previous, "current");
+        let expected = vec![
+            "prev1".to_string(),
+            "prev2".to_string(),
+            "current".to_string(),
+        ];
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn avoids_duplicate_mail_hash() {
+        let previous = vec!["prev1".to_string(), "current".to_string()];
+        let result = parent_hashes_for_reprocess(&previous, "current");
+        let expected = vec!["prev1".to_string(), "current".to_string()];
+
+        assert_eq!(result, expected);
     }
 }
