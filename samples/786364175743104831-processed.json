@@ -57,11 +57,7 @@
         "level": 45,
         "skills": "5000"
       },
-      "secondary_commander": {
-        "id": 0,
-        "level": 0,
-        "skills": null
-      },
+      "secondary_commander": null,
       "kingdom_id": 15660,
       "equipment": "{}",
       "formation": null,
