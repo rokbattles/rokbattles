@@ -27,8 +27,10 @@ export async function BattleReport({ item, locale = routing.defaultLocale }: Bat
 
   const rawSelfSecondary = self?.secondary_commander;
   const rawEnemySecondary = enemy?.secondary_commander;
-  const selfSecondary = rawSelfSecondary && rawSelfSecondary.id === 0 ? undefined : rawSelfSecondary;
-  const enemySecondary = rawEnemySecondary && rawEnemySecondary.id === 0 ? undefined : rawEnemySecondary;
+  const selfSecondary =
+    rawSelfSecondary && rawSelfSecondary.id === 0 ? undefined : rawSelfSecondary;
+  const enemySecondary =
+    rawEnemySecondary && rawEnemySecondary.id === 0 ? undefined : rawEnemySecondary;
 
   const ids: string[] = [];
   if (self?.primary_commander?.id) ids.push(String(self.primary_commander.id));
