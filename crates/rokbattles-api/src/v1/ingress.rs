@@ -16,7 +16,7 @@ use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     net::TcpStream,
 };
-use tracing::debug;
+use tracing::{debug, info, warn};
 use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
@@ -111,20 +111,45 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     let headers = req.headers().clone();
 
     if !ua_ok(&headers) {
+        let user_agent = headers
+            .get("user-agent")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("unknown");
+        debug!(user_agent, "ingress rejected: unsupported user agent");
         return (StatusCode::FORBIDDEN, "bad user agent").into_response();
     }
 
     if !ct_ok(&headers) {
+        debug!(
+            content_type = headers
+                .get("content-type")
+                .and_then(|v| v.to_str().ok())
+                .unwrap_or("unknown"),
+            "ingress rejected: unsupported content type"
+        );
         return (StatusCode::UNSUPPORTED_MEDIA_TYPE, "bad content type").into_response();
     }
 
     if !ce_ok(&headers) {
+        debug!(
+            content_encoding = headers
+                .get("content-encoding")
+                .and_then(|v| v.to_str().ok())
+                .unwrap_or("unknown"),
+            "ingress rejected: unsupported content encoding"
+        );
         return (StatusCode::UNSUPPORTED_MEDIA_TYPE, "bad content encoding").into_response();
     }
 
     let content_len = match cl_ok(&headers) {
-        Ok(n) => n,
-        Err(e) => return e.into_response(),
+        Ok(n) => {
+            debug!(content_length = n, "validated content length");
+            n
+        }
+        Err((status, reason)) => {
+            debug!(status = %status, reason, "ingress rejected: invalid content length");
+            return (status, reason).into_response();
+        }
     };
 
     let mut total = 0usize;
@@ -147,6 +172,10 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
         total += chunk.len();
         if total > MAX_UPLOAD {
+            debug!(
+                total_bytes = total,
+                "ingress rejected: payload exceeded limit during peek"
+            );
             return (StatusCode::PAYLOAD_TOO_LARGE, "payload too large").into_response();
         }
 
@@ -163,20 +192,26 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     }
 
     if !mail_decoder::has_rok_mail_header(&peek) {
+        debug!("ingress rejected: missing rok mail header");
         return (StatusCode::UNSUPPORTED_MEDIA_TYPE, "not rok mail").into_response();
     }
 
     let mut clamd = match clamd_begin(&st.clamd_addr).await {
         Ok(s) => s,
-        Err(e) => return e.into_response(),
+        Err((status, reason)) => {
+            warn!(status = %status, reason, "clamd connection failed");
+            return (status, reason).into_response();
+        }
     };
 
-    if let Err(e) = clamd_send_chunk(&mut clamd, &peek).await {
-        return e.into_response();
+    if let Err((status, reason)) = clamd_send_chunk(&mut clamd, &peek).await {
+        warn!(status = %status, reason, "clamd send chunk failed during peek");
+        return (status, reason).into_response();
     }
     if let Some(r) = remaining.take() {
-        if let Err(e) = clamd_send_chunk(&mut clamd, &r).await {
-            return e.into_response();
+        if let Err((status, reason)) = clamd_send_chunk(&mut clamd, &r).await {
+            warn!(status = %status, reason, "clamd send chunk failed after peek");
+            return (status, reason).into_response();
         }
         buf.extend_from_slice(&r);
     }
@@ -189,51 +224,77 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
                 }
                 total += chunk.len();
                 if total > MAX_UPLOAD {
+                    debug!(
+                        total_bytes = total,
+                        "ingress rejected: payload exceeded limit during stream"
+                    );
                     return (StatusCode::PAYLOAD_TOO_LARGE, "payload too large").into_response();
                 }
-                if let Err(e) = clamd_send_chunk(&mut clamd, &chunk).await {
-                    return e.into_response();
+                if let Err((status, reason)) = clamd_send_chunk(&mut clamd, &chunk).await {
+                    warn!(status = %status, reason, "clamd send chunk failed during stream");
+                    return (status, reason).into_response();
                 }
                 buf.extend_from_slice(&chunk);
             }
             Ok(None) => break,
             Err(_) => {
+                debug!("ingress rejected: body stream error");
                 return (StatusCode::BAD_REQUEST, "bad request").into_response();
             }
         }
     }
 
     if total != content_len {
+        debug!(
+            total_bytes = total,
+            content_length = content_len,
+            "ingress rejected: content length mismatch"
+        );
         return (StatusCode::BAD_REQUEST, "bad request").into_response();
     }
 
-    if let Err(e) = clamd_end(clamd).await {
-        return e.into_response();
+    if let Err((status, reason)) = clamd_end(clamd).await {
+        warn!(status = %status, reason, "clamd did not accept stream");
+        return (status, reason).into_response();
     }
 
     let decoded_mail = match mail_decoder::decode(&buf) {
         Ok(m) => m,
         Err(_) => {
+            warn!("ingress rejected: mail decoder failed");
             return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail decoder failed").into_response();
         }
     };
 
     let mail_type = mail_helper::detect_mail_type_str(&decoded_mail);
     if !mail_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+        debug!("ingress rejected: not a battle mail");
         return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
     }
 
     let mail_time = match mail_helper::detect_mail_time(&decoded_mail) {
         Some(t) => t,
-        None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing time").into_response(),
+        None => {
+            debug!("ingress rejected: mail missing time");
+            return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing time").into_response();
+        }
     };
     let mail_id = match mail_helper::detect_email_id(&decoded_mail) {
         Some(id) => id,
-        None => return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing id").into_response(),
+        None => {
+            debug!("ingress rejected: mail missing id");
+            return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing id").into_response();
+        }
     };
 
     let decoded_mail_hash = blake3_hash(&buf);
     debug!(decoded_mail_hash = %decoded_mail_hash, "computed decoded mail hash");
+    debug!(
+        mail_id = %mail_id,
+        mail_time = ?mail_time,
+        mail_type = mail_type.unwrap_or("unknown"),
+        "decoded mail metadata"
+    );
 
     let decoded_mail_json = serde_json::to_value(&decoded_mail).unwrap();
     let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json).unwrap();
@@ -264,7 +325,10 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         .await
     {
         Ok(doc) => doc,
-        Err(_) => return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
+        Err(err) => {
+            warn!(error = %err, "database lookup for existing mail failed");
+            return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+        }
     };
 
     if let Some(existing_doc) = existing_mail {
@@ -301,6 +365,15 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             .and_then(|mail| mail.get_str("hash").ok())
             .map(|hash| hash.to_string());
 
+        let will_update = original_size > existing_size;
+        debug!(
+            mail_id = %mail_id,
+            existing_size,
+            original_size,
+            will_update,
+            "found existing mail"
+        );
+
         if original_size > existing_size {
             let mut update = doc! {
                 "mail.hash": &decoded_mail_hash,
@@ -332,11 +405,28 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
                 .await;
 
             return match result {
-                Ok(_) => (StatusCode::CREATED, "").into_response(),
-                Err(_) => (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
+                Ok(_) => {
+                    info!(
+                        mail_id = %mail_id,
+                        previous_size = existing_size,
+                        new_size = original_size,
+                        "stored updated mail version"
+                    );
+                    (StatusCode::CREATED, "").into_response()
+                }
+                Err(err) => {
+                    warn!(mail_id = %mail_id, error = %err, "database update failed");
+                    (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response()
+                }
             };
         }
 
+        debug!(
+            mail_id = %mail_id,
+            existing_size,
+            original_size,
+            "skipping update because incoming mail is not larger"
+        );
         return (StatusCode::CREATED, "").into_response();
     }
 
@@ -357,13 +447,20 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         "createdAt": current_time,
     };
 
+    debug!(mail_id = %mail_id, "upserting new mail document");
     let result = mails_collection
         .update_one(doc! { "mail.id": &mail_id }, doc! { "$setOnInsert": doc })
         .upsert(true)
         .await;
 
     match result {
-        Ok(_) => (StatusCode::CREATED, "").into_response(),
-        Err(_) => (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response(),
+        Ok(_) => {
+            info!(mail_id = %mail_id, "stored new mail document");
+            (StatusCode::CREATED, "").into_response()
+        }
+        Err(err) => {
+            warn!(mail_id = %mail_id, error = %err, "database upsert failed");
+            (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response()
+        }
     }
 }
