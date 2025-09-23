@@ -25,11 +25,16 @@ export async function BattleReport({ item, locale = routing.defaultLocale }: Bat
   const self = item.report?.self;
   const enemy = item.report?.enemy;
 
+  const rawSelfSecondary = self?.secondary_commander;
+  const rawEnemySecondary = enemy?.secondary_commander;
+  const selfSecondary = rawSelfSecondary && rawSelfSecondary.id === 0 ? undefined : rawSelfSecondary;
+  const enemySecondary = rawEnemySecondary && rawEnemySecondary.id === 0 ? undefined : rawEnemySecondary;
+
   const ids: string[] = [];
   if (self?.primary_commander?.id) ids.push(String(self.primary_commander.id));
-  if (self?.secondary_commander?.id) ids.push(String(self.secondary_commander.id));
+  if (selfSecondary?.id) ids.push(String(selfSecondary.id));
   if (enemy?.primary_commander?.id) ids.push(String(enemy.primary_commander.id));
-  if (enemy?.secondary_commander?.id) ids.push(String(enemy.secondary_commander.id));
+  if (enemySecondary?.id) ids.push(String(enemySecondary.id));
 
   const nameMap = ids.length > 0 ? await resolveNames("commanders", ids, locale) : {};
 
@@ -40,7 +45,7 @@ export async function BattleReport({ item, locale = routing.defaultLocale }: Bat
         <section className="rounded-lg bg-zinc-800/50 p-3 ring-1 ring-white/5">
           <div className="space-y-0.5">
             <BattleCommanderSummary info={self?.primary_commander} names={nameMap} />
-            <BattleCommanderSummary info={self?.secondary_commander} names={nameMap} />
+            <BattleCommanderSummary info={selfSecondary} names={nameMap} />
           </div>
           <div className="mt-3">
             <BattleParticipant participant={self} locale={locale} />
@@ -49,7 +54,7 @@ export async function BattleReport({ item, locale = routing.defaultLocale }: Bat
         <section className="rounded-lg bg-zinc-800/50 p-3 ring-1 ring-white/5">
           <div className="space-y-0.5">
             <BattleCommanderSummary info={enemy?.primary_commander} names={nameMap} />
-            <BattleCommanderSummary info={enemy?.secondary_commander} names={nameMap} />
+            <BattleCommanderSummary info={enemySecondary} names={nameMap} />
           </div>
           <div className="mt-3">
             <BattleParticipant participant={enemy} locale={locale} />
