@@ -7,6 +7,7 @@ use crate::{
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
+use std::ptr;
 
 pub struct ParticipantSelfResolver;
 
@@ -67,6 +68,99 @@ impl ParticipantSelfResolver {
         sec.pointer("/body/content")
             .or_else(|| sec.get("content"))
             .unwrap_or(sec)
+    }
+
+    fn find_self_ctid(sections: &[Value], pid_opt: Option<i64>, snap: &Value) -> Option<i64> {
+        if let Some(ctid) = snap.get("CtId").and_then(Value::as_i64) {
+            return Some(ctid);
+        }
+
+        let pid = pid_opt?;
+        for sec in sections {
+            if let Some(sts) = sec.get("STs").and_then(Value::as_object) {
+                for (key, entry) in sts {
+                    if entry.get("PId").and_then(Value::as_i64) == Some(pid)
+                        && let Ok(ctid) = key.parse::<i64>()
+                    {
+                        return Some(ctid);
+                    }
+                }
+            }
+        }
+        None
+    }
+
+    fn select_ct_snapshot<'a>(
+        sections: &'a [Value],
+        ctid: i64,
+        primary: &'a Value,
+    ) -> Option<&'a Value> {
+        let mut best: Option<&Value> = None;
+        let mut best_flags = (false, false, false, false);
+
+        for sec in sections {
+            let content = Self::section_content_root(sec);
+            if ptr::eq(sec, primary) || ptr::eq(content, primary) {
+                continue;
+            }
+            let section_ctid = sec
+                .get("CtId")
+                .and_then(Value::as_i64)
+                .or_else(|| content.get("CtId").and_then(Value::as_i64))
+                .or_else(|| sec.pointer("/body/CtId").and_then(Value::as_i64));
+            if section_ctid != Some(ctid) {
+                continue;
+            }
+
+            let has_heq = sec.get("HEq").is_some() || content.get("HEq").is_some();
+            let has_hwbs = sec.get("HWBs").is_some() || content.get("HWBs").is_some();
+            let has_hid2 = sec
+                .get("HId2")
+                .and_then(Value::as_i64)
+                .or_else(|| content.get("HId2").and_then(Value::as_i64))
+                .unwrap_or(0)
+                != 0;
+            let has_hss2 = sec.get("HSS2").is_some() || content.get("HSS2").is_some();
+
+            let flags = (has_heq, has_hwbs, has_hid2, has_hss2);
+
+            if best.is_none() || flags > best_flags {
+                best = Some(sec);
+                best_flags = flags;
+            }
+        }
+
+        best
+    }
+
+    fn get_with_fallback<'a>(
+        primary: &'a Value,
+        secondary: Option<&'a Value>,
+        key: &str,
+    ) -> Option<&'a Value> {
+        fn extend_candidates<'a>(out: &mut Vec<&'a Value>, value: &'a Value) {
+            out.push(value);
+            if let Some(body) = value.pointer("/body/content") {
+                out.push(body);
+            }
+            if let Some(content) = value.get("content") {
+                out.push(content);
+            }
+        }
+
+        let mut candidates: Vec<&Value> =
+            Vec::with_capacity(if secondary.is_some() { 6 } else { 3 });
+        extend_candidates(&mut candidates, primary);
+        if let Some(sec) = secondary {
+            extend_candidates(&mut candidates, sec);
+        }
+
+        for candidate in candidates {
+            if let Some(val) = candidate.get(key) {
+                return Some(val);
+            }
+        }
+        None
     }
 
     fn tracking_key_belongs_to_pid(ctk: &str, pid: i64) -> bool {
@@ -423,6 +517,9 @@ impl Resolver for ParticipantSelfResolver {
             }
         }
 
+        let fallback_snap = Self::find_self_ctid(sections, player_pid, self_snap)
+            .and_then(|ctid| Self::select_ct_snapshot(sections, ctid, self_snap));
+
         // player name
         if obj.get("player_name").is_none()
             && let Some(pname) = self_snap
@@ -431,6 +528,22 @@ impl Resolver for ParticipantSelfResolver {
                 .or_else(|| self_body.pointer("/PName").and_then(Value::as_str))
         {
             obj.insert("player_name".into(), Value::String(pname.to_owned()));
+        } else if obj.get("player_name").is_none()
+            && let Some(pid) = player_pid
+            && let Some(name) = sections.iter().find_map(|sec| {
+                sec.get("STs").and_then(Value::as_object).and_then(|sts| {
+                    sts.values().find_map(|entry| {
+                        if entry.get("PId").and_then(Value::as_i64) == Some(pid) {
+                            entry.get("PName").and_then(Value::as_str).map(|s| s.trim())
+                        } else {
+                            None
+                        }
+                    })
+                })
+            })
+            && !name.is_empty()
+        {
+            obj.insert("player_name".into(), Value::String(name.to_owned()));
         }
 
         // avatar url
@@ -552,9 +665,13 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // secondary commander
-        let hid2 = self_snap.get("HId2").and_then(Value::as_i64).unwrap_or(0) as i32;
+        let hid2 = Self::get_with_fallback(self_snap, fallback_snap, "HId2")
+            .and_then(Value::as_i64)
+            .unwrap_or(0) as i32;
 
-        let mut hlv2 = self_snap.get("HLv2").and_then(Value::as_i64).unwrap_or(0) as i32;
+        let mut hlv2 = Self::get_with_fallback(self_snap, fallback_snap, "HLv2")
+            .and_then(Value::as_i64)
+            .unwrap_or(0) as i32;
         if let Some(pid) = obj.get("player_id").and_then(Value::as_i64)
             && hlv2 == 0
             && let Some(found) =
@@ -583,29 +700,42 @@ impl Resolver for ParticipantSelfResolver {
         obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
         // kingdom and tracking key
-        map_put_i32(
-            obj,
-            "kingdom_id",
-            self_snap
-                .get("COSId")
-                .and_then(Value::as_i64)
-                .map(|x| x as i32),
-        );
+        if obj.get("kingdom_id").is_none() {
+            map_put_i32(
+                obj,
+                "kingdom_id",
+                Self::get_with_fallback(self_snap, fallback_snap, "COSId")
+                    .and_then(Value::as_i64)
+                    .filter(|&x| x != 0)
+                    .map(|x| x as i32),
+            );
+        }
+        if obj.get("kingdom_id").is_none() {
+            let kingdom_guess = sections
+                .iter()
+                .find_map(|s| s.get("GsId").and_then(Value::as_i64));
+            map_put_i32(obj, "kingdom_id", kingdom_guess.map(|x| x as i32));
+        }
 
         // equipment and formation
         map_put_str(
             obj,
             "equipment",
-            self_snap.get("HEq").and_then(Value::as_str),
+            Self::get_with_fallback(self_snap, fallback_snap, "HEq").and_then(Value::as_str),
         );
-        if let Some(fm) = self_snap.get("HFMs").and_then(Value::as_i64) {
-            obj.insert("formation".into(), Value::from(fm as i32));
-        } else if fm_guess != 0 && obj.get("formation").is_none() {
-            obj.insert("formation".into(), Value::from(fm_guess));
+        if obj.get("formation").is_none() {
+            if let Some(fm) = Self::get_with_fallback(self_snap, fallback_snap, "HFMs")
+                .and_then(Value::as_i64)
+                .filter(|&x| x != 0)
+            {
+                obj.insert("formation".into(), Value::from(fm as i32));
+            } else if fm_guess != 0 {
+                obj.insert("formation".into(), Value::from(fm_guess));
+            }
         }
 
         // armaments and inscriptions
-        if let Some(hwbs) = self_snap.get("HWBs") {
+        if let Some(hwbs) = Self::get_with_fallback(self_snap, fallback_snap, "HWBs") {
             let buffs = collect_buffs_from_hwbs(Some(hwbs));
             if !buffs.is_empty() {
                 obj.insert("armament_buffs".into(), Value::String(buffs));

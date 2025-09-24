@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "10311279175284404113",
+      "email_time": 1752844041706806,
+      "email_type": "Battle",
+      "email_receiver": "36195367",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "557403",
+      "start_date": 1752844041,
+      "end_date": 1753210896,
+      "pos_x": 973.30786,
+      "pos_y": 7092.1714,
+      "players": 1
+    },
+    "self": {
+      "player_id": 36195367,
+      "player_name": "Fayst 25 GGGG X",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/30948458/2025-04-27/E26A11AFE1AFFA94A08691D700D1F4DC_250x250.jpg",
+      "castle_x": 975.05273,
+      "castle_y": 7082.921,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 10,
+        "level": 46,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 15,
+        "level": 50,
+        "skills": null
+      },
+      "kingdom_id": 1804,
+      "equipment": "{1:20088_25:0,6:20086_26:0,2:20113_9:0,3:20065_20:0,4:20085_24:0}",
+      "formation": null,
+      "is_ranged_tower": false,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 38608124,
+      "player_name": "SnowMan亗",
+      "alliance_tag": null,
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/38608124/22/07/11/5f3cd49a87cb3b2c_420x420.jpg",
+      "castle_x": 976.55035,
+      "castle_y": 7097.7876,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 118,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 139,
+        "level": 60,
+        "skills": null
+      },
+      "kingdom_id": 1804,
+      "equipment": "{7:20037_145:1,8:20040_170:1,6:20018_172:11,2:20014_161:11,3:20026_159:11,5:20032_171:11,4:20029_162:11,1:20013_94:11}",
+      "formation": 2,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.006000;2004_0.054000;2004_0.062000;3001_0.013000;4001_0.018000;4001_0.027000;4001_0.034000;5001_0.016000;5001_0.032000;5002_0.016000;6001_0.035000;6003_0.032000",
+      "inscriptions": "-1;-1;-1;318"
+    },
+    "battle_results": {
+      "power": 0,
+      "init_max": 232500,
+      "max": 223771,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 0,
+      "wounded": 0,
+      "remaining": 223771,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 262939,
+      "enemy_max": 0,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 50000,
+      "enemy_kill_score": 0
+    }
+  }
+]

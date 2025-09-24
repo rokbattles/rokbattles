@@ -57,14 +57,10 @@
         "level": 60,
         "skills": "5000"
       },
-      "secondary_commander": {
-        "id": 0,
-        "level": 0,
-        "skills": null
-      },
+      "secondary_commander": null,
       "kingdom_id": 1217,
       "equipment": "{}",
-      "formation": null,
+      "formation": 2,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
@@ -152,14 +148,10 @@
         "level": 60,
         "skills": "5000"
       },
-      "secondary_commander": {
-        "id": 0,
-        "level": 0,
-        "skills": null
-      },
+      "secondary_commander": null,
       "kingdom_id": 1217,
       "equipment": "{}",
-      "formation": null,
+      "formation": 2,
       "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null

@@ -69,7 +69,74 @@ const METRICS: readonly MetricConfig[] = [
 
 type TimelineDatum = {
   timestamp: number;
-} & Record<string, number>;
+} & Record<string, number | undefined>;
+
+type AggregatedBucket = {
+  timestamp: number;
+} & Record<string, number | undefined>;
+
+function getTimelineSeriesKeys(data: readonly TimelineDatum[]): string[] {
+  const keys = new Set<string>();
+  for (const item of data) {
+    for (const key of Object.keys(item)) {
+      if (key === "timestamp") continue;
+      keys.add(key);
+    }
+  }
+  return [...keys];
+}
+
+export function bucketTimeline(
+  data: readonly TimelineDatum[],
+  targetPoints = 220
+): TimelineDatum[] {
+  if (!data.length) return [];
+  const sorted = [...data].sort((a, b) => a.timestamp - b.timestamp);
+  const minTs = sorted[0]?.timestamp ?? 0;
+  const maxTs = sorted[sorted.length - 1]?.timestamp ?? minTs;
+  if (minTs === maxTs) {
+    return sorted.map((item) => {
+      const normalized: TimelineDatum = { timestamp: item.timestamp };
+      for (const key of Object.keys(item)) {
+        if (key === "timestamp") continue;
+        const value = item[key];
+        normalized[key] = typeof value === "number" && value !== 0 ? value : undefined;
+      }
+      return normalized;
+    });
+  }
+
+  const safeTarget = Math.max(1, targetPoints);
+  const bucketMs = Math.max(1, Math.ceil((maxTs - minTs) / safeTarget));
+  const seriesKeys = getTimelineSeriesKeys(sorted);
+  const bucketMap = new Map<number, AggregatedBucket>();
+
+  for (const item of sorted) {
+    const bucketIndex = Math.floor((item.timestamp - minTs) / bucketMs);
+    const bucketStart = minTs + bucketIndex * bucketMs;
+    if (!bucketMap.has(bucketStart)) {
+      bucketMap.set(bucketStart, { timestamp: bucketStart });
+    }
+    // biome-ignore lint/style/noNonNullAssertion: can ignore for now
+    const target = bucketMap.get(bucketStart)!;
+    for (const key of seriesKeys) {
+      const value = item[key];
+      if (typeof value !== "number") continue;
+      target[key] = (target[key] ?? 0) + value;
+    }
+  }
+
+  return Array.from(bucketMap.values())
+    .sort((a, b) => a.timestamp - b.timestamp)
+    .map((bucket) => {
+      const result: TimelineDatum = { timestamp: bucket.timestamp };
+      for (const key of seriesKeys) {
+        const value = bucket[key];
+        result[key] = typeof value === "number" && value !== 0 ? value : undefined;
+      }
+      return result;
+    });
+}
 
 type SideFilter = "self" | "enemy" | "both";
 
@@ -111,8 +178,9 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
     () => new Set(METRICS.map((metric) => metric.key))
   );
   const [sideFilter, setSideFilter] = useState<SideFilter>("both");
+  const [isSmoothingEnabled, setIsSmoothingEnabled] = useState(true);
 
-  const timelineData = useMemo(() => {
+  const timelineDataRaw = useMemo(() => {
     const entries = summary.timeline ?? [];
     return entries
       .filter((entry) => typeof entry?.start_date === "number" && Number(entry.start_date) > 0)
@@ -132,6 +200,14 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
       .sort((a, b) => a.timestamp - b.timestamp);
   }, [summary.timeline]);
 
+  const timelineData = useMemo(() => {
+    if (!timelineDataRaw.length) return [];
+    if (!isSmoothingEnabled) {
+      return timelineDataRaw;
+    }
+    return bucketTimeline(timelineDataRaw, 220);
+  }, [timelineDataRaw, isSmoothingEnabled]);
+
   const totalsData = useMemo(() => {
     const totals = summary.total ?? {};
     return METRICS.map((metric) => {
@@ -149,9 +225,20 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
   const showFriendly = sideFilter === "self" || sideFilter === "both";
   const showEnemy = sideFilter === "enemy" || sideFilter === "both";
 
-  if (timelineData.length < 2) {
+  if (timelineDataRaw.length < 2 || timelineData.length === 0) {
     return null;
   }
+
+  const firstTimestampRaw = timelineDataRaw[0]?.timestamp ?? 0;
+  const lastTimestampRaw =
+    timelineDataRaw[timelineDataRaw.length - 1]?.timestamp ?? firstTimestampRaw;
+  const hasSingleTimestamp = firstTimestampRaw === lastTimestampRaw;
+  const axisTicks = hasSingleTimestamp
+    ? [firstTimestampRaw]
+    : [firstTimestampRaw, lastTimestampRaw];
+  const axisDomain: [number, number] = hasSingleTimestamp
+    ? [firstTimestampRaw - 1, lastTimestampRaw + 1]
+    : [firstTimestampRaw, lastTimestampRaw];
 
   const handleMetricToggle = (metricKey: MetricKey) => {
     setActiveMetrics((prev) => {
@@ -353,8 +440,31 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
             );
           })}
         </div>
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          {[
+            { value: true, label: "Aggregated" },
+            { value: false, label: "Raw" },
+          ].map((option) => {
+            const isActive = isSmoothingEnabled === option.value;
+            return (
+              <button
+                key={option.label}
+                type="button"
+                onClick={() => setIsSmoothingEnabled(option.value)}
+                className={clsx(
+                  "rounded-md px-2 py-1 text-xs font-medium transition",
+                  isActive
+                    ? "bg-emerald-500/20 text-emerald-200 ring-1 ring-emerald-400/40"
+                    : "bg-zinc-900/40 text-zinc-500 hover:bg-zinc-900/60 hover:text-zinc-200"
+                )}
+                aria-pressed={isActive}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
-
       <div className="h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={timelineData} margin={{ top: 10, right: 16, bottom: 0, left: 0 }}>
@@ -362,8 +472,9 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
             <XAxis
               dataKey="timestamp"
               type="number"
-              domain={["dataMin", "dataMax"]}
+              domain={axisDomain}
               scale="time"
+              ticks={axisTicks}
               tickFormatter={(value) => formatTimestampLabel(Number(value), locale)}
               tick={{ fill: "#a1a1aa", fontSize: 11 }}
               axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
@@ -383,7 +494,7 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
               ? METRICS.map((metric) => (
                   <Area
                     key={`self-${metric.key}`}
-                    type="monotone"
+                    type="monotoneX"
                     dataKey={`self_${metric.key}`}
                     stroke={metric.color}
                     fill={metric.color}
@@ -392,6 +503,10 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
                     strokeWidth={2}
                     stackId="self"
                     hide={!activeMetrics.has(metric.key)}
+                    connectNulls
+                    dot={false}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 ))
               : null}
@@ -399,7 +514,7 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
               ? METRICS.map((metric) => (
                   <Area
                     key={`enemy-${metric.key}`}
-                    type="monotone"
+                    type="monotoneX"
                     dataKey={`enemy_${metric.key}`}
                     stroke={metric.enemyColor}
                     fill={metric.enemyColor}
@@ -408,16 +523,19 @@ export function BattleResultsTimelineChart({ summary, locale }: BattleResultsTim
                     strokeWidth={2}
                     stackId="enemy"
                     hide={!activeMetrics.has(metric.key)}
+                    connectNulls
+                    dot={false}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                 ))
               : null}
           </ComposedChart>
         </ResponsiveContainer>
       </div>
-
       {totalsData.length > 0 ? (
         <div>
-          <h4 className="text-sm font-semibold text-zinc-100">Totals comparison</h4>
+          <h4 className="text-sm font-semibold text-zinc-100">Battle comparison</h4>
           <div className="mt-3" style={{ height: totalsChartHeight }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
