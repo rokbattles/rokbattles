@@ -57,7 +57,8 @@ fn http_client() -> &'static reqwest::Client {
             .tcp_keepalive(Some(Duration::from_secs(60)))
             .pool_idle_timeout(Some(Duration::from_secs(90)))
             .pool_max_idle_per_host(8)
-            // TODO Add connect/read timeouts and a retry policy with exponential backoff
+            .connect_timeout(Duration::from_secs(5))
+            .timeout(Duration::from_secs(20))
             .build()
             .expect("failed to build HTTP client")
     })
