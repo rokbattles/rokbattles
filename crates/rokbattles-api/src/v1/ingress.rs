@@ -21,13 +21,50 @@ use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
 const BUFFER_LEN: usize = 32;
+const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2];
 
-// TODO we'll be changing this to load supported versions at runtime, we'll stop supporting older versions over time
 fn ua_ok(h: &HeaderMap) -> bool {
-    h.get("user-agent")
-        .and_then(|v| v.to_str().ok())
-        .map(|v| v.starts_with("ROKBattles/0.1.0"))
-        .unwrap_or(false)
+    let Some(user_agent) = h.get("user-agent").and_then(|v| v.to_str().ok()) else {
+        return false;
+    };
+
+    let Some(rest) = user_agent.strip_prefix("ROKBattles/") else {
+        return false;
+    };
+
+    let mut parts = rest.splitn(2, ' ');
+    let version = parts.next().unwrap_or_default();
+    if !is_supported_version(version) {
+        return false;
+    }
+
+    match parts.next() {
+        None => true,
+        Some(remainder) => remainder.starts_with('(') && remainder.contains(" Tauri/"),
+    }
+}
+
+fn is_supported_version(version: &str) -> bool {
+    let mut segments = version.split('.');
+    let (Some(major), Some(minor), Some(patch)) =
+        (segments.next(), segments.next(), segments.next())
+    else {
+        return false;
+    };
+
+    if segments.next().is_some() {
+        return false;
+    }
+
+    if !(is_numeric(major) && is_numeric(minor) && is_numeric(patch)) {
+        return false;
+    }
+
+    matches!((major.parse::<u64>(), minor.parse::<u64>()), (Ok(0), Ok(minor)) if SUPPORTED_MINOR_VERSIONS.contains(&minor))
+}
+
+fn is_numeric(input: &str) -> bool {
+    !input.is_empty() && input.chars().all(|c| c.is_ascii_digit())
 }
 
 fn ct_ok(h: &HeaderMap) -> bool {
