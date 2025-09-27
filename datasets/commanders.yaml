@@ -1104,6 +1104,15 @@ commanders:
     prime: false
     rarity: legendary
 
+  546:
+    name:
+      en: "Afonso de Albuquerque"
+      de: "Afonso de Albuquerque"
+      es: "Afonso de Albuquerque"
+      kr: "아폰수 드 알부케르크"
+    prime: false
+    rarity: legendary
+
   564:
     name:
       en: "Archimedes"
