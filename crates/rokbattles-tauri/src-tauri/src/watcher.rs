@@ -20,9 +20,6 @@ const PROCESSED_FILE: &str = "processed.json";
 const RATE_LIMIT: u32 = 128;
 const TICK: u64 = 60000 / RATE_LIMIT as u64;
 
-// TODO Update User-Agent dynamically from crate version + OS (e.g., ROKBattles/<app_version> (<os>; <arch>)).
-const API_USER_AGENT: &str = "ROKBattles/0.1.0";
-
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -41,10 +38,22 @@ struct LogPayload {
     message: String,
 }
 
+fn build_user_agent() -> String {
+    // Format: ROKBattles/<app_version> (<os>; <arch>) Tauri/<tauri_version>
+    format!(
+        "ROKBattles/{version} ({os}; {arch}) Tauri/{tauri}",
+        version = env!("CARGO_PKG_VERSION"),
+        os = std::env::consts::OS,
+        arch = std::env::consts::ARCH,
+        tauri = tauri::VERSION
+    )
+}
+
 fn http_client() -> &'static reqwest::Client {
     HTTP_CLIENT.get_or_init(|| {
+        let user_agent = build_user_agent();
         reqwest::Client::builder()
-            .user_agent(API_USER_AGENT)
+            .user_agent(user_agent)
             .tcp_keepalive(Some(Duration::from_secs(60)))
             .pool_idle_timeout(Some(Duration::from_secs(90)))
             .pool_max_idle_per_host(8)
