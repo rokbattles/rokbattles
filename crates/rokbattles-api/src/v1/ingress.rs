@@ -501,3 +501,76 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{is_supported_version, ua_ok};
+    use axum::http::HeaderMap;
+
+    fn headers_with_user_agent(value: &str) -> HeaderMap {
+        let mut headers = HeaderMap::new();
+        headers.insert("user-agent", value.parse().unwrap());
+        headers
+    }
+
+    #[test]
+    fn ua_ok_accepts_supported_minimal_user_agent() {
+        let headers = headers_with_user_agent("ROKBattles/0.1.0");
+        assert!(ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_accepts_supported_tauri_user_agent() {
+        let headers = headers_with_user_agent("ROKBattles/0.2.5 (MacOS; Tauri/1.5.0)");
+        assert!(ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_rejects_missing_prefix() {
+        let headers = headers_with_user_agent("OtherApp/0.1.0");
+        assert!(!ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_rejects_missing_user_agent_header() {
+        let headers = HeaderMap::new();
+        assert!(!ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_rejects_unsupported_minor_version() {
+        let headers = headers_with_user_agent("ROKBattles/0.3.0");
+        assert!(!ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_rejects_invalid_suffix() {
+        let headers = headers_with_user_agent("ROKBattles/0.1.0 missing-tauri");
+        assert!(!ua_ok(&headers));
+    }
+
+    #[test]
+    fn ua_ok_rejects_suffix_without_tauri_identifier() {
+        let headers = headers_with_user_agent("ROKBattles/0.1.0 (MacOS; SomethingElse/1.2.3)");
+        assert!(!ua_ok(&headers));
+    }
+
+    #[test]
+    fn is_supported_version_accepts_allowed_minor_versions() {
+        assert!(is_supported_version("0.1.0"));
+        assert!(is_supported_version("0.2.10"));
+    }
+
+    #[test]
+    fn is_supported_version_rejects_invalid_formats() {
+        for version in ["0.1", "0.1.0.1", "0.a.1", "", "0.1."] {
+            assert!(!is_supported_version(version));
+        }
+    }
+
+    #[test]
+    fn is_supported_version_rejects_disallowed_major_or_minor() {
+        assert!(!is_supported_version("1.0.0"));
+        assert!(!is_supported_version("0.3.0"));
+    }
+}
