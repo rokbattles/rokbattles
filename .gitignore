@@ -5,3 +5,5 @@ node_modules
 .next
 **/gen/schemas
 dist
+.env*
+!.env.example

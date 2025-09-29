@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const plugins = [];
+const plugins = [createNextIntlPlugin()];
 const isProvEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {

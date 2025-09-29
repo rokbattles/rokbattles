@@ -32,6 +32,7 @@ export default function Page() {
 
     return () => {
       controller.abort();
+      ref.current = false;
     };
   }, []);
 
