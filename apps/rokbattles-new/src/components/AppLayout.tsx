@@ -23,7 +23,13 @@ import {
   DropdownMenu,
 } from "@/components/ui/Dropdown";
 import { SidebarLayout } from "@/components/ui/layout/SidebarLayout";
-import { Navbar, NavbarItem, NavbarSection, NavbarSpacer } from "@/components/ui/Navbar";
+import {
+  Navbar,
+  NavbarItem,
+  NavbarLabel,
+  NavbarSection,
+  NavbarSpacer,
+} from "@/components/ui/Navbar";
 import {
   Sidebar,
   SidebarBody,
@@ -35,6 +41,7 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from "@/components/ui/Sidebar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 function AccountDropdownMenu({ anchor }: { anchor: "top start" | "bottom end" }) {
   return (
@@ -53,18 +60,27 @@ function AccountDropdownMenu({ anchor }: { anchor: "top start" | "bottom end" })
 }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useCurrentUser();
+
   return (
     <SidebarLayout
       navbar={
         <Navbar>
           <NavbarSpacer />
           <NavbarSection>
-            <Dropdown>
-              <DropdownButton as={NavbarItem}>
-                <Avatar src="" square />
-              </DropdownButton>
-              <AccountDropdownMenu anchor="bottom end" />
-            </Dropdown>
+            {!loading &&
+              (user ? (
+                <Dropdown>
+                  <DropdownButton as={NavbarItem}>
+                    <Avatar src={user.avatar} square />
+                  </DropdownButton>
+                  <AccountDropdownMenu anchor="bottom end" />
+                </Dropdown>
+              ) : (
+                <NavbarItem href="/api/auth/discord/login">
+                  <NavbarLabel>Sign in</NavbarLabel>
+                </NavbarItem>
+              ))}
           </NavbarSection>
         </Navbar>
       }
@@ -140,23 +156,30 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </SidebarSection>
           </SidebarBody>
           <SidebarFooter className="max-lg:hidden">
-            <Dropdown>
-              <DropdownButton as={SidebarItem}>
-                <span className="flex min-w-0 items-center gap-3">
-                  <Avatar src="" className="size-10" square />
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                      Name
+            {!loading &&
+              (user ? (
+                <Dropdown>
+                  <DropdownButton as={SidebarItem}>
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Avatar src={user.avatar} className="size-10" square />
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+                          {user.globalName ?? user.username}
+                        </span>
+                        <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+                          {user.email}
+                        </span>
+                      </span>
                     </span>
-                    <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                      name@example.com
-                    </span>
-                  </span>
-                </span>
-                <ChevronUpIcon />
-              </DropdownButton>
-              <AccountDropdownMenu anchor="top start" />
-            </Dropdown>
+                    <ChevronUpIcon />
+                  </DropdownButton>
+                  <AccountDropdownMenu anchor="top start" />
+                </Dropdown>
+              ) : (
+                <SidebarItem href="/api/auth/discord/login">
+                  <SidebarLabel>Sign in</SidebarLabel>
+                </SidebarItem>
+              ))}
           </SidebarFooter>
         </Sidebar>
       }
