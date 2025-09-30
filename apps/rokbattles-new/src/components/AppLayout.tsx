@@ -12,6 +12,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/16/solid";
 import type React from "react";
+import { useCallback } from "react";
 import { Avatar } from "@/components/ui/Avatar";
 import {
   Dropdown,
@@ -43,7 +44,13 @@ import {
 } from "@/components/ui/Sidebar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-function AccountDropdownMenu({ anchor }: { anchor: "top start" | "bottom end" }) {
+function AccountDropdownMenu({
+  anchor,
+  handleLogout,
+}: {
+  anchor: "top start" | "bottom end";
+  handleLogout: () => Promise<void>;
+}) {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
       <DropdownItem>
@@ -51,7 +58,7 @@ function AccountDropdownMenu({ anchor }: { anchor: "top start" | "bottom end" })
         <DropdownLabel>My account</DropdownLabel>
       </DropdownItem>
       <DropdownDivider />
-      <DropdownItem>
+      <DropdownItem onClick={() => handleLogout()}>
         <ArrowRightStartOnRectangleIcon />
         <DropdownLabel>Sign out</DropdownLabel>
       </DropdownItem>
@@ -60,7 +67,17 @@ function AccountDropdownMenu({ anchor }: { anchor: "top start" | "bottom end" })
 }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useCurrentUser();
+  const { user, loading, refresh } = useCurrentUser();
+
+  const handleLogout = useCallback(async () => {
+    const response = await fetch("/api/auth/logout", { method: "POST" });
+
+    if (response.ok) {
+      await refresh();
+    } else {
+      console.error("Failed to logout");
+    }
+  }, [refresh]);
 
   return (
     <SidebarLayout
@@ -74,7 +91,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   <DropdownButton as={NavbarItem}>
                     <Avatar src={user.avatar} square />
                   </DropdownButton>
-                  <AccountDropdownMenu anchor="bottom end" />
+                  <AccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
                 <NavbarItem href="/api/auth/discord/login">
@@ -173,7 +190,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                     </span>
                     <ChevronUpIcon />
                   </DropdownButton>
-                  <AccountDropdownMenu anchor="top start" />
+                  <AccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
                 <SidebarItem href="/api/auth/discord/login">
