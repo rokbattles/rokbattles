@@ -5,6 +5,7 @@ const plugins = [createNextIntlPlugin()];
 const isProvEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {
+  devIndicators: false,
   reactStrictMode: !isProvEnv,
   typedRoutes: true,
 };
