@@ -122,5 +122,5 @@ export async function GET(req: NextRequest) {
   await db.collection("oauthStates").deleteOne({ state });
   await createSession(profile.id);
 
-  return NextResponse.redirect(new URL("/", req.url), { status: 302 });
+  return NextResponse.redirect(new URL("/app", req.url), { status: 302 });
 }
