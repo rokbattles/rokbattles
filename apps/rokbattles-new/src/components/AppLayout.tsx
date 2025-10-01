@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ArrowDownTrayIcon,
   ArrowRightStartOnRectangleIcon,
   ArrowTrendingUpIcon,
   ChevronDownIcon,
@@ -166,9 +167,13 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </SidebarSection>
             <SidebarSpacer />
             <SidebarSection>
-              <SidebarItem>
+              <SidebarItem href="/discord" target="_blank" rel="noopener noreferrer">
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>Support</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem href="/desktop-app" target="_blank" rel="noopener noreferrer">
+                <ArrowDownTrayIcon />
+                <SidebarLabel>Desktop App</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
           </SidebarBody>
