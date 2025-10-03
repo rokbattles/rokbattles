@@ -145,22 +145,25 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </SidebarHeader>
           <SidebarBody>
             <SidebarSection>
-              <SidebarItem>
+              {/* @ts-ignore figure out how to fix the typings for route segments */}
+              <SidebarItem href="/app">
                 <FireIcon />
                 <SidebarLabel>Explore Battles</SidebarLabel>
               </SidebarItem>
-              <SidebarItem>
+              <SidebarItem disabled>
                 <ArrowTrendingUpIcon />
                 <SidebarLabel>Explore Trends</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             <SidebarSection>
               <SidebarHeading>Account</SidebarHeading>
-              <SidebarItem>
+              {/* @ts-ignore figure out how to fix the typings for route segments */}
+              <SidebarItem href="/app/account/battles">
                 <FireIcon />
                 <SidebarLabel>My Battles</SidebarLabel>
               </SidebarItem>
-              <SidebarItem>
+              {/* @ts-ignore figure out how to fix the typings for route segments */}
+              <SidebarItem href="/app/account/favorites">
                 <StarIcon />
                 <SidebarLabel>My Favorites</SidebarLabel>
               </SidebarItem>
@@ -178,30 +181,33 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </SidebarSection>
           </SidebarBody>
           <SidebarFooter className="max-lg:hidden">
-            {!loading &&
-              (user ? (
-                <Dropdown>
-                  <DropdownButton as={SidebarItem}>
-                    <span className="flex min-w-0 items-center gap-3">
-                      <Avatar src={user.avatar} className="size-10" square />
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                          {user.globalName ?? user.username}
-                        </span>
-                        <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                          {user.email}
-                        </span>
+            {loading ? (
+              <SidebarItem disabled>
+                <SidebarLabel>Loading&hellip;</SidebarLabel>
+              </SidebarItem>
+            ) : user ? (
+              <Dropdown>
+                <DropdownButton as={SidebarItem}>
+                  <span className="flex min-w-0 items-center gap-3">
+                    <Avatar src={user.avatar} className="size-10" square />
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+                        {user.globalName ?? user.username}
+                      </span>
+                      <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+                        {user.email}
                       </span>
                     </span>
-                    <ChevronUpIcon />
-                  </DropdownButton>
-                  <AccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
-                </Dropdown>
-              ) : (
-                <SidebarItem href="/api/auth/discord/login">
-                  <SidebarLabel>Sign in</SidebarLabel>
-                </SidebarItem>
-              ))}
+                  </span>
+                  <ChevronUpIcon />
+                </DropdownButton>
+                <AccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
+              </Dropdown>
+            ) : (
+              <SidebarItem href="/api/auth/discord/login">
+                <SidebarLabel>Sign in</SidebarLabel>
+              </SidebarItem>
+            )}
           </SidebarFooter>
         </Sidebar>
       }

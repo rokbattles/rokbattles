@@ -31,7 +31,7 @@ export function BattleReportsTableBody() {
         const hasEnemySecondary = Boolean(entry.enemySecondaryCommanderId);
 
         return (
-          <TableRow key={report.parentHash}>
+          <TableRow key={report.parentHash} href={`/app/report/${report.parentHash}`}>
             <TableCell>{formatUtcDateTime(entry.startDate)}</TableCell>
             <TableCell>
               <div className="flex flex-col">

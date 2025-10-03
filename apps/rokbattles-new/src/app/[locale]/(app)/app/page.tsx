@@ -7,7 +7,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 export default function Page() {
   return (
     <>
-      <Heading>Explore Battle Reports</Heading>
+      <Heading>Explore Battles</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Recent Battle Reports</Subheading>
         <Button>

@@ -68,9 +68,9 @@ export async function GET(req: NextRequest) {
         _id: "$metadata.parentHash",
         count: { $sum: 1 },
         firstStart: { $min: "$report.metadata.start_date" },
-        latestStart: { $max: "$report.metadata.start_date" },
         latestMailTime: { $max: "$report.metadata.email_time" },
         lastEnd: {
+          // In the event of new updates that break the logic, fallback to start date until we can reprocess
           $max: { $ifNull: ["$report.metadata.end_date", "$report.metadata.start_date"] },
         },
       },
