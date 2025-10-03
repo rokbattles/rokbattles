@@ -1,3 +1,4 @@
+import { FunnelIcon } from "@heroicons/react/16/solid";
 import { BattleReportsTableBody } from "@/components/BattleReportsTableBody";
 import { Button } from "@/components/ui/Button";
 import { Heading, Subheading } from "@/components/ui/Heading";
@@ -9,7 +10,10 @@ export default function Page() {
       <Heading>Explore Battle Reports</Heading>
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Recent Battle Reports</Subheading>
-        <Button>Filters</Button>
+        <Button>
+          <FunnelIcon />
+          Filters
+        </Button>
       </div>
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
