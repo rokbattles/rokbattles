@@ -19,7 +19,7 @@ use tokio::{
 use tracing::{debug, info, warn};
 use zstd::encode_all;
 
-const MAX_UPLOAD: usize = 5 * 1024 * 1024; // 5 MB
+const MAX_UPLOAD: usize = 10 * 1024 * 1024; // 10 MB
 const BUFFER_LEN: usize = 32;
 const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2];
 
