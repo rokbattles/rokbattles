@@ -27,7 +27,6 @@ const config: NextConfig = {
   },
   productionBrowserSourceMaps: false,
   reactStrictMode: !isProdEnv,
-  typedRoutes: true,
 };
 
 module.exports = plugins.reduce((acc, next) => next(acc), config);
