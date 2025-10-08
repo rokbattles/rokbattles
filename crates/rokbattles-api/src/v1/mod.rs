@@ -11,5 +11,5 @@ pub fn router() -> Router<AppState> {
         .route("/ingress", post(ingress::ingress))
         .route("/reports", get(reports::list_reports))
         .route("/report/{parent_hash}", get(report::report_by_parent))
-        .layer(RequestBodyLimitLayer::new(5 * 1024 * 1024)) // 5 MB
+        .layer(RequestBodyLimitLayer::new(10 * 1024 * 1024)) // 10 MB
 }
