@@ -1,6 +1,15 @@
+import "./globals.css";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head>
         <link rel="preconnect" href="https://plat-fau-global.lilithgame.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://imimg.lilithcdn.com" />
