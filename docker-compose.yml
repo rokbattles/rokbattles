@@ -15,6 +15,21 @@ services:
       - ./legal:/app/legal:ro
     networks:
       - rokbattles
+  site-platform:
+    build:
+      context: .
+      dockerfile: platform.Dockerfile
+    depends_on:
+      mongo:
+        condition: service_healthy
+      clamd:
+        condition: service_healthy
+    ports:
+      - "4447:3000"
+    environment:
+      NODE_ENV: production
+    networks:
+      - rokbattles
   site-api:
     build:
       context: .
