@@ -1130,3 +1130,21 @@ commanders:
       kr: "메리 1세"
     prime: false
     rarity: legendary
+
+  572:
+    name:
+      en: "Casimir III"
+      de: "Kasimir III"
+      es: "Casimiro III"
+      kr: "카지미에시"
+    prime: false
+    rarity: legendary
+
+  573:
+    name:
+      en: "Pepin III"
+      de: "Pippin III"
+      es: "Pipino III"
+      kr: "피피누스 3세"
+    prime: false
+    rarity: legendary
