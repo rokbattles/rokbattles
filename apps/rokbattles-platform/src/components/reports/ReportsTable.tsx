@@ -2,15 +2,31 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/Table";
-import { useReports } from "@/hook/useReports";
+import { useCommanderName } from "@/hooks/useCommanderName";
+import { useReports } from "@/hooks/useReports";
 import { cn } from "@/lib/cn";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
 
 const skeletonWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 
 function ParticipantCell({ primaryId, secondaryId }: { primaryId: number; secondaryId: number }) {
-  const hasPrimary = Number.isFinite(primaryId) && primaryId > 0;
-  const hasSecondary = Number.isFinite(secondaryId) && secondaryId > 0;
+  const primaryName = useCommanderName(primaryId);
+  const secondaryName = useCommanderName(secondaryId);
+
+  const primaryFallback =
+    typeof primaryId === "number" && Number.isFinite(primaryId) && primaryId > 0
+      ? String(primaryId)
+      : undefined;
+  const secondaryFallback =
+    typeof secondaryId === "number" && Number.isFinite(secondaryId) && secondaryId > 0
+      ? String(secondaryId)
+      : undefined;
+
+  const primaryLabel = primaryName ?? primaryFallback;
+  const secondaryLabel = secondaryName ?? secondaryFallback;
+
+  const hasPrimary = Boolean(primaryLabel);
+  const hasSecondary = Boolean(secondaryLabel);
 
   if (!hasPrimary && !hasSecondary) {
     return <span className="text-zinc-500 dark:text-zinc-400">Unknown</span>;
@@ -18,9 +34,9 @@ function ParticipantCell({ primaryId, secondaryId }: { primaryId: number; second
 
   return (
     <div className="flex flex-col gap-1">
-      {hasPrimary ? <span>{primaryId}</span> : null}
+      {hasPrimary ? <span>{primaryLabel}</span> : null}
       {hasSecondary ? (
-        <span className="text-zinc-600 dark:text-zinc-400">{secondaryId}</span>
+        <span className="text-zinc-600 dark:text-zinc-400">{secondaryLabel}</span>
       ) : null}
     </div>
   );

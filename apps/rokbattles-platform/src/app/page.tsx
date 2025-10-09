@@ -18,11 +18,11 @@ export default function Page() {
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader>Time</TableHeader>
+            <TableHeader className="sm:w-1/6">Time</TableHeader>
             <TableHeader>Self Participant</TableHeader>
             <TableHeader>Enemy Participant</TableHeader>
-            <TableHeader>Battles</TableHeader>
-            <TableHeader>Duration</TableHeader>
+            <TableHeader className="sm:w-1/6">Battles</TableHeader>
+            <TableHeader className="sm:w-1/6">Duration</TableHeader>
           </TableRow>
         </TableHead>
         <ReportsTable />
