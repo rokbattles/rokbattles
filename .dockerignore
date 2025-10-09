@@ -6,6 +6,6 @@ node_modules
 target
 **/target
 samples
-datasets
+#datasets
 **/gen/schemas
 dist
