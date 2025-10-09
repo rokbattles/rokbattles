@@ -57,7 +57,7 @@ export function useReports() {
   const context = useContext(ReportsFilterContext);
 
   if (!context) {
-    throw new Error("useReportsFilter must be used within a ReportsFilterProvider");
+    throw new Error("useReports must be used within a ReportsFilterProvider");
   }
 
   const { playerId, type } = context;
