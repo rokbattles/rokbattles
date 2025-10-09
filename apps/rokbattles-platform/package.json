@@ -3,6 +3,7 @@
   "version": "0.1.9",
   "private": true,
   "scripts": {
+    "build": "next build --turbo",
     "dev": "next --turbo",
     "test": "vitest run"
   },
@@ -10,6 +11,7 @@
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
     "clsx": "^2.1.1",
+    "mongodb": "^6.20.0",
     "motion": "^12.23.22",
     "next": "^15.5.4",
     "react": "^19.2.0",

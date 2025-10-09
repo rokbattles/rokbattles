@@ -27,6 +27,20 @@ const config: NextConfig = {
   },
   productionBrowserSourceMaps: false,
   reactStrictMode: !isProdEnv,
+  async redirects() {
+    return [
+      {
+        source: "/discord",
+        destination: "https://discord.gg/G33SzQgx6d",
+        permanent: false,
+      },
+      {
+        source: "/desktop-app",
+        destination: "https://github.com/rokbattles/rokbattles/releases",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 module.exports = plugins.reduce((acc, next) => next(acc), config);
