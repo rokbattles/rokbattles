@@ -124,7 +124,7 @@ export default function ReportsTable() {
           <TableCell colSpan={5}>
             <div ref={sentinelRef} className="h-1" />
             {loading ? (
-              <div className="mt-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="mb-1 text-center text-zinc-500 dark:text-zinc-400">
                 Loading more&hellip;
               </div>
             ) : (
