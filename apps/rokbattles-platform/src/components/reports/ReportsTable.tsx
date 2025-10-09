@@ -91,7 +91,7 @@ export default function ReportsTable() {
   return (
     <TableBody>
       {data.map((report) => (
-        <TableRow key={report.parentHash}>
+        <TableRow key={report.parentHash} href={`/report/${report.parentHash}`}>
           <TableCell className="font-medium text-zinc-950 dark:text-white">
             {formatUtcDateTime(report.entry.startDate)}
           </TableCell>
