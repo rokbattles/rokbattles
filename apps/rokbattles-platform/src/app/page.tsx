@@ -1,4 +1,5 @@
 import { FunnelIcon } from "@heroicons/react/16/solid";
+import ReportsTable from "@/components/battle/ReportsTable";
 import { Button } from "@/components/ui/Button";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
@@ -24,6 +25,7 @@ export default function Page() {
             <TableHeader>Duration</TableHeader>
           </TableRow>
         </TableHead>
+        <ReportsTable />
       </Table>
     </>
   );
