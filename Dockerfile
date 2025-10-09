@@ -4,7 +4,7 @@ WORKDIR /app
 FROM base AS builder
 RUN apk add --no-cache libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY apps ./apps
+COPY apps/rokbattles-site ./apps/rokbattles-site
 COPY legal ./apps/rokbattles-site/legal
 RUN corepack enable pnpm
 RUN pnpm install --frozen-lockfile
