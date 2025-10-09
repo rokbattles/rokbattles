@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { PlatformLayout } from "@/components/PlatformLayout";
+import PlatformProviders from "@/components/PlatformProviders";
 import { cn } from "@/lib/cn";
 
 const inter = Inter({
@@ -25,7 +26,9 @@ export default function Layout({ children }: LayoutProps<"/">) {
         <link rel="dns-prefetch" href="https://static-gl.lilithgame.com" />
       </head>
       <body>
-        <PlatformLayout>{children}</PlatformLayout>
+        <PlatformProviders>
+          <PlatformLayout>{children}</PlatformLayout>
+        </PlatformProviders>
       </body>
     </html>
   );
