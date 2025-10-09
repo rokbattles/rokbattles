@@ -23,6 +23,7 @@ const config: NextConfig = {
       new URL("https://imv2-gl.lilithgame.com/**"),
       new URL("https://plat-fau-global.lilithgame.com/**"),
       new URL("https://static-gl.lilithgame.com/**"),
+      new URL("https://cdn.discordapp.com/**"),
     ],
   },
   output: "standalone",
