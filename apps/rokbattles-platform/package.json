@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
+    "@scure/base": "^2.0.0",
     "clsx": "^2.1.1",
     "mongodb": "^6.20.0",
     "motion": "^12.23.22",

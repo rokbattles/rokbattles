@@ -25,6 +25,7 @@ const config: NextConfig = {
       new URL("https://static-gl.lilithgame.com/**"),
     ],
   },
+  output: "standalone",
   productionBrowserSourceMaps: false,
   reactStrictMode: !isProdEnv,
   async redirects() {
