@@ -12,6 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 import type React from "react";
 import { useCallback } from "react";
+import { SidebarGovernorHeader } from "@/components/SidebarGovernorHeader";
 import { Avatar } from "@/components/ui/Avatar";
 import {
   Dropdown,
@@ -100,6 +101,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
       }
       sidebar={
         <Sidebar>
+          {!loading && user ? <SidebarGovernorHeader user={user} onRefresh={refresh} /> : null}
           <SidebarBody>
             <SidebarSection>
               <SidebarItem href="/" current={pathname === "/"}>

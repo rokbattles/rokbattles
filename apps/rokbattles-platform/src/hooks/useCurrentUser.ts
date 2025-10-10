@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { GovernorContext } from "@/components/context/GovernorContext";
+
+export interface ClaimedGovernor {
+  governorId: number;
+  governorName: string | null;
+  governorAvatar: string | null;
+}
 
 export interface CurrentUser {
   username: string;
@@ -8,6 +15,7 @@ export interface CurrentUser {
   globalName: string | null;
   email: string;
   avatar: string | null;
+  claimedGovernors: ClaimedGovernor[];
 }
 
 interface CurrentUserResponse {
@@ -18,6 +26,14 @@ export function useCurrentUser() {
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
   const mountedRef = useRef(true);
+  const { setGovernors } = useContext(GovernorContext);
+
+  const syncGovernors = useCallback(
+    (nextGovernors: ClaimedGovernor[]) => {
+      setGovernors(nextGovernors);
+    },
+    [setGovernors]
+  );
 
   const fetchUser = useCallback(async () => {
     if (!mountedRef.current) {
@@ -36,6 +52,7 @@ export function useCurrentUser() {
 
       if (response.status === 401) {
         setUser(null);
+        syncGovernors([]);
         return;
       }
 
@@ -43,7 +60,9 @@ export function useCurrentUser() {
         throw new Error("Failed to fetch current user");
       }
 
-      setUser(payload?.user ?? null);
+      const nextUser = payload?.user ?? null;
+      setUser(nextUser);
+      syncGovernors(nextUser?.claimedGovernors ?? []);
     } catch (err) {
       if (!mountedRef.current) {
         return;
@@ -51,12 +70,13 @@ export function useCurrentUser() {
 
       console.error("Failed to fetch current user", err);
       setUser(null);
+      syncGovernors([]);
     } finally {
       if (mountedRef.current) {
         setLoading(false);
       }
     }
-  }, []);
+  }, [syncGovernors]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -67,5 +87,14 @@ export function useCurrentUser() {
     };
   }, [fetchUser]);
 
-  return { user, loading, refresh: fetchUser };
+  const value = useMemo(
+    () => ({
+      user,
+      loading,
+      refresh: fetchUser,
+    }),
+    [fetchUser, loading, user]
+  );
+
+  return value;
 }

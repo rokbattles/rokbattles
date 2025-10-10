@@ -9,10 +9,10 @@ export default function Page() {
     <>
       <Heading>Battle Reports</Heading>
       <div className="mt-8 flex items-end justify-between">
-        <Subheading>Most recent</Subheading>
+        <Subheading>Live feed (UTC)</Subheading>
         <ReportsFilterDialog>
           <FunnelIcon />
-          Filters
+          Filter
         </ReportsFilterDialog>
       </div>
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
