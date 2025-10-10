@@ -39,7 +39,7 @@ export function ReportView({ hash }: ReportViewProps) {
                 <Subheading>Battle timeline</Subheading>
                 <ReportTimelineChart summary={summary} />
               </div>
-              <Divider soft />
+              <Divider />
             </>
           ) : null}
 
@@ -47,7 +47,7 @@ export function ReportView({ hash }: ReportViewProps) {
             {entries.map((entry, index) => (
               <div key={entry.hash}>
                 <ReportEntryCard entry={entry} />
-                {index < entries.length - 1 ? <Divider soft className="my-8" /> : null}
+                {index < entries.length - 1 ? <Divider className="my-8" /> : null}
               </div>
             ))}
           </div>
