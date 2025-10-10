@@ -20,6 +20,14 @@ interface UserDocument {
   updatedAt?: Date;
 }
 
+interface ClaimedGovernorDocument {
+  discordId: string;
+  governorId: number;
+  governorName: string | null;
+  governorAvatar: string | null;
+  createdAt: Date;
+}
+
 export async function GET() {
   const cookieStore = await cookies();
 
@@ -50,6 +58,24 @@ export async function GET() {
     return NextResponse.json({ user: null }, { status: 401 });
   }
 
+  const claimedGovernorsDocs = await db
+    .collection<ClaimedGovernorDocument>("claimedGovernors")
+    .find(
+      { discordId: user.discordId },
+      { projection: { _id: 0, governorId: 1, governorName: 1, governorAvatar: 1, createdAt: 1 } }
+    )
+    .sort({ createdAt: -1 })
+    .toArray();
+
+  const claimedGovernors =
+    claimedGovernorsDocs.length > 0
+      ? claimedGovernorsDocs.map((claim) => ({
+          governorId: Math.trunc(claim.governorId),
+          governorName: claim.governorName ?? null,
+          governorAvatar: claim.governorAvatar ?? null,
+        }))
+      : [];
+
   return NextResponse.json({
     user: {
       username: user.username,
@@ -57,6 +83,7 @@ export async function GET() {
       globalName: user.globalName ?? null,
       email: user.email,
       avatar: user.avatar ?? null,
+      claimedGovernors,
     },
   });
 }
