@@ -14,8 +14,8 @@ import {
 } from "recharts";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { Divider } from "@/components/ui/Divider";
 import { Subheading } from "@/components/ui/Heading";
+import { Strong, Text } from "@/components/ui/Text";
 import { useArmamentName } from "@/hooks/useArmamentName";
 import { useCommanderName } from "@/hooks/useCommanderName";
 import { useFormationName } from "@/hooks/useFormationName";
@@ -72,9 +72,6 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
           <BattleResultsChart results={battleResults} />
         </section>
       ) : null}
-
-      <Divider soft className="my-4" />
-
       <section className="grid gap-8 lg:grid-cols-2">
         <ParticipantCard participant={selfParticipant} side="self" />
         <ParticipantCard participant={enemyParticipant} side="enemy" />
@@ -312,7 +309,7 @@ function ParticipantCard({
         </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         <CommanderSection
           primary={participant?.primary_commander}
           secondary={participant?.secondary_commander}
@@ -343,14 +340,10 @@ function CommanderSection({
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-        Commanders
-      </div>
+      <Subheading>Commanders</Subheading>
       <div className="space-y-2">
-        {showPrimary ? (
-          <CommanderRow label="Primary" commander={primary} formation={primaryFormation} />
-        ) : null}
-        {showSecondary ? <CommanderRow label="Secondary" commander={secondary} /> : null}
+        {showPrimary ? <CommanderRow commander={primary} formation={primaryFormation} /> : null}
+        {showSecondary ? <CommanderRow commander={secondary} /> : null}
       </div>
     </div>
   );
@@ -362,11 +355,9 @@ function hasCommander(commander?: RawCommanderInfo) {
 }
 
 function CommanderRow({
-  label,
   commander,
   formation,
 }: {
-  label: string;
   commander?: RawCommanderInfo;
   formation?: number | null;
 }) {
@@ -377,17 +368,14 @@ function CommanderRow({
   const skillSummary = commander?.skills?.trim();
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-sm">
-      <span className="font-semibold text-zinc-900 dark:text-white">
-        {commanderName ?? commanderId ?? "Unknown"}
-      </span>
-      <Badge color="zinc">{label}</Badge>
+    <Text className="flex flex-wrap items-center gap-2 text-sm">
+      <Strong>{commanderName ?? commanderId ?? "Unknown"}</Strong>
       {typeof formation === "number" ? (
         <Badge color="zinc">{formationName ?? `Formation ${formation}`}</Badge>
       ) : null}
       {level != null ? <Badge color="zinc">Lvl {level}</Badge> : null}
-      {skillSummary ? <Badge color="zinc">Skills {skillSummary}</Badge> : null}
-    </div>
+      {skillSummary ? <Badge color="zinc">{skillSummary}</Badge> : null}
+    </Text>
   );
 }
 
@@ -403,9 +391,7 @@ function EquipmentSection({ tokens }: { tokens: EquipmentToken[] }) {
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-        Equipment
-      </div>
+      <Subheading>Equipment</Subheading>
       <div className="flex justify-center">
         <div className="grid grid-cols-[auto_auto_auto] gap-2 justify-items-center">
           <div />
@@ -512,9 +498,7 @@ function ArmamentSection({
 
   return (
     <div className="space-y-2">
-      <div className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-        Armament Info
-      </div>
+      <Subheading>Armament Info</Subheading>
       {inscriptions.length > 0 ? (
         <div className="flex flex-wrap gap-1.5">
           {inscriptions.map((id) => (
@@ -538,10 +522,10 @@ function ArmamentRow({ buff }: { buff: ArmamentBuff }) {
   const percentage = (Number(buff.value ?? 0) * 100).toFixed(2);
 
   return (
-    <div className="flex items-center justify-between text-xs text-zinc-600 dark:text-zinc-300">
+    <Text className="flex items-center justify-between">
       <span>{name ?? `Armament ${buff.id}`}</span>
       <span className="font-mono text-zinc-900 dark:text-white">{percentage}%</span>
-    </div>
+    </Text>
   );
 }
 
