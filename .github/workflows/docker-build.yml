@@ -1,0 +1,39 @@
+name: Docker Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+env:
+  DOCKER_BUILDKIT: 1
+
+jobs:
+  build-images:
+    name: Build ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: site
+            dockerfile: infra/Dockerfile
+          - label: site-api
+            dockerfile: infra/api.Dockerfile
+          - label: site-platform
+            dockerfile: infra/platform.Dockerfile
+          - label: site-processor
+            dockerfile: infra/processor.Dockerfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build ${{ matrix.label }}
+        run: docker build --file ${{ matrix.dockerfile }} .

@@ -2,7 +2,7 @@ services:
   site:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: infra/Dockerfile
     ports:
       - "4444:3000"
     environment:
@@ -18,7 +18,7 @@ services:
   site-platform:
     build:
       context: .
-      dockerfile: platform.Dockerfile
+      dockerfile: infra/platform.Dockerfile
     depends_on:
       mongo:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
   site-api:
     build:
       context: .
-      dockerfile: api.Dockerfile
+      dockerfile: infra/api.Dockerfile
     depends_on:
       mongo:
         condition: service_healthy
@@ -50,7 +50,7 @@ services:
   site-processor:
     build:
       context: .
-      dockerfile: processor.Dockerfile
+      dockerfile: infra/processor.Dockerfile
     depends_on:
       mongo:
         condition: service_healthy
