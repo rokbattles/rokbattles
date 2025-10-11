@@ -1,29 +1,12 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { GovernorContext } from "@/components/context/GovernorContext";
 import {
   ReportsFilterContext,
   type ReportsFilterType,
 } from "@/components/context/ReportsFilterContext";
-
-export type ReportSummaryEntry = {
-  hash: string;
-  startDate: number;
-  selfCommanderId: number;
-  selfSecondaryCommanderId: number;
-  enemyCommanderId: number;
-  enemySecondaryCommanderId: number;
-};
-
-export type ReportSummary = {
-  parentHash: string;
-  count: number;
-  timespan: {
-    firstStart: number;
-    lastEnd: number;
-  };
-  entry: ReportSummaryEntry;
-};
+import type { ReportSummary, UseReportsResult } from "@/hooks/useReports";
 
 type ReportsApiResponse = {
   items: ReportSummary[];
@@ -34,14 +17,6 @@ type ReportsApiResponse = {
 type FetchOptions = {
   cursor?: string;
   replace: boolean;
-};
-
-export type UseReportsResult = {
-  data: ReportSummary[];
-  loading: boolean;
-  error: string | null;
-  cursor: string | undefined;
-  loadMore: () => Promise<void>;
 };
 
 function buildQueryParams(
@@ -61,14 +36,22 @@ function buildQueryParams(
   return query ? `?${query}` : "";
 }
 
-export function useReports(): UseReportsResult {
-  const context = useContext(ReportsFilterContext);
+export function useMyReports(): UseReportsResult {
+  const filterContext = useContext(ReportsFilterContext);
 
-  if (!context) {
-    throw new Error("useReports must be used within a ReportsFilterProvider");
+  if (!filterContext) {
+    throw new Error("useMyReports must be used within a ReportsFilterProvider");
   }
 
-  const { playerId, type } = context;
+  const governorContext = useContext(GovernorContext);
+
+  if (!governorContext) {
+    throw new Error("useMyReports must be used within a GovernorProvider");
+  }
+
+  const { type } = filterContext;
+  const { activeGovernor } = governorContext;
+  const playerId = activeGovernor?.governorId;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -93,6 +76,18 @@ export function useReports(): UseReportsResult {
         return;
       }
 
+      if (playerId == null) {
+        if (replace) {
+          loadingRef.current = false;
+          setLoading(false);
+          setError(null);
+          cursorRef.current = undefined;
+          setCursor(undefined);
+          setReports([]);
+        }
+        return;
+      }
+
       const requestId = ++requestIdRef.current;
       loadingRef.current = true;
       setLoading(true);
@@ -102,6 +97,7 @@ export function useReports(): UseReportsResult {
       }
 
       const query = buildQueryParams(cursor, playerId, type);
+
       try {
         const res = await fetch(`/api/v2/reports${query}`, {
           cache: "no-store",
@@ -150,11 +146,17 @@ export function useReports(): UseReportsResult {
     setReports([]);
     setError(null);
 
+    if (playerId == null) {
+      loadingRef.current = false;
+      setLoading(false);
+      return;
+    }
+
     fetchReports({ replace: true });
-  }, [fetchReports]);
+  }, [fetchReports, playerId]);
 
   const loadMore = useCallback(async () => {
-    if (loadingRef.current) {
+    if (loadingRef.current || playerId == null) {
       return;
     }
 
@@ -164,7 +166,7 @@ export function useReports(): UseReportsResult {
     }
 
     await fetchReports({ cursor: nextCursor, replace: false });
-  }, [fetchReports]);
+  }, [fetchReports, playerId]);
 
   return useMemo<UseReportsResult>(
     () => ({
