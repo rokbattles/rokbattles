@@ -11,7 +11,8 @@ import {
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
 import type React from "react";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
+import { GovernorContext } from "@/components/context/GovernorContext";
 import { SidebarGovernorHeader } from "@/components/SidebarGovernorHeader";
 import { Avatar } from "@/components/ui/Avatar";
 import {
@@ -34,6 +35,7 @@ import {
   Sidebar,
   SidebarBody,
   SidebarFooter,
+  SidebarHeading,
   SidebarItem,
   SidebarLabel,
   SidebarSection,
@@ -66,6 +68,14 @@ function AccountDropdownMenu({
 export function PlatformLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, loading, refresh } = useCurrentUser();
+  const governorContext = useContext(GovernorContext);
+
+  if (!governorContext) {
+    throw new Error("PlatformLayout must be used within a GovernorProvider");
+  }
+
+  const { activeGovernor } = governorContext;
+  const showMyReports = Boolean(!loading && user && activeGovernor);
 
   const handleLogout = useCallback(async () => {
     const response = await fetch("/api/auth/logout", { method: "POST" });
@@ -113,6 +123,17 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                 <SidebarLabel>Explore Trends</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
+            {!loading && user && (
+              <SidebarSection>
+                <SidebarHeading>My Governor</SidebarHeading>
+                {showMyReports ? (
+                  <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
+                    <FireIcon />
+                    <SidebarLabel>Battle Reports</SidebarLabel>
+                  </SidebarItem>
+                ) : null}
+              </SidebarSection>
+            )}
             <SidebarSpacer />
             <SidebarSection>
               <SidebarItem href="/discord" target="_blank" rel="noopenner noreferrer">

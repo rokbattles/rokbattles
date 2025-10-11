@@ -3,11 +3,17 @@
 import { useEffect, useMemo, useRef } from "react";
 import { TableBody, TableCell, TableRow } from "@/components/ui/Table";
 import { useCommanderName } from "@/hooks/useCommanderName";
-import { useReports } from "@/hooks/useReports";
+import { type UseReportsResult, useReports } from "@/hooks/useReports";
 import { cn } from "@/lib/cn";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
 
 const skeletonWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
+
+type UseReportsHook = () => UseReportsResult;
+
+type ReportsTableProps = {
+  useReportsHook?: UseReportsHook;
+};
 
 function ParticipantCell({ primaryId, secondaryId }: { primaryId: number; secondaryId: number }) {
   const primaryName = useCommanderName(primaryId);
@@ -42,8 +48,8 @@ function ParticipantCell({ primaryId, secondaryId }: { primaryId: number; second
   );
 }
 
-export default function ReportsTable() {
-  const { data, loading, error, cursor, loadMore } = useReports();
+export default function ReportsTable({ useReportsHook = useReports }: ReportsTableProps = {}) {
+  const { data, loading, error, cursor, loadMore } = useReportsHook();
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
