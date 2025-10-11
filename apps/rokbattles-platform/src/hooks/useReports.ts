@@ -1,12 +1,29 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { GovernorContext } from "@/components/context/GovernorContext";
 import {
   ReportsFilterContext,
   type ReportsFilterType,
 } from "@/components/context/ReportsFilterContext";
-import type { ReportSummary, UseReportsResult } from "@/hooks/useReports";
+
+export type ReportSummaryEntry = {
+  hash: string;
+  startDate: number;
+  selfCommanderId: number;
+  selfSecondaryCommanderId: number;
+  enemyCommanderId: number;
+  enemySecondaryCommanderId: number;
+};
+
+export type ReportSummary = {
+  parentHash: string;
+  count: number;
+  timespan: {
+    firstStart: number;
+    lastEnd: number;
+  };
+  entry: ReportSummaryEntry;
+};
 
 type ReportsApiResponse = {
   items: ReportSummary[];
@@ -19,10 +36,19 @@ type FetchOptions = {
   replace: boolean;
 };
 
+export type UseReportsResult = {
+  data: ReportSummary[];
+  loading: boolean;
+  error: string | null;
+  cursor: string | undefined;
+  loadMore: () => Promise<void>;
+};
+
 function buildQueryParams(
   cursor: string | undefined,
   playerId: number | undefined,
-  type: ReportsFilterType | undefined
+  type: ReportsFilterType | undefined,
+  commanderId: number | undefined
 ) {
   const params = new URLSearchParams();
 
@@ -31,27 +57,22 @@ function buildQueryParams(
     params.set("playerId", String(Math.trunc(playerId)));
   }
   if (type) params.set("type", type);
+  if (typeof commanderId === "number" && Number.isFinite(commanderId) && commanderId > 0) {
+    params.set("commanderId", String(Math.trunc(commanderId)));
+  }
 
   const query = params.toString();
   return query ? `?${query}` : "";
 }
 
-export function useMyReports(): UseReportsResult {
-  const filterContext = useContext(ReportsFilterContext);
+export function useReports(): UseReportsResult {
+  const context = useContext(ReportsFilterContext);
 
-  if (!filterContext) {
-    throw new Error("useMyReports must be used within a ReportsFilterProvider");
+  if (!context) {
+    throw new Error("useReports must be used within a ReportsFilterProvider");
   }
 
-  const governorContext = useContext(GovernorContext);
-
-  if (!governorContext) {
-    throw new Error("useMyReports must be used within a GovernorProvider");
-  }
-
-  const { type } = filterContext;
-  const { activeGovernor } = governorContext;
-  const playerId = activeGovernor?.governorId;
+  const { playerId, type, commanderId } = context;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -76,18 +97,6 @@ export function useMyReports(): UseReportsResult {
         return;
       }
 
-      if (playerId == null) {
-        if (replace) {
-          loadingRef.current = false;
-          setLoading(false);
-          setError(null);
-          cursorRef.current = undefined;
-          setCursor(undefined);
-          setReports([]);
-        }
-        return;
-      }
-
       const requestId = ++requestIdRef.current;
       loadingRef.current = true;
       setLoading(true);
@@ -96,8 +105,7 @@ export function useMyReports(): UseReportsResult {
         setError(null);
       }
 
-      const query = buildQueryParams(cursor, playerId, type);
-
+      const query = buildQueryParams(cursor, playerId, type, commanderId);
       try {
         const res = await fetch(`/api/v2/reports${query}`, {
           cache: "no-store",
@@ -137,7 +145,7 @@ export function useMyReports(): UseReportsResult {
         }
       }
     },
-    [playerId, type]
+    [playerId, type, commanderId]
   );
 
   useEffect(() => {
@@ -146,17 +154,11 @@ export function useMyReports(): UseReportsResult {
     setReports([]);
     setError(null);
 
-    if (playerId == null) {
-      loadingRef.current = false;
-      setLoading(false);
-      return;
-    }
-
     fetchReports({ replace: true });
-  }, [fetchReports, playerId]);
+  }, [fetchReports]);
 
   const loadMore = useCallback(async () => {
-    if (loadingRef.current || playerId == null) {
+    if (loadingRef.current) {
       return;
     }
 
@@ -166,7 +168,7 @@ export function useMyReports(): UseReportsResult {
     }
 
     await fetchReports({ cursor: nextCursor, replace: false });
-  }, [fetchReports, playerId]);
+  }, [fetchReports]);
 
   return useMemo<UseReportsResult>(
     () => ({
