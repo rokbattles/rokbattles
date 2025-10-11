@@ -25,7 +25,7 @@ export function ReportView({ hash }: ReportViewProps) {
   const summary = data?.battleResults;
 
   function handleShare() {
-    copy(`https://rokbattles.com/report/${normalizedHash}`)
+    copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
       .then(() => console.log("Battle report copied to clipboard", copiedText))
       .catch((err) => console.error("Failed to copy battle report to clipboard", err));
   }
