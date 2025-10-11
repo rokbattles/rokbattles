@@ -17,6 +17,7 @@ import {
 import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
+import { useCommanderOptions } from "@/hooks/useCommanderName";
 
 export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof Button>) {
   const context = useContext(ReportsFilterContext);
@@ -24,13 +25,18 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
   }
 
-  const { playerId, setPlayerId, type, setType } = context;
+  const { playerId, setPlayerId, type, setType, commanderId, setCommanderId } = context;
 
   const [isOpen, setIsOpen] = useState(false);
   const [localPlayerId, setLocalPlayerId] = useState(() =>
     typeof playerId === "number" ? String(playerId) : ""
   );
   const [localType, setLocalType] = useState<ReportsFilterType | "">(() => type ?? "");
+  const [localCommanderId, setLocalCommanderId] = useState(() =>
+    typeof commanderId === "number" ? String(commanderId) : ""
+  );
+
+  const commanderOptions = useCommanderOptions();
 
   useEffect(() => {
     if (!isOpen) {
@@ -39,7 +45,8 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
 
     setLocalPlayerId(typeof playerId === "number" ? String(playerId) : "");
     setLocalType(type ?? "");
-  }, [isOpen, playerId, type]);
+    setLocalCommanderId(typeof commanderId === "number" ? String(commanderId) : "");
+  }, [isOpen, playerId, type, commanderId]);
 
   const handleApply = () => {
     const trimmedId = localPlayerId.trim();
@@ -47,8 +54,16 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     const nextPlayerId =
       trimmedId === "" || !Number.isFinite(numericId) ? undefined : Math.trunc(numericId);
 
+    const trimmedCommanderId = localCommanderId.trim();
+    const commanderNumericId = Number(trimmedCommanderId);
+    const nextCommanderId =
+      trimmedCommanderId === "" || !Number.isFinite(commanderNumericId)
+        ? undefined
+        : Math.trunc(commanderNumericId);
+
     setPlayerId(nextPlayerId);
     setType(localType === "" ? undefined : localType);
+    setCommanderId(nextCommanderId);
     setIsOpen(false);
   };
 
@@ -60,6 +75,18 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
         <DialogDescription>Filter battle reports list by type and/or governor.</DialogDescription>
         <DialogBody>
           <FieldGroup>
+            <Field>
+              <Label>Governor ID</Label>
+              <Input
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="71738515"
+                value={localPlayerId}
+                onChange={(event) => {
+                  setLocalPlayerId(event.target.value);
+                }}
+              />
+            </Field>
             <Field>
               <Label>Type</Label>
               <Select
@@ -75,16 +102,20 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
               </Select>
             </Field>
             <Field>
-              <Label>Governor ID</Label>
-              <Input
-                inputMode="numeric"
-                pattern="[0-9]*"
-                placeholder="71738515"
-                value={localPlayerId}
+              <Label>Commander</Label>
+              <Select
+                value={localCommanderId}
                 onChange={(event) => {
-                  setLocalPlayerId(event.target.value);
+                  setLocalCommanderId(event.target.value);
                 }}
-              />
+              >
+                <option value="">All</option>
+                {commanderOptions.map((option) => (
+                  <option key={option.id} value={String(option.id)}>
+                    {option.name}
+                  </option>
+                ))}
+              </Select>
             </Field>
           </FieldGroup>
         </DialogBody>

@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
   const cursor = searchParams.get("cursor");
   const type = searchParams.get("type");
   const playerId = searchParams.get("playerId");
+  const commanderId = searchParams.get("commanderId");
 
   let parsedType: string | undefined;
   if (type) {
@@ -28,6 +29,16 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  let parsedCommanderId: number | undefined;
+  if (commanderId) {
+    const n = Number(commanderId);
+    if (Number.isFinite(n)) {
+      parsedCommanderId = Math.trunc(n);
+    } else {
+      return NextResponse.json({ error: "Invalid commanderId" }, { status: 400 });
+    }
+  }
+
   const mongo = await client.connect();
   const db = mongo.db();
 
@@ -42,6 +53,17 @@ export async function GET(req: NextRequest) {
       $or: [
         { "report.self.player_id": parsedPlayerId },
         { "report.enemy.player_id": parsedPlayerId },
+      ],
+    });
+  }
+
+  if (parsedCommanderId) {
+    matchPipeline.push({
+      $or: [
+        { "report.self.primary_commander.id": parsedCommanderId },
+        { "report.self.secondary_commander.id": parsedCommanderId },
+        { "report.enemy.primary_commander.id": parsedCommanderId },
+        { "report.enemy.secondary_commander.id": parsedCommanderId },
       ],
     });
   }
@@ -68,10 +90,7 @@ export async function GET(req: NextRequest) {
         count: { $sum: 1 },
         firstStart: { $min: "$report.metadata.start_date" },
         latestMailTime: { $max: "$report.metadata.email_time" },
-        lastEnd: {
-          // In the event of new updates that break the logic, fallback to start date until we can reprocess
-          $max: { $ifNull: ["$report.metadata.end_date", "$report.metadata.start_date"] },
-        },
+        lastEnd: { $max: "$report.metadata.end_date" },
       },
     },
     ...(cursor

@@ -33,3 +33,26 @@ const resolveCommanderNameInternal = cache(
 export function useCommanderName(id: number | null | undefined, locale = DEFAULT_LOCALE) {
   return useMemo(() => resolveCommanderNameInternal(id, locale), [id, locale]);
 }
+
+export type CommanderOption = {
+  id: number;
+  name: string;
+};
+
+export function useCommanderOptions(locale = DEFAULT_LOCALE) {
+  return useMemo<CommanderOption[]>(() => {
+    const entries = Object.entries(commanderMap).map(([id, commander]) => {
+      const localizedName =
+        commander.name[locale as CommanderLocale] ??
+        commander.name[DEFAULT_LOCALE as CommanderLocale] ??
+        String(id);
+
+      return {
+        id: Number(id),
+        name: localizedName,
+      };
+    });
+
+    return entries.sort((a, b) => a.name.localeCompare(b.name));
+  }, [locale]);
+}
