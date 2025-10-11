@@ -297,14 +297,12 @@ function ParticipantCard({
             <Badge color={sideBadgeColor}>{sideBadgeLabel}</Badge>
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-            {typeof playerId === "number" && playerId > 0 ? (
-              <Badge color="zinc">ID {playerId}</Badge>
-            ) : null}
+            {typeof playerId === "number" && playerId > 0 ? <Badge>ID {playerId}</Badge> : null}
             {typeof participant?.kingdom_id === "number" ? (
-              <Badge color="zinc">Kingdom {participant.kingdom_id + 1000}</Badge>
+              <Badge>Kingdom {participant.kingdom_id + 1000}</Badge>
             ) : null}
-            {allianceTag ? <Badge color="zinc">{allianceTag}</Badge> : null}
-            {participant?.is_rally ? <Badge color="purple">Rally</Badge> : null}
+            {allianceTag ? <Badge>{allianceTag}</Badge> : null}
+            {participant?.is_rally ? <Badge>Rally</Badge> : null}
           </div>
         </div>
       </div>
@@ -371,10 +369,10 @@ function CommanderRow({
     <Text className="flex flex-wrap items-center gap-2 text-sm">
       <Strong>{commanderName ?? commanderId ?? "Unknown"}</Strong>
       {typeof formation === "number" ? (
-        <Badge color="zinc">{formationName ?? `Formation ${formation}`}</Badge>
+        <Badge>{formationName ?? `Formation ${formation}`}</Badge>
       ) : null}
-      {level != null ? <Badge color="zinc">Lvl {level}</Badge> : null}
-      {skillSummary ? <Badge color="zinc">{skillSummary}</Badge> : null}
+      {level != null ? <Badge>Lvl {level}</Badge> : null}
+      {skillSummary ? <Badge>{skillSummary}</Badge> : null}
     </Text>
   );
 }

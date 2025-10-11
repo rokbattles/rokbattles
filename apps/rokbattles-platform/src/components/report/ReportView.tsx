@@ -3,9 +3,11 @@
 import { useMemo } from "react";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
 import { ReportTimelineChart } from "@/components/report/ReportTimelineChart";
+import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReport } from "@/hooks/useReport";
 import type { ReportEntry } from "@/lib/types/report";
 
@@ -17,14 +19,26 @@ export function ReportView({ hash }: ReportViewProps) {
   const normalizedHash = hash?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
+  const [copiedText, copy] = useCopyToClipboard();
 
   const entries: ReportEntry[] = useMemo(() => data?.items ?? [], [data?.items]);
   const summary = data?.battleResults;
 
+  function handleShare() {
+    copy(`https://rokbattles.com/report/${normalizedHash}`)
+      .then(() => console.log("Battle report copied to clipboard", copiedText))
+      .catch((err) => console.error("Failed to copy battle report to clipboard", err));
+  }
+
   return (
     <section className="space-y-8">
-      <Heading>Report</Heading>
-
+      <div className="flex items-end justify-between gap-4">
+        <Heading>Report</Heading>
+        <Button className="-my-0.5" onClick={handleShare}>
+          Share
+        </Button>
+      </div>
+      <Divider />
       {loading ? (
         <ReportLoadingState />
       ) : error ? (
