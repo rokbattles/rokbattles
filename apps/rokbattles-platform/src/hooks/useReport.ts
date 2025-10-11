@@ -36,7 +36,6 @@ export function useReport(hash: string | null | undefined) {
     const fetchReport = async () => {
       try {
         const res = await fetch(`/api/v2/report/${encodeURIComponent(hash)}`, {
-          cache: "no-store",
           signal: controller.signal,
         });
 
