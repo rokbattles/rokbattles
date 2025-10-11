@@ -7,7 +7,7 @@ import {
   ChevronUpIcon,
   FireIcon,
   QuestionMarkCircleIcon,
-  UserCircleIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
 import type React from "react";
@@ -52,9 +52,13 @@ function AccountDropdownMenu({
 }) {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
-      <DropdownItem>
-        <UserCircleIcon />
-        <DropdownLabel>My account</DropdownLabel>
+      <DropdownItem
+        href="https://rokbattles.com/legal/privacy-policy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ShieldCheckIcon />
+        <DropdownLabel>Privacy Policy</DropdownLabel>
       </DropdownItem>
       <DropdownDivider />
       <DropdownItem onClick={() => handleLogout()}>
