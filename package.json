@@ -10,7 +10,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.4"
+    "@biomejs/biome": "^2.2.5"
   },
   "packageManager": "pnpm@10.18.2"
 }
