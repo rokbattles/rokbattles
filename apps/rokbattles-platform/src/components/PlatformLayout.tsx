@@ -7,6 +7,7 @@ import {
   ChevronUpIcon,
   FireIcon,
   QuestionMarkCircleIcon,
+  ScaleIcon,
   ShieldCheckIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
@@ -127,15 +128,17 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                 <SidebarLabel>Explore Trends</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
-            {!loading && user && (
+            {!loading && user && showMyReports && (
               <SidebarSection>
                 <SidebarHeading>My Governor</SidebarHeading>
-                {showMyReports ? (
-                  <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
-                    <FireIcon />
-                    <SidebarLabel>Battle Reports</SidebarLabel>
-                  </SidebarItem>
-                ) : null}
+                <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
+                  <FireIcon />
+                  <SidebarLabel>Battle Reports</SidebarLabel>
+                </SidebarItem>
+                <SidebarItem href="/my-pairings" current={pathname === "/my-pairings"}>
+                  <ScaleIcon />
+                  <SidebarLabel>Pairings</SidebarLabel>
+                </SidebarItem>
               </SidebarSection>
             )}
             <SidebarSpacer />

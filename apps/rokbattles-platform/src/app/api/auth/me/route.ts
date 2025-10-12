@@ -1,62 +1,14 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import client from "@/lib/mongo";
-
-interface SessionDocument {
-  sessionId: string;
-  userId: string;
-  createdAt: Date;
-  expiresAt: Date;
-}
-
-interface UserDocument {
-  discordId: string;
-  username: string;
-  discriminator: string;
-  globalName: string | null;
-  email: string;
-  avatar: string | null;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-interface ClaimedGovernorDocument {
-  discordId: string;
-  governorId: number;
-  governorName: string | null;
-  governorAvatar: string | null;
-  createdAt: Date;
-}
+import { authenticateRequest } from "@/lib/auth";
+import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
 export async function GET() {
-  const cookieStore = await cookies();
-
-  if (!cookieStore.has("sid")) {
+  const authResult = await authenticateRequest();
+  if (authResult.ok === false) {
     return NextResponse.json({ user: null }, { status: 401 });
   }
 
-  const sid = cookieStore.get("sid").value;
-  const mongo = await client.connect();
-  const db = mongo.db();
-
-  const session = await db.collection<SessionDocument>("userSessions").findOne({ sessionId: sid });
-  if (!session) {
-    cookieStore.delete("sid");
-    return NextResponse.json({ user: null }, { status: 401 });
-  }
-
-  const now = new Date();
-  if (session.expiresAt <= now) {
-    cookieStore.delete("sid");
-    return NextResponse.json({ user: null }, { status: 401 });
-  }
-
-  const user = await db.collection<UserDocument>("users").findOne({ discordId: session.userId });
-  if (!user) {
-    await db.collection<SessionDocument>("userSessions").deleteOne({ sessionId: sid });
-    cookieStore.delete("sid");
-    return NextResponse.json({ user: null }, { status: 401 });
-  }
+  const { db, user } = authResult.context;
 
   const claimedGovernorsDocs = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
