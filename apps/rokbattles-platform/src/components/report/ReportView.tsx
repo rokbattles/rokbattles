@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
 import { ReportTimelineChart } from "@/components/report/ReportTimelineChart";
 import { Button } from "@/components/ui/Button";
@@ -20,6 +20,16 @@ export function ReportView({ hash }: ReportViewProps) {
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
   const [copiedText, copy] = useCopyToClipboard();
+  const [isCopied, setIsCopied] = useState(false);
+  const resetTimerRef = useRef<number>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) {
+        clearTimeout(resetTimerRef.current);
+      }
+    };
+  }, []);
 
   const entries: ReportEntry[] = useMemo(() => data?.items ?? [], [data?.items]);
   const summary = data?.battleResults;
@@ -27,6 +37,13 @@ export function ReportView({ hash }: ReportViewProps) {
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
       .then(() => console.log("Battle report copied to clipboard", copiedText))
+      .then(() => {
+        setIsCopied(true);
+        if (resetTimerRef.current) {
+          clearTimeout(resetTimerRef.current);
+        }
+        resetTimerRef.current = window.setTimeout(() => setIsCopied(false), 2000);
+      })
       .catch((err) => console.error("Failed to copy battle report to clipboard", err));
   }
 
@@ -34,8 +51,8 @@ export function ReportView({ hash }: ReportViewProps) {
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
         <Heading>Report</Heading>
-        <Button className="-my-0.5" onClick={handleShare}>
-          Share
+        <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
+          {isCopied ? "Copied" : "Share"}
         </Button>
       </div>
       <Divider />
