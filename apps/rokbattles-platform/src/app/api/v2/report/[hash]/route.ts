@@ -1,17 +1,13 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import client from "@/lib/mongo";
+import { coerceNumber } from "@/lib/number";
 import type {
   BattleResultsSummary,
   BattleResultsTimelineEntry,
   BattleResultsTotals,
   ReportEntry,
 } from "@/lib/types/report";
-
-function coerceNumber(value: unknown): number {
-  const num = typeof value === "bigint" ? Number(value) : Number(value);
-  return Number.isFinite(num) ? num : 0;
-}
 
 function toPlainObject(source: unknown): Record<string, unknown> {
   if (!source || typeof source !== "object") {

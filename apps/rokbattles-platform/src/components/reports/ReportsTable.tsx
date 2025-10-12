@@ -119,28 +119,17 @@ export default function ReportsTable({ useReportsHook = useReports }: ReportsTab
           </TableCell>
         </TableRow>
       ))}
-
       {loading && data.length === 0 ? skeletonRows : null}
-
       {!loading && !error && data.length === 0 ? (
         <TableRow>
-          <TableCell
-            colSpan={5}
-            className="py-8 text-center text-sm text-zinc-500 dark:text-zinc-400"
-          >
-            No reports found.
-          </TableCell>
+          <TableCell colSpan={5}>No reports found.</TableCell>
         </TableRow>
       ) : null}
-
       {error ? (
         <TableRow>
-          <TableCell colSpan={5} className="py-4 text-sm text-rose-500 dark:text-rose-400">
-            Failed to load reports: {error}
-          </TableCell>
+          <TableCell colSpan={5}>Failed to load reports: {error}</TableCell>
         </TableRow>
       ) : null}
-
       {cursor ? (
         <TableRow aria-hidden>
           <TableCell colSpan={5}>
