@@ -34,6 +34,10 @@ export function useCommanderName(id: number | null | undefined, locale = DEFAULT
   return useMemo(() => resolveCommanderNameInternal(id, locale), [id, locale]);
 }
 
+export function getCommanderName(id: number | null | undefined, locale = DEFAULT_LOCALE) {
+  return resolveCommanderNameInternal(id, locale);
+}
+
 export type CommanderOption = {
   id: number;
   name: string;

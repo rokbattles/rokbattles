@@ -20,6 +20,8 @@ export type GovernorMarchAggregate = {
   count: number;
   totals: GovernorMarchTotals;
   averageKillScore: number;
+  previousTotals: GovernorMarchTotals;
+  previousCount: number;
 };
 
 type GovernorMarchesResponse = {
