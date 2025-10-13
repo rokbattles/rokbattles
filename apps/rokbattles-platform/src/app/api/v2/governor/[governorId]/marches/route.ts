@@ -28,21 +28,22 @@ type BattleReportDocument = {
   };
 };
 
+type MarchTotals = {
+  killScore: number;
+  deaths: number;
+  severelyWounded: number;
+  wounded: number;
+  enemyKillScore: number;
+  enemyDeaths: number;
+  enemySeverelyWounded: number;
+  enemyWounded: number;
+};
+
 type AggregationBucket = {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
-  totals: {
-    killScore: number;
-    deaths: number;
-    severelyWounded: number;
-    wounded: number;
-    enemyKillScore: number;
-    enemyDeaths: number;
-    enemySeverelyWounded: number;
-    enemyWounded: number;
-  };
-  killScores: number[];
+  totals: MarchTotals;
 };
 
 type MarchAggregate = {
@@ -51,41 +52,118 @@ type MarchAggregate = {
   count: number;
   totals: AggregationBucket["totals"];
   averageKillScore: number;
-  killScorePercentiles: {
-    p10: number;
-    p25: number;
-    p50: number;
-    p75: number;
-    p90: number;
-  };
+  previousTotals: MarchTotals;
+  previousCount: number;
 };
 
-function computePercentile(sortedValues: number[], percentile: number): number {
-  if (sortedValues.length === 0) {
-    return 0;
+function createEmptyTotals(): MarchTotals {
+  return {
+    killScore: 0,
+    deaths: 0,
+    severelyWounded: 0,
+    wounded: 0,
+    enemyKillScore: 0,
+    enemyDeaths: 0,
+    enemySeverelyWounded: 0,
+    enemyWounded: 0,
+  };
+}
+
+function createMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+  const startSeconds = Math.floor(startMillis / 1000);
+  const endSeconds = Math.floor(endMillis / 1000);
+  const startMicros = Math.floor(startMillis * 1000);
+  const endMicros = Math.floor(endMillis * 1000);
+
+  return {
+    "report.self.player_id": governorId,
+    "report.enemy.player_id": { $nin: [-2, 0] },
+    $or: [
+      {
+        "report.metadata.start_date": {
+          $gte: startSeconds,
+          $lt: endSeconds,
+        },
+      },
+      {
+        "report.metadata.start_date": { $exists: false },
+        $or: [
+          {
+            "report.metadata.email_time": {
+              $gte: startMillis,
+              $lt: endMillis,
+            },
+          },
+          {
+            "report.metadata.email_time": {
+              $gte: startMicros,
+              $lt: endMicros,
+            },
+          },
+        ],
+      },
+    ],
+  } satisfies Document;
+}
+
+function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
+  const buckets = new Map<string, AggregationBucket>();
+
+  for (const doc of reports) {
+    const report = doc.report;
+    if (!report) {
+      continue;
+    }
+
+    const eventTime = extractEventTimeMillis(report);
+    if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+      continue;
+    }
+
+    const primaryCommanderId = Math.trunc(coerceNumber(report.self?.primary_commander?.id));
+    if (primaryCommanderId <= 0) {
+      continue;
+    }
+
+    const secondaryCommanderId = Math.trunc(coerceNumber(report.self?.secondary_commander?.id));
+    const key = `${primaryCommanderId}:${secondaryCommanderId}`;
+
+    let bucket = buckets.get(key);
+    if (!bucket) {
+      bucket = {
+        primaryCommanderId,
+        secondaryCommanderId,
+        count: 0,
+        totals: createEmptyTotals(),
+      };
+      buckets.set(key, bucket);
+    }
+
+    const battleResults = report.battle_results;
+    bucket.count += 1;
+
+    if (battleResults) {
+      const killScore = coerceNumber(battleResults.kill_score);
+      const deaths = coerceNumber(battleResults.death);
+      const severelyWounded = coerceNumber(battleResults.severely_wounded);
+      const wounded = coerceNumber(battleResults.wounded);
+      const enemyKillScore = coerceNumber(battleResults.enemy_kill_score);
+      const enemyDeaths = coerceNumber(battleResults.enemy_death);
+      const enemySeverelyWounded = coerceNumber(battleResults.enemy_severely_wounded);
+      const enemyWounded = coerceNumber(battleResults.enemy_wounded);
+
+      bucket.totals.killScore += killScore;
+      bucket.totals.deaths += deaths;
+      bucket.totals.severelyWounded += severelyWounded;
+      bucket.totals.wounded += wounded;
+      bucket.totals.enemyKillScore += enemyKillScore;
+      bucket.totals.enemyDeaths += enemyDeaths;
+      bucket.totals.enemySeverelyWounded += enemySeverelyWounded;
+      bucket.totals.enemyWounded += enemyWounded;
+    }
   }
 
-  if (sortedValues.length === 1 || percentile <= 0) {
-    return sortedValues[0];
-  }
-
-  if (percentile >= 1) {
-    return sortedValues[sortedValues.length - 1];
-  }
-
-  const rank = (sortedValues.length - 1) * percentile;
-  const lowerIndex = Math.floor(rank);
-  const upperIndex = Math.ceil(rank);
-
-  if (lowerIndex === upperIndex) {
-    return sortedValues[lowerIndex];
-  }
-
-  const weight = rank - lowerIndex;
-  const lowerValue = sortedValues[lowerIndex];
-  const upperValue = sortedValues[upperIndex];
-
-  return lowerValue + (upperValue - lowerValue) * weight;
+  return buckets;
 }
 
 function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
@@ -146,41 +224,9 @@ export async function GET(
   const startMillis = startOfMonth.getTime();
   const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
   const endMillis = nextMonth.getTime();
-
-  const startSeconds = Math.floor(startMillis / 1000);
-  const endSeconds = Math.floor(endMillis / 1000);
-  const startMicros = Math.floor(startMillis * 1000);
-  const endMicros = Math.floor(endMillis * 1000);
-
-  const matchStage: Document = {
-    "report.self.player_id": governorId,
-    "report.enemy.player_id": { $nin: [-2, 0] },
-    $or: [
-      {
-        "report.metadata.start_date": {
-          $gte: startSeconds,
-          $lt: endSeconds,
-        },
-      },
-      {
-        "report.metadata.start_date": { $exists: false },
-        $or: [
-          {
-            "report.metadata.email_time": {
-              $gte: startMillis,
-              $lt: endMillis,
-            },
-          },
-          {
-            "report.metadata.email_time": {
-              $gte: startMicros,
-              $lt: endMicros,
-            },
-          },
-        ],
-      },
-    ],
-  };
+  const previousStartOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+  const previousStartMillis = previousStartOfMonth.getTime();
+  const previousEndMillis = startMillis;
 
   const projection: Document = {
     _id: 0,
@@ -199,100 +245,39 @@ export async function GET(
   };
 
   try {
-    const reports = await db
-      .collection<BattleReportDocument>("battleReports")
-      .find(matchStage, { projection })
-      .toArray();
+    const [currentReports, previousReports] = await Promise.all([
+      db
+        .collection<BattleReportDocument>("battleReports")
+        .find(createMatchStage(governorId, startMillis, endMillis), { projection })
+        .toArray(),
+      db
+        .collection<BattleReportDocument>("battleReports")
+        .find(createMatchStage(governorId, previousStartMillis, previousEndMillis), { projection })
+        .toArray(),
+    ]);
 
-    const buckets = new Map<string, AggregationBucket>();
-
-    for (const doc of reports) {
-      const report = doc.report;
-      if (!report) {
-        continue;
-      }
-
-      const eventTime = extractEventTimeMillis(report);
-      if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
-        continue;
-      }
-
-      const primaryCommanderId = Math.trunc(coerceNumber(report.self?.primary_commander?.id));
-      if (primaryCommanderId <= 0) {
-        continue;
-      }
-
-      const secondaryCommanderId = Math.trunc(coerceNumber(report.self?.secondary_commander?.id));
-      const key = `${primaryCommanderId}:${secondaryCommanderId}`;
-
-      let bucket = buckets.get(key);
-      if (!bucket) {
-        bucket = {
-          primaryCommanderId,
-          secondaryCommanderId,
-          count: 0,
-          totals: {
-            killScore: 0,
-            deaths: 0,
-            severelyWounded: 0,
-            wounded: 0,
-            enemyKillScore: 0,
-            enemyDeaths: 0,
-            enemySeverelyWounded: 0,
-            enemyWounded: 0,
-          },
-          killScores: [],
-        };
-        buckets.set(key, bucket);
-      }
-
-      const battleResults = report.battle_results;
-      bucket.count += 1;
-
-      if (battleResults) {
-        const killScore = coerceNumber(battleResults.kill_score);
-        const deaths = coerceNumber(battleResults.death);
-        const severelyWounded = coerceNumber(battleResults.severely_wounded);
-        const wounded = coerceNumber(battleResults.wounded);
-        const enemyKillScore = coerceNumber(battleResults.enemy_kill_score);
-        const enemyDeaths = coerceNumber(battleResults.enemy_death);
-        const enemySeverelyWounded = coerceNumber(battleResults.enemy_severely_wounded);
-        const enemyWounded = coerceNumber(battleResults.enemy_wounded);
-
-        bucket.totals.killScore += killScore;
-        bucket.totals.deaths += deaths;
-        bucket.totals.severelyWounded += severelyWounded;
-        bucket.totals.wounded += wounded;
-        bucket.totals.enemyKillScore += enemyKillScore;
-        bucket.totals.enemyDeaths += enemyDeaths;
-        bucket.totals.enemySeverelyWounded += enemySeverelyWounded;
-        bucket.totals.enemyWounded += enemyWounded;
-        bucket.killScores.push(killScore);
-      }
-    }
+    const currentBuckets = aggregateReports(currentReports, startMillis, endMillis);
+    const previousBuckets = aggregateReports(
+      previousReports,
+      previousStartMillis,
+      previousEndMillis
+    );
 
     const items: MarchAggregate[] = [];
-    for (const bucket of buckets.values()) {
-      const sortedKillScores = bucket.killScores.slice().sort((a, b) => a - b);
-      const p10 = computePercentile(sortedKillScores, 0.1);
-      const p25 = computePercentile(sortedKillScores, 0.25);
-      const p50 = computePercentile(sortedKillScores, 0.5);
-      const p75 = computePercentile(sortedKillScores, 0.75);
-      const p90 = computePercentile(sortedKillScores, 0.9);
+    for (const bucket of currentBuckets.values()) {
+      const key = `${bucket.primaryCommanderId}:${bucket.secondaryCommanderId}`;
+      const previous = previousBuckets.get(key);
+      const previousTotals = previous ? { ...previous.totals } : createEmptyTotals();
+      const previousCount = previous?.count ?? 0;
 
       items.push({
         primaryCommanderId: bucket.primaryCommanderId,
         secondaryCommanderId: bucket.secondaryCommanderId,
         count: bucket.count,
-        totals: bucket.totals,
+        totals: { ...bucket.totals },
         averageKillScore: bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
-        killScorePercentiles: {
-          p10: p10,
-          p25: p25,
-          p50: p50,
-          p75: p75,
-          p90: p90,
-        },
+        previousTotals,
+        previousCount,
       });
     }
 
