@@ -36,12 +36,12 @@ export default async function Page({ params }: PageProps<"/[locale]">) {
               >
                 <span>Download App</span>
               </a>
-              <Link
-                href="/live"
+              <a
+                href="https://platform.rokbattles.com"
                 className="inline-flex items-center gap-2 rounded-xl bg-zinc-800 px-4 py-2 text-white transition hover:bg-zinc-700 focus-visible:outline-none"
               >
                 <span>Live Reports</span>
-              </Link>
+              </a>
               <a
                 href="https://discord.gg/G33SzQgx6d"
                 target="_blank"
