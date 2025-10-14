@@ -32,6 +32,8 @@ jobs:
   test-ts:
     name: Test TypeScript
     runs-on: ubuntu-latest
+    env:
+      MONGO_URI: "mongo://127.0.0.1:27017/rokbattles" # required to build/test platform
     steps:
       - name: Checkout
         uses: actions/checkout@v4
