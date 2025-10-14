@@ -1,4 +1,5 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { PlatformLayout } from "@/components/PlatformLayout";
 import PlatformProviders from "@/components/PlatformProviders";
@@ -9,6 +10,16 @@ const inter = Inter({
   variable: "--font-inter",
   display: "swap",
 });
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://platform.rokbattles.com"),
+  title: {
+    default: "ROK Battles",
+    template: "%s - ROK Battles",
+  },
+  description:
+    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
+};
 
 export default function Layout({ children }: LayoutProps<"/">) {
   return (
