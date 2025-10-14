@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
       },
     ],
-    sitemap: "https://rokbattles.com/sitemap.xml",
+    sitemap: "https://platform.rokbattles.com/sitemap.xml",
   };
 }
