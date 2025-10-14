@@ -1060,3 +1060,10 @@ equipment:
         de: "Karminroter Ring"
         es: "Anillo carmesí"
         kr: "적혈의 반지"
+
+    20401:
+      name:
+        en: "Artifact - Megingjörð"
+        de: "Artefakt - Megingjörð"
+        es: "Artefacto - Megingjörð"
+        kr: "장신구 - 메깅요르드"
