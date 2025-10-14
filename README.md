@@ -37,7 +37,7 @@ You may use this code under the terms of either license, at your option.
 
 ### Usage of Lilith Games Media Materials
 
-The contents of the `apps/rokbattles-site/public/lilith/` and `apps/rokbattles-platform/public/lilith/` directories are not covered by the open-source licenses of this repository.
+The contents of the `apps/rokbattles-platform/public/lilith/` directory are not covered by the open-source licenses of this repository.
 
 This repository complies with the applicable Lilith Games terms and policies regarding the use of media materials (see: https://www.lilith.com/termofservice/?locale=en_US).
 
