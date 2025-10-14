@@ -4101,7 +4101,6 @@ dependencies = [
  "mail-decoder",
  "mail-helper",
  "mongodb",
- "serde",
  "serde_json",
  "tikv-jemallocator",
  "tokio",

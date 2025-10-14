@@ -7,11 +7,8 @@ services:
       - "4444:3000"
     environment:
       NODE_ENV: production
-      ROKB_DATASETS_PATH: /app/datasets
-      ROKB_API_URL: http://site-api:8000
       ROKB_LEGAL_PATH: /app/legal
     volumes:
-      - ./datasets:/app/datasets:ro
       - ./legal:/app/legal:ro
     networks:
       - rokbattles

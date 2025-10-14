@@ -1,5 +1,26 @@
 {
   "name": "@rokbattles/marketing",
   "version": "0.1.9",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "next build --turbo",
+    "dev": "next --turbo"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "next": "^15.5.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^22.18.10",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3"
+  }
 }
