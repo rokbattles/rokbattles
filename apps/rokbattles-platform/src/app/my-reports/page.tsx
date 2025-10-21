@@ -20,60 +20,50 @@ export default function Page() {
 
   const { activeGovernor } = governorContext;
 
-  const content = (() => {
-    if (loading) {
-      return (
-        <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
-          Loading your account&hellip;
-        </p>
-      );
-    }
-
-    if (!user) {
-      return (
-        <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
-          You must be logged in to view this page.
-        </p>
-      );
-    }
-
-    if (!activeGovernor) {
-      return (
-        <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
-          You must have a claimed governor to view this page.
-        </p>
-      );
-    }
-
+  if (loading) {
     return (
-      <>
-        <div className="mt-8 flex items-end justify-between">
-          <Subheading>Live feed (UTC)</Subheading>
-          <MyReportsFilterDialog>
-            <FunnelIcon />
-            Filter
-          </MyReportsFilterDialog>
-        </div>
-        <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-          <TableHead>
-            <TableRow>
-              <TableHeader className="sm:w-1/6">Time</TableHeader>
-              <TableHeader>Self Participant</TableHeader>
-              <TableHeader>Enemy Participant</TableHeader>
-              <TableHeader className="sm:w-1/6">Battles</TableHeader>
-              <TableHeader className="sm:w-1/6">Duration</TableHeader>
-            </TableRow>
-          </TableHead>
-          <ReportsTable useReportsHook={useMyReports} />
-        </Table>
-      </>
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">Loading your account&hellip;</p>
     );
-  })();
+  }
+
+  if (!user) {
+    return (
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+        You must be logged in to view this page.
+      </p>
+    );
+  }
+
+  if (!activeGovernor) {
+    return (
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+        You must have a claimed governor to view this page.
+      </p>
+    );
+  }
 
   return (
     <>
       <Heading>My Battle Reports</Heading>
-      {content}
+      <div className="mt-8 flex items-end justify-between">
+        <Subheading>Live feed (UTC)</Subheading>
+        <MyReportsFilterDialog>
+          <FunnelIcon />
+          Filter
+        </MyReportsFilterDialog>
+      </div>
+      <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+        <TableHead>
+          <TableRow>
+            <TableHeader className="sm:w-1/6">Time</TableHeader>
+            <TableHeader>Self Participant</TableHeader>
+            <TableHeader>Enemy Participant</TableHeader>
+            <TableHeader className="sm:w-1/6">Battles</TableHeader>
+            <TableHeader className="sm:w-1/6">Duration</TableHeader>
+          </TableRow>
+        </TableHead>
+        <ReportsTable useReportsHook={useMyReports} />
+      </Table>
     </>
   );
 }

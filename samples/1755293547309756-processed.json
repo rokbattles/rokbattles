@@ -35,7 +35,6 @@
         "level": 40,
         "skills": "1143"
       },
-      "kingdom_id": 1804,
       "equipment": "{7:20077_6:40,2:20056_8:0,8:20074_11:0,3:20057_9:0,1:20055_5:0,4:20058_7:0,6:20082_2:0,5:20081_4:0}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -62,7 +61,6 @@
         "level": 1,
         "skills": null
       },
-      "kingdom_id": 1804,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,

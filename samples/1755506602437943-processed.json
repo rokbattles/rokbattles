@@ -35,7 +35,6 @@
         "level": 0,
         "skills": null
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -62,7 +61,6 @@
         "level": 38,
         "skills": "1111"
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -130,7 +128,6 @@
         "level": 0,
         "skills": null
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -157,7 +154,6 @@
         "level": 40,
         "skills": "5555"
       },
-      "kingdom_id": 1425,
       "equipment": "{2:20056_8:0,3:20057_7:0,1:20055_6:0,4:20058_5:0,5:20081_1:40,6:20082_2:40,7:20077_0:40,8:20074_21:40}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -225,7 +221,6 @@
         "level": 0,
         "skills": null
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -252,7 +247,6 @@
         "level": 38,
         "skills": "5555"
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -320,7 +314,6 @@
         "level": 0,
         "skills": null
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -347,7 +340,6 @@
         "level": 50,
         "skills": "5555"
       },
-      "kingdom_id": 1425,
       "equipment": "{2:20062_17:0,3:20064_15:0,1:20087_9:50,4:20066_18:0,5:20070_16:50,6:20071_22:0}",
       "formation": 1,
       "is_ranged_tower": false,
@@ -415,7 +407,6 @@
         "level": 0,
         "skills": null
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 6,
       "is_ranged_tower": false,
@@ -442,7 +433,6 @@
         "level": 49,
         "skills": "5555"
       },
-      "kingdom_id": 1425,
       "equipment": "{}",
       "formation": 7,
       "is_ranged_tower": false,

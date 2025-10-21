@@ -35,7 +35,6 @@
         "level": 60,
         "skills": "5555"
       },
-      "kingdom_id": 1217,
       "equipment": "{1:20003_204:24,4:20022_168:25,5:20144_174:25,6:20145_175:25,7:20037_169:25,8:20040_198:25,2:20006_203:23,3:20021_165:25}",
       "formation": 2,
       "is_ranged_tower": false,
@@ -58,7 +57,6 @@
         "skills": "5000"
       },
       "secondary_commander": null,
-      "kingdom_id": 1217,
       "equipment": "{}",
       "formation": 2,
       "is_ranged_tower": false,
@@ -126,7 +124,6 @@
         "level": 60,
         "skills": "5555"
       },
-      "kingdom_id": 1217,
       "equipment": "{1:20003_204:24,4:20022_168:25,5:20144_174:25,6:20145_175:25,7:20037_169:25,8:20040_198:25,2:20006_203:23,3:20021_165:25}",
       "formation": 2,
       "is_ranged_tower": false,
@@ -149,7 +146,6 @@
         "skills": "5000"
       },
       "secondary_commander": null,
-      "kingdom_id": 1217,
       "equipment": "{}",
       "formation": 2,
       "is_ranged_tower": false,

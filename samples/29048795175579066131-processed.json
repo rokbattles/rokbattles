@@ -35,7 +35,6 @@
         "level": 60,
         "skills": "5552"
       },
-      "kingdom_id": 1804,
       "equipment": "{1:20100_442:0}",
       "formation": 7,
       "is_ranged_tower": false,
@@ -58,7 +57,6 @@
         "skills": "5000"
       },
       "secondary_commander": null,
-      "kingdom_id": 1804,
       "equipment": "{}",
       "formation": 7,
       "is_ranged_tower": false,

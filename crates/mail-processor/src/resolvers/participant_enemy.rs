@@ -946,40 +946,6 @@ impl Resolver for ParticipantEnemyResolver {
             enemy_obj.insert("secondary_commander".into(), Value::Object(cmd2));
         }
 
-        // kingdom
-        if let Some(snap) = enemy_snap {
-            map_put_i32(
-                enemy_obj,
-                "kingdom_id",
-                snap.get("COSId")
-                    .and_then(Value::as_i64)
-                    .filter(|&x| x != 0)
-                    .map(|x| x as i32),
-            );
-        }
-        if enemy_obj.get("kingdom_id").is_none() {
-            map_put_i32(
-                enemy_obj,
-                "kingdom_id",
-                c_idt
-                    .get("COSId")
-                    .and_then(Value::as_i64)
-                    .filter(|&x| x != 0)
-                    .map(|x| x as i32),
-            );
-        }
-        if enemy_obj.get("kingdom_id").is_none() {
-            let k3 = sections
-                .iter()
-                .find_map(|s| s.get("GsId").and_then(Value::as_i64))
-                .or_else(|| {
-                    sections
-                        .first()
-                        .and_then(|s| s.get("serverId").and_then(Value::as_i64))
-                });
-            map_put_i32(enemy_obj, "kingdom_id", k3.map(|x| x as i32));
-        }
-
         // equipment
         if let Some(snap) = enemy_snap {
             map_put_str(

@@ -130,14 +130,14 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
             </SidebarSection>
             {!loading && user && showMyReports && (
               <SidebarSection>
-                <SidebarHeading>My Governor</SidebarHeading>
+                <SidebarHeading>Governor</SidebarHeading>
                 <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
                   <FireIcon />
-                  <SidebarLabel>Battle Reports</SidebarLabel>
+                  <SidebarLabel>My Battles</SidebarLabel>
                 </SidebarItem>
                 <SidebarItem href="/my-pairings" current={pathname === "/my-pairings"}>
                   <ScaleIcon />
-                  <SidebarLabel>Pairings</SidebarLabel>
+                  <SidebarLabel>My Pairings</SidebarLabel>
                 </SidebarItem>
               </SidebarSection>
             )}

@@ -32,8 +32,6 @@ export interface RawParticipantInfo {
   npc_btype?: number | null;
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
-  kingdom_id?: number;
-  tracking_key?: string;
   equipment?: string;
   formation?: number;
   armament_buffs?: string;

@@ -90,9 +90,6 @@ pub struct Participant {
     pub primary_commander: Option<Commander>,
     pub secondary_commander: Option<Commander>,
 
-    // COSId
-    pub kingdom_id: Option<i32>,
-
     // HEq
     pub equipment: Option<String>,
     // HFMs
