@@ -699,24 +699,6 @@ impl Resolver for ParticipantSelfResolver {
         }
         obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
-        // kingdom and tracking key
-        if obj.get("kingdom_id").is_none() {
-            map_put_i32(
-                obj,
-                "kingdom_id",
-                Self::get_with_fallback(self_snap, fallback_snap, "COSId")
-                    .and_then(Value::as_i64)
-                    .filter(|&x| x != 0)
-                    .map(|x| x as i32),
-            );
-        }
-        if obj.get("kingdom_id").is_none() {
-            let kingdom_guess = sections
-                .iter()
-                .find_map(|s| s.get("GsId").and_then(Value::as_i64));
-            map_put_i32(obj, "kingdom_id", kingdom_guess.map(|x| x as i32));
-        }
-
         // equipment and formation
         map_put_str(
             obj,
