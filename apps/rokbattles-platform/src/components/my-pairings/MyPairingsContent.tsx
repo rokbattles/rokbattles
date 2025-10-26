@@ -110,48 +110,33 @@ export function MyPairingsContent() {
         current &&
         data.some(
           (pairing) =>
-            createPairingKey(
-              pairing.primaryCommanderId,
-              pairing.secondaryCommanderId,
-            ) === current,
+            createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === current
         )
       ) {
         return current;
       }
 
       const first = data[0];
-      return createPairingKey(
-        first.primaryCommanderId,
-        first.secondaryCommanderId,
-      );
+      return createPairingKey(first.primaryCommanderId, first.secondaryCommanderId);
     });
   }, [data]);
 
   const pairingOptions = useMemo(
     () =>
       data.map((pairing) => ({
-        value: createPairingKey(
-          pairing.primaryCommanderId,
-          pairing.secondaryCommanderId,
-        ),
-        label: formatCommanderPair(
-          pairing.primaryCommanderId,
-          pairing.secondaryCommanderId,
-        ),
+        value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
+        label: formatCommanderPair(pairing.primaryCommanderId, pairing.secondaryCommanderId),
       })),
-    [data],
+    [data]
   );
 
   const selectedPairing = useMemo(
     () =>
       data.find(
         (pairing) =>
-          createPairingKey(
-            pairing.primaryCommanderId,
-            pairing.secondaryCommanderId,
-          ) === selectedKey,
+          createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === selectedKey
       ),
-    [data, selectedKey],
+    [data, selectedKey]
   );
 
   const metrics = useMemo<PairingMetricDefinition[]>(() => {
@@ -160,38 +145,24 @@ export function MyPairingsContent() {
     }
 
     const { totals, previousTotals } = selectedPairing;
-    const totalDurationSeconds =
-      totals.battleDuration > 0 ? totals.battleDuration / 1000 : 0;
+    const totalDurationSeconds = totals.battleDuration > 0 ? totals.battleDuration / 1000 : 0;
     const previousDurationSeconds =
-      previousTotals.battleDuration > 0
-        ? previousTotals.battleDuration / 1000
-        : 0;
+      previousTotals.battleDuration > 0 ? previousTotals.battleDuration / 1000 : 0;
     const averageBattleDurationSeconds =
-      selectedPairing.count > 0
-        ? totalDurationSeconds / selectedPairing.count
-        : 0;
+      selectedPairing.count > 0 ? totalDurationSeconds / selectedPairing.count : 0;
     const previousAverageBattleDurationSeconds =
       selectedPairing.previousCount > 0
         ? previousDurationSeconds / selectedPairing.previousCount
         : 0;
-    const dpsPerSecond =
-      totalDurationSeconds > 0 ? totals.dps / totalDurationSeconds : 0;
+    const dpsPerSecond = totalDurationSeconds > 0 ? totals.dps / totalDurationSeconds : 0;
     const previousDpsPerSecond =
-      previousDurationSeconds > 0
-        ? previousTotals.dps / previousDurationSeconds
-        : 0;
-    const spsPerSecond =
-      totalDurationSeconds > 0 ? totals.sps / totalDurationSeconds : 0;
+      previousDurationSeconds > 0 ? previousTotals.dps / previousDurationSeconds : 0;
+    const spsPerSecond = totalDurationSeconds > 0 ? totals.sps / totalDurationSeconds : 0;
     const previousSpsPerSecond =
-      previousDurationSeconds > 0
-        ? previousTotals.sps / previousDurationSeconds
-        : 0;
-    const tpsPerSecond =
-      totalDurationSeconds > 0 ? totals.tps / totalDurationSeconds : 0;
+      previousDurationSeconds > 0 ? previousTotals.sps / previousDurationSeconds : 0;
+    const tpsPerSecond = totalDurationSeconds > 0 ? totals.tps / totalDurationSeconds : 0;
     const previousTpsPerSecond =
-      previousDurationSeconds > 0
-        ? previousTotals.tps / previousDurationSeconds
-        : 0;
+      previousDurationSeconds > 0 ? previousTotals.tps / previousDurationSeconds : 0;
 
     return [
       {
@@ -287,9 +258,7 @@ export function MyPairingsContent() {
 
   if (loading) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
-        Loading your account&hellip;
-      </p>
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">Loading your account&hellip;</p>
     );
   }
 

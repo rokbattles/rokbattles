@@ -78,11 +78,7 @@ function createEmptyTotals(): MarchTotals {
   };
 }
 
-function createMatchStage(
-  governorId: number,
-  startMillis: number,
-  endMillis: number,
-): Document {
+function createMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
   const startSeconds = Math.floor(startMillis / 1000);
   const endSeconds = Math.floor(endMillis / 1000);
   const startMicros = Math.floor(startMillis * 1000);
@@ -119,11 +115,7 @@ function createMatchStage(
   } satisfies Document;
 }
 
-function aggregateReports(
-  reports: BattleReportDocument[],
-  startMillis: number,
-  endMillis: number,
-) {
+function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
   const buckets = new Map<string, AggregationBucket>();
 
   for (const doc of reports) {
@@ -133,24 +125,16 @@ function aggregateReports(
     }
 
     const eventTime = extractEventTimeMillis(report);
-    if (
-      eventTime == null ||
-      eventTime < startMillis ||
-      eventTime >= endMillis
-    ) {
+    if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
       continue;
     }
 
-    const primaryCommanderId = Math.trunc(
-      coerceNumber(report.self?.primary_commander?.id),
-    );
+    const primaryCommanderId = Math.trunc(coerceNumber(report.self?.primary_commander?.id));
     if (primaryCommanderId <= 0) {
       continue;
     }
 
-    const secondaryCommanderId = Math.trunc(
-      coerceNumber(report.self?.secondary_commander?.id),
-    );
+    const secondaryCommanderId = Math.trunc(coerceNumber(report.self?.secondary_commander?.id));
     const key = `${primaryCommanderId}:${secondaryCommanderId}`;
 
     let bucket = buckets.get(key);
@@ -174,9 +158,7 @@ function aggregateReports(
       const wounded = coerceNumber(battleResults.wounded);
       const enemyKillScore = coerceNumber(battleResults.enemy_kill_score);
       const enemyDeaths = coerceNumber(battleResults.enemy_death);
-      const enemySeverelyWounded = coerceNumber(
-        battleResults.enemy_severely_wounded,
-      );
+      const enemySeverelyWounded = coerceNumber(battleResults.enemy_severely_wounded);
       const enemyWounded = coerceNumber(battleResults.enemy_wounded);
 
       bucket.totals.killScore += killScore;
@@ -216,9 +198,7 @@ function normalizeTimestampMillis(value: unknown): number | null {
   return numeric;
 }
 
-function extractEventTimeMillis(
-  report: BattleReportDocument["report"],
-): number | null {
+function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return null;
@@ -237,9 +217,7 @@ function extractEventTimeMillis(
   return null;
 }
 
-function extractBattleDurationMillis(
-  report: BattleReportDocument["report"],
-): number {
+function extractBattleDurationMillis(report: BattleReportDocument["report"]): number {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return 0;
@@ -257,7 +235,7 @@ function extractBattleDurationMillis(
 
 export async function GET(
   _req: NextRequest,
-  ctx: RouteContext<"/api/v2/governor/[governorId]/marches">,
+  ctx: RouteContext<"/api/v2/governor/[governorId]/marches">
 ) {
   const { governorId: governorParam } = await ctx.params;
   const governorId = parseGovernorId(governorParam);
@@ -284,17 +262,11 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const startOfMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
-  );
+  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
   const startMillis = startOfMonth.getTime();
-  const nextMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
-  );
+  const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
   const endMillis = nextMonth.getTime();
-  const previousStartOfMonth = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1),
-  );
+  const previousStartOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
   const previousStartMillis = previousStartOfMonth.getTime();
   const previousEndMillis = startMillis;
 
@@ -325,31 +297,22 @@ export async function GET(
         .toArray(),
       db
         .collection<BattleReportDocument>("battleReports")
-        .find(
-          createMatchStage(governorId, previousStartMillis, previousEndMillis),
-          { projection },
-        )
+        .find(createMatchStage(governorId, previousStartMillis, previousEndMillis), { projection })
         .toArray(),
     ]);
 
-    const currentBuckets = aggregateReports(
-      currentReports,
-      startMillis,
-      endMillis,
-    );
+    const currentBuckets = aggregateReports(currentReports, startMillis, endMillis);
     const previousBuckets = aggregateReports(
       previousReports,
       previousStartMillis,
-      previousEndMillis,
+      previousEndMillis
     );
 
     const items: MarchAggregate[] = [];
     for (const bucket of currentBuckets.values()) {
       const key = `${bucket.primaryCommanderId}:${bucket.secondaryCommanderId}`;
       const previous = previousBuckets.get(key);
-      const previousTotals = previous
-        ? { ...previous.totals }
-        : createEmptyTotals();
+      const previousTotals = previous ? { ...previous.totals } : createEmptyTotals();
       const previousCount = previous?.count ?? 0;
 
       items.push({
@@ -357,8 +320,7 @@ export async function GET(
         secondaryCommanderId: bucket.secondaryCommanderId,
         count: bucket.count,
         totals: { ...bucket.totals },
-        averageKillScore:
-          bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
+        averageKillScore: bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
         previousTotals,
         previousCount,
       });
@@ -385,7 +347,7 @@ export async function GET(
         headers: {
           "Cache-Control": "no-store",
         },
-      },
+      }
     );
   } catch (error) {
     console.error("Failed to load governor marches", error);
@@ -396,7 +358,7 @@ export async function GET(
         headers: {
           "Cache-Control": "no-store",
         },
-      },
+      }
     );
   }
 }
