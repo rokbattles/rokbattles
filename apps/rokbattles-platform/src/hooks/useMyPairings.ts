@@ -12,6 +12,10 @@ export type GovernorMarchTotals = {
   enemyDeaths: number;
   enemySeverelyWounded: number;
   enemyWounded: number;
+  dps: number;
+  sps: number;
+  tps: number;
+  battleDuration: number;
 };
 
 export type GovernorMarchAggregate = {

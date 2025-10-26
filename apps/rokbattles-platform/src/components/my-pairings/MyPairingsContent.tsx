@@ -8,8 +8,22 @@ import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { type UseMyPairingsResult, useMyPairings } from "@/hooks/useMyPairings";
+import { formatDurationShort } from "@/lib/datetime";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
+const perSecondFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+  minimumFractionDigits: 0,
+});
+
+type PairingMetricDefinition = {
+  key: string;
+  label: string;
+  value: number;
+  previousValue: number;
+  trendDirection: "increase" | "decrease";
+  formatValue?: (value: number) => string;
+};
 
 function formatNumber(value: number): string {
   if (!Number.isFinite(value)) {
@@ -17,6 +31,23 @@ function formatNumber(value: number): string {
   }
 
   return numberFormatter.format(Math.round(value));
+}
+
+function formatDurationSeconds(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) {
+    return "0s";
+  }
+
+  const base = 1;
+  return formatDurationShort(base, base + value);
+}
+
+function formatPerSecond(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) {
+    return "0/s";
+  }
+
+  return `${perSecondFormatter.format(value)}/s`;
 }
 
 function formatPeriod(period: UseMyPairingsResult["period"]) {
@@ -44,9 +75,8 @@ function createPairingKey(primaryId: number, secondaryId: number) {
 }
 
 function formatCommanderPair(primaryId: number, secondaryId: number) {
-  const primaryName =
-    getCommanderName(primaryId) ?? (primaryId > 0 ? `#${primaryId}` : "Commander");
-  const secondaryName = getCommanderName(secondaryId) ?? (secondaryId > 0 ? `#${secondaryId}` : "");
+  const primaryName = getCommanderName(primaryId) ?? primaryId;
+  const secondaryName = getCommanderName(secondaryId) ?? secondaryId;
 
   if (secondaryId <= 0 || !secondaryName) {
     return primaryName;
@@ -109,12 +139,30 @@ export function MyPairingsContent() {
     [data, selectedKey]
   );
 
-  const metrics = useMemo(() => {
+  const metrics = useMemo<PairingMetricDefinition[]>(() => {
     if (!selectedPairing) {
       return [];
     }
 
     const { totals, previousTotals } = selectedPairing;
+    const totalDurationSeconds = totals.battleDuration > 0 ? totals.battleDuration / 1000 : 0;
+    const previousDurationSeconds =
+      previousTotals.battleDuration > 0 ? previousTotals.battleDuration / 1000 : 0;
+    const averageBattleDurationSeconds =
+      selectedPairing.count > 0 ? totalDurationSeconds / selectedPairing.count : 0;
+    const previousAverageBattleDurationSeconds =
+      selectedPairing.previousCount > 0
+        ? previousDurationSeconds / selectedPairing.previousCount
+        : 0;
+    const dpsPerSecond = totalDurationSeconds > 0 ? totals.dps / totalDurationSeconds : 0;
+    const previousDpsPerSecond =
+      previousDurationSeconds > 0 ? previousTotals.dps / previousDurationSeconds : 0;
+    const spsPerSecond = totalDurationSeconds > 0 ? totals.sps / totalDurationSeconds : 0;
+    const previousSpsPerSecond =
+      previousDurationSeconds > 0 ? previousTotals.sps / previousDurationSeconds : 0;
+    const tpsPerSecond = totalDurationSeconds > 0 ? totals.tps / totalDurationSeconds : 0;
+    const previousTpsPerSecond =
+      previousDurationSeconds > 0 ? previousTotals.tps / previousDurationSeconds : 0;
 
     return [
       {
@@ -144,6 +192,38 @@ export function MyPairingsContent() {
         value: totals.wounded,
         previousValue: previousTotals.wounded,
         trendDirection: "decrease" as const,
+      },
+      {
+        key: "averageBattleDuration",
+        label: "Avg. Battle Duration",
+        value: averageBattleDurationSeconds,
+        previousValue: previousAverageBattleDurationSeconds,
+        trendDirection: "decrease" as const,
+        formatValue: formatDurationSeconds,
+      },
+      {
+        key: "dps",
+        label: "DPS (Damage)",
+        value: dpsPerSecond,
+        previousValue: previousDpsPerSecond,
+        trendDirection: "increase" as const,
+        formatValue: formatPerSecond,
+      },
+      {
+        key: "sps",
+        label: "SPS (Sevs. Given)",
+        value: spsPerSecond,
+        previousValue: previousSpsPerSecond,
+        trendDirection: "increase" as const,
+        formatValue: formatPerSecond,
+      },
+      {
+        key: "tps",
+        label: "TPS (Sevs. Taken)",
+        value: tpsPerSecond,
+        previousValue: previousTpsPerSecond,
+        trendDirection: "decrease" as const,
+        formatValue: formatPerSecond,
       },
       {
         key: "enemyKillScore",
@@ -247,7 +327,7 @@ export function MyPairingsContent() {
               value={metric.value}
               previousValue={metric.previousValue}
               trendDirection={metric.trendDirection}
-              formatValue={formatNumber}
+              formatValue={metric.formatValue ?? formatNumber}
             />
           ))}
         </div>

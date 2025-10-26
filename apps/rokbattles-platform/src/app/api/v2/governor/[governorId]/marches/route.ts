@@ -10,6 +10,7 @@ type BattleReportDocument = {
     metadata?: {
       email_time?: unknown;
       start_date?: unknown;
+      end_date?: unknown;
     };
     self?: {
       primary_commander?: { id?: unknown };
@@ -37,6 +38,10 @@ type MarchTotals = {
   enemyDeaths: number;
   enemySeverelyWounded: number;
   enemyWounded: number;
+  dps: number;
+  sps: number;
+  tps: number;
+  battleDuration: number;
 };
 
 type AggregationBucket = {
@@ -66,6 +71,10 @@ function createEmptyTotals(): MarchTotals {
     enemyDeaths: 0,
     enemySeverelyWounded: 0,
     enemyWounded: 0,
+    dps: 0,
+    sps: 0,
+    tps: 0,
+    battleDuration: 0,
   };
 }
 
@@ -160,10 +169,33 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
       bucket.totals.enemyDeaths += enemyDeaths;
       bucket.totals.enemySeverelyWounded += enemySeverelyWounded;
       bucket.totals.enemyWounded += enemyWounded;
+      bucket.totals.dps += enemyWounded + enemySeverelyWounded;
+      bucket.totals.sps += enemySeverelyWounded;
+      bucket.totals.tps += severelyWounded;
     }
+
+    const battleDurationMillis = extractBattleDurationMillis(report);
+    bucket.totals.battleDuration += battleDurationMillis;
   }
 
   return buckets;
+}
+
+function normalizeTimestampMillis(value: unknown): number | null {
+  const numeric = coerceNumber(value, Number.NaN);
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return null;
+  }
+
+  if (numeric >= 1e14) {
+    return numeric / 1000;
+  }
+
+  if (numeric < 1e12) {
+    return numeric * 1000;
+  }
+
+  return numeric;
 }
 
 function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
@@ -172,23 +204,33 @@ function extractEventTimeMillis(report: BattleReportDocument["report"]): number 
     return null;
   }
 
-  const emailTime = coerceNumber(rawMetadata.email_time);
-  if (emailTime > 0) {
-    if (emailTime >= 1e14) {
-      return emailTime / 1000;
-    }
-    if (emailTime >= 1e12) {
-      return emailTime;
-    }
-    return emailTime * 1000;
+  const emailTime = normalizeTimestampMillis(rawMetadata.email_time);
+  if (emailTime != null) {
+    return emailTime;
   }
 
-  const startDate = coerceNumber(rawMetadata.start_date);
-  if (startDate > 0) {
-    return startDate < 1e12 ? startDate * 1000 : startDate;
+  const startDate = normalizeTimestampMillis(rawMetadata.start_date);
+  if (startDate != null) {
+    return startDate;
   }
 
   return null;
+}
+
+function extractBattleDurationMillis(report: BattleReportDocument["report"]): number {
+  const rawMetadata = report?.metadata;
+  if (!rawMetadata) {
+    return 0;
+  }
+
+  const start = normalizeTimestampMillis(rawMetadata.start_date);
+  const end = normalizeTimestampMillis(rawMetadata.end_date);
+
+  if (start == null || end == null) {
+    return 0;
+  }
+
+  return Math.max(0, end - start);
 }
 
 export async function GET(
@@ -232,6 +274,7 @@ export async function GET(
     _id: 0,
     "report.metadata.email_time": 1,
     "report.metadata.start_date": 1,
+    "report.metadata.end_date": 1,
     "report.self.primary_commander.id": 1,
     "report.self.secondary_commander.id": 1,
     "report.battle_results.kill_score": 1,
@@ -248,7 +291,9 @@ export async function GET(
     const [currentReports, previousReports] = await Promise.all([
       db
         .collection<BattleReportDocument>("battleReports")
-        .find(createMatchStage(governorId, startMillis, endMillis), { projection })
+        .find(createMatchStage(governorId, startMillis, endMillis), {
+          projection,
+        })
         .toArray(),
       db
         .collection<BattleReportDocument>("battleReports")
