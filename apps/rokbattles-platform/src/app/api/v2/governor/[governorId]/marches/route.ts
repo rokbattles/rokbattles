@@ -10,6 +10,7 @@ type BattleReportDocument = {
     metadata?: {
       email_time?: unknown;
       start_date?: unknown;
+      end_date?: unknown;
     };
     self?: {
       primary_commander?: { id?: unknown };
@@ -37,6 +38,10 @@ type MarchTotals = {
   enemyDeaths: number;
   enemySeverelyWounded: number;
   enemyWounded: number;
+  dps: number;
+  sps: number;
+  tps: number;
+  battleDuration: number;
 };
 
 type AggregationBucket = {
@@ -66,10 +71,18 @@ function createEmptyTotals(): MarchTotals {
     enemyDeaths: 0,
     enemySeverelyWounded: 0,
     enemyWounded: 0,
+    dps: 0,
+    sps: 0,
+    tps: 0,
+    battleDuration: 0,
   };
 }
 
-function createMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+function createMatchStage(
+  governorId: number,
+  startMillis: number,
+  endMillis: number,
+): Document {
   const startSeconds = Math.floor(startMillis / 1000);
   const endSeconds = Math.floor(endMillis / 1000);
   const startMicros = Math.floor(startMillis * 1000);
@@ -106,7 +119,11 @@ function createMatchStage(governorId: number, startMillis: number, endMillis: nu
   } satisfies Document;
 }
 
-function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
+function aggregateReports(
+  reports: BattleReportDocument[],
+  startMillis: number,
+  endMillis: number,
+) {
   const buckets = new Map<string, AggregationBucket>();
 
   for (const doc of reports) {
@@ -116,16 +133,24 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
     }
 
     const eventTime = extractEventTimeMillis(report);
-    if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+    if (
+      eventTime == null ||
+      eventTime < startMillis ||
+      eventTime >= endMillis
+    ) {
       continue;
     }
 
-    const primaryCommanderId = Math.trunc(coerceNumber(report.self?.primary_commander?.id));
+    const primaryCommanderId = Math.trunc(
+      coerceNumber(report.self?.primary_commander?.id),
+    );
     if (primaryCommanderId <= 0) {
       continue;
     }
 
-    const secondaryCommanderId = Math.trunc(coerceNumber(report.self?.secondary_commander?.id));
+    const secondaryCommanderId = Math.trunc(
+      coerceNumber(report.self?.secondary_commander?.id),
+    );
     const key = `${primaryCommanderId}:${secondaryCommanderId}`;
 
     let bucket = buckets.get(key);
@@ -149,7 +174,9 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
       const wounded = coerceNumber(battleResults.wounded);
       const enemyKillScore = coerceNumber(battleResults.enemy_kill_score);
       const enemyDeaths = coerceNumber(battleResults.enemy_death);
-      const enemySeverelyWounded = coerceNumber(battleResults.enemy_severely_wounded);
+      const enemySeverelyWounded = coerceNumber(
+        battleResults.enemy_severely_wounded,
+      );
       const enemyWounded = coerceNumber(battleResults.enemy_wounded);
 
       bucket.totals.killScore += killScore;
@@ -160,40 +187,77 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
       bucket.totals.enemyDeaths += enemyDeaths;
       bucket.totals.enemySeverelyWounded += enemySeverelyWounded;
       bucket.totals.enemyWounded += enemyWounded;
+      bucket.totals.dps += enemyWounded + enemySeverelyWounded;
+      bucket.totals.sps += enemySeverelyWounded;
+      bucket.totals.tps += severelyWounded;
     }
+
+    const battleDurationMillis = extractBattleDurationMillis(report);
+    bucket.totals.battleDuration += battleDurationMillis;
   }
 
   return buckets;
 }
 
-function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
+function normalizeTimestampMillis(value: unknown): number | null {
+  const numeric = coerceNumber(value, Number.NaN);
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return null;
+  }
+
+  if (numeric >= 1e14) {
+    return numeric / 1000;
+  }
+
+  if (numeric < 1e12) {
+    return numeric * 1000;
+  }
+
+  return numeric;
+}
+
+function extractEventTimeMillis(
+  report: BattleReportDocument["report"],
+): number | null {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return null;
   }
 
-  const emailTime = coerceNumber(rawMetadata.email_time);
-  if (emailTime > 0) {
-    if (emailTime >= 1e14) {
-      return emailTime / 1000;
-    }
-    if (emailTime >= 1e12) {
-      return emailTime;
-    }
-    return emailTime * 1000;
+  const emailTime = normalizeTimestampMillis(rawMetadata.email_time);
+  if (emailTime != null) {
+    return emailTime;
   }
 
-  const startDate = coerceNumber(rawMetadata.start_date);
-  if (startDate > 0) {
-    return startDate < 1e12 ? startDate * 1000 : startDate;
+  const startDate = normalizeTimestampMillis(rawMetadata.start_date);
+  if (startDate != null) {
+    return startDate;
   }
 
   return null;
 }
 
+function extractBattleDurationMillis(
+  report: BattleReportDocument["report"],
+): number {
+  const rawMetadata = report?.metadata;
+  if (!rawMetadata) {
+    return 0;
+  }
+
+  const start = normalizeTimestampMillis(rawMetadata.start_date);
+  const end = normalizeTimestampMillis(rawMetadata.end_date);
+
+  if (start == null || end == null) {
+    return 0;
+  }
+
+  return Math.max(0, end - start);
+}
+
 export async function GET(
   _req: NextRequest,
-  ctx: RouteContext<"/api/v2/governor/[governorId]/marches">
+  ctx: RouteContext<"/api/v2/governor/[governorId]/marches">,
 ) {
   const { governorId: governorParam } = await ctx.params;
   const governorId = parseGovernorId(governorParam);
@@ -220,11 +284,17 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+  const startOfMonth = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
+  );
   const startMillis = startOfMonth.getTime();
-  const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+  const nextMonth = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1),
+  );
   const endMillis = nextMonth.getTime();
-  const previousStartOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+  const previousStartOfMonth = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1),
+  );
   const previousStartMillis = previousStartOfMonth.getTime();
   const previousEndMillis = startMillis;
 
@@ -232,6 +302,7 @@ export async function GET(
     _id: 0,
     "report.metadata.email_time": 1,
     "report.metadata.start_date": 1,
+    "report.metadata.end_date": 1,
     "report.self.primary_commander.id": 1,
     "report.self.secondary_commander.id": 1,
     "report.battle_results.kill_score": 1,
@@ -248,26 +319,37 @@ export async function GET(
     const [currentReports, previousReports] = await Promise.all([
       db
         .collection<BattleReportDocument>("battleReports")
-        .find(createMatchStage(governorId, startMillis, endMillis), { projection })
+        .find(createMatchStage(governorId, startMillis, endMillis), {
+          projection,
+        })
         .toArray(),
       db
         .collection<BattleReportDocument>("battleReports")
-        .find(createMatchStage(governorId, previousStartMillis, previousEndMillis), { projection })
+        .find(
+          createMatchStage(governorId, previousStartMillis, previousEndMillis),
+          { projection },
+        )
         .toArray(),
     ]);
 
-    const currentBuckets = aggregateReports(currentReports, startMillis, endMillis);
+    const currentBuckets = aggregateReports(
+      currentReports,
+      startMillis,
+      endMillis,
+    );
     const previousBuckets = aggregateReports(
       previousReports,
       previousStartMillis,
-      previousEndMillis
+      previousEndMillis,
     );
 
     const items: MarchAggregate[] = [];
     for (const bucket of currentBuckets.values()) {
       const key = `${bucket.primaryCommanderId}:${bucket.secondaryCommanderId}`;
       const previous = previousBuckets.get(key);
-      const previousTotals = previous ? { ...previous.totals } : createEmptyTotals();
+      const previousTotals = previous
+        ? { ...previous.totals }
+        : createEmptyTotals();
       const previousCount = previous?.count ?? 0;
 
       items.push({
@@ -275,7 +357,8 @@ export async function GET(
         secondaryCommanderId: bucket.secondaryCommanderId,
         count: bucket.count,
         totals: { ...bucket.totals },
-        averageKillScore: bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
+        averageKillScore:
+          bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
         previousTotals,
         previousCount,
       });
@@ -302,7 +385,7 @@ export async function GET(
         headers: {
           "Cache-Control": "no-store",
         },
-      }
+      },
     );
   } catch (error) {
     console.error("Failed to load governor marches", error);
@@ -313,7 +396,7 @@ export async function GET(
         headers: {
           "Cache-Control": "no-store",
         },
-      }
+      },
     );
   }
 }
