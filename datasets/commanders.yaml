@@ -1148,3 +1148,21 @@ commanders:
       kr: "피피누스 3세"
     prime: false
     rarity: legendary
+
+  575:
+    name:
+      en: "Achilles"
+      de: "Achilleus"
+      es: "Aquiles"
+      kr: "아킬레우스"
+    prime: false
+    rarity: legendary
+
+  576:
+    name:
+      en: "Hector"
+      de: "Hektor"
+      es: "Héctor"
+      kr: "헥토르"
+    prime: false
+    rarity: legendary
