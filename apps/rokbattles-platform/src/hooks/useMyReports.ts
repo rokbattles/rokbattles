@@ -23,7 +23,8 @@ function buildQueryParams(
   cursor: string | undefined,
   playerId: number | undefined,
   type: ReportsFilterType | undefined,
-  commanderId: number | undefined
+  primaryCommanderId: number | undefined,
+  secondaryCommanderId: number | undefined
 ) {
   const params = new URLSearchParams();
 
@@ -32,8 +33,19 @@ function buildQueryParams(
     params.set("playerId", String(Math.trunc(playerId)));
   }
   if (type) params.set("type", type);
-  if (typeof commanderId === "number" && Number.isFinite(commanderId) && commanderId > 0) {
-    params.set("commanderId", String(Math.trunc(commanderId)));
+  if (
+    typeof primaryCommanderId === "number" &&
+    Number.isFinite(primaryCommanderId) &&
+    primaryCommanderId > 0
+  ) {
+    params.set("primaryCommanderId", String(Math.trunc(primaryCommanderId)));
+  }
+  if (
+    typeof secondaryCommanderId === "number" &&
+    Number.isFinite(secondaryCommanderId) &&
+    secondaryCommanderId > 0
+  ) {
+    params.set("secondaryCommanderId", String(Math.trunc(secondaryCommanderId)));
   }
 
   const query = params.toString();
@@ -53,7 +65,7 @@ export function useMyReports(): UseReportsResult {
     throw new Error("useMyReports must be used within a GovernorProvider");
   }
 
-  const { type, commanderId } = filterContext;
+  const { type, primaryCommanderId, secondaryCommanderId } = filterContext;
   const { activeGovernor } = governorContext;
   const playerId = activeGovernor?.governorId;
 
@@ -100,7 +112,13 @@ export function useMyReports(): UseReportsResult {
         setError(null);
       }
 
-      const query = buildQueryParams(cursor, playerId, type, commanderId);
+      const query = buildQueryParams(
+        cursor,
+        playerId,
+        type,
+        primaryCommanderId,
+        secondaryCommanderId
+      );
 
       try {
         const res = await fetch(`/api/v2/reports${query}`, {
@@ -141,7 +159,7 @@ export function useMyReports(): UseReportsResult {
         }
       }
     },
-    [playerId, type, commanderId]
+    [playerId, type, primaryCommanderId, secondaryCommanderId]
   );
 
   useEffect(() => {

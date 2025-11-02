@@ -48,7 +48,8 @@ function buildQueryParams(
   cursor: string | undefined,
   playerId: number | undefined,
   type: ReportsFilterType | undefined,
-  commanderId: number | undefined
+  primaryCommanderId: number | undefined,
+  secondaryCommanderId: number | undefined
 ) {
   const params = new URLSearchParams();
 
@@ -57,8 +58,19 @@ function buildQueryParams(
     params.set("playerId", String(Math.trunc(playerId)));
   }
   if (type) params.set("type", type);
-  if (typeof commanderId === "number" && Number.isFinite(commanderId) && commanderId > 0) {
-    params.set("commanderId", String(Math.trunc(commanderId)));
+  if (
+    typeof primaryCommanderId === "number" &&
+    Number.isFinite(primaryCommanderId) &&
+    primaryCommanderId > 0
+  ) {
+    params.set("primaryCommanderId", String(Math.trunc(primaryCommanderId)));
+  }
+  if (
+    typeof secondaryCommanderId === "number" &&
+    Number.isFinite(secondaryCommanderId) &&
+    secondaryCommanderId > 0
+  ) {
+    params.set("secondaryCommanderId", String(Math.trunc(secondaryCommanderId)));
   }
 
   const query = params.toString();
@@ -72,7 +84,7 @@ export function useReports(): UseReportsResult {
     throw new Error("useReports must be used within a ReportsFilterProvider");
   }
 
-  const { playerId, type, commanderId } = context;
+  const { playerId, type, primaryCommanderId, secondaryCommanderId } = context;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -105,7 +117,13 @@ export function useReports(): UseReportsResult {
         setError(null);
       }
 
-      const query = buildQueryParams(cursor, playerId, type, commanderId);
+      const query = buildQueryParams(
+        cursor,
+        playerId,
+        type,
+        primaryCommanderId,
+        secondaryCommanderId
+      );
       try {
         const res = await fetch(`/api/v2/reports${query}`, {
           cache: "no-store",
@@ -145,7 +163,7 @@ export function useReports(): UseReportsResult {
         }
       }
     },
-    [playerId, type, commanderId]
+    [playerId, type, primaryCommanderId, secondaryCommanderId]
   );
 
   useEffect(() => {

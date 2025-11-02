@@ -24,12 +24,22 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
     throw new Error("MyReportsFilterDialog must be used within a ReportsFilterProvider");
   }
 
-  const { type, setType, commanderId, setCommanderId } = context;
+  const {
+    type,
+    setType,
+    primaryCommanderId,
+    setPrimaryCommanderId,
+    secondaryCommanderId,
+    setSecondaryCommanderId,
+  } = context;
 
   const [isOpen, setIsOpen] = useState(false);
   const [localType, setLocalType] = useState<ReportsFilterType | "">(() => type ?? "");
-  const [localCommanderId, setLocalCommanderId] = useState(() =>
-    typeof commanderId === "number" ? String(commanderId) : ""
+  const [localPrimaryCommanderId, setLocalPrimaryCommanderId] = useState(() =>
+    typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
+  );
+  const [localSecondaryCommanderId, setLocalSecondaryCommanderId] = useState(() =>
+    typeof secondaryCommanderId === "number" ? String(secondaryCommanderId) : ""
   );
 
   const commanderOptions = useCommanderOptions();
@@ -40,17 +50,32 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
     }
 
     setLocalType(type ?? "");
-    setLocalCommanderId(typeof commanderId === "number" ? String(commanderId) : "");
-  }, [isOpen, type, commanderId]);
+    setLocalPrimaryCommanderId(
+      typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
+    );
+    setLocalSecondaryCommanderId(
+      typeof secondaryCommanderId === "number" ? String(secondaryCommanderId) : ""
+    );
+  }, [isOpen, type, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
-    const trimmedId = localCommanderId.trim();
-    const numericId = Number(trimmedId);
-    const nextCommanderId =
-      trimmedId === "" || !Number.isFinite(numericId) ? undefined : Math.trunc(numericId);
+    const trimmedPrimaryCommanderId = localPrimaryCommanderId.trim();
+    const primaryCommanderNumericId = Number(trimmedPrimaryCommanderId);
+    const nextPrimaryCommanderId =
+      trimmedPrimaryCommanderId === "" || !Number.isFinite(primaryCommanderNumericId)
+        ? undefined
+        : Math.trunc(primaryCommanderNumericId);
+
+    const trimmedSecondaryCommanderId = localSecondaryCommanderId.trim();
+    const secondaryCommanderNumericId = Number(trimmedSecondaryCommanderId);
+    const nextSecondaryCommanderId =
+      trimmedSecondaryCommanderId === "" || !Number.isFinite(secondaryCommanderNumericId)
+        ? undefined
+        : Math.trunc(secondaryCommanderNumericId);
 
     setType(localType === "" ? undefined : localType);
-    setCommanderId(nextCommanderId);
+    setPrimaryCommanderId(nextPrimaryCommanderId);
+    setSecondaryCommanderId(nextSecondaryCommanderId);
     setIsOpen(false);
   };
 
@@ -77,11 +102,27 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
               </Select>
             </Field>
             <Field>
-              <Label>Commander</Label>
+              <Label>Primary Commander</Label>
               <Select
-                value={localCommanderId}
+                value={localPrimaryCommanderId}
                 onChange={(event) => {
-                  setLocalCommanderId(event.target.value);
+                  setLocalPrimaryCommanderId(event.target.value);
+                }}
+              >
+                <option value="">All</option>
+                {commanderOptions.map((option) => (
+                  <option key={option.id} value={String(option.id)}>
+                    {option.name}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field>
+              <Label>Secondary Commander</Label>
+              <Select
+                value={localSecondaryCommanderId}
+                onChange={(event) => {
+                  setLocalSecondaryCommanderId(event.target.value);
                 }}
               >
                 <option value="">All</option>
