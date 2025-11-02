@@ -8,7 +8,8 @@ export async function GET(req: NextRequest) {
   const cursor = searchParams.get("cursor");
   const type = searchParams.get("type");
   const playerId = searchParams.get("playerId");
-  const commanderId = searchParams.get("commanderId");
+  const primaryCommanderId = searchParams.get("primaryCommanderId");
+  const secondaryCommanderId = searchParams.get("secondaryCommanderId");
 
   let parsedType: string | undefined;
   if (type) {
@@ -25,17 +26,27 @@ export async function GET(req: NextRequest) {
     if (Number.isFinite(n)) {
       parsedPlayerId = Math.trunc(n);
     } else {
-      return NextResponse.json({ error: "Invalid playerId" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid governor id" }, { status: 400 });
     }
   }
 
-  let parsedCommanderId: number | undefined;
-  if (commanderId) {
-    const n = Number(commanderId);
+  let parsedPrimaryCommanderId: number | undefined;
+  if (primaryCommanderId) {
+    const n = Number(primaryCommanderId);
     if (Number.isFinite(n)) {
-      parsedCommanderId = Math.trunc(n);
+      parsedPrimaryCommanderId = Math.trunc(n);
     } else {
-      return NextResponse.json({ error: "Invalid commanderId" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid primary commander id" }, { status: 400 });
+    }
+  }
+
+  let parsedSecondaryCommanderId: number | undefined;
+  if (secondaryCommanderId) {
+    const n = Number(secondaryCommanderId);
+    if (Number.isFinite(n)) {
+      parsedSecondaryCommanderId = Math.trunc(n);
+    } else {
+      return NextResponse.json({ error: "Invalid secondary commander id" }, { status: 400 });
     }
   }
 
@@ -57,13 +68,20 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  if (parsedCommanderId) {
+  if (parsedPrimaryCommanderId) {
     matchPipeline.push({
       $or: [
-        { "report.self.primary_commander.id": parsedCommanderId },
-        { "report.self.secondary_commander.id": parsedCommanderId },
-        { "report.enemy.primary_commander.id": parsedCommanderId },
-        { "report.enemy.secondary_commander.id": parsedCommanderId },
+        { "report.self.primary_commander.id": parsedPrimaryCommanderId },
+        { "report.enemy.primary_commander.id": parsedPrimaryCommanderId },
+      ],
+    });
+  }
+
+  if (parsedSecondaryCommanderId) {
+    matchPipeline.push({
+      $or: [
+        { "report.self.secondary_commander.id": parsedSecondaryCommanderId },
+        { "report.enemy.secondary_commander.id": parsedSecondaryCommanderId },
       ],
     });
   }
