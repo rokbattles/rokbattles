@@ -18,11 +18,17 @@ import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Select } from "@/components/ui/Select";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
+function parse(s: string) {
+  const t = s.trim();
+  if (t === "") return undefined;
+  const n = Number(t);
+  return Number.isFinite(n) ? Math.trunc(n) : undefined;
+}
+
 export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof Button>) {
   const context = useContext(ReportsFilterContext);
-  if (!context) {
+  if (!context)
     throw new Error("MyReportsFilterDialog must be used within a ReportsFilterProvider");
-  }
 
   const {
     type,
@@ -31,6 +37,7 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
     setPrimaryCommanderId,
     secondaryCommanderId,
     setSecondaryCommanderId,
+    reset,
   } = context;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -45,10 +52,7 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
   const commanderOptions = useCommanderOptions();
 
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
+    if (!isOpen) return;
     setLocalType(type ?? "");
     setLocalPrimaryCommanderId(
       typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
@@ -59,23 +63,9 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
   }, [isOpen, type, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
-    const trimmedPrimaryCommanderId = localPrimaryCommanderId.trim();
-    const primaryCommanderNumericId = Number(trimmedPrimaryCommanderId);
-    const nextPrimaryCommanderId =
-      trimmedPrimaryCommanderId === "" || !Number.isFinite(primaryCommanderNumericId)
-        ? undefined
-        : Math.trunc(primaryCommanderNumericId);
-
-    const trimmedSecondaryCommanderId = localSecondaryCommanderId.trim();
-    const secondaryCommanderNumericId = Number(trimmedSecondaryCommanderId);
-    const nextSecondaryCommanderId =
-      trimmedSecondaryCommanderId === "" || !Number.isFinite(secondaryCommanderNumericId)
-        ? undefined
-        : Math.trunc(secondaryCommanderNumericId);
-
     setType(localType === "" ? undefined : localType);
-    setPrimaryCommanderId(nextPrimaryCommanderId);
-    setSecondaryCommanderId(nextSecondaryCommanderId);
+    setPrimaryCommanderId(parse(localPrimaryCommanderId));
+    setSecondaryCommanderId(parse(localSecondaryCommanderId));
     setIsOpen(false);
   };
 
@@ -84,7 +74,7 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
       <Button type="button" onClick={() => setIsOpen(true)} {...props} />
       <Dialog open={isOpen} onClose={setIsOpen}>
         <DialogTitle>Filters</DialogTitle>
-        <DialogDescription>Filter your claimed governor reports by type.</DialogDescription>
+        <DialogDescription>Filter your battle reports by type.</DialogDescription>
         <DialogBody>
           <FieldGroup>
             <Field>
@@ -138,6 +128,15 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
         <DialogActions>
           <Button plain onClick={() => setIsOpen(false)}>
             Cancel
+          </Button>
+          <Button
+            plain
+            onClick={() => {
+              reset();
+              setIsOpen(false);
+            }}
+          >
+            Reset
           </Button>
           <Button onClick={handleApply}>Apply</Button>
         </DialogActions>
