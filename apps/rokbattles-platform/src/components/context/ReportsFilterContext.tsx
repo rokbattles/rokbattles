@@ -14,6 +14,7 @@ export type ReportsFilterContextValue = {
   setPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
   secondaryCommanderId?: number;
   setSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
+  reset: () => void;
 };
 
 export const ReportsFilterContext = createContext<ReportsFilterContextValue | undefined>(undefined);
@@ -24,6 +25,14 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [primaryCommanderId, setPrimaryCommanderId] = useState<number | undefined>();
   const [secondaryCommanderId, setSecondaryCommanderId] = useState<number | undefined>();
 
+  const reset = () => {
+    setPlayerId(undefined);
+    setType(undefined);
+    setPrimaryCommanderId(undefined);
+    setSecondaryCommanderId(undefined);
+  };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: its safe
   const value = useMemo(
     () => ({
       playerId,
@@ -34,6 +43,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
       setPrimaryCommanderId,
       secondaryCommanderId,
       setSecondaryCommanderId,
+      reset,
     }),
     [playerId, type, primaryCommanderId, secondaryCommanderId]
   );

@@ -19,11 +19,16 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
+function parse(s: string) {
+  const t = s.trim();
+  if (t === "") return undefined;
+  const n = Number(t);
+  return Number.isFinite(n) ? Math.trunc(n) : undefined;
+}
+
 export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof Button>) {
   const context = useContext(ReportsFilterContext);
-  if (!context) {
-    throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
-  }
+  if (!context) throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
 
   const {
     playerId,
@@ -34,6 +39,7 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     setPrimaryCommanderId,
     secondaryCommanderId,
     setSecondaryCommanderId,
+    reset,
   } = context;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -51,10 +57,7 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
   const commanderOptions = useCommanderOptions();
 
   useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
+    if (!isOpen) return;
     setLocalPlayerId(typeof playerId === "number" ? String(playerId) : "");
     setLocalType(type ?? "");
     setLocalPrimaryCommanderId(
@@ -66,29 +69,10 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
   }, [isOpen, playerId, type, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
-    const trimmedId = localPlayerId.trim();
-    const numericId = Number(trimmedId);
-    const nextPlayerId =
-      trimmedId === "" || !Number.isFinite(numericId) ? undefined : Math.trunc(numericId);
-
-    const trimmedPrimaryCommanderId = localPrimaryCommanderId.trim();
-    const primaryCommanderNumericId = Number(trimmedPrimaryCommanderId);
-    const nextPrimaryCommanderId =
-      trimmedPrimaryCommanderId === "" || !Number.isFinite(primaryCommanderNumericId)
-        ? undefined
-        : Math.trunc(primaryCommanderNumericId);
-
-    const trimmedSecondaryCommanderId = localSecondaryCommanderId.trim();
-    const secondaryCommanderNumericId = Number(trimmedSecondaryCommanderId);
-    const nextSecondaryCommanderId =
-      trimmedSecondaryCommanderId === "" || !Number.isFinite(secondaryCommanderNumericId)
-        ? undefined
-        : Math.trunc(secondaryCommanderNumericId);
-
-    setPlayerId(nextPlayerId);
+    setPlayerId(parse(localPlayerId));
     setType(localType === "" ? undefined : localType);
-    setPrimaryCommanderId(nextPrimaryCommanderId);
-    setSecondaryCommanderId(nextSecondaryCommanderId);
+    setPrimaryCommanderId(parse(localPrimaryCommanderId));
+    setSecondaryCommanderId(parse(localSecondaryCommanderId));
     setIsOpen(false);
   };
 
@@ -163,6 +147,15 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
         <DialogActions>
           <Button plain onClick={() => setIsOpen(false)}>
             Cancel
+          </Button>
+          <Button
+            plain
+            onClick={() => {
+              reset();
+              setIsOpen(false);
+            }}
+          >
+            Reset
           </Button>
           <Button onClick={handleApply}>Apply</Button>
         </DialogActions>
