@@ -7,9 +7,13 @@ type Props = {
   secondaryId: number;
 };
 
+function parse(v: number | undefined) {
+  return typeof v === "number" && Number.isFinite(v) && v > 0 ? String(v) : undefined;
+}
+
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
-  const primaryName = useCommanderName(primaryId) ?? String(primaryId);
-  const secondaryName = useCommanderName(secondaryId) ?? String(secondaryId);
+  const primaryName = useCommanderName(primaryId) ?? parse(primaryId);
+  const secondaryName = useCommanderName(secondaryId) ?? parse(secondaryId);
 
   const hasPrimary = Boolean(primaryName);
   const hasSecondary = Boolean(secondaryName);
