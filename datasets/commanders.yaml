@@ -1166,3 +1166,12 @@ commanders:
       kr: "헥토르"
     prime: false
     rarity: legendary
+
+  579:
+    name:
+      en: "Gang Gamchan"
+      de: "Gang Gam-chan"
+      es: "Gang Gam-chan"
+      kr: "강감찬"
+    prime: false
+    rarity: legendary
