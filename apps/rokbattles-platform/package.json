@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build --turbo",
-    "dev": "next --turbo",
+    "dev": "next --turbo -H 0.0.0.0",
     "test": "vitest run",
     "generate:datasets": "node ./scripts/generate-datasets.cjs"
   },
