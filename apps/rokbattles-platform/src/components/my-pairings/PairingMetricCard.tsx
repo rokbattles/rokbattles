@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/Badge";
-import { Divider } from "@/components/ui/Divider";
 
 type BadgeColor = Parameters<typeof Badge>[0] extends { color?: infer Color } ? Color : never;
 
@@ -9,6 +8,8 @@ export type PairingMetricCardProps = {
   previousValue?: number;
   trendDirection?: "increase" | "decrease";
   formatValue?: (value: number) => string;
+  description?: string;
+  comparisonLabel?: string;
 };
 
 type TrendResult = {
@@ -69,17 +70,27 @@ export function PairingMetricCard({
   previousValue,
   trendDirection = "increase",
   formatValue = defaultFormatValue,
+  description,
+  comparisonLabel,
 }: PairingMetricCardProps) {
   const trend = resolveTrend(value, previousValue, trendDirection);
 
   return (
-    <div>
-      <Divider />
-      <div className="mt-6 text-lg/6 font-medium sm:text-sm/6">{label}</div>
-      <div className="mt-3 text-3xl/8 font-semibold sm:text-2xl/8">{formatValue(value)}</div>
-      <div className="mt-3 text-sm/6 sm:text-xs/6">
-        <Badge color={trend.color}>{trend.label}</Badge>{" "}
-        <span className="text-zinc-500">from last month</span>
+    <div className="space-y-3 border-b border-zinc-200/60 pb-4 dark:border-white/10">
+      <div className="flex items-start justify-between gap-3">
+        <div className="space-y-1">
+          <div className="text-sm font-semibold text-zinc-950 dark:text-white">{label}</div>
+          {description ? (
+            <p className="text-xs text-zinc-600 dark:text-zinc-400">{description}</p>
+          ) : null}
+        </div>
+      </div>
+      <div className="mt-4 text-3xl/8 font-semibold text-zinc-950 sm:text-3xl dark:text-white">
+        {formatValue(value)}
+      </div>
+      <div className="mt-3 flex items-center gap-2 text-xs/5 text-zinc-600 dark:text-zinc-400">
+        <Badge color={trend.color}>{trend.label}</Badge>
+        <span>{comparisonLabel ?? "vs previous month"}</span>
       </div>
     </div>
   );

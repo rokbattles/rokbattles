@@ -26,9 +26,17 @@ export type GovernorMarchAggregate = {
   averageKillScore: number;
   previousTotals: GovernorMarchTotals;
   previousCount: number;
+  monthly: GovernorMonthlyAggregate[];
+};
+
+export type GovernorMonthlyAggregate = {
+  monthKey: string;
+  count: number;
+  totals: GovernorMarchTotals;
 };
 
 type GovernorMarchesResponse = {
+  year: number;
   governorId: number;
   period: {
     start: string;
@@ -43,8 +51,11 @@ export type UseMyPairingsResult = {
   loading: boolean;
   error: string | null;
   period: GovernorMarchesResponse["period"] | null;
+  year: number | null;
   reload: () => Promise<void>;
 };
+
+const TARGET_YEAR = 2025;
 
 export function useMyPairings(): UseMyPairingsResult {
   const governorContext = useContext(GovernorContext);
@@ -60,6 +71,7 @@ export function useMyPairings(): UseMyPairingsResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [period, setPeriod] = useState<GovernorMarchesResponse["period"] | null>(null);
+  const [year, setYear] = useState<number | null>(null);
 
   const requestIdRef = useRef(0);
   const isMountedRef = useRef(true);
@@ -87,7 +99,7 @@ export function useMyPairings(): UseMyPairingsResult {
     setError(null);
 
     try {
-      const res = await fetch(`/api/v2/governor/${governorId}/marches`, {
+      const res = await fetch(`/api/v2/governor/${governorId}/marches?year=${TARGET_YEAR}`, {
         cache: "no-store",
       });
 
@@ -103,6 +115,7 @@ export function useMyPairings(): UseMyPairingsResult {
 
       setPairings(Array.isArray(data.items) ? data.items : []);
       setPeriod(data.period ?? null);
+      setYear(data.year ?? null);
       setError(null);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -112,6 +125,7 @@ export function useMyPairings(): UseMyPairingsResult {
       }
       setPairings([]);
       setPeriod(null);
+      setYear(null);
       setError(message);
     } finally {
       const isLatest = requestIdRef.current === requestId;
@@ -139,8 +153,9 @@ export function useMyPairings(): UseMyPairingsResult {
       loading,
       error,
       period,
+      year,
       reload,
     }),
-    [pairings, loading, error, period, reload]
+    [pairings, loading, error, period, year, reload]
   );
 }

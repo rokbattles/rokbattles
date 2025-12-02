@@ -59,6 +59,13 @@ type MarchAggregate = {
   averageKillScore: number;
   previousTotals: MarchTotals;
   previousCount: number;
+  monthly: MonthlyAggregate[];
+};
+
+type MonthlyAggregate = {
+  monthKey: string;
+  count: number;
+  totals: MarchTotals;
 };
 
 function createEmptyTotals(): MarchTotals {
@@ -233,8 +240,41 @@ function extractBattleDurationMillis(report: BattleReportDocument["report"]): nu
   return Math.max(0, end - start);
 }
 
+function createMonthKey(year: number, monthIndex: number) {
+  return `${year}-${String(monthIndex + 1).padStart(2, "0")}`;
+}
+
+function buildMonthsForYear(year: number) {
+  return Array.from({ length: 12 }, (_, monthIndex) => {
+    const start = new Date(Date.UTC(year, monthIndex, 1));
+    const end = new Date(Date.UTC(year, monthIndex + 1, 1));
+
+    return {
+      key: createMonthKey(year, monthIndex),
+      startMillis: start.getTime(),
+      endMillis: end.getTime(),
+      monthIndex,
+    };
+  });
+}
+
+function addTotals(target: MarchTotals, increment: MarchTotals) {
+  target.killScore += increment.killScore;
+  target.deaths += increment.deaths;
+  target.severelyWounded += increment.severelyWounded;
+  target.wounded += increment.wounded;
+  target.enemyKillScore += increment.enemyKillScore;
+  target.enemyDeaths += increment.enemyDeaths;
+  target.enemySeverelyWounded += increment.enemySeverelyWounded;
+  target.enemyWounded += increment.enemyWounded;
+  target.dps += increment.dps;
+  target.sps += increment.sps;
+  target.tps += increment.tps;
+  target.battleDuration += increment.battleDuration;
+}
+
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   ctx: RouteContext<"/api/v2/governor/[governorId]/marches">
 ) {
   const { governorId: governorParam } = await ctx.params;
@@ -254,6 +294,11 @@ export async function GET(
 
   const { db, user } = authResult.context;
   const now = new Date();
+  const nowYear = now.getUTCFullYear();
+  const nowMonth = now.getUTCMonth();
+  const url = new URL(req.url);
+  const yearParam = Number.parseInt(url.searchParams.get("year") ?? "", 10);
+  const targetYear = Number.isFinite(yearParam) ? yearParam : nowYear;
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
@@ -262,13 +307,7 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
-  const startMillis = startOfMonth.getTime();
-  const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
-  const endMillis = nextMonth.getTime();
-  const previousStartOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
-  const previousStartMillis = previousStartOfMonth.getTime();
-  const previousEndMillis = startMillis;
+  const months = buildMonthsForYear(targetYear);
 
   const projection: Document = {
     _id: 0,
@@ -288,41 +327,85 @@ export async function GET(
   };
 
   try {
-    const [currentReports, previousReports] = await Promise.all([
-      db
-        .collection<BattleReportDocument>("battleReports")
-        .find(createMatchStage(governorId, startMillis, endMillis), {
-          projection,
-        })
-        .toArray(),
-      db
-        .collection<BattleReportDocument>("battleReports")
-        .find(createMatchStage(governorId, previousStartMillis, previousEndMillis), { projection })
-        .toArray(),
-    ]);
+    const monthlyBuckets = await Promise.all(
+      months.map((month) => {
+        const isFutureMonth =
+          targetYear > nowYear || (targetYear === nowYear && month.monthIndex > nowMonth);
+        if (isFutureMonth) {
+          return Promise.resolve(new Map<string, AggregationBucket>());
+        }
 
-    const currentBuckets = aggregateReports(currentReports, startMillis, endMillis);
-    const previousBuckets = aggregateReports(
-      previousReports,
-      previousStartMillis,
-      previousEndMillis
+        return db
+          .collection<BattleReportDocument>("battleReports")
+          .find(createMatchStage(governorId, month.startMillis, month.endMillis), { projection })
+          .toArray()
+          .then((reports) => aggregateReports(reports, month.startMillis, month.endMillis));
+      })
     );
 
+    const merged = new Map<
+      string,
+      {
+        primaryCommanderId: number;
+        secondaryCommanderId: number;
+        monthly: Map<string, MonthlyAggregate>;
+      }
+    >();
+
+    months.forEach((month, index) => {
+      const buckets = monthlyBuckets[index];
+      for (const bucket of buckets.values()) {
+        const key = `${bucket.primaryCommanderId}:${bucket.secondaryCommanderId}`;
+        let entry = merged.get(key);
+        if (!entry) {
+          entry = {
+            primaryCommanderId: bucket.primaryCommanderId,
+            secondaryCommanderId: bucket.secondaryCommanderId,
+            monthly: new Map<string, MonthlyAggregate>(),
+          };
+          merged.set(key, entry);
+        }
+
+        entry.monthly.set(month.key, {
+          monthKey: month.key,
+          count: bucket.count,
+          totals: { ...bucket.totals },
+        });
+      }
+    });
+
     const items: MarchAggregate[] = [];
-    for (const bucket of currentBuckets.values()) {
-      const key = `${bucket.primaryCommanderId}:${bucket.secondaryCommanderId}`;
-      const previous = previousBuckets.get(key);
-      const previousTotals = previous ? { ...previous.totals } : createEmptyTotals();
-      const previousCount = previous?.count ?? 0;
+
+    for (const entry of merged.values()) {
+      const monthly: MonthlyAggregate[] = months.map((month) => {
+        const found = entry.monthly.get(month.key);
+        if (found) {
+          return found;
+        }
+
+        return {
+          monthKey: month.key,
+          count: 0,
+          totals: createEmptyTotals(),
+        };
+      });
+
+      const totals = createEmptyTotals();
+      let count = 0;
+      for (const month of monthly) {
+        count += month.count;
+        addTotals(totals, month.totals);
+      }
 
       items.push({
-        primaryCommanderId: bucket.primaryCommanderId,
-        secondaryCommanderId: bucket.secondaryCommanderId,
-        count: bucket.count,
-        totals: { ...bucket.totals },
-        averageKillScore: bucket.count > 0 ? bucket.totals.killScore / bucket.count : 0,
-        previousTotals,
-        previousCount,
+        primaryCommanderId: entry.primaryCommanderId,
+        secondaryCommanderId: entry.secondaryCommanderId,
+        count,
+        totals,
+        averageKillScore: count > 0 ? totals.killScore / count : 0,
+        previousTotals: createEmptyTotals(),
+        previousCount: 0,
+        monthly,
       });
     }
 
@@ -335,10 +418,11 @@ export async function GET(
 
     return NextResponse.json(
       {
+        year: targetYear,
         governorId,
         period: {
-          start: startOfMonth.toISOString(),
-          end: new Date(endMillis - 1).toISOString(),
+          start: new Date(Date.UTC(targetYear, 0, 1, 0, 0, 0, 0)).toISOString(),
+          end: new Date(Date.UTC(targetYear, 11, 31, 23, 59, 59, 999)).toISOString(),
         },
         count: items.length,
         items,
