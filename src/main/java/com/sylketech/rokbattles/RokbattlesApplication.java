@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class RokbattlesApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(RokbattlesApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(RokbattlesApplication.class, args);
+    }
 }
