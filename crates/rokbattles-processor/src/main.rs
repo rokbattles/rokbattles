@@ -25,13 +25,12 @@ fn blake3_hash(data: &[u8]) -> String {
     hash.to_hex().to_string()
 }
 
-async fn process(db: &Database, cutoff_microseconds: i64) -> Result<()> {
+async fn process(db: &Database) -> Result<()> {
     let mails = db.collection::<Document>("mails");
     let battle_reports = db.collection::<Document>("battleReports");
 
     let filter = doc! {
         "status": { "$in": ["pending", "reprocess"] },
-        "mail.time": { "$gte": cutoff_microseconds }
     };
 
     // 100 raw reports at a time
@@ -218,15 +217,11 @@ async fn main() -> Result<()> {
         .expect("MONGO_URI environment variable must include a database name");
     debug!(database = %db.name(), "connected to MongoDB");
 
-    // We'll process older reports over time, but first few days or week, we're only processing newer reports
-    // January 1st 2025 00:00 UTC
-    let cutoff_microseconds: i64 = 1735689600000000;
-
     // 15 second interval
     let mut tick = tokio::time::interval(Duration::from_secs(15));
     loop {
         tick.tick().await;
-        if let Err(e) = process(&db, cutoff_microseconds).await {
+        if let Err(e) = process(&db).await {
             error!(error = %e, "processing failed");
         }
     }
