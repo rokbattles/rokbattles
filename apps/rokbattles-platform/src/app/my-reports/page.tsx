@@ -3,6 +3,7 @@
 import { FunnelIcon } from "@heroicons/react/16/solid";
 import { useContext } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
+import { BattleLog } from "@/components/reports/BattleLog";
 import { MyReportsFilterDialog } from "@/components/reports/MyReportsFilterDialog";
 import ReportsTable from "@/components/reports/ReportsTable";
 import { Heading, Subheading } from "@/components/ui/Heading";
@@ -45,6 +46,7 @@ export default function Page() {
   return (
     <>
       <Heading>My Battle Reports</Heading>
+      <BattleLog governorId={activeGovernor.governorId} year={2025} />
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Live feed (UTC)</Subheading>
         <MyReportsFilterDialog>
