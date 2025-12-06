@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { PairingMetricCard } from "@/components/my-pairings/PairingMetricCard";
-import { Select } from "@/components/ui/Select";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -452,21 +452,19 @@ export function MyPairingsContent() {
           Choose a pairing to see how it performed, filterable by month.
         </Text>
         <div className="w-full max-w-md">
-          <Select
+          <Listbox<string | null>
             name="pairing"
-            value={selectedKey ?? ""}
-            onChange={(event) => setSelectedKey(event.target.value || null)}
+            value={selectedKey ?? null}
+            placeholder="Select a pairing"
+            onChange={(value) => setSelectedKey(value)}
             disabled={pairingsLoading || pairingOptions.length === 0}
           >
-            <option value="" disabled hidden>
-              Select a pairing
-            </option>
             {pairingOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
+              <ListboxOption key={option.value} value={option.value}>
+                <ListboxLabel>{option.label}</ListboxLabel>
+              </ListboxOption>
             ))}
-          </Select>
+          </Listbox>
         </div>
       </div>
 
@@ -494,20 +492,20 @@ export function MyPairingsContent() {
                 </Text>
               </div>
               <div className="w-full max-w-[220px] sm:w-auto">
-                <Select
-                  value={selectedMonthKey ?? ""}
-                  onChange={(event) => setSelectedMonthKey(event.target.value || null)}
+                <Listbox<string | null>
+                  value={selectedMonthKey ?? null}
+                  onChange={(value) => setSelectedMonthKey(value)}
                   name="month"
+                  placeholder="Select month"
                 >
-                  <option value="" disabled>
-                    Select month
-                  </option>
                   {months.map((month) => (
-                    <option key={month.key} value={month.key}>
-                      {monthWithYearFormatter.format(parseMonthKey(month.key) ?? new Date())}
-                    </option>
+                    <ListboxOption key={month.key} value={month.key}>
+                      <ListboxLabel>
+                        {monthWithYearFormatter.format(parseMonthKey(month.key) ?? new Date())}
+                      </ListboxLabel>
+                    </ListboxOption>
                   ))}
-                </Select>
+                </Listbox>
               </div>
             </div>
             <div className="mt-4 h-64">

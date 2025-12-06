@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
 function parse(s: string) {
@@ -98,49 +98,58 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
             </Field>
             <Field>
               <Label>Type</Label>
-              <Select
+              <Listbox<ReportsFilterType | "">
                 value={localType}
-                onChange={(event) => {
-                  const nextValue = event.target.value;
-                  setLocalType(nextValue === "" ? "" : (nextValue as ReportsFilterType));
+                onChange={(value) => {
+                  setLocalType(value);
                 }}
               >
-                <option value="">All</option>
-                <option value="kvk">KVK</option>
-                <option value="ark">Ark of Osiris</option>
-              </Select>
+                <ListboxOption value="">
+                  <ListboxLabel>All</ListboxLabel>
+                </ListboxOption>
+                <ListboxOption value="kvk">
+                  <ListboxLabel>KVK</ListboxLabel>
+                </ListboxOption>
+                <ListboxOption value="ark">
+                  <ListboxLabel>Ark of Osiris</ListboxLabel>
+                </ListboxOption>
+              </Listbox>
             </Field>
             <Field>
               <Label>Primary Commander</Label>
-              <Select
+              <Listbox
                 value={localPrimaryCommanderId}
-                onChange={(event) => {
-                  setLocalPrimaryCommanderId(event.target.value);
+                onChange={(value) => {
+                  setLocalPrimaryCommanderId(value);
                 }}
               >
-                <option value="">All</option>
+                <ListboxOption value="">
+                  <ListboxLabel>All</ListboxLabel>
+                </ListboxOption>
                 {commanderOptions.map((option) => (
-                  <option key={option.id} value={String(option.id)}>
-                    {option.name}
-                  </option>
+                  <ListboxOption key={option.id} value={String(option.id)}>
+                    <ListboxLabel>{option.name}</ListboxLabel>
+                  </ListboxOption>
                 ))}
-              </Select>
+              </Listbox>
             </Field>
             <Field>
               <Label>Secondary Commander</Label>
-              <Select
+              <Listbox
                 value={localSecondaryCommanderId}
-                onChange={(event) => {
-                  setLocalSecondaryCommanderId(event.target.value);
+                onChange={(value) => {
+                  setLocalSecondaryCommanderId(value);
                 }}
               >
-                <option value="">All</option>
+                <ListboxOption value="">
+                  <ListboxLabel>All</ListboxLabel>
+                </ListboxOption>
                 {commanderOptions.map((option) => (
-                  <option key={option.id} value={String(option.id)}>
-                    {option.name}
-                  </option>
+                  <ListboxOption key={option.id} value={String(option.id)}>
+                    <ListboxLabel>{option.name}</ListboxLabel>
+                  </ListboxOption>
                 ))}
-              </Select>
+              </Listbox>
             </Field>
           </FieldGroup>
         </DialogBody>
