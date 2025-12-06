@@ -172,6 +172,8 @@ impl Resolver for BattleResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
         let group = ctx.group;
         let (idx_opt, atk_block_opt) = find_attack_block_best_match(group, ctx.attack_id);
+        let attack_idx = group.iter().position(|s| s.get(ctx.attack_id).is_some());
+        let anchor_in_group = attack_idx.or(idx_opt);
 
         let section = idx_opt.and_then(|i| group.get(i)).unwrap_or(&Value::Null);
         let atk_block = atk_block_opt.unwrap_or(section);
@@ -179,12 +181,14 @@ impl Resolver for BattleResolver {
         let damage = Self::as_object_opt(atk_block.get("Damage"))
             .or_else(|| Self::as_object_opt(section.get("Damage")))
             .or_else(|| {
-                idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Damage", 8))
+                anchor_in_group.and_then(|i| Self::find_nearby_object_by_key(group, i, "Damage", 8))
             });
 
         let kill = Self::as_object_opt(atk_block.get("Kill"))
             .or_else(|| Self::as_object_opt(section.get("Kill")))
-            .or_else(|| idx_opt.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 8)));
+            .or_else(|| {
+                anchor_in_group.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 8))
+            });
 
         let obj = match get_or_insert_object(mail, "battle_results") {
             Value::Object(m) => m,
@@ -250,10 +254,10 @@ impl Resolver for BattleResolver {
         }
 
         if damage_opt.is_none() {
-            damage_opt = Self::find_closest_object_by_key(group, idx_opt, "Damage");
+            damage_opt = Self::find_closest_object_by_key(group, anchor_in_group, "Damage");
         }
         if kill_opt.is_none() {
-            kill_opt = Self::find_closest_object_by_key(group, idx_opt, "Kill");
+            kill_opt = Self::find_closest_object_by_key(group, anchor_in_group, "Kill");
         }
 
         Self::copy_side_stats(obj, damage_opt, "");
