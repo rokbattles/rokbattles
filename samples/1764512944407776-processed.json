@@ -1,0 +1,188 @@
+[
+  {
+    "metadata": {
+      "email_id": "56425470176451294431",
+      "email_time": 1764512944407776,
+      "email_type": "Battle",
+      "email_receiver": "20075558",
+      "email_box": "Report",
+      "email_role": "dungeon",
+      "is_kvk": 1,
+      "attack_id": "132001",
+      "start_date": 1764512899,
+      "end_date": 1764512903,
+      "pos_x": 1048.8413,
+      "pos_y": 886.74414,
+      "players": 9
+    },
+    "self": {
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
+      "castle_x": 1073.9723,
+      "castle_y": 885.58594,
+      "is_rally": 1,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 103,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 539,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20007_408:35,2:20004_474:35,3:20009_412:35,4:20028_411:34,5:20033_442:35,6:20012_430:35,7:20037_523:35,8:20040_472:35}",
+      "formation": 1,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.019000;3002_0.015000;3002_0.022000;3002_0.034000;3002_0.035000;4002_0.019000;4002_0.021000;4002_0.026000;4002_0.032000;5002_0.018000;5002_0.024000;5002_0.025000",
+      "inscriptions": "104;109;1201;1301;1401"
+    },
+    "enemy": {
+      "player_id": 42450936,
+      "player_name": "Xcヽ Tuấn Vũ",
+      "alliance_tag": "W676",
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+      "castle_x": 1042.0413,
+      "castle_y": 886.74414,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 545,
+        "level": 60,
+        "skills": "5551"
+      },
+      "secondary_commander": {
+        "id": 185,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20013_361:14,2:20014_353:15,3:20026_295:13,4:20016_444:12,5:20032_388:14,6:20018_393:3,7:20167_513:1,8:20040_359:11}",
+      "formation": 17,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.015000;10002_0.019000;3001_0.019000;3001_0.020000;3001_0.020000;3001_0.026000;4001_0.016000;4001_0.023000;4001_0.032000;4001_0.033000;5001_0.017000;5001_0.017000",
+      "inscriptions": "208;17101;17202;17302;17402"
+    },
+    "battle_results": {
+      "power": -38110,
+      "init_max": 2743415,
+      "max": 1090936,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 3880,
+      "wounded": 7215,
+      "remaining": 1056922,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 398080,
+      "enemy_power": -199040,
+      "enemy_init_max": 233795,
+      "enemy_max": 232784,
+      "enemy_healing": 160,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 19904,
+      "enemy_wounded": 24028,
+      "enemy_remaining": 116032,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 76450
+    }
+  },
+  {
+    "metadata": {
+      "email_id": "56425470176451294431",
+      "email_time": 1764512944407776,
+      "email_type": "Battle",
+      "email_receiver": "20075558",
+      "email_box": "Report",
+      "email_role": "dungeon",
+      "is_kvk": 1,
+      "attack_id": "11203",
+      "start_date": 1764512858,
+      "end_date": 1764512903,
+      "pos_x": 1048.8413,
+      "pos_y": 886.74414,
+      "players": 9
+    },
+    "self": {
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ",
+      "alliance_tag": "SO4L",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
+      "castle_x": 1073.9723,
+      "castle_y": 885.58594,
+      "is_rally": 1,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 103,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 539,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20007_408:35,2:20004_474:35,3:20009_412:35,4:20028_411:34,5:20033_442:35,6:20012_430:35,7:20037_523:35,8:20040_472:35}",
+      "formation": 1,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.019000;3002_0.015000;3002_0.022000;3002_0.034000;3002_0.035000;4002_0.019000;4002_0.021000;4002_0.026000;4002_0.032000;5002_0.018000;5002_0.024000;5002_0.025000",
+      "inscriptions": "104;109;1201;1301;1401"
+    },
+    "enemy": {
+      "player_id": 42450936,
+      "player_name": "Xcヽ Tuấn Vũ",
+      "alliance_tag": "W676",
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+      "castle_x": 1042.0413,
+      "castle_y": 886.74414,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 184,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 177,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20002_500:12,2:20005_378:11,3:20026_499:2,4:20029_362:12,5:20032_501:2,6:20034_487:2,7:20037_489:1,8:20040_442:1}",
+      "formation": 1,
+      "is_ranged_tower": false,
+      "armament_buffs": "3001_0.018000;3001_0.021000;3001_0.028000;3001_0.035000;4001_0.025000;4001_0.026000;4001_0.030000;4001_0.034000;5001_0.023000;5001_0.026000;5001_0.028000;5001_0.034000",
+      "inscriptions": "-1;-1;105;112;304;307"
+    },
+    "battle_results": {
+      "power": -2543670,
+      "init_max": 2127645,
+      "max": 2114230,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 268938,
+      "wounded": 1393045,
+      "remaining": 1056922,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 16593313,
+      "enemy_power": -8301835,
+      "enemy_init_max": 12139869,
+      "enemy_max": 6571660,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 839629,
+      "enemy_wounded": 3255221,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 50000,
+      "enemy_kill_score": 5135910
+    }
+  }
+]

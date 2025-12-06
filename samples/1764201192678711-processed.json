@@ -1,0 +1,95 @@
+[
+  {
+    "metadata": {
+      "email_id": "42903405176420119211",
+      "email_time": 1764201192678711,
+      "email_type": "Battle",
+      "email_receiver": "36980485",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 1,
+      "attack_id": "327819101",
+      "start_date": 1764201186,
+      "end_date": 1764201191,
+      "pos_x": 3488.9365,
+      "pos_y": 3505.4487,
+      "players": 1
+    },
+    "self": {
+      "player_id": 36980485,
+      "player_name": "TyrantPikys",
+      "alliance_tag": ":WU",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101010729/2025-09-29/EEA146F6912E9F22B0DC5C300B0AE72A_250x250.jpg",
+      "castle_x": 3381.5146,
+      "castle_y": 3491.8887,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 198,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "equipment": null,
+      "formation": 2,
+      "is_ranged_tower": false,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": 77143262,
+      "player_name": "Rise of Chadski",
+      "alliance_tag": "TCG9",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/62886992/2025-04-26/4510EFC13E2CE922039B5E5FE6D4854C_250x250.jpg",
+      "castle_x": 3426.7256,
+      "castle_y": 3540.0967,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 198,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 140,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20002_280:12,2:20014_153:12,3:20015_70:11,4:20016_287:11,5:20032_281:11,6:20018_212:12,7:20037_236:11,8:20040_231:1}",
+      "formation": 2,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.015000;3001_0.034000;3001_0.034000;4001_0.022000;4001_0.026000;4001_0.031000;4001_0.032000;5001_0.031000;5001_0.032000;5001_0.034000;6001_0.027000;6001_0.032000",
+      "inscriptions": "2102;2202;2301;2402"
+    },
+    "battle_results": {
+      "power": -630,
+      "init_max": 434192,
+      "max": 377242,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 63,
+      "wounded": 187,
+      "remaining": 376992,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 3780,
+      "enemy_power": -1890,
+      "enemy_init_max": 430000,
+      "enemy_max": 180594,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 189,
+      "enemy_wounded": 567,
+      "enemy_remaining": 0,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 1260
+    }
+  }
+]

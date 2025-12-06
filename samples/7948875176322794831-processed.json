@@ -1,0 +1,91 @@
+[
+  {
+    "metadata": {
+      "email_id": "7948875176322794831",
+      "email_time": 1763227948281037,
+      "email_type": "Battle",
+      "email_receiver": "71738515",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 0,
+      "attack_id": "46174501",
+      "start_date": 1763227948,
+      "end_date": 1763227948,
+      "pos_x": 3764.775,
+      "pos_y": 4142.34,
+      "players": 1
+    },
+    "self": {
+      "player_id": 71738515,
+      "player_name": "Grigvar",
+      "alliance_tag": "",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
+      "castle_x": 3771.211,
+      "castle_y": 4145.3535,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 579,
+        "level": 1,
+        "skills": null
+      },
+      "secondary_commander": {
+        "id": 0,
+        "level": 0,
+        "skills": null
+      },
+      "equipment": "{}",
+      "formation": null,
+      "is_ranged_tower": false,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "enemy": {
+      "player_id": -2,
+      "player_name": null,
+      "alliance_tag": null,
+      "avatar_url": null,
+      "castle_x": 3758.9402,
+      "castle_y": 4142.031,
+      "is_rally": null,
+      "npc_type": 33,
+      "npc_btype": 1,
+      "primary_commander": {
+        "id": 85,
+        "level": 33,
+        "skills": "5000"
+      },
+      "secondary_commander": null,
+      "equipment": "{}",
+      "formation": null,
+      "is_ranged_tower": false,
+      "armament_buffs": null,
+      "inscriptions": null
+    },
+    "battle_results": {
+      "power": -10,
+      "init_max": 1,
+      "max": 1,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 1,
+      "wounded": 0,
+      "remaining": 0,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": -8,
+      "enemy_init_max": 160000,
+      "enemy_max": 160000,
+      "enemy_healing": 0,
+      "enemy_death": 2,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 159998,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 0
+    }
+  }
+]

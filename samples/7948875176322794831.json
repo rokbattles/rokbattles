@@ -1,0 +1,269 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": true,
+      "box": "Report",
+      "reportMerge": 0,
+      "serverId": 1804,
+      "time": 1763227948281037,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "type": "Battle",
+      "holdTag": 0,
+      "id": "7948875176322794831",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "body": {
+        "content": {
+          "SelfChar": {
+            "HAw2": false,
+            "HTJ": 0,
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg\"}",
+            "PId": 71738515,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 579,
+            "HSS": {
+              "SkillLevel": 2,
+              "SkillId": 416
+            }
+          },
+          "HTE": 0,
+          "CId": 50517601,
+          "Idt": "50517601",
+          "HTJ2": 0,
+          "SerSeason": "100",
+          "Udid": "489044729533721131",
+          "HSt": 1,
+          "HEq": "{}",
+          "Titan": {
+            "Round": 0,
+            "BattleId": "",
+            "TeamId": 0
+          },
+          "HId2": 0,
+          "PkgNameNew": "com.lilithgames.rok.pc.int",
+          "IsAuto": 0,
+          "PName": "Grigvar",
+          "IfAI": 0,
+          "CtId": 397933,
+          "HLv": 1,
+          "HAw": false,
+          "CAHAH": {},
+          "AppUid": "32624247",
+          "CastleLevel": 25,
+          "CastlePos": {
+            "Y": 4145.3535,
+            "X": 3771.211
+          },
+          "HSt2": 0,
+          "Abbr": "04Z",
+          "COSId": 1804,
+          "CASS": {
+            "ENABLE": false,
+            "Ban": false
+          },
+          "CTK": "71738515_1763227946_579",
+          "AId": 4808188,
+          "HLv2": 0,
+          "CT": 1,
+          "AName": "魂社会 Squad Zero"
+        },
+        "Role": "gsmp",
+        "STs": {
+          "397933": {
+            "Abbr": "04Z",
+            "HLv": 1,
+            "PId": 71738515,
+            "HId2": 0,
+            "HLv2": 0,
+            "PName": "Grigvar",
+            "HId": 579
+          }
+        },
+        "Bts": 1763227948,
+        "Btk": 208770,
+        "Id": 5992572,
+        "Samples": {
+          "Cnt": 1,
+          "T": 208770
+        },
+        "Cnt": 0,
+        "T": 208770
+      }
+    },
+    {
+      "Schema": 10,
+      "TickSkip": 100,
+      "Attacks": {
+        "46174501": {
+          "Kill": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 0,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 159998,
+            "RetreatCnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0,
+            "Power": -8,
+            "HurtCntEnd": 0,
+            "Healing": 0,
+            "Contribute": 0,
+            "Max": 160000,
+            "InitMax": 160000,
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Death": 2,
+            "SkillPower": 0,
+            "AtkPower": -8,
+            "KillScore": 0
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": {},
+          "NpcAtkExp": 0,
+          "Tick": 1,
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Damage": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 0,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 0,
+            "RetreatCnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0,
+            "Power": -10,
+            "HurtCntEnd": 0,
+            "Healing": 0,
+            "Contribute": 0,
+            "Max": 1,
+            "InitMax": 1,
+            "AddCnt": 0,
+            "BadHurt": 1,
+            "Death": 0,
+            "SkillPower": 0,
+            "AtkPower": -10,
+            "KillScore": 0
+          },
+          "CIdt": {
+            "HAw2": false,
+            "HTJ": 0,
+            "Avatar": "",
+            "PId": -2,
+            "COSId": 0,
+            "HId": 85,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 110
+            }
+          },
+          "HTE": 0,
+          "CId": 46174501,
+          "Idt": "46174501",
+          "NpcType": 33,
+          "HTJ2": 0,
+          "SerSeason": "",
+          "HSt": 5,
+          "HEq": "{}",
+          "Titan": {
+            "Round": 0,
+            "BattleId": "",
+            "TeamId": 0
+          },
+          "HId2": 0,
+          "IsAuto": 0,
+          "IfAI": 0,
+          "PName": "",
+          "CAHAH": {},
+          "CtId": 360384,
+          "HLv": 33,
+          "HAw": false,
+          "KVKMorale": {
+            "CampX": 0,
+            "Distance": 0,
+            "CampY": 0,
+            "Morale": 0
+          },
+          "CastleLevel": 0,
+          "NpcBType": 1,
+          "CastlePos": {
+            "Y": 4142.031,
+            "X": 3758.9402
+          },
+          "HSt2": 0,
+          "Abbr": "",
+          "CTK": "-2_1763208389_85",
+          "CASS": {
+            "ENABLE": false,
+            "Ban": false
+          },
+          "DisappearTick": 209539,
+          "AId": 0,
+          "HLv2": 0,
+          "CT": 1,
+          "AName": ""
+        },
+        "ReportShowType": 0,
+        "Def": 1,
+        "Bts": 208770,
+        "OpsKvkModBuffIds": {},
+        "Ets": 208770,
+        "TickStart": 208770,
+        "OTs": {
+          "360384": {
+            "Abbr": "",
+            "HLv": 33,
+            "PId": -2,
+            "HId2": 0,
+            "HLv2": 0,
+            "PName": "",
+            "HId": 85
+          }
+        },
+        "Pos": {
+          "Y": 4142.34,
+          "X": 3764.775
+        },
+        "RewardLimited": false
+      }
+    },
+    {
+      "GsId": 1804,
+      "Events": {},
+      "Ets": 1763227948,
+      "LLScriptSchema": 919,
+      "DataOmit": false,
+      "RoomId": 0,
+      "LoadSource": "oss"
+    },
+    {
+      "receiver": "player_71738515",
+      "flaglist": {},
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}

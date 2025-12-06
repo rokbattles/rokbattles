@@ -1,0 +1,1204 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": false,
+      "box": "Archive",
+      "reportMerge": 0,
+      "serverId": 15685,
+      "time": 1762290719837830,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "is_select": false,
+      "type": "Battle",
+      "holdTag": 0,
+      "id": "84798614176229071933",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "parentId": "117381562_1762290670_509_179pvp",
+      "flaglist": {},
+      "body": {
+        "content": {
+          "SelfChar": {
+            "HAw2": true,
+            "HTJ": 0,
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/117381562/23/01/01/07687566f39ed333_508x508.jpg\"}",
+            "PId": 117381562,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 509,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 1673
+            },
+            "SkillLevel": 5,
+            "SkillId": 1676
+          },
+          "SkillLevel": 5,
+          "SkillId": 1675
+        },
+        "SkillLevel": 5,
+        "SkillId": 362
+      }
+    },
+    {
+      "AId": 1,
+      "CId": 25701,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 1529
+      },
+      "SkillLevel": 5,
+      "SkillId": 1530
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1531
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 243
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1528
+    },
+    {
+      "Idt": "25701",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75102031_7",
+          "Buffs": "",
+          "Affix": "2101"
+        },
+        "4": {
+          "Id": "75402031_111",
+          "Buffs": "",
+          "Affix": "2401"
+        },
+        "3": {
+          "Id": "75302031_79",
+          "Buffs": "",
+          "Affix": "2301"
+        },
+        "2": {
+          "Id": "75202031_40",
+          "Buffs": "",
+          "Affix": "2201"
+        }
+      },
+      "SerSeason": "-1",
+      "Udid": "545841838946272180",
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "HSt": 6,
+      "HEq": "{1:20003_13:0,6:20024_115:0,2:20006_25:0,4:20022_108:0,3:20021_103:0,5:20023_114:0,7:20040_197:0,8:20037_180:0}",
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "HId2": 179,
+      "IfAI": 0,
+      "CAHAH": {},
+      "PName": "Delexen",
+      "AppUid": "18723970",
+      "CtId": 62,
+      "HEq2": "{}",
+      "HAw": true,
+      "CTK": "117381562_1762290670_509_179",
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CastlePos": {
+        "Y": 892.7578,
+        "X": 1025.8652
+      },
+      "HSt2": 6,
+      "Abbr": "ISET",
+      "HFMs": 2,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HLv": 60,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "ISET"
+    },
+    {
+      "Role": "dungeon",
+      "Attacks": {
+        "25401": {
+          "Kill": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 65409,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 22831,
+            "RetreatCnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0,
+            "Power": -117600,
+            "HurtCntEnd": 65409,
+            "Healing": 0,
+            "Contribute": 0,
+            "Max": 100000,
+            "InitMax": 100000,
+            "AddCnt": 0,
+            "BadHurt": 11760,
+            "Death": 0,
+            "SkillPower": -88400,
+            "AtkPower": -29200,
+            "KillScore": 246460
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": {},
+          "NpcAtkExp": 0,
+          "Tick": 27,
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Damage": {
+            "Gt": 0,
+            "DeadReduceCnt": 0,
+            "Hurt": 66590,
+            "BadReduceCnt": 0,
+            "GtMax": 0,
+            "Cnt": 0,
+            "RetreatCnt": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0,
+            "Power": -123230,
+            "HurtCntEnd": 346051,
+            "Healing": 0,
+            "Contribute": 0,
+            "Max": 406981,
+            "InitMax": 410000,
+            "AddCnt": 0,
+            "BadHurt": 12323,
+            "Death": 0,
+            "SkillPower": -104450,
+            "AtkPower": -18780,
+            "KillScore": 235200
+          },
+          "CIdt": {
+            "HAw2": true,
+            "HTJ": 0,
+            "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "PId": 110199637,
+            "KVKMorale": {
+              "CampX": 0,
+              "Distance": 0,
+              "CampY": 0,
+              "Morale": 0
+            },
+            "HId": 545,
+            "HSS": {
+              "SkillLevel": 5,
+              "SkillId": 1752
+            },
+            "SkillLevel": 5,
+            "SkillId": 1753
+          },
+          "SkillLevel": 1,
+          "SkillId": 1754
+        },
+        "SkillLevel": 5,
+        "SkillId": 393
+      },
+      "SkillLevel": 5,
+      "SkillId": 1751
+    },
+    {
+      "AId": 2,
+      "CId": 25401,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 1544
+      },
+      "SkillLevel": 5,
+      "SkillId": 1545
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1546
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1547
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 251
+    },
+    {
+      "Idt": "25401",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75117011_242",
+          "Buffs": "",
+          "Affix": "17101"
+        },
+        "4": {
+          "Id": "75417011_257",
+          "Buffs": "",
+          "Affix": "17401"
+        },
+        "3": {
+          "Id": "75317011_252",
+          "Buffs": "",
+          "Affix": "17301"
+        },
+        "2": {
+          "Id": "75217011_246",
+          "Buffs": "",
+          "Affix": "17201"
+        }
+      },
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "SerSeason": "-1",
+      "Udid": "183801645560339235",
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "HSt": 6,
+      "HEq": "{5:20017_84:0,3:20026_127:0,4:20016_79:0,7:20040_197:0,8:20037_181:0,6:20018_85:0,2:20005_20:0,1:20002_6:0}",
+      "IfAI": 0,
+      "HId2": 185,
+      "CAHAH": {},
+      "Side": 1,
+      "PName": "NovocaineX",
+      "AppUid": "89243725",
+      "CtId": 59,
+      "HEq2": "{}",
+      "HAw": true,
+      "CTK": "110199637_1762290658_545_185",
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CastlePos": {
+        "Y": 876.9453,
+        "X": 1035.0807
+      },
+      "HSt2": 6,
+      "Abbr": "SETH",
+      "HFMs": 17,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HLv": 60,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "SETH"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 1,
+      "attack_idt_key": "25401",
+      "Bts": 1543,
+      "OpsKvkModBuffIds": {},
+      "Ets": 1569,
+      "TickStart": 1543,
+      "OTs": {
+        "59": {
+          "Abbr": "SETH",
+          "HLv": 60,
+          "PId": 110199637,
+          "HId2": 185,
+          "HLv2": 60,
+          "PName": "NovocaineX",
+          "HId": 545
+        }
+      },
+      "Pos": {
+        "Y": 891.6482,
+        "X": 1041.0961
+      },
+      "RewardLimited": false
+    },
+    {
+      "25301": {
+        "Kill": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 104920,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 288551,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -165290,
+          "HurtCntEnd": 104920,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 410000,
+          "InitMax": 410000,
+          "AddCnt": 0,
+          "BadHurt": 16529,
+          "Death": 0,
+          "SkillPower": -97610,
+          "AtkPower": -67680,
+          "KillScore": 553680
+        },
+        "SelfDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "SelfKvkModBuffIds": {},
+        "NpcAtkExp": 0,
+        "Tick": 28,
+        "OppositeDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "Damage": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 147657,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 0,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -276840,
+          "HurtCntEnd": 346051,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 410000,
+          "InitMax": 410000,
+          "AddCnt": 0,
+          "BadHurt": 27684,
+          "Death": 0,
+          "SkillPower": -146650,
+          "AtkPower": -130190,
+          "KillScore": 330580
+        },
+        "CIdt": {
+          "HAw2": true,
+          "HTJ": 0,
+          "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "PId": 110199637,
+          "KVKMorale": {
+            "CampX": 0,
+            "Distance": 0,
+            "CampY": 0,
+            "Morale": 0
+          },
+          "HId": 509,
+          "HSS": {
+            "SkillLevel": 5,
+            "SkillId": 1675
+          },
+          "SkillLevel": 5,
+          "SkillId": 362
+        },
+        "SkillLevel": 5,
+        "SkillId": 1673
+      },
+      "SkillLevel": 5,
+      "SkillId": 1676
+    },
+    {
+      "AId": 2,
+      "CId": 25301,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 1528
+      },
+      "SkillLevel": 5,
+      "SkillId": 1529
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1530
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1531
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 243
+    },
+    {
+      "Idt": "25301",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75102031_7",
+          "Buffs": "",
+          "Affix": "2101"
+        },
+        "4": {
+          "Id": "75402031_114",
+          "Buffs": "",
+          "Affix": "2401"
+        },
+        "3": {
+          "Id": "75302031_78",
+          "Buffs": "",
+          "Affix": "2301"
+        },
+        "2": {
+          "Id": "75202031_41",
+          "Buffs": "",
+          "Affix": "2201"
+        }
+      },
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "SerSeason": "-1",
+      "Udid": "183801645560339235",
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "HSt": 6,
+      "HEq": "{2:20006_29:0,5:20023_114:0,4:20022_106:0,6:20024_119:0,1:20003_10:0,3:20021_100:0,7:20040_198:0,8:20037_183:0}",
+      "IfAI": 0,
+      "HId2": 179,
+      "CAHAH": {},
+      "Side": 1,
+      "PName": "NovocaineX",
+      "AppUid": "89243725",
+      "CtId": 58,
+      "HEq2": "{}",
+      "HAw": true,
+      "CTK": "110199637_1762290655_509_179",
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CastlePos": {
+        "Y": 876.9453,
+        "X": 1035.0807
+      },
+      "HSt2": 6,
+      "Abbr": "SETH",
+      "HFMs": 2,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HLv": 60,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "SETH"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 1,
+      "attack_idt_key": "25301",
+      "Bts": 1542,
+      "OpsKvkModBuffIds": {},
+      "Ets": 1569,
+      "TickStart": 1542,
+      "OTs": {
+        "58": {
+          "Abbr": "SETH",
+          "HLv": 60,
+          "PId": 110199637,
+          "HId2": 179,
+          "HLv2": 60,
+          "PName": "NovocaineX",
+          "HId": 509
+        }
+      },
+      "Pos": {
+        "Y": 892.7793,
+        "X": 1040.9708
+      },
+      "RewardLimited": false
+    },
+    {
+      "25601": {
+        "Kill": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 58970,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 30444,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -105860,
+          "HurtCntEnd": 58970,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 100000,
+          "InitMax": 100000,
+          "AddCnt": 0,
+          "BadHurt": 10586,
+          "Death": 0,
+          "SkillPower": -77640,
+          "AtkPower": -28220,
+          "KillScore": 133140
+        },
+        "SelfDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "SelfKvkModBuffIds": {},
+        "NpcAtkExp": 0,
+        "Tick": 27,
+        "OppositeDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "Damage": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 38599,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 0,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -66570,
+          "HurtCntEnd": 346051,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 406981,
+          "InitMax": 410000,
+          "AddCnt": 0,
+          "BadHurt": 6657,
+          "Death": 0,
+          "SkillPower": -51960,
+          "AtkPower": -14610,
+          "KillScore": 211720
+        },
+        "CIdt": {
+          "HAw2": true,
+          "HTJ": 0,
+          "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "PId": 110199637,
+          "KVKMorale": {
+            "CampX": 0,
+            "Distance": 0,
+            "CampY": 0,
+            "Morale": 0
+          },
+          "HId": 198,
+          "HSS": {
+            "SkillLevel": 5,
+            "SkillId": 373
+          },
+          "SkillLevel": 5,
+          "SkillId": 1699
+        },
+        "SkillLevel": 5,
+        "SkillId": 1700
+      },
+      "SkillLevel": 5,
+      "SkillId": 1701
+    },
+    {
+      "AId": 2,
+      "CId": 25601,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 1404
+      },
+      "SkillLevel": 5,
+      "SkillId": 1405
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1406
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1407
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 198
+    },
+    {
+      "Idt": "25601",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75102031_8",
+          "Buffs": "",
+          "Affix": "2101"
+        },
+        "4": {
+          "Id": "75402031_113",
+          "Buffs": "",
+          "Affix": "2401"
+        },
+        "3": {
+          "Id": "75302031_77",
+          "Buffs": "",
+          "Affix": "2301"
+        },
+        "2": {
+          "Id": "75202031_44",
+          "Buffs": "",
+          "Affix": "2201"
+        }
+      },
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "SerSeason": "-1",
+      "Udid": "183801645560339235",
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "HSt": 6,
+      "HEq": "{5:20017_80:0,1:20002_7:0,4:20016_76:0,2:20005_22:0,6:20018_87:0,3:20026_126:0,7:20118_223:0,8:20041_203:0}",
+      "IfAI": 0,
+      "HId2": 140,
+      "CAHAH": {},
+      "Side": 1,
+      "PName": "NovocaineX",
+      "AppUid": "89243725",
+      "CtId": 61,
+      "HEq2": "{}",
+      "HAw": true,
+      "CTK": "110199637_1762290664_198_140",
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CastlePos": {
+        "Y": 876.9453,
+        "X": 1035.0807
+      },
+      "HSt2": 6,
+      "Abbr": "SETH",
+      "HFMs": 2,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HLv": 60,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "SETH"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 1,
+      "attack_idt_key": "25601",
+      "Bts": 1543,
+      "OpsKvkModBuffIds": {},
+      "Ets": 1569,
+      "TickStart": 1543,
+      "OTs": {
+        "61": {
+          "Abbr": "SETH",
+          "HLv": 60,
+          "PId": 110199637,
+          "HId2": 140,
+          "HLv2": 60,
+          "PName": "NovocaineX",
+          "HId": 198
+        }
+      },
+      "Pos": {
+        "Y": 891.6482,
+        "X": 1041.0961
+      },
+      "RewardLimited": false
+    },
+    {
+      "25201": {
+        "Kill": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 58111,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 29870,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -120190,
+          "HurtCntEnd": 58111,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 100000,
+          "InitMax": 100000,
+          "AddCnt": 0,
+          "BadHurt": 12019,
+          "Death": 0,
+          "SkillPower": -101000,
+          "AtkPower": -19190,
+          "KillScore": 173680
+        },
+        "SelfDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "SelfKvkModBuffIds": {},
+        "NpcAtkExp": 0,
+        "Tick": 27,
+        "OppositeDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "Damage": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 47723,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 0,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -86840,
+          "HurtCntEnd": 346051,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 406981,
+          "InitMax": 410000,
+          "AddCnt": 0,
+          "BadHurt": 8684,
+          "Death": 0,
+          "SkillPower": -67310,
+          "AtkPower": -19530,
+          "KillScore": 240380
+        },
+        "CIdt": {
+          "HAw2": true,
+          "HTJ": 0,
+          "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "PId": 110199637,
+          "KVKMorale": {
+            "CampX": 0,
+            "Distance": 0,
+            "CampY": 0,
+            "Morale": 0
+          },
+          "HId": 540,
+          "HSS": {
+            "SkillLevel": 5,
+            "SkillId": 389
+          },
+          "SkillLevel": 5,
+          "SkillId": 1735
+        },
+        "SkillLevel": 5,
+        "SkillId": 1736
+      },
+      "SkillLevel": 5,
+      "SkillId": 1737
+    },
+    {
+      "SkillLevel": 1,
+      "SkillId": 1738
+    },
+    {
+      "AId": 2,
+      "CId": 25201,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 411
+      },
+      "SkillLevel": 5,
+      "SkillId": 1787
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1790
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1789
+    },
+    {
+      "Idt": "25201",
+      "HWBs2": {
+        "1": "75113011_203",
+        "4": "75413011_218",
+        "3": "75313011_210",
+        "2": "75213011_206"
+      },
+      "HTJ2": 0,
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "HWBs": {
+        "1": {
+          "Id": "75113011_204",
+          "Buffs": "",
+          "Affix": "13101"
+        },
+        "4": {
+          "Id": "75413011_217",
+          "Buffs": "",
+          "Affix": "13401"
+        },
+        "3": {
+          "Id": "75313011_211",
+          "Buffs": "",
+          "Affix": "13301"
+        },
+        "2": {
+          "Id": "75213011_207",
+          "Buffs": "",
+          "Affix": "13201"
+        }
+      },
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "SerSeason": "-1",
+      "Udid": "183801645560339235",
+      "IsAuto": 0,
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "IfAI": 0,
+      "HSt": 6,
+      "HEq": "{4:20028_136:0,7:20037_184:0,3:20009_40:0,6:20012_55:0,2:20004_19:0,1:20001_2:0,5:20033_160:0,8:20040_199:0}",
+      "CAHAH": {},
+      "HId2": 575,
+      "Side": 1,
+      "AppUid": "89243725",
+      "PName": "NovocaineX",
+      "HEq2": "{1:20001_1:0,7:20040_196:0,8:20037_182:0,2:20004_18:0,6:20012_58:0,3:20009_44:0,4:20028_137:0,5:20033_164:0}",
+      "CtId": 57,
+      "HLv": 60,
+      "HAw": true,
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CTK": "110199637_1762290652_540_575",
+      "CastlePos": {
+        "Y": 876.9453,
+        "X": 1035.0807
+      },
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "Abbr": "SETH",
+      "HFMs2": 13,
+      "HFMs": 13,
+      "HSt2": 6,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "SETH"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 1,
+      "attack_idt_key": "25201",
+      "Bts": 1543,
+      "OpsKvkModBuffIds": {},
+      "Ets": 1569,
+      "TickStart": 1543,
+      "OTs": {
+        "57": {
+          "Abbr": "SETH",
+          "HLv": 60,
+          "PId": 110199637,
+          "HId2": 575,
+          "HLv2": 60,
+          "PName": "NovocaineX",
+          "HId": 540
+        }
+      },
+      "Pos": {
+        "Y": 891.6482,
+        "X": 1041.0961
+      },
+      "RewardLimited": false
+    },
+    {
+      "25501": {
+        "Kill": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 69019,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 17622,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -133590,
+          "HurtCntEnd": 69019,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 100000,
+          "InitMax": 100000,
+          "AddCnt": 0,
+          "BadHurt": 13359,
+          "Death": 0,
+          "SkillPower": -113350,
+          "AtkPower": -20240,
+          "KillScore": 172020
+        },
+        "SelfDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "SelfKvkModBuffIds": {},
+        "NpcAtkExp": 0,
+        "Tick": 27,
+        "OppositeDu": {
+          "DuCnt": 0,
+          "DuMax": 0
+        },
+        "Damage": {
+          "Gt": 0,
+          "DeadReduceCnt": 0,
+          "Hurt": 45482,
+          "BadReduceCnt": 0,
+          "GtMax": 0,
+          "Cnt": 0,
+          "RetreatCnt": 0,
+          "UnitStifleBadHurtReduceCnt": 0,
+          "WarExploits": 0,
+          "Power": -86010,
+          "HurtCntEnd": 346051,
+          "Healing": 0,
+          "Contribute": 0,
+          "Max": 406981,
+          "InitMax": 410000,
+          "AddCnt": 0,
+          "BadHurt": 8601,
+          "Death": 0,
+          "SkillPower": -70150,
+          "AtkPower": -15860,
+          "KillScore": 267180
+        },
+        "CIdt": {
+          "HAw2": true,
+          "HTJ": 0,
+          "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "PId": 110199637,
+          "KVKMorale": {
+            "CampX": 0,
+            "Distance": 0,
+            "CampY": 0,
+            "Morale": 0
+          },
+          "HId": 182,
+          "HSS": {
+            "SkillLevel": 5,
+            "SkillId": 246
+          },
+          "SkillLevel": 5,
+          "SkillId": 1533
+        },
+        "SkillLevel": 5,
+        "SkillId": 1534
+      },
+      "SkillLevel": 5,
+      "SkillId": 1536
+    },
+    {
+      "AId": 2,
+      "CId": 25501,
+      "HSS2": {
+        "SkillLevel": 5,
+        "SkillId": 1436
+      },
+      "SkillLevel": 1,
+      "SkillId": 1465
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 209
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1435
+    },
+    {
+      "SkillLevel": 5,
+      "SkillId": 1437
+    },
+    {
+      "Idt": "25501",
+      "HTJ2": 0,
+      "HWBs": {
+        "1": {
+          "Id": "75102031_6",
+          "Buffs": "",
+          "Affix": "2101"
+        },
+        "4": {
+          "Id": "75402031_112",
+          "Buffs": "",
+          "Affix": "2401"
+        },
+        "3": {
+          "Id": "75302031_79",
+          "Buffs": "",
+          "Affix": "2301"
+        },
+        "2": {
+          "Id": "75202031_43",
+          "Buffs": "",
+          "Affix": "2201"
+        }
+      },
+      "Titan": {
+        "Round": 0,
+        "BattleId": "",
+        "TeamId": 0
+      },
+      "SerSeason": "-1",
+      "Udid": "183801645560339235",
+      "PkgNameNew": "com.lilithgames.rok.pc.int",
+      "IsAuto": 0,
+      "Session": "cfg_id=4&fight_mode=sysfightmode&id=2305843009213749931&mode=abp&role_id=301&submode=DiyEgypt",
+      "HSt": 6,
+      "HEq": "{3:20009_43:0,4:20028_139:0,1:20001_3:0,7:20037_180:0,6:20012_59:0,5:20033_161:0,8:20040_195:0,2:20004_17:0}",
+      "IfAI": 0,
+      "HId2": 148,
+      "CAHAH": {},
+      "Side": 1,
+      "PName": "NovocaineX",
+      "AppUid": "89243725",
+      "CtId": 60,
+      "HEq2": "{}",
+      "HAw": true,
+      "CTK": "110199637_1762290661_182_148",
+      "CastleLevel": 25,
+      "COSId": 301,
+      "CastlePos": {
+        "Y": 876.9453,
+        "X": 1035.0807
+      },
+      "HSt2": 6,
+      "Abbr": "SETH",
+      "HFMs": 2,
+      "CASS": {
+        "ENABLE": false,
+        "Ban": false
+      },
+      "HLv": 60,
+      "HTE": -1,
+      "HLv2": 60,
+      "CT": 1,
+      "AName": "SETH"
+    },
+    {
+      "ReportShowType": 0,
+      "Def": 1,
+      "attack_idt_key": "25501",
+      "Bts": 1543,
+      "OpsKvkModBuffIds": {},
+      "Ets": 1569,
+      "TickStart": 1543,
+      "OTs": {
+        "60": {
+          "Abbr": "SETH",
+          "HLv": 60,
+          "PId": 110199637,
+          "HId2": 148,
+          "HLv2": 60,
+          "PName": "NovocaineX",
+          "HId": 182
+        }
+      },
+      "Pos": {
+        "Y": 891.6482,
+        "X": 1041.0961
+      },
+      "RewardLimited": false
+    },
+    {
+      "Id": 14884928,
+      "Schema": 10002,
+      "STs": {
+        "62": {
+          "Abbr": "ISET",
+          "HLv": 60,
+          "PId": 117381562,
+          "HId2": 179,
+          "HLv2": 60,
+          "PName": "Delexen",
+          "HId": 509
+        }
+      },
+      "RoomId": 6235,
+      "Btk": 1542,
+      "GsId": 55979,
+      "Samples": {
+        "Cnt": 410000,
+        "T": 1542,
+        "Time": 1762290692
+      },
+      "Cnt": 406981,
+      "T": 1543,
+      "Time": 1762290693
+    },
+    {
+      "Cnt": 0,
+      "T": 1569,
+      "Time": 1762290719
+    },
+    {
+      "DataOmit": false,
+      "TickSkip": 100,
+      "Bts": 1762290692,
+      "OOv": {
+        "KillScore": 1278980,
+        "BadHurt": 64253,
+        "Max": 810000,
+        "Hurt": 356429,
+        "Cnt": 389318,
+        "Dead": 0
+      },
+      "Ets": 1762290719,
+      "LLScriptSchema": 0,
+      "Events": {},
+      "SOv": {
+        "KillScore": 1285060,
+        "BadHurt": 63949,
+        "Max": 410000,
+        "Hurt": 346051,
+        "Cnt": 0,
+        "Dead": 0
+      },
+      "LoadSource": "mongo"
+    },
+    {
+      "receiver": "player_117381562",
+      "isMergeChild": false,
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}
