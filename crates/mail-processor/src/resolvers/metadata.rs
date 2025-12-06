@@ -286,8 +286,15 @@ impl Resolver for MetadataResolver {
             .and_then(|s| {
                 s.get("STs")
                     .or_else(|| s.get("body").and_then(|b| b.get("STs")))
+                    .and_then(Value::as_object)
             })
-            .and_then(Value::as_object)
+            .or_else(|| {
+                sections.iter().find_map(|s| {
+                    s.get("STs")
+                        .or_else(|| s.get("body").and_then(|b| b.get("STs")))
+                        .and_then(Value::as_object)
+                })
+            })
         {
             let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
             meta.entry("players").or_insert(Value::from(cnt));
