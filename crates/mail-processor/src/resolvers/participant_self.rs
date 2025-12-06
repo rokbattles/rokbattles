@@ -239,7 +239,9 @@ impl ParticipantSelfResolver {
         primary: Option<i64>,
         secondary: Option<i64>,
     ) -> Option<&Value> {
-        let mut best: Option<(usize, (bool, bool, bool, bool), &Value)> = None;
+        type GearCandidate<'a> = (usize, (bool, bool, bool, bool), &'a Value);
+
+        let mut best: Option<GearCandidate<'_>> = None;
 
         for (idx, sec) in sections.iter().enumerate() {
             let content = Self::section_content_root(sec);
