@@ -821,6 +821,48 @@ impl Resolver for ParticipantEnemyResolver {
                 map_put_f64(enemy_obj, "castle_x", parse_f64(snap.get("X")));
                 map_put_f64(enemy_obj, "castle_y", parse_f64(snap.get("Y")));
             }
+            if enemy_obj.get("castle_x").is_none() || enemy_obj.get("castle_y").is_none() {
+                let abbr_trimmed = enemy_abbr.trim();
+                let abbr_matches = |sec: &Value| -> bool {
+                    if abbr_trimmed.is_empty() {
+                        true
+                    } else {
+                        sec.get("Abbr")
+                            .and_then(Value::as_str)
+                            .map(|abbr| abbr.trim())
+                            == Some(abbr_trimmed)
+                    }
+                };
+
+                let mut castle_from_alliance = if !abbr_trimmed.is_empty() {
+                    group
+                        .iter()
+                        .find_map(|sec| sec.get("CastlePos").filter(|_| abbr_matches(sec)))
+                        .or_else(|| {
+                            sections
+                                .iter()
+                                .find_map(|sec| sec.get("CastlePos").filter(|_| abbr_matches(sec)))
+                        })
+                } else {
+                    None
+                };
+
+                if castle_from_alliance.is_none() && enemy_ct != 0 {
+                    castle_from_alliance = Self::find_alliance_section_by_ct(group, enemy_ct)
+                        .filter(|sec| abbr_matches(sec))
+                        .and_then(|sec| sec.get("CastlePos"))
+                        .or_else(|| {
+                            Self::find_alliance_section_by_ct(sections, enemy_ct)
+                                .filter(|sec| abbr_matches(sec))
+                                .and_then(|sec| sec.get("CastlePos"))
+                        });
+                }
+
+                if let Some(castle) = castle_from_alliance {
+                    map_put_f64(enemy_obj, "castle_x", parse_f64(castle.get("X")));
+                    map_put_f64(enemy_obj, "castle_y", parse_f64(castle.get("Y")));
+                }
+            }
         }
 
         // rally
