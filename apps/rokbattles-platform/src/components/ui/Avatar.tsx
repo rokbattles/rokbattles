@@ -26,6 +26,7 @@ export function Avatar({
 }: AvatarProps & React.ComponentPropsWithoutRef<"span">) {
   const resolvedFrameSrc =
     typeof frameSrc === "string" && frameSrc.trim().length > 0 ? frameSrc.trim() : null;
+  const radiusClass = square ? "rounded-(--avatar-radius)" : "rounded-full";
 
   return (
     <span
@@ -38,15 +39,16 @@ export function Avatar({
         "outline -outline-offset-1 outline-black/10 dark:outline-white/10",
         "relative",
         // Border radius
-        square
-          ? "rounded-(--avatar-radius) *:rounded-(--avatar-radius)"
-          : "rounded-full *:rounded-full"
+        radiusClass
       )}
     >
       {initials && (
         // biome-ignore lint/a11y/noSvgWithoutTitle: false positive
         <svg
-          className="size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none"
+          className={cn(
+            "size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none",
+            radiusClass
+          )}
           viewBox="0 0 100 100"
           aria-hidden={alt ? undefined : "true"}
         >
@@ -64,7 +66,14 @@ export function Avatar({
         </svg>
       )}
       {src && (
-        <Image className="object-cover" src={src} alt={alt} fill unoptimized loading="lazy" />
+        <Image
+          className={cn("object-cover", radiusClass)}
+          src={src}
+          alt={alt}
+          fill
+          unoptimized
+          loading="lazy"
+        />
       )}
       {resolvedFrameSrc ? (
         <Image
