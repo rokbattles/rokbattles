@@ -285,6 +285,7 @@ function ParticipantCard({
       <div className="flex items-start gap-3">
         <Avatar
           src={participant?.avatar_url ?? undefined}
+          frameSrc={normalizeFrameUrl(participant?.frame_url)}
           alt={playerName}
           initials={generateInitials(playerName)}
           className="size-12"
@@ -606,4 +607,11 @@ function generateInitials(name: string) {
   if (tokens.length === 0) return undefined;
   if (tokens.length === 1) return tokens[0]?.slice(0, 2).toUpperCase();
   return (tokens[0]?.slice(0, 1) + tokens[tokens.length - 1]?.slice(0, 1)).toUpperCase();
+}
+
+function normalizeFrameUrl(frameUrl?: string | null) {
+  if (typeof frameUrl !== "string") return undefined;
+  const trimmed = frameUrl.trim();
+  if (trimmed.length === 0 || trimmed.toLowerCase() === "null") return undefined;
+  return trimmed;
 }
