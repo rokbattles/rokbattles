@@ -1,8 +1,8 @@
 use crate::{
     helpers::{
-        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_avatar_url,
-        find_attack_block_best_match, get_or_insert_object, map_put_f64, map_put_i32, map_put_i64,
-        map_put_str, parse_f64,
+        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_avatar_frame_url,
+        extract_avatar_url, find_attack_block_best_match, get_or_insert_object, map_put_f64,
+        map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -757,6 +757,20 @@ impl Resolver for ParticipantEnemyResolver {
                     enemy_obj.insert("avatar_url".into(), Value::String(url));
                 }
             }
+        }
+
+        // avatar frame
+        if enemy_obj.get("frame_url").is_none() {
+            let frame_url = extract_avatar_frame_url(c_idt.get("Avatar"))
+                .or_else(|| enemy_snap.and_then(|s| extract_avatar_frame_url(s.get("Avatar"))))
+                .or_else(|| {
+                    pid.and_then(|pid| {
+                        Self::find_any_snapshot_by_pid(sections, pid)
+                            .and_then(|s| extract_avatar_frame_url(s.get("Avatar")))
+                    })
+                })
+                .unwrap_or_default();
+            enemy_obj.insert("frame_url".into(), Value::String(frame_url));
         }
 
         // castle pos

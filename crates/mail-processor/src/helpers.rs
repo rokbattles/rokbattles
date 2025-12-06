@@ -185,26 +185,36 @@ pub fn map_insert_str_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<&
     }
 }
 
-pub fn extract_avatar_url(v: Option<&Value>) -> Option<String> {
+fn extract_avatar_field(v: Option<&Value>, field: &str) -> Option<String> {
     match v {
         Some(Value::String(s)) => {
             if let Ok(vv) = serde_json::from_str::<Value>(s)
-                && let Some(url) = vv.get("avatar").and_then(Value::as_str)
+                && let Some(url) = vv.get(field).and_then(Value::as_str)
             {
                 return Some(url.to_owned());
             }
 
-            let trimmed = s.trim();
-            if trimmed.starts_with("http://") || trimmed.starts_with("https://") {
-                return Some(trimmed.to_owned());
-            }
-
             None
         }
-        Some(Value::Object(obj)) => obj
-            .get("avatar")
-            .and_then(Value::as_str)
-            .map(|s| s.to_owned()),
+        Some(Value::Object(obj)) => obj.get(field).and_then(Value::as_str).map(|s| s.to_owned()),
         _ => None,
     }
+}
+
+pub fn extract_avatar_url(v: Option<&Value>) -> Option<String> {
+    extract_avatar_field(v, "avatar").or_else(|| match v {
+        Some(Value::String(s)) => {
+            let trimmed = s.trim();
+            if trimmed.starts_with("http://") || trimmed.starts_with("https://") {
+                Some(trimmed.to_owned())
+            } else {
+                None
+            }
+        }
+        _ => None,
+    })
+}
+
+pub fn extract_avatar_frame_url(v: Option<&Value>) -> Option<String> {
+    extract_avatar_field(v, "avatarFrame")
 }
