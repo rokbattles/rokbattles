@@ -71,6 +71,7 @@ pub struct Participant {
 
     // Avatar
     pub avatar_url: Option<String>,
+    pub frame_url: Option<String>,
 
     // CastlePos X
     pub castle_x: Option<f64>,

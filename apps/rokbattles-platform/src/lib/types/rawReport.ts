@@ -25,6 +25,7 @@ export interface RawParticipantInfo {
   player_name?: string;
   alliance_tag?: string;
   avatar_url?: string;
+  frame_url?: string;
   castle_x?: number;
   castle_y?: number;
   is_rally?: boolean | null;
