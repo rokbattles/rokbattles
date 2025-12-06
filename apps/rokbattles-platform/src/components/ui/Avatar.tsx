@@ -8,6 +8,7 @@ import { Link } from "./Link";
 
 type AvatarProps = {
   src?: string | null;
+  frameSrc?: string | null;
   square?: boolean;
   initials?: string;
   alt?: string;
@@ -16,12 +17,16 @@ type AvatarProps = {
 
 export function Avatar({
   src = null,
+  frameSrc = null,
   square = false,
   initials,
   alt = "",
   className,
   ...props
 }: AvatarProps & React.ComponentPropsWithoutRef<"span">) {
+  const resolvedFrameSrc =
+    typeof frameSrc === "string" && frameSrc.trim().length > 0 ? frameSrc.trim() : null;
+
   return (
     <span
       data-slot="avatar"
@@ -61,6 +66,16 @@ export function Avatar({
       {src && (
         <Image className="object-cover" src={src} alt={alt} fill unoptimized loading="lazy" />
       )}
+      {resolvedFrameSrc ? (
+        <Image
+          className="pointer-events-none z-10 scale-[1.15] object-contain rounded-none"
+          src={resolvedFrameSrc}
+          alt=""
+          fill
+          unoptimized
+          loading="lazy"
+        />
+      ) : null}
     </span>
   );
 }
@@ -68,6 +83,7 @@ export function Avatar({
 export const AvatarButton = forwardRef(function AvatarButton(
   {
     src,
+    frameSrc,
     square = false,
     initials,
     alt,
@@ -90,14 +106,14 @@ export const AvatarButton = forwardRef(function AvatarButton(
     // @ts-expect-error
     <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
       <TouchTarget>
-        <Avatar src={src} square={square} initials={initials} alt={alt} />
+        <Avatar src={src} frameSrc={frameSrc} square={square} initials={initials} alt={alt} />
       </TouchTarget>
     </Link>
   ) : (
     // @ts-expect-error
     <Headless.Button {...props} className={classes} ref={ref}>
       <TouchTarget>
-        <Avatar src={src} square={square} initials={initials} alt={alt} />
+        <Avatar src={src} frameSrc={frameSrc} square={square} initials={initials} alt={alt} />
       </TouchTarget>
     </Headless.Button>
   );
