@@ -64,6 +64,13 @@ impl ParticipantSelfResolver {
             .or_else(|| sec.pointer("/content/CTK").and_then(Value::as_str))
     }
 
+    fn parse_ctk_commanders(ctk: &str) -> (Option<i32>, Option<i32>) {
+        let mut parts = ctk.split('_').rev();
+        let hid2 = parts.next().and_then(|p| p.parse::<i32>().ok());
+        let hid = parts.next().and_then(|p| p.parse::<i32>().ok());
+        (hid, hid2)
+    }
+
     fn section_content_root(sec: &Value) -> &Value {
         sec.pointer("/body/content")
             .or_else(|| sec.get("content"))
@@ -87,6 +94,37 @@ impl ParticipantSelfResolver {
                 }
             }
         }
+        None
+    }
+
+    fn find_self_st_entry(
+        sections: &[Value],
+        pid_opt: Option<i64>,
+        ctid_opt: Option<i64>,
+    ) -> Option<&Value> {
+        if let Some(ctid) = ctid_opt {
+            let key = ctid.to_string();
+            if let Some(entry) = sections.iter().find_map(|sec| {
+                sec.get("STs")
+                    .and_then(Value::as_object)
+                    .and_then(|sts| sts.get(&key))
+            }) {
+                return Some(entry);
+            }
+        }
+
+        if let Some(pid) = pid_opt {
+            for sec in sections {
+                if let Some(sts) = sec.get("STs").and_then(Value::as_object)
+                    && let Some(entry) = sts
+                        .values()
+                        .find(|entry| entry.get("PId").and_then(Value::as_i64) == Some(pid))
+                {
+                    return Some(entry);
+                }
+            }
+        }
+
         None
     }
 
@@ -193,6 +231,54 @@ impl ParticipantSelfResolver {
         Self::section_content_root(sec)
             .pointer("/SelfChar")
             .is_some()
+    }
+
+    fn find_gear_section_for_self(
+        sections: &[Value],
+        self_idx: Option<usize>,
+        primary: Option<i64>,
+        secondary: Option<i64>,
+    ) -> Option<&Value> {
+        type GearCandidate<'a> = (usize, (bool, bool, bool, bool), &'a Value);
+
+        let mut best: Option<GearCandidate<'_>> = None;
+
+        for (idx, sec) in sections.iter().enumerate() {
+            let content = Self::section_content_root(sec);
+            let has_heq = content
+                .get("HEq")
+                .and_then(Value::as_str)
+                .map(|s| !s.is_empty())
+                .unwrap_or(false);
+            let has_hwbs = content.get("HWBs").is_some();
+            if !has_heq && !has_hwbs {
+                continue;
+            }
+
+            let hid_match = primary
+                .and_then(|hid| content.get("HId").and_then(Value::as_i64).map(|v| v == hid))
+                .unwrap_or(false);
+            let hid2_match = secondary
+                .and_then(|hid| {
+                    content
+                        .get("HId2")
+                        .and_then(Value::as_i64)
+                        .map(|v| v == hid)
+                })
+                .unwrap_or(false);
+
+            let dist = self_idx.map(|i| i.abs_diff(idx)).unwrap_or(usize::MAX);
+            let flags = (hid2_match, hid_match, has_heq, has_hwbs);
+
+            if best.is_none()
+                || flags > best.as_ref().unwrap().1
+                || (flags == best.as_ref().unwrap().1 && dist < best.as_ref().unwrap().0)
+            {
+                best = Some((dist, flags, content));
+            }
+        }
+
+        best.map(|(_, _, v)| v)
     }
 
     fn compose_primary_commander_skills_capped(
@@ -517,8 +603,13 @@ impl Resolver for ParticipantSelfResolver {
             }
         }
 
-        let fallback_snap = Self::find_self_ctid(sections, player_pid, self_snap)
-            .and_then(|ctid| Self::select_ct_snapshot(sections, ctid, self_snap));
+        let self_ctid = Self::find_self_ctid(sections, player_pid, self_snap);
+        let fallback_snap =
+            self_ctid.and_then(|ctid| Self::select_ct_snapshot(sections, ctid, self_snap));
+        let st_entry =
+            player_pid.and_then(|pid| Self::find_self_st_entry(sections, Some(pid), self_ctid));
+        let st_primary = st_entry.and_then(|e| e.get("HId").and_then(Value::as_i64));
+        let st_secondary = st_entry.and_then(|e| e.get("HId2").and_then(Value::as_i64));
 
         // player name
         if obj.get("player_name").is_none()
@@ -627,7 +718,15 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // primary commander
-        let primary_id = self_body.pointer("/SelfChar/HId").and_then(Value::as_i64);
+        let mut primary_id = self_body
+            .pointer("/SelfChar/HId")
+            .and_then(Value::as_i64)
+            .or(st_primary);
+        if primary_id.is_none()
+            && let Some(ctk) = Self::section_tracking_key(self_snap)
+        {
+            primary_id = Self::parse_ctk_commanders(ctk).0.map(|id| id as i64);
+        }
         let mut primary_lvl = self_snap.get("HLv").and_then(Value::as_i64).unwrap_or(0) as i32;
         if let (Some(pid), Some(hid)) = (
             obj.get("player_id").and_then(Value::as_i64),
@@ -665,9 +764,20 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // secondary commander
-        let hid2 = Self::get_with_fallback(self_snap, fallback_snap, "HId2")
+        let mut hid2 = Self::get_with_fallback(self_snap, fallback_snap, "HId2")
             .and_then(Value::as_i64)
             .unwrap_or(0) as i32;
+        if hid2 == 0
+            && let Some(ctk) = Self::section_tracking_key(self_snap)
+            && let Some(parsed) = Self::parse_ctk_commanders(ctk).1
+        {
+            hid2 = parsed;
+        }
+        if hid2 == 0
+            && let Some(from_st) = st_secondary
+        {
+            hid2 = from_st as i32;
+        }
 
         let mut hlv2 = Self::get_with_fallback(self_snap, fallback_snap, "HLv2")
             .and_then(Value::as_i64)
@@ -705,6 +815,32 @@ impl Resolver for ParticipantSelfResolver {
             "equipment",
             Self::get_with_fallback(self_snap, fallback_snap, "HEq").and_then(Value::as_str),
         );
+        let self_snap_idx = sections.iter().position(|sec| {
+            let content = Self::section_content_root(sec);
+            ptr::eq(sec, self_snap) || ptr::eq(content, self_snap)
+        });
+        let gear_section = if obj.get("equipment").is_none()
+            || obj.get("armament_buffs").is_none()
+            || obj.get("inscriptions").is_none()
+        {
+            Self::find_gear_section_for_self(
+                sections,
+                self_snap_idx,
+                primary_id,
+                (hid2 != 0).then_some(hid2 as i64),
+            )
+        } else {
+            None
+        };
+        if obj.get("equipment").is_none() {
+            map_put_str(
+                obj,
+                "equipment",
+                gear_section
+                    .and_then(|g| g.get("HEq"))
+                    .and_then(Value::as_str),
+            );
+        }
         if obj.get("formation").is_none() {
             if let Some(fm) = Self::get_with_fallback(self_snap, fallback_snap, "HFMs")
                 .and_then(Value::as_i64)
@@ -718,6 +854,18 @@ impl Resolver for ParticipantSelfResolver {
 
         // armaments and inscriptions
         if let Some(hwbs) = Self::get_with_fallback(self_snap, fallback_snap, "HWBs") {
+            let buffs = collect_buffs_from_hwbs(Some(hwbs));
+            if !buffs.is_empty() {
+                obj.insert("armament_buffs".into(), Value::String(buffs));
+            }
+            let insc = collect_affix_from_hwbs(Some(hwbs));
+            if !insc.is_empty() {
+                obj.insert("inscriptions".into(), Value::String(insc));
+            }
+        }
+        if (obj.get("armament_buffs").is_none() || obj.get("inscriptions").is_none())
+            && let Some(hwbs) = gear_section.and_then(|g| g.get("HWBs"))
+        {
             let buffs = collect_buffs_from_hwbs(Some(hwbs));
             if !buffs.is_empty() {
                 obj.insert("armament_buffs".into(), Value::String(buffs));

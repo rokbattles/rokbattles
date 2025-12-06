@@ -31,15 +31,15 @@
         "skills": "5000"
       },
       "secondary_commander": {
-        "id": 0,
+        "id": 25,
         "level": 0,
-        "skills": null
+        "skills": "5555"
       },
       "equipment": "{}",
       "formation": 17,
       "is_ranged_tower": false,
-      "armament_buffs": null,
-      "inscriptions": null
+      "armament_buffs": "10002_0.015000;3001_0.016000;3001_0.018000;3001_0.020000;3001_0.033000;4001_0.016000;4001_0.025000;4001_0.027000;4001_0.031000;5001_0.017000;5001_0.022000;5001_0.033000",
+      "inscriptions": "317;412;17101;17202"
     },
     "enemy": {
       "player_id": 29862805,
