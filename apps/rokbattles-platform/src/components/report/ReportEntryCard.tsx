@@ -613,5 +613,5 @@ function normalizeFrameUrl(frameUrl?: string | null) {
   if (typeof frameUrl !== "string") return undefined;
   const trimmed = frameUrl.trim();
   if (trimmed.length === 0 || trimmed.toLowerCase() === "null") return undefined;
-  return trimmed;
+  return trimmed.replace("http://", "https://");
 }
