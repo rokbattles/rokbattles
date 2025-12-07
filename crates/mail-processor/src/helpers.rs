@@ -131,10 +131,15 @@ pub fn find_attack_block_best_match<'a>(
                 })
                 .unwrap_or(false);
 
-            if idt_match
-                && (s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some())
-            {
-                idt_idx = Some(i);
+            if idt_match {
+                let has_commander =
+                    s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some();
+                let has_gear =
+                    s.get("HEq").is_some() || s.get("HWBs").is_some() || s.get("HWBs2").is_some();
+
+                if has_commander || has_gear {
+                    idt_idx = Some(i);
+                }
             }
         }
     }

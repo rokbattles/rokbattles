@@ -560,6 +560,40 @@ impl Resolver for ParticipantEnemyResolver {
                 .unwrap_or(&Value::Null)
         });
 
+        if (c_idt.get("PId").and_then(Value::as_i64).is_none() || c_idt.get("Avatar").is_none())
+            && let Some(anchor) = idx_opt
+        {
+            let mut candidate: Option<&Value> = None;
+            for d in 0..=8 {
+                if anchor >= d
+                    && let Some(ci) = group.get(anchor - d).and_then(|sec| {
+                        sec.get("CIdt").or_else(|| {
+                            sec.get("Attacks")
+                                .and_then(Value::as_object)
+                                .and_then(|a| a.get("CIdt"))
+                        })
+                    })
+                {
+                    candidate = Some(ci);
+                    break;
+                }
+                if let Some(ci) = group.get(anchor + d).and_then(|sec| {
+                    sec.get("CIdt").or_else(|| {
+                        sec.get("Attacks")
+                            .and_then(Value::as_object)
+                            .and_then(|a| a.get("CIdt"))
+                    })
+                }) {
+                    candidate = Some(ci);
+                    break;
+                }
+            }
+
+            if let Some(ci) = candidate {
+                c_idt = ci;
+            }
+        }
+
         let enemy_pid = c_idt.get("PId").and_then(Value::as_i64).unwrap_or(-2);
         let (enemy_ctid, enemy_abbr, enemy_ct, enemy_pname) =
             Self::select_enemy_from_ots(group, enemy_pid);
