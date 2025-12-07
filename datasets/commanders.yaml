@@ -1167,6 +1167,15 @@ commanders:
     prime: false
     rarity: legendary
 
+  578:
+    name:
+      en: "David IV"
+      de: "David IV"
+      es: "David IV"
+      kr: "다비트 4세"
+    prime: false
+    rarity: legendary
+
   579:
     name:
       en: "Gang Gamchan"
