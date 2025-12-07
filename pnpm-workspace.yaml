@@ -1,6 +1,7 @@
 packages:
   - apps/*
   - crates/*
+  - src/main/js
 
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
