@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
 import App from "./App.tsx";
+import "./i18n.ts";
 
 // biome-ignore lint/style/noNonNullAssertion: ignore
 createRoot(document.getElementById("root")!).render(
