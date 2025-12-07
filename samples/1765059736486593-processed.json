@@ -1,0 +1,97 @@
+[
+  {
+    "metadata": {
+      "email_id": "71575671176505973625",
+      "email_time": 1765059736486593,
+      "email_type": "Battle",
+      "email_receiver": "2295184",
+      "email_box": "Report",
+      "email_role": "gsmp",
+      "is_kvk": 1,
+      "attack_id": "669475701",
+      "start_date": 1765059736,
+      "end_date": 1765059736,
+      "pos_x": 3823.9026,
+      "pos_y": 3232.3394,
+      "players": 1
+    },
+    "self": {
+      "player_id": 2295184,
+      "player_name": "Sttuu",
+      "alliance_tag": "~73D",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2147252/2025-10-25/59990794073A8BB2967675D4C4EB9479_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "castle_x": 3821.0352,
+      "castle_y": 3220.75,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 179,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 148,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{}",
+      "formation": 2,
+      "is_ranged_tower": false,
+      "armament_buffs": "3003_0.021000;3003_0.025000;3003_0.030000;3003_0.035000;4003_0.022000;4003_0.024000;4003_0.025000;4003_0.035000;5003_0.016000;5003_0.018000;5003_0.019000;5003_0.022000",
+      "inscriptions": "-1;-1;228;2102"
+    },
+    "enemy": {
+      "player_id": 3571180,
+      "player_name": "ᴼⁿᵉTwo",
+      "alliance_tag": "1718",
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3389324/2025-11-14/260ED38EE93DF3CB01903855F049615F_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
+      "castle_x": 3786.9287,
+      "castle_y": 3229.9277,
+      "is_rally": null,
+      "npc_type": null,
+      "npc_btype": null,
+      "primary_commander": {
+        "id": 509,
+        "level": 60,
+        "skills": "5555"
+      },
+      "secondary_commander": {
+        "id": 6,
+        "level": 60,
+        "skills": "5555"
+      },
+      "equipment": "{1:20019_576:25,2:20020_627:25,3:20021_578:23,4:20022_716:23,5:20023_626:24,6:20024_577:25,7:20039_787:22,8:20037_687:21}",
+      "formation": 2,
+      "is_ranged_tower": false,
+      "armament_buffs": "10002_0.019000;3003_0.023000;3003_0.027000;3003_0.031000;3003_0.034000;4003_0.028000;4003_0.034000;4003_0.034000;4003_0.035000;5003_0.023000;5003_0.025000;5003_0.032000",
+      "inscriptions": "304;2101;2201;2401"
+    },
+    "battle_results": {
+      "power": -10,
+      "init_max": 1,
+      "max": 1,
+      "healing": 0,
+      "death": 0,
+      "severely_wounded": 1,
+      "wounded": 0,
+      "remaining": 0,
+      "watchtower": 0,
+      "watchtower_max": 0,
+      "kill_score": 0,
+      "enemy_power": 0,
+      "enemy_init_max": 438170,
+      "enemy_max": 312956,
+      "enemy_healing": 0,
+      "enemy_death": 0,
+      "enemy_severely_wounded": 0,
+      "enemy_wounded": 0,
+      "enemy_remaining": 312956,
+      "enemy_watchtower": 0,
+      "enemy_watchtower_max": 0,
+      "enemy_kill_score": 20
+    }
+  }
+]
