@@ -3,7 +3,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
 import App from "./App.tsx";
-import "./i18n.ts";
+import i18n from "./i18n.ts";
+
+i18n.on("languageChanged", (lng) => {
+  document.documentElement.lang = lng;
+});
 
 // biome-ignore lint/style/noNonNullAssertion: ignore
 createRoot(document.getElementById("root")!).render(
