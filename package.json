@@ -3,6 +3,7 @@
   "version": "0.1.9",
   "private": true,
   "scripts": {
+    "dev": "pnpm -F js run dev --host",
     "format": "biome check --write .",
     "preinstall": "npx only-allow pnpm"
   },
