@@ -1067,3 +1067,10 @@ equipment:
         de: "Artefakt - Megingjörð"
         es: "Artefacto - Megingjörð"
         kr: "장신구 - 메깅요르드"
+
+    20402:
+      name:
+        en: "Artifact - Emblem of Nike"
+        de: "Artefakt - Emblem der Nike"
+        es: "Artefacto - emblema de Nike"
+        kr: "장신구 - 영광의 휘장"
