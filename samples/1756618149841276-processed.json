@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 4352779,
+      "app_uid": "2850850",
       "player_name": "DDK38",
       "alliance_tag": "LX17",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2850850/2025-08-17/0D33A18440A65A3889EC039FFE66FBB2_250x250.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": -2,
+      "app_uid": null,
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,
@@ -108,6 +110,7 @@
     },
     "self": {
       "player_id": 4352779,
+      "app_uid": "2850850",
       "player_name": "DDK38",
       "alliance_tag": "LX17",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2850850/2025-08-17/0D33A18440A65A3889EC039FFE66FBB2_250x250.jpg",
@@ -135,6 +138,7 @@
     },
     "enemy": {
       "player_id": -2,
+      "app_uid": null,
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,

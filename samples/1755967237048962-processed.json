@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 161065006,
+      "app_uid": "104833380",
       "player_name": "cheppalodonж",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-06/DBD7328379D6A862D5EDFDB0AF1B1D35_250x250.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": -2,
+      "app_uid": null,
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,
@@ -108,6 +110,7 @@
     },
     "self": {
       "player_id": 161065006,
+      "app_uid": "104833380",
       "player_name": "cheppalodonж",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-06/DBD7328379D6A862D5EDFDB0AF1B1D35_250x250.jpg",
@@ -135,6 +138,7 @@
     },
     "enemy": {
       "player_id": -2,
+      "app_uid": null,
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,

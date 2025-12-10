@@ -64,6 +64,8 @@ pub struct Commander {
 pub struct Participant {
     // PId
     pub player_id: Option<i64>,
+    // AppUid
+    pub app_uid: Option<String>,
     // PName
     pub player_name: Option<String>,
     // Abbr

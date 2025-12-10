@@ -45,6 +45,34 @@ impl ParticipantSelfResolver {
         s
     }
 
+    fn extract_app_uid(v: Option<&Value>) -> Option<String> {
+        match v {
+            Some(Value::String(s)) => Some(s.to_owned()),
+            Some(Value::Number(n)) => n.as_i64().map(|x| x.to_string()),
+            _ => None,
+        }
+    }
+
+    fn extract_app_uid_from_avatar_url(v: Option<&Value>) -> Option<String> {
+        let url = v.and_then(Value::as_str)?;
+        let mut hyphen_candidate: Option<String> = None;
+        for seg in url.split('/').rev() {
+            if seg.is_empty() {
+                continue;
+            }
+            if seg.chars().all(|c| c.is_ascii_digit()) {
+                return Some(seg.to_owned());
+            }
+            if hyphen_candidate.is_none()
+                && seg.chars().all(|c| c.is_ascii_digit() || c == '-')
+                && seg.contains('-')
+            {
+                hyphen_candidate = Some(seg.to_owned());
+            }
+        }
+        hyphen_candidate
+    }
+
     fn push_skill(v: &Value, dst: &mut [u8; 5], cnt: &mut usize) {
         if *cnt >= dst.len() {
             return;
@@ -652,6 +680,34 @@ impl Resolver for ParticipantSelfResolver {
                 .or_else(|| extract_avatar_frame_url(self_snap.get("Avatar")))
                 .unwrap_or_default();
             obj.insert("frame_url".into(), Value::String(frame_url));
+        }
+
+        // app uid
+        let mut app_uid = Self::extract_app_uid(self_snap.get("AppUid"))
+            .or_else(|| fallback_snap.and_then(|s| Self::extract_app_uid(s.get("AppUid"))))
+            .or_else(|| Self::extract_app_uid(self_body.pointer("/SelfChar/AppUid")));
+        if app_uid.is_none()
+            && let Some(pid) = player_pid
+        {
+            app_uid = sections.iter().find_map(|sec| {
+                let content = Self::section_content_root(sec);
+                let pid_match = content.get("PId").and_then(Value::as_i64) == Some(pid);
+                let ctk_match = Self::section_tracking_key(sec)
+                    .map(|ctk| Self::tracking_key_belongs_to_pid(ctk, pid))
+                    .unwrap_or(false);
+                if pid_match || ctk_match {
+                    Self::extract_app_uid(content.get("AppUid"))
+                        .or_else(|| Self::extract_app_uid(sec.get("AppUid")))
+                } else {
+                    None
+                }
+            });
+        }
+        if app_uid.is_none() {
+            app_uid = Self::extract_app_uid_from_avatar_url(obj.get("avatar_url"));
+        }
+        if let Some(uid) = app_uid {
+            obj.insert("app_uid".into(), Value::String(uid));
         }
 
         // alliance and castle pos

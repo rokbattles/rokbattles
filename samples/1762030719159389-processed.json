@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": 7582648,
+      "app_uid": "7029838",
       "player_name": "米  PRK  米",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
@@ -112,6 +114,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -139,6 +142,7 @@
     },
     "enemy": {
       "player_id": 7582648,
+      "app_uid": "7029838",
       "player_name": "米  PRK  米",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
@@ -207,6 +211,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -234,6 +239,7 @@
     },
     "enemy": {
       "player_id": 65796618,
+      "app_uid": "46804282",
       "player_name": "Jops",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",
@@ -302,6 +308,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -329,6 +336,7 @@
     },
     "enemy": {
       "player_id": 5226152,
+      "app_uid": "4911330",
       "player_name": "DAYGO",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
@@ -397,6 +405,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -424,6 +433,7 @@
     },
     "enemy": {
       "player_id": 7582648,
+      "app_uid": "7029838",
       "player_name": "米  PRK  米",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
@@ -492,6 +502,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -519,6 +530,7 @@
     },
     "enemy": {
       "player_id": 5226152,
+      "app_uid": "4911330",
       "player_name": "DAYGO",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
@@ -587,6 +599,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -614,6 +627,7 @@
     },
     "enemy": {
       "player_id": 5226152,
+      "app_uid": "4911330",
       "player_name": "DAYGO",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
@@ -682,6 +696,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -709,6 +724,7 @@
     },
     "enemy": {
       "player_id": 7821244,
+      "app_uid": "7232266",
       "player_name": "BlackBee",
       "alliance_tag": "60D!",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7232266/2025-01-10/A1CA66EA6DF6FA7371282C013B97F1CA_250x250.jpg",
@@ -777,6 +793,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -804,6 +821,7 @@
     },
     "enemy": {
       "player_id": 65796618,
+      "app_uid": "46804282",
       "player_name": "Jops",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",
@@ -872,6 +890,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -899,6 +918,7 @@
     },
     "enemy": {
       "player_id": 7582648,
+      "app_uid": "7029838",
       "player_name": "米  PRK  米",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
@@ -967,6 +987,7 @@
     },
     "self": {
       "player_id": 157148751,
+      "app_uid": "212179569",
       "player_name": "GGeoMAV",
       "alliance_tag": "4S-",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
@@ -994,6 +1015,7 @@
     },
     "enemy": {
       "player_id": 65796618,
+      "app_uid": "46804282",
       "player_name": "Jops",
       "alliance_tag": "60D!",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",

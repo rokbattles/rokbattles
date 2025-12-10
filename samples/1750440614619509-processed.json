@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 31471838,
+      "app_uid": "103439411",
       "player_name": "霸氣包大人",
       "alliance_tag": "HP47",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/31471838/19/11/29/e98b77a47a5c7a39_200x200.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": 54726874,
+      "app_uid": "44920491",
       "player_name": "туя",
       "alliance_tag": "D@Rk",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44920491/2025-01-17/E2FA80CBFBC43E5239FB88DDA8A871F5_250x250.jpg",
