@@ -139,7 +139,7 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
               </Listbox>
             </Field>
             <SwitchField>
-              <Label>Garrison/Rally report only</Label>
+              <Label>Garrison/Rally reports only</Label>
               <Switch
                 checked={localRallyOnly}
                 onChange={(checked) => {
