@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 71738515,
+      "app_uid": "32624247",
       "player_name": "Griggasaurus",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-08-05/0439DD1061F65AFF1ABAF81479C4267A_250x250.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": 6202273,
+      "app_uid": "5793007",
       "player_name": "Strafey",
       "alliance_tag": "3355",
       "avatar_url": "https://static-gl.lilithgame.com/p/IM/10043/0/5793007/2024-06-04/924317059591E4846254907424429C29_250x250.jpg",
@@ -112,6 +114,7 @@
     },
     "self": {
       "player_id": 71738515,
+      "app_uid": "32624247",
       "player_name": "Griggasaurus",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-08-05/0439DD1061F65AFF1ABAF81479C4267A_250x250.jpg",
@@ -139,6 +142,7 @@
     },
     "enemy": {
       "player_id": 17421624,
+      "app_uid": "4350678",
       "player_name": "God Apollonas",
       "alliance_tag": "3355",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/4350678/2024-10-22/D470F31CB3C09963D0D7A9FB625B4F3E_250x250.jpg",

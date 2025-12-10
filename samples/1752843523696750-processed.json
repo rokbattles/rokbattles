@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 36195367,
+      "app_uid": "30948458",
       "player_name": "Fayst 25 GGGG X",
       "alliance_tag": "04Z",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/30948458/2025-04-27/E26A11AFE1AFFA94A08691D700D1F4DC_250x250.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": 129664812,
+      "app_uid": "98177052",
       "player_name": "1PUSHOK1",
       "alliance_tag": null,
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129664812/22/05/18/ac59ee339389002f_800x800.jpg",

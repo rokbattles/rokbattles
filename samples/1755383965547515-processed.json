@@ -17,6 +17,7 @@
     },
     "self": {
       "player_id": 29862805,
+      "app_uid": "26855535",
       "player_name": "Titanobenbu",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg",
@@ -44,6 +45,7 @@
     },
     "enemy": {
       "player_id": 46387535,
+      "app_uid": "26855535",
       "player_name": "F1 벤부",
       "alliance_tag": "2804",
       "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/46387535/230222/C483914BF87CDDDFDB17C0627925C470_250x250.jpg",
