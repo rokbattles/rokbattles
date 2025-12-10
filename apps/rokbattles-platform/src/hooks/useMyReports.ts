@@ -23,6 +23,7 @@ function buildQueryParams(
   cursor: string | undefined,
   playerId: number | undefined,
   type: ReportsFilterType | undefined,
+  rallyOnly: boolean,
   primaryCommanderId: number | undefined,
   secondaryCommanderId: number | undefined
 ) {
@@ -33,6 +34,7 @@ function buildQueryParams(
     params.set("playerId", String(Math.trunc(playerId)));
   }
   if (type) params.set("type", type);
+  if (rallyOnly) params.set("rallyOnly", "1");
   if (
     typeof primaryCommanderId === "number" &&
     Number.isFinite(primaryCommanderId) &&
@@ -65,7 +67,7 @@ export function useMyReports(): UseReportsResult {
     throw new Error("useMyReports must be used within a GovernorProvider");
   }
 
-  const { type, primaryCommanderId, secondaryCommanderId } = filterContext;
+  const { type, rallyOnly, primaryCommanderId, secondaryCommanderId } = filterContext;
   const { activeGovernor } = governorContext;
   const playerId = activeGovernor?.governorId;
 
@@ -116,6 +118,7 @@ export function useMyReports(): UseReportsResult {
         cursor,
         playerId,
         type,
+        rallyOnly,
         primaryCommanderId,
         secondaryCommanderId
       );
@@ -159,7 +162,7 @@ export function useMyReports(): UseReportsResult {
         }
       }
     },
-    [playerId, type, primaryCommanderId, secondaryCommanderId]
+    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
   );
 
   useEffect(() => {

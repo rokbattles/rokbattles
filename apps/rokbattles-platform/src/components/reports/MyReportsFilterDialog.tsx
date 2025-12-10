@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
+import { Switch, SwitchField } from "@/components/ui/Switch";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
 function parse(s: string) {
@@ -33,6 +34,8 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
   const {
     type,
     setType,
+    rallyOnly,
+    setRallyOnly,
     primaryCommanderId,
     setPrimaryCommanderId,
     secondaryCommanderId,
@@ -42,6 +45,7 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
 
   const [isOpen, setIsOpen] = useState(false);
   const [localType, setLocalType] = useState<ReportsFilterType | "">(() => type ?? "");
+  const [localRallyOnly, setLocalRallyOnly] = useState(() => rallyOnly);
   const [localPrimaryCommanderId, setLocalPrimaryCommanderId] = useState(() =>
     typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
   );
@@ -54,16 +58,18 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
   useEffect(() => {
     if (!isOpen) return;
     setLocalType(type ?? "");
+    setLocalRallyOnly(rallyOnly);
     setLocalPrimaryCommanderId(
       typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
     );
     setLocalSecondaryCommanderId(
       typeof secondaryCommanderId === "number" ? String(secondaryCommanderId) : ""
     );
-  }, [isOpen, type, primaryCommanderId, secondaryCommanderId]);
+  }, [isOpen, type, rallyOnly, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
     setType(localType === "" ? undefined : localType);
+    setRallyOnly(localRallyOnly);
     setPrimaryCommanderId(parse(localPrimaryCommanderId));
     setSecondaryCommanderId(parse(localSecondaryCommanderId));
     setIsOpen(false);
@@ -132,6 +138,15 @@ export function MyReportsFilterDialog(props: React.ComponentPropsWithoutRef<type
                 ))}
               </Listbox>
             </Field>
+            <SwitchField>
+              <Label>Garrison/Rally report only</Label>
+              <Switch
+                checked={localRallyOnly}
+                onChange={(checked) => {
+                  setLocalRallyOnly(checked);
+                }}
+              />
+            </SwitchField>
           </FieldGroup>
         </DialogBody>
         <DialogActions>
