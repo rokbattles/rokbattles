@@ -10,6 +10,8 @@ export type ReportsFilterContextValue = {
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
   type?: ReportsFilterType;
   setType: Dispatch<SetStateAction<ReportsFilterType | undefined>>;
+  rallyOnly: boolean;
+  setRallyOnly: Dispatch<SetStateAction<boolean>>;
   primaryCommanderId?: number;
   setPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
   secondaryCommanderId?: number;
@@ -22,12 +24,14 @@ export const ReportsFilterContext = createContext<ReportsFilterContextValue | un
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerId, setPlayerId] = useState<number | undefined>();
   const [type, setType] = useState<ReportsFilterType | undefined>();
+  const [rallyOnly, setRallyOnly] = useState(false);
   const [primaryCommanderId, setPrimaryCommanderId] = useState<number | undefined>();
   const [secondaryCommanderId, setSecondaryCommanderId] = useState<number | undefined>();
 
   const reset = () => {
     setPlayerId(undefined);
     setType(undefined);
+    setRallyOnly(false);
     setPrimaryCommanderId(undefined);
     setSecondaryCommanderId(undefined);
   };
@@ -39,13 +43,15 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
       setPlayerId,
       type,
       setType,
+      rallyOnly,
+      setRallyOnly,
       primaryCommanderId,
       setPrimaryCommanderId,
       secondaryCommanderId,
       setSecondaryCommanderId,
       reset,
     }),
-    [playerId, type, primaryCommanderId, secondaryCommanderId]
+    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
   );
 
   return <ReportsFilterContext.Provider value={value}>{children}</ReportsFilterContext.Provider>;

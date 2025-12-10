@@ -10,6 +10,7 @@ export async function GET(req: NextRequest) {
   const playerId = searchParams.get("playerId");
   const primaryCommanderId = searchParams.get("primaryCommanderId");
   const secondaryCommanderId = searchParams.get("secondaryCommanderId");
+  const rallyOnly = searchParams.get("rallyOnly");
 
   let parsedType: string | undefined;
   if (type) {
@@ -95,6 +96,12 @@ export async function GET(req: NextRequest) {
     if (parsedType === "ark") {
       matchPipeline.push({ "report.metadata.email_role": "dungeon" });
     }
+  }
+
+  if (rallyOnly === "1") {
+    matchPipeline.push({
+      $or: [{ "report.self.is_rally": 1 }, { "report.enemy.is_rally": 1 }],
+    });
   }
 
   const finalMatchPipeline =

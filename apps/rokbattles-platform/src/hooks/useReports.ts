@@ -48,6 +48,7 @@ function buildQueryParams(
   cursor: string | undefined,
   playerId: number | undefined,
   type: ReportsFilterType | undefined,
+  rallyOnly: boolean,
   primaryCommanderId: number | undefined,
   secondaryCommanderId: number | undefined
 ) {
@@ -58,6 +59,7 @@ function buildQueryParams(
     params.set("playerId", String(Math.trunc(playerId)));
   }
   if (type) params.set("type", type);
+  if (rallyOnly) params.set("rallyOnly", "1");
   if (
     typeof primaryCommanderId === "number" &&
     Number.isFinite(primaryCommanderId) &&
@@ -84,7 +86,7 @@ export function useReports(): UseReportsResult {
     throw new Error("useReports must be used within a ReportsFilterProvider");
   }
 
-  const { playerId, type, primaryCommanderId, secondaryCommanderId } = context;
+  const { playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId } = context;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -121,6 +123,7 @@ export function useReports(): UseReportsResult {
         cursor,
         playerId,
         type,
+        rallyOnly,
         primaryCommanderId,
         secondaryCommanderId
       );
@@ -163,7 +166,7 @@ export function useReports(): UseReportsResult {
         }
       }
     },
-    [playerId, type, primaryCommanderId, secondaryCommanderId]
+    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
   );
 
   useEffect(() => {

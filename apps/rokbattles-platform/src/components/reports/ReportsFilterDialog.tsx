@@ -17,6 +17,7 @@ import {
 import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
+import { Switch, SwitchField } from "@/components/ui/Switch";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
 function parse(s: string) {
@@ -35,6 +36,8 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     setPlayerId,
     type,
     setType,
+    rallyOnly,
+    setRallyOnly,
     primaryCommanderId,
     setPrimaryCommanderId,
     secondaryCommanderId,
@@ -47,6 +50,7 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     typeof playerId === "number" ? String(playerId) : ""
   );
   const [localType, setLocalType] = useState<ReportsFilterType | "">(() => type ?? "");
+  const [localRallyOnly, setLocalRallyOnly] = useState(() => rallyOnly);
   const [localPrimaryCommanderId, setLocalPrimaryCommanderId] = useState(() =>
     typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
   );
@@ -60,17 +64,19 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
     if (!isOpen) return;
     setLocalPlayerId(typeof playerId === "number" ? String(playerId) : "");
     setLocalType(type ?? "");
+    setLocalRallyOnly(rallyOnly);
     setLocalPrimaryCommanderId(
       typeof primaryCommanderId === "number" ? String(primaryCommanderId) : ""
     );
     setLocalSecondaryCommanderId(
       typeof secondaryCommanderId === "number" ? String(secondaryCommanderId) : ""
     );
-  }, [isOpen, playerId, type, primaryCommanderId, secondaryCommanderId]);
+  }, [isOpen, playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
     setPlayerId(parse(localPlayerId));
     setType(localType === "" ? undefined : localType);
+    setRallyOnly(localRallyOnly);
     setPrimaryCommanderId(parse(localPrimaryCommanderId));
     setSecondaryCommanderId(parse(localSecondaryCommanderId));
     setIsOpen(false);
@@ -151,6 +157,15 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
                 ))}
               </Listbox>
             </Field>
+            <SwitchField>
+              <Label>Garrison/Rally report only</Label>
+              <Switch
+                checked={localRallyOnly}
+                onChange={(checked) => {
+                  setLocalRallyOnly(checked);
+                }}
+              />
+            </SwitchField>
           </FieldGroup>
         </DialogBody>
         <DialogActions>
