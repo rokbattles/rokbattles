@@ -178,7 +178,10 @@ impl ParticipantSelfResolver {
                 continue;
             }
 
-            let has_heq = sec.get("HEq").is_some() || content.get("HEq").is_some();
+            let has_heq = sec.get("HEq").is_some()
+                || content.get("HEq").is_some()
+                || sec.get("HEq2").is_some()
+                || content.get("HEq2").is_some();
             let has_hwbs = sec.get("HWBs").is_some() || content.get("HWBs").is_some();
             let has_hid2 = sec
                 .get("HId2")
@@ -242,6 +245,7 @@ impl ParticipantSelfResolver {
 
     fn has_self_related_fields(content: &Value) -> bool {
         content.get("HEq").is_some()
+            || content.get("HEq2").is_some()
             || content.get("CastlePos").is_some()
             || content.get("COSId").is_some()
     }
@@ -277,7 +281,12 @@ impl ParticipantSelfResolver {
                 .get("HEq")
                 .and_then(Value::as_str)
                 .map(|s| !s.is_empty())
-                .unwrap_or(false);
+                .unwrap_or(false)
+                || content
+                    .get("HEq2")
+                    .and_then(Value::as_str)
+                    .map(|s| !s.is_empty())
+                    .unwrap_or(false);
             let has_hwbs = content.get("HWBs").is_some();
             if !has_heq && !has_hwbs {
                 continue;
@@ -879,11 +888,17 @@ impl Resolver for ParticipantSelfResolver {
             "equipment",
             Self::get_with_fallback(self_snap, fallback_snap, "HEq").and_then(Value::as_str),
         );
+        map_put_str(
+            obj,
+            "equipment_2",
+            Self::get_with_fallback(self_snap, fallback_snap, "HEq2").and_then(Value::as_str),
+        );
         let self_snap_idx = sections.iter().position(|sec| {
             let content = Self::section_content_root(sec);
             ptr::eq(sec, self_snap) || ptr::eq(content, self_snap)
         });
         let gear_section = if obj.get("equipment").is_none()
+            || obj.get("equipment_2").is_none()
             || obj.get("armament_buffs").is_none()
             || obj.get("inscriptions").is_none()
         {
@@ -902,6 +917,15 @@ impl Resolver for ParticipantSelfResolver {
                 "equipment",
                 gear_section
                     .and_then(|g| g.get("HEq"))
+                    .and_then(Value::as_str),
+            );
+        }
+        if obj.get("equipment_2").is_none() {
+            map_put_str(
+                obj,
+                "equipment_2",
+                gear_section
+                    .and_then(|g| g.get("HEq2"))
                     .and_then(Value::as_str),
             );
         }

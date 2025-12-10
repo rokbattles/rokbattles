@@ -183,6 +183,54 @@ impl ParticipantEnemyResolver {
         None
     }
 
+    fn find_equipment2_hint(
+        sections: &[Value],
+        enemy_ctid: i64,
+        enemy_ct: i32,
+        enemy_abbr: &str,
+    ) -> Option<String> {
+        if enemy_ctid != 0
+            && let Some(eq2) = sections.iter().find_map(|sec| {
+                if sec.get("CtId").and_then(Value::as_i64) == Some(enemy_ctid) {
+                    sec.get("HEq2").and_then(Value::as_str)
+                } else {
+                    None
+                }
+            })
+        {
+            return Some(eq2.to_owned());
+        }
+
+        if enemy_ct != 0
+            && let Some(eq2) = sections.iter().find_map(|sec| {
+                if sec.get("CT").and_then(Value::as_i64).map(|ct| ct as i32) == Some(enemy_ct) {
+                    sec.get("HEq2").and_then(Value::as_str)
+                } else {
+                    None
+                }
+            })
+        {
+            return Some(eq2.to_owned());
+        }
+
+        let abbr_trimmed = enemy_abbr.trim();
+        if !abbr_trimmed.is_empty()
+            && let Some(eq2) = sections.iter().find_map(|sec| {
+                if let Some(sec_abbr) = sec.get("Abbr").and_then(Value::as_str) {
+                    let trimmed = sec_abbr.trim();
+                    if !trimmed.is_empty() && trimmed == abbr_trimmed {
+                        return sec.get("HEq2").and_then(Value::as_str);
+                    }
+                }
+                None
+            })
+        {
+            return Some(eq2.to_owned());
+        }
+
+        None
+    }
+
     fn select_enemy_from_ots(group: &[Value], enemy_pid: i64) -> (i64, String, i32, String) {
         let mut sources: Vec<(&str, &Value)> = Vec::new();
 
@@ -1106,6 +1154,11 @@ impl Resolver for ParticipantEnemyResolver {
                 "equipment",
                 snap.get("HEq").and_then(Value::as_str),
             );
+            map_put_str(
+                enemy_obj,
+                "equipment_2",
+                snap.get("HEq2").and_then(Value::as_str),
+            );
         }
         if enemy_obj.get("equipment").is_none() {
             map_put_str(
@@ -1114,12 +1167,36 @@ impl Resolver for ParticipantEnemyResolver {
                 atk_block.get("HEq").and_then(Value::as_str),
             );
         }
+        if enemy_obj.get("equipment_2").is_none() {
+            map_put_str(
+                enemy_obj,
+                "equipment_2",
+                atk_block.get("HEq2").and_then(Value::as_str),
+            );
+        }
         if enemy_obj.get("equipment").is_none() {
             map_put_str(
                 enemy_obj,
                 "equipment",
                 Self::attack_section_get(attack_section, "HEq").and_then(Value::as_str),
             );
+        }
+        if enemy_obj.get("equipment_2").is_none() {
+            map_put_str(
+                enemy_obj,
+                "equipment_2",
+                Self::attack_section_get(attack_section, "HEq2").and_then(Value::as_str),
+            );
+        }
+        if enemy_obj.get("equipment_2").is_none() {
+            let eq2_hint = Self::find_equipment2_hint(group, enemy_ctid, enemy_ct, &enemy_abbr);
+            if eq2_hint.is_none() {
+                let global_hint =
+                    Self::find_equipment2_hint(sections, enemy_ctid, enemy_ct, &enemy_abbr);
+                map_put_str(enemy_obj, "equipment_2", global_hint.as_deref());
+            } else {
+                map_put_str(enemy_obj, "equipment_2", eq2_hint.as_deref());
+            }
         }
 
         // formation / buffs / inscriptions

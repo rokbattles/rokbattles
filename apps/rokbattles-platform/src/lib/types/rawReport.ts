@@ -22,6 +22,7 @@ export interface RawCommanderInfo {
 
 export interface RawParticipantInfo {
   player_id?: number;
+  app_uid?: string;
   player_name?: string;
   alliance_tag?: string;
   avatar_url?: string;
@@ -34,6 +35,7 @@ export interface RawParticipantInfo {
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
   equipment?: string;
+  equipment_2?: string;
   formation?: number;
   armament_buffs?: string;
   inscriptions?: string;
