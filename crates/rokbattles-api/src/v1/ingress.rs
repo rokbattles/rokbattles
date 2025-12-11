@@ -21,7 +21,7 @@ use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 10 * 1024 * 1024; // 10 MB
 const BUFFER_LEN: usize = 32;
-const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2];
+const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2, 3];
 
 fn ua_ok(h: &HeaderMap) -> bool {
     let Some(user_agent) = h.get("user-agent").and_then(|v| v.to_str().ok()) else {
@@ -539,7 +539,7 @@ mod tests {
 
     #[test]
     fn ua_ok_rejects_unsupported_minor_version() {
-        let headers = headers_with_user_agent("ROKBattles/0.3.0");
+        let headers = headers_with_user_agent("ROKBattles/0.30.0");
         assert!(!ua_ok(&headers));
     }
 
@@ -571,6 +571,6 @@ mod tests {
     #[test]
     fn is_supported_version_rejects_disallowed_major_or_minor() {
         assert!(!is_supported_version("1.0.0"));
-        assert!(!is_supported_version("0.3.0"));
+        assert!(!is_supported_version("0.30.0"));
     }
 }
