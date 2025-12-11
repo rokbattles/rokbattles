@@ -539,7 +539,7 @@ mod tests {
 
     #[test]
     fn ua_ok_rejects_unsupported_minor_version() {
-        let headers = headers_with_user_agent("ROKBattles/0.3.0");
+        let headers = headers_with_user_agent("ROKBattles/0.30.0");
         assert!(!ua_ok(&headers));
     }
 
@@ -571,6 +571,6 @@ mod tests {
     #[test]
     fn is_supported_version_rejects_disallowed_major_or_minor() {
         assert!(!is_supported_version("1.0.0"));
-        assert!(!is_supported_version("0.3.0"));
+        assert!(!is_supported_version("0.30.0"));
     }
 }
