@@ -10,9 +10,6 @@ const config: NextConfig = {
   },
   compress: true,
   devIndicators: false,
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   experimental: {
     typedEnv: true,
   },

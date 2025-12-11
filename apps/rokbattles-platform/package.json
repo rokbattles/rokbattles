@@ -5,7 +5,6 @@
   "scripts": {
     "build": "next build --turbo",
     "dev": "next --turbo -H 0.0.0.0",
-    "test": "vitest run",
     "generate:datasets": "node ./scripts/generate-datasets.cjs"
   },
   "dependencies": {
@@ -15,7 +14,7 @@
     "clsx": "^2.1.1",
     "mongodb": "^6.21.0",
     "motion": "^12.23.26",
-    "next": "^15.5.7",
+    "next": "^16.0.8",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "recharts": "^3.5.1",
@@ -23,18 +22,12 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.17",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.19.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^4.7.0",
-    "jsdom": "^27.3.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
-    "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^2.1.9",
     "yaml": "^2.8.2"
   }
 }
