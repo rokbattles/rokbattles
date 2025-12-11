@@ -95,6 +95,8 @@ pub struct Participant {
 
     // HEq
     pub equipment: Option<String>,
+    // HEq2
+    pub equipment_2: Option<String>,
     // HFMs
     pub formation: Option<i32>,
     // IsRangeTower

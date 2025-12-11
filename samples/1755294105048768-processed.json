@@ -38,6 +38,7 @@
         "skills": "5555"
       },
       "equipment": "{}",
+      "equipment_2": "{}",
       "formation": 6,
       "is_ranged_tower": false,
       "armament_buffs": null,
@@ -66,6 +67,7 @@
         "skills": "5555"
       },
       "equipment": "{2:20062_27:0}",
+      "equipment_2": "{6:20086_23:0,1:20089_12:30,2:20083_19:30,4:20085_15:0,5:20101_25:30,3:20084_21:0}",
       "formation": 1,
       "is_ranged_tower": false,
       "armament_buffs": null,

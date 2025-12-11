@@ -42,6 +42,7 @@ type ReportEntryCardProps = {
 };
 
 type ParticipantSide = "self" | "enemy";
+const ARTIFACT_IDS = new Set([20401, 20402]);
 
 export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   const payload = useMemo(() => (entry.report ?? {}) as RawReportPayload, [entry.report]);
@@ -267,6 +268,11 @@ function ParticipantCard({
     [participant?.equipment]
   );
 
+  const artifactTokens = useMemo(() => {
+    const tokens = parseEquipment(participant?.equipment_2 ?? null);
+    return tokens.filter((token) => ARTIFACT_IDS.has(token.id));
+  }, [participant?.equipment_2]);
+
   const inscriptionIds = useMemo(
     () => parseSemicolonNumberList(participant?.inscriptions ?? null),
     [participant?.inscriptions]
@@ -312,6 +318,7 @@ function ParticipantCard({
           primaryFormation={participant?.formation}
         />
         <EquipmentSection tokens={equipmentTokens} />
+        <ArtifactSection tokens={artifactTokens} />
         <ArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
       </div>
     </div>
@@ -403,6 +410,23 @@ function EquipmentSection({ tokens }: { tokens: EquipmentToken[] }) {
           <EquipmentGlyph token={slots[6]} />
           <div />
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ArtifactSection({ tokens }: { tokens: EquipmentToken[] }) {
+  if (tokens.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-2">
+      <Subheading>Artifacts</Subheading>
+      <div className="grid grid-cols-4 gap-3 sm:grid-cols-5">
+        {tokens.map((token) => (
+          <EquipmentGlyph key={`${token.slot}-${token.id}`} token={token} />
+        ))}
       </div>
     </div>
   );
