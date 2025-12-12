@@ -19,7 +19,7 @@ export function CookieConsentBanner() {
   }
 
   return (
-    <div className="fixed right-4 bottom-4 w-96 z-50 border bg-white border-zinc-100 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 rounded-lg">
+    <div className="fixed sm:right-4 bottom-0 sm:bottom-4 w-full sm:w-96 z-50 border-t sm:border bg-white border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 sm:rounded-lg">
       <Text>
         We use only essential cookies for authentication, security, and site functionality. If we
         add optional cookies in the future, you’ll be able to manage them here. Read our{" "}
