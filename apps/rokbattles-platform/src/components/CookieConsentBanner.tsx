@@ -21,8 +21,8 @@ export function CookieConsentBanner() {
   return (
     <div className="fixed right-4 bottom-4 w-96 z-50 border bg-white border-zinc-100 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 rounded-lg">
       <Text>
-        We use only strictly necessary cookies required for authentication, security, and core site
-        functionality. No tracking or advertising cookies are used. Read our{" "}
+        We use only essential cookies for authentication, security, and site functionality. If we
+        add optional cookies in the future, you’ll be able to manage them here. Read our{" "}
         <TextLink href="https://rokbattles.com/legal/cookie-policy">cookie policy</TextLink> for
         more information.
       </Text>
@@ -34,7 +34,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          Got it
+          Accept
         </Button>
         <Button
           onClick={() => {
@@ -42,7 +42,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          Dismiss
+          Reject
         </Button>
       </div>
     </div>
