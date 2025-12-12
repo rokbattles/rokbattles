@@ -59,22 +59,24 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      const gdpr = await fetch("/api/geolocation").then((res) => res.json());
-      setCountry(gdpr.country || "");
+      const geo = await fetch("/api/geolocation").then((res) => res.json());
+      console.log("cookie consent", geo);
 
-      if (!gdpr.isGDPR) {
+      setCountry(geo.country || "");
+      setShowConsent(!!geo.isGDPR);
+
+      if (!geo.isGDPR) {
         setCookieConsent(false);
-        updateCookieConsent(false);
       }
-
-      setShowConsent(gdpr.isGDPR || false);
     })().catch(console.error);
-  }, [updateCookieConsent]);
+  }, []);
 
   return (
-    <CookieConsentContext value={{ cookieConsent, country, showConsent, updateCookieConsent }}>
+    <CookieConsentContext.Provider
+      value={{ cookieConsent, country, showConsent, updateCookieConsent }}
+    >
       {children}
-    </CookieConsentContext>
+    </CookieConsentContext.Provider>
   );
 }
 
