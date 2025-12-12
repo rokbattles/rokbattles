@@ -90,7 +90,6 @@ const gdprList = [
   // Other
   "JE", // Jersey
   "GG", // Guernsey
-  "GI", // Gibraltar
 
   // Cloudflare
   // https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-ipcountry
