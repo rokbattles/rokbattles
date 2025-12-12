@@ -63,8 +63,8 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       setCountry(gdpr.country || "");
 
       if (!gdpr.isGDPR) {
-        setCookieConsent(true);
-        updateCookieConsent(true);
+        setCookieConsent(false);
+        updateCookieConsent(false);
       }
 
       setShowConsent(gdpr.isGDPR || false);
