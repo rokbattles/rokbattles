@@ -7,7 +7,40 @@ pub struct ParsedMail {
     #[serde(rename = "self")]
     pub self_side: Participant,
     pub enemy: Participant,
+    pub overview: OverviewResults,
     pub battle_results: BattleResults,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OverviewResults {
+    // SOv -> self
+    // OOv -> enemy
+
+    // KillScore
+    pub kill_score: Option<i64>,
+    // BadHurt
+    pub severely_wounded: Option<i64>,
+    // Max
+    pub max: Option<i64>,
+    // Hurt
+    pub wounded: Option<i64>,
+    // Cnt
+    pub remaining: Option<i64>,
+    // Dead
+    pub death: Option<i64>,
+
+    // KillScore
+    pub enemy_kill_score: Option<i64>,
+    // BadHurt
+    pub enemy_severely_wounded: Option<i64>,
+    // Max
+    pub enemy_max: Option<i64>,
+    // Hurt
+    pub enemy_wounded: Option<i64>,
+    // Cnt
+    pub enemy_remaining: Option<i64>,
+    // Dead
+    pub enemy_death: Option<i64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

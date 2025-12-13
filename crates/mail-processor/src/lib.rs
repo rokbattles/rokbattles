@@ -7,6 +7,7 @@ use crate::{
     resolvers::ResolverContext,
     resolvers::battle::BattleResolver,
     resolvers::metadata::MetadataResolver,
+    resolvers::overview::OverviewResolver,
     resolvers::participant_enemy::ParticipantEnemyResolver,
     resolvers::participant_self::ParticipantSelfResolver,
     structures::{DecodedMail, ParsedMail},
@@ -91,6 +92,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
         .with(MetadataResolver::new())
         .with(ParticipantSelfResolver::new())
         .with(ParticipantEnemyResolver::new())
+        .with(OverviewResolver::new())
         .with(BattleResolver::new());
 
     let mut entries: Vec<ParsedMail> = Vec::new();
@@ -100,6 +102,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
             "metadata": {},
             "self": {},
             "enemy": {},
+            "overview": {},
             "battle_results": {}
         });
 
