@@ -1,0 +1,19 @@
+{
+  "name": "@rokbattles/bot",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "cmd:register": "node dist/register.js",
+    "cmd:unregister": "node dist/unregister.js",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "tsc-alias": "^1.8.16"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.2",
+    "typescript": "^5.9.3"
+  }
+}

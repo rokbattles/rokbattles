@@ -55,6 +55,17 @@ services:
       MONGO_URI: mongodb://mongo:27017/rokbattles
     networks:
       - rokbattles
+  bot:
+    build:
+      context: .
+      dockerfile: infra/bot.Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DISCORD_TOKEN: ""
+      DISCORD_APPLICATION_ID: ""
+    networks:
+      - rokbattles
   clamd:
     image: clamav/clamav:latest
     restart: unless-stopped
