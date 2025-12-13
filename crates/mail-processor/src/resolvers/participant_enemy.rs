@@ -1,8 +1,9 @@
 use crate::{
     helpers::{
-        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_avatar_frame_url,
-        extract_avatar_url, find_attack_block_best_match, get_or_insert_object, map_put_f64,
-        map_put_i32, map_put_i64, map_put_str, parse_f64,
+        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
+        extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
+        find_attack_block_best_match, get_or_insert_object, map_put_f64, map_put_i32, map_put_i64,
+        map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -23,34 +24,6 @@ impl ParticipantEnemyResolver {
 
     fn parse_attack_identifier(s: &str) -> (Option<i64>, &str) {
         (s.parse::<i64>().ok(), s)
-    }
-
-    fn extract_app_uid(v: Option<&Value>) -> Option<String> {
-        match v {
-            Some(Value::String(s)) => Some(s.to_owned()),
-            Some(Value::Number(n)) => n.as_i64().map(|x| x.to_string()),
-            _ => None,
-        }
-    }
-
-    fn extract_app_uid_from_avatar_url(v: Option<&Value>) -> Option<String> {
-        let url = v.and_then(Value::as_str)?;
-        let mut hyphen_candidate: Option<String> = None;
-        for seg in url.split('/').rev() {
-            if seg.is_empty() {
-                continue;
-            }
-            if seg.chars().all(|c| c.is_ascii_digit()) {
-                return Some(seg.to_owned());
-            }
-            if hyphen_candidate.is_none()
-                && seg.chars().all(|c| c.is_ascii_digit() || c == '-')
-                && seg.contains('-')
-            {
-                hyphen_candidate = Some(seg.to_owned());
-            }
-        }
-        hyphen_candidate
     }
 
     fn attack_identifier_matches(v: &Value, str_id: &str, num_id: Option<i64>) -> bool {
@@ -113,11 +86,12 @@ impl ParticipantEnemyResolver {
     }
 
     fn get_ots_entry_for_ctid(group: &[Value], ctid: i64) -> Option<&Value> {
-        let key = ctid.to_string();
+        let mut buf = itoa::Buffer::new();
+        let key = buf.format(ctid);
         group.iter().find_map(|s| {
             s.get("OTs")
                 .and_then(Value::as_object)
-                .and_then(|o| o.get(&key))
+                .and_then(|o| o.get(key))
         })
     }
 
@@ -380,14 +354,15 @@ impl ParticipantEnemyResolver {
         group: &[Value],
         attack_cid: i64,
     ) -> Option<(usize, bool, &Value, &Value)> {
-        let key = attack_cid.to_string();
+        let mut buf = itoa::Buffer::new();
+        let key = buf.format(attack_cid);
         for (i, sec) in group.iter().enumerate() {
             if let Some(attacks) = sec.get("Attacks")
-                && let Some(obj) = attacks.get(&key)
+                && let Some(obj) = attacks.get(key)
             {
                 return Some((i, true, attacks, obj));
             }
-            if let Some(obj) = sec.get(&key) {
+            if let Some(obj) = sec.get(key) {
                 return Some((i, false, sec, obj));
             }
         }
@@ -886,33 +861,33 @@ impl Resolver for ParticipantEnemyResolver {
 
         // app uid
         let mut app_uid = enemy_snap
-            .and_then(|snap| Self::extract_app_uid(snap.get("AppUid")))
-            .or_else(|| Self::extract_app_uid(c_idt.get("AppUid")))
-            .or_else(|| Self::extract_app_uid(atk_block.get("AppUid")))
+            .and_then(|snap| extract_app_uid(snap.get("AppUid")))
+            .or_else(|| extract_app_uid(c_idt.get("AppUid")))
+            .or_else(|| extract_app_uid(atk_block.get("AppUid")))
             .or_else(|| {
                 Self::attack_section_get(attack_section, "AppUid")
-                    .and_then(|v| Self::extract_app_uid(Some(v)))
+                    .and_then(|v| extract_app_uid(Some(v)))
             });
         if app_uid.is_none()
             && let Some(pid) = pid
         {
             app_uid = Self::find_any_snapshot_by_pid(group, pid)
-                .and_then(|snap| Self::extract_app_uid(snap.get("AppUid")))
+                .and_then(|snap| extract_app_uid(snap.get("AppUid")))
                 .or_else(|| {
                     Self::find_any_snapshot_by_pid(sections, pid)
-                        .and_then(|snap| Self::extract_app_uid(snap.get("AppUid")))
+                        .and_then(|snap| extract_app_uid(snap.get("AppUid")))
                 });
         }
         if app_uid.is_none() && enemy_ctid != 0 {
             app_uid = Self::find_enemy_snapshot_by_ctid(group, enemy_ctid)
-                .and_then(|snap| Self::extract_app_uid(snap.get("AppUid")))
+                .and_then(|snap| extract_app_uid(snap.get("AppUid")))
                 .or_else(|| {
                     Self::find_any_snapshot_by_ctid(sections, enemy_ctid)
-                        .and_then(|snap| Self::extract_app_uid(snap.get("AppUid")))
+                        .and_then(|snap| extract_app_uid(snap.get("AppUid")))
                 });
         }
         if app_uid.is_none() {
-            app_uid = Self::extract_app_uid_from_avatar_url(enemy_obj.get("avatar_url"));
+            app_uid = extract_app_uid_from_avatar_url(enemy_obj.get("avatar_url"));
         }
         if let Some(uid) = app_uid {
             enemy_obj.insert("app_uid".into(), Value::String(uid));

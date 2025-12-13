@@ -1,5 +1,9 @@
 use serde_json::{Map, Value};
 
+pub fn is_ascii_digits(s: &str) -> bool {
+    s.as_bytes().iter().all(|b| b.is_ascii_digit())
+}
+
 pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value {
     let map = obj.as_object_mut().expect("mail root must be an object");
     if !map.get(key).map(Value::is_object).unwrap_or(false) {
@@ -83,10 +87,6 @@ pub fn find_attack_block_best_match<'a>(
     group: &'a [Value],
     attack_id: &str,
 ) -> (Option<usize>, Option<&'a Value>) {
-    let mut path = String::with_capacity(9 + attack_id.len());
-    path.push_str("/Attacks/");
-    path.push_str(attack_id);
-
     let mut atk_idx: Option<usize> = None;
     let mut atk_val: Option<&Value> = None;
     let mut atk_has_hss = false;
@@ -107,7 +107,9 @@ pub fn find_attack_block_best_match<'a>(
                     atk_has_hss = has_hss;
                 }
             }
-        } else if let Some(b) = s.pointer(&path) {
+        } else if let Some(attacks) = s.get("Attacks").and_then(Value::as_object)
+            && let Some(b) = attacks.get(attack_id)
+        {
             let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
             if atk_val.is_none() || (!atk_has_hss && has_hss) {
                 atk_idx = Some(i);
@@ -188,6 +190,34 @@ pub fn map_insert_str_if_absent(m: &mut Map<String, Value>, k: &str, v: Option<&
     if m.get(k).is_none() {
         map_put_str(m, k, v);
     }
+}
+
+pub fn extract_app_uid(v: Option<&Value>) -> Option<String> {
+    match v {
+        Some(Value::String(s)) => Some(s.to_owned()),
+        Some(Value::Number(n)) => n.as_i64().map(|x| x.to_string()),
+        _ => None,
+    }
+}
+
+pub fn extract_app_uid_from_avatar_url(v: Option<&Value>) -> Option<String> {
+    let url = v.and_then(Value::as_str)?;
+    let mut hyphen_candidate: Option<String> = None;
+    for seg in url.split('/').rev() {
+        if seg.is_empty() {
+            continue;
+        }
+        if is_ascii_digits(seg) {
+            return Some(seg.to_owned());
+        }
+        if hyphen_candidate.is_none()
+            && seg.chars().all(|c| c.is_ascii_digit() || c == '-')
+            && seg.contains('-')
+        {
+            hyphen_candidate = Some(seg.to_owned());
+        }
+    }
+    hyphen_candidate
 }
 
 fn extract_avatar_field(v: Option<&Value>, field: &str) -> Option<String> {
