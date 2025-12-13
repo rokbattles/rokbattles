@@ -1,22 +1,9 @@
-import { Client } from "discord.js";
-import { SlashCommandHandler } from "@/events/SlashCommandHandler";
-import { EventCollection, registerEvents } from "@/lib/EventHandler";
+import { BaseClient } from "@/lib/BaseClient";
 
-const client = new Client({ intents: [] });
-
-function events(): EventCollection {
-  const coll = new EventCollection();
-
-  coll.add("interactionCreate", SlashCommandHandler);
-
-  return coll;
-}
+const client = new BaseClient({ intents: [] });
 
 (async () => {
   try {
-    registerEvents(client, events());
-
-    // Login
     await client.login(process.env.DISCORD_TOKEN);
   } catch {
     await client.destroy();
