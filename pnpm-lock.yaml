@@ -17,6 +17,9 @@ importers:
       discord.js:
         specifier: ^14.25.1
         version: 14.25.1
+      mongodb:
+        specifier: ^6.21.0
+        version: 6.21.0
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
