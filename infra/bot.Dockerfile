@@ -5,8 +5,10 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY apps/rokbattles-bot ./apps/rokbattles-bot
+COPY datasets ./datasets
 RUN corepack enable pnpm
 RUN pnpm  install --frozen-lockfile
+RUN pnpm --filter=@rokbattles/bot... run generate:datasets
 RUN pnpm --filter=@rokbattles/bot... build
 
 FROM base AS runner
