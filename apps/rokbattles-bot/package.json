@@ -1,0 +1,12 @@
+{
+  "name": "@rokbattles/bot",
+  "version": "0.3.0",
+  "private": true,
+  "dependencies": {
+    "discord.js": "^14.25.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.2",
+    "typescript": "^5.9.3"
+  }
+}
