@@ -73,6 +73,20 @@
       "armament_buffs": "10002_0.015000;10002_0.019000;3001_0.019000;3001_0.020000;3001_0.020000;3001_0.026000;4001_0.016000;4001_0.023000;4001_0.032000;4001_0.033000;5001_0.017000;5001_0.017000",
       "inscriptions": "208;17101;17202;17302;17402"
     },
+    "overview": {
+      "kill_score": 16991393,
+      "severely_wounded": 272818,
+      "max": 2730000,
+      "wounded": 1400260,
+      "remaining": 1056922,
+      "death": 0,
+      "enemy_kill_score": 5212360,
+      "enemy_severely_wounded": 859533,
+      "enemy_max": 6804444,
+      "enemy_wounded": 3279249,
+      "enemy_remaining": 116032,
+      "enemy_death": 0
+    },
     "battle_results": {
       "power": -38110,
       "init_max": 2743415,
@@ -171,6 +185,20 @@
       "is_ranged_tower": false,
       "armament_buffs": "3001_0.018000;3001_0.021000;3001_0.028000;3001_0.035000;4001_0.025000;4001_0.026000;4001_0.030000;4001_0.034000;5001_0.023000;5001_0.026000;5001_0.028000;5001_0.034000",
       "inscriptions": "-1;-1;105;112;304;307"
+    },
+    "overview": {
+      "kill_score": 16991393,
+      "severely_wounded": 272818,
+      "max": 2730000,
+      "wounded": 1400260,
+      "remaining": 1056922,
+      "death": 0,
+      "enemy_kill_score": 5212360,
+      "enemy_severely_wounded": 859533,
+      "enemy_max": 6804444,
+      "enemy_wounded": 3279249,
+      "enemy_remaining": 116032,
+      "enemy_death": 0
     },
     "battle_results": {
       "power": -2543670,

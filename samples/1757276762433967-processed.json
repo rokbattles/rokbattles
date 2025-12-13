@@ -73,6 +73,20 @@
       "armament_buffs": "10002_0.015000;3002_0.027000;3002_0.029000;3002_0.032000;3002_0.034000;4002_0.027000;4002_0.029000;4002_0.033000;4002_0.033000;5002_0.031000;5002_0.032000;5002_0.032000",
       "inscriptions": "13101;13201;13301;13401"
     },
+    "overview": {
+      "kill_score": null,
+      "severely_wounded": null,
+      "max": null,
+      "wounded": null,
+      "remaining": null,
+      "death": null,
+      "enemy_kill_score": null,
+      "enemy_severely_wounded": null,
+      "enemy_max": null,
+      "enemy_wounded": null,
+      "enemy_remaining": null,
+      "enemy_death": null
+    },
     "battle_results": {
       "power": -156130,
       "init_max": 726000,
