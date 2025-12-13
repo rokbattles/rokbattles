@@ -2,8 +2,14 @@
   "name": "@rokbattles/bot",
   "version": "0.3.0",
   "private": true,
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "register": "node dist/register.js",
+    "start": "node dist/index.js"
+  },
   "dependencies": {
-    "discord.js": "^14.25.1"
+    "discord.js": "^14.25.1",
+    "tsc-alias": "^1.8.16"
   },
   "devDependencies": {
     "@types/node": "^22.19.2",

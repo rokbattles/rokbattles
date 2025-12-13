@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "removeComments": false,
+    "alwaysStrict": true,
+    "pretty": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["./src/**/*.ts"]
+}
