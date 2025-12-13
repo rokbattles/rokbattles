@@ -1,6 +1,7 @@
 mod health;
 mod v1;
 
+use axum::http::StatusCode;
 use axum::{Router, routing::get};
 use std::{net::SocketAddr, time::Duration};
 use tower_http::{timeout::TimeoutLayer, trace::TraceLayer};
@@ -46,7 +47,10 @@ async fn main() {
         .route("/health", get(health::health))
         .nest("/v1", v1::router())
         .with_state(app_state)
-        .layer(TimeoutLayer::new(Duration::from_secs(40)))
+        .layer(TimeoutLayer::with_status_code(
+            StatusCode::REQUEST_TIMEOUT,
+            Duration::from_secs(40),
+        ))
         .layer(TraceLayer::new_for_http());
 
     let addr = SocketAddr::from(([0, 0, 0, 0], 8000));
