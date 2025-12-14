@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "crates/mail-battle-processor",
     "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-processor",

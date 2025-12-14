@@ -2577,6 +2577,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-battle-processor"
+version = "0.3.1"
+
+[[package]]
 name = "mail-cli"
 version = "0.3.1"
 dependencies = [
