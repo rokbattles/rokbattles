@@ -138,6 +138,24 @@ fn is_rok_filename(filename: &str) -> bool {
     }
 }
 
+fn detect_mail_type<'a>(mail: &'a mail_decoder::MailBorrowed<'a>) -> Option<&'a str> {
+    for section in &mail.sections {
+        let mail_decoder::ValueBorrowed::Object(entries) = section else {
+            continue;
+        };
+        for (key, value) in entries {
+            if *key != "type" {
+                continue;
+            }
+            let mail_decoder::ValueBorrowed::String(value) = value else {
+                return None;
+            };
+            return Some(value);
+        }
+    }
+    None
+}
+
 fn has_rok_fileheader_from_file(path: &PathBuf) -> anyhow::Result<bool> {
     let mut f = fs::File::open(path)
         .with_context(|| format!("Failed to open file for header check: {:?}", path))?;
@@ -290,7 +308,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         }
                     };
 
-                    let decoded = match mail_decoder::decode(&bytes).map(|m| m.into_owned()) {
+                    let decoded = match mail_decoder::decode(&bytes) {
                         Ok(m) => m,
                         Err(e) => {
                             emit_log(&app, format!("Decode failed for {}: {}", fname, e));
@@ -299,7 +317,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         }
                     };
 
-                    let first_type = mail_helper::detect_mail_type_str(&decoded);
+                    let first_type = detect_mail_type(&decoded);
                     if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
                         emit_log(
                             &app,

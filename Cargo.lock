@@ -4149,7 +4149,6 @@ version = "0.3.0"
 dependencies = [
  "anyhow",
  "mail-decoder",
- "mail-helper",
  "reqwest",
  "serde",
  "serde_json",
