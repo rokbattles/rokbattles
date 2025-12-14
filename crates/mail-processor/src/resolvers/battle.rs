@@ -150,12 +150,10 @@ impl BattleResolver {
         sections: &'a [Value],
         attack_id: &str,
     ) -> Option<&'a Map<String, Value>> {
-        let mut path = String::with_capacity(9 + attack_id.len());
-        path.push_str("/Attacks/");
-        path.push_str(attack_id);
-
         for s in sections {
-            if let Some(b) = s.pointer(&path).and_then(Value::as_object) {
+            if let Some(attacks) = s.get("Attacks").and_then(Value::as_object)
+                && let Some(b) = attacks.get(attack_id).and_then(Value::as_object)
+            {
                 return Some(b);
             }
             if let Some(b) = s.get(attack_id).and_then(Value::as_object)
@@ -227,12 +225,13 @@ impl Resolver for BattleResolver {
                         })
                     })
                     .or_else(|| {
-                        let mut path = String::with_capacity(9 + ctx.attack_id.len());
-                        path.push_str("/Attacks/");
-                        path.push_str(ctx.attack_id);
                         full_sections
                             .iter()
-                            .find(|s| s.pointer(&path).is_some())
+                            .find(|s| {
+                                s.get("Attacks")
+                                    .and_then(Value::as_object)
+                                    .is_some_and(|a| a.get(ctx.attack_id).is_some())
+                            })
                             .and_then(|s| s.get("Damage").and_then(Value::as_object))
                     })
                     .or_else(|| {

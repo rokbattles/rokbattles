@@ -3,6 +3,7 @@ pub mod resolvers;
 pub mod structures;
 
 use crate::{
+    helpers::is_ascii_digits,
     resolvers::ResolverChain,
     resolvers::ResolverContext,
     resolvers::battle::BattleResolver,
@@ -35,7 +36,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
         if let Some(obj) = section.as_object() {
             if let Some(att) = obj.get("Attacks").and_then(|v| v.as_object()) {
                 for key in att.keys() {
-                    if key.chars().all(|c| c.is_ascii_digit()) {
+                    if is_ascii_digits(key) {
                         battles.push(Battle {
                             index,
                             attack_id: key.to_string(),
@@ -45,7 +46,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
             }
 
             for (key, val) in obj.iter() {
-                if key.chars().all(|c| c.is_ascii_digit())
+                if is_ascii_digits(key)
                     && let Some(m) = val.as_object()
                 {
                     let has_battle = m.get("Kill").is_some()

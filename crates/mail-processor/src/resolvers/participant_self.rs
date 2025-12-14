@@ -1,8 +1,9 @@
 use crate::{
     helpers::{
-        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_avatar_frame_url,
-        extract_avatar_url, find_self_content_root, find_self_snapshot_section,
-        get_or_insert_object, map_put_f64, map_put_i32, map_put_i64, map_put_str, parse_f64,
+        collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
+        extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
+        find_self_content_root, find_self_snapshot_section, get_or_insert_object, map_put_f64,
+        map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
 };
@@ -43,34 +44,6 @@ impl ParticipantSelfResolver {
         s.push((b'0' + d[2]) as char);
         s.push((b'0' + d[3]) as char);
         s
-    }
-
-    fn extract_app_uid(v: Option<&Value>) -> Option<String> {
-        match v {
-            Some(Value::String(s)) => Some(s.to_owned()),
-            Some(Value::Number(n)) => n.as_i64().map(|x| x.to_string()),
-            _ => None,
-        }
-    }
-
-    fn extract_app_uid_from_avatar_url(v: Option<&Value>) -> Option<String> {
-        let url = v.and_then(Value::as_str)?;
-        let mut hyphen_candidate: Option<String> = None;
-        for seg in url.split('/').rev() {
-            if seg.is_empty() {
-                continue;
-            }
-            if seg.chars().all(|c| c.is_ascii_digit()) {
-                return Some(seg.to_owned());
-            }
-            if hyphen_candidate.is_none()
-                && seg.chars().all(|c| c.is_ascii_digit() || c == '-')
-                && seg.contains('-')
-            {
-                hyphen_candidate = Some(seg.to_owned());
-            }
-        }
-        hyphen_candidate
     }
 
     fn push_skill(v: &Value, dst: &mut [u8; 5], cnt: &mut usize) {
@@ -131,11 +104,12 @@ impl ParticipantSelfResolver {
         ctid_opt: Option<i64>,
     ) -> Option<&Value> {
         if let Some(ctid) = ctid_opt {
-            let key = ctid.to_string();
+            let mut buf = itoa::Buffer::new();
+            let key = buf.format(ctid);
             if let Some(entry) = sections.iter().find_map(|sec| {
                 sec.get("STs")
                     .and_then(Value::as_object)
-                    .and_then(|sts| sts.get(&key))
+                    .and_then(|sts| sts.get(key))
             }) {
                 return Some(entry);
             }
@@ -692,9 +666,9 @@ impl Resolver for ParticipantSelfResolver {
         }
 
         // app uid
-        let mut app_uid = Self::extract_app_uid(self_snap.get("AppUid"))
-            .or_else(|| fallback_snap.and_then(|s| Self::extract_app_uid(s.get("AppUid"))))
-            .or_else(|| Self::extract_app_uid(self_body.pointer("/SelfChar/AppUid")));
+        let mut app_uid = extract_app_uid(self_snap.get("AppUid"))
+            .or_else(|| fallback_snap.and_then(|s| extract_app_uid(s.get("AppUid"))))
+            .or_else(|| extract_app_uid(self_body.pointer("/SelfChar/AppUid")));
         if app_uid.is_none()
             && let Some(pid) = player_pid
         {
@@ -705,15 +679,15 @@ impl Resolver for ParticipantSelfResolver {
                     .map(|ctk| Self::tracking_key_belongs_to_pid(ctk, pid))
                     .unwrap_or(false);
                 if pid_match || ctk_match {
-                    Self::extract_app_uid(content.get("AppUid"))
-                        .or_else(|| Self::extract_app_uid(sec.get("AppUid")))
+                    extract_app_uid(content.get("AppUid"))
+                        .or_else(|| extract_app_uid(sec.get("AppUid")))
                 } else {
                     None
                 }
             });
         }
         if app_uid.is_none() {
-            app_uid = Self::extract_app_uid_from_avatar_url(obj.get("avatar_url"));
+            app_uid = extract_app_uid_from_avatar_url(obj.get("avatar_url"));
         }
         if let Some(uid) = app_uid {
             obj.insert("app_uid".into(), Value::String(uid));
