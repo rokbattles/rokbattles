@@ -131,10 +131,15 @@ pub fn run() {
         .setup(|app| {
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
-                update(handle).await.unwrap();
+                if let Err(e) = update(handle.clone()).await {
+                    eprintln!("[rokbattles] update check failed: {}", e);
+                }
+
+                // Start watching only after the update check completes to avoid
+                // scanning while the app is about to restart for an update.
+                spawn_watcher(&handle);
             });
 
-            spawn_watcher(app.handle());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
