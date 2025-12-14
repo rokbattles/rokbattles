@@ -19,7 +19,7 @@ enum Mode {
 #[derive(Parser, Debug)]
 #[command(
     version,
-    about = "Decode/Process ROK mail from binary/json/mongo and write raw and processed JSON"
+    about = "Decode/process ROK mail from binary/json/mongo and write raw (and optionally processed) JSON"
 )]
 struct Cli {
     /// binary (ROK mail), json (decoded JSON file), or mongo (hash lookup)
@@ -31,6 +31,10 @@ struct Cli {
 
     #[arg(short = 'o', long = "output")]
     output: PathBuf,
+
+    /// Only write the decoded/raw JSON; skip processing.
+    #[arg(short = 'r', long = "raw", default_value_t = false)]
+    raw_only: bool,
 }
 
 #[tokio::main]
@@ -77,20 +81,27 @@ async fn main() -> Result<()> {
 
     let decoded_mail_json: Value = serde_json::from_str(&raw_json_text)?;
 
-    let processed_mail = mail_processor::process(&raw_json_text)?;
-    let processed_mail_json = serde_json::to_value(processed_mail)?;
-
     let (raw_out, processed_out) = determine_output_paths(&cli.output, &id)?;
 
     if let Some(dir) = raw_out.parent() {
         fs::create_dir_all(dir).ok();
     }
+
+    write_json_file(&raw_out, &decoded_mail_json)
+        .with_context(|| format!("failed to write raw output file: {}", raw_out.display()))?;
+
+    if cli.raw_only {
+        println!("Successfully wrote raw file to: '{}'", raw_out.display());
+        return Ok(());
+    }
+
+    let processed_mail = mail_processor::process(&raw_json_text)?;
+    let processed_mail_json = serde_json::to_value(processed_mail)?;
+
     if let Some(dir) = processed_out.parent() {
         fs::create_dir_all(dir).ok();
     }
 
-    write_json_file(&raw_out, &decoded_mail_json)
-        .with_context(|| format!("failed to write raw output file: {}", raw_out.display()))?;
     write_json_file(&processed_out, &processed_mail_json).with_context(|| {
         format!(
             "failed to write processed output file: {}",

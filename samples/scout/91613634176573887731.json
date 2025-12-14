@@ -1,0 +1,432 @@
+{
+  "sections": [
+    {
+      "mailScene": 0,
+      "sender": "system",
+      "starMark": 0,
+      "unread": true,
+      "box": "Report",
+      "reportMerge": 0,
+      "serverId": 15790,
+      "time": 1765738877408132,
+      "senderInfo": {
+        "Name": "system",
+        "Abbr": ""
+      },
+      "type": 3,
+      "holdTag": 0,
+      "id": "91613634176573887731",
+      "preMailId": "",
+      "senderTradeTime": 0,
+      "body": {
+        "content": {
+          "playerId": 14906179,
+          "gopPhase": 0,
+          "strongholdType": 0,
+          "p": 0.9972095191478728,
+          "isRally": false,
+          "rallyTroop": {
+            "playerId": 0,
+            "campNo": 0,
+            "troopId": 0,
+            "transferLimit": 0,
+            "inOrleans": false,
+            "stripSkills": {},
+            "loots": {},
+            "joinOrleans": false,
+            "xbuffs": {},
+            "isCaptain": false,
+            "transferMax": 0,
+            "agInfo": {
+              "isArmyReserve": false,
+              "armyGroupArrived": false,
+              "isMasterTroop": false,
+              "formationInfo": {
+                "heroWarBooks": {},
+                "archives": {},
+                "formationId": 0
+              },
+              "armyGroupOwner": 0,
+              "pos": {
+                "y": 0,
+                "x": 0
+              }
+            },
+            "apTarget": 0,
+            "heroLevel": 0,
+            "heros": {},
+            "isAggressiveRallyCaptain": false,
+            "playerName": "",
+            "units": {},
+            "trustInfo": {
+              "trustState": 0,
+              "arrivedTm": 0,
+              "isCaptain": false,
+              "trustShId": 0
+            },
+            "isStop": false,
+            "abbr": "",
+            "troopMark": {},
+            "tactics": 0,
+            "obstacleMode": 0,
+            "transferUpdateTime": 0,
+            "playerAvatar": "",
+            "tag": ""
+          },
+          "char": {
+            "id": 97034803,
+            "type": 3,
+            "alliance": {
+              "id": 4805332,
+              "abbr": "2804",
+              "name": "Shinigami",
+              "logo": "2_2_63_5_0_1"
+            },
+            "pos": {
+              "y": 8116.53076171875,
+              "x": 7744.96728515625
+            }
+          },
+          "isSameSide": true,
+          "nonBinAcc": false,
+          "durability": {
+            "num": 33000,
+            "nextUpdateTime": 9223372036854775807,
+            "outfireCDEndTime": 0,
+            "max": 33000,
+            "numStamp": 33000,
+            "repairCDEndTime": 0,
+            "state": 1,
+            "speed": 0,
+            "stateEndTime": 0,
+            "interval": 2000
+          },
+          "reinforces": {},
+          "isTurret": false,
+          "avatar": "https://imimg.lilithcdn.com/llc_avatar/14906179/19/02/11/1a5966b89dd683a9_200x200.jpg",
+          "playerTech": 5,
+          "rallyKvkSkills": {},
+          "battleTech": 5,
+          "isConquerSeason": true,
+          "snatchCnt": 0,
+          "ress": {
+            "value": 172189610,
+            "type": 1
+          },
+          "value": 189511156,
+          "type": 2
+        },
+        "value": 302630627,
+        "type": 4
+      },
+      "value": 214660009
+    },
+    {
+      "heros": {
+        "transJobId": 0,
+        "collections": {},
+        "label": 1,
+        "stripedSkill": 0,
+        "formationInfo": {
+          "formationId": 2
+        },
+        "assistSkills": {},
+        "transJobSkillInfos": {},
+        "skills": {
+          "idx": 0,
+          "level": 1,
+          "SkillTrans": {},
+          "skillId": 1220
+        },
+        "idx": 0,
+        "level": 5,
+        "SkillTrans": {},
+        "skillId": 135
+      },
+      "idx": 0,
+      "level": 5,
+      "SkillTrans": {},
+      "skillId": 1217
+    },
+    {
+      "idx": 0,
+      "level": 5,
+      "SkillTrans": {},
+      "skillId": 1218
+    },
+    {
+      "idx": 0,
+      "level": 5,
+      "SkillTrans": {},
+      "skillId": 1219
+    },
+    {
+      "star": 6,
+      "level": 60,
+      "awaked": true,
+      "heroId": 99
+    },
+    {
+      "transJobId": 0,
+      "collections": {},
+      "label": 2,
+      "stripedSkill": 0,
+      "formationInfo": {
+        "formationId": 2
+      },
+      "assistSkills": {},
+      "transJobSkillInfos": {},
+      "skills": {
+        "idx": 0,
+        "level": 5,
+        "SkillTrans": {},
+        "skillId": 1395
+      },
+      "idx": 0,
+      "level": 5,
+      "SkillTrans": {},
+      "skillId": 1396
+    },
+    {
+      "idx": 0,
+      "level": 1,
+      "SkillTrans": {},
+      "skillId": 1397
+    },
+    {
+      "idx": 0,
+      "level": 5,
+      "SkillTrans": {},
+      "skillId": 196
+    },
+    {
+      "star": 6,
+      "level": 60,
+      "awaked": false,
+      "heroId": 138
+    },
+    {
+      "outpostRallyTroops": {},
+      "kvkSkills": {},
+      "scoutPlayerName": "PuppyHuskies",
+      "rallyHeros": {},
+      "tower": {
+        "hpSpeed": 260,
+        "hpStamp": 26000,
+        "interval": 60000,
+        "level": 17,
+        "hp": 26000,
+        "nextUpdateTime": 0
+      },
+      "troop": {
+        "playerId": 14906179,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": {},
+        "loots": {},
+        "joinOrleans": false,
+        "xbuffs": {},
+        "isCaptain": false,
+        "transferMax": 0,
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": {},
+            "archives": {},
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 0,
+            "x": 0
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": {
+          "label": 1,
+          "formationId": 2,
+          "heroId": 99,
+          "awaked": true,
+          "level": 60
+        },
+        "label": 2,
+        "formationId": 2,
+        "heroId": 138,
+        "awaked": false,
+        "level": 60
+      }
+    },
+    {
+      "isAggressiveRallyCaptain": false,
+      "playerName": "PuppyHuskies",
+      "units": {
+        "unitId": 4,
+        "unitCount": 123568,
+        "maxCount": 123568
+      },
+      "unitId": 15,
+      "unitCount": 647586,
+      "maxCount": 1758159
+    },
+    {
+      "unitId": 16,
+      "unitCount": 185457,
+      "maxCount": 185457
+    },
+    {
+      "unitId": 1,
+      "unitCount": 118,
+      "maxCount": 118
+    },
+    {
+      "unitId": 2,
+      "unitCount": 6175,
+      "maxCount": 54775
+    },
+    {
+      "unitId": 113,
+      "unitCount": 388723,
+      "maxCount": 2599587
+    },
+    {
+      "unitId": 14,
+      "unitCount": 277695,
+      "maxCount": 3565640
+    },
+    {
+      "trustInfo": {
+        "trustState": 0,
+        "arrivedTm": 0,
+        "isCaptain": false,
+        "trustShId": 0
+      },
+      "isStop": false,
+      "abbr": "2804",
+      "troopMark": {},
+      "tactics": 0,
+      "obstacleMode": 0,
+      "transferUpdateTime": 0,
+      "playerAvatar": "https://imimg.lilithcdn.com/llc_avatar/14906179/19/02/11/1a5966b89dd683a9_200x200.jpg",
+      "tag": ""
+    },
+    {
+      "reserveTroop": {
+        "playerId": 0,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": {},
+        "loots": {},
+        "joinOrleans": false,
+        "xbuffs": {},
+        "isCaptain": false,
+        "transferMax": 0,
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": {},
+            "archives": {},
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 0,
+            "x": 0
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": {},
+        "isAggressiveRallyCaptain": false,
+        "playerName": "",
+        "units": {},
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "",
+        "troopMark": {},
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "",
+        "tag": ""
+      },
+      "reinforce": {
+        "playerId": 0,
+        "campNo": 0,
+        "troopId": 0,
+        "transferLimit": 0,
+        "inOrleans": false,
+        "stripSkills": {},
+        "loots": {},
+        "joinOrleans": false,
+        "xbuffs": {},
+        "isCaptain": false,
+        "transferMax": 0,
+        "agInfo": {
+          "isArmyReserve": false,
+          "armyGroupArrived": false,
+          "isMasterTroop": false,
+          "formationInfo": {
+            "heroWarBooks": {},
+            "archives": {},
+            "formationId": 0
+          },
+          "armyGroupOwner": 0,
+          "pos": {
+            "y": 0,
+            "x": 0
+          }
+        },
+        "apTarget": 0,
+        "heroLevel": 0,
+        "heros": {},
+        "isAggressiveRallyCaptain": false,
+        "playerName": "",
+        "units": {},
+        "trustInfo": {
+          "trustState": 0,
+          "arrivedTm": 0,
+          "isCaptain": false,
+          "trustShId": 0
+        },
+        "isStop": false,
+        "abbr": "",
+        "troopMark": {},
+        "tactics": 0,
+        "obstacleMode": 0,
+        "transferUpdateTime": 0,
+        "playerAvatar": "",
+        "tag": ""
+      },
+      "schema": 320,
+      "allianceBuildingType": 0,
+      "isOutpost": false,
+      "snatchLimit": 0,
+      "scoutPlayerId": 71738515
+    },
+    {
+      "receiver": "player_71738515",
+      "flaglist": {},
+      "receiverInfo": {
+        "Name": "",
+        "Abbr": ""
+      },
+      "addition": "",
+      "attachments": {},
+      "title": ""
+    }
+  ]
+}
