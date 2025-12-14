@@ -295,7 +295,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         return (status, reason).into_response();
     }
 
-    let decoded_mail = match mail_decoder::decode(&buf) {
+    let decoded_mail = match mail_decoder::decode(&buf).map(|m| m.into_owned()) {
         Ok(m) => m,
         Err(_) => {
             warn!("ingress rejected: mail decoder failed");

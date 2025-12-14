@@ -48,7 +48,7 @@ async fn main() -> Result<()> {
             let bytes = fs::read(&path)
                 .with_context(|| format!("failed to read input file: {}", path.display()))?;
             let id = friendly_identifier_from_path(&path);
-            let decoded_mail = mail_decoder::decode(&bytes)?;
+            let decoded_mail = mail_decoder::decode(&bytes)?.into_owned();
             let decoded_mail_json = serde_json::to_value(decoded_mail)?;
             let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json)?;
             (id, decoded_mail_json_text)

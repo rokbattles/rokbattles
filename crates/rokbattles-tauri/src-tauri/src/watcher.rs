@@ -290,7 +290,7 @@ pub fn spawn_watcher(app: &AppHandle) {
                         }
                     };
 
-                    let decoded = match mail_decoder::decode(&bytes) {
+                    let decoded = match mail_decoder::decode(&bytes).map(|m| m.into_owned()) {
                         Ok(m) => m,
                         Err(e) => {
                             emit_log(&app, format!("Decode failed for {}: {}", fname, e));
