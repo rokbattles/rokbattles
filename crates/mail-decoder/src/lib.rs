@@ -65,7 +65,7 @@ impl<'a> Cursor<'a> {
     }
 }
 
-fn parse_value(head: u8, cursor: &mut Cursor, key_path: &str) -> Result<Value> {
+fn parse_value(head: u8, cursor: &mut Cursor) -> Result<Value> {
     match head {
         0x01 => Ok(Value::Bool(cursor.u8()? != 0)),
         0x02 => {
@@ -77,7 +77,7 @@ fn parse_value(head: u8, cursor: &mut Cursor, key_path: &str) -> Result<Value> {
             Ok(json_normalize_float(f))
         }
         0x04 => Ok(Value::String(cursor.str_utf8()?)),
-        0x05 => parse_object(cursor, Some(key_path)),
+        0x05 => parse_object(cursor),
         // For forward compatibility, treat unknown/unsupported tags as null
         _ => Ok(Value::Null),
     }
@@ -93,7 +93,7 @@ fn json_normalize_float(f: f64) -> Value {
     }
 }
 
-fn parse_object(cursor: &mut Cursor, parent: Option<&str>) -> Result<Value> {
+fn parse_object(cursor: &mut Cursor) -> Result<Value> {
     let mut obj = Map::new();
     while !cursor.eof() {
         let tag = cursor.u8()?;
@@ -112,13 +112,7 @@ fn parse_object(cursor: &mut Cursor, parent: Option<&str>) -> Result<Value> {
             return Ok(Value::Object(obj));
         }
         let head = cursor.u8()?;
-        // Build a dotted path for diagnostics (e.g., parent.childKey).
-        let key_path = if let Some(p) = parent {
-            format!("{p}.{key}")
-        } else {
-            key.clone()
-        };
-        let val = parse_value(head, cursor, &key_path)?;
+        let val = parse_value(head, cursor)?;
         obj.insert(key, val);
     }
     // If EOF occurs without an explicit 0xff, return what we have.
@@ -181,7 +175,7 @@ fn parse_sections(buffer: &[u8]) -> Result<Vec<Value>> {
 
         // Track progress to avoid infinite loops on malformed inputs.
         let before = cursor.offset;
-        let obj = parse_object(&mut cursor, None)?;
+        let obj = parse_object(&mut cursor)?;
         // Only keep non-empty objects to reduce noise.
         if obj.as_object().map(|m| !m.is_empty()).unwrap_or(false) {
             sections.push(obj)
