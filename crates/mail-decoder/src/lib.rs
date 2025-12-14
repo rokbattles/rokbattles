@@ -1,4 +1,5 @@
 use anyhow::{Result, anyhow};
+use memchr::memchr;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Number, Value};
 
@@ -54,138 +55,132 @@ impl<'a> Cursor<'a> {
         Ok(val)
     }
 
-    fn str_utf8(&mut self) -> Result<String> {
+    fn str_utf8(&mut self) -> Result<&'a str> {
         let len = self.u32_le()? as usize;
         if self.remaining() < len {
             return Err(anyhow!("str_utf8 past EOF"));
         }
-        let str = std::str::from_utf8(&self.buffer[self.offset..self.offset + len])?.to_owned();
+        let str = std::str::from_utf8(&self.buffer[self.offset..self.offset + len])?;
         self.offset += len;
         Ok(str)
     }
 }
 
-fn parse_value(head: u8, cursor: &mut Cursor) -> Result<Value> {
-    match head {
-        0x01 => Ok(Value::Bool(cursor.u8()? != 0)),
-        0x02 => {
-            let f = cursor.f32_le()? as f64;
-            Ok(json_normalize_float(f))
-        }
-        0x03 => {
-            let f = cursor.f64_be()?;
-            Ok(json_normalize_float(f))
-        }
-        0x04 => Ok(Value::String(cursor.str_utf8()?)),
-        0x05 => parse_object(cursor),
-        // For forward compatibility, treat unknown/unsupported tags as null
-        _ => Ok(Value::Null),
-    }
-}
-
-fn json_normalize_float(f: f64) -> Value {
+fn normalize_number(f: f64) -> Option<Number> {
     if f.is_finite() && f.fract() == 0.0 && f >= (i64::MIN as f64) && f <= (i64::MAX as f64) {
-        Value::Number(Number::from(f as i64))
+        Some(Number::from(f as i64))
     } else {
         Number::from_f64(f)
-            .map(Value::Number)
-            .unwrap_or(Value::Null)
     }
 }
 
-fn parse_object(cursor: &mut Cursor) -> Result<Value> {
-    let mut obj = Map::new();
+#[derive(Debug, Clone)]
+pub enum ValueBorrowed<'a> {
+    Null,
+    Bool(bool),
+    Number(Number),
+    String(&'a str),
+    Object(Vec<(&'a str, ValueBorrowed<'a>)>),
+}
+
+impl<'a> ValueBorrowed<'a> {
+    fn into_owned(self) -> Value {
+        match self {
+            ValueBorrowed::Null => Value::Null,
+            ValueBorrowed::Bool(b) => Value::Bool(b),
+            ValueBorrowed::Number(n) => Value::Number(n),
+            ValueBorrowed::String(s) => Value::String(s.to_owned()),
+            ValueBorrowed::Object(entries) => {
+                let mut map = Map::with_capacity(entries.len());
+                for (k, v) in entries {
+                    map.insert(k.to_owned(), v.into_owned());
+                }
+                Value::Object(map)
+            }
+        }
+    }
+}
+
+fn parse_value<'a>(head: u8, cursor: &mut Cursor<'a>) -> Result<ValueBorrowed<'a>> {
+    Ok(match head {
+        0x01 => ValueBorrowed::Bool(cursor.u8()? != 0),
+        0x02 => normalize_number(cursor.f32_le()? as f64)
+            .map(ValueBorrowed::Number)
+            .unwrap_or(ValueBorrowed::Null),
+        0x03 => normalize_number(cursor.f64_be()?)
+            .map(ValueBorrowed::Number)
+            .unwrap_or(ValueBorrowed::Null),
+        0x04 => ValueBorrowed::String(cursor.str_utf8()?),
+        0x05 => parse_object(cursor)?,
+        _ => ValueBorrowed::Null,
+    })
+}
+
+fn parse_object<'a>(cursor: &mut Cursor<'a>) -> Result<ValueBorrowed<'a>> {
+    let mut entries: Vec<(&'a str, ValueBorrowed<'a>)> = Vec::new();
     while !cursor.eof() {
         let tag = cursor.u8()?;
         if tag == 0xff {
-            // 0xff marks the end of the current object.
-            return Ok(Value::Object(obj));
+            return Ok(ValueBorrowed::Object(entries));
         }
         if tag != 0x04 {
-            // Skip unknown/non-key tags; they may be padding or newer fields we don't understand.
             continue;
         }
         let key = cursor.str_utf8()?;
         if cursor.eof() {
-            // If a key is present but no head/value follows, record it as null and stop.
-            obj.insert(key, Value::Null);
-            return Ok(Value::Object(obj));
+            entries.push((key, ValueBorrowed::Null));
+            return Ok(ValueBorrowed::Object(entries));
         }
         let head = cursor.u8()?;
         let val = parse_value(head, cursor)?;
-        obj.insert(key, val);
+        entries.push((key, val));
     }
-    // If EOF occurs without an explicit 0xff, return what we have.
-    Ok(Value::Object(obj))
+    Ok(ValueBorrowed::Object(entries))
 }
 
 fn next_key(cursor: &mut Cursor) -> bool {
-    let buf_len = cursor.buffer.len();
-    let mut off = cursor.offset;
+    let buf = cursor.buffer;
+    let buf_len = buf.len();
+    let mut search = cursor.offset;
 
     // Require at least: 1 tag byte + 4 length bytes + >=2 key chars for a minimally plausible key.
-    while off + 7 <= buf_len {
-        if cursor.buffer[off] != 0x04 {
-            off += 1;
-            continue;
-        }
+    while search + 7 <= buf_len {
+        let Some(rel) = memchr(0x04, &buf[search..]) else {
+            return false;
+        };
+        let off = search + rel;
 
         // Not enough bytes to read the length -> no more valid keys possible.
         if off + 5 > buf_len {
             return false;
         }
 
-        let len_bytes = &cursor.buffer[off + 1..off + 5];
+        let len_bytes = &buf[off + 1..off + 5];
         let len = u32::from_le_bytes(len_bytes.try_into().unwrap()) as usize;
 
         // Filter out absurd lengths; this prevents scanning across large stretches mistakenly.
         if !(1..1024).contains(&len) {
-            off += 1;
+            search = off + 1;
             continue;
         }
 
         let start = off + 5;
         let Some(end) = start.checked_add(len).filter(|&e| e <= buf_len) else {
-            off += 1;
+            search = off + 1;
             continue;
         };
 
         if len >= 2 {
-            let slice = &cursor.buffer[start..end];
-            // Heuristic: keys are printable ASCII; this dramatically lowers false positives.
+            let slice = &buf[start..end];
             if slice.is_ascii() && slice.iter().all(|&b| (b' '..=b'~').contains(&b)) {
                 cursor.offset = off;
                 return true;
             }
         }
 
-        off += 1
+        search = off + 1;
     }
     false
-}
-
-fn parse_sections(buffer: &[u8]) -> Result<Vec<Value>> {
-    let mut cursor = Cursor::new(buffer);
-    let mut sections = Vec::new();
-
-    while !cursor.eof() {
-        if !next_key(&mut cursor) {
-            break;
-        }
-
-        // Track progress to avoid infinite loops on malformed inputs.
-        let before = cursor.offset;
-        let obj = parse_object(&mut cursor)?;
-        // Only keep non-empty objects to reduce noise.
-        if obj.as_object().map(|m| !m.is_empty()).unwrap_or(false) {
-            sections.push(obj)
-        }
-        if cursor.offset <= before {
-            // If we didn't advance, abort to avoid getting stuck.
-            break;
-        }
-    }
-    Ok(sections)
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -193,10 +188,51 @@ pub struct Mail {
     pub sections: Vec<Value>,
 }
 
-pub fn decode(buffer: &[u8]) -> Result<Mail> {
-    let sections = parse_sections(buffer)?;
+#[derive(Debug)]
+pub struct MailBorrowed<'a> {
+    pub sections: Vec<ValueBorrowed<'a>>,
+}
 
-    Ok(Mail { sections })
+impl<'a> MailBorrowed<'a> {
+    pub fn into_owned(self) -> Mail {
+        Mail {
+            sections: self
+                .sections
+                .into_iter()
+                .map(ValueBorrowed::into_owned)
+                .collect(),
+        }
+    }
+}
+
+fn parse_sections<'a>(buffer: &'a [u8]) -> Result<Vec<ValueBorrowed<'a>>> {
+    let mut cursor = Cursor::new(buffer);
+    let mut sections: Vec<ValueBorrowed<'a>> = Vec::new();
+
+    while !cursor.eof() {
+        if !next_key(&mut cursor) {
+            break;
+        }
+
+        let before = cursor.offset;
+        let obj = parse_object(&mut cursor)?;
+        let keep = match &obj {
+            ValueBorrowed::Object(entries) => !entries.is_empty(),
+            _ => false,
+        };
+        if keep {
+            sections.push(obj)
+        }
+        if cursor.offset <= before {
+            break;
+        }
+    }
+    Ok(sections)
+}
+
+pub fn decode(buffer: &[u8]) -> Result<MailBorrowed<'_>> {
+    let sections = parse_sections(buffer)?;
+    Ok(MailBorrowed { sections })
 }
 
 pub fn has_rok_mail_header(buf: &[u8]) -> bool {
