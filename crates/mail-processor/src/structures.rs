@@ -80,8 +80,6 @@ pub struct Metadata {
     pub end_date: Option<i64>,
     pub pos_x: Option<f64>,
     pub pos_y: Option<f64>,
-
-    pub players: Option<i32>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
