@@ -2,7 +2,7 @@ use crate::{
     helpers::{
         collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
         extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
-        find_self_content_root, find_self_snapshot_section, get_or_insert_object, map_put_f64,
+        find_self_content_root, find_self_snapshot_section, get_or_insert_object_map, map_put_f64,
         map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
@@ -66,10 +66,17 @@ impl ParticipantSelfResolver {
     }
 
     fn parse_ctk_commanders(ctk: &str) -> (Option<i32>, Option<i32>) {
-        let mut parts = ctk.split('_').rev();
-        let hid2 = parts.next().and_then(|p| p.parse::<i32>().ok());
-        let hid = parts.next().and_then(|p| p.parse::<i32>().ok());
-        (hid, hid2)
+        let nums: Vec<i32> = ctk
+            .split('_')
+            .filter_map(|p| p.parse::<i32>().ok())
+            .collect();
+        match nums.len() {
+            l if l >= 4 => (Some(nums[2]), Some(nums[3])),
+            3 => (Some(nums[2]), None),
+            2 => (Some(nums[1]), None),
+            1 => (Some(nums[0]), None),
+            _ => (None, None),
+        }
     }
 
     fn section_content_root(sec: &Value) -> &Value {
@@ -570,10 +577,7 @@ impl Resolver for ParticipantSelfResolver {
         let sections = ctx.sections;
         let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
 
-        let obj = match get_or_insert_object(mail, "self") {
-            Value::Object(m) => m,
-            _ => unreachable!("self must be an object"),
-        };
+        let obj = get_or_insert_object_map(mail, "self");
 
         obj.insert("is_ranged_tower".into(), Value::Bool(false));
 
@@ -837,24 +841,28 @@ impl Resolver for ParticipantSelfResolver {
             hlv2 = found;
         }
 
-        let mut cmd2 = Map::new();
-        cmd2.insert("id".into(), Value::from(hid2));
-        cmd2.insert(
-            "level".into(),
-            Value::from(if hid2 == 0 { 0 } else { hlv2 }),
-        );
-        if hid2 != 0 {
-            let hst2_stars = sections
-                .iter()
-                .find_map(|s| s.get("HSt2").and_then(Value::as_i64))
-                .map(Self::clamp_stars)
-                .unwrap_or(0);
-            let hss2 = Self::compose_secondary_commander_skills_capped(sections, hst2_stars);
-            if !hss2.is_empty() {
-                cmd2.insert("skills".into(), Value::String(hss2));
+        if hid2 != 0 || hlv2 != 0 {
+            let mut cmd2 = Map::new();
+            cmd2.insert("id".into(), Value::from(hid2));
+            cmd2.insert(
+                "level".into(),
+                Value::from(if hid2 == 0 { 0 } else { hlv2 }),
+            );
+            if hid2 != 0 {
+                let hst2_stars = sections
+                    .iter()
+                    .find_map(|s| s.get("HSt2").and_then(Value::as_i64))
+                    .map(Self::clamp_stars)
+                    .unwrap_or(0);
+                let hss2 = Self::compose_secondary_commander_skills_capped(sections, hst2_stars);
+                if !hss2.is_empty() {
+                    cmd2.insert("skills".into(), Value::String(hss2));
+                }
             }
+            obj.insert("secondary_commander".into(), Value::Object(cmd2));
+        } else {
+            obj.insert("secondary_commander".into(), Value::Null);
         }
-        obj.insert("secondary_commander".into(), Value::Object(cmd2));
 
         // equipment and formation
         map_put_str(

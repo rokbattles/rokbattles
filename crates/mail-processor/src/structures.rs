@@ -142,7 +142,18 @@ pub struct Participant {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BattleResults {
+    // Power
     pub power: Option<i64>,
+    // Contribute
+    pub acclaim: Option<i64>,
+    // AddCnt
+    pub reinforcements_join: Option<i64>,
+    // RetreatCnt
+    pub reinforcements_retreat: Option<i64>,
+    // SkillPower
+    pub skill_power: Option<i64>,
+    // AtkPower
+    pub attack_power: Option<i64>,
     // InitMax
     pub init_max: Option<i64>,
     // Max
@@ -164,7 +175,18 @@ pub struct BattleResults {
     // KillScore
     pub kill_score: Option<i64>,
 
+    // Power
     pub enemy_power: Option<i64>,
+    // Contribute
+    pub enemy_acclaim: Option<i64>,
+    // AddCnt
+    pub enemy_reinforcements_join: Option<i64>,
+    // RetreatCnt
+    pub enemy_reinforcements_retreat: Option<i64>,
+    // SkillPower
+    pub enemy_skill_power: Option<i64>,
+    // AtkPower
+    pub enemy_attack_power: Option<i64>,
     // InitMax
     pub enemy_init_max: Option<i64>,
     // Max
