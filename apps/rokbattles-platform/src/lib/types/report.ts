@@ -17,14 +17,8 @@ export type BattleResultsTotals = {
   enemyKillScore: number;
 };
 
-export type BattleResultsTimelineEntry = BattleResultsTotals & {
-  startDate: number;
-  endDate: number | null;
-};
-
 export type BattleResultsSummary = {
   total?: BattleResultsTotals;
-  timeline: BattleResultsTimelineEntry[];
 };
 
 export type ReportByHashResponse = {
