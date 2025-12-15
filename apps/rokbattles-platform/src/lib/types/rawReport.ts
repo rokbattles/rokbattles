@@ -41,6 +41,21 @@ export interface RawParticipantInfo {
   inscriptions?: string;
 }
 
+export interface RawOverview {
+  kill_score?: number | null;
+  severely_wounded?: number | null;
+  max?: number | null;
+  wounded?: number | null;
+  remaining?: number | null;
+  death?: number | null;
+  enemy_kill_score?: number | null;
+  enemy_severely_wounded?: number | null;
+  enemy_max?: number | null;
+  enemy_wounded?: number | null;
+  enemy_remaining?: number | null;
+  enemy_death?: number | null;
+}
+
 export interface RawBattleResults {
   power?: number;
   acclaim?: number;
@@ -80,5 +95,6 @@ export interface RawReportPayload {
   metadata?: RawReportMetadata;
   self?: RawParticipantInfo;
   enemy?: RawParticipantInfo;
+  overview?: RawOverview;
   battle_results?: RawBattleResults;
 }
