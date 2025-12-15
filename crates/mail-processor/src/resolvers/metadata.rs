@@ -278,25 +278,6 @@ impl Resolver for MetadataResolver {
             map_insert_f64_if_absent(meta, "pos_y", parse_f64(attacks_obj.get("Y")));
         }
 
-        // player count
-        if let Some(sts) = stats_block
-            .and_then(|s| {
-                s.get("STs")
-                    .or_else(|| s.get("body").and_then(|b| b.get("STs")))
-                    .and_then(Value::as_object)
-            })
-            .or_else(|| {
-                sections.iter().find_map(|s| {
-                    s.get("STs")
-                        .or_else(|| s.get("body").and_then(|b| b.get("STs")))
-                        .and_then(Value::as_object)
-                })
-            })
-        {
-            let cnt = sts.keys().filter(|k| k.as_str() != "-2").count() as i32;
-            meta.entry("players").or_insert(Value::from(cnt));
-        }
-
         // email receiver
         let self_snap = find_self_snapshot_section(sections).unwrap_or(&Value::Null);
         let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
