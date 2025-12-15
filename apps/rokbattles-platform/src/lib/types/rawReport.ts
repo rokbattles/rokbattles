@@ -43,6 +43,11 @@ export interface RawParticipantInfo {
 
 export interface RawBattleResults {
   power?: number;
+  acclaim?: number;
+  reinforcements_join?: number;
+  reinforcements_retreat?: number;
+  skill_power?: number;
+  attack_power?: number;
   init_max?: number;
   max?: number;
   healing?: number;
@@ -54,6 +59,11 @@ export interface RawBattleResults {
   watchtower_max?: number;
   kill_score?: number;
   enemy_power?: number;
+  enemy_acclaim?: number;
+  enemy_reinforcements_join?: number;
+  enemy_reinforcements_retreat?: number;
+  enemy_skill_power?: number;
+  enemy_attack_power?: number;
   enemy_init_max?: number;
   enemy_max?: number;
   enemy_healing?: number;

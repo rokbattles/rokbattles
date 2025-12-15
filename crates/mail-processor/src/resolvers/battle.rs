@@ -74,6 +74,36 @@ impl BattleResolver {
                 "power",
                 Self::get_first_i64(m, &["Power", "AtkPower"]),
             );
+            Self::insert_i64_with_prefix(
+                dst,
+                prefix,
+                "attack_power",
+                Self::get_i64_field(m, "AtkPower"),
+            );
+            Self::insert_i64_with_prefix(
+                dst,
+                prefix,
+                "skill_power",
+                Self::get_i64_field(m, "SkillPower"),
+            );
+            Self::insert_i64_with_prefix(
+                dst,
+                prefix,
+                "reinforcements_join",
+                Self::get_i64_field(m, "AddCnt"),
+            );
+            Self::insert_i64_with_prefix(
+                dst,
+                prefix,
+                "reinforcements_retreat",
+                Self::get_i64_field(m, "RetreatCnt"),
+            );
+            Self::insert_i64_with_prefix(
+                dst,
+                prefix,
+                "acclaim",
+                Self::get_i64_field(m, "Contribute"),
+            );
             Self::copy_standard_stat_fields(dst, m, prefix);
         }
     }
