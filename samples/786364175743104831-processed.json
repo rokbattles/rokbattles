@@ -32,11 +32,7 @@
         "level": 46,
         "skills": "5555"
       },
-      "secondary_commander": {
-        "id": 62,
-        "level": 0,
-        "skills": null
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": null,
       "formation": 16,

@@ -32,11 +32,7 @@
         "level": 1,
         "skills": "1000"
       },
-      "secondary_commander": {
-        "id": 565,
-        "level": 0,
-        "skills": "5555"
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 6,
@@ -145,11 +141,7 @@
         "level": 1,
         "skills": "1000"
       },
-      "secondary_commander": {
-        "id": 565,
-        "level": 0,
-        "skills": "5555"
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 6,
@@ -258,11 +250,7 @@
         "level": 1,
         "skills": "1000"
       },
-      "secondary_commander": {
-        "id": 565,
-        "level": 0,
-        "skills": "5555"
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 6,
@@ -371,11 +359,7 @@
         "level": 1,
         "skills": "1000"
       },
-      "secondary_commander": {
-        "id": 565,
-        "level": 0,
-        "skills": "5555"
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 6,
@@ -484,11 +468,7 @@
         "level": 1,
         "skills": "1000"
       },
-      "secondary_commander": {
-        "id": 565,
-        "level": 0,
-        "skills": "5555"
-      },
+      "secondary_commander": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 6,
