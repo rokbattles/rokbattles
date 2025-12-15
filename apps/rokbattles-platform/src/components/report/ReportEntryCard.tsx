@@ -369,10 +369,19 @@ function CommanderRow({
   const formationName = useFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
   const skillSummary = commander?.skills?.trim();
+  const commanderLabel = commanderName ?? commanderId ?? "Unknown";
+  const commanderIconSrc = `/lilith/images/commander/${commanderId}.png`;
 
   return (
     <Text className="flex flex-wrap items-center gap-2 text-sm">
-      <Strong>{commanderName ?? commanderId ?? "Unknown"}</Strong>
+      <span className="inline-flex items-center gap-1">
+        <Avatar
+          src={commanderIconSrc}
+          alt={`${commanderLabel} icon`}
+          className="size-12 outline-0!"
+        />
+        <Strong>{commanderLabel}</Strong>
+      </span>
       {typeof formation === "number" ? (
         <Badge>{formationName ?? `Formation ${formation}`}</Badge>
       ) : null}
