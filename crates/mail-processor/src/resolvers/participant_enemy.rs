@@ -1009,6 +1009,16 @@ impl Resolver for ParticipantEnemyResolver {
             enemy_obj.insert("is_rally".into(), Value::from(1));
         }
 
+        // alliance building type
+        let ab_t = enemy_snap
+            .and_then(|s| s.get("AbT"))
+            .or_else(|| c_idt.get("AbT"))
+            .or_else(|| atk_block.get("AbT"))
+            .or_else(|| Self::attack_section_get(attack_section, "AbT"))
+            .and_then(Value::as_i64)
+            .map(|v| v as i32);
+        map_put_i32(enemy_obj, "alliance_building", ab_t);
+
         // npc
         map_put_i32(
             enemy_obj,

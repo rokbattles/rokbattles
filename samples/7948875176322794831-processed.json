@@ -33,6 +33,7 @@
         "skills": null
       },
       "secondary_commander": null,
+      "alliance_building": null,
       "equipment": "{}",
       "equipment_2": null,
       "formation": null,
@@ -58,6 +59,7 @@
         "skills": "5000"
       },
       "secondary_commander": null,
+      "alliance_building": null,
       "equipment": "{}",
       "equipment_2": null,
       "formation": null,

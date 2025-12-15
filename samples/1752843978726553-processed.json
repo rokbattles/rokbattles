@@ -37,6 +37,7 @@
         "level": 25,
         "skills": null
       },
+      "alliance_building": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 10,
@@ -66,6 +67,7 @@
         "level": 60,
         "skills": null
       },
+      "alliance_building": null,
       "equipment": "{7:20037_145:1,8:20040_170:1,6:20018_172:11,2:20014_161:11,3:20026_159:11,5:20032_171:11,4:20029_162:11,1:20013_94:11}",
       "equipment_2": "{}",
       "formation": 2,

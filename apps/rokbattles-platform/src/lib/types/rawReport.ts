@@ -30,6 +30,7 @@ export interface RawParticipantInfo {
   castle_x?: number;
   castle_y?: number;
   is_rally?: boolean | null;
+  alliance_building?: number | null;
   npc_type?: number | null;
   npc_btype?: number | null;
   primary_commander?: RawCommanderInfo;

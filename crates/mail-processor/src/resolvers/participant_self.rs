@@ -768,6 +768,18 @@ impl Resolver for ParticipantSelfResolver {
             obj.insert("is_rally".into(), Value::from(1));
         }
 
+        // alliance building type
+        let ab_t = Self::get_with_fallback(self_snap, fallback_snap, "AbT")
+            .and_then(Value::as_i64)
+            .map(|v| v as i32)
+            .or_else(|| {
+                self_body
+                    .pointer("/SelfChar/AbT")
+                    .and_then(Value::as_i64)
+                    .map(|v| v as i32)
+            });
+        map_put_i32(obj, "alliance_building", ab_t);
+
         // primary commander
         let mut primary_id = self_body
             .pointer("/SelfChar/HId")

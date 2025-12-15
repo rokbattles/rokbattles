@@ -37,6 +37,7 @@
         "level": 60,
         "skills": "5555"
       },
+      "alliance_building": null,
       "equipment": "{5:20032_132:15,6:20034_149:12,7:20038_321:1,2:20014_208:2,8:20037_290:2,3:20026_226:2,1:20002_237:12,4:20016_225:2}",
       "equipment_2": "{}",
       "formation": 17,
@@ -62,6 +63,7 @@
         "skills": "3333"
       },
       "secondary_commander": null,
+      "alliance_building": null,
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 17,
