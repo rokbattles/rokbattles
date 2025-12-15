@@ -143,11 +143,21 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
             )}
             <SidebarSpacer />
             <SidebarSection>
-              <SidebarItem href="/discord" target="_blank" rel="noopenner noreferrer">
+              <SidebarItem
+                href="/discord"
+                target="_blank"
+                rel="noopenner noreferrer"
+                prefetch={false}
+              >
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>Support</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/desktop-app" target="_blank" rel="noopenner noreferrer">
+              <SidebarItem
+                href="/desktop-app"
+                target="_blank"
+                rel="noopenner noreferrer"
+                prefetch={false}
+              >
                 <ArrowDownTrayIcon />
                 <SidebarLabel>Desktop App</SidebarLabel>
               </SidebarItem>
