@@ -2,12 +2,7 @@ import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import client from "@/lib/mongo";
 import { coerceNumber } from "@/lib/number";
-import type {
-  BattleResultsSummary,
-  BattleResultsTimelineEntry,
-  BattleResultsTotals,
-  ReportEntry,
-} from "@/lib/types/report";
+import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
 
 function toPlainObject(source: unknown): Record<string, unknown> {
   if (!source || typeof source !== "object") {
@@ -107,30 +102,6 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       },
     ];
 
-    const timelinePipeline: Document[] = [
-      { $match: matchPipeline },
-      { $sort: { "report.metadata.start_date": 1, "metadata.hash": 1 } },
-      {
-        $project: {
-          _id: 0,
-          startDate: "$report.metadata.start_date",
-          endDate: "$report.metadata.end_date",
-          death: { $ifNull: ["$report.battle_results.death", 0] },
-          severelyWounded: { $ifNull: ["$report.battle_results.severely_wounded", 0] },
-          wounded: { $ifNull: ["$report.battle_results.wounded", 0] },
-          remaining: { $ifNull: ["$report.battle_results.remaining", 0] },
-          killScore: { $ifNull: ["$report.battle_results.kill_score", 0] },
-          enemyDeath: { $ifNull: ["$report.battle_results.enemy_death", 0] },
-          enemySeverelyWounded: {
-            $ifNull: ["$report.battle_results.enemy_severely_wounded", 0],
-          },
-          enemyWounded: { $ifNull: ["$report.battle_results.enemy_wounded", 0] },
-          enemyRemaining: { $ifNull: ["$report.battle_results.enemy_remaining", 0] },
-          enemyKillScore: { $ifNull: ["$report.battle_results.enemy_kill_score", 0] },
-        },
-      },
-    ];
-
     let totals: BattleResultsTotals | undefined;
     try {
       const totalsDocs = await db
@@ -156,37 +127,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       console.error("Failed to compute report totals", error);
     }
 
-    let timeline: BattleResultsTimelineEntry[] = [];
-    try {
-      const timelineDocs = await db
-        .collection("battleReports")
-        .aggregate(timelinePipeline, { allowDiskUse: true })
-        .toArray();
-      timeline = timelineDocs.map((doc) => ({
-        startDate: coerceNumber(doc.startDate),
-        endDate: coerceNumber(doc.endDate),
-        death: coerceNumber(doc.death),
-        severelyWounded: coerceNumber(doc.severelyWounded),
-        wounded: coerceNumber(doc.wounded),
-        remaining: coerceNumber(doc.remaining),
-        killScore: coerceNumber(doc.killScore),
-        enemyDeath: coerceNumber(doc.enemyDeath),
-        enemySeverelyWounded: coerceNumber(doc.enemySeverelyWounded),
-        enemyWounded: coerceNumber(doc.enemyWounded),
-        enemyRemaining: coerceNumber(doc.enemyRemaining),
-        enemyKillScore: coerceNumber(doc.enemyKillScore),
-      }));
-    } catch (error) {
-      console.error("Failed to compute report timeline", error);
-    }
-
-    const battleResults: BattleResultsSummary | undefined =
-      !totals && timeline.length === 0
-        ? undefined
-        : {
-            total: totals,
-            timeline,
-          };
+    const battleResults: BattleResultsSummary | undefined = totals ? { total: totals } : undefined;
 
     return NextResponse.json(
       {
