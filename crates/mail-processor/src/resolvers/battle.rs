@@ -1,5 +1,8 @@
 use crate::{
-    helpers::{find_attack_block_best_match, get_or_insert_object},
+    helpers::{
+        find_attack_block_best_match, get_or_insert_object_map, map_get_i64,
+        map_put_i64_with_prefix, value_matches_attack_id,
+    },
     resolvers::{Resolver, ResolverContext},
 };
 use serde_json::{Map, Value};
@@ -21,25 +24,6 @@ impl BattleResolver {
         v.and_then(Value::as_object)
     }
 
-    fn get_i64_field(m: &Map<String, Value>, key: &str) -> Option<i64> {
-        m.get(key).and_then(Value::as_i64)
-    }
-
-    fn get_first_i64(m: &Map<String, Value>, keys: &[&str]) -> Option<i64> {
-        keys.iter().find_map(|k| Self::get_i64_field(m, k))
-    }
-
-    fn insert_i64_with_prefix(
-        dst: &mut Map<String, Value>,
-        prefix: &str,
-        name: &str,
-        val: Option<i64>,
-    ) {
-        if let Some(v) = val {
-            dst.insert(format!("{prefix}{name}"), Value::from(v));
-        }
-    }
-
     fn copy_standard_stat_fields(
         dst: &mut Map<String, Value>,
         src: &Map<String, Value>,
@@ -58,7 +42,7 @@ impl BattleResolver {
             ("KillScore", "kill_score"),
         ];
         for &(from, to) in FIELDS {
-            Self::insert_i64_with_prefix(dst, prefix, to, Self::get_i64_field(src, from));
+            map_put_i64_with_prefix(dst, prefix, to, map_get_i64(src, from));
         }
     }
 
@@ -68,42 +52,17 @@ impl BattleResolver {
         prefix: &str,
     ) {
         if let Some(m) = src {
-            Self::insert_i64_with_prefix(
-                dst,
-                prefix,
-                "power",
-                Self::get_first_i64(m, &["Power", "AtkPower"]),
-            );
-            Self::insert_i64_with_prefix(
-                dst,
-                prefix,
-                "attack_power",
-                Self::get_i64_field(m, "AtkPower"),
-            );
-            Self::insert_i64_with_prefix(
-                dst,
-                prefix,
-                "skill_power",
-                Self::get_i64_field(m, "SkillPower"),
-            );
-            Self::insert_i64_with_prefix(
-                dst,
-                prefix,
-                "reinforcements_join",
-                Self::get_i64_field(m, "AddCnt"),
-            );
-            Self::insert_i64_with_prefix(
+            map_put_i64_with_prefix(dst, prefix, "power", map_get_i64(m, "Power"));
+            map_put_i64_with_prefix(dst, prefix, "attack_power", map_get_i64(m, "AtkPower"));
+            map_put_i64_with_prefix(dst, prefix, "skill_power", map_get_i64(m, "SkillPower"));
+            map_put_i64_with_prefix(dst, prefix, "reinforcements_join", map_get_i64(m, "AddCnt"));
+            map_put_i64_with_prefix(
                 dst,
                 prefix,
                 "reinforcements_retreat",
-                Self::get_i64_field(m, "RetreatCnt"),
+                map_get_i64(m, "RetreatCnt"),
             );
-            Self::insert_i64_with_prefix(
-                dst,
-                prefix,
-                "acclaim",
-                Self::get_i64_field(m, "Contribute"),
-            );
+            map_put_i64_with_prefix(dst, prefix, "acclaim", map_get_i64(m, "Contribute"));
             Self::copy_standard_stat_fields(dst, m, prefix);
         }
     }
@@ -156,16 +115,7 @@ impl BattleResolver {
         for (i, s) in sections.iter().enumerate() {
             let idt_match = s
                 .get("Idt")
-                .map(|v| {
-                    v.as_str().map(|x| x == attack_id).unwrap_or_else(|| {
-                        v.as_i64()
-                            .map(|n| {
-                                let mut buf = itoa::Buffer::new();
-                                buf.format(n) == attack_id
-                            })
-                            .unwrap_or(false)
-                    })
-                })
+                .map(|v| value_matches_attack_id(v, attack_id))
                 .unwrap_or(false);
             if idt_match
                 && (s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some())
@@ -218,10 +168,7 @@ impl Resolver for BattleResolver {
                 anchor_in_group.and_then(|i| Self::find_nearby_object_by_key(group, i, "Kill", 8))
             });
 
-        let obj = match get_or_insert_object(mail, "battle_results") {
-            Value::Object(m) => m,
-            _ => unreachable!("battle_results must be an object"),
-        };
+        let obj = get_or_insert_object_map(mail, "battle_results");
 
         let mut damage_opt = damage;
         let mut kill_opt = kill;

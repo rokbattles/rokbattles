@@ -4,12 +4,30 @@ pub fn is_ascii_digits(s: &str) -> bool {
     s.as_bytes().iter().all(|b| b.is_ascii_digit())
 }
 
+pub fn value_matches_attack_id(v: &Value, attack_id: &str) -> bool {
+    v.as_str().map(|x| x == attack_id).unwrap_or_else(|| {
+        v.as_i64()
+            .map(|n| {
+                let mut buf = itoa::Buffer::new();
+                buf.format(n) == attack_id
+            })
+            .unwrap_or(false)
+    })
+}
+
 pub fn get_or_insert_object<'a>(obj: &'a mut Value, key: &str) -> &'a mut Value {
     let map = obj.as_object_mut().expect("mail root must be an object");
     if !map.get(key).map(Value::is_object).unwrap_or(false) {
         map.insert(key.to_string(), Value::Object(Map::new()));
     }
     map.get_mut(key).unwrap()
+}
+
+pub fn get_or_insert_object_map<'a>(obj: &'a mut Value, key: &str) -> &'a mut Map<String, Value> {
+    match get_or_insert_object(obj, key) {
+        Value::Object(m) => m,
+        _ => unreachable!("{key} must be an object"),
+    }
 }
 
 pub fn parse_f64(v: Option<&Value>) -> Option<f64> {
@@ -121,16 +139,7 @@ pub fn find_attack_block_best_match<'a>(
         if idt_idx.is_none() {
             let idt_match = s
                 .get("Idt")
-                .map(|v| {
-                    v.as_str().map(|x| x == attack_id).unwrap_or_else(|| {
-                        v.as_i64()
-                            .map(|n| {
-                                let mut buf = itoa::Buffer::new();
-                                buf.format(n) == attack_id
-                            })
-                            .unwrap_or(false)
-                    })
-                })
+                .map(|v| value_matches_attack_id(v, attack_id))
                 .unwrap_or(false);
 
             if idt_match {
@@ -156,6 +165,10 @@ pub fn map_put_i64(m: &mut Map<String, Value>, k: &str, v: Option<i64>) {
     }
 }
 
+pub fn map_get_i64(m: &Map<String, Value>, k: &str) -> Option<i64> {
+    m.get(k).and_then(Value::as_i64)
+}
+
 pub fn map_put_i32(m: &mut Map<String, Value>, k: &str, v: Option<i32>) {
     if let Some(x) = v {
         m.insert(k.into(), Value::from(x));
@@ -171,6 +184,12 @@ pub fn map_put_f64(m: &mut Map<String, Value>, k: &str, v: Option<f64>) {
 pub fn map_put_str(m: &mut Map<String, Value>, k: &str, v: Option<&str>) {
     if let Some(s) = v {
         m.insert(k.into(), Value::String(s.to_owned()));
+    }
+}
+
+pub fn map_put_i64_with_prefix(m: &mut Map<String, Value>, prefix: &str, k: &str, v: Option<i64>) {
+    if let Some(x) = v {
+        m.insert(format!("{prefix}{k}"), Value::from(x));
     }
 }
 

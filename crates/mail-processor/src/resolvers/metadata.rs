@@ -1,6 +1,6 @@
 use crate::{
     helpers::{
-        find_self_content_root, find_self_snapshot_section, get_or_insert_object,
+        find_self_content_root, find_self_snapshot_section, get_or_insert_object_map,
         map_insert_f64_if_absent, map_insert_i64_if_absent, map_insert_str_if_absent, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
@@ -124,10 +124,7 @@ impl MetadataResolver {
 
 impl Resolver for MetadataResolver {
     fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
-        let meta = match get_or_insert_object(mail, "metadata") {
-            Value::Object(meta) => meta,
-            _ => unreachable!("metadata must be an object"),
-        };
+        let meta = get_or_insert_object_map(mail, "metadata");
 
         let sections = ctx.sections;
         let group = ctx.group;

@@ -2,7 +2,7 @@ use crate::{
     helpers::{
         collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
         extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
-        find_self_content_root, find_self_snapshot_section, get_or_insert_object, map_put_f64,
+        find_self_content_root, find_self_snapshot_section, get_or_insert_object_map, map_put_f64,
         map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
     resolvers::{Resolver, ResolverContext},
@@ -577,10 +577,7 @@ impl Resolver for ParticipantSelfResolver {
         let sections = ctx.sections;
         let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
 
-        let obj = match get_or_insert_object(mail, "self") {
-            Value::Object(m) => m,
-            _ => unreachable!("self must be an object"),
-        };
+        let obj = get_or_insert_object_map(mail, "self");
 
         obj.insert("is_ranged_tower".into(), Value::Bool(false));
 
