@@ -2,13 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
-import { ReportTimelineChart } from "@/components/report/ReportTimelineChart";
+import { hasOverviewData, ReportOverviewCard } from "@/components/report/ReportOverviewCard";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
-import { Heading, Subheading } from "@/components/ui/Heading";
+import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReport } from "@/hooks/useReport";
+import type { RawOverview, RawReportPayload } from "@/lib/types/rawReport";
 import type { ReportEntry } from "@/lib/types/report";
 
 type ReportViewProps = {
@@ -32,7 +33,19 @@ export function ReportView({ hash }: ReportViewProps) {
   }, []);
 
   const entries: ReportEntry[] = useMemo(() => data?.items ?? [], [data?.items]);
-  const summary = data?.battleResults;
+  const overviewSource = useMemo(() => {
+    for (const entry of entries) {
+      const payload = (entry.report ?? {}) as RawReportPayload;
+      if (payload?.overview && typeof payload.overview === "object") {
+        return {
+          overview: payload.overview as RawOverview,
+          self: payload.self,
+          enemy: payload.enemy,
+        };
+      }
+    }
+    return null;
+  }, [entries]);
 
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
@@ -64,16 +77,16 @@ export function ReportView({ hash }: ReportViewProps) {
         <ReportEmptyState />
       ) : (
         <div className="space-y-12">
-          {summary && summary.timeline.length > 1 ? (
+          {overviewSource && hasOverviewData(overviewSource.overview) ? (
             <>
-              <div className="space-y-4">
-                <Subheading>Battle timeline</Subheading>
-                <ReportTimelineChart summary={summary} />
-              </div>
+              <ReportOverviewCard
+                overview={overviewSource.overview}
+                selfParticipant={overviewSource.self}
+                enemyParticipant={overviewSource.enemy}
+              />
               <Divider />
             </>
           ) : null}
-
           <div className="space-y-12">
             {entries.map((entry, index) => (
               <div key={entry.hash}>
