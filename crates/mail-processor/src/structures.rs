@@ -126,6 +126,11 @@ pub struct Participant {
     pub primary_commander: Option<Commander>,
     pub secondary_commander: Option<Commander>,
 
+    // AbT
+    // 1 -> flag
+    // 3 -> stronghold
+    pub alliance_building: Option<i32>,
+
     // HEq
     pub equipment: Option<String>,
     // HEq2
