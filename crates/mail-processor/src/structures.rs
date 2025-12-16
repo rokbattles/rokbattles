@@ -127,6 +127,7 @@ pub struct Participant {
     // AbT
     // 1 -> flag
     // 3 -> stronghold
+    // 11 -> horse fort (troy kvk)
     pub alliance_building: Option<i32>,
 
     // HEq
