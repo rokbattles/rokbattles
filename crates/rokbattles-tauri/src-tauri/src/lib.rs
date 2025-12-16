@@ -1,10 +1,38 @@
 mod watcher;
 
-use crate::watcher::{delete_processed, spawn_watcher};
+use crate::watcher::{WatcherTask, delete_processed, delete_upload_queue, spawn_watcher};
 use anyhow::Context;
-use std::{collections::BTreeSet, fs, path::PathBuf};
-use tauri::{AppHandle, Manager};
+use std::{
+    collections::BTreeSet,
+    fs,
+    path::PathBuf,
+    sync::atomic::{AtomicBool, Ordering},
+};
+use tauri::{AppHandle, Manager, RunEvent};
 use tauri_plugin_updater::UpdaterExt;
+
+#[derive(Default)]
+struct WatcherManager {
+    task: tokio::sync::Mutex<Option<WatcherTask>>,
+    exiting: AtomicBool,
+}
+
+impl WatcherManager {
+    async fn start(&self, app: &AppHandle) {
+        let mut guard = self.task.lock().await;
+        if guard.is_some() {
+            return;
+        }
+        *guard = Some(spawn_watcher(app));
+    }
+
+    async fn stop(&self, app: &AppHandle) {
+        let mut guard = self.task.lock().await;
+        if let Some(task) = guard.take() {
+            task.shutdown(app).await;
+        }
+    }
+}
 
 fn config_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
     let dir = app
@@ -116,15 +144,21 @@ fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
 }
 
 #[tauri::command]
-fn reprocess_all(app: AppHandle) -> Result<(), String> {
+async fn reprocess_all(
+    app: AppHandle,
+    watcher: tauri::State<'_, WatcherManager>,
+) -> Result<(), String> {
+    watcher.stop(&app).await;
     delete_processed(&app).map_err(|e| e.to_string())?;
-    // TODO Clear any local upload queues (see watcher TODOs)
+    delete_upload_queue(&app).map_err(|e| e.to_string())?;
+    watcher.start(&app).await;
     Ok(())
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
+    let app = tauri::Builder::default()
+        .manage(WatcherManager::default())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
@@ -137,7 +171,7 @@ pub fn run() {
 
                 // Start watching only after the update check completes to avoid
                 // scanning while the app is about to restart for an update.
-                spawn_watcher(&handle);
+                handle.state::<WatcherManager>().start(&handle).await;
             });
 
             Ok(())
@@ -148,6 +182,21 @@ pub fn run() {
             remove_dir,
             reprocess_all
         ])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while building tauri application");
+
+    app.run(|app, event| {
+        if let RunEvent::ExitRequested { api, .. } = event {
+            let manager = app.state::<WatcherManager>();
+            if manager.exiting.swap(true, Ordering::SeqCst) {
+                return;
+            }
+            api.prevent_exit();
+            let handle = app.clone();
+            tauri::async_runtime::spawn(async move {
+                handle.state::<WatcherManager>().stop(&handle).await;
+                handle.exit(0);
+            });
+        }
+    });
 }

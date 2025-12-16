@@ -28,3 +28,4 @@ tokio = { workspace = true }
 reqwest = { workspace = true }
 mail-decoder = { path = "../../mail-decoder" }
 tauri-plugin-updater = { workspace = true }
+notify = { workspace = true }
