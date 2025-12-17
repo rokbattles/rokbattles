@@ -7,7 +7,7 @@
 
 ROK Battles is a community-driven platform for sharing, exploring, and analyzing battle reports and viewing trends in Rise of Kingdoms.
 
-## Project Status
+## Contributing
 
 This project is currently in early development. We're excited to share our work with the community and welcome your feedback! While we're actively improving things, please note that:
 
@@ -17,14 +17,12 @@ This project is currently in early development. We're excited to share our work 
 
 We welcome contributions through GitHub issues and pull requests.
 
-## System Requirements
+### Prerequisites
 
-Our current MSRV is effectively 1.92.
-
-Some of the crates in this repository have dependencies on additional tools and libraries that must be satisfied in order to build them:
-
-* Make sure that [Clang](https://clang.llvm.org/) is installed on your system
-* Make sure that [Node.js 24.x](https://nodejs.org/en/download) (or newer) and [pnpm](https://pnpm.io/installation) is installed on your system
+1. [Rust](https://rust-lang.org/tools/install/) 1.92 or later
+2. [Node.js](https://nodejs.org/en/) 24.x or later
+3. [pnpm](https://pnpm.io)
+4. [MongoDB](https://www.mongodb.com/try/download/community)
 
 ## License
 
