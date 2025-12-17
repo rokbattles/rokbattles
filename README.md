@@ -24,7 +24,7 @@ Our current MSRV is effectively 1.92.
 Some of the crates in this repository have dependencies on additional tools and libraries that must be satisfied in order to build them:
 
 * Make sure that [Clang](https://clang.llvm.org/) is installed on your system
-* Make sure that [Node.js 22.x](https://nodejs.org/en/download) (or newer) and [pnpm](https://pnpm.io/installation) is installed on your system
+* Make sure that [Node.js 24.x](https://nodejs.org/en/download) (or newer) and [pnpm](https://pnpm.io/installation) is installed on your system
 
 ## License
 
