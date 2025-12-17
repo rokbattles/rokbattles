@@ -19,7 +19,7 @@ We welcome contributions through GitHub issues and pull requests.
 
 ## System Requirements
 
-Our current MSRV is effectively 1.89.
+Our current MSRV is effectively 1.92.
 
 Some of the crates in this repository have dependencies on additional tools and libraries that must be satisfied in order to build them:
 
