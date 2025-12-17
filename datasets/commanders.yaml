@@ -1059,6 +1059,15 @@ commanders:
     prime: false
     rarity: legendary
 
+  510:
+    name:
+      en: "Matthias I"
+      de: "Matthias I"
+      es: "Matías I"
+      kr: "마차시 1세"
+    prime: false
+    rarity: legendary
+
   536:
     name:
       en: "Catherine de' Medici"
