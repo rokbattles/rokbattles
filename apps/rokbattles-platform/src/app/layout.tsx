@@ -21,6 +21,18 @@ export const metadata: Metadata = {
   },
   description:
     "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
+  openGraph: {
+    title: {
+      default: "ROK Battles",
+      template: "%s - ROK Battles",
+    },
+  },
+  twitter: {
+    title: {
+      default: "ROK Battles",
+      template: "%s - ROK Battles",
+    },
+  },
 };
 
 export default function Layout({ children }: LayoutProps<"/">) {
