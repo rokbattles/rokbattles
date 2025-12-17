@@ -21,7 +21,7 @@ use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 10 * 1024 * 1024; // 10 MB
 const BUFFER_LEN: usize = 32;
-const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2, 3];
+const SUPPORTED_MINOR_VERSIONS: &[u64] = &[2, 3];
 
 fn ua_ok(h: &HeaderMap) -> bool {
     let Some(user_agent) = h.get("user-agent").and_then(|v| v.to_str().ok()) else {
