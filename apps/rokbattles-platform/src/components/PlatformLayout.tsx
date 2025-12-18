@@ -146,7 +146,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
               <SidebarItem
                 href="/discord"
                 target="_blank"
-                rel="noopenner noreferrer"
+                rel="noopener noreferrer"
                 prefetch={false}
               >
                 <QuestionMarkCircleIcon />
@@ -155,7 +155,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
               <SidebarItem
                 href="/desktop-app"
                 target="_blank"
-                rel="noopenner noreferrer"
+                rel="noopener noreferrer"
                 prefetch={false}
               >
                 <ArrowDownTrayIcon />
