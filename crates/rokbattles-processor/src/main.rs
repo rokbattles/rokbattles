@@ -33,7 +33,7 @@ async fn process(db: &Database) -> Result<()> {
         "status": { "$in": ["pending", "reprocess"] },
     };
 
-    // 100 raw reports at a time
+    // Pull 100 raw reports at a time.
     let opts = FindOptions::builder()
         .limit(100)
         .sort(doc! { "mail.time": 1 })
@@ -56,6 +56,7 @@ async fn process(db: &Database) -> Result<()> {
             .get_str("status")
             .map(|s| s.to_string())
             .unwrap_or_else(|_| "pending".to_string());
+        // Continue processing other mails even if a single mail fails.
         if let Err(e) = process_mail(&mails, &battle_reports, &doc).await {
             error!(error = %e, status = %status, "processing mail failed");
         }

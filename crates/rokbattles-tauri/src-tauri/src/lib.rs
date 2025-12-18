@@ -23,6 +23,7 @@ impl WatcherManager {
         if guard.is_some() {
             return;
         }
+        // Spawn the watcher once per app lifecycle.
         *guard = Some(spawn_watcher(app));
     }
 
@@ -126,6 +127,7 @@ fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
     for p in paths {
         let trimmed = p.trim();
         if !trimmed.is_empty() {
+            // Deduplicate while preserving sorted order via BTreeSet.
             set.insert(trimmed.to_string());
         }
     }

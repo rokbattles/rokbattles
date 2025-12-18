@@ -32,11 +32,14 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
 
     let mut battles: Vec<Battle> = Vec::new();
 
+    // TODO this is the incorrect way of handling attacks. we'll fix it at a later date since this
+    //  produces the same output, but very inefficiently.
     for (index, section) in sections.iter().enumerate() {
         if let Some(obj) = section.as_object() {
             if let Some(att) = obj.get("Attacks").and_then(|v| v.as_object()) {
                 for key in att.keys() {
                     if is_ascii_digits(key) {
+                        // Flat "Attacks" map where each numeric key represents a battle.
                         battles.push(Battle {
                             index,
                             attack_id: key.to_string(),
@@ -49,6 +52,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
                 if is_ascii_digits(key)
                     && let Some(m) = val.as_object()
                 {
+                    // Some battle payloads are stored directly on the section with the attack id as the key.
                     let has_battle = m.get("Kill").is_some()
                         || m.get("Damage").is_some()
                         || m.get("CIdt").is_some();
@@ -81,6 +85,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
     boundaries.dedup();
 
     for b in &battles {
+        // Group spans from the current battle section to (but not including) the next battle section.
         let end = boundaries
             .iter()
             .copied()

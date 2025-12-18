@@ -90,6 +90,7 @@ impl ParticipantSelfResolver {
             return Some(ctid);
         }
 
+        // If CtId isn't embedded, derive it from STs by matching the player id.
         let pid = pid_opt?;
         for sec in sections {
             if let Some(sts) = sec.get("STs").and_then(Value::as_object) {
@@ -113,6 +114,7 @@ impl ParticipantSelfResolver {
         if let Some(ctid) = ctid_opt {
             let mut buf = itoa::Buffer::new();
             let key = buf.format(ctid);
+            // First try to pull stats from STs keyed by the exact CtId.
             if let Some(entry) = sections.iter().find_map(|sec| {
                 sec.get("STs")
                     .and_then(Value::as_object)
@@ -122,6 +124,7 @@ impl ParticipantSelfResolver {
             }
         }
 
+        // Otherwise scan for any STs entry that references this pid.
         if let Some(pid) = pid_opt {
             for sec in sections {
                 if let Some(sts) = sec.get("STs").and_then(Value::as_object)
@@ -596,6 +599,7 @@ impl Resolver for ParticipantSelfResolver {
                 None => true,
             };
             if use_override {
+                // Prefer a snapshot that clearly belongs to this player (pid/name) when the default looks ambiguous.
                 if let Some(best) =
                     Self::select_best_self_snapshot_for_pid(sections, pid, self_name_hint)
                 {
@@ -676,6 +680,7 @@ impl Resolver for ParticipantSelfResolver {
         if app_uid.is_none()
             && let Some(pid) = player_pid
         {
+            // Try to match AppUid by pid/CTK since some mails omit it in the main snapshot.
             app_uid = sections.iter().find_map(|sec| {
                 let content = Self::section_content_root(sec);
                 let pid_match = content.get("PId").and_then(Value::as_i64) == Some(pid);
@@ -812,6 +817,7 @@ impl Resolver for ParticipantSelfResolver {
                 .map(Self::clamp_stars)
                 .unwrap_or(0);
 
+            // Build a capped skill string from any nearby HSS entries; defaults to "5555" if we saw enough maxed skills.
             let hss = Self::compose_primary_commander_skills_capped(
                 sections,
                 self_body,
@@ -896,6 +902,7 @@ impl Resolver for ParticipantSelfResolver {
             || obj.get("armament_buffs").is_none()
             || obj.get("inscriptions").is_none()
         {
+            // Pull gear/armament details from the nearest matching section if the main snapshot missed them.
             Self::find_gear_section_for_self(
                 sections,
                 self_snap_idx,

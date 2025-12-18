@@ -110,6 +110,7 @@ async fn clamd_send_chunk(
     if chunk.is_empty() {
         return Ok(());
     }
+    // clamd streaming protocol uses a 4-byte big-endian length prefix per chunk.
     let len = (chunk.len() as u32).to_be_bytes();
     s.write_all(&len)
         .await

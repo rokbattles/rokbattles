@@ -74,6 +74,7 @@ impl BattleResolver {
         max_span: usize,
     ) -> Option<&'a Map<String, Value>> {
         for d in 1..=max_span {
+            // Walk outward symmetrically to keep the closest match for this key.
             if start >= d
                 && let Some(m) = group
                     .get(start - d)
@@ -103,6 +104,7 @@ impl BattleResolver {
         for (i, s) in group.iter().enumerate() {
             if let Some(m) = s.get(key).and_then(Value::as_object) {
                 let dist = anchor.abs_diff(i);
+                // Keep the closest object to the anchor index.
                 if best.map(|(d, _)| dist < d).unwrap_or(true) {
                     best = Some((dist, m));
                 }
@@ -134,6 +136,7 @@ impl BattleResolver {
             if let Some(attacks) = s.get("Attacks").and_then(Value::as_object)
                 && let Some(b) = attacks.get(attack_id).and_then(Value::as_object)
             {
+                // Prefer nested Attacks.{id} blocks when available.
                 return Some(b);
             }
             if let Some(b) = s.get(attack_id).and_then(Value::as_object)
@@ -151,6 +154,7 @@ impl Resolver for BattleResolver {
         let group = ctx.group;
         let (idx_opt, atk_block_opt) = find_attack_block_best_match(group, ctx.attack_id);
         let attack_idx = group.iter().position(|s| s.get(ctx.attack_id).is_some());
+        // Anchor around whichever section most confidently matches this attack id.
         let anchor_in_group = attack_idx.or(idx_opt);
 
         let section = idx_opt.and_then(|i| group.get(i)).unwrap_or(&Value::Null);
@@ -180,6 +184,7 @@ impl Resolver for BattleResolver {
             let attacks_obj = Self::find_attacks_object_for_id(full_sections, ctx.attack_id);
 
             if damage_opt.is_none() {
+                // Fall back to other sections in the mail that reference this attack id.
                 damage_opt = attacks_obj
                     .and_then(|m| m.get("Damage").and_then(Value::as_object))
                     .or_else(|| {
@@ -219,6 +224,7 @@ impl Resolver for BattleResolver {
             }
 
             if kill_opt.is_none() {
+                // Kill stats sometimes live near the attack meta, not inside the primary block.
                 kill_opt = attacks_obj
                     .and_then(|m| m.get("Kill").and_then(Value::as_object))
                     .or_else(|| {
