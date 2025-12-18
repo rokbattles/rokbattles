@@ -22,9 +22,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={cn(inter.variable, "antialiased")}>
-      <body>
-        <div className="isolate">{children}</div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
