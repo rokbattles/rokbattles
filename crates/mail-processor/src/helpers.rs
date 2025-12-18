@@ -76,6 +76,7 @@ pub fn find_self_snapshot_section(sections: &[Value]) -> Option<&Value> {
     for s in sections {
         if s.get("AppUid").is_some() {
             if s.get("CtId").and_then(Value::as_i64) == Some(0) {
+                // CtId==0 entries typically represent the primary player snapshot; prefer it.
                 return Some(s);
             }
             if first_appuid.is_none() {
@@ -118,6 +119,7 @@ pub fn find_attack_block_best_match<'a>(
                 .or_else(|| b.get("CIdt"))
                 .is_some();
             if is_battleish {
+                // Prefer blocks that carry HSS (commander skills) data when multiple match.
                 let has_hss = b.get("CIdt").and_then(|c| c.get("HSS")).is_some();
                 if atk_val.is_none() || (!atk_has_hss && has_hss) {
                     atk_idx = Some(i);
@@ -143,6 +145,7 @@ pub fn find_attack_block_best_match<'a>(
                 .unwrap_or(false);
 
             if idt_match {
+                // If we see commander/gear fields near a matching Idt, remember its index as a metadata source.
                 let has_commander =
                     s.get("HSS").is_some() || s.get("HId").is_some() || s.get("HId2").is_some();
                 let has_gear =

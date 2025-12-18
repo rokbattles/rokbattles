@@ -60,6 +60,7 @@ pub fn detect_mail_type_str(mail: &Mail) -> Option<&str> {
         if let Some(obj) = section.as_object()
             && let Some(Value::String(t)) = obj.get("type")
         {
+            // Use the first section that declares a string "type".
             return Some(t.as_str());
         }
     }
@@ -76,6 +77,7 @@ pub fn detect_mail_time(mail: &Mail) -> Option<i64> {
             && let Some(Value::Number(n)) = obj.get("time")
             && let Some(i) = n.as_i64()
         {
+            // Return the first numeric epoch timestamp we encounter.
             return Some(i);
         }
     }
@@ -86,9 +88,12 @@ pub fn detect_email_id(mail: &Mail) -> Option<String> {
     for section in &mail.sections {
         if let Some(obj) = section.as_object() {
             if let Some(Value::String(s)) = obj.get("id") {
+                // Prefer string ids if present.
                 return Some(s.clone());
             }
+            // TODO need to verify this is the case ever
             if let Some(Value::Number(n)) = obj.get("id") {
+                // Fallback: stringify numeric ids.
                 return Some(n.to_string());
             }
         }

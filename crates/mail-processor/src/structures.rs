@@ -45,35 +45,40 @@ pub struct OverviewResults {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Metadata {
+    // mail id
     pub email_id: Option<String>,
+    // time (epoch)
     pub email_time: Option<i64>,
-    // empty string - unknown (might be the mail brief)
-    // Alliance - alliance related mails
-    // AllianceApply - people applying to join the alliance
-    // AllianceBuilding - alliance building related mails
-    // ArenaRankRewardReport - unknown (might be AOO reward)
-    // Battle - battle reports
-    // CarriageSentReport - unknown (might be resource assistance)
-    // Event - event related mails
-    // EventAsRank - event related mails
-    // EventMemberLootReport - event related mails
-    // EventPlyRank - event related mails
-    // Gm - unknown
-    // KillBigDreamReport - unknown
-    // Mlang - unknown
-    // Player - player mail sent/received mails
-    // Rss - resource collected
-    // ScoutReport - scout reports
-    // System - system related mails
-    // TeamGachaResult - unknown
-    // Temple - system related mails (kingdom buffs, etc.)
+    // email_type:
+    //   empty string - unknown (might be the mail brief)
+    //   Alliance - alliance related mails
+    //   AllianceApply - people applying to join the alliance
+    //   AllianceBuilding - alliance building related mails
+    //   ArenaRankRewardReport - unknown (might be AOO reward)
+    //   Battle - battle reports
+    //   CarriageSentReport - unknown (might be resource assistance)
+    //   Event - event related mails
+    //   EventAsRank - event related mails
+    //   EventMemberLootReport - event related mails
+    //   EventPlyRank - event related mails
+    //   Gm - unknown
+    //   KillBigDreamReport - unknown
+    //   Mlang - unknown
+    //   Player - player mail sent/received mails
+    //   Rss - resource collected
+    //   ScoutReport - scout reports
+    //   System - system related mails
+    //   TeamGachaResult - unknown
+    //   Temple - system related mails (kingdom buffs, etc.)
     pub email_type: Option<String>,
     pub email_receiver: Option<String>,
     pub email_box: Option<String>,
-    // HK/LK - gsmp, gs (gs is for older reports)
-    // AOO/OL - dungeon
+    // email_role:
+    //   HK/LK - gsmp, gs (gs is for older reports)
+    //   AOO/OL - dungeon
     pub email_role: Option<String>,
 
+    // 1 if kvk or conquers season, otherwise 0
     pub is_kvk: Option<i32>,
     pub attack_id: Option<String>,
     pub start_date: Option<i64>,
@@ -84,10 +89,11 @@ pub struct Metadata {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Commander {
-    // hid/hid2
+    // HId/HId2
     pub id: Option<i32>,
-    // hlv/hlv2
+    // Hlv/HLv2
     pub level: Option<i32>,
+    // HSS/HSS2
     pub skills: Option<String>,
 }
 

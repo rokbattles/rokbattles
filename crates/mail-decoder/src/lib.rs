@@ -121,13 +121,16 @@ fn parse_object<'a>(cursor: &mut Cursor<'a>) -> Result<ValueBorrowed<'a>> {
     while !cursor.eof() {
         let tag = cursor.u8()?;
         if tag == 0xff {
+            // 0xFF marks the end of this object.
             return Ok(ValueBorrowed::Object(entries));
         }
         if tag != 0x04 {
+            // Skip tags that are not UTF-8 string keys.
             continue;
         }
         let key = cursor.str_utf8()?;
         if cursor.eof() {
+            // Key read successfully but no value; treat as null and finish.
             entries.push((key, ValueBorrowed::Null));
             return Ok(ValueBorrowed::Object(entries));
         }
@@ -224,6 +227,7 @@ fn parse_sections<'a>(buffer: &'a [u8]) -> Result<Vec<ValueBorrowed<'a>>> {
             sections.push(obj)
         }
         if cursor.offset <= before {
+            // Bail out if the parser failed to advance to avoid an infinite loop.
             break;
         }
     }

@@ -218,6 +218,7 @@ impl Resolver for MetadataResolver {
                 });
 
             match (server_id, self_cosid) {
+                // If server and city owner differ we treat it as kvk; otherwise defer to legacy flag.
                 (Some(sid), Some(cos)) if sid != 0 && cos != 0 => Some((sid != cos) as i32),
                 _ => None,
             }
@@ -242,6 +243,9 @@ impl Resolver for MetadataResolver {
         let (ts_small, ets_small) = if let Some(pair) = Self::find_small_tick_pair(group) {
             pair
         } else {
+            // Mix and match epoch-based and tick-based timestamps so we can always compute start/end.
+            // TODO this is the incorrect way of computing, but we'll fix it at a later date, it
+            //  produces nearly the same output as intended
             let gba = Self::find_epoch_in_group(group, "Bts").unwrap_or(base_epoch);
             let gea = Self::find_epoch_in_group(group, "Ets").unwrap_or(base_epoch);
             let ts_small = if gba < 1_000_000_000 {

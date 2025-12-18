@@ -360,9 +360,11 @@ impl ParticipantEnemyResolver {
             if let Some(attacks) = sec.get("Attacks")
                 && let Some(obj) = attacks.get(key)
             {
+                // Located within Attacks map; mark as nested.
                 return Some((i, true, attacks, obj));
             }
             if let Some(obj) = sec.get(key) {
+                // Located as a top-level keyed object on the section.
                 return Some((i, false, sec, obj));
             }
         }
@@ -467,6 +469,7 @@ impl ParticipantEnemyResolver {
                 group[j].get("SkillLevel").and_then(Value::as_i64),
             ) && ((id / 100) == (base_id / 100) || (id - base_id).abs() <= 10)
             {
+                // Collect adjacent skill ids that look like part of the same commander skill set.
                 buf[got] = (id, lv);
                 got += 1;
             }
@@ -477,6 +480,7 @@ impl ParticipantEnemyResolver {
         }
 
         buf.sort_by_key(|(id, _)| *id);
+        // Require a run of three consecutive skill ids (e.g., 1000/1001/1002) before building the string.
         if !(buf[1].0 == buf[0].0 + 1 && buf[2].0 == buf[1].0 + 1) {
             return None;
         }
@@ -535,6 +539,7 @@ impl ParticipantEnemyResolver {
         {
             let start = i.saturating_sub(2);
             let end = (i + 2).min(group.len().saturating_sub(1));
+            // Look a few sections around the attack record for a nearby HSS2 entry.
             secondary = group[start..=end].iter().find_map(|v| {
                 v.get("HSS2")
                     .and_then(|o| o.get("SkillLevel"))
@@ -576,6 +581,7 @@ impl Resolver for ParticipantEnemyResolver {
         let attack_container = Self::find_attack_record_container(group, attack_cid);
         let (attack_cid_opt, attack_id_str) = Self::parse_attack_identifier(ctx.attack_id);
         let attack_section = idx_opt.and_then(|idx| group.get(idx)).or_else(|| {
+            // Find a nearby section that references this attack id and also carries player metadata.
             group.iter().find(|sec| {
                 let idt_match = sec
                     .get("Idt")
@@ -658,6 +664,7 @@ impl Resolver for ParticipantEnemyResolver {
                     )
                 });
         if enemy_snap.is_none() {
+            // If the structured snapshot is missing, rely on the broader attack section for metadata.
             enemy_snap = attack_section;
         }
 
@@ -722,6 +729,7 @@ impl Resolver for ParticipantEnemyResolver {
                     if candidate.is_some() {
                         break;
                     }
+                    // Expand search around the anchor to reuse a CIdt that actually carries pid/avatar data.
                     if anchor >= d
                         && let Some(sec) = group.get(anchor - d)
                         && let Some(ci) = sec
