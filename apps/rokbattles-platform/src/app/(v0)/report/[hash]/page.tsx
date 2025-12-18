@@ -30,7 +30,7 @@ export default async function Page({ params }: PageProps<"/report/[hash]">) {
     <>
       <div className="max-lg:hidden mb-8">
         <Link
-          href="/"
+          href="/apps/rokbattles-platform/public"
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
         >
           <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
