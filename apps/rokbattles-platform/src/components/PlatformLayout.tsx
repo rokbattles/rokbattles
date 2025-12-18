@@ -187,7 +187,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                 <AccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
               </Dropdown>
             ) : (
-              <SidebarItem href="/api/auth/discord/login">
+              <SidebarItem href="/api/auth/discord/login" prefetch={false}>
                 <SidebarLabel>Sign in</SidebarLabel>
               </SidebarItem>
             )}
