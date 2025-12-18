@@ -2,8 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
-import { PlatformLayout } from "@/components/PlatformLayout";
-import PlatformProviders from "@/components/PlatformProviders";
 import { cn } from "@/lib/cn";
 import { CookieConsentProvider } from "@/providers/CookieConsentContext";
 
@@ -52,10 +50,8 @@ export default function Layout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <CookieConsentProvider>
-          <PlatformProviders>
-            <PlatformLayout>{children}</PlatformLayout>
-            <CookieConsentBanner />
-          </PlatformProviders>
+          {children}
+          <CookieConsentBanner />
         </CookieConsentProvider>
       </body>
     </html>
