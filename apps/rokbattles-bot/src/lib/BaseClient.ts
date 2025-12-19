@@ -9,7 +9,8 @@ export class BaseClient extends Client {
   constructor(options: ClientOptions) {
     super(options);
 
-    console.log(`Successfully loaded ${events().size} events`);
-    registerEvents(this, events());
+    const eventColl = events();
+    console.log(`Successfully loaded ${eventColl.size} events`);
+    registerEvents(this, eventColl);
   }
 }
