@@ -7,8 +7,14 @@ use mongodb::{
     bson::DateTime,
     bson::{Document, doc},
     error::ErrorKind,
+    options::FindOneAndUpdateOptions,
     options::FindOptions,
     options::InsertManyOptions,
+    options::ReturnDocument,
+};
+use std::sync::{
+    Arc,
+    atomic::{AtomicUsize, Ordering},
 };
 use std::time::Duration;
 use tracing::{debug, error, info};
@@ -25,7 +31,12 @@ fn blake3_hash(data: &[u8]) -> String {
     hash.to_hex().to_string()
 }
 
-async fn process(db: &Database) -> Result<()> {
+async fn process(
+    db: &Database,
+    batch_size: i64,
+    concurrency: usize,
+    max_failures: i64,
+) -> Result<usize> {
     let mails = db.collection::<Document>("mails");
     let battle_reports = db.collection::<Document>("battleReports");
 
@@ -33,9 +44,9 @@ async fn process(db: &Database) -> Result<()> {
         "status": { "$in": ["pending", "reprocess"] },
     };
 
-    // Pull 100 raw reports at a time.
+    // Pull a batch of raw reports at a time.
     let opts = FindOptions::builder()
-        .limit(100)
+        .limit(batch_size)
         .sort(doc! { "mail.time": 1 })
         .projection(doc! {
             "_id": 1,
@@ -47,26 +58,99 @@ async fn process(db: &Database) -> Result<()> {
         })
         .build();
 
-    let mut cursor = mails.find(filter).with_options(opts).await?;
-    let mut count = 0usize;
+    let cursor = mails.find(filter).with_options(opts).await?;
+    let count = Arc::new(AtomicUsize::new(0));
+    let count_ref = Arc::clone(&count);
+    let mails_ref = mails.clone();
+    let battle_reports_ref = battle_reports.clone();
 
-    while let Some(doc) = cursor.try_next().await? {
-        count += 1;
-        let status = doc
-            .get_str("status")
-            .map(|s| s.to_string())
-            .unwrap_or_else(|_| "pending".to_string());
-        // Continue processing other mails even if a single mail fails.
-        if let Err(e) = process_mail(&mails, &battle_reports, &doc).await {
-            error!(error = %e, status = %status, "processing mail failed");
-        }
-    }
+    cursor
+        .try_for_each_concurrent(concurrency, move |doc| {
+            let mails_ref = mails_ref.clone();
+            let battle_reports_ref = battle_reports_ref.clone();
+            let count_ref = Arc::clone(&count_ref);
+            async move {
+                count_ref.fetch_add(1, Ordering::Relaxed);
+                let status = doc
+                    .get_str("status")
+                    .map(|s| s.to_string())
+                    .unwrap_or_else(|_| "pending".to_string());
+                // Continue processing other mails even if a single mail fails.
+                if let Err(e) = process_mail(&mails_ref, &battle_reports_ref, &doc).await {
+                    error!(error = %e, status = %status, "processing mail failed");
+                    if let Err(e) = record_failure(&mails_ref, &doc, max_failures).await {
+                        error!(error = %e, "failed to record mail processing failure");
+                    }
+                }
+                Ok(())
+            }
+        })
+        .await?;
 
-    if count > 0 {
-        info!(processed_count = count, "processed mails");
+    let processed = count.load(Ordering::Relaxed);
+    if processed > 0 {
+        info!(processed_count = processed, "processed mails");
     } else {
         debug!("no pending mails")
     }
+    Ok(processed)
+}
+
+async fn record_failure(
+    mails: &Collection<Document>,
+    doc: &Document,
+    max_failures: i64,
+) -> Result<()> {
+    let id = doc
+        .get_object_id("_id")
+        .with_context(|| "missing mail id")?;
+    let now = DateTime::now();
+
+    let opts = FindOneAndUpdateOptions::builder()
+        .return_document(ReturnDocument::After)
+        .build();
+    let updated = mails
+        .find_one_and_update(
+            doc! { "_id": id, "status": { "$nin": ["processed", "error"] } },
+            doc! {
+                "$inc": { "metadata.processingFailures": 1 },
+                "$set": { "metadata.lastFailureAt": now },
+            },
+        )
+        .with_options(opts)
+        .await?;
+
+    let Some(updated) = updated else {
+        return Ok(());
+    };
+
+    let failure_count = updated
+        .get_document("metadata")
+        .ok()
+        .and_then(|metadata| metadata.get("processingFailures"))
+        .and_then(|value| match value {
+            Bson::Int32(v) => Some(i64::from(*v)),
+            Bson::Int64(v) => Some(*v),
+            _ => None,
+        })
+        .unwrap_or(0);
+
+    if failure_count >= max_failures {
+        let update_result = mails
+            .update_one(
+                doc! { "_id": id, "status": { "$nin": ["processed", "error"] } },
+                doc! { "$set": { "status": "error", "errorAt": now } },
+            )
+            .await?;
+        if update_result.modified_count > 0 {
+            info!(
+                mail_id = %id,
+                failure_count,
+                "marked mail as error after repeated failures"
+            );
+        }
+    }
+
     Ok(())
 }
 
@@ -218,12 +302,38 @@ async fn main() -> Result<()> {
         .expect("MONGO_URI environment variable must include a database name");
     debug!(database = %db.name(), "connected to MongoDB");
 
-    // 15 second interval
-    let mut tick = tokio::time::interval(Duration::from_secs(15));
+    let batch_size = std::env::var("PROCESSOR_BATCH_SIZE")
+        .ok()
+        .and_then(|value| value.parse::<i64>().ok())
+        .filter(|value| *value > 0)
+        .unwrap_or(500);
+    let concurrency = std::env::var("PROCESSOR_CONCURRENCY")
+        .ok()
+        .and_then(|value| value.parse::<usize>().ok())
+        .filter(|value| *value > 0)
+        .unwrap_or(8);
+    let max_failures = std::env::var("PROCESSOR_MAX_FAILURES")
+        .ok()
+        .and_then(|value| value.parse::<i64>().ok())
+        .filter(|value| *value > 0)
+        .unwrap_or(5);
+    let idle_sleep = std::env::var("PROCESSOR_IDLE_SLEEP_SECS")
+        .ok()
+        .and_then(|value| value.parse::<u64>().ok())
+        .filter(|value| *value > 0)
+        .map(Duration::from_secs)
+        .unwrap_or_else(|| Duration::from_secs(15));
+
     loop {
-        tick.tick().await;
-        if let Err(e) = process(&db).await {
-            error!(error = %e, "processing failed");
+        match process(&db, batch_size, concurrency, max_failures).await {
+            Ok(0) => {
+                tokio::time::sleep(idle_sleep).await;
+            }
+            Ok(_) => {}
+            Err(e) => {
+                error!(error = %e, "processing failed");
+                tokio::time::sleep(idle_sleep).await;
+            }
         }
     }
 }
