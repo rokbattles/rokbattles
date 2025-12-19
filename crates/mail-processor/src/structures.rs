@@ -70,6 +70,7 @@ pub struct Metadata {
     //   System - system related mails
     //   TeamGachaResult - unknown
     //   Temple - system related mails (kingdom buffs, etc.)
+    //   DuelBattle2 - Olympian Arena (troy kvk)
     pub email_type: Option<String>,
     pub email_receiver: Option<String>,
     pub email_box: Option<String>,
