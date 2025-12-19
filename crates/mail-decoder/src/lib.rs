@@ -346,7 +346,7 @@ mod tests {
     fn validate_sample_mail_has_header() -> Result<()> {
         // Resolve sample path relative to the crate's manifest directory to keep CI stable.
         let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let samples_dir = manifest_dir.join("../../samples");
+        let samples_dir = manifest_dir.join("../../samples/Battle");
         let bin_path = samples_dir.join("Persistent.Mail.100439187175234501131");
 
         // Read the raw binary; surface any IO issues with helpful context.
