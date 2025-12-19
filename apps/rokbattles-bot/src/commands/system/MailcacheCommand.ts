@@ -25,7 +25,7 @@ export const MailcacheCommand: CommandHandler<BaseClient> = {
       },
     ],
   },
-  async chatInput(_client, interaction, _args) {
+  async chatInput(_client, interaction) {
     const subcommand = interaction.options.getSubcommand();
     const guideContainer = new ContainerBuilder();
 

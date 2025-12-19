@@ -10,18 +10,8 @@ import {
 } from "discord.js";
 
 export type CommandHandler<C extends Client> = {
-  chatInput: (
-    client: C,
-    interaction: ChatInputCommandInteraction,
-    // biome-ignore lint/suspicious/noExplicitAny: ignore
-    args: Record<string, any>
-  ) => Promise<unknown> | unknown;
-  autocomplete?: (
-    client: C,
-    interaction: AutocompleteInteraction,
-    // biome-ignore lint/suspicious/noExplicitAny: ignore
-    args: Record<string, any>
-  ) => Promise<unknown> | unknown;
+  chatInput: (client: C, interaction: ChatInputCommandInteraction) => Promise<unknown> | unknown;
+  autocomplete?: (client: C, interaction: AutocompleteInteraction) => Promise<unknown> | unknown;
   options: ApplicationCommandData;
 };
 

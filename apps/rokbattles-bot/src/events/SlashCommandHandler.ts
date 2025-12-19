@@ -14,12 +14,12 @@ export const SlashCommandHandler: EventHandler<BaseClient, "interactionCreate"> 
   switch (interaction.commandType) {
     case ApplicationCommandType.ChatInput: {
       if (interaction.isAutocomplete() && command.autocomplete) {
-        await command.autocomplete(client, interaction, interaction.options.data);
+        await command.autocomplete(client, interaction);
         break;
       }
 
       if (interaction.isChatInputCommand()) {
-        await command.chatInput(client, interaction, interaction.options.data);
+        await command.chatInput(client, interaction);
         break;
       }
 
