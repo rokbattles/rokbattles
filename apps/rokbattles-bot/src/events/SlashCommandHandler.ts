@@ -6,7 +6,7 @@ export const SlashCommandHandler: EventHandler<BaseClient, "interactionCreate"> 
   client,
   interaction
 ) => {
-  if (!interaction.isCommand() && !interaction.isAutocomplete()) return;
+  if (!interaction.isChatInputCommand() && !interaction.isAutocomplete()) return;
 
   const command = client.commands.get(interaction.commandName.toLowerCase());
   if (!command) return;
@@ -14,12 +14,12 @@ export const SlashCommandHandler: EventHandler<BaseClient, "interactionCreate"> 
   switch (interaction.commandType) {
     case ApplicationCommandType.ChatInput: {
       if (interaction.isAutocomplete() && command.autocomplete) {
-        await command.autocomplete(client, interaction, interaction.options.data);
+        await command.autocomplete(client, interaction);
         break;
       }
 
-      if (interaction.isCommand()) {
-        await command.chatInput(client, interaction, interaction.options.data);
+      if (interaction.isChatInputCommand()) {
+        await command.chatInput(client, interaction);
         break;
       }
 

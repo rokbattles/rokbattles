@@ -42,7 +42,7 @@ async function fetchRecentReports(db: Db, governorId: number) {
         },
       },
       { $sort: { latestMailTime: -1 } },
-      { $limit: 10 },
+      { $limit: 5 },
       {
         $lookup: {
           from: "battleReports",
@@ -104,7 +104,7 @@ export const ReportsCommand: CommandHandler<BaseClient> = {
     description: "See your most recent battle reports",
     type: ApplicationCommandType.ChatInput,
   },
-  async chatInput(_client, interaction, _args) {
+  async chatInput(_client, interaction) {
     const discordId = interaction.user.id;
     const responseContainer = new ContainerBuilder();
 

@@ -8,7 +8,7 @@ export const HelpCommand: CommandHandler<BaseClient> = {
     description: "Information about ROK Battles and relevant links",
     type: ApplicationCommandType.ChatInput,
   },
-  async chatInput(_client, interaction, _args) {
+  async chatInput(_client, interaction) {
     const helpContainer = new ContainerBuilder().addTextDisplayComponents((builder) =>
       builder.setContent(
         [
