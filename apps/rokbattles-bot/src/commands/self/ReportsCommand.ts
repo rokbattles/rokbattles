@@ -42,7 +42,7 @@ async function fetchRecentReports(db: Db, governorId: number) {
         },
       },
       { $sort: { latestMailTime: -1 } },
-      { $limit: 10 },
+      { $limit: 5 },
       {
         $lookup: {
           from: "battleReports",
