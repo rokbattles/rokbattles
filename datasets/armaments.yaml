@@ -201,3 +201,27 @@ armaments:
       de: "Schadenverringerung gegen Barbaren"
       es: "Reducción de daño vs bárbaros"
       kr: "야만인 피해 경감"
+
+  10300:
+    name:
+      en: "Infantry Damage to Cavalry"
+
+  10302:
+    name:
+      en: "Archer Damage to Infantry"
+
+  10304:
+    name:
+      en: "Cavalry Damage to Archers"
+
+  15033:
+    name:
+      en: "Ranged Skill Damage"
+
+  15063:
+    name:
+      en: "Smite Damage"
+
+  17400:
+    name:
+      en: "Combo Attack Damage"
