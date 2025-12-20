@@ -37,6 +37,9 @@ armaments:
   3112:
     name:
       en: "Archer Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   4001:
     name:
@@ -97,50 +100,86 @@ armaments:
   5501:
     name:
       en: "Infantry Base Attack"
+      de: ""
+      es: ""
+      kr: ""
 
   5502:
     name:
       en: "Cavalry Base Attack"
+      de: ""
+      es: ""
+      kr: ""
 
   5503:
     name:
       en: "Archer Base Attack"
+      de: ""
+      es: ""
+      kr: ""
 
   5504:
     name:
       en: "Siege Unit Base Attack"
+      de: ""
+      es: ""
+      kr: ""
 
   5511:
     name:
       en: "Infantry Base Defense"
+      de: ""
+      es: ""
+      kr: ""
 
   5512:
     name:
       en: "Cavalry Base Defense"
+      de: ""
+      es: ""
+      kr: ""
 
   5513:
     name:
       en: "Archer Base Defense"
+      de: ""
+      es: ""
+      kr: ""
 
   5514:
     name:
       en: "Siege Unit Base Defense"
+      de: ""
+      es: ""
+      kr: ""
 
   5521:
     name:
       en: "Infantry Base Health"
+      de: ""
+      es: ""
+      kr: ""
 
   5522:
     name:
       en: "Cavalry Base Health"
+      de: ""
+      es: ""
+      kr: ""
 
   5523:
     name:
       en: "Archer Base Health"
+      de: ""
+      es: ""
+      kr: ""
 
   5524:
     name:
       en: "Siege Unit Base Health"
+      de: ""
+      es: ""
+      kr: ""
 
   6001:
     name:
@@ -187,14 +226,23 @@ armaments:
   10006:
     name:
       en: "Normal Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   10007:
     name:
       en: "Skill Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   10008:
     name:
       en: "Counterattack Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   10016:
     name:
@@ -213,140 +261,242 @@ armaments:
   10109:
     name:
       en: "Normal Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   10110:
     name:
       en: "Skill Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   10111:
     name:
       en: "Counterattack Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   10300:
     name:
       en: "Infantry Damage to Cavalry"
+      de: ""
+      es: ""
+      kr: ""
 
   10302:
     name:
       en: "Archer Damage to Infantry"
+      de: ""
+      es: ""
+      kr: ""
 
   10304:
     name:
       en: "Cavalry Damage to Archers"
+      de: ""
+      es: ""
+      kr: ""
 
   12017:
     name:
       en: "Rallied Army Attack"
+      de: ""
+      es: ""
+      kr: ""
 
   12052:
     name:
       en: "Rallied Army Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   12066:
     name:
       en: "Damage to Rallied Armies/Garrisons"
+      de: ""
+      es: ""
+      kr: ""
 
   15028:
     name:
       en: "Ranged Normal Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   15032:
     name:
       en: "Ranged Skill Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   15033:
     name:
       en: "Ranged Skill Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   15063:
     name:
       en: "Smite Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   15073:
     name:
       en: "Ranged Counterattack Damage Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   15075:
     name:
       en: "Ranged Smite Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   15089:
     name:
       en: "Enemy Attack Ignored"
+      de: ""
+      es: ""
+      kr: ""
 
   15090:
     name:
       en: "Enemy Defense Ignored"
+      de: ""
+      es: ""
+      kr: ""
 
   15091:
     name:
       en: "Enemy Health Ignored"
+      de: ""
+      es: ""
+      kr: ""
 
   15092:
     name:
       en: "Damage to Troops on the Map"
+      de: ""
+      es: ""
+      kr: ""
 
   17400:
     name:
       en: "Combo Attack Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   17401:
     name:
       en: "Ranged Combo Attack Damage"
+      de: ""
+      es: ""
+      kr: ""
 
   20034:
     name:
       en: "Damage Resistance"
+      de: ""
+      es: ""
+      kr: ""
 
   20039:
     name:
       en: "Smite Damage Boost"
+      de: ""
+      es: ""
+      kr: ""
 
   20062:
     name:
       en: "Combo Attack Damage Boost"
+      de: ""
+      es: ""
+      kr: ""
 
   20064:
     name:
       en: "Combo Attack Damage Resistance"
+      de: ""
+      es: ""
+      kr: ""
 
   # The 20066 to 20069 and 20070 to 20073 may be flip-flopped (not enough samples to be sure)
   # Guessing (not enough samples to be sure)
   20066:
     name:
       en: "Damage From Cavalry Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   # Guessing (not enough samples to be sure)
   20067:
     name:
       en: "Damage From Archers Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   20068:
     name:
       en: "Damage From Infantry Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   20069:
     name:
       en: "Damage From Siege Units Reduction"
+      de: ""
+      es: ""
+      kr: ""
 
   # Guessing (not enough samples to be sure)
   20070:
     name:
       en: "Damage Bonus vs Cavalry"
+      de: ""
+      es: ""
+      kr: ""
 
   # Guessing (not enough samples to be sure)
   20071:
     name:
       en: "Damage Bonus vs Archers"
+      de: ""
+      es: ""
+      kr: ""
 
   20072:
     name:
       en: "Damage Bonus vs Infantry"
+      de: ""
+      es: ""
+      kr: ""
 
   20073:
     name:
       en: "Damage Bonus vs Siege Units"
+      de: ""
+      es: ""
+      kr: ""
 
   30029:
     name:
       en: "Damage Reduction vs Poisoned Troops (Per Stack)"
+      de: ""
+      es: ""
+      kr: ""
