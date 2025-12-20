@@ -37,7 +37,7 @@ armaments:
   3112:
     name:
       en: "Archer Damage"
-      de: ""
+      de: "Bogenschützenschaden"
       es: ""
       kr: ""
 
@@ -100,84 +100,84 @@ armaments:
   5501:
     name:
       en: "Infantry Base Attack"
-      de: ""
+      de: "Infanterie-Basisangriff"
       es: ""
       kr: ""
 
   5502:
     name:
       en: "Cavalry Base Attack"
-      de: ""
+      de: "Kavallerie-Basisangriff"
       es: ""
       kr: ""
 
   5503:
     name:
       en: "Archer Base Attack"
-      de: ""
+      de: "Bogenschützen-Basisangriff"
       es: ""
       kr: ""
 
   5504:
     name:
       en: "Siege Unit Base Attack"
-      de: ""
+      de: "Belagerungseinheiten-Basisangriff"
       es: ""
       kr: ""
 
   5511:
     name:
       en: "Infantry Base Defense"
-      de: ""
+      de: "Infanterie-Basisverteidigung"
       es: ""
       kr: ""
 
   5512:
     name:
       en: "Cavalry Base Defense"
-      de: ""
+      de: "Kavallerie-Basisverteidigung"
       es: ""
       kr: ""
 
   5513:
     name:
       en: "Archer Base Defense"
-      de: ""
+      de: "Bogenschützen-Basisverteidigung"
       es: ""
       kr: ""
 
   5514:
     name:
       en: "Siege Unit Base Defense"
-      de: ""
+      de: "Belagerungseinheiten-Basisverteidigung"
       es: ""
       kr: ""
 
   5521:
     name:
       en: "Infantry Base Health"
-      de: ""
+      de: "Infanterie-Basisgesundheit"
       es: ""
       kr: ""
 
   5522:
     name:
       en: "Cavalry Base Health"
-      de: ""
+      de: "Kavallerie-Basisgesundheit"
       es: ""
       kr: ""
 
   5523:
     name:
       en: "Archer Base Health"
-      de: ""
+      de: "Bogenschützen-Basisgesundheit"
       es: ""
       kr: ""
 
   5524:
     name:
       en: "Siege Unit Base Health"
-      de: ""
+      de: "Belagerungseinheiten-Basisgesundheit"
       es: ""
       kr: ""
 
@@ -282,21 +282,21 @@ armaments:
   10300:
     name:
       en: "Infantry Damage to Cavalry"
-      de: ""
+      de: "Infanterie-Schaden an Kavallerie"
       es: ""
       kr: ""
 
   10302:
     name:
       en: "Archer Damage to Infantry"
-      de: ""
+      de: "Bogenschützen-Schaden an Infanterie"
       es: ""
       kr: ""
 
   10304:
     name:
       en: "Cavalry Damage to Archers"
-      de: ""
+      de: "Kavallerie-Schaden an Bogenschützen"
       es: ""
       kr: ""
 
