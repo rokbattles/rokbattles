@@ -218,6 +218,10 @@ armaments:
     name:
       en: "Skill Damage Reduction"
 
+  10111:
+    name:
+      en: "Counterattack Damage Reduction"
+
   10300:
     name:
       en: "Infantry Damage to Cavalry"
@@ -257,6 +261,10 @@ armaments:
   15063:
     name:
       en: "Smite Damage"
+
+  15073:
+    name:
+      en: "Ranged Counterattack Damage Reduction"
 
   15075:
     name:
