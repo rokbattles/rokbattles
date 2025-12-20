@@ -39,7 +39,7 @@ armaments:
       en: "Archer Damage"
       de: "Bogenschützenschaden"
       es: "Daño de arquero"
-      kr: ""
+      kr: "궁병 피해"
 
   4001:
     name:
@@ -102,84 +102,84 @@ armaments:
       en: "Infantry Base Attack"
       de: "Infanterie-Basisangriff"
       es: "Ataque base de infantería"
-      kr: ""
+      kr: "보병 유닛 기본 공격력"
 
   5502:
     name:
       en: "Cavalry Base Attack"
       de: "Kavallerie-Basisangriff"
       es: "Ataque base de caballería"
-      kr: ""
+      kr: "기마병 유닛 기본 공격력"
 
   5503:
     name:
       en: "Archer Base Attack"
       de: "Bogenschützen-Basisangriff"
       es: "Ataque base de arquero"
-      kr: ""
+      kr: "궁병 유닛 기본 공격력"
 
   5504:
     name:
       en: "Siege Unit Base Attack"
       de: "Belagerungseinheiten-Basisangriff"
       es: "Ataque base de unidad de asedio"
-      kr: ""
+      kr: "공성 유닛 기본 공격력"
 
   5511:
     name:
       en: "Infantry Base Defense"
       de: "Infanterie-Basisverteidigung"
       es: "Defensa base de infantería"
-      kr: ""
+      kr: "보병 유닛 기본 방어력"
 
   5512:
     name:
       en: "Cavalry Base Defense"
       de: "Kavallerie-Basisverteidigung"
       es: "Defensa base de caballería"
-      kr: ""
+      kr: "기마병 유닛 기본 방어력"
 
   5513:
     name:
       en: "Archer Base Defense"
       de: "Bogenschützen-Basisverteidigung"
       es: "Defensa base de arquero"
-      kr: ""
+      kr: "궁병 유닛 기본 방어력"
 
   5514:
     name:
       en: "Siege Unit Base Defense"
       de: "Belagerungseinheiten-Basisverteidigung"
       es: "Defensa base de unidad de asedio"
-      kr: ""
+      kr: "공성 유닛 기본 방어력"
 
   5521:
     name:
       en: "Infantry Base Health"
       de: "Infanterie-Basisgesundheit"
       es: "Salud base de infantería"
-      kr: ""
+      kr: "보병 유닛 기본 생명력"
 
   5522:
     name:
       en: "Cavalry Base Health"
       de: "Kavallerie-Basisgesundheit"
       es: "Salud base de caballería"
-      kr: ""
+      kr: "기마병 유닛 기본 생명력"
 
   5523:
     name:
       en: "Archer Base Health"
       de: "Bogenschützen-Basisgesundheit"
       es: "Salud base de arquero"
-      kr: ""
+      kr: "궁병 유닛 기본 생명력"
 
   5524:
     name:
       en: "Siege Unit Base Health"
       de: "Belagerungseinheiten-Basisgesundheit"
       es: "Salud base de unidad de asedio"
-      kr: ""
+      kr: "공성 유닛 기본 생명력"
 
   6001:
     name:
@@ -284,21 +284,21 @@ armaments:
       en: "Infantry Damage to Cavalry"
       de: "Infanterie-Schaden an Kavallerie"
       es: "Daño de infantería a caballería"
-      kr: ""
+      kr: "보병 유닛이 기마병 유닛에게 입히는 피애"
 
   10302:
     name:
       en: "Archer Damage to Infantry"
       de: "Bogenschützen-Schaden an Infanterie"
       es: "Daño de arqueros a infantería"
-      kr: ""
+      kr: "궁병 유닛이 보병 유닛에게 입히는 피애"
 
   10304:
     name:
       en: "Cavalry Damage to Archers"
       de: "Kavallerie-Schaden an Bogenschützen"
       es: "Daño de caballería a arqueros"
-      kr: ""
+      kr: "기마병 유닛이 궁병 유닛에게 입히는 피애"
 
   12017:
     name:
