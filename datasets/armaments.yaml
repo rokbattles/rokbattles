@@ -188,6 +188,10 @@ armaments:
     name:
       en: "Skill Damage"
 
+  10008:
+    name:
+      en: "Counterattack Damage"
+
   10016:
     name:
       en: "Damage to Barbarians"
@@ -201,6 +205,10 @@ armaments:
       de: "Schadenverringerung gegen Barbaren"
       es: "Reducción de daño vs bárbaros"
       kr: "야만인 피해 경감"
+
+  10110:
+    name:
+      en: "Skill Damage Reduction"
 
   10300:
     name:
@@ -222,6 +230,14 @@ armaments:
     name:
       en: "Smite Damage"
 
+  15075:
+    name:
+      en: "Ranged Smite Damage"
+
   17400:
     name:
       en: "Combo Attack Damage"
+
+  17401:
+    name:
+      en: "Ranged Combo Attack Damage"
