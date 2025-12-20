@@ -2670,7 +2670,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
-version = "0.1.0"
+version = "0.3.4"
 dependencies = [
  "mail-processor-sdk",
  "serde",
