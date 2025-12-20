@@ -132,6 +132,14 @@ armaments:
       es: "Daño Total"
       kr: "전체 피해"
 
+  10006:
+    name:
+      en: "Normal Damage"
+
+  10007:
+    name:
+      en: "Skill Damage"
+
   10016:
     name:
       en: "Damage to Barbarians"
