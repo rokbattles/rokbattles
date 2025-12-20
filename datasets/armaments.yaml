@@ -302,6 +302,43 @@ armaments:
     name:
       en: "Combo Attack Damage Resistance"
 
+  # The 20066 to 20069 and 20070 to 20073 may be flip-flopped (not enough samples to be sure)
+  # Guessing (not enough samples to be sure)
+  20066:
+    name:
+      en: "Damage From Cavalry Reduction"
+
+  # Guessing (not enough samples to be sure)
+  20067:
+    name:
+      en: "Damage From Archers Reduction"
+
+  20068:
+    name:
+      en: "Damage From Infantry Reduction"
+
+  20069:
+    name:
+      en: "Damage From Siege Units Reduction"
+
+  # Guessing (not enough samples to be sure)
+  20070:
+    name:
+      en: "Damage Bonus vs Cavalry"
+
+  # Guessing (not enough samples to be sure)
+  20071:
+    name:
+      en: "Damage Bonus vs Archers"
+
+  20072:
+    name:
+      en: "Damage Bonus vs Infantry"
+
+  20073:
+    name:
+      en: "Damage Bonus vs Siege Units"
+
   30029:
     name:
       en: "Damage Reduction vs Poisoned Troops (Per Stack)"
