@@ -227,21 +227,21 @@ armaments:
     name:
       en: "Normal Damage"
       de: "Normaler Schaden"
-      es: ""
+      es: "Daño normal"
       kr: ""
 
   10007:
     name:
       en: "Skill Damage"
       de: "Fähigkeitsschaden"
-      es: ""
+      es: "Daño de habilidad"
       kr: ""
 
   10008:
     name:
       en: "Counterattack Damage"
       de: "Gegenangriffsschaden"
-      es: ""
+      es: "Daño del Contraataque"
       kr: ""
 
   10016:
@@ -262,21 +262,21 @@ armaments:
     name:
       en: "Normal Damage Reduction"
       de: "Normale Schadenverringerung"
-      es: ""
+      es: "Reducción del daño normal"
       kr: ""
 
   10110:
     name:
       en: "Skill Damage Reduction"
       de: "Fähigkeitsschadenverringerung"
-      es: ""
+      es: "Reducción del daño de habilidad"
       kr: ""
 
   10111:
     name:
       en: "Counterattack Damage Reduction"
       de: "Gegenangriffsschadenverringerung"
-      es: ""
+      es: "Reducción del Daño del Contraataque"
       kr: ""
 
   10300:
@@ -304,133 +304,133 @@ armaments:
     name:
       en: "Rallied Army Attack"
       de: "Sammeltruppenangriff"
-      es: ""
+      es: "Ataque de las Tropas Congregadas"
       kr: ""
 
   12052:
     name:
       en: "Rallied Army Damage"
       de: "Schaden durch Sammelarmee"
-      es: ""
+      es: "Daño de ejército congregado"
       kr: ""
 
   12066:
     name:
       en: "Damage to Rallied Armies/Garrisons"
       de: "Schaden gegen Sammelarmeen/Garnisonen"
-      es: ""
+      es: "Daño a guarniciones/ejércitos congregados"
       kr: ""
 
   15028:
     name:
       en: "Ranged Normal Damage Reduction"
       de: "Normale Fernangriffsschadenverringerung"
-      es: ""
+      es: "Reducción de daño normal a distancia"
       kr: ""
 
   15032:
     name:
       en: "Ranged Skill Damage Reduction"
       de: "Fernkampf-Fähigkeitsschadenverringerung"
-      es: ""
+      es: "Reducción de daño de habilidad a distancia"
       kr: ""
 
   15033:
     name:
       en: "Ranged Skill Damage"
       de: "Fernkampf-Fähigkeitsschaden"
-      es: ""
+      es: "Daño de habilidad a distancia"
       kr: ""
 
   15063:
     name:
       en: "Smite Damage"
       de: "Schmetterschaden"
-      es: ""
+      es: "Daño de embate"
       kr: ""
 
   15073:
     name:
       en: "Ranged Counterattack Damage Reduction"
       de: "Fernkampf-Gegenangriffsschadensverringerung"
-      es: ""
+      es: "Reducción de daño de contraataque a distancia"
       kr: ""
 
   15075:
     name:
       en: "Ranged Smite Damage"
       de: "Fernkampf-Schmetterschaden"
-      es: ""
+      es: "Daño de embate a distancia"
       kr: ""
 
   15089:
     name:
       en: "Enemy Attack Ignored"
       de: "Angriff des Feindes ignoriert"
-      es: ""
+      es: "Ataque del enemigo ignorado"
       kr: ""
 
   15090:
     name:
       en: "Enemy Defense Ignored"
       de: "Verteidigung des Feindes ignoriert"
-      es: ""
+      es: "Defensa del enemigo ignorada"
       kr: ""
 
   15091:
     name:
       en: "Enemy Health Ignored"
       de: "Gesundheit des Feindes ignoriert"
-      es: ""
+      es: "Salud del enemigo ignorada"
       kr: ""
 
   15092:
     name:
       en: "Damage to Troops on the Map"
       de: "Schaden an Truppen auf der Karte"
-      es: ""
+      es: "Daño a tropas en el mapa"
       kr: ""
 
   17400:
     name:
       en: "Combo Attack Damage"
       de: "Kombo-Angriffsschaden"
-      es: ""
+      es: "Daño de ataque combinado"
       kr: ""
 
   17401:
     name:
       en: "Ranged Combo Attack Damage"
       de: "Kombo-Fernkampfangriffsschaden"
-      es: ""
+      es: "Daño de ataque combinado a distancia"
       kr: ""
 
   20034:
     name:
       en: "Damage Resistance"
       de: "Schadenwiderstand"
-      es: ""
+      es: "Resistencia al daño"
       kr: ""
 
   20039:
     name:
       en: "Smite Damage Boost"
       de: "Schmetterschadensboost"
-      es: ""
+      es: "Refuerzo de daño de embate"
       kr: ""
 
   20062:
     name:
       en: "Combo Attack Damage Boost"
       de: "Kombo-Angriffsschadensboost"
-      es: ""
+      es: "Refuerzo de daño de ataque combinado"
       kr: ""
 
   20064:
     name:
       en: "Combo Attack Damage Resistance"
       de: "Kombo-Angriffsschadenwiderstand"
-      es: ""
+      es: "Resistencia al daño de ataque combinado"
       kr: ""
 
   # The 20066 to 20069 and 20070 to 20073 may be flip-flopped (not enough samples to be sure)
@@ -439,7 +439,7 @@ armaments:
     name:
       en: "Damage From Cavalry Reduction"
       de: "Schadenverringerung durch Kavallerie"
-      es: ""
+      es: "Reducción de daño recibido de caballería"
       kr: ""
 
   # Guessing (not enough samples to be sure)
@@ -447,21 +447,21 @@ armaments:
     name:
       en: "Damage From Archers Reduction"
       de: "Schadenverringerung durch Bogenschützen"
-      es: ""
+      es: "Reducción de daño recibido de arqueros"
       kr: ""
 
   20068:
     name:
       en: "Damage From Infantry Reduction"
       de: "Schadenverringerung durch Infanterie"
-      es: ""
+      es: "Reducción de daño recibido de infantería"
       kr: ""
 
   20069:
     name:
       en: "Damage From Siege Units Reduction"
       de: "Schadenverringerung durch Belagerungseinheiten"
-      es: ""
+      es: "Reducción de daño recibido de unidades de asedio"
       kr: ""
 
   # Guessing (not enough samples to be sure)
@@ -469,7 +469,7 @@ armaments:
     name:
       en: "Damage Bonus vs Cavalry"
       de: "Schadensbonus gegen Kavallerie"
-      es: ""
+      es: "Bonificación de daño contra caballería"
       kr: ""
 
   # Guessing (not enough samples to be sure)
@@ -477,26 +477,26 @@ armaments:
     name:
       en: "Damage Bonus vs Archers"
       de: "Schadensbonus gegen Bogenschützen"
-      es: ""
+      es: "Bonificación de daño contra arqueros"
       kr: ""
 
   20072:
     name:
       en: "Damage Bonus vs Infantry"
       de: "Schadensbonus gegen Infanterie"
-      es: ""
+      es: "Bonificación de daño contra infantería"
       kr: ""
 
   20073:
     name:
       en: "Damage Bonus vs Siege Units"
       de: "Schadensbonus gegen Belagerungseinheiten"
-      es: ""
+      es: "Bonificación de daño contra unidades de asedio"
       kr: ""
 
   30029:
     name:
       en: "Damage Reduction vs Poisoned Troops (Per Stack)"
       de: "Schadenverringerung gegen vergiftete Truppen (pro Stapel)"
-      es: ""
+      es: "Reducción de daño vs tropas envenenadas (por acumulación)"
       kr: ""
