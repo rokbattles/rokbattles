@@ -34,6 +34,10 @@ armaments:
       es: "Ataque de la Unidad de Asedio"
       kr: "공성 유닛 공격력"
 
+  3112:
+    name:
+      en: "Archer Damage"
+
   4001:
     name:
       en: "Infantry Defense"
@@ -206,6 +210,10 @@ armaments:
       es: "Reducción de daño vs bárbaros"
       kr: "야만인 피해 경감"
 
+  10109:
+    name:
+      en: "Normal Damage Reduction"
+
   10110:
     name:
       en: "Skill Damage Reduction"
@@ -222,6 +230,26 @@ armaments:
     name:
       en: "Cavalry Damage to Archers"
 
+  12017:
+    name:
+      en: "Rallied Army Attack"
+
+  12052:
+    name:
+      en: "Rallied Army Damage"
+
+  12066:
+    name:
+      en: "Damage to Rallied Armies/Garrisons"
+
+  15028:
+    name:
+      en: "Ranged Normal Damage Reduction"
+
+  15032:
+    name:
+      en: "Ranged Skill Damage Reduction"
+
   15033:
     name:
       en: "Ranged Skill Damage"
@@ -234,6 +262,22 @@ armaments:
     name:
       en: "Ranged Smite Damage"
 
+  15089:
+    name:
+      en: "Enemy Attack Ignored"
+
+  15090:
+    name:
+      en: "Enemy Defense Ignored"
+
+  15091:
+    name:
+      en: "Enemy Health Ignored"
+
+  15092:
+    name:
+      en: "Damage to Troops on the Map"
+
   17400:
     name:
       en: "Combo Attack Damage"
@@ -241,3 +285,23 @@ armaments:
   17401:
     name:
       en: "Ranged Combo Attack Damage"
+
+  20034:
+    name:
+      en: "Damage Resistance"
+
+  20039:
+    name:
+      en: "Smite Damage Boost"
+
+  20062:
+    name:
+      en: "Combo Attack Damage Boost"
+
+  20064:
+    name:
+      en: "Combo Attack Damage Resistance"
+
+  30029:
+    name:
+      en: "Damage Reduction vs Poisoned Troops (Per Stack)"
