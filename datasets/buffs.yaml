@@ -1,0 +1,75 @@
+buffs:
+  3001:
+    name:
+      en: "Infantry Attack"
+    percent: true
+
+  3002:
+    name:
+      en: "Cavalry Attack"
+    percent: true
+
+  3003:
+    name:
+      en: "Archer Attack"
+    percent: true
+
+  3004:
+    name:
+      en: "Siege Unit Attack"
+    percent: true
+
+  4001:
+    name:
+      en: "Infantry Defense"
+    percent: true
+
+  4002:
+    name:
+      en: "Cavalry Defense"
+    percent: true
+
+  4003:
+    name:
+      en: "Archer Defense"
+    percent: true
+
+  4004:
+    name:
+      en: "Siege Unit Defense"
+    percent: true
+
+  5001:
+    name:
+      en: "Infantry Health"
+    percent: true
+
+  5002:
+    name:
+      en: "Cavalry Health"
+      percent: true
+
+  5003:
+    name:
+      en: "Archer Health"
+    percent: true
+
+  5004:
+    name:
+      en: "Siege Unit Health"
+    percent: true
+
+  10002:
+    name:
+      en: "All Damage"
+    percent: true
+
+  10006:
+    name:
+      en: "Normal Damage"
+    percent: true
+
+  10007:
+    name:
+      en: "Skill Damage"
+    percent: true
