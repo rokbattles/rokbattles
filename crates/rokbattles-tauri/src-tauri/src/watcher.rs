@@ -1112,18 +1112,21 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 };
 
                 let first_type = detect_mail_type(&decoded);
-                if !first_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
+                let supported_type = first_type.is_some_and(|t| {
+                    t.eq_ignore_ascii_case("Battle") || t.eq_ignore_ascii_case("DuelBattle2")
+                });
+                if !supported_type {
                     metrics_skipped += 1;
                     emit_log(
                         &app,
                         format!(
-                            "Skipping non-battle mail {} (detected: {})",
+                            "Skipping unsupported mail {} (detected: {})",
                             fname,
                             first_type.unwrap_or("Unknown")
                         ),
                     );
                     eprintln!(
-                        "[rokbattles] skipping non-battle mail {:?} (detected: {:?})",
+                        "[rokbattles] skipping unsupported mail {:?} (detected: {:?})",
                         path,
                         first_type.unwrap_or("Unknown")
                     );
@@ -1134,7 +1137,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     Ok(()) => {
                         metrics_uploaded += 1;
                         emit_log(&app, format!("Uploaded {}", fname));
-                        eprintln!("[rokbattles] uploaded battle mail {:?}", path);
+                        eprintln!("[rokbattles] uploaded mail {:?}", path);
                     }
                     Err(e) => {
                         metrics_upload_failed += 1;
