@@ -8,7 +8,9 @@ anyhow = { workspace = true }
 serde_json = { workspace = true }
 clap = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
+mail-helper = { path = "../mail-helper" }
 mail-processor = { path = "../mail-processor" }
+mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
 mongodb = { workspace = true }
 tokio = { workspace = true }
 zstd = { workspace = true }

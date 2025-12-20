@@ -1,0 +1,471 @@
+{
+  "metadata": {
+    "email_id": "4198244176618252731",
+    "email_time": 1766182527853282,
+    "email_receiver": "player_71738515",
+    "server_id": 15790
+  },
+  "sender": {
+    "player_id": 71738515,
+    "player_name": "G Var",
+    "kingdom": 1804,
+    "alliance": "SO4L",
+    "duel_id": 1357157902,
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+    "commanders": {
+      "primary": {
+        "id": 540,
+        "level": 60,
+        "star": 6,
+        "awaked": true,
+        "skills": [
+          {
+            "id": 389,
+            "level": 5,
+            "order": 0
+          },
+          {
+            "id": 1735,
+            "level": 5,
+            "order": 1
+          },
+          {
+            "id": 1736,
+            "level": 5,
+            "order": 2
+          },
+          {
+            "id": 1737,
+            "level": 5,
+            "order": 3
+          },
+          {
+            "id": 1738,
+            "level": 1,
+            "order": 4
+          }
+        ]
+      },
+      "secondary": {
+        "id": 575,
+        "level": 60,
+        "star": 6,
+        "awaked": true,
+        "skills": [
+          {
+            "id": 411,
+            "level": 5,
+            "order": 0
+          },
+          {
+            "id": 1787,
+            "level": 5,
+            "order": 1
+          },
+          {
+            "id": 1790,
+            "level": 5,
+            "order": 2
+          },
+          {
+            "id": 1789,
+            "level": 5,
+            "order": 3
+          }
+        ]
+      }
+    },
+    "buffs": [
+      {
+        "id": 5522,
+        "value": 12.0
+      },
+      {
+        "id": 20062,
+        "value": 0.15
+      },
+      {
+        "id": 15090,
+        "value": 0.02
+      },
+      {
+        "id": 5002,
+        "value": 1.232
+      },
+      {
+        "id": 10016,
+        "value": 1.25
+      },
+      {
+        "id": 17401,
+        "value": 0.03
+      },
+      {
+        "id": 3004,
+        "value": 1.545
+      },
+      {
+        "id": 5003,
+        "value": 0.72
+      },
+      {
+        "id": 3003,
+        "value": 1.75
+      },
+      {
+        "id": 10002,
+        "value": 0.112
+      },
+      {
+        "id": 5004,
+        "value": 0.63
+      },
+      {
+        "id": 4003,
+        "value": 1.455
+      },
+      {
+        "id": 20034,
+        "value": 0.02
+      },
+      {
+        "id": 4004,
+        "value": 1.275
+      },
+      {
+        "id": 3008,
+        "value": 0.0
+      },
+      {
+        "id": 5512,
+        "value": 6.0
+      },
+      {
+        "id": 5523,
+        "value": 6.0
+      },
+      {
+        "id": 10006,
+        "value": 0.03
+      },
+      {
+        "id": 4002,
+        "value": 1.672
+      },
+      {
+        "id": 5521,
+        "value": 6.0
+      },
+      {
+        "id": 10008,
+        "value": 0.03
+      },
+      {
+        "id": 10109,
+        "value": 0.015
+      },
+      {
+        "id": 5502,
+        "value": 6.0
+      },
+      {
+        "id": 5524,
+        "value": 6.0
+      },
+      {
+        "id": 12017,
+        "value": 0.05
+      },
+      {
+        "id": 15091,
+        "value": 0.01
+      },
+      {
+        "id": 5001,
+        "value": 0.88
+      },
+      {
+        "id": 10110,
+        "value": 0.12
+      },
+      {
+        "id": 3002,
+        "value": 2.06
+      },
+      {
+        "id": 15028,
+        "value": 0.015
+      },
+      {
+        "id": 10304,
+        "value": 0.09
+      },
+      {
+        "id": 4001,
+        "value": 1.475
+      },
+      {
+        "id": 17400,
+        "value": 0.13
+      },
+      {
+        "id": 3001,
+        "value": 1.76
+      }
+    ]
+  },
+  "opponent": {
+    "player_id": 51148833,
+    "player_name": "EvilGenius666",
+    "kingdom": 1964,
+    "alliance": "HELL",
+    "duel_id": 1753157902,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+    "frame_url": "null",
+    "commanders": {
+      "primary": {
+        "id": 179,
+        "level": 60,
+        "star": 6,
+        "awaked": true,
+        "skills": [
+          {
+            "id": 243,
+            "level": 5,
+            "order": 0
+          },
+          {
+            "id": 1528,
+            "level": 5,
+            "order": 1
+          },
+          {
+            "id": 1529,
+            "level": 5,
+            "order": 2
+          },
+          {
+            "id": 1530,
+            "level": 5,
+            "order": 3
+          },
+          {
+            "id": 1531,
+            "level": 1,
+            "order": 4
+          }
+        ]
+      },
+      "secondary": {
+        "id": 187,
+        "level": 60,
+        "star": 6,
+        "awaked": true,
+        "skills": [
+          {
+            "id": 254,
+            "level": 5,
+            "order": 0
+          },
+          {
+            "id": 1564,
+            "level": 5,
+            "order": 1
+          },
+          {
+            "id": 1565,
+            "level": 5,
+            "order": 2
+          },
+          {
+            "id": 1566,
+            "level": 5,
+            "order": 3
+          },
+          {
+            "id": 1567,
+            "level": 1,
+            "order": 4
+          }
+        ]
+      }
+    },
+    "buffs": [
+      {
+        "id": 20067,
+        "value": 0.01
+      },
+      {
+        "id": 4004,
+        "value": 1.14
+      },
+      {
+        "id": 4001,
+        "value": 1.34
+      },
+      {
+        "id": 5521,
+        "value": 6.0
+      },
+      {
+        "id": 30029,
+        "value": 0.01
+      },
+      {
+        "id": 3003,
+        "value": 2.251
+      },
+      {
+        "id": 20066,
+        "value": 0.01
+      },
+      {
+        "id": 5513,
+        "value": 6.0
+      },
+      {
+        "id": 3001,
+        "value": 1.6
+      },
+      {
+        "id": 10007,
+        "value": 0.24
+      },
+      {
+        "id": 5522,
+        "value": 6.0
+      },
+      {
+        "id": 12017,
+        "value": 0.05
+      },
+      {
+        "id": 20071,
+        "value": 0.01
+      },
+      {
+        "id": 3004,
+        "value": 1.51
+      },
+      {
+        "id": 20068,
+        "value": 0.01
+      },
+      {
+        "id": 10302,
+        "value": 0.14
+      },
+      {
+        "id": 3112,
+        "value": 0.05
+      },
+      {
+        "id": 5523,
+        "value": 13.0
+      },
+      {
+        "id": 20009,
+        "value": 0.05
+      },
+      {
+        "id": 10006,
+        "value": 0.005
+      },
+      {
+        "id": 10110,
+        "value": 0.06
+      },
+      {
+        "id": 15032,
+        "value": 0.06
+      },
+      {
+        "id": 20070,
+        "value": 0.01
+      },
+      {
+        "id": 20069,
+        "value": 0.01
+      },
+      {
+        "id": 10016,
+        "value": 1.25
+      },
+      {
+        "id": 5004,
+        "value": 0.59
+      },
+      {
+        "id": 5503,
+        "value": 6.0
+      },
+      {
+        "id": 10002,
+        "value": 0.05
+      },
+      {
+        "id": 10317,
+        "value": -0.05
+      },
+      {
+        "id": 5002,
+        "value": 0.79
+      },
+      {
+        "id": 3002,
+        "value": 1.65
+      },
+      {
+        "id": 20073,
+        "value": 0.01
+      },
+      {
+        "id": 20072,
+        "value": 0.01
+      },
+      {
+        "id": 5524,
+        "value": 6.0
+      },
+      {
+        "id": 5003,
+        "value": 1.387
+      },
+      {
+        "id": 4002,
+        "value": 1.31
+      },
+      {
+        "id": 4003,
+        "value": 1.876
+      },
+      {
+        "id": 15033,
+        "value": 0.03
+      },
+      {
+        "id": 5001,
+        "value": 0.79
+      }
+    ]
+  },
+  "results": {
+    "kill_points": 1045480,
+    "sev_wounded": 37341,
+    "wounded": 273399,
+    "dead": 0,
+    "heal": 0,
+    "units": 352139,
+    "power": 373410,
+    "win": true,
+    "opponent_kill_points": 746820,
+    "opponent_sev_wounded": 52274,
+    "opponent_wounded": 378586,
+    "opponent_dead": 0,
+    "opponent_heal": 0,
+    "opponent_units": 430860,
+    "opponent_power": 522740,
+    "opponent_win": false
+  }
+}
