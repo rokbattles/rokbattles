@@ -226,21 +226,21 @@ armaments:
   10006:
     name:
       en: "Normal Damage"
-      de: ""
+      de: "Normaler Schaden"
       es: ""
       kr: ""
 
   10007:
     name:
       en: "Skill Damage"
-      de: ""
+      de: "Fähigkeitsschaden"
       es: ""
       kr: ""
 
   10008:
     name:
       en: "Counterattack Damage"
-      de: ""
+      de: "Gegenangriffsschaden"
       es: ""
       kr: ""
 
@@ -261,21 +261,21 @@ armaments:
   10109:
     name:
       en: "Normal Damage Reduction"
-      de: ""
+      de: "Normale Schadenverringerung"
       es: ""
       kr: ""
 
   10110:
     name:
       en: "Skill Damage Reduction"
-      de: ""
+      de: "Fähigkeitsschadenverringerung"
       es: ""
       kr: ""
 
   10111:
     name:
       en: "Counterattack Damage Reduction"
-      de: ""
+      de: "Gegenangriffsschadenverringerung"
       es: ""
       kr: ""
 
@@ -303,133 +303,133 @@ armaments:
   12017:
     name:
       en: "Rallied Army Attack"
-      de: ""
+      de: "Sammeltruppenangriff"
       es: ""
       kr: ""
 
   12052:
     name:
       en: "Rallied Army Damage"
-      de: ""
+      de: "Schaden durch Sammelarmee"
       es: ""
       kr: ""
 
   12066:
     name:
       en: "Damage to Rallied Armies/Garrisons"
-      de: ""
+      de: "Schaden gegen Sammelarmeen/Garnisonen"
       es: ""
       kr: ""
 
   15028:
     name:
       en: "Ranged Normal Damage Reduction"
-      de: ""
+      de: "Normale Fernangriffsschadenverringerung"
       es: ""
       kr: ""
 
   15032:
     name:
       en: "Ranged Skill Damage Reduction"
-      de: ""
+      de: "Fernkampf-Fähigkeitsschadenverringerung"
       es: ""
       kr: ""
 
   15033:
     name:
       en: "Ranged Skill Damage"
-      de: ""
+      de: "Fernkampf-Fähigkeitsschaden"
       es: ""
       kr: ""
 
   15063:
     name:
       en: "Smite Damage"
-      de: ""
+      de: "Schmetterschaden"
       es: ""
       kr: ""
 
   15073:
     name:
       en: "Ranged Counterattack Damage Reduction"
-      de: ""
+      de: "Fernkampf-Gegenangriffsschadensverringerung"
       es: ""
       kr: ""
 
   15075:
     name:
       en: "Ranged Smite Damage"
-      de: ""
+      de: "Fernkampf-Schmetterschaden"
       es: ""
       kr: ""
 
   15089:
     name:
       en: "Enemy Attack Ignored"
-      de: ""
+      de: "Angriff des Feindes ignoriert"
       es: ""
       kr: ""
 
   15090:
     name:
       en: "Enemy Defense Ignored"
-      de: ""
+      de: "Verteidigung des Feindes ignoriert"
       es: ""
       kr: ""
 
   15091:
     name:
       en: "Enemy Health Ignored"
-      de: ""
+      de: "Gesundheit des Feindes ignoriert"
       es: ""
       kr: ""
 
   15092:
     name:
       en: "Damage to Troops on the Map"
-      de: ""
+      de: "Schaden an Truppen auf der Karte"
       es: ""
       kr: ""
 
   17400:
     name:
       en: "Combo Attack Damage"
-      de: ""
+      de: "Kombo-Angriffsschaden"
       es: ""
       kr: ""
 
   17401:
     name:
       en: "Ranged Combo Attack Damage"
-      de: ""
+      de: "Kombo-Fernkampfangriffsschaden"
       es: ""
       kr: ""
 
   20034:
     name:
       en: "Damage Resistance"
-      de: ""
+      de: "Schadenwiderstand"
       es: ""
       kr: ""
 
   20039:
     name:
       en: "Smite Damage Boost"
-      de: ""
+      de: "Schmetterschadensboost"
       es: ""
       kr: ""
 
   20062:
     name:
       en: "Combo Attack Damage Boost"
-      de: ""
+      de: "Kombo-Angriffsschadensboost"
       es: ""
       kr: ""
 
   20064:
     name:
       en: "Combo Attack Damage Resistance"
-      de: ""
+      de: "Kombo-Angriffsschadenwiderstand"
       es: ""
       kr: ""
 
@@ -438,7 +438,7 @@ armaments:
   20066:
     name:
       en: "Damage From Cavalry Reduction"
-      de: ""
+      de: "Schadenverringerung durch Kavallerie"
       es: ""
       kr: ""
 
@@ -446,21 +446,21 @@ armaments:
   20067:
     name:
       en: "Damage From Archers Reduction"
-      de: ""
+      de: "Schadenverringerung durch Bogenschützen"
       es: ""
       kr: ""
 
   20068:
     name:
       en: "Damage From Infantry Reduction"
-      de: ""
+      de: "Schadenverringerung durch Infanterie"
       es: ""
       kr: ""
 
   20069:
     name:
       en: "Damage From Siege Units Reduction"
-      de: ""
+      de: "Schadenverringerung durch Belagerungseinheiten"
       es: ""
       kr: ""
 
@@ -468,7 +468,7 @@ armaments:
   20070:
     name:
       en: "Damage Bonus vs Cavalry"
-      de: ""
+      de: "Schadensbonus gegen Kavallerie"
       es: ""
       kr: ""
 
@@ -476,27 +476,27 @@ armaments:
   20071:
     name:
       en: "Damage Bonus vs Archers"
-      de: ""
+      de: "Schadensbonus gegen Bogenschützen"
       es: ""
       kr: ""
 
   20072:
     name:
       en: "Damage Bonus vs Infantry"
-      de: ""
+      de: "Schadensbonus gegen Infanterie"
       es: ""
       kr: ""
 
   20073:
     name:
       en: "Damage Bonus vs Siege Units"
-      de: ""
+      de: "Schadensbonus gegen Belagerungseinheiten"
       es: ""
       kr: ""
 
   30029:
     name:
       en: "Damage Reduction vs Poisoned Troops (Per Stack)"
-      de: ""
+      de: "Schadenverringerung gegen vergiftete Truppen (pro Stapel)"
       es: ""
       kr: ""
