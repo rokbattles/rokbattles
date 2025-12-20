@@ -2632,7 +2632,9 @@ dependencies = [
  "anyhow",
  "clap",
  "mail-decoder",
+ "mail-helper",
  "mail-processor",
+ "mail-processor-duelbattle2",
  "mongodb",
  "serde_json",
  "tokio",
@@ -2667,6 +2669,19 @@ dependencies = [
  "serde",
  "serde_json",
 ]
+
+[[package]]
+name = "mail-processor-duelbattle2"
+version = "0.3.4"
+dependencies = [
+ "mail-processor-sdk",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-sdk"
+version = "0.3.4"
 
 [[package]]
 name = "markup5ever"

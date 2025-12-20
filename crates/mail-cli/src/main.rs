@@ -1,5 +1,6 @@
 use anyhow::{Context, Result, anyhow, bail};
 use clap::{Parser, ValueEnum};
+use mail_helper::EmailType;
 use mongodb::{bson::Document, bson::doc};
 use serde_json::Value;
 use std::{
@@ -41,7 +42,7 @@ struct Cli {
 async fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    let (id, raw_json_text) = match cli.mode {
+    let (id, raw_json_text, decoded_mail) = match cli.mode {
         Mode::Binary => {
             let path: PathBuf = if let Some(inp) = &cli.input {
                 PathBuf::from(inp)
@@ -53,9 +54,8 @@ async fn main() -> Result<()> {
                 .with_context(|| format!("failed to read input file: {}", path.display()))?;
             let id = friendly_identifier_from_path(&path);
             let decoded_mail = mail_decoder::decode(&bytes)?.into_owned();
-            let decoded_mail_json = serde_json::to_value(decoded_mail)?;
-            let decoded_mail_json_text = serde_json::to_string(&decoded_mail_json)?;
-            (id, decoded_mail_json_text)
+            let decoded_mail_json_text = serde_json::to_string(&decoded_mail)?;
+            (id, decoded_mail_json_text, decoded_mail)
         }
         Mode::Json => {
             let inp = cli
@@ -65,8 +65,10 @@ async fn main() -> Result<()> {
                 .ok_or_else(|| anyhow!("json mode requires --input <path>"))?;
             let text = fs::read_to_string(&inp)
                 .with_context(|| format!("failed to read input file: {}", inp.display()))?;
+            let decoded_mail: mail_decoder::Mail = serde_json::from_str(&text)
+                .with_context(|| format!("failed to parse mail JSON: {}", inp.display()))?;
             let id = friendly_identifier_from_path(&inp);
-            (id, text)
+            (id, text, decoded_mail)
         }
         Mode::Mongo => {
             let hash = cli
@@ -75,7 +77,9 @@ async fn main() -> Result<()> {
                 .map(|s| s.to_string())
                 .ok_or_else(|| anyhow!("mongo mode requires --input <hash>"))?;
             let (id, text) = fetch_mail_from_mongo(&hash).await?;
-            (id, text)
+            let decoded_mail: mail_decoder::Mail =
+                serde_json::from_str(&text).context("failed to parse mail JSON from mongo")?;
+            (id, text, decoded_mail)
         }
     };
 
@@ -95,8 +99,17 @@ async fn main() -> Result<()> {
         return Ok(());
     }
 
-    let processed_mail = mail_processor::process(&raw_json_text)?;
-    let processed_mail_json = serde_json::to_value(processed_mail)?;
+    let processed_mail_json = match mail_helper::detect_mail_type(&decoded_mail) {
+        Some(EmailType::DuelBattle2) => {
+            let processed_mail =
+                mail_processor_duelbattle2::process_sections(&decoded_mail.sections)?;
+            serde_json::to_value(processed_mail)?
+        }
+        _ => {
+            let processed_mail = mail_processor::process(&raw_json_text)?;
+            serde_json::to_value(processed_mail)?
+        }
+    };
 
     if let Some(dir) = processed_out.parent() {
         fs::create_dir_all(dir).ok();
