@@ -72,17 +72,8 @@ impl Resolver<MailContext<'_>, DuelBattle2Mail> for MetadataResolver {
             if meta.email_id.is_none() {
                 meta.email_id = first.get("id").and_then(Self::parse_string);
             }
-            if meta.email_type.is_none() {
-                meta.email_type = first.get("type").and_then(Self::parse_string);
-            }
-            if meta.email_box.is_none() {
-                meta.email_box = first.get("box").and_then(Self::parse_string);
-            }
             if meta.email_time.is_none() {
                 meta.email_time = first.get("time").and_then(Self::parse_i64);
-            }
-            if meta.email_sender.is_none() {
-                meta.email_sender = first.get("sender").and_then(Self::parse_string);
             }
             if meta.server_id.is_none() {
                 meta.server_id = first.get("serverId").and_then(Self::parse_i64);
@@ -92,17 +83,8 @@ impl Resolver<MailContext<'_>, DuelBattle2Mail> for MetadataResolver {
         if meta.email_id.is_none() {
             meta.email_id = Self::find_string(sections, "id");
         }
-        if meta.email_type.is_none() {
-            meta.email_type = Self::find_string(sections, "type");
-        }
-        if meta.email_box.is_none() {
-            meta.email_box = Self::find_string(sections, "box");
-        }
         if meta.email_time.is_none() {
             meta.email_time = Self::find_i64(sections, "time");
-        }
-        if meta.email_sender.is_none() {
-            meta.email_sender = Self::find_string(sections, "sender");
         }
         if meta.email_receiver.is_none() {
             meta.email_receiver = Self::find_string(sections, "receiver");
