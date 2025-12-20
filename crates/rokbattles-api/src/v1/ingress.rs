@@ -23,6 +23,45 @@ const MAX_UPLOAD: usize = 10 * 1024 * 1024; // 10 MB
 const BUFFER_LEN: usize = 32;
 const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2, 3];
 
+#[derive(Debug, Clone, Copy)]
+enum SupportedMailType {
+    Battle,
+    DuelBattle2,
+}
+
+impl SupportedMailType {
+    fn from_str(value: &str) -> Option<Self> {
+        if value.eq_ignore_ascii_case("Battle") {
+            Some(Self::Battle)
+        } else if value.eq_ignore_ascii_case("DuelBattle2") {
+            Some(Self::DuelBattle2)
+        } else {
+            None
+        }
+    }
+
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Battle => "Battle",
+            Self::DuelBattle2 => "DuelBattle2",
+        }
+    }
+
+    fn insert_status(self) -> &'static str {
+        match self {
+            Self::Battle => "pending",
+            Self::DuelBattle2 => "futurePending",
+        }
+    }
+
+    fn update_status(self) -> &'static str {
+        match self {
+            Self::Battle => "reprocess",
+            Self::DuelBattle2 => "futurePending",
+        }
+    }
+}
+
 fn ua_ok(h: &HeaderMap) -> bool {
     let Some(user_agent) = h.get("user-agent").and_then(|v| v.to_str().ok()) else {
         return false;
@@ -304,11 +343,22 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     };
 
-    let mail_type = mail_helper::detect_mail_type_str(&decoded_mail);
-    if !mail_type.is_some_and(|t| t.eq_ignore_ascii_case("Battle")) {
-        debug!("ingress rejected: not a battle mail");
-        return (StatusCode::UNPROCESSABLE_ENTITY, "not a rok battle mail").into_response();
-    }
+    let mail_type_raw = mail_helper::detect_mail_type_str(&decoded_mail);
+    let mail_type = match mail_type_raw.and_then(SupportedMailType::from_str) {
+        Some(value) => value,
+        None => {
+            debug!(
+                mail_type = mail_type_raw.unwrap_or("unknown"),
+                "ingress rejected: unsupported mail type"
+            );
+            return (
+                StatusCode::UNPROCESSABLE_ENTITY,
+                "not a supported rok mail type",
+            )
+                .into_response();
+        }
+    };
+    let mail_type_label = mail_type.as_str();
 
     let mail_time = match mail_helper::detect_mail_time(&decoded_mail) {
         Some(t) => t,
@@ -330,7 +380,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     debug!(
         mail_id = %mail_id,
         mail_time = ?mail_time,
-        mail_type = mail_type.unwrap_or("unknown"),
+        mail_type = mail_type_label,
         "decoded mail metadata"
     );
 
@@ -418,9 +468,10 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
                 "mail.value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail.clone() },
                 "mail.time": mail_time,
                 "mail.id": &mail_id,
+                "mail.type": mail_type_label,
                 "metadata.userAgent": user_agent,
                 "metadata.originalSize": original_size,
-                "status": "reprocess"
+                "status": mail_type.update_status(),
             };
 
             if let Some(prev_hash) = &previous_hash
@@ -475,13 +526,14 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             "codec": "zstd",
             "value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail },
             "time": mail_time,
-            "id": &mail_id
+            "id": &mail_id,
+            "type": mail_type_label,
         },
         "metadata": {
             "userAgent": user_agent,
             "originalSize": original_size,
         },
-        "status": "pending",
+        "status": mail_type.insert_status(),
         "createdAt": current_time,
     };
 
