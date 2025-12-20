@@ -90,6 +90,54 @@ armaments:
       es: "Salud de la Unidad de Asedio"
       kr: "공성 유닛 생명력"
 
+  5501:
+    name:
+      en: "Infantry Base Attack"
+
+  5502:
+    name:
+      en: "Cavalry Base Attack"
+
+  5503:
+    name:
+      en: "Archer Base Attack"
+
+  5504:
+    name:
+      en: "Siege Unit Base Attack"
+
+  5511:
+    name:
+      en: "Infantry Base Defense"
+
+  5512:
+    name:
+      en: "Cavalry Base Defense"
+
+  5513:
+    name:
+      en: "Archer Base Defense"
+
+  5514:
+    name:
+      en: "Siege Unit Base Defense"
+
+  5521:
+    name:
+      en: "Infantry Base Health"
+
+  5522:
+    name:
+      en: "Cavalry Base Health"
+
+  5523:
+    name:
+      en: "Archer Base Health"
+
+  5524:
+    name:
+      en: "Siege Unit Base Health"
+
   6001:
     name:
       en: "March Speed (Infantry)"
