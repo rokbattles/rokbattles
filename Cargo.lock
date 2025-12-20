@@ -2669,6 +2669,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-processor-sdk"
+version = "0.3.4"
+
+[[package]]
 name = "markup5ever"
 version = "0.14.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

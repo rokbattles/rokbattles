@@ -3,6 +3,7 @@ members = [
     "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-processor",
+    "crates/mail-processor-sdk",
     "crates/mail-helper",
     "crates/rokbattles-api",
     "crates/rokbattles-processor",
