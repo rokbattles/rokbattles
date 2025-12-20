@@ -38,7 +38,7 @@ armaments:
     name:
       en: "Archer Damage"
       de: "Bogenschützenschaden"
-      es: ""
+      es: "Daño de arquero"
       kr: ""
 
   4001:
@@ -101,84 +101,84 @@ armaments:
     name:
       en: "Infantry Base Attack"
       de: "Infanterie-Basisangriff"
-      es: ""
+      es: "Ataque base de infantería"
       kr: ""
 
   5502:
     name:
       en: "Cavalry Base Attack"
       de: "Kavallerie-Basisangriff"
-      es: ""
+      es: "Ataque base de caballería"
       kr: ""
 
   5503:
     name:
       en: "Archer Base Attack"
       de: "Bogenschützen-Basisangriff"
-      es: ""
+      es: "Ataque base de arquero"
       kr: ""
 
   5504:
     name:
       en: "Siege Unit Base Attack"
       de: "Belagerungseinheiten-Basisangriff"
-      es: ""
+      es: "Ataque base de unidad de asedio"
       kr: ""
 
   5511:
     name:
       en: "Infantry Base Defense"
       de: "Infanterie-Basisverteidigung"
-      es: ""
+      es: "Defensa base de infantería"
       kr: ""
 
   5512:
     name:
       en: "Cavalry Base Defense"
       de: "Kavallerie-Basisverteidigung"
-      es: ""
+      es: "Defensa base de caballería"
       kr: ""
 
   5513:
     name:
       en: "Archer Base Defense"
       de: "Bogenschützen-Basisverteidigung"
-      es: ""
+      es: "Defensa base de arquero"
       kr: ""
 
   5514:
     name:
       en: "Siege Unit Base Defense"
       de: "Belagerungseinheiten-Basisverteidigung"
-      es: ""
+      es: "Defensa base de unidad de asedio"
       kr: ""
 
   5521:
     name:
       en: "Infantry Base Health"
       de: "Infanterie-Basisgesundheit"
-      es: ""
+      es: "Salud base de infantería"
       kr: ""
 
   5522:
     name:
       en: "Cavalry Base Health"
       de: "Kavallerie-Basisgesundheit"
-      es: ""
+      es: "Salud base de caballería"
       kr: ""
 
   5523:
     name:
       en: "Archer Base Health"
       de: "Bogenschützen-Basisgesundheit"
-      es: ""
+      es: "Salud base de arquero"
       kr: ""
 
   5524:
     name:
       en: "Siege Unit Base Health"
       de: "Belagerungseinheiten-Basisgesundheit"
-      es: ""
+      es: "Salud base de unidad de asedio"
       kr: ""
 
   6001:
@@ -283,21 +283,21 @@ armaments:
     name:
       en: "Infantry Damage to Cavalry"
       de: "Infanterie-Schaden an Kavallerie"
-      es: ""
+      es: "Daño de infantería a caballería"
       kr: ""
 
   10302:
     name:
       en: "Archer Damage to Infantry"
       de: "Bogenschützen-Schaden an Infanterie"
-      es: ""
+      es: "Daño de arqueros a infantería"
       kr: ""
 
   10304:
     name:
       en: "Cavalry Damage to Archers"
       de: "Kavallerie-Schaden an Bogenschützen"
-      es: ""
+      es: "Daño de caballería a arqueros"
       kr: ""
 
   12017:
