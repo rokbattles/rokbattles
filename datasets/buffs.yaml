@@ -47,7 +47,7 @@ buffs:
   5002:
     name:
       en: "Cavalry Health"
-      percent: true
+    percent: true
 
   5003:
     name:
