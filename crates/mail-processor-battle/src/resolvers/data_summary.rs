@@ -97,3 +97,117 @@ impl Resolver<MailContext<'_>, BattleMail> for DataSummaryResolver {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::DataSummaryResolver;
+    use crate::context::MailContext;
+    use crate::structures::BattleMail;
+    use mail_processor_sdk::Resolver;
+    use serde_json::{Value, json};
+
+    fn resolve_summary(sections: Vec<Value>) -> BattleMail {
+        let ctx = MailContext::new(&sections);
+        let mut output = BattleMail::default();
+        let resolver = DataSummaryResolver::new();
+
+        resolver
+            .resolve(&ctx, &mut output)
+            .expect("resolve data summary");
+
+        output
+    }
+
+    #[test]
+    fn data_summary_resolver_leaves_empty_without_overview() {
+        let sections = vec![json!({
+            "id": "mail-14",
+            "time": 1111,
+            "serverId": 1804
+        })];
+
+        let output = resolve_summary(sections);
+
+        assert!(output.data_summary.is_none());
+    }
+
+    #[test]
+    fn data_summary_resolver_loads_from_same_section() {
+        let sections = vec![json!({
+            "SOv": {
+                "KillScore": 307090,
+                "BadHurt": 14528,
+                "Max": 230000,
+                "Hurt": 85754,
+                "Cnt": 129718,
+                "Dead": 0
+            },
+            "OOv": {
+                "KillScore": 290560,
+                "BadHurt": 30709,
+                "Max": 418491,
+                "Hurt": 166508,
+                "Cnt": 17659,
+                "Dead": 0
+            }
+        })];
+
+        let output = resolve_summary(sections);
+        let summary = output.data_summary.expect("data summary");
+
+        assert_eq!(summary.sender_kill_points, Some(307090));
+        assert_eq!(summary.sender_severely_wounded, Some(14528));
+        assert_eq!(summary.sender_slightly_wounded, Some(85754));
+        assert_eq!(summary.sender_troop_units, Some(230000));
+        assert_eq!(summary.sender_remaining, Some(129718));
+        assert_eq!(summary.sender_dead, Some(0));
+        assert_eq!(summary.opponent_kill_points, Some(290560));
+        assert_eq!(summary.opponent_severely_wounded, Some(30709));
+        assert_eq!(summary.opponent_slightly_wounded, Some(166508));
+        assert_eq!(summary.opponent_troop_units, Some(418491));
+        assert_eq!(summary.opponent_remaining, Some(17659));
+        assert_eq!(summary.opponent_dead, Some(0));
+    }
+
+    #[test]
+    fn data_summary_resolver_loads_from_separate_sections() {
+        let sections = vec![
+            json!({
+                "OOv": {
+                    "KillScore": 5212360,
+                    "BadHurt": 859533,
+                    "Max": 6804444,
+                    "Hurt": 3279249,
+                    "Cnt": 116032,
+                    "Dead": 0
+                }
+            }),
+            json!({
+                "SOv": {
+                    "KillScore": 16991393,
+                    "BadHurt": 272818,
+                    "Max": 2730000,
+                    "Hurt": 1400260,
+                    "Cnt": 1056922,
+                    "Dead": 0
+                }
+            }),
+        ];
+
+        let output = resolve_summary(sections);
+        let summary = output.data_summary.expect("data summary");
+
+        assert_eq!(summary.sender_kill_points, Some(16991393));
+        assert_eq!(summary.sender_severely_wounded, Some(272818));
+        assert_eq!(summary.sender_slightly_wounded, Some(1400260));
+        assert_eq!(summary.sender_troop_units, Some(2730000));
+        assert_eq!(summary.sender_remaining, Some(1056922));
+        assert_eq!(summary.sender_dead, Some(0));
+        assert_eq!(summary.opponent_kill_points, Some(5212360));
+        assert_eq!(summary.opponent_severely_wounded, Some(859533));
+        assert_eq!(summary.opponent_slightly_wounded, Some(3279249));
+        assert_eq!(summary.opponent_troop_units, Some(6804444));
+        assert_eq!(summary.opponent_remaining, Some(116032));
+        assert_eq!(summary.opponent_dead, Some(0));
+    }
+}
