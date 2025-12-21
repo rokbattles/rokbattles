@@ -92,4 +92,62 @@ mod tests {
 
         assert!(matches!(err, ProcessError::EmptySections));
     }
+
+    #[test]
+    fn process_sections_sets_rokb_email_type_ark() {
+        let sections = vec![
+            json!({
+                "id": "mail-3",
+                "time": 789,
+                "serverId": 1804
+            }),
+            json!({
+                "Role": "dungeon"
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("ark"));
+    }
+
+    #[test]
+    fn process_sections_sets_rokb_email_type_kvk() {
+        let sections = vec![
+            json!({
+                "id": "mail-4",
+                "time": 101,
+                "serverId": 1804
+            }),
+            json!({
+                "Role": "gsmp",
+                "isConquerSeason": true
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("kvk"));
+    }
+
+    #[test]
+    fn process_sections_sets_rokb_email_type_home() {
+        let sections = vec![
+            json!({
+                "id": "mail-5",
+                "time": 202,
+                "serverId": 1804
+            }),
+            json!({
+                "COSId": 1804
+            }),
+            json!({
+                "Role": "gs"
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("home"));
+    }
 }

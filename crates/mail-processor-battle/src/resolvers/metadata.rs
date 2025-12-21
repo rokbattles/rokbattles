@@ -43,6 +43,19 @@ impl MetadataResolver {
         }
     }
 
+    fn parse_bool(v: &Value) -> Option<bool> {
+        match v {
+            Value::Bool(b) => Some(*b),
+            Value::Number(n) => n.as_i64().map(|x| x != 0),
+            Value::String(s) => match s.trim().to_ascii_lowercase().as_str() {
+                "true" | "1" => Some(true),
+                "false" | "0" => Some(false),
+                _ => None,
+            },
+            _ => None,
+        }
+    }
+
     fn find_string(sections: &[Value], key: &str) -> Option<String> {
         sections
             .iter()
@@ -53,6 +66,85 @@ impl MetadataResolver {
         sections
             .iter()
             .find_map(|section| section.get(key).and_then(Self::parse_i64))
+    }
+
+    fn find_string_with_body(sections: &[Value], key: &str) -> Option<String> {
+        sections.iter().find_map(|section| {
+            section.get(key).and_then(Self::parse_string).or_else(|| {
+                section
+                    .get("body")
+                    .and_then(|body| body.get(key))
+                    .and_then(Self::parse_string)
+            })
+        })
+    }
+
+    fn find_bool_with_body(sections: &[Value], key: &str) -> Option<bool> {
+        sections.iter().find_map(|section| {
+            section.get(key).and_then(Self::parse_bool).or_else(|| {
+                section
+                    .get("body")
+                    .and_then(|body| body.get(key))
+                    .and_then(Self::parse_bool)
+            })
+        })
+    }
+
+    fn find_sender_cos_id(sections: &[Value]) -> Option<i64> {
+        sections.iter().find_map(|section| {
+            section
+                .get("COSId")
+                .and_then(Self::parse_i64)
+                .or_else(|| {
+                    section
+                        .get("body")
+                        .and_then(|body| body.get("COSId"))
+                        .and_then(Self::parse_i64)
+                })
+                .or_else(|| {
+                    section
+                        .pointer("/body/content/SelfChar/COSId")
+                        .and_then(Self::parse_i64)
+                })
+                .or_else(|| {
+                    section
+                        .pointer("/content/SelfChar/COSId")
+                        .and_then(Self::parse_i64)
+                })
+        })
+    }
+
+    /// Classify the battle report type for ROK Battles metadata output.
+    fn compute_rokb_email_type(
+        role: Option<String>,
+        is_conquer_season: Option<bool>,
+        server_id: Option<i64>,
+        sender_cos_id: Option<i64>,
+    ) -> Option<String> {
+        let role = role?.trim().to_ascii_lowercase();
+
+        // Role = dungeon always maps to ark, regardless of other flags.
+        if role == "dungeon" {
+            return Some("ark".to_string());
+        }
+
+        let is_gs_role = matches!(role.as_str(), "gsmp" | "gs");
+        if !is_gs_role {
+            return None;
+        }
+
+        if is_conquer_season == Some(true) {
+            return Some("kvk".to_string());
+        }
+
+        match (server_id, sender_cos_id) {
+            (Some(server_id), Some(cos_id))
+                if server_id != 0 && cos_id != 0 && server_id == cos_id =>
+            {
+                Some("home".to_string())
+            }
+            _ => None,
+        }
     }
 }
 
@@ -87,6 +179,18 @@ impl Resolver<MailContext<'_>, BattleMail> for MetadataResolver {
         }
         if meta.server_id.is_none() {
             meta.server_id = Self::find_i64(sections, "serverId");
+        }
+
+        if meta.rokb_email_type.is_none() {
+            let role = Self::find_string_with_body(sections, "Role");
+            let is_conquer_season = Self::find_bool_with_body(sections, "isConquerSeason");
+            let sender_cos_id = Self::find_sender_cos_id(sections);
+            let server_id = meta
+                .server_id
+                .or_else(|| Self::find_i64(sections, "serverId"));
+
+            meta.rokb_email_type =
+                Self::compute_rokb_email_type(role, is_conquer_season, server_id, sender_cos_id);
         }
 
         Ok(())

@@ -9,6 +9,13 @@ pub struct BattleMail {
 /// Metadata extracted from the raw mail sections.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct BattleMetadata {
+    // __rokb_email_type (home | kvk | ark)
+    // ark: Role = dungeon (priority, always ark when Role = dungeon)
+    // kvk: isConquerSeason = true & Role = gsmp or gs (gs is for older reports)
+    // home: serverId == sender kingdom (COSId) & Role = gsmp or gs (gs is for older reports)
+    #[serde(rename = "__rokb_email_type")]
+    pub rokb_email_type: Option<String>,
+
     // id
     pub email_id: Option<String>,
     // time
