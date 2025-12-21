@@ -11,7 +11,7 @@ pub struct BattleMail {
 pub struct BattleMetadata {
     // __rokb_email_type (home | kvk | ark)
     // ark: Role = dungeon (priority, always ark when Role = dungeon)
-    // kvk: isConquerSeason = true & Role = gsmp or gs (gs is for older reports)
+    // kvk: isConquerSeason = true OR serverId != sender kingdom (COSId); also Role = gsmp or gs (gs is for older reports)
     // home: serverId == sender kingdom (COSId) & Role = gsmp or gs (gs is for older reports)
     #[serde(rename = "__rokb_email_type")]
     pub rokb_email_type: Option<String>,

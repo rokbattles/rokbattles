@@ -137,11 +137,14 @@ impl MetadataResolver {
             return Some("kvk".to_string());
         }
 
+        // Conquer season flags are not always present, so fall back to server vs sender kingdom IDs.
         match (server_id, sender_cos_id) {
-            (Some(server_id), Some(cos_id))
-                if server_id != 0 && cos_id != 0 && server_id == cos_id =>
-            {
-                Some("home".to_string())
+            (Some(server_id), Some(cos_id)) if server_id != 0 && cos_id != 0 => {
+                if server_id == cos_id {
+                    Some("home".to_string())
+                } else {
+                    Some("kvk".to_string())
+                }
             }
             _ => None,
         }

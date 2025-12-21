@@ -131,6 +131,49 @@ mod tests {
     }
 
     #[test]
+    fn process_sections_sets_rokb_email_type_kvk_when_server_mismatch() {
+        let sections = vec![
+            json!({
+                "id": "mail-6",
+                "time": 303,
+                "serverId": 1550
+            }),
+            json!({
+                "COSId": 1804
+            }),
+            json!({
+                "Role": "gsmp"
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("kvk"));
+    }
+
+    #[test]
+    fn process_sections_prefers_conquer_season_over_server_match() {
+        let sections = vec![
+            json!({
+                "id": "mail-7",
+                "time": 404,
+                "serverId": 1804
+            }),
+            json!({
+                "COSId": 1804
+            }),
+            json!({
+                "Role": "gsmp",
+                "isConquerSeason": true
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("kvk"));
+    }
+
+    #[test]
     fn process_sections_sets_rokb_email_type_home() {
         let sections = vec![
             json!({
