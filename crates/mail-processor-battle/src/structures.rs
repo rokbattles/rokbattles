@@ -19,6 +19,7 @@ pub struct BattleMetadata {
     // open_field: sender doesn't contain AbT field & IsRally is false or missing
     // rally: sender contains IsRally = true
     // garrison: sender contains AbT field (not present unless its a garrison)
+    // TODO (future): add swarm (maybe swarm_rally & swarm_garrison), city-related attacks like city_swarm, city_garrison, city_rally
     #[serde(rename = "__rokb_battle_type")]
     pub rokb_battle_type: Option<String>,
 
