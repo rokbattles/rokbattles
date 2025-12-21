@@ -193,4 +193,23 @@ mod tests {
 
         assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("home"));
     }
+
+    #[test]
+    fn process_sections_sets_rokb_email_type_home_from_body_content_cos_id() {
+        let sections = vec![json!({
+            "id": "mail-8",
+            "time": 505,
+            "serverId": 1804,
+            "body": {
+                "Role": "gsmp",
+                "content": {
+                    "COSId": 1804
+                }
+            }
+        })];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("home"));
+    }
 }

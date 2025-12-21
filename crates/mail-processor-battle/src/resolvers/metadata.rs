@@ -108,6 +108,11 @@ impl MetadataResolver {
                 })
                 .or_else(|| {
                     section
+                        .pointer("/body/content/COSId")
+                        .and_then(Self::parse_i64)
+                })
+                .or_else(|| {
+                    section
                         .pointer("/content/SelfChar/COSId")
                         .and_then(Self::parse_i64)
                 })
