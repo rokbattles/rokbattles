@@ -326,4 +326,27 @@ mod tests {
             Some("open_field")
         );
     }
+
+    #[test]
+    fn process_sections_sets_rokb_battle_type_from_body_content_sender() {
+        let sections = vec![json!({
+            "id": "mail-13",
+            "time": 1010,
+            "serverId": 1804,
+            "body": {
+                "content": {
+                    "PName": "Grigvar",
+                    "COSId": 1804,
+                    "CT": 1
+                }
+            }
+        })];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(
+            output.metadata.rokb_battle_type.as_deref(),
+            Some("open_field")
+        );
+    }
 }

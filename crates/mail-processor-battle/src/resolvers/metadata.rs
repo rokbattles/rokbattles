@@ -162,7 +162,12 @@ impl MetadataResolver {
         let mut sender_has_rally = false;
 
         for section in sections {
-            if section.get("PName").is_none() {
+            let pname = section.get("PName").and_then(Self::parse_string);
+            if pname
+                .as_deref()
+                .map(|value| value.trim().is_empty())
+                .unwrap_or(true)
+            {
                 continue;
             }
 
@@ -187,7 +192,31 @@ impl MetadataResolver {
         }
 
         if !sender_seen {
-            return None;
+            // Some reports only embed the sender in the mail header body content.
+            let content = sections
+                .first()
+                .and_then(|section| section.get("body"))
+                .and_then(|body| body.get("content"))?;
+            let pname = content.get("PName").and_then(Self::parse_string);
+            if pname
+                .as_deref()
+                .map(|value| value.trim().is_empty())
+                .unwrap_or(true)
+            {
+                return None;
+            }
+
+            let has_abt = content.get("AbT").and_then(Self::parse_i64).is_some();
+            let has_rally = content.get("IsRally").and_then(Self::parse_bool) == Some(true);
+
+            return Some(
+                match (has_abt, has_rally) {
+                    (true, _) => "garrison",
+                    (false, true) => "rally",
+                    (false, false) => "open_field",
+                }
+                .to_string(),
+            );
         }
 
         if sender_has_abt {
