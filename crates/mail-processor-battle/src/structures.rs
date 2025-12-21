@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct BattleMail {
     pub metadata: BattleMetadata,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data_summary: Option<DataSummary>,
 }
 
 /// Metadata extracted from the raw mail sections.
@@ -31,4 +33,34 @@ pub struct BattleMetadata {
     pub email_receiver: Option<String>,
     // serverId
     pub server_id: Option<i64>,
+}
+
+/// Aggregated overview stats for sender and opponent.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct DataSummary {
+    // SOv KillScore
+    pub sender_kill_points: Option<i64>,
+    // SOv BadHurt
+    pub sender_severely_wounded: Option<i64>,
+    // SOv Hurt
+    pub sender_slightly_wounded: Option<i64>,
+    // SOv Max
+    pub sender_troop_units: Option<i64>,
+    // SOv Cnt
+    pub sender_remaining: Option<i64>,
+    // SOv Dead
+    pub sender_dead: Option<i64>,
+
+    // OOv KillScore
+    pub opponent_kill_points: Option<i64>,
+    // OOv BadHurt
+    pub opponent_severely_wounded: Option<i64>,
+    // OOv Hurt
+    pub opponent_slightly_wounded: Option<i64>,
+    // OOv Max
+    pub opponent_troop_units: Option<i64>,
+    // OOv Cnt
+    pub opponent_remaining: Option<i64>,
+    // OOv Dead
+    pub opponent_dead: Option<i64>,
 }

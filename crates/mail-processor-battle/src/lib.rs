@@ -8,7 +8,7 @@ use serde_json::Value;
 
 use crate::context::MailContext;
 use crate::error::ProcessError;
-use crate::resolvers::MetadataResolver;
+use crate::resolvers::{DataSummaryResolver, MetadataResolver};
 use crate::structures::BattleMail;
 
 /// Processes decoded Battle mail sections into a structured output.
@@ -22,7 +22,9 @@ pub fn process_sections(sections: &[Value]) -> Result<BattleMail, ProcessError> 
     let ctx = MailContext::new(sections);
     let mut output = BattleMail::default();
 
-    let chain = ResolverChain::new().with(MetadataResolver::new());
+    let chain = ResolverChain::new()
+        .with(MetadataResolver::new())
+        .with(DataSummaryResolver::new());
     chain.apply(&ctx, &mut output)?;
 
     Ok(output)
@@ -32,7 +34,22 @@ pub fn process_sections(sections: &[Value]) -> Result<BattleMail, ProcessError> 
 mod tests {
     use super::process_sections;
     use crate::error::ProcessError;
-    use serde_json::json;
+    use serde_json::{Value, json};
+    use std::fs;
+    use std::path::Path;
+
+    fn load_sample_sections(name: &str) -> Vec<Value> {
+        let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let path = manifest_dir.join("../../samples/Battle").join(name);
+        let payload =
+            fs::read_to_string(&path).unwrap_or_else(|err| panic!("read {path:?}: {err}"));
+        let root: Value =
+            serde_json::from_str(&payload).unwrap_or_else(|err| panic!("parse {path:?}: {err}"));
+        root.get("sections")
+            .and_then(Value::as_array)
+            .unwrap_or_else(|| panic!("missing sections in {path:?}"))
+            .to_vec()
+    }
 
     #[test]
     fn process_sections_populates_header_metadata() {
@@ -348,5 +365,60 @@ mod tests {
             output.metadata.rokb_battle_type.as_deref(),
             Some("open_field")
         );
+    }
+
+    #[test]
+    fn process_sections_leaves_data_summary_empty_without_overview() {
+        let sections = vec![json!({
+            "id": "mail-14",
+            "time": 1111,
+            "serverId": 1804
+        })];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert!(output.data_summary.is_none());
+    }
+
+    #[test]
+    fn process_sections_loads_data_summary_from_same_section() {
+        let sections = load_sample_sections("10224136175529255431.json");
+
+        let output = process_sections(&sections).expect("process mail");
+        let summary = output.data_summary.expect("data summary");
+
+        assert_eq!(summary.sender_kill_points, Some(307090));
+        assert_eq!(summary.sender_severely_wounded, Some(14528));
+        assert_eq!(summary.sender_slightly_wounded, Some(85754));
+        assert_eq!(summary.sender_troop_units, Some(230000));
+        assert_eq!(summary.sender_remaining, Some(129718));
+        assert_eq!(summary.sender_dead, Some(0));
+        assert_eq!(summary.opponent_kill_points, Some(290560));
+        assert_eq!(summary.opponent_severely_wounded, Some(30709));
+        assert_eq!(summary.opponent_slightly_wounded, Some(166508));
+        assert_eq!(summary.opponent_troop_units, Some(418491));
+        assert_eq!(summary.opponent_remaining, Some(17659));
+        assert_eq!(summary.opponent_dead, Some(0));
+    }
+
+    #[test]
+    fn process_sections_loads_data_summary_from_separate_sections() {
+        let sections = load_sample_sections("1764512944407776.json");
+
+        let output = process_sections(&sections).expect("process mail");
+        let summary = output.data_summary.expect("data summary");
+
+        assert_eq!(summary.sender_kill_points, Some(16991393));
+        assert_eq!(summary.sender_severely_wounded, Some(272818));
+        assert_eq!(summary.sender_slightly_wounded, Some(1400260));
+        assert_eq!(summary.sender_troop_units, Some(2730000));
+        assert_eq!(summary.sender_remaining, Some(1056922));
+        assert_eq!(summary.sender_dead, Some(0));
+        assert_eq!(summary.opponent_kill_points, Some(5212360));
+        assert_eq!(summary.opponent_severely_wounded, Some(859533));
+        assert_eq!(summary.opponent_slightly_wounded, Some(3279249));
+        assert_eq!(summary.opponent_troop_units, Some(6804444));
+        assert_eq!(summary.opponent_remaining, Some(116032));
+        assert_eq!(summary.opponent_dead, Some(0));
     }
 }

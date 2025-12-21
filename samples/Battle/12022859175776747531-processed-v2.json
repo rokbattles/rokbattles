@@ -6,5 +6,19 @@
     "email_time": 1757767475969492,
     "email_receiver": "player_71738515",
     "server_id": 15660
+  },
+  "data_summary": {
+    "sender_kill_points": 12070,
+    "sender_severely_wounded": 473,
+    "sender_slightly_wounded": 2783,
+    "sender_troop_units": 395961,
+    "sender_remaining": 392705,
+    "sender_dead": 0,
+    "opponent_kill_points": 9460,
+    "opponent_severely_wounded": 611,
+    "opponent_slightly_wounded": 3512,
+    "opponent_troop_units": 803251,
+    "opponent_remaining": 770564,
+    "opponent_dead": 4
   }
 }
