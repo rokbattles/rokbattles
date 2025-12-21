@@ -85,7 +85,10 @@ async fn main() -> Result<()> {
 
     let decoded_mail_json: Value = serde_json::from_str(&raw_json_text)?;
 
-    let (raw_out, processed_out) = determine_output_paths(&cli.output, &id)?;
+    let mail_type = mail_helper::detect_mail_type(&decoded_mail);
+    let include_v2 = matches!(mail_type, Some(EmailType::Battle));
+    let (raw_out, processed_out, processed_v2_out) =
+        determine_output_paths(&cli.output, &id, include_v2)?;
 
     if let Some(dir) = raw_out.parent() {
         fs::create_dir_all(dir).ok();
@@ -99,7 +102,7 @@ async fn main() -> Result<()> {
         return Ok(());
     }
 
-    let processed_mail_json = match mail_helper::detect_mail_type(&decoded_mail) {
+    let processed_mail_json = match mail_type {
         Some(EmailType::DuelBattle2) => {
             let processed_mail =
                 mail_processor_duelbattle2::process_sections(&decoded_mail.sections)?;
@@ -109,6 +112,13 @@ async fn main() -> Result<()> {
             let processed_mail = mail_processor::process(&raw_json_text)?;
             serde_json::to_value(processed_mail)?
         }
+    };
+
+    let processed_mail_v2_json = if include_v2 {
+        let processed_mail = mail_processor_battle::process_sections(&decoded_mail.sections)?;
+        Some(serde_json::to_value(processed_mail)?)
+    } else {
+        None
     };
 
     if let Some(dir) = processed_out.parent() {
@@ -122,11 +132,32 @@ async fn main() -> Result<()> {
         )
     })?;
 
-    println!(
-        "Successfully wrote files to: '{}' and '{}'",
-        raw_out.display(),
-        processed_out.display()
-    );
+    if let Some(processed_v2_out) = processed_v2_out {
+        if let Some(dir) = processed_v2_out.parent() {
+            fs::create_dir_all(dir).ok();
+        }
+        if let Some(processed_mail_v2_json) = processed_mail_v2_json {
+            write_json_file(&processed_v2_out, &processed_mail_v2_json).with_context(|| {
+                format!(
+                    "failed to write processed v2 output file: {}",
+                    processed_v2_out.display()
+                )
+            })?;
+        }
+
+        println!(
+            "Successfully wrote files to: '{}', '{}', and '{}'",
+            raw_out.display(),
+            processed_out.display(),
+            processed_v2_out.display()
+        );
+    } else {
+        println!(
+            "Successfully wrote files to: '{}' and '{}'",
+            raw_out.display(),
+            processed_out.display()
+        );
+    }
 
     Ok(())
 }
@@ -174,7 +205,11 @@ fn friendly_identifier_from_path(path: &Path) -> String {
     })
 }
 
-fn determine_output_paths(output: &Path, id: &str) -> Result<(PathBuf, PathBuf)> {
+fn determine_output_paths(
+    output: &Path,
+    id: &str,
+    include_v2: bool,
+) -> Result<(PathBuf, PathBuf, Option<PathBuf>)> {
     let looks_like_file = output.extension().is_some();
 
     if looks_like_file {
@@ -193,13 +228,64 @@ fn determine_output_paths(output: &Path, id: &str) -> Result<(PathBuf, PathBuf)>
             }
             parent.join(fname)
         };
-        Ok((raw_out, processed_out))
+        let processed_v2_out = if include_v2 {
+            let ext = output.extension().map(|e| e.to_os_string());
+            let stem = output
+                .file_stem()
+                .map(|s| s.to_string_lossy().to_string())
+                .unwrap_or_else(|| id.to_string());
+            let parent = output.parent().map(|d| d.to_path_buf()).unwrap_or_default();
+            let mut fname = format!("{}-processed-v2", stem);
+            if let Some(e) = ext {
+                fname.push('.');
+                fname.push_str(&e.to_string_lossy());
+            }
+            Some(parent.join(fname))
+        } else {
+            None
+        };
+        Ok((raw_out, processed_out, processed_v2_out))
     } else {
-        fs::create_dir_all(output)
-            .with_context(|| format!("failed to create output directory: {}", output.display()))?;
         let raw_out = output.join(format!("{}.json", id));
         let processed_out = output.join(format!("{}-processed.json", id));
-        Ok((raw_out, processed_out))
+        let processed_v2_out = include_v2.then(|| output.join(format!("{}-processed-v2.json", id)));
+        Ok((raw_out, processed_out, processed_v2_out))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::determine_output_paths;
+    use std::path::PathBuf;
+
+    #[test]
+    fn determine_output_paths_dir_without_v2() {
+        let output = PathBuf::from("out");
+        let (raw, processed, v2) = determine_output_paths(&output, "mail-1", false).expect("paths");
+
+        assert_eq!(raw, PathBuf::from("out/mail-1.json"));
+        assert_eq!(processed, PathBuf::from("out/mail-1-processed.json"));
+        assert!(v2.is_none());
+    }
+
+    #[test]
+    fn determine_output_paths_dir_with_v2() {
+        let output = PathBuf::from("out");
+        let (raw, processed, v2) = determine_output_paths(&output, "mail-2", true).expect("paths");
+
+        assert_eq!(raw, PathBuf::from("out/mail-2.json"));
+        assert_eq!(processed, PathBuf::from("out/mail-2-processed.json"));
+        assert_eq!(v2, Some(PathBuf::from("out/mail-2-processed-v2.json")));
+    }
+
+    #[test]
+    fn determine_output_paths_file_with_v2() {
+        let output = PathBuf::from("out/mail.json");
+        let (raw, processed, v2) = determine_output_paths(&output, "mail-3", true).expect("paths");
+
+        assert_eq!(raw, PathBuf::from("out/mail.json"));
+        assert_eq!(processed, PathBuf::from("out/mail-processed.json"));
+        assert_eq!(v2, Some(PathBuf::from("out/mail-processed-v2.json")));
     }
 }
 

@@ -2634,6 +2634,7 @@ dependencies = [
  "mail-decoder",
  "mail-helper",
  "mail-processor",
+ "mail-processor-battle",
  "mail-processor-duelbattle2",
  "mongodb",
  "serde_json",

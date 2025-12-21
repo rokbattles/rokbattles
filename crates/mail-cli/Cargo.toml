@@ -10,6 +10,7 @@ clap = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
 mail-helper = { path = "../mail-helper" }
 mail-processor = { path = "../mail-processor" }
+mail-processor-battle = { path = "../mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
 mongodb = { workspace = true }
 tokio = { workspace = true }
