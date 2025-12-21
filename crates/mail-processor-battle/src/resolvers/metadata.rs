@@ -154,6 +154,52 @@ impl MetadataResolver {
             _ => None,
         }
     }
+
+    /// Classify battle type based on sender participant sections.
+    fn compute_rokb_battle_type(sections: &[Value]) -> Option<String> {
+        let mut sender_seen = false;
+        let mut sender_has_abt = false;
+        let mut sender_has_rally = false;
+
+        for section in sections {
+            if section.get("PName").is_none() {
+                continue;
+            }
+
+            let is_rally_flag = section.get("IsRally").and_then(Self::parse_bool);
+            let is_rally_participant = is_rally_flag.unwrap_or(false);
+
+            // Sender sections appear first; once we hit a non-rally participant after
+            // the sender, the rest are opponent data.
+            if sender_seen && !is_rally_participant {
+                break;
+            }
+
+            sender_seen = true;
+
+            if !sender_has_abt && section.get("AbT").and_then(Self::parse_i64).is_some() {
+                sender_has_abt = true;
+            }
+
+            if !sender_has_rally && is_rally_flag == Some(true) {
+                sender_has_rally = true;
+            }
+        }
+
+        if !sender_seen {
+            return None;
+        }
+
+        if sender_has_abt {
+            return Some("garrison".to_string());
+        }
+
+        if sender_has_rally {
+            return Some("rally".to_string());
+        }
+
+        Some("open_field".to_string())
+    }
 }
 
 impl Resolver<MailContext<'_>, BattleMail> for MetadataResolver {
@@ -199,6 +245,10 @@ impl Resolver<MailContext<'_>, BattleMail> for MetadataResolver {
 
             meta.rokb_email_type =
                 Self::compute_rokb_email_type(role, is_conquer_season, server_id, sender_cos_id);
+        }
+
+        if meta.rokb_battle_type.is_none() {
+            meta.rokb_battle_type = Self::compute_rokb_battle_type(sections);
         }
 
         Ok(())

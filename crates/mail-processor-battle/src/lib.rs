@@ -212,4 +212,118 @@ mod tests {
 
         assert_eq!(output.metadata.rokb_email_type.as_deref(), Some("home"));
     }
+
+    #[test]
+    fn process_sections_sets_rokb_battle_type_open_field_when_sender_has_no_flags() {
+        let sections = vec![
+            json!({
+                "id": "mail-9",
+                "time": 606,
+                "serverId": 1804
+            }),
+            json!({
+                "PName": "Sender",
+                "COSId": 1804,
+                "IsRally": 0
+            }),
+            json!({
+                "PName": "Opponent",
+                "COSId": 1900
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(
+            output.metadata.rokb_battle_type.as_deref(),
+            Some("open_field")
+        );
+    }
+
+    #[test]
+    fn process_sections_sets_rokb_battle_type_rally_from_sender_sections() {
+        let sections = vec![
+            json!({
+                "id": "mail-10",
+                "time": 707,
+                "serverId": 1804
+            }),
+            json!({
+                "PName": "Sender",
+                "COSId": 1804
+            }),
+            json!({
+                "PName": "RallyMember",
+                "COSId": 1804,
+                "IsRally": true
+            }),
+            json!({
+                "PName": "Opponent",
+                "COSId": 2000
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(output.metadata.rokb_battle_type.as_deref(), Some("rally"));
+    }
+
+    #[test]
+    fn process_sections_sets_rokb_battle_type_garrison_from_sender_abt() {
+        let sections = vec![
+            json!({
+                "id": "mail-11",
+                "time": 808,
+                "serverId": 1804
+            }),
+            json!({
+                "PName": "Sender",
+                "COSId": 1804,
+                "AbT": 3
+            }),
+            json!({
+                "PName": "RallyMember",
+                "COSId": 1804,
+                "IsRally": true
+            }),
+            json!({
+                "PName": "Opponent",
+                "COSId": 2200
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(
+            output.metadata.rokb_battle_type.as_deref(),
+            Some("garrison")
+        );
+    }
+
+    #[test]
+    fn process_sections_ignores_opponent_battle_flags() {
+        let sections = vec![
+            json!({
+                "id": "mail-12",
+                "time": 909,
+                "serverId": 1804
+            }),
+            json!({
+                "PName": "Sender",
+                "COSId": 1804
+            }),
+            json!({
+                "PName": "Opponent",
+                "COSId": 2500,
+                "AbT": 7
+            }),
+        ];
+
+        let output = process_sections(&sections).expect("process mail");
+
+        assert_eq!(
+            output.metadata.rokb_battle_type.as_deref(),
+            Some("open_field")
+        );
+    }
 }

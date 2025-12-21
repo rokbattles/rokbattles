@@ -15,6 +15,12 @@ pub struct BattleMetadata {
     // home: serverId == sender kingdom (COSId) & Role = gsmp or gs (gs is for older reports)
     #[serde(rename = "__rokb_email_type")]
     pub rokb_email_type: Option<String>,
+    // __rokb_battle_type (open_field | rally | garrison)
+    // open_field: sender doesn't contain AbT field & IsRally is false or missing
+    // rally: sender contains IsRally = true
+    // garrison: sender contains AbT field (not present unless its a garrison)
+    #[serde(rename = "__rokb_battle_type")]
+    pub rokb_battle_type: Option<String>,
 
     // id
     pub email_id: Option<String>,
