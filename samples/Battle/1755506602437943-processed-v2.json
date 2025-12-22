@@ -20,5 +20,57 @@
     "opponent_troop_units": 999400,
     "opponent_remaining": 971030,
     "opponent_dead": 0
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 61116,
+        "tick": 524031
+      },
+      {
+        "count": 56874,
+        "tick": 524035
+      },
+      {
+        "count": 51989,
+        "tick": 524038
+      },
+      {
+        "count": 41858,
+        "tick": 524041
+      },
+      {
+        "count": 34074,
+        "tick": 524042
+      },
+      {
+        "count": 30237,
+        "tick": 524043
+      },
+      {
+        "count": 26411,
+        "tick": 524044
+      },
+      {
+        "count": 21801,
+        "tick": 524046
+      },
+      {
+        "count": 14912,
+        "tick": 524047
+      },
+      {
+        "count": 11098,
+        "tick": 524048
+      },
+      {
+        "count": 1141,
+        "tick": 524049
+      },
+      {
+        "count": 0,
+        "tick": 524050
+      }
+    ]
   }
 }

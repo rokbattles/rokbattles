@@ -6,5 +6,41 @@
     "email_time": 1750448030655413,
     "email_receiver": "player_83629727",
     "server_id": 15659
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 3400000,
+        "tick": 735586
+      },
+      {
+        "count": 3133206,
+        "tick": 735597
+      },
+      {
+        "count": 3123792,
+        "tick": 735605
+      },
+      {
+        "count": 3059557,
+        "tick": 735607
+      },
+      {
+        "count": 2999353,
+        "tick": 735612
+      },
+      {
+        "count": 3020456,
+        "tick": 735620
+      },
+      {
+        "count": 3027834,
+        "tick": 735632
+      },
+      {
+        "count": 3244870,
+        "tick": 735638
+      }
+    ]
   }
 }

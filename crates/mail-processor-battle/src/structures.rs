@@ -6,6 +6,8 @@ pub struct BattleMail {
     pub metadata: BattleMetadata,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data_summary: Option<DataSummary>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub battle_trends: Option<BattleTrends>,
 }
 
 /// Metadata extracted from the raw mail sections.
@@ -63,4 +65,21 @@ pub struct DataSummary {
     pub opponent_remaining: Option<i64>,
     // OOv Dead
     pub opponent_dead: Option<i64>,
+}
+
+/// Time-series sampling data from the battle report.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleTrends {
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    // Samples
+    pub sampling: Vec<BattleSampling>,
+}
+
+/// Sampling snapshot extracted from the "Samples" object.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleSampling {
+    // Cnt
+    pub count: Option<i64>,
+    // T
+    pub tick: Option<i64>,
 }

@@ -6,5 +6,17 @@
     "email_time": 1757436255215455,
     "email_receiver": "player_71738515",
     "server_id": 15660
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 25000,
+        "tick": 31402
+      },
+      {
+        "count": 9765,
+        "tick": 31422
+      }
+    ]
   }
 }

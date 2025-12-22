@@ -20,5 +20,29 @@
     "opponent_troop_units": 862640,
     "opponent_remaining": 252871,
     "opponent_dead": 113595
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 419079,
+        "tick": 877106
+      },
+      {
+        "count": 417874,
+        "tick": 877109
+      },
+      {
+        "count": 405862,
+        "tick": 877116
+      },
+      {
+        "count": 352714,
+        "tick": 877126
+      },
+      {
+        "count": 273466,
+        "tick": 877143
+      }
+    ]
   }
 }
