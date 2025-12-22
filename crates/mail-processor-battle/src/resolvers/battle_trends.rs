@@ -294,7 +294,12 @@ impl BattleTrendsResolver {
                     );
                 }
 
-                (None, None)
+                let trimmed = raw.trim();
+                if trimmed.is_empty() {
+                    (None, None)
+                } else {
+                    (Some(trimmed.to_owned()), None)
+                }
             }
             Value::Object(map) => (
                 map.get("avatar").and_then(Value::as_str).map(str::to_owned),
@@ -575,5 +580,29 @@ mod tests {
 
         assert_eq!(trends.sampling.len(), 3);
         assert!(trends.events.is_empty());
+    }
+
+    #[test]
+    fn battle_trends_resolver_accepts_avatar_url_string() {
+        let sections = vec![json!({
+            "Events": {
+                "Et": 18,
+                "T": 77,
+                "AssistUnits": {
+                    "PId": 102975865,
+                    "PName": "StringAvatar",
+                    "Avatar": "http://g"
+                }
+            }
+        })];
+
+        let output = resolve_trends(sections);
+        let trends = output.battle_trends.expect("battle trends");
+        let events = trends.events;
+
+        assert_eq!(events.len(), 1);
+        let assist = events[0].reinforcements.as_ref().expect("assist units");
+        assert_eq!(assist.avatar_url.as_deref(), Some("http://g"));
+        assert!(assist.frame_url.is_none());
     }
 }
