@@ -125,33 +125,37 @@ impl BattleTrendsResolver {
                 if let Some(Value::Object(events)) = map.get("Events") {
                     let mut chain = Vec::new();
                     let event = Self::to_event(events);
-                    if event.r#type.is_some()
+                    let has_event_data = event.r#type.is_some()
                         || event.tick.is_some()
-                        || event.reinforcements.is_some()
-                    {
+                        || event.reinforcements.is_some();
+                    // Empty Events objects appear alongside Samples; ignore them to avoid bleed.
+                    if !has_event_data {
+                        // Keep searching in case later sections contain real events.
+                        // Do not include parent bleed when the Events object is empty.
+                    } else {
                         chain.push(event);
-                    }
 
-                    // Events data bleeds into the parent and beyond.
-                    let parent_event = Self::to_event(map);
-                    if parent_event.r#type.is_some()
-                        || parent_event.tick.is_some()
-                        || parent_event.reinforcements.is_some()
-                    {
-                        chain.push(parent_event);
-                    }
-
-                    for ancestor in ancestors.iter().rev() {
-                        let ancestor_event = Self::to_event(ancestor);
-                        if ancestor_event.r#type.is_some()
-                            || ancestor_event.tick.is_some()
-                            || ancestor_event.reinforcements.is_some()
+                        // Events data bleeds into the parent and beyond.
+                        let parent_event = Self::to_event(map);
+                        if parent_event.r#type.is_some()
+                            || parent_event.tick.is_some()
+                            || parent_event.reinforcements.is_some()
                         {
-                            chain.push(ancestor_event);
+                            chain.push(parent_event);
                         }
-                    }
 
-                    return Some(chain);
+                        for ancestor in ancestors.iter().rev() {
+                            let ancestor_event = Self::to_event(ancestor);
+                            if ancestor_event.r#type.is_some()
+                                || ancestor_event.tick.is_some()
+                                || ancestor_event.reinforcements.is_some()
+                            {
+                                chain.push(ancestor_event);
+                            }
+                        }
+
+                        return Some(chain);
+                    }
                 }
 
                 ancestors.push(map);
@@ -543,5 +547,33 @@ mod tests {
         assert_eq!(events[2].r#type, Some(18));
         assert_eq!(events[2].tick, Some(102));
         assert!(events[2].reinforcements.is_none());
+    }
+
+    #[test]
+    fn battle_trends_resolver_ignores_empty_events_near_samples() {
+        let sections = vec![
+            json!({
+                "Events": {},
+                "Samples": {
+                    "Cnt": 438268,
+                    "T": 1319563
+                },
+                "Cnt": 422054,
+                "T": 1319564
+            }),
+            json!({
+                "Cnt": 419813,
+                "T": 1319579
+            }),
+            json!({
+                "Schema": 810
+            }),
+        ];
+
+        let output = resolve_trends(sections);
+        let trends = output.battle_trends.expect("battle trends");
+
+        assert_eq!(trends.sampling.len(), 3);
+        assert!(trends.events.is_empty());
     }
 }
