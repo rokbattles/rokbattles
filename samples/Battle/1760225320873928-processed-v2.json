@@ -175,6 +175,1168 @@
         "count": 2816198,
         "tick": 144780
       }
+    ],
+    "events": [
+      {
+        "type": 26,
+        "tick": 144582,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144588,
+        "reinforcements": {
+          "player_id": 86053854,
+          "player_name": "BARCAfarm",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/69941853/2025-06-07/2954776D02F9948EE08B47F501EB9A13_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 98,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144588,
+        "reinforcements": {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/63709450/2024-12-08/22D98F4980251789612C8A93834BB2F0_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144593,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144596,
+        "reinforcements": {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/63709450/2024-12-08/22D98F4980251789612C8A93834BB2F0_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 146,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144596,
+        "reinforcements": {
+          "player_id": 86053854,
+          "player_name": "BARCAfarm",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/69941853/2025-06-07/2954776D02F9948EE08B47F501EB9A13_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 46
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144600,
+        "reinforcements": {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/789445/2024-12-05/A6AAD82F1CDD1D374284886C69BE49CF_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 463,
+              "level": 38
+            },
+            "secondary": {
+              "id": 105,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144601,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 17,
+              "level": 56
+            },
+            "secondary": {
+              "id": 179,
+              "level": 30
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144602,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144605,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144607,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144611,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144612,
+        "reinforcements": {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/63709450/2024-12-08/22D98F4980251789612C8A93834BB2F0_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144617,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 10,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144621,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 44
+            },
+            "secondary": {
+              "id": 463,
+              "level": 38
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144623,
+        "reinforcements": {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/789445/2024-12-05/A6AAD82F1CDD1D374284886C69BE49CF_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 116,
+              "level": 40
+            },
+            "secondary": {
+              "id": 134,
+              "level": 39
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144623,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144630,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144636,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144643,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144645,
+        "reinforcements": {
+          "player_id": 176662385,
+          "player_name": "kixxxwer x Wick",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/223011428/2025-09-28/C0F33AC63E13F9D9E6643B40E7B4C4D4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 50
+            },
+            "secondary": {
+              "id": 9,
+              "level": 50
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144649,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144649,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 17,
+              "level": 56
+            },
+            "secondary": {
+              "id": 179,
+              "level": 30
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144652,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 1,
+              "level": 40
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144662,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 187,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144667,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 30
+            },
+            "secondary": {
+              "id": 17,
+              "level": 56
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144667,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144670,
+        "reinforcements": {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/20905762/2025-06-20/EFB6586894BD83CEEE20BA4BFF410C01_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144672,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144672,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144674,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144682,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144688,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144694,
+        "reinforcements": {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/789445/2024-12-05/A6AAD82F1CDD1D374284886C69BE49CF_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 116,
+              "level": 40
+            },
+            "secondary": {
+              "id": 134,
+              "level": 39
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144695,
+        "reinforcements": {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/789445/2024-12-05/A6AAD82F1CDD1D374284886C69BE49CF_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 463,
+              "level": 38
+            },
+            "secondary": {
+              "id": 105,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144695,
+        "reinforcements": {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/789445/2024-12-05/A6AAD82F1CDD1D374284886C69BE49CF_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 32,
+              "level": 40
+            },
+            "secondary": {
+              "id": 7,
+              "level": 37
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144705,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 145,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144707,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 32,
+              "level": 30
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144709,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 187,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144713,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144715,
+        "reinforcements": {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/20905762/2025-06-20/EFB6586894BD83CEEE20BA4BFF410C01_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144716,
+        "reinforcements": {
+          "player_id": 108088471,
+          "player_name": "ᵃᴰ Mystique",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/5870009/2025-08-20/9C04B6CCB3D41180040B6F220785331D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144719,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144725,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144729,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144733,
+        "reinforcements": {
+          "player_id": 108088471,
+          "player_name": "ᵃᴰ Mystique",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/5870009/2025-08-20/9C04B6CCB3D41180040B6F220785331D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144736,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144740,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144745,
+        "reinforcements": {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/20905762/2025-06-20/EFB6586894BD83CEEE20BA4BFF410C01_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144748,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 44
+            },
+            "secondary": {
+              "id": 463,
+              "level": 38
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144750,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144753,
+        "reinforcements": {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/82740619/221002/0F3D26DC59AB115E1E258E3140761F18_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144755,
+        "reinforcements": {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 144759,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144761,
+        "reinforcements": {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151614459/24/04/18/450bb5b3e7b3a7cf_544x544.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 44
+            },
+            "secondary": {
+              "id": 463,
+              "level": 38
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144761,
+        "reinforcements": {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/20905762/2025-06-20/EFB6586894BD83CEEE20BA4BFF410C01_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144766,
+        "reinforcements": {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 144780,
+        "reinforcements": {
+          "player_id": 81035004,
+          "player_name": "NiceGuySki",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/81035004/22/04/05/e057e17800e4c6e9_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 146,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        }
+      }
     ]
   }
 }

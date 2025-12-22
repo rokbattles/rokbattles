@@ -99,6 +99,128 @@
         "count": 512210,
         "tick": 741532
       }
+    ],
+    "events": [
+      {
+        "type": 18,
+        "tick": 741475,
+        "reinforcements": {
+          "player_id": 126921671,
+          "player_name": "Taesung 태성",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2025-12-09/C54DADC7D52765B47D7E35EC6B9A3FDB_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_146.png",
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 32
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 741501,
+        "reinforcements": {
+          "player_id": 134027398,
+          "player_name": "Peach F6",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103415693/2025-11-28/561F504F1B05EAD21FD853BE427BC34A_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 741503,
+        "reinforcements": {
+          "player_id": 134027398,
+          "player_name": "Peach F6",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103415693/2025-11-28/561F504F1B05EAD21FD853BE427BC34A_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 741512,
+        "reinforcements": {
+          "player_id": 152200009,
+          "player_name": "๖ۣۣۜSwalsh",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/205066604/2025-12-12/266E3A4F59FB67CED1086792131D735A_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 50
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 741514,
+        "reinforcements": {
+          "player_id": 49682807,
+          "player_name": "WiZa",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/49682807/231022/B61E33B04A0D3FB9875D5C29D24DE91A_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 741519,
+        "reinforcements": {
+          "player_id": 157148751,
+          "player_name": "GGeoMAV",
+          "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_207.png",
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 40
+            }
+          }
+        }
+      }
     ]
   }
 }

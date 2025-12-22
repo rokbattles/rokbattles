@@ -67,12 +67,13 @@ pub struct DataSummary {
     pub opponent_dead: Option<i64>,
 }
 
-/// Time-series sampling data from the battle report.
+/// Time-series sampling and event data from the battle report.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct BattleTrends {
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     // Samples
     pub sampling: Vec<BattleSampling>,
+    // Events
+    pub events: Vec<BattleEvent>,
 }
 
 /// Sampling snapshot extracted from the "Samples" object.
@@ -82,4 +83,47 @@ pub struct BattleSampling {
     pub count: Option<i64>,
     // T
     pub tick: Option<i64>,
+}
+
+/// Event snapshot extracted from the "Events" object.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleEvent {
+    // Et (18 = reinforcement join, 26 = reinforcement leave).
+    pub r#type: Option<i64>,
+    // T
+    pub tick: Option<i64>,
+    // AssistUnits
+    pub reinforcements: Option<BattleAssistUnits>,
+}
+
+/// Assist unit metadata carried by a battle event.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleAssistUnits {
+    // PId
+    pub player_id: Option<i64>,
+    // PName
+    pub player_name: Option<String>,
+    // Avatar.avatar
+    pub avatar_url: Option<String>,
+    // Avatar.avatarFrame
+    pub frame_url: Option<String>,
+    pub commanders: Option<BattleCommanders>,
+}
+
+/// Commander metadata for assist units.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleCommanders {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub primary: Option<BattleCommander>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub secondary: Option<BattleCommander>,
+}
+
+/// Commander details for assist units.
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+pub struct BattleCommander {
+    // HId or HId2
+    pub id: Option<i64>,
+    // HLv or HLv2
+    pub level: Option<i64>,
 }

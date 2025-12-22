@@ -179,6 +179,1448 @@
         "count": 0,
         "tick": 704990
       }
+    ],
+    "events": [
+      {
+        "type": 18,
+        "tick": 704817,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704824,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704827,
+        "reinforcements": {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/85503798/2025-12-10/9F7641F521FD24B3A2BE934CFD38C624_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704835,
+        "reinforcements": {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46964792/2025-08-28/2D5ED4668E38BA9D35FE4EA15FDE166C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704840,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704843,
+        "reinforcements": {
+          "player_id": 32782935,
+          "player_name": "ˢ レオ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7159849/2025-12-10/E3EEC9BBFFCA912A1FF18C5E2862E33F_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_67.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 162,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704846,
+        "reinforcements": {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/90585225/2025-08-18/AAB93C7D388DA4100A6B7A8C62C8DE58_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704851,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704856,
+        "reinforcements": {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/85503798/2025-12-10/9F7641F521FD24B3A2BE934CFD38C624_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704858,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704860,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704865,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704866,
+        "reinforcements": {
+          "player_id": 67415885,
+          "player_name": "MoodyヤGilang",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/55176652/2025-09-09/986AB05D0EE289C70803E813D7EE09E4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704868,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 148,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704869,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704869,
+        "reinforcements": {
+          "player_id": 124893142,
+          "player_name": "⽪卡丘Daspim",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100199074/2025-12-10/63B8E1BF68C9D40D3C6C6A13A395D8BB_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_185.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704869,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704872,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704872,
+        "reinforcements": {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/85503798/2025-12-10/9F7641F521FD24B3A2BE934CFD38C624_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704892,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704893,
+        "reinforcements": {
+          "player_id": 99099465,
+          "player_name": "Athos X",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/80461978/2025-10-12/726A10A40CF663253A7229FB11953DD1_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704894,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 148,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704895,
+        "reinforcements": {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46964792/2025-08-28/2D5ED4668E38BA9D35FE4EA15FDE166C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704898,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704901,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704902,
+        "reinforcements": {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46964792/2025-08-28/2D5ED4668E38BA9D35FE4EA15FDE166C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704906,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 44
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704914,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704914,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704915,
+        "reinforcements": {
+          "player_id": 67415885,
+          "player_name": "MoodyヤGilang",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/55176652/2025-09-09/986AB05D0EE289C70803E813D7EE09E4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704918,
+        "reinforcements": {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/90585225/2025-08-18/AAB93C7D388DA4100A6B7A8C62C8DE58_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704920,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704924,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704926,
+        "reinforcements": {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/90585225/2025-08-18/AAB93C7D388DA4100A6B7A8C62C8DE58_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 503,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704929,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704931,
+        "reinforcements": {
+          "player_id": 124893142,
+          "player_name": "⽪卡丘Daspim",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100199074/2025-12-10/63B8E1BF68C9D40D3C6C6A13A395D8BB_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_185.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704938,
+        "reinforcements": {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/85503798/2025-12-10/9F7641F521FD24B3A2BE934CFD38C624_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704941,
+        "reinforcements": {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46964792/2025-08-28/2D5ED4668E38BA9D35FE4EA15FDE166C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704945,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704946,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704947,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704951,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704957,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704959,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704959,
+        "reinforcements": {
+          "player_id": 111708479,
+          "player_name": "Kleines x Léo",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89517886/2025-05-08/BCB52C991F60DBE148DB1A67C3CB9088_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
+          "commanders": {
+            "primary": {
+              "id": 108,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704965,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704966,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704970,
+        "reinforcements": {
+          "player_id": 32782935,
+          "player_name": "ˢ レオ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7159849/2025-12-10/E3EEC9BBFFCA912A1FF18C5E2862E33F_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_67.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 162,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704971,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704974,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704977,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 704978,
+        "reinforcements": {
+          "player_id": 139570717,
+          "player_name": "mini cheppa",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-01-23/B519C8B70DF1A5761B0D8CAC4F58F0D4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 33
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704980,
+        "reinforcements": {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704982,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704985,
+        "reinforcements": {
+          "player_id": 129213098,
+          "player_name": "ˢ vashido",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129213098/23/03/30/2582725d78551b68_385x385.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 70421568,
+          "player_name": "G x Oge",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 27339394,
+          "player_name": "ˢ Laars x Nola",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24569879/2025-09-15/D23C8CCC14CDC9B4D05D751C7FA18267_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 124916138,
+          "player_name": "Daspimpim",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/124916138/22/10/09/f98fcb7cec050c14_745x745.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 157384945,
+          "player_name": "Emps lil babies",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/212327271/2025-11-02/762837E48E9AA587CF9F0920AB46474E_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 154868724,
+          "player_name": "GokuDBZ",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/210723675/2025-12-06/B0810EA251CBD7B7A9CD288552949F8C_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_222.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 111708479,
+          "player_name": "Kleines x Léo",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89517886/2025-05-08/BCB52C991F60DBE148DB1A67C3CB9088_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 123880685,
+          "player_name": "Lazymac8",
+          "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+          "frame_url": "null",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 99099465,
+          "player_name": "Athos X",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/80461978/2025-10-12/726A10A40CF663253A7229FB11953DD1_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 44
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/90585225/2025-08-18/AAB93C7D388DA4100A6B7A8C62C8DE58_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 503,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 111708479,
+          "player_name": "Kleines x Léo",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89517886/2025-05-08/BCB52C991F60DBE148DB1A67C3CB9088_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
+          "commanders": {
+            "primary": {
+              "id": 108,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2025-12-08/98C630FB74B16364136A6B6DACC05FC3_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/92488827/2025-03-03/E120F69B35B3A178C0F168F04A881698_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/35288294/2025-12-06/C8C8B2E64A5D433DCD164CB509CA47B4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 704990,
+        "reinforcements": {
+          "player_id": 139570717,
+          "player_name": "mini cheppa",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-01-23/B519C8B70DF1A5761B0D8CAC4F58F0D4_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 33
+            }
+          }
+        }
+      }
     ]
   }
 }

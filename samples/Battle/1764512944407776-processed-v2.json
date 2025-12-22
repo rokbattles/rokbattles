@@ -43,6 +43,48 @@
         "count": 1056922,
         "tick": 1446
       }
+    ],
+    "events": [
+      {
+        "type": 18,
+        "tick": 1414,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 1415,
+        "reinforcements": {
+          "player_id": 83446732,
+          "player_name": "MYSTICBOND",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67760501/2025-11-24/DFDE3BDAB7D1B1E9AACC280863D4BCAC_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      }
     ]
   }
 }

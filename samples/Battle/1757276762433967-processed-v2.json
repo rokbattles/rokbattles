@@ -21,6 +21,48 @@
         "count": 331084,
         "tick": 1559
       }
+    ],
+    "events": [
+      {
+        "type": 26,
+        "tick": 1546,
+        "reinforcements": {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-03-18/D9BBE316F92CAC242104095603EFEF02_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_121.png",
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 503,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 1550,
+        "reinforcements": {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-03-18/D9BBE316F92CAC242104095603EFEF02_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_121.png",
+          "commanders": {
+            "primary": {
+              "id": 177,
+              "level": 60
+            },
+            "secondary": {
+              "id": 113,
+              "level": 60
+            }
+          }
+        }
+      }
     ]
   }
 }

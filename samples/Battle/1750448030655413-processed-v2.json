@@ -41,6 +41,128 @@
         "count": 3244870,
         "tick": 735638
       }
+    ],
+    "events": [
+      {
+        "type": 18,
+        "tick": 735597,
+        "reinforcements": {
+          "player_id": 67841030,
+          "player_name": "HRKlinik",
+          "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/67841030/21/08/22/79c5fd041806b6e6_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_192.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 735605,
+        "reinforcements": {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-03-18/D9BBE316F92CAC242104095603EFEF02_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_207.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 26,
+        "tick": 735607,
+        "reinforcements": {
+          "player_id": 87472694,
+          "player_name": "只GungfuBANDA",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/87472694/21/06/17/b829ca3042f0967d_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_212.png",
+          "commanders": {
+            "primary": {
+              "id": 162,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 735612,
+        "reinforcements": {
+          "player_id": 87472694,
+          "player_name": "只GungfuBANDA",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/87472694/21/06/17/b829ca3042f0967d_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_212.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 735620,
+        "reinforcements": {
+          "player_id": 155178673,
+          "player_name": "ShibbyMoFo3",
+          "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/155178673/24/02/12/93634309b8662587_800x800.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+          "commanders": {
+            "primary": {
+              "id": 3,
+              "level": 60
+            },
+            "secondary": {
+              "id": 14,
+              "level": 40
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 735632,
+        "reinforcements": {
+          "player_id": 53720198,
+          "player_name": "83ノSinnerPride",
+          "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/53720198/21/10/27/da7a1f110dcd0943_750x750.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      }
     ]
   }
 }

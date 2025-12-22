@@ -35,6 +35,18 @@
         "count": 419813,
         "tick": 1319579
       }
+    ],
+    "events": [
+      {
+        "type": null,
+        "tick": 1319564,
+        "reinforcements": null
+      },
+      {
+        "type": null,
+        "tick": 1319579,
+        "reinforcements": null
+      }
     ]
   }
 }
