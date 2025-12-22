@@ -4,6 +4,7 @@ use mail_processor_sdk::Resolver;
 use serde_json::Value;
 
 use crate::context::MailContext;
+use crate::helpers;
 use crate::structures::BattleMail;
 
 /// Resolves the mail header metadata for Battle reports.
@@ -20,72 +21,39 @@ impl MetadataResolver {
         Self
     }
 
-    fn parse_i128(v: &Value) -> Option<i128> {
-        match v {
-            Value::Number(n) => n
-                .as_i64()
-                .map(i128::from)
-                .or_else(|| n.as_u64().map(i128::from)),
-            Value::String(s) => s.trim().parse::<i128>().ok(),
-            _ => None,
-        }
-    }
-
-    fn parse_i64(v: &Value) -> Option<i64> {
-        Self::parse_i128(v).and_then(|n| i64::try_from(n).ok())
-    }
-
-    fn parse_string(v: &Value) -> Option<String> {
-        match v {
-            Value::String(s) => Some(s.to_owned()),
-            Value::Number(n) => Some(n.to_string()),
-            _ => None,
-        }
-    }
-
-    fn parse_bool(v: &Value) -> Option<bool> {
-        match v {
-            Value::Bool(b) => Some(*b),
-            Value::Number(n) => n.as_i64().map(|x| x != 0),
-            Value::String(s) => match s.trim().to_ascii_lowercase().as_str() {
-                "true" | "1" => Some(true),
-                "false" | "0" => Some(false),
-                _ => None,
-            },
-            _ => None,
-        }
-    }
-
     fn find_string(sections: &[Value], key: &str) -> Option<String> {
         sections
             .iter()
-            .find_map(|section| section.get(key).and_then(Self::parse_string))
+            .find_map(|section| section.get(key).and_then(helpers::parse_string))
     }
 
     fn find_i64(sections: &[Value], key: &str) -> Option<i64> {
         sections
             .iter()
-            .find_map(|section| section.get(key).and_then(Self::parse_i64))
+            .find_map(|section| section.get(key).and_then(helpers::parse_i64))
     }
 
     fn find_string_with_body(sections: &[Value], key: &str) -> Option<String> {
         sections.iter().find_map(|section| {
-            section.get(key).and_then(Self::parse_string).or_else(|| {
-                section
-                    .get("body")
-                    .and_then(|body| body.get(key))
-                    .and_then(Self::parse_string)
-            })
+            section
+                .get(key)
+                .and_then(helpers::parse_string)
+                .or_else(|| {
+                    section
+                        .get("body")
+                        .and_then(|body| body.get(key))
+                        .and_then(helpers::parse_string)
+                })
         })
     }
 
     fn find_bool_with_body(sections: &[Value], key: &str) -> Option<bool> {
         sections.iter().find_map(|section| {
-            section.get(key).and_then(Self::parse_bool).or_else(|| {
+            section.get(key).and_then(helpers::parse_bool).or_else(|| {
                 section
                     .get("body")
                     .and_then(|body| body.get(key))
-                    .and_then(Self::parse_bool)
+                    .and_then(helpers::parse_bool)
             })
         })
     }
@@ -94,27 +62,27 @@ impl MetadataResolver {
         sections.iter().find_map(|section| {
             section
                 .get("COSId")
-                .and_then(Self::parse_i64)
+                .and_then(helpers::parse_i64)
                 .or_else(|| {
                     section
                         .get("body")
                         .and_then(|body| body.get("COSId"))
-                        .and_then(Self::parse_i64)
+                        .and_then(helpers::parse_i64)
                 })
                 .or_else(|| {
                     section
                         .pointer("/body/content/SelfChar/COSId")
-                        .and_then(Self::parse_i64)
+                        .and_then(helpers::parse_i64)
                 })
                 .or_else(|| {
                     section
                         .pointer("/body/content/COSId")
-                        .and_then(Self::parse_i64)
+                        .and_then(helpers::parse_i64)
                 })
                 .or_else(|| {
                     section
                         .pointer("/content/SelfChar/COSId")
-                        .and_then(Self::parse_i64)
+                        .and_then(helpers::parse_i64)
                 })
         })
     }
@@ -162,7 +130,7 @@ impl MetadataResolver {
         let mut sender_has_rally = false;
 
         for section in sections {
-            let pname = section.get("PName").and_then(Self::parse_string);
+            let pname = section.get("PName").and_then(helpers::parse_string);
             if pname
                 .as_deref()
                 .map(|value| value.trim().is_empty())
@@ -171,7 +139,7 @@ impl MetadataResolver {
                 continue;
             }
 
-            let is_rally_flag = section.get("IsRally").and_then(Self::parse_bool);
+            let is_rally_flag = section.get("IsRally").and_then(helpers::parse_bool);
             let is_rally_participant = is_rally_flag.unwrap_or(false);
 
             // Sender sections appear first; once we hit a non-rally participant after
@@ -182,7 +150,7 @@ impl MetadataResolver {
 
             sender_seen = true;
 
-            if !sender_has_abt && section.get("AbT").and_then(Self::parse_i64).is_some() {
+            if !sender_has_abt && section.get("AbT").and_then(helpers::parse_i64).is_some() {
                 sender_has_abt = true;
             }
 
@@ -197,7 +165,7 @@ impl MetadataResolver {
                 .first()
                 .and_then(|section| section.get("body"))
                 .and_then(|body| body.get("content"))?;
-            let pname = content.get("PName").and_then(Self::parse_string);
+            let pname = content.get("PName").and_then(helpers::parse_string);
             if pname
                 .as_deref()
                 .map(|value| value.trim().is_empty())
@@ -206,8 +174,8 @@ impl MetadataResolver {
                 return None;
             }
 
-            let has_abt = content.get("AbT").and_then(Self::parse_i64).is_some();
-            let has_rally = content.get("IsRally").and_then(Self::parse_bool) == Some(true);
+            let has_abt = content.get("AbT").and_then(helpers::parse_i64).is_some();
+            let has_rally = content.get("IsRally").and_then(helpers::parse_bool) == Some(true);
 
             return Some(
                 match (has_abt, has_rally) {
@@ -241,13 +209,13 @@ impl Resolver<MailContext<'_>, BattleMail> for MetadataResolver {
         // Prefer the first section because it usually carries the mail header.
         if let Some(first) = sections.first() {
             if meta.email_id.is_none() {
-                meta.email_id = first.get("id").and_then(Self::parse_string);
+                meta.email_id = first.get("id").and_then(helpers::parse_string);
             }
             if meta.email_time.is_none() {
-                meta.email_time = first.get("time").and_then(Self::parse_i64);
+                meta.email_time = first.get("time").and_then(helpers::parse_i64);
             }
             if meta.server_id.is_none() {
-                meta.server_id = first.get("serverId").and_then(Self::parse_i64);
+                meta.server_id = first.get("serverId").and_then(helpers::parse_i64);
             }
         }
 

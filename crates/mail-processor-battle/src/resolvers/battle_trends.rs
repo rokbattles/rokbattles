@@ -4,6 +4,7 @@ use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
 
 use crate::context::MailContext;
+use crate::helpers;
 use crate::structures::{
     BattleAssistUnits, BattleCommander, BattleCommanders, BattleEvent, BattleMail, BattleSampling,
     BattleTrends,
@@ -21,21 +22,6 @@ impl Default for BattleTrendsResolver {
 impl BattleTrendsResolver {
     pub fn new() -> Self {
         Self
-    }
-
-    fn parse_i128(v: &Value) -> Option<i128> {
-        match v {
-            Value::Number(n) => n
-                .as_i64()
-                .map(i128::from)
-                .or_else(|| n.as_u64().map(i128::from)),
-            Value::String(s) => s.trim().parse::<i128>().ok(),
-            _ => None,
-        }
-    }
-
-    fn parse_i64(v: &Value) -> Option<i64> {
-        Self::parse_i128(v).and_then(|n| i64::try_from(n).ok())
     }
 
     fn find_samples_chain(sections: &[Value]) -> Option<Vec<BattleSampling>> {
@@ -225,15 +211,15 @@ impl BattleTrendsResolver {
 
     fn to_sampling(map: &Map<String, Value>) -> BattleSampling {
         BattleSampling {
-            count: map.get("Cnt").and_then(Self::parse_i64),
-            tick: map.get("T").and_then(Self::parse_i64),
+            count: map.get("Cnt").and_then(helpers::parse_i64),
+            tick: map.get("T").and_then(helpers::parse_i64),
         }
     }
 
     fn to_event(map: &Map<String, Value>) -> BattleEvent {
         BattleEvent {
-            r#type: map.get("Et").and_then(Self::parse_i64),
-            tick: map.get("T").and_then(Self::parse_i64),
+            r#type: map.get("Et").and_then(helpers::parse_i64),
+            tick: map.get("T").and_then(helpers::parse_i64),
             reinforcements: map
                 .get("AssistUnits")
                 .and_then(Value::as_object)
@@ -242,7 +228,7 @@ impl BattleTrendsResolver {
     }
 
     fn to_assist_units(map: &Map<String, Value>) -> BattleAssistUnits {
-        let (avatar_url, frame_url) = Self::parse_avatar(map.get("Avatar"));
+        let (avatar_url, frame_url) = helpers::parse_avatar(map.get("Avatar"));
 
         let primary = Self::to_commander(map.get("HId"), map.get("HLv"));
         let secondary = Self::to_commander(map.get("HId2"), map.get("HLv2"));
@@ -252,7 +238,7 @@ impl BattleTrendsResolver {
         };
 
         BattleAssistUnits {
-            player_id: map.get("PId").and_then(Self::parse_i64),
+            player_id: map.get("PId").and_then(helpers::parse_i64),
             player_name: map.get("PName").and_then(Value::as_str).map(str::to_owned),
             avatar_url,
             frame_url,
@@ -264,51 +250,14 @@ impl BattleTrendsResolver {
         id_value: Option<&Value>,
         level_value: Option<&Value>,
     ) -> Option<BattleCommander> {
-        let id = id_value.and_then(Self::parse_i64);
-        let level = level_value.and_then(Self::parse_i64);
+        let id = id_value.and_then(helpers::parse_i64);
+        let level = level_value.and_then(helpers::parse_i64);
 
         if id.is_none() && level.is_none() {
             return None;
         }
 
         Some(BattleCommander { id, level })
-    }
-
-    fn parse_avatar(value: Option<&Value>) -> (Option<String>, Option<String>) {
-        let Some(value) = value else {
-            return (None, None);
-        };
-
-        match value {
-            Value::String(raw) => {
-                if let Ok(parsed) = serde_json::from_str::<Value>(raw) {
-                    return (
-                        parsed
-                            .get("avatar")
-                            .and_then(Value::as_str)
-                            .map(str::to_owned),
-                        parsed
-                            .get("avatarFrame")
-                            .and_then(Value::as_str)
-                            .map(str::to_owned),
-                    );
-                }
-
-                let trimmed = raw.trim();
-                if trimmed.is_empty() {
-                    (None, None)
-                } else {
-                    (Some(trimmed.to_owned()), None)
-                }
-            }
-            Value::Object(map) => (
-                map.get("avatar").and_then(Value::as_str).map(str::to_owned),
-                map.get("avatarFrame")
-                    .and_then(Value::as_str)
-                    .map(str::to_owned),
-            ),
-            _ => (None, None),
-        }
     }
 }
 

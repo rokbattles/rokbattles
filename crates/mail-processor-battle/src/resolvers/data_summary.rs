@@ -4,6 +4,7 @@ use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
 
 use crate::context::MailContext;
+use crate::helpers;
 use crate::structures::{BattleMail, DataSummary};
 
 /// Resolves aggregated SOv/OOv summary data from battle report sections.
@@ -20,21 +21,6 @@ impl DataSummaryResolver {
         Self
     }
 
-    fn parse_i128(v: &Value) -> Option<i128> {
-        match v {
-            Value::Number(n) => n
-                .as_i64()
-                .map(i128::from)
-                .or_else(|| n.as_u64().map(i128::from)),
-            Value::String(s) => s.trim().parse::<i128>().ok(),
-            _ => None,
-        }
-    }
-
-    fn parse_i64(v: &Value) -> Option<i64> {
-        Self::parse_i128(v).and_then(|n| i64::try_from(n).ok())
-    }
-
     fn find_first_object_for_key<'a>(
         sections: &'a [Value],
         key: &str,
@@ -46,12 +32,12 @@ impl DataSummaryResolver {
 
     /// Copies overview stats into the summary, choosing sender or opponent fields.
     fn fill_summary(summary: &mut DataSummary, src: &Map<String, Value>, is_sender: bool) {
-        let kill_points = src.get("KillScore").and_then(Self::parse_i64);
-        let severely_wounded = src.get("BadHurt").and_then(Self::parse_i64);
-        let slightly_wounded = src.get("Hurt").and_then(Self::parse_i64);
-        let troop_units = src.get("Max").and_then(Self::parse_i64);
-        let remaining = src.get("Cnt").and_then(Self::parse_i64);
-        let dead = src.get("Dead").and_then(Self::parse_i64);
+        let kill_points = src.get("KillScore").and_then(helpers::parse_i64);
+        let severely_wounded = src.get("BadHurt").and_then(helpers::parse_i64);
+        let slightly_wounded = src.get("Hurt").and_then(helpers::parse_i64);
+        let troop_units = src.get("Max").and_then(helpers::parse_i64);
+        let remaining = src.get("Cnt").and_then(helpers::parse_i64);
+        let dead = src.get("Dead").and_then(helpers::parse_i64);
 
         if is_sender {
             summary.sender_kill_points = kill_points;
