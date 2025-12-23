@@ -257,7 +257,14 @@ impl BattleTrendsResolver {
             return None;
         }
 
-        Some(BattleCommander { id, level })
+        Some(BattleCommander {
+            id,
+            level,
+            equipment: None,
+            formation: None,
+            star: None,
+            awakened: None,
+        })
     }
 
     fn to_secondary_commander(
@@ -273,6 +280,10 @@ impl BattleTrendsResolver {
         Some(BattleCommander {
             id: Some(id),
             level,
+            equipment: None,
+            formation: None,
+            star: None,
+            awakened: None,
         })
     }
 }

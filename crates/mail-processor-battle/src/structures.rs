@@ -75,12 +75,12 @@ pub struct DataSummary {
 /// Battle participants and sender details extracted from the report.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleData {
-    pub sender: Option<BattleSender>,
+    pub sender: Option<BattleParticipant>,
 }
 
 /// Sender details from the initial report sections.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct BattleSender {
+pub struct BattleParticipant {
     // PId
     pub player_id: Option<i64>,
     // PName
@@ -99,12 +99,12 @@ pub struct BattleSender {
     pub frame_url: Option<String>,
     pub commanders: Option<BattleCommanders>,
     // STs
-    pub participants: Vec<BattleParticipant>,
+    pub participants: Vec<BattleSubParticipant>,
 }
 
 /// Participant details pulled from STs entries.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct BattleParticipant {
+pub struct BattleSubParticipant {
     // PId
     pub player_id: Option<i64>,
     // PName
@@ -182,4 +182,16 @@ pub struct BattleCommander {
     pub id: Option<i64>,
     // HLv or HLv2
     pub level: Option<i64>,
+    // HEq or HEq2
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub equipment: Option<String>,
+    // HFMs (primary only)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub formation: Option<i64>,
+    // HSt or HSt2
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub star: Option<i64>,
+    // HAw or HAw2
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub awakened: Option<bool>,
 }

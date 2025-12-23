@@ -7,7 +7,7 @@ use crate::context::MailContext;
 use crate::helpers;
 use crate::structures::{
     BattleAlliance, BattleCommander, BattleCommanders, BattleData, BattleMail, BattleParticipant,
-    BattleSender,
+    BattleSubParticipant,
 };
 
 /// Resolves sender data for battle reports.
@@ -24,20 +24,68 @@ impl BattleSenderResolver {
         Self
     }
 
-    fn find_sender_map(sections: &[Value]) -> Option<&Map<String, Value>> {
-        for section in sections {
+    fn section_has_pname(section: &Value) -> bool {
+        section.get("PName").is_some()
+            || section
+                .pointer("/body/content/PName")
+                .and_then(Value::as_str)
+                .map(|p| !p.trim().is_empty())
+                .unwrap_or(false)
+            || section
+                .pointer("/content/PName")
+                .and_then(Value::as_str)
+                .map(|p| !p.trim().is_empty())
+                .unwrap_or(false)
+    }
+
+    fn find_sender_section(sections: &[Value]) -> Option<(usize, &Map<String, Value>)> {
+        for (index, section) in sections.iter().enumerate() {
             if section.get("PName").is_some() {
-                return section.as_object();
+                return section.as_object().map(|map| (index, map));
             }
             if let Some(content) = section.pointer("/body/content").and_then(Value::as_object)
                 && content.get("PName").is_some()
             {
-                return Some(content);
+                return Some((index, content));
             }
             if let Some(content) = section.get("content").and_then(Value::as_object)
                 && content.get("PName").is_some()
             {
-                return Some(content);
+                return Some((index, content));
+            }
+        }
+
+        None
+    }
+
+    fn find_sender_value<'a>(
+        sections: &'a [Value],
+        sender_index: usize,
+        key: &str,
+    ) -> Option<&'a Value> {
+        let mut start = sender_index;
+        while start > 0 && !Self::section_has_pname(&sections[start - 1]) {
+            start -= 1;
+        }
+
+        let mut end = sender_index + 1;
+        while end < sections.len() && !Self::section_has_pname(&sections[end]) {
+            end += 1;
+        }
+
+        // Sender detail blocks can spill into surrounding sections without PName fields.
+        for section in &sections[start..end] {
+            if let Some(value) = section.get(key) {
+                return Some(value);
+            }
+            if let Some(value) = section
+                .pointer("/body/content")
+                .and_then(|body| body.get(key))
+            {
+                return Some(value);
+            }
+            if let Some(value) = section.get("content").and_then(|content| content.get(key)) {
+                return Some(value);
             }
         }
 
@@ -60,16 +108,6 @@ impl BattleSenderResolver {
                 .or_else(|| section.pointer("/body/STs"))
                 .and_then(Value::as_object)
         })
-    }
-
-    fn find_sts_entry_by_pid(
-        sts: Option<&Map<String, Value>>,
-        player_id: i64,
-    ) -> Option<&Map<String, Value>> {
-        let sts = sts?;
-        sts.values()
-            .filter_map(Value::as_object)
-            .find(|entry| entry.get("PId").and_then(helpers::parse_i64) == Some(player_id))
     }
 
     fn parse_trimmed_string(value: Option<&Value>) -> Option<String> {
@@ -98,7 +136,14 @@ impl BattleSenderResolver {
             return None;
         }
 
-        Some(BattleCommander { id, level })
+        Some(BattleCommander {
+            id,
+            level,
+            equipment: None,
+            formation: None,
+            star: None,
+            awakened: None,
+        })
     }
 
     fn to_secondary_commander(
@@ -111,6 +156,10 @@ impl BattleSenderResolver {
         Some(BattleCommander {
             id: Some(id),
             level,
+            equipment: None,
+            formation: None,
+            star: None,
+            awakened: None,
         })
     }
 
@@ -130,32 +179,6 @@ impl BattleSenderResolver {
         Some(BattleCommanders { primary, secondary })
     }
 
-    fn to_commanders_from_parts(
-        primary_id: Option<i64>,
-        primary_level: Option<i64>,
-        secondary_id: Option<i64>,
-        secondary_level: Option<i64>,
-    ) -> Option<BattleCommanders> {
-        let primary = if primary_id.is_none() && primary_level.is_none() {
-            None
-        } else {
-            Some(BattleCommander {
-                id: primary_id,
-                level: primary_level,
-            })
-        };
-        let secondary = secondary_id.map(|id| BattleCommander {
-            id: Some(id),
-            level: secondary_level,
-        });
-
-        if primary.is_none() && secondary.is_none() {
-            return None;
-        }
-
-        Some(BattleCommanders { primary, secondary })
-    }
-
     fn to_alliance(tag: Option<String>, name: Option<String>) -> Option<BattleAlliance> {
         if tag.is_none() && name.is_none() {
             return None;
@@ -165,20 +188,17 @@ impl BattleSenderResolver {
     }
 
     fn build_sender(
+        sections: &[Value],
         sender_map: Option<&Map<String, Value>>,
+        sender_index: Option<usize>,
         self_char: Option<&Map<String, Value>>,
-        sts: Option<&Map<String, Value>>,
-        participants: Vec<BattleParticipant>,
-    ) -> Option<BattleSender> {
+        participants: Vec<BattleSubParticipant>,
+    ) -> Option<BattleParticipant> {
         let player_id = self_char
             .and_then(|map| map.get("PId").and_then(helpers::parse_i64))
             .or_else(|| sender_map.and_then(|map| map.get("PId").and_then(helpers::parse_i64)));
 
-        let sender_sts = player_id.and_then(|pid| Self::find_sts_entry_by_pid(sts, pid));
-
-        let player_name = sender_map
-            .and_then(|map| Self::parse_trimmed_string(map.get("PName")))
-            .or_else(|| sender_sts.and_then(|map| Self::parse_trimmed_string(map.get("PName"))));
+        let player_name = sender_map.and_then(|map| Self::parse_trimmed_string(map.get("PName")));
         let app_uid = sender_map.and_then(|map| Self::parse_trimmed_string(map.get("AppUid")));
         let camp = self_char
             .and_then(|map| map.get("SideId").and_then(helpers::parse_i64))
@@ -187,8 +207,20 @@ impl BattleSenderResolver {
 
         let alliance_tag = sender_map
             .and_then(|map| Self::parse_trimmed_string(map.get("Abbr")))
-            .or_else(|| sender_sts.and_then(|map| Self::parse_trimmed_string(map.get("Abbr"))));
-        let alliance_name = sender_map.and_then(|map| Self::parse_trimmed_string(map.get("AName")));
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "Abbr")
+                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
+                })
+            });
+        let alliance_name = sender_map
+            .and_then(|map| Self::parse_trimmed_string(map.get("AName")))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "AName")
+                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
+                })
+            });
         let alliance = Self::to_alliance(alliance_tag, alliance_name);
 
         let (avatar_url, frame_url) = helpers::parse_avatar(
@@ -200,25 +232,138 @@ impl BattleSenderResolver {
         let primary_id = sender_map
             .and_then(|map| Self::parse_commander_field(map.get("HId")))
             .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HId"))))
-            .or_else(|| sender_sts.and_then(|map| Self::parse_commander_field(map.get("HId"))));
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HId")
+                        .and_then(|value| Self::parse_commander_field(Some(value)))
+                })
+            });
         let primary_level = sender_map
             .and_then(|map| Self::parse_commander_field(map.get("HLv")))
-            .or_else(|| sender_sts.and_then(|map| Self::parse_commander_field(map.get("HLv"))));
+            .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HLv"))))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HLv")
+                        .and_then(|value| Self::parse_commander_field(Some(value)))
+                })
+            });
+        let primary_equipment = sender_map
+            .and_then(|map| Self::parse_trimmed_string(map.get("HEq")))
+            .or_else(|| self_char.and_then(|map| Self::parse_trimmed_string(map.get("HEq"))))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HEq")
+                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
+                })
+            });
+        let primary_formation = sender_map
+            .and_then(|map| map.get("HFMs").and_then(helpers::parse_i64))
+            .or_else(|| self_char.and_then(|map| map.get("HFMs").and_then(helpers::parse_i64)))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HFMs").and_then(helpers::parse_i64)
+                })
+            });
+        let primary_star = sender_map
+            .and_then(|map| map.get("HSt").and_then(helpers::parse_i64))
+            .or_else(|| self_char.and_then(|map| map.get("HSt").and_then(helpers::parse_i64)))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HSt").and_then(helpers::parse_i64)
+                })
+            });
+        let primary_awakened = sender_map
+            .and_then(|map| map.get("HAw").and_then(helpers::parse_bool))
+            .or_else(|| self_char.and_then(|map| map.get("HAw").and_then(helpers::parse_bool)))
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HAw").and_then(helpers::parse_bool)
+                })
+            });
         let secondary_id = sender_map
             .and_then(|map| Self::parse_commander_field(map.get("HId2")))
-            .or_else(|| sender_sts.and_then(|map| Self::parse_commander_field(map.get("HId2"))));
+            .or_else(|| {
+                sender_index.and_then(|index| {
+                    Self::find_sender_value(sections, index, "HId2")
+                        .and_then(|value| Self::parse_commander_field(Some(value)))
+                })
+            });
         let secondary_level = secondary_id.and_then(|_| {
             sender_map
                 .and_then(|map| Self::parse_commander_field(map.get("HLv2")))
-                .or_else(|| sender_sts.and_then(|map| Self::parse_commander_field(map.get("HLv2"))))
+                .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HLv2"))))
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "HLv2")
+                            .and_then(|value| Self::parse_commander_field(Some(value)))
+                    })
+                })
+        });
+        let secondary_equipment = secondary_id.and_then(|_| {
+            sender_map
+                .and_then(|map| Self::parse_trimmed_string(map.get("HEq2")))
+                .or_else(|| self_char.and_then(|map| Self::parse_trimmed_string(map.get("HEq2"))))
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "HEq2")
+                            .and_then(|value| Self::parse_trimmed_string(Some(value)))
+                    })
+                })
+        });
+        let secondary_star = secondary_id.and_then(|_| {
+            sender_map
+                .and_then(|map| map.get("HSt2").and_then(helpers::parse_i64))
+                .or_else(|| self_char.and_then(|map| map.get("HSt2").and_then(helpers::parse_i64)))
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "HSt2")
+                            .and_then(helpers::parse_i64)
+                    })
+                })
+        });
+        let secondary_awakened = secondary_id.and_then(|_| {
+            sender_map
+                .and_then(|map| map.get("HAw2").and_then(helpers::parse_bool))
+                .or_else(|| self_char.and_then(|map| map.get("HAw2").and_then(helpers::parse_bool)))
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "HAw2")
+                            .and_then(helpers::parse_bool)
+                    })
+                })
         });
 
-        let commanders = Self::to_commanders_from_parts(
-            primary_id,
-            primary_level,
-            secondary_id,
-            secondary_level,
-        );
+        let primary = if primary_id.is_none()
+            && primary_level.is_none()
+            && primary_equipment.is_none()
+            && primary_formation.is_none()
+            && primary_star.is_none()
+            && primary_awakened.is_none()
+        {
+            None
+        } else {
+            Some(BattleCommander {
+                id: primary_id,
+                level: primary_level,
+                equipment: primary_equipment,
+                formation: primary_formation,
+                star: primary_star,
+                awakened: primary_awakened,
+            })
+        };
+        let secondary = secondary_id.map(|id| BattleCommander {
+            id: Some(id),
+            level: secondary_level,
+            equipment: secondary_equipment,
+            formation: None,
+            star: secondary_star,
+            awakened: secondary_awakened,
+        });
+        let commanders = if primary.is_none() && secondary.is_none() {
+            None
+        } else {
+            Some(BattleCommanders { primary, secondary })
+        };
 
         if player_id.is_none()
             && player_name.is_none()
@@ -234,7 +379,7 @@ impl BattleSenderResolver {
             return None;
         }
 
-        Some(BattleSender {
+        Some(BattleParticipant {
             player_id,
             player_name,
             app_uid,
@@ -248,7 +393,7 @@ impl BattleSenderResolver {
         })
     }
 
-    fn build_participants(sts: Option<&Map<String, Value>>) -> (Vec<BattleParticipant>, i64) {
+    fn build_participants(sts: Option<&Map<String, Value>>) -> (Vec<BattleSubParticipant>, i64) {
         let Some(sts) = sts else {
             return (Vec::new(), 0);
         };
@@ -293,7 +438,7 @@ impl BattleSenderResolver {
                 continue;
             }
 
-            participants.push(BattleParticipant {
+            participants.push(BattleSubParticipant {
                 player_id,
                 player_name,
                 alliance,
@@ -309,12 +454,20 @@ impl Resolver<MailContext<'_>, BattleMail> for BattleSenderResolver {
     type Error = Infallible;
 
     fn resolve(&self, ctx: &MailContext<'_>, output: &mut BattleMail) -> Result<(), Self::Error> {
-        let sender_map = Self::find_sender_map(ctx.sections);
+        let (sender_index, sender_map) = Self::find_sender_section(ctx.sections)
+            .map(|(index, map)| (Some(index), Some(map)))
+            .unwrap_or((None, None));
         let self_char = Self::find_self_char(ctx.sections);
         let sts = Self::find_sts_map(ctx.sections);
 
         let (participants, skipped) = Self::build_participants(sts);
-        let sender = Self::build_sender(sender_map, self_char, sts, participants);
+        let sender = Self::build_sender(
+            ctx.sections,
+            sender_map,
+            sender_index,
+            self_char,
+            participants,
+        );
 
         if sender.is_none() {
             return Ok(());
@@ -371,6 +524,13 @@ mod tests {
                 "COSId": 123,
                 "Abbr": "TAG",
                 "AName": "Alliance",
+                "HEq": "primary-eq",
+                "HEq2": "secondary-eq",
+                "HFMs": 3,
+                "HSt": 5,
+                "HSt2": 4,
+                "HAw": true,
+                "HAw2": 0,
                 "HId2": 2,
                 "HLv": 60,
                 "HLv2": 50
@@ -379,8 +539,8 @@ mod tests {
                 "STs": {
                     "100": {
                         "PId": 10,
-                        "PName": "Sender",
-                        "Abbr": "TAG",
+                        "PName": "StsSender",
+                        "Abbr": "ST",
                         "HId": 1,
                         "HLv": 60,
                         "HId2": 2,
@@ -412,16 +572,48 @@ mod tests {
         let commanders = sender.commanders.expect("commanders");
         assert_eq!(commanders.primary.as_ref().and_then(|c| c.id), Some(1));
         assert_eq!(commanders.primary.as_ref().and_then(|c| c.level), Some(60));
+        assert_eq!(
+            commanders
+                .primary
+                .as_ref()
+                .and_then(|c| c.equipment.as_deref()),
+            Some("primary-eq")
+        );
+        assert_eq!(
+            commanders.primary.as_ref().and_then(|c| c.formation),
+            Some(3)
+        );
+        assert_eq!(commanders.primary.as_ref().and_then(|c| c.star), Some(5));
+        assert_eq!(
+            commanders.primary.as_ref().and_then(|c| c.awakened),
+            Some(true)
+        );
         assert_eq!(commanders.secondary.as_ref().and_then(|c| c.id), Some(2));
         assert_eq!(
             commanders.secondary.as_ref().and_then(|c| c.level),
             Some(50)
         );
+        assert_eq!(
+            commanders
+                .secondary
+                .as_ref()
+                .and_then(|c| c.equipment.as_deref()),
+            Some("secondary-eq")
+        );
+        assert_eq!(commanders.secondary.as_ref().and_then(|c| c.star), Some(4));
+        assert_eq!(
+            commanders.secondary.as_ref().and_then(|c| c.awakened),
+            Some(false)
+        );
 
         assert_eq!(sender.participants.len(), 1);
         let participant = &sender.participants[0];
         assert_eq!(participant.player_id, Some(10));
-        assert_eq!(participant.player_name.as_deref(), Some("Sender"));
+        assert_eq!(participant.player_name.as_deref(), Some("StsSender"));
+        assert_eq!(
+            participant.alliance.as_ref().and_then(|a| a.tag.as_deref()),
+            Some("ST")
+        );
     }
 
     #[test]
@@ -474,6 +666,200 @@ mod tests {
         assert_eq!(
             commanders.secondary.as_ref().and_then(|c| c.level),
             Some(40)
+        );
+    }
+
+    #[test]
+    fn battle_sender_resolver_reads_alliance_from_adjacent_sections() {
+        let sections = vec![
+            json!({
+                "PName": "Sender",
+                "AppUid": "uid-1"
+            }),
+            json!({
+                "Abbr": "TAG",
+                "AName": "Alliance"
+            }),
+            json!({
+                "STs": {
+                    "0": {
+                        "PId": 1,
+                        "PName": "Sender",
+                        "Abbr": "ST",
+                        "HId": 10,
+                        "HLv": 60
+                    }
+                }
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+
+        assert_eq!(
+            sender.alliance.as_ref().and_then(|a| a.tag.as_deref()),
+            Some("TAG")
+        );
+        assert_eq!(
+            sender.alliance.as_ref().and_then(|a| a.name.as_deref()),
+            Some("Alliance")
+        );
+
+        assert_eq!(sender.participants.len(), 1);
+        assert_eq!(
+            sender.participants[0]
+                .alliance
+                .as_ref()
+                .and_then(|a| a.tag.as_deref()),
+            Some("ST")
+        );
+    }
+
+    #[test]
+    fn battle_sender_resolver_ignores_sts_for_commander_fields() {
+        let sections = vec![
+            json!({
+                "body": {
+                    "content": {
+                        "SelfChar": {
+                            "PId": 42,
+                            "HId": 10
+                        }
+                    }
+                }
+            }),
+            json!({
+                "HSt2": 4,
+                "HLv2": 50,
+                "HAw2": 1
+            }),
+            json!({
+                "Schema": 1
+            }),
+            json!({
+                "PName": "Sender",
+                "HId": 10,
+                "HId2": 11
+            }),
+            json!({
+                "STs": {
+                    "-2": {
+                        "PId": 42,
+                        "PName": "",
+                        "HId": 0,
+                        "HLv": 0,
+                        "HId2": 0,
+                        "HLv2": 0
+                    },
+                    "0": {
+                        "PId": 42,
+                        "PName": "Sender",
+                        "HId": 10,
+                        "HLv": 60,
+                        "HId2": 11,
+                        "HLv2": 10
+                    }
+                }
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+        let commanders = sender.commanders.expect("commanders");
+
+        assert_eq!(
+            commanders.secondary.as_ref().and_then(|c| c.level),
+            Some(50)
+        );
+        assert_eq!(commanders.secondary.as_ref().and_then(|c| c.star), Some(4));
+        assert_eq!(
+            commanders.secondary.as_ref().and_then(|c| c.awakened),
+            Some(true)
+        );
+        assert_eq!(sender.participants.len(), 1);
+        assert_eq!(
+            output.metadata.rokb_battle_data_sender_skipped_participants,
+            1
+        );
+    }
+
+    #[test]
+    fn battle_sender_resolver_reads_commander_extras_from_sender_block() {
+        let sections = vec![
+            json!({
+                "body": {
+                    "content": {
+                        "SelfChar": {
+                            "PId": 77,
+                            "HId": 21
+                        }
+                    }
+                }
+            }),
+            json!({
+                "HSt": 6,
+                "HAw": true,
+                "HFMs": 4,
+                "HLv2": 55,
+                "HSt2": 5,
+                "HAw2": 0
+            }),
+            json!({
+                "Schema": 2
+            }),
+            json!({
+                "PName": "Sender",
+                "HId": 21,
+                "HLv": 60,
+                "HId2": 22
+            }),
+            json!({
+                "STs": {
+                    "0": {
+                        "PId": 77,
+                        "PName": "Sender",
+                        "HId": 21,
+                        "HLv": 10,
+                        "HId2": 22,
+                        "HLv2": 12
+                    }
+                }
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+        let commanders = sender.commanders.expect("commanders");
+
+        assert_eq!(commanders.primary.as_ref().and_then(|c| c.star), Some(6));
+        assert_eq!(
+            commanders.primary.as_ref().and_then(|c| c.awakened),
+            Some(true)
+        );
+        assert_eq!(
+            commanders.primary.as_ref().and_then(|c| c.formation),
+            Some(4)
+        );
+        assert_eq!(
+            commanders.secondary.as_ref().and_then(|c| c.level),
+            Some(55)
+        );
+        assert_eq!(commanders.secondary.as_ref().and_then(|c| c.star), Some(5));
+        assert_eq!(
+            commanders.secondary.as_ref().and_then(|c| c.awakened),
+            Some(false)
         );
     }
 

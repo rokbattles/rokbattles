@@ -73,18 +73,24 @@
       "app_uid": "42078406",
       "kingdom": null,
       "alliance": {
-        "tag": "LX17"
+        "tag": "LX17",
+        "name": "LEGION XVII"
       },
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/42078406/2024-10-15/3BD791DF7796BD52D668D352B3375241_250x250.jpg",
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "commanders": {
         "primary": {
           "id": 99,
-          "level": 60
+          "level": 60,
+          "formation": 7,
+          "star": 6,
+          "awakened": true
         },
         "secondary": {
           "id": 1,
-          "level": 60
+          "level": 60,
+          "star": 6,
+          "awakened": true
         }
       },
       "participants": [

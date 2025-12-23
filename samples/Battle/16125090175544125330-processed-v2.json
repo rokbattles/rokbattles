@@ -59,18 +59,26 @@
       "camp": 4,
       "kingdom": 1425,
       "alliance": {
-        "tag": "FCK"
+        "tag": "FCK",
+        "name": "Fight Club:Kingdom"
       },
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg",
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_113.png",
       "commanders": {
         "primary": {
           "id": 185,
-          "level": 60
+          "level": 60,
+          "equipment": "{3:20142_816:2,1:20140_815:1,5:20144_845:1,4:20143_854:1,6:20145_808:3,7:20038_867:1,8:20037_809:1,2:20014_703:2}",
+          "formation": 17,
+          "star": 6,
+          "awakened": true
         },
         "secondary": {
           "id": 98,
-          "level": 60
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
         }
       },
       "participants": [

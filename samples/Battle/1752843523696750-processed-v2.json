@@ -36,11 +36,17 @@
       "commanders": {
         "primary": {
           "id": 34,
-          "level": 37
+          "level": 37,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": false
         },
         "secondary": {
           "id": 32,
-          "level": 38
+          "level": 38,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": false
         }
       },
       "participants": [

@@ -37,11 +37,18 @@
       "commanders": {
         "primary": {
           "id": 103,
-          "level": 60
+          "level": 60,
+          "equipment": "{6:20012_575:32,2:20004_634:35,3:20009_681:35,1:20001_637:35,4:20028_626:32,5:20033_574:35,7:20040_713:35,8:20037_840:35}",
+          "formation": 13,
+          "star": 6,
+          "awakened": true
         },
         "secondary": {
           "id": 539,
-          "level": 37
+          "level": 37,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": true
         }
       },
       "participants": [

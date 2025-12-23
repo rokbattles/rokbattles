@@ -54,17 +54,27 @@
       "app_uid": "32624247",
       "camp": 2,
       "kingdom": 1804,
-      "alliance": null,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_146.png",
       "commanders": {
         "primary": {
           "id": 184,
-          "level": 60
+          "level": 60,
+          "equipment": "{5:20032_351:13,7:20037_372:11,8:20038_320:1,6:20034_232:14,2:20014_258:13,3:20026_243:13,1:20013_288:2,4:20029_244:13}",
+          "formation": 17,
+          "star": 6,
+          "awakened": true
         },
         "secondary": {
           "id": 177,
-          "level": null
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
         }
       },
       "participants": [

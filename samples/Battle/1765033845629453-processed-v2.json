@@ -29,18 +29,26 @@
       "camp": 4,
       "kingdom": 2473,
       "alliance": {
-        "tag": "~73D"
+        "tag": "~73D",
+        "name": "Divine Clankers 73"
       },
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2147252/2025-10-25/59990794073A8BB2967675D4C4EB9479_250x250.jpg",
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "commanders": {
         "primary": {
           "id": 185,
-          "level": 60
+          "level": 60,
+          "equipment": "{1:20002_200:1,2:20005_160:1,3:20026_223:11,4:20029_163:14,5:20032_224:11,6:20034_226:3,7:20118_152:1,8:20040_175:1}",
+          "formation": 1,
+          "star": 6,
+          "awakened": true
         },
         "secondary": {
           "id": 98,
-          "level": 60
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
         }
       },
       "participants": [
