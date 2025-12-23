@@ -98,7 +98,6 @@ pub struct BattleParticipant {
     // Avatar.avatarFrame
     pub frame_url: Option<String>,
     pub commanders: Option<BattleCommanders>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub castle: Option<BattleCastle>,
     // STs
     pub participants: Vec<BattleSubParticipant>,
@@ -118,15 +117,20 @@ pub struct BattleSubParticipant {
 /// Position data for battle entities.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattlePosition {
+    // CastlePos.X
     pub x: Option<i64>,
+    // CastlePos.Y
     pub y: Option<i64>,
 }
 
 /// Castle details for battle participants.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleCastle {
+    // CastlePos
     pub pos: Option<BattlePosition>,
+    // CastleLevel
     pub level: Option<i64>,
+    // GtLevel
     #[serde(skip_serializing_if = "Option::is_none")]
     pub watchtower: Option<i64>,
 }
