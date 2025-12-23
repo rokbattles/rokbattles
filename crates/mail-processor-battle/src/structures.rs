@@ -135,6 +135,20 @@ pub struct BattleCastle {
     pub watchtower: Option<i64>,
 }
 
+/// Armament details from HWBs entries.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BattleArmament {
+    // HWBs key (1-4)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub slot: Option<i64>,
+    // Buffs
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub buffs: Option<String>,
+    // Affix
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub inscriptions: Option<String>,
+}
+
 /// Alliance identifiers for sender/participants.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleAlliance {
@@ -216,4 +230,7 @@ pub struct BattleCommander {
     // HAw or HAw2
     #[serde(skip_serializing_if = "Option::is_none")]
     pub awakened: Option<bool>,
+    // HWBs
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub armaments: Option<Vec<BattleArmament>>,
 }

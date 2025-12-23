@@ -55,7 +55,14 @@
           "equipment": "{}",
           "formation": 2,
           "star": 6,
-          "awakened": false
+          "awakened": false,
+          "armaments": [
+            {
+              "slot": 4,
+              "buffs": "3003_0.017000;4002_0.017000;5004_0.017000",
+              "inscriptions": "412"
+            }
+          ]
         },
         "secondary": {
           "id": 177,

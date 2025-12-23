@@ -84,7 +84,24 @@
           "level": 60,
           "formation": 7,
           "star": 6,
-          "awakened": true
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 4,
+              "buffs": "6001_0.019000;8000_0.044000;5004_0.011000",
+              "inscriptions": "428"
+            },
+            {
+              "slot": 3,
+              "buffs": "6001_0.025000;6003_0.026000;5002_0.015000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 2,
+              "buffs": "3001_0.014000;4001_0.020000;10002_0.005000",
+              "inscriptions": "226"
+            }
+          ]
         },
         "secondary": {
           "id": 1,

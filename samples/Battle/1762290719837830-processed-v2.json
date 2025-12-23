@@ -58,7 +58,25 @@
           "equipment": "{1:20003_13:0,6:20024_115:0,2:20006_25:0,4:20022_108:0,3:20021_103:0,5:20023_114:0,7:20040_197:0,8:20037_180:0}",
           "formation": 2,
           "star": 6,
-          "awakened": true
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "inscriptions": "2101"
+            },
+            {
+              "slot": 4,
+              "inscriptions": "2401"
+            },
+            {
+              "slot": 3,
+              "inscriptions": "2301"
+            },
+            {
+              "slot": 2,
+              "inscriptions": "2201"
+            }
+          ]
         },
         "secondary": {
           "id": 179,

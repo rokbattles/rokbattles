@@ -6,8 +6,8 @@ use serde_json::{Map, Value};
 use crate::context::MailContext;
 use crate::helpers;
 use crate::structures::{
-    BattleAlliance, BattleCastle, BattleCommander, BattleCommanders, BattleData, BattleMail,
-    BattleParticipant, BattlePosition, BattleSubParticipant,
+    BattleAlliance, BattleArmament, BattleCastle, BattleCommander, BattleCommanders, BattleData,
+    BattleMail, BattleParticipant, BattlePosition, BattleSubParticipant,
 };
 
 /// Resolves sender data for battle reports.
@@ -143,6 +143,7 @@ impl BattleSenderResolver {
             formation: None,
             star: None,
             awakened: None,
+            armaments: None,
         })
     }
 
@@ -160,6 +161,7 @@ impl BattleSenderResolver {
             formation: None,
             star: None,
             awakened: None,
+            armaments: None,
         })
     }
 
@@ -197,6 +199,27 @@ impl BattleSenderResolver {
         } else {
             Some(BattlePosition { x, y })
         }
+    }
+
+    fn to_armaments(hwbs: Option<&Value>) -> Option<Vec<BattleArmament>> {
+        let hwbs = hwbs.and_then(Value::as_object)?;
+        let mut items = Vec::new();
+        for (key, entry) in hwbs {
+            let Ok(id) = key.parse::<i64>() else {
+                continue;
+            };
+            let entry = entry.as_object();
+            let buffs = entry.and_then(|map| Self::parse_trimmed_string(map.get("Buffs")));
+            let inscriptions = entry.and_then(|map| Self::parse_trimmed_string(map.get("Affix")));
+
+            items.push(BattleArmament {
+                slot: Some(id),
+                buffs,
+                inscriptions,
+            });
+        }
+
+        if items.is_empty() { None } else { Some(items) }
     }
 
     fn build_sender(
@@ -292,6 +315,13 @@ impl BattleSenderResolver {
                     Self::find_sender_value(sections, index, "HAw").and_then(helpers::parse_bool)
                 })
             });
+        let primary_armaments = sender_map
+            .and_then(|map| map.get("HWBs"))
+            .or_else(|| self_char.and_then(|map| map.get("HWBs")))
+            .or_else(|| {
+                sender_index.and_then(|index| Self::find_sender_value(sections, index, "HWBs"))
+            });
+        let primary_armaments = Self::to_armaments(primary_armaments);
         let secondary_id = sender_map
             .and_then(|map| Self::parse_commander_field(map.get("HId2")))
             .or_else(|| {
@@ -351,6 +381,7 @@ impl BattleSenderResolver {
             && primary_formation.is_none()
             && primary_star.is_none()
             && primary_awakened.is_none()
+            && primary_armaments.is_none()
         {
             None
         } else {
@@ -361,6 +392,7 @@ impl BattleSenderResolver {
                 formation: primary_formation,
                 star: primary_star,
                 awakened: primary_awakened,
+                armaments: primary_armaments,
             })
         };
         let secondary = secondary_id.map(|id| BattleCommander {
@@ -370,6 +402,7 @@ impl BattleSenderResolver {
             formation: None,
             star: secondary_star,
             awakened: secondary_awakened,
+            armaments: None,
         });
         let commanders = if primary.is_none() && secondary.is_none() {
             None
@@ -978,6 +1011,72 @@ mod tests {
         assert_eq!(
             commanders.secondary.as_ref().and_then(|c| c.awakened),
             Some(false)
+        );
+    }
+
+    #[test]
+    fn battle_sender_resolver_reads_primary_armaments() {
+        let sections = vec![
+            json!({
+                "body": {
+                    "content": {
+                        "SelfChar": {
+                            "PId": 77,
+                            "HId": 21
+                        }
+                    }
+                }
+            }),
+            json!({
+                "HWBs": {
+                    "1": {
+                        "Buffs": "3001_0.010000;4001_0.020000",
+                        "Affix": "17101"
+                    },
+                    "4": {
+                        "Buffs": "5001_0.030000",
+                        "Affix": " "
+                    },
+                    "bad": {
+                        "Buffs": "1001_0.010000"
+                    }
+                }
+            }),
+            json!({
+                "PName": "Sender",
+                "HId": 21,
+                "HLv": 60,
+                "HId2": 22
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+        let commanders = sender.commanders.expect("commanders");
+        let primary = commanders.primary.expect("primary");
+        let armaments = primary.armaments.expect("armaments");
+        let slot1 = armaments.iter().find(|arm| arm.slot == Some(1));
+        let slot4 = armaments.iter().find(|arm| arm.slot == Some(4));
+
+        assert_eq!(armaments.len(), 2);
+        let slot1 = slot1.expect("slot 1");
+        let slot4 = slot4.expect("slot 4");
+        assert_eq!(slot1.slot, Some(1));
+        assert_eq!(slot1.buffs.as_deref(), Some("3001_0.010000;4001_0.020000"));
+        assert_eq!(slot1.inscriptions.as_deref(), Some("17101"));
+        assert_eq!(slot4.slot, Some(4));
+        assert_eq!(slot4.buffs.as_deref(), Some("5001_0.030000"));
+        assert!(slot4.inscriptions.is_none());
+        assert!(
+            commanders
+                .secondary
+                .as_ref()
+                .and_then(|c| c.armaments.as_ref())
+                .is_none()
         );
     }
 

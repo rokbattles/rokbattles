@@ -264,6 +264,7 @@ impl BattleTrendsResolver {
             formation: None,
             star: None,
             awakened: None,
+            armaments: None,
         })
     }
 
@@ -284,6 +285,7 @@ impl BattleTrendsResolver {
             formation: None,
             star: None,
             awakened: None,
+            armaments: None,
         })
     }
 }

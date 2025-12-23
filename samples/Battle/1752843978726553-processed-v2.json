@@ -48,7 +48,29 @@
           "equipment": "{}",
           "formation": 10,
           "star": 6,
-          "awakened": true
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3001_0.013000;4001_0.018000;10002_0.006000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 4,
+              "buffs": "6001_0.035000;6003_0.032000;5001_0.016000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 3,
+              "buffs": "2004_0.062000;4001_0.034000;5001_0.032000",
+              "inscriptions": "318"
+            },
+            {
+              "slot": 2,
+              "buffs": "2004_0.054000;4001_0.027000;5002_0.016000",
+              "inscriptions": "-1"
+            }
+          ]
         },
         "secondary": {
           "id": 12,
