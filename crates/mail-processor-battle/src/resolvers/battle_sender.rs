@@ -6,8 +6,8 @@ use serde_json::{Map, Value};
 use crate::context::MailContext;
 use crate::helpers;
 use crate::structures::{
-    BattleAlliance, BattleCommander, BattleCommanders, BattleData, BattleMail, BattleParticipant,
-    BattleSubParticipant,
+    BattleAlliance, BattleCastle, BattleCommander, BattleCommanders, BattleData, BattleMail,
+    BattleParticipant, BattlePosition, BattleSubParticipant,
 };
 
 /// Resolves sender data for battle reports.
@@ -185,6 +185,18 @@ impl BattleSenderResolver {
         }
 
         Some(BattleAlliance { tag, name })
+    }
+
+    fn to_position(value: Option<&Value>) -> Option<BattlePosition> {
+        let value = value.and_then(Value::as_object)?;
+        let x = helpers::parse_position(value.get("X"));
+        let y = helpers::parse_position(value.get("Y"));
+
+        if x.is_none() && y.is_none() {
+            None
+        } else {
+            Some(BattlePosition { x, y })
+        }
     }
 
     fn build_sender(
@@ -365,6 +377,48 @@ impl BattleSenderResolver {
             Some(BattleCommanders { primary, secondary })
         };
 
+        let castle_pos = sender_map
+            .and_then(|map| map.get("CastlePos"))
+            .or_else(|| self_char.and_then(|map| map.get("CastlePos")))
+            .or_else(|| {
+                sender_index.and_then(|index| Self::find_sender_value(sections, index, "CastlePos"))
+            });
+        let castle = {
+            let pos = Self::to_position(castle_pos);
+            let level = sender_map
+                .and_then(|map| map.get("CastleLevel").and_then(helpers::parse_i64))
+                .or_else(|| {
+                    self_char.and_then(|map| map.get("CastleLevel").and_then(helpers::parse_i64))
+                })
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "CastleLevel")
+                            .and_then(helpers::parse_i64)
+                    })
+                });
+            let watchtower = sender_map
+                .and_then(|map| map.get("GtLevel").and_then(helpers::parse_i64))
+                .or_else(|| {
+                    self_char.and_then(|map| map.get("GtLevel").and_then(helpers::parse_i64))
+                })
+                .or_else(|| {
+                    sender_index.and_then(|index| {
+                        Self::find_sender_value(sections, index, "GtLevel")
+                            .and_then(helpers::parse_i64)
+                    })
+                });
+
+            if pos.is_none() && level.is_none() && watchtower.is_none() {
+                None
+            } else {
+                Some(BattleCastle {
+                    pos,
+                    level,
+                    watchtower,
+                })
+            }
+        };
+
         if player_id.is_none()
             && player_name.is_none()
             && app_uid.is_none()
@@ -374,6 +428,7 @@ impl BattleSenderResolver {
             && avatar_url.is_none()
             && frame_url.is_none()
             && commanders.is_none()
+            && castle.is_none()
             && participants.is_empty()
         {
             return None;
@@ -389,6 +444,7 @@ impl BattleSenderResolver {
             avatar_url,
             frame_url,
             commanders,
+            castle,
             participants,
         })
     }
@@ -667,6 +723,68 @@ mod tests {
             commanders.secondary.as_ref().and_then(|c| c.level),
             Some(40)
         );
+    }
+
+    #[test]
+    fn battle_sender_resolver_reads_castle_details() {
+        let sections = vec![
+            json!({
+                "body": {
+                    "content": {
+                        "SelfChar": {
+                            "PId": 10,
+                            "GtLevel": 12
+                        }
+                    }
+                }
+            }),
+            json!({
+                "PName": "Sender",
+                "CastleLevel": 25,
+                "CastlePos": {
+                    "X": 12.4,
+                    "Y": "18.1"
+                }
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+        let castle = sender.castle.expect("castle");
+        let pos = castle.pos.expect("castle pos");
+
+        assert_eq!(pos.x, Some(2));
+        assert_eq!(pos.y, Some(3));
+        assert_eq!(castle.level, Some(25));
+        assert_eq!(castle.watchtower, Some(12));
+    }
+
+    #[test]
+    fn battle_sender_resolver_omits_watchtower_when_missing() {
+        let sections = vec![json!({
+            "PName": "Sender",
+            "CastleLevel": 25,
+            "CastlePos": {
+                "X": 6.0,
+                "Y": 6.0
+            }
+        })];
+
+        let output = resolve_data(&sections);
+        let sender = output
+            .battle_data
+            .expect("battle data")
+            .sender
+            .expect("sender");
+        let castle = sender.castle.expect("castle");
+        let serialized = serde_json::to_value(&castle).expect("serialize castle");
+
+        assert!(castle.watchtower.is_none());
+        assert!(serialized.get("watchtower").is_none());
     }
 
     #[test]

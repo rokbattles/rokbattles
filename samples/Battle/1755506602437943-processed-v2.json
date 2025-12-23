@@ -97,6 +97,13 @@
           "awakened": false
         }
       },
+      "castle": {
+        "pos": {
+          "x": 270,
+          "y": 417
+        },
+        "level": 25
+      },
       "participants": [
         {
           "player_id": 34961809,

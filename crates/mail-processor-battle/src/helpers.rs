@@ -73,9 +73,28 @@ pub(crate) fn parse_avatar(value: Option<&Value>) -> (Option<String>, Option<Str
     }
 }
 
+pub(crate) fn parse_position(value: Option<&Value>) -> Option<i64> {
+    let raw = match value? {
+        Value::Number(n) => n.as_f64(),
+        Value::String(s) => s.trim().parse::<f64>().ok(),
+        _ => None,
+    }?;
+
+    if !raw.is_finite() {
+        return None;
+    }
+
+    let scaled = (raw / 6.0).round();
+    if scaled < i64::MIN as f64 || scaled > i64::MAX as f64 {
+        return None;
+    }
+
+    Some(scaled as i64)
+}
+
 #[cfg(test)]
 mod tests {
-    use super::parse_avatar;
+    use super::{parse_avatar, parse_position};
     use serde_json::json;
 
     #[test]
@@ -132,5 +151,23 @@ mod tests {
 
         assert!(avatar_url.is_none());
         assert!(frame_url.is_none());
+    }
+
+    #[test]
+    fn parse_position_scales_and_rounds() {
+        let value = json!(12.4);
+
+        let parsed = parse_position(Some(&value));
+
+        assert_eq!(parsed, Some(2));
+    }
+
+    #[test]
+    fn parse_position_handles_string_numbers() {
+        let value = json!("18.1");
+
+        let parsed = parse_position(Some(&value));
+
+        assert_eq!(parsed, Some(3));
     }
 }
