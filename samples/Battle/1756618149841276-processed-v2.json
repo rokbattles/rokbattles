@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "58945107175661814928",
     "email_time": 1756618149841276,
     "email_receiver": "player_83629727",
@@ -19,5 +20,65 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 4352779,
+      "player_name": "DDK38",
+      "app_uid": "2850850",
+      "kingdom": 1217,
+      "alliance": {
+        "tag": "LX17",
+        "name": "LEGION XVII"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2850850/2025-08-17/0D33A18440A65A3889EC039FFE66FBB2_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "commanders": {
+        "primary": {
+          "id": 182,
+          "level": 60
+        },
+        "secondary": {
+          "id": 177,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 4352779,
+          "player_name": "DDK38",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

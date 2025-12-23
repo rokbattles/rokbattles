@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "87266046176559102912",
     "email_time": 1765591029160976,
     "email_receiver": "player_157148751",
@@ -222,5 +223,270 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ",
+      "app_uid": "18278241",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60
+        },
+        "secondary": {
+          "id": 539,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 154868724,
+          "player_name": "GokuDBZ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 40033413,
+          "player_name": "Jɞหหiɞ 4",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 51
+            },
+            "secondary": {
+              "id": 99,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 6476548,
+          "player_name": "Quacker Farm",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 116,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 14906179,
+          "player_name": "PuppyHuskies",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 87480302,
+          "player_name": "Ｆａｒａｚ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 116,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 126971124,
+          "player_name": "Peach F9",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 128,
+              "level": 60
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 124672123,
+          "player_name": "HuskyPup",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 50
+            },
+            "secondary": {
+              "id": 179,
+              "level": 20
+            }
+          }
+        },
+        {
+          "player_id": 134027398,
+          "player_name": "Peach F6",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 134027398,
+          "player_name": "Peach F6",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 152200009,
+          "player_name": "๖ۣۣۜSwalsh",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 49682807,
+          "player_name": "WiZa",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 126921671,
+          "player_name": "Taesung 태성",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 32
+            }
+          }
+        },
+        {
+          "player_id": 157148751,
+          "player_name": "GGeoMAV",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 40
+            }
+          }
+        }
+      ]
+    }
   }
 }

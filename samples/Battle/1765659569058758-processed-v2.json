@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "garrison",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "8792974217656595698",
     "email_time": 1765659569058758,
     "email_receiver": "player_38671822",
@@ -523,10 +524,6 @@
             "primary": {
               "id": 147,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -752,5 +749,776 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 41377732,
+      "player_name": "ˢJian x Laars",
+      "app_uid": "34280769",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "2804",
+        "name": "Shinigami"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/34280769/2025-12-10/C8DB08776002F73F189D227B4F9EBD9A_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_214.png",
+      "commanders": {
+        "primary": {
+          "id": 196,
+          "level": 60
+        },
+        "secondary": {
+          "id": 177,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 76924351,
+          "player_name": "Grigvar 6",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 40
+            },
+            "secondary": {
+              "id": 463,
+              "level": 35
+            }
+          }
+        },
+        {
+          "player_id": 76924351,
+          "player_name": "Grigvar 6",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 116,
+              "level": 37
+            },
+            "secondary": {
+              "id": 32,
+              "level": 28
+            }
+          }
+        },
+        {
+          "player_id": 24750985,
+          "player_name": "PD Farm 2",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 463,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 24750985,
+          "player_name": "PD Farm 2",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 102,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 38671822,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 43
+            },
+            "secondary": {
+              "id": 463,
+              "level": 37
+            }
+          }
+        },
+        {
+          "player_id": 24750985,
+          "player_name": "PD Farm 2",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 10,
+              "level": 55
+            },
+            "secondary": {
+              "id": 14,
+              "level": 32
+            }
+          }
+        },
+        {
+          "player_id": 38671822,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 3,
+              "level": 43
+            },
+            "secondary": {
+              "id": 105,
+              "level": 37
+            }
+          }
+        },
+        {
+          "player_id": 24750985,
+          "player_name": "PD Farm 2",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 105,
+              "level": 40
+            },
+            "secondary": {
+              "id": 32,
+              "level": 41
+            }
+          }
+        },
+        {
+          "player_id": 171290030,
+          "player_name": "SheikkoFiller",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 40
+            },
+            "secondary": {
+              "id": 179,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 171290030,
+          "player_name": "SheikkoFiller",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 40
+            },
+            "secondary": {
+              "id": 37,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 171290030,
+          "player_name": "SheikkoFiller",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 3,
+              "level": 48
+            },
+            "secondary": {
+              "id": 61,
+              "level": 43
+            }
+          }
+        },
+        {
+          "player_id": 171290030,
+          "player_name": "SheikkoFiller",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 17,
+              "level": 43
+            },
+            "secondary": {
+              "id": 7,
+              "level": 30
+            }
+          }
+        },
+        {
+          "player_id": 128087468,
+          "player_name": "Kanna",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 6,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 37618711,
+          "player_name": "LittleMadBro",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 32
+            }
+          }
+        },
+        {
+          "player_id": 64925613,
+          "player_name": "Quacker the 2nd",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 15,
+              "level": 50
+            },
+            "secondary": {
+              "id": 134,
+              "level": 32
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 102975865,
+          "player_name": "MiniCeleste",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 6,
+              "level": 45
+            },
+            "secondary": {
+              "id": 128,
+              "level": 38
+            }
+          }
+        },
+        {
+          "player_id": 140130082,
+          "player_name": "Daspim F5",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 128087468,
+          "player_name": "Kanna",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 177,
+              "level": 40
+            },
+            "secondary": {
+              "id": 102,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 157384945,
+          "player_name": "Emps lil babies",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 157384945,
+          "player_name": "Emps lil babies",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 157273406,
+          "player_name": "TACOGAWA",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 113,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 157273406,
+          "player_name": "TACOGAWA",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 32,
+              "level": 40
+            },
+            "secondary": {
+              "id": 7,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 157273406,
+          "player_name": "TACOGAWA",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 40
+            },
+            "secondary": {
+              "id": 61,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 80565429,
+          "player_name": "AzzCon Farmer",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 175,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41377732,
+          "player_name": "ˢJian x Laars",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 196,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 37618711,
+          "player_name": "LittleMadBro",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 8,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 154320875,
+          "player_name": "PatrickHN5",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 45
+            }
+          }
+        },
+        {
+          "player_id": 154320875,
+          "player_name": "PatrickHN5",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 17,
+              "level": 58
+            },
+            "secondary": {
+              "id": 7,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 37556801,
+          "player_name": "Benbu",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 101019735,
+          "player_name": "Athos25 farm",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 42262510,
+          "player_name": "PD Farm 5",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 32,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 121307126,
+          "player_name": "F3yst",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 127,
+              "level": 41
+            },
+            "secondary": {
+              "id": 38,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 121307126,
+          "player_name": "F3yst",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 45
+            },
+            "secondary": {
+              "id": 134,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 102975865,
+          "player_name": "MiniCeleste",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 134,
+              "level": 40
+            },
+            "secondary": {
+              "id": 15,
+              "level": 31
+            }
+          }
+        },
+        {
+          "player_id": 121307126,
+          "player_name": "F3yst",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 40
+            },
+            "secondary": {
+              "id": 15,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 121307126,
+          "player_name": "F3yst",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 40
+            },
+            "secondary": {
+              "id": 116,
+              "level": 45
+            }
+          }
+        },
+        {
+          "player_id": 53517007,
+          "player_name": "Quacker the 1st",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 116,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 187,
+              "level": 60
+            },
+            "secondary": {
+              "id": 64,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 148,
+              "level": 60
+            },
+            "secondary": {
+              "id": 176,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 149422369,
+          "player_name": "Peach F11",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 6,
+              "level": 50
+            },
+            "secondary": {
+              "id": 37,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 175,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "2804"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

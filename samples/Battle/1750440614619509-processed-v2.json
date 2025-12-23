@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "2235343017504406148",
     "email_time": 1750440614619509,
     "email_receiver": "player_22131382",
@@ -19,5 +20,287 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 31471838,
+      "player_name": "霸氣包大人",
+      "app_uid": "103439411",
+      "camp": 5,
+      "kingdom": 447,
+      "alliance": {
+        "tag": "HP47",
+        "name": "嘻哈樁腳情"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/31471838/19/11/29/e98b77a47a5c7a39_200x200.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60
+        },
+        "secondary": {
+          "id": 539,
+          "level": 31
+        }
+      },
+      "participants": [
+        {
+          "player_id": 22131382,
+          "player_name": "Хуpшид",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 56958159,
+          "player_name": "土匪丶漢",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 31471838,
+          "player_name": "霸氣包大人",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 31
+            }
+          }
+        },
+        {
+          "player_id": 31446170,
+          "player_name": "霸氣乄Rica",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 25207304,
+          "player_name": "遊戲不老松",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 192,
+              "level": 60
+            },
+            "secondary": {
+              "id": 135,
+              "level": 49
+            }
+          }
+        },
+        {
+          "player_id": 38330853,
+          "player_name": "Lilith丨汤阮",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 103,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180427551,
+          "player_name": "林苏苏",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 37,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180707880,
+          "player_name": "yw 小山羊",
+          "alliance": {
+            "tag": "XP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 98,
+              "level": 47
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 23657750,
+          "player_name": "嘻哈空空",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 127,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 182010622,
+          "player_name": "ᴬᴵEnkoko",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 26158438,
+          "player_name": "褲褲2",
+          "alliance": {
+            "tag": "XP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 124,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 11992139,
+          "player_name": "G哥Z撕L拉A",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20584355,
+          "player_name": "淑芬ᴱᴸᶠ",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180814624,
+          "player_name": "iw Zamalek 20",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 57
+            },
+            "secondary": {
+              "id": 463,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 27711185,
+          "player_name": "AlphaMark",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 115,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

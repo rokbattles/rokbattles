@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "10294406175284352313",
     "email_time": 1752843523696750,
     "email_receiver": "player_36195367",
@@ -19,5 +20,48 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 36195367,
+      "player_name": "Fayst 25 GGGG X",
+      "app_uid": "30948458",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "04Z",
+        "name": "魂社会 Squad Zero"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/30948458/2025-04-27/E26A11AFE1AFFA94A08691D700D1F4DC_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_95.png",
+      "commanders": {
+        "primary": {
+          "id": 34,
+          "level": 37
+        },
+        "secondary": {
+          "id": 32,
+          "level": 38
+        }
+      },
+      "participants": [
+        {
+          "player_id": 36195367,
+          "player_name": "Fayst 25 GGGG X",
+          "alliance": {
+            "tag": "04Z"
+          },
+          "commanders": {
+            "primary": {
+              "id": 34,
+              "level": 37
+            },
+            "secondary": {
+              "id": 32,
+              "level": 38
+            }
+          }
+        }
+      ]
+    }
   }
 }

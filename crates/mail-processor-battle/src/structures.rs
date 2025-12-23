@@ -8,6 +8,8 @@ pub struct BattleMail {
     pub data_summary: Option<DataSummary>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub battle_trends: Option<BattleTrends>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub battle_data: Option<BattleData>,
 }
 
 /// Metadata extracted from the raw mail sections.
@@ -26,6 +28,9 @@ pub struct BattleMetadata {
     // TODO (future): add swarm (maybe swarm_rally & swarm_garrison), city-related attacks like city_swarm, city_garrison, city_rally
     #[serde(rename = "__rokb_battle_type")]
     pub rokb_battle_type: Option<String>,
+    // __rokb_battle_data_sender_skipped_participants
+    #[serde(rename = "__rokb_battle_data_sender_skipped_participants")]
+    pub rokb_battle_data_sender_skipped_participants: i64,
 
     // id
     pub email_id: Option<String>,
@@ -65,6 +70,57 @@ pub struct DataSummary {
     pub opponent_remaining: Option<i64>,
     // OOv Dead
     pub opponent_dead: Option<i64>,
+}
+
+/// Battle participants and sender details extracted from the report.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BattleData {
+    pub sender: Option<BattleSender>,
+}
+
+/// Sender details from the initial report sections.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BattleSender {
+    // PId
+    pub player_id: Option<i64>,
+    // PName
+    pub player_name: Option<String>,
+    // AppUid
+    pub app_uid: Option<String>,
+    // SideId
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub camp: Option<i64>,
+    // COSId
+    pub kingdom: Option<i64>,
+    pub alliance: Option<BattleAlliance>,
+    // Avatar.avatar
+    pub avatar_url: Option<String>,
+    // Avatar.avatarFrame
+    pub frame_url: Option<String>,
+    pub commanders: Option<BattleCommanders>,
+    // STs
+    pub participants: Vec<BattleParticipant>,
+}
+
+/// Participant details pulled from STs entries.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BattleParticipant {
+    // PId
+    pub player_id: Option<i64>,
+    // PName
+    pub player_name: Option<String>,
+    pub alliance: Option<BattleAlliance>,
+    pub commanders: Option<BattleCommanders>,
+}
+
+/// Alliance identifiers for sender/participants.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BattleAlliance {
+    // Abbr
+    pub tag: Option<String>,
+    // AName
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
 }
 
 /// Time-series sampling and event data from the battle report.
@@ -110,8 +166,8 @@ pub struct BattleAssistUnits {
     pub commanders: Option<BattleCommanders>,
 }
 
-/// Commander metadata for assist units.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+/// Commander metadata for participants and assist units.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleCommanders {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub primary: Option<BattleCommander>,
@@ -120,7 +176,7 @@ pub struct BattleCommanders {
 }
 
 /// Commander details for assist units.
-#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleCommander {
     // HId or HId2
     pub id: Option<i64>,

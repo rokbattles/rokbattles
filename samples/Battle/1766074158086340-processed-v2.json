@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "905592176607415817",
     "email_time": 1766074158086340,
     "email_receiver": "player_37556801",
@@ -19,5 +20,44 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 37556801,
+      "player_name": "Benbu",
+      "app_uid": "26855535",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": null,
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "commanders": {
+        "primary": {
+          "id": 190,
+          "level": 60
+        },
+        "secondary": {
+          "id": 189,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 37556801,
+          "player_name": "Benbu",
+          "alliance": null,
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

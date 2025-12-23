@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "70657339176503384525",
     "email_time": 1765033845629453,
     "email_receiver": "player_2295184",
@@ -19,5 +20,48 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 2295184,
+      "player_name": "Sttuu",
+      "app_uid": "2147252",
+      "camp": 4,
+      "kingdom": 2473,
+      "alliance": {
+        "tag": "~73D"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2147252/2025-10-25/59990794073A8BB2967675D4C4EB9479_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "commanders": {
+        "primary": {
+          "id": 185,
+          "level": 60
+        },
+        "secondary": {
+          "id": 98,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 2295184,
+          "player_name": "Sttuu",
+          "alliance": {
+            "tag": "~73D"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

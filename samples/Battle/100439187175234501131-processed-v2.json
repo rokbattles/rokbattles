@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 1,
     "email_id": "100439187175234501131",
     "email_time": 1752345011341072,
     "email_receiver": "player_71738515",
@@ -45,5 +46,97 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 71738515,
+      "player_name": "agent G",
+      "app_uid": "32624247",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": null,
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_146.png",
+      "commanders": {
+        "primary": {
+          "id": 184,
+          "level": 60
+        },
+        "secondary": {
+          "id": 177,
+          "level": null
+        }
+      },
+      "participants": [
+        {
+          "player_id": 71738515,
+          "player_name": "agent G",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 110756787,
+          "player_name": "F2yst",
+          "alliance": {
+            "tag": "332O"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 50
+            },
+            "secondary": {
+              "id": 38,
+              "level": 47
+            }
+          }
+        },
+        {
+          "player_id": 160265021,
+          "player_name": "7vidasᶜʷ",
+          "alliance": {
+            "tag": "332O"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 131927527,
+          "player_name": "Ade Armando",
+          "alliance": {
+            "tag": "332O"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 180,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "7948875176322794831",
     "email_time": 1763227948281037,
     "email_receiver": "player_71738515",
@@ -19,5 +20,40 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 71738515,
+      "player_name": "Grigvar",
+      "app_uid": "32624247",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "04Z",
+        "name": "魂社会 Squad Zero"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+      "commanders": {
+        "primary": {
+          "id": 579,
+          "level": 1
+        }
+      },
+      "participants": [
+        {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "04Z"
+          },
+          "commanders": {
+            "primary": {
+              "id": 579,
+              "level": 1
+            }
+          }
+        }
+      ]
+    }
   }
 }

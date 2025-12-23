@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "1036600917552967417",
     "email_time": 1755296741304367,
     "email_receiver": "player_141393181",
@@ -19,5 +20,43 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 141393181,
+      "player_name": "F12yst",
+      "app_uid": "88504567",
+      "kingdom": 1804,
+      "alliance": null,
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/141393181/23/08/22/05bbba99719497e4_640x640.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "commanders": {
+        "primary": {
+          "id": 15,
+          "level": 37
+        },
+        "secondary": {
+          "id": 134,
+          "level": 37
+        }
+      },
+      "participants": [
+        {
+          "player_id": 141393181,
+          "player_name": "F12yst",
+          "alliance": null,
+          "commanders": {
+            "primary": {
+              "id": 15,
+              "level": 37
+            },
+            "secondary": {
+              "id": 134,
+              "level": 37
+            }
+          }
+        }
+      ]
+    }
   }
 }

@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "34697720175596723723",
     "email_time": 1755967237048962,
     "email_receiver": "player_109813467",
@@ -27,5 +28,65 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 161065006,
+      "player_name": "cheppalodonж",
+      "app_uid": "104833380",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-06/DBD7328379D6A862D5EDFDB0AF1B1D35_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png",
+      "commanders": {
+        "primary": {
+          "id": 509,
+          "level": 60
+        },
+        "secondary": {
+          "id": 179,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 161065006,
+          "player_name": "cheppalodonж",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 109813467,
+          "player_name": "Faystonychus",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 40
+            },
+            "secondary": {
+              "id": 7,
+              "level": 49
+            }
+          }
+        }
+      ]
+    }
   }
 }

@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "73766701176203071912",
     "email_time": 1762030719159389,
     "email_receiver": "player_157148751",
@@ -73,5 +74,48 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 157148751,
+      "player_name": "GGeoMAV",
+      "app_uid": "212179569",
+      "kingdom": 109,
+      "alliance": {
+        "tag": "4S-",
+        "name": "Savage Mfs"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/157148751/23/06/27/ca9aba02177d8a2e_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_207.png",
+      "commanders": {
+        "primary": {
+          "id": 509,
+          "level": 60
+        },
+        "secondary": {
+          "id": 179,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 157148751,
+          "player_name": "GGeoMAV",
+          "alliance": {
+            "tag": "4S-"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

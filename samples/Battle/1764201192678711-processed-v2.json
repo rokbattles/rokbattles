@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "42903405176420119211",
     "email_time": 1764201192678711,
     "email_receiver": "player_36980485",
@@ -19,5 +20,49 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 36980485,
+      "player_name": "TyrantPikys",
+      "app_uid": "101010729",
+      "camp": 6,
+      "kingdom": 1728,
+      "alliance": {
+        "tag": ":WU",
+        "name": "Wu-Tang 28"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101010729/2025-09-29/EEA146F6912E9F22B0DC5C300B0AE72A_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_214.png",
+      "commanders": {
+        "primary": {
+          "id": 198,
+          "level": 60
+        },
+        "secondary": {
+          "id": 459,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 36980485,
+          "player_name": "TyrantPikys",
+          "alliance": {
+            "tag": ":WU"
+          },
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

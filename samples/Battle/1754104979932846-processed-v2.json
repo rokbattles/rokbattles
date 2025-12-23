@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "5115380717541049792",
     "email_time": 1754104979932846,
     "email_receiver": "player_55034246",
@@ -19,5 +20,163 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 125861505,
+      "player_name": "2lowteg",
+      "app_uid": "100695397",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 7,
+          "level": 60
+        },
+        "secondary": {
+          "id": 183,
+          "level": 40
+        }
+      },
+      "participants": [
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 183,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 129959221,
+          "player_name": "RememberMy",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 192,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 126129748,
+          "player_name": "Daspim F1",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 56
+            }
+          }
+        },
+        {
+          "player_id": 50281385,
+          "player_name": "Azz slave",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 54
+            },
+            "secondary": {
+              "id": 7,
+              "level": 46
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 126381343,
+          "player_name": "Daspim F2",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 45
+            }
+          }
+        },
+        {
+          "player_id": 55034246,
+          "player_name": "ʚCelesteɞ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 123803055,
+          "player_name": "B4ngB4ng",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

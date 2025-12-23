@@ -231,7 +231,7 @@ impl BattleTrendsResolver {
         let (avatar_url, frame_url) = helpers::parse_avatar(map.get("Avatar"));
 
         let primary = Self::to_commander(map.get("HId"), map.get("HLv"));
-        let secondary = Self::to_commander(map.get("HId2"), map.get("HLv2"));
+        let secondary = Self::to_secondary_commander(map.get("HId2"), map.get("HLv2"));
         let commanders = match (primary, secondary) {
             (None, None) => None,
             (primary, secondary) => Some(BattleCommanders { primary, secondary }),
@@ -258,6 +258,22 @@ impl BattleTrendsResolver {
         }
 
         Some(BattleCommander { id, level })
+    }
+
+    fn to_secondary_commander(
+        id_value: Option<&Value>,
+        level_value: Option<&Value>,
+    ) -> Option<BattleCommander> {
+        let id = id_value.and_then(helpers::parse_i64)?;
+        if id == 0 {
+            return None;
+        }
+        let level = level_value.and_then(helpers::parse_i64);
+
+        Some(BattleCommander {
+            id: Some(id),
+            level,
+        })
     }
 }
 
@@ -501,6 +517,36 @@ mod tests {
         assert_eq!(events[2].r#type, Some(18));
         assert_eq!(events[2].tick, Some(102));
         assert!(events[2].reinforcements.is_none());
+    }
+
+    #[test]
+    fn battle_trends_resolver_omits_secondary_when_hid2_zero() {
+        let sections = vec![json!({
+            "Events": {
+                "Et": 18,
+                "T": 999,
+                "AssistUnits": {
+                    "PId": 12,
+                    "PName": "Helper",
+                    "HId": 44,
+                    "HLv": 60,
+                    "HId2": 0,
+                    "HLv2": 40
+                }
+            }
+        })];
+
+        let output = resolve_trends(sections);
+        let trends = output.battle_trends.expect("battle trends");
+        let event = trends.events.first().expect("event");
+        let commanders = event
+            .reinforcements
+            .as_ref()
+            .and_then(|u| u.commanders.as_ref())
+            .expect("commanders");
+
+        assert_eq!(commanders.primary.as_ref().and_then(|c| c.id), Some(44));
+        assert!(commanders.secondary.is_none());
     }
 
     #[test]

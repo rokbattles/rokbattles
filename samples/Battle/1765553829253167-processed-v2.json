@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "garrison",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "84584419176555382929",
     "email_time": 1765553829253167,
     "email_receiver": "player_70421568",
@@ -193,10 +194,6 @@
             "primary": {
               "id": 7,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -813,10 +810,6 @@
             "primary": {
               "id": 7,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1073,10 +1066,6 @@
             "primary": {
               "id": 108,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1373,10 +1362,6 @@
             "primary": {
               "id": 61,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1393,10 +1378,6 @@
             "primary": {
               "id": 61,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1533,10 +1514,6 @@
             "primary": {
               "id": 108,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1622,5 +1599,695 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 129213098,
+      "player_name": "ˢ vashido",
+      "app_uid": "91276731",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129213098/23/03/30/2582725d78551b68_385x385.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+      "commanders": {
+        "primary": {
+          "id": 184,
+          "level": 60
+        },
+        "secondary": {
+          "id": 10,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 70421568,
+          "player_name": "G x Oge",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 111708479,
+          "player_name": "Kleines x Léo",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 27339394,
+          "player_name": "ˢ Laars x Nola",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 124916138,
+          "player_name": "Daspimpim",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 157384945,
+          "player_name": "Emps lil babies",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 123880685,
+          "player_name": "Lazymac8",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 129213098,
+          "player_name": "ˢ vashido",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 154868724,
+          "player_name": "GokuDBZ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 139570717,
+          "player_name": "mini cheppa",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 33
+            }
+          }
+        },
+        {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 105520806,
+          "player_name": "๛Thiago",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 99099465,
+          "player_name": "Athos X",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 124893142,
+          "player_name": "⽪卡丘Daspim",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 148,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "alliance": {
+            "tag": "15MB"
+          },
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 111708479,
+          "player_name": "Kleines x Léo",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 108,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 32782935,
+          "player_name": "ˢ レオ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 162,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 67415885,
+          "player_name": "MoodyヤGilang",
+          "alliance": {
+            "tag": "15MB"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 57190262,
+          "player_name": "St4nl3yᴷᶜ",
+          "alliance": {
+            "tag": "15MB"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 44
+            }
+          }
+        },
+        {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 111776448,
+          "player_name": "Thorin lonestar",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 184,
+              "level": 60
+            },
+            "secondary": {
+              "id": 503,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 185,
+              "level": 60
+            },
+            "secondary": {
+              "id": 98,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 41617405,
+          "player_name": "amphee",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 113922567,
+          "player_name": "Big Homie Pham",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 64610174,
+          "player_name": "ˢJuju x Winter",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

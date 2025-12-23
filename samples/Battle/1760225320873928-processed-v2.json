@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "garrison",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "4855653176022532032",
     "email_time": 1760225320873928,
     "email_receiver": "player_108148421",
@@ -649,10 +650,6 @@
             "primary": {
               "id": 1,
               "level": 40
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -669,10 +666,6 @@
             "primary": {
               "id": 187,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -949,10 +942,6 @@
             "primary": {
               "id": 187,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1189,10 +1178,6 @@
             "primary": {
               "id": 99,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1289,10 +1274,6 @@
             "primary": {
               "id": 198,
               "level": 60
-            },
-            "secondary": {
-              "id": 0,
-              "level": 0
             }
           }
         }
@@ -1338,5 +1319,969 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 108148421,
+      "player_name": "ᵃᴰTheKoat",
+      "app_uid": "87615899",
+      "camp": 5,
+      "kingdom": 1500,
+      "alliance": {
+        "tag": "43BS",
+        "name": "BLACK STARB0ARD"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/87615899/2024-08-06/2FACD674E774EB94420FA091327A0C9D_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "commanders": {
+        "primary": {
+          "id": 196,
+          "level": 60
+        },
+        "secondary": {
+          "id": 177,
+          "level": 40
+        }
+      },
+      "participants": [
+        {
+          "player_id": 82962351,
+          "player_name": "SweetGuySki",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 32,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 95619543,
+          "player_name": "ᴮˢRunge ike",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 162,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 139153683,
+          "player_name": "ᴮˢMèo",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 139153683,
+          "player_name": "ᴮˢMèo",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 175273188,
+          "player_name": "Saint Allie",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 47
+            },
+            "secondary": {
+              "id": 195,
+              "level": 32
+            }
+          }
+        },
+        {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 10
+            }
+          }
+        },
+        {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 32,
+              "level": 40
+            },
+            "secondary": {
+              "id": 7,
+              "level": 37
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 463,
+              "level": 38
+            },
+            "secondary": {
+              "id": 105,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 67992427,
+          "player_name": "chaco chan 2nd",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 116,
+              "level": 40
+            },
+            "secondary": {
+              "id": 134,
+              "level": 39
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 196,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 15,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 10,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 176567504,
+          "player_name": "GreGor x Wick",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 50
+            },
+            "secondary": {
+              "id": 179,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 160945645,
+          "player_name": "Mr Kill farm 2",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 102,
+              "level": 27
+            },
+            "secondary": {
+              "id": 66,
+              "level": 43
+            }
+          }
+        },
+        {
+          "player_id": 81035004,
+          "player_name": "NiceGuySki",
+          "alliance": {
+            "tag": "Oh25"
+          },
+          "commanders": {
+            "primary": {
+              "id": 146,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 176662385,
+          "player_name": "kixxxwer x Wick",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 50
+            },
+            "secondary": {
+              "id": 9,
+              "level": 50
+            }
+          }
+        },
+        {
+          "player_id": 86053854,
+          "player_name": "BARCAfarm",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 98,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 86053854,
+          "player_name": "BARCAfarm",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 46
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 146,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 17,
+              "level": 56
+            },
+            "secondary": {
+              "id": 179,
+              "level": 30
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 78228156,
+          "player_name": "KimRhogē",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 44
+            },
+            "secondary": {
+              "id": 463,
+              "level": 38
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 1,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 30
+            },
+            "secondary": {
+              "id": 17,
+              "level": 56
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 140,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 32,
+              "level": 30
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 145,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 108088471,
+          "player_name": "ᵃᴰ Mystique",
+          "alliance": {
+            "tag": "Oh25"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 108088471,
+          "player_name": "ᵃᴰ Mystique",
+          "alliance": {
+            "tag": "Oh25"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 509,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 82740619,
+          "player_name": "ᴵᴰᴺLyodd",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 117956124,
+          "player_name": "Mr Kill x Wick",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 198,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 108148421,
+          "player_name": "ᵃᴰTheKoat",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 151614459,
+          "player_name": "lizf5",
+          "alliance": {
+            "tag": "43BS"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 44
+            },
+            "secondary": {
+              "id": 463,
+              "level": 38
+            }
+          }
+        },
+        {
+          "player_id": 114606377,
+          "player_name": "TheKaot彡",
+          "alliance": {
+            "tag": "00aD"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "56425470176451294431",
     "email_time": 1764512944407776,
     "email_receiver": "player_71738515",
@@ -86,5 +87,184 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ",
+      "app_uid": "18278241",
+      "kingdom": 126,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60
+        },
+        "secondary": {
+          "id": 539,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 126616046,
+          "player_name": "ˢUlquiorra",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 40693070,
+          "player_name": "ˢ snow leopard",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 132831781,
+          "player_name": "ˢMoonyPew",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 56779511,
+          "player_name": "neeKa",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 183,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 126613785,
+          "player_name": "ˢ Kleines",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83446732,
+          "player_name": "MYSTICBOND",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

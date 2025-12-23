@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "81105393176537952631",
     "email_time": 1765379526631080,
     "email_receiver": "player_113473285",
@@ -19,5 +20,41 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 113473285,
+      "player_name": "Dr kev",
+      "app_uid": "66704325",
+      "camp": 2,
+      "kingdom": 5,
+      "alliance": {
+        "tag": "=FW=",
+        "name": "- Feral Wolves -"
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/113473285/24/03/28/d5a937187199c8b3_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+      "commanders": {
+        "primary": {
+          "id": 36,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 113473285,
+          "player_name": "Dr kev",
+          "alliance": {
+            "tag": "=FW="
+          },
+          "commanders": {
+            "primary": {
+              "id": 36,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

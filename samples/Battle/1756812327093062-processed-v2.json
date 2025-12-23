@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "64457197175681232728",
     "email_time": 1756812327093062,
     "email_receiver": "player_83629727",
@@ -43,5 +44,167 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 87687213,
+      "player_name": "Dëlphinus",
+      "app_uid": "71246501",
+      "kingdom": 1217,
+      "alliance": {
+        "tag": "LX17",
+        "name": "LEGION XVII"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/71246501/2025-08-07/2E2FD24F268BBE735CA7C9871DDAB863_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
+      "commanders": {
+        "primary": {
+          "id": 509,
+          "level": 60
+        },
+        "secondary": {
+          "id": 506,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 87687213,
+          "player_name": "Dëlphinus",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 506,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 36708853,
+          "player_name": "キムKim侍",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 87472694,
+          "player_name": "只GungfuBANDA",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 69321768,
+          "player_name": "亗 IMPARATOR",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 153737377,
+          "player_name": "ᶫˣ educalde",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 116,
+              "level": 41
+            }
+          }
+        },
+        {
+          "player_id": 172129838,
+          "player_name": "ᴴᴴFrench",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 70358680,
+          "player_name": "Big Al x Malik",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

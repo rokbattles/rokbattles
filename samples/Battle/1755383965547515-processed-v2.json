@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "1375164117553839651",
     "email_time": 1755383965547515,
     "email_receiver": "player_29862805",
@@ -19,5 +20,48 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 29862805,
+      "player_name": "Titanobenbu",
+      "app_uid": "26855535",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
+      "commanders": {
+        "primary": {
+          "id": 545,
+          "level": 60
+        },
+        "secondary": {
+          "id": 185,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 29862805,
+          "player_name": "Titanobenbu",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

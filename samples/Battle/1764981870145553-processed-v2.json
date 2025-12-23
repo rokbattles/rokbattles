@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "69363996176498187010",
     "email_time": 1764981870145553,
     "email_receiver": "player_32180759",
@@ -45,5 +46,49 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 32180759,
+      "player_name": "It will keal",
+      "app_uid": "8518744-255430",
+      "camp": 2,
+      "kingdom": 2309,
+      "alliance": {
+        "tag": "3309",
+        "name": "DEVILS"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/255430/2025-11-11/69701F33AB4ED04A74F09A6395CA87B8_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+      "commanders": {
+        "primary": {
+          "id": 186,
+          "level": 60
+        },
+        "secondary": {
+          "id": 187,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 32180759,
+          "player_name": "It will keal",
+          "alliance": {
+            "tag": "3309"
+          },
+          "commanders": {
+            "primary": {
+              "id": 186,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

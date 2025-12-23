@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "22799073175044803028",
     "email_time": 1750448030655413,
     "email_receiver": "player_83629727",
@@ -164,5 +165,347 @@
         }
       }
     ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 101375464,
+      "player_name": "YÄSÔ",
+      "app_uid": "82220927",
+      "camp": 1,
+      "kingdom": 1217,
+      "alliance": {
+        "tag": "JL17",
+        "name": "The Jungle"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/82220927/2024-09-11/5119626627D001B71F0E2C76757CB949_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_185.png",
+      "commanders": {
+        "primary": {
+          "id": 186,
+          "level": 60
+        },
+        "secondary": {
+          "id": 138,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 27295199,
+          "player_name": "义Tripado",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 11357421,
+          "player_name": "۵ᶫˣGiŋŋ۵",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 101375464,
+          "player_name": "YÄSÔ",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 186,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 7444836,
+          "player_name": "S҉hibbyMoFo",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 36713329,
+          "player_name": "Vëë",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 137968467,
+          "player_name": "メOQAƁメ",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 33
+            }
+          }
+        },
+        {
+          "player_id": 79401143,
+          "player_name": "ŠergeevnǍ",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 130532786,
+          "player_name": "iShabee",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 162,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 49347395,
+          "player_name": "㋡ Łøwkëy ㋡",
+          "alliance": {
+            "tag": "OF17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 145,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 87472694,
+          "player_name": "只GungfuBANDA",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 120158002,
+          "player_name": "天鹅",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 100,
+              "level": 59
+            }
+          }
+        },
+        {
+          "player_id": 69321768,
+          "player_name": "亗 IMPARATOR",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 1,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 73983489,
+          "player_name": "83ノ2FkinBored",
+          "alliance": {
+            "tag": "OF17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 98085470,
+          "player_name": "終わりは近い",
+          "alliance": {
+            "tag": "3083"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 38
+            }
+          }
+        },
+        {
+          "player_id": 87472694,
+          "player_name": "只GungfuBANDA",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 162,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 53720198,
+          "player_name": "83ノSinnerPride",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 67841030,
+          "player_name": "HRKlinik",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 155178673,
+          "player_name": "ShibbyMoFo3",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 3,
+              "level": 60
+            },
+            "secondary": {
+              "id": 14,
+              "level": 40
+            }
+          }
+        }
+      ]
+    }
   }
 }

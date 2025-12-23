@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "92498717660741951",
     "email_time": 1766074195831079,
     "email_receiver": "player_29862805",
@@ -19,5 +20,49 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 29862805,
+      "player_name": "Benbu 벤부",
+      "app_uid": "26855535",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-12-07/AB876EA0D83EDD3AD76FF4496762753C_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+      "commanders": {
+        "primary": {
+          "id": 182,
+          "level": 60
+        },
+        "secondary": {
+          "id": 148,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 29862805,
+          "player_name": "Benbu 벤부",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

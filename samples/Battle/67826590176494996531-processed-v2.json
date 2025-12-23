@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "67826590176494996531",
     "email_time": 1764949965563136,
     "email_receiver": "player_71738515",
@@ -19,5 +20,49 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 71738515,
+      "player_name": "Grigvar",
+      "app_uid": "32624247",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "TL68",
+        "name": "Tilla"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+      "commanders": {
+        "primary": {
+          "id": 7,
+          "level": 60
+        },
+        "secondary": {
+          "id": 96,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "TL68"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 96,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

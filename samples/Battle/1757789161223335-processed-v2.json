@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "12715231175778916120",
     "email_time": 1757789161223335,
     "email_receiver": "player_27339394",
@@ -37,5 +38,49 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 27339394,
+      "player_name": "ˢ Laars x Nola",
+      "app_uid": "24569879",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24569879/2025-09-08/4E7F9A109000C44860DC9D6F9AB90073_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 190,
+          "level": 60
+        },
+        "secondary": {
+          "id": 189,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 27339394,
+          "player_name": "ˢ Laars x Nola",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 190,
+              "level": 60
+            },
+            "secondary": {
+              "id": 189,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }

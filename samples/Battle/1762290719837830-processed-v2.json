@@ -2,6 +2,7 @@
   "metadata": {
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
     "email_id": "84798614176229071933",
     "email_time": 1762290719837830,
     "email_receiver": "player_117381562",
@@ -37,5 +38,48 @@
       }
     ],
     "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 117381562,
+      "player_name": "Delexen",
+      "app_uid": "18723970",
+      "kingdom": 301,
+      "alliance": {
+        "tag": "ISET",
+        "name": "ISET"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/117381562/23/01/01/07687566f39ed333_508x508.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 509,
+          "level": 60
+        },
+        "secondary": {
+          "id": 179,
+          "level": 60
+        }
+      },
+      "participants": [
+        {
+          "player_id": 117381562,
+          "player_name": "Delexen",
+          "alliance": {
+            "tag": "ISET"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        }
+      ]
+    }
   }
 }
