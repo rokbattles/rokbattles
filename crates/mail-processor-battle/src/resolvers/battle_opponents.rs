@@ -69,16 +69,40 @@ impl BattleOpponentsResolver {
                 continue;
             };
             let pname = helpers::parse_trimmed_string(attacks.get("PName"));
-            if pname.is_none() {
-                continue;
+            if pname.is_some() {
+                let ots = section
+                    .get("OTs")
+                    .or_else(|| section.pointer("/body/OTs"))
+                    .and_then(Value::as_object)
+                    .or_else(|| attacks.get("OTs").and_then(Value::as_object));
+                let cidt = Self::find_attack_cidt(attacks);
+                seeds.push((attacks, ots, cidt));
             }
-            let ots = section
-                .get("OTs")
-                .or_else(|| section.pointer("/body/OTs"))
-                .and_then(Value::as_object)
-                .or_else(|| attacks.get("OTs").and_then(Value::as_object));
-            let cidt = Self::find_attack_cidt(attacks);
-            seeds.push((attacks, ots, cidt));
+
+            for attack in attacks.values() {
+                let Some(obj) = attack.as_object() else {
+                    continue;
+                };
+                let pname = helpers::parse_trimmed_string(obj.get("PName"));
+                if pname.is_none() {
+                    continue;
+                }
+                let ots = obj
+                    .get("OTs")
+                    .and_then(Value::as_object)
+                    .or_else(|| attacks.get("OTs").and_then(Value::as_object))
+                    .or_else(|| {
+                        section
+                            .get("OTs")
+                            .or_else(|| section.pointer("/body/OTs"))
+                            .and_then(Value::as_object)
+                    });
+                let cidt = obj
+                    .get("CIdt")
+                    .and_then(Value::as_object)
+                    .or_else(|| helpers::find_any_cidt_map_in_object(obj));
+                seeds.push((obj, ots, cidt));
+            }
         }
 
         seeds
@@ -835,6 +859,75 @@ mod tests {
 
         assert_eq!(data.opponents.len(), 1);
         assert_eq!(data.opponents[0].camp, Some(7));
+    }
+
+    #[test]
+    fn battle_opponents_resolver_reads_attack_entry_fields() {
+        let sections = vec![
+            json!({
+                "PName": "Sender",
+                "AppUid": "sender"
+            }),
+            json!({
+                "STs": {
+                    "0": {
+                        "PId": 1,
+                        "PName": "Sender",
+                        "Abbr": "SND"
+                    }
+                }
+            }),
+            json!({
+                "Attacks": {
+                    "1": {
+                        "PId": 99,
+                        "PName": "Opponent",
+                        "AppUid": "opp-uid",
+                        "COSId": 200,
+                        "Abbr": "OPP",
+                        "AName": "OppAlliance",
+                        "CastleLevel": 25,
+                        "CastlePos": {
+                            "X": 120.0,
+                            "Y": 240.0
+                        },
+                        "HId": 2,
+                        "HLv": 40,
+                        "OTs": {
+                            "10": {
+                                "PId": 99,
+                                "PName": "Opponent",
+                                "Abbr": "OPP",
+                                "HId": 2,
+                                "HLv": 40
+                            }
+                        }
+                    }
+                }
+            }),
+        ];
+
+        let output = resolve_data(&sections);
+        let data = output.battle_data.expect("battle data");
+
+        assert_eq!(data.opponents.len(), 1);
+        let opponent = &data.opponents[0];
+        assert_eq!(opponent.player_name.as_deref(), Some("Opponent"));
+        assert_eq!(opponent.app_uid.as_deref(), Some("opp-uid"));
+        assert_eq!(opponent.kingdom, Some(200));
+        assert_eq!(
+            opponent.alliance.as_ref().and_then(|a| a.name.as_deref()),
+            Some("OppAlliance")
+        );
+        assert_eq!(opponent.castle.as_ref().and_then(|c| c.level), Some(25));
+        assert!(
+            opponent
+                .castle
+                .as_ref()
+                .and_then(|c| c.pos.as_ref())
+                .is_some()
+        );
+        assert_eq!(opponent.participants.len(), 1);
     }
 
     #[test]

@@ -79,7 +79,6 @@ pub struct DataSummary {
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleData {
     pub sender: Option<BattleParticipant>,
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub opponents: Vec<BattleParticipant>,
 }
 

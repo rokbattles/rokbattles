@@ -103,19 +103,31 @@
     "opponents": [
       {
         "player_id": 46387535,
-        "player_name": null,
-        "app_uid": null,
-        "kingdom": null,
-        "alliance": null,
+        "player_name": "F1 벤부",
+        "app_uid": "26855535",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "2804",
+          "name": "Shinigami"
+        },
         "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/46387535/230222/C483914BF87CDDDFDB17C0627925C470_250x250.jpg",
         "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
         "commanders": {
           "primary": {
             "id": 462,
-            "level": null
+            "level": 1,
+            "equipment": "{}",
+            "star": 1,
+            "awakened": false
           }
         },
-        "castle": null,
+        "castle": {
+          "pos": {
+            "x": 639,
+            "y": 615
+          },
+          "level": 25
+        },
         "participants": [
           {
             "player_id": 46387535,

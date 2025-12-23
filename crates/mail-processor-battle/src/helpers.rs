@@ -461,7 +461,15 @@ pub(crate) fn build_participant(
     let player_name = participant_map
         .and_then(|map| parse_trimmed_string(map.get("PName")))
         .or_else(|| participant_seed.and_then(|map| parse_trimmed_string(map.get("PName"))));
-    let app_uid = participant_map.and_then(|map| parse_trimmed_string(map.get("AppUid")));
+    let app_uid = participant_map
+        .and_then(|map| parse_trimmed_string(map.get("AppUid")))
+        .or_else(|| {
+            participant_index.and_then(|index| {
+                find_participant_value(sections, index, "AppUid")
+                    .and_then(|value| parse_trimmed_string(Some(value)))
+            })
+        })
+        .or_else(|| participant_seed.and_then(|map| parse_trimmed_string(map.get("AppUid"))));
     let mut camp = self_char
         .and_then(|map| map.get("SideId").and_then(parse_i64))
         .or_else(|| participant_map.and_then(|map| map.get("SideId").and_then(parse_i64)))
@@ -479,7 +487,14 @@ pub(crate) fn build_participant(
             camp = cidt.get("SideId").and_then(parse_i64);
         }
     }
-    let kingdom = participant_map.and_then(|map| map.get("COSId").and_then(parse_i64));
+    let kingdom = participant_map
+        .and_then(|map| map.get("COSId").and_then(parse_i64))
+        .or_else(|| {
+            participant_index.and_then(|index| {
+                find_participant_value(sections, index, "COSId").and_then(parse_i64)
+            })
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("COSId").and_then(parse_i64)));
 
     let alliance_tag = participant_map
         .and_then(|map| parse_trimmed_string(map.get("Abbr")))
@@ -497,7 +512,8 @@ pub(crate) fn build_participant(
                 find_participant_value(sections, index, "AName")
                     .and_then(|value| parse_trimmed_string(Some(value)))
             })
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| parse_trimmed_string(map.get("AName"))));
     let alliance = to_alliance(alliance_tag, alliance_name);
 
     let (mut avatar_url, mut frame_url) = parse_avatar(
@@ -544,7 +560,8 @@ pub(crate) fn build_participant(
                 find_participant_value(sections, index, "HEq")
                     .and_then(|value| parse_trimmed_string(Some(value)))
             })
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| parse_trimmed_string(map.get("HEq"))));
     let primary_formation = participant_map
         .and_then(|map| map.get("HFMs").and_then(parse_i64))
         .or_else(|| self_char.and_then(|map| map.get("HFMs").and_then(parse_i64)))
@@ -552,7 +569,8 @@ pub(crate) fn build_participant(
             participant_index.and_then(|index| {
                 find_participant_value(sections, index, "HFMs").and_then(parse_i64)
             })
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("HFMs").and_then(parse_i64)));
     let primary_star = participant_map
         .and_then(|map| map.get("HSt").and_then(parse_i64))
         .or_else(|| self_char.and_then(|map| map.get("HSt").and_then(parse_i64)))
@@ -560,7 +578,8 @@ pub(crate) fn build_participant(
             participant_index.and_then(|index| {
                 find_participant_value(sections, index, "HSt").and_then(parse_i64)
             })
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("HSt").and_then(parse_i64)));
     let primary_awakened = participant_map
         .and_then(|map| map.get("HAw").and_then(parse_bool))
         .or_else(|| self_char.and_then(|map| map.get("HAw").and_then(parse_bool)))
@@ -568,13 +587,15 @@ pub(crate) fn build_participant(
             participant_index.and_then(|index| {
                 find_participant_value(sections, index, "HAw").and_then(parse_bool)
             })
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("HAw").and_then(parse_bool)));
     let primary_armaments = participant_map
         .and_then(|map| map.get("HWBs"))
         .or_else(|| self_char.and_then(|map| map.get("HWBs")))
         .or_else(|| {
             participant_index.and_then(|index| find_participant_value(sections, index, "HWBs"))
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("HWBs")));
     let primary_armaments = to_armaments(primary_armaments);
     let secondary_id = participant_map
         .and_then(|map| parse_commander_field(map.get("HId2")))
@@ -607,6 +628,7 @@ pub(crate) fn build_participant(
                         .and_then(|value| parse_trimmed_string(Some(value)))
                 })
             })
+            .or_else(|| participant_seed.and_then(|map| parse_trimmed_string(map.get("HEq2"))))
     });
     let secondary_star = secondary_id.and_then(|_| {
         participant_map
@@ -617,6 +639,7 @@ pub(crate) fn build_participant(
                     find_participant_value(sections, index, "HSt2").and_then(parse_i64)
                 })
             })
+            .or_else(|| participant_seed.and_then(|map| map.get("HSt2").and_then(parse_i64)))
     });
     let secondary_awakened = secondary_id.and_then(|_| {
         participant_map
@@ -670,7 +693,8 @@ pub(crate) fn build_participant(
         .or_else(|| self_char.and_then(|map| map.get("CastlePos")))
         .or_else(|| {
             participant_index.and_then(|index| find_participant_value(sections, index, "CastlePos"))
-        });
+        })
+        .or_else(|| participant_seed.and_then(|map| map.get("CastlePos")));
     let castle = {
         let pos = to_position(castle_pos);
         let level = participant_map
@@ -680,6 +704,9 @@ pub(crate) fn build_participant(
                 participant_index.and_then(|index| {
                     find_participant_value(sections, index, "CastleLevel").and_then(parse_i64)
                 })
+            })
+            .or_else(|| {
+                participant_seed.and_then(|map| map.get("CastleLevel").and_then(parse_i64))
             });
         let mut watchtower = participant_map
             .and_then(|map| map.get("GtLevel").and_then(parse_i64))
@@ -947,5 +974,40 @@ mod tests {
         .expect("participant");
 
         assert_eq!(participant.camp, Some(6));
+    }
+
+    #[test]
+    fn build_participant_reads_app_uid_from_block() {
+        let sections = vec![
+            json!({
+                "PName": "Opponent"
+            }),
+            json!({
+                "AppUid": "app-123",
+                "AName": "OppAlliance",
+                "COSId": 77
+            }),
+        ];
+        let participant_map = sections[0].as_object().expect("participant map");
+
+        let participant = build_participant(
+            &sections,
+            Some(participant_map),
+            Some(0),
+            None,
+            Vec::new(),
+            None,
+        )
+        .expect("participant");
+
+        assert_eq!(participant.app_uid.as_deref(), Some("app-123"));
+        assert_eq!(participant.kingdom, Some(77));
+        assert_eq!(
+            participant
+                .alliance
+                .as_ref()
+                .and_then(|a| a.name.as_deref()),
+            Some("OppAlliance")
+        );
     }
 }

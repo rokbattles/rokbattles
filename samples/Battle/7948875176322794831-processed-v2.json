@@ -71,7 +71,7 @@
         "player_id": -2,
         "player_name": null,
         "app_uid": null,
-        "kingdom": null,
+        "kingdom": 0,
         "alliance": null,
         "avatar_url": null,
         "frame_url": null,
