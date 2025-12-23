@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "10194160175770538114",
     "email_time": 1757705381128881,
     "email_receiver": "player_3015053",
@@ -99,6 +100,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 134232363,
+        "player_name": "PAPAMUDA",
+        "app_uid": "101087364",
+        "camp": 2,
+        "kingdom": 1654,
+        "alliance": {
+          "tag": "489",
+          "name": "Kingdom of Tompkins"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101087364/2025-03-10/F25E70005FB991161D82314DDB25E510_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_9.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{7:20040_128:1,4:20028_60:1,8:20037_126:1,5:20033_72:1,6:20012_75:1,2:20008_97:1,1:20007_105:1,3:20009_57:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.022000;4002_0.017000;5002_0.028000",
+                "inscriptions": "115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.015000;4002_0.034000;5002_0.033000",
+                "inscriptions": "418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.030000;4002_0.019000;5002_0.025000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.024000;4002_0.024000;5002_0.021000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 192,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1027,
+            "y": 1145
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 134232363,
+            "player_name": "PAPAMUDA",
+            "alliance": {
+              "tag": "489"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 192,
+                "level": 40
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

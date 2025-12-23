@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "81105393176537952631",
     "email_time": 1765379526631080,
     "email_receiver": "player_113473285",
@@ -66,6 +67,59 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 103895680,
+        "player_name": "ᵘˢSadistic2",
+        "app_uid": "84192330",
+        "camp": 2,
+        "kingdom": 441,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/84192330/2025-07-19/EC9DCC0600057FDFD5FC7914C2BF8EF7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+        "commanders": {
+          "primary": {
+            "id": 1,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 8,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1339,
+            "y": 931
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 103895680,
+            "player_name": "ᵘˢSadistic2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 1,
+                "level": 40
+              },
+              "secondary": {
+                "id": 8,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "58600202175658527723",
     "email_time": 1756585277535072,
     "email_receiver": "player_109813467",
@@ -59,6 +60,85 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 29862805,
+        "player_name": "Titanobenbu",
+        "app_uid": "26855535",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{7:20038_321:1,2:20014_208:2,8:20037_290:2,3:20026_226:2,1:20002_237:12,4:20016_225:2,5:20032_132:15,6:20034_149:12}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.018000;4001_0.031000;10002_0.015000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.016000;4001_0.027000;5001_0.022000",
+                "inscriptions": "412"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.020000;4001_0.025000;5001_0.017000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.016000;5001_0.033000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 642,
+            "y": 615
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 29862805,
+            "player_name": "Titanobenbu",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

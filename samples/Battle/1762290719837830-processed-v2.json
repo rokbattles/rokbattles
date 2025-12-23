@@ -3,6 +3,7 @@
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "84798614176229071933",
     "email_time": 1762290719837830,
     "email_receiver": "player_117381562",
@@ -112,6 +113,373 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 110199637,
+        "player_name": "NovocaineX",
+        "app_uid": "89243725",
+        "kingdom": 301,
+        "alliance": {
+          "tag": "SETH",
+          "name": "SETH"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{5:20017_84:0,3:20026_127:0,4:20016_79:0,7:20040_197:0,8:20037_181:0,6:20018_85:0,2:20005_20:0,1:20002_6:0}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "inscriptions": "17401"
+              },
+              {
+                "slot": 3,
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "inscriptions": "17201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 173,
+            "y": 146
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 110199637,
+            "player_name": "NovocaineX",
+            "alliance": {
+              "tag": "SETH"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 110199637,
+        "player_name": "NovocaineX",
+        "app_uid": "89243725",
+        "kingdom": 301,
+        "alliance": {
+          "tag": "SETH",
+          "name": "SETH"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{2:20006_29:0,5:20023_114:0,4:20022_106:0,6:20024_119:0,1:20003_10:0,3:20021_100:0,7:20040_198:0,8:20037_183:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 173,
+            "y": 146
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 110199637,
+            "player_name": "NovocaineX",
+            "alliance": {
+              "tag": "SETH"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 110199637,
+        "player_name": "NovocaineX",
+        "app_uid": "89243725",
+        "kingdom": 301,
+        "alliance": {
+          "tag": "SETH",
+          "name": "SETH"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{5:20017_80:0,1:20002_7:0,4:20016_76:0,2:20005_22:0,6:20018_87:0,3:20026_126:0,7:20118_223:0,8:20041_203:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 173,
+            "y": 146
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 110199637,
+            "player_name": "NovocaineX",
+            "alliance": {
+              "tag": "SETH"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 110199637,
+        "player_name": "NovocaineX",
+        "app_uid": "89243725",
+        "kingdom": 301,
+        "alliance": {
+          "tag": "SETH",
+          "name": "SETH"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{4:20028_136:0,7:20037_184:0,3:20009_40:0,6:20012_55:0,2:20004_19:0,1:20001_2:0,5:20033_160:0,8:20040_199:0}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "inscriptions": "13401"
+              },
+              {
+                "slot": 3,
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20001_1:0,7:20040_196:0,8:20037_182:0,2:20004_18:0,6:20012_58:0,3:20009_44:0,4:20028_137:0,5:20033_164:0}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 173,
+            "y": 146
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 110199637,
+            "player_name": "NovocaineX",
+            "alliance": {
+              "tag": "SETH"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 110199637,
+        "player_name": "NovocaineX",
+        "app_uid": "89243725",
+        "kingdom": 301,
+        "alliance": {
+          "tag": "SETH",
+          "name": "SETH"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/89243725/2025-10-15/DAD9C5E2D0A2CE38410429E498480904_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{3:20009_43:0,4:20028_139:0,1:20001_3:0,7:20037_180:0,6:20012_59:0,5:20033_161:0,8:20040_195:0,2:20004_17:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 173,
+            "y": 146
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 110199637,
+            "player_name": "NovocaineX",
+            "alliance": {
+              "tag": "SETH"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -10,7 +10,8 @@ use serde_json::Value;
 use crate::context::MailContext;
 use crate::error::ProcessError;
 use crate::resolvers::{
-    BattleSenderResolver, BattleTrendsResolver, DataSummaryResolver, MetadataResolver,
+    BattleOpponentsResolver, BattleSenderResolver, BattleTrendsResolver, DataSummaryResolver,
+    MetadataResolver,
 };
 use crate::structures::BattleMail;
 
@@ -29,7 +30,8 @@ pub fn process_sections(sections: &[Value]) -> Result<BattleMail, ProcessError> 
         .with(MetadataResolver::new())
         .with(DataSummaryResolver::new())
         .with(BattleTrendsResolver::new())
-        .with(BattleSenderResolver::new());
+        .with(BattleSenderResolver::new())
+        .with(BattleOpponentsResolver::new());
     chain.apply(&ctx, &mut output)?;
 
     Ok(output)

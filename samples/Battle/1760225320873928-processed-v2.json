@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "garrison",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "4855653176022532032",
     "email_time": 1760225320873928,
     "email_receiver": "player_108148421",
@@ -2318,6 +2319,4998 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 22441941,
+        "player_name": "EU perunikola",
+        "app_uid": "20396888",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/20396888/2024-09-07/3A8D2A53F4F1676ABBD4485948E0A992_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{7:20097_46:30,6:20012_97:1,2:20008_99:1,3:20064_84:30,4:20028_88:1,1:20061_74:30,5:20033_91:1,8:20121_98:30}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.016000;4002_0.016000;5002_0.021000",
+                "inscriptions": "103"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.016000;4002_0.032000;5002_0.035000",
+                "inscriptions": "419"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.031000;4002_0.019000;5002_0.031000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.017000;4002_0.018000;5002_0.033000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 615,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 148,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 178582780,
+        "player_name": "IronRich",
+        "app_uid": "224081760",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/224081760/2024-12-13/7C96A2A8E21385EC3263F11CF4ADE852_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_208.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{5:20033_67:0,6:20012_49:0,2:20008_30:0,3:20009_62:0,1:20007_103:32,7:20121_68:30,8:20040_113:1,4:20028_70:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.019000;4002_0.027000;5002_0.032000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.019000;4002_0.032000;5002_0.017000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.028000;4002_0.016000;5002_0.026000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.027000;4002_0.031000;5002_0.031000",
+                "inscriptions": "203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 192,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 178582780,
+            "player_name": "IronRich",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 192,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 169674128,
+        "player_name": "Burndeep 父",
+        "app_uid": "219099805",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": ":K0S",
+          "name": "KISS or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/219099805/2025-06-16/783B202144D0D41FBC8E3D6087E30B30_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{7:20099_19:30,6:20012_43:1,5:20070_53:30,2:20008_28:1,3:20009_41:1,1:20007_21:1,4:20028_35:1,8:20097_54:30}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3004_0.017000;4002_0.015000;5002_0.032000",
+                "inscriptions": "109"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.035000;4002_0.015000;5002_0.018000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.026000;4002_0.017000;10016_0.044000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3004_0.021000;4002_0.018000;5002_0.029000",
+                "inscriptions": "217"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 50,
+            "equipment": "{}",
+            "star": 5,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 605,
+            "y": 855
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 169674128,
+            "player_name": "Burndeep 父",
+            "alliance": {
+              "tag": ":K0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 50
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7471296,
+        "player_name": "MountAndDewMe",
+        "app_uid": "6762365",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/6762365/2024-11-13/0B2D5FF22FB9677A2F72428850603381_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{6:20024_305:23,4:20022_543:21,7:20118_509:21,8:20037_271:24,2:20020_429:23,3:20021_512:24,5:20023_306:23,1:20019_370:23}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.031000;4003_0.026000;10002_0.020000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.019000;4003_0.033000;10002_0.014000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.027000;10002_0.020000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.022000;4003_0.028000;10002_0.015000",
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7471296,
+        "player_name": "MountAndDewMe",
+        "app_uid": "6762365",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/6762365/2024-11-13/0B2D5FF22FB9677A2F72428850603381_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{7:20037_499:1,8:20044_421:21,2:20141_508:1,3:20021_275:1,5:20144_501:1,1:20003_609:0,4:20143_504:1,6:20145_503:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.026000;4003_0.034000;10002_0.018000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.027000;6003_0.019000;5003_0.022000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.032000;6003_0.035000;10002_0.015000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.017000;4003_0.035000;10002_0.017000",
+                "inscriptions": "213"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 186,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{2:20020_129:25,3:20021_157:25,5:20023_127:25,6:20024_113:25,1:20019_126:25,4:20022_116:25,7:20037_284:25,8:20040_285:25}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.019000;4003_0.035000;5003_0.034000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.030000;4003_0.018000;5003_0.024000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.031000;5003_0.028000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.027000;4003_0.028000;5003_0.032000",
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113371221,
+        "player_name": "父YURNERØ父",
+        "app_uid": "73541954",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/73541954/2025-04-17/4B124F04587925FDA2221726F7947325_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_162.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{2:20008_104:1,3:20009_106:1,1:20007_107:1,5:20033_125:1,7:20037_109:1,4:20028_94:1,8:20040_140:1,6:20012_103:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.032000;4002_0.032000;5002_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.022000;4002_0.032000;5002_0.025000",
+                "inscriptions": "410"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.030000;4002_0.031000;5002_0.030000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.033000;4002_0.028000;5002_0.031000",
+                "inscriptions": "201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 606,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113371221,
+            "player_name": "父YURNERØ父",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7471296,
+        "player_name": "MountAndDewMe",
+        "app_uid": "6762365",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/6762365/2024-11-13/0B2D5FF22FB9677A2F72428850603381_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{6:20012_419:1,4:20010_450:1,1:20001_589:1,7:20037_471:1,8:20040_435:1,2:20008_472:1,3:20009_476:1,5:20033_400:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.027000;4002_0.030000;5002_0.025000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.035000;4002_0.016000;10002_0.016000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.025000;4002_0.018000;5002_0.022000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.023000;4002_0.015000;5002_0.027000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 71514414,
+        "player_name": "MiniPotatoo",
+        "app_uid": "221348085",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head07.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+        "commanders": {
+          "primary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{4:20067_66:10,2:20063_50:0,1:20089_65:10,6:20072_29:10,5:20068_43:0,3:20026_67:1}",
+            "star": 6,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 105,
+            "level": 40,
+            "equipment": "{1:20055_34:40,7:20077_38:0,5:20115_3:40,6:20082_100:0,2:20079_20:40,3:20057_25:0}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 866
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 71514414,
+            "player_name": "MiniPotatoo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 98,
+                "level": 60
+              },
+              "secondary": {
+                "id": 105,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 22441941,
+        "player_name": "EU perunikola",
+        "app_uid": "20396888",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/20396888/2024-09-07/3A8D2A53F4F1676ABBD4485948E0A992_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{5:20033_75:32,6:20012_86:1,7:20040_79:1,8:20037_138:31,2:20004_82:31,3:20009_87:1,1:20001_133:1,4:20028_93:34}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.022000;4002_0.017000;5002_0.027000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.025000;4002_0.017000;5002_0.021000",
+                "inscriptions": "403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.018000;4002_0.029000;5002_0.034000",
+                "inscriptions": "301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.016000;4002_0.018000;5002_0.018000",
+                "inscriptions": "207"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 192,
+            "level": 52,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 615,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 192,
+                "level": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 75350658,
+        "player_name": "Rollerzzz",
+        "app_uid": "61567648",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61567648/2025-09-17/6ED69B96C40952E7631AF40CBDCD7158_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{5:20033_276:32,4:20028_262:33,1:20007_277:34,6:20012_235:33,7:20118_312:1,8:20037_231:1,2:20004_243:32,3:20009_246:32}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.032000;4002_0.035000;5002_0.026000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.028000;4002_0.032000;5002_0.016000",
+                "inscriptions": "13402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.033000;4002_0.028000;10002_0.018000",
+                "inscriptions": "13302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;4002_0.026000;5004_0.026000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 605,
+            "y": 850
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 75350658,
+            "player_name": "Rollerzzz",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 75350658,
+        "player_name": "Rollerzzz",
+        "app_uid": "61567648",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61567648/2025-09-17/6ED69B96C40952E7631AF40CBDCD7158_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20019_280:2,2:20020_286:2,7:20040_293:1,3:20021_283:2,5:20023_288:2,4:20022_287:22,6:20024_285:2,8:20037_274:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "2004_0.068000;4003_0.035000;5003_0.021000",
+                "inscriptions": "110"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;6003_0.035000;5003_0.024000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3004_0.017000;4003_0.021000;5003_0.027000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.018000;4003_0.015000;10002_0.020000",
+                "inscriptions": "204;209"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 605,
+            "y": 850
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 75350658,
+            "player_name": "Rollerzzz",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 30396926,
+        "player_name": "Abo Slooh",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/30396926/22/08/10/1fa699b82a9d25c9_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{5:20023_245:2,6:20024_246:3,7:20037_247:1,8:20040_221:1,2:20006_249:2,3:20021_231:3,1:20003_248:2,4:20022_252:2}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.035000;4003_0.033000;10002_0.017000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.022000;4003_0.034000;10002_0.006000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.022000;4003_0.023000;5003_0.032000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.022000;4003_0.018000;5003_0.032000",
+                "inscriptions": "2202;206"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 628,
+            "y": 842
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 30396926,
+            "player_name": "Abo Slooh",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 178582780,
+        "player_name": "IronRich",
+        "app_uid": "224081760",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/224081760/2024-12-13/7C96A2A8E21385EC3263F11CF4ADE852_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_208.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{7:20097_65:20,6:20024_76:24,3:20021_73:0,8:20040_115:1,4:20022_72:0,5:20023_74:0,1:20019_69:21,2:20020_75:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.032000;5003_0.031000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.023000;4003_0.022000;5003_0.033000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.034000;4003_0.034000;5003_0.022000",
+                "inscriptions": "310"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.028000;4003_0.030000;10002_0.011000",
+                "inscriptions": "204;217"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 178582780,
+            "player_name": "IronRich",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 178582780,
+        "player_name": "IronRich",
+        "app_uid": "224081760",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/224081760/2024-12-13/7C96A2A8E21385EC3263F11CF4ADE852_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_208.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{7:20038_89:14,3:20026_40:15,4:20016_59:14,8:20037_93:4,1:20013_64:15,5:20032_55:15,6:20018_58:15,2:20014_52:15}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.028000;4001_0.031000;5001_0.034000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.031000;4001_0.029000;5001_0.032000",
+                "inscriptions": "17401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.035000;4001_0.031000;5001_0.032000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.028000;4001_0.025000;5001_0.026000",
+                "inscriptions": "17201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 194,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 75350658,
+            "player_name": "Rollerzzz",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 75350658,
+            "player_name": "Rollerzzz",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 12956471,
+            "player_name": "Cคlli",
+            "alliance": {
+              "tag": ":K0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 184,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 141353643,
+            "player_name": "GENChovy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 178582780,
+            "player_name": "IronRich",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 197,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 8248844,
+            "player_name": "あい Serena",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 108,
+                "level": 60
+              },
+              "secondary": {
+                "id": 65,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 8204257,
+            "player_name": "Leg3nD",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 108,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 113371221,
+            "player_name": "父YURNERØ父",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 170325193,
+            "player_name": "Ongkir COD Farm",
+            "alliance": {
+              "tag": ":K0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 61,
+                "level": 60
+              },
+              "secondary": {
+                "id": 62,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 30137696,
+            "player_name": "ᵗʰᵉM8",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 169674128,
+            "player_name": "Burndeep 父",
+            "alliance": {
+              "tag": ":K0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 15086999,
+            "player_name": "屮STRANGER屮",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 58122648,
+            "player_name": "ㆍGness x Tamㆍ",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 146373182,
+            "player_name": "乄V3",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 138396457,
+            "player_name": "ᵀᵁAzorAhai",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 103,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 71514414,
+            "player_name": "MiniPotatoo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 71514414,
+            "player_name": "MiniPotatoo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 138,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 71514414,
+            "player_name": "MiniPotatoo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 98,
+                "level": 60
+              },
+              "secondary": {
+                "id": 105,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 140,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 13411628,
+            "player_name": "KillerSmurf킬러스머",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 145,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 30396926,
+            "player_name": "Abo Slooh",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 113371221,
+            "player_name": "父YURNERØ父",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 53109604,
+            "player_name": "㋡danicosa㋡",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 63797256,
+        "player_name": "CatAddict xTesh",
+        "app_uid": "8529460-1127666",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1127666/2025-10-07/2487ADC385F28F6E689B7788B47DF868_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20024_392:24,2:20020_326:23,3:20021_325:23,5:20023_391:24,1:20019_327:24,4:20022_314:24,7:20037_438:5,8:20040_432:3}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.035000;4003_0.035000;5003_0.031000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.029000;4001_0.019000;5003_0.022000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.017000;4003_0.024000;5003_0.019000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.029000;4003_0.022000;5003_0.026000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 606,
+            "y": 864
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 63797256,
+            "player_name": "CatAddict xTesh",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 70285950,
+        "player_name": "DaisyNoobieStar",
+        "app_uid": "57095500",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/57095500/2025-10-10/5001C62DDCD5D5513C950A0EF2CB8C8C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{3:20021_672:1,5:20023_685:1,4:20022_696:1,1:20019_584:21,7:20097_705:20,8:20039_603:1,6:20024_671:1,2:20020_686:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.022000;5003_0.032000",
+                "inscriptions": "2102;103"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.034000;6003_0.031000;5003_0.018000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.035000;6003_0.030000;5003_0.018000",
+                "inscriptions": "318"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.025000;4003_0.034000;5003_0.032000",
+                "inscriptions": "201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 70285950,
+            "player_name": "DaisyNoobieStar",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 8204257,
+        "player_name": "Leg3nD",
+        "app_uid": "7571790",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7571790/2025-03-27/060FB300BE8283664997B79AA4BA0E75_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_203.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{2:20051_172:20,3:20052_174:20,4:20053_181:20,1:20060_179:20,7:20097_168:0,5:20054_175:20,8:20037_202:1,6:20073_155:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.033000;4003_0.025000;5003_0.026000",
+                "inscriptions": "107"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.019000;6003_0.032000;5003_0.016000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.016000;4003_0.017000;5003_0.018000",
+                "inscriptions": "310"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.018000;4003_0.016000;5003_0.018000",
+                "inscriptions": "211"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 858
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 8204257,
+            "player_name": "Leg3nD",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36884452,
+        "player_name": "Ghost义Uchiha",
+        "app_uid": "8518744-1608479",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/1608479/2024-07-28/DB08C0AD6307462D875FA397391D9382_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{2:20006_365:1,5:20144_359:1,3:20027_353:21,1:20003_358:1,6:20145_366:1,4:20030_367:1,7:20040_298:1,8:20118_317:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.035000;4003_0.015000;5003_0.021000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.020000;6003_0.027000;5003_0.034000",
+                "inscriptions": "403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.016000;4003_0.027000;5003_0.029000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.020000;4003_0.020000;5003_0.034000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 612,
+            "y": 867
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33588475,
+        "player_name": "нanzo",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27341528/2025-06-30/FE50DB85A084E6C4BCAB4A415F671BB0_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{2:20020_156:2,7:20037_168:1,1:20019_154:2,3:20027_164:3,5:20031_165:3,4:20030_167:2,6:20036_166:3,8:20040_179:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.027000;4003_0.030000;5003_0.020000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.018000;4003_0.030000;5003_0.017000",
+                "inscriptions": "404;418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.021000;4003_0.035000;5003_0.024000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.018000;4003_0.028000;10002_0.019000",
+                "inscriptions": "221"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 603,
+            "y": 849
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36884452,
+        "player_name": "Ghost义Uchiha",
+        "app_uid": "8518744-1608479",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/1608479/2024-07-28/DB08C0AD6307462D875FA397391D9382_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{4:20010_271:1,2:20004_282:1,1:20007_140:1,5:20033_259:1,6:20012_191:1,7:20040_261:31,8:20037_218:1,3:20009_318:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.021000;4002_0.017000;5002_0.034000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.026000;4002_0.025000;5002_0.028000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.035000;4002_0.016000;5002_0.028000",
+                "inscriptions": "312"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.028000;4002_0.029000;5002_0.026000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 612,
+            "y": 867
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 178541037,
+        "player_name": "Persayus",
+        "app_uid": "224046341",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://static-gl.lilithgame.com/p/IM/10043/0/224046341/2024-06-04/0BC8594C8F735B7DD742288BC1B4CAC1_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{4:20028_44:31,6:20012_34:31,7:20037_62:1,8:20040_63:1,3:20009_33:0,1:20045_45:0,5:20033_64:31,2:20008_21:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.028000;4002_0.034000;10002_0.011000",
+                "inscriptions": "101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.017000;4002_0.016000;5002_0.031000",
+                "inscriptions": "409"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.020000;4002_0.016000;10002_0.012000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.024000;4002_0.020000;10002_0.006000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 634,
+            "y": 851
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 178541037,
+            "player_name": "Persayus",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{7:20040_259:1,6:20035_81:31,8:20037_232:1,2:20004_283:1,3:20009_263:0,5:20033_228:32,4:20010_120:32,1:20001_262:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.015000;4002_0.019000;10002_0.017000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.028000;4002_0.029000;5002_0.026000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.025000;4002_0.032000;5002_0.015000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.032000;4002_0.026000;10002_0.019000",
+                "inscriptions": "201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33588475,
+        "player_name": "нanzo",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27341528/2025-06-30/FE50DB85A084E6C4BCAB4A415F671BB0_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{6:20012_151:2,7:20037_147:1,8:20040_146:1,2:20008_107:3,3:20009_149:2,5:20033_148:3,1:20007_122:3,4:20028_150:3}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.022000;4002_0.017000;5002_0.024000",
+                "inscriptions": "13102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.031000;4002_0.019000;5001_0.034000",
+                "inscriptions": "408"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.024000;4002_0.026000;5002_0.019000",
+                "inscriptions": "307;311"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.032000;4002_0.019000;5002_0.031000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 115,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 603,
+            "y": 849
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 115,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 53109604,
+        "player_name": "㋡danicosa㋡",
+        "app_uid": "43654364",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/43654364/2025-05-30/CF1107EEC460C34DAFE35AA0E0E6BE32_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_222.png",
+        "commanders": {
+          "primary": {
+            "id": 195,
+            "level": 60,
+            "equipment": "{6:20024_157:1,2:20020_140:1,4:20030_127:1,3:20021_126:1,5:20023_148:1,7:20037_162:1,8:20041_105:1,1:20003_159:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.026000;4003_0.022000;10002_0.019000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.018000;4003_0.016000;10002_0.020000",
+                "inscriptions": "417"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.015000;4003_0.024000;5003_0.022000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.030000;4003_0.020000;5003_0.022000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 608,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 53109604,
+            "player_name": "㋡danicosa㋡",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 195,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 70285950,
+        "player_name": "DaisyNoobieStar",
+        "app_uid": "57095500",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/57095500/2025-10-10/5001C62DDCD5D5513C950A0EF2CB8C8C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20001_664:31,7:20037_684:1,4:20028_665:1,8:20040_604:1,6:20012_670:1,3:20009_631:1,5:20033_661:31,2:20004_704:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.034000;4002_0.031000;5002_0.035000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.031000;4002_0.035000;5002_0.019000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.022000;4002_0.022000;5002_0.031000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.026000;4002_0.033000;5002_0.031000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 70285950,
+            "player_name": "DaisyNoobieStar",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36884452,
+        "player_name": "Ghost义Uchiha",
+        "app_uid": "8518744-1608479",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/1608479/2024-07-28/DB08C0AD6307462D875FA397391D9382_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20034_339:1,7:20040_147:11,5:20032_342:11,4:20016_351:1,3:20026_338:11,8:20118_263:1,1:20013_344:1,2:20014_331:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.020000;4001_0.024000;5001_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.016000;4001_0.019000;5001_0.034000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.024000;4001_0.017000;5001_0.024000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.034000;4001_0.016000;5001_0.016000",
+                "inscriptions": "203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 612,
+            "y": 867
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 53109604,
+        "player_name": "㋡danicosa㋡",
+        "app_uid": "43654364",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/43654364/2025-05-30/CF1107EEC460C34DAFE35AA0E0E6BE32_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_222.png",
+        "commanders": {
+          "primary": {
+            "id": 195,
+            "level": 60,
+            "equipment": "{3:20021_145:1,2:20020_81:1,5:20023_141:1,7:20037_147:1,1:20019_91:1,4:20022_123:1,6:20024_124:1,8:20040_163:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.021000;4003_0.030000;5003_0.030000",
+                "inscriptions": "2101;108"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.017000;4003_0.016000;10002_0.006000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.015000;6003_0.029000;10016_0.052000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.019000;4003_0.021000;5003_0.019000",
+                "inscriptions": "217"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 608,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 53109604,
+            "player_name": "㋡danicosa㋡",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 186,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 22441941,
+        "player_name": "EU perunikola",
+        "app_uid": "20396888",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/20396888/2024-09-07/3A8D2A53F4F1676ABBD4485948E0A992_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{7:20121_63:30,1:20007_95:1,6:20012_104:1,8:20040_131:0,2:20008_92:1,3:20009_109:1,4:20028_103:1,5:20033_96:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.015000;4002_0.015000;5002_0.030000",
+                "inscriptions": "104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.018000;4002_0.035000;5002_0.018000",
+                "inscriptions": "417;409"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.019000;4001_0.016000;5002_0.034000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.028000;4002_0.019000;5001_0.019000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 115,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 615,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 115,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 141353643,
+        "player_name": "GENChovy",
+        "app_uid": "6626468-1849058",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head13.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{1:20001_120:1,7:20201_135:0,5:20033_109:31,6:20012_100:1,8:20121_47:0,2:20008_102:1,3:20009_126:1,4:20010_62:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.015000;4002_0.023000;10002_0.019000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.031000;4002_0.025000;5002_0.033000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.016000;4002_0.019000;5002_0.017000",
+                "inscriptions": "310"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.028000;4002_0.017000;5002_0.031000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 141353643,
+            "player_name": "GENChovy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 147710425,
+        "player_name": "Vabodydroppa",
+        "app_uid": "206282184",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/206282184/2025-06-16/41332A0E226DC1FB0DBB396B96E50607_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_153.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_114:23,4:20022_104:22,7:20118_167:2,8:20037_91:3,6:20024_88:22,5:20023_112:2,2:20020_110:2,3:20021_126:22}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.025000;4003_0.035000;5003_0.035000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.028000;4003_0.029000;5003_0.022000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.026000;5003_0.035000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.030000;4003_0.022000;5003_0.020000",
+                "inscriptions": "2202;203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 861
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36884452,
+        "player_name": "Ghost义Uchiha",
+        "app_uid": "8518744-1608479",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/1608479/2024-07-28/DB08C0AD6307462D875FA397391D9382_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{7:20037_340:1,2:20008_251:1,3:20009_168:31,5:20033_312:32,6:20012_322:1,1:20001_274:1,4:20028_281:31,8:20040_315:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.018000;4002_0.018000;5002_0.034000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.020000;4002_0.034000;5002_0.015000",
+                "inscriptions": "409"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.035000;4002_0.026000;5002_0.025000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.032000;4002_0.022000;5002_0.017000",
+                "inscriptions": "203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 612,
+            "y": 867
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20018_154:15,7:20037_267:1,8:20040_268:1,4:20016_109:13,1:20013_153:15,2:20014_115:14,3:20026_128:13,5:20032_177:14}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.032000;4001_0.015000;10002_0.005000",
+                "inscriptions": "111;115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.023000;4001_0.024000;5001_0.024000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.034000;4001_0.019000;5001_0.026000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.027000;5001_0.034000",
+                "inscriptions": "208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 147710425,
+        "player_name": "Vabodydroppa",
+        "app_uid": "206282184",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/206282184/2025-06-16/41332A0E226DC1FB0DBB396B96E50607_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_153.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{4:20016_100:1,7:20120_80:0,5:20032_128:12,8:20121_83:10,6:20034_111:12,2:20014_77:2,3:20015_156:2,1:20013_125:2}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.023000;4001_0.032000;5001_0.020000",
+                "inscriptions": "103;115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.017000;4001_0.035000;5001_0.027000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.033000;4001_0.025000;5001_0.025000",
+                "inscriptions": "301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.022000;4001_0.030000;5001_0.035000",
+                "inscriptions": "203;208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 861
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{7:20040_282:0,8:20037_281:0,2:20006_280:1,3:20021_265:21,5:20023_266:1,1:20003_260:25,6:20024_188:1,4:20022_279:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.028000;4003_0.025000;5003_0.035000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.030000;6003_0.018000;5003_0.028000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.017000;6003_0.016000;5003_0.035000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.035000;4003_0.025000;5003_0.032000",
+                "inscriptions": "201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 147710425,
+        "player_name": "Vabodydroppa",
+        "app_uid": "206282184",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/206282184/2025-06-16/41332A0E226DC1FB0DBB396B96E50607_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_153.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20036_124:22,2:20006_130:2,3:20027_97:24,7:20097_49:20,8:20040_173:1,1:20003_95:3,4:20030_127:2,5:20031_132:2}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.027000;4003_0.026000;5003_0.025000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.026000;4003_0.032000;5003_0.018000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.015000;4003_0.017000;5003_0.017000",
+                "inscriptions": "307;304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.035000;4003_0.023000;5003_0.032000",
+                "inscriptions": "208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 861
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 70285950,
+        "player_name": "DaisyNoobieStar",
+        "app_uid": "57095500",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/57095500/2025-10-10/5001C62DDCD5D5513C950A0EF2CB8C8C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20034_529:12,1:20013_504:1,4:20016_620:1,7:20037_724:1,8:20041_638:1,2:20014_568:1,3:20015_343:11,5:20032_519:13}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.015000;4001_0.026000;5001_0.033000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.027000;4001_0.028000;5001_0.031000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.035000;4001_0.031000;10002_0.010000",
+                "inscriptions": "311"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.015000;4001_0.030000;5001_0.034000",
+                "inscriptions": "201;205"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{3:20009_651:1,5:20033_567:2,6:20012_650:1,4:20028_652:1,7:20202_735:0,1:20061_623:30}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 70285950,
+            "player_name": "DaisyNoobieStar",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 140,
+                "level": 60
+              },
+              "secondary": {
+                "id": 138,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 147710425,
+        "player_name": "Vabodydroppa",
+        "app_uid": "206282184",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/206282184/2025-06-16/41332A0E226DC1FB0DBB396B96E50607_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_153.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{4:20116_184:0,2:20113_185:10,3:20105_180:10,5:20107_179:10,6:20111_181:10,1:20102_183:10}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.028000;8000_0.046000;5003_0.018000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.016000;4004_0.023000;5001_0.035000",
+                "inscriptions": "403"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.027000;4002_0.022000;5002_0.024000",
+                "inscriptions": "319;312"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.021000;4001_0.035000;5001_0.026000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 861
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 147710425,
+            "player_name": "Vabodydroppa",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 108,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 169674128,
+        "player_name": "Burndeep 父",
+        "app_uid": "219099805",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": ":K0S",
+          "name": "KISS or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/219099805/2025-06-16/783B202144D0D41FBC8E3D6087E30B30_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{2:20004_37:1,7:20040_32:1,3:20009_26:1,5:20033_30:32,6:20012_31:1,1:20001_40:1,4:20028_29:1,8:20037_33:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.030000;4002_0.030000;5002_0.018000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.020000;4002_0.015000;5002_0.023000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.031000;4002_0.025000;10002_0.019000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;4002_0.017000;5002_0.033000",
+                "inscriptions": "201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 605,
+            "y": 855
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 169674128,
+            "player_name": "Burndeep 父",
+            "alliance": {
+              "tag": ":K0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 71514414,
+        "player_name": "MiniPotatoo",
+        "app_uid": "221348085",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head07.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+        "commanders": {
+          "primary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{1:20061_73:0,3:20025_64:1,5:20070_47:30,2:20062_35:30,4:20066_36:30,6:20035_41:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.015000;4002_0.016000;5002_0.015000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.022000;4002_0.030000;10101_0.054000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.022000;4004_0.015000;5002_0.031000",
+                "inscriptions": "316"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.025000;4002_0.032000;5002_0.033000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 866
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 71514414,
+            "player_name": "MiniPotatoo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33588475,
+        "player_name": "нanzo",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27341528/2025-06-30/FE50DB85A084E6C4BCAB4A415F671BB0_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20001_152:2,6:20012_105:3,7:20037_124:1,8:20040_127:1,4:20028_123:3,2:20004_153:2,3:20009_94:3,5:20033_71:3}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.020000;4002_0.023000;10002_0.020000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.021000;4002_0.019000;5002_0.035000",
+                "inscriptions": "418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.023000;4002_0.025000;10002_0.014000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.019000;4002_0.035000;5002_0.032000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 603,
+            "y": 849
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 22441941,
+        "player_name": "EU perunikola",
+        "app_uid": "20396888",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/20396888/2024-09-07/3A8D2A53F4F1676ABBD4485948E0A992_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{2:20014_121:1,7:20040_102:1,3:20026_119:13,1:20013_107:12,4:20029_108:13,5:20017_125:1,8:20037_139:11,6:20018_130:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.030000;4001_0.034000;5001_0.019000",
+                "inscriptions": "111;119"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.029000;4001_0.028000;5001_0.025000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.033000;4001_0.026000;5001_0.016000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.015000;4001_0.024000;5001_0.017000",
+                "inscriptions": "203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 615,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 140,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 30396926,
+        "player_name": "Abo Slooh",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/30396926/22/08/10/1fa699b82a9d25c9_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{4:20028_201:4,7:20042_203:1,1:20007_198:2,3:20009_124:2,8:20041_202:1,5:20033_127:3,6:20012_175:2,2:20008_190:3}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.033000;4002_0.025000;5002_0.033000",
+                "inscriptions": "13102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.031000;4002_0.028000;5002_0.017000",
+                "inscriptions": "413"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.032000;4002_0.015000;5002_0.035000",
+                "inscriptions": "13302;304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.033000;4002_0.032000;5002_0.035000",
+                "inscriptions": "219"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 115,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 628,
+            "y": 842
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 30396926,
+            "player_name": "Abo Slooh",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 115,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 22441941,
+        "player_name": "EU perunikola",
+        "app_uid": "20396888",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/20396888/2024-09-07/3A8D2A53F4F1676ABBD4485948E0A992_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{2:20020_124:1,7:20097_60:20,8:20040_129:1,1:20019_122:1,4:20030_116:21,5:20023_120:1,3:20021_123:1,6:20036_117:22}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.033000;5003_0.029000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.021000;6003_0.031000;5003_0.034000",
+                "inscriptions": "414"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.035000;6003_0.034000;5003_0.018000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.024000;4003_0.024000;5003_0.024000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 615,
+            "y": 865
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 22441941,
+            "player_name": "EU perunikola",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33588475,
+        "player_name": "нanzo",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27341528/2025-06-30/FE50DB85A084E6C4BCAB4A415F671BB0_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{4:20029_126:4,6:20034_35:13,5:20032_32:14,7:20040_170:11,8:20037_173:11,1:20002_161:14,2:20005_106:4,3:20026_90:14}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.026000;4001_0.015000;5001_0.029000",
+                "inscriptions": "1102;106"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.024000;4001_0.025000;5001_0.017000",
+                "inscriptions": "1402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.027000;4001_0.033000;5001_0.034000",
+                "inscriptions": "1302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.031000;4001_0.029000;5001_0.033000",
+                "inscriptions": "1202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 603,
+            "y": 849
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33588475,
+        "player_name": "нanzo",
+        "app_uid": "27341528",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/27341528/2025-06-30/FE50DB85A084E6C4BCAB4A415F671BB0_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{2:20006_163:2,1:20003_162:22,4:20022_158:2,5:20023_159:2,6:20024_160:2,7:20037_178:21,8:20040_175:21,3:20021_155:22}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.025000;4003_0.026000;5003_0.033000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.020000;4003_0.024000;5003_0.035000",
+                "inscriptions": "2401;405"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.022000;4003_0.028000;5003_0.031000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.015000;4003_0.021000;5003_0.025000",
+                "inscriptions": "213"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 603,
+            "y": 849
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33588475,
+            "player_name": "нanzo",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20013_213:13,5:20032_112:13,4:20016_264:0,6:20034_69:11,7:20041_163:14,2:20014_240:1,3:20026_261:13,8:20038_234:2}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.030000;4001_0.016000;5001_0.035000",
+                "inscriptions": "1101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.026000;4001_0.033000;5001_0.031000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3004_0.016000;4001_0.019000;5001_0.033000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.027000;4001_0.016000;5001_0.016000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36884452,
+        "player_name": "Ghost义Uchiha",
+        "app_uid": "8518744-1608479",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/1608479/2024-07-28/DB08C0AD6307462D875FA397391D9382_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{2:20005_362:1,1:20002_341:1,4:20016_330:1,5:20032_352:1,7:20040_343:1,8:20118_275:1,6:20034_354:11,3:20026_345:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.026000;4001_0.035000;10002_0.017000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.034000;4001_0.033000;5001_0.028000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.023000;4001_0.023000;5001_0.024000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.028000;4001_0.028000;5001_0.027000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 612,
+            "y": 867
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36884452,
+            "player_name": "Ghost义Uchiha",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 8204257,
+        "player_name": "Leg3nD",
+        "app_uid": "7571790",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7571790/2025-03-27/060FB300BE8283664997B79AA4BA0E75_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_203.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{6:20034_183:11,7:20040_209:1,2:20014_204:1,8:20038_232:1,3:20026_167:1,4:20016_212:1,1:20013_190:1,5:20032_171:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.031000;4001_0.033000;5001_0.027000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.017000;4001_0.015000;5001_0.022000",
+                "inscriptions": "412"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.022000;4001_0.017000;5001_0.019000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.023000;4001_0.016000;5001_0.017000",
+                "inscriptions": "214"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 858
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 8204257,
+            "player_name": "Leg3nD",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113371221,
+        "player_name": "父YURNERØ父",
+        "app_uid": "73541954",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/73541954/2025-04-17/4B124F04587925FDA2221726F7947325_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_162.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{2:20020_136:1,3:20021_142:1,5:20144_123:1,7:20041_71:1,6:20024_137:21,1:20003_135:1,4:20022_141:1,8:20097_122:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.018000;4003_0.021000;10002_0.019000",
+                "inscriptions": "109"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.018000;6003_0.030000;10002_0.008000",
+                "inscriptions": "411"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.032000;4003_0.031000;5003_0.025000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3004_0.024000;4003_0.028000;10002_0.018000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 606,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113371221,
+            "player_name": "父YURNERØ父",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7471296,
+        "player_name": "MountAndDewMe",
+        "app_uid": "6762365",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/6762365/2024-11-13/0B2D5FF22FB9677A2F72428850603381_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{3:20027_533:23,2:20006_597:23,4:20030_441:21,7:20037_591:21,6:20036_440:24,8:20039_607:1,5:20031_453:23,1:20003_581:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.022000;4003_0.021000;10002_0.020000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.028000;6003_0.026000;10002_0.017000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.030000;6003_0.029000;5003_0.020000",
+                "inscriptions": "317;312"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.016000;4003_0.016000;5003_0.033000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 63797256,
+        "player_name": "CatAddict xTesh",
+        "app_uid": "8529460-1127666",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1127666/2025-10-07/2487ADC385F28F6E689B7788B47DF868_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{5:20011_253:32,6:20012_431:1,1:20007_245:33,4:20010_272:31,7:20041_388:31,8:20037_442:1,2:20008_331:32,3:20009_436:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.029000;4002_0.029000;5002_0.032000",
+                "inscriptions": "101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.025000;4002_0.016000;5002_0.032000",
+                "inscriptions": "409;418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.025000;4002_0.028000;5002_0.035000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.035000;4002_0.025000;5002_0.033000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 115,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 606,
+            "y": 864
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 63797256,
+            "player_name": "CatAddict xTesh",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 115,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 138396457,
+        "player_name": "ᵀᵁAzorAhai",
+        "app_uid": "201082602",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/138396457/23/11/29/d67b797e5320e6de_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{3:20025_12:1,6:20012_66:1,7:20097_28:30,4:20028_68:1,5:20033_65:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.033000;4002_0.015000;5002_0.017000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.028000;4002_0.029000;5002_0.017000",
+                "inscriptions": "410"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.028000;4002_0.031000;5002_0.021000",
+                "inscriptions": "316"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.018000;4002_0.016000;5002_0.035000",
+                "inscriptions": "210"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 614,
+            "y": 861
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 138396457,
+            "player_name": "ᵀᵁAzorAhai",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113371221,
+        "player_name": "父YURNERØ父",
+        "app_uid": "73541954",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/73541954/2025-04-17/4B124F04587925FDA2221726F7947325_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_162.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{3:20026_61:11,1:20002_127:2,4:20143_124:1,6:20145_133:1,5:20144_132:11,7:20038_118:1,8:20040_110:1,2:20005_117:11}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.015000;4001_0.031000;5001_0.033000",
+                "inscriptions": "1101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.021000;4001_0.034000;5001_0.023000",
+                "inscriptions": "1402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.033000;4001_0.017000;5001_0.027000",
+                "inscriptions": "1302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.027000;4001_0.031000;5001_0.026000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 606,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113371221,
+            "player_name": "父YURNERØ父",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7471296,
+        "player_name": "MountAndDewMe",
+        "app_uid": "6762365",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/6762365/2024-11-13/0B2D5FF22FB9677A2F72428850603381_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{7:20118_466:1,8:20037_483:1,2:20005_585:1,3:20026_524:11,1:20002_556:1,4:20029_540:1,5:20068_248:10,6:20034_401:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.023000;4001_0.027000;5001_0.021000",
+                "inscriptions": "17102;117"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.023000;4001_0.017000;5001_0.034000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.033000;4001_0.020000;10101_0.070000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.027000;4001_0.027000;10002_0.020000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 857
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7471296,
+            "player_name": "MountAndDewMe",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 130925702,
+        "player_name": "TeamSnoopy",
+        "app_uid": "103640492",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103640492/2025-10-07/C81D32EE92560CF82048EA2049A9EAAE_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20007_98:35,6:20012_107:33,7:20040_236:1,3:20009_102:35,5:20033_202:35,4:20028_158:35,2:20008_88:34,8:20037_258:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.034000;4002_0.027000;5002_0.035000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "2004_0.073000;4002_0.030000;5002_0.035000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.022000;4002_0.031000;10002_0.006000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.027000;4002_0.017000;5002_0.031000",
+                "inscriptions": "209"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 44,
+            "equipment": "{}",
+            "star": 5,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 604,
+            "y": 856
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 130925702,
+            "player_name": "TeamSnoopy",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 44
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 178582780,
+        "player_name": "IronRich",
+        "app_uid": "224081760",
+        "camp": 1,
+        "kingdom": 2415,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/224081760/2024-12-13/7C96A2A8E21385EC3263F11CF4ADE852_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_208.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{7:20037_107:1,5:20032_84:11,2:20005_105:2,3:20026_92:1,4:20029_79:12,1:20002_94:2,6:20034_78:14,8:20040_95:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.024000;4001_0.021000;5001_0.035000",
+                "inscriptions": "104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.029000;4001_0.024000;5001_0.025000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.028000;4001_0.031000;5001_0.032000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.020000;10002_0.015000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 600,
+            "y": 863
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 178582780,
+            "player_name": "IronRich",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 8204257,
+        "player_name": "Leg3nD",
+        "app_uid": "7571790",
+        "camp": 1,
+        "kingdom": 138,
+        "alliance": {
+          "tag": "S0S",
+          "name": "SINK or SWARM"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7571790/2025-03-27/060FB300BE8283664997B79AA4BA0E75_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_203.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{2:20008_185:1,3:20009_229:1,4:20010_210:1,7:20037_226:1,5:20033_228:1,8:20040_218:1,1:20001_227:1,6:20012_208:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.015000;4002_0.018000;5002_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.020000;4002_0.021000;5002_0.032000",
+                "inscriptions": "410"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.033000;4002_0.017000;5002_0.016000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.016000;4002_0.015000;5002_0.021000",
+                "inscriptions": "221"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 602,
+            "y": 858
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 8204257,
+            "player_name": "Leg3nD",
+            "alliance": {
+              "tag": "S0S"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

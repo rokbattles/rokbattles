@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "10294406175284352313",
     "email_time": 1752843523696750,
     "email_receiver": "player_36195367",
@@ -75,6 +76,81 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 129664812,
+        "player_name": "1PUSHOK1",
+        "app_uid": "98177052",
+        "kingdom": 1804,
+        "alliance": null,
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129664812/22/05/18/ac59ee339389002f_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 52,
+            "equipment": "{6:20073_18:0,5:20132_31:0,1:20128_41:0,3:20064_40:0,2:20062_16:0,4:20067_15:0}",
+            "formation": 6,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3004_0.018000;4002_0.015000;5001_0.015000",
+                "inscriptions": "115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.012000;6003_0.019000;10016_0.038000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3004_0.024000;8000_0.052000;5004_0.015000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.017000;4001_0.015000;5002_0.016000",
+                "inscriptions": "210"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 10,
+            "level": 43,
+            "equipment": "{5:20081_36:10,6:20082_22:0,4:20109_4:0}",
+            "star": 5,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 959,
+            "y": 888
+          },
+          "level": 25,
+          "watchtower": 15
+        },
+        "participants": [
+          {
+            "player_id": 129664812,
+            "player_name": "1PUSHOK1",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 52
+              },
+              "secondary": {
+                "id": 10,
+                "level": 43
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

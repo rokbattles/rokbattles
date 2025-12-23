@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "67135066174914471628",
     "email_time": 1749144652381995,
     "email_receiver": "player_83629727",
@@ -274,6 +275,87 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 113063200,
+        "player_name": "ᴬᶜRafał",
+        "app_uid": "91722043",
+        "camp": 6,
+        "kingdom": 1861,
+        "alliance": {
+          "tag": "861V",
+          "name": "VICTORY OF THE 2861"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head09.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
+        "commanders": {
+          "primary": {
+            "id": 10,
+            "level": 60,
+            "equipment": "{1:20059_92:10,6:20034_113:0,7:20202_115:0,2:20083_81:10,3:20084_68:0,5:20032_114:0,4:20029_112:0}",
+            "formation": 5,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.018000;4001_0.010000;10002_0.010000",
+                "inscriptions": "129"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.018000;4001_0.031000;10016_0.044000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.017000;4001_0.020000;5003_0.016000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.032000;4002_0.023000;10101_0.064000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{4:20067_84:10,1:20089_80:0,5:20095_70:0,6:20072_93:10,3:20084_87:10,2:20090_23:0}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 148,
+            "y": 490
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 113063200,
+            "player_name": "ᴬᶜRafał",
+            "alliance": {
+              "tag": "861V"
+            },
+            "commanders": {
+              "primary": {
+                "id": 10,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "42903405176420119211",
     "email_time": 1764201192678711,
     "email_receiver": "player_36980485",
@@ -99,6 +100,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 77143262,
+        "player_name": "Rise of Chadski",
+        "app_uid": "62886992",
+        "camp": 1,
+        "kingdom": 1359,
+        "alliance": {
+          "tag": "TCG9",
+          "name": "The Council of Gods"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/62886992/2025-04-26/4510EFC13E2CE922039B5E5FE6D4854C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 198,
+            "level": 60,
+            "equipment": "{1:20002_280:12,2:20014_153:12,3:20015_70:11,4:20016_287:11,5:20032_281:11,6:20018_212:12,7:20037_236:11,8:20040_231:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.034000;4001_0.026000;5001_0.031000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.027000;4001_0.032000;5001_0.032000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.032000;4001_0.031000;10002_0.015000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.034000;4001_0.022000;5001_0.034000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 571,
+            "y": 590
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 77143262,
+            "player_name": "Rise of Chadski",
+            "alliance": {
+              "tag": "TCG9"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

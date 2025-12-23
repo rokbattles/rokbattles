@@ -3,6 +3,7 @@
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "56425470176451294431",
     "email_time": 1764512944407776,
     "email_receiver": "player_71738515",
@@ -301,6 +302,162 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 42450936,
+        "player_name": "Xcヽ Tuấn Vũ",
+        "app_uid": "100994654",
+        "kingdom": 126,
+        "alliance": {
+          "tag": "W676",
+          "name": "VIETNAM FIGHTER"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20013_361:14,2:20014_353:15,3:20026_295:13,4:20016_444:12,5:20032_388:14,6:20018_393:3,7:20167_513:1,8:20040_359:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.020000;4001_0.023000;10002_0.019000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.020000;4001_0.033000;10002_0.015000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.026000;4001_0.032000;5001_0.017000",
+                "inscriptions": "17302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.019000;4001_0.016000;5001_0.017000",
+                "inscriptions": "17202;208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 174,
+            "y": 148
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 42450936,
+            "player_name": "Xcヽ Tuấn Vũ",
+            "alliance": {
+              "tag": "W676"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 42450936,
+        "player_name": "Xcヽ Tuấn Vũ",
+        "app_uid": "100994654",
+        "kingdom": 126,
+        "alliance": {
+          "tag": "W676",
+          "name": "VIETNAM FIGHTER"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20002_500:12,2:20005_378:11,3:20026_499:2,4:20029_362:12,5:20032_501:2,6:20034_487:2,7:20037_489:1,8:20040_442:1}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.021000;4001_0.034000;5001_0.023000",
+                "inscriptions": "112;105"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.026000;5001_0.034000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.018000;4001_0.030000;5001_0.026000",
+                "inscriptions": "304;307"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.028000;4001_0.025000;5001_0.028000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 177,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 174,
+            "y": 148
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 42450936,
+            "player_name": "Xcヽ Tuấn Vũ",
+            "alliance": {
+              "tag": "W676"
+            },
+            "commanders": {
+              "primary": {
+                "id": 184,
+                "level": 60
+              },
+              "secondary": {
+                "id": 177,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

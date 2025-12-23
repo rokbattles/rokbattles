@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "905592176607415817",
     "email_time": 1766074158086340,
     "email_receiver": "player_37556801",
@@ -94,6 +95,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 126920644,
+        "player_name": "ˢ AzzCon",
+        "app_uid": "101312618",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101312618/2025-12-04/B9B68A7B4EA64B59F85228A4E9140552_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20001_106:35,2:20004_94:35,3:20009_62:35,4:20028_48:32,5:20033_33:35,6:20012_51:31,7:20166_173:1,8:20118_170:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.032000;10002_0.020000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.022000;4002_0.030000;10002_0.020000",
+                "inscriptions": "13401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.030000;4002_0.029000;10002_0.018000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.026000;4002_0.028000;10002_0.019000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 40,
+            "equipment": "{7:20402_183:0}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1269,
+            "y": 1366
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 126920644,
+            "player_name": "ˢ AzzCon",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 40
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

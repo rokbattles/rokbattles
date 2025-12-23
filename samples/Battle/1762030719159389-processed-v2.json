@@ -3,6 +3,7 @@
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "73766701176203071912",
     "email_time": 1762030719159389,
     "email_receiver": "player_157148751",
@@ -152,6 +153,961 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 7582648,
+        "player_name": "米  PRK  米",
+        "app_uid": "7029838",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_99.png",
+        "commanders": {
+          "primary": {
+            "id": 198,
+            "level": 60,
+            "equipment": "{7:20041_270:1,8:20037_279:1,6:20018_273:1,2:20005_280:1,3:20015_246:11,1:20002_278:1,4:20016_276:1,5:20017_274:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.018000;4001_0.018000;5001_0.034000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.016000;4001_0.017000;5001_0.017000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.027000;4001_0.035000;5001_0.025000",
+                "inscriptions": "315"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.032000;4001_0.016000;5001_0.015000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 150
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7582648,
+            "player_name": "米  PRK  米",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7582648,
+        "player_name": "米  PRK  米",
+        "app_uid": "7029838",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_99.png",
+        "commanders": {
+          "primary": {
+            "id": 198,
+            "level": 60,
+            "equipment": "{3:20021_290:1,1:20060_293:20,4:20022_292:1,5:20023_291:1,7:20037_288:1,8:20039_302:1,6:20024_296:1,2:20051_295:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.032000;4003_0.015000;10002_0.020000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.031000;6003_0.030000;5003_0.016000",
+                "inscriptions": "414"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.026000;6003_0.028000;10002_0.015000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.015000;4003_0.033000;5003_0.035000",
+                "inscriptions": "203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 150
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7582648,
+            "player_name": "米  PRK  米",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 65796618,
+        "player_name": "Jops",
+        "app_uid": "46804282",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{2:20004_202:1,3:20009_188:1,4:20028_186:31,7:20040_232:1,6:20012_189:1,5:20033_187:31,8:20037_203:31,1:20001_234:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.032000;4002_0.016000;5002_0.017000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.018000;4002_0.015000;5002_0.017000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.017000;4002_0.030000;5002_0.017000",
+                "inscriptions": "307"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.017000;4002_0.021000;5002_0.021000",
+                "inscriptions": "211;208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 177,
+            "y": 153
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 65796618,
+            "player_name": "Jops",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 5226152,
+        "player_name": "DAYGO",
+        "app_uid": "4911330",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20019_187:1,3:20021_198:1,4:20022_199:1,5:20023_202:1,7:20037_203:1,6:20024_204:21,2:20020_201:1,8:20040_186:21}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.035000;4003_0.017000;5003_0.028000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.018000;4003_0.016000;5003_0.016000",
+                "inscriptions": "414"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.016000;5003_0.026000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.016000;4003_0.035000;5003_0.017000",
+                "inscriptions": "207;205"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 147
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 5226152,
+            "player_name": "DAYGO",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7582648,
+        "player_name": "米  PRK  米",
+        "app_uid": "7029838",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_99.png",
+        "commanders": {
+          "primary": {
+            "id": 198,
+            "level": 60,
+            "equipment": "{4:20016_237:1,5:20032_183:13,6:20018_248:4,7:20040_232:13,8:20037_300:11,2:20005_262:3,3:20026_258:1,1:20002_254:3}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.017000;4001_0.015000;5001_0.034000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.032000;4001_0.016000;5001_0.015000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.035000;4001_0.015000;10002_0.020000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.034000;4001_0.018000;5001_0.020000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 194,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 150
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7582648,
+            "player_name": "米  PRK  米",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7821244,
+        "player_name": "BlackBee",
+        "app_uid": "7232266",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7232266/2025-01-10/A1CA66EA6DF6FA7371282C013B97F1CA_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+        "commanders": {
+          "primary": {
+            "id": 147,
+            "level": 60,
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.025000;4002_0.021000;5002_0.023000",
+                "inscriptions": "1102;103"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.020000;4002_0.027000;5002_0.016000",
+                "inscriptions": "410"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.015000;4002_0.020000;5002_0.024000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.016000;4002_0.019000;5002_0.017000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 126,
+            "level": 60,
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 172,
+            "y": 153
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 7821244,
+            "player_name": "BlackBee",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 147,
+                "level": 60
+              },
+              "secondary": {
+                "id": 126,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 7582648,
+            "player_name": "米  PRK  米",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 5226152,
+            "player_name": "DAYGO",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 5226152,
+        "player_name": "DAYGO",
+        "app_uid": "4911330",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{6:20024_176:22,2:20020_146:23,3:20021_164:22,4:20022_178:21,1:20019_145:23,5:20023_172:22,7:20037_194:24,8:20039_137:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.035000;10002_0.018000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.023000;4003_0.027000;5003_0.019000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.024000;4003_0.022000;5003_0.015000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.021000;4003_0.034000;5003_0.032000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 147
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 5226152,
+            "player_name": "DAYGO",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 5226152,
+        "player_name": "DAYGO",
+        "app_uid": "4911330",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/5226152/22/01/23/0b0664df47392d28_221x221.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{4:20125_244:161,3:20124_242:1,6:20127_240:1,1:20122_239:161,5:20126_243:1,2:20123_241:1}",
+            "formation": 3,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3004_0.015000;4004_0.017000;5004_0.018000",
+                "inscriptions": "3102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3004_0.018000;6004_0.030000;5004_0.027000",
+                "inscriptions": "420"
+              },
+              {
+                "slot": 3,
+                "buffs": "3004_0.025000;4004_0.018000;5004_0.018000",
+                "inscriptions": "311"
+              },
+              {
+                "slot": 2,
+                "buffs": "3004_0.020000;4004_0.016000;5004_0.016000",
+                "inscriptions": "221;219"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 190,
+            "level": 31,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 147
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 5226152,
+            "player_name": "DAYGO",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 189,
+                "level": 60
+              },
+              "secondary": {
+                "id": 190,
+                "level": 31
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7821244,
+        "player_name": "BlackBee",
+        "app_uid": "7232266",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/7232266/2025-01-10/A1CA66EA6DF6FA7371282C013B97F1CA_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+        "commanders": {
+          "primary": {
+            "id": 147,
+            "level": 60,
+            "equipment": "{}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true
+          },
+          "secondary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{7:20037_507:1,8:20043_192:1,6:20012_513:1,2:20008_490:1,3:20025_480:1,4:20028_506:1,1:20007_488:1,5:20033_511:1}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 172,
+            "y": 153
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 7821244,
+            "player_name": "BlackBee",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 126,
+                "level": 60
+              },
+              "secondary": {
+                "id": 138,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 5226152,
+            "player_name": "DAYGO",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 65796618,
+        "player_name": "Jops",
+        "app_uid": "46804282",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
+        "commanders": {
+          "primary": {
+            "id": 147,
+            "level": 60,
+            "equipment": "{6:20024_184:1,1:20019_207:2,5:20023_206:1,7:20037_215:1,8:20039_248:21,4:20022_204:1,2:20020_208:1,3:20021_205:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.027000;4003_0.016000;5003_0.023000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.017000;4003_0.018000;5003_0.016000",
+                "inscriptions": "409"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.020000;6003_0.026000;5003_0.017000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.035000;4003_0.018000;5004_0.015000",
+                "inscriptions": "215"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 177,
+            "y": 153
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 65796618,
+            "player_name": "Jops",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 7582648,
+        "player_name": "米  PRK  米",
+        "app_uid": "7029838",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7582648/21/04/24/e66261ef75d829ce_800x800.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_99.png",
+        "commanders": {
+          "primary": {
+            "id": 198,
+            "level": 60,
+            "equipment": "{7:20037_269:1,8:20044_255:1,6:20012_285:1,2:20008_287:1,3:20009_281:1,1:20007_284:1,4:20028_282:1,5:20033_286:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.024000;4002_0.031000;5002_0.016000",
+                "inscriptions": "111;116"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.027000;4002_0.017000;5002_0.029000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.016000;4002_0.030000;5002_0.023000",
+                "inscriptions": "307"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.017000;4002_0.034000;10002_0.011000",
+                "inscriptions": "214"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 52,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 171,
+            "y": 150
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 7582648,
+            "player_name": "米  PRK  米",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 148,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 65796618,
+        "player_name": "Jops",
+        "app_uid": "46804282",
+        "kingdom": 109,
+        "alliance": {
+          "tag": "60D!",
+          "name": "Sesenta D"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/65796618/22/01/15/64d923792aed8eb1_225x225.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{7:20037_209:1,8:20118_210:1,2:20014_226:1,3:20015_199:1,5:20017_161:1,4:20029_191:11,1:20013_228:1,6:20034_47:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.022000;4001_0.034000;5001_0.026000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.031000;4001_0.024000;5001_0.022000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.026000;4001_0.035000;10002_0.020000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.027000;4001_0.030000;5001_0.021000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 194,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 177,
+            "y": 153
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 65796618,
+            "player_name": "Jops",
+            "alliance": {
+              "tag": "60D!"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "12715231175778916120",
     "email_time": 1757789161223335,
     "email_receiver": "player_27339394",
@@ -117,6 +118,376 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 138934988,
+        "player_name": "sikeᵒʰGoat",
+        "app_uid": "107149611",
+        "camp": 1,
+        "kingdom": 2331,
+        "alliance": {
+          "tag": "BOOZ",
+          "name": "Whine & Spirits"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/107149611/2025-01-02/B377E6BC722B5886B836CE883FDD48A6_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{6:20018_46:2,7:20037_93:1,8:20040_138:1,1:20013_58:1,2:20014_37:1,3:20026_19:13,4:20016_49:1,5:20032_56:12}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.034000;4001_0.025000;10002_0.015000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.022000;4001_0.032000;10002_0.015000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.016000;4001_0.018000;5001_0.016000",
+                "inscriptions": "17302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.022000;4001_0.015000;5001_0.017000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 956,
+            "y": 1143
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 138934988,
+            "player_name": "sikeᵒʰGoat",
+            "alliance": {
+              "tag": "BOOZ"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 19052761,
+        "player_name": "ᴬᶜ宗健",
+        "app_uid": "37292045",
+        "camp": 1,
+        "kingdom": 2065,
+        "alliance": {
+          "tag": "65AC",
+          "name": "孤云阁"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37292045/2025-08-30/612BA53672E388AA0EDFC325C38A0D4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_166.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 970,
+            "y": 1167
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 19052761,
+            "player_name": "ᴬᶜ宗健",
+            "alliance": {
+              "tag": "65AC"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 138934988,
+        "player_name": "sikeᵒʰGoat",
+        "app_uid": "107149611",
+        "camp": 1,
+        "kingdom": 2331,
+        "alliance": {
+          "tag": "BOOZ",
+          "name": "Whine & Spirits"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/107149611/2025-01-02/B377E6BC722B5886B836CE883FDD48A6_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20019_75:1,3:20027_70:21,5:20144_98:1,6:20145_97:1,7:20041_42:1,4:20022_78:1,2:20006_131:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.026000;4003_0.027000;5003_0.026000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.016000;6003_0.028000;5003_0.020000",
+                "inscriptions": "404;413"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.018000;4003_0.018000;5003_0.028000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.026000;4003_0.016000;5003_0.033000",
+                "inscriptions": "214"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 956,
+            "y": 1143
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 138934988,
+            "player_name": "sikeᵒʰGoat",
+            "alliance": {
+              "tag": "BOOZ"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 19052761,
+        "player_name": "ᴬᶜ宗健",
+        "app_uid": "37292045",
+        "camp": 1,
+        "kingdom": 2065,
+        "alliance": {
+          "tag": "65AC",
+          "name": "孤云阁"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37292045/2025-08-30/612BA53672E388AA0EDFC325C38A0D4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_166.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{4:20022_593:1,5:20144_622:21,6:20145_592:4,1:20003_597:1,7:20037_442:1,8:20043_671:1,2:20006_618:1,3:20021_589:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.016000;4003_0.032000;5003_0.015000",
+                "inscriptions": "109;113"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.030000;4003_0.026000;5003_0.022000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.034000;4003_0.034000;5003_0.030000",
+                "inscriptions": "313"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.029000;4003_0.034000;5003_0.031000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 970,
+            "y": 1167
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 19052761,
+            "player_name": "ᴬᶜ宗健",
+            "alliance": {
+              "tag": "65AC"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 19052761,
+        "player_name": "ᴬᶜ宗健",
+        "app_uid": "37292045",
+        "camp": 1,
+        "kingdom": 2065,
+        "alliance": {
+          "tag": "65AC",
+          "name": "孤云阁"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37292045/2025-08-30/612BA53672E388AA0EDFC325C38A0D4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_166.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{7:20040_444:21,8:20037_470:21,6:20024_415:25,2:20020_418:25,3:20021_416:23,4:20022_430:24,1:20019_417:25,5:20023_429:25}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.028000;4003_0.032000;5003_0.033000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.021000;4003_0.029000;5003_0.030000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.029000;4003_0.020000;10002_0.019000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.016000;4003_0.034000;5003_0.032000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 970,
+            "y": 1167
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 19052761,
+            "player_name": "ᴬᶜ宗健",
+            "alliance": {
+              "tag": "65AC"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

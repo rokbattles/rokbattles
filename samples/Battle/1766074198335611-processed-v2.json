@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "907507176607419817",
     "email_time": 1766074198335611,
     "email_receiver": "player_37556801",
@@ -112,6 +113,320 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 126920644,
+        "player_name": "ˢ AzzCon",
+        "app_uid": "101312618",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101312618/2025-12-04/B9B68A7B4EA64B59F85228A4E9140552_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20001_106:35,2:20004_94:35,3:20009_62:35,4:20028_48:32,5:20033_33:35,6:20012_51:31,7:20166_173:1,8:20118_170:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.032000;10002_0.020000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.022000;4002_0.030000;10002_0.020000",
+                "inscriptions": "13401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.030000;4002_0.029000;10002_0.018000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.026000;4002_0.028000;10002_0.019000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 40,
+            "equipment": "{7:20402_183:0}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1269,
+            "y": 1366
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 126920644,
+            "player_name": "ˢ AzzCon",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 29862805,
+        "player_name": "Benbu 벤부",
+        "app_uid": "26855535",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-12-07/AB876EA0D83EDD3AD76FF4496762753C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+        "commanders": {
+          "primary": {
+            "id": 182,
+            "level": 60,
+            "equipment": "{1:20007_309:2,2:20008_308:2,3:20009_310:2,4:20028_307:2,5:20033_171:2,6:20012_311:2,7:20037_289:2,8:20118_272:2}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.020000;4002_0.020000;5002_0.021000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.018000;4002_0.016000;5002_0.027000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.017000;4002_0.032000;5002_0.024000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.016000;4002_0.023000;5002_0.035000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1178,
+            "y": 1344
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 29862805,
+            "player_name": "Benbu 벤부",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 20075558,
+        "player_name": "jën x ƒaräɀ",
+        "app_uid": "18278241",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 103,
+            "level": 60,
+            "equipment": "{1:20007_408:35,2:20004_474:35,3:20009_412:35,4:20028_411:34,5:20033_442:35,6:20012_430:35,7:20037_523:35,8:20040_472:35}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.022000;4002_0.021000;10002_0.019000",
+                "inscriptions": "109;104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.025000;4002_0.019000;5002_0.022000",
+                "inscriptions": "1401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.035000;4002_0.026000;5002_0.034000",
+                "inscriptions": "1301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.034000;4002_0.032000;5002_0.024000",
+                "inscriptions": "1201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1212,
+            "y": 1363
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 20075558,
+            "player_name": "jën x ƒaräɀ",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 103,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 71738515,
+        "player_name": "G Var",
+        "app_uid": "32624247",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "SO4L",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20007_400:2,2:20008_260:2,3:20009_381:2,4:20028_378:2,5:20033_382:2,6:20012_383:2,7:20040_394:1,8:20037_338:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.023000;4002_0.021000;10002_0.014000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.027000;4002_0.027000;5002_0.027000",
+                "inscriptions": "13401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.033000;4002_0.018000;10002_0.018000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.027000;4002_0.021000;5002_0.020000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{7:20402_448:0}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1236,
+            "y": 1371
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 71738515,
+            "player_name": "G Var",
+            "alliance": {
+              "tag": "SO4L"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

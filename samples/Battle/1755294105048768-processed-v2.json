@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "1002513917552941054",
     "email_time": 1755294105048768,
     "email_receiver": "player_110176153",
@@ -76,6 +77,59 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 130014943,
+        "player_name": "xAvarice",
+        "app_uid": "103134073",
+        "kingdom": 1804,
+        "alliance": null,
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head10.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+        "commanders": {
+          "primary": {
+            "id": 9,
+            "level": 50,
+            "equipment": "{2:20062_27:0}",
+            "formation": 1,
+            "star": 5,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 7,
+            "level": 42,
+            "equipment": "{6:20086_23:0,1:20089_12:30,2:20083_19:30,4:20085_15:0,5:20101_25:30,3:20084_21:0}",
+            "star": 5,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 368,
+            "y": 1049
+          },
+          "level": 24,
+          "watchtower": 17
+        },
+        "participants": [
+          {
+            "player_id": 130014943,
+            "player_name": "xAvarice",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 9,
+                "level": 50
+              },
+              "secondary": {
+                "id": 7,
+                "level": 42
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

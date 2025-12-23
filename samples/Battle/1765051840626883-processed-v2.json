@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "71341077176505184025",
     "email_time": 1765051840626883,
     "email_receiver": "player_2295184",
@@ -117,6 +118,554 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "Divine Clankers 73"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20001_220:35,2:20004_237:34,3:20009_215:35,4:20028_165:35,5:20033_169:35,6:20012_160:35,7:20040_171:33,8:20037_173:33}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.024000;4002_0.023000;10002_0.019000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.018000;4002_0.035000;5002_0.035000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.015000;4002_0.035000;5002_0.017000",
+                "inscriptions": "13302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.019000;4002_0.031000;10002_0.018000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 579,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 575,
+                "level": 60
+              },
+              "secondary": {
+                "id": 579,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 36894419,
+        "player_name": "장님저격수",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "DC#1",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1610822/2025-03-16/D974CCAFCDFF55CE021F5090C45901A2_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_227.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20013_565:12,2:20014_561:2,3:20026_593:1,4:20016_544:1,5:20032_629:12,6:20018_560:15,7:20037_621:3,8:20040_563:13}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.027000;4001_0.035000;5001_0.035000",
+                "inscriptions": "1101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.031000;4001_0.024000;5001_0.028000",
+                "inscriptions": "419;410"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.033000;4001_0.025000;5001_0.035000",
+                "inscriptions": "1302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.022000;4001_0.034000;10002_0.020000",
+                "inscriptions": "214"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 620,
+            "y": 542
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 36894419,
+            "player_name": "장님저격수",
+            "alliance": {
+              "tag": "DC#1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "단테암살단"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20013_163:2,2:20014_112:2,3:20026_114:2,4:20016_162:1,5:20032_186:2,6:20018_172:5,7:20040_88:1,8:20037_170:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.030000;4001_0.028000;5001_0.035000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.029000;4001_0.030000;5001_0.024000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.035000;4001_0.022000;5001_0.027000",
+                "inscriptions": "313"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.025000;5001_0.028000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20060_105:20,2:20051_107:20,3:20052_106:20,4:20053_196:20,5:20054_194:20,6:20024_317:3,7:20040_310:1,8:20097_290:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.025000;4003_0.029000;5003_0.027000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.026000;4003_0.028000;5003_0.028000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.028000;6003_0.021000;5003_0.030000",
+                "inscriptions": "315"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.017000;4003_0.019000;5003_0.025000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20002_307:2,2:20005_276:1,3:20015_256:2,4:20029_284:2,5:20017_286:12,6:20034_60:5,7:20037_164:1,8:20040_113:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.020000;4001_0.027000;10002_0.019000",
+                "inscriptions": "115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.030000;4001_0.017000;5001_0.035000",
+                "inscriptions": "2401;418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.029000;4001_0.016000;5001_0.017000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.034000;4001_0.035000;10016_0.040000",
+                "inscriptions": "208;215"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20007_167:2,2:20008_166:2,3:20009_161:2,4:20028_243:2,5:20033_242:2,6:20012_209:2,7:20040_138:1,8:20037_115:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.018000;4002_0.034000;5002_0.023000",
+                "inscriptions": "109"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.033000;4002_0.035000;5002_0.029000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.018000;4002_0.033000;5002_0.030000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.033000;4002_0.025000;10002_0.018000",
+                "inscriptions": "2202;218"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 33696332,
+        "player_name": "라돌cevita",
+        "app_uid": null,
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/871063/2025-11-14/F6F57CCF923865CDE20C6B43EBA16773_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_228.png",
+        "commanders": {
+          "primary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{1:20019_192:22,2:20020_193:2,3:20021_187:2,4:20022_197:2,5:20144_203:2,6:20145_204:25,7:20040_311:22,8:20037_159:2}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.026000;5003_0.027000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.019000;6003_0.031000;5003_0.033000",
+                "inscriptions": "414"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.020000;6003_0.035000;10002_0.015000",
+                "inscriptions": "301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.023000;4003_0.029000;5003_0.034000",
+                "inscriptions": "209"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 195,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 627,
+            "y": 530
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 33696332,
+            "player_name": "라돌cevita",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 195,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

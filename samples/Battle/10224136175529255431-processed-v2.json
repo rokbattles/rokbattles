@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "10224136175529255431",
     "email_time": 1755292554783132,
     "email_receiver": "player_71738515",
@@ -111,6 +112,162 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 129155556,
+        "player_name": "ˢNinoveraptor",
+        "app_uid": "74853482",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "04Z",
+          "name": "魂社会 Squad Zero"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/74853482/2025-08-05/56FC88C7816FFFBE5FEAD050D691D207_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{5:20033_30:1,7:20040_53:1,8:20118_98:1,6:20012_55:1,2:20008_49:31,3:20009_47:1,4:20028_62:1,1:20007_48:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.031000;4002_0.029000;5002_0.033000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.015000;4002_0.023000;5002_0.030000",
+                "inscriptions": "2401;411"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.024000;4002_0.022000;5002_0.015000",
+                "inscriptions": "312"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.024000;4002_0.033000;10002_0.018000",
+                "inscriptions": "212"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 644,
+            "y": 619
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 129155556,
+            "player_name": "ˢNinoveraptor",
+            "alliance": {
+              "tag": "04Z"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 129155556,
+        "player_name": "ˢNinoveraptor",
+        "app_uid": "74853482",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "04Z",
+          "name": "魂社会 Squad Zero"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/74853482/2025-08-05/56FC88C7816FFFBE5FEAD050D691D207_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{1:20002_76:11,7:20037_64:1,8:20040_97:11,3:20026_67:1,5:20032_60:1,2:20005_63:1,4:20029_58:1,6:20034_77:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.034000;4001_0.017000;5001_0.015000",
+                "inscriptions": "17102;106"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.023000;4001_0.027000;5001_0.017000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.030000;4001_0.023000;5001_0.015000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.015000;4001_0.016000;5001_0.031000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 644,
+            "y": 619
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 129155556,
+            "player_name": "ˢNinoveraptor",
+            "alliance": {
+              "tag": "04Z"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "71575671176505973625",
     "email_time": 1765059736486593,
     "email_receiver": "player_2295184",
@@ -99,6 +100,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 3571180,
+        "player_name": "ᴼⁿᵉTwo",
+        "app_uid": "3389324",
+        "camp": 1,
+        "kingdom": 718,
+        "alliance": {
+          "tag": "1718",
+          "name": "덜그럭덜그럭"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3389324/2025-11-14/260ED38EE93DF3CB01903855F049615F_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_576:25,2:20020_627:25,3:20021_578:23,4:20022_716:23,5:20023_626:24,6:20024_577:25,7:20039_787:22,8:20037_687:21}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.034000;4003_0.034000;5003_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.027000;4003_0.034000;10002_0.019000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.023000;4003_0.028000;5003_0.023000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.031000;4003_0.035000;5003_0.025000",
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 631,
+            "y": 538
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 3571180,
+            "player_name": "ᴼⁿᵉTwo",
+            "alliance": {
+              "tag": "1718"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

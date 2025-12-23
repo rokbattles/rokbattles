@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "16018327175543957430",
     "email_time": 1755439574952851,
     "email_receiver": "player_34961809",
@@ -99,6 +100,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 9567803,
+        "player_name": "ᶦFᶦ Zhoë",
+        "app_uid": "8786970",
+        "camp": 3,
+        "kingdom": 787,
+        "alliance": {
+          "tag": "FCK",
+          "name": "Fight Club:Kingdom"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/8786970/2024-07-27/11D285695122C6613A724BA4BC9220D9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+        "commanders": {
+          "primary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{7:20044_125:1,8:20097_111:0,2:20014_127:1,3:20026_92:1,1:20059_80:10,4:20067_55:10,5:20068_65:10,6:20072_87:10}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.025000;4001_0.022000;5001_0.015000",
+                "inscriptions": "1101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.022000;4001_0.015000;5002_0.028000",
+                "inscriptions": "418"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.026000;8000_0.054000;5001_0.017000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.033000;10002_0.019000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 578,
+            "y": 481
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 9567803,
+            "player_name": "ᶦFᶦ Zhoë",
+            "alliance": {
+              "tag": "IMP\""
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              },
+              "secondary": {
+                "id": 545,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

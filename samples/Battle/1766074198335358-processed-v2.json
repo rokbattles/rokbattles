@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "914085176607419831",
     "email_time": 1766074198335358,
     "email_receiver": "player_71738515",
@@ -99,6 +100,81 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 37556801,
+        "player_name": "Benbu",
+        "app_uid": "26855535",
+        "camp": 2,
+        "kingdom": 1804,
+        "alliance": null,
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 190,
+            "level": 60,
+            "equipment": "{1:20128_97:0,2:20129_89:160,3:20130_90:0,4:20131_91:0,5:20132_92:0,6:20133_93:0,7:20075_51:0,8:20164_101:0}",
+            "formation": 3,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "2004_0.074000;8000_0.056000;10101_0.066000",
+                "inscriptions": "3102;113"
+              },
+              {
+                "slot": 4,
+                "buffs": "3004_0.017000;4004_0.018000;10101_0.056000",
+                "inscriptions": "411"
+              },
+              {
+                "slot": 3,
+                "buffs": "3004_0.015000;4004_0.015000;5004_0.019000",
+                "inscriptions": "308"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.031000;8000_0.052000;5001_0.015000",
+                "inscriptions": "203;216"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 189,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1233,
+            "y": 1368
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 37556801,
+            "player_name": "Benbu",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 190,
+                "level": 60
+              },
+              "secondary": {
+                "id": 189,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

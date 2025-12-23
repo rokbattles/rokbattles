@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "64457197175681232728",
     "email_time": 1756812327093062,
     "email_receiver": "player_83629727",
@@ -241,6 +242,37 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": -2,
+        "player_name": null,
+        "app_uid": null,
+        "kingdom": null,
+        "alliance": null,
+        "avatar_url": null,
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 94,
+            "level": null
+          }
+        },
+        "castle": null,
+        "participants": [
+          {
+            "player_id": -2,
+            "player_name": null,
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 85,
+                "level": 33
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

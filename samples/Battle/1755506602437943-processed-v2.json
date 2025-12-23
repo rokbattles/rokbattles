@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "18825303175550660230",
     "email_time": 1755506602437943,
     "email_receiver": "player_34961809",
@@ -119,6 +120,314 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 32500671,
+        "player_name": "Viatina 2",
+        "app_uid": "8518744-399975",
+        "camp": 4,
+        "kingdom": 1425,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/AF04785CD4F396869B28F79424A677C7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+        "commanders": {
+          "primary": {
+            "id": 105,
+            "level": 38,
+            "equipment": "{}",
+            "formation": 6,
+            "star": 4,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 32,
+            "level": 38,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 270,
+            "y": 415
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 32500671,
+            "player_name": "Viatina 2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 105,
+                "level": 38
+              },
+              "secondary": {
+                "id": 32,
+                "level": 38
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 32500671,
+        "player_name": "Viatina 2",
+        "app_uid": "8518744-399975",
+        "camp": 4,
+        "kingdom": 1425,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/AF04785CD4F396869B28F79424A677C7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+        "commanders": {
+          "primary": {
+            "id": 105,
+            "level": 40,
+            "equipment": "{2:20056_8:0,3:20057_7:0,1:20055_6:0,4:20058_5:0,5:20081_1:40,6:20082_2:40,7:20077_0:40,8:20074_21:40}",
+            "formation": 6,
+            "star": 4,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "2004_0.058000;8000_0.050000;5003_0.021000",
+                "inscriptions": "130"
+              },
+              {
+                "slot": 4,
+                "buffs": "2004_0.056000;4002_0.012000;5004_0.017000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "2004_0.044000;4002_0.005000;5004_0.006000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "2004_0.048000;4004_0.005000;10101_0.022000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 463,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 270,
+            "y": 415
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 32500671,
+            "player_name": "Viatina 2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 102,
+                "level": 40
+              },
+              "secondary": {
+                "id": 463,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 32500671,
+        "player_name": "Viatina 2",
+        "app_uid": "8518744-399975",
+        "camp": 4,
+        "kingdom": 1425,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/AF04785CD4F396869B28F79424A677C7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+        "commanders": {
+          "primary": {
+            "id": 105,
+            "level": 50,
+            "equipment": "{}",
+            "formation": 6,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 2,
+                "buffs": "2004_0.030000;4004_0.007000;10101_0.028000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 134,
+            "level": 38,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 270,
+            "y": 415
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 32500671,
+            "player_name": "Viatina 2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 116,
+                "level": 50
+              },
+              "secondary": {
+                "id": 134,
+                "level": 38
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 32500671,
+        "player_name": "Viatina 2",
+        "app_uid": "8518744-399975",
+        "camp": 4,
+        "kingdom": 1425,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/AF04785CD4F396869B28F79424A677C7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+        "commanders": {
+          "primary": {
+            "id": 105,
+            "level": 60,
+            "equipment": "{2:20062_17:0,3:20064_15:0,1:20087_9:50,4:20066_18:0,5:20070_16:50,6:20071_22:0}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "2004_0.075000;4002_0.015000;5002_0.026000",
+                "inscriptions": "103"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.020000;6003_0.019000;10016_0.070000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.018000;6004_0.018000;5002_0.022000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.024000;4002_0.016000;5002_0.015000",
+                "inscriptions": "209"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 9,
+            "level": 50,
+            "equipment": "{}",
+            "star": 5,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 270,
+            "y": 415
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 32500671,
+            "player_name": "Viatina 2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 9,
+                "level": 50
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 32500671,
+        "player_name": "Viatina 2",
+        "app_uid": "8518744-399975",
+        "camp": 4,
+        "kingdom": 1425,
+        "alliance": null,
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/AF04785CD4F396869B28F79424A677C7_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_199.png",
+        "commanders": {
+          "primary": {
+            "id": 105,
+            "level": 40,
+            "equipment": "{}",
+            "formation": 7,
+            "star": 4,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 61,
+            "level": 49,
+            "equipment": "{}",
+            "star": 5,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 270,
+            "y": 415
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 32500671,
+            "player_name": "Viatina 2",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 40
+              },
+              "secondary": {
+                "id": 61,
+                "level": 49
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

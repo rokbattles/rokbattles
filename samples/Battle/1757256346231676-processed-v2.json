@@ -3,6 +3,7 @@
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "7911945717572563466",
     "email_time": 1757256346231676,
     "email_receiver": "player_40693070",
@@ -98,6 +99,85 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 29400604,
+        "player_name": "KSC Sư IV Moon",
+        "app_uid": "26417940",
+        "kingdom": 130,
+        "alliance": {
+          "tag": "2367",
+          "name": "Không Sợ Chó!"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26417940/2025-02-20/32AA585FDEB88F2A998A772A54CA546A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{7:20044_1103:1,2:20005_1224:12,3:20026_1021:15,5:20032_958:15,6:20034_871:13,1:20002_1183:12,4:20029_1077:12,8:20167_1254:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.019000;4001_0.025000;5001_0.034000",
+                "inscriptions": "17102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.033000;10002_0.018000",
+                "inscriptions": "403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.018000;4001_0.026000;5001_0.035000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.028000;5001_0.027000",
+                "inscriptions": "216;211"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 144,
+            "y": 179
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 29400604,
+            "player_name": "KSC Sư IV Moon",
+            "alliance": {
+              "tag": "2367"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

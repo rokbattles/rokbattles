@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "22799073175044803028",
     "email_time": 1750448030655413,
     "email_receiver": "player_83629727",
@@ -542,6 +543,87 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 78081300,
+        "player_name": "パル工業",
+        "app_uid": "8529460-1379951",
+        "camp": 5,
+        "kingdom": 815,
+        "alliance": {
+          "tag": "637J",
+          "name": "星の白金/世界/"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1379951/2025-03-10/1CD47D27B2C3FF62FB64C5468243065A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 191,
+            "level": 60,
+            "equipment": "{1:20001_232:35,5:20033_204:35,6:20012_182:35,7:20040_197:35,8:20037_192:34,2:20004_220:35,3:20009_183:35,4:20028_205:35}",
+            "formation": 5,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.028000;4002_0.016000;5002_0.023000",
+                "inscriptions": "103"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.019000;4002_0.017000;5002_0.030000",
+                "inscriptions": "416"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.028000;4002_0.032000;5002_0.015000",
+                "inscriptions": "315"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;4002_0.025000;5002_0.035000",
+                "inscriptions": "203;216"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 177,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 581,
+            "y": 528
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 78081300,
+            "player_name": "パル工業",
+            "alliance": {
+              "tag": "637J"
+            },
+            "commanders": {
+              "primary": {
+                "id": 191,
+                "level": 60
+              },
+              "secondary": {
+                "id": 177,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -31,6 +31,9 @@ pub struct BattleMetadata {
     // __rokb_battle_data_sender_skipped_participants
     #[serde(rename = "__rokb_battle_data_sender_skipped_participants")]
     pub rokb_battle_data_sender_skipped_participants: i64,
+    // __rokb_battle_data_opponents_skipped_participants
+    #[serde(rename = "__rokb_battle_data_opponents_skipped_participants")]
+    pub rokb_battle_data_opponents_skipped_participants: i64,
 
     // id
     pub email_id: Option<String>,
@@ -76,6 +79,8 @@ pub struct DataSummary {
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BattleData {
     pub sender: Option<BattleParticipant>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub opponents: Vec<BattleParticipant>,
 }
 
 /// Sender details from the initial report sections.
@@ -99,7 +104,7 @@ pub struct BattleParticipant {
     pub frame_url: Option<String>,
     pub commanders: Option<BattleCommanders>,
     pub castle: Option<BattleCastle>,
-    // STs
+    // STs or OTs
     pub participants: Vec<BattleSubParticipant>,
 }
 

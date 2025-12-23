@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "10311279175284404113",
     "email_time": 1752844041706806,
     "email_receiver": "player_36195367",
@@ -97,6 +98,84 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 38608124,
+        "player_name": "SnowMan亗",
+        "app_uid": "32885073",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": null,
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/38608124/22/07/11/5f3cd49a87cb3b2c_420x420.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 118,
+            "level": 60,
+            "equipment": "{7:20037_145:1,8:20040_170:1,6:20018_172:11,2:20014_161:11,3:20026_159:11,5:20032_171:11,4:20029_162:11,1:20013_94:11}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.013000;4001_0.018000;10002_0.006000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.035000;6003_0.032000;5001_0.016000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "2004_0.062000;4001_0.034000;5001_0.032000",
+                "inscriptions": "318"
+              },
+              {
+                "slot": 2,
+                "buffs": "2004_0.054000;4001_0.027000;5002_0.016000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 139,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 163,
+            "y": 1183
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 38608124,
+            "player_name": "SnowMan亗",
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 118,
+                "level": 60
+              },
+              "secondary": {
+                "id": 139,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

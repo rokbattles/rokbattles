@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "70657339176503384525",
     "email_time": 1765033845629453,
     "email_receiver": "player_2295184",
@@ -99,6 +100,163 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 45985429,
+        "player_name": "ᴾʰˣFuRiouSs",
+        "app_uid": "38406629",
+        "camp": 5,
+        "kingdom": 2283,
+        "alliance": {
+          "tag": "RA83",
+          "name": "Rise From the Ashes"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/38406629/2025-11-28/2D572B83F584003FCBF905CCC42F674A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_50.png",
+        "commanders": {
+          "primary": {
+            "id": 103,
+            "level": 60,
+            "equipment": "{1:20001_804:35,2:20004_799:35,3:20009_803:35,4:20028_771:32,5:20033_763:35,6:20012_765:32,7:20037_801:35,8:20040_786:35}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.025000;4002_0.033000;5002_0.031000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.022000;4002_0.033000;5002_0.027000",
+                "inscriptions": "13402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.025000;4002_0.031000;5002_0.026000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.021000;4002_0.027000;5002_0.023000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 539,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 555,
+            "y": 557
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 155757187,
+            "player_name": "MoreBeer",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 61,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 52624545,
+            "player_name": "Shy Falcon",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 64012553,
+            "player_name": "TwistzLG",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 164772007,
+            "player_name": "ᴾʰˣBoo",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 164783378,
+            "player_name": "ᴾʰˣ NIXPRO",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 15415503,
+            "player_name": "Яツalbator dark",
+            "alliance": {
+              "tag": "RA83"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 161,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

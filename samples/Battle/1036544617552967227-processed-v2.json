@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "1036544617552967227",
     "email_time": 1755296722303273,
     "email_receiver": "player_141393181",
@@ -71,6 +72,63 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 181252461,
+        "player_name": "F4 Benbu",
+        "app_uid": "26855535",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "04Z",
+          "name": "魂社会 Squad Zero"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 23,
+            "level": 1,
+            "equipment": "{}",
+            "star": 1,
+            "awakened": false
+          },
+          "secondary": {
+            "id": 24,
+            "level": 1,
+            "equipment": "{}",
+            "star": 1,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 620,
+            "y": 833
+          },
+          "level": 13,
+          "watchtower": 3
+        },
+        "participants": [
+          {
+            "player_id": 181252461,
+            "player_name": "F4 Benbu",
+            "alliance": {
+              "tag": "04Z"
+            },
+            "commanders": {
+              "primary": {
+                "id": 23,
+                "level": 1
+              },
+              "secondary": {
+                "id": 24,
+                "level": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

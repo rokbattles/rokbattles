@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "open_field",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "69363996176498187010",
     "email_time": 1764981870145553,
     "email_receiver": "player_32180759",
@@ -125,6 +126,398 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 109809648,
+        "player_name": "Itachy10",
+        "app_uid": "88930603",
+        "camp": 6,
+        "kingdom": 1304,
+        "alliance": {
+          "tag": "MiO1",
+          "name": "TrADoZoNa"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88930603/2025-07-15/DDFC3B7BE3E62D274D5ADD0931912FB9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20002_135:2,2:20005_136:1,3:20026_7:11,4:20029_61:1,5:20032_15:4,6:20034_51:5,7:20038_121:1,8:20037_198:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.027000;4001_0.025000;5001_0.031000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.026000;4001_0.021000;10002_0.019000",
+                "inscriptions": "412;411"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.034000;4001_0.030000;5001_0.030000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.027000;4001_0.016000;5001_0.022000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 541,
+            "y": 607
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 109809648,
+            "player_name": "Itachy10",
+            "alliance": {
+              "tag": "MiO1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 109809648,
+        "player_name": "Itachy10",
+        "app_uid": "88930603",
+        "camp": 6,
+        "kingdom": 1304,
+        "alliance": {
+          "tag": "MiO1",
+          "name": "TrADoZoNa"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88930603/2025-07-15/DDFC3B7BE3E62D274D5ADD0931912FB9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20001_144:1,2:20004_182:32,3:20009_151:31,4:20028_165:1,5:20033_161:1,6:20012_163:1,7:20037_62:1,8:20097_168:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.016000;4002_0.029000;10002_0.018000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.028000;4002_0.015000;10002_0.018000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.033000;4002_0.015000;10002_0.019000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.034000;4002_0.020000;10002_0.020000",
+                "inscriptions": "210"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 541,
+            "y": 607
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 109809648,
+            "player_name": "Itachy10",
+            "alliance": {
+              "tag": "MiO1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 109809648,
+        "player_name": "Itachy10",
+        "app_uid": "88930603",
+        "camp": 6,
+        "kingdom": 1304,
+        "alliance": {
+          "tag": "MiO1",
+          "name": "TrADoZoNa"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88930603/2025-07-15/DDFC3B7BE3E62D274D5ADD0931912FB9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20001_186:1,2:20004_157:1,3:20009_171:1,4:20028_187:1,5:20033_170:1,6:20012_177:1,7:20037_195:1,8:20040_63:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.033000;10002_0.020000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.034000;4002_0.023000;5002_0.016000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "6002_0.035000;4002_0.015000;5002_0.027000",
+                "inscriptions": "315"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.020000;4002_0.029000;10002_0.017000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 35,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 541,
+            "y": 607
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 109809648,
+            "player_name": "Itachy10",
+            "alliance": {
+              "tag": "MiO1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 35
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 109809648,
+        "player_name": "Itachy10",
+        "app_uid": "88930603",
+        "camp": 6,
+        "kingdom": 1304,
+        "alliance": {
+          "tag": "MiO1",
+          "name": "TrADoZoNa"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88930603/2025-07-15/DDFC3B7BE3E62D274D5ADD0931912FB9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20019_128:1,2:20020_132:1,3:20021_129:21,4:20022_134:1,5:20023_131:1,6:20024_133:4,7:20037_192:1,8:20097_178:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.030000;4003_0.015000;10002_0.013000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.015000;4003_0.027000;5003_0.030000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.032000;6003_0.032000;5003_0.016000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.021000;4003_0.031000;5003_0.017000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 541,
+            "y": 607
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 109809648,
+            "player_name": "Itachy10",
+            "alliance": {
+              "tag": "MiO1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 109809648,
+        "player_name": "Itachy10",
+        "app_uid": "88930603",
+        "camp": 6,
+        "kingdom": 1304,
+        "alliance": {
+          "tag": "MiO1",
+          "name": "TrADoZoNa"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88930603/2025-07-15/DDFC3B7BE3E62D274D5ADD0931912FB9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20013_41:1,2:20014_50:1,3:20026_125:1,4:20029_120:1,5:20144_119:2,6:20145_118:1,7:20120_188:0,8:20037_197:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.025000;4001_0.033000;5001_0.017000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.034000;4001_0.032000;10002_0.020000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "6001_0.033000;4001_0.020000;5001_0.018000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.018000;4001_0.015000;10002_0.018000",
+                "inscriptions": "201;205"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 541,
+            "y": 607
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 109809648,
+            "player_name": "Itachy10",
+            "alliance": {
+              "tag": "MiO1"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

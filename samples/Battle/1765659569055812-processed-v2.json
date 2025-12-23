@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "garrison",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "88407912176565956922",
     "email_time": 1765659569055812,
     "email_receiver": "player_76924351",
@@ -1555,6 +1556,465 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 103,
+            "level": 60,
+            "equipment": "{1:20001_326:34,2:20004_296:33,3:20009_160:34,4:20028_282:34,5:20033_73:34,6:20012_161:33,7:20037_355:31,8:20040_368:33}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.024000;4002_0.035000;5002_0.035000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.034000;4002_0.020000;5002_0.026000",
+                "inscriptions": "13401;403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.028000;4002_0.034000;5002_0.034000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.022000;4002_0.032000;5002_0.026000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 539,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1469,
+            "y": 959
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 119477489,
+            "player_name": "㋡Nariman7",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 115,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 119477489,
+            "player_name": "㋡Nariman7",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 119477489,
+            "player_name": "㋡Nariman7",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 32965517,
+            "player_name": "FLØƘĪ f2p",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 81371949,
+            "player_name": "ˢᶰ Alexandr",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 11936822,
+            "player_name": "㋡Nemo",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 141034362,
+            "player_name": "Angel㋡ferm",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 167171949,
+            "player_name": "RomanTop 1",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 7,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 117847004,
+            "player_name": "Junck farm",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 14,
+                "level": 35
+              }
+            }
+          },
+          {
+            "player_id": 167366989,
+            "player_name": "RomanFerm",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 61,
+                "level": 60
+              },
+              "secondary": {
+                "id": 1,
+                "level": 10
+              }
+            }
+          },
+          {
+            "player_id": 86799269,
+            "player_name": "父Willieᴿᵁ",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 167365205,
+            "player_name": "RomanTop 2",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 154141788,
+            "player_name": "Diego㋡Prime 屮",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 117847004,
+            "player_name": "Junck farm",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 189,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 119611379,
+            "player_name": "Lion and Rose",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 117847004,
+            "player_name": "Junck farm",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 44878075,
+            "player_name": "㋡ Euphoria",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 145549221,
+            "player_name": "farmXAMAM",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 9,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 12133785,
+            "player_name": "Talunna ㋡",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 145549221,
+            "player_name": "farmXAMAM",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 145835769,
+            "player_name": "㋡ BiGGie ㋡",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 138,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 137099191,
+            "player_name": "GromanFarm1",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 61,
+                "level": 60
+              },
+              "secondary": {
+                "id": 9,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 137099191,
+            "player_name": "GromanFarm1",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 58763122,
+            "player_name": "бурбон㋡",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

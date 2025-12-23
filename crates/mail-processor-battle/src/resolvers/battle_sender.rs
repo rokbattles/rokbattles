@@ -5,10 +5,7 @@ use serde_json::{Map, Value};
 
 use crate::context::MailContext;
 use crate::helpers;
-use crate::structures::{
-    BattleAlliance, BattleArmament, BattleCastle, BattleCommander, BattleCommanders, BattleData,
-    BattleMail, BattleParticipant, BattlePosition, BattleSubParticipant,
-};
+use crate::structures::{BattleData, BattleMail};
 
 /// Resolves sender data for battle reports.
 pub struct BattleSenderResolver;
@@ -22,74 +19,6 @@ impl Default for BattleSenderResolver {
 impl BattleSenderResolver {
     pub fn new() -> Self {
         Self
-    }
-
-    fn section_has_pname(section: &Value) -> bool {
-        section.get("PName").is_some()
-            || section
-                .pointer("/body/content/PName")
-                .and_then(Value::as_str)
-                .map(|p| !p.trim().is_empty())
-                .unwrap_or(false)
-            || section
-                .pointer("/content/PName")
-                .and_then(Value::as_str)
-                .map(|p| !p.trim().is_empty())
-                .unwrap_or(false)
-    }
-
-    fn find_sender_section(sections: &[Value]) -> Option<(usize, &Map<String, Value>)> {
-        for (index, section) in sections.iter().enumerate() {
-            if section.get("PName").is_some() {
-                return section.as_object().map(|map| (index, map));
-            }
-            if let Some(content) = section.pointer("/body/content").and_then(Value::as_object)
-                && content.get("PName").is_some()
-            {
-                return Some((index, content));
-            }
-            if let Some(content) = section.get("content").and_then(Value::as_object)
-                && content.get("PName").is_some()
-            {
-                return Some((index, content));
-            }
-        }
-
-        None
-    }
-
-    fn find_sender_value<'a>(
-        sections: &'a [Value],
-        sender_index: usize,
-        key: &str,
-    ) -> Option<&'a Value> {
-        let mut start = sender_index;
-        while start > 0 && !Self::section_has_pname(&sections[start - 1]) {
-            start -= 1;
-        }
-
-        let mut end = sender_index + 1;
-        while end < sections.len() && !Self::section_has_pname(&sections[end]) {
-            end += 1;
-        }
-
-        // Sender detail blocks can spill into surrounding sections without PName fields.
-        for section in &sections[start..end] {
-            if let Some(value) = section.get(key) {
-                return Some(value);
-            }
-            if let Some(value) = section
-                .pointer("/body/content")
-                .and_then(|body| body.get(key))
-            {
-                return Some(value);
-            }
-            if let Some(value) = section.get("content").and_then(|content| content.get(key)) {
-                return Some(value);
-            }
-        }
-
-        None
     }
 
     fn find_self_char(sections: &[Value]) -> Option<&Map<String, Value>> {
@@ -109,453 +38,28 @@ impl BattleSenderResolver {
                 .and_then(Value::as_object)
         })
     }
-
-    fn parse_trimmed_string(value: Option<&Value>) -> Option<String> {
-        let raw = helpers::parse_string(value?)?;
-        let trimmed = raw.trim();
-        if trimmed.is_empty() {
-            None
-        } else {
-            Some(trimmed.to_owned())
-        }
-    }
-
-    fn parse_commander_field(value: Option<&Value>) -> Option<i64> {
-        let value = helpers::parse_i64(value?)?;
-        if value == 0 { None } else { Some(value) }
-    }
-
-    fn to_commander(
-        id_value: Option<&Value>,
-        level_value: Option<&Value>,
-    ) -> Option<BattleCommander> {
-        let id = Self::parse_commander_field(id_value);
-        let level = Self::parse_commander_field(level_value);
-
-        if id.is_none() && level.is_none() {
-            return None;
-        }
-
-        Some(BattleCommander {
-            id,
-            level,
-            equipment: None,
-            formation: None,
-            star: None,
-            awakened: None,
-            armaments: None,
-        })
-    }
-
-    fn to_secondary_commander(
-        id_value: Option<&Value>,
-        level_value: Option<&Value>,
-    ) -> Option<BattleCommander> {
-        let id = Self::parse_commander_field(id_value)?;
-        let level = Self::parse_commander_field(level_value);
-
-        Some(BattleCommander {
-            id: Some(id),
-            level,
-            equipment: None,
-            formation: None,
-            star: None,
-            awakened: None,
-            armaments: None,
-        })
-    }
-
-    fn to_commanders(
-        primary_id: Option<&Value>,
-        primary_level: Option<&Value>,
-        secondary_id: Option<&Value>,
-        secondary_level: Option<&Value>,
-    ) -> Option<BattleCommanders> {
-        let primary = Self::to_commander(primary_id, primary_level);
-        let secondary = Self::to_secondary_commander(secondary_id, secondary_level);
-
-        if primary.is_none() && secondary.is_none() {
-            return None;
-        }
-
-        Some(BattleCommanders { primary, secondary })
-    }
-
-    fn to_alliance(tag: Option<String>, name: Option<String>) -> Option<BattleAlliance> {
-        if tag.is_none() && name.is_none() {
-            return None;
-        }
-
-        Some(BattleAlliance { tag, name })
-    }
-
-    fn to_position(value: Option<&Value>) -> Option<BattlePosition> {
-        let value = value.and_then(Value::as_object)?;
-        let x = helpers::parse_position(value.get("X"));
-        let y = helpers::parse_position(value.get("Y"));
-
-        if x.is_none() && y.is_none() {
-            None
-        } else {
-            Some(BattlePosition { x, y })
-        }
-    }
-
-    fn to_armaments(hwbs: Option<&Value>) -> Option<Vec<BattleArmament>> {
-        let hwbs = hwbs.and_then(Value::as_object)?;
-        let mut items = Vec::new();
-        for (key, entry) in hwbs {
-            let Ok(id) = key.parse::<i64>() else {
-                continue;
-            };
-            let entry = entry.as_object();
-            let buffs = entry.and_then(|map| Self::parse_trimmed_string(map.get("Buffs")));
-            let inscriptions = entry.and_then(|map| Self::parse_trimmed_string(map.get("Affix")));
-
-            items.push(BattleArmament {
-                slot: Some(id),
-                buffs,
-                inscriptions,
-            });
-        }
-
-        if items.is_empty() { None } else { Some(items) }
-    }
-
-    fn build_sender(
-        sections: &[Value],
-        sender_map: Option<&Map<String, Value>>,
-        sender_index: Option<usize>,
-        self_char: Option<&Map<String, Value>>,
-        participants: Vec<BattleSubParticipant>,
-    ) -> Option<BattleParticipant> {
-        let player_id = self_char
-            .and_then(|map| map.get("PId").and_then(helpers::parse_i64))
-            .or_else(|| sender_map.and_then(|map| map.get("PId").and_then(helpers::parse_i64)));
-
-        let player_name = sender_map.and_then(|map| Self::parse_trimmed_string(map.get("PName")));
-        let app_uid = sender_map.and_then(|map| Self::parse_trimmed_string(map.get("AppUid")));
-        let camp = self_char
-            .and_then(|map| map.get("SideId").and_then(helpers::parse_i64))
-            .or_else(|| sender_map.and_then(|map| map.get("SideId").and_then(helpers::parse_i64)));
-        let kingdom = sender_map.and_then(|map| map.get("COSId").and_then(helpers::parse_i64));
-
-        let alliance_tag = sender_map
-            .and_then(|map| Self::parse_trimmed_string(map.get("Abbr")))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "Abbr")
-                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
-                })
-            });
-        let alliance_name = sender_map
-            .and_then(|map| Self::parse_trimmed_string(map.get("AName")))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "AName")
-                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
-                })
-            });
-        let alliance = Self::to_alliance(alliance_tag, alliance_name);
-
-        let (avatar_url, frame_url) = helpers::parse_avatar(
-            self_char
-                .and_then(|map| map.get("Avatar"))
-                .or_else(|| sender_map.and_then(|map| map.get("Avatar"))),
-        );
-
-        let primary_id = sender_map
-            .and_then(|map| Self::parse_commander_field(map.get("HId")))
-            .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HId"))))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HId")
-                        .and_then(|value| Self::parse_commander_field(Some(value)))
-                })
-            });
-        let primary_level = sender_map
-            .and_then(|map| Self::parse_commander_field(map.get("HLv")))
-            .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HLv"))))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HLv")
-                        .and_then(|value| Self::parse_commander_field(Some(value)))
-                })
-            });
-        let primary_equipment = sender_map
-            .and_then(|map| Self::parse_trimmed_string(map.get("HEq")))
-            .or_else(|| self_char.and_then(|map| Self::parse_trimmed_string(map.get("HEq"))))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HEq")
-                        .and_then(|value| Self::parse_trimmed_string(Some(value)))
-                })
-            });
-        let primary_formation = sender_map
-            .and_then(|map| map.get("HFMs").and_then(helpers::parse_i64))
-            .or_else(|| self_char.and_then(|map| map.get("HFMs").and_then(helpers::parse_i64)))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HFMs").and_then(helpers::parse_i64)
-                })
-            });
-        let primary_star = sender_map
-            .and_then(|map| map.get("HSt").and_then(helpers::parse_i64))
-            .or_else(|| self_char.and_then(|map| map.get("HSt").and_then(helpers::parse_i64)))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HSt").and_then(helpers::parse_i64)
-                })
-            });
-        let primary_awakened = sender_map
-            .and_then(|map| map.get("HAw").and_then(helpers::parse_bool))
-            .or_else(|| self_char.and_then(|map| map.get("HAw").and_then(helpers::parse_bool)))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HAw").and_then(helpers::parse_bool)
-                })
-            });
-        let primary_armaments = sender_map
-            .and_then(|map| map.get("HWBs"))
-            .or_else(|| self_char.and_then(|map| map.get("HWBs")))
-            .or_else(|| {
-                sender_index.and_then(|index| Self::find_sender_value(sections, index, "HWBs"))
-            });
-        let primary_armaments = Self::to_armaments(primary_armaments);
-        let secondary_id = sender_map
-            .and_then(|map| Self::parse_commander_field(map.get("HId2")))
-            .or_else(|| {
-                sender_index.and_then(|index| {
-                    Self::find_sender_value(sections, index, "HId2")
-                        .and_then(|value| Self::parse_commander_field(Some(value)))
-                })
-            });
-        let secondary_level = secondary_id.and_then(|_| {
-            sender_map
-                .and_then(|map| Self::parse_commander_field(map.get("HLv2")))
-                .or_else(|| self_char.and_then(|map| Self::parse_commander_field(map.get("HLv2"))))
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "HLv2")
-                            .and_then(|value| Self::parse_commander_field(Some(value)))
-                    })
-                })
-        });
-        let secondary_equipment = secondary_id.and_then(|_| {
-            sender_map
-                .and_then(|map| Self::parse_trimmed_string(map.get("HEq2")))
-                .or_else(|| self_char.and_then(|map| Self::parse_trimmed_string(map.get("HEq2"))))
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "HEq2")
-                            .and_then(|value| Self::parse_trimmed_string(Some(value)))
-                    })
-                })
-        });
-        let secondary_star = secondary_id.and_then(|_| {
-            sender_map
-                .and_then(|map| map.get("HSt2").and_then(helpers::parse_i64))
-                .or_else(|| self_char.and_then(|map| map.get("HSt2").and_then(helpers::parse_i64)))
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "HSt2")
-                            .and_then(helpers::parse_i64)
-                    })
-                })
-        });
-        let secondary_awakened = secondary_id.and_then(|_| {
-            sender_map
-                .and_then(|map| map.get("HAw2").and_then(helpers::parse_bool))
-                .or_else(|| self_char.and_then(|map| map.get("HAw2").and_then(helpers::parse_bool)))
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "HAw2")
-                            .and_then(helpers::parse_bool)
-                    })
-                })
-        });
-
-        let primary = if primary_id.is_none()
-            && primary_level.is_none()
-            && primary_equipment.is_none()
-            && primary_formation.is_none()
-            && primary_star.is_none()
-            && primary_awakened.is_none()
-            && primary_armaments.is_none()
-        {
-            None
-        } else {
-            Some(BattleCommander {
-                id: primary_id,
-                level: primary_level,
-                equipment: primary_equipment,
-                formation: primary_formation,
-                star: primary_star,
-                awakened: primary_awakened,
-                armaments: primary_armaments,
-            })
-        };
-        let secondary = secondary_id.map(|id| BattleCommander {
-            id: Some(id),
-            level: secondary_level,
-            equipment: secondary_equipment,
-            formation: None,
-            star: secondary_star,
-            awakened: secondary_awakened,
-            armaments: None,
-        });
-        let commanders = if primary.is_none() && secondary.is_none() {
-            None
-        } else {
-            Some(BattleCommanders { primary, secondary })
-        };
-
-        let castle_pos = sender_map
-            .and_then(|map| map.get("CastlePos"))
-            .or_else(|| self_char.and_then(|map| map.get("CastlePos")))
-            .or_else(|| {
-                sender_index.and_then(|index| Self::find_sender_value(sections, index, "CastlePos"))
-            });
-        let castle = {
-            let pos = Self::to_position(castle_pos);
-            let level = sender_map
-                .and_then(|map| map.get("CastleLevel").and_then(helpers::parse_i64))
-                .or_else(|| {
-                    self_char.and_then(|map| map.get("CastleLevel").and_then(helpers::parse_i64))
-                })
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "CastleLevel")
-                            .and_then(helpers::parse_i64)
-                    })
-                });
-            let watchtower = sender_map
-                .and_then(|map| map.get("GtLevel").and_then(helpers::parse_i64))
-                .or_else(|| {
-                    self_char.and_then(|map| map.get("GtLevel").and_then(helpers::parse_i64))
-                })
-                .or_else(|| {
-                    sender_index.and_then(|index| {
-                        Self::find_sender_value(sections, index, "GtLevel")
-                            .and_then(helpers::parse_i64)
-                    })
-                });
-
-            if pos.is_none() && level.is_none() && watchtower.is_none() {
-                None
-            } else {
-                Some(BattleCastle {
-                    pos,
-                    level,
-                    watchtower,
-                })
-            }
-        };
-
-        if player_id.is_none()
-            && player_name.is_none()
-            && app_uid.is_none()
-            && camp.is_none()
-            && kingdom.is_none()
-            && alliance.is_none()
-            && avatar_url.is_none()
-            && frame_url.is_none()
-            && commanders.is_none()
-            && castle.is_none()
-            && participants.is_empty()
-        {
-            return None;
-        }
-
-        Some(BattleParticipant {
-            player_id,
-            player_name,
-            app_uid,
-            camp,
-            kingdom,
-            alliance,
-            avatar_url,
-            frame_url,
-            commanders,
-            castle,
-            participants,
-        })
-    }
-
-    fn build_participants(sts: Option<&Map<String, Value>>) -> (Vec<BattleSubParticipant>, i64) {
-        let Some(sts) = sts else {
-            return (Vec::new(), 0);
-        };
-
-        let mut keys: Vec<&String> = sts.keys().collect();
-        keys.sort_by(|a, b| match (a.parse::<i64>(), b.parse::<i64>()) {
-            (Ok(a_num), Ok(b_num)) => a_num.cmp(&b_num),
-            (Ok(_), Err(_)) => std::cmp::Ordering::Less,
-            (Err(_), Ok(_)) => std::cmp::Ordering::Greater,
-            (Err(_), Err(_)) => a.cmp(b),
-        });
-
-        let mut participants = Vec::new();
-        let mut skipped = 0;
-
-        for key in keys {
-            if key == "-2" {
-                // Reserved parent/summary entry; exclude from participants.
-                skipped += 1;
-                continue;
-            }
-            let Some(entry) = sts.get(key).and_then(Value::as_object) else {
-                continue;
-            };
-
-            let player_id = entry.get("PId").and_then(helpers::parse_i64);
-            let player_name = Self::parse_trimmed_string(entry.get("PName"));
-            let alliance_tag = Self::parse_trimmed_string(entry.get("Abbr"));
-            let alliance = Self::to_alliance(alliance_tag, None);
-            let commanders = Self::to_commanders(
-                entry.get("HId"),
-                entry.get("HLv"),
-                entry.get("HId2"),
-                entry.get("HLv2"),
-            );
-
-            if player_id.is_none()
-                && player_name.is_none()
-                && alliance.is_none()
-                && commanders.is_none()
-            {
-                continue;
-            }
-
-            participants.push(BattleSubParticipant {
-                player_id,
-                player_name,
-                alliance,
-                commanders,
-            });
-        }
-
-        (participants, skipped)
-    }
 }
 
 impl Resolver<MailContext<'_>, BattleMail> for BattleSenderResolver {
     type Error = Infallible;
 
     fn resolve(&self, ctx: &MailContext<'_>, output: &mut BattleMail) -> Result<(), Self::Error> {
-        let (sender_index, sender_map) = Self::find_sender_section(ctx.sections)
-            .map(|(index, map)| (Some(index), Some(map)))
+        let participant_sections = helpers::find_participant_sections(ctx.sections);
+        let (sender_index, sender_map) = participant_sections
+            .first()
+            .map(|(index, map)| (Some(*index), Some(*map)))
             .unwrap_or((None, None));
         let self_char = Self::find_self_char(ctx.sections);
         let sts = Self::find_sts_map(ctx.sections);
 
-        let (participants, skipped) = Self::build_participants(sts);
-        let sender = Self::build_sender(
+        let (participants, skipped) = helpers::build_participants(sts);
+        let sender = helpers::build_participant(
             ctx.sections,
             sender_map,
             sender_index,
             self_char,
             participants,
+            None,
         );
 
         if sender.is_none() {
@@ -566,7 +70,14 @@ impl Resolver<MailContext<'_>, BattleMail> for BattleSenderResolver {
             .metadata
             .rokb_battle_data_sender_skipped_participants
             .saturating_add(skipped);
-        output.battle_data = Some(BattleData { sender });
+        if let Some(data) = output.battle_data.as_mut() {
+            data.sender = sender;
+        } else {
+            output.battle_data = Some(BattleData {
+                sender,
+                opponents: Vec::new(),
+            });
+        }
 
         Ok(())
     }

@@ -3,6 +3,7 @@
     "__rokb_email_type": "ark",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "79062741175727676228",
     "email_time": 1757276762433967,
     "email_receiver": "player_83629727",
@@ -170,6 +171,147 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 131144092,
+        "player_name": "Solárokú",
+        "app_uid": "103762427",
+        "kingdom": 127,
+        "alliance": {
+          "tag": "SiP",
+          "name": "Stoners in Pajamas"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/103762427/2025-07-06/B17D54921A6C646EBF60C4C73467042D_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_194.png",
+        "commanders": {
+          "primary": {
+            "id": 177,
+            "level": 60,
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.029000;4002_0.029000;10002_0.015000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.032000;4002_0.027000;5002_0.032000",
+                "inscriptions": "13401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.034000;4002_0.033000;5002_0.031000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.027000;4002_0.033000;5002_0.032000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 539,
+            "level": 60,
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 213,
+            "y": 177
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 131144092,
+            "player_name": "Solárokú",
+            "alliance": {
+              "tag": "SiP"
+            },
+            "commanders": {
+              "primary": {
+                "id": 103,
+                "level": 60
+              },
+              "secondary": {
+                "id": 539,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 147733384,
+            "player_name": "PinkPonyIrish",
+            "alliance": {
+              "tag": "SiP"
+            },
+            "commanders": {
+              "primary": {
+                "id": 189,
+                "level": 60
+              },
+              "secondary": {
+                "id": 183,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 19477265,
+            "player_name": "BeKKa",
+            "alliance": {
+              "tag": "SiP"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 104,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 50986911,
+            "player_name": "RiemeR",
+            "alliance": {
+              "tag": "SiP"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 54227059,
+            "player_name": "Copyleader",
+            "alliance": {
+              "tag": "SiP"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

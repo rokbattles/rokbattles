@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 1,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "100439187175234501131",
     "email_time": 1752345011341072,
     "email_receiver": "player_71738515",
@@ -177,6 +178,744 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 80837230,
+        "player_name": "西伯利亞狼",
+        "app_uid": "24498214",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "魂社会SoulReapers"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24498214/2025-03-15/167A8515B5A676EFA9C2193C6DFDFA98_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+        "commanders": {
+          "primary": {
+            "id": 186,
+            "level": 60,
+            "equipment": "{5:20023_254:25,6:20024_257:25,2:20020_253:25,3:20021_252:25,1:20019_240:25,4:20022_282:24,7:20037_272:25,8:20041_290:25}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.018000;4003_0.033000;10002_0.020000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.028000;4003_0.029000;5003_0.025000",
+                "inscriptions": "2401;417"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.033000;4003_0.026000;5003_0.026000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.024000;4003_0.034000;5003_0.035000",
+                "inscriptions": "2201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 573,
+            "y": 660
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 144242946,
+            "player_name": "ᴺˢkabao",
+            "alliance": {
+              "tag": ">NS"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 195,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 128314090,
+            "player_name": "Dragonshrimp",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 194,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 155484254,
+            "player_name": "O G U Z   B E Y",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 101,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 140495716,
+            "player_name": "Uzman 1",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 6,
+                "level": 56
+              },
+              "secondary": {
+                "id": 141,
+                "level": 33
+              }
+            }
+          },
+          {
+            "player_id": 80837230,
+            "player_name": "西伯利亞狼",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 186,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 140406466,
+            "player_name": "SCGon II",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 108,
+                "level": 39
+              }
+            }
+          },
+          {
+            "player_id": 111071796,
+            "player_name": "Murad ferma 07",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 162,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 137385467,
+            "player_name": "乄total1440",
+            "alliance": {
+              "tag": "#Z-E"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 124005566,
+            "player_name": "sw MURAD",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 31508952,
+            "player_name": "敘利亞虎",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 190,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 6443458,
+            "player_name": "HK Dollʰᵏ 88",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 92350934,
+            "player_name": "KungFu Duck 02",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 186,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 118815758,
+            "player_name": "Murad ferma 05",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 127,
+                "level": 60
+              },
+              "secondary": {
+                "id": 64,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 138655713,
+            "player_name": "Flower Sniffer",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 125801656,
+            "player_name": "Murad ferma 04",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 148,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 20068197,
+            "player_name": "KungFu Drake",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 1,
+                "level": 60
+              },
+              "secondary": {
+                "id": 4,
+                "level": 40
+              }
+            }
+          },
+          {
+            "player_id": 123941805,
+            "player_name": "Murad ferma 06",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 115,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 92330300,
+        "player_name": "Kung Fu Tsar",
+        "app_uid": "61119042",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "NEW  WORLD"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{7:20040_231:31,8:20075_218:30,2:20004_196:1,3:20009_236:33,1:20001_198:1,5:20033_181:33,4:20028_199:32,6:20012_161:32}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.034000;4002_0.019000;5002_0.015000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.024000;4002_0.017000;5002_0.019000",
+                "inscriptions": "13402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.034000;4002_0.034000;5002_0.031000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.019000;4002_0.017000;5002_0.027000",
+                "inscriptions": "13201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 569,
+            "y": 649
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 92330300,
+            "player_name": "Kung Fu Tsar",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 92330300,
+        "player_name": "Kung Fu Tsar",
+        "app_uid": "61119042",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "NEW  WORLD"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{7:20076_56:30,2:20008_186:2,3:20009_204:1,5:20033_217:2,1:20007_188:32,4:20028_174:31,8:20037_183:1,6:20012_203:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.029000;4002_0.015000;5002_0.024000",
+                "inscriptions": "2102;120"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.027000;4002_0.017000;5002_0.033000",
+                "inscriptions": "413"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.015000;4002_0.015000;5002_0.020000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.019000;4002_0.034000;5002_0.029000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 40,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 569,
+            "y": 649
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 92330300,
+            "player_name": "Kung Fu Tsar",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 92330300,
+        "player_name": "Kung Fu Tsar",
+        "app_uid": "61119042",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "NEW  WORLD"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{2:20006_229:1,1:20003_239:1,4:20143_207:0,5:20144_205:1,7:20097_145:20,3:20021_240:0,6:20024_241:0}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.022000;4003_0.015000;10002_0.017000",
+                "inscriptions": "115;117"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.023000;4003_0.021000;5003_0.019000",
+                "inscriptions": "405"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.015000;4003_0.018000;5003_0.020000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.017000;4003_0.019000;5003_0.018000",
+                "inscriptions": "204"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 569,
+            "y": 649
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 92330300,
+            "player_name": "Kung Fu Tsar",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 92330300,
+        "player_name": "Kung Fu Tsar",
+        "app_uid": "61119042",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "NEW  WORLD"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{6:20145_197:2,7:20097_102:0,8:20040_226:1,5:20144_208:12,3:20026_194:2,1:20002_224:11,2:20005_219:1,4:20029_202:3}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.025000;4001_0.022000;10002_0.010000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.019000;4001_0.020000;5001_0.035000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.034000;4001_0.016000;5001_0.017000",
+                "inscriptions": "17302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.017000;4001_0.033000;10016_0.040000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 569,
+            "y": 649
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 92330300,
+            "player_name": "Kung Fu Tsar",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 92330300,
+        "player_name": "Kung Fu Tsar",
+        "app_uid": "61119042",
+        "camp": 4,
+        "kingdom": 1925,
+        "alliance": {
+          "tag": "NW25",
+          "name": "NEW  WORLD"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{2:20014_201:2,1:20013_214:2,4:20016_223:1,6:20018_222:2,3:20026_220:2,5:20032_162:13,7:20097_173:10}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.017000;4001_0.017000;5001_0.026000",
+                "inscriptions": "104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.017000;4001_0.030000;5001_0.029000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.035000;4001_0.022000;5001_0.029000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.015000;4001_0.033000;5001_0.028000",
+                "inscriptions": "209"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 569,
+            "y": 649
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 92330300,
+            "player_name": "Kung Fu Tsar",
+            "alliance": {
+              "tag": "NW25"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

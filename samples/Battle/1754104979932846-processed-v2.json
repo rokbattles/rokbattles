@@ -3,6 +3,7 @@
     "__rokb_email_type": "home",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
     "email_id": "5115380717541049792",
     "email_time": 1754104979932846,
     "email_receiver": "player_55034246",
@@ -213,6 +214,86 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 129854978,
+        "player_name": "PhạmĐăng2k1",
+        "app_uid": "6626468-2027279",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "4M-",
+          "name": "사랑etiennex"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/2027279/2024-08-23/D1C2A05468CD59CD498AB8CB04350E61_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 10,
+            "level": 60,
+            "equipment": "{5:20069_17:0,2:20051_14:0,1:20102_20:10}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.018000;4002_0.019000;5002_0.017000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.029000;4001_0.030000;5003_0.030000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.016000;6004_0.034000;5001_0.018000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;8000_0.056000;10016_0.068000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 99,
+            "level": 52,
+            "equipment": "{3:20114_5:50,4:20053_25:0,6:20073_23:0}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 74,
+            "y": 990
+          },
+          "level": 25,
+          "watchtower": 20
+        },
+        "participants": [
+          {
+            "player_id": 129854978,
+            "player_name": "PhạmĐăng2k1",
+            "alliance": {
+              "tag": "4M-"
+            },
+            "commanders": {
+              "primary": {
+                "id": 10,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 52
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }

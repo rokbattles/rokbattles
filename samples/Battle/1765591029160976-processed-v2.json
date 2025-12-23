@@ -3,6 +3,7 @@
     "__rokb_email_type": "kvk",
     "__rokb_battle_type": "rally",
     "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
     "email_id": "87266046176559102912",
     "email_time": 1765591029160976,
     "email_receiver": "player_157148751",
@@ -523,6 +524,1860 @@
           }
         }
       ]
-    }
+    },
+    "opponents": [
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20019_339:1,2:20020_350:1,3:20021_336:1,4:20022_349:1,5:20023_354:1,6:20024_356:25,7:20040_347:1,8:20037_276:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.027000;4003_0.025000;5003_0.026000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.023000;4003_0.016000;5003_0.025000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.026000;5003_0.025000",
+                "inscriptions": "315"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.026000;4003_0.029000;5003_0.031000",
+                "inscriptions": "215"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20002_383:1,2:20014_123:3,3:20026_239:13,4:20016_254:2,5:20032_71:13,6:20034_214:15,7:20037_395:1,8:20040_404:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.032000;4001_0.034000;5001_0.026000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.015000;4001_0.031000;5001_0.017000",
+                "inscriptions": "417"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.016000;4001_0.019000;5001_0.031000",
+                "inscriptions": "305"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.028000;4001_0.034000;5001_0.035000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 57097746,
+        "player_name": "Ди777㋡",
+        "app_uid": "46900867",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46900867/2025-11-20/F8B403EE6175C18B8A490595212E2FD6_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_180:21,2:20020_178:1,3:20021_186:1,4:20022_175:1,5:20023_179:1,6:20024_181:5,7:20037_164:1,8:20040_192:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.017000;4003_0.028000;5003_0.034000",
+                "inscriptions": "104;105"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.023000;4003_0.016000;10002_0.009000",
+                "inscriptions": "410"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.032000;4003_0.025000;5003_0.030000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.017000;4002_0.018000;5003_0.029000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1424,
+            "y": 966
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 57097746,
+            "player_name": "Ди777㋡",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20007_120:1,2:20008_172:31,3:20009_304:1,4:20010_145:1,5:20011_313:1,6:20012_264:1,7:20118_362:1,8:20041_255:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.015000;5002_0.030000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.018000;4002_0.022000;5002_0.018000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.015000;4002_0.026000;5002_0.033000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;4002_0.034000;5002_0.018000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 192,
+            "level": 60,
+            "equipment": "{2:20083_396:30,3:20084_397:30,4:20085_398:30,6:20086_399:30,7:20097_386:30}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 192,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20001_326:34,2:20004_296:33,3:20009_160:34,4:20028_282:34,5:20033_73:34,6:20012_161:33,7:20037_355:31,8:20040_368:33}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.024000;4002_0.035000;5002_0.035000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.034000;4002_0.020000;5002_0.026000",
+                "inscriptions": "13401;403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.028000;4002_0.034000;5002_0.034000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.022000;4002_0.032000;5002_0.026000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{7:20402_421:0}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 579,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 25203220,
+        "player_name": "ˣᵒ乄Blossom",
+        "app_uid": "71931895",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "XR60",
+          "name": "Xøtic Ravens"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/71931895/2025-12-12/CEB7097AF784E2C105CF16F7BF14E809_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20007_489:35,2:20008_490:35,3:20009_416:34,4:20028_419:33,5:20033_420:35,6:20012_415:34,7:20040_495:1,8:20037_417:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.024000;10002_0.020000",
+                "inscriptions": "13101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.030000;4002_0.015000;5002_0.021000",
+                "inscriptions": "13402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.021000;4002_0.022000;5002_0.029000",
+                "inscriptions": "13301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.027000;4002_0.030000;5002_0.020000",
+                "inscriptions": "13202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1435,
+            "y": 959
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 25203220,
+            "player_name": "ˣᵒ乄Blossom",
+            "alliance": {
+              "tag": "XR60"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113101161,
+        "player_name": "ᶠᵒʳᵉsᵗ",
+        "app_uid": "89532548",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/89532548/2024-08-14/ECE9BDDF8CC9740690FDEE6055384A4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_217:23,2:20020_220:1,3:20021_230:1,4:20022_221:1,5:20023_231:1,6:20024_214:25,7:20037_260:1,8:20040_253:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.026000;4003_0.030000;10002_0.019000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.020000;6003_0.033000;5003_0.020000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.029000;6003_0.035000;5003_0.020000",
+                "inscriptions": "2302;318"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.026000;4003_0.017000;5003_0.032000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1436,
+            "y": 957
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113101161,
+            "player_name": "ᶠᵒʳᵉsᵗ",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20003_385:1,2:20006_393:1,3:20021_373:23,4:20022_375:4,5:20144_372:3,6:20145_371:25,7:20037_365:1,8:20040_409:23}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.020000;4003_0.028000;5003_0.026000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.025000;6003_0.035000;5003_0.033000",
+                "inscriptions": "2401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.034000;6003_0.033000;5003_0.024000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.021000;4003_0.026000;5003_0.030000",
+                "inscriptions": "218;210"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 51148833,
+        "player_name": "EvilGenius666",
+        "app_uid": "42395710",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{1:20007_314:2,2:20008_265:31,3:20009_280:1,4:20028_233:32,5:20033_351:33,6:20012_292:1,7:20040_394:1,8:20041_384:31}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.035000;5002_0.022000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.016000;4002_0.024000;5002_0.019000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.033000;4002_0.019000;5002_0.034000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.024000;4002_0.033000;5002_0.028000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1437,
+            "y": 972
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 51148833,
+            "player_name": "EvilGenius666",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 127430787,
+        "player_name": "notgirthysock",
+        "app_uid": "68024243",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/68024243/2025-11-22/6E5B6B7D397D0A3CE347A447060DF666_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_227.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20003_354:1,2:20006_341:1,3:20021_180:2,4:20143_228:2,5:20144_226:1,6:20024_207:4,7:20037_317:1,8:20118_378:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "2004_0.050000;4003_0.022000;5003_0.021000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.015000;4003_0.017000;5003_0.017000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.025000;4003_0.033000;5003_0.018000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.024000;4003_0.021000;5003_0.016000",
+                "inscriptions": "2202;201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1418,
+            "y": 960
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 127430787,
+            "player_name": "notgirthysock",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 155812520,
+        "player_name": "ᴍᴀʀ ツ",
+        "app_uid": "211287543",
+        "camp": 3,
+        "kingdom": 1563,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/211287543/2025-09-17/BDAB383BFFD09FF41DAEF5DAF0B971E6_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_214.png",
+        "commanders": {
+          "primary": {
+            "id": 184,
+            "level": 60,
+            "equipment": "{1:20002_76:14,2:20005_120:12,3:20026_29:15,4:20016_85:12,5:20032_73:15,6:20034_31:12,7:20037_152:12,8:20040_174:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.031000;4001_0.019000;5001_0.029000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.026000;10002_0.019000",
+                "inscriptions": "17401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.035000;4001_0.024000;10002_0.018000",
+                "inscriptions": "17301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.034000;4001_0.025000;10002_0.017000",
+                "inscriptions": "17201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 177,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1409,
+            "y": 548
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 125536460,
+            "player_name": "3130510935",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 34
+              },
+              "secondary": {
+                "id": 140,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 155812520,
+            "player_name": "ᴍᴀʀ ツ",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 184,
+                "level": 60
+              },
+              "secondary": {
+                "id": 177,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 176765232,
+            "player_name": "Heaven Scavenge",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 61,
+                "level": 39
+              },
+              "secondary": {
+                "id": 116,
+                "level": 35
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 138,
+                "level": 50
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 113,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 7,
+                "level": 60
+              },
+              "secondary": {
+                "id": 8,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 10,
+                "level": 60
+              },
+              "secondary": {
+                "id": 177,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 32,
+                "level": 54
+              },
+              "secondary": {
+                "id": 102,
+                "level": 52
+              }
+            }
+          },
+          {
+            "player_id": 17769232,
+            "player_name": "Nemo J",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 32,
+                "level": 54
+              },
+              "secondary": {
+                "id": 102,
+                "level": 52
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 44330579,
+        "player_name": "ᴬᴳXekoPanda",
+        "app_uid": "37270613",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "XR60",
+          "name": "Xøtic Ravens"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37270613/2025-04-28/FA249DFCF729AEF8ED8F26D71E936069_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_438:2,2:20020_429:2,3:20021_428:2,4:20022_449:2,5:20023_437:2,6:20024_450:2,7:20040_313:1,8:20037_457:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.025000;4003_0.027000;5003_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.015000;4003_0.016000;5003_0.030000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.030000;4003_0.035000;5003_0.025000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.017000;4003_0.031000;5003_0.018000",
+                "inscriptions": "2202;203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 6,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1414,
+            "y": 965
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 44330579,
+            "player_name": "ᴬᴳXekoPanda",
+            "alliance": {
+              "tag": "XR60"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 6,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 44330579,
+        "player_name": "ᴬᴳXekoPanda",
+        "app_uid": "37270613",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "XR60",
+          "name": "Xøtic Ravens"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37270613/2025-04-28/FA249DFCF729AEF8ED8F26D71E936069_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20019_472:1,2:20020_470:1,3:20021_471:1,4:20022_469:1,5:20023_476:1,6:20024_477:1,7:20040_474:1,8:20037_382:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.029000;4003_0.029000;10002_0.015000",
+                "inscriptions": "2102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.017000;4003_0.033000;5003_0.019000",
+                "inscriptions": "401"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.019000;4003_0.018000;5003_0.033000",
+                "inscriptions": "309"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.029000;4003_0.032000;5003_0.027000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 187,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1414,
+            "y": 965
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 44330579,
+            "player_name": "ᴬᴳXekoPanda",
+            "alliance": {
+              "tag": "XR60"
+            },
+            "commanders": {
+              "primary": {
+                "id": 179,
+                "level": 60
+              },
+              "secondary": {
+                "id": 187,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 175159438,
+        "player_name": "grayness",
+        "app_uid": "222107110",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/222107110/2025-11-29/3204C886BE592D81BC9E89A5605EB15B_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20002_115:1,2:20014_52:11,3:20026_54:1,4:20029_108:11,5:20032_85:13,6:20034_107:11,7:20037_92:11,8:20040_97:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.020000;4001_0.034000;5001_0.030000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.029000;4001_0.021000;5001_0.031000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.029000;4001_0.027000;5001_0.032000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.029000;4001_0.025000;5001_0.028000",
+                "inscriptions": "220"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1416,
+            "y": 965
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 175159438,
+            "player_name": "grayness",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 175159438,
+        "player_name": "grayness",
+        "app_uid": "222107110",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/222107110/2025-11-29/3204C886BE592D81BC9E89A5605EB15B_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20061_112:0,2:20008_133:1,3:20009_121:1,4:20010_135:1,5:20033_120:31,6:20035_134:31,7:20040_127:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.025000;4002_0.035000;10002_0.017000",
+                "inscriptions": "104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.028000;4004_0.031000;5002_0.028000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.034000;4002_0.025000;5002_0.026000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.035000;4002_0.018000;10002_0.019000",
+                "inscriptions": "213"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1416,
+            "y": 965
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 175159438,
+            "player_name": "grayness",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 540,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 175159438,
+        "player_name": "grayness",
+        "app_uid": "222107110",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/222107110/2025-11-29/3204C886BE592D81BC9E89A5605EB15B_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20088_155:20,2:20020_151:1,3:20021_149:1,4:20022_150:1,5:20023_148:1,6:20024_154:1,7:20040_137:1,8:20118_106:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.016000;4003_0.018000;5003_0.022000",
+                "inscriptions": "109;115"
+              },
+              {
+                "slot": 4,
+                "buffs": "6002_0.032000;4003_0.028000;5003_0.032000",
+                "inscriptions": "412;409"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.035000;4003_0.029000;5003_0.026000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.034000;4003_0.034000;5003_0.025000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1416,
+            "y": 965
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 175159438,
+            "player_name": "grayness",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 154141788,
+        "player_name": "Diego㋡Prime 屮",
+        "app_uid": "210302237",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20003_148:1,2:20020_159:1,3:20021_151:1,4:20022_164:1,5:20023_158:1,6:20024_188:1,7:20097_167:20}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3003_0.019000;4003_0.018000;10002_0.016000",
+                "inscriptions": "104"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.017000;4003_0.020000;5003_0.031000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.022000;4003_0.016000;5003_0.032000",
+                "inscriptions": "313"
+              },
+              {
+                "slot": 2,
+                "buffs": "3003_0.033000;4003_0.017000;10002_0.020000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 179,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1427,
+            "y": 962
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 154141788,
+            "player_name": "Diego㋡Prime 屮",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 509,
+                "level": 60
+              },
+              "secondary": {
+                "id": 179,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 57097746,
+        "player_name": "Ди777㋡",
+        "app_uid": "46900867",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/46900867/2025-11-20/F8B403EE6175C18B8A490595212E2FD6_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20007_120:1,2:20008_132:31,3:20009_173:1,4:20028_152:1,5:20033_171:32,6:20012_137:1,7:20040_163:1,8:20037_190:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.033000;4002_0.028000;5002_0.025000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.017000;4002_0.028000;10016_0.060000",
+                "inscriptions": "415"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.029000;4002_0.015000;5002_0.028000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.017000;4001_0.026000;5002_0.019000",
+                "inscriptions": "216;203"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1424,
+            "y": 966
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 57097746,
+            "player_name": "Ди777㋡",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 40
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 25203220,
+        "player_name": "ˣᵒ乄Blossom",
+        "app_uid": "71931895",
+        "camp": 3,
+        "kingdom": 2560,
+        "alliance": {
+          "tag": "XR60",
+          "name": "Xøtic Ravens"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/71931895/2025-12-12/CEB7097AF784E2C105CF16F7BF14E809_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 540,
+            "level": 60,
+            "equipment": "{1:20001_409:2,2:20004_412:1,3:20009_501:32,4:20028_503:1,5:20033_500:2,6:20012_502:1,7:20118_508:31,8:20040_494:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.028000;4002_0.021000;5002_0.032000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.029000;4002_0.017000;5002_0.031000",
+                "inscriptions": "2402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.020000;4002_0.023000;5002_0.023000",
+                "inscriptions": "303;310"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.019000;4002_0.035000;5002_0.021000",
+                "inscriptions": "208;201"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 148,
+            "level": 60,
+            "equipment": "{7:20097_313:30}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1435,
+            "y": 959
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 25203220,
+            "player_name": "ˣᵒ乄Blossom",
+            "alliance": {
+              "tag": "XR60"
+            },
+            "commanders": {
+              "primary": {
+                "id": 182,
+                "level": 60
+              },
+              "secondary": {
+                "id": 148,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113101161,
+        "player_name": "ᶠᵒʳᵉsᵗ",
+        "app_uid": "89532548",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/89532548/2024-08-14/ECE9BDDF8CC9740690FDEE6055384A4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20013_189:1,2:20014_228:1,3:20026_160:1,4:20016_207:1,5:20032_259:1,6:20018_215:1,7:20037_258:1,8:20041_173:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.017000;4001_0.035000;5001_0.033000",
+                "inscriptions": "2101"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.019000;4001_0.024000;5001_0.035000",
+                "inscriptions": "405"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.029000;4001_0.029000;5001_0.026000",
+                "inscriptions": "2301"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.016000;4001_0.034000;5001_0.026000",
+                "inscriptions": "213;205"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 140,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1436,
+            "y": 957
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113101161,
+            "player_name": "ᶠᵒʳᵉsᵗ",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 198,
+                "level": 60
+              },
+              "secondary": {
+                "id": 140,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 154141788,
+        "player_name": "Diego㋡Prime 屮",
+        "app_uid": "210302237",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "64AL",
+          "name": "==ALFA=="
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_SP_01.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20002_109:2,2:20005_111:1,3:20026_98:11,4:20029_130:11,5:20032_75:15,6:20034_72:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.017000;4001_0.026000;10002_0.020000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.018000;5001_0.023000",
+                "inscriptions": "404"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.016000;4001_0.018000;10002_0.016000",
+                "inscriptions": "313"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.017000;5001_0.027000",
+                "inscriptions": "17202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 459,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1427,
+            "y": 962
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 154141788,
+            "player_name": "Diego㋡Prime 屮",
+            "alliance": {
+              "tag": "64AL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 459,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 113101161,
+        "player_name": "ᶠᵒʳᵉsᵗ",
+        "app_uid": "89532548",
+        "camp": 3,
+        "kingdom": 1964,
+        "alliance": {
+          "tag": "HELL",
+          "name": "Fight or Die ㋡"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/89532548/2024-08-14/ECE9BDDF8CC9740690FDEE6055384A4A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+        "commanders": {
+          "primary": {
+            "id": 509,
+            "level": 60,
+            "equipment": "{1:20001_251:3,2:20004_242:1,3:20009_203:1,4:20028_206:1,5:20033_205:1,6:20012_202:31,7:20040_241:1,8:20037_223:1}",
+            "formation": 13,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.026000;4002_0.031000;5002_0.026000",
+                "inscriptions": "120"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.020000;4002_0.021000;5002_0.025000",
+                "inscriptions": "13402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.025000;4002_0.017000;5002_0.033000",
+                "inscriptions": "317"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.021000;4002_0.019000;5002_0.025000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 575,
+            "level": 40,
+            "equipment": "{7:20402_294:0}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1436,
+            "y": 957
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 113101161,
+            "player_name": "ᶠᵒʳᵉsᵗ",
+            "alliance": {
+              "tag": "HELL"
+            },
+            "commanders": {
+              "primary": {
+                "id": 540,
+                "level": 60
+              },
+              "secondary": {
+                "id": 575,
+                "level": 40
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 }
