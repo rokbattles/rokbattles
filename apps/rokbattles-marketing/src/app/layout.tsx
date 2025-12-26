@@ -1,7 +1,11 @@
 import { Inter } from "next/font/google";
-import { cn } from "@/lib/cn";
 import "./globals.css";
-import type { Metadata } from "next";
+import Image from "next/image";
+import { ButtonLink, PlainButtonLink } from "@/components/elements/Button";
+import { Main } from "@/components/elements/Main";
+import { Navbar } from "@/components/sections/navbar/Navbar";
+import { NavbarLink } from "@/components/sections/navbar/NavbarLink";
+import { NavbarLogo } from "@/components/sections/navbar/NavbarLogo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,20 +13,52 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://rokbattles.com"),
-  title: {
-    default: "ROK Battles",
-    template: "%s - ROK Battles",
-  },
-  description:
-    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
-};
-
-export default async function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={cn(inter.variable, "antialiased")}>
-      <body>{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body>
+        <>
+          <Navbar
+            id="navbar"
+            logo={
+              <NavbarLogo href="/">
+                <Image
+                  src="/img/logos/rokbattles-dark.svg"
+                  alt="ROK Battles"
+                  className="dark:hidden"
+                  width={113}
+                  height={28}
+                />
+                <Image
+                  src="/img/logos/rokbattles-white.svg"
+                  alt="ROK Battles"
+                  className="not-dark:hidden"
+                  width={113}
+                  height={28}
+                />
+              </NavbarLogo>
+            }
+            links={
+              <>
+                <NavbarLink href="#">Pricing</NavbarLink>
+                <NavbarLink href="#">Docs</NavbarLink>
+                <NavbarLink href="#" className="sm:hidden">
+                  Log in
+                </NavbarLink>
+              </>
+            }
+            actions={
+              <>
+                <PlainButtonLink href="#" className="max-sm:hidden">
+                  Log in
+                </PlainButtonLink>
+                <ButtonLink href="#">Explore</ButtonLink>
+              </>
+            }
+          />
+          <Main>{children}</Main>
+        </>
+      </body>
     </html>
   );
 }
