@@ -68,7 +68,7 @@ pub struct DuelBattle2Commander {
     // Star
     pub star: Option<i64>,
     // Awaked
-    pub awaked: Option<bool>,
+    pub awakened: Option<bool>,
     // Skills
     pub skills: Vec<DuelBattle2Skill>,
 }

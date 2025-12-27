@@ -1,0 +1,185 @@
+{
+  "metadata": {
+    "__rokb_email_type": "kvk",
+    "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
+    "email_id": "10194160175770538114",
+    "email_time": 1757705381128881,
+    "email_receiver": "player_3015053",
+    "server_id": 15659
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 196128,
+        "tick": 300413
+      },
+      {
+        "count": 195625,
+        "tick": 300416
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 3015053,
+      "player_name": "Chisgule",
+      "app_uid": "2854411",
+      "camp": 1,
+      "kingdom": 1377,
+      "alliance": {
+        "tag": "GV77",
+        "name": "Glory of Vietnam"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/3015053/22/02/25/7f993ef035670e6f_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_201.png",
+      "commanders": {
+        "primary": {
+          "id": 459,
+          "level": 60,
+          "equipment": "{2:20014_377:54,7:20040_403:1,8:20037_393:1,4:20016_336:54,1:20013_392:4,3:20026_329:53,5:20032_349:54,6:20018_337:55}",
+          "formation": 4,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3001_0.028000;4001_0.034000;5001_0.033000",
+              "inscriptions": "4101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3001_0.031000;4001_0.029000;5001_0.028000",
+              "inscriptions": "404"
+            },
+            {
+              "slot": 3,
+              "buffs": "3001_0.027000;4001_0.027000;5001_0.026000",
+              "inscriptions": "4301"
+            },
+            {
+              "slot": 2,
+              "buffs": "3001_0.029000;4001_0.019000;5001_0.027000",
+              "inscriptions": "4202"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 545,
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 1021,
+          "y": 1201
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 3015053,
+          "player_name": "Chisgule",
+          "alliance": {
+            "tag": "GV77"
+          },
+          "commanders": {
+            "primary": {
+              "id": 459,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 134232363,
+        "player_name": "PAPAMUDA",
+        "app_uid": "101087364",
+        "camp": 2,
+        "kingdom": 1654,
+        "alliance": {
+          "tag": "489",
+          "name": "Kingdom of Tompkins"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101087364/2025-03-10/F25E70005FB991161D82314DDB25E510_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_9.png",
+        "commanders": {
+          "primary": {
+            "id": 138,
+            "level": 60,
+            "equipment": "{7:20040_128:1,4:20028_60:1,8:20037_126:1,5:20033_72:1,6:20012_75:1,2:20008_97:1,1:20007_105:1,3:20009_57:1}",
+            "formation": 2,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.022000;4002_0.017000;5002_0.028000",
+                "inscriptions": "115"
+              },
+              {
+                "slot": 4,
+                "buffs": "3002_0.015000;4002_0.034000;5002_0.033000",
+                "inscriptions": "418"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.030000;4002_0.019000;5002_0.025000",
+                "inscriptions": "2302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.024000;4002_0.024000;5002_0.021000",
+                "inscriptions": "2202"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 192,
+            "level": 40,
+            "equipment": "{}",
+            "star": 4,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1027,
+            "y": 1145
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 134232363,
+            "player_name": "PAPAMUDA",
+            "alliance": {
+              "tag": "489"
+            },
+            "commanders": {
+              "primary": {
+                "id": 138,
+                "level": 60
+              },
+              "secondary": {
+                "id": 192,
+                "level": 40
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

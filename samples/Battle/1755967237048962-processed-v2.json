@@ -1,0 +1,160 @@
+{
+  "metadata": {
+    "__rokb_email_type": "home",
+    "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
+    "email_id": "34697720175596723723",
+    "email_time": 1755967237048962,
+    "email_receiver": "player_109813467",
+    "server_id": 1804
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 438000,
+        "tick": 985489
+      },
+      {
+        "count": 377182,
+        "tick": 985546
+      },
+      {
+        "count": 358847,
+        "tick": 985568
+      },
+      {
+        "count": 347998,
+        "tick": 985586
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 161065006,
+      "player_name": "cheppalodonж",
+      "app_uid": "104833380",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-06/DBD7328379D6A862D5EDFDB0AF1B1D35_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png",
+      "commanders": {
+        "primary": {
+          "id": 509,
+          "level": 60,
+          "equipment": "{4:20022_46:1,1:20019_54:21,5:20023_44:1,6:20024_45:1,7:20040_109:1,8:20037_81:1,2:20020_27:1,3:20021_28:1}",
+          "formation": 2,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3003_0.030000;4003_0.026000;5003_0.026000",
+              "inscriptions": "2101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3003_0.031000;6003_0.034000;10016_0.046000",
+              "inscriptions": "2402"
+            },
+            {
+              "slot": 3,
+              "buffs": "3003_0.026000;4003_0.017000;5003_0.017000",
+              "inscriptions": "308"
+            },
+            {
+              "slot": 2,
+              "buffs": "3003_0.023000;4003_0.033000;10002_0.020000",
+              "inscriptions": "210"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 179,
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 585,
+          "y": 568
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 161065006,
+          "player_name": "cheppalodonж",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 109813467,
+          "player_name": "Faystonychus",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 66,
+              "level": 40
+            },
+            "secondary": {
+              "id": 7,
+              "level": 49
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": -2,
+        "player_name": null,
+        "app_uid": null,
+        "kingdom": 0,
+        "alliance": null,
+        "avatar_url": null,
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 201,
+            "level": null
+          }
+        },
+        "castle": null,
+        "participants": [
+          {
+            "player_id": -2,
+            "player_name": null,
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 86,
+                "level": 36
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

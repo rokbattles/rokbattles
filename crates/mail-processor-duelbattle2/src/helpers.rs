@@ -156,7 +156,7 @@ pub(crate) fn build_commander(value: &Value) -> DuelBattle2Commander {
     commander.id = obj.get("HeroId").and_then(parse_i64);
     commander.level = obj.get("HeroLevel").and_then(parse_i64);
     commander.star = obj.get("Star").and_then(parse_i64);
-    commander.awaked = obj.get("Awaked").and_then(parse_bool);
+    commander.awakened = obj.get("Awaked").and_then(parse_bool);
 
     commander
 }

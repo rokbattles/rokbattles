@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "__rokb_email_type": "ark",
+    "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
+    "email_id": "7911945717572563466",
+    "email_time": 1757256346231676,
+    "email_receiver": "player_40693070",
+    "server_id": 15660
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 98314,
+        "tick": 2552
+      },
+      {
+        "count": 93176,
+        "tick": 2560
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 40693070,
+      "player_name": "ˢ snow leopard",
+      "app_uid": "33623437",
+      "kingdom": 130,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/33623437/2025-09-05/5317F355081E95A30E588AE324E20E48_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_187.png",
+      "commanders": {
+        "primary": {
+          "id": 540,
+          "level": 60,
+          "equipment": "{1:20007_119:1,5:20033_78:1,7:20118_179:1,4:20028_145:1,6:20012_130:1,2:20008_92:1,3:20009_134:1,8:20121_135:0}",
+          "formation": 13,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.029000;4002_0.015000;5002_0.021000",
+              "inscriptions": "13101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3002_0.022000;4002_0.019000;5002_0.016000",
+              "inscriptions": "13402"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.034000;4002_0.030000;5002_0.028000",
+              "inscriptions": "13301"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.017000;4002_0.029000;5002_0.015000",
+              "inscriptions": "13202"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 9,
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 171,
+          "y": 148
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 40693070,
+          "player_name": "ˢ snow leopard",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 29400604,
+        "player_name": "KSC Sư IV Moon",
+        "app_uid": "26417940",
+        "kingdom": 130,
+        "alliance": {
+          "tag": "2367",
+          "name": "Không Sợ Chó!"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26417940/2025-02-20/32AA585FDEB88F2A998A772A54CA546A_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{7:20044_1103:1,2:20005_1224:12,3:20026_1021:15,5:20032_958:15,6:20034_871:13,1:20002_1183:12,4:20029_1077:12,8:20167_1254:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.019000;4001_0.025000;5001_0.034000",
+                "inscriptions": "17102"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.033000;10002_0.018000",
+                "inscriptions": "403"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.018000;4001_0.026000;5001_0.035000",
+                "inscriptions": "304"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.033000;4001_0.028000;5001_0.027000",
+                "inscriptions": "216;211"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 144,
+            "y": 179
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 29400604,
+            "player_name": "KSC Sư IV Moon",
+            "alliance": {
+              "tag": "2367"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

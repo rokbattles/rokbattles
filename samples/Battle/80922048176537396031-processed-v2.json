@@ -1,0 +1,136 @@
+{
+  "metadata": {
+    "__rokb_email_type": "kvk",
+    "__rokb_battle_type": "open_field",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
+    "email_id": "80922048176537396031",
+    "email_time": 1765373960307792,
+    "email_receiver": "player_71738515",
+    "server_id": 15790
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 1,
+        "tick": 525144
+      },
+      {
+        "count": 0,
+        "tick": 525144
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 71738515,
+      "player_name": "G Var",
+      "app_uid": "32624247",
+      "camp": 2,
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 540,
+          "level": 60,
+          "equipment": "{1:20001_380:2,2:20004_379:32,3:20009_190:2,4:20028_265:33,5:20033_261:32,6:20012_266:3,7:20040_264:1,8:20037_398:31}",
+          "formation": 13,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.023000;4002_0.019000;10002_0.014000",
+              "inscriptions": "13101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3002_0.027000;4002_0.027000;5002_0.027000",
+              "inscriptions": "13401"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.033000;4002_0.018000;10002_0.018000",
+              "inscriptions": "13301"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.027000;4002_0.021000;5002_0.020000",
+              "inscriptions": "13201"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 575,
+          "level": 60,
+          "equipment": "{7:20402_448:0}",
+          "star": 6,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 1311,
+          "y": 1334
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 71738515,
+          "player_name": "G Var",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 575,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": -2,
+        "player_name": null,
+        "app_uid": null,
+        "kingdom": 0,
+        "alliance": null,
+        "avatar_url": null,
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 273,
+            "level": null
+          }
+        },
+        "castle": null,
+        "participants": [
+          {
+            "player_id": -2,
+            "player_name": null,
+            "alliance": null,
+            "commanders": {
+              "primary": {
+                "id": 273,
+                "level": 41
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
