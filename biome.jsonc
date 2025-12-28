@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/samples", "!**/*.css"]
+    "includes": ["**", "!**/samples"]
   },
   "formatter": {
     "enabled": true,
@@ -35,6 +35,11 @@
       "bracketSameLine": false,
       "quoteStyle": "double",
       "attributePosition": "auto"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   },
   "assist": {
