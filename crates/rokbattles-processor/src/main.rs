@@ -1,6 +1,7 @@
 use anyhow::{Context, Result, bail};
 use blake3::Hasher;
 use futures::stream::TryStreamExt;
+use mail_helper::EmailType;
 use mongodb::{
     Collection, Database, bson,
     bson::Bson,
@@ -39,6 +40,7 @@ async fn process(
 ) -> Result<usize> {
     let mails = db.collection::<Document>("mails");
     let battle_reports = db.collection::<Document>("battleReports");
+    let duelbattle2_reports = db.collection::<Document>("duelbattle2Reports");
 
     let filter = doc! {
         "status": { "$in": ["pending", "reprocess"] },
@@ -63,11 +65,13 @@ async fn process(
     let count_ref = Arc::clone(&count);
     let mails_ref = mails.clone();
     let battle_reports_ref = battle_reports.clone();
+    let duelbattle2_reports_ref = duelbattle2_reports.clone();
 
     cursor
         .try_for_each_concurrent(concurrency, move |doc| {
             let mails_ref = mails_ref.clone();
             let battle_reports_ref = battle_reports_ref.clone();
+            let duelbattle2_reports_ref = duelbattle2_reports_ref.clone();
             let count_ref = Arc::clone(&count_ref);
             async move {
                 count_ref.fetch_add(1, Ordering::Relaxed);
@@ -76,7 +80,14 @@ async fn process(
                     .map(|s| s.to_string())
                     .unwrap_or_else(|_| "pending".to_string());
                 // Continue processing other mails even if a single mail fails.
-                if let Err(e) = process_mail(&mails_ref, &battle_reports_ref, &doc).await {
+                if let Err(e) = process_mail(
+                    &mails_ref,
+                    &battle_reports_ref,
+                    &duelbattle2_reports_ref,
+                    &doc,
+                )
+                .await
+                {
                     error!(error = %e, status = %status, "processing mail failed");
                     if let Err(e) = record_failure(&mails_ref, &doc, max_failures).await {
                         error!(error = %e, "failed to record mail processing failure");
@@ -157,6 +168,7 @@ async fn record_failure(
 async fn process_mail(
     mails: &Collection<Document>,
     battle_reports: &Collection<Document>,
+    duelbattle2_reports: &Collection<Document>,
     doc: &Document,
 ) -> Result<()> {
     let id = doc
@@ -179,21 +191,6 @@ async fn process_mail(
         })
         .unwrap_or_default();
 
-    if status == "reprocess" {
-        let parent_hashes_to_remove =
-            parent_hashes_for_reprocess(&previous_parent_hashes, mail_hash);
-
-        let delete_filter = doc! {
-            "metadata.parentHash": { "$in": parent_hashes_to_remove.clone() }
-        };
-        let delete_result = battle_reports.delete_many(delete_filter).await?;
-        info!(
-            mail_hash = %mail_hash,
-            removed = delete_result.deleted_count,
-            "removed battle reports for previous hashes"
-        );
-    }
-
     let raw = match mail.get("value") {
         Some(Bson::Binary(bin)) => &bin.bytes,
         _ => bail!("missing binary mail value"),
@@ -208,33 +205,87 @@ async fn process_mail(
     // Convert to str
     let mail_str = std::str::from_utf8(&mail_bytes)?;
 
-    // Parse mail
-    let mail_obj = mail_processor::process(mail_str)?;
+    // Parse mail metadata and detect type before selecting a processor.
+    let decoded_mail: mail_decoder::Mail = serde_json::from_str(mail_str)?;
+    let mail_type = mail_helper::detect_mail_type(&decoded_mail).context("missing mail type")?;
+    let collection_label = match &mail_type {
+        EmailType::Battle => "battleReports",
+        EmailType::DuelBattle2 => "duelbattle2Reports",
+        other => bail!("unsupported mail type: {:?}", other),
+    };
+    let target_collection = match &mail_type {
+        EmailType::Battle => battle_reports,
+        EmailType::DuelBattle2 => duelbattle2_reports,
+        other => bail!("unsupported mail type: {:?}", other),
+    };
+
+    if status == "reprocess" {
+        let parent_hashes_to_remove =
+            parent_hashes_for_reprocess(&previous_parent_hashes, mail_hash);
+
+        let delete_filter = doc! {
+            "metadata.parentHash": { "$in": parent_hashes_to_remove.clone() }
+        };
+        let delete_result = target_collection.delete_many(delete_filter).await?;
+        info!(
+            mail_hash = %mail_hash,
+            removed = delete_result.deleted_count,
+            collection = collection_label,
+            "removed reports for previous hashes"
+        );
+    }
+
     let now = DateTime::now();
 
-    let mut docs: Vec<Document> = Vec::with_capacity(mail_obj.len());
+    let docs = match mail_type {
+        EmailType::Battle => {
+            let mail_obj = mail_processor::process(mail_str)?;
+            let mut docs = Vec::with_capacity(mail_obj.len());
 
-    // Need to review bulk write API later, something might be wrong with it in current version of the driver
-    for report in &mail_obj {
-        let rep_json = serde_json::to_vec(report)?;
-        let rep_hash = blake3_hash(&rep_json);
+            // Need to review bulk write API later, something might be wrong with it in current version of the driver
+            for report in &mail_obj {
+                let rep_json = serde_json::to_vec(report)?;
+                let rep_hash = blake3_hash(&rep_json);
 
-        let report_doc = bson::to_document(report)?;
-        let mut metadata_doc = Document::new();
-        metadata_doc.insert("hash", rep_hash);
-        metadata_doc.insert("parentHash", mail_hash);
+                let report_doc = bson::to_document(report)?;
+                let mut metadata_doc = Document::new();
+                metadata_doc.insert("hash", rep_hash);
+                metadata_doc.insert("parentHash", mail_hash);
 
-        let mut insert_doc = Document::new();
-        insert_doc.insert("metadata", metadata_doc);
-        insert_doc.insert("report", report_doc);
-        insert_doc.insert("createdAt", now);
+                let mut insert_doc = Document::new();
+                insert_doc.insert("metadata", metadata_doc);
+                insert_doc.insert("report", report_doc);
+                insert_doc.insert("createdAt", now);
 
-        docs.push(insert_doc);
-    }
+                docs.push(insert_doc);
+            }
+
+            docs
+        }
+        EmailType::DuelBattle2 => {
+            let processed_mail =
+                mail_processor_duelbattle2::process_sections(&decoded_mail.sections)?;
+            let rep_json = serde_json::to_vec(&processed_mail)?;
+            let rep_hash = blake3_hash(&rep_json);
+
+            let report_doc = bson::to_document(&processed_mail)?;
+            let mut metadata_doc = Document::new();
+            metadata_doc.insert("hash", rep_hash);
+            metadata_doc.insert("parentHash", mail_hash);
+
+            let mut insert_doc = Document::new();
+            insert_doc.insert("metadata", metadata_doc);
+            insert_doc.insert("report", report_doc);
+            insert_doc.insert("createdAt", now);
+
+            vec![insert_doc]
+        }
+        other => bail!("unsupported mail type: {:?}", other),
+    };
 
     if !docs.is_empty() {
         let opts = InsertManyOptions::builder().ordered(false).build();
-        if let Err(e) = battle_reports.insert_many(docs).with_options(opts).await {
+        if let Err(e) = target_collection.insert_many(docs).with_options(opts).await {
             let is_dup_key = match e.kind.as_ref() {
                 ErrorKind::BulkWrite(failure) => {
                     if failure.write_errors.is_empty() {
