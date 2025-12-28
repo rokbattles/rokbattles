@@ -8,7 +8,7 @@ export async function GET() {
     const db = mongo.db();
 
     const doc = await db.collection<Document>("trendSnapshots").findOne(
-      { trendId: "q4-2025-pairing-accessories" },
+      { trendId: "q4-2025-pairing-accessories-2" },
       {
         sort: { generatedAt: -1 },
         projection: { _id: 0 },
