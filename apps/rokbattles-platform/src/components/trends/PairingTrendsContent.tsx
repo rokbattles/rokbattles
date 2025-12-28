@@ -52,6 +52,11 @@ type TrendSnapshot = {
     endMs?: number;
   };
   minReportCount?: number;
+  minReportCounts?: {
+    field?: number;
+    rally?: number;
+    garrison?: number;
+  };
   categories?: {
     field?: CategorySnapshot;
     rally?: CategorySnapshot;
@@ -101,6 +106,18 @@ function formatDate(value?: string) {
     return value;
   }
   return parsed.toLocaleString();
+}
+
+function resolveMinCount(snapshot: TrendSnapshot, category: CategoryKey) {
+  const fieldFallback = snapshot.minReportCount ?? 5000;
+  const categoryCounts = snapshot.minReportCounts;
+  if (categoryCounts) {
+    return categoryCounts[category] ?? fieldFallback;
+  }
+  if (category === "field") {
+    return fieldFallback;
+  }
+  return Math.max(1, Math.floor(fieldFallback / 2));
 }
 
 function AccessoryPairLabel({ pair }: { pair?: AccessoryPairCount }) {
@@ -221,7 +238,9 @@ export default function PairingTrendsContent() {
           <DescriptionDetails>{snapshot.period?.label ?? "2025 Q4"}</DescriptionDetails>
           <DescriptionTerm>Minimum reports per pairing</DescriptionTerm>
           <DescriptionDetails>
-            {snapshot.minReportCount?.toLocaleString() ?? "5,000"}
+            Field {resolveMinCount(snapshot, "field").toLocaleString()}; Rally{" "}
+            {resolveMinCount(snapshot, "rally").toLocaleString()}; Garrison{" "}
+            {resolveMinCount(snapshot, "garrison").toLocaleString()}
           </DescriptionDetails>
           <DescriptionTerm>Generated</DescriptionTerm>
           <DescriptionDetails>{formatDate(snapshot.generatedAt)}</DescriptionDetails>
@@ -239,7 +258,8 @@ export default function PairingTrendsContent() {
                 <Subheading>{meta.title}</Subheading>
                 <Text className="mt-1 text-sm text-zinc-500">
                   {pairings.length.toLocaleString()} Pairings in{" "}
-                  {category.totalReports.toLocaleString()} Reports
+                  {category.totalReports.toLocaleString()} Reports (min{" "}
+                  {resolveMinCount(snapshot, key).toLocaleString()})
                 </Text>
               </div>
             </div>
