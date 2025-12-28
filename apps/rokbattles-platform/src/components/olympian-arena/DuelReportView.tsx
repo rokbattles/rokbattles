@@ -56,25 +56,16 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <div>
-          <Heading>Duel Report</Heading>
-          {hasValidId ? (
-            <Text className="mt-1">Duel ID {duelIdValue}</Text>
-          ) : (
-            <Text className="mt-1">Invalid duel ID.</Text>
-          )}
-        </div>
+        <Heading>Duel Report</Heading>
         <Button className="-my-0.5" disabled={isCopied || !hasValidId} onClick={handleShare}>
           {isCopied ? "Copied" : "Share"}
         </Button>
       </div>
       <Divider />
-      {!hasValidId ? (
-        <DuelErrorState message="Please enter a valid duel id." />
+      {!hasValidId || error ? (
+        <DuelErrorState message={error ?? "We could not load this duel."} />
       ) : loading ? (
         <DuelLoadingState />
-      ) : error ? (
-        <DuelErrorState message={error} />
       ) : entries.length === 0 ? (
         <DuelEmptyState />
       ) : (
