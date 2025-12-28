@@ -9,6 +9,7 @@ import {
   QuestionMarkCircleIcon,
   ScaleIcon,
   ShieldCheckIcon,
+  TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
 import type React from "react";
@@ -122,6 +123,10 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
               <SidebarItem href="/" current={pathname === "/"}>
                 <FireIcon />
                 <SidebarLabel>Explore Battles</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
+                <TrophyIcon />
+                <SidebarLabel>Explore Duels</SidebarLabel>
               </SidebarItem>
               <SidebarItem disabled>
                 <ArrowTrendingUpIcon />
