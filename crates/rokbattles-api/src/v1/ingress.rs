@@ -50,14 +50,14 @@ impl SupportedMailType {
     fn insert_status(self) -> &'static str {
         match self {
             Self::Battle => "pending",
-            Self::DuelBattle2 => "futurePending",
+            Self::DuelBattle2 => "pending",
         }
     }
 
     fn update_status(self) -> &'static str {
         match self {
             Self::Battle => "reprocess",
-            Self::DuelBattle2 => "futurePending",
+            Self::DuelBattle2 => "reprocess",
         }
     }
 }
