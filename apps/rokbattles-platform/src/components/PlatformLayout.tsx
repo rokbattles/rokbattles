@@ -128,7 +128,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                 <TrophyIcon />
                 <SidebarLabel>Explore Duels</SidebarLabel>
               </SidebarItem>
-              <SidebarItem disabled>
+              <SidebarItem href="/trends" current={pathname === "/trends"}>
                 <ArrowTrendingUpIcon />
                 <SidebarLabel>Explore Trends</SidebarLabel>
               </SidebarItem>
