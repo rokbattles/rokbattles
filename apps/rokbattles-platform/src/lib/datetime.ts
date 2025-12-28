@@ -68,6 +68,12 @@ function normalizeEpoch(value: number): number {
   if (absValue < 1e12) {
     return value * 1000;
   }
+  if (absValue >= 1e17) {
+    return value / 1e6;
+  }
+  if (absValue >= 1e14) {
+    return value / 1e3;
+  }
   return value;
 }
 

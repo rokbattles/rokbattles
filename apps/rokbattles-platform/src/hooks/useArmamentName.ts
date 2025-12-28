@@ -11,8 +11,13 @@ type ArmamentIdKey = keyof typeof armamentMap;
 type ArmamentEntry = (typeof armamentMap)[ArmamentIdKey];
 type ArmamentLocale = keyof ArmamentEntry["name"];
 
-const resolveArmamentNameInternal = cache(
-  (id: number | null | undefined, locale: string = DEFAULT_LOCALE) => {
+type ArmamentInfo = {
+  name: string;
+  percent: boolean;
+};
+
+const resolveArmamentInternal = cache(
+  (id: number | null | undefined, locale: string = DEFAULT_LOCALE): ArmamentInfo | undefined => {
     if (typeof id !== "number" || !Number.isFinite(id) || id <= 0) {
       return undefined;
     }
@@ -23,13 +28,28 @@ const resolveArmamentNameInternal = cache(
     }
 
     const requestedLocale = locale ?? DEFAULT_LOCALE;
-    return (
+    const name =
       (armament.name as Record<string, string | undefined>)[requestedLocale] ??
-      armament.name[DEFAULT_LOCALE as ArmamentLocale]
-    );
+      armament.name[DEFAULT_LOCALE as ArmamentLocale];
+    const percent = typeof armament.percent === "boolean" ? armament.percent : true;
+    return name ? { name, percent } : undefined;
   }
 );
 
 export function useArmamentName(id: number | null | undefined, locale = DEFAULT_LOCALE) {
-  return useMemo(() => resolveArmamentNameInternal(id, locale), [id, locale]);
+  return useMemo(() => resolveArmamentInternal(id, locale)?.name, [id, locale]);
+}
+
+export function useArmamentInfo(
+  id: number | null | undefined,
+  locale = DEFAULT_LOCALE
+): ArmamentInfo | undefined {
+  return useMemo(() => resolveArmamentInternal(id, locale), [id, locale]);
+}
+
+export function getArmamentInfo(
+  id: number | null | undefined,
+  locale = DEFAULT_LOCALE
+): ArmamentInfo | undefined {
+  return resolveArmamentInternal(id, locale);
 }
