@@ -19,8 +19,8 @@ export default function Page() {
         <TableHead>
           <TableRow>
             <TableHeader className="sm:w-1/6">Time</TableHeader>
-            <TableHeader>Self Participant</TableHeader>
-            <TableHeader>Enemy Participant</TableHeader>
+            <TableHeader>Sender</TableHeader>
+            <TableHeader>Opponent</TableHeader>
             <TableHeader className="sm:w-1/6">Battles</TableHeader>
             <TableHeader className="sm:w-1/6">Duration</TableHeader>
           </TableRow>

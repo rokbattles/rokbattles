@@ -39,8 +39,8 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
         </section>
       ) : null}
       <section className="grid gap-8 lg:grid-cols-2">
-        <ReportParticipantCard participant={selfParticipant} side="self" />
-        <ReportParticipantCard participant={enemyParticipant} side="enemy" />
+        <ReportParticipantCard participant={selfParticipant} />
+        <ReportParticipantCard participant={enemyParticipant} />
       </section>
     </section>
   );
