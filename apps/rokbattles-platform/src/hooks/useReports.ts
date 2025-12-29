@@ -59,9 +59,13 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
   const {
     playerId: filterPlayerId,
     type,
-    rallyOnly,
-    primaryCommanderId,
-    secondaryCommanderId,
+    senderPrimaryCommanderId,
+    senderSecondaryCommanderId,
+    opponentPrimaryCommanderId,
+    opponentSecondaryCommanderId,
+    rallySide,
+    garrisonSide,
+    garrisonBuildingType,
   } = context;
   const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
@@ -76,9 +80,13 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
         cursor: nextCursor,
         playerId,
         type,
-        rallyOnly,
-        primaryCommanderId,
-        secondaryCommanderId,
+        senderPrimaryCommanderId,
+        senderSecondaryCommanderId,
+        opponentPrimaryCommanderId,
+        opponentSecondaryCommanderId,
+        rallySide,
+        garrisonSide,
+        garrisonBuildingType,
       });
 
       const res = await fetch(`/api/v2/reports${query}`, {
@@ -91,7 +99,17 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
 
       return (await res.json()) as ReportsApiResponse;
     },
-    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
+    [
+      playerId,
+      type,
+      senderPrimaryCommanderId,
+      senderSecondaryCommanderId,
+      opponentPrimaryCommanderId,
+      opponentSecondaryCommanderId,
+      rallySide,
+      garrisonSide,
+      garrisonBuildingType,
+    ]
   );
 
   useEffect(() => {

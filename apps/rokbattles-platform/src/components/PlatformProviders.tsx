@@ -1,5 +1,6 @@
 "use client";
 
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type React from "react";
 import { GovernorProvider } from "@/components/context/GovernorContext";
 import { ReportsFilterProvider } from "@/components/context/ReportsFilterContext";
@@ -17,11 +18,13 @@ export default function PlatformProviders({
   initialActiveGovernorId,
 }: PlatformProvidersProps) {
   return (
-    <GovernorProvider
-      initialGovernors={initialGovernors}
-      initialActiveGovernorId={initialActiveGovernorId}
-    >
-      <ReportsFilterProvider>{children}</ReportsFilterProvider>
-    </GovernorProvider>
+    <NuqsAdapter>
+      <GovernorProvider
+        initialGovernors={initialGovernors}
+        initialActiveGovernorId={initialActiveGovernorId}
+      >
+        <ReportsFilterProvider>{children}</ReportsFilterProvider>
+      </GovernorProvider>
+    </NuqsAdapter>
   );
 }

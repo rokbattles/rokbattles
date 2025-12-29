@@ -4,7 +4,7 @@ import { FunnelIcon } from "@heroicons/react/16/solid";
 import { useContext } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { BattleLog } from "@/components/reports/BattleLog";
-import { MyReportsFilterDialog } from "@/components/reports/MyReportsFilterDialog";
+import { ReportsFilterDialog } from "@/components/reports/ReportsFilterDialog";
 import ReportsTable from "@/components/reports/ReportsTable";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
@@ -50,10 +50,10 @@ export default function Page() {
       <BattleLog governorId={activeGovernor.governorId} year={2025} />
       <div className="mt-8 flex items-end justify-between">
         <Subheading>Live feed (UTC)</Subheading>
-        <MyReportsFilterDialog>
+        <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
           <FunnelIcon />
           Filter
-        </MyReportsFilterDialog>
+        </ReportsFilterDialog>
       </div>
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>

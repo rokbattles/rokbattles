@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import { TableCell, TableRow, TableRowHeader } from "@/components/ui/Table";
 import type { UseReportsResult } from "@/hooks/useReports";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
@@ -8,8 +9,18 @@ import ParticipantCell from "./ParticipantCell";
 type Report = UseReportsResult["data"][number];
 
 export default function ReportRow({ report }: { report: Report }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const query = new URLSearchParams(searchParams.toString());
+  const from = pathname === "/my-reports" ? "my-reports" : "reports";
+  query.set("from", from);
+  const queryString = query.toString();
+  const href = queryString
+    ? `/report/${report.parentHash}?${queryString}`
+    : `/report/${report.parentHash}`;
+
   return (
-    <TableRow key={report.parentHash} href={`/report/${report.parentHash}`}>
+    <TableRow key={report.parentHash} href={href}>
       <TableRowHeader className="font-medium text-zinc-950 dark:text-white">
         {formatUtcDateTime(report.entry.startDate)}
       </TableRowHeader>
