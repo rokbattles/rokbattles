@@ -14,6 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableRowHeader,
 } from "@/components/ui/Table";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
@@ -87,19 +88,39 @@ export default function PairingAccessoryDetails({
       : null;
 
   if (loading) {
-    return <Text className="mt-6 text-sm text-zinc-500">Loading pairing details...</Text>;
+    return (
+      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+        Loading pairing details...
+      </Text>
+    );
   }
 
   if (error) {
-    return <Text className="mt-6 text-sm text-rose-600 dark:text-rose-400">{error}</Text>;
+    return (
+      <Text
+        className="mt-6 text-sm text-rose-600 dark:text-rose-400"
+        role="status"
+        aria-live="polite"
+      >
+        {error}
+      </Text>
+    );
   }
 
   if (!categoryKey) {
-    return <Text className="mt-6 text-sm text-zinc-500">Unknown category.</Text>;
+    return (
+      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+        Unknown category.
+      </Text>
+    );
   }
 
   if (!pairing) {
-    return <Text className="mt-6 text-sm text-zinc-500">Pairing not found.</Text>;
+    return (
+      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+        Pairing not found.
+      </Text>
+    );
   }
 
   const visiblePairs = pairsExpanded ? pairing.accessoryPairs : pairing.accessoryPairs.slice(0, 10);
@@ -141,7 +162,7 @@ export default function PairingAccessoryDetails({
             {pairing.accessoryPairs.length > 0 ? (
               visiblePairs.map((entry, index) => (
                 <TableRow key={`${entry.ids[0]}:${entry.ids[1]}`}>
-                  <TableCell className="w-12 tabular-nums">{index + 1}</TableCell>
+                  <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
                   <TableCell>
                     {getEquipmentName(entry.ids[0]) ?? "Unknown"}{" "}
                     <span className="text-zinc-600 dark:text-zinc-400">and</span>{" "}
@@ -186,7 +207,7 @@ export default function PairingAccessoryDetails({
             {pairing.accessories.length > 0 ? (
               visibleAccessories.map((entry, index) => (
                 <TableRow key={entry.id}>
-                  <TableCell className="w-12 tabular-nums">{index + 1}</TableCell>
+                  <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
                   <TableCell>{getEquipmentName(entry.id) ?? "Unknown"}</TableCell>
                   <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}

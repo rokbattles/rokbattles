@@ -1,7 +1,7 @@
 "use client";
 
 import ParticipantCell from "@/components/reports/ParticipantCell";
-import { TableCell, TableRow } from "@/components/ui/Table";
+import { TableCell, TableRow, TableRowHeader } from "@/components/ui/Table";
 import type { OlympianArenaDuelSummary } from "@/hooks/useOlympianArenaDuels";
 import { formatUtcDateTime } from "@/lib/datetime";
 
@@ -12,9 +12,9 @@ function normalizeCommanderId(id: number | null): number {
 export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSummary }) {
   return (
     <TableRow href={`/olympian-arena/${duel.duelId}`}>
-      <TableCell className="font-medium text-zinc-950 dark:text-white">
+      <TableRowHeader className="font-medium text-zinc-950 dark:text-white">
         {formatUtcDateTime(duel.emailTime)}
-      </TableCell>
+      </TableRowHeader>
       <TableCell>
         <ParticipantCell
           primaryId={normalizeCommanderId(duel.entry.sender.primaryCommanderId)}

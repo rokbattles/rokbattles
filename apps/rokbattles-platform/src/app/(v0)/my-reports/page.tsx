@@ -22,13 +22,15 @@ export default function Page() {
 
   if (loading) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">Loading your account&hellip;</p>
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
+        Loading your account&hellip;
+      </p>
     );
   }
 
   if (!user) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
         You must be logged in to view this page.
       </p>
     );
@@ -36,7 +38,7 @@ export default function Page() {
 
   if (!activeGovernor) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
         You must have a claimed governor to view this page.
       </p>
     );

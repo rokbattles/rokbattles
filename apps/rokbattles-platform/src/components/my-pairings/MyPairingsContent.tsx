@@ -395,13 +395,15 @@ export function MyPairingsContent() {
 
   if (loading) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">Loading your account&hellip;</p>
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
+        Loading your account&hellip;
+      </p>
     );
   }
 
   if (!user) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
         You must be logged in to view this page.
       </p>
     );
@@ -409,7 +411,7 @@ export function MyPairingsContent() {
 
   if (!activeGovernor) {
     return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
         You must have a claimed governor to view this page.
       </p>
     );
@@ -439,12 +441,16 @@ export function MyPairingsContent() {
       </div>
 
       {error ? (
-        <Text className="text-sm/6 text-red-600 dark:text-red-400">
+        <Text className="text-sm/6 text-red-600 dark:text-red-400" role="status" aria-live="polite">
           Failed to load pairings: {error}
         </Text>
       ) : null}
       {!pairingsLoading && !error && pairingOptions.length === 0 ? (
-        <Text className="text-sm/6 text-zinc-500 dark:text-zinc-400">
+        <Text
+          className="text-sm/6 text-zinc-500 dark:text-zinc-400"
+          role="status"
+          aria-live="polite"
+        >
           No pairings found for this period.
         </Text>
       ) : null}

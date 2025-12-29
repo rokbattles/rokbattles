@@ -10,15 +10,21 @@ const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
   ref
 ) {
   return (
-    <TableRow aria-hidden>
+    <TableRow aria-hidden={!loading}>
       <TableCell colSpan={colSpan}>
-        <div ref={ref} className="h-1" />
+        <div ref={ref} className="h-1" aria-hidden="true" />
         {loading ? (
-          <div className="mb-1 text-center text-zinc-500 dark:text-zinc-400">
+          <div
+            className="mb-1 text-center text-zinc-500 dark:text-zinc-400"
+            role="status"
+            aria-live="polite"
+          >
             Loading more&hellip;
           </div>
         ) : (
-          <span className="sr-only">Load more</span>
+          <span className="sr-only" aria-hidden="true">
+            Load more
+          </span>
         )}
       </TableCell>
     </TableRow>

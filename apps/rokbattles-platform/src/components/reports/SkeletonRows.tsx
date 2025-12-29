@@ -13,6 +13,11 @@ const DefaultWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 export default function SkeletonRows({ count = 10, widths = DefaultWidths }: Props) {
   return (
     <>
+      <TableRow>
+        <TableCell colSpan={widths.length} className="sr-only" role="status" aria-live="polite">
+          Loading reports...
+        </TableCell>
+      </TableRow>
       {Array.from({ length: count }, (_, r) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: its okay
         <TableRow key={r} aria-hidden>
