@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { CategoryKey, TrendSnapshot } from "@/lib/types/trends";
 import {
   DescriptionDetails,
   DescriptionList,
@@ -19,6 +18,7 @@ import {
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
 import { getEquipmentName } from "@/hooks/useEquipmentName";
+import type { CategoryKey, TrendSnapshot } from "@/lib/types/trends";
 
 const CATEGORY_LABELS: Record<CategoryKey, string> = {
   field: "Field Reports",
@@ -80,10 +80,10 @@ export default function PairingAccessoryDetails({
     category === "field" || category === "rally" || category === "garrison" ? category : null;
   const pairing =
     snapshot?.categories && categoryKey
-      ? snapshot.categories[categoryKey]?.pairings.find(
+      ? (snapshot.categories[categoryKey]?.pairings.find(
           (entry) =>
             entry.primaryCommanderId === primaryId && entry.secondaryCommanderId === secondaryId
-        ) ?? null
+        ) ?? null)
       : null;
 
   if (loading) {

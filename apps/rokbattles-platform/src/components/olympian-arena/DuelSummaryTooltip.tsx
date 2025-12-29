@@ -4,12 +4,7 @@ type DuelSummaryTooltipProps = TooltipProps<number, string> & {
   formatter: Intl.NumberFormat;
 };
 
-export function DuelSummaryTooltip({
-  active,
-  payload,
-  label,
-  formatter,
-}: DuelSummaryTooltipProps) {
+export function DuelSummaryTooltip({ active, payload, label, formatter }: DuelSummaryTooltipProps) {
   if (!active || !payload || payload.length === 0 || !label) {
     return null;
   }
@@ -42,9 +37,7 @@ export function DuelSummaryTooltip({
                 style={{ backgroundColor: descriptor.color }}
                 aria-hidden="true"
               />
-              <span className="flex-1 text-zinc-600 dark:text-zinc-300">
-                {descriptor.label}
-              </span>
+              <span className="flex-1 text-zinc-600 dark:text-zinc-300">{descriptor.label}</span>
               <span className="font-mono text-zinc-800 dark:text-white">
                 {formatter.format(entry.value)}
               </span>

@@ -2,10 +2,10 @@
 
 import { DuelParticipantCard } from "@/components/olympian-arena/DuelParticipantCard";
 import { DuelResultsChart } from "@/components/olympian-arena/DuelResultsChart";
-import type { DuelReportPayload, DuelResults } from "@/lib/types/duelReport";
 import { Subheading } from "@/components/ui/Heading";
 import type { DuelReportEntry } from "@/hooks/useOlympianArenaDuel";
 import { formatUtcDateTime } from "@/lib/datetime";
+import type { DuelReportPayload, DuelResults } from "@/lib/types/duelReport";
 
 type DuelEntryCardProps = {
   entry: DuelReportEntry;

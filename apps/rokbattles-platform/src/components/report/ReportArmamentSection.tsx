@@ -1,8 +1,8 @@
+import { ReportInscriptionBadge } from "@/components/report/ReportInscriptionBadge";
 import { Subheading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
 import type { ArmamentBuff } from "@/lib/report/parsers";
-import { ReportInscriptionBadge } from "@/components/report/ReportInscriptionBadge";
 
 type ReportArmamentSectionProps = {
   buffs: ArmamentBuff[];

@@ -1,6 +1,6 @@
 import { Text } from "@/components/ui/Text";
-import type { AccessoryPairCount } from "@/lib/types/trends";
 import { getEquipmentName } from "@/hooks/useEquipmentName";
+import type { AccessoryPairCount } from "@/lib/types/trends";
 
 export function AccessoryPairLabel({ pair }: { pair?: AccessoryPairCount }) {
   if (!pair) {

@@ -207,8 +207,7 @@ export function MyPairingsContent() {
     const now = new Date();
     const currentMonthIndex =
       now.getUTCFullYear() === chartYear ? now.getUTCMonth() : Math.min(now.getUTCMonth(), 11);
-    const desiredMonthKey =
-      monthsForYear[currentMonthIndex]?.key ?? monthsForYear[0]?.key ?? null;
+    const desiredMonthKey = monthsForYear[currentMonthIndex]?.key ?? monthsForYear[0]?.key ?? null;
     const latestWithData =
       monthsForYear
         .slice(0, Math.min(currentMonthIndex, monthsForYear.length - 1) + 1)

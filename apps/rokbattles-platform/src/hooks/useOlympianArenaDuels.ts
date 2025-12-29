@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type OlympianArenaParticipant = {
   playerId: number | null;
@@ -56,7 +56,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
   const [error, setError] = useState<string | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const fetchDuels = async (nextCursor?: string) => {
+  const fetchDuels = useCallback(async (nextCursor?: string) => {
     const query = buildQueryParams(nextCursor);
 
     const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
@@ -68,7 +68,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     }
 
     return (await res.json()) as OlympianArenaApiResponse;
-  };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -103,7 +103,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [fetchDuels]);
 
   const loadMore = async () => {
     if (loading) {

@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { DuelEmptyState } from "@/components/olympian-arena/DuelEmptyState";
 import { DuelErrorState } from "@/components/olympian-arena/DuelErrorState";
-import DuelReportEntryCard from "@/components/olympian-arena/DuelReportEntryCard";
 import { DuelLoadingState } from "@/components/olympian-arena/DuelLoadingState";
+import DuelReportEntryCard from "@/components/olympian-arena/DuelReportEntryCard";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";

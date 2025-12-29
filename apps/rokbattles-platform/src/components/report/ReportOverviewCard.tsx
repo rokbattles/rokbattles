@@ -1,6 +1,6 @@
+import { ReportOverviewColumn } from "@/components/report/ReportOverviewColumn";
 import { Subheading } from "@/components/ui/Heading";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
-import { ReportOverviewColumn } from "@/components/report/ReportOverviewColumn";
 
 export function ReportOverviewCard({
   overview,

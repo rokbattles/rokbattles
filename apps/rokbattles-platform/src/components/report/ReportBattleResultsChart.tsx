@@ -105,8 +105,20 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
               cursor={{ fill: "rgba(39, 39, 42, 0.08)" }}
               content={<ReportBattleSummaryTooltip formatter={numberFormatter} />}
             />
-            <Bar dataKey="self" stackId="battle" fill="#3b82f6" radius={[4, 0, 0, 4]} maxBarSize={28} />
-            <Bar dataKey="enemy" stackId="battle" fill="#f87171" radius={[0, 4, 4, 0]} maxBarSize={28} />
+            <Bar
+              dataKey="self"
+              stackId="battle"
+              fill="#3b82f6"
+              radius={[4, 0, 0, 4]}
+              maxBarSize={28}
+            />
+            <Bar
+              dataKey="enemy"
+              stackId="battle"
+              fill="#f87171"
+              radius={[0, 4, 4, 0]}
+              maxBarSize={28}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>

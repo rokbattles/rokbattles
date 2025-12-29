@@ -42,9 +42,7 @@ export function ReportBattleSummaryTooltip({
                 style={{ backgroundColor: descriptor.color }}
                 aria-hidden="true"
               />
-              <span className="flex-1 text-zinc-600 dark:text-zinc-300">
-                {descriptor.label}
-              </span>
+              <span className="flex-1 text-zinc-600 dark:text-zinc-300">{descriptor.label}</span>
               <span className="font-mono text-zinc-800 dark:text-white">
                 {formatter.format(entry.value)}
               </span>

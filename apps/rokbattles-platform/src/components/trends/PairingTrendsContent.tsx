@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { PairingRow } from "@/components/trends/PairingRow";
-import type { CategoryKey, CategorySnapshot, TrendSnapshot } from "@/lib/types/trends";
 import {
   DescriptionDetails,
   DescriptionList,
@@ -18,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import { Text } from "@/components/ui/Text";
+import type { CategoryKey, CategorySnapshot, TrendSnapshot } from "@/lib/types/trends";
 
 const CATEGORY_META: Record<CategoryKey, { title: string }> = {
   field: {

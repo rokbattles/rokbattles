@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Strong } from "@/components/ui/Text";
-import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
 import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overviewMetrics";
+import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
 
 type ReportOverviewColumnProps = {
   side: "self" | "enemy";

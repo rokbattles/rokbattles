@@ -1,16 +1,12 @@
 import { useState } from "react";
+import { DuelCommanderRow } from "@/components/olympian-arena/DuelCommanderRow";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Subheading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
-import { DuelCommanderRow } from "@/components/olympian-arena/DuelCommanderRow";
-import type {
-  DuelBuffEntry,
-  DuelCommanderInfo,
-  DuelParticipantInfo,
-} from "@/lib/types/duelReport";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
+import type { DuelBuffEntry, DuelCommanderInfo, DuelParticipantInfo } from "@/lib/types/duelReport";
 
 type NormalizedBuff = {
   id: number;

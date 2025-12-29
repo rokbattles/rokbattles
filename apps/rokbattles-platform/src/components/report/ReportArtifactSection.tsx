@@ -1,5 +1,5 @@
-import { Subheading } from "@/components/ui/Heading";
 import { ReportEquipmentSlot } from "@/components/report/ReportEquipmentSlot";
+import { Subheading } from "@/components/ui/Heading";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
 type ReportArtifactSectionProps = {

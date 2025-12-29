@@ -1,7 +1,7 @@
 import ParticipantCell from "@/components/reports/ParticipantCell";
 import { AccessoryPairLabel } from "@/components/trends/AccessoryPairLabel";
-import type { CategoryKey, PairingSnapshot } from "@/lib/types/trends";
 import { TableCell, TableRow } from "@/components/ui/Table";
+import type { CategoryKey, PairingSnapshot } from "@/lib/types/trends";
 
 export function PairingRow({
   pairing,

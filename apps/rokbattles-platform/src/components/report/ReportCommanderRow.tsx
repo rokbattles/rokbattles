@@ -22,7 +22,11 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   return (
     <Text className="flex flex-wrap items-center gap-2 text-sm">
       <span className="inline-flex items-center gap-1">
-        <Avatar src={commanderIconSrc} alt={`${commanderLabel} icon`} className="size-12 outline-0!" />
+        <Avatar
+          src={commanderIconSrc}
+          alt={`${commanderLabel} icon`}
+          className="size-12 outline-0!"
+        />
         <Strong>{commanderLabel}</Strong>
       </span>
       {typeof formation === "number" ? (

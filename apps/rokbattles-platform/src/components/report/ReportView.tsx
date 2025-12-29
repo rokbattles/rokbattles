@@ -2,16 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/ReportEmptyState";
-import { ReportErrorState } from "@/components/report/ReportErrorState";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
+import { ReportErrorState } from "@/components/report/ReportErrorState";
 import { ReportLoadingState } from "@/components/report/ReportLoadingState";
 import { ReportOverviewCard } from "@/components/report/ReportOverviewCard";
-import { hasOverviewData } from "@/lib/report/overviewMetrics";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReport } from "@/hooks/useReport";
+import { hasOverviewData } from "@/lib/report/overviewMetrics";
 import type { RawOverview, RawReportPayload } from "@/lib/types/rawReport";
 import type { ReportEntry } from "@/lib/types/report";
 

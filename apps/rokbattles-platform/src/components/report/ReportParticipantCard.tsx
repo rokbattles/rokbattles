@@ -1,17 +1,13 @@
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Subheading } from "@/components/ui/Heading";
 import { ReportArmamentSection } from "@/components/report/ReportArmamentSection";
 import { ReportArtifactSection } from "@/components/report/ReportArtifactSection";
 import { ReportCommanderRow } from "@/components/report/ReportCommanderRow";
 import { ReportEquipmentSection } from "@/components/report/ReportEquipmentSection";
-import {
-  parseArmamentBuffs,
-  parseEquipment,
-  parseSemicolonNumberList,
-} from "@/lib/report/parsers";
-import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport";
+import { Avatar } from "@/components/ui/Avatar";
+import { Badge } from "@/components/ui/Badge";
+import { Subheading } from "@/components/ui/Heading";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
+import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
+import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport";
 
 type ParticipantSide = "self" | "enemy";
 

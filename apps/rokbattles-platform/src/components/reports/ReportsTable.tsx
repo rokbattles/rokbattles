@@ -2,7 +2,7 @@
 
 import { TableBody } from "@/components/ui/Table";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { useReports, type ReportsScope } from "@/hooks/useReports";
+import { type ReportsScope, useReports } from "@/hooks/useReports";
 import EmptyStateRow from "./EmptyStateRow";
 import ErrorRow from "./ErrorRow";
 import LoadMoreRow from "./LoadMoreRow";

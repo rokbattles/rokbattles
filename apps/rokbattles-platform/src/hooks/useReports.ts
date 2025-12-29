@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { ReportsFilterContext } from "@/components/context/ReportsFilterContext";
 import { buildReportsQueryParams } from "@/lib/reportsQuery";
@@ -56,36 +56,43 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
     throw new Error("useReports must be used within a GovernorProvider when scope is mine");
   }
 
-  const { playerId: filterPlayerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId } =
-    context;
-  const playerId =
-    scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
+  const {
+    playerId: filterPlayerId,
+    type,
+    rallyOnly,
+    primaryCommanderId,
+    secondaryCommanderId,
+  } = context;
+  const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const fetchReports = async (nextCursor?: string) => {
-    const query = buildReportsQueryParams({
-      cursor: nextCursor,
-      playerId,
-      type,
-      rallyOnly,
-      primaryCommanderId,
-      secondaryCommanderId,
-    });
+  const fetchReports = useCallback(
+    async (nextCursor?: string) => {
+      const query = buildReportsQueryParams({
+        cursor: nextCursor,
+        playerId,
+        type,
+        rallyOnly,
+        primaryCommanderId,
+        secondaryCommanderId,
+      });
 
-    const res = await fetch(`/api/v2/reports${query}`, {
-      cache: "no-store",
-    });
+      const res = await fetch(`/api/v2/reports${query}`, {
+        cache: "no-store",
+      });
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch reports: ${res.status}`);
-    }
+      if (!res.ok) {
+        throw new Error(`Failed to fetch reports: ${res.status}`);
+      }
 
-    return (await res.json()) as ReportsApiResponse;
-  };
+      return (await res.json()) as ReportsApiResponse;
+    },
+    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -126,7 +133,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
     return () => {
       cancelled = true;
     };
-  }, [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId, scope]);
+  }, [fetchReports, playerId, scope]);
 
   const loadMore = async () => {
     if (loading) {

@@ -18,6 +18,7 @@ import { Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { Switch, SwitchField } from "@/components/ui/Switch";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
+
 function parseNumberInput(value: string) {
   const trimmed = value.trim();
   if (trimmed === "") {
