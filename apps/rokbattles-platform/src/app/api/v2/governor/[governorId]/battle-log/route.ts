@@ -2,7 +2,6 @@ import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import { authenticateRequest } from "@/lib/auth";
 import { parseGovernorId } from "@/lib/governor";
-import { coerceNumber } from "@/lib/number";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
 type BattleReportDocument = {
@@ -26,8 +25,8 @@ type BattleLogDay = {
 };
 
 function normalizeTimestampMillis(value: unknown): number | null {
-  const numeric = coerceNumber(value, Number.NaN);
-  if (!Number.isFinite(numeric) || numeric <= 0) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
     return null;
   }
 
@@ -91,7 +90,7 @@ export async function GET(
 ) {
   const { governorId: governorParam } = await ctx.params;
   const governorId = parseGovernorId(governorParam);
-  if (!governorId) {
+  if (governorId == null) {
     return NextResponse.json({ error: "Invalid governorId" }, { status: 400 });
   }
 
@@ -115,7 +114,7 @@ export async function GET(
 
   const searchParams = req.nextUrl.searchParams;
   const yearParam = searchParams.get("year");
-  const parsedYear = Number.parseInt(yearParam ?? "", 10);
+  const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
   const targetYear = Number.isFinite(parsedYear) ? parsedYear : new Date().getUTCFullYear();
 
   const startInclusive = new Date(Date.UTC(targetYear, 0, 1));
@@ -151,8 +150,8 @@ export async function GET(
       continue;
     }
 
-    const selfId = coerceNumber(report.self?.player_id, 0);
-    const enemyId = coerceNumber(report.enemy?.player_id, 0);
+    const selfId = Number(report.self?.player_id);
+    const enemyId = Number(report.enemy?.player_id);
     if (selfId !== governorId && enemyId !== governorId) {
       continue;
     }

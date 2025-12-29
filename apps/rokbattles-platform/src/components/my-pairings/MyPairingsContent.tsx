@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -17,7 +17,7 @@ import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { type GovernorMarchTotals, useMyPairings } from "@/hooks/useMyPairings";
+import { type GovernorMarchTotals, usePairings } from "@/hooks/usePairings";
 import { formatDurationShort } from "@/lib/datetime";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -76,7 +76,7 @@ function formatNumber(value: number): string {
 }
 
 function formatDurationSeconds(value: number): string {
-  if (!Number.isFinite(value) || value <= 0) {
+  if (!Number.isFinite(value)) {
     return "0s";
   }
 
@@ -85,7 +85,7 @@ function formatDurationSeconds(value: number): string {
 }
 
 function formatPerSecond(value: number): string {
-  if (!Number.isFinite(value) || value <= 0) {
+  if (!Number.isFinite(value)) {
     return "0/s";
   }
 
@@ -100,7 +100,7 @@ function formatCommanderPair(primaryId: number, secondaryId: number) {
   const primaryName = getCommanderName(primaryId) ?? primaryId;
   const secondaryName = getCommanderName(secondaryId) ?? secondaryId;
 
-  if (secondaryId <= 0 || !secondaryName) {
+  if (!secondaryName) {
     return primaryName;
   }
 
@@ -117,8 +117,8 @@ function parseMonthKey(key: string | null) {
   }
 
   const [yearStr, monthStr] = key.split("-");
-  const year = Number.parseInt(yearStr, 10);
-  const month = Number.parseInt(monthStr, 10) - 1;
+  const year = Number(yearStr);
+  const month = Number(monthStr) - 1;
   if (!Number.isFinite(year) || !Number.isFinite(month)) {
     return null;
   }
@@ -145,11 +145,11 @@ export function MyPairingsContent() {
   }
 
   const { activeGovernor } = governorContext;
-  const { data, loading: pairingsLoading, error, year } = useMyPairings();
+  const { data, loading: pairingsLoading, error, year } = usePairings();
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const [selectedMonthKey, setSelectedMonthKey] = useState<string | null>(null);
 
-  const chartYear = useMemo(() => year ?? 2025, [year]);
+  const chartYear = year ?? 2025;
 
   useEffect(() => {
     if (data.length === 0) {
@@ -173,83 +173,72 @@ export function MyPairingsContent() {
     });
   }, [data]);
 
-  const pairingOptions = useMemo(
-    () =>
-      data.map((pairing) => ({
-        value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
-        label: formatCommanderPair(pairing.primaryCommanderId, pairing.secondaryCommanderId),
-      })),
-    [data]
+  const pairingOptions = data.map((pairing) => ({
+    value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
+    label: formatCommanderPair(pairing.primaryCommanderId, pairing.secondaryCommanderId),
+  }));
+
+  const selectedPairing = data.find(
+    (pairing) =>
+      createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === selectedKey
   );
 
-  const selectedPairing = useMemo(
-    () =>
-      data.find(
-        (pairing) =>
-          createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === selectedKey
-      ),
-    [data, selectedKey]
-  );
-
-  const months = useMemo(() => buildMonthsForYear(chartYear), [chartYear]);
-  const monthlyByKey = useMemo(() => {
-    const map = new Map<string, { count: number; totals: GovernorMarchTotals }>();
-    if (!selectedPairing) {
-      return map;
-    }
-
+  const months = buildMonthsForYear(chartYear);
+  const monthlyByKey = new Map<string, { count: number; totals: GovernorMarchTotals }>();
+  if (selectedPairing) {
     for (const month of selectedPairing.monthly ?? []) {
-      map.set(month.monthKey, { count: month.count, totals: month.totals });
+      monthlyByKey.set(month.monthKey, { count: month.count, totals: month.totals });
     }
-    return map;
-  }, [selectedPairing]);
+  }
 
   useEffect(() => {
-    if (!months.length) {
+    const monthsForYear = buildMonthsForYear(chartYear);
+    if (!monthsForYear.length) {
       return;
+    }
+
+    const monthlyMap = new Map<string, { count: number; totals: GovernorMarchTotals }>();
+    if (selectedPairing) {
+      for (const month of selectedPairing.monthly ?? []) {
+        monthlyMap.set(month.monthKey, { count: month.count, totals: month.totals });
+      }
     }
 
     const now = new Date();
     const currentMonthIndex =
       now.getUTCFullYear() === chartYear ? now.getUTCMonth() : Math.min(now.getUTCMonth(), 11);
-    const desiredMonthKey = months[currentMonthIndex]?.key ?? months[0]?.key ?? null;
+    const desiredMonthKey =
+      monthsForYear[currentMonthIndex]?.key ?? monthsForYear[0]?.key ?? null;
     const latestWithData =
-      months
-        .slice(0, Math.min(currentMonthIndex, months.length - 1) + 1)
+      monthsForYear
+        .slice(0, Math.min(currentMonthIndex, monthsForYear.length - 1) + 1)
         .reverse()
-        .find((month) => (monthlyByKey.get(month.key)?.count ?? 0) > 0)?.key ?? null;
+        .find((month) => (monthlyMap.get(month.key)?.count ?? 0) > 0)?.key ?? null;
 
     setSelectedMonthKey((current) => {
-      if (current && months.some((month) => month.key === current)) {
+      if (current && monthsForYear.some((month) => month.key === current)) {
         return current;
       }
 
       return latestWithData ?? desiredMonthKey ?? null;
     });
-  }, [chartYear, monthlyByKey, months]);
+  }, [chartYear, selectedPairing]);
 
-  const chartData: MonthPoint[] = useMemo(
-    () =>
-      months.map((month) => {
-        const entry = monthlyByKey.get(month.key);
-        return {
-          ...month,
-          battles: entry?.count ?? 0,
-          isSelected: month.key === selectedMonthKey,
-        };
-      }),
-    [months, monthlyByKey, selectedMonthKey]
-  );
+  const chartData: MonthPoint[] = months.map((month) => {
+    const entry = monthlyByKey.get(month.key);
+    return {
+      ...month,
+      battles: entry?.count ?? 0,
+      isSelected: month.key === selectedMonthKey,
+    };
+  });
 
-  const selectedMonthLabel = useMemo(() => {
-    const parsed = parseMonthKey(selectedMonthKey);
-    if (!parsed) {
-      return null;
-    }
-    return monthWithYearFormatter.format(parsed);
-  }, [selectedMonthKey]);
+  const parsedSelectedMonth = parseMonthKey(selectedMonthKey);
+  const selectedMonthLabel = parsedSelectedMonth
+    ? monthWithYearFormatter.format(parsedSelectedMonth)
+    : null;
 
-  const monthStats = useMemo(() => {
+  const monthStats = (() => {
     const defaults = {
       totals: createEmptyTotals(),
       count: 0,
@@ -276,7 +265,7 @@ export function MyPairingsContent() {
         ? `vs ${monthWithYearFormatter.format(parseMonthKey(previousMonthKey) ?? new Date())}`
         : "No earlier month to compare",
     };
-  }, [monthlyByKey, months, selectedMonthKey, selectedPairing]);
+  })();
 
   const totalDurationSeconds =
     monthStats.totals.battleDuration > 0 ? monthStats.totals.battleDuration / 1000 : 0;
@@ -308,120 +297,102 @@ export function MyPairingsContent() {
       ? monthStats.comparisonTotals.tps / comparisonDurationSeconds
       : undefined;
 
-  const metrics = useMemo<PairingMetricDefinition[]>(() => {
-    if (!selectedPairing) {
-      return [];
-    }
-
-    return [
-      {
-        key: "battleCount",
-        label: "Battles",
-        value: monthStats.count,
-        previousValue: monthStats.comparisonCount,
-        trendDirection: "increase",
-        formatValue: formatNumber,
-        description:
-          "How many battle reports you generated with this pairing in the selected month.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "killScore",
-        label: "Kill Points",
-        value: monthStats.totals.killScore,
-        previousValue: monthStats.comparisonTotals?.killScore,
-        trendDirection: "increase",
-        formatValue: formatNumber,
-        description: "Total kill points you earned while using this pairing.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "enemyKillScore",
-        label: "Enemy Kill Points",
-        value: monthStats.totals.enemyKillScore,
-        previousValue: monthStats.comparisonTotals?.enemyKillScore,
-        trendDirection: "increase",
-        formatValue: formatNumber,
-        description: "Total kill points your opponents earned against you.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "severelyWounded",
-        label: "Severely Wounded (Taken)",
-        value: monthStats.totals.severelyWounded,
-        previousValue: monthStats.comparisonTotals?.severelyWounded,
-        trendDirection: "decrease",
-        formatValue: formatNumber,
-        description: "Number of your troops that became severely wounded while using this pairing.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "enemySeverelyWounded",
-        label: "Severely Wounded (Inflicted)",
-        value: monthStats.totals.enemySeverelyWounded,
-        previousValue: monthStats.comparisonTotals?.enemySeverelyWounded,
-        trendDirection: "increase",
-        formatValue: formatNumber,
-        description: "Number of enemy troops you caused to become severely wounded.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "averageBattleDuration",
-        label: "Avg. Battle Duration",
-        value: averageBattleDurationSeconds,
-        previousValue: comparisonAverageBattleDurationSeconds,
-        trendDirection: "decrease",
-        formatValue: formatDurationSeconds,
-        description: "Average length of battles recorded for this pairing in the selected month.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "dps",
-        label: "Damage Per Second (DPS)",
-        value: dpsPerSecond,
-        previousValue: previousDpsPerSecond,
-        trendDirection: "increase",
-        formatValue: formatPerSecond,
-        description: "Average amount of damage you inflict per second with this pairing.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "sps",
-        label: "Sevs Per Second (SPS)",
-        value: spsPerSecond,
-        previousValue: previousSpsPerSecond,
-        trendDirection: "increase",
-        formatValue: formatPerSecond,
-        description: "Rate at which you inflict severely wounded troops each second.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-      {
-        key: "tps",
-        label: "Sevs Taken Per Second (TPS)",
-        value: tpsPerSecond,
-        previousValue: previousTpsPerSecond,
-        trendDirection: "decrease",
-        formatValue: formatPerSecond,
-        description: "Rate at which your troops become severely wounded each second.",
-        comparisonLabel: monthStats.comparisonLabel,
-      },
-    ];
-  }, [
-    averageBattleDurationSeconds,
-    comparisonAverageBattleDurationSeconds,
-    dpsPerSecond,
-    monthStats.comparisonCount,
-    monthStats.comparisonLabel,
-    monthStats.comparisonTotals,
-    monthStats.count,
-    monthStats.totals,
-    previousDpsPerSecond,
-    previousSpsPerSecond,
-    previousTpsPerSecond,
-    selectedPairing,
-    spsPerSecond,
-    tpsPerSecond,
-  ]);
+  const metrics: PairingMetricDefinition[] = selectedPairing
+    ? [
+        {
+          key: "battleCount",
+          label: "Battles",
+          value: monthStats.count,
+          previousValue: monthStats.comparisonCount,
+          trendDirection: "increase",
+          formatValue: formatNumber,
+          description:
+            "How many battle reports you generated with this pairing in the selected month.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "killScore",
+          label: "Kill Points",
+          value: monthStats.totals.killScore,
+          previousValue: monthStats.comparisonTotals?.killScore,
+          trendDirection: "increase",
+          formatValue: formatNumber,
+          description: "Total kill points you earned while using this pairing.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "enemyKillScore",
+          label: "Enemy Kill Points",
+          value: monthStats.totals.enemyKillScore,
+          previousValue: monthStats.comparisonTotals?.enemyKillScore,
+          trendDirection: "increase",
+          formatValue: formatNumber,
+          description: "Total kill points your opponents earned against you.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "severelyWounded",
+          label: "Severely Wounded (Taken)",
+          value: monthStats.totals.severelyWounded,
+          previousValue: monthStats.comparisonTotals?.severelyWounded,
+          trendDirection: "decrease",
+          formatValue: formatNumber,
+          description:
+            "Number of your troops that became severely wounded while using this pairing.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "enemySeverelyWounded",
+          label: "Severely Wounded (Inflicted)",
+          value: monthStats.totals.enemySeverelyWounded,
+          previousValue: monthStats.comparisonTotals?.enemySeverelyWounded,
+          trendDirection: "increase",
+          formatValue: formatNumber,
+          description: "Number of enemy troops you caused to become severely wounded.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "averageBattleDuration",
+          label: "Avg. Battle Duration",
+          value: averageBattleDurationSeconds,
+          previousValue: comparisonAverageBattleDurationSeconds,
+          trendDirection: "decrease",
+          formatValue: formatDurationSeconds,
+          description: "Average length of battles recorded for this pairing in the selected month.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "dps",
+          label: "Damage Per Second (DPS)",
+          value: dpsPerSecond,
+          previousValue: previousDpsPerSecond,
+          trendDirection: "increase",
+          formatValue: formatPerSecond,
+          description: "Average amount of damage you inflict per second with this pairing.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "sps",
+          label: "Sevs Per Second (SPS)",
+          value: spsPerSecond,
+          previousValue: previousSpsPerSecond,
+          trendDirection: "increase",
+          formatValue: formatPerSecond,
+          description: "Rate at which you inflict severely wounded troops each second.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+        {
+          key: "tps",
+          label: "Sevs Taken Per Second (TPS)",
+          value: tpsPerSecond,
+          previousValue: previousTpsPerSecond,
+          trendDirection: "decrease",
+          formatValue: formatPerSecond,
+          description: "Rate at which your troops become severely wounded each second.",
+          comparisonLabel: monthStats.comparisonLabel,
+        },
+      ]
+    : [];
 
   if (loading) {
     return (

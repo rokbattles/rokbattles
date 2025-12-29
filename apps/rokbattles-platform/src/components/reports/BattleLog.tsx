@@ -1,6 +1,4 @@
 "use client";
-
-import { useMemo } from "react";
 import { useBattleLog } from "@/hooks/useBattleLog";
 import { cn } from "@/lib/cn";
 import { Subheading } from "../ui/Heading";
@@ -154,14 +152,10 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
   const interactive = Boolean(data);
   const displayYear = year;
 
-  const dayMap = useMemo(() => {
-    const map = new Map<string, DayCell>();
-    if (!data) {
-      return map;
-    }
-
+  const dayMap = new Map<string, DayCell>();
+  if (data) {
     data.days.forEach((day) => {
-      map.set(day.date, {
+      dayMap.set(day.date, {
         key: day.date,
         date: parseUtcDateString(day.date),
         battleCount: day.battleCount,
@@ -169,24 +163,21 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
         inRange: true,
       });
     });
-    return map;
-  }, [data]);
+  }
 
-  const weeks = useMemo(() => {
-    if (!data) {
-      return buildSkeletonWeeks();
-    }
-    return buildWeeks(data.startDate, data.endDate, dayMap);
-  }, [data, dayMap]);
+  const weeks = data ? buildWeeks(data.startDate, data.endDate, dayMap) : buildSkeletonWeeks();
 
-  const totals = useMemo(() => {
-    if (!data) {
-      return { npc: 0, battle: 0, combined: 0 };
-    }
-    const npc = data.days.reduce((sum, day) => sum + day.npcCount, 0);
-    const battle = data.days.reduce((sum, day) => sum + day.battleCount, 0);
-    return { npc, battle, combined: npc + battle };
-  }, [data]);
+  const totals = data
+    ? data.days.reduce(
+        (acc, day) => {
+          acc.npc += day.npcCount;
+          acc.battle += day.battleCount;
+          acc.combined += day.npcCount + day.battleCount;
+          return acc;
+        },
+        { npc: 0, battle: 0, combined: 0 }
+      )
+    : { npc: 0, battle: 0, combined: 0 };
 
   return (
     <section className="mt-6 space-y-3">

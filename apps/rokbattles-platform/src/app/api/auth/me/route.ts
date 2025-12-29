@@ -22,7 +22,7 @@ export async function GET() {
   const claimedGovernors =
     claimedGovernorsDocs.length > 0
       ? claimedGovernorsDocs.map((claim) => ({
-          governorId: Math.trunc(claim.governorId),
+          governorId: claim.governorId,
           governorName: claim.governorName ?? null,
           governorAvatar: claim.governorAvatar ?? null,
         }))

@@ -39,11 +39,11 @@ export async function GET(
   }
 
   const parsedId = Number(id);
-  if (!Number.isFinite(parsedId) || parsedId <= 0) {
+  if (!Number.isFinite(parsedId)) {
     return NextResponse.json({ error: "Invalid duel id" }, { status: 400 });
   }
 
-  const duelId = Math.trunc(parsedId);
+  const duelId = parsedId;
 
   try {
     const mongo = await client.connect();

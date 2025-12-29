@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export type OlympianArenaParticipant = {
   playerId: number | null;
@@ -31,11 +31,6 @@ type OlympianArenaApiResponse = {
   cursor?: string;
 };
 
-type FetchOptions = {
-  cursor?: string;
-  replace: boolean;
-};
-
 export type UseOlympianArenaDuelsResult = {
   data: OlympianArenaDuelSummary[];
   loading: boolean;
@@ -61,103 +56,84 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
   const [error, setError] = useState<string | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const cursorRef = useRef<string | undefined>(undefined);
-  const loadingRef = useRef(false);
-  const requestIdRef = useRef(0);
-  const isMountedRef = useRef(true);
+  const fetchDuels = async (nextCursor?: string) => {
+    const query = buildQueryParams(nextCursor);
+
+    const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch duels: ${res.status}`);
+    }
+
+    return (await res.json()) as OlympianArenaApiResponse;
+  };
 
   useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
+    let cancelled = false;
 
-  const fetchDuels = useCallback(async ({ cursor, replace }: FetchOptions) => {
-    if (loadingRef.current && !replace) {
-      return;
-    }
-
-    const requestId = ++requestIdRef.current;
-    loadingRef.current = true;
-    setLoading(true);
-
-    if (replace) {
-      setError(null);
-    }
-
-    const query = buildQueryParams(cursor);
-
-    try {
-      const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        throw new Error(`Failed to fetch duels: ${res.status}`);
-      }
-
-      const data = (await res.json()) as OlympianArenaApiResponse;
-      const isLatest = requestIdRef.current === requestId;
-      if (!isMountedRef.current || !isLatest) {
-        return;
-      }
-
-      const nextCursor = data.cursor ?? undefined;
-      cursorRef.current = nextCursor;
-      setCursor(nextCursor);
-      setDuels((prev) => (replace ? data.items : [...prev, ...data.items]));
-      setError(null);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      const isLatest = requestIdRef.current === requestId;
-
-      if (!isMountedRef.current || !isLatest) {
-        return;
-      }
-      setError(message);
-    } finally {
-      const isLatest = requestIdRef.current === requestId;
-
-      if (isLatest) {
-        loadingRef.current = false;
-      }
-      if (isLatest && isMountedRef.current) {
-        setLoading(false);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    cursorRef.current = undefined;
     setCursor(undefined);
     setDuels([]);
     setError(null);
+    setLoading(true);
 
-    fetchDuels({ replace: true });
-  }, [fetchDuels]);
+    fetchDuels()
+      .then((data) => {
+        if (cancelled) {
+          return;
+        }
+        setCursor(data.cursor ?? undefined);
+        setDuels(data.items);
+        setError(null);
+      })
+      .catch((err) => {
+        if (cancelled) {
+          return;
+        }
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
 
-  const loadMore = useCallback(async () => {
-    if (loadingRef.current) {
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const loadMore = async () => {
+    if (loading) {
       return;
     }
 
-    const nextCursor = cursorRef.current;
-    if (!nextCursor) {
+    if (!cursor) {
       return;
     }
 
-    await fetchDuels({ cursor: nextCursor, replace: false });
-  }, [fetchDuels]);
+    setLoading(true);
 
-  return useMemo<UseOlympianArenaDuelsResult>(
-    () => ({
-      data: duels,
-      loading,
-      error,
-      cursor,
-      loadMore,
-    }),
-    [duels, loading, error, cursor, loadMore]
-  );
+    try {
+      const data = await fetchDuels(cursor);
+      setCursor(data.cursor ?? undefined);
+      setDuels((prev) => [...prev, ...data.items]);
+      setError(null);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    data: duels,
+    loading,
+    error,
+    cursor,
+    loadMore,
+  };
 }

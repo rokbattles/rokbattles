@@ -106,8 +106,8 @@ export function SidebarGovernorHeader({ user, onRefresh }: SidebarGovernorHeader
       return;
     }
 
-    const numericGovernorId = Number.parseInt(trimmed, 10);
-    if (!Number.isFinite(numericGovernorId) || numericGovernorId <= 0) {
+    const numericGovernorId = Number(trimmed);
+    if (!Number.isFinite(numericGovernorId)) {
       setErrorMessage("Enter a valid governor ID.");
       return;
     }

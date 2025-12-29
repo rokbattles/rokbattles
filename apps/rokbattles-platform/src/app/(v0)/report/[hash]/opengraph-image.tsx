@@ -14,7 +14,7 @@ export const size = {
 type CommanderIdKey = keyof typeof commandersData.commanders;
 
 function getCommanderName(id: number) {
-  if (!Number.isFinite(id) || id <= 0) {
+  if (!Number.isFinite(id)) {
     return undefined;
   }
 

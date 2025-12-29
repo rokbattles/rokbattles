@@ -20,11 +20,13 @@ import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { Switch, SwitchField } from "@/components/ui/Switch";
 import { useCommanderOptions } from "@/hooks/useCommanderName";
 
-function parse(s: string) {
-  const t = s.trim();
-  if (t === "") return undefined;
-  const n = Number(t);
-  return Number.isFinite(n) ? Math.trunc(n) : undefined;
+function parseNumberInput(value: string) {
+  const trimmed = value.trim();
+  if (trimmed === "") {
+    return undefined;
+  }
+  const numeric = Number(trimmed);
+  return Number.isFinite(numeric) ? numeric : undefined;
 }
 
 export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof Button>) {
@@ -74,11 +76,11 @@ export function ReportsFilterDialog(props: React.ComponentPropsWithoutRef<typeof
   }, [isOpen, playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]);
 
   const handleApply = () => {
-    setPlayerId(parse(localPlayerId));
+    setPlayerId(parseNumberInput(localPlayerId));
     setType(localType === "" ? undefined : localType);
     setRallyOnly(localRallyOnly);
-    setPrimaryCommanderId(parse(localPrimaryCommanderId));
-    setSecondaryCommanderId(parse(localSecondaryCommanderId));
+    setPrimaryCommanderId(parseNumberInput(localPrimaryCommanderId));
+    setSecondaryCommanderId(parseNumberInput(localSecondaryCommanderId));
     setIsOpen(false);
   };
 

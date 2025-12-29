@@ -85,7 +85,7 @@ export function parseArmamentBuffs(raw: string | null | undefined): ArmamentBuff
   for (const token of tokens) {
     const [idStr, valueStr] = token.split("_");
     const id = Number(idStr);
-    if (!Number.isFinite(id) || id <= 0) {
+    if (!Number.isFinite(id)) {
       continue;
     }
 
@@ -105,7 +105,7 @@ export function parseArmamentBuffs(raw: string | null | undefined): ArmamentBuff
 export type InscriptionRarity = "common" | "rare" | "special";
 
 export function getInscriptionRarity(id: number): InscriptionRarity {
-  if (!Number.isFinite(id) || id <= 0) {
+  if (!Number.isFinite(id)) {
     return "common";
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 export type BattleLogDay = {
   date: string;
@@ -28,14 +28,12 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
     }
 
     let cancelled = false;
-    const controller = new AbortController();
 
     setLoading(true);
     setError(null);
 
     fetch(`/api/v2/governor/${governorId}/battle-log?year=${String(year)}`, {
       cache: "no-store",
-      signal: controller.signal,
     })
       .then((res) => {
         if (!res.ok) {
@@ -49,7 +47,7 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
         }
       })
       .catch((err: unknown) => {
-        if (cancelled || (err instanceof DOMException && err.name === "AbortError")) {
+        if (cancelled) {
           return;
         }
         const message = err instanceof Error ? err.message : String(err);
@@ -64,16 +62,12 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
 
     return () => {
       cancelled = true;
-      controller.abort();
     };
   }, [governorId, year]);
 
-  return useMemo(
-    () => ({
-      data,
-      loading,
-      error,
-    }),
-    [data, loading, error]
-  );
+  return {
+    data,
+    loading,
+    error,
+  };
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useCallback, useMemo, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import type { ClaimedGovernor } from "@/hooks/useCurrentUser";
 
 export type GovernorContextValue = {
@@ -53,23 +53,17 @@ export function GovernorProvider({ children }: { children: ReactNode }) {
     [governors]
   );
 
-  const activeGovernor = useMemo(
-    () =>
-      activeGovernorId == null
-        ? undefined
-        : governors.find((governor) => governor.governorId === activeGovernorId),
-    [activeGovernorId, governors]
-  );
+  const activeGovernor =
+    activeGovernorId == null
+      ? undefined
+      : governors.find((governor) => governor.governorId === activeGovernorId);
 
-  const value = useMemo(
-    () => ({
-      activeGovernor,
-      governors,
-      setGovernors,
-      selectGovernor,
-    }),
-    [activeGovernor, governors, selectGovernor, setGovernors]
-  );
+  const value = {
+    activeGovernor,
+    governors,
+    setGovernors,
+    selectGovernor,
+  };
 
   return <GovernorContext.Provider value={value}>{children}</GovernorContext.Provider>;
 }

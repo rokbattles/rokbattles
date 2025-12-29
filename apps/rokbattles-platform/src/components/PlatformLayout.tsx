@@ -2,29 +2,21 @@
 
 import {
   ArrowDownTrayIcon,
-  ArrowRightStartOnRectangleIcon,
   ArrowTrendingUpIcon,
   ChevronUpIcon,
   FireIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
-  ShieldCheckIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
 import type React from "react";
 import { useCallback, useContext } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
+import { PlatformAccountDropdownMenu } from "@/components/PlatformAccountDropdownMenu";
 import { SidebarGovernorHeader } from "@/components/SidebarGovernorHeader";
 import { Avatar } from "@/components/ui/Avatar";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownDivider,
-  DropdownItem,
-  DropdownLabel,
-  DropdownMenu,
-} from "@/components/ui/Dropdown";
+import { Dropdown, DropdownButton } from "@/components/ui/Dropdown";
 import { SidebarLayout } from "@/components/ui/layout/SidebarLayout";
 import {
   Navbar,
@@ -44,32 +36,6 @@ import {
   SidebarSpacer,
 } from "@/components/ui/Sidebar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-
-function AccountDropdownMenu({
-  anchor,
-  handleLogout,
-}: {
-  anchor: "top start" | "bottom end";
-  handleLogout: () => Promise<void>;
-}) {
-  return (
-    <DropdownMenu className="min-w-64" anchor={anchor}>
-      <DropdownItem
-        href="https://rokbattles.com/legal/privacy-policy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <ShieldCheckIcon />
-        <DropdownLabel>Privacy Policy</DropdownLabel>
-      </DropdownItem>
-      <DropdownDivider />
-      <DropdownItem onClick={() => handleLogout()}>
-        <ArrowRightStartOnRectangleIcon />
-        <DropdownLabel>Sign out</DropdownLabel>
-      </DropdownItem>
-    </DropdownMenu>
-  );
-}
 
 export function PlatformLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -105,7 +71,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                   <DropdownButton as={NavbarItem}>
                     <Avatar src={user.avatar} square />
                   </DropdownButton>
-                  <AccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
+                  <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
                 <NavbarItem href="/api/auth/discord/login">
@@ -189,7 +155,7 @@ export function PlatformLayout({ children }: { children: React.ReactNode }) {
                   </span>
                   <ChevronUpIcon />
                 </DropdownButton>
-                <AccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
+                <PlatformAccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
               </Dropdown>
             ) : (
               <SidebarItem href="/api/auth/discord/login" prefetch={false}>

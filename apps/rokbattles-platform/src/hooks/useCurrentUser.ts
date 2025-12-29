@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 
 export interface ClaimedGovernor {
@@ -28,13 +28,6 @@ export function useCurrentUser() {
   const mountedRef = useRef(true);
   const { setGovernors } = useContext(GovernorContext);
 
-  const syncGovernors = useCallback(
-    (nextGovernors: ClaimedGovernor[]) => {
-      setGovernors(nextGovernors);
-    },
-    [setGovernors]
-  );
-
   const fetchUser = useCallback(async () => {
     if (!mountedRef.current) {
       return;
@@ -52,7 +45,7 @@ export function useCurrentUser() {
 
       if (response.status === 401) {
         setUser(null);
-        syncGovernors([]);
+        setGovernors([]);
         return;
       }
 
@@ -62,7 +55,7 @@ export function useCurrentUser() {
 
       const nextUser = payload?.user ?? null;
       setUser(nextUser);
-      syncGovernors(nextUser?.claimedGovernors ?? []);
+      setGovernors(nextUser?.claimedGovernors ?? []);
     } catch (err) {
       if (!mountedRef.current) {
         return;
@@ -70,13 +63,13 @@ export function useCurrentUser() {
 
       console.error("Failed to fetch current user", err);
       setUser(null);
-      syncGovernors([]);
+      setGovernors([]);
     } finally {
       if (mountedRef.current) {
         setLoading(false);
       }
     }
-  }, [syncGovernors]);
+  }, [setGovernors]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -87,14 +80,9 @@ export function useCurrentUser() {
     };
   }, [fetchUser]);
 
-  const value = useMemo(
-    () => ({
-      user,
-      loading,
-      refresh: fetchUser,
-    }),
-    [fetchUser, loading, user]
-  );
-
-  return value;
+  return {
+    user,
+    loading,
+    refresh: fetchUser,
+  };
 }

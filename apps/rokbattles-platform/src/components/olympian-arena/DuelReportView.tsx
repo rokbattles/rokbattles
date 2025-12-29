@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import DuelReportEntryCard, {
-  type DuelReportPayload,
-} from "@/components/olympian-arena/DuelReportEntryCard";
+import { useEffect, useRef, useState } from "react";
+import { DuelEmptyState } from "@/components/olympian-arena/DuelEmptyState";
+import { DuelErrorState } from "@/components/olympian-arena/DuelErrorState";
+import DuelReportEntryCard from "@/components/olympian-arena/DuelReportEntryCard";
+import { DuelLoadingState } from "@/components/olympian-arena/DuelLoadingState";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useOlympianArenaDuel } from "@/hooks/useOlympianArenaDuel";
+import type { DuelReportPayload } from "@/lib/types/duelReport";
 
 export type DuelReportViewProps = {
   duelId: string;
@@ -18,7 +19,7 @@ export type DuelReportViewProps = {
 export default function DuelReportView({ duelId }: DuelReportViewProps) {
   const normalizedId = duelId?.trim() ?? "";
   const parsedId = Number(normalizedId);
-  const duelIdValue = Number.isFinite(parsedId) && parsedId > 0 ? Math.trunc(parsedId) : null;
+  const duelIdValue = Number.isFinite(parsedId) ? parsedId : null;
   const hasValidId = duelIdValue != null;
 
   const { data, loading, error } = useOlympianArenaDuel(duelIdValue);
@@ -34,7 +35,7 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
     };
   }, []);
 
-  const entries = useMemo(() => data?.items ?? [], [data?.items]);
+  const entries = data?.items ?? [];
 
   function handleShare() {
     if (!duelIdValue) {
@@ -85,25 +86,4 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       )}
     </section>
   );
-}
-
-function DuelLoadingState() {
-  return (
-    <div className="space-y-6">
-      {[0, 1].map((index) => (
-        <div
-          key={index}
-          className="h-72 animate-pulse rounded-2xl border border-zinc-950/10 bg-zinc-100/80 dark:border-white/10 dark:bg-white/5"
-        />
-      ))}
-    </div>
-  );
-}
-
-function DuelErrorState({ message }: { message: string }) {
-  return <Text>We could not load this duel. {message}</Text>;
-}
-
-function DuelEmptyState() {
-  return <Text>No reports were found for this duel.</Text>;
 }

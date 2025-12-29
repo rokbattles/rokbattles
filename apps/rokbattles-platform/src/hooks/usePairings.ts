@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 
 export type GovernorMarchTotals = {
@@ -46,7 +46,7 @@ type GovernorMarchesResponse = {
   items: GovernorMarchAggregate[];
 };
 
-export type UseMyPairingsResult = {
+export type UsePairingsResult = {
   data: GovernorMarchAggregate[];
   loading: boolean;
   error: string | null;
@@ -57,11 +57,11 @@ export type UseMyPairingsResult = {
 
 const TARGET_YEAR = 2025;
 
-export function useMyPairings(): UseMyPairingsResult {
+export function usePairings(): UsePairingsResult {
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
-    throw new Error("useMyPairings must be used within a GovernorProvider");
+    throw new Error("usePairings must be used within a GovernorProvider");
   }
 
   const { activeGovernor } = governorContext;
@@ -73,28 +73,16 @@ export function useMyPairings(): UseMyPairingsResult {
   const [period, setPeriod] = useState<GovernorMarchesResponse["period"] | null>(null);
   const [year, setYear] = useState<number | null>(null);
 
-  const requestIdRef = useRef(0);
-  const isMountedRef = useRef(true);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
-
   const fetchPairings = useCallback(async () => {
     if (governorId == null) {
-      if (isMountedRef.current) {
-        setPairings([]);
-        setPeriod(null);
-        setError(null);
-        setLoading(false);
-      }
+      setPairings([]);
+      setPeriod(null);
+      setYear(null);
+      setError(null);
+      setLoading(false);
       return;
     }
 
-    const requestId = ++requestIdRef.current;
     setLoading(true);
     setError(null);
 
@@ -108,30 +96,18 @@ export function useMyPairings(): UseMyPairingsResult {
       }
 
       const data = (await res.json()) as GovernorMarchesResponse;
-      const isLatest = requestIdRef.current === requestId;
-      if (!isMountedRef.current || !isLatest) {
-        return;
-      }
-
       setPairings(Array.isArray(data.items) ? data.items : []);
       setPeriod(data.period ?? null);
       setYear(data.year ?? null);
       setError(null);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      const isLatest = requestIdRef.current === requestId;
-      if (!isMountedRef.current || !isLatest) {
-        return;
-      }
       setPairings([]);
       setPeriod(null);
       setYear(null);
       setError(message);
     } finally {
-      const isLatest = requestIdRef.current === requestId;
-      if (isLatest && isMountedRef.current) {
-        setLoading(false);
-      }
+      setLoading(false);
     }
   }, [governorId]);
 
@@ -147,15 +123,12 @@ export function useMyPairings(): UseMyPairingsResult {
     await fetchPairings();
   }, [fetchPairings]);
 
-  return useMemo(
-    () => ({
-      data: pairings,
-      loading,
-      error,
-      period,
-      year,
-      reload,
-    }),
-    [pairings, loading, error, period, year, reload]
-  );
+  return {
+    data: pairings,
+    loading,
+    error,
+    period,
+    year,
+    reload,
+  };
 }

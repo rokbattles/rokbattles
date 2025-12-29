@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ReportEmptyState } from "@/components/report/ReportEmptyState";
+import { ReportErrorState } from "@/components/report/ReportErrorState";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
-import { hasOverviewData, ReportOverviewCard } from "@/components/report/ReportOverviewCard";
+import { ReportLoadingState } from "@/components/report/ReportLoadingState";
+import { ReportOverviewCard } from "@/components/report/ReportOverviewCard";
+import { hasOverviewData } from "@/lib/report/overviewMetrics";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useReport } from "@/hooks/useReport";
 import type { RawOverview, RawReportPayload } from "@/lib/types/rawReport";
@@ -32,20 +35,8 @@ export function ReportView({ hash }: ReportViewProps) {
     };
   }, []);
 
-  const entries: ReportEntry[] = useMemo(() => data?.items ?? [], [data?.items]);
-  const overviewSource = useMemo(() => {
-    for (const entry of entries) {
-      const payload = (entry.report ?? {}) as RawReportPayload;
-      if (payload?.overview && typeof payload.overview === "object") {
-        return {
-          overview: payload.overview as RawOverview,
-          self: payload.self,
-          enemy: payload.enemy,
-        };
-      }
-    }
-    return null;
-  }, [entries]);
+  const entries: ReportEntry[] = data?.items ?? [];
+  const overviewSource = findOverviewSource(entries);
 
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
@@ -101,23 +92,16 @@ export function ReportView({ hash }: ReportViewProps) {
   );
 }
 
-function ReportLoadingState() {
-  return (
-    <div className="space-y-6">
-      {[0, 1].map((index) => (
-        <div
-          key={index}
-          className="h-72 animate-pulse rounded-2xl border border-zinc-950/10 bg-zinc-100/80 dark:border-white/10 dark:bg-white/5"
-        />
-      ))}
-    </div>
-  );
-}
-
-function ReportErrorState({ message }: { message: string }) {
-  return <Text>We could not load this report. {message}</Text>;
-}
-
-function ReportEmptyState() {
-  return <Text>No battles were found for this hash.</Text>;
+function findOverviewSource(entries: ReportEntry[]) {
+  for (const entry of entries) {
+    const payload = (entry.report ?? {}) as RawReportPayload;
+    if (payload?.overview && typeof payload.overview === "object") {
+      return {
+        overview: payload.overview as RawOverview,
+        self: payload.self,
+        enemy: payload.enemy,
+      };
+    }
+  }
+  return null;
 }

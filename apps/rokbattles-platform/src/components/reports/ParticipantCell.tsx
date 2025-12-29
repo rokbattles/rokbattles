@@ -1,6 +1,6 @@
 "use client";
 
-import { useCommanderName } from "@/hooks/useCommanderName";
+import { getCommanderName } from "@/hooks/useCommanderName";
 
 type Props = {
   primaryId: number;
@@ -8,12 +8,12 @@ type Props = {
 };
 
 function parse(v: number | undefined) {
-  return typeof v === "number" && Number.isFinite(v) && v > 0 ? String(v) : undefined;
+  return typeof v === "number" && Number.isFinite(v) ? String(v) : undefined;
 }
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
-  const primaryName = useCommanderName(primaryId) ?? parse(primaryId);
-  const secondaryName = useCommanderName(secondaryId) ?? parse(secondaryId);
+  const primaryName = getCommanderName(primaryId) ?? parse(primaryId);
+  const secondaryName = getCommanderName(secondaryId) ?? parse(secondaryId);
 
   const hasPrimary = Boolean(primaryName);
   const hasSecondary = Boolean(secondaryName);

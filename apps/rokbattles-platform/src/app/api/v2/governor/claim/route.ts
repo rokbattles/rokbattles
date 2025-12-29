@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     payload && typeof payload === "object" ? (payload as Record<string, unknown>).governorId : null
   );
 
-  if (!governorId) {
+  if (governorId == null) {
     return NextResponse.json({ error: "Invalid governorId" }, { status: 400 });
   }
 

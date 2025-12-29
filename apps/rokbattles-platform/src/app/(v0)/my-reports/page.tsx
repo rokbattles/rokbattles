@@ -9,7 +9,6 @@ import ReportsTable from "@/components/reports/ReportsTable";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { useMyReports } from "@/hooks/useMyReports";
 
 export default function Page() {
   const { user, loading } = useCurrentUser();
@@ -64,7 +63,7 @@ export default function Page() {
             <TableHeader className="sm:w-1/6">Duration</TableHeader>
           </TableRow>
         </TableHead>
-        <ReportsTable useReportsHook={useMyReports} />
+        <ReportsTable scope="mine" />
       </Table>
     </>
   );
