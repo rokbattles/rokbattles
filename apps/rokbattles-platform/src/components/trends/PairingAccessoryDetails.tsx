@@ -132,22 +132,22 @@ export default function PairingAccessoryDetails({
         <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
           <TableHead>
             <TableRow>
-              <TableHeader className="text-right">#</TableHeader>
+              <TableHeader className="w-12">#</TableHeader>
               <TableHeader>Accessory pair</TableHeader>
-              <TableHeader className="text-right">Reports</TableHeader>
+              <TableHeader className="w-32">Reports</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
             {pairing.accessoryPairs.length > 0 ? (
               visiblePairs.map((entry, index) => (
                 <TableRow key={`${entry.ids[0]}:${entry.ids[1]}`}>
-                  <TableCell className="text-right font-mono text-zinc-500">{index + 1}</TableCell>
+                  <TableCell className="w-12 tabular-nums">{index + 1}</TableCell>
                   <TableCell>
                     {getEquipmentName(entry.ids[0]) ?? "Unknown"}{" "}
                     <span className="text-zinc-600 dark:text-zinc-400">and</span>{" "}
                     {getEquipmentName(entry.ids[1]) ?? "Unknown"}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-zinc-950 dark:text-white">
+                  <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
                   </TableCell>
                 </TableRow>
@@ -177,18 +177,18 @@ export default function PairingAccessoryDetails({
         <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
           <TableHead>
             <TableRow>
-              <TableHeader className="text-right">#</TableHeader>
+              <TableHeader className="w-12">#</TableHeader>
               <TableHeader>Accessory</TableHeader>
-              <TableHeader className="text-right">Reports</TableHeader>
+              <TableHeader className="w-32">Reports</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
             {pairing.accessories.length > 0 ? (
               visibleAccessories.map((entry, index) => (
                 <TableRow key={entry.id}>
-                  <TableCell className="text-right font-mono text-zinc-500">{index + 1}</TableCell>
+                  <TableCell className="w-12 tabular-nums">{index + 1}</TableCell>
                   <TableCell>{getEquipmentName(entry.id) ?? "Unknown"}</TableCell>
-                  <TableCell className="text-right font-mono text-zinc-950 dark:text-white">
+                  <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
                   </TableCell>
                 </TableRow>

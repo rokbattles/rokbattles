@@ -153,10 +153,10 @@ export default function PairingTrendsContent() {
             <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
               <TableHead>
                 <TableRow>
-                  <TableHeader className="text-right">#</TableHeader>
+                  <TableHeader className="w-12">#</TableHeader>
                   <TableHeader>Pairing</TableHeader>
                   <TableHeader>Top accessory</TableHeader>
-                  <TableHeader className="text-right">Reports</TableHeader>
+                  <TableHeader className="w-32">Reports</TableHeader>
                 </TableRow>
               </TableHead>
               <TableBody>
