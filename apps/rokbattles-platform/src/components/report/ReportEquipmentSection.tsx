@@ -7,10 +7,6 @@ type ReportEquipmentSectionProps = {
 };
 
 export function ReportEquipmentSection({ tokens }: ReportEquipmentSectionProps) {
-  if (tokens.length === 0) {
-    return null;
-  }
-
   const slots = tokens.reduce<Record<number, EquipmentToken | undefined>>((acc, token) => {
     acc[token.slot] = token;
     return acc;
