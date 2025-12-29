@@ -102,7 +102,13 @@ export function DuelResultsChart({ results }: { results: DuelResults }) {
             />
             <RechartsTooltip
               cursor={{ fill: "rgba(39, 39, 42, 0.08)" }}
-              content={<DuelSummaryTooltip formatter={numberFormatter} />}
+              content={(props) => (
+                <DuelSummaryTooltip
+                  active={props.active}
+                  payload={props.payload}
+                  label={props.label}
+                />
+              )}
             />
             <Bar dataKey="sender" stackId="duel" fill="#3b82f6" radius={[4, 0, 0, 4]} />
             <Bar dataKey="opponent" stackId="duel" fill="#f87171" radius={[0, 4, 4, 0]} />

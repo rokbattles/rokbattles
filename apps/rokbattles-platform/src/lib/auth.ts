@@ -27,10 +27,6 @@ export type AuthenticatedRequestContext = {
   db: Db;
 };
 
-type AuthGuardResult =
-  | { ok: true; context: AuthenticatedRequestContext }
-  | { ok: false; response: NextResponse };
-
 export async function authenticateRequest(): Promise<AuthenticationResult> {
   const cookieStore = await cookies();
   const sid = cookieStore.get("sid")?.value;
@@ -87,21 +83,16 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
   };
 }
 
-export async function requireAuthContext(): Promise<AuthGuardResult> {
-  const authResult = await authenticateRequest();
-  if (authResult.ok) {
-    return authResult;
-  }
+export async function requireAuthContext() {
+  const result = await authenticateRequest();
 
-  if (authResult.reason === "session-expired") {
-    return {
-      ok: false,
-      response: NextResponse.json({ error: "Session expired" }, { status: 401 }),
-    };
+  if (result.ok === true) {
+    return { ok: true as const, context: result.context };
   }
 
   return {
-    ok: false,
-    response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+    ok: false as const,
+    reason: result.reason,
+    response: NextResponse.json({ error: "unauthorized", reason: result.reason }, { status: 401 }),
   };
 }

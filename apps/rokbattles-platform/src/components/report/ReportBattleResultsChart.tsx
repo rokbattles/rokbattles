@@ -103,7 +103,13 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
             />
             <RechartsTooltip
               cursor={{ fill: "rgba(39, 39, 42, 0.08)" }}
-              content={<ReportBattleSummaryTooltip formatter={numberFormatter} />}
+              content={(props) => (
+                <ReportBattleSummaryTooltip
+                  active={props.active}
+                  payload={props.payload}
+                  label={props.label}
+                />
+              )}
             />
             <Bar
               dataKey="self"
