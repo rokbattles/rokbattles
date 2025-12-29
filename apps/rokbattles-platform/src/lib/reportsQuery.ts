@@ -1,35 +1,70 @@
-import type { ReportsFilterType } from "@/components/context/ReportsFilterContext";
+import type {
+  ReportsFilterSide,
+  ReportsFilterType,
+  ReportsGarrisonBuildingType,
+} from "@/components/context/ReportsFilterContext";
 
 export type ReportsQueryParams = {
   cursor?: string;
   playerId?: number;
   type?: ReportsFilterType;
-  rallyOnly: boolean;
-  primaryCommanderId?: number;
-  secondaryCommanderId?: number;
+  senderPrimaryCommanderId?: number;
+  senderSecondaryCommanderId?: number;
+  opponentPrimaryCommanderId?: number;
+  opponentSecondaryCommanderId?: number;
+  rallySide: ReportsFilterSide;
+  garrisonSide: ReportsFilterSide;
+  garrisonBuildingType?: ReportsGarrisonBuildingType;
 };
 
 export function buildReportsQueryParams({
   cursor,
   playerId,
   type,
-  rallyOnly,
-  primaryCommanderId,
-  secondaryCommanderId,
+  senderPrimaryCommanderId,
+  senderSecondaryCommanderId,
+  opponentPrimaryCommanderId,
+  opponentSecondaryCommanderId,
+  rallySide,
+  garrisonSide,
+  garrisonBuildingType,
 }: ReportsQueryParams) {
   const params = new URLSearchParams();
 
   if (cursor) params.set("cursor", cursor);
   if (typeof playerId === "number" && Number.isFinite(playerId)) {
-    params.set("playerId", String(playerId));
+    params.set("pid", String(playerId));
   }
   if (type) params.set("type", type);
-  if (rallyOnly) params.set("rallyOnly", "1");
-  if (typeof primaryCommanderId === "number" && Number.isFinite(primaryCommanderId)) {
-    params.set("primaryCommanderId", String(primaryCommanderId));
+  if (typeof senderPrimaryCommanderId === "number" && Number.isFinite(senderPrimaryCommanderId)) {
+    params.set("spc", String(senderPrimaryCommanderId));
   }
-  if (typeof secondaryCommanderId === "number" && Number.isFinite(secondaryCommanderId)) {
-    params.set("secondaryCommanderId", String(secondaryCommanderId));
+  if (
+    typeof senderSecondaryCommanderId === "number" &&
+    Number.isFinite(senderSecondaryCommanderId)
+  ) {
+    params.set("ssc", String(senderSecondaryCommanderId));
+  }
+  if (
+    typeof opponentPrimaryCommanderId === "number" &&
+    Number.isFinite(opponentPrimaryCommanderId)
+  ) {
+    params.set("opc", String(opponentPrimaryCommanderId));
+  }
+  if (
+    typeof opponentSecondaryCommanderId === "number" &&
+    Number.isFinite(opponentSecondaryCommanderId)
+  ) {
+    params.set("osc", String(opponentSecondaryCommanderId));
+  }
+  if (rallySide !== "none") {
+    params.set("rs", rallySide);
+  }
+  if (garrisonSide !== "none") {
+    params.set("gs", garrisonSide);
+    if (garrisonBuildingType) {
+      params.set("gb", garrisonBuildingType);
+    }
   }
 
   const query = params.toString();

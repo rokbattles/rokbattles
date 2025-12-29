@@ -23,18 +23,52 @@ export async function generateMetadata({ params }: PageProps<"/report/[hash]">):
   };
 }
 
-export default async function Page({ params }: PageProps<"/report/[hash]">) {
+type SearchParams = Record<string, string | string[] | undefined>;
+
+function resolveSearchParam(value: string | string[] | undefined) {
+  if (Array.isArray(value)) {
+    return value[0];
+  }
+  return value;
+}
+
+function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(searchParams)) {
+    if (key === ignoreKey) {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((entry) => {
+        if (entry != null) {
+          params.append(key, entry);
+        }
+      });
+    } else if (value != null) {
+      params.set(key, value);
+    }
+  }
+  const query = params.toString();
+  return query ? `?${query}` : "";
+}
+
+export default async function Page({ params, searchParams }: PageProps<"/report/[hash]">) {
   const { hash } = await params;
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const fromParam = resolveSearchParam(resolvedSearchParams.from);
+  const backBase = fromParam === "my-reports" ? "/my-reports" : "/";
+  const backLabel = fromParam === "my-reports" ? "Back to My Reports" : "Explore Battles";
+  const backQuery = buildQueryString(resolvedSearchParams, "from");
 
   return (
     <>
       <div className="max-lg:hidden mb-8">
         <Link
-          href="/"
+          href={`${backBase}${backQuery}`}
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
         >
           <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
-          Explore Battles
+          {backLabel}
         </Link>
       </div>
       <ReportView hash={hash ?? ""} />
