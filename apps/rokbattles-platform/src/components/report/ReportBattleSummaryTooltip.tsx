@@ -35,9 +35,9 @@ export function ReportBattleSummaryTooltip({
         {entries.map((entry) => {
           const descriptor =
             entry.key === "self"
-              ? { label: "Self", color: "#3b82f6" }
+              ? { label: "Sender", color: "#3b82f6" }
               : entry.key === "enemy"
-                ? { label: "Enemy", color: "#f87171" }
+                ? { label: "Opponent", color: "#f87171" }
                 : null;
           if (!descriptor) {
             return null;

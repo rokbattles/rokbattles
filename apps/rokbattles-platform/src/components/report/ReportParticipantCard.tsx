@@ -9,17 +9,9 @@ import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
 import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport";
 
-type ParticipantSide = "self" | "enemy";
-
 const ARTIFACT_IDS = new Set([20401, 20402]);
 
-export function ReportParticipantCard({
-  participant,
-  side,
-}: {
-  participant?: RawParticipantInfo;
-  side: ParticipantSide;
-}) {
+export function ReportParticipantCard({ participant }: { participant?: RawParticipantInfo }) {
   const playerName = participant?.player_name?.trim() || "Unknown commander";
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
@@ -30,9 +22,6 @@ export function ReportParticipantCard({
   );
   const inscriptionIds = parseSemicolonNumberList(participant?.inscriptions ?? null);
   const armamentBuffs = parseArmamentBuffs(participant?.armament_buffs ?? null);
-
-  const sideBadgeColor = side === "self" ? "blue" : "rose";
-  const sideBadgeLabel = side === "self" ? "Self" : "Enemy";
 
   const primaryCommander = participant?.primary_commander;
   const secondaryCommander = participant?.secondary_commander;
@@ -51,12 +40,7 @@ export function ReportParticipantCard({
           className="size-12"
         />
         <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <div className="text-base font-semibold text-zinc-900 dark:text-white">
-              {playerName}
-            </div>
-            <Badge color={sideBadgeColor}>{sideBadgeLabel}</Badge>
-          </div>
+          <div className="text-base font-semibold text-zinc-900 dark:text-white">{playerName}</div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
               <Badge>ID {playerId}</Badge>
