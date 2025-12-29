@@ -192,7 +192,7 @@ export default function PairingAccessoryDetails({
             onClick={() => setPairsExpanded((prev) => !prev)}
             aria-expanded={pairsExpanded}
             aria-controls={pairsId}
-            className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
+            className="text-sm"
           >
             {pairsExpanded ? "Show less" : "Show more"}
           </Button>
@@ -236,7 +236,7 @@ export default function PairingAccessoryDetails({
             onClick={() => setAccessoriesExpanded((prev) => !prev)}
             aria-expanded={accessoriesExpanded}
             aria-controls={accessoriesId}
-            className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
+            className="text-sm"
           >
             {accessoriesExpanded ? "Show less" : "Show more"}
           </Button>

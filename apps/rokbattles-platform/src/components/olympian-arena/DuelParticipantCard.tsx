@@ -114,7 +114,7 @@ export function DuelParticipantCard({
                 onClick={() => setExpanded((prev) => !prev)}
                 aria-expanded={expanded}
                 aria-controls={buffsId}
-                className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
+                className="text-sm"
               >
                 {expanded ? "Show less" : "Show more"}
               </Button>
