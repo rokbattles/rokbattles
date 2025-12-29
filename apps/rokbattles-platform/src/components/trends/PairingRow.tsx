@@ -17,7 +17,7 @@ export function PairingRow({
 
   return (
     <TableRow href={pairingLink}>
-      <TableCell className="text-right font-mono text-zinc-500">{index}</TableCell>
+      <TableCell className="w-12 tabular-nums">{index}</TableCell>
       <TableCell>
         <ParticipantCell
           primaryId={pairing.primaryCommanderId}
@@ -27,9 +27,7 @@ export function PairingRow({
       <TableCell>
         <AccessoryPairLabel pair={topPair} />
       </TableCell>
-      <TableCell className="text-right font-mono text-zinc-950 dark:text-white">
-        {pairing.reportCount.toLocaleString()}
-      </TableCell>
+      <TableCell className="w-32 tabular-nums">{pairing.reportCount.toLocaleString()}</TableCell>
     </TableRow>
   );
 }
