@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useRef } from "react";
 import EmptyStateRow from "@/components/reports/EmptyStateRow";
 import ErrorRow from "@/components/reports/ErrorRow";
 import LoadMoreRow from "@/components/reports/LoadMoreRow";
@@ -24,11 +25,25 @@ export default function OlympianArenaTable({
   skeletonCount = 10,
 }: OlympianArenaTableProps = {}) {
   const { data, loading, error, cursor, loadMore } = useDuelsHook();
+  const loadingRef = useRef(false);
+
+  const handleLoadMore = useCallback(async () => {
+    if (loadingRef.current || loading || !cursor) {
+      return;
+    }
+
+    loadingRef.current = true;
+    try {
+      await loadMore();
+    } finally {
+      loadingRef.current = false;
+    }
+  }, [loading, cursor, loadMore]);
 
   const setSentinelRef = useInfiniteScroll({
     enabled: Boolean(cursor),
     loading,
-    onLoadMore: loadMore,
+    onLoadMore: handleLoadMore,
     rootMargin: "256px 0px 0px 0px",
     threshold: 0.01,
   });
@@ -43,7 +58,14 @@ export default function OlympianArenaTable({
       ) : null}
       {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={4} /> : null}
       {error ? <ErrorRow colSpan={4} error={error} /> : null}
-      {cursor ? <LoadMoreRow colSpan={4} loading={loading} ref={setSentinelRef} /> : null}
+      {cursor ? (
+        <LoadMoreRow
+          colSpan={4}
+          loading={loading}
+          onLoadMore={handleLoadMore}
+          ref={setSentinelRef}
+        />
+      ) : null}
     </TableBody>
   );
 }

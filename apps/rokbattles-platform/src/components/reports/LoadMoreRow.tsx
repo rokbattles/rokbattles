@@ -1,16 +1,17 @@
 "use client";
 
 import { forwardRef } from "react";
+import { Button } from "@/components/ui/Button";
 import { TableCell, TableRow } from "@/components/ui/Table";
 
-type Props = { colSpan: number; loading: boolean };
+type Props = { colSpan: number; loading: boolean; onLoadMore: () => void };
 
 const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
-  { colSpan, loading },
+  { colSpan, loading, onLoadMore },
   ref
 ) {
   return (
-    <TableRow aria-hidden={!loading}>
+    <TableRow>
       <TableCell colSpan={colSpan}>
         <div ref={ref} className="h-1" aria-hidden="true" />
         {loading ? (
@@ -22,9 +23,11 @@ const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
             Loading more&hellip;
           </div>
         ) : (
-          <span className="sr-only" aria-hidden="true">
-            Load more
-          </span>
+          <div className="flex justify-center">
+            <Button plain type="button" onClick={onLoadMore} className="text-sm/6">
+              Load more
+            </Button>
+          </div>
         )}
       </TableCell>
     </TableRow>
