@@ -11,6 +11,8 @@ export function ReportInscriptionBadge({ id }: ReportInscriptionBadgeProps) {
   const rarity = getInscriptionRarity(id);
   const color = rarity === "special" ? "amber" : rarity === "rare" ? "blue" : "gray";
 
+  const label = name ?? id.toString();
+
   return (
     <div className="relative flex h-5 w-28 select-none items-center justify-center text-xs font-semibold">
       <div
@@ -34,13 +36,14 @@ export function ReportInscriptionBadge({ id }: ReportInscriptionBadgeProps) {
       />
       <span
         className={cn(
-          "relative z-10 truncate px-2 text-center leading-none",
+          "relative z-10 truncate px-2 py-1 text-center leading-[12px]",
           color === "amber" && "text-[rgb(217,98,0)]",
           color === "blue" && "text-[rgb(57,99,255)]",
           color === "gray" && "text-[rgb(68,68,68)]"
         )}
+        title={label}
       >
-        {name ?? id}
+        {label}
       </span>
     </div>
   );
