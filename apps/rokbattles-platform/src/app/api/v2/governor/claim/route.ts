@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { authenticateRequest } from "@/lib/auth";
+import { requireAuthContext } from "@/lib/auth";
 import { parseGovernorId } from "@/lib/governor";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
@@ -25,13 +25,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid governorId" }, { status: 400 });
   }
 
-  const authResult = await authenticateRequest();
-  if (authResult.ok === false) {
-    if (authResult.reason === "session-expired") {
-      return NextResponse.json({ error: "Session expired" }, { status: 401 });
-    }
-
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authResult = await requireAuthContext();
+  if (!authResult.ok) {
+    return authResult.response;
   }
 
   const { db, user } = authResult.context;

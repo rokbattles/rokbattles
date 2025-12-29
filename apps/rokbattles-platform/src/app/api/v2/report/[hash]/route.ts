@@ -1,30 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import client from "@/lib/mongo";
+import client, { toPlainObject } from "@/lib/mongo";
 import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
-
-function toPlainObject(source: unknown): Record<string, unknown> {
-  if (!source || typeof source !== "object") {
-    return {};
-  }
-
-  const serialized = JSON.stringify(source, (_, value) => {
-    if (
-      value &&
-      typeof value === "object" &&
-      "$numberLong" in (value as Record<string, unknown>) &&
-      typeof (value as Record<string, unknown>).$numberLong === "string"
-    ) {
-      const numericValue = Number((value as { $numberLong: string }).$numberLong);
-      return Number.isFinite(numericValue)
-        ? numericValue
-        : (value as { $numberLong: string }).$numberLong;
-    }
-    return value;
-  });
-
-  return JSON.parse(serialized) as Record<string, unknown>;
-}
 
 export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[hash]">) {
   const { hash } = await ctx.params;

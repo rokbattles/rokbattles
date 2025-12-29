@@ -1,6 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import { authenticateRequest } from "@/lib/auth";
+import { requireAuthContext } from "@/lib/auth";
+import { normalizeTimestampMillis } from "@/lib/datetime";
 import { parseGovernorId } from "@/lib/governor";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
@@ -183,23 +184,6 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
   return buckets;
 }
 
-function normalizeTimestampMillis(value: unknown): number | null {
-  const numeric = Number(value);
-  if (!Number.isFinite(numeric)) {
-    return null;
-  }
-
-  if (numeric >= 1e14) {
-    return numeric / 1000;
-  }
-
-  if (numeric < 1e12) {
-    return numeric * 1000;
-  }
-
-  return numeric;
-}
-
 function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
@@ -278,13 +262,9 @@ export async function GET(
     return NextResponse.json({ error: "Invalid governorId" }, { status: 400 });
   }
 
-  const authResult = await authenticateRequest();
-  if (authResult.ok === false) {
-    if (authResult.reason === "session-expired") {
-      return NextResponse.json({ error: "Session expired" }, { status: 401 });
-    }
-
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authResult = await requireAuthContext();
+  if (!authResult.ok) {
+    return authResult.response;
   }
 
   const { db, user } = authResult.context;

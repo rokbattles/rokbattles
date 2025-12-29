@@ -1,5 +1,6 @@
 import type { Db } from "mongodb";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import client from "@/lib/mongo";
 import type { SessionDocument, UserDocument } from "@/lib/types/auth";
 
@@ -25,6 +26,10 @@ export type AuthenticatedRequestContext = {
   user: UserDocument;
   db: Db;
 };
+
+type AuthGuardResult =
+  | { ok: true; context: AuthenticatedRequestContext }
+  | { ok: false; response: NextResponse };
 
 export async function authenticateRequest(): Promise<AuthenticationResult> {
   const cookieStore = await cookies();
@@ -79,5 +84,24 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
       user,
       db,
     },
+  };
+}
+
+export async function requireAuthContext(): Promise<AuthGuardResult> {
+  const authResult = await authenticateRequest();
+  if (authResult.ok) {
+    return authResult;
+  }
+
+  if (authResult.reason === "session-expired") {
+    return {
+      ok: false,
+      response: NextResponse.json({ error: "Session expired" }, { status: 401 }),
+    };
+  }
+
+  return {
+    ok: false,
+    response: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
   };
 }
