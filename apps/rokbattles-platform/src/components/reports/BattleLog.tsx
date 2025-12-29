@@ -184,7 +184,11 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div className="space-y-1">
           <Subheading>Battle Log</Subheading>
-          <Text className="text-sm/6 sm:text-xs/6">
+          <Text
+            className="text-sm/6 sm:text-xs/6"
+            role={loading ? "status" : undefined}
+            aria-live={loading ? "polite" : undefined}
+          >
             {loading
               ? `Loading your battle log for ${displayYear}...`
               : `All reports for ${displayYear}. Hover to see counts.`}

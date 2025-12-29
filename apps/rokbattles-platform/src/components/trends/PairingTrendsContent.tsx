@@ -104,15 +104,27 @@ export default function PairingTrendsContent() {
   }
 
   if (loading) {
-    return <Text className="mt-6 text-sm text-zinc-500">Loading pairing trends...</Text>;
+    return (
+      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+        Loading pairing trends...
+      </Text>
+    );
   }
 
   if (error) {
-    return <Text className="mt-6 text-sm text-rose-600 dark:text-rose-400">{error}</Text>;
+    return (
+      <Text className="mt-6 text-sm text-rose-600 dark:text-rose-400" role="status" aria-live="polite">
+        {error}
+      </Text>
+    );
   }
 
   if (!snapshot) {
-    return <Text className="mt-6 text-sm text-zinc-500">No trend snapshot found.</Text>;
+    return (
+      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+        No trend snapshot found.
+      </Text>
+    );
   }
 
   return (

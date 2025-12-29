@@ -74,7 +74,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             {!loading &&
               (user ? (
                 <Dropdown>
-                  <DropdownButton as={NavbarItem}>
+                  <DropdownButton as={NavbarItem} aria-label="Open account menu">
                     <Avatar src={user.avatar} square />
                   </DropdownButton>
                   <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
