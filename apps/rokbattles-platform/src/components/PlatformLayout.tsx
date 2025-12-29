@@ -36,10 +36,16 @@ import {
   SidebarSpacer,
 } from "@/components/ui/Sidebar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import type { CurrentUser } from "@/lib/types/current-user";
 
-export function PlatformLayout({ children }: { children: React.ReactNode }) {
+type PlatformLayoutProps = {
+  children: React.ReactNode;
+  initialUser?: CurrentUser | null;
+};
+
+export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const pathname = usePathname();
-  const { user, loading, refresh } = useCurrentUser();
+  const { user, loading, refresh } = useCurrentUser({ initialUser });
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {

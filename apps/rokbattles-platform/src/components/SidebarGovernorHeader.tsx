@@ -24,7 +24,7 @@ import {
 import { ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/Sidebar";
-import type { CurrentUser } from "@/hooks/useCurrentUser";
+import type { CurrentUser } from "@/lib/types/current-user";
 
 type SidebarGovernorHeaderProps = {
   user: CurrentUser;

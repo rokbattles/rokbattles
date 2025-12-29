@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { createContext, useCallback, useState } from "react";
-import type { ClaimedGovernor } from "@/hooks/useCurrentUser";
+import type { ClaimedGovernor } from "@/lib/types/current-user";
 
 export type GovernorContextValue = {
   activeGovernor?: ClaimedGovernor;
@@ -13,9 +13,28 @@ export type GovernorContextValue = {
 
 export const GovernorContext = createContext<GovernorContextValue | undefined>(undefined);
 
-export function GovernorProvider({ children }: { children: ReactNode }) {
-  const [governors, setGovernorsState] = useState<ClaimedGovernor[]>([]);
-  const [activeGovernorId, setActiveGovernorId] = useState<number | undefined>();
+type GovernorProviderProps = {
+  children: ReactNode;
+  initialGovernors?: ClaimedGovernor[];
+  initialActiveGovernorId?: number;
+};
+
+export function GovernorProvider({
+  children,
+  initialGovernors = [],
+  initialActiveGovernorId,
+}: GovernorProviderProps) {
+  const [governors, setGovernorsState] = useState<ClaimedGovernor[]>(() => initialGovernors);
+  const [activeGovernorId, setActiveGovernorId] = useState<number | undefined>(() => {
+    if (
+      initialActiveGovernorId != null &&
+      initialGovernors.some((governor) => governor.governorId === initialActiveGovernorId)
+    ) {
+      return initialActiveGovernorId;
+    }
+
+    return initialGovernors[0]?.governorId;
+  });
 
   const setGovernors = useCallback((nextGovernors: ClaimedGovernor[]) => {
     setGovernorsState(nextGovernors);
