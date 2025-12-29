@@ -446,7 +446,11 @@ export function MyPairingsContent() {
         </Text>
       ) : null}
       {!pairingsLoading && !error && pairingOptions.length === 0 ? (
-        <Text className="text-sm/6 text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
+        <Text
+          className="text-sm/6 text-zinc-500 dark:text-zinc-400"
+          role="status"
+          aria-live="polite"
+        >
           No pairings found for this period.
         </Text>
       ) : null}

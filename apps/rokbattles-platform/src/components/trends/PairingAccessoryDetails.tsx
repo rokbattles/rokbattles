@@ -13,7 +13,8 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow, TableRowHeader,
+  TableRow,
+  TableRowHeader,
 } from "@/components/ui/Table";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
@@ -96,7 +97,11 @@ export default function PairingAccessoryDetails({
 
   if (error) {
     return (
-      <Text className="mt-6 text-sm text-rose-600 dark:text-rose-400" role="status" aria-live="polite">
+      <Text
+        className="mt-6 text-sm text-rose-600 dark:text-rose-400"
+        role="status"
+        aria-live="polite"
+      >
         {error}
       </Text>
     );
