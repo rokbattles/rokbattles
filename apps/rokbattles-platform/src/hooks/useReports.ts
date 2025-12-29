@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import {
-  ReportsFilterContext,
-  type ReportsFilterType,
-} from "@/components/context/ReportsFilterContext";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { GovernorContext } from "@/components/context/GovernorContext";
+import { ReportsFilterContext } from "@/components/context/ReportsFilterContext";
+import { buildReportsQueryParams } from "@/lib/reportsQuery";
 
 export type ReportSummaryEntry = {
   hash: string;
@@ -31,11 +30,6 @@ type ReportsApiResponse = {
   cursor?: string;
 };
 
-type FetchOptions = {
-  cursor?: string;
-  replace: boolean;
-};
-
 export type UseReportsResult = {
   data: ReportSummary[];
   loading: boolean;
@@ -44,161 +38,136 @@ export type UseReportsResult = {
   loadMore: () => Promise<void>;
 };
 
-function buildQueryParams(
-  cursor: string | undefined,
-  playerId: number | undefined,
-  type: ReportsFilterType | undefined,
-  rallyOnly: boolean,
-  primaryCommanderId: number | undefined,
-  secondaryCommanderId: number | undefined
-) {
-  const params = new URLSearchParams();
+export type ReportsScope = "all" | "mine";
 
-  if (cursor) params.set("cursor", cursor);
-  if (typeof playerId === "number" && Number.isFinite(playerId)) {
-    params.set("playerId", String(Math.trunc(playerId)));
-  }
-  if (type) params.set("type", type);
-  if (rallyOnly) params.set("rallyOnly", "1");
-  if (
-    typeof primaryCommanderId === "number" &&
-    Number.isFinite(primaryCommanderId) &&
-    primaryCommanderId > 0
-  ) {
-    params.set("primaryCommanderId", String(Math.trunc(primaryCommanderId)));
-  }
-  if (
-    typeof secondaryCommanderId === "number" &&
-    Number.isFinite(secondaryCommanderId) &&
-    secondaryCommanderId > 0
-  ) {
-    params.set("secondaryCommanderId", String(Math.trunc(secondaryCommanderId)));
-  }
+export type UseReportsOptions = {
+  scope?: ReportsScope;
+};
 
-  const query = params.toString();
-  return query ? `?${query}` : "";
-}
-
-export function useReports(): UseReportsResult {
+export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReportsResult {
   const context = useContext(ReportsFilterContext);
+  const governorContext = useContext(GovernorContext);
 
   if (!context) {
     throw new Error("useReports must be used within a ReportsFilterProvider");
   }
 
-  const { playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId } = context;
+  if (scope === "mine" && !governorContext) {
+    throw new Error("useReports must be used within a GovernorProvider when scope is mine");
+  }
+
+  const {
+    playerId: filterPlayerId,
+    type,
+    rallyOnly,
+    primaryCommanderId,
+    secondaryCommanderId,
+  } = context;
+  const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const cursorRef = useRef<string | undefined>(undefined);
-  const loadingRef = useRef(false);
-  const requestIdRef = useRef(0);
-  const isMountedRef = useRef(true);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
-
   const fetchReports = useCallback(
-    async ({ cursor, replace }: FetchOptions) => {
-      if (loadingRef.current && !replace) {
-        return;
-      }
-
-      const requestId = ++requestIdRef.current;
-      loadingRef.current = true;
-      setLoading(true);
-
-      if (replace) {
-        setError(null);
-      }
-
-      const query = buildQueryParams(
-        cursor,
+    async (nextCursor?: string) => {
+      const query = buildReportsQueryParams({
+        cursor: nextCursor,
         playerId,
         type,
         rallyOnly,
         primaryCommanderId,
-        secondaryCommanderId
-      );
-      try {
-        const res = await fetch(`/api/v2/reports${query}`, {
-          cache: "no-store",
-        });
+        secondaryCommanderId,
+      });
 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch reports: ${res.status}`);
-        }
+      const res = await fetch(`/api/v2/reports${query}`, {
+        cache: "no-store",
+      });
 
-        const data = (await res.json()) as ReportsApiResponse;
-        const isLatest = requestIdRef.current === requestId;
-        if (!isMountedRef.current || !isLatest) {
-          return;
-        }
-
-        const nextCursor = data.cursor ?? undefined;
-        cursorRef.current = nextCursor;
-        setCursor(nextCursor);
-        setReports((prev) => (replace ? data.items : [...prev, ...data.items]));
-        setError(null);
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        const isLatest = requestIdRef.current === requestId;
-
-        if (!isMountedRef.current || !isLatest) {
-          return;
-        }
-        setError(message);
-      } finally {
-        const isLatest = requestIdRef.current === requestId;
-
-        if (isLatest) {
-          loadingRef.current = false;
-        }
-        if (isLatest && isMountedRef.current) {
-          setLoading(false);
-        }
+      if (!res.ok) {
+        throw new Error(`Failed to fetch reports: ${res.status}`);
       }
+
+      return (await res.json()) as ReportsApiResponse;
     },
     [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
   );
 
   useEffect(() => {
-    cursorRef.current = undefined;
+    let cancelled = false;
+
     setCursor(undefined);
     setReports([]);
     setError(null);
 
-    fetchReports({ replace: true });
-  }, [fetchReports]);
-
-  const loadMore = useCallback(async () => {
-    if (loadingRef.current) {
+    if (scope === "mine" && playerId == null) {
+      setLoading(false);
       return;
     }
 
-    const nextCursor = cursorRef.current;
-    if (!nextCursor) {
+    setLoading(true);
+
+    fetchReports()
+      .then((data) => {
+        if (cancelled) {
+          return;
+        }
+        setCursor(data.cursor ?? undefined);
+        setReports(data.items);
+        setError(null);
+      })
+      .catch((err) => {
+        if (cancelled) {
+          return;
+        }
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [fetchReports, playerId, scope]);
+
+  const loadMore = async () => {
+    if (loading) {
       return;
     }
 
-    await fetchReports({ cursor: nextCursor, replace: false });
-  }, [fetchReports]);
+    if (!cursor) {
+      return;
+    }
 
-  return useMemo<UseReportsResult>(
-    () => ({
-      data: reports,
-      loading,
-      error,
-      cursor,
-      loadMore,
-    }),
-    [reports, loading, error, cursor, loadMore]
-  );
+    if (scope === "mine" && playerId == null) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const data = await fetchReports(cursor);
+      setCursor(data.cursor ?? undefined);
+      setReports((prev) => [...prev, ...data.items]);
+      setError(null);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    data: reports,
+    loading,
+    error,
+    cursor,
+    loadMore,
+  };
 }

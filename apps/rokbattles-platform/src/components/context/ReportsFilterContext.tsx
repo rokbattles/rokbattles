@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, ReactNode, SetStateAction } from "react";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useState } from "react";
 
 export type ReportsFilterType = "kvk" | "ark";
 
@@ -36,23 +36,19 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setSecondaryCommanderId(undefined);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: its safe
-  const value = useMemo(
-    () => ({
-      playerId,
-      setPlayerId,
-      type,
-      setType,
-      rallyOnly,
-      setRallyOnly,
-      primaryCommanderId,
-      setPrimaryCommanderId,
-      secondaryCommanderId,
-      setSecondaryCommanderId,
-      reset,
-    }),
-    [playerId, type, rallyOnly, primaryCommanderId, secondaryCommanderId]
-  );
+  const value = {
+    playerId,
+    setPlayerId,
+    type,
+    setType,
+    rallyOnly,
+    setRallyOnly,
+    primaryCommanderId,
+    setPrimaryCommanderId,
+    secondaryCommanderId,
+    setSecondaryCommanderId,
+    reset,
+  };
 
   return <ReportsFilterContext.Provider value={value}>{children}</ReportsFilterContext.Provider>;
 }

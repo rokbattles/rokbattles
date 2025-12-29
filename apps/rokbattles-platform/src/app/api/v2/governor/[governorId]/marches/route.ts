@@ -1,8 +1,8 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import { authenticateRequest } from "@/lib/auth";
+import { requireAuthContext } from "@/lib/auth";
+import { normalizeTimestampMillis } from "@/lib/datetime";
 import { parseGovernorId } from "@/lib/governor";
-import { coerceNumber } from "@/lib/number";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
 type BattleReportDocument = {
@@ -136,12 +136,8 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
       continue;
     }
 
-    const primaryCommanderId = Math.trunc(coerceNumber(report.self?.primary_commander?.id));
-    if (primaryCommanderId <= 0) {
-      continue;
-    }
-
-    const secondaryCommanderId = Math.trunc(coerceNumber(report.self?.secondary_commander?.id));
+    const primaryCommanderId = Number(report.self?.primary_commander?.id);
+    const secondaryCommanderId = Number(report.self?.secondary_commander?.id);
     const key = `${primaryCommanderId}:${secondaryCommanderId}`;
 
     let bucket = buckets.get(key);
@@ -159,14 +155,14 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
     bucket.count += 1;
 
     if (battleResults) {
-      const killScore = coerceNumber(battleResults.kill_score);
-      const deaths = coerceNumber(battleResults.death);
-      const severelyWounded = coerceNumber(battleResults.severely_wounded);
-      const wounded = coerceNumber(battleResults.wounded);
-      const enemyKillScore = coerceNumber(battleResults.enemy_kill_score);
-      const enemyDeaths = coerceNumber(battleResults.enemy_death);
-      const enemySeverelyWounded = coerceNumber(battleResults.enemy_severely_wounded);
-      const enemyWounded = coerceNumber(battleResults.enemy_wounded);
+      const killScore = Number(battleResults.kill_score);
+      const deaths = Number(battleResults.death);
+      const severelyWounded = Number(battleResults.severely_wounded);
+      const wounded = Number(battleResults.wounded);
+      const enemyKillScore = Number(battleResults.enemy_kill_score);
+      const enemyDeaths = Number(battleResults.enemy_death);
+      const enemySeverelyWounded = Number(battleResults.enemy_severely_wounded);
+      const enemyWounded = Number(battleResults.enemy_wounded);
 
       bucket.totals.killScore += killScore;
       bucket.totals.deaths += deaths;
@@ -186,23 +182,6 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
   }
 
   return buckets;
-}
-
-function normalizeTimestampMillis(value: unknown): number | null {
-  const numeric = coerceNumber(value, Number.NaN);
-  if (!Number.isFinite(numeric) || numeric <= 0) {
-    return null;
-  }
-
-  if (numeric >= 1e14) {
-    return numeric / 1000;
-  }
-
-  if (numeric < 1e12) {
-    return numeric * 1000;
-  }
-
-  return numeric;
 }
 
 function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
@@ -237,7 +216,7 @@ function extractBattleDurationMillis(report: BattleReportDocument["report"]): nu
     return 0;
   }
 
-  return Math.max(0, end - start);
+  return end - start;
 }
 
 function createMonthKey(year: number, monthIndex: number) {
@@ -279,17 +258,13 @@ export async function GET(
 ) {
   const { governorId: governorParam } = await ctx.params;
   const governorId = parseGovernorId(governorParam);
-  if (!governorId) {
+  if (governorId == null) {
     return NextResponse.json({ error: "Invalid governorId" }, { status: 400 });
   }
 
-  const authResult = await authenticateRequest();
-  if (authResult.ok === false) {
-    if (authResult.reason === "session-expired") {
-      return NextResponse.json({ error: "Session expired" }, { status: 401 });
-    }
-
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authResult = await requireAuthContext();
+  if (!authResult.ok) {
+    return authResult.response;
   }
 
   const { db, user } = authResult.context;
@@ -297,8 +272,9 @@ export async function GET(
   const nowYear = now.getUTCFullYear();
   const nowMonth = now.getUTCMonth();
   const url = new URL(req.url);
-  const yearParam = Number.parseInt(url.searchParams.get("year") ?? "", 10);
-  const targetYear = Number.isFinite(yearParam) ? yearParam : nowYear;
+  const yearParam = url.searchParams.get("year");
+  const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
+  const targetYear = Number.isFinite(parsedYear) ? parsedYear : nowYear;
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")

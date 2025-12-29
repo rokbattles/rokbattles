@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   if (playerId) {
     const n = Number(playerId);
     if (Number.isFinite(n)) {
-      parsedPlayerId = Math.trunc(n);
+      parsedPlayerId = n;
     } else {
       return NextResponse.json({ error: "Invalid governor id" }, { status: 400 });
     }
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
   if (primaryCommanderId) {
     const n = Number(primaryCommanderId);
     if (Number.isFinite(n)) {
-      parsedPrimaryCommanderId = Math.trunc(n);
+      parsedPrimaryCommanderId = n;
     } else {
       return NextResponse.json({ error: "Invalid primary commander id" }, { status: 400 });
     }
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
   if (secondaryCommanderId) {
     const n = Number(secondaryCommanderId);
     if (Number.isFinite(n)) {
-      parsedSecondaryCommanderId = Math.trunc(n);
+      parsedSecondaryCommanderId = n;
     } else {
       return NextResponse.json({ error: "Invalid secondary commander id" }, { status: 400 });
     }
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
     { "report.enemy.player_id": { $nin: [-2, 0] } },
   ];
 
-  if (parsedPlayerId) {
+  if (parsedPlayerId !== undefined) {
     matchPipeline.push({
       $or: [
         { "report.self.player_id": parsedPlayerId },
@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  if (parsedPrimaryCommanderId) {
+  if (parsedPrimaryCommanderId !== undefined) {
     matchPipeline.push({
       $or: [
         { "report.self.primary_commander.id": parsedPrimaryCommanderId },
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  if (parsedSecondaryCommanderId) {
+  if (parsedSecondaryCommanderId !== undefined) {
     matchPipeline.push({
       $or: [
         { "report.self.secondary_commander.id": parsedSecondaryCommanderId },

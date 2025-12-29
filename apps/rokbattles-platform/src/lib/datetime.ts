@@ -77,6 +77,15 @@ function normalizeEpoch(value: number): number {
   return value;
 }
 
+export function normalizeTimestampMillis(value: unknown): number | null {
+  const epoch = toEpochMillis(value as DateInput);
+  if (epoch == null) {
+    return null;
+  }
+
+  return normalizeEpoch(epoch);
+}
+
 function toDate(value: DateInput): Date | null {
   const epoch = toEpochMillis(value);
   if (epoch == null) {
@@ -84,10 +93,6 @@ function toDate(value: DateInput): Date | null {
   }
 
   const normalized = normalizeEpoch(epoch);
-  if (normalized <= 0) {
-    return null;
-  }
-
   const date = new Date(normalized);
   return Number.isNaN(date.getTime()) ? null : date;
 }
@@ -107,7 +112,7 @@ export function formatDurationShort(start: DateInput, end: DateInput): string {
     return "0s";
   }
 
-  let remaining = Math.max(0, endDate.getTime() - startDate.getTime());
+  let remaining = endDate.getTime() - startDate.getTime();
 
   const parts: string[] = [];
 

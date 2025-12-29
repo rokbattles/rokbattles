@@ -1,31 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import client from "@/lib/mongo";
-import { coerceNumber } from "@/lib/number";
+import client, { toPlainObject } from "@/lib/mongo";
 import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
-
-function toPlainObject(source: unknown): Record<string, unknown> {
-  if (!source || typeof source !== "object") {
-    return {};
-  }
-
-  const serialized = JSON.stringify(source, (_, value) => {
-    if (
-      value &&
-      typeof value === "object" &&
-      "$numberLong" in (value as Record<string, unknown>) &&
-      typeof (value as Record<string, unknown>).$numberLong === "string"
-    ) {
-      const numericValue = Number((value as { $numberLong: string }).$numberLong);
-      return Number.isFinite(numericValue)
-        ? numericValue
-        : (value as { $numberLong: string }).$numberLong;
-    }
-    return value;
-  });
-
-  return JSON.parse(serialized) as Record<string, unknown>;
-}
 
 export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[hash]">) {
   const { hash } = await ctx.params;
@@ -62,7 +38,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
 
     const items: ReportEntry[] = documents.map((doc) => ({
       hash: typeof doc.hash === "string" ? doc.hash : String(doc.hash ?? ""),
-      startDate: coerceNumber(doc.startDate),
+      startDate: Number(doc.startDate),
       report: toPlainObject(doc.report),
     }));
 
@@ -111,16 +87,16 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       const totalsDoc = totalsDocs[0];
       if (totalsDoc) {
         totals = {
-          death: coerceNumber(totalsDoc.death),
-          severelyWounded: coerceNumber(totalsDoc.severelyWounded),
-          wounded: coerceNumber(totalsDoc.wounded),
-          remaining: coerceNumber(totalsDoc.remaining),
-          killScore: coerceNumber(totalsDoc.killScore),
-          enemyDeath: coerceNumber(totalsDoc.enemyDeath),
-          enemySeverelyWounded: coerceNumber(totalsDoc.enemySeverelyWounded),
-          enemyWounded: coerceNumber(totalsDoc.enemyWounded),
-          enemyRemaining: coerceNumber(totalsDoc.enemyRemaining),
-          enemyKillScore: coerceNumber(totalsDoc.enemyKillScore),
+          death: Number(totalsDoc.death),
+          severelyWounded: Number(totalsDoc.severelyWounded),
+          wounded: Number(totalsDoc.wounded),
+          remaining: Number(totalsDoc.remaining),
+          killScore: Number(totalsDoc.killScore),
+          enemyDeath: Number(totalsDoc.enemyDeath),
+          enemySeverelyWounded: Number(totalsDoc.enemySeverelyWounded),
+          enemyWounded: Number(totalsDoc.enemyWounded),
+          enemyRemaining: Number(totalsDoc.enemyRemaining),
+          enemyKillScore: Number(totalsDoc.enemyKillScore),
         };
       }
     } catch (error) {

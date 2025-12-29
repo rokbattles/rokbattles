@@ -1,5 +1,6 @@
 import type { Db } from "mongodb";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import client from "@/lib/mongo";
 import type { SessionDocument, UserDocument } from "@/lib/types/auth";
 
@@ -79,5 +80,19 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
       user,
       db,
     },
+  };
+}
+
+export async function requireAuthContext() {
+  const result = await authenticateRequest();
+
+  if (result.ok === true) {
+    return { ok: true as const, context: result.context };
+  }
+
+  return {
+    ok: false as const,
+    reason: result.reason,
+    response: NextResponse.json({ error: "unauthorized", reason: result.reason }, { status: 401 }),
   };
 }

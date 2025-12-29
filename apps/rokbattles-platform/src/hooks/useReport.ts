@@ -1,22 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReportByHashResponse } from "@/lib/types/report";
 
 export function useReport(hash: string | null | undefined) {
   const [data, setData] = useState<ReportByHashResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const requestIdRef = useRef(0);
-  const isMountedRef = useRef(true);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
 
   useEffect(() => {
     if (!hash) {
@@ -26,8 +16,7 @@ export function useReport(hash: string | null | undefined) {
       return;
     }
 
-    const requestId = ++requestIdRef.current;
-    const controller = new AbortController();
+    let cancelled = false;
 
     setData(null);
     setLoading(true);
@@ -35,39 +24,25 @@ export function useReport(hash: string | null | undefined) {
 
     const fetchReport = async () => {
       try {
-        const res = await fetch(`/api/v2/report/${encodeURIComponent(hash)}`, {
-          signal: controller.signal,
-        });
+        const res = await fetch(`/api/v2/report/${encodeURIComponent(hash)}`);
 
         if (!res.ok) {
           throw new Error(`Failed to fetch report: ${res.status}`);
         }
 
         const payload = (await res.json()) as ReportByHashResponse;
-
-        const isLatest = requestIdRef.current === requestId;
-        if (!isMountedRef.current || !isLatest) {
-          return;
+        if (!cancelled) {
+          setData(payload);
+          setError(null);
         }
-
-        setData(payload);
-        setError(null);
       } catch (err) {
-        if (controller.signal.aborted) {
-          return;
-        }
-
-        const isLatest = requestIdRef.current === requestId;
-        if (!isMountedRef.current || !isLatest) {
-          return;
-        }
-
         const message = err instanceof Error ? err.message : String(err);
-        setError(message);
-        setData(null);
+        if (!cancelled) {
+          setError(message);
+          setData(null);
+        }
       } finally {
-        const isLatest = requestIdRef.current === requestId;
-        if (isMountedRef.current && isLatest) {
+        if (!cancelled) {
           setLoading(false);
         }
       }
@@ -76,16 +51,13 @@ export function useReport(hash: string | null | undefined) {
     fetchReport();
 
     return () => {
-      controller.abort();
+      cancelled = true;
     };
   }, [hash]);
 
-  return useMemo(
-    () => ({
-      data,
-      loading,
-      error,
-    }),
-    [data, loading, error]
-  );
+  return {
+    data,
+    loading,
+    error,
+  };
 }

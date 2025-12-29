@@ -2,26 +2,23 @@
 
 import { TableBody } from "@/components/ui/Table";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import type { UseReportsResult } from "@/hooks/useReports";
-import { useReports } from "@/hooks/useReports";
+import { type ReportsScope, useReports } from "@/hooks/useReports";
 import EmptyStateRow from "./EmptyStateRow";
 import ErrorRow from "./ErrorRow";
 import LoadMoreRow from "./LoadMoreRow";
 import ReportRow from "./ReportRow";
 import SkeletonRows from "./SkeletonRows";
 
-type UseReportsHook = () => UseReportsResult;
-
 type ReportsTableProps = {
-  useReportsHook?: UseReportsHook;
+  scope?: ReportsScope;
   skeletonCount?: number;
 };
 
 export default function ReportsTable({
-  useReportsHook = useReports,
+  scope = "all",
   skeletonCount = 10,
 }: ReportsTableProps = {}) {
-  const { data, loading, error, cursor, loadMore } = useReportsHook();
+  const { data, loading, error, cursor, loadMore } = useReports({ scope });
 
   const setSentinelRef = useInfiniteScroll({
     enabled: Boolean(cursor),
