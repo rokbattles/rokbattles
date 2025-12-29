@@ -3,10 +3,24 @@
 import type React from "react";
 import { GovernorProvider } from "@/components/context/GovernorContext";
 import { ReportsFilterProvider } from "@/components/context/ReportsFilterContext";
+import type { ClaimedGovernor } from "@/lib/types/current-user";
 
-export default function PlatformProviders({ children }: { children: React.ReactNode }) {
+type PlatformProvidersProps = {
+  children: React.ReactNode;
+  initialGovernors?: ClaimedGovernor[];
+  initialActiveGovernorId?: number;
+};
+
+export default function PlatformProviders({
+  children,
+  initialGovernors,
+  initialActiveGovernorId,
+}: PlatformProvidersProps) {
   return (
-    <GovernorProvider>
+    <GovernorProvider
+      initialGovernors={initialGovernors}
+      initialActiveGovernorId={initialActiveGovernorId}
+    >
       <ReportsFilterProvider>{children}</ReportsFilterProvider>
     </GovernorProvider>
   );
