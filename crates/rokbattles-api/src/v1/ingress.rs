@@ -21,7 +21,7 @@ use zstd::encode_all;
 
 const MAX_UPLOAD: usize = 10 * 1024 * 1024; // 10 MB
 const BUFFER_LEN: usize = 32;
-const SUPPORTED_MINOR_VERSIONS: &[u64] = &[1, 2, 3];
+const SUPPORTED_MINOR_VERSIONS: &[u64] = &[2, 3];
 
 #[derive(Debug, Clone, Copy)]
 enum SupportedMailType {
@@ -567,9 +567,9 @@ mod tests {
     }
 
     #[test]
-    fn ua_ok_accepts_supported_minimal_user_agent() {
+    fn ua_ok_rejects_supported_minimal_user_agent() {
         let headers = headers_with_user_agent("ROKBattles/0.1.0");
-        assert!(ua_ok(&headers));
+        assert!(!ua_ok(&headers));
     }
 
     #[test]
@@ -610,7 +610,7 @@ mod tests {
 
     #[test]
     fn is_supported_version_accepts_allowed_minor_versions() {
-        assert!(is_supported_version("0.1.0"));
+        assert!(is_supported_version("0.3.0"));
         assert!(is_supported_version("0.2.10"));
     }
 
