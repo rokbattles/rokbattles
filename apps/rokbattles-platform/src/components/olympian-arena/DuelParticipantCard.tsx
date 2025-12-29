@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/DuelCommanderRow";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { Subheading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
@@ -28,6 +29,7 @@ export function DuelParticipantCard({
   isWinner?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const buffsId = useId();
   const playerName = participant?.player_name?.trim() || "Unknown commander";
   const allianceTag = participant?.alliance?.trim();
   const playerId = participant?.player_id;
@@ -95,7 +97,7 @@ export function DuelParticipantCard({
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
             <Subheading>Troop Buffs</Subheading>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5" id={buffsId}>
               {visibleBuffs.map((buff) => (
                 <Text key={buff.id} className="flex items-center justify-between">
                   <span>{buff.name}</span>
@@ -106,13 +108,16 @@ export function DuelParticipantCard({
               ))}
             </div>
             {hasMore ? (
-              <button
+              <Button
+                plain
                 type="button"
                 onClick={() => setExpanded((prev) => !prev)}
-                className="text-sm font-medium text-blue-600 transition hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                aria-expanded={expanded}
+                aria-controls={buffsId}
+                className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
               >
                 {expanded ? "Show less" : "Show more"}
-              </button>
+              </Button>
             ) : null}
           </div>
         ) : null}

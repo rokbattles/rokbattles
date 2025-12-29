@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
+import { Button } from "@/components/ui/Button";
 import {
   DescriptionDetails,
   DescriptionList,
@@ -41,6 +42,8 @@ export default function PairingAccessoryDetails({
   const [loading, setLoading] = useState(true);
   const [pairsExpanded, setPairsExpanded] = useState(false);
   const [accessoriesExpanded, setAccessoriesExpanded] = useState(false);
+  const pairsId = useId();
+  const accessoriesId = useId();
   const primaryName = getCommanderName(primaryId) ?? String(primaryId);
   const secondaryName = getCommanderName(secondaryId) ?? String(secondaryId);
 
@@ -158,7 +161,7 @@ export default function PairingAccessoryDetails({
               <TableHeader className="w-32">Reports</TableHeader>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id={pairsId}>
             {pairing.accessoryPairs.length > 0 ? (
               visiblePairs.map((entry, index) => (
                 <TableRow key={`${entry.ids[0]}:${entry.ids[1]}`}>
@@ -183,13 +186,16 @@ export default function PairingAccessoryDetails({
           </TableBody>
         </Table>
         {hasMorePairs ? (
-          <button
+          <Button
+            plain
             type="button"
             onClick={() => setPairsExpanded((prev) => !prev)}
-            className="text-sm font-medium text-blue-600 transition hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+            aria-expanded={pairsExpanded}
+            aria-controls={pairsId}
+            className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
           >
             {pairsExpanded ? "Show less" : "Show more"}
-          </button>
+          </Button>
         ) : null}
       </section>
 
@@ -203,7 +209,7 @@ export default function PairingAccessoryDetails({
               <TableHeader className="w-32">Reports</TableHeader>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody id={accessoriesId}>
             {pairing.accessories.length > 0 ? (
               visibleAccessories.map((entry, index) => (
                 <TableRow key={entry.id}>
@@ -224,13 +230,16 @@ export default function PairingAccessoryDetails({
           </TableBody>
         </Table>
         {hasMoreAccessories ? (
-          <button
+          <Button
+            plain
             type="button"
             onClick={() => setAccessoriesExpanded((prev) => !prev)}
-            className="text-sm font-medium text-blue-600 transition hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+            aria-expanded={accessoriesExpanded}
+            aria-controls={accessoriesId}
+            className="text-sm text-blue-600 data-hover:text-blue-500 dark:text-blue-400 dark:data-hover:text-blue-300"
           >
             {accessoriesExpanded ? "Show less" : "Show more"}
-          </button>
+          </Button>
         ) : null}
       </section>
     </div>
