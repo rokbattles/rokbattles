@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { getEquipmentName } from "@/hooks/useEquipmentName";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
@@ -9,9 +10,11 @@ type ReportEquipmentSlotProps = {
 };
 
 export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
+  const t = useTranslations("report");
   const { tier, isSpecialTalent } = getTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
   const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : undefined;
+  const equipmentAlt = token?.id != null ? t("equipment.slotAlt", { id: token.id }) : undefined;
 
   return (
     <div
@@ -21,7 +24,7 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
       {token?.id ? (
         <Image
           src={`/lilith/images/equipment/${token.id}.png`}
-          alt={`Equipment ${token.id}`}
+          alt={equipmentAlt ?? ""}
           fill
           sizes="(min-width: 640px) 64px, 56px"
           className="object-contain"

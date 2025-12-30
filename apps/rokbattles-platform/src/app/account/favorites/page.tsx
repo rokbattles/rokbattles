@@ -1,17 +1,21 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import FavoriteReportsTable from "@/components/reports/FavoriteReportsTable";
 import { Heading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Page() {
+  const tAccount = useTranslations("account");
+  const tReports = useTranslations("reports");
+  const tCommon = useTranslations("common");
   const { user, loading } = useCurrentUser();
 
   if (loading) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        Loading your account&hellip;
+        {tAccount("states.loading")}
       </p>
     );
   }
@@ -19,22 +23,22 @@ export default function Page() {
   if (!user) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must be logged in to view this page.
+        {tAccount("states.loginRequired")}
       </p>
     );
   }
 
   return (
     <>
-      <Heading>My Favorite Reports</Heading>
+      <Heading>{tAccount("titles.favorites")}</Heading>
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-1/6">Time</TableHeader>
-            <TableHeader>Sender</TableHeader>
-            <TableHeader>Opponent</TableHeader>
-            <TableHeader className="sm:w-1/6">Battles</TableHeader>
-            <TableHeader className="sm:w-1/6">Duration</TableHeader>
+            <TableHeader className="sm:w-1/6">{tCommon("labels.time")}</TableHeader>
+            <TableHeader>{tCommon("labels.sender")}</TableHeader>
+            <TableHeader>{tCommon("labels.opponent")}</TableHeader>
+            <TableHeader className="sm:w-1/6">{tCommon("labels.battles")}</TableHeader>
+            <TableHeader className="sm:w-1/6">{tReports("table.duration")}</TableHeader>
           </TableRow>
         </TableHead>
         <FavoriteReportsTable />

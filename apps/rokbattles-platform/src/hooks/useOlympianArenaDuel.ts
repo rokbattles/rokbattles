@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export type DuelReportEntry = {
@@ -13,6 +14,7 @@ export type DuelReportResponse = {
 };
 
 export function useOlympianArenaDuel(duelId: number | null | undefined) {
+  const t = useTranslations("errors");
   const [data, setData] = useState<DuelReportResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +38,7 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
         const res = await fetch(`/api/v2/olympian-arena/duel/${encodeURIComponent(duelId)}`);
 
         if (!res.ok) {
-          throw new Error(`Failed to fetch duel: ${res.status}`);
+          throw new Error(t("duel.fetch", { status: res.status }));
         }
 
         const payload = (await res.json()) as DuelReportResponse;
@@ -45,7 +47,7 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
           setError(null);
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("duel.generic");
         if (!cancelled) {
           setError(message);
           setData(null);
@@ -62,7 +64,7 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
     return () => {
       cancelled = true;
     };
-  }, [duelId]);
+  }, [duelId, t]);
 
   return {
     data,

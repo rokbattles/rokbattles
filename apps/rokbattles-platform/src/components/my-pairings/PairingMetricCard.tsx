@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/Badge";
 
 type BadgeColor = Parameters<typeof Badge>[0] extends { color?: infer Color } ? Color : never;
@@ -28,10 +31,11 @@ function defaultFormatValue(value: number) {
 function resolveTrend(
   value: number,
   previousValue: number | undefined,
-  trendDirection: "increase" | "decrease"
+  trendDirection: "increase" | "decrease",
+  naLabel: string
 ): TrendResult {
   if (previousValue == null) {
-    return { color: "zinc", label: "N/A" };
+    return { color: "zinc", label: naLabel };
   }
 
   const safePrevious = Number.isFinite(previousValue) ? previousValue : 0;
@@ -39,10 +43,10 @@ function resolveTrend(
 
   if (safePrevious === 0) {
     if (safeValue === 0) {
-      return { color: "zinc", label: "N/A" };
+      return { color: "zinc", label: naLabel };
     }
 
-    return { color: "zinc", label: "N/A" };
+    return { color: "zinc", label: naLabel };
   }
 
   const delta = safeValue - safePrevious;
@@ -73,7 +77,10 @@ export function PairingMetricCard({
   description,
   comparisonLabel,
 }: PairingMetricCardProps) {
-  const trend = resolveTrend(value, previousValue, trendDirection);
+  const t = useTranslations("pairings");
+  const tCommon = useTranslations("common");
+  const trend = resolveTrend(value, previousValue, trendDirection, tCommon("labels.na"));
+  const comparisonText = comparisonLabel ?? t("comparison.previous");
 
   return (
     <div className="space-y-3 border-b border-zinc-200/60 pb-4 dark:border-white/10">
@@ -90,7 +97,7 @@ export function PairingMetricCard({
       </div>
       <div className="mt-3 flex items-center gap-2 text-xs/5 text-zinc-600 dark:text-zinc-400">
         <Badge color={trend.color}>{trend.label}</Badge>
-        <span>{comparisonLabel ?? "vs previous month"}</span>
+        <span>{comparisonText}</span>
       </div>
     </div>
   );

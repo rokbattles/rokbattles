@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -11,24 +14,26 @@ import { ReportBattleSummaryTooltip } from "@/components/report/ReportBattleSumm
 import type { RawBattleResults } from "@/lib/types/rawReport";
 
 type BattleMetricConfig = {
-  label: string;
+  labelKey: string;
   selfKey: keyof RawBattleResults;
   enemyKey: keyof RawBattleResults;
 };
 
+const COMMON_METRIC_KEYS = new Set(["units", "remaining", "dead", "severelyWounded", "killPoints"]);
+
 const BATTLE_METRICS: readonly BattleMetricConfig[] = [
-  { label: "Units", selfKey: "max", enemyKey: "enemy_max" },
-  { label: "Remaining", selfKey: "remaining", enemyKey: "enemy_remaining" },
-  { label: "Heal", selfKey: "healing", enemyKey: "enemy_healing" },
-  { label: "Dead", selfKey: "death", enemyKey: "enemy_death" },
+  { labelKey: "units", selfKey: "max", enemyKey: "enemy_max" },
+  { labelKey: "remaining", selfKey: "remaining", enemyKey: "enemy_remaining" },
+  { labelKey: "heal", selfKey: "healing", enemyKey: "enemy_healing" },
+  { labelKey: "dead", selfKey: "death", enemyKey: "enemy_death" },
   {
-    label: "Severely wounded",
+    labelKey: "severelyWounded",
     selfKey: "severely_wounded",
     enemyKey: "enemy_severely_wounded",
   },
-  { label: "Slightly wounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
-  { label: "Watchtower Damage", selfKey: "watchtower", enemyKey: "enemy_watchtower" },
-  { label: "Kill Points", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
+  { labelKey: "slightlyWounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
+  { labelKey: "watchtowerDamage", selfKey: "watchtower", enemyKey: "enemy_watchtower" },
+  { labelKey: "killPoints", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
 ] as const;
 
 type BattleSummaryDatum = {
@@ -50,7 +55,11 @@ function getMetricValue(results: RawBattleResults, key: keyof RawBattleResults) 
   return raw;
 }
 
-function buildChartData(results: RawBattleResults) {
+function buildChartData(
+  results: RawBattleResults,
+  t: ReturnType<typeof useTranslations>,
+  tCommon: ReturnType<typeof useTranslations>
+) {
   const rows: BattleSummaryDatum[] = [];
   for (const metric of BATTLE_METRICS) {
     const selfValue = getMetricValue(results, metric.selfKey);
@@ -58,10 +67,13 @@ function buildChartData(results: RawBattleResults) {
     if (selfValue == null && enemyValue == null) {
       continue;
     }
+    const label = COMMON_METRIC_KEYS.has(metric.labelKey)
+      ? tCommon(`metrics.${metric.labelKey}`)
+      : t(`metrics.battle.${metric.labelKey}`);
 
     rows.push({
-      key: metric.label,
-      label: metric.label,
+      key: metric.labelKey,
+      label,
       self: selfValue ?? 0,
       enemy: enemyValue ?? 0,
     });
@@ -70,7 +82,9 @@ function buildChartData(results: RawBattleResults) {
 }
 
 export function ReportBattleResultsChart({ results }: { results: RawBattleResults }) {
-  const chartData = buildChartData(results);
+  const t = useTranslations("report");
+  const tCommon = useTranslations("common");
+  const chartData = buildChartData(results, t, tCommon);
 
   if (chartData.length === 0) {
     return null;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 
@@ -58,6 +59,7 @@ export type UsePairingsResult = {
 const TARGET_YEAR = 2025;
 
 export function usePairings(): UsePairingsResult {
+  const t = useTranslations("errors");
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
@@ -92,7 +94,7 @@ export function usePairings(): UsePairingsResult {
       });
 
       if (!res.ok) {
-        throw new Error(`Failed to load marches: ${res.status}`);
+        throw new Error(t("pairings.fetch", { status: res.status }));
       }
 
       const data = (await res.json()) as GovernorMarchesResponse;
@@ -101,7 +103,7 @@ export function usePairings(): UsePairingsResult {
       setYear(data.year ?? null);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message = err instanceof Error ? err.message : t("pairings.generic");
       setPairings([]);
       setPeriod(null);
       setYear(null);
@@ -109,7 +111,7 @@ export function usePairings(): UsePairingsResult {
     } finally {
       setLoading(false);
     }
-  }, [governorId]);
+  }, [governorId, t]);
 
   useEffect(() => {
     setPairings([]);

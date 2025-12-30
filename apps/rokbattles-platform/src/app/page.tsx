@@ -1,28 +1,30 @@
 import { FunnelIcon } from "@heroicons/react/16/solid";
+import { getTranslations } from "next-intl/server";
 import { ReportsFilterDialog } from "@/components/reports/ReportsFilterDialog";
 import ReportsTable from "@/components/reports/ReportsTable";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 
-export default function Page() {
+export default async function Page() {
+  const [t, tCommon] = await Promise.all([getTranslations("reports"), getTranslations("common")]);
   return (
     <>
-      <Heading>Battle Reports</Heading>
+      <Heading>{t("title")}</Heading>
       <div className="mt-8 flex items-end justify-between">
-        <Subheading>Live feed (UTC)</Subheading>
+        <Subheading>{tCommon("headings.liveFeed")}</Subheading>
         <ReportsFilterDialog>
           <FunnelIcon />
-          Filter
+          {t("filter.trigger")}
         </ReportsFilterDialog>
       </div>
       <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-1/6">Time</TableHeader>
-            <TableHeader>Sender</TableHeader>
-            <TableHeader>Opponent</TableHeader>
-            <TableHeader className="sm:w-1/6">Battles</TableHeader>
-            <TableHeader className="sm:w-1/6">Duration</TableHeader>
+            <TableHeader className="sm:w-1/6">{tCommon("labels.time")}</TableHeader>
+            <TableHeader>{tCommon("labels.sender")}</TableHeader>
+            <TableHeader>{tCommon("labels.opponent")}</TableHeader>
+            <TableHeader className="sm:w-1/6">{tCommon("labels.battles")}</TableHeader>
+            <TableHeader className="sm:w-1/6">{t("table.duration")}</TableHeader>
           </TableRow>
         </TableHead>
         <ReportsTable />

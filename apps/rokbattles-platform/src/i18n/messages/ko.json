@@ -1,1 +1,418 @@
-{}
+{
+  "app": {
+    "title": "ROK Battles",
+    "titleTemplate": "%s - ROK Battles",
+    "description": "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
+  },
+  "navigation": {
+    "openAccountMenu": "Open account menu",
+    "openNavigation": "Open navigation",
+    "closeNavigation": "Close navigation",
+    "toggleTheme": "Toggle theme",
+    "theme": "Theme",
+    "lightMode": "Light mode",
+    "darkMode": "Dark mode",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "account": "Account",
+    "exploreBattles": "Explore Battles",
+    "exploreDuels": "Explore Duels",
+    "exploreTrends": "Explore Trends",
+    "myBattles": "My Battles",
+    "myFavorites": "My Favorites",
+    "support": "Support",
+    "desktopApp": "Desktop App",
+    "cookieSettings": "Cookie Settings",
+    "privacyPolicy": "Privacy Policy",
+    "loading": "Loading...",
+    "selectGovernor": "Select a governor",
+    "claimGovernor": "Claim governor...",
+    "newGroup": "New group..."
+  },
+  "language": {
+    "title": "Language",
+    "select": "Select language",
+    "save": "Save"
+  },
+  "cookieConsent": {
+    "title": "Cookie settings",
+    "message": "We use only essential cookies for authentication, security, and site functionality. If we add optional cookies in the future, you'll be able to manage them here. Read our <link>cookie policy</link> for more information.",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
+  "common": {
+    "actions": {
+      "apply": "Apply",
+      "cancel": "Cancel",
+      "copied": "Copied",
+      "favorite": "Favorite",
+      "unfavorite": "Unfavorite",
+      "loadMore": "Load more",
+      "reset": "Reset",
+      "share": "Share",
+      "showLess": "Show less",
+      "showMore": "Show more"
+    },
+    "labels": {
+      "all": "All",
+      "and": "and",
+      "any": "Any",
+      "id": "ID {id}",
+      "na": "N/A",
+      "opponent": "Opponent",
+      "primary": "Primary",
+      "rally": "Rally",
+      "secondary": "Secondary",
+      "sender": "Sender",
+      "unknown": "Unknown",
+      "unknownCommander": "Unknown commander",
+      "time": "Time",
+      "battles": "Battles",
+      "commanders": "Commanders",
+      "level": "Lvl {level}"
+    },
+    "states": {
+      "loading": "Loading reports...",
+      "loadingMore": "Loading more..."
+    },
+    "placeholders": {
+      "governorId": "71738515"
+    },
+    "icons": {
+      "checkmark": "Checkmark"
+    },
+    "headings": {
+      "liveFeed": "Live feed (UTC)"
+    },
+    "metrics": {
+      "units": "Units",
+      "dead": "Dead",
+      "severelyWounded": "Severely wounded",
+      "killPoints": "Kill Points",
+      "remaining": "Remaining"
+    },
+    "fields": {
+      "governorId": "Governor ID"
+    },
+    "alt": {
+      "namedIcon": "{name} icon"
+    }
+  },
+  "pagination": {
+    "navigation": "Page navigation",
+    "previous": "Previous",
+    "next": "Next",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "pageLabel": "Page {page}"
+  },
+  "reports": {
+    "title": "Battle Reports",
+    "table": {
+      "duration": "Duration"
+    },
+    "filter": {
+      "trigger": "Filter",
+      "title": "Filters",
+      "description": "Filter battle reports by metadata, commanders, and battle roles.",
+      "sections": {
+        "metadata": "Metadata",
+        "battle": "Battle"
+      },
+      "fields": {
+        "type": "Type",
+        "primaryCommander": "Primary Commander",
+        "secondaryCommander": "Secondary Commander",
+        "rallySide": "Rally Side",
+        "garrisonSide": "Garrison Side",
+        "garrisonBuilding": "Garrison Building"
+      },
+      "typeOptions": {
+        "kvk": "KVK",
+        "ark": "Ark of Osiris",
+        "home": "Home"
+      },
+      "sideOptions": {
+        "none": "None",
+        "either": "Either side"
+      },
+      "garrisonBuildingOptions": {
+        "flag": "Alliance Flag",
+        "fortress": "Alliance Fortress",
+        "other": "Other"
+      }
+    },
+    "states": {
+      "empty": "No reports found."
+    }
+  },
+  "report": {
+    "title": "Report",
+    "battleReportTitle": "Battle Report",
+    "back": {
+      "reports": "Back to My Reports",
+      "favorites": "Back to My Favorites"
+    },
+    "actions": {
+      "favoriteAria": "Favorite report",
+      "unfavoriteAria": "Unfavorite report"
+    },
+    "entry": {
+      "battleSummary": "Battle summary",
+      "unknownPeriod": "Unknown period",
+      "utcPrefix": "UTC "
+    },
+    "overview": {
+      "title": "Data summary",
+      "allEnemies": "All Enemies",
+      "metrics": {
+        "troopUnits": "Troop Units",
+        "severelyWounded": "Severely Wounded",
+        "slightlyWounded": "Slightly Wounded"
+      }
+    },
+    "commanders": {
+      "formationFallback": "Formation {formation}"
+    },
+    "equipment": {
+      "title": "Equipment",
+      "artifacts": "Artifacts",
+      "slotAlt": "Equipment {id}"
+    },
+    "armament": {
+      "title": "Armament Info",
+      "fallback": "Armament {id}"
+    },
+    "metrics": {
+      "battle": {
+        "heal": "Heal",
+        "slightlyWounded": "Slightly wounded",
+        "watchtowerDamage": "Watchtower Damage"
+      }
+    },
+    "states": {
+      "loading": "Loading report...",
+      "empty": "No battles were found for this hash."
+    },
+    "og": {
+      "unitsSuffix": " Units",
+      "killPointsSuffix": " Kill Points",
+      "deathsSuffix": " Deaths",
+      "poweredBy": "Powered by ROK Battles",
+      "failed": "Failed to load report"
+    }
+  },
+  "duels": {
+    "title": "Duel Report",
+    "listTitle": "Olympian Arena Reports",
+    "table": {
+      "winStreak": "Win Streak"
+    },
+    "summary": "Duel summary",
+    "winner": "Winner",
+    "troopBuffs": "Troop Buffs",
+    "metrics": {
+      "wounded": "Wounded",
+      "healed": "Healed",
+      "power": "Power"
+    },
+    "states": {
+      "loading": "Loading duel report...",
+      "empty": "No reports were found for this duel.",
+      "invalid": "We could not load this duel."
+    }
+  },
+  "battleLog": {
+    "title": "Battle Log",
+    "loading": "Loading your battle log for {year}...",
+    "summary": "All reports for {year}. Hover to see counts.",
+    "weekdays": {
+      "mon": "Mon",
+      "wed": "Wed",
+      "fri": "Fri"
+    },
+    "tooltip": "{date}: {battleCount, plural, one {# battle report} other {# battle reports}}, {npcCount, plural, one {# NPC report} other {# NPC reports}}",
+    "outsideRange": "Outside selected range",
+    "totals": {
+      "totalReports": "{count, number} Total reports",
+      "battles": "{count, number} Battles",
+      "npc": "{count, number} NPC"
+    }
+  },
+  "account": {
+    "states": {
+      "loading": "Loading your account...",
+      "loginRequired": "You must be logged in to view this page.",
+      "governorRequired": "You must have a claimed governor to view this page."
+    },
+    "titles": {
+      "reports": "My Battle Reports",
+      "favorites": "My Favorite Reports",
+      "pairings": "My Pairings",
+      "settings": "Account Settings"
+    },
+    "settings": {
+      "emailLabel": "Email address",
+      "emailDescription": "Your email address is synced from Discord.",
+      "nav": {
+        "general": "General",
+        "governors": "Governors"
+      }
+    },
+    "governors": {
+      "claimedTitle": "Claimed governors",
+      "noneClaimed": "No governors claimed yet.",
+      "claimTitle": "Claim a governor",
+      "claimDescription": "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+    },
+    "claimForm": {
+      "maxReached": "You have reached the maximum of three claimed governors.",
+      "submit": "Claim governor",
+      "submitting": "Claiming...",
+      "errors": {
+        "maxReached": "You can only claim up to three governors.",
+        "missingId": "Enter a governor ID.",
+        "invalidId": "Enter a valid governor ID.",
+        "unavailable": "Unable to claim governor. Please try again.",
+        "alreadyClaimed": "This governor is already claimed.",
+        "unknown": "Something went wrong while claiming the governor. Please try again."
+      }
+    }
+  },
+  "pairings": {
+    "intro": "Choose a pairing to see how it performed, filterable by month.",
+    "selectPairing": "Select a pairing",
+    "states": {
+      "empty": "No pairings found for this period."
+    },
+    "comparison": {
+      "none": "No prior month to compare",
+      "previous": "vs previous month",
+      "vsMonth": "vs {month}"
+    },
+    "monthly": {
+      "title": "Monthly battles in {year}",
+      "hint": "Click a bar to switch months, alternatively use the select menu.",
+      "select": "Select month",
+      "selectPrompt": "Select a month"
+    },
+    "metrics": {
+      "battleCount": {
+        "description": "How many battle reports you generated with this pairing in the selected month."
+      },
+      "killScore": {
+        "description": "Total kill points you earned while using this pairing."
+      },
+      "enemyKillScore": {
+        "label": "Enemy Kill Points",
+        "description": "Total kill points your opponents earned against you."
+      },
+      "severelyWounded": {
+        "label": "Severely Wounded (Taken)",
+        "description": "Number of your troops that became severely wounded while using this pairing."
+      },
+      "enemySeverelyWounded": {
+        "label": "Severely Wounded (Inflicted)",
+        "description": "Number of enemy troops you caused to become severely wounded."
+      },
+      "averageBattleDuration": {
+        "label": "Avg. Battle Duration",
+        "description": "Average length of battles recorded for this pairing in the selected month."
+      },
+      "dps": {
+        "label": "Damage Per Second (DPS)",
+        "description": "Average amount of damage you inflict per second with this pairing."
+      },
+      "sps": {
+        "label": "Sevs Per Second (SPS)",
+        "description": "Rate at which you inflict severely wounded troops each second."
+      },
+      "tps": {
+        "label": "Sevs Taken Per Second (TPS)",
+        "description": "Rate at which your troops become severely wounded each second."
+      }
+    }
+  },
+  "trends": {
+    "categories": {
+      "field": "Field Reports",
+      "rally": "Rally Reports",
+      "garrison": "Garrison Reports"
+    },
+    "errors": {
+      "fetch": "Failed to load trends ({status})",
+      "generic": "Failed to load trends"
+    },
+    "overview": {
+      "title": "Trends Overview",
+      "period": "Period",
+      "periodFallback": "2025 Q4",
+      "minimumReports": "Minimum reports per pairing",
+      "minimumReportCounts": "Field {field, number}; Rally {rally, number}; Garrison {garrison, number}",
+      "generated": "Generated",
+      "categorySummary": "{pairings, number} Pairings in {reports, number} Reports (min {min, number})"
+    },
+    "table": {
+      "rank": "#",
+      "pairing": "Pairing",
+      "topAccessory": "Top accessory",
+      "reports": "Reports"
+    },
+    "states": {
+      "loading": "Loading pairing trends...",
+      "empty": "No trend snapshot found.",
+      "thresholdEmpty": "No pairings met the threshold for this category.",
+      "detailsLoading": "Loading pairing details...",
+      "unknownCategory": "Unknown category.",
+      "notFound": "Pairing not found.",
+      "invalidPairing": "Invalid pairing."
+    },
+    "details": {
+      "title": "Trend Details",
+      "category": "Category",
+      "totalReports": "Total reports",
+      "accessoryPairs": {
+        "title": "Accessory Pairs",
+        "header": "Accessory pair"
+      },
+      "accessories": {
+        "title": "Individual Accessories",
+        "header": "Accessory"
+      }
+    },
+    "accessories": {
+      "emptyPairs": "No accessory pairs recorded.",
+      "emptyAccessories": "No accessory data recorded."
+    }
+  },
+  "errors": {
+    "reports": {
+      "fetch": "Failed to fetch reports: {status}",
+      "generic": "Failed to fetch reports."
+    },
+    "report": {
+      "fetch": "Failed to fetch report: {status}",
+      "generic": "Failed to fetch report."
+    },
+    "favorites": {
+      "fetch": "Failed to fetch favorites: {status}",
+      "generic": "Failed to fetch favorites."
+    },
+    "duels": {
+      "fetch": "Failed to fetch duels: {status}",
+      "generic": "Failed to fetch duels."
+    },
+    "duel": {
+      "fetch": "Failed to fetch duel: {status}",
+      "generic": "Failed to fetch duel."
+    },
+    "battleLog": {
+      "fetch": "Failed to load battle log ({status})",
+      "generic": "Failed to load battle log."
+    },
+    "pairings": {
+      "fetch": "Failed to load marches: {status}",
+      "generic": "Failed to load marches."
+    }
+  }
+}

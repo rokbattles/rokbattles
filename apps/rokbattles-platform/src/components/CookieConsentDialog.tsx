@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Dialog, DialogActions, DialogDescription, DialogTitle } from "@/components/ui/Dialog";
 import { TextLink } from "@/components/ui/Text";
@@ -12,21 +13,23 @@ type CookieConsentDialogProps = {
 
 export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps) {
   const { updateCookieConsent } = useCookieConsent();
+  const t = useTranslations("cookieConsent");
 
   return (
     <Dialog open={open} onClose={() => onClose()} size="lg">
-      <DialogTitle>Cookie settings</DialogTitle>
+      <DialogTitle>{t("title")}</DialogTitle>
       <DialogDescription>
-        We use only essential cookies for authentication, security, and site functionality. If we
-        add optional cookies in the future, you'll be able to manage them here. Read our{" "}
-        <TextLink
-          href="https://rokbattles.com/legal/cookie-policy"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          cookie policy
-        </TextLink>{" "}
-        for more information.
+        {t.rich("message", {
+          link: (chunks) => (
+            <TextLink
+              href="https://rokbattles.com/legal/cookie-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {chunks}
+            </TextLink>
+          ),
+        })}
       </DialogDescription>
       <DialogActions>
         <Button
@@ -35,7 +38,7 @@ export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps)
             onClose();
           }}
         >
-          Reject
+          {t("reject")}
         </Button>
         <Button
           color="blue"
@@ -44,7 +47,7 @@ export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps)
             onClose();
           }}
         >
-          Accept
+          {t("accept")}
         </Button>
       </DialogActions>
     </Dialog>

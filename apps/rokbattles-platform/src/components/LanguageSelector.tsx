@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import Flag from "react-flagpack";
 import { Button } from "@/components/ui/Button";
@@ -39,6 +40,8 @@ const setLocaleCookie = (locale: string) => {
 };
 
 export function LanguageSelector() {
+  const t = useTranslations("language");
+  const tCommon = useTranslations("common");
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
@@ -78,19 +81,19 @@ export function LanguageSelector() {
 
   return (
     <>
-      <SidebarItem onClick={handleOpen} aria-label="Select language">
+      <SidebarItem onClick={handleOpen} aria-label={t("select")}>
         <span data-slot="icon" className="flex items-center justify-center">
           <Flag code={currentLanguage.flagCode} size="m" hasBorder={false} />
         </span>
         <SidebarLabel>{currentLanguage.label}</SidebarLabel>
       </SidebarItem>
       <Dialog open={isOpen} onClose={handleClose} size="xl">
-        <DialogTitle>Language</DialogTitle>
+        <DialogTitle>{t("title")}</DialogTitle>
         <DialogBody>
           <RadioGroup
             value={selectedLocale}
             onChange={setSelectedLocale}
-            aria-label="Select language"
+            aria-label={t("select")}
             name="platformLanguage"
           >
             {languageOptions.map((option) => (
@@ -106,9 +109,9 @@ export function LanguageSelector() {
         </DialogBody>
         <DialogActions>
           <Button outline onClick={() => handleClose(false)}>
-            Cancel
+            {tCommon("actions.cancel")}
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>{t("save")}</Button>
         </DialogActions>
       </Dialog>
     </>

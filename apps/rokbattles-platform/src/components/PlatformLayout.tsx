@@ -13,6 +13,7 @@ import {
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import type React from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -49,6 +50,8 @@ type PlatformLayoutProps = {
 };
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
+  const t = useTranslations("navigation");
+  const tAccount = useTranslations("account");
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
@@ -64,7 +67,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const showMyReports = Boolean(!loading && user && activeGovernor);
   const isDark = isMounted ? resolvedTheme === "dark" : false;
   const ThemeIcon = isDark ? SunIcon : MoonIcon;
-  const themeLabel = isMounted ? (isDark ? "Light mode" : "Dark mode") : "Theme";
+  const themeLabel = isMounted ? (isDark ? t("lightMode") : t("darkMode")) : t("theme");
 
   useEffect(() => {
     setIsMounted(true);
@@ -93,14 +96,14 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             {!loading &&
               (user ? (
                 <Dropdown>
-                  <DropdownButton as={NavbarItem} aria-label="Open account menu">
+                  <DropdownButton as={NavbarItem} aria-label={t("openAccountMenu")}>
                     <Avatar src={user.avatar} square />
                   </DropdownButton>
                   <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
                 <NavbarItem href="/api/auth/discord/login">
-                  <NavbarLabel>Sign in</NavbarLabel>
+                  <NavbarLabel>{t("signIn")}</NavbarLabel>
                 </NavbarItem>
               ))}
           </NavbarSection>
@@ -113,38 +116,38 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSection>
               <SidebarItem href="/" current={pathname === "/"}>
                 <FireIcon />
-                <SidebarLabel>Explore Battles</SidebarLabel>
+                <SidebarLabel>{t("exploreBattles")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
                 <TrophyIcon />
-                <SidebarLabel>Explore Duels</SidebarLabel>
+                <SidebarLabel>{t("exploreDuels")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/trends" current={pathname === "/trends"}>
                 <ArrowTrendingUpIcon />
-                <SidebarLabel>Explore Trends</SidebarLabel>
+                <SidebarLabel>{t("exploreTrends")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (
               <SidebarSection>
-                <SidebarHeading>Account</SidebarHeading>
+                <SidebarHeading>{t("account")}</SidebarHeading>
                 {showMyReports ? (
                   <>
                     <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
                       <FireIcon />
-                      <SidebarLabel>My Battles</SidebarLabel>
+                      <SidebarLabel>{t("myBattles")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/pairings"
                       current={pathname === "/account/pairings"}
                     >
                       <ScaleIcon />
-                      <SidebarLabel>My Pairings</SidebarLabel>
+                      <SidebarLabel>{tAccount("titles.pairings")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
                 <SidebarItem href="/account/favorites" current={pathname === "/account/favorites"}>
                   <StarIcon />
-                  <SidebarLabel>My Favorites</SidebarLabel>
+                  <SidebarLabel>{t("myFavorites")}</SidebarLabel>
                 </SidebarItem>
               </SidebarSection>
             )}
@@ -157,7 +160,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 prefetch={false}
               >
                 <QuestionMarkCircleIcon />
-                <SidebarLabel>Support</SidebarLabel>
+                <SidebarLabel>{t("support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/desktop-app"
@@ -166,9 +169,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 prefetch={false}
               >
                 <ArrowDownTrayIcon />
-                <SidebarLabel>Desktop App</SidebarLabel>
+                <SidebarLabel>{t("desktopApp")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem onClick={handleThemeToggle} aria-label="Toggle theme">
+              <SidebarItem onClick={handleThemeToggle} aria-label={t("toggleTheme")}>
                 <ThemeIcon />
                 <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
@@ -178,7 +181,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           <SidebarFooter className="max-lg:hidden">
             {loading ? (
               <SidebarItem disabled>
-                <SidebarLabel>Loading&hellip;</SidebarLabel>
+                <SidebarLabel>{t("loading")}</SidebarLabel>
               </SidebarItem>
             ) : user ? (
               <Dropdown>
@@ -200,7 +203,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               </Dropdown>
             ) : (
               <SidebarItem href="/api/auth/discord/login" prefetch={false}>
-                <SidebarLabel>Sign in</SidebarLabel>
+                <SidebarLabel>{t("signIn")}</SidebarLabel>
               </SidebarItem>
             )}
           </SidebarFooter>

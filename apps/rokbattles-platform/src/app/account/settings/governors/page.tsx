@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ClaimGovernorForm } from "@/components/governors/ClaimGovernorForm";
 import { Avatar } from "@/components/ui/Avatar";
 import { Subheading } from "@/components/ui/Heading";
@@ -7,12 +8,14 @@ import { Text } from "@/components/ui/Text";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Page() {
+  const t = useTranslations("account");
+  const tCommon = useTranslations("common");
   const { user, loading, refresh } = useCurrentUser();
 
   if (loading) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        Loading your account&hellip;
+        {t("states.loading")}
       </p>
     );
   }
@@ -20,7 +23,7 @@ export default function Page() {
   if (!user) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must be logged in to view this page.
+        {t("states.loginRequired")}
       </p>
     );
   }
@@ -31,9 +34,9 @@ export default function Page() {
   return (
     <div className="space-y-8 mt-8">
       <section className="space-y-4">
-        <Subheading level={3}>Claimed governors</Subheading>
+        <Subheading level={3}>{t("governors.claimedTitle")}</Subheading>
         {claimedGovernors.length === 0 ? (
-          <Text>No governors claimed yet.</Text>
+          <Text>{t("governors.noneClaimed")}</Text>
         ) : (
           <ul className="divide-y divide-zinc-950/5 rounded border border-zinc-950/10 text-sm dark:divide-white/10 dark:border-white/10">
             {claimedGovernors.map((governor) => (
@@ -49,7 +52,7 @@ export default function Page() {
                   </p>
                   {governor.governorName ? (
                     <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                      ID {governor.governorId}
+                      {tCommon("labels.id", { id: governor.governorId })}
                     </p>
                   ) : null}
                 </div>
@@ -59,11 +62,8 @@ export default function Page() {
         )}
       </section>
       <section className="space-y-4">
-        <Subheading level={3}>Claim a governor</Subheading>
-        <Text>
-          Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can
-          claim up to three.
-        </Text>
+        <Subheading level={3}>{t("governors.claimTitle")}</Subheading>
+        <Text>{t("governors.claimDescription")}</Text>
         <ClaimGovernorForm canClaimMore={canClaimMore} onClaimed={refresh} />
       </section>
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { useBattleLog } from "@/hooks/useBattleLog";
 import { cn } from "@/lib/cn";
 import { Subheading } from "../ui/Heading";
@@ -148,6 +149,7 @@ function getCellVisuals(day: DayCell) {
 }
 
 export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
+  const t = useTranslations("battleLog");
   const { data, error, loading } = useBattleLog(governorId, year);
   const interactive = Boolean(data);
   const displayYear = year;
@@ -183,24 +185,22 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
     <section className="mt-6 space-y-3">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div className="space-y-1">
-          <Subheading>Battle Log</Subheading>
+          <Subheading>{t("title")}</Subheading>
           <Text
             className="text-sm/6 sm:text-xs/6"
             role={loading ? "status" : undefined}
             aria-live={loading ? "polite" : undefined}
           >
-            {loading
-              ? `Loading your battle log for ${displayYear}...`
-              : `All reports for ${displayYear}. Hover to see counts.`}
+            {loading ? t("loading", { year: displayYear }) : t("summary", { year: displayYear })}
           </Text>
         </div>
       </div>
       <div className="overflow-x-auto pb-1">
         <div className="flex items-start gap-3">
           <div className="hidden grid grid-rows-7 gap-[0.2rem] pt-[0.15rem] text-[11px] font-medium text-zinc-500 sm:grid sm:pt-[0.25rem] sm:pr-1 dark:text-zinc-400">
-            <span className="row-start-2">Mon</span>
-            <span className="row-start-4">Wed</span>
-            <span className="row-start-6">Fri</span>
+            <span className="row-start-2">{t("weekdays.mon")}</span>
+            <span className="row-start-4">{t("weekdays.wed")}</span>
+            <span className="row-start-6">{t("weekdays.fri")}</span>
           </div>
           <div className="grid auto-cols-[0.8rem] grid-flow-col gap-[0.2rem] sm:auto-cols-[0.85rem] sm:gap-[0.25rem] md:auto-cols-[0.9rem] md:gap-[0.3rem] lg:auto-cols-[0.95rem]">
             {weeks.map((week) => (
@@ -211,8 +211,12 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
                 {week.days.map((day, idx) => {
                   const { className, style } = getCellVisuals(day);
                   const label = day.inRange
-                    ? `${dayLabel.format(day.date)}: ${day.battleCount} battle report${day.battleCount === 1 ? "" : "s"}, ${day.npcCount} NPC report${day.npcCount === 1 ? "" : "s"}`
-                    : "Outside selected range";
+                    ? t("tooltip", {
+                        date: dayLabel.format(day.date),
+                        battleCount: day.battleCount,
+                        npcCount: day.npcCount,
+                      })
+                    : t("outsideRange");
 
                   return (
                     <button
@@ -236,19 +240,17 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
       </div>
       <div className="flex flex-wrap gap-3 text-sm text-zinc-600 sm:text-xs dark:text-zinc-300">
         <span className="font-semibold text-zinc-900 dark:text-white">
-          {totals.combined.toLocaleString()} Total reports
+          {t("totals.totalReports", { count: totals.combined })}
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="inline-block size-2.5 rounded-xs bg-red-500" />
-          {totals.battle.toLocaleString()} Battles
+          {t("totals.battles", { count: totals.battle })}
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="inline-block size-2.5 rounded-xs bg-yellow-500" />
-          {totals.npc.toLocaleString()} NPC
+          {t("totals.npc", { count: totals.npc })}
         </span>
-        {error ? (
-          <span className="text-amber-600 dark:text-amber-300">Failed to load battle log</span>
-        ) : null}
+        {error ? <span className="text-amber-600 dark:text-amber-300">{error}</span> : null}
       </div>
     </section>
   );

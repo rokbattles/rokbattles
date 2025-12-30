@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { ReportsFilterContext } from "@/components/context/ReportsFilterContext";
@@ -45,6 +46,7 @@ export type UseReportsOptions = {
 };
 
 export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReportsResult {
+  const t = useTranslations("errors");
   const context = useContext(ReportsFilterContext);
   const governorContext = useContext(GovernorContext);
 
@@ -94,7 +96,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
       });
 
       if (!res.ok) {
-        throw new Error(`Failed to fetch reports: ${res.status}`);
+        throw new Error(t("reports.fetch", { status: res.status }));
       }
 
       return (await res.json()) as ReportsApiResponse;
@@ -109,6 +111,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
       rallySide,
       garrisonSide,
       garrisonBuildingType,
+      t,
     ]
   );
 
@@ -139,7 +142,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("reports.generic");
         setError(message);
       })
       .finally(() => {
@@ -151,7 +154,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
     return () => {
       cancelled = true;
     };
-  }, [fetchReports, playerId, scope]);
+  }, [fetchReports, playerId, scope, t]);
 
   const loadMore = async () => {
     if (loading) {
@@ -174,7 +177,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
       setReports((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message = err instanceof Error ? err.message : t("reports.generic");
       setError(message);
     } finally {
       setLoading(false);

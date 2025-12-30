@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/16/solid";
+import { useTranslations } from "next-intl";
 import { useContext } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { Avatar } from "@/components/ui/Avatar";
@@ -21,6 +22,7 @@ type SidebarGovernorHeaderProps = {
 };
 
 export function SidebarGovernorHeader({ user }: SidebarGovernorHeaderProps) {
+  const t = useTranslations("navigation");
   const context = useContext(GovernorContext);
   if (!context) {
     throw new Error("SidebarGovernorHeader must be used within a GovernorProvider");
@@ -30,7 +32,7 @@ export function SidebarGovernorHeader({ user }: SidebarGovernorHeaderProps) {
 
   const displayName = activeGovernor
     ? (activeGovernor.governorName ?? activeGovernor.governorId.toString())
-    : "Select a governor";
+    : t("selectGovernor");
   const displayAvatar = activeGovernor?.governorAvatar ?? null;
   const canClaimMore = user.claimedGovernors.length < 3;
 
@@ -56,13 +58,13 @@ export function SidebarGovernorHeader({ user }: SidebarGovernorHeaderProps) {
           {canClaimMore ? (
             <DropdownItem href="/account/settings/governors">
               <PlusIcon />
-              <DropdownLabel>Claim governor&hellip;</DropdownLabel>
+              <DropdownLabel>{t("claimGovernor")}</DropdownLabel>
             </DropdownItem>
           ) : null}
           <DropdownDivider />
           <DropdownItem disabled>
             <PlusIcon />
-            <DropdownLabel>New group&hellip;</DropdownLabel>
+            <DropdownLabel>{t("newGroup")}</DropdownLabel>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

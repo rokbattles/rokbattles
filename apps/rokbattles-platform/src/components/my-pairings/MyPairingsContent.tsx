@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useContext, useEffect, useState } from "react";
 import {
   Bar,
@@ -137,6 +138,9 @@ function buildMonthsForYear(year: number) {
 }
 
 export function MyPairingsContent() {
+  const tAccount = useTranslations("account");
+  const tPairings = useTranslations("pairings");
+  const tCommon = useTranslations("common");
   const { user, loading } = useCurrentUser();
   const governorContext = useContext(GovernorContext);
 
@@ -243,7 +247,7 @@ export function MyPairingsContent() {
       count: 0,
       comparisonTotals: undefined as GovernorMarchTotals | undefined,
       comparisonCount: undefined as number | undefined,
-      comparisonLabel: "No prior month to compare",
+      comparisonLabel: tPairings("comparison.none"),
     };
 
     if (!selectedPairing || !selectedMonthKey) {
@@ -261,8 +265,10 @@ export function MyPairingsContent() {
       comparisonTotals: comparisonTotals?.totals,
       comparisonCount: comparisonTotals?.count,
       comparisonLabel: previousMonthKey
-        ? `vs ${monthWithYearFormatter.format(parseMonthKey(previousMonthKey) ?? new Date())}`
-        : "No earlier month to compare",
+        ? tPairings("comparison.vsMonth", {
+            month: monthWithYearFormatter.format(parseMonthKey(previousMonthKey) ?? new Date()),
+          })
+        : tPairings("comparison.none"),
     };
   })();
 
@@ -300,94 +306,92 @@ export function MyPairingsContent() {
     ? [
         {
           key: "battleCount",
-          label: "Battles",
+          label: tCommon("labels.battles"),
           value: monthStats.count,
           previousValue: monthStats.comparisonCount,
           trendDirection: "increase",
           formatValue: formatNumber,
-          description:
-            "How many battle reports you generated with this pairing in the selected month.",
+          description: tPairings("metrics.battleCount.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "killScore",
-          label: "Kill Points",
+          label: tCommon("metrics.killPoints"),
           value: monthStats.totals.killScore,
           previousValue: monthStats.comparisonTotals?.killScore,
           trendDirection: "increase",
           formatValue: formatNumber,
-          description: "Total kill points you earned while using this pairing.",
+          description: tPairings("metrics.killScore.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "enemyKillScore",
-          label: "Enemy Kill Points",
+          label: tPairings("metrics.enemyKillScore.label"),
           value: monthStats.totals.enemyKillScore,
           previousValue: monthStats.comparisonTotals?.enemyKillScore,
           trendDirection: "increase",
           formatValue: formatNumber,
-          description: "Total kill points your opponents earned against you.",
+          description: tPairings("metrics.enemyKillScore.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "severelyWounded",
-          label: "Severely Wounded (Taken)",
+          label: tPairings("metrics.severelyWounded.label"),
           value: monthStats.totals.severelyWounded,
           previousValue: monthStats.comparisonTotals?.severelyWounded,
           trendDirection: "decrease",
           formatValue: formatNumber,
-          description:
-            "Number of your troops that became severely wounded while using this pairing.",
+          description: tPairings("metrics.severelyWounded.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "enemySeverelyWounded",
-          label: "Severely Wounded (Inflicted)",
+          label: tPairings("metrics.enemySeverelyWounded.label"),
           value: monthStats.totals.enemySeverelyWounded,
           previousValue: monthStats.comparisonTotals?.enemySeverelyWounded,
           trendDirection: "increase",
           formatValue: formatNumber,
-          description: "Number of enemy troops you caused to become severely wounded.",
+          description: tPairings("metrics.enemySeverelyWounded.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "averageBattleDuration",
-          label: "Avg. Battle Duration",
+          label: tPairings("metrics.averageBattleDuration.label"),
           value: averageBattleDurationSeconds,
           previousValue: comparisonAverageBattleDurationSeconds,
           trendDirection: "decrease",
           formatValue: formatDurationSeconds,
-          description: "Average length of battles recorded for this pairing in the selected month.",
+          description: tPairings("metrics.averageBattleDuration.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "dps",
-          label: "Damage Per Second (DPS)",
+          label: tPairings("metrics.dps.label"),
           value: dpsPerSecond,
           previousValue: previousDpsPerSecond,
           trendDirection: "increase",
           formatValue: formatPerSecond,
-          description: "Average amount of damage you inflict per second with this pairing.",
+          description: tPairings("metrics.dps.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "sps",
-          label: "Sevs Per Second (SPS)",
+          label: tPairings("metrics.sps.label"),
           value: spsPerSecond,
           previousValue: previousSpsPerSecond,
           trendDirection: "increase",
           formatValue: formatPerSecond,
-          description: "Rate at which you inflict severely wounded troops each second.",
+          description: tPairings("metrics.sps.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
         {
           key: "tps",
-          label: "Sevs Taken Per Second (TPS)",
+          label: tPairings("metrics.tps.label"),
           value: tpsPerSecond,
           previousValue: previousTpsPerSecond,
           trendDirection: "decrease",
           formatValue: formatPerSecond,
-          description: "Rate at which your troops become severely wounded each second.",
+          description: tPairings("metrics.tps.description"),
           comparisonLabel: monthStats.comparisonLabel,
         },
       ]
@@ -396,7 +400,7 @@ export function MyPairingsContent() {
   if (loading) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        Loading your account&hellip;
+        {tAccount("states.loading")}
       </p>
     );
   }
@@ -404,7 +408,7 @@ export function MyPairingsContent() {
   if (!user) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must be logged in to view this page.
+        {tAccount("states.loginRequired")}
       </p>
     );
   }
@@ -412,7 +416,7 @@ export function MyPairingsContent() {
   if (!activeGovernor) {
     return (
       <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must have a claimed governor to view this page.
+        {tAccount("states.governorRequired")}
       </p>
     );
   }
@@ -420,14 +424,12 @@ export function MyPairingsContent() {
   return (
     <div className="mt-6 space-y-6">
       <div className="flex flex-col gap-4 border-b border-zinc-200/80 pb-4 dark:border-white/10 lg:flex-row lg:items-center lg:justify-between">
-        <Text className="text-sm text-zinc-950 dark:text-white">
-          Choose a pairing to see how it performed, filterable by month.
-        </Text>
+        <Text className="text-sm text-zinc-950 dark:text-white">{tPairings("intro")}</Text>
         <div className="w-full max-w-md">
           <Listbox<string | null>
             name="pairing"
             value={selectedKey ?? null}
-            placeholder="Select a pairing"
+            placeholder={tPairings("selectPairing")}
             onChange={(value) => setSelectedKey(value)}
             disabled={pairingsLoading || pairingOptions.length === 0}
           >
@@ -442,7 +444,7 @@ export function MyPairingsContent() {
 
       {error ? (
         <Text className="text-sm/6 text-red-600 dark:text-red-400" role="status" aria-live="polite">
-          Failed to load pairings: {error}
+          {error}
         </Text>
       ) : null}
       {!pairingsLoading && !error && pairingOptions.length === 0 ? (
@@ -451,7 +453,7 @@ export function MyPairingsContent() {
           role="status"
           aria-live="polite"
         >
-          No pairings found for this period.
+          {tPairings("states.empty")}
         </Text>
       ) : null}
 
@@ -461,10 +463,10 @@ export function MyPairingsContent() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="text-base font-semibold text-zinc-950 dark:text-white">
-                  Monthly battles in {chartYear}
+                  {tPairings("monthly.title", { year: chartYear })}
                 </div>
                 <Text className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Click a bar to switch months, alternatively use the select menu.
+                  {tPairings("monthly.hint")}
                 </Text>
               </div>
               <div className="w-full max-w-[220px] sm:w-auto">
@@ -472,7 +474,7 @@ export function MyPairingsContent() {
                   value={selectedMonthKey ?? null}
                   onChange={(value) => setSelectedMonthKey(value)}
                   name="month"
-                  placeholder="Select month"
+                  placeholder={tPairings("monthly.select")}
                 >
                   {months.map((month) => (
                     <ListboxOption key={month.key} value={month.key}>
@@ -512,7 +514,7 @@ export function MyPairingsContent() {
                     }}
                     labelStyle={{ color: "#fafafa" }}
                     itemStyle={{ color: "#fafafa" }}
-                    formatter={(value: number) => [formatNumber(value), "Battles"]}
+                    formatter={(value: number) => [formatNumber(value), tCommon("labels.battles")]}
                   />
                   <Bar dataKey="battles" radius={[8, 8, 2, 2]}>
                     {chartData.map((entry) => (
@@ -531,7 +533,7 @@ export function MyPairingsContent() {
 
           <div className="flex flex-col gap-2 border-b border-zinc-200/60 pb-4 dark:border-white/10 sm:flex-row sm:items-center sm:justify-between">
             <div className="text-lg font-semibold text-zinc-950 dark:text-white">
-              {selectedMonthLabel ?? "Select a month"}
+              {selectedMonthLabel ?? tPairings("monthly.selectPrompt")}
             </div>
           </div>
 

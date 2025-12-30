@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export type BattleLogDay = {
@@ -15,6 +16,7 @@ export type BattleLogResponse = {
 };
 
 export function useBattleLog(governorId: number | null | undefined, year?: number) {
+  const t = useTranslations("errors");
   const [data, setData] = useState<BattleLogResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +39,7 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`Failed to load battle log (${res.status})`);
+          throw new Error(t("battleLog.fetch", { status: res.status }));
         }
         return res.json() as Promise<BattleLogResponse>;
       })
@@ -50,7 +52,7 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("battleLog.generic");
         setError(message);
         setData(null);
       })
@@ -63,7 +65,7 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
     return () => {
       cancelled = true;
     };
-  }, [governorId, year]);
+  }, [governorId, year, t]);
 
   return {
     data,

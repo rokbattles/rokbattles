@@ -1,18 +1,18 @@
 import type { RawOverview } from "@/lib/types/rawReport";
 
 export const OVERVIEW_METRICS = [
-  { label: "Troop Units", selfKey: "max", enemyKey: "enemy_max" },
-  { label: "Dead", selfKey: "death", enemyKey: "enemy_death" },
+  { labelKey: "troopUnits", selfKey: "max", enemyKey: "enemy_max" },
+  { labelKey: "dead", selfKey: "death", enemyKey: "enemy_death" },
   {
-    label: "Severely Wounded",
+    labelKey: "severelyWounded",
     selfKey: "severely_wounded",
     enemyKey: "enemy_severely_wounded",
   },
-  { label: "Slightly Wounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
-  { label: "Remaining", selfKey: "remaining", enemyKey: "enemy_remaining" },
-  { label: "Kill Points", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
+  { labelKey: "slightlyWounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
+  { labelKey: "remaining", selfKey: "remaining", enemyKey: "enemy_remaining" },
+  { labelKey: "killPoints", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
 ] as const satisfies readonly {
-  label: string;
+  labelKey: string;
   selfKey: keyof RawOverview;
   enemyKey: keyof RawOverview;
 }[];

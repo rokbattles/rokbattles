@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import type { ReportByHashResponse } from "@/lib/types/report";
 
 export function useReport(hash: string | null | undefined) {
+  const t = useTranslations("errors");
   const [data, setData] = useState<ReportByHashResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +29,7 @@ export function useReport(hash: string | null | undefined) {
         const res = await fetch(`/api/v2/report/${encodeURIComponent(hash)}`);
 
         if (!res.ok) {
-          throw new Error(`Failed to fetch report: ${res.status}`);
+          throw new Error(t("report.fetch", { status: res.status }));
         }
 
         const payload = (await res.json()) as ReportByHashResponse;
@@ -36,7 +38,7 @@ export function useReport(hash: string | null | undefined) {
           setError(null);
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("report.generic");
         if (!cancelled) {
           setError(message);
           setData(null);
@@ -53,7 +55,7 @@ export function useReport(hash: string | null | undefined) {
     return () => {
       cancelled = true;
     };
-  }, [hash]);
+  }, [hash, t]);
 
   return {
     data,

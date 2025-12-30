@@ -6,6 +6,7 @@ import {
   ScaleIcon,
   ShieldCheckIcon,
 } from "@heroicons/react/16/solid";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CookieConsentDialog } from "@/components/CookieConsentDialog";
 import {
@@ -23,17 +24,19 @@ export function PlatformAccountDropdownMenu({
   handleLogout: () => Promise<void>;
 }) {
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
+  const t = useTranslations("navigation");
+  const tAccount = useTranslations("account");
 
   return (
     <>
       <DropdownMenu className="min-w-64" anchor={anchor}>
         <DropdownItem href="/account/settings">
           <Cog6ToothIcon />
-          <DropdownLabel>Account Settings</DropdownLabel>
+          <DropdownLabel>{tAccount("titles.settings")}</DropdownLabel>
         </DropdownItem>
         <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
           <ScaleIcon />
-          <DropdownLabel>Cookie Settings</DropdownLabel>
+          <DropdownLabel>{t("cookieSettings")}</DropdownLabel>
         </DropdownItem>
         <DropdownItem
           href="https://rokbattles.com/legal/privacy-policy"
@@ -41,12 +44,12 @@ export function PlatformAccountDropdownMenu({
           rel="noopener noreferrer"
         >
           <ShieldCheckIcon />
-          <DropdownLabel>Privacy Policy</DropdownLabel>
+          <DropdownLabel>{t("privacyPolicy")}</DropdownLabel>
         </DropdownItem>
         <DropdownDivider />
         <DropdownItem onClick={() => handleLogout()}>
           <ArrowRightStartOnRectangleIcon />
-          <DropdownLabel>Sign out</DropdownLabel>
+          <DropdownLabel>{t("signOut")}</DropdownLabel>
         </DropdownItem>
       </DropdownMenu>
       <CookieConsentDialog open={isCookieDialogOpen} onClose={() => setIsCookieDialogOpen(false)} />

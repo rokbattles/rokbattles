@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { getCommanderName } from "@/hooks/useCommanderName";
 
 type Props = {
@@ -12,6 +13,7 @@ function parse(v: number | undefined) {
 }
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
+  const t = useTranslations("common");
   const primaryName = getCommanderName(primaryId) ?? parse(primaryId);
   const secondaryName = getCommanderName(secondaryId) ?? parse(secondaryId);
 
@@ -19,7 +21,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
   const hasSecondary = Boolean(secondaryName);
 
   if (!hasPrimary && !hasSecondary) {
-    return <span className="text-zinc-500 dark:text-zinc-400">Unknown</span>;
+    return <span className="text-zinc-500 dark:text-zinc-400">{t("labels.unknown")}</span>;
   }
 
   return (

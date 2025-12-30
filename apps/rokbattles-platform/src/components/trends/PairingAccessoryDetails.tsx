@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import {
@@ -23,9 +24,9 @@ import { getEquipmentName } from "@/hooks/useEquipmentName";
 import type { CategoryKey, TrendSnapshot } from "@/lib/types/trends";
 
 const CATEGORY_LABELS: Record<CategoryKey, string> = {
-  field: "Field Reports",
-  rally: "Rally Reports",
-  garrison: "Garrison Reports",
+  field: "categories.field",
+  rally: "categories.rally",
+  garrison: "categories.garrison",
 };
 
 export default function PairingAccessoryDetails({
@@ -37,6 +38,8 @@ export default function PairingAccessoryDetails({
   primaryId: number;
   secondaryId: number;
 }) {
+  const t = useTranslations("trends");
+  const tCommon = useTranslations("common");
   const [snapshot, setSnapshot] = useState<TrendSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,7 +59,7 @@ export default function PairingAccessoryDetails({
           cache: "no-store",
         });
         if (!response.ok) {
-          throw new Error(`Failed to load trends (${response.status})`);
+          throw new Error(t("errors.fetch", { status: response.status }));
         }
         const data = (await response.json()) as TrendSnapshot;
         if (active) {
@@ -65,7 +68,7 @@ export default function PairingAccessoryDetails({
         }
       } catch (err) {
         if (active) {
-          setError(err instanceof Error ? err.message : "Failed to load trends");
+          setError(err instanceof Error ? err.message : t("errors.generic"));
         }
       } finally {
         if (active) {
@@ -78,7 +81,7 @@ export default function PairingAccessoryDetails({
     return () => {
       active = false;
     };
-  }, []);
+  }, [t]);
 
   const categoryKey: CategoryKey | null =
     category === "field" || category === "rally" || category === "garrison" ? category : null;
@@ -93,7 +96,7 @@ export default function PairingAccessoryDetails({
   if (loading) {
     return (
       <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
-        Loading pairing details...
+        {t("states.detailsLoading")}
       </Text>
     );
   }
@@ -113,7 +116,7 @@ export default function PairingAccessoryDetails({
   if (!categoryKey) {
     return (
       <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
-        Unknown category.
+        {t("states.unknownCategory")}
       </Text>
     );
   }
@@ -121,7 +124,7 @@ export default function PairingAccessoryDetails({
   if (!pairing) {
     return (
       <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
-        Pairing not found.
+        {t("states.notFound")}
       </Text>
     );
   }
@@ -136,29 +139,31 @@ export default function PairingAccessoryDetails({
   return (
     <div className="mt-8 space-y-8">
       <div className="space-y-3">
-        <Heading>Trend Details</Heading>
+        <Heading>{t("details.title")}</Heading>
         <DescriptionList>
-          <DescriptionTerm>Primary</DescriptionTerm>
+          <DescriptionTerm>{tCommon("labels.primary")}</DescriptionTerm>
           <DescriptionDetails>{primaryName}</DescriptionDetails>
-          <DescriptionTerm>Secondary</DescriptionTerm>
+          <DescriptionTerm>{tCommon("labels.secondary")}</DescriptionTerm>
           <DescriptionDetails>{secondaryName}</DescriptionDetails>
-          <DescriptionTerm>Category</DescriptionTerm>
-          <DescriptionDetails>{CATEGORY_LABELS[categoryKey]}</DescriptionDetails>
-          <DescriptionTerm>Period</DescriptionTerm>
-          <DescriptionDetails>{snapshot?.period?.label ?? "2025 Q4"}</DescriptionDetails>
-          <DescriptionTerm>Total reports</DescriptionTerm>
+          <DescriptionTerm>{t("details.category")}</DescriptionTerm>
+          <DescriptionDetails>{t(CATEGORY_LABELS[categoryKey])}</DescriptionDetails>
+          <DescriptionTerm>{t("overview.period")}</DescriptionTerm>
+          <DescriptionDetails>
+            {snapshot?.period?.label ?? t("overview.periodFallback")}
+          </DescriptionDetails>
+          <DescriptionTerm>{t("details.totalReports")}</DescriptionTerm>
           <DescriptionDetails>{pairing.reportCount.toLocaleString()}</DescriptionDetails>
         </DescriptionList>
       </div>
 
       <section className="space-y-3">
-        <Subheading>Accessory Pairs</Subheading>
+        <Subheading>{t("details.accessoryPairs.title")}</Subheading>
         <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
           <TableHead>
             <TableRow>
-              <TableHeader className="w-12">#</TableHeader>
-              <TableHeader>Accessory pair</TableHeader>
-              <TableHeader className="w-32">Reports</TableHeader>
+              <TableHeader className="w-12">{t("table.rank")}</TableHeader>
+              <TableHeader>{t("details.accessoryPairs.header")}</TableHeader>
+              <TableHeader className="w-32">{t("table.reports")}</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody id={pairsId}>
@@ -167,9 +172,11 @@ export default function PairingAccessoryDetails({
                 <TableRow key={`${entry.ids[0]}:${entry.ids[1]}`}>
                   <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
                   <TableCell>
-                    {getEquipmentName(entry.ids[0]) ?? "Unknown"}{" "}
-                    <span className="text-zinc-600 dark:text-zinc-400">and</span>{" "}
-                    {getEquipmentName(entry.ids[1]) ?? "Unknown"}
+                    {getEquipmentName(entry.ids[0]) ?? tCommon("labels.unknown")}{" "}
+                    <span className="text-zinc-600 dark:text-zinc-400">
+                      {tCommon("labels.and")}
+                    </span>{" "}
+                    {getEquipmentName(entry.ids[1]) ?? tCommon("labels.unknown")}
                   </TableCell>
                   <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
@@ -179,7 +186,7 @@ export default function PairingAccessoryDetails({
             ) : (
               <TableRow>
                 <TableCell colSpan={3}>
-                  <Text className="text-sm text-zinc-500">No accessory pairs recorded.</Text>
+                  <Text className="text-sm text-zinc-500">{t("accessories.emptyPairs")}</Text>
                 </TableCell>
               </TableRow>
             )}
@@ -194,19 +201,19 @@ export default function PairingAccessoryDetails({
             aria-controls={pairsId}
             className="text-sm"
           >
-            {pairsExpanded ? "Show less" : "Show more"}
+            {pairsExpanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
           </Button>
         ) : null}
       </section>
 
       <section className="space-y-3">
-        <Subheading>Individual Accessories</Subheading>
+        <Subheading>{t("details.accessories.title")}</Subheading>
         <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
           <TableHead>
             <TableRow>
-              <TableHeader className="w-12">#</TableHeader>
-              <TableHeader>Accessory</TableHeader>
-              <TableHeader className="w-32">Reports</TableHeader>
+              <TableHeader className="w-12">{t("table.rank")}</TableHeader>
+              <TableHeader>{t("details.accessories.header")}</TableHeader>
+              <TableHeader className="w-32">{t("table.reports")}</TableHeader>
             </TableRow>
           </TableHead>
           <TableBody id={accessoriesId}>
@@ -214,7 +221,7 @@ export default function PairingAccessoryDetails({
               visibleAccessories.map((entry, index) => (
                 <TableRow key={entry.id}>
                   <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
-                  <TableCell>{getEquipmentName(entry.id) ?? "Unknown"}</TableCell>
+                  <TableCell>{getEquipmentName(entry.id) ?? tCommon("labels.unknown")}</TableCell>
                   <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
                   </TableCell>
@@ -223,7 +230,7 @@ export default function PairingAccessoryDetails({
             ) : (
               <TableRow>
                 <TableCell colSpan={3}>
-                  <Text className="text-sm text-zinc-500">No accessory data recorded.</Text>
+                  <Text className="text-sm text-zinc-500">{t("accessories.emptyAccessories")}</Text>
                 </TableCell>
               </TableRow>
             )}
@@ -238,7 +245,7 @@ export default function PairingAccessoryDetails({
             aria-controls={accessoriesId}
             className="text-sm"
           >
-            {accessoriesExpanded ? "Show less" : "Show more"}
+            {accessoriesExpanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
           </Button>
         ) : null}
       </section>
