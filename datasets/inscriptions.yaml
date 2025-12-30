@@ -12,7 +12,7 @@ inscriptions:
       en: "Warcry"
       de: "Krigsschrei"
       es: "Grito de guerra"
-      kr: "전재의 포효"
+      ko: "전재의 포효"
     rarity: common
 
   103:
@@ -20,7 +20,7 @@ inscriptions:
       en: "Well Clad"
       de: "Gut gekleidet"
       es: "Fortalecimiento"
-      kr: "단단한 갑옷"
+      ko: "단단한 갑옷"
     rarity: common
 
   104:
@@ -28,7 +28,7 @@ inscriptions:
       en: "Robust"
       de: "Robust"
       es: "Robustez"
-      kr: "활력"
+      ko: "활력"
     rarity: common
 
   105:
@@ -36,7 +36,7 @@ inscriptions:
       en: "Swift"
       de: "Flink"
       es: "Celeridad"
-      kr: "질주"
+      ko: "질주"
     rarity: common
 
   106:
@@ -44,7 +44,7 @@ inscriptions:
       en: "Payback"
       de: "Rache"
       es: "Revancha"
-      kr: "복수"
+      ko: "복수"
     rarity: common
 
   107:
@@ -52,7 +52,7 @@ inscriptions:
       en: "Onslaught"
       de: "Ansturm"
       es: "Embestida"
-      kr: "맹공"
+      ko: "맹공"
     rarity: common
 
   108:
@@ -60,7 +60,7 @@ inscriptions:
       en: "Retaliatory"
       de: "Vergeltung"
       es: "Represalia"
-      kr: "반공"
+      ko: "반공"
     rarity: common
 
   109:
@@ -68,7 +68,7 @@ inscriptions:
       en: "Enraged"
       de: "In Rage"
       es: "Furia"
-      kr: "난폭"
+      ko: "난폭"
     rarity: common
 
   110:
@@ -76,7 +76,7 @@ inscriptions:
       en: "Valiant"
       de: "Tapfer"
       es: "Valentía"
-      kr: "용맹무쌍"
+      ko: "용맹무쌍"
     rarity: common
 
   111:
@@ -84,7 +84,7 @@ inscriptions:
       en: "Iron Wall"
       de: "Eisenwand"
       es: "Muro de hierro"
-      kr: "철벽"
+      ko: "철벽"
     rarity: common
 
   112:
@@ -92,7 +92,7 @@ inscriptions:
       en: "Bellicose"
       de: "Kriegerisch"
       es: "Belicismo"
-      kr: "투지"
+      ko: "투지"
     rarity: common
 
   113:
@@ -100,7 +100,7 @@ inscriptions:
       en: "Pulverize"
       de: "Pulverisieren"
       es: "Pulverizar"
-      kr: "펀치"
+      ko: "펀치"
     rarity: common
 
   114:
@@ -108,7 +108,7 @@ inscriptions:
       en: "Breaker"
       de: "Zerbrecher"
       es: "Quebrantamiento"
-      kr: "갑옷 패진"
+      ko: "갑옷 패진"
     rarity: common
 
   115:
@@ -116,7 +116,7 @@ inscriptions:
       en: "Furious"
       de: "Erzürnt"
       es: "Furia"
-      kr: "격노"
+      ko: "격노"
     rarity: common
 
   116:
@@ -124,7 +124,7 @@ inscriptions:
       en: "Ward"
       de: "Schutzbefohelm"
       es: "Protección"
-      kr: "수호자"
+      ko: "수호자"
     rarity: common
 
   117:
@@ -132,7 +132,7 @@ inscriptions:
       en: "Phalanx"
       de: "Phalanx"
       es: "Falange"
-      kr: "방패진"
+      ko: "방패진"
     rarity: common
 
   118:
@@ -140,7 +140,7 @@ inscriptions:
       en: "Hurried"
       de: "In Eile"
       es: "Apremio"
-      kr: "질속"
+      ko: "질속"
     rarity: common
 
   119:
@@ -148,7 +148,7 @@ inscriptions:
       en: "Tremors"
       de: "Erdstöße"
       es: "Sacudida"
-      kr: "진동"
+      ko: "진동"
     rarity: common
 
   120:
@@ -156,7 +156,7 @@ inscriptions:
       en: "Calm"
       de: "Ruhe"
       es: "Calma"
-      kr: "침악"
+      ko: "침악"
     rarity: common
 
   121:
@@ -164,7 +164,7 @@ inscriptions:
       en: "Loosed"
       de: "Gelöst"
       es: "Puntería"
-      kr: "강슛"
+      ko: "강슛"
     rarity: common
 
   122:
@@ -172,7 +172,7 @@ inscriptions:
       en: "Warcry"
       de: "Kriegsschrei"
       es: "Grito de guerra"
-      kr: "전재의 포효"
+      ko: "전재의 포효"
     rarity: common
 
   124:
@@ -180,7 +180,7 @@ inscriptions:
       en: "Well Clad"
       de: "Gut gekleidet"
       es: "Fortalecimiento"
-      kr: "단단한 갑옷"
+      ko: "단단한 갑옷"
     rarity: common
 
   125:
@@ -188,7 +188,7 @@ inscriptions:
       en: "Robust"
       de: "Robust"
       es: "Robustez"
-      kr: "활력"
+      ko: "활력"
     rarity: common
 
   126:
@@ -196,7 +196,7 @@ inscriptions:
       en: "Swift"
       de: "Flink"
       es: "Celeridad"
-      kr: "질주"
+      ko: "질주"
     rarity: common
 
   127:
@@ -204,7 +204,7 @@ inscriptions:
       en: "Payback"
       de: "Rache"
       es: "Revancha"
-      kr: "복수"
+      ko: "복수"
     rarity: common
 
   128:
@@ -212,7 +212,7 @@ inscriptions:
       en: "Onslaught"
       de: "Ansturm"
       es: "Embestida"
-      kr: "맹공"
+      ko: "맹공"
     rarity: common
 
   129:
@@ -220,7 +220,7 @@ inscriptions:
       en: "Retaliatory"
       de: "Vergeltung"
       es: "Represalia"
-      kr: "반공"
+      ko: "반공"
     rarity: common
 
   130:
@@ -228,7 +228,7 @@ inscriptions:
       en: "Enraged"
       de: "In Rage"
       es: "Furia"
-      kr: "난폭"
+      ko: "난폭"
     rarity: common
 
   137:
@@ -236,7 +236,7 @@ inscriptions:
       en: "Enrichment"
       de: "Bereicherung"
       es: "Enriquecimiento"
-      kr: "일핰천금"
+      ko: "일핰천금"
     rarity: common
 
   201:
@@ -244,7 +244,7 @@ inscriptions:
       en: "Brutal"
       de: "Brutal"
       es: "Brutalidad"
-      kr: "담금질"
+      ko: "담금질"
     rarity: common
 
   203:
@@ -252,7 +252,7 @@ inscriptions:
       en: "Armored"
       de: "Gepanzert"
       es: "Blindaje"
-      kr: "중갑옷"
+      ko: "중갑옷"
     rarity: common
 
   204:
@@ -260,7 +260,7 @@ inscriptions:
       en: "Fit"
       de: "Fit"
       es: "Sanidad"
-      kr: "왕성"
+      ko: "왕성"
     rarity: common
 
   205:
@@ -268,7 +268,7 @@ inscriptions:
       en: "Fine Horse"
       de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
-      kr: "명마"
+      ko: "명마"
     rarity: common
 
   206:
@@ -276,7 +276,7 @@ inscriptions:
       en: "Annexer"
       de: "Annexion"
       es: "Anexo"
-      kr: "완납"
+      ko: "완납"
     rarity: common
 
   207:
@@ -284,7 +284,7 @@ inscriptions:
       en: "Warhunger"
       de: "Kriegshunger"
       es: "Sed de guerra"
-      kr: "백열전"
+      ko: "백열전"
     rarity: common
 
   208:
@@ -292,7 +292,7 @@ inscriptions:
       en: "Alert"
       de: "Aufmerksam"
       es: "Alerta"
-      kr: "경비"
+      ko: "경비"
     rarity: common
 
   209:
@@ -300,7 +300,7 @@ inscriptions:
       en: "Devious"
       de: "Verschlagen"
       es: "Impudor"
-      kr: "묘책"
+      ko: "묘책"
     rarity: common
 
   210:
@@ -308,7 +308,7 @@ inscriptions:
       en: "Fearsome"
       de: "Furchterregend"
       es: "Temible"
-      kr: "위퐁당당"
+      ko: "위퐁당당"
     rarity: common
 
   211:
@@ -316,7 +316,7 @@ inscriptions:
       en: "Evasive"
       de: "Ausweichend"
       es: "Evasión"
-      kr: "희피"
+      ko: "희피"
     rarity: common
 
   212:
@@ -324,7 +324,7 @@ inscriptions:
       en: "Requital"
       de: "Vergeltung"
       es: "Compensación"
-      kr: "반항"
+      ko: "반항"
     rarity: common
 
   213:
@@ -332,7 +332,7 @@ inscriptions:
       en: "Respite"
       de: "Atempause"
       es: "Alivio"
-      kr: "숨결"
+      ko: "숨결"
     rarity: common
 
   214:
@@ -340,7 +340,7 @@ inscriptions:
       en: "Guarded"
       de: "Bewacht"
       es: "Custodia"
-      kr: "고수"
+      ko: "고수"
     rarity: common
 
   215:
@@ -348,7 +348,7 @@ inscriptions:
       en: "Embattled"
       de: "Bedrängt"
       es: "Asediado"
-      kr: "악전고투"
+      ko: "악전고투"
     rarity: common
 
   216:
@@ -356,7 +356,7 @@ inscriptions:
       en: "Vengeful"
       de: "Rachgierig"
       es: "Venganza"
-      kr: "격노"
+      ko: "격노"
     rarity: common
 
   217:
@@ -364,7 +364,7 @@ inscriptions:
       en: "Patronage"
       de: "Protektion"
       es: "Amparo"
-      kr: "보살핌"
+      ko: "보살핌"
     rarity: common
 
   218:
@@ -372,7 +372,7 @@ inscriptions:
       en: "Primed"
       de: "Gerüstet"
       es: "Superación"
-      kr: "노련"
+      ko: "노련"
     rarity: common
 
   219:
@@ -380,7 +380,7 @@ inscriptions:
       en: "Uplifting"
       de: "Aufmungterung"
       es: "Inspiración"
-      kr: "격려"
+      ko: "격려"
     rarity: common
 
   220:
@@ -388,7 +388,7 @@ inscriptions:
       en: "Spirited"
       de: "Beherzt"
       es: "Vivaz"
-      kr: "드높은 기개"
+      ko: "드높은 기개"
     rarity: common
 
   221:
@@ -396,7 +396,7 @@ inscriptions:
       en: "Bluster"
       de: "Toben"
       es: "Arrogancia"
-      kr: "여세"
+      ko: "여세"
     rarity: common
 
   222:
@@ -404,7 +404,7 @@ inscriptions:
       en: "Brutal"
       de: "Brutal"
       es: "Brutalidad"
-      kr: "담금질"
+      ko: "담금질"
     rarity: common
 
   224:
@@ -412,7 +412,7 @@ inscriptions:
       en: "Armored"
       de: "Gepanzert"
       es: "Blindaje"
-      kr: "중갑옷"
+      ko: "중갑옷"
     rarity: common
 
   225:
@@ -420,7 +420,7 @@ inscriptions:
       en: "Fit"
       de: "Fit"
       es: "Sanidad"
-      kr: "왕성"
+      ko: "왕성"
     rarity: common
 
   226:
@@ -428,7 +428,7 @@ inscriptions:
       en: "Fine Horse"
       de: "Ausgezeichnetes Pferd"
       es: "Caballo Fino"
-      kr: "명마"
+      ko: "명마"
     rarity: common
 
   227:
@@ -436,7 +436,7 @@ inscriptions:
       en: "Annexer"
       de: "Annexion"
       es: "Anexo"
-      kr: "완납"
+      ko: "완납"
     rarity: common
 
   228:
@@ -444,7 +444,7 @@ inscriptions:
       en: "Warhunger"
       de: "Kriegshunger"
       es: "Sed de guerra"
-      kr: "백열전"
+      ko: "백열전"
     rarity: common
 
   229:
@@ -452,7 +452,7 @@ inscriptions:
       en: "Alert"
       de: "Aufmerksam"
       es: "Alerta"
-      kr: "경비"
+      ko: "경비"
     rarity: common
 
   230:
@@ -460,7 +460,7 @@ inscriptions:
       en: "Devious"
       de: "Verschlagen"
       es: "Impudor"
-      kr: "묘책"
+      ko: "묘책"
     rarity: common
 
   237:
@@ -468,7 +468,7 @@ inscriptions:
       en: "Brisk"
       de: "Flott"
       es: "Presteza"
-      kr: "돈속"
+      ko: "돈속"
     rarity: common
 
   301:
@@ -476,7 +476,7 @@ inscriptions:
       en: "Spiked"
       de: "Stachelig"
       es: "Punzante"
-      kr: "날카로움"
+      ko: "날카로움"
     rarity: common
 
   303:
@@ -484,7 +484,7 @@ inscriptions:
       en: "Metallics"
       de: "Metallisch"
       es: "Metalizado"
-      kr: "철제 갑옷"
+      ko: "철제 갑옷"
     rarity: common
 
   304:
@@ -492,7 +492,7 @@ inscriptions:
       en: "Vitality"
       de: "Reaktionskraft"
       es: "Vitalidad"
-      kr: "건장"
+      ko: "건장"
     rarity: common
 
   305:
@@ -500,7 +500,7 @@ inscriptions:
       en: "Galloping"
       de: "Im Galopp"
       es: "Galope"
-      kr: "분치"
+      ko: "분치"
     rarity: common
 
   306:
@@ -508,7 +508,7 @@ inscriptions:
       en: "Cleanser"
       de: "Reinigung"
       es: "Purificación"
-      kr: "악당 제거"
+      ko: "악당 제거"
     rarity: common
 
   307:
@@ -516,7 +516,7 @@ inscriptions:
       en: "Striker"
       de: "Sturm"
       es: "Empoderamiento"
-      kr: "강격"
+      ko: "강격"
     rarity: common
 
   308:
@@ -524,7 +524,7 @@ inscriptions:
       en: "Rebuff"
       de: "Abfuhr"
       es: "Repelente"
-      kr: "반격"
+      ko: "반격"
     rarity: common
 
   309:
@@ -532,7 +532,7 @@ inscriptions:
       en: "Brawler"
       de: "Rauferei"
       es: "Matón"
-      kr: "박투"
+      ko: "박투"
     rarity: common
 
   310:
@@ -540,7 +540,7 @@ inscriptions:
       en: "Warflames"
       de: "Kriegsflammen"
       es: "Llamas bélicas"
-      kr: "전화"
+      ko: "전화"
     rarity: common
 
   311:
@@ -548,7 +548,7 @@ inscriptions:
       en: "Eclipsed"
       de: "Fertiggemacht"
       es: "Eclipsado"
-      kr: "압도"
+      ko: "압도"
     rarity: common
 
   312:
@@ -556,7 +556,7 @@ inscriptions:
       en: "Brave"
       de: "Mutig"
       es: "Coraje"
-      kr: "일당백"
+      ko: "일당백"
     rarity: common
 
   313:
@@ -564,7 +564,7 @@ inscriptions:
       en: "Strategic"
       de: "Strategisch"
       es: "Estrategia"
-      kr: "전술"
+      ko: "전술"
     rarity: common
 
   314:
@@ -572,7 +572,7 @@ inscriptions:
       en: "Desperado"
       de: "Desperado"
       es: "Forajido"
-      kr: "궁지"
+      ko: "궁지"
     rarity: common
 
   315:
@@ -580,7 +580,7 @@ inscriptions:
       en: "Cohesive"
       de: "Geschlossen"
       es: "Unión"
-      kr: "중지"
+      ko: "중지"
     rarity: common
 
   316:
@@ -588,7 +588,7 @@ inscriptions:
       en: "Pursuer"
       de: "Verfolger"
       es: "Persecución"
-      kr: "궁지로 몰기"
+      ko: "궁지로 몰기"
     rarity: common
 
   317:
@@ -596,7 +596,7 @@ inscriptions:
       en: "Assertive"
       de: "Durchsetzungsfähig"
       es: "Aserción"
-      kr: "만발"
+      ko: "만발"
     rarity: common
 
   318:
@@ -604,7 +604,7 @@ inscriptions:
       en: "Wary"
       de: "Auf der Hut"
       es: "Cautela"
-      kr: "경계"
+      ko: "경계"
     rarity: common
 
   319:
@@ -612,7 +612,7 @@ inscriptions:
       en: "Siegework"
       de: "Belagerungswerk"
       es: "Maquinaria de asedio"
-      kr: "도시 파괴"
+      ko: "도시 파괴"
     rarity: common
 
   320:
@@ -620,7 +620,7 @@ inscriptions:
       en: "Sentries"
       de: "Wachleute"
       es: "Centinela"
-      kr: "수호"
+      ko: "수호"
     rarity: common
 
   321:
@@ -628,7 +628,7 @@ inscriptions:
       en: "Ballistics"
       de: "Ballistik"
       es: "Balística"
-      kr: "쇠뇌"
+      ko: "쇠뇌"
     rarity: common
 
   322:
@@ -636,7 +636,7 @@ inscriptions:
       en: "Spiked"
       de: "Stachelig"
       es: "Punzante"
-      kr: "날카로움"
+      ko: "날카로움"
     rarity: common
 
   324:
@@ -644,7 +644,7 @@ inscriptions:
       en: "Metallics"
       de: "Metallisch"
       es: "Metalizado"
-      kr: "철제 갑옷"
+      ko: "철제 갑옷"
     rarity: common
 
   325:
@@ -652,7 +652,7 @@ inscriptions:
       en: "Vitality"
       de: "Reaktionskraft"
       es: "Vitalidad"
-      kr: "건장"
+      ko: "건장"
     rarity: common
 
   326:
@@ -660,7 +660,7 @@ inscriptions:
       en: "Galloping"
       de: "Im Galopp"
       es: "Galope"
-      kr: "분치"
+      ko: "분치"
     rarity: common
 
   327:
@@ -668,7 +668,7 @@ inscriptions:
       en: "Cleanser"
       de: "Reinigung"
       es: "Purificación"
-      kr: "악당 제거"
+      ko: "악당 제거"
     rarity: common
 
   328:
@@ -676,7 +676,7 @@ inscriptions:
       en: "Striker"
       de: "Sturm"
       es: "Empoderamiento"
-      kr: "강격"
+      ko: "강격"
     rarity: common
 
   329:
@@ -684,7 +684,7 @@ inscriptions:
       en: "Rebuff"
       de: "Abfuhr"
       es: "Repelente"
-      kr: "반격"
+      ko: "반격"
     rarity: common
 
   330:
@@ -692,7 +692,7 @@ inscriptions:
       en: "Brawler"
       de: "Rauferei"
       es: "Matón"
-      kr: "박투"
+      ko: "박투"
     rarity: common
 
   337:
@@ -700,7 +700,7 @@ inscriptions:
       en: "Harvester"
       de: "Erntehelfer"
       es: "Cosecha"
-      kr: "풍작"
+      ko: "풍작"
     rarity: common
 
   401:
@@ -708,7 +708,7 @@ inscriptions:
       en: "Infamy"
       de: "Niedertracht"
       es: "Infamia"
-      kr: "위력"
+      ko: "위력"
     rarity: common
 
   403:
@@ -716,7 +716,7 @@ inscriptions:
       en: "Shielded"
       de: "Abgeschirmt"
       es: "Escudo"
-      kr: "철갑"
+      ko: "철갑"
     rarity: common
 
   404:
@@ -724,7 +724,7 @@ inscriptions:
       en: "Hardy"
       de: "Abgehärtet"
       es: "Dureza"
-      kr: "웅건"
+      ko: "웅건"
     rarity: common
 
   405:
@@ -732,7 +732,7 @@ inscriptions:
       en: "Haste"
       de: "In Eile"
       es: "Prisa"
-      kr: "신속"
+      ko: "신속"
     rarity: common
 
   406:
@@ -740,7 +740,7 @@ inscriptions:
       en: "Pacifier"
       de: "Friedensstifter"
       es: "Pacificador"
-      kr: "평란"
+      ko: "평란"
     rarity: common
 
   407:
@@ -748,7 +748,7 @@ inscriptions:
       en: "Militant"
       de: "Militant"
       es: "Militancia"
-      kr: "병기"
+      ko: "병기"
     rarity: common
 
   408:
@@ -756,7 +756,7 @@ inscriptions:
       en: "Resistant"
       de: "Resistent"
       es: "Resistencia"
-      kr: "저항"
+      ko: "저항"
     rarity: common
 
   409:
@@ -764,7 +764,7 @@ inscriptions:
       en: "Daring"
       de: "Verwegen"
       es: "Osadía"
-      kr: "담대"
+      ko: "담대"
     rarity: common
 
   410:
@@ -772,7 +772,7 @@ inscriptions:
       en: "Elite"
       de: "Elite"
       es: "Élite"
-      kr: "신평"
+      ko: "신평"
     rarity: common
 
   411:
@@ -780,7 +780,7 @@ inscriptions:
       en: "Evasive"
       de: "Ausweichend"
       es: "Evasión"
-      kr: "적회피"
+      ko: "적회피"
     rarity: common
 
   412:
@@ -788,7 +788,7 @@ inscriptions:
       en: "Smite"
       de: "Smite"
       es: "Aniquilación"
-      kr: "강공"
+      ko: "강공"
     rarity: common
 
   413:
@@ -796,7 +796,7 @@ inscriptions:
       en: "Enduring"
       de: "Ausdauernd"
       es: "Durable"
-      kr: "강인"
+      ko: "강인"
     rarity: common
 
   414:
@@ -804,7 +804,7 @@ inscriptions:
       en: "Artisan"
       de: "Kunsthandwerker"
       es: "Artista"
-      kr: "숙련공"
+      ko: "숙련공"
     rarity: common
 
   415:
@@ -812,7 +812,7 @@ inscriptions:
       en: "Rapacious"
       de: "Habgierig"
       es: "Rapaz"
-      kr: "강습"
+      ko: "강습"
     rarity: common
 
   416:
@@ -820,7 +820,7 @@ inscriptions:
       en: "Guardians"
       de: "Wächter"
       es: "Guardianes"
-      kr: "호신부"
+      ko: "호신부"
     rarity: common
 
   417:
@@ -828,7 +828,7 @@ inscriptions:
       en: "Counterer"
       de: "Widersetzer"
       es: "Contraatacante"
-      kr: "극복"
+      ko: "극복"
     rarity: common
 
   418:
@@ -836,7 +836,7 @@ inscriptions:
       en: "Deflecter"
       de: "Parierer"
       es: "Desvío"
-      kr: "그림자"
+      ko: "그림자"
     rarity: common
 
   419:
@@ -844,7 +844,7 @@ inscriptions:
       en: "Watchmen"
       de: "Wachmänner"
       es: "Vigilante"
-      kr: "엄수"
+      ko: "엄수"
     rarity: common
 
   420:
@@ -852,7 +852,7 @@ inscriptions:
       en: "Lineshot"
       de: "Genauer Schuss"
       es: "Tiro directo"
-      kr: "화살"
+      ko: "화살"
     rarity: common
 
   422:
@@ -860,7 +860,7 @@ inscriptions:
       en: "Infamy"
       de: "Niedertracht"
       es: "Infamia"
-      kr: "위력"
+      ko: "위력"
     rarity: common
 
   424:
@@ -868,7 +868,7 @@ inscriptions:
       en: "Shielded"
       de: "Abgeschirmt"
       es: "Escudo"
-      kr: "철갑"
+      ko: "철갑"
     rarity: common
 
   425:
@@ -876,7 +876,7 @@ inscriptions:
       en: "Hardy"
       de: "Abgehärtet"
       es: "Dureza"
-      kr: "웅건"
+      ko: "웅건"
     rarity: common
 
   426:
@@ -884,7 +884,7 @@ inscriptions:
       en: "Haste"
       de: "In Eile"
       es: "Prisa"
-      kr: "신속"
+      ko: "신속"
     rarity: common
 
   427:
@@ -892,7 +892,7 @@ inscriptions:
       en: "Pacifier"
       de: "Friedensstifter"
       es: "Pacificador"
-      kr: "평란"
+      ko: "평란"
     rarity: common
 
   428:
@@ -900,7 +900,7 @@ inscriptions:
       en: "Militant"
       de: "Militant"
       es: "Militancia"
-      kr: "병기"
+      ko: "병기"
     rarity: common
 
   429:
@@ -908,7 +908,7 @@ inscriptions:
       en: "Resistant"
       de: "Resistent"
       es: "Resistencia"
-      kr: "저항"
+      ko: "저항"
     rarity: common
 
   430:
@@ -916,7 +916,7 @@ inscriptions:
       en: "Daring"
       de: "Verwegen"
       es: "Osadía"
-      kr: "담대"
+      ko: "담대"
     rarity: common
 
   437:
@@ -924,7 +924,7 @@ inscriptions:
       en: "Bountiful"
       de: "Überreich"
       es: "Abundancia"
-      kr: "철철 넘침"
+      ko: "철철 넘침"
     rarity: common
 
   1101:
@@ -932,7 +932,7 @@ inscriptions:
       en: "Destructive"
       de: "Zerstörerisch"
       es: "Destrucción"
-      kr: "파죽지세"
+      ko: "파죽지세"
     rarity: special
 
   1102:
@@ -940,7 +940,7 @@ inscriptions:
       en: "Battle-Ready"
       de: "Kampfbereit"
       es: "Listo para la batalla"
-      kr: "응전"
+      ko: "응전"
     rarity: rare
 
   1201:
@@ -948,7 +948,7 @@ inscriptions:
       en: "Straight to the Point"
       de: "Direkt zum Punkt"
       es: "Directo al grano"
-      kr: "단도직입"
+      ko: "단도직입"
     rarity: special
 
   1202:
@@ -956,7 +956,7 @@ inscriptions:
       en: "Even-Keeled"
       de: "Ausgewogen"
       es: "Estable"
-      kr: "침착"
+      ko: "침착"
     rarity: rare
 
   1301:
@@ -964,7 +964,7 @@ inscriptions:
       en: "Invincible"
       de: "Unbesiegbar"
       es: "Invencible"
-      kr: "완전무장"
+      ko: "완전무장"
     rarity: special
 
   1302:
@@ -972,7 +972,7 @@ inscriptions:
       en: "Unswerving"
       de: "Unerschütterlich"
       es: "Inmutable"
-      kr: "의연"
+      ko: "의연"
     rarity: rare
 
   1401:
@@ -980,7 +980,7 @@ inscriptions:
       en: "Fearless"
       de: "Furchtlos"
       es: "Audacia"
-      kr: "두려움을 모르는 힘"
+      ko: "두려움을 모르는 힘"
     rarity: special
 
   1402:
@@ -988,7 +988,7 @@ inscriptions:
       en: "Forceful"
       de: "Kraftvoll"
       es: "Contundente"
-      kr: "맹격"
+      ko: "맹격"
     rarity: rare
 
   2101:
@@ -996,7 +996,7 @@ inscriptions:
       en: "Hunter"
       de: "Jäger"
       es: "Cazador"
-      kr: "전력 맹공"
+      ko: "전력 맹공"
     rarity: special
 
   2102:
@@ -1004,7 +1004,7 @@ inscriptions:
       en: "Crazed"
       de: "Rasend"
       es: "Exaltado"
-      kr: "열전"
+      ko: "열전"
     rarity: rare
 
   2201:
@@ -1012,7 +1012,7 @@ inscriptions:
       en: "Unstoppable"
       de: "Unaufhaltsam"
       es: "Imparable"
-      kr: "위풍당당"
+      ko: "위풍당당"
     rarity: special
 
   2202:
@@ -1020,7 +1020,7 @@ inscriptions:
       en: "Boiling Blood"
       de: "Siedendes Blut"
       es: "Sangre caliente"
-      kr: "열혈"
+      ko: "열혈"
     rarity: rare
 
   2301:
@@ -1028,7 +1028,7 @@ inscriptions:
       en: "Balanced"
       de: "Ausgewogen"
       es: "Equilibrio"
-      kr: "공수겸비"
+      ko: "공수겸비"
     rarity: special
 
   2302:
@@ -1036,7 +1036,7 @@ inscriptions:
       en: "Defiant"
       de: "Herausfordernd"
       es: "Desafiante"
-      kr: "대적"
+      ko: "대적"
     rarity: rare
 
   2401:
@@ -1044,7 +1044,7 @@ inscriptions:
       en: "Intrepid"
       de: "Unerschroken"
       es: "Intrépido"
-      kr: "맹렬한 기세"
+      ko: "맹렬한 기세"
     rarity: special
 
   2402:
@@ -1052,7 +1052,7 @@ inscriptions:
       en: "Focus Fire"
       de: "Konzentriertes Feuer"
       es: "Fuego concentrado"
-      kr: "집중 공격"
+      ko: "집중 공격"
     rarity: rare
 
   3101:
@@ -1060,7 +1060,7 @@ inscriptions:
       en: "Sharpshooter"
       de: "Scharfschütze"
       es: "Francotirador"
-      kr: "백발백중"
+      ko: "백발백중"
     rarity: special
 
   3102:
@@ -1068,7 +1068,7 @@ inscriptions:
       en: "Full Draw"
       de: "Vollständig spannen"
       es: "Arcos tensados"
-      kr: "발사준비"
+      ko: "발사준비"
     rarity: rare
 
   3201:
@@ -1076,7 +1076,7 @@ inscriptions:
       en: "Drilled"
       de: "Auf Zack"
       es: "Perforación"
-      kr: "일발필중"
+      ko: "일발필중"
     rarity: special
 
   3202:
@@ -1084,7 +1084,7 @@ inscriptions:
       en: "Bloody Bolt"
       de: "Blutiges Geschoss"
       es: "Virote sangriento"
-      kr: "화살"
+      ko: "화살"
     rarity: rare
 
   3301:
@@ -1092,7 +1092,7 @@ inscriptions:
       en: "Merciless"
       de: "Gnadenlos"
       es: "Sin piedad"
-      kr: "만반의 준비"
+      ko: "만반의 준비"
     rarity: special
 
   3302:
@@ -1100,7 +1100,7 @@ inscriptions:
       en: "Tempered"
       de: "Gehärtet"
       es: "Templado"
-      kr: "강력한 저항"
+      ko: "강력한 저항"
     rarity: rare
 
   3401:
@@ -1108,7 +1108,7 @@ inscriptions:
       en: "Astute"
       de: "Gerissen"
       es: "Astucia"
-      kr: "늠름한 자태"
+      ko: "늠름한 자태"
     rarity: special
 
   3402:
@@ -1116,7 +1116,7 @@ inscriptions:
       en: "Sharp Arrows"
       de: "Scharfe Pfeile"
       es: "Flechas filosas"
-      kr: "예리한 화살"
+      ko: "예리한 화살"
     rarity: rare
 
   4101:
@@ -1124,7 +1124,7 @@ inscriptions:
       en: "Influential Leader"
       de: "Einflussreicher Anführer"
       es: "Líder prestigioso"
-      kr: "영향력 있는 지도자"
+      ko: "영향력 있는 지도자"
     rarity: special
 
   4102:
@@ -1132,7 +1132,7 @@ inscriptions:
       en: "Drums of War"
       de: "Kriegstrommeln"
       es: "Tambores de guerra"
-      kr: "전고"
+      ko: "전고"
     rarity: rare
 
   4201:
@@ -1140,7 +1140,7 @@ inscriptions:
       en: "Loaded"
       de: "Belastbar"
       es: "Cargado"
-      kr: "적당한 밀당"
+      ko: "적당한 밀당"
     rarity: special
 
   4202:
@@ -1148,7 +1148,7 @@ inscriptions:
       en: "Nullify"
       de: "Zunichtemachen"
       es: "Anulación"
-      kr: "면역"
+      ko: "면역"
     rarity: rare
 
   4301:
@@ -1156,7 +1156,7 @@ inscriptions:
       en: "Civilized"
       de: "Zivilisiert"
       es: "Civilizado"
-      kr: "전투력 비축"
+      ko: "전투력 비축"
     rarity: special
 
   4302:
@@ -1164,7 +1164,7 @@ inscriptions:
       en: "Counter-Parry"
       de: "Gegenparade"
       es: "Contrabloqueo"
-      kr: "인내"
+      ko: "인내"
     rarity: rare
 
   4401:
@@ -1172,7 +1172,7 @@ inscriptions:
       en: "Fixed"
       de: "Feststehend"
       es: "Reparación"
-      kr: "난공불락"
+      ko: "난공불락"
     rarity: special
 
   4402:
@@ -1180,7 +1180,7 @@ inscriptions:
       en: "Persevering"
       de: "Beharrlich"
       es: "Perseverancia"
-      kr: "분발"
+      ko: "분발"
     rarity: rare
 
   5101:
@@ -1188,7 +1188,7 @@ inscriptions:
       en: "Cocoon"
       de: "Kokon"
       es: "Capullo"
-      kr: "굳건한 방어"
+      ko: "굳건한 방어"
     rarity: special
 
   5102:
@@ -1196,7 +1196,7 @@ inscriptions:
       en: "Self-Defense"
       de: "Selbstverteidigung"
       es: "Defensa propia"
-      kr: "가시 갑주"
+      ko: "가시 갑주"
     rarity: rare
 
   5201:
@@ -1204,7 +1204,7 @@ inscriptions:
       en: "Inviolable"
       de: "Unantastbar"
       es: "Irrompible"
-      kr: "철옹성"
+      ko: "철옹성"
     rarity: special
 
   5202:
@@ -1212,7 +1212,7 @@ inscriptions:
       en: "Aegis"
       de: "Aegis"
       es: "Égida"
-      kr: "견고한 방패"
+      ko: "견고한 방패"
     rarity: rare
 
   5301:
@@ -1220,7 +1220,7 @@ inscriptions:
       en: "Crowned"
       de: "Gekrönt"
       es: "Coronación"
-      kr: "용감우쌍"
+      ko: "용감우쌍"
     rarity: special
 
   5302:
@@ -1228,7 +1228,7 @@ inscriptions:
       en: "Reinforced"
       de: "Verstärkt"
       es: "Refuerzo"
-      kr: "보강"
+      ko: "보강"
     rarity: rare
 
   5401:
@@ -1236,7 +1236,7 @@ inscriptions:
       en: "Rounded"
       de: "Rundum"
       es: "Integral"
-      kr: "정교한 무기"
+      ko: "정교한 무기"
     rarity: special
 
   5402:
@@ -1244,7 +1244,7 @@ inscriptions:
       en: "Tenacious"
       de: "Hartnäckig"
       es: "Tenaz"
-      kr: "결연"
+      ko: "결연"
     rarity: rare
 
   6101:
@@ -1252,7 +1252,7 @@ inscriptions:
       en: "Rich"
       de: "Reich"
       es: "Riqueza"
-      kr: "황금의 산"
+      ko: "황금의 산"
     rarity: special
 
   6102:
@@ -1260,7 +1260,7 @@ inscriptions:
       en: "Gold Panner"
       de: "Goldwäscher"
       es: "Bateo de oro"
-      kr: "골드 디거"
+      ko: "골드 디거"
     rarity: rare
 
   6201:
@@ -1268,7 +1268,7 @@ inscriptions:
       en: "Battlements"
       de: "Wehrgang"
       es: "Almena"
-      kr: "견벽청야"
+      ko: "견벽청야"
     rarity: special
 
   6202:
@@ -1276,7 +1276,7 @@ inscriptions:
       en: "Safeguard"
       de: "Absichern"
       es: "Salvaguarda"
-      kr: "세이프가츠"
+      ko: "세이프가츠"
     rarity: rare
 
   6301:
@@ -1284,7 +1284,7 @@ inscriptions:
       en: "Moneyed"
       de: "Begütert"
       es: "Pudiente"
-      kr: "점석겅금"
+      ko: "점석겅금"
     rarity: special
 
   6302:
@@ -1292,7 +1292,7 @@ inscriptions:
       en: "Plentitude"
       de: "Fülle"
       es: "Abundancia"
-      kr: "추수"
+      ko: "추수"
     rarity: rare
 
   6401:
@@ -1300,7 +1300,7 @@ inscriptions:
       en: "Transporter"
       de: "Transporter"
       es: "Transportista"
-      kr: "군량과 말 준비"
+      ko: "군량과 말 준비"
     rarity: special
 
   6402:
@@ -1308,7 +1308,7 @@ inscriptions:
       en: "Sturdy Back"
       de: "Starker Rücken"
       es: "Retaguardia fornida"
-      kr: "풍요"
+      ko: "풍요"
     rarity: rare
 
   7101:
@@ -1316,7 +1316,7 @@ inscriptions:
       en: "Emmeshed"
       de: "Verstrickt"
       es: "Maraña"
-      kr: "빈틈없는 경계망"
+      ko: "빈틈없는 경계망"
     rarity: special
 
   7102:
@@ -1324,7 +1324,7 @@ inscriptions:
       en: "Entangling"
       de: "Umschlingend"
       es: "Enredo"
-      kr: "속박"
+      ko: "속박"
     rarity: rare
 
   7201:
@@ -1332,7 +1332,7 @@ inscriptions:
       en: "Logistical"
       de: "Logistik"
       es: "Logística"
-      kr: "겡한 군세"
+      ko: "겡한 군세"
     rarity: special
 
   7202:
@@ -1340,7 +1340,7 @@ inscriptions:
       en: "Arms Race"
       de: "Waffenwettkampf"
       es: "Carrera armamentista"
-      kr: "군비 확장"
+      ko: "군비 확장"
     rarity: rare
 
   7301:
@@ -1348,7 +1348,7 @@ inscriptions:
       en: "Unassailed"
       de: "Uneinholbar"
       es: "Retirada"
-      kr: "용맹한 군대"
+      ko: "용맹한 군대"
     rarity: special
 
   7302:
@@ -1356,7 +1356,7 @@ inscriptions:
       en: "Sprinter"
       de: "Sprinter"
       es: "Velocista"
-      kr: "겐각"
+      ko: "겐각"
     rarity: rare
 
   7401:
@@ -1364,7 +1364,7 @@ inscriptions:
       en: "Winged"
       de: "Beflügelt"
       es: "Alado"
-      kr: "선두자"
+      ko: "선두자"
     rarity: special
 
   7402:
@@ -1372,7 +1372,7 @@ inscriptions:
       en: "Strider"
       de: "Läufer"
       es: "Pasos largos"
-      kr: "질주"
+      ko: "질주"
     rarity: rare
 
   8101:
@@ -1380,7 +1380,7 @@ inscriptions:
       en: "Irreproachable"
       de: "Unbescholten"
       es: "Irreprochable"
-      kr: "완벽"
+      ko: "완벽"
     rarity: special
 
   8102:
@@ -1388,7 +1388,7 @@ inscriptions:
       en: "Ironclad"
       de: "Eisern"
       es: "Invulnerable"
-      kr: "호신"
+      ko: "호신"
     rarity: rare
 
   8201:
@@ -1396,7 +1396,7 @@ inscriptions:
       en: "Cautious"
       de: "Vorsichtig"
       es: "Cautela"
-      kr: "삼엄한 경비"
+      ko: "삼엄한 경비"
     rarity: special
 
   8202:
@@ -1404,7 +1404,7 @@ inscriptions:
       en: "Strike & Parry"
       de: "Zushlagen und parieren"
       es: "Golpe y bloqueo"
-      kr: "역습"
+      ko: "역습"
     rarity: rare
 
   8301:
@@ -1412,7 +1412,7 @@ inscriptions:
       en: "Shield Bash"
       de: "Schild-Schlag"
       es: "Glope de escudo"
-      kr: "방패 강타"
+      ko: "방패 강타"
     rarity: special
 
   8302:
@@ -1420,7 +1420,7 @@ inscriptions:
       en: "Unshakeable"
       de: "Unbeugsam"
       es: "Imperturbable"
-      kr: "끈기"
+      ko: "끈기"
     rarity: rare
 
   8401:
@@ -1428,7 +1428,7 @@ inscriptions:
       en: "Rock Solid"
       de: "Felsenfest"
       es: "Firme como una roca"
-      kr: "견여반석"
+      ko: "견여반석"
     rarity: special
 
   8402:
@@ -1436,7 +1436,7 @@ inscriptions:
       en: "Convalescing"
       de: "Genesend"
       es: "Convaleciente"
-      kr: "회복"
+      ko: "회복"
     rarity: rare
 
   9101:
@@ -1444,7 +1444,7 @@ inscriptions:
       en: "Avenger"
       de: "Rächer"
       es: "Vengador"
-      kr: "눈에는눈"
+      ko: "눈에는눈"
     rarity: special
 
   9102:
@@ -1452,7 +1452,7 @@ inscriptions:
       en: "Back In Action"
       de: "Wieder im Einsatz"
       es: "De vuelta al ruedo"
-      kr: "완쾌"
+      ko: "완쾌"
     rarity: rare
 
   9201:
@@ -1460,7 +1460,7 @@ inscriptions:
       en: "Guarding Light"
       de: "Schützendes Licht"
       es: "Luz protectora"
-      kr: "수호의빛"
+      ko: "수호의빛"
     rarity: special
 
   9202:
@@ -1468,7 +1468,7 @@ inscriptions:
       en: "Medic"
       de: "Sanitäter"
       es: "Medicina"
-      kr: "의료"
+      ko: "의료"
     rarity: rare
 
   9301:
@@ -1476,7 +1476,7 @@ inscriptions:
       en: "Turn the Corner"
       de: "Die Kurve kriegen"
       es: "Apuro superado"
-      kr: "전회위복"
+      ko: "전회위복"
     rarity: special
 
   9302:
@@ -1484,7 +1484,7 @@ inscriptions:
       en: "Rise Up"
       de: "Aufsteigen"
       es: "De pie"
-      kr: "완강"
+      ko: "완강"
     rarity: rare
 
   9401:
@@ -1492,7 +1492,7 @@ inscriptions:
       en: "Panacea"
       de: "Wundermittel"
       es: "Panacea"
-      kr: "특효약"
+      ko: "특효약"
     rarity: special
 
   9402:
@@ -1500,7 +1500,7 @@ inscriptions:
       en: "Refreshing"
       de: "Erfischend"
       es: "Refrescante"
-      kr: "생기발랄"
+      ko: "생기발랄"
     rarity: rare
 
   10101:
@@ -1508,7 +1508,7 @@ inscriptions:
       en: "Hasty Retreat"
       de: "Eiliger Rückzug"
       es: "Retirada rauda"
-      kr: "즉시 퇴각"
+      ko: "즉시 퇴각"
     rarity: special
 
   10102:
@@ -1516,7 +1516,7 @@ inscriptions:
       en: "Fall Back"
       de: "Zurückfallen lassen"
       es: "Emprender la retirada"
-      kr: "퇴수"
+      ko: "퇴수"
     rarity: rare
 
   10201:
@@ -1524,7 +1524,7 @@ inscriptions:
       en: "Blast Shield"
       de: "Sprengschutz-Schild"
       es: "Escudo explosivo"
-      kr: "튼튼한 장벽"
+      ko: "튼튼한 장벽"
     rarity: special
 
   10202:
@@ -1532,7 +1532,7 @@ inscriptions:
       en: "Spread Out"
       de: "Verteilen"
       es: "Dispersión"
-      kr: "호신"
+      ko: "호신"
     rarity: rare
 
   10301:
@@ -1540,7 +1540,7 @@ inscriptions:
       en: "Full Force"
       de: "Voller Einsatz"
       es: "Fuerza total"
-      kr: "천군만마"
+      ko: "천군만마"
     rarity: special
 
   10302:
@@ -1548,7 +1548,7 @@ inscriptions:
       en: "Shock Troops"
       de: "Stoßtruppen"
       es: "Tropas de choque"
-      kr: "강팀"
+      ko: "강팀"
     rarity: rare
 
   10401:
@@ -1556,7 +1556,7 @@ inscriptions:
       en: "United Front"
       de: "Vereinte Front"
       es: "Frente unido"
-      kr: "연합 방어"
+      ko: "연합 방어"
     rarity: special
 
   10402:
@@ -1564,7 +1564,7 @@ inscriptions:
       en: "Mutual Defense"
       de: "Gemeinsame Verteidigung"
       es: "Defensa mutua"
-      kr: "공동 방어"
+      ko: "공동 방어"
     rarity: rare
 
   13101:
@@ -1572,7 +1572,7 @@ inscriptions:
       en: "Trasher"
       de: "Verdrescher"
       es: "Trilladora"
-      kr: "쉬운 제압"
+      ko: "쉬운 제압"
     rarity: special
 
   13102:
@@ -1580,7 +1580,7 @@ inscriptions:
       en: "Pummeler"
       de: "Schläger"
       es: "Vapuleo"
-      kr: "박살"
+      ko: "박살"
     rarity: rare
 
   13201:
@@ -1588,7 +1588,7 @@ inscriptions:
       en: "Butterfly"
       de: "Schmetterlingseffekt"
       es: "Efecto mariposa"
-      kr: "나비 효과"
+      ko: "나비 효과"
     rarity: special
 
   13202:
@@ -1596,7 +1596,7 @@ inscriptions:
       en: "Causative"
       de: "Ursache"
       es: "Causa"
-      kr: "연격 시너지"
+      ko: "연격 시너지"
     rarity: rare
 
   13301:
@@ -1604,7 +1604,7 @@ inscriptions:
       en: "Steelskin"
       de: "Stahlhaut"
       es: "Piel acerada"
-      kr: "강철의몸"
+      ko: "강철의몸"
     rarity: special
 
   13302:
@@ -1612,7 +1612,7 @@ inscriptions:
       en: "Determined"
       de: "Entschlossen"
       es: "Determinación"
-      kr: "당당한 기개"
+      ko: "당당한 기개"
     rarity: rare
 
   13401:
@@ -1620,7 +1620,7 @@ inscriptions:
       en: "Flurry"
       de: "Schlaghagel"
       es: "Ráfaga"
-      kr: "폭우"
+      ko: "폭우"
     rarity: special
 
   13402:
@@ -1628,7 +1628,7 @@ inscriptions:
       en: "Relentless"
       de: "Erbarmungslos"
       es: "Implacable"
-      kr: "묵직한 연격"
+      ko: "묵직한 연격"
     rarity: rare
 
   14101:
@@ -1636,7 +1636,7 @@ inscriptions:
       en: "Battle Ready"
       de: "Kampfbereit"
       es: "Lista para la batalla"
-      kr: "전투 태세"
+      ko: "전투 태세"
     rarity: special
 
   14102:
@@ -1644,7 +1644,7 @@ inscriptions:
       en: "Vigilant"
       de: "Wachsam"
       es: "Alerta"
-      kr: "곙각심"
+      ko: "곙각심"
     rarity: rare
 
   14201:
@@ -1652,7 +1652,7 @@ inscriptions:
       en: "Fortified"
       de: "Befestigt"
       es: "Fortificación"
-      kr: "금성첼벽"
+      ko: "금성첼벽"
     rarity: special
 
   14202:
@@ -1660,7 +1660,7 @@ inscriptions:
       en: "Resolute"
       de: "Entschlossen"
       es: "Resolución"
-      kr: "불굴의 투지"
+      ko: "불굴의 투지"
     rarity: rare
 
   14301:
@@ -1668,7 +1668,7 @@ inscriptions:
       en: "Chokepoint"
       de: "Engpass"
       es: "Cuello de botella"
-      kr: "일기당천"
+      ko: "일기당천"
     rarity: special
 
   14302:
@@ -1676,7 +1676,7 @@ inscriptions:
       en: "Precautions"
       de: "Vorsichtsmaßnahmen"
       es: "Precauciones"
-      kr: "첼벽"
+      ko: "첼벽"
     rarity: rare
 
   14401:
@@ -1684,7 +1684,7 @@ inscriptions:
       en: "Steelheart"
       de: "Stahlherz"
       es: "Corazón de acero"
-      kr: "강철의몸"
+      ko: "강철의몸"
     rarity: special
 
   14402:
@@ -1692,7 +1692,7 @@ inscriptions:
       en: "Ironsides"
       de: "Eisenseiten"
       es: "Coraza de hierro"
-      kr: "강첼의 뼈"
+      ko: "강첼의 뼈"
     rarity: rare
 
   16101:
@@ -1700,7 +1700,7 @@ inscriptions:
       en: "Vanquisher"
       de: "Sieger"
       es: "Vencedor"
-      kr: "필승 전략"
+      ko: "필승 전략"
     rarity: special
 
   16102:
@@ -1708,7 +1708,7 @@ inscriptions:
       en: "Overwhelm"
       de: "Überwältigen"
       es: "Abrumar"
-      kr: "방어 돌파"
+      ko: "방어 돌파"
     rarity: rare
 
   16201:
@@ -1716,7 +1716,7 @@ inscriptions:
       en: "Self Heal"
       de: "Selbstheilung"
       es: "Autosanación"
-      kr: "회복의 힘"
+      ko: "회복의 힘"
     rarity: special
 
   16202:
@@ -1724,7 +1724,7 @@ inscriptions:
       en: "Self Tend"
       de: "Selbstversorgung"
       es: "Autocuidado"
-      kr: "자가 치유"
+      ko: "자가 치유"
     rarity: rare
 
   16301:
@@ -1732,7 +1732,7 @@ inscriptions:
       en: "Brilliant"
       de: "Brillant"
       es: "Brillante"
-      kr: "빠른 성장"
+      ko: "빠른 성장"
     rarity: special
 
   16302:
@@ -1740,7 +1740,7 @@ inscriptions:
       en: "Astute"
       de: "Gerissen"
       es: "Astucia"
-      kr: "단련"
+      ko: "단련"
     rarity: rare
 
   16401:
@@ -1748,7 +1748,7 @@ inscriptions:
       en: "Mountain"
       de: "Gebirge"
       es: "Montaña"
-      kr: "산악철벽"
+      ko: "산악철벽"
     rarity: special
 
   16402:
@@ -1756,7 +1756,7 @@ inscriptions:
       en: "Stone"
       de: "Stein"
       es: "Piedra"
-      kr: "장벽"
+      ko: "장벽"
     rarity: rare
 
   17101:
@@ -1764,7 +1764,7 @@ inscriptions:
       en: "Toppler"
       de: "Umstürzer"
       es: "Derribador"
-      kr: "산해개벽"
+      ko: "산해개벽"
     rarity: special
 
   17102:
@@ -1772,7 +1772,7 @@ inscriptions:
       en: "Imploder"
       de: "Implodierer"
       es: "Implosionador"
-      kr: "붕괴"
+      ko: "붕괴"
     rarity: rare
 
   17201:
@@ -1780,7 +1780,7 @@ inscriptions:
       en: "Demolisher"
       de: "Abreißer"
       es: "Demoledor"
-      kr: "잴풍 소탕"
+      ko: "잴풍 소탕"
     rarity: special
 
   17202:
@@ -1788,7 +1788,7 @@ inscriptions:
       en: "Raider"
       de: "Plünderer"
       es: "Incursor"
-      kr: "파멸의 급습"
+      ko: "파멸의 급습"
     rarity: rare
 
   17301:
@@ -1796,7 +1796,7 @@ inscriptions:
       en: "Airtight"
       de: "Luftdicht"
       es: "Hermético"
-      kr: "첼벽수비"
+      ko: "첼벽수비"
     rarity: special
 
   17302:
@@ -1804,7 +1804,7 @@ inscriptions:
       en: "Hardheaded"
       de: "Dickköpfig"
       es: "Testarudo"
-      kr: "첼갑진"
+      ko: "첼갑진"
     rarity: rare
 
   17401:
@@ -1812,7 +1812,7 @@ inscriptions:
       en: "Thundering"
       de: "Donnernd"
       es: "Atronador"
-      kr: "번개의 일격"
+      ko: "번개의 일격"
     rarity: special
 
   17402:
@@ -1820,5 +1820,5 @@ inscriptions:
       en: "Rattling"
       de: "Rasselnd"
       es: "Estremecedor"
-      kr: "진격참"
+      ko: "진격참"
     rarity: rare
