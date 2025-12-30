@@ -18,7 +18,7 @@ export function ReportOverviewColumn({
 }: ReportOverviewColumnProps) {
   const participantName = participant?.player_name?.trim();
   return (
-    <div className="space-y-4 rounded-xl bg-zinc-50/60 p-4 ring-1 ring-zinc-950/5 dark:bg-white/5 dark:ring-white/10">
+    <div className="space-y-4 rounded-xl bg-zinc-600/10 p-4 dark:bg-white/5">
       <Strong className="block text-sm font-semibold text-zinc-900 dark:text-white">
         {side === "self" ? participantName || "Unknown" : "All Enemies"}
       </Strong>
