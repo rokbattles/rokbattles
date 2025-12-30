@@ -1,10 +1,14 @@
-import { useId, useState } from "react";
+import { Fragment, useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/DuelCommanderRow";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import {
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
+} from "@/components/ui/DescriptionList";
 import { Subheading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import type { DuelBuffEntry, DuelCommanderInfo, DuelParticipantInfo } from "@/lib/types/duelReport";
@@ -97,16 +101,18 @@ export function DuelParticipantCard({
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
             <Subheading>Troop Buffs</Subheading>
-            <div className="space-y-1.5" id={buffsId}>
+            <DescriptionList id={buffsId}>
               {visibleBuffs.map((buff) => (
-                <Text key={buff.id} className="flex items-center justify-between">
-                  <span>{buff.name}</span>
-                  <span className="font-mono text-zinc-900 dark:text-white">
+                <Fragment key={buff.id}>
+                  <DescriptionTerm className="pt-1! pb-1! border-none!">
+                    {buff.name}
+                  </DescriptionTerm>
+                  <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
                     {formatBuffValue(buff.value, buff.percent)}
-                  </span>
-                </Text>
+                  </DescriptionDetails>
+                </Fragment>
               ))}
-            </div>
+            </DescriptionList>
             {hasMore ? (
               <Button
                 plain
