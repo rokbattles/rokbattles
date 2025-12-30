@@ -2,7 +2,10 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
+import { PlatformLayout } from "@/components/PlatformLayout";
+import PlatformProviders from "@/components/PlatformProviders";
 import { cn } from "@/lib/cn";
+import { getCurrentUser } from "@/lib/current-user";
 import { CookieConsentProvider } from "@/providers/CookieConsentContext";
 
 const inter = Inter({
@@ -33,7 +36,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Layout({ children }: LayoutProps<"/">) {
+export default async function Layout({ children }: LayoutProps<"/">) {
+  const user = await getCurrentUser();
+  const initialGovernors = user?.claimedGovernors ?? [];
+  const initialActiveGovernorId = initialGovernors[0]?.governorId;
+
   return (
     <html
       lang="en"
@@ -50,7 +57,12 @@ export default function Layout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <CookieConsentProvider>
-          {children}
+          <PlatformProviders
+            initialGovernors={initialGovernors}
+            initialActiveGovernorId={initialActiveGovernorId}
+          >
+            <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+          </PlatformProviders>
           <CookieConsentBanner />
         </CookieConsentProvider>
       </body>
