@@ -5,14 +5,17 @@ import {
   ArrowTrendingUpIcon,
   ChevronUpIcon,
   FireIcon,
+  MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
   StarIcon,
+  SunIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import type React from "react";
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { PlatformAccountDropdownMenu } from "@/components/PlatformAccountDropdownMenu";
 import { SidebarGovernorHeader } from "@/components/SidebarGovernorHeader";
@@ -46,8 +49,10 @@ type PlatformLayoutProps = {
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const pathname = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
   const governorContext = useContext(GovernorContext);
+  const [isMounted, setIsMounted] = useState(false);
 
   if (!governorContext) {
     throw new Error("PlatformLayout must be used within a GovernorProvider");
@@ -56,6 +61,17 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const { activeGovernor } = governorContext;
   const showGovernorSection = Boolean(!loading && user);
   const showMyReports = Boolean(!loading && user && activeGovernor);
+  const isDark = isMounted ? resolvedTheme === "dark" : false;
+  const ThemeIcon = isDark ? SunIcon : MoonIcon;
+  const themeLabel = isMounted ? (isDark ? "Light mode" : "Dark mode") : "Theme";
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleThemeToggle = useCallback(() => {
+    setTheme(isDark ? "light" : "dark");
+  }, [isDark, setTheme]);
 
   const handleLogout = useCallback(async () => {
     const response = await fetch("/api/auth/logout", { method: "POST" });
@@ -150,6 +166,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               >
                 <ArrowDownTrayIcon />
                 <SidebarLabel>Desktop App</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem onClick={handleThemeToggle} aria-label="Toggle theme">
+                <ThemeIcon />
+                <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
           </SidebarBody>
