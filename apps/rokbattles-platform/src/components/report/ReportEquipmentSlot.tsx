@@ -15,7 +15,7 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
 
   return (
     <div
-      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-zinc-900/60 ring-1 ring-white/10 sm:h-16 sm:w-16"
+      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-zinc-600/10 dark:bg-white/5 sm:h-16 sm:w-16"
       title={label}
     >
       {token?.id ? (
