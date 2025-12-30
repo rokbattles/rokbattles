@@ -1,6 +1,11 @@
+import { Fragment } from "react";
 import { ReportInscriptionBadge } from "@/components/report/ReportInscriptionBadge";
+import {
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
+} from "@/components/ui/DescriptionList";
 import { Subheading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
 import type { ArmamentBuff } from "@/lib/report/parsers";
 
@@ -27,16 +32,18 @@ export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSec
         </div>
       ) : null}
       {buffs.length > 0 ? (
-        <div className="space-y-1.5">
+        <DescriptionList>
           {buffs.map((buff) => (
-            <Text key={buff.id} className="flex items-center justify-between">
-              <span>{getArmamentInfo(buff.id ?? null)?.name ?? `Armament ${buff.id}`}</span>
-              <span className="font-mono text-zinc-900 dark:text-white">
+            <Fragment key={buff.id}>
+              <DescriptionTerm className="pt-1! pb-1! border-none!">
+                {getArmamentInfo(buff.id ?? null)?.name ?? `Armament ${buff.id}`}
+              </DescriptionTerm>
+              <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
                 {(Number(buff.value ?? 0) * 100).toFixed(2)}%
-              </span>
-            </Text>
+              </DescriptionDetails>
+            </Fragment>
           ))}
-        </div>
+        </DescriptionList>
       ) : null}
     </div>
   );
