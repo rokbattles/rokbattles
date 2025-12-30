@@ -23,8 +23,14 @@ export function CookieConsentBanner() {
       <Text>
         We use only essential cookies for authentication, security, and site functionality. If we
         add optional cookies in the future, you’ll be able to manage them here. Read our{" "}
-        <TextLink href="https://rokbattles.com/legal/cookie-policy">cookie policy</TextLink> for
-        more information.
+        <TextLink
+          href="https://rokbattles.com/legal/cookie-policy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          cookie policy
+        </TextLink>{" "}
+        for more information.
       </Text>
       <div className="flex gap-2 mt-4">
         <Button
