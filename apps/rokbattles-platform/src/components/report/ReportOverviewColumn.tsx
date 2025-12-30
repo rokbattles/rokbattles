@@ -1,5 +1,10 @@
 import { Fragment } from "react";
-import { Strong } from "@/components/ui/Text";
+import {
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
+} from "@/components/ui/DescriptionList";
+import { Subheading } from "@/components/ui/Heading";
 import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overviewMetrics";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
 
@@ -18,24 +23,22 @@ export function ReportOverviewColumn({
 }: ReportOverviewColumnProps) {
   const participantName = participant?.player_name?.trim();
   return (
-    <div className="space-y-4 rounded-xl bg-zinc-600/10 p-4 dark:bg-white/5">
-      <Strong className="block text-sm font-semibold text-zinc-900 dark:text-white">
-        {side === "self" ? participantName || "Unknown" : "All Enemies"}
-      </Strong>
-      <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 text-sm">
+    <div className="space-y-3 rounded bg-zinc-600/10 p-4 dark:bg-white/5">
+      <Subheading>{side === "self" ? participantName || "Unknown" : "All Enemies"}</Subheading>
+      <DescriptionList>
         {OVERVIEW_METRICS.map((metric) => {
           const key = side === "self" ? metric.selfKey : metric.enemyKey;
           const value = getOverviewValue(overview, key);
           return (
             <Fragment key={`${side}-${metric.label}`}>
-              <dt className="text-zinc-500 dark:text-zinc-400">{metric.label}</dt>
-              <dd className="text-right font-mono text-zinc-900 dark:text-white">
+              <DescriptionTerm className="pt-1! pb-1! border-none!">{metric.label}</DescriptionTerm>
+              <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
                 {value == null ? "N/A" : formatter.format(value)}
-              </dd>
+              </DescriptionDetails>
             </Fragment>
           );
         })}
-      </dl>
+      </DescriptionList>
     </div>
   );
 }
