@@ -91,7 +91,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
       }
       sidebar={
         <Sidebar>
-          {!loading && user ? <SidebarGovernorHeader user={user} onRefresh={refresh} /> : null}
+          {!loading && user ? <SidebarGovernorHeader user={user} /> : null}
           <SidebarBody>
             <SidebarSection>
               <SidebarItem href="/" current={pathname === "/"}>

@@ -1,4 +1,8 @@
-import { ArrowRightStartOnRectangleIcon, ShieldCheckIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowRightStartOnRectangleIcon,
+  Cog6ToothIcon,
+  ShieldCheckIcon,
+} from "@heroicons/react/16/solid";
 import {
   DropdownDivider,
   DropdownItem,
@@ -15,6 +19,10 @@ export function PlatformAccountDropdownMenu({
 }) {
   return (
     <DropdownMenu className="min-w-64" anchor={anchor}>
+      <DropdownItem href="/account/settings">
+        <Cog6ToothIcon />
+        <DropdownLabel>Account Settings</DropdownLabel>
+      </DropdownItem>
       <DropdownItem
         href="https://rokbattles.com/legal/privacy-policy"
         target="_blank"
