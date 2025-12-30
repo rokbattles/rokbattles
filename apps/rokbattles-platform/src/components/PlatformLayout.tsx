@@ -17,6 +17,7 @@ import { useTheme } from "next-themes";
 import type React from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { PlatformAccountDropdownMenu } from "@/components/PlatformAccountDropdownMenu";
 import { SidebarGovernorHeader } from "@/components/SidebarGovernorHeader";
 import { Avatar } from "@/components/ui/Avatar";
@@ -171,6 +172,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <ThemeIcon />
                 <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
+              <LanguageSelector />
             </SidebarSection>
           </SidebarBody>
           <SidebarFooter className="max-lg:hidden">
