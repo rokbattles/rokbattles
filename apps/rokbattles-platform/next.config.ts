@@ -38,6 +38,16 @@ const config: NextConfig = {
         destination: "https://github.com/rokbattles/rokbattles/releases",
         permanent: false,
       },
+      {
+        source: "/my-reports",
+        destination: "/account/reports",
+        permanent: false,
+      },
+      {
+        source: "/my-pairings",
+        destination: "/account/pairings",
+        permanent: false,
+      },
     ];
   },
 };

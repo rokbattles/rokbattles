@@ -109,20 +109,23 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             </SidebarSection>
             {showGovernorSection && (
               <SidebarSection>
-                <SidebarHeading>Governor</SidebarHeading>
+                <SidebarHeading>Account</SidebarHeading>
                 {showMyReports ? (
                   <>
-                    <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
+                    <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
                       <FireIcon />
                       <SidebarLabel>My Battles</SidebarLabel>
                     </SidebarItem>
-                    <SidebarItem href="/my-pairings" current={pathname === "/my-pairings"}>
+                    <SidebarItem
+                      href="/account/pairings"
+                      current={pathname === "/account/pairings"}
+                    >
                       <ScaleIcon />
                       <SidebarLabel>My Pairings</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
-                <SidebarItem href="/my-favorites" current={pathname === "/my-favorites"}>
+                <SidebarItem href="/account/favorites" current={pathname === "/account/favorites"}>
                   <StarIcon />
                   <SidebarLabel>My Favorites</SidebarLabel>
                 </SidebarItem>

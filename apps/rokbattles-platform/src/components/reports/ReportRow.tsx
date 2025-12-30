@@ -13,10 +13,10 @@ export default function ReportRow({ report }: { report: Report }) {
   const pathname = usePathname();
   const query = new URLSearchParams(searchParams.toString());
   const from =
-    pathname === "/my-reports"
-      ? "my-reports"
-      : pathname === "/my-favorites"
-        ? "my-favorites"
+    pathname === "/account/reports"
+      ? "account-reports"
+      : pathname === "/account/favorites"
+        ? "account-favorites"
         : "reports";
   query.set("from", from);
   const queryString = query.toString();
