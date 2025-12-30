@@ -7,6 +7,7 @@ import {
   FireIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
+  StarIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
@@ -53,6 +54,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   }
 
   const { activeGovernor } = governorContext;
+  const showGovernorSection = Boolean(!loading && user);
   const showMyReports = Boolean(!loading && user && activeGovernor);
 
   const handleLogout = useCallback(async () => {
@@ -105,16 +107,24 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <SidebarLabel>Explore Trends</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
-            {!loading && user && showMyReports && (
+            {showGovernorSection && (
               <SidebarSection>
                 <SidebarHeading>Governor</SidebarHeading>
-                <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
-                  <FireIcon />
-                  <SidebarLabel>My Battles</SidebarLabel>
-                </SidebarItem>
-                <SidebarItem href="/my-pairings" current={pathname === "/my-pairings"}>
-                  <ScaleIcon />
-                  <SidebarLabel>My Pairings</SidebarLabel>
+                {showMyReports ? (
+                  <>
+                    <SidebarItem href="/my-reports" current={pathname === "/my-reports"}>
+                      <FireIcon />
+                      <SidebarLabel>My Battles</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem href="/my-pairings" current={pathname === "/my-pairings"}>
+                      <ScaleIcon />
+                      <SidebarLabel>My Pairings</SidebarLabel>
+                    </SidebarItem>
+                  </>
+                ) : null}
+                <SidebarItem href="/my-favorites" current={pathname === "/my-favorites"}>
+                  <StarIcon />
+                  <SidebarLabel>My Favorites</SidebarLabel>
                 </SidebarItem>
               </SidebarSection>
             )}

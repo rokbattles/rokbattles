@@ -12,6 +12,7 @@ use mongodb::{
     bson::spec::BinarySubtype,
     bson::{Binary, Bson, DateTime, doc},
 };
+use std::collections::HashSet;
 use tokio::{
     io::{AsyncReadExt, AsyncWriteExt},
     net::TcpStream,
@@ -182,6 +183,90 @@ fn blake3_hash(data: &[u8]) -> String {
     hasher.update(data);
     let hash = hasher.finalize();
     hash.to_hex().to_string()
+}
+
+async fn migrate_report_favorites(
+    db: &mongodb::Database,
+    previous_hashes: &[String],
+    new_hash: &str,
+) -> mongodb::error::Result<(u64, u64)> {
+    let hashes: Vec<String> = previous_hashes
+        .iter()
+        .filter(|hash| hash.as_str() != new_hash)
+        .cloned()
+        .collect();
+
+    if hashes.is_empty() {
+        return Ok((0, 0));
+    }
+
+    let favorites_collection = db.collection::<Document>("reportFavorites");
+    let favorites = favorites_collection
+        .find(doc! { "reportType": "battle", "parentHash": { "$in": &hashes } })
+        .await?
+        .try_collect::<Vec<Document>>()
+        .await?;
+
+    if favorites.is_empty() {
+        return Ok((0, 0));
+    }
+
+    let mut discord_ids = HashSet::new();
+    for favorite in &favorites {
+        if let Ok(discord_id) = favorite.get_str("discordId") {
+            discord_ids.insert(discord_id.to_string());
+        }
+    }
+
+    let mut occupied_ids = HashSet::new();
+    if !discord_ids.is_empty() {
+        let existing = favorites_collection
+            .find(doc! {
+                "reportType": "battle",
+                "parentHash": new_hash,
+                "discordId": { "$in": discord_ids.iter().cloned().collect::<Vec<String>>() },
+            })
+            .await?
+            .try_collect::<Vec<Document>>()
+            .await?;
+
+        for doc in existing {
+            if let Ok(discord_id) = doc.get_str("discordId") {
+                occupied_ids.insert(discord_id.to_string());
+            }
+        }
+    }
+
+    let mut updated = 0u64;
+    let mut removed = 0u64;
+
+    for favorite in favorites {
+        let discord_id = match favorite.get_str("discordId") {
+            Ok(value) => value,
+            Err(_) => continue,
+        };
+
+        let Some(Bson::ObjectId(id)) = favorite.get("_id") else {
+            continue;
+        };
+
+        if occupied_ids.contains(discord_id) {
+            favorites_collection.delete_one(doc! { "_id": id }).await?;
+            removed += 1;
+            continue;
+        }
+
+        favorites_collection
+            .update_one(
+                doc! { "_id": id },
+                doc! { "$set": { "parentHash": new_hash } },
+            )
+            .await?;
+        updated += 1;
+        occupied_ids.insert(discord_id.to_string());
+    }
+
+    Ok((updated, removed))
 }
 
 pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl IntoResponse {
@@ -495,6 +580,30 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
 
             return match result {
                 Ok(_) => {
+                    if !previous_hashes.is_empty() {
+                        match migrate_report_favorites(&st.db, &previous_hashes, &decoded_mail_hash)
+                            .await
+                        {
+                            Ok((updated, removed)) => {
+                                if updated > 0 || removed > 0 {
+                                    info!(
+                                        mail_id = %mail_id,
+                                        updated,
+                                        removed,
+                                        "migrated report favorites to latest hash"
+                                    );
+                                }
+                            }
+                            Err(err) => {
+                                warn!(
+                                    mail_id = %mail_id,
+                                    error = %err,
+                                    "failed to migrate report favorites"
+                                );
+                            }
+                        }
+                    }
+
                     info!(
                         mail_id = %mail_id,
                         previous_size = existing_size,

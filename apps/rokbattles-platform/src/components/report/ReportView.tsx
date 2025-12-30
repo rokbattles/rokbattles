@@ -1,5 +1,6 @@
 "use client";
 
+import { StarIcon } from "@heroicons/react/16/solid";
 import { useEffect, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/ReportEmptyState";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
@@ -10,7 +11,10 @@ import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useReport } from "@/hooks/useReport";
+import { useReportFavorite } from "@/hooks/useReportFavorite";
+import { cn } from "@/lib/cn";
 import { hasOverviewData } from "@/lib/report/overviewMetrics";
 import type { RawOverview, RawReportPayload } from "@/lib/types/rawReport";
 import type { ReportEntry } from "@/lib/types/report";
@@ -23,6 +27,7 @@ export function ReportView({ hash }: ReportViewProps) {
   const normalizedHash = hash?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
+  const { user, loading: userLoading } = useCurrentUser();
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const resetTimerRef = useRef<number>(null);
@@ -37,6 +42,18 @@ export function ReportView({ hash }: ReportViewProps) {
 
   const entries: ReportEntry[] = data?.items ?? [];
   const overviewSource = findOverviewSource(entries);
+  const showFavoriteButton = Boolean(!userLoading && user && normalizedHash.length > 0);
+
+  const {
+    favorited,
+    loading: favoriteLoading,
+    updating,
+    toggleFavorite,
+  } = useReportFavorite({
+    parentHash: normalizedHash,
+    reportType: "battle",
+    enabled: showFavoriteButton,
+  });
 
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
@@ -55,9 +72,23 @@ export function ReportView({ hash }: ReportViewProps) {
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
         <Heading>Report</Heading>
-        <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
-          {isCopied ? "Copied" : "Share"}
-        </Button>
+        <div className="flex items-center gap-2">
+          {showFavoriteButton ? (
+            <Button
+              className="-my-0.5"
+              aria-label={favorited ? "Unfavorite report" : "Favorite report"}
+              aria-pressed={favorited}
+              disabled={favoriteLoading || updating}
+              onClick={toggleFavorite}
+            >
+              <StarIcon data-slot="icon" className={cn(favorited ? "fill-amber-500" : "")} />
+              {favorited ? "Unfavorite" : "Favorite"}
+            </Button>
+          ) : null}
+          <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
+            {isCopied ? "Copied" : "Share"}
+          </Button>
+        </div>
       </div>
       <Divider />
       {loading ? (

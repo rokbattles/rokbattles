@@ -56,8 +56,18 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const { hash } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
-  const backBase = fromParam === "my-reports" ? "/my-reports" : "/";
-  const backLabel = fromParam === "my-reports" ? "Back to My Reports" : "Explore Battles";
+  const backBase =
+    fromParam === "my-reports"
+      ? "/my-reports"
+      : fromParam === "my-favorites"
+        ? "/my-favorites"
+        : "/";
+  const backLabel =
+    fromParam === "my-reports"
+      ? "Back to My Reports"
+      : fromParam === "my-favorites"
+        ? "Back to My Favorites"
+        : "Explore Battles";
   const backQuery = buildQueryString(resolvedSearchParams, "from");
 
   return (

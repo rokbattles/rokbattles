@@ -12,7 +12,12 @@ export default function ReportRow({ report }: { report: Report }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const query = new URLSearchParams(searchParams.toString());
-  const from = pathname === "/my-reports" ? "my-reports" : "reports";
+  const from =
+    pathname === "/my-reports"
+      ? "my-reports"
+      : pathname === "/my-favorites"
+        ? "my-favorites"
+        : "reports";
   query.set("from", from);
   const queryString = query.toString();
   const href = queryString
