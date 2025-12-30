@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PlatformLayout } from "@/components/PlatformLayout";
 import PlatformProviders from "@/components/PlatformProviders";
@@ -41,9 +43,13 @@ export default async function Layout({ children }: LayoutProps<"/">) {
   const initialGovernors = user?.claimedGovernors ?? [];
   const initialActiveGovernorId = initialGovernors[0]?.governorId;
 
+  // next-intl
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={cn(
         inter.variable,
         "text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950"
@@ -58,12 +64,14 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <CookieConsentProvider>
-          <PlatformProviders
-            initialGovernors={initialGovernors}
-            initialActiveGovernorId={initialActiveGovernorId}
-          >
-            <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-          </PlatformProviders>
+          <NextIntlClientProvider messages={messages}>
+            <PlatformProviders
+              initialGovernors={initialGovernors}
+              initialActiveGovernorId={initialActiveGovernorId}
+            >
+              <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+            </PlatformProviders>
+          </NextIntlClientProvider>
           <CookieConsentBanner />
         </CookieConsentProvider>
       </body>

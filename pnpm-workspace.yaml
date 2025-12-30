@@ -3,6 +3,8 @@ packages:
   - crates/*
 
 onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
   - '@tailwindcss/oxide'
   - esbuild
   - sharp
