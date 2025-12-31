@@ -2,8 +2,8 @@ export const languageCookieName = "platformLanguage";
 
 export const defaultLocale = "en";
 
-// temporarily disabling German (de), Spanish (es)
-export const supportedLocales = ["en", "ko"] as const;
+// temporarily disabling German (de)
+export const supportedLocales = ["en", "es", "ko"] as const;
 
 export type SupportedLocale = (typeof supportedLocales)[number];
 
@@ -13,7 +13,7 @@ export const languageOptions: ReadonlyArray<{
   flagCode: string;
 }> = [
   { locale: "en", label: "English", flagCode: "US" },
-  // { locale: "es", label: "Spanish", flagCode: "ES" },
+  { locale: "es", label: "Spanish", flagCode: "ES" },
   // { locale: "de", label: "German", flagCode: "DE" },
   { locale: "ko", label: "Korean", flagCode: "KR" },
 ];
