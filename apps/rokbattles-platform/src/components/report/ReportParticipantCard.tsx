@@ -14,16 +14,24 @@ import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport
 
 const ARTIFACT_IDS = new Set([20401, 20402]);
 
-export function ReportParticipantCard({ participant }: { participant?: RawParticipantInfo }) {
+type ReportParticipantCardProps = {
+  participant?: RawParticipantInfo;
+  showArtifacts?: boolean;
+};
+
+export function ReportParticipantCard({
+  participant,
+  showArtifacts = true,
+}: ReportParticipantCardProps) {
   const tCommon = useTranslations("common");
   const playerName = participant?.player_name?.trim() || tCommon("labels.unknownCommander");
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
 
   const equipmentTokens = parseEquipment(participant?.equipment ?? null);
-  const artifactTokens = parseEquipment(participant?.equipment_2 ?? null).filter((token) =>
-    ARTIFACT_IDS.has(token.id)
-  );
+  const artifactTokens = showArtifacts
+    ? parseEquipment(participant?.equipment_2 ?? null).filter((token) => ARTIFACT_IDS.has(token.id))
+    : [];
   const inscriptionIds = parseSemicolonNumberList(participant?.inscriptions ?? null);
   const armamentBuffs = parseArmamentBuffs(participant?.armament_buffs ?? null);
 
@@ -68,7 +76,7 @@ export function ReportParticipantCard({ participant }: { participant?: RawPartic
           </div>
         ) : null}
         <ReportEquipmentSection tokens={equipmentTokens} />
-        <ReportArtifactSection tokens={artifactTokens} />
+        {showArtifacts ? <ReportArtifactSection tokens={artifactTokens} /> : null}
         <ReportArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
       </div>
     </div>

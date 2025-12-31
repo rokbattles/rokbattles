@@ -19,6 +19,7 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   const battleResults = payload?.battle_results;
   const selfParticipant = payload?.self;
   const enemyParticipant = payload?.enemy;
+  const omitArtifacts = metadata?.email_role === "dungeon" || metadata?.is_kvk === 0;
 
   const start = metadata?.start_date ?? entry.startDate;
   const end = metadata?.end_date;
@@ -41,8 +42,8 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
         </section>
       ) : null}
       <section className="grid gap-8 lg:grid-cols-2">
-        <ReportParticipantCard participant={selfParticipant} />
-        <ReportParticipantCard participant={enemyParticipant} />
+        <ReportParticipantCard participant={selfParticipant} showArtifacts={!omitArtifacts} />
+        <ReportParticipantCard participant={enemyParticipant} showArtifacts={!omitArtifacts} />
       </section>
     </section>
   );
