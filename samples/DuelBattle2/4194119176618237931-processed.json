@@ -18,7 +18,7 @@
         "id": 545,
         "level": 60,
         "star": 6,
-        "awaked": true,
+        "awakened": true,
         "skills": [
           {
             "id": 393,
@@ -51,7 +51,7 @@
         "id": 185,
         "level": 60,
         "star": 6,
-        "awaked": true,
+        "awakened": true,
         "skills": [
           {
             "id": 251,
@@ -233,7 +233,7 @@
         "id": 545,
         "level": 60,
         "star": 6,
-        "awaked": true,
+        "awakened": true,
         "skills": [
           {
             "id": 393,
@@ -266,7 +266,7 @@
         "id": 185,
         "level": 60,
         "star": 6,
-        "awaked": true,
+        "awakened": true,
         "skills": [
           {
             "id": 251,

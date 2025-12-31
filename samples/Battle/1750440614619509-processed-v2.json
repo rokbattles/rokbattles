@@ -1,0 +1,441 @@
+{
+  "metadata": {
+    "__rokb_email_type": "kvk",
+    "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
+    "email_id": "2235343017504406148",
+    "email_time": 1750440614619509,
+    "email_receiver": "player_22131382",
+    "server_id": 15549
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 2740000,
+        "tick": 728433
+      },
+      {
+        "count": 2413887,
+        "tick": 728460
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 31471838,
+      "player_name": "霸氣包大人",
+      "app_uid": "103439411",
+      "camp": 5,
+      "kingdom": 447,
+      "alliance": {
+        "tag": "HP47",
+        "name": "嘻哈樁腳情"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/31471838/19/11/29/e98b77a47a5c7a39_200x200.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60,
+          "equipment": "{3:20009_1016:32,7:20040_1128:3,8:20037_575:1,1:20001_929:34,5:20033_1007:33,4:20028_780:34,6:20012_1057:32,2:20004_894:31}",
+          "formation": 1,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.026000;4002_0.033000;10002_0.017000",
+              "inscriptions": "1101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3002_0.016000;4002_0.030000;10002_0.018000",
+              "inscriptions": "415"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.027000;4002_0.026000;10002_0.013000",
+              "inscriptions": "310"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.023000;4002_0.022000;5002_0.020000",
+              "inscriptions": "210"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 539,
+          "level": 31,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 1169,
+          "y": 448
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 22131382,
+          "player_name": "Хуpшид",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 56958159,
+          "player_name": "土匪丶漢",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 31471838,
+          "player_name": "霸氣包大人",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 31
+            }
+          }
+        },
+        {
+          "player_id": 31446170,
+          "player_name": "霸氣乄Rica",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 25207304,
+          "player_name": "遊戲不老松",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 192,
+              "level": 60
+            },
+            "secondary": {
+              "id": 135,
+              "level": 49
+            }
+          }
+        },
+        {
+          "player_id": 38330853,
+          "player_name": "Lilith丨汤阮",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 103,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180427551,
+          "player_name": "林苏苏",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 37,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180707880,
+          "player_name": "yw 小山羊",
+          "alliance": {
+            "tag": "XP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 98,
+              "level": 47
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 23657750,
+          "player_name": "嘻哈空空",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 127,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 182010622,
+          "player_name": "ᴬᴵEnkoko",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 26158438,
+          "player_name": "褲褲2",
+          "alliance": {
+            "tag": "XP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 124,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 11992139,
+          "player_name": "G哥Z撕L拉A",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20584355,
+          "player_name": "淑芬ᴱᴸᶠ",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 180814624,
+          "player_name": "iw Zamalek 20",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 57
+            },
+            "secondary": {
+              "id": 463,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 27711185,
+          "player_name": "AlphaMark",
+          "alliance": {
+            "tag": "HP47"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 115,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 54726874,
+        "player_name": "туя",
+        "app_uid": "44920491",
+        "camp": 4,
+        "kingdom": 1837,
+        "alliance": {
+          "tag": "D@Rk",
+          "name": "D@rK Asguard"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44920491/2025-01-17/E2FA80CBFBC43E5239FB88DDA8A871F5_250x250.jpg",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "commanders": {
+          "primary": {
+            "id": 194,
+            "level": 60,
+            "equipment": "{3:20026_64:11,4:20029_87:11,6:20034_79:1,7:20041_85:11,1:20013_69:11,8:20037_99:1,5:20032_66:1,2:20005_102:1}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.015000;4001_0.020000;5001_0.022000",
+                "inscriptions": "109"
+              },
+              {
+                "slot": 4,
+                "buffs": "6001_0.016000;4001_0.021000;5001_0.019000",
+                "inscriptions": "417"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.017000;4001_0.032000;5003_0.020000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "2004_0.058000;8000_0.050000;5001_0.031000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{2:20063_65:10}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 1170,
+            "y": 479
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 54726874,
+            "player_name": "туя",
+            "alliance": {
+              "tag": "D@Rk"
+            },
+            "commanders": {
+              "primary": {
+                "id": 194,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          },
+          {
+            "player_id": 118648021,
+            "player_name": "义BanZai义",
+            "alliance": {
+              "tag": "D@Rk"
+            },
+            "commanders": {
+              "primary": {
+                "id": 99,
+                "level": 60
+              },
+              "secondary": {
+                "id": 112,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

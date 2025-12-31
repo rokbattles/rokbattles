@@ -1,0 +1,463 @@
+{
+  "metadata": {
+    "__rokb_email_type": "ark",
+    "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 0,
+    "email_id": "56425470176451294431",
+    "email_time": 1764512944407776,
+    "email_receiver": "player_71738515",
+    "server_id": 1804
+  },
+  "data_summary": {
+    "sender_kill_points": 16991393,
+    "sender_severely_wounded": 272818,
+    "sender_slightly_wounded": 1400260,
+    "sender_troop_units": 2730000,
+    "sender_remaining": 1056922,
+    "sender_dead": 0,
+    "opponent_kill_points": 5212360,
+    "opponent_severely_wounded": 859533,
+    "opponent_slightly_wounded": 3279249,
+    "opponent_troop_units": 6804444,
+    "opponent_remaining": 116032,
+    "opponent_dead": 0
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 2114230,
+        "tick": 1401
+      },
+      {
+        "count": 1508051,
+        "tick": 1414
+      },
+      {
+        "count": 1693332,
+        "tick": 1415
+      },
+      {
+        "count": 1090936,
+        "tick": 1442
+      },
+      {
+        "count": 1056922,
+        "tick": 1446
+      }
+    ],
+    "events": [
+      {
+        "type": 18,
+        "tick": 1414,
+        "reinforcements": {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      },
+      {
+        "type": 18,
+        "tick": 1415,
+        "reinforcements": {
+          "player_id": 83446732,
+          "player_name": "MYSTICBOND",
+          "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67760501/2025-11-24/DFDE3BDAB7D1B1E9AACC280863D4BCAC_250x250.jpg",
+          "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      }
+    ]
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ",
+      "app_uid": "18278241",
+      "kingdom": 126,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60,
+          "equipment": "{1:20007_408:35,2:20004_474:35,3:20009_412:35,4:20028_411:34,5:20033_442:35,6:20012_430:35,7:20037_523:35,8:20040_472:35}",
+          "formation": 1,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.022000;4002_0.021000;10002_0.019000",
+              "inscriptions": "109;104"
+            },
+            {
+              "slot": 4,
+              "buffs": "3002_0.015000;4002_0.019000;5002_0.018000",
+              "inscriptions": "1401"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.035000;4002_0.026000;5002_0.025000",
+              "inscriptions": "1301"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.034000;4002_0.032000;5002_0.024000",
+              "inscriptions": "1201"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 539,
+          "level": 60,
+          "equipment": "{}",
+          "star": 6,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 179,
+          "y": 148
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 126616046,
+          "player_name": "ˢUlquiorra",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 40693070,
+          "player_name": "ˢ snow leopard",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 177,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 20075558,
+          "player_name": "jën x ƒaräɀ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 132831781,
+          "player_name": "ˢMoonyPew",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 140,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 56779511,
+          "player_name": "neeKa",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 183,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 126613785,
+          "player_name": "ˢ Kleines",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 147,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 71738515,
+          "player_name": "Grigvar",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83446732,
+          "player_name": "MYSTICBOND",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 146,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 42450936,
+        "player_name": "Xcヽ Tuấn Vũ",
+        "app_uid": "100994654",
+        "kingdom": 126,
+        "alliance": {
+          "tag": "W676",
+          "name": "VIETNAM FIGHTER"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20013_361:14,2:20014_353:15,3:20026_295:13,4:20016_444:12,5:20032_388:14,6:20018_393:3,7:20167_513:1,8:20040_359:11}",
+            "formation": 17,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.020000;4001_0.023000;10002_0.019000",
+                "inscriptions": "17101"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.020000;4001_0.033000;10002_0.015000",
+                "inscriptions": "17402"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.026000;4001_0.032000;5001_0.017000",
+                "inscriptions": "17302"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.019000;4001_0.016000;5001_0.017000",
+                "inscriptions": "17202;208"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 185,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 174,
+            "y": 148
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 42450936,
+            "player_name": "Xcヽ Tuấn Vũ",
+            "alliance": {
+              "tag": "W676"
+            },
+            "commanders": {
+              "primary": {
+                "id": 545,
+                "level": 60
+              },
+              "secondary": {
+                "id": 185,
+                "level": 60
+              }
+            }
+          }
+        ]
+      },
+      {
+        "player_id": 42450936,
+        "player_name": "Xcヽ Tuấn Vũ",
+        "app_uid": "100994654",
+        "kingdom": 126,
+        "alliance": {
+          "tag": "W676",
+          "name": "VIETNAM FIGHTER"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
+        "frame_url": "null",
+        "commanders": {
+          "primary": {
+            "id": 545,
+            "level": 60,
+            "equipment": "{1:20002_500:12,2:20005_378:11,3:20026_499:2,4:20029_362:12,5:20032_501:2,6:20034_487:2,7:20037_489:1,8:20040_442:1}",
+            "formation": 1,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.021000;4001_0.034000;5001_0.023000",
+                "inscriptions": "112;105"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.035000;4001_0.026000;5001_0.034000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3001_0.018000;4001_0.030000;5001_0.026000",
+                "inscriptions": "304;307"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.028000;4001_0.025000;5001_0.028000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 177,
+            "level": 60,
+            "equipment": "{}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 174,
+            "y": 148
+          },
+          "level": 25
+        },
+        "participants": [
+          {
+            "player_id": 42450936,
+            "player_name": "Xcヽ Tuấn Vũ",
+            "alliance": {
+              "tag": "W676"
+            },
+            "commanders": {
+              "primary": {
+                "id": 184,
+                "level": 60
+              },
+              "secondary": {
+                "id": 177,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

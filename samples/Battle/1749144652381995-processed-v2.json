@@ -1,0 +1,361 @@
+{
+  "metadata": {
+    "__rokb_email_type": "kvk",
+    "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
+    "email_id": "67135066174914471628",
+    "email_time": 1749144652381995,
+    "email_receiver": "player_83629727",
+    "server_id": 15659
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 3393988,
+        "tick": 2024198
+      },
+      {
+        "count": 3273920,
+        "tick": 2024216
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 66662936,
+      "player_name": "Lén Lén",
+      "app_uid": "54578193",
+      "camp": 1,
+      "kingdom": 1217,
+      "alliance": {
+        "tag": "3083",
+        "name": "World of Sapphire"
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/66662936/22/06/20/5b933a14d710cdb8_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_194.png",
+      "commanders": {
+        "primary": {
+          "id": 103,
+          "level": 60,
+          "equipment": "{6:20012_575:32,2:20004_634:35,3:20009_681:35,1:20001_637:35,4:20028_626:32,5:20033_574:35,7:20040_713:35,8:20037_840:35}",
+          "formation": 13,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.034000;4002_0.034000;10002_0.019000",
+              "inscriptions": "13101"
+            },
+            {
+              "slot": 4,
+              "buffs": "3002_0.024000;4002_0.029000;10002_0.012000",
+              "inscriptions": "13401"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.020000;4002_0.022000;10002_0.020000",
+              "inscriptions": "13301"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.016000;4002_0.023000;10002_0.018000",
+              "inscriptions": "13201"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 539,
+          "level": 37,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 127,
+          "y": 444
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 136330518,
+          "player_name": "상어 Carrie",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 11357421,
+          "player_name": "۵ᶫˣGiŋŋ۵",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 115,
+              "level": 55
+            }
+          }
+        },
+        {
+          "player_id": 153737377,
+          "player_name": "ᴴᵏ Impostor",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 70698397,
+          "player_name": "DáďďýRüśk",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 148,
+              "level": 60
+            },
+            "secondary": {
+              "id": 138,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 43338754,
+          "player_name": "Warpath tépes",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 53720198,
+          "player_name": "83ノSinnerPride",
+          "alliance": {
+            "tag": "3083"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 540,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 60913509,
+          "player_name": "ᴬˢᵉⁿmrmr",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 66662936,
+          "player_name": "Lén Lén",
+          "alliance": {
+            "tag": "3083"
+          },
+          "commanders": {
+            "primary": {
+              "id": 103,
+              "level": 60
+            },
+            "secondary": {
+              "id": 539,
+              "level": 37
+            }
+          }
+        },
+        {
+          "player_id": 121576105,
+          "player_name": "乂 Devil 乂",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 192,
+              "level": 60
+            },
+            "secondary": {
+              "id": 7,
+              "level": 30
+            }
+          }
+        },
+        {
+          "player_id": 79217442,
+          "player_name": "SneakyshotF7",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 102,
+              "level": 37
+            },
+            "secondary": {
+              "id": 61,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 83629727,
+          "player_name": "Atomicbunny",
+          "alliance": {
+            "tag": "JL17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 22813044,
+          "player_name": "メShadowOfKekkoメ",
+          "alliance": {
+            "tag": "LX17"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 113063200,
+        "player_name": "ᴬᶜRafał",
+        "app_uid": "91722043",
+        "camp": 6,
+        "kingdom": 1861,
+        "alliance": {
+          "tag": "861V",
+          "name": "VICTORY OF THE 2861"
+        },
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head09.png",
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
+        "commanders": {
+          "primary": {
+            "id": 10,
+            "level": 60,
+            "equipment": "{1:20059_92:10,6:20034_113:0,7:20202_115:0,2:20083_81:10,3:20084_68:0,5:20032_114:0,4:20029_112:0}",
+            "formation": 5,
+            "star": 6,
+            "awakened": true,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3001_0.018000;4001_0.010000;10002_0.010000",
+                "inscriptions": "129"
+              },
+              {
+                "slot": 4,
+                "buffs": "3001_0.018000;4001_0.031000;10016_0.044000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3002_0.017000;4001_0.020000;5003_0.016000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3001_0.032000;4002_0.023000;10101_0.064000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60,
+            "equipment": "{4:20067_84:10,1:20089_80:0,5:20095_70:0,6:20072_93:10,3:20084_87:10,2:20090_23:0}",
+            "star": 6,
+            "awakened": false
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 148,
+            "y": 490
+          },
+          "level": 25,
+          "watchtower": 25
+        },
+        "participants": [
+          {
+            "player_id": 113063200,
+            "player_name": "ᴬᶜRafał",
+            "alliance": {
+              "tag": "861V"
+            },
+            "commanders": {
+              "primary": {
+                "id": 10,
+                "level": 60
+              },
+              "secondary": {
+                "id": 98,
+                "level": 60
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

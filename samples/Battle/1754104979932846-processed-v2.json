@@ -1,0 +1,299 @@
+{
+  "metadata": {
+    "__rokb_email_type": "home",
+    "__rokb_battle_type": "rally",
+    "__rokb_battle_data_sender_skipped_participants": 0,
+    "__rokb_battle_data_opponents_skipped_participants": 1,
+    "email_id": "5115380717541049792",
+    "email_time": 1754104979932846,
+    "email_receiver": "player_55034246",
+    "server_id": 1804
+  },
+  "battle_trends": {
+    "sampling": [
+      {
+        "count": 1597522,
+        "tick": 1627792
+      },
+      {
+        "count": 1597314,
+        "tick": 1627793
+      }
+    ],
+    "events": []
+  },
+  "battle_data": {
+    "sender": {
+      "player_id": 125861505,
+      "player_name": "2lowteg",
+      "app_uid": "100695397",
+      "kingdom": 1804,
+      "alliance": {
+        "tag": "SO4L",
+        "name": "魂社会SoulReapers"
+      },
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100695397/2025-07-05/CF4C03B6A07E033D6B760844ADAEBA8D_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "commanders": {
+        "primary": {
+          "id": 7,
+          "level": 60,
+          "equipment": "{7:20097_38:30,3:20084_44:30,4:20085_41:30,5:20070_49:30,6:20086_42:30,1:20087_48:30,2:20083_43:30}",
+          "formation": 7,
+          "star": 6,
+          "awakened": true,
+          "armaments": [
+            {
+              "slot": 1,
+              "buffs": "3002_0.013000;4001_0.014000;5002_0.014000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 4,
+              "buffs": "3001_0.013000;4002_0.012000;10016_0.028000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 3,
+              "buffs": "3002_0.013000;6003_0.016000;5004_0.011000",
+              "inscriptions": "-1"
+            },
+            {
+              "slot": 2,
+              "buffs": "3002_0.019000;4001_0.014000;10016_0.024000",
+              "inscriptions": "-1"
+            }
+          ]
+        },
+        "secondary": {
+          "id": 183,
+          "level": 40,
+          "equipment": "{}",
+          "star": 4,
+          "awakened": true
+        }
+      },
+      "castle": {
+        "pos": {
+          "x": 581,
+          "y": 541
+        },
+        "level": 25
+      },
+      "participants": [
+        {
+          "player_id": 125861505,
+          "player_name": "2lowteg",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 183,
+              "level": 40
+            }
+          }
+        },
+        {
+          "player_id": 129959221,
+          "player_name": "RememberMy",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 192,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 126129748,
+          "player_name": "Daspim F1",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 56
+            }
+          }
+        },
+        {
+          "player_id": 50281385,
+          "player_name": "Azz slave",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 54
+            },
+            "secondary": {
+              "id": 7,
+              "level": 46
+            }
+          }
+        },
+        {
+          "player_id": 129687661,
+          "player_name": "ᴛᴇɢ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 126381343,
+          "player_name": "Daspim F2",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 63,
+              "level": 45
+            }
+          }
+        },
+        {
+          "player_id": 55034246,
+          "player_name": "ʚCelesteɞ",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        },
+        {
+          "player_id": 123803055,
+          "player_name": "B4ngB4ng",
+          "alliance": {
+            "tag": "SO4L"
+          },
+          "commanders": {
+            "primary": {
+              "id": 138,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          }
+        }
+      ]
+    },
+    "opponents": [
+      {
+        "player_id": 129854978,
+        "player_name": "PhạmĐăng2k1",
+        "app_uid": "6626468-2027279",
+        "kingdom": 1804,
+        "alliance": {
+          "tag": "4M-",
+          "name": "사랑etiennex"
+        },
+        "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/2027279/2024-08-23/D1C2A05468CD59CD498AB8CB04350E61_250x250.jpg",
+        "frame_url": null,
+        "commanders": {
+          "primary": {
+            "id": 10,
+            "level": 60,
+            "equipment": "{5:20069_17:0,2:20051_14:0,1:20102_20:10}",
+            "formation": 2,
+            "star": 6,
+            "awakened": false,
+            "armaments": [
+              {
+                "slot": 1,
+                "buffs": "3002_0.018000;4002_0.019000;5002_0.017000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 4,
+                "buffs": "3003_0.029000;4001_0.030000;5003_0.030000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 3,
+                "buffs": "3003_0.016000;6004_0.034000;5001_0.018000",
+                "inscriptions": "-1"
+              },
+              {
+                "slot": 2,
+                "buffs": "3002_0.015000;8000_0.056000;10016_0.068000",
+                "inscriptions": "-1"
+              }
+            ]
+          },
+          "secondary": {
+            "id": 99,
+            "level": 52,
+            "equipment": "{3:20114_5:50,4:20053_25:0,6:20073_23:0}",
+            "star": 6,
+            "awakened": true
+          }
+        },
+        "castle": {
+          "pos": {
+            "x": 74,
+            "y": 990
+          },
+          "level": 25,
+          "watchtower": 20
+        },
+        "participants": [
+          {
+            "player_id": 129854978,
+            "player_name": "PhạmĐăng2k1",
+            "alliance": {
+              "tag": "4M-"
+            },
+            "commanders": {
+              "primary": {
+                "id": 10,
+                "level": 60
+              },
+              "secondary": {
+                "id": 99,
+                "level": 52
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

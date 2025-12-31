@@ -96,3 +96,60 @@ impl Resolver<MailContext<'_>, DuelBattle2Mail> for MetadataResolver {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::MetadataResolver;
+    use crate::context::MailContext;
+    use crate::structures::DuelBattle2Mail;
+    use mail_processor_sdk::Resolver;
+    use serde_json::{Value, json};
+
+    fn resolve_metadata(sections: Vec<Value>) -> DuelBattle2Mail {
+        let ctx = MailContext::new(&sections);
+        let mut output = DuelBattle2Mail::default();
+        let resolver = MetadataResolver::new();
+
+        resolver
+            .resolve(&ctx, &mut output)
+            .expect("resolve metadata");
+
+        output
+    }
+
+    #[test]
+    fn metadata_resolver_populates_header_metadata() {
+        let sections = vec![json!({
+            "id": "mail-1",
+            "time": 123,
+            "serverId": 1804
+        })];
+
+        let output = resolve_metadata(sections);
+        let meta = output.metadata;
+
+        assert_eq!(meta.email_id.as_deref(), Some("mail-1"));
+        assert_eq!(meta.email_time, Some(123));
+        assert_eq!(meta.server_id, Some(1804));
+    }
+
+    #[test]
+    fn metadata_resolver_scans_for_receiver() {
+        let sections = vec![
+            json!({
+                "id": "mail-2",
+                "time": 456,
+            }),
+            json!({
+                "receiver": "player_123"
+            }),
+        ];
+
+        let output = resolve_metadata(sections);
+
+        assert_eq!(
+            output.metadata.email_receiver.as_deref(),
+            Some("player_123")
+        );
+    }
+}
