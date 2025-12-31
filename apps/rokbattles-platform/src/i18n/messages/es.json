@@ -1,418 +1,418 @@
 {
   "app": {
-    "title": "ROK Battles",
+    "title": "Batallas ROK",
     "titleTemplate": "%s - ROK Battles",
-    "description": "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
+    "description": "Una plataforma impulsada por la comunidad para compartir reportes de batallas y sacar a la luz tendencias prácticas en Rise Of Kingdoms."
   },
   "navigation": {
-    "openAccountMenu": "Open account menu",
-    "openNavigation": "Open navigation",
-    "closeNavigation": "Close navigation",
-    "toggleTheme": "Toggle theme",
-    "theme": "Theme",
-    "lightMode": "Light mode",
-    "darkMode": "Dark mode",
-    "signIn": "Sign in",
-    "signOut": "Sign out",
-    "account": "Account",
-    "exploreBattles": "Explore Battles",
-    "exploreDuels": "Explore Duels",
-    "exploreTrends": "Explore Trends",
-    "myBattles": "My Battles",
-    "myFavorites": "My Favorites",
-    "support": "Support",
-    "desktopApp": "Desktop App",
-    "cookieSettings": "Cookie Settings",
-    "privacyPolicy": "Privacy Policy",
-    "loading": "Loading...",
-    "selectGovernor": "Select a governor",
-    "claimGovernor": "Claim governor...",
-    "newGroup": "New group..."
+    "openAccountMenu": "Abrir el menú de la cuenta",
+    "openNavigation": "Abrir la navegación",
+    "closeNavigation": "Cerrar la navegación",
+    "toggleTheme": "Alternar el tema",
+    "theme": "Tema",
+    "lightMode": "Modo claro",
+    "darkMode": "Modo oscuro",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión",
+    "account": "Cuenta",
+    "exploreBattles": "Explorar batallas",
+    "exploreDuels": "Explorar duelos",
+    "exploreTrends": "Explorar trends",
+    "myBattles": "Mis batallas",
+    "myFavorites": "Mis favoritos",
+    "support": "Soporte",
+    "desktopApp": "Aplicación de escritorio",
+    "cookieSettings": "Configuración de cookies",
+    "privacyPolicy": "Política de privacidad",
+    "loading": "Cargando…",
+    "selectGovernor": "Seleccionar un gobernador",
+    "claimGovernor": "Gobernador reclamado",
+    "newGroup": "Nuevo grupo…"
   },
   "language": {
-    "title": "Language",
-    "select": "Select language",
-    "save": "Save"
+    "title": "Lenguaje",
+    "select": "Seleccionar lenguaje",
+    "save": "Guardar"
   },
   "cookieConsent": {
-    "title": "Cookie settings",
-    "message": "We use only essential cookies for authentication, security, and site functionality. If we add optional cookies in the future, you'll be able to manage them here. Read our <link>cookie policy</link> for more information.",
-    "accept": "Accept",
-    "reject": "Reject"
+    "title": "Congifuración de cookies",
+    "message": "Utilizamos únicamente cookies esenciales para la autenticación, la seguridad y la funcionalidad del sitio. Si añadimos cookies opcionales en el futuro, usted podrá gestionarlas aquí. Lea nuestro <link>cookie policy</link> para más información.",
+    "accept": "Aceptar",
+    "reject": "Rechazar"
   },
   "common": {
     "actions": {
-      "apply": "Apply",
-      "cancel": "Cancel",
-      "copied": "Copied",
-      "favorite": "Favorite",
-      "unfavorite": "Unfavorite",
-      "loadMore": "Load more",
-      "reset": "Reset",
-      "share": "Share",
-      "showLess": "Show less",
-      "showMore": "Show more"
+      "apply": "Aplicar",
+      "cancel": "Cancelar",
+      "copied": "Copiado",
+      "favorite": "Favorito",
+      "unfavorite": "No favorito",
+      "loadMore": "Cargar más",
+      "reset": "Resetear",
+      "share": "Compartir",
+      "showLess": "Mostrar menos",
+      "showMore": "Mostrar más"
     },
     "labels": {
-      "all": "All",
-      "and": "and",
-      "any": "Any",
+      "all": "Todo",
+      "and": "y",
+      "any": "Algo",
       "id": "ID {id}",
       "na": "N/A",
-      "opponent": "Opponent",
-      "primary": "Primary",
-      "rally": "Rally",
-      "secondary": "Secondary",
-      "sender": "Sender",
-      "unknown": "Unknown",
-      "unknownCommander": "Unknown commander",
-      "time": "Time",
-      "battles": "Battles",
-      "commanders": "Commanders",
+      "opponent": "Oponente",
+      "primary": "Primario",
+      "rally": "Congregación",
+      "secondary": "Secundario",
+      "sender": "Remitente",
+      "unknown": "Desconocido",
+      "unknownCommander": "Comandante desconocido",
+      "time": "Tiempo",
+      "battles": "Batallas",
+      "commanders": "Comandantes",
       "level": "Lvl {level}"
     },
     "states": {
-      "loading": "Loading reports...",
-      "loadingMore": "Loading more..."
+      "loading": "Cargando reportes…",
+      "loadingMore": "Cargando más…"
     },
     "placeholders": {
       "governorId": "71738515"
     },
     "icons": {
-      "checkmark": "Checkmark"
+      "checkmark": "Marca de verificación"
     },
     "headings": {
-      "liveFeed": "Live feed (UTC)"
+      "liveFeed": "Feed en vivo (UTC)"
     },
     "metrics": {
-      "units": "Units",
-      "dead": "Dead",
-      "severelyWounded": "Severely wounded",
-      "killPoints": "Kill Points",
-      "remaining": "Remaining"
+      "units": "Unidades",
+      "dead": "Muertos",
+      "severelyWounded": "Gravemente heridos",
+      "killPoints": "Puntos de baja",
+      "remaining": "Restantes"
     },
     "fields": {
-      "governorId": "Governor ID"
+      "governorId": "ID del gobernador"
     },
     "alt": {
-      "namedIcon": "{name} icon"
+      "namedIcon": "{name} icono"
     }
   },
   "pagination": {
-    "navigation": "Page navigation",
-    "previous": "Previous",
-    "next": "Next",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
-    "pageLabel": "Page {page}"
+    "navigation": "Página de navegación",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "previousPage": "Página anterior",
+    "nextPage": "Página siguiente",
+    "pageLabel": "Página {página}"
   },
   "reports": {
-    "title": "Battle Reports",
+    "title": "Reporte de batallas",
     "table": {
-      "duration": "Duration"
+      "duration": "Duración"
     },
     "filter": {
-      "trigger": "Filter",
-      "title": "Filters",
-      "description": "Filter battle reports by metadata, commanders, and battle roles.",
+      "trigger": "Filtro",
+      "title": "Filtros",
+      "description": "Filtrar los reportes por metadatos, comandantes y roles de batalla.",
       "sections": {
-        "metadata": "Metadata",
-        "battle": "Battle"
+        "metadata": "Metadatos",
+        "battle": "Batallas"
       },
       "fields": {
-        "type": "Type",
-        "primaryCommander": "Primary Commander",
-        "secondaryCommander": "Secondary Commander",
-        "rallySide": "Rally Side",
-        "garrisonSide": "Garrison Side",
-        "garrisonBuilding": "Garrison Building"
+        "type": "Tipo",
+        "primaryCommander": "Comandante principal",
+        "secondaryCommander": "Comandante secundario",
+        "rallySide": "Lado de congregación",
+        "garrisonSide": "Lado de guarnición",
+        "garrisonBuilding": "Edificio de guarnición"
       },
       "typeOptions": {
         "kvk": "KVK",
-        "ark": "Ark of Osiris",
-        "home": "Home"
+        "ark": "Arca de Osiris",
+        "home": "Inicio"
       },
       "sideOptions": {
-        "none": "None",
-        "either": "Either side"
+        "none": "Ninguno",
+        "either": "Cualquier lado"
       },
       "garrisonBuildingOptions": {
-        "flag": "Alliance Flag",
-        "fortress": "Alliance Fortress",
-        "other": "Other"
+        "flag": "Bandera de la alianza",
+        "fortress": "Fortaleza de la alianza",
+        "other": "Otros"
       }
     },
     "states": {
-      "empty": "No reports found."
+      "empty": "Reportes no encontrados"
     }
   },
   "report": {
-    "title": "Report",
-    "battleReportTitle": "Battle Report",
+    "title": "Reporte",
+    "battleReportTitle": "Reporte de batallas",
     "back": {
-      "reports": "Back to My Reports",
-      "favorites": "Back to My Favorites"
+      "reports": "Volver a mis reportes",
+      "favorites": "Volver a mis favoritos"
     },
     "actions": {
-      "favoriteAria": "Favorite report",
-      "unfavoriteAria": "Unfavorite report"
+      "favoriteAria": "Reporte de favoritos",
+      "unfavoriteAria": "Reporte de no favorito"
     },
     "entry": {
-      "battleSummary": "Battle summary",
-      "unknownPeriod": "Unknown period",
-      "utcPrefix": "UTC "
+      "battleSummary": "Resumen de la batalla",
+      "unknownPeriod": "Periodo desconocido",
+      "utcPrefix": "UTC"
     },
     "overview": {
-      "title": "Data summary",
-      "allEnemies": "All Enemies",
+      "title": "Resumen de datos",
+      "allEnemies": "Todos los enemigos",
       "metrics": {
-        "troopUnits": "Troop Units",
-        "severelyWounded": "Severely Wounded",
-        "slightlyWounded": "Slightly Wounded"
+        "troopUnits": "Unidades de tropas",
+        "severelyWounded": "Herido grave",
+        "slightlyWounded": "Herido leve"
       }
     },
     "commanders": {
-      "formationFallback": "Formation {formation}"
+      "formationFallback": "Formación {formation}"
     },
     "equipment": {
-      "title": "Equipment",
-      "artifacts": "Artifacts",
-      "slotAlt": "Equipment {id}"
+      "title": "Equipamiento",
+      "artifacts": "Artefactos",
+      "slotAlt": "Equipamiento {id}"
     },
     "armament": {
-      "title": "Armament Info",
-      "fallback": "Armament {id}"
+      "title": "Información de armamento",
+      "fallback": "Armamento {id}"
     },
     "metrics": {
       "battle": {
-        "heal": "Heal",
-        "slightlyWounded": "Slightly wounded",
-        "watchtowerDamage": "Watchtower Damage"
+        "heal": "Sanar",
+        "slightlyWounded": "Herido leve",
+        "watchtowerDamage": "Daño a la torre de vigilancia"
       }
     },
     "states": {
-      "loading": "Loading report...",
-      "empty": "No battles were found for this hash."
+      "loading": "Cargando reporte….",
+      "empty": "No se encontraron batallas para este hash."
     },
     "og": {
-      "unitsSuffix": " Units",
-      "killPointsSuffix": " Kill Points",
-      "deathsSuffix": " Deaths",
-      "poweredBy": "Powered by ROK Battles",
-      "failed": "Failed to load report"
+      "unitsSuffix": "Unidades",
+      "killPointsSuffix": "Puntos de baja",
+      "deathsSuffix": "Muertos",
+      "poweredBy": "Desarrollado por batallas ROK",
+      "failed": "Error al cargar el reporte"
     }
   },
   "duels": {
-    "title": "Duel Report",
-    "listTitle": "Olympian Arena Reports",
+    "title": "Reporte de duelo",
+    "listTitle": "Reporte de la Arena Olímpica",
     "table": {
-      "winStreak": "Win Streak"
+      "winStreak": "Racha de victorias"
     },
-    "summary": "Duel summary",
-    "winner": "Winner",
-    "troopBuffs": "Troop Buffs",
+    "summary": "Resumen del duelo",
+    "winner": "Ganador",
+    "troopBuffs": "Mejora de tropas",
     "metrics": {
-      "wounded": "Wounded",
-      "healed": "Healed",
-      "power": "Power"
+      "wounded": "Herido",
+      "healed": "Curado",
+      "power": "Poder"
     },
     "states": {
-      "loading": "Loading duel report...",
-      "empty": "No reports were found for this duel.",
-      "invalid": "We could not load this duel."
+      "loading": "Cargando informe de duelo…",
+      "empty": "No se encontraron reportes para este duelo.",
+      "invalid": "No pudimos cargar este duelo."
     }
   },
   "battleLog": {
-    "title": "Battle Log",
-    "loading": "Loading your battle log for {year}...",
-    "summary": "All reports for {year}. Hover to see counts.",
+    "title": "Registro de batallas",
+    "loading": "Cargando su registro de batalla de {year}…",
+    "summary": "Todos los reportes de {year}. Pase el cursor para ver los conteos.",
     "weekdays": {
-      "mon": "Mon",
-      "wed": "Wed",
-      "fri": "Fri"
+      "mon": "Lunes",
+      "wed": "Miércoles",
+      "fri": "Viernes"
     },
     "tooltip": "{date}: {battleCount, plural, one {# battle report} other {# battle reports}}, {npcCount, plural, one {# NPC report} other {# NPC reports}}",
-    "outsideRange": "Outside selected range",
+    "outsideRange": "Fuera del rango seleccionado",
     "totals": {
-      "totalReports": "{count, number} Total reports",
-      "battles": "{count, number} Battles",
+      "totalReports": "{count, number} reportes totales",
+      "battles": "{count, number} Batallas",
       "npc": "{count, number} NPC"
     }
   },
   "account": {
     "states": {
-      "loading": "Loading your account...",
-      "loginRequired": "You must be logged in to view this page.",
-      "governorRequired": "You must have a claimed governor to view this page."
+      "loading": "Cargando su cuenta…",
+      "loginRequired": "Debe iniciar sesión para ver esta página.",
+      "governorRequired": "Debe tener un gobernador reclamado para ver esta página"
     },
     "titles": {
-      "reports": "My Battle Reports",
-      "favorites": "My Favorite Reports",
-      "pairings": "My Pairings",
-      "settings": "Account Settings"
+      "reports": "Mi reporte de batallas.",
+      "favorites": "Mi reporte de favoritos.",
+      "pairings": "Mis combinaciones.",
+      "settings": "Configuración de cuenta."
     },
     "settings": {
-      "emailLabel": "Email address",
-      "emailDescription": "Your email address is synced from Discord.",
+      "emailLabel": "Correo electrónico.",
+      "emailDescription": "Su correo electrónico está sincronizado desde Discord.",
       "nav": {
         "general": "General",
-        "governors": "Governors"
+        "governors": "Gobernadores"
       }
     },
     "governors": {
-      "claimedTitle": "Claimed governors",
-      "noneClaimed": "No governors claimed yet.",
-      "claimTitle": "Claim a governor",
-      "claimDescription": "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+      "claimedTitle": "Gobernadores reclamados",
+      "noneClaimed": "Sin gobernadores reclamados aún.",
+      "claimTitle": "Reclamar a un gobernador",
+      "claimDescription": "Vincule un gobernador a su cuenta ingresando el ID del Gobernador de Rise Of Kingdoms. Puede reclamar hasta tres."
     },
     "claimForm": {
-      "maxReached": "You have reached the maximum of three claimed governors.",
-      "submit": "Claim governor",
-      "submitting": "Claiming...",
+      "maxReached": "Ha alcanzado el máximo de tres gobernadores reclamados.",
+      "submit": "Gobernador reclamado",
+      "submitting": "Reclamando…",
       "errors": {
-        "maxReached": "You can only claim up to three governors.",
-        "missingId": "Enter a governor ID.",
-        "invalidId": "Enter a valid governor ID.",
-        "unavailable": "Unable to claim governor. Please try again.",
-        "alreadyClaimed": "This governor is already claimed.",
-        "unknown": "Something went wrong while claiming the governor. Please try again."
+        "maxReached": "Solo puede reclamar hasta tres gobernadores.",
+        "missingId": "Ingrese el ID del gobernador.",
+        "invalidId": "Entre un ID de gobernador válido.",
+        "unavailable": "No se puede reclamar al gobernador. Por favor intente de nuevo.",
+        "alreadyClaimed": "Este gobernador ya está reclamado.",
+        "unknown": "Algo salió mal al reclamar al gobernador. Por favor intente de nuevo."
       }
     }
   },
   "pairings": {
-    "intro": "Choose a pairing to see how it performed, filterable by month.",
-    "selectPairing": "Select a pairing",
+    "intro": "Escoja una combinación para ver su rendimiento, filtrable por mes.",
+    "selectPairing": "Seleccione una combinación.",
     "states": {
-      "empty": "No pairings found for this period."
+      "empty": "No se encontraron combinaciones para este periodo."
     },
     "comparison": {
-      "none": "No prior month to compare",
-      "previous": "vs previous month",
+      "none": "No hay mes anterior para comparar",
+      "previous": "vs mes anterior",
       "vsMonth": "vs {month}"
     },
     "monthly": {
-      "title": "Monthly battles in {year}",
-      "hint": "Click a bar to switch months, alternatively use the select menu.",
-      "select": "Select month",
-      "selectPrompt": "Select a month"
+      "title": "Batallas mensuales en {year}",
+      "hint": "Haga clic en una barra para cambiar de mes, alternativamente, use el menú de selección.",
+      "select": "Seleccionar mes",
+      "selectPrompt": "Seleccione un mes"
     },
     "metrics": {
       "battleCount": {
-        "description": "How many battle reports you generated with this pairing in the selected month."
+        "description": "Cuántos reportes de batalla generó con esta combinación en el mes seleccionado"
       },
       "killScore": {
-        "description": "Total kill points you earned while using this pairing."
+        "description": "Total de puntos de baja que obtuvo mientras estaba usando esta combinación"
       },
       "enemyKillScore": {
-        "label": "Enemy Kill Points",
-        "description": "Total kill points your opponents earned against you."
+        "label": "Puntos de eliminación enemigos",
+        "description": "Total de puntos de eliminación que sus oponentes obtuvieron contra usted."
       },
       "severelyWounded": {
-        "label": "Severely Wounded (Taken)",
-        "description": "Number of your troops that became severely wounded while using this pairing."
+        "label": "Heridos graves (tomados)",
+        "description": "Número de tropas que resultaron severamente heridas mientras usó esta combinación."
       },
       "enemySeverelyWounded": {
-        "label": "Severely Wounded (Inflicted)",
-        "description": "Number of enemy troops you caused to become severely wounded."
+        "label": "Heridos graves (inflingidos)",
+        "description": "Número de tropas enemigas a las que le causó heridas graves."
       },
       "averageBattleDuration": {
-        "label": "Avg. Battle Duration",
-        "description": "Average length of battles recorded for this pairing in the selected month."
+        "label": "Duración promedio de batalla",
+        "description": "Duración promedio de batallas registradas para esta combinación en el mes seleccionado"
       },
       "dps": {
-        "label": "Damage Per Second (DPS)",
-        "description": "Average amount of damage you inflict per second with this pairing."
+        "label": "Daño por segundo (DPS)",
+        "description": "Duración promedio de daño que inflinge por segundo esta combinación."
       },
       "sps": {
-        "label": "Sevs Per Second (SPS)",
-        "description": "Rate at which you inflict severely wounded troops each second."
+        "label": "Graves por segundo (SPS)",
+        "description": "Tasa a la que inflinge heridas graves a las tropas por segundo"
       },
       "tps": {
-        "label": "Sevs Taken Per Second (TPS)",
-        "description": "Rate at which your troops become severely wounded each second."
+        "label": "Heridos graves por segundo (TPS)",
+        "description": "Tasa de sus tropas que resultaron gravemente heridas cada segundo."
       }
     }
   },
   "trends": {
     "categories": {
-      "field": "Field Reports",
-      "rally": "Rally Reports",
-      "garrison": "Garrison Reports"
+      "field": "Reportes de campo",
+      "rally": "Reportes de congregación",
+      "garrison": "Reportes de guarnición"
     },
     "errors": {
-      "fetch": "Failed to load trends ({status})",
-      "generic": "Failed to load trends"
+      "fetch": "Error al cargar tendencias ({status})",
+      "generic": "Error al cargar tendencias"
     },
     "overview": {
-      "title": "Trends Overview",
-      "period": "Period",
+      "title": "Resumen de trends",
+      "period": "Periodo",
       "periodFallback": "2025 Q4",
-      "minimumReports": "Minimum reports per pairing",
-      "minimumReportCounts": "Field {field, number}; Rally {rally, number}; Garrison {garrison, number}",
-      "generated": "Generated",
-      "categorySummary": "{pairings, number} Pairings in {reports, number} Reports (min {min, number})"
+      "minimumReports": "Reporte mínimo por combinación",
+      "minimumReportCounts": "Campo {field, number}; Congregación {rally, number}; Guarnición {garrison, number}",
+      "generated": "Generado",
+      "categorySummary": "{pairings, number} Combinado en {reports, number} Reportes (min {min, number})"
     },
     "table": {
       "rank": "#",
-      "pairing": "Pairing",
-      "topAccessory": "Top accessory",
-      "reports": "Reports"
+      "pairing": "Combinados",
+      "topAccessory": "Accesorio principal",
+      "reports": "Reportes"
     },
     "states": {
-      "loading": "Loading pairing trends...",
-      "empty": "No trend snapshot found.",
-      "thresholdEmpty": "No pairings met the threshold for this category.",
-      "detailsLoading": "Loading pairing details...",
-      "unknownCategory": "Unknown category.",
-      "notFound": "Pairing not found.",
-      "invalidPairing": "Invalid pairing."
+      "loading": "Cargando tendencias combinadas...",
+      "empty": "Ninguna instantánea encontrada",
+      "thresholdEmpty": "Ninguna combinación alcanzó el umbral para esta categoría.",
+      "detailsLoading": "Cargando detalles de combinación...",
+      "unknownCategory": "Categoría desconocida.",
+      "notFound": "Combinación no encontrada.",
+      "invalidPairing": "Combinación inválida."
     },
     "details": {
-      "title": "Trend Details",
-      "category": "Category",
-      "totalReports": "Total reports",
+      "title": "Detalles de trend",
+      "category": "Categoría",
+      "totalReports": "Reportes totales",
       "accessoryPairs": {
-        "title": "Accessory Pairs",
-        "header": "Accessory pair"
+        "title": "Pares de accesorios",
+        "header": "Par de accesorios"
       },
       "accessories": {
-        "title": "Individual Accessories",
-        "header": "Accessory"
+        "title": "Accesorios individuales",
+        "header": "Accesorio"
       }
     },
     "accessories": {
-      "emptyPairs": "No accessory pairs recorded.",
-      "emptyAccessories": "No accessory data recorded."
+      "emptyPairs": "No se registraron pares de accesorios.",
+      "emptyAccessories": "No se registraron datos de accesorios."
     }
   },
   "errors": {
     "reports": {
-      "fetch": "Failed to fetch reports: {status}",
-      "generic": "Failed to fetch reports."
+      "fetch": "Error al obtener reportes: {status}",
+      "generic": "Error al obtener reportes."
     },
     "report": {
-      "fetch": "Failed to fetch report: {status}",
-      "generic": "Failed to fetch report."
+      "fetch": "Error al obtener reporte: {status}",
+      "generic": "Error al obtener reporte."
     },
     "favorites": {
-      "fetch": "Failed to fetch favorites: {status}",
-      "generic": "Failed to fetch favorites."
+      "fetch": "Error al obtener favoritos: {status}",
+      "generic": "Error al obtener favoritos."
     },
     "duels": {
-      "fetch": "Failed to fetch duels: {status}",
-      "generic": "Failed to fetch duels."
+      "fetch": "Error al obtener duelos:  {status}",
+      "generic": "Error al obtener duelos."
     },
     "duel": {
-      "fetch": "Failed to fetch duel: {status}",
-      "generic": "Failed to fetch duel."
+      "fetch": "Error al obtener duelo: {status}",
+      "generic": "Error al obtener duelo."
     },
     "battleLog": {
-      "fetch": "Failed to load battle log ({status})",
-      "generic": "Failed to load battle log."
+      "fetch": "Error al cargar el registro de batalla: ({status})",
+      "generic": "Error al cargar el registro de batalla."
     },
     "pairings": {
-      "fetch": "Failed to load marches: {status}",
-      "generic": "Failed to load marches."
+      "fetch": "Error al cargar marchas: {status}",
+      "generic": "Error al cargar marchas."
     }
   }
 }
