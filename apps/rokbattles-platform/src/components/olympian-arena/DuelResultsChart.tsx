@@ -47,7 +47,7 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 function getMetricValue(results: DuelResults, key: keyof DuelResults) {
-  const raw = results?.[key];
+  const raw = results[key];
   if (typeof raw !== "number" || !Number.isFinite(raw)) {
     return null;
   }

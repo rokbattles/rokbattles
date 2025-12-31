@@ -153,10 +153,10 @@ pub(crate) fn build_commander(value: &Value) -> DuelBattle2Commander {
         return commander;
     };
 
-    commander.id = obj.get("HeroId").and_then(parse_i64);
-    commander.level = obj.get("HeroLevel").and_then(parse_i64);
-    commander.star = obj.get("Star").and_then(parse_i64);
-    commander.awaked = obj.get("Awaked").and_then(parse_bool);
+    commander.id = obj.get("HeroId").and_then(parse_i64).unwrap_or_default();
+    commander.level = obj.get("HeroLevel").and_then(parse_i64).unwrap_or_default();
+    commander.star = obj.get("Star").and_then(parse_i64).unwrap_or_default();
+    commander.awakened = obj.get("Awaked").and_then(parse_bool).unwrap_or_default();
 
     commander
 }
@@ -175,9 +175,9 @@ pub(crate) fn push_skill_from_value(value: &Value, skills: &mut Vec<DuelBattle2S
     }
 
     skills.push(DuelBattle2Skill {
-        id: skill_id,
-        level,
-        order,
+        id: skill_id.unwrap_or_default(),
+        level: level.unwrap_or_default(),
+        order: order.unwrap_or_default(),
     });
 }
 
@@ -197,7 +197,7 @@ fn buff_from_object(obj: &Map<String, Value>) -> Option<DuelBattle2Buff> {
     }
 
     Some(DuelBattle2Buff {
-        id: obj.get("BuffId").and_then(parse_i64),
-        value: obj.get("BuffValue").and_then(parse_f64),
+        id: obj.get("BuffId").and_then(parse_i64).unwrap_or_default(),
+        value: obj.get("BuffValue").and_then(parse_f64).unwrap_or_default(),
     })
 }

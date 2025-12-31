@@ -68,31 +68,75 @@ impl Resolver<MailContext<'_>, DuelBattle2Mail> for MetadataResolver {
         let meta = &mut output.metadata;
 
         // Prefer the first section because it usually carries the mail header.
-        if let Some(first) = sections.first() {
-            if meta.email_id.is_none() {
-                meta.email_id = first.get("id").and_then(Self::parse_string);
-            }
-            if meta.email_time.is_none() {
-                meta.email_time = first.get("time").and_then(Self::parse_i64);
-            }
-            if meta.server_id.is_none() {
-                meta.server_id = first.get("serverId").and_then(Self::parse_i64);
-            }
-        }
-
-        if meta.email_id.is_none() {
-            meta.email_id = Self::find_string(sections, "id");
-        }
-        if meta.email_time.is_none() {
-            meta.email_time = Self::find_i64(sections, "time");
-        }
-        if meta.email_receiver.is_none() {
-            meta.email_receiver = Self::find_string(sections, "receiver");
-        }
-        if meta.server_id.is_none() {
-            meta.server_id = Self::find_i64(sections, "serverId");
-        }
+        let first = sections.first();
+        meta.email_id = first
+            .and_then(|section| section.get("id").and_then(Self::parse_string))
+            .or_else(|| Self::find_string(sections, "id"))
+            .unwrap_or_default();
+        meta.email_time = first
+            .and_then(|section| section.get("time").and_then(Self::parse_i64))
+            .or_else(|| Self::find_i64(sections, "time"))
+            .unwrap_or_default();
+        meta.email_receiver = Self::find_string(sections, "receiver").unwrap_or_default();
+        meta.server_id = first
+            .and_then(|section| section.get("serverId").and_then(Self::parse_i64))
+            .or_else(|| Self::find_i64(sections, "serverId"))
+            .unwrap_or_default();
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::MetadataResolver;
+    use crate::context::MailContext;
+    use crate::structures::DuelBattle2Mail;
+    use mail_processor_sdk::Resolver;
+    use serde_json::{Value, json};
+
+    fn resolve_metadata(sections: Vec<Value>) -> DuelBattle2Mail {
+        let ctx = MailContext::new(&sections);
+        let mut output = DuelBattle2Mail::default();
+        let resolver = MetadataResolver::new();
+
+        resolver
+            .resolve(&ctx, &mut output)
+            .expect("resolve metadata");
+
+        output
+    }
+
+    #[test]
+    fn metadata_resolver_populates_header_metadata() {
+        let sections = vec![json!({
+            "id": "mail-1",
+            "time": 123,
+            "serverId": 1804
+        })];
+
+        let output = resolve_metadata(sections);
+        let meta = output.metadata;
+
+        assert_eq!(meta.email_id, "mail-1");
+        assert_eq!(meta.email_time, 123);
+        assert_eq!(meta.server_id, 1804);
+    }
+
+    #[test]
+    fn metadata_resolver_scans_for_receiver() {
+        let sections = vec![
+            json!({
+                "id": "mail-2",
+                "time": 456,
+            }),
+            json!({
+                "receiver": "player_123"
+            }),
+        ];
+
+        let output = resolve_metadata(sections);
+
+        assert_eq!(output.metadata.email_receiver, "player_123");
     }
 }
