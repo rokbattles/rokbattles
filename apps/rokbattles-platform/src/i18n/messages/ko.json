@@ -1,418 +1,418 @@
 {
   "app": {
-    "title": "ROK Battles",
-    "titleTemplate": "%s - ROK Battles",
-    "description": "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
+    "title": "라이즈 오브 킹덤즈 전투",
+    "titleTemplate": "%s - 라이즈 오브 킹덤즈 전투",
+    "description": "라이즈 오브 킹덤즈의 전투 보고서를 공유하고 실전 트렌드를 파악하는 커뮤니티 기반 플랫폼"
   },
   "navigation": {
-    "openAccountMenu": "Open account menu",
-    "openNavigation": "Open navigation",
-    "closeNavigation": "Close navigation",
-    "toggleTheme": "Toggle theme",
-    "theme": "Theme",
-    "lightMode": "Light mode",
-    "darkMode": "Dark mode",
-    "signIn": "Sign in",
-    "signOut": "Sign out",
-    "account": "Account",
-    "exploreBattles": "Explore Battles",
-    "exploreDuels": "Explore Duels",
-    "exploreTrends": "Explore Trends",
-    "myBattles": "My Battles",
-    "myFavorites": "My Favorites",
-    "support": "Support",
-    "desktopApp": "Desktop App",
-    "cookieSettings": "Cookie Settings",
-    "privacyPolicy": "Privacy Policy",
-    "loading": "Loading...",
-    "selectGovernor": "Select a governor",
-    "claimGovernor": "Claim governor...",
-    "newGroup": "New group..."
+    "openAccountMenu": "계정 메뉴 열기",
+    "openNavigation": "네비게이션 열기",
+    "closeNavigation": "네비게이션 닫기",
+    "toggleTheme": "테마 변경",
+    "theme": "테마",
+    "lightMode": "라이트 모드",
+    "darkMode": "다크 모드",
+    "signIn": "로그인",
+    "signOut": "로그아웃",
+    "account": "계정",
+    "exploreBattles": "전투 탐색",
+    "exploreDuels": "결투 탐색",
+    "exploreTrends": "트렌드 탐색",
+    "myBattles": "내 전투",
+    "myFavorites": "즐겨찾기",
+    "support": "고객 지원",
+    "desktopApp": "데스크톱 앱",
+    "cookieSettings": "쿠키 설정",
+    "privacyPolicy": "개인정보 처리방침",
+    "loading": "로딩 중...",
+    "selectGovernor": "지도자 선택",
+    "claimGovernor": "지도자 등록...",
+    "newGroup": "새 그룹..."
   },
   "language": {
-    "title": "Language",
-    "select": "Select language",
-    "save": "Save"
+    "title": "언어",
+    "select": "언어 선택",
+    "save": "저장"
   },
   "cookieConsent": {
-    "title": "Cookie settings",
-    "message": "We use only essential cookies for authentication, security, and site functionality. If we add optional cookies in the future, you'll be able to manage them here. Read our <link>cookie policy</link> for more information.",
-    "accept": "Accept",
-    "reject": "Reject"
+    "title": "쿠키 설정",
+    "message": "본 사이트는 인증, 보안 및 기본 기능 수행을 위해 필수 쿠키만을 사용합니다. 향후 선택 항목 쿠키가 추가될 경우 여기에서 관리하실 수 있습니다. 자세한 내용은 <link>쿠키 정책</link>을 확인해 주세요.",
+    "accept": "동의",
+    "reject": "거부"
   },
   "common": {
     "actions": {
-      "apply": "Apply",
-      "cancel": "Cancel",
-      "copied": "Copied",
-      "favorite": "Favorite",
-      "unfavorite": "Unfavorite",
-      "loadMore": "Load more",
-      "reset": "Reset",
-      "share": "Share",
-      "showLess": "Show less",
-      "showMore": "Show more"
+      "apply": "적용",
+      "cancel": "취소",
+      "copied": "복사됨",
+      "favorite": "즐겨찾기 추가",
+      "unfavorite": "즐겨찾기 해제",
+      "loadMore": "더 보기",
+      "reset": "초기화",
+      "share": "공유",
+      "showLess": "간략히 보기",
+      "showMore": "자세히 보기"
     },
     "labels": {
-      "all": "All",
-      "and": "and",
-      "any": "Any",
+      "all": "전체",
+      "and": "그리고",
+      "any": "또는",
       "id": "ID {id}",
-      "na": "N/A",
-      "opponent": "Opponent",
-      "primary": "Primary",
-      "rally": "Rally",
-      "secondary": "Secondary",
-      "sender": "Sender",
-      "unknown": "Unknown",
-      "unknownCommander": "Unknown commander",
-      "time": "Time",
-      "battles": "Battles",
-      "commanders": "Commanders",
-      "level": "Lvl {level}"
+      "na": "해당 없음",
+      "opponent": "상대방",
+      "primary": "주사령관",
+      "rally": "집결",
+      "secondary": "부사령관",
+      "sender": "발신인",
+      "unknown": "알 수 없음",
+      "unknownCommander": "알 수 없는 사령관",
+      "time": "시간",
+      "battles": "전투",
+      "commanders": "사령관",
+      "level": "Lv {level}"
     },
     "states": {
-      "loading": "Loading reports...",
-      "loadingMore": "Loading more..."
+      "loading": "보고서 불러오는 중...",
+      "loadingMore": "더 불러오는 중..."
     },
     "placeholders": {
       "governorId": "71738515"
     },
     "icons": {
-      "checkmark": "Checkmark"
+      "checkmark": "체크 표시"
     },
     "headings": {
-      "liveFeed": "Live feed (UTC)"
+      "liveFeed": "실시간 피드 (UTC)"
     },
     "metrics": {
-      "units": "Units",
-      "dead": "Dead",
-      "severelyWounded": "Severely wounded",
-      "killPoints": "Kill Points",
-      "remaining": "Remaining"
+      "units": "유닛",
+      "dead": "전사",
+      "severelyWounded": "중상",
+      "killPoints": "처치 점수",
+      "remaining": "잔여"
     },
     "fields": {
-      "governorId": "Governor ID"
+      "governorId": "지도자 ID"
     },
     "alt": {
-      "namedIcon": "{name} icon"
+      "namedIcon": "{name} 아이콘"
     }
   },
   "pagination": {
-    "navigation": "Page navigation",
-    "previous": "Previous",
-    "next": "Next",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
-    "pageLabel": "Page {page}"
+    "navigation": "페이지 이동",
+    "previous": "이전",
+    "next": "다음",
+    "previousPage": "이전 페이지",
+    "nextPage": "다음 페이지",
+    "pageLabel": "{page} 페이지"
   },
   "reports": {
-    "title": "Battle Reports",
+    "title": "전투 보고서",
     "table": {
-      "duration": "Duration"
+      "duration": "지속 시간"
     },
     "filter": {
-      "trigger": "Filter",
-      "title": "Filters",
-      "description": "Filter battle reports by metadata, commanders, and battle roles.",
+      "trigger": "필터",
+      "title": "필터",
+      "description": "메타데이터, 사령관, 전투 역할별로 보고서를 필터링합니다.",
       "sections": {
-        "metadata": "Metadata",
-        "battle": "Battle"
+        "metadata": "메타데이터",
+        "battle": "전투"
       },
       "fields": {
-        "type": "Type",
-        "primaryCommander": "Primary Commander",
-        "secondaryCommander": "Secondary Commander",
-        "rallySide": "Rally Side",
-        "garrisonSide": "Garrison Side",
-        "garrisonBuilding": "Garrison Building"
+        "type": "유형",
+        "primaryCommander": "주사령관",
+        "secondaryCommander": "부사령관",
+        "rallySide": "집결 측",
+        "garrisonSide": "주둔 측",
+        "garrisonBuilding": "주둔 건물"
       },
       "typeOptions": {
         "kvk": "KVK",
-        "ark": "Ark of Osiris",
-        "home": "Home"
+        "ark": "오시리스의 함",
+        "home": "본국"
       },
       "sideOptions": {
-        "none": "None",
-        "either": "Either side"
+        "none": "없음",
+        "either": "양측 모두"
       },
       "garrisonBuildingOptions": {
-        "flag": "Alliance Flag",
-        "fortress": "Alliance Fortress",
-        "other": "Other"
+        "flag": "연맹 깃발",
+        "fortress": "연맹 요새",
+        "other": "기타"
       }
     },
     "states": {
-      "empty": "No reports found."
+      "empty": "보고서를 찾을 수 없습니다."
     }
   },
   "report": {
-    "title": "Report",
-    "battleReportTitle": "Battle Report",
+    "title": "보고서",
+    "battleReportTitle": "전투 보고서",
     "back": {
-      "reports": "Back to My Reports",
-      "favorites": "Back to My Favorites"
+      "reports": "내 보고서로 돌아가기",
+      "favorites": "내 즐겨찾기로 돌아가기"
     },
     "actions": {
-      "favoriteAria": "Favorite report",
-      "unfavoriteAria": "Unfavorite report"
+      "favoriteAria": "보고서 즐겨찾기",
+      "unfavoriteAria": "보고서 즐겨찾기 해제"
     },
     "entry": {
-      "battleSummary": "Battle summary",
-      "unknownPeriod": "Unknown period",
-      "utcPrefix": "UTC "
+      "battleSummary": "전투 요약",
+      "unknownPeriod": "기간 불명",
+      "utcPrefix": "UTC"
     },
     "overview": {
-      "title": "Data summary",
-      "allEnemies": "All Enemies",
+      "title": "데이터 요약",
+      "allEnemies": "모든 적군",
       "metrics": {
-        "troopUnits": "Troop Units",
-        "severelyWounded": "Severely Wounded",
-        "slightlyWounded": "Slightly Wounded"
+        "troopUnits": "병과 유닛",
+        "severelyWounded": "중상",
+        "slightlyWounded": "경상"
       }
     },
     "commanders": {
-      "formationFallback": "Formation {formation}"
+      "formationFallback": "진형 {formation}"
     },
     "equipment": {
-      "title": "Equipment",
-      "artifacts": "Artifacts",
-      "slotAlt": "Equipment {id}"
+      "title": "장비",
+      "artifacts": "장신구",
+      "slotAlt": "장비 {id}"
     },
     "armament": {
-      "title": "Armament Info",
-      "fallback": "Armament {id}"
+      "title": "군비 정보",
+      "fallback": "군비 {id}"
     },
     "metrics": {
       "battle": {
-        "heal": "Heal",
-        "slightlyWounded": "Slightly wounded",
-        "watchtowerDamage": "Watchtower Damage"
+        "heal": "치료",
+        "slightlyWounded": "경상",
+        "watchtowerDamage": "파수탑 피해"
       }
     },
     "states": {
-      "loading": "Loading report...",
-      "empty": "No battles were found for this hash."
+      "loading": "보고서 불러오는 중...",
+      "empty": "해당 해시값에 대한 전투를 찾을 수 없습니다."
     },
     "og": {
-      "unitsSuffix": " Units",
-      "killPointsSuffix": " Kill Points",
-      "deathsSuffix": " Deaths",
-      "poweredBy": "Powered by ROK Battles",
-      "failed": "Failed to load report"
+      "unitsSuffix": "유닛",
+      "killPointsSuffix": "처치 점수",
+      "deathsSuffix": "전사",
+      "poweredBy": "라이즈 오브 킹덤즈 전투시스템 기반",
+      "failed": "보고서를 불러오지 못했습니다"
     }
   },
   "duels": {
-    "title": "Duel Report",
-    "listTitle": "Olympian Arena Reports",
+    "title": "결투 보고서",
+    "listTitle": "올림피아 요새 보고서",
     "table": {
-      "winStreak": "Win Streak"
+      "winStreak": "연승"
     },
-    "summary": "Duel summary",
-    "winner": "Winner",
-    "troopBuffs": "Troop Buffs",
+    "summary": "결투 요약",
+    "winner": "승자",
+    "troopBuffs": "부대 버프",
     "metrics": {
-      "wounded": "Wounded",
-      "healed": "Healed",
-      "power": "Power"
+      "wounded": "부상",
+      "healed": "치료 완료",
+      "power": "투력"
     },
     "states": {
-      "loading": "Loading duel report...",
-      "empty": "No reports were found for this duel.",
-      "invalid": "We could not load this duel."
+      "loading": "결투 보고서 불러오는 중...",
+      "empty": "해당 결투에 대한 보고서가 없습니다.",
+      "invalid": "결투 정보를 불러올 수 없습니다."
     }
   },
   "battleLog": {
-    "title": "Battle Log",
-    "loading": "Loading your battle log for {year}...",
-    "summary": "All reports for {year}. Hover to see counts.",
+    "title": "전투 로그",
+    "loading": "{year}년 전투 로그를 불러오는 중...",
+    "summary": "{year}년 전체 보고서입니다. 마우스를 올리면 상세 수치를 확인할 수 있습니다.",
     "weekdays": {
-      "mon": "Mon",
-      "wed": "Wed",
-      "fri": "Fri"
+      "mon": "월",
+      "wed": "수",
+      "fri": "금"
     },
-    "tooltip": "{date}: {battleCount, plural, one {# battle report} other {# battle reports}}, {npcCount, plural, one {# NPC report} other {# NPC reports}}",
-    "outsideRange": "Outside selected range",
+    "tooltip": "{date}: {battleCount, plural, one {전투 보고서 #건} other {전투 보고서 #건}}, {npcCount, plural, one {NPC 보고서 #건} other {NPC 보고서 #건}}",
+    "outsideRange": "선택 범위 외",
     "totals": {
-      "totalReports": "{count, number} Total reports",
-      "battles": "{count, number} Battles",
-      "npc": "{count, number} NPC"
+      "totalReports": "총 보고서 {count, number}건",
+      "battles": "전투 {count, number}건",
+      "npc": "NPC {count, number}건"
     }
   },
   "account": {
     "states": {
-      "loading": "Loading your account...",
-      "loginRequired": "You must be logged in to view this page.",
-      "governorRequired": "You must have a claimed governor to view this page."
+      "loading": "계정 정보를 불러오는 중...",
+      "loginRequired": "이 페이지를 보려면 로그인이 필요합니다.",
+      "governorRequired": "이 페이지를 보려면 등록된 지도자가 있어야 합니다."
     },
     "titles": {
-      "reports": "My Battle Reports",
-      "favorites": "My Favorite Reports",
-      "pairings": "My Pairings",
-      "settings": "Account Settings"
+      "reports": "내 전투 보고서",
+      "favorites": "내 즐겨찾기 보고서",
+      "pairings": "내 조합",
+      "settings": "계정 설정"
     },
     "settings": {
-      "emailLabel": "Email address",
-      "emailDescription": "Your email address is synced from Discord.",
+      "emailLabel": "이메일 주소",
+      "emailDescription": "이메일 주소는 디스코드와 동기화됩니다.",
       "nav": {
-        "general": "General",
-        "governors": "Governors"
+        "general": "일반",
+        "governors": "지도자"
       }
     },
     "governors": {
-      "claimedTitle": "Claimed governors",
-      "noneClaimed": "No governors claimed yet.",
-      "claimTitle": "Claim a governor",
-      "claimDescription": "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+      "claimedTitle": "등록된 지도자",
+      "noneClaimed": "등록된 지도자가 없습니다.",
+      "claimTitle": "지도자 등록",
+      "claimDescription": "라이즈 오브 킹덤즈의 지도자 ID를 입력하여 계정에 연결하세요. 최대 3명까지 등록할 수 있습니다."
     },
     "claimForm": {
-      "maxReached": "You have reached the maximum of three claimed governors.",
-      "submit": "Claim governor",
-      "submitting": "Claiming...",
+      "maxReached": "최대 등록 가능 인원(3명)에 도달했습니다.",
+      "submit": "지도자 등록",
+      "submitting": "등록 중...",
       "errors": {
-        "maxReached": "You can only claim up to three governors.",
-        "missingId": "Enter a governor ID.",
-        "invalidId": "Enter a valid governor ID.",
-        "unavailable": "Unable to claim governor. Please try again.",
-        "alreadyClaimed": "This governor is already claimed.",
-        "unknown": "Something went wrong while claiming the governor. Please try again."
+        "maxReached": "지도자는 최대 3명까지만 등록할 수 있습니다.",
+        "missingId": "지도자 ID를 입력하세요.",
+        "invalidId": "올바른 지도자 ID를 입력하세요.",
+        "unavailable": "지도자를 등록할 수 없습니다. 다시 시도해 주세요.",
+        "alreadyClaimed": "이미 등록된 지도자입니다.",
+        "unknown": "지도자 등록 중 오류가 발생했습니다. 다시 시도해 주세요."
       }
     }
   },
   "pairings": {
-    "intro": "Choose a pairing to see how it performed, filterable by month.",
-    "selectPairing": "Select a pairing",
+    "intro": "성능을 확인할 조합을 선택하세요. 월별 필터링이 가능합니다.",
+    "selectPairing": "조합 선택",
     "states": {
-      "empty": "No pairings found for this period."
+      "empty": "해당 기간에 대한 조합 데이터가 없습니다."
     },
     "comparison": {
-      "none": "No prior month to compare",
-      "previous": "vs previous month",
-      "vsMonth": "vs {month}"
+      "none": "비교할 이전 달 데이터 없음",
+      "previous": "지난달 대비",
+      "vsMonth": "{month}월 대비"
     },
     "monthly": {
-      "title": "Monthly battles in {year}",
-      "hint": "Click a bar to switch months, alternatively use the select menu.",
-      "select": "Select month",
-      "selectPrompt": "Select a month"
+      "title": "{year}년 월별 전투",
+      "hint": "막대 차트를 클릭하거나 선택 메뉴를 사용하여 월을 변경하세요.",
+      "select": "월 선택",
+      "selectPrompt": "월을 선택하세요"
     },
     "metrics": {
       "battleCount": {
-        "description": "How many battle reports you generated with this pairing in the selected month."
+        "description": "선택한 달에 해당 조합으로 생성된 전투 보고서 수입니다."
       },
       "killScore": {
-        "description": "Total kill points you earned while using this pairing."
+        "description": "해당 조합을 사용하여 획득한 총 처치 점수입니다."
       },
       "enemyKillScore": {
-        "label": "Enemy Kill Points",
-        "description": "Total kill points your opponents earned against you."
+        "label": "적군 처치 점수",
+        "description": "상대방이 나를 상대로 획득한 총 처치 점수입니다."
       },
       "severelyWounded": {
-        "label": "Severely Wounded (Taken)",
-        "description": "Number of your troops that became severely wounded while using this pairing."
+        "label": "중상 (입음)",
+        "description": "해당 조합 사용 중 중상을 입은 내 병력 수입니다."
       },
       "enemySeverelyWounded": {
-        "label": "Severely Wounded (Inflicted)",
-        "description": "Number of enemy troops you caused to become severely wounded."
+        "label": "중상 (입힘)",
+        "description": "상대 병력에 입힌 중상자 수입니다."
       },
       "averageBattleDuration": {
-        "label": "Avg. Battle Duration",
-        "description": "Average length of battles recorded for this pairing in the selected month."
+        "label": "평균 전투 시간",
+        "description": "선택한 달에 기록된 해당 조합의 평균 전투 시간입니다."
       },
       "dps": {
-        "label": "Damage Per Second (DPS)",
-        "description": "Average amount of damage you inflict per second with this pairing."
+        "label": "초당 데미지 (DPS)",
+        "description": "해당 조합으로 초당 가하는 평균 데미지입니다."
       },
       "sps": {
-        "label": "Sevs Per Second (SPS)",
-        "description": "Rate at which you inflict severely wounded troops each second."
+        "label": "초당 중상 수 (SPS)",
+        "description": "초당 적에게 입히는 중상자 발생률입니다."
       },
       "tps": {
-        "label": "Sevs Taken Per Second (TPS)",
-        "description": "Rate at which your troops become severely wounded each second."
+        "label": "초당 피격 중상 수 (TPS)",
+        "description": "초당 내 병력이 중상을 입는 비율입니다."
       }
     }
   },
   "trends": {
     "categories": {
-      "field": "Field Reports",
-      "rally": "Rally Reports",
-      "garrison": "Garrison Reports"
+      "field": "필드 보고서",
+      "rally": "집결 보고서",
+      "garrison": "주둔 보고서"
     },
     "errors": {
-      "fetch": "Failed to load trends ({status})",
-      "generic": "Failed to load trends"
+      "fetch": "트렌드를 불러오지 못했습니다 ({status})",
+      "generic": "트렌드를 불러오지 못했습니다"
     },
     "overview": {
-      "title": "Trends Overview",
-      "period": "Period",
-      "periodFallback": "2025 Q4",
-      "minimumReports": "Minimum reports per pairing",
-      "minimumReportCounts": "Field {field, number}; Rally {rally, number}; Garrison {garrison, number}",
-      "generated": "Generated",
-      "categorySummary": "{pairings, number} Pairings in {reports, number} Reports (min {min, number})"
+      "title": "트렌드 개요",
+      "period": "기간",
+      "periodFallback": "2025년 4분기",
+      "minimumReports": "조합당 최소 보고서 수",
+      "minimumReportCounts": "필드 {field, number}; 집결 {rally, number}; 주둔 {garrison, number}",
+      "generated": "생성됨",
+      "categorySummary": "보고서 {reports, number}건 중 조합 {pairings, number}개 (최소 {min, number}건)"
     },
     "table": {
       "rank": "#",
-      "pairing": "Pairing",
-      "topAccessory": "Top accessory",
-      "reports": "Reports"
+      "pairing": "조합",
+      "topAccessory": "인기 장신구",
+      "reports": "보고서"
     },
     "states": {
-      "loading": "Loading pairing trends...",
-      "empty": "No trend snapshot found.",
-      "thresholdEmpty": "No pairings met the threshold for this category.",
-      "detailsLoading": "Loading pairing details...",
-      "unknownCategory": "Unknown category.",
-      "notFound": "Pairing not found.",
-      "invalidPairing": "Invalid pairing."
+      "loading": "조합 트렌드 불러오는 중...",
+      "empty": "트렌드 스냅샷을 찾을 수 없습니다.",
+      "thresholdEmpty": "이 카테고리의 기준을 충족하는 조합이 없습니다.",
+      "detailsLoading": "조합 상세 정보 불러오는 중...",
+      "unknownCategory": "알 수 없는 카테고리입니다.",
+      "notFound": "조합을 찾을 수 없습니다.",
+      "invalidPairing": "유효하지 않은 조합입니다."
     },
     "details": {
-      "title": "Trend Details",
-      "category": "Category",
-      "totalReports": "Total reports",
+      "title": "트렌드 상세 정보",
+      "category": "카테고리",
+      "totalReports": "총 보고서",
       "accessoryPairs": {
-        "title": "Accessory Pairs",
-        "header": "Accessory pair"
+        "title": "장신구 조합",
+        "header": "장신구 조합"
       },
       "accessories": {
-        "title": "Individual Accessories",
-        "header": "Accessory"
+        "title": "개별 장신구",
+        "header": "장신구"
       }
     },
     "accessories": {
-      "emptyPairs": "No accessory pairs recorded.",
-      "emptyAccessories": "No accessory data recorded."
+      "emptyPairs": "기록된 장신구 조합이 없습니다.",
+      "emptyAccessories": "기록된 장신구 데이터가 없습니다."
     }
   },
   "errors": {
     "reports": {
-      "fetch": "Failed to fetch reports: {status}",
-      "generic": "Failed to fetch reports."
+      "fetch": "보고서 목록을 가져오지 못했습니다: {status}",
+      "generic": "보고서 목록을 가져오지 못했습니다."
     },
     "report": {
-      "fetch": "Failed to fetch report: {status}",
-      "generic": "Failed to fetch report."
+      "fetch": "보고서를 가져오지 못했습니다: {status}",
+      "generic": "보고서를 가져오지 못했습니다."
     },
     "favorites": {
-      "fetch": "Failed to fetch favorites: {status}",
-      "generic": "Failed to fetch favorites."
+      "fetch": "즐겨찾기 목록을 가져오지 못했습니다: {status}",
+      "generic": "즐겨찾기 목록을 가져오지 못했습니다."
     },
     "duels": {
-      "fetch": "Failed to fetch duels: {status}",
-      "generic": "Failed to fetch duels."
+      "fetch": "결투 목록을 가져오지 못했습니다: {status}",
+      "generic": "결투 목록을 가져오지 못했습니다."
     },
     "duel": {
-      "fetch": "Failed to fetch duel: {status}",
-      "generic": "Failed to fetch duel."
+      "fetch": "결투 정보를 가져오지 못했습니다: {status}",
+      "generic": "결투 정보를 가져오지 못했습니다."
     },
     "battleLog": {
-      "fetch": "Failed to load battle log ({status})",
-      "generic": "Failed to load battle log."
+      "fetch": "전투 로그를 불러오지 못했습니다 ({status})",
+      "generic": "전투 로그를 불러오지 못했습니다."
     },
     "pairings": {
-      "fetch": "Failed to load marches: {status}",
-      "generic": "Failed to load marches."
+      "fetch": "행군 부대 정보를 불러오지 못했습니다: {status}",
+      "generic": "행군 부대 정보를 불러오지 못했습니다."
     }
   }
 }
