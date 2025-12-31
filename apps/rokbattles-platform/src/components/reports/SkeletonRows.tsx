@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { TableCell, TableRow } from "@/components/ui/Table";
 import { cn } from "@/lib/cn";
 
@@ -11,11 +12,12 @@ type Props = {
 const DefaultWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 
 export default function SkeletonRows({ count = 10, widths = DefaultWidths }: Props) {
+  const t = useTranslations("common");
   return (
     <>
       <TableRow>
         <TableCell colSpan={widths.length} className="sr-only" role="status" aria-live="polite">
-          Loading reports...
+          {t("states.loading")}
         </TableCell>
       </TableRow>
       {Array.from({ length: count }, (_, r) => (

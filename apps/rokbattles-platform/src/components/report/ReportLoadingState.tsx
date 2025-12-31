@@ -1,8 +1,13 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 export function ReportLoadingState() {
+  const t = useTranslations("report");
   return (
     <>
       <span className="sr-only" role="status" aria-live="polite">
-        Loading report...
+        {t("states.loading")}
       </span>
       <div className="space-y-6" aria-hidden="true">
         {[0, 1].map((index) => (

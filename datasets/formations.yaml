@@ -6,95 +6,95 @@ formations:
       en: "Arch Formation"
       de: "Bogenformation"
       es: "Formación en arco"
-      kr: "언월진"
+      ko: "언월진"
 
   2:
     name:
       en: "Wedge Formation"
       de: "Keilformation"
       es: "Formación en cuña"
-      kr: "쐐기대형"
+      ko: "쐐기대형"
 
   3:
     name:
       en: "V Formation"
       de: "V-Formation"
       es: "Formación en V"
-      kr: "안행 진형"
+      ko: "안행 진형"
 
   4:
     name:
       en: "Echelon Formation"
       de: "Diagonalformation"
       es: "Formación escalonada"
-      kr: "사선대형"
+      ko: "사선대형"
 
   5:
     name:
       en: "Hollow Square Formation"
       de: "Karree-Formation"
       es: "Formación en cuadro hueco"
-      kr: "공심 방진"
+      ko: "공심 방진"
 
   6:
     name:
       en: "Line Formation"
       de: "Linienformation"
       es: "Formación en línea"
-      kr: "일자진"
+      ko: "일자진"
 
   7:
     name:
       en: "Triple line Formation"
       de: "Dreifach-Linienformation"
       es: "Formación de línea triple"
-      kr: "삼익진"
+      ko: "삼익진"
 
   8:
     name:
       en: "Testudo Formation"
       de: "Schildkrötenformation"
       es: "Formación testudo"
-      kr: "귀갑 진형"
+      ko: "귀갑 진형"
 
   9:
     name:
       en: "Circle Formation"
       de: "Ringformation"
       es: "Formación en círculo"
-      kr: "서클 진형"
+      ko: "서클 진형"
 
   10:
     name:
       en: "Staggered Formation"
       de: "Staffelformation"
       es: "Formación intercalada"
-      kr: "비대칭 진형"
+      ko: "비대칭 진형"
 
   13:
     name:
       en: "Delta Formation"
       de: "Deltaformation"
       es: "Formación delta"
-      kr: "삼행진"
+      ko: "삼행진"
 
   14:
     name:
       en: "Tercio Formation"
       de: "Tercio-Formation"
       es: "Formación de tercios"
-      kr: "대형 방진"
+      ko: "대형 방진"
 
   16:
     name:
       en: "Double Line Formation"
       de: "Doppel-Linienformation"
       es: "Formación en línea doble"
-      kr: "양익진"
+      ko: "양익진"
 
   17:
     name:
       en: "Pincer Formation"
       de: "Zangen-Formation"
       es: "Formación de pinza"
-      kr: "반월진"
+      ko: "반월진"

@@ -1,4 +1,7 @@
+"use client";
+
 import * as Headless from "@headlessui/react";
+import { useTranslations } from "next-intl";
 import type React from "react";
 import { cn } from "@/lib/cn";
 
@@ -122,6 +125,7 @@ export function Checkbox({
   color?: Color;
   className?: string;
 } & Omit<Headless.CheckboxProps, "as" | "className">) {
+  const t = useTranslations("common");
   return (
     <Headless.Checkbox
       data-slot="control"
@@ -134,7 +138,7 @@ export function Checkbox({
           viewBox="0 0 14 14"
           fill="none"
         >
-          <title>Checkmark</title>
+          <title>{t("icons.checkmark")}</title>
           {/* Checkmark icon */}
           <path
             className="opacity-100 group-data-indeterminate:opacity-0"

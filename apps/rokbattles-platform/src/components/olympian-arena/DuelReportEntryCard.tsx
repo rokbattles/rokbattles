@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { DuelParticipantCard } from "@/components/olympian-arena/DuelParticipantCard";
 import { DuelResultsChart } from "@/components/olympian-arena/DuelResultsChart";
 import { Subheading } from "@/components/ui/Heading";
@@ -12,6 +13,7 @@ type DuelEntryCardProps = {
 };
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
+  const t = useTranslations("duels");
   const payload = (entry.report ?? {}) as DuelReportPayload;
   const metadata = payload.metadata;
   const results = payload.results;
@@ -32,7 +34,7 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
       {results ? (
         <section className="space-y-4">
           <Subheading level={3} className="text-base">
-            Duel summary
+            {t("summary")}
           </Subheading>
           <DuelResultsChart results={results} />
         </section>
@@ -52,11 +54,11 @@ function getOutcome(results?: DuelResults) {
   }
 
   if (results.win === true) {
-    return { label: "Sender wins", winner: "sender" as const };
+    return { winner: "sender" as const };
   }
 
   if (results.opponent_win === true) {
-    return { label: "Opponent wins", winner: "opponent" as const };
+    return { winner: "opponent" as const };
   }
 
   return null;

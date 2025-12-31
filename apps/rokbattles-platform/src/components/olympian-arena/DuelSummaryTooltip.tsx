@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 type DuelSummaryTooltipProps = {
   active?: boolean;
   payload?: unknown;
@@ -9,6 +13,7 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export function DuelSummaryTooltip({ active, payload, label }: DuelSummaryTooltipProps) {
+  const t = useTranslations("common");
   if (!active || !Array.isArray(payload) || payload.length === 0 || label == null) {
     return null;
   }
@@ -31,9 +36,9 @@ export function DuelSummaryTooltip({ active, payload, label }: DuelSummaryToolti
         {entries.map((entry) => {
           const descriptor =
             entry.key === "sender"
-              ? { label: "Sender", color: "#3b82f6" }
+              ? { label: t("labels.sender"), color: "#3b82f6" }
               : entry.key === "opponent"
-                ? { label: "Opponent", color: "#f87171" }
+                ? { label: t("labels.opponent"), color: "#f87171" }
                 : null;
           if (!descriptor) {
             return null;

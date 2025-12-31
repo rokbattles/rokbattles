@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { ReportArmamentSection } from "@/components/report/ReportArmamentSection";
 import { ReportArtifactSection } from "@/components/report/ReportArtifactSection";
 import { ReportCommanderRow } from "@/components/report/ReportCommanderRow";
@@ -12,7 +15,8 @@ import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport
 const ARTIFACT_IDS = new Set([20401, 20402]);
 
 export function ReportParticipantCard({ participant }: { participant?: RawParticipantInfo }) {
-  const playerName = participant?.player_name?.trim() || "Unknown commander";
+  const tCommon = useTranslations("common");
+  const playerName = participant?.player_name?.trim() || tCommon("labels.unknownCommander");
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
 
@@ -43,10 +47,10 @@ export function ReportParticipantCard({ participant }: { participant?: RawPartic
           <div className="text-base font-semibold text-zinc-900 dark:text-white">{playerName}</div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>ID {playerId}</Badge>
+              <Badge>{tCommon("labels.id", { id: playerId })}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
-            {participant?.is_rally ? <Badge>Rally</Badge> : null}
+            {participant?.is_rally ? <Badge>{tCommon("labels.rally")}</Badge> : null}
           </div>
         </div>
       </div>
@@ -54,7 +58,7 @@ export function ReportParticipantCard({ participant }: { participant?: RawPartic
       <div className="space-y-4">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>Commanders</Subheading>
+            <Subheading>{tCommon("labels.commanders")}</Subheading>
             <div className="space-y-2">
               {showPrimary ? (
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />

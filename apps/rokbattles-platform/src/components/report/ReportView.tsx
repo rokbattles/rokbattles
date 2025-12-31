@@ -1,6 +1,7 @@
 "use client";
 
 import { StarIcon } from "@heroicons/react/16/solid";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/ReportEmptyState";
 import { ReportEntryCard } from "@/components/report/ReportEntryCard";
@@ -24,6 +25,8 @@ type ReportViewProps = {
 };
 
 export function ReportView({ hash }: ReportViewProps) {
+  const t = useTranslations("report");
+  const tCommon = useTranslations("common");
   const normalizedHash = hash?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
@@ -71,22 +74,22 @@ export function ReportView({ hash }: ReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <Heading>Report</Heading>
+        <Heading>{t("title")}</Heading>
         <div className="flex items-center gap-2">
           {showFavoriteButton ? (
             <Button
               className="-my-0.5"
-              aria-label={favorited ? "Unfavorite report" : "Favorite report"}
+              aria-label={favorited ? t("actions.unfavoriteAria") : t("actions.favoriteAria")}
               aria-pressed={favorited}
               disabled={favoriteLoading || updating}
               onClick={toggleFavorite}
             >
               <StarIcon data-slot="icon" className={cn(favorited ? "fill-amber-500" : "")} />
-              {favorited ? "Unfavorite" : "Favorite"}
+              {favorited ? tCommon("actions.unfavorite") : tCommon("actions.favorite")}
             </Button>
           ) : null}
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
-            {isCopied ? "Copied" : "Share"}
+            {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
           </Button>
         </div>
       </div>

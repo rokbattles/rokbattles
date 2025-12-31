@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ReportBattleResultsChart } from "@/components/report/ReportBattleResultsChart";
 import { ReportParticipantCard } from "@/components/report/ReportParticipantCard";
 import { Subheading } from "@/components/ui/Heading";
@@ -11,6 +12,7 @@ type ReportEntryCardProps = {
 };
 
 export function ReportEntryCard({ entry }: ReportEntryCardProps) {
+  const t = useTranslations("report");
   const payload = (entry.report ?? {}) as RawReportPayload;
 
   const metadata = payload?.metadata;
@@ -20,7 +22,7 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
 
   const start = metadata?.start_date ?? entry.startDate;
   const end = metadata?.end_date;
-  const periodLabel = formatPeriod(start, end);
+  const periodLabel = formatPeriod(start, end, t);
 
   return (
     <section className="space-y-6">
@@ -33,7 +35,7 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
       {battleResults ? (
         <section className="space-y-4">
           <Subheading level={3} className="text-base">
-            Battle summary
+            {t("entry.battleSummary")}
           </Subheading>
           <ReportBattleResultsChart results={battleResults} />
         </section>
@@ -46,14 +48,18 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   );
 }
 
-function formatPeriod(start?: number | null, end?: number | null): string {
+function formatPeriod(
+  start: number | null | undefined,
+  end: number | null | undefined,
+  t: ReturnType<typeof useTranslations>
+): string {
   const startMs = toMillis(start);
   if (startMs == null) {
-    return "Unknown period";
+    return t("entry.unknownPeriod");
   }
 
   const startDate = new Date(startMs);
-  const startLabel = formatUtc(startDate);
+  const startLabel = formatUtc(startDate, t);
 
   const endMs = toMillis(end);
   if (endMs == null) {
@@ -67,14 +73,15 @@ function formatPeriod(start?: number | null, end?: number | null): string {
     startDate.getUTCDate() === endDate.getUTCDate();
 
   const endLabel = sameDay
-    ? formatUtc(endDate, { includeDate: false, includePrefix: false })
-    : formatUtc(endDate, { includePrefix: false });
+    ? formatUtc(endDate, t, { includeDate: false, includePrefix: false })
+    : formatUtc(endDate, t, { includePrefix: false });
 
   return `${startLabel} - ${endLabel}`;
 }
 
 function formatUtc(
   date: Date,
+  t: ReturnType<typeof useTranslations>,
   options: { includeDate?: boolean; includePrefix?: boolean } = { includeDate: true }
 ) {
   const includeDate = options.includeDate ?? true;
@@ -84,7 +91,7 @@ function formatUtc(
   const hours = String(date.getUTCHours()).padStart(2, "0");
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 
-  const prefix = includePrefix ? "UTC " : "";
+  const prefix = includePrefix ? t("entry.utcPrefix") : "";
   return includeDate
     ? `${prefix}${month}/${day} ${hours}:${minutes}`
     : `${prefix}${hours}:${minutes}`;

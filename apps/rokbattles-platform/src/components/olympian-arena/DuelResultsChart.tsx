@@ -1,3 +1,6 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -11,23 +14,25 @@ import { DuelSummaryTooltip } from "@/components/olympian-arena/DuelSummaryToolt
 import type { DuelResults } from "@/lib/types/duelReport";
 
 type DuelMetricConfig = {
-  label: string;
+  labelKey: string;
   senderKey: keyof DuelResults;
   opponentKey: keyof DuelResults;
 };
 
+const COMMON_METRIC_KEYS = new Set(["units", "dead", "severelyWounded", "killPoints"]);
+
 const DUEL_METRICS: readonly DuelMetricConfig[] = [
-  { label: "Units", senderKey: "units", opponentKey: "opponent_units" },
-  { label: "Dead", senderKey: "dead", opponentKey: "opponent_dead" },
+  { labelKey: "units", senderKey: "units", opponentKey: "opponent_units" },
+  { labelKey: "dead", senderKey: "dead", opponentKey: "opponent_dead" },
   {
-    label: "Severely wounded",
+    labelKey: "severelyWounded",
     senderKey: "sev_wounded",
     opponentKey: "opponent_sev_wounded",
   },
-  { label: "Wounded", senderKey: "wounded", opponentKey: "opponent_wounded" },
-  { label: "Healed", senderKey: "heal", opponentKey: "opponent_heal" },
-  { label: "Kill Points", senderKey: "kill_points", opponentKey: "opponent_kill_points" },
-  { label: "Power", senderKey: "power", opponentKey: "opponent_power" },
+  { labelKey: "wounded", senderKey: "wounded", opponentKey: "opponent_wounded" },
+  { labelKey: "healed", senderKey: "heal", opponentKey: "opponent_heal" },
+  { labelKey: "killPoints", senderKey: "kill_points", opponentKey: "opponent_kill_points" },
+  { labelKey: "power", senderKey: "power", opponentKey: "opponent_power" },
 ] as const;
 
 type DuelSummaryDatum = {
@@ -49,7 +54,11 @@ function getMetricValue(results: DuelResults, key: keyof DuelResults) {
   return raw;
 }
 
-function buildChartData(results: DuelResults) {
+function buildChartData(
+  results: DuelResults,
+  t: ReturnType<typeof useTranslations>,
+  tCommon: ReturnType<typeof useTranslations>
+) {
   const rows: DuelSummaryDatum[] = [];
   for (const metric of DUEL_METRICS) {
     const senderValue = getMetricValue(results, metric.senderKey);
@@ -57,10 +66,13 @@ function buildChartData(results: DuelResults) {
     if (senderValue == null && opponentValue == null) {
       continue;
     }
+    const label = COMMON_METRIC_KEYS.has(metric.labelKey)
+      ? tCommon(`metrics.${metric.labelKey}`)
+      : t(`metrics.${metric.labelKey}`);
 
     rows.push({
-      key: metric.label,
-      label: metric.label,
+      key: metric.labelKey,
+      label,
       sender: senderValue ?? 0,
       opponent: opponentValue ?? 0,
     });
@@ -69,7 +81,9 @@ function buildChartData(results: DuelResults) {
 }
 
 export function DuelResultsChart({ results }: { results: DuelResults }) {
-  const chartData = buildChartData(results);
+  const t = useTranslations("duels");
+  const tCommon = useTranslations("common");
+  const chartData = buildChartData(results, t, tCommon);
 
   if (chartData.length === 0) {
     return null;

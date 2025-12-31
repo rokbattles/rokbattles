@@ -1,10 +1,12 @@
+import { getTranslations } from "next-intl/server";
 import { MyPairingsContent } from "@/components/my-pairings/MyPairingsContent";
 import { Heading } from "@/components/ui/Heading";
 
-export default function Page() {
+export default async function Page() {
+  const t = await getTranslations("account");
   return (
     <>
-      <Heading>My Pairings</Heading>
+      <Heading>{t("titles.pairings")}</Heading>
       <MyPairingsContent />
     </>
   );

@@ -4,7 +4,7 @@ commanders:
       en: "Julius Caesar"
       de: "Julius Cäsar"
       es: "Julio César"
-      kr: "율리우스 카이사르"
+      ko: "율리우스 카이사르"
     prime: false
     rarity: legendary
 
@@ -13,7 +13,7 @@ commanders:
       en: "Sun Tzu"
       de: "Sun Tzu"
       es: "Sun Tzu"
-      kr: "손무"
+      ko: "손무"
     prime: false
     rarity: epic
 
@@ -22,7 +22,7 @@ commanders:
       en: "Frederick I"
       de: "Friedrich I"
       es: "Federico I"
-      kr: "프리드리히 1세"
+      ko: "프리드리히 1세"
     prime: false
     rarity: legendary
 
@@ -31,7 +31,7 @@ commanders:
       en: "Constantine I"
       de: "Konstantin I"
       es: "Constantino I"
-      kr: "콘스탄티누스 1세"
+      ko: "콘스탄티누스 1세"
     prime: false
     rarity: legendary
 
@@ -40,7 +40,7 @@ commanders:
       en: "Yi Seong-Gye"
       de: "Yi Seong-Gye"
       es: "Yi Seong-Gye"
-      kr: "이성계"
+      ko: "이성계"
     prime: false
     rarity: legendary
 
@@ -49,7 +49,7 @@ commanders:
       en: "Cao Cao"
       de: "Cao Cao"
       es: "Cao Cao"
-      kr: "조조"
+      ko: "조조"
     prime: false
     rarity: legendary
 
@@ -58,7 +58,7 @@ commanders:
       en: "Richard I"
       de: "Richard I"
       es: "Ricardo I"
-      kr: "리처드 1세"
+      ko: "리처드 1세"
     prime: false
     rarity: legendary
 
@@ -67,7 +67,7 @@ commanders:
       en: "Minamoto no Yoshitsune"
       de: "Minamoto no Yoshitsune"
       es: "Minamoto no Yoshitsune"
-      kr: "미나모토노 요시쓰네"
+      ko: "미나모토노 요시쓰네"
     prime: false
     rarity: legendary
 
@@ -76,7 +76,7 @@ commanders:
       en: "Charles Martel"
       de: "Charles Martel"
       es: "Carlos Martel"
-      kr: "카를 마르텔"
+      ko: "카를 마르텔"
     prime: false
     rarity: legendary
 
@@ -85,7 +85,7 @@ commanders:
       en: "El Cid"
       de: "El Cid"
       es: "El Cid"
-      kr: "엘 시드"
+      ko: "엘 시드"
     prime: false
     rarity: legendary
 
@@ -94,7 +94,7 @@ commanders:
       en: "Hermann"
       de: "Hermann"
       es: "Hermann"
-      kr: "헤르만"
+      ko: "헤르만"
     prime: false
     rarity: epic
 
@@ -103,7 +103,7 @@ commanders:
       en: "Kusunoki Masashige"
       de: "Kusunoki Masashige"
       es: "Kusunoki Masashige"
-      kr: "구스노키 마사시게"
+      ko: "구스노키 마사시게"
     prime: false
     rarity: epic
 
@@ -112,7 +112,7 @@ commanders:
       en: "Scipio Africanus"
       de: "Scipio Africanus"
       es: "Escipión el Africano"
-      kr: "스키피오"
+      ko: "스키피오"
     prime: false
     rarity: epic
 
@@ -121,7 +121,7 @@ commanders:
       en: "Joan of Arc"
       de: "Johanna von Orléans"
       es: "Juana de Arco"
-      kr: "잔 다르크"
+      ko: "잔 다르크"
     prime: false
     rarity: epic
 
@@ -130,7 +130,7 @@ commanders:
       en: "Eulji Mundeok"
       de: "Eulji Mundeok"
       es: "Eulji Mundeok"
-      kr: "을지문덕"
+      ko: "을지문덕"
     prime: false
     rarity: epic
 
@@ -139,7 +139,7 @@ commanders:
       en: "Boudica"
       de: "Boundicca"
       es: "Boudica"
-      kr: "부디카"
+      ko: "부디카"
     prime: false
     rarity: epic
 
@@ -148,7 +148,7 @@ commanders:
       en: "Pelagius"
       de: "Pelayo"
       es: "Pelayo"
-      kr: "펠라기우스"
+      ko: "펠라기우스"
     prime: false
     rarity: epic
 
@@ -157,7 +157,7 @@ commanders:
       en: "City Keeper"
       de: "Stadthüter"
       es: "Guardián de la Ciudad"
-      kr: "수호자"
+      ko: "수호자"
     prime: false
     rarity: advanced
 
@@ -166,7 +166,7 @@ commanders:
       en: "Markswoman"
       de: "Scharfschützin"
       es: "Francotiradora"
-      kr: "명시수"
+      ko: "명시수"
     prime: false
     rarity: advanced
 
@@ -175,7 +175,7 @@ commanders:
       en: "Centurion"
       de: "Zenturio"
       es: "Centurión"
-      kr: "명시수"
+      ko: "명시수"
     prime: false
     rarity: advanced
 
@@ -184,7 +184,7 @@ commanders:
       en: "Dragon Lancer"
       de: "Drachenulan"
       es: "Lancero de Dragón"
-      kr: "명시수"
+      ko: "명시수"
     prime: false
     rarity: advanced
 
@@ -193,7 +193,7 @@ commanders:
       en: "Hannibal Barca"
       de: "Hannibal Barca"
       es: "Aníbal Barca"
-      kr: "한니발 바르카"
+      ko: "한니발 바르카"
     prime: false
     rarity: legendary
 
@@ -202,7 +202,7 @@ commanders:
       en: "Cleopatra VII"
       de: "Kleopatra VII"
       es: "Cleopatra VII"
-      kr: "틀레오파트라 7세"
+      ko: "틀레오파트라 7세"
     prime: false
     rarity: legendary
 
@@ -211,7 +211,7 @@ commanders:
       en: "Constance"
       de: "Constance"
       es: "Constanza"
-      kr: "쿠스탄차"
+      ko: "쿠스탄차"
     prime: false
     rarity: elite
 
@@ -220,7 +220,7 @@ commanders:
       en: "Gaius Marius"
       de: "Gaius Marius"
       es: "Cayo Mario"
-      kr: "가이우스 마리우스"
+      ko: "가이우스 마리우스"
     prime: false
     rarity: elite
 
@@ -229,7 +229,7 @@ commanders:
       en: "Tomoe Gozen"
       de: "Tomoe Gozen"
       es: "Tomoe Gozen"
-      kr: "토모에 고젠"
+      ko: "토모에 고젠"
     prime: false
     rarity: elite
 
@@ -238,7 +238,7 @@ commanders:
       en: "Lancelot"
       de: "Lancelot"
       es: "Lanzarote"
-      kr: "랜슬롯"
+      ko: "랜슬롯"
     prime: false
     rarity: elite
 
@@ -247,7 +247,7 @@ commanders:
       en: "Lohar"
       de: "Lohar"
       es: "Lohar"
-      kr: "로하"
+      ko: "로하"
     prime: false
     rarity: epic
 
@@ -256,7 +256,7 @@ commanders:
       en: "Šárka"
       de: "Sarka"
       es: "Sárka"
-      kr: "샤르카"
+      ko: "샤르카"
     prime: false
     rarity: elite
 
@@ -265,7 +265,7 @@ commanders:
       en: "Belisarius"
       de: "Belisarius"
       es: "Belisario"
-      kr: "벨리사리우스"
+      ko: "벨리사리우스"
     prime: false
     rarity: epic
 
@@ -274,7 +274,7 @@ commanders:
       en: "Baibars"
       de: "Baibars"
       es: "Baibars"
-      kr: "바이바르스"
+      ko: "바이바르스"
     prime: false
     rarity: epic
 
@@ -283,7 +283,7 @@ commanders:
       en: "Osman I"
       de: "Osman I"
       es: "Osmán I"
-      kr: "오스만 1세"
+      ko: "오스만 1세"
     prime: false
     rarity: epic
 
@@ -292,7 +292,7 @@ commanders:
       en: "Saladin"
       de: "Saladin"
       es: "Saladino"
-      kr: "살라딘"
+      ko: "살라딘"
     prime: false
     rarity: legendary
 
@@ -301,7 +301,7 @@ commanders:
       en: "Mehmed II"
       de: "Mehmed II"
       es: "Mehmed II"
-      kr: "메흐메트 2세"
+      ko: "메흐메트 2세"
     prime: false
     rarity: legendary
 
@@ -310,7 +310,7 @@ commanders:
       en: "Mulan"
       de: "Mulan"
       es: "Mulan"
-      kr: "호목란"
+      ko: "호목란"
     prime: false
     rarity: legendary
 
@@ -319,7 +319,7 @@ commanders:
       en: "Wu Zetian"
       de: "Wu Zetian"
       es: "Wu Zetian"
-      kr: "측천무후"
+      ko: "측천무후"
     prime: false
     rarity: legendary
 
@@ -328,7 +328,7 @@ commanders:
       en: "Genghis Khan"
       de: "Dschingis Khan"
       es: "Genghis Khan"
-      kr: "칭기즈칸"
+      ko: "칭기즈칸"
     prime: false
     rarity: legendary
 
@@ -337,7 +337,7 @@ commanders:
       en: "Charlemagne"
       de: "Karl der Große"
       es: "Carlomagno"
-      kr: "샤를마뉴"
+      ko: "샤를마뉴"
     prime: false
     rarity: legendary
 
@@ -346,7 +346,7 @@ commanders:
       en: "Alexander the Great"
       de: "Alexander der Große"
       es: "Alejandro Magno"
-      kr: "알렉산더 대왕"
+      ko: "알렉산더 대왕"
     prime: false
     rarity: legendary
 
@@ -355,7 +355,7 @@ commanders:
       en: "Æthelflæd"
       de: "Ethelfleda"
       es: "Ethelfleda"
-      kr: "애설플레드"
+      ko: "애설플레드"
     prime: false
     rarity: legendary
 
@@ -364,7 +364,7 @@ commanders:
       en: "Tomyris"
       de: "Tomyris"
       es: "Tomiris"
-      kr: "토미리스"
+      ko: "토미리스"
     prime: false
     rarity: legendary
 
@@ -373,7 +373,7 @@ commanders:
       en: "Edward of Woodstock"
       de: "Eduard of Woodstock"
       es: "Eduardo de Woodstock"
-      kr: "에드워드 우드스톡"
+      ko: "에드워드 우드스톡"
     prime: false
     rarity: legendary
 
@@ -382,7 +382,7 @@ commanders:
       en: "Seondeok"
       de: "Seondeok"
       es: "Seondeok"
-      kr: "선덕여왕"
+      ko: "선덕여왕"
     prime: false
     rarity: legendary
 
@@ -391,7 +391,7 @@ commanders:
       en: "Attila"
       de: "Attila"
       es: "Atila"
-      kr: "아틸라"
+      ko: "아틸라"
     prime: false
     rarity: legendary
 
@@ -400,7 +400,7 @@ commanders:
       en: "Takeda Shingen"
       de: "Takeda Shingen"
       es: "Takeda Shingen"
-      kr: "다케다 신겐"
+      ko: "다케다 신겐"
     prime: false
     rarity: legendary
 
@@ -409,7 +409,7 @@ commanders:
       en: "Ishida Mitsunari"
       de: "Ishida Mitsunari"
       es: "Ishida Mitsunari"
-      kr: "이시다 미츠나리"
+      ko: "이시다 미츠나리"
     prime: false
     rarity: legendary
 
@@ -418,7 +418,7 @@ commanders:
       en: "Theodora"
       de: "Theodora"
       es: "Teodora"
-      kr: "테오도라"
+      ko: "테오도라"
     prime: false
     rarity: legendary
 
@@ -427,7 +427,7 @@ commanders:
       en: "Guan Yu"
       de: "Guan Yu"
       es: "Guan Yu"
-      kr: "관우"
+      ko: "관우"
     prime: false
     rarity: legendary
 
@@ -436,7 +436,7 @@ commanders:
       en: "Leonidas I"
       de: "Leonidas I"
       es: "Leónidas I"
-      kr: "레오니다스 1세"
+      ko: "레오니다스 1세"
     prime: false
     rarity: legendary
 
@@ -445,7 +445,7 @@ commanders:
       en: "Ramesses II"
       de: "Ramesses II"
       es: "Ramsés II"
-      kr: "람세스 2세"
+      ko: "람세스 2세"
     prime: false
     rarity: legendary
 
@@ -454,7 +454,7 @@ commanders:
       en: "Artemisia I"
       de: "Artemisia I"
       es: "Artemisia I"
-      kr: "아르테미시아 1세"
+      ko: "아르테미시아 1세"
     prime: false
     rarity: legendary
 
@@ -463,7 +463,7 @@ commanders:
       en: "Keira"
       de: "Keira"
       es: "Keira"
-      kr: "카일라"
+      ko: "카일라"
     prime: false
     rarity: epic
 
@@ -472,7 +472,7 @@ commanders:
       en: "Yi Sun-sin"
       de: "Yi Sun-sin"
       es: "Yi Sun-sin"
-      kr: "이순신"
+      ko: "이순신"
     prime: false
     rarity: legendary
 
@@ -481,7 +481,7 @@ commanders:
       en: "Chandragupta Maurya"
       de: "Chandragupta Maurya"
       es: "Chandragupta Maurya"
-      kr: "찬드라굽타"
+      ko: "찬드라굽타"
     prime: false
     rarity: legendary
 
@@ -490,7 +490,7 @@ commanders:
       en: "William I"
       de: "Wilhelm I"
       es: "Guillermo I"
-      kr: "윌리엄 1세"
+      ko: "윌리엄 1세"
     prime: false
     rarity: legendary
 
@@ -499,7 +499,7 @@ commanders:
       en: "Matilda of Flanders"
       de: "Mathilde von Flandern"
       es: "Matilde de Flandes"
-      kr: "마틸다 1세"
+      ko: "마틸다 1세"
     prime: false
     rarity: epic
 
@@ -508,7 +508,7 @@ commanders:
       en: "Harald Sigurdsson"
       de: "Harald III"
       es: "Harald Sigurdsson"
-      kr: "하랄 3세"
+      ko: "하랄 3세"
     prime: false
     rarity: legendary
 
@@ -517,7 +517,7 @@ commanders:
       en: "Zenobia"
       de: "Zenobia"
       es: "Zenobia"
-      kr: "제노비아"
+      ko: "제노비아"
     prime: false
     rarity: legendary
 
@@ -526,7 +526,7 @@ commanders:
       en: "Lu Bu"
       de: "Lü Bu"
       es: "Lu Bu"
-      kr: "여포"
+      ko: "여포"
     prime: false
     rarity: legendary
 
@@ -535,7 +535,7 @@ commanders:
       en: "Diaochan"
       de: "Diaochan"
       es: "Diaochan"
-      kr: "초선"
+      ko: "초선"
     prime: false
     rarity: epic
 
@@ -544,7 +544,7 @@ commanders:
       en: "Cyrus the Great"
       de: "Kyros der Große"
       es: "Ciro el Grande"
-      kr: "키루스 대제"
+      ko: "키루스 대제"
     prime: false
     rarity: legendary
 
@@ -553,7 +553,7 @@ commanders:
       en: "Nebuchadnezzar II"
       de: "Nebukadnezar II"
       es: "Nabucodonosor II"
-      kr: "네부카드네자르 2세"
+      ko: "네부카드네자르 2세"
     prime: false
     rarity: legendary
 
@@ -562,7 +562,7 @@ commanders:
       en: "Moctezuma I"
       de: "Moctezuma I"
       es: "Moctezuma I"
-      kr: "몬테수마 1세"
+      ko: "몬테수마 1세"
     prime: false
     rarity: legendary
 
@@ -571,7 +571,7 @@ commanders:
       en: "Trajan"
       de: "Trajan"
       es: "Trajano"
-      kr: "트라야누스"
+      ko: "트라야누스"
     prime: false
     rarity: legendary
 
@@ -580,7 +580,7 @@ commanders:
       en: "Jadwiga"
       de: "Hedwig"
       es: "Jadwiga"
-      kr: "야드비가"
+      ko: "야드비가"
     prime: false
     rarity: legendary
 
@@ -589,7 +589,7 @@ commanders:
       en: "Xiang Yu"
       de: "Xiang Yu"
       es: "Xiang Yu"
-      kr: "항우"
+      ko: "항우"
     prime: false
     rarity: legendary
 
@@ -598,7 +598,7 @@ commanders:
       en: "Björn Ironside"
       de: "Björn Ironside"
       es: "Björn Brazo de Hierro"
-      kr: "비에른"
+      ko: "비에른"
     prime: false
     rarity: epic
 
@@ -607,7 +607,7 @@ commanders:
       en: "Ragnar Lodbrok"
       de: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
-      kr: "라그나르 로드브로크"
+      ko: "라그나르 로드브로크"
     prime: false
     rarity: legendary
 
@@ -616,7 +616,7 @@ commanders:
       en: "Cheok Jun-gyeong"
       de: "Cheok Jun-gyeong"
       es: "Cheok Jun-gyeong"
-      kr: "척준경"
+      ko: "척준경"
     prime: false
     rarity: legendary
 
@@ -625,7 +625,7 @@ commanders:
       en: "K'inich Janaab' Pakal"
       de: "K'inich Janaab Pakal"
       es: "K'inich Janaab' Pakal"
-      kr: "파칼 2세"
+      ko: "파칼 2세"
     prime: false
     rarity: legendary
 
@@ -634,7 +634,7 @@ commanders:
       en: "Gilgamesh"
       de: "Gilgamesch"
       es: "Gilgamesh"
-      kr: "길가메시"
+      ko: "길가메시"
     prime: false
     rarity: legendary
 
@@ -643,7 +643,7 @@ commanders:
       en: "Amanitore"
       de: "Amanitore"
       es: "Amanitore"
-      kr: "아마니토레"
+      ko: "아마니토레"
     prime: false
     rarity: legendary
 
@@ -652,7 +652,7 @@ commanders:
       en: "Queen Tamar of Georgia"
       de: "Königin Tamar von Georgien"
       es: "Reina Tamara de Georgia"
-      kr: "타마르 여왕"
+      ko: "타마르 여왕"
     prime: false
     rarity: epic
 
@@ -661,7 +661,7 @@ commanders:
       en: "Honda Tadakatsu"
       de: "Honda Tadakatsu"
       es: "Honda Tadakatsu"
-      kr: "혼다 타다카츠"
+      ko: "혼다 타다카츠"
     prime: false
     rarity: legendary
 
@@ -670,7 +670,7 @@ commanders:
       en: "Suleiman I"
       de: "Süleiman I"
       es: "Solimán I"
-      kr: "쉴레이만 1세"
+      ko: "쉴레이만 1세"
     prime: false
     rarity: legendary
 
@@ -679,7 +679,7 @@ commanders:
       en: "Bertrand du Guesclin"
       de: "Bertrand du Guesclin"
       es: "Bertrand du Guesclin"
-      kr: "베르트랑 뒤게클랭"
+      ko: "베르트랑 뒤게클랭"
     prime: false
     rarity: legendary
 
@@ -688,7 +688,7 @@ commanders:
       en: "Alexander Nevsky"
       de: "Alexander Newski"
       es: "Alejandro Nevsky"
-      kr: "알렉산드르 넵스키"
+      ko: "알렉산드르 넵스키"
     prime: false
     rarity: legendary
 
@@ -697,7 +697,7 @@ commanders:
       en: "Flavius Aetius"
       de: "Flavius Aëtius"
       es: "Flavio Aecio"
-      kr: "아에티우스"
+      ko: "아에티우스"
     prime: false
     rarity: legendary
 
@@ -706,7 +706,7 @@ commanders:
       en: "Scipio Africanus"
       de: "Scipio Africanus"
       es: "Escipión el Africano"
-      kr: "스키피오 아프리카누스"
+      ko: "스키피오 아프리카누스"
     prime: true
     rarity: legendary
 
@@ -715,7 +715,7 @@ commanders:
       en: "Thutmose III"
       de: "Thutmosis III"
       es: "Tutmosis III"
-      kr: "투트모세 3세"
+      ko: "투트모세 3세"
     prime: false
     rarity: legendary
 
@@ -724,7 +724,7 @@ commanders:
       en: "Imhotep"
       de: "Imhotep"
       es: "Imhotep"
-      kr: "임호텝"
+      ko: "임호텝"
     prime: false
     rarity: epic
 
@@ -733,7 +733,7 @@ commanders:
       en: "Henry V"
       de: "Heinrich V"
       es: "Enrique V"
-      kr: "헨리 5세"
+      ko: "헨리 5세"
     prime: false
     rarity: legendary
 
@@ -742,7 +742,7 @@ commanders:
       en: "Boudica"
       de: "Boudicca"
       es: "Boudica"
-      kr: "부디카"
+      ko: "부디카"
     prime: true
     rarity: legendary
 
@@ -751,7 +751,7 @@ commanders:
       en: "Jan Žižka"
       de: "Jan Žižka"
       es: "Jan Žižka"
-      kr: "얀 지슈카"
+      ko: "얀 지슈카"
     prime: false
     rarity: legendary
 
@@ -760,7 +760,7 @@ commanders:
       en: "Joan of Arc"
       de: "Johanna von Orléans"
       es: "Juana de Arco"
-      kr: "잔 다르크"
+      ko: "잔 다르크"
     prime: true
     rarity: legendary
 
@@ -769,7 +769,7 @@ commanders:
       en: "Tariq ibn Ziyad"
       de: "Tariq ibn Ziyad"
       es: "Tariq ibn Ziyad"
-      kr: "타리크 이븐 지야드"
+      ko: "타리크 이븐 지야드"
     prime: false
     rarity: legendary
 
@@ -778,7 +778,7 @@ commanders:
       en: "Sargon the Great"
       de: "Sargon von Akkad"
       es: "Sargón el Grande"
-      kr: "사르곤 1세"
+      ko: "사르곤 1세"
     prime: false
     rarity: legendary
 
@@ -787,7 +787,7 @@ commanders:
       en: "Margaret I"
       de: "Margarethe I"
       es: "Margarita I"
-      kr: "마르그레테 1세"
+      ko: "마르그레테 1세"
     prime: false
     rarity: legendary
 
@@ -796,7 +796,7 @@ commanders:
       en: "Babur"
       de: "Babur"
       es: "Babur"
-      kr: "바부르"
+      ko: "바부르"
     prime: false
     rarity: legendary
 
@@ -805,7 +805,7 @@ commanders:
       en: "Heraclius"
       de: "Herakleios"
       es: "Heraclio"
-      kr: "플라비우스 헤라클리우스"
+      ko: "플라비우스 헤라클리우스"
     prime: false
     rarity: legendary
 
@@ -814,7 +814,7 @@ commanders:
       en: "Dido"
       de: "Dido"
       es: "Dido"
-      kr: "디도"
+      ko: "디도"
     prime: false
     rarity: legendary
 
@@ -823,7 +823,7 @@ commanders:
       en: "Zhuge Liang"
       de: "Zhuge Liang"
       es: "Zhuge Liang"
-      kr: "제갈량"
+      ko: "제갈량"
     prime: false
     rarity: legendary
 
@@ -832,7 +832,7 @@ commanders:
       en: "Pyrrhus"
       de: "Pyrrhos"
       es: "Pirro"
-      kr: "피로스"
+      ko: "피로스"
     prime: false
     rarity: legendary
 
@@ -841,7 +841,7 @@ commanders:
       en: "Pericles"
       de: "Perikles"
       es: "Pericles"
-      kr: "페리클레스"
+      ko: "페리클레스"
     prime: false
     rarity: epic
 
@@ -850,7 +850,7 @@ commanders:
       en: "Huo Qubing"
       de: "Huo Qubing"
       es: "Huo Qubing"
-      kr: "곽거병"
+      ko: "곽거병"
     prime: false
     rarity: legendary
 
@@ -859,7 +859,7 @@ commanders:
       en: "Justinian I"
       de: "Justinian I"
       es: "Justiniano I"
-      kr: "유스티니아누스 1세"
+      ko: "유스티니아누스 1세"
     prime: false
     rarity: legendary
 
@@ -868,7 +868,7 @@ commanders:
       en: "Gorgo"
       de: "Gorgo"
       es: "Gorgo"
-      kr: "고르곤"
+      ko: "고르곤"
     prime: false
     rarity: legendary
 
@@ -877,7 +877,7 @@ commanders:
       en: "Liu Che"
       de: "Liu Che"
       es: "Liu Che"
-      kr: "유철"
+      ko: "유철"
     prime: false
     rarity: legendary
 
@@ -886,7 +886,7 @@ commanders:
       en: "Ashurbanipal"
       de: "Assurbanipal"
       es: "Asurbanipal"
-      kr: "아슈르바니팔"
+      ko: "아슈르바니팔"
     prime: false
     rarity: legendary
 
@@ -895,7 +895,7 @@ commanders:
       en: "Hermann"
       de: "Hermann"
       es: "Hermann"
-      kr: "헤르만"
+      ko: "헤르만"
     prime: true
     rarity: legendary
 
@@ -904,7 +904,7 @@ commanders:
       en: "Lapulapu"
       de: "Lapu-Lapu"
       es: "Lapulapu"
-      kr: "라푸라푸"
+      ko: "라푸라푸"
     prime: false
     rarity: legendary
 
@@ -913,7 +913,7 @@ commanders:
       en: "Gonzalo de Córdoba"
       de: "Gonzalo de Córdoba"
       es: "Gonzalo de Córdoba"
-      kr: "곤살로 페르난데스 데 코르도바"
+      ko: "곤살로 페르난데스 데 코르도바"
     prime: false
     rarity: legendary
 
@@ -922,7 +922,7 @@ commanders:
       en: "Gajah Mada"
       de: "Gajah Mada"
       es: "Gajah Mada"
-      kr: "가자 마다"
+      ko: "가자 마다"
     prime: false
     rarity: legendary
 
@@ -931,7 +931,7 @@ commanders:
       en: "Eleanor of Aquitaine"
       de: "Eleonore von Aquitanien"
       es: "Leonor de Aquitania"
-      kr: "엘레오노르 다키텐"
+      ko: "엘레오노르 다키텐"
     prime: false
     rarity: legendary
 
@@ -940,7 +940,7 @@ commanders:
       en: "Belisarius"
       de: "Belisarius"
       es: "Belisario"
-      kr: "벨리사리우스"
+      ko: "벨리사리우스"
     prime: true
     rarity: legendary
 
@@ -949,7 +949,7 @@ commanders:
       en: "William Wallace"
       de: "William Wallace"
       es: "William Wallace"
-      kr: "윌리엄 월리스"
+      ko: "윌리엄 월리스"
     prime: false
     rarity: legendary
 
@@ -958,7 +958,7 @@ commanders:
       en: "Shajar al-Durr"
       de: "Shajar al-Durr"
       es: "Shajar al-Durr"
-      kr: "샤쟈르 알두르"
+      ko: "샤쟈르 알두르"
     prime: false
     rarity: legendary
 
@@ -967,7 +967,7 @@ commanders:
       en: "Choe Yeong"
       de: "Choe Yeong"
       es: "Choe Yeong"
-      kr: "최영"
+      ko: "최영"
     prime: false
     rarity: legendary
 
@@ -976,7 +976,7 @@ commanders:
       en: "Scipio Aemilianus"
       de: "Scipio Aemilianus"
       es: "Escipión Emiliano"
-      kr: "스키피오 아이밀리아누스"
+      ko: "스키피오 아이밀리아누스"
     prime: false
     rarity: legendary
 
@@ -985,7 +985,7 @@ commanders:
       en: "Ragnar Lodbrok"
       de: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
-      kr: "라그나르 로드브로크"
+      ko: "라그나르 로드브로크"
     prime: true
     rarity: legendary
 
@@ -994,7 +994,7 @@ commanders:
       en: "Philip II"
       de: "Philipp II"
       es: "Filipo II"
-      kr: "필리포스 2세"
+      ko: "필리포스 2세"
     prime: false
     rarity: legendary
 
@@ -1003,7 +1003,7 @@ commanders:
       en: "Stephen III"
       de: "Stephan III"
       es: "Esteban III"
-      kr: "슈테판 3세"
+      ko: "슈테판 3세"
     prime: false
     rarity: legendary
 
@@ -1012,7 +1012,7 @@ commanders:
       en: "John Hunyadi"
       de: "Johann Hunyadi"
       es: "John Hunyadi"
-      kr: "후녀디 야노시"
+      ko: "후녀디 야노시"
     prime: false
     rarity: legendary
 
@@ -1021,7 +1021,7 @@ commanders:
       en: "Siyaj K'ak'"
       de: "Siyaj K'ak'"
       es: "Siyaj K'ak'"
-      kr: "시야칵"
+      ko: "시야칵"
     prime: false
     rarity: legendary
 
@@ -1030,7 +1030,7 @@ commanders:
       en: "Wak Chanil Ajaw"
       de: "Wak Chanil Ajaw"
       es: "Wak Chanil Ajaw"
-      kr: "왁 차닐 아하우"
+      ko: "왁 차닐 아하우"
     prime: false
     rarity: epic
 
@@ -1039,7 +1039,7 @@ commanders:
       en: "Tokugawa Ieyasu"
       de: "Tokugawa Ieyasu"
       es: "Tokugawa Ieyasu"
-      kr: "도쿠가와 이에야스"
+      ko: "도쿠가와 이에야스"
     prime: false
     rarity: legendary
 
@@ -1048,14 +1048,14 @@ commanders:
       en: "Shapur I"
       de: "Shapur I"
       es: "Sapor I"
-      kr: "샤푸르 1세"
+      ko: "샤푸르 1세"
 
   509:
     name:
       en: "Qin Shi Huang"
       de: "Qin Shi Huang"
       es: "Qin Shi Huang"
-      kr: "영정"
+      ko: "영정"
     prime: false
     rarity: legendary
 
@@ -1064,7 +1064,7 @@ commanders:
       en: "Matthias I"
       de: "Matthias I"
       es: "Matías I"
-      kr: "마차시 1세"
+      ko: "마차시 1세"
     prime: false
     rarity: legendary
 
@@ -1073,7 +1073,7 @@ commanders:
       en: "Catherine de' Medici"
       de: "Caterina de' Medici"
       es: "Catalina de Médici"
-      kr: "카트린 드 메디시스"
+      ko: "카트린 드 메디시스"
     prime: false
     rarity: epic
 
@@ -1082,7 +1082,7 @@ commanders:
       en: "Narses"
       de: "Narses"
       es: "Narsés"
-      kr: "나르세스"
+      ko: "나르세스"
     prime: false
     rarity: epic
 
@@ -1091,7 +1091,7 @@ commanders:
       en: "Subutai"
       de: "Subutai"
       es: "Subotai"
-      kr: "수부타이"
+      ko: "수부타이"
     prime: false
     rarity: legendary
 
@@ -1100,7 +1100,7 @@ commanders:
       en: "Arthur Pendragon"
       de: "Artus Pendragon"
       es: "Arturo Pendragon"
-      kr: "아서펜드래곤"
+      ko: "아서펜드래곤"
     prime: false
     rarity: legendary
 
@@ -1109,7 +1109,7 @@ commanders:
       en: "Bai Qi"
       de: "Bai Qi"
       es: "Bai Qi"
-      kr: "백기"
+      ko: "백기"
     prime: false
     rarity: legendary
 
@@ -1118,7 +1118,7 @@ commanders:
       en: "Afonso de Albuquerque"
       de: "Afonso de Albuquerque"
       es: "Afonso de Albuquerque"
-      kr: "아폰수 드 알부케르크"
+      ko: "아폰수 드 알부케르크"
     prime: false
     rarity: legendary
 
@@ -1127,7 +1127,7 @@ commanders:
       en: "Archimedes"
       de: "Archimedes"
       es: "Arquímedes"
-      kr: "아르키메데스"
+      ko: "아르키메데스"
     prime: false
     rarity: legendary
 
@@ -1136,7 +1136,7 @@ commanders:
       en: "Mary I"
       de: "Mary I"
       es: "María I"
-      kr: "메리 1세"
+      ko: "메리 1세"
     prime: false
     rarity: legendary
 
@@ -1145,7 +1145,7 @@ commanders:
       en: "Casimir III"
       de: "Kasimir III"
       es: "Casimiro III"
-      kr: "카지미에시"
+      ko: "카지미에시"
     prime: false
     rarity: legendary
 
@@ -1154,7 +1154,7 @@ commanders:
       en: "Pepin III"
       de: "Pippin III"
       es: "Pipino III"
-      kr: "피피누스 3세"
+      ko: "피피누스 3세"
     prime: false
     rarity: legendary
 
@@ -1163,7 +1163,7 @@ commanders:
       en: "Achilles"
       de: "Achilleus"
       es: "Aquiles"
-      kr: "아킬레우스"
+      ko: "아킬레우스"
     prime: false
     rarity: legendary
 
@@ -1172,7 +1172,7 @@ commanders:
       en: "Hector"
       de: "Hektor"
       es: "Héctor"
-      kr: "헥토르"
+      ko: "헥토르"
     prime: false
     rarity: legendary
 
@@ -1181,7 +1181,7 @@ commanders:
       en: "David IV"
       de: "David IV"
       es: "David IV"
-      kr: "다비트 4세"
+      ko: "다비트 4세"
     prime: false
     rarity: legendary
 
@@ -1190,6 +1190,6 @@ commanders:
       en: "Gang Gamchan"
       de: "Gang Gam-chan"
       es: "Gang Gam-chan"
-      kr: "강감찬"
+      ko: "강감찬"
     prime: false
     rarity: legendary

@@ -1,23 +1,34 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import type React from "react";
 import { cn } from "@/lib/cn";
 import { Button } from "./Button";
 
 export function Pagination({
-  "aria-label": ariaLabel = "Page navigation",
+  "aria-label": ariaLabel,
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"nav">) {
-  return <nav aria-label={ariaLabel} {...props} className={cn(className, "flex gap-x-2")} />;
+  const t = useTranslations("pagination");
+  const resolvedLabel = ariaLabel ?? t("navigation");
+  return <nav aria-label={resolvedLabel} {...props} className={cn(className, "flex gap-x-2")} />;
 }
 
 export function PaginationPrevious({
   href = null,
   className,
-  children = "Previous",
+  children,
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
+  const t = useTranslations("pagination");
+  const label = children ?? t("previous");
   return (
     <span className={cn(className, "grow basis-0")}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Previous page">
+      <Button
+        {...(href === null ? { disabled: true } : { href })}
+        plain
+        aria-label={t("previousPage")}
+      >
         <svg
           className="stroke-current"
           data-slot="icon"
@@ -32,7 +43,7 @@ export function PaginationPrevious({
             strokeLinejoin="round"
           />
         </svg>
-        {children}
+        {label}
       </Button>
     </span>
   );
@@ -41,12 +52,14 @@ export function PaginationPrevious({
 export function PaginationNext({
   href = null,
   className,
-  children = "Next",
+  children,
 }: React.PropsWithChildren<{ href?: string | null; className?: string }>) {
+  const t = useTranslations("pagination");
+  const label = children ?? t("next");
   return (
     <span className={cn(className, "flex grow basis-0 justify-end")}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label="Next page">
-        {children}
+      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label={t("nextPage")}>
+        {label}
         <svg
           className="stroke-current"
           data-slot="icon"
@@ -76,11 +89,13 @@ export function PaginationPage({
   current = false,
   children,
 }: React.PropsWithChildren<{ href: string; className?: string; current?: boolean }>) {
+  const t = useTranslations("pagination");
+  const pageLabel = t("pageLabel", { page: String(children) });
   return (
     <Button
       href={href}
       plain
-      aria-label={`Page ${children}`}
+      aria-label={pageLabel}
       aria-current={current ? "page" : undefined}
       className={cn(
         className,

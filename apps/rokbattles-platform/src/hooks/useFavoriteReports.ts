@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import type { ReportSummary } from "@/hooks/useReports";
 import type { FavoriteReportType } from "@/lib/types/favorite";
@@ -25,6 +26,7 @@ type UseFavoriteReportsOptions = {
 export function useFavoriteReports({
   reportType = "battle",
 }: UseFavoriteReportsOptions = {}): UseFavoriteReportsResult {
+  const t = useTranslations("errors");
   const [favorites, setFavorites] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,12 +45,12 @@ export function useFavoriteReports({
       });
 
       if (!res.ok) {
-        throw new Error(`Failed to fetch favorites: ${res.status}`);
+        throw new Error(t("favorites.fetch", { status: res.status }));
       }
 
       return (await res.json()) as FavoritesApiResponse;
     },
-    [reportType]
+    [reportType, t]
   );
 
   useEffect(() => {
@@ -72,7 +74,7 @@ export function useFavoriteReports({
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("favorites.generic");
         setError(message);
       })
       .finally(() => {
@@ -84,7 +86,7 @@ export function useFavoriteReports({
     return () => {
       cancelled = true;
     };
-  }, [fetchFavorites]);
+  }, [fetchFavorites, t]);
 
   const loadMore = async () => {
     if (loading) {
@@ -103,7 +105,7 @@ export function useFavoriteReports({
       setFavorites((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message = err instanceof Error ? err.message : t("favorites.generic");
       setError(message);
     } finally {
       setLoading(false);

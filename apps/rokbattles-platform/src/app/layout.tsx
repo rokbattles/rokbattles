@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PlatformLayout } from "@/components/PlatformLayout";
 import PlatformProviders from "@/components/PlatformProviders";
@@ -14,36 +16,48 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://platform.rokbattles.com"),
-  title: {
-    default: "ROK Battles",
-    template: "%s - ROK Battles",
-  },
-  description:
-    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
-  openGraph: {
+const metadataBase = new URL("https://platform.rokbattles.com");
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("app");
+  const title = t("title");
+  const template = t("titleTemplate");
+  const description = t("description");
+
+  return {
+    metadataBase,
     title: {
-      default: "ROK Battles",
-      template: "%s - ROK Battles",
+      default: title,
+      template,
     },
-  },
-  twitter: {
-    title: {
-      default: "ROK Battles",
-      template: "%s - ROK Battles",
+    description,
+    openGraph: {
+      title: {
+        default: title,
+        template,
+      },
     },
-  },
-};
+    twitter: {
+      title: {
+        default: title,
+        template,
+      },
+    },
+  };
+}
 
 export default async function Layout({ children }: LayoutProps<"/">) {
   const user = await getCurrentUser();
   const initialGovernors = user?.claimedGovernors ?? [];
   const initialActiveGovernorId = initialGovernors[0]?.governorId;
 
+  // next-intl
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={cn(
         inter.variable,
         "text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950"
@@ -57,15 +71,17 @@ export default async function Layout({ children }: LayoutProps<"/">) {
         <link rel="dns-prefetch" href="https://static-gl.lilithgame.com" />
       </head>
       <body>
-        <CookieConsentProvider>
-          <PlatformProviders
-            initialGovernors={initialGovernors}
-            initialActiveGovernorId={initialActiveGovernorId}
-          >
-            <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-          </PlatformProviders>
-          <CookieConsentBanner />
-        </CookieConsentProvider>
+        <NextIntlClientProvider messages={messages}>
+          <CookieConsentProvider>
+            <PlatformProviders
+              initialGovernors={initialGovernors}
+              initialActiveGovernorId={initialActiveGovernorId}
+            >
+              <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+            </PlatformProviders>
+            <CookieConsentBanner />
+          </CookieConsentProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

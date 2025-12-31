@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
 export type OlympianArenaParticipant = {
@@ -51,24 +52,28 @@ function buildQueryParams(cursor: string | undefined) {
 }
 
 export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
+  const t = useTranslations("errors");
   const [duels, setDuels] = useState<OlympianArenaDuelSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cursor, setCursor] = useState<string | undefined>(undefined);
 
-  const fetchDuels = useCallback(async (nextCursor?: string) => {
-    const query = buildQueryParams(nextCursor);
+  const fetchDuels = useCallback(
+    async (nextCursor?: string) => {
+      const query = buildQueryParams(nextCursor);
 
-    const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
-      cache: "no-store",
-    });
+      const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
+        cache: "no-store",
+      });
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch duels: ${res.status}`);
-    }
+      if (!res.ok) {
+        throw new Error(t("duels.fetch", { status: res.status }));
+      }
 
-    return (await res.json()) as OlympianArenaApiResponse;
-  }, []);
+      return (await res.json()) as OlympianArenaApiResponse;
+    },
+    [t]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -91,7 +96,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : String(err);
+        const message = err instanceof Error ? err.message : t("duels.generic");
         setError(message);
       })
       .finally(() => {
@@ -103,7 +108,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
     return () => {
       cancelled = true;
     };
-  }, [fetchDuels]);
+  }, [fetchDuels, t]);
 
   const loadMore = async () => {
     if (loading) {
@@ -122,7 +127,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
       setDuels((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
+      const message = err instanceof Error ? err.message : t("duels.generic");
       setError(message);
     } finally {
       setLoading(false);

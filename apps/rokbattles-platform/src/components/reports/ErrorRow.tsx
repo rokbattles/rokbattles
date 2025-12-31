@@ -6,7 +6,7 @@ export default function ErrorRow({ colSpan, error }: { colSpan: number; error: s
   return (
     <TableRow>
       <TableCell colSpan={colSpan} role="status" aria-live="polite">
-        Failed to load reports: {error}
+        {error}
       </TableCell>
     </TableRow>
   );
