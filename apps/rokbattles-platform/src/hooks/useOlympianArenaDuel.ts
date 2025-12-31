@@ -2,9 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import type { DuelReportPayload } from "@/lib/types/duelReport";
 
 export type DuelReportEntry = {
-  report: Record<string, unknown>;
+  report: DuelReportPayload;
 };
 
 export type DuelReportResponse = {

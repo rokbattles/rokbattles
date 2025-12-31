@@ -11,7 +11,6 @@ import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useOlympianArenaDuel } from "@/hooks/useOlympianArenaDuel";
-import type { DuelReportPayload } from "@/lib/types/duelReport";
 
 export type DuelReportViewProps = {
   duelId: string;
@@ -75,12 +74,7 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       ) : (
         <div className="space-y-12">
           {entries.map((entry, index) => (
-            <div
-              key={
-                (entry.report as DuelReportPayload)?.metadata?.email_id ??
-                `${duelIdValue ?? "duel"}-${index}`
-              }
-            >
+            <div key={entry.report.metadata.email_id || `${duelIdValue ?? "duel"}-${index}`}>
               <DuelReportEntryCard entry={entry} />
               {index < entries.length - 1 ? <Divider className="my-8" /> : null}
             </div>

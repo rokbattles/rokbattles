@@ -33,44 +33,36 @@ impl DetailsResolver {
         parent: &Value,
         sections: &[Value],
     ) {
-        if participant.player_name.is_none() {
-            participant.player_name = player.get("PlayerName").and_then(parse_string);
-        }
-        if participant.kingdom.is_none() {
-            participant.kingdom = player.get("ServerId").and_then(parse_i64);
-        }
-        if participant.alliance.is_none() {
-            participant.alliance = player.get("Abbr").and_then(parse_string);
-        }
+        participant.player_name = player
+            .get("PlayerName")
+            .and_then(parse_string)
+            .unwrap_or_default();
+        participant.kingdom = player
+            .get("ServerId")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        participant.alliance = player
+            .get("Abbr")
+            .and_then(parse_string)
+            .unwrap_or_default();
 
-        if let Some(identity) = find_first_section_with_key(sections, "PlayerId") {
-            if participant.player_id.is_none() {
-                participant.player_id = identity.get("PlayerId").and_then(parse_i64);
-            }
-            if participant.duel_id.is_none() {
-                participant.duel_id = identity.get("DuelTeamId").and_then(parse_i64);
-            }
-            if let Some(avatar_value) = identity.get("PlayerAvatar") {
-                let (avatar, frame) = parse_avatar(avatar_value);
-                if participant.avatar_url.is_none() {
-                    participant.avatar_url = avatar;
-                }
-                if participant.frame_url.is_none() {
-                    participant.frame_url = frame;
-                }
-            }
-        }
+        let identity = find_first_section_with_key(sections, "PlayerId");
+        participant.player_id = identity
+            .and_then(|section| section.get("PlayerId").and_then(parse_i64))
+            .unwrap_or_default();
+        participant.duel_id = identity
+            .and_then(|section| section.get("DuelTeamId").and_then(parse_i64))
+            .unwrap_or_default();
+        let (avatar, frame) = identity
+            .and_then(|section| section.get("PlayerAvatar"))
+            .map(parse_avatar)
+            .unwrap_or((None, None));
+        participant.avatar_url = avatar.unwrap_or_default();
+        participant.frame_url = frame.unwrap_or_default();
 
-        if participant.buffs.is_empty() {
-            participant.buffs = collect_buffs(sections);
-        }
-
-        if participant.commanders.primary.is_none() {
-            participant.commanders.primary = Self::build_primary_commander(player, parent);
-        }
-        if participant.commanders.secondary.is_none() {
-            participant.commanders.secondary = Self::build_secondary_commander(sections);
-        }
+        participant.buffs = collect_buffs(sections);
+        participant.commanders.primary = Self::build_primary_commander(player, parent);
+        participant.commanders.secondary = Self::build_secondary_commander(sections);
     }
 
     fn fill_results(
@@ -81,15 +73,34 @@ impl DetailsResolver {
     ) {
         let identity = find_first_section_with_key(sections, "PlayerId");
 
-        let kill_points = player.get("KillScore").and_then(parse_i64);
-        let sev_wounded = player.get("UnitBadHurt").and_then(parse_i64);
-        let wounded = player.get("UnitHurt").and_then(parse_i64);
-        let dead = player.get("UnitDead").and_then(parse_i64);
-        let heal = player.get("UnitReturn").and_then(parse_i64);
-        let win = player.get("IsWin").and_then(parse_bool);
+        let kill_points = player
+            .get("KillScore")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        let sev_wounded = player
+            .get("UnitBadHurt")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        let wounded = player
+            .get("UnitHurt")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        let dead = player
+            .get("UnitDead")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        let heal = player
+            .get("UnitReturn")
+            .and_then(parse_i64)
+            .unwrap_or_default();
+        let win = player.get("IsWin").and_then(parse_bool).unwrap_or_default();
 
-        let units = identity.and_then(|s| s.get("UnitTotal").and_then(parse_i64));
-        let power = identity.and_then(|s| s.get("LosePower").and_then(parse_i64));
+        let units = identity
+            .and_then(|s| s.get("UnitTotal").and_then(parse_i64))
+            .unwrap_or_default();
+        let power = identity
+            .and_then(|s| s.get("LosePower").and_then(parse_i64))
+            .unwrap_or_default();
 
         if is_opponent {
             results.opponent_kill_points = kill_points;
@@ -112,33 +123,41 @@ impl DetailsResolver {
         }
     }
 
-    fn build_primary_commander(player: &Value, parent: &Value) -> Option<DuelBattle2Commander> {
-        let heroes = player.get("Heroes")?;
-        let main_hero = heroes.get("MainHero")?;
+    fn build_primary_commander(player: &Value, parent: &Value) -> DuelBattle2Commander {
+        let heroes = player.get("Heroes");
+        let main_hero = heroes.and_then(|value| value.get("MainHero"));
 
-        let mut primary = build_commander(main_hero);
+        let mut primary = main_hero.map(build_commander).unwrap_or_default();
         let mut skills = Vec::new();
 
-        if let Some(skills_value) = main_hero.get("Skills") {
-            push_skill_from_value(skills_value, &mut skills);
+        if let Some(main_hero) = main_hero {
+            if let Some(skills_value) = main_hero.get("Skills") {
+                push_skill_from_value(skills_value, &mut skills);
+            }
+
+            // Skills can bleed out from nested hero objects to their parents.
+            push_skill_from_value(main_hero, &mut skills);
         }
 
-        // Skills can bleed out from nested hero objects to their parents.
-        push_skill_from_value(main_hero, &mut skills);
-        push_skill_from_value(heroes, &mut skills);
+        if let Some(heroes) = heroes {
+            push_skill_from_value(heroes, &mut skills);
+        }
         push_skill_from_value(player, &mut skills);
         push_skill_from_value(parent, &mut skills);
 
         primary.skills = skills;
 
-        Some(primary)
+        primary
     }
 
-    fn build_secondary_commander(sections: &[Value]) -> Option<DuelBattle2Commander> {
-        let (assist_index, assist_section, assist) = sections
+    fn build_secondary_commander(sections: &[Value]) -> DuelBattle2Commander {
+        let Some((assist_index, assist_section, assist)) = sections
             .iter()
             .enumerate()
-            .find_map(|(idx, section)| section.get("AssistHero").map(|v| (idx, section, v)))?;
+            .find_map(|(idx, section)| section.get("AssistHero").map(|v| (idx, section, v)))
+        else {
+            return DuelBattle2Commander::default();
+        };
 
         let mut secondary = build_commander(assist);
         let mut skills = Vec::new();
@@ -164,7 +183,7 @@ impl DetailsResolver {
 
         secondary.skills = skills;
 
-        Some(secondary)
+        secondary
     }
 }
 
@@ -363,69 +382,49 @@ mod tests {
 
         let output = resolve_details(sections);
 
-        assert_eq!(output.sender.player_name.as_deref(), Some("Attacker"));
-        assert_eq!(output.sender.player_id, Some(42));
-        assert_eq!(output.sender.duel_id, Some(111));
-        assert_eq!(output.sender.avatar_url.as_deref(), Some("http://a"));
-        assert_eq!(output.sender.frame_url.as_deref(), Some("http://f"));
+        assert_eq!(output.sender.player_name, "Attacker");
+        assert_eq!(output.sender.player_id, 42);
+        assert_eq!(output.sender.duel_id, 111);
+        assert_eq!(output.sender.avatar_url, "http://a");
+        assert_eq!(output.sender.frame_url, "http://f");
         assert_eq!(output.sender.buffs.len(), 2);
 
-        let primary = output
-            .sender
-            .commanders
-            .primary
-            .as_ref()
-            .expect("primary commander");
-        assert_eq!(primary.id, Some(100));
+        let primary = &output.sender.commanders.primary;
+        assert_eq!(primary.id, 100);
         assert_eq!(primary.skills.len(), 5);
 
-        let secondary = output
-            .sender
-            .commanders
-            .secondary
-            .as_ref()
-            .expect("secondary commander");
-        assert_eq!(secondary.id, Some(101));
+        let secondary = &output.sender.commanders.secondary;
+        assert_eq!(secondary.id, 101);
         assert_eq!(secondary.skills.len(), 4);
 
-        assert_eq!(output.results.kill_points, Some(10));
-        assert_eq!(output.results.sev_wounded, Some(2));
-        assert_eq!(output.results.wounded, Some(3));
-        assert_eq!(output.results.dead, Some(4));
-        assert_eq!(output.results.heal, Some(5));
-        assert_eq!(output.results.units, Some(999));
-        assert_eq!(output.results.power, Some(888));
-        assert_eq!(output.results.win, Some(false));
+        assert_eq!(output.results.kill_points, 10);
+        assert_eq!(output.results.sev_wounded, 2);
+        assert_eq!(output.results.wounded, 3);
+        assert_eq!(output.results.dead, 4);
+        assert_eq!(output.results.heal, 5);
+        assert_eq!(output.results.units, 999);
+        assert_eq!(output.results.power, 888);
+        assert!(!output.results.win);
 
-        assert_eq!(output.opponent.player_name.as_deref(), Some("Defender"));
-        assert_eq!(output.opponent.player_id, Some(84));
-        assert_eq!(output.opponent.duel_id, Some(222));
+        assert_eq!(output.opponent.player_name, "Defender");
+        assert_eq!(output.opponent.player_id, 84);
+        assert_eq!(output.opponent.duel_id, 222);
 
-        let opponent_primary = output
-            .opponent
-            .commanders
-            .primary
-            .as_ref()
-            .expect("opponent primary commander");
-        assert_eq!(opponent_primary.id, Some(200));
+        let opponent_primary = &output.opponent.commanders.primary;
+        assert_eq!(opponent_primary.id, 200);
         assert_eq!(opponent_primary.skills.len(), 4);
 
-        let opponent_secondary = output
-            .opponent
-            .commanders
-            .secondary
-            .as_ref()
-            .expect("opponent secondary commander");
-        assert_eq!(opponent_secondary.id, Some(201));
+        let opponent_secondary = &output.opponent.commanders.secondary;
+        assert_eq!(opponent_secondary.id, 201);
         assert_eq!(opponent_secondary.skills.len(), 4);
 
-        assert_eq!(output.results.opponent_kill_points, Some(20));
-        assert_eq!(output.results.opponent_sev_wounded, Some(12));
-        assert_eq!(output.results.opponent_wounded, Some(13));
-        assert_eq!(output.results.opponent_dead, Some(14));
-        assert_eq!(output.results.opponent_heal, Some(15));
-        assert_eq!(output.results.opponent_units, Some(555));
-        assert_eq!(output.results.opponent_power, Some(444));
-        assert_eq!(output.results.opponent_win, Some(true));
+        assert_eq!(output.results.opponent_kill_points, 20);
+        assert_eq!(output.results.opponent_sev_wounded, 12);
+        assert_eq!(output.results.opponent_wounded, 13);
+        assert_eq!(output.results.opponent_dead, 14);
+        assert_eq!(output.results.opponent_heal, 15);
+        assert_eq!(output.results.opponent_units, 555);
+        assert_eq!(output.results.opponent_power, 444);
+        assert!(output.results.opponent_win);
     }
 }

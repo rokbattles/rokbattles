@@ -6,7 +6,7 @@ import { DuelResultsChart } from "@/components/olympian-arena/DuelResultsChart";
 import { Subheading } from "@/components/ui/Heading";
 import type { DuelReportEntry } from "@/hooks/useOlympianArenaDuel";
 import { formatUtcDateTime } from "@/lib/datetime";
-import type { DuelReportPayload, DuelResults } from "@/lib/types/duelReport";
+import type { DuelResults } from "@/lib/types/duelReport";
 
 type DuelEntryCardProps = {
   entry: DuelReportEntry;
@@ -14,13 +14,10 @@ type DuelEntryCardProps = {
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   const t = useTranslations("duels");
-  const payload = (entry.report ?? {}) as DuelReportPayload;
-  const metadata = payload.metadata;
-  const results = payload.results;
-  const sender = payload.sender;
-  const opponent = payload.opponent;
+  const payload = entry.report;
+  const { metadata, results, sender, opponent } = payload;
 
-  const periodLabel = formatUtcDateTime(metadata?.email_time);
+  const periodLabel = formatUtcDateTime(metadata.email_time);
   const outcome = getOutcome(results);
 
   return (
@@ -31,14 +28,12 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
         </Subheading>
       </header>
 
-      {results ? (
-        <section className="space-y-4">
-          <Subheading level={3} className="text-base">
-            {t("summary")}
-          </Subheading>
-          <DuelResultsChart results={results} />
-        </section>
-      ) : null}
+      <section className="space-y-4">
+        <Subheading level={3} className="text-base">
+          {t("summary")}
+        </Subheading>
+        <DuelResultsChart results={results} />
+      </section>
 
       <section className="grid gap-8 lg:grid-cols-2">
         <DuelParticipantCard participant={sender} isWinner={outcome?.winner === "sender"} />
@@ -48,11 +43,7 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   );
 }
 
-function getOutcome(results?: DuelResults) {
-  if (!results) {
-    return null;
-  }
-
+function getOutcome(results: DuelResults) {
   if (results.win === true) {
     return { winner: "sender" as const };
   }

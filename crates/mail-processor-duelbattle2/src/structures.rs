@@ -17,32 +17,32 @@ pub struct DuelBattle2Mail {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Metadata {
     // id
-    pub email_id: Option<String>,
+    pub email_id: String,
     // time
-    pub email_time: Option<i64>,
+    pub email_time: i64,
     // receiver
-    pub email_receiver: Option<String>,
+    pub email_receiver: String,
     // serverId
-    pub server_id: Option<i64>,
+    pub server_id: i64,
 }
 
 /// Sender or opponent details extracted from DuelBattle2 sections.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Participant {
     // PlayerId
-    pub player_id: Option<i64>,
+    pub player_id: i64,
     // PlayerName
-    pub player_name: Option<String>,
+    pub player_name: String,
     // ServerId
-    pub kingdom: Option<i64>,
+    pub kingdom: i64,
     // Abbr
-    pub alliance: Option<String>,
+    pub alliance: String,
     // DuelTeamId
-    pub duel_id: Option<i64>,
+    pub duel_id: i64,
     // PlayerAvatar.avatar
-    pub avatar_url: Option<String>,
+    pub avatar_url: String,
     // PlayerAvatar.avatarFrame
-    pub frame_url: Option<String>,
+    pub frame_url: String,
     // MainHero / AssistHero
     pub commanders: DuelBattle2Commanders,
     // Buffs
@@ -53,22 +53,22 @@ pub struct DuelBattle2Participant {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Commanders {
     // MainHero
-    pub primary: Option<DuelBattle2Commander>,
+    pub primary: DuelBattle2Commander,
     // AssistHero
-    pub secondary: Option<DuelBattle2Commander>,
+    pub secondary: DuelBattle2Commander,
 }
 
 /// Commander details extracted from hero data.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Commander {
     // HeroId
-    pub id: Option<i64>,
+    pub id: i64,
     // HeroLevel
-    pub level: Option<i64>,
+    pub level: i64,
     // Star
-    pub star: Option<i64>,
+    pub star: i64,
     // Awaked
-    pub awakened: Option<bool>,
+    pub awakened: bool,
     // Skills
     pub skills: Vec<DuelBattle2Skill>,
 }
@@ -77,55 +77,55 @@ pub struct DuelBattle2Commander {
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Skill {
     // SkillId
-    pub id: Option<i64>,
+    pub id: i64,
     // Level
-    pub level: Option<i64>,
+    pub level: i64,
     // Id
-    pub order: Option<i64>,
+    pub order: i64,
 }
 
 /// Buff data associated with a participant.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Buff {
     // BuffId
-    pub id: Option<i64>,
+    pub id: i64,
     // BuffValue
-    pub value: Option<f64>,
+    pub value: f64,
 }
 
 /// Aggregated results for DuelBattle2 participants.
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct DuelBattle2Results {
     // KillScore
-    pub kill_points: Option<i64>,
+    pub kill_points: i64,
     // UnitBadHurt
-    pub sev_wounded: Option<i64>,
+    pub sev_wounded: i64,
     // UnitHurt
-    pub wounded: Option<i64>,
+    pub wounded: i64,
     // UnitDead
-    pub dead: Option<i64>,
+    pub dead: i64,
     // UnitReturn
-    pub heal: Option<i64>,
+    pub heal: i64,
     // UnitTotal
-    pub units: Option<i64>,
+    pub units: i64,
     // LosePower
-    pub power: Option<i64>,
+    pub power: i64,
     // IsWin
-    pub win: Option<bool>,
+    pub win: bool,
     // KillScore
-    pub opponent_kill_points: Option<i64>,
+    pub opponent_kill_points: i64,
     // UnitBadHurt
-    pub opponent_sev_wounded: Option<i64>,
+    pub opponent_sev_wounded: i64,
     // UnitHurt
-    pub opponent_wounded: Option<i64>,
+    pub opponent_wounded: i64,
     // UnitDead
-    pub opponent_dead: Option<i64>,
+    pub opponent_dead: i64,
     // UnitReturn
-    pub opponent_heal: Option<i64>,
+    pub opponent_heal: i64,
     // UnitTotal
-    pub opponent_units: Option<i64>,
+    pub opponent_units: i64,
     // LosePower
-    pub opponent_power: Option<i64>,
+    pub opponent_power: i64,
     // IsWin
-    pub opponent_win: Option<bool>,
+    pub opponent_win: bool,
 }

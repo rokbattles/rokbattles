@@ -8,15 +8,15 @@ import { getCommanderName } from "@/hooks/useCommanderName";
 import type { DuelCommanderInfo } from "@/lib/types/duelReport";
 
 type DuelCommanderRowProps = {
-  commander?: DuelCommanderInfo;
+  commander: DuelCommanderInfo;
   label: string;
 };
 
 export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
   const tCommon = useTranslations("common");
-  const commanderId = commander?.id;
-  const commanderName = getCommanderName(commanderId ?? null);
-  const level = typeof commander?.level === "number" ? commander.level : null;
+  const commanderId = commander.id;
+  const commanderName = getCommanderName(Number.isFinite(commanderId) ? commanderId : null);
+  const level = Number.isFinite(commander.level) ? commander.level : null;
   const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
   const commanderIconSrc = `/lilith/images/commander/${commanderId}.png`;
   const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });

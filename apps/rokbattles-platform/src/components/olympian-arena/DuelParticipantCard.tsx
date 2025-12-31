@@ -32,18 +32,18 @@ export function DuelParticipantCard({
   participant,
   isWinner,
 }: {
-  participant?: DuelParticipantInfo;
+  participant: DuelParticipantInfo;
   isWinner?: boolean;
 }) {
   const t = useTranslations("duels");
   const tCommon = useTranslations("common");
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant?.player_name?.trim() || tCommon("labels.unknownCommander");
-  const allianceTag = participant?.alliance?.trim();
-  const playerId = participant?.player_id;
+  const playerName = participant.player_name.trim() || tCommon("labels.unknownCommander");
+  const allianceTag = participant.alliance.trim();
+  const playerId = participant.player_id;
 
-  const buffs = normalizeBuffs(participant?.buffs ?? []);
+  const buffs = normalizeBuffs(participant.buffs);
   const displayBuffs = buffs
     .map((buff) => {
       const info = getArmamentInfo(buff.id);
@@ -62,8 +62,8 @@ export function DuelParticipantCard({
   const visibleBuffs = expanded ? displayBuffs : displayBuffs.slice(0, 10);
   const hasMore = displayBuffs.length > 10;
 
-  const primary = participant?.commanders?.primary;
-  const secondary = participant?.commanders?.secondary;
+  const primary = participant.commanders.primary;
+  const secondary = participant.commanders.secondary;
   const showPrimary = hasCommander(primary);
   const showSecondary = hasCommander(secondary);
 
@@ -71,8 +71,8 @@ export function DuelParticipantCard({
     <div className="flex flex-col gap-5">
       <div className="flex items-start gap-3">
         <Avatar
-          src={participant?.avatar_url ?? undefined}
-          frameSrc={normalizeFrameUrl(participant?.frame_url)}
+          src={participant.avatar_url || undefined}
+          frameSrc={normalizeFrameUrl(participant.frame_url)}
           alt={playerName}
           initials={getInitials(playerName)}
           className="size-12"
@@ -141,13 +141,12 @@ export function DuelParticipantCard({
   );
 }
 
-function hasCommander(commander?: DuelCommanderInfo) {
-  const id = commander?.id;
-  return typeof id === "number" && Number.isFinite(id);
+function hasCommander(commander: DuelCommanderInfo) {
+  return Number.isFinite(commander.id);
 }
 
-function formatBuffValue(value: number | undefined, isPercent: boolean) {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
+function formatBuffValue(value: number, isPercent: boolean) {
+  if (!Number.isFinite(value)) {
     return isPercent ? "0%" : "+0";
   }
 
@@ -172,12 +171,12 @@ function normalizeBuffs(rawBuffs: DuelBuffEntry[]): NormalizedBuff[] {
   const aggregate = new Map<number, number>();
 
   for (const buff of rawBuffs) {
-    const id = typeof buff.id === "number" && Number.isFinite(buff.id) ? buff.id : null;
+    const id = Number.isFinite(buff.id) ? buff.id : null;
     if (id == null) {
       continue;
     }
 
-    const value = typeof buff.value === "number" && Number.isFinite(buff.value) ? buff.value : 0;
+    const value = Number.isFinite(buff.value) ? buff.value : 0;
     aggregate.set(id, (aggregate.get(id) ?? 0) + value);
   }
 
