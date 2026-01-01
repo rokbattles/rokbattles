@@ -17,7 +17,6 @@ import { PairingMetricCard } from "@/components/my-pairings/PairingMetricCard";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { type GovernorMarchTotals, usePairings } from "@/hooks/usePairings";
 import { formatDurationShort } from "@/lib/datetime";
 
@@ -138,10 +137,8 @@ function buildMonthsForYear(year: number) {
 }
 
 export function MyPairingsContent() {
-  const tAccount = useTranslations("account");
   const tPairings = useTranslations("pairings");
   const tCommon = useTranslations("common");
-  const { user, loading } = useCurrentUser();
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
@@ -397,28 +394,8 @@ export function MyPairingsContent() {
       ]
     : [];
 
-  if (loading) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        {tAccount("states.loading")}
-      </p>
-    );
-  }
-
-  if (!user) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        {tAccount("states.loginRequired")}
-      </p>
-    );
-  }
-
   if (!activeGovernor) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        {tAccount("states.governorRequired")}
-      </p>
-    );
+    return null;
   }
 
   return (

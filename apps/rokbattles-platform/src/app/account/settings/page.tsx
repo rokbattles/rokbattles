@@ -1,30 +1,11 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Description, Field, FieldGroup, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { requireCurrentUser } from "@/lib/require-user";
 
-export default function Page() {
-  const t = useTranslations("account");
-  const { user, loading } = useCurrentUser();
-
-  if (loading) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        {t("states.loading")}
-      </p>
-    );
-  }
-
-  if (!user) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        {t("states.loginRequired")}
-      </p>
-    );
-  }
-
+export default async function Page() {
+  const user = await requireCurrentUser();
+  const t = await getTranslations("account");
   return (
     <div className="space-y-8 mt-8">
       <FieldGroup>
