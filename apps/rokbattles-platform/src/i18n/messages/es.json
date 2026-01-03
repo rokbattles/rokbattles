@@ -275,56 +275,85 @@
     }
   },
   "pairings": {
-    "intro": "Escoja una combinación para ver su rendimiento, filtrable por mes.",
-    "selectPairing": "Seleccione una combinación.",
+    "intro": "Analyze performance across commander pairings, loadouts, and matchups",
     "states": {
-      "empty": "No se encontraron combinaciones para este periodo."
+      "loadingPairings": "Loading pairings...",
+      "selectPairing": "Select a pairing to get started."
     },
-    "comparison": {
-      "none": "No hay mes anterior para comparar",
-      "previous": "vs mes anterior",
-      "vsMonth": "vs {month}"
+    "filters": {
+      "loadoutGranularity": "Loadout granularity",
+      "normalized": "Normalized",
+      "exact": "Exact",
+      "startDate": "Start date",
+      "endDate": "End date"
     },
-    "monthly": {
-      "title": "Batallas mensuales en {year}",
-      "hint": "Haga clic en una barra para cambiar de mes, alternativamente, use el menú de selección.",
-      "select": "Seleccionar mes",
-      "selectPrompt": "Seleccione un mes"
+    "labels": {
+      "allLoadouts": "All loadouts",
+      "loadout": "Loadout {index}",
+      "selected": "Selected",
+      "inscriptions": "Inscriptions",
+      "armamentBuffs": "Armament buffs",
+      "emptyEquipment": "Empty"
     },
-    "metrics": {
-      "battleCount": {
-        "description": "Cuántos reportes de batalla generó con esta combinación en el mes seleccionado"
+    "loadouts": {
+      "title": "Loadouts",
+      "hint": "Scroll sideways to view more loadouts.",
+      "states": {
+        "loadingLoadouts": "Loading loadouts..."
+      }
+    },
+    "breakdown": {
+      "title": "Loadout breakdown",
+      "states": {
+        "loadingBreakdown": "Loading loadout breakdown...",
+        "selectLoadout": "Select a loadout to view the breakdown."
       },
-      "killScore": {
-        "description": "Total de puntos de baja que obtuvo mientras estaba usando esta combinación"
+      "stats": {
+        "battles": {
+          "description": "Total battles recorded for this loadout."
+        },
+        "killPoints": {
+          "description": "Total kill points earned while using this pairing."
+        },
+        "enemyKillPoints": {
+          "label": "Opponent Kill Points",
+          "description": "Total kill points your opponents earned against you."
+        },
+        "severelyWounded": {
+          "label": "Severely Wounded (Taken)",
+          "description": "Number of your troops that became severely wounded while using this pairing."
+        },
+        "enemySeverelyWounded": {
+          "label": "Severely Wounded (Inflicted)",
+          "description": "Number of opponent troops you caused to become severely wounded."
+        },
+        "avgDuration": {
+          "label": "Avg. Battle Duration",
+          "description": "Average duration of battles recorded while using this pairing."
+        },
+        "dps": {
+          "label": "Damage Per Second (DPS)",
+          "description": "Average amount of damage you inflict per second while using this pairing."
+        },
+        "sps": {
+          "label": "Sevs Per Second (SPS)",
+          "description": "Rate at which you inflict severely wounded troops each second."
+        },
+        "tps": {
+          "label": "Sevs Taken Per Second (TPS)",
+          "description": "Rate at which your troops become severely wounded each second."
+        }
       },
-      "enemyKillScore": {
-        "label": "Puntos de eliminación enemigos",
-        "description": "Total de puntos de eliminación que sus oponentes obtuvieron contra usted."
-      },
-      "severelyWounded": {
-        "label": "Heridos graves (tomados)",
-        "description": "Número de tropas que resultaron severamente heridas mientras usó esta combinación."
-      },
-      "enemySeverelyWounded": {
-        "label": "Heridos graves (inflingidos)",
-        "description": "Número de tropas enemigas a las que le causó heridas graves."
-      },
-      "averageBattleDuration": {
-        "label": "Duración promedio de batalla",
-        "description": "Duración promedio de batallas registradas para esta combinación en el mes seleccionado"
-      },
-      "dps": {
-        "label": "Daño por segundo (DPS)",
-        "description": "Duración promedio de daño que inflinge por segundo esta combinación."
-      },
-      "sps": {
-        "label": "Graves por segundo (SPS)",
-        "description": "Tasa a la que inflinge heridas graves a las tropas por segundo"
-      },
-      "tps": {
-        "label": "Heridos graves por segundo (TPS)",
-        "description": "Tasa de sus tropas que resultaron gravemente heridas cada segundo."
+      "opponents": {
+        "title": "Opponent pairings",
+        "loading": "Loading enemy matchups...",
+        "empty": "No enemy pairings found for this selection.",
+        "table": {
+          "pairing": "Opponent pairing",
+          "dps": "DPS",
+          "sps": "SPS",
+          "tps": "TPS"
+        }
       }
     }
   },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
 import { PairingsFilters } from "@/components/my-pairings/PairingsFilters";
@@ -79,10 +80,6 @@ function formatCommanderPair(primaryId: number, secondaryId: number, unknownLabe
   return `${primaryName} / ${secondaryName}`;
 }
 
-function createLoadoutLabel(index: number) {
-  return `Loadout ${index + 1}`;
-}
-
 export function MyPairingsContent() {
   const governorContext = useContext(GovernorContext);
 
@@ -90,6 +87,8 @@ export function MyPairingsContent() {
     throw new Error("My Pairings must be used within a GovernorProvider");
   }
 
+  const t = useTranslations("pairings");
+  const tCommon = useTranslations("common");
   const { activeGovernor } = governorContext;
 
   const [startDate, setStartDate] = useState<string>("");
@@ -144,10 +143,10 @@ export function MyPairingsContent() {
         label: formatCommanderPair(
           pairing.primaryCommanderId,
           pairing.secondaryCommanderId,
-          "Unknown commander"
+          tCommon("labels.unknownCommander")
         ),
       })),
-    [data]
+    [data, tCommon]
   );
 
   const selectedPairing = data.find(
@@ -232,7 +231,7 @@ export function MyPairingsContent() {
 
     const allLoadouts: LoadoutCard = {
       key: ALL_LOADOUT_KEY,
-      label: "All loadouts",
+      label: t("labels.allLoadouts"),
       count: selectedPairing.count,
       totals: selectedPairing.totals,
       loadout: EMPTY_LOADOUT,
@@ -240,11 +239,11 @@ export function MyPairingsContent() {
 
     const cards = loadouts.map<LoadoutCard>((loadout, index) => ({
       ...loadout,
-      label: createLoadoutLabel(index),
+      label: t("labels.loadout", { index: index + 1 }),
     }));
 
     return [allLoadouts, ...cards];
-  }, [loadouts, selectedPairing]);
+  }, [loadouts, selectedPairing, t]);
 
   useEffect(() => {
     if (!selectedPairing) {
@@ -277,66 +276,66 @@ export function MyPairingsContent() {
     return [
       {
         id: "battles",
-        name: "Battles",
+        name: tCommon("labels.battles"),
         value: formatNumber(selectedLoadoutCard.count),
-        description: "Total battles recorded for this loadout.",
+        description: t("breakdown.stats.battles.description"),
       },
       {
         id: "killPoints",
-        name: "Kill Points",
+        name: tCommon("metrics.killPoints"),
         value: formatNumber(selectedLoadoutCard.totals.killScore),
-        description: "Total kill points earned while using this pairing.",
+        description: t("breakdown.stats.killPoints.description"),
       },
       {
         id: "enemyKillPoints",
-        name: "Opponent Kill Points",
+        name: t("breakdown.stats.enemyKillPoints.label"),
         value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
-        description: "Total kill points your opponents earned against you.",
+        description: t("breakdown.stats.enemyKillPoints.description"),
       },
       {
         id: "severelyWounded",
-        name: "Severely Wounded (Taken)",
+        name: t("breakdown.stats.severelyWounded.label"),
         value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
-        description: "Number of your troops that became severely wounded while using this pairing.",
+        description: t("breakdown.stats.severelyWounded.description"),
       },
       {
         id: "enemySeverelyWounded",
-        name: "Severely Wounded (Inflicted)",
+        name: t("breakdown.stats.enemySeverelyWounded.label"),
         value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
-        description: "Number of opponent troops you caused to become severely wounded.",
+        description: t("breakdown.stats.enemySeverelyWounded.description"),
       },
       {
         id: "avgDuration",
-        name: "Avg. Battle Duration",
+        name: t("breakdown.stats.avgDuration.label"),
         value: formatDurationSeconds(avgDurationSeconds),
-        description: "Average duration of battles recorded while using this pairing.",
+        description: t("breakdown.stats.avgDuration.description"),
       },
       {
         id: "dps",
-        name: "Damage Per Second (DPS)",
+        name: t("breakdown.stats.dps.label"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: "Average amount of damage you inflict per second while using this pairing.",
+        description: t("breakdown.stats.dps.description"),
       },
       {
         id: "sps",
-        name: "Sevs Per Second (SPS)",
+        name: t("breakdown.stats.sps.label"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: "Rate at which you inflict severely wounded troops each second.",
+        description: t("breakdown.stats.sps.description"),
       },
       {
         id: "tps",
-        name: "Sevs Taken Per Second (TPS)",
+        name: t("breakdown.stats.tps.label"),
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: "Rate at which your troops become severely wounded each second.",
+        description: t("breakdown.stats.tps.description"),
       },
     ];
-  }, [selectedLoadoutCard]);
+  }, [selectedLoadoutCard, t, tCommon]);
 
   const enemyGranularity: EnemyGranularity =
     selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
@@ -374,7 +373,7 @@ export function MyPairingsContent() {
         pairing: formatCommanderPair(
           entry.enemyPrimaryCommanderId,
           entry.enemySecondaryCommanderId,
-          "Unknown commander"
+          tCommon("labels.unknownCommander")
         ),
         battles: formatNumber(entry.count),
         killPoints: formatNumber(entry.totals.killScore),
@@ -383,7 +382,7 @@ export function MyPairingsContent() {
         sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
         tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
       })),
-    [visibleOpponents]
+    [tCommon, visibleOpponents]
   );
 
   if (!activeGovernor) {
@@ -392,7 +391,7 @@ export function MyPairingsContent() {
 
   return (
     <div className="space-y-10">
-      <Text>Analyze performance across commander pairings, loadouts, and matchups</Text>
+      <Text>{t("intro")}</Text>
       <PairingsFilters
         pairingOptions={pairingOptions}
         pairingValue={selectedPairingKey}

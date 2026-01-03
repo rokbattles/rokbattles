@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { getEquipmentName } from "@/hooks/useEquipmentName";
 import type { LoadoutSnapshot } from "@/hooks/usePairings";
 
@@ -31,9 +32,13 @@ function toRomanNumeral(value: number | undefined) {
 }
 
 export function LoadoutEquipmentSlot({ token }: LoadoutEquipmentSlotProps) {
+  const t = useTranslations("pairings");
   const { tier, isSpecialTalent } = getTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
-  const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : "Empty";
+  const label =
+    token?.id != null
+      ? (getEquipmentName(token.id) ?? token.id.toString())
+      : t("labels.emptyEquipment");
 
   return (
     <div

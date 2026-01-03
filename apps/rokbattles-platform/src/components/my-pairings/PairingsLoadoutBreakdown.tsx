@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Subheading } from "@/components/ui/Heading";
 import {
@@ -66,21 +67,25 @@ export function PairingsLoadoutBreakdown({
   onToggleShowAllOpponents,
   opponentsId,
 }: PairingsLoadoutBreakdownProps) {
+  const t = useTranslations("pairings");
+  const tCommon = useTranslations("common");
+  const tTrends = useTranslations("trends");
+
   return (
     <section className="space-y-6">
-      <Subheading>Loadout breakdown</Subheading>
+      <Subheading>{t("breakdown.title")}</Subheading>
       {pairingsLoading ? (
-        <Text>Loading pairings...</Text>
+        <Text>{t("states.loadingPairings")}</Text>
       ) : pairingsError ? (
         <Text>{pairingsError}</Text>
       ) : !hasSelectedPairing ? (
-        <Text>Select a pairing to get started.</Text>
+        <Text>{t("states.selectPairing")}</Text>
       ) : loadoutsLoading || !loadoutsReady ? (
-        <Text>Loading loadout breakdown...</Text>
+        <Text>{t("breakdown.states.loadingBreakdown")}</Text>
       ) : loadoutsError ? (
         <Text>{loadoutsError}</Text>
       ) : !hasSelectedLoadout ? (
-        <Text>Select a loadout to view the breakdown.</Text>
+        <Text>{t("breakdown.states.selectLoadout")}</Text>
       ) : (
         <>
           <div className="space-y-3">
@@ -107,28 +112,36 @@ export function PairingsLoadoutBreakdown({
           <div className="space-y-3">
             <div>
               <div className="text-sm font-semibold text-zinc-950 dark:text-white">
-                Opponent pairings
+                {t("breakdown.opponents.title")}
               </div>
             </div>
             {enemiesLoading ? (
-              <Text>Loading enemy matchups...</Text>
+              <Text>{t("breakdown.opponents.loading")}</Text>
             ) : enemiesError ? (
               <Text>{enemiesError}</Text>
             ) : opponentRows.length === 0 ? (
-              <Text>No enemy pairings found for this selection.</Text>
+              <Text>{t("breakdown.opponents.empty")}</Text>
             ) : (
               <>
                 <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
                   <TableHead>
                     <TableRow>
-                      <TableHeader className="w-12">#</TableHeader>
-                      <TableHeader>Opponent pairing</TableHeader>
-                      <TableHeader className="w-24">Battles</TableHeader>
-                      <TableHeader className="w-32">Kill Points</TableHeader>
-                      <TableHeader className="w-40">Opponent Kill Points</TableHeader>
-                      <TableHeader className="w-20">DPS</TableHeader>
-                      <TableHeader className="w-20">SPS</TableHeader>
-                      <TableHeader className="w-20">TPS</TableHeader>
+                      <TableHeader className="w-12">{tTrends("table.rank")}</TableHeader>
+                      <TableHeader>{t("breakdown.opponents.table.pairing")}</TableHeader>
+                      <TableHeader className="w-24">{tCommon("labels.battles")}</TableHeader>
+                      <TableHeader className="w-32">{tCommon("metrics.killPoints")}</TableHeader>
+                      <TableHeader className="w-40">
+                        {t("breakdown.stats.enemyKillPoints.label")}
+                      </TableHeader>
+                      <TableHeader className="w-20">
+                        {t("breakdown.opponents.table.dps")}
+                      </TableHeader>
+                      <TableHeader className="w-20">
+                        {t("breakdown.opponents.table.sps")}
+                      </TableHeader>
+                      <TableHeader className="w-20">
+                        {t("breakdown.opponents.table.tps")}
+                      </TableHeader>
                     </TableRow>
                   </TableHead>
                   <TableBody id={opponentsId}>
@@ -159,7 +172,7 @@ export function PairingsLoadoutBreakdown({
                     aria-controls={opponentsId}
                     className="text-sm"
                   >
-                    {showAllOpponents ? "Show less" : "Show more"}
+                    {showAllOpponents ? tCommon("actions.showLess") : tCommon("actions.showMore")}
                   </Button>
                 ) : null}
               </>

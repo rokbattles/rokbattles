@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { LoadoutArmamentList } from "@/components/my-pairings/LoadoutArmamentList";
 import { LoadoutEquipmentGrid } from "@/components/my-pairings/LoadoutEquipmentGrid";
 import { ReportInscriptionBadge } from "@/components/report/ReportInscriptionBadge";
@@ -34,20 +35,22 @@ export function PairingsLoadouts({
   selectedLoadoutKey,
   onSelectLoadout,
 }: PairingsLoadoutsProps) {
+  const t = useTranslations("pairings");
+
   return (
     <section className="space-y-4">
       <div className="space-y-1">
-        <Subheading>Loadouts</Subheading>
-        <Text>Scroll sideways to view more loadouts.</Text>
+        <Subheading>{t("loadouts.title")}</Subheading>
+        <Text>{t("loadouts.hint")}</Text>
       </div>
       {pairingsLoading ? (
-        <Text>Loading pairings...</Text>
+        <Text>{t("states.loadingPairings")}</Text>
       ) : pairingsError ? (
         <Text>{pairingsError}</Text>
       ) : !hasSelectedPairing ? (
-        <Text>Select a pairing to get started.</Text>
+        <Text>{t("states.selectPairing")}</Text>
       ) : loadoutsLoading ? (
-        <Text>Loading loadouts...</Text>
+        <Text>{t("loadouts.states.loadingLoadouts")}</Text>
       ) : loadoutsError ? (
         <Text>{loadoutsError}</Text>
       ) : (
@@ -77,7 +80,7 @@ export function PairingsLoadouts({
                       className={cn(!isSelected && "invisible")}
                       aria-hidden={!isSelected}
                     >
-                      Selected
+                      {t("labels.selected")}
                     </Badge>
                   </div>
 
@@ -86,7 +89,7 @@ export function PairingsLoadouts({
 
                     <div className="space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                        Inscriptions
+                        {t("labels.inscriptions")}
                       </p>
                       <div className="flex min-h-5 flex-wrap gap-1.5">
                         {loadout.loadout.inscriptions.map((id) => (
@@ -97,7 +100,7 @@ export function PairingsLoadouts({
 
                     <div className="space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                        Armament buffs
+                        {t("labels.armamentBuffs")}
                       </p>
                       <LoadoutArmamentList armaments={loadout.loadout.armaments} />
                     </div>

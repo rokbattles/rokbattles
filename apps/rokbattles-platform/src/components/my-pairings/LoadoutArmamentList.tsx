@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { getArmamentInfo } from "@/hooks/useArmamentName";
 import type { LoadoutSnapshot } from "@/hooks/usePairings";
 
@@ -8,6 +9,8 @@ type LoadoutArmamentListProps = {
 };
 
 export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
+  const tReport = useTranslations("report");
+
   if (armaments.length === 0) {
     return <div className="min-h-5" />;
   }
@@ -15,7 +18,10 @@ export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
   return (
     <div className="space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
       {armaments.map((buff) => {
-        const name = getArmamentInfo(buff.id ?? null)?.name ?? `Armament ${buff.id}`;
+        const fallbackId = typeof buff.id === "number" ? buff.id : "?";
+        const name =
+          getArmamentInfo(buff.id ?? null)?.name ??
+          tReport("armament.fallback", { id: fallbackId });
         const valueLabel =
           typeof buff.value === "number" ? `${(buff.value * 100).toFixed(2)}%` : null;
 
