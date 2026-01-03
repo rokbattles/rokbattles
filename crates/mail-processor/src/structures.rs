@@ -49,6 +49,8 @@ pub struct Metadata {
     pub email_id: Option<String>,
     // time (epoch)
     pub email_time: Option<i64>,
+    // serverId
+    pub server_id: Option<i64>,
     // email_type:
     //   empty string - unknown (might be the mail brief)
     //   Alliance - alliance related mails

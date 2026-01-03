@@ -240,11 +240,6 @@
     }
   },
   "account": {
-    "states": {
-      "loading": "Loading your account...",
-      "loginRequired": "You must be logged in to view this page.",
-      "governorRequired": "You must have a claimed governor to view this page."
-    },
     "titles": {
       "reports": "My Battle Reports",
       "favorites": "My Favorite Reports",

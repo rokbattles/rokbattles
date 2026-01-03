@@ -173,6 +173,13 @@ impl Resolver for MetadataResolver {
             map_insert_i64_if_absent(meta, "email_time", email_time);
         }
 
+        if meta.get("server_id").is_none() {
+            let server_id = sections
+                .iter()
+                .find_map(|s| s.get("serverId").and_then(Value::as_i64));
+            map_insert_i64_if_absent(meta, "server_id", server_id);
+        }
+
         // email role
         let stats_block = sections.iter().find(|s| {
             s.get("STs").is_some()

@@ -240,11 +240,6 @@
     }
   },
   "account": {
-    "states": {
-      "loading": "Cargando su cuenta…",
-      "loginRequired": "Debe iniciar sesión para ver esta página.",
-      "governorRequired": "Debe tener un gobernador reclamado para ver esta página"
-    },
     "titles": {
       "reports": "Mi reporte de batallas.",
       "favorites": "Mi reporte de favoritos.",

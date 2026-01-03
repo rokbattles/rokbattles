@@ -240,11 +240,6 @@
     }
   },
   "account": {
-    "states": {
-      "loading": "계정 정보를 불러오는 중...",
-      "loginRequired": "이 페이지를 보려면 로그인이 필요합니다.",
-      "governorRequired": "이 페이지를 보려면 등록된 지도자가 있어야 합니다."
-    },
     "titles": {
       "reports": "내 전투 보고서",
       "favorites": "내 즐겨찾기 보고서",
