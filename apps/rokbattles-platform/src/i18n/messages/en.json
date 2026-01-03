@@ -275,56 +275,85 @@
     }
   },
   "pairings": {
-    "intro": "Choose a pairing to see how it performed, filterable by month.",
-    "selectPairing": "Select a pairing",
+    "intro": "Analyze performance across commander pairings, loadouts, and matchups",
     "states": {
-      "empty": "No pairings found for this period."
+      "loadingPairings": "Loading pairings...",
+      "selectPairing": "Select a pairing to get started."
     },
-    "comparison": {
-      "none": "No prior month to compare",
-      "previous": "vs previous month",
-      "vsMonth": "vs {month}"
+    "filters": {
+      "loadoutGranularity": "Loadout granularity",
+      "normalized": "Normalized",
+      "exact": "Exact",
+      "startDate": "Start date",
+      "endDate": "End date"
     },
-    "monthly": {
-      "title": "Monthly battles in {year}",
-      "hint": "Click a bar to switch months, alternatively use the select menu.",
-      "select": "Select month",
-      "selectPrompt": "Select a month"
+    "labels": {
+      "allLoadouts": "All loadouts",
+      "loadout": "Loadout {index}",
+      "selected": "Selected",
+      "inscriptions": "Inscriptions",
+      "armamentBuffs": "Armament buffs",
+      "emptyEquipment": "Empty"
     },
-    "metrics": {
-      "battleCount": {
-        "description": "How many battle reports you generated with this pairing in the selected month."
+    "loadouts": {
+      "title": "Loadouts",
+      "hint": "Scroll sideways to view more loadouts.",
+      "states": {
+        "loadingLoadouts": "Loading loadouts..."
+      }
+    },
+    "breakdown": {
+      "title": "Loadout breakdown",
+      "states": {
+        "loadingBreakdown": "Loading loadout breakdown...",
+        "selectLoadout": "Select a loadout to view the breakdown."
       },
-      "killScore": {
-        "description": "Total kill points you earned while using this pairing."
+      "stats": {
+        "battles": {
+          "description": "Total battles recorded for this loadout."
+        },
+        "killPoints": {
+          "description": "Total kill points earned while using this pairing."
+        },
+        "enemyKillPoints": {
+          "label": "Opponent Kill Points",
+          "description": "Total kill points your opponents earned against you."
+        },
+        "severelyWounded": {
+          "label": "Severely Wounded (Taken)",
+          "description": "Number of your troops that became severely wounded while using this pairing."
+        },
+        "enemySeverelyWounded": {
+          "label": "Severely Wounded (Inflicted)",
+          "description": "Number of opponent troops you caused to become severely wounded."
+        },
+        "avgDuration": {
+          "label": "Avg. Battle Duration",
+          "description": "Average duration of battles recorded while using this pairing."
+        },
+        "dps": {
+          "label": "Damage Per Second (DPS)",
+          "description": "Average amount of damage you inflict per second while using this pairing."
+        },
+        "sps": {
+          "label": "Sevs Per Second (SPS)",
+          "description": "Rate at which you inflict severely wounded troops each second."
+        },
+        "tps": {
+          "label": "Sevs Taken Per Second (TPS)",
+          "description": "Rate at which your troops become severely wounded each second."
+        }
       },
-      "enemyKillScore": {
-        "label": "Enemy Kill Points",
-        "description": "Total kill points your opponents earned against you."
-      },
-      "severelyWounded": {
-        "label": "Severely Wounded (Taken)",
-        "description": "Number of your troops that became severely wounded while using this pairing."
-      },
-      "enemySeverelyWounded": {
-        "label": "Severely Wounded (Inflicted)",
-        "description": "Number of enemy troops you caused to become severely wounded."
-      },
-      "averageBattleDuration": {
-        "label": "Avg. Battle Duration",
-        "description": "Average length of battles recorded for this pairing in the selected month."
-      },
-      "dps": {
-        "label": "Damage Per Second (DPS)",
-        "description": "Average amount of damage you inflict per second with this pairing."
-      },
-      "sps": {
-        "label": "Sevs Per Second (SPS)",
-        "description": "Rate at which you inflict severely wounded troops each second."
-      },
-      "tps": {
-        "label": "Sevs Taken Per Second (TPS)",
-        "description": "Rate at which your troops become severely wounded each second."
+      "opponents": {
+        "title": "Opponent pairings",
+        "loading": "Loading enemy matchups...",
+        "empty": "No enemy pairings found for this selection.",
+        "table": {
+          "pairing": "Opponent pairing",
+          "dps": "DPS",
+          "sps": "SPS",
+          "tps": "TPS"
+        }
       }
     }
   },

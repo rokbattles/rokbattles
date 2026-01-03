@@ -275,56 +275,85 @@
     }
   },
   "pairings": {
-    "intro": "성능을 확인할 조합을 선택하세요. 월별 필터링이 가능합니다.",
-    "selectPairing": "조합 선택",
+    "intro": "Analyze performance across commander pairings, loadouts, and matchups",
     "states": {
-      "empty": "해당 기간에 대한 조합 데이터가 없습니다."
+      "loadingPairings": "Loading pairings...",
+      "selectPairing": "Select a pairing to get started."
     },
-    "comparison": {
-      "none": "비교할 이전 달 데이터 없음",
-      "previous": "지난달 대비",
-      "vsMonth": "{month}월 대비"
+    "filters": {
+      "loadoutGranularity": "Loadout granularity",
+      "normalized": "Normalized",
+      "exact": "Exact",
+      "startDate": "Start date",
+      "endDate": "End date"
     },
-    "monthly": {
-      "title": "{year}년 월별 전투",
-      "hint": "막대 차트를 클릭하거나 선택 메뉴를 사용하여 월을 변경하세요.",
-      "select": "월 선택",
-      "selectPrompt": "월을 선택하세요"
+    "labels": {
+      "allLoadouts": "All loadouts",
+      "loadout": "Loadout {index}",
+      "selected": "Selected",
+      "inscriptions": "Inscriptions",
+      "armamentBuffs": "Armament buffs",
+      "emptyEquipment": "Empty"
     },
-    "metrics": {
-      "battleCount": {
-        "description": "선택한 달에 해당 조합으로 생성된 전투 보고서 수입니다."
+    "loadouts": {
+      "title": "Loadouts",
+      "hint": "Scroll sideways to view more loadouts.",
+      "states": {
+        "loadingLoadouts": "Loading loadouts..."
+      }
+    },
+    "breakdown": {
+      "title": "Loadout breakdown",
+      "states": {
+        "loadingBreakdown": "Loading loadout breakdown...",
+        "selectLoadout": "Select a loadout to view the breakdown."
       },
-      "killScore": {
-        "description": "해당 조합을 사용하여 획득한 총 처치 점수입니다."
+      "stats": {
+        "battles": {
+          "description": "Total battles recorded for this loadout."
+        },
+        "killPoints": {
+          "description": "Total kill points earned while using this pairing."
+        },
+        "enemyKillPoints": {
+          "label": "Opponent Kill Points",
+          "description": "Total kill points your opponents earned against you."
+        },
+        "severelyWounded": {
+          "label": "Severely Wounded (Taken)",
+          "description": "Number of your troops that became severely wounded while using this pairing."
+        },
+        "enemySeverelyWounded": {
+          "label": "Severely Wounded (Inflicted)",
+          "description": "Number of opponent troops you caused to become severely wounded."
+        },
+        "avgDuration": {
+          "label": "Avg. Battle Duration",
+          "description": "Average duration of battles recorded while using this pairing."
+        },
+        "dps": {
+          "label": "Damage Per Second (DPS)",
+          "description": "Average amount of damage you inflict per second while using this pairing."
+        },
+        "sps": {
+          "label": "Sevs Per Second (SPS)",
+          "description": "Rate at which you inflict severely wounded troops each second."
+        },
+        "tps": {
+          "label": "Sevs Taken Per Second (TPS)",
+          "description": "Rate at which your troops become severely wounded each second."
+        }
       },
-      "enemyKillScore": {
-        "label": "적군 처치 점수",
-        "description": "상대방이 나를 상대로 획득한 총 처치 점수입니다."
-      },
-      "severelyWounded": {
-        "label": "중상 (입음)",
-        "description": "해당 조합 사용 중 중상을 입은 내 병력 수입니다."
-      },
-      "enemySeverelyWounded": {
-        "label": "중상 (입힘)",
-        "description": "상대 병력에 입힌 중상자 수입니다."
-      },
-      "averageBattleDuration": {
-        "label": "평균 전투 시간",
-        "description": "선택한 달에 기록된 해당 조합의 평균 전투 시간입니다."
-      },
-      "dps": {
-        "label": "초당 데미지 (DPS)",
-        "description": "해당 조합으로 초당 가하는 평균 데미지입니다."
-      },
-      "sps": {
-        "label": "초당 중상 수 (SPS)",
-        "description": "초당 적에게 입히는 중상자 발생률입니다."
-      },
-      "tps": {
-        "label": "초당 피격 중상 수 (TPS)",
-        "description": "초당 내 병력이 중상을 입는 비율입니다."
+      "opponents": {
+        "title": "Opponent pairings",
+        "loading": "Loading enemy matchups...",
+        "empty": "No enemy pairings found for this selection.",
+        "table": {
+          "pairing": "Opponent pairing",
+          "dps": "DPS",
+          "sps": "SPS",
+          "tps": "TPS"
+        }
       }
     }
   },

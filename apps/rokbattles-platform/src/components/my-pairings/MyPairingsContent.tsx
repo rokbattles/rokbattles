@@ -1,23 +1,21 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useContext, useEffect, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Tooltip as RechartsTooltip,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { GovernorContext } from "@/components/context/GovernorContext";
-import { PairingMetricCard } from "@/components/my-pairings/PairingMetricCard";
-import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
+import { PairingsFilters } from "@/components/my-pairings/PairingsFilters";
+import { PairingsLoadoutBreakdown } from "@/components/my-pairings/PairingsLoadoutBreakdown";
+import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/PairingsLoadouts";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
-import { type GovernorMarchTotals, usePairings } from "@/hooks/usePairings";
+import {
+  type EnemyGranularity,
+  type LoadoutGranularity,
+  type LoadoutSnapshot,
+  usePairingEnemies,
+  usePairingLoadouts,
+  usePairings,
+} from "@/hooks/usePairings";
 import { formatDurationShort } from "@/lib/datetime";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -25,47 +23,14 @@ const perSecondFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
   minimumFractionDigits: 0,
 });
-const monthFormatter = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" });
-const monthWithYearFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  year: "numeric",
-  timeZone: "UTC",
-});
 
-type PairingMetricDefinition = {
-  key: string;
-  label: string;
-  value: number;
-  previousValue?: number;
-  trendDirection: "increase" | "decrease";
-  formatValue?: (value: number) => string;
-  description?: string;
-  comparisonLabel?: string;
+const ALL_LOADOUT_KEY = "all-loadouts";
+const EMPTY_LOADOUT: LoadoutSnapshot = {
+  equipment: [],
+  armaments: [],
+  inscriptions: [],
+  formation: null,
 };
-
-type MonthPoint = {
-  key: string;
-  label: string;
-  battles: number;
-  isSelected: boolean;
-};
-
-function createEmptyTotals(): GovernorMarchTotals {
-  return {
-    killScore: 0,
-    deaths: 0,
-    severelyWounded: 0,
-    wounded: 0,
-    enemyKillScore: 0,
-    enemyDeaths: 0,
-    enemySeverelyWounded: 0,
-    enemyWounded: 0,
-    dps: 0,
-    sps: 0,
-    tps: 0,
-    battleDuration: 0,
-  };
-}
 
 function formatNumber(value: number): string {
   if (!Number.isFinite(value)) {
@@ -73,15 +38,6 @@ function formatNumber(value: number): string {
   }
 
   return numberFormatter.format(Math.round(value));
-}
-
-function formatDurationSeconds(value: number): string {
-  if (!Number.isFinite(value)) {
-    return "0s";
-  }
-
-  const base = 1;
-  return formatDurationShort(base, base + value);
 }
 
 function formatPerSecond(value: number): string {
@@ -92,73 +48,79 @@ function formatPerSecond(value: number): string {
   return `${perSecondFormatter.format(value)}/s`;
 }
 
+function formatDurationSeconds(valueSeconds: number) {
+  if (!Number.isFinite(valueSeconds) || valueSeconds <= 0) {
+    return "0s";
+  }
+
+  const base = 1;
+  return formatDurationShort(base, base + valueSeconds);
+}
+
+function ratePerSecond(value: number, durationMillis: number) {
+  if (!Number.isFinite(value) || !Number.isFinite(durationMillis) || durationMillis <= 0) {
+    return 0;
+  }
+
+  return value / (durationMillis / 1000);
+}
+
 function createPairingKey(primaryId: number, secondaryId: number) {
   return `${primaryId}:${secondaryId}`;
 }
 
-function formatCommanderPair(primaryId: number, secondaryId: number) {
-  const primaryName = getCommanderName(primaryId) ?? primaryId;
-  const secondaryName = getCommanderName(secondaryId) ?? secondaryId;
+function formatCommanderPair(primaryId: number, secondaryId: number, unknownLabel: string) {
+  const primaryName = primaryId > 0 ? (getCommanderName(primaryId) ?? primaryId) : unknownLabel;
+  const secondaryName = secondaryId > 0 ? (getCommanderName(secondaryId) ?? secondaryId) : null;
 
   if (!secondaryName) {
-    return primaryName;
+    return String(primaryName);
   }
 
   return `${primaryName} / ${secondaryName}`;
 }
 
-function createMonthKey(date: Date) {
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
-}
-
-function parseMonthKey(key: string | null) {
-  if (!key) {
-    return null;
-  }
-
-  const [yearStr, monthStr] = key.split("-");
-  const year = Number(yearStr);
-  const month = Number(monthStr) - 1;
-  if (!Number.isFinite(year) || !Number.isFinite(month)) {
-    return null;
-  }
-
-  return new Date(Date.UTC(year, month, 1));
-}
-
-function buildMonthsForYear(year: number) {
-  return Array.from({ length: 12 }, (_, monthIndex) => {
-    const date = new Date(Date.UTC(year, monthIndex, 1));
-    return {
-      key: createMonthKey(date),
-      label: monthFormatter.format(date),
-    };
-  });
-}
-
 export function MyPairingsContent() {
-  const tPairings = useTranslations("pairings");
-  const tCommon = useTranslations("common");
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
-    throw new Error("My Pairings page must be used within a GovernorProvider");
+    throw new Error("My Pairings must be used within a GovernorProvider");
   }
 
+  const t = useTranslations("pairings");
+  const tCommon = useTranslations("common");
   const { activeGovernor } = governorContext;
-  const { data, loading: pairingsLoading, error, year } = usePairings();
-  const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const [selectedMonthKey, setSelectedMonthKey] = useState<string | null>(null);
 
-  const chartYear = year ?? 2025;
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
+  const hasCustomRange = Boolean(startDate && endDate);
+  const rangeStartDate = hasCustomRange ? startDate : undefined;
+  const rangeEndDate = hasCustomRange ? endDate : undefined;
+  const {
+    data,
+    loading: pairingsLoading,
+    error: pairingsError,
+    year,
+  } = usePairings({
+    governorId: activeGovernor?.governorId,
+    startDate: rangeStartDate,
+    endDate: rangeEndDate,
+  });
+  const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
+  const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("normalized");
+  const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(ALL_LOADOUT_KEY);
+  const [loadoutsFetchStarted, setLoadoutsFetchStarted] = useState(false);
+  const [loadoutsReady, setLoadoutsReady] = useState(false);
+  const [showAllOpponents, setShowAllOpponents] = useState(false);
+  const opponentsId = useId();
 
   useEffect(() => {
     if (data.length === 0) {
-      setSelectedKey(null);
+      setSelectedPairingKey(null);
       return;
     }
 
-    setSelectedKey((current) => {
+    setSelectedPairingKey((current) => {
       if (
         current &&
         data.some(
@@ -174,362 +136,301 @@ export function MyPairingsContent() {
     });
   }, [data]);
 
-  const pairingOptions = data.map((pairing) => ({
-    value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
-    label: formatCommanderPair(pairing.primaryCommanderId, pairing.secondaryCommanderId),
-  }));
+  const pairingOptions = useMemo(
+    () =>
+      data.map((pairing) => ({
+        value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
+        label: formatCommanderPair(
+          pairing.primaryCommanderId,
+          pairing.secondaryCommanderId,
+          tCommon("labels.unknownCommander")
+        ),
+      })),
+    [data, tCommon]
+  );
 
   const selectedPairing = data.find(
     (pairing) =>
-      createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === selectedKey
+      createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) ===
+      selectedPairingKey
+  );
+  const hasSelectedPairing = Boolean(selectedPairing);
+
+  const canLoadLoadouts = hasSelectedPairing && !pairingsLoading && !pairingsError;
+  const {
+    data: loadouts,
+    loading: loadoutsLoading,
+    error: loadoutsError,
+  } = usePairingLoadouts({
+    governorId: activeGovernor?.governorId,
+    primaryCommanderId: canLoadLoadouts ? (selectedPairing?.primaryCommanderId ?? null) : null,
+    secondaryCommanderId: canLoadLoadouts ? (selectedPairing?.secondaryCommanderId ?? null) : null,
+    granularity: loadoutGranularity,
+    year,
+    startDate: rangeStartDate,
+    endDate: rangeEndDate,
+  });
+  const loadoutsResetKey = useMemo(
+    () =>
+      [
+        activeGovernor?.governorId ?? "none",
+        selectedPairingKey ?? "none",
+        loadoutGranularity,
+        rangeStartDate ?? "none",
+        rangeEndDate ?? "none",
+        canLoadLoadouts ? "ready" : "idle",
+      ].join("|"),
+    [
+      activeGovernor?.governorId,
+      selectedPairingKey,
+      loadoutGranularity,
+      rangeStartDate,
+      rangeEndDate,
+      canLoadLoadouts,
+    ]
+  );
+  const opponentsResetKey = useMemo(
+    () =>
+      [
+        selectedPairingKey ?? "none",
+        selectedLoadoutKey ?? "none",
+        loadoutGranularity,
+        rangeStartDate ?? "none",
+        rangeEndDate ?? "none",
+      ].join("|"),
+    [selectedPairingKey, selectedLoadoutKey, loadoutGranularity, rangeStartDate, rangeEndDate]
   );
 
-  const months = buildMonthsForYear(chartYear);
-  const monthlyByKey = new Map<string, { count: number; totals: GovernorMarchTotals }>();
-  if (selectedPairing) {
-    for (const month of selectedPairing.monthly ?? []) {
-      monthlyByKey.set(month.monthKey, { count: month.count, totals: month.totals });
-    }
-  }
+  useEffect(() => {
+    void loadoutsResetKey;
+    setLoadoutsFetchStarted(false);
+    setLoadoutsReady(false);
+  }, [loadoutsResetKey]);
 
   useEffect(() => {
-    const monthsForYear = buildMonthsForYear(chartYear);
-    if (!monthsForYear.length) {
+    if (!canLoadLoadouts) {
+      setLoadoutsFetchStarted(false);
+      setLoadoutsReady(false);
       return;
     }
 
-    const monthlyMap = new Map<string, { count: number; totals: GovernorMarchTotals }>();
-    if (selectedPairing) {
-      for (const month of selectedPairing.monthly ?? []) {
-        monthlyMap.set(month.monthKey, { count: month.count, totals: month.totals });
-      }
+    if (loadoutsLoading) {
+      setLoadoutsFetchStarted(true);
+      return;
     }
 
-    const now = new Date();
-    const currentMonthIndex =
-      now.getUTCFullYear() === chartYear ? now.getUTCMonth() : Math.min(now.getUTCMonth(), 11);
-    const desiredMonthKey = monthsForYear[currentMonthIndex]?.key ?? monthsForYear[0]?.key ?? null;
-    const latestWithData =
-      monthsForYear
-        .slice(0, Math.min(currentMonthIndex, monthsForYear.length - 1) + 1)
-        .reverse()
-        .find((month) => (monthlyMap.get(month.key)?.count ?? 0) > 0)?.key ?? null;
+    if (loadoutsFetchStarted) {
+      setLoadoutsReady(true);
+    }
+  }, [canLoadLoadouts, loadoutsLoading, loadoutsFetchStarted]);
 
-    setSelectedMonthKey((current) => {
-      if (current && monthsForYear.some((month) => month.key === current)) {
+  const loadoutCards = useMemo<LoadoutCard[]>(() => {
+    if (!selectedPairing) {
+      return [];
+    }
+
+    const allLoadouts: LoadoutCard = {
+      key: ALL_LOADOUT_KEY,
+      label: t("labels.allLoadouts"),
+      count: selectedPairing.count,
+      totals: selectedPairing.totals,
+      loadout: EMPTY_LOADOUT,
+    };
+
+    const cards = loadouts.map<LoadoutCard>((loadout, index) => ({
+      ...loadout,
+      label: t("labels.loadout", { index: index + 1 }),
+    }));
+
+    return [allLoadouts, ...cards];
+  }, [loadouts, selectedPairing, t]);
+
+  useEffect(() => {
+    if (!selectedPairing) {
+      setSelectedLoadoutKey(ALL_LOADOUT_KEY);
+      return;
+    }
+
+    const keys = new Set(loadoutCards.map((card) => card.key));
+    setSelectedLoadoutKey((current) => {
+      if (current && keys.has(current)) {
         return current;
       }
 
-      return latestWithData ?? desiredMonthKey ?? null;
+      return ALL_LOADOUT_KEY;
     });
-  }, [chartYear, selectedPairing]);
+  }, [loadoutCards, selectedPairing]);
 
-  const chartData: MonthPoint[] = months.map((month) => {
-    const entry = monthlyByKey.get(month.key);
-    return {
-      ...month,
-      battles: entry?.count ?? 0,
-      isSelected: month.key === selectedMonthKey,
-    };
-  });
-
-  const parsedSelectedMonth = parseMonthKey(selectedMonthKey);
-  const selectedMonthLabel = parsedSelectedMonth
-    ? monthWithYearFormatter.format(parsedSelectedMonth)
-    : null;
-
-  const monthStats = (() => {
-    const defaults = {
-      totals: createEmptyTotals(),
-      count: 0,
-      comparisonTotals: undefined as GovernorMarchTotals | undefined,
-      comparisonCount: undefined as number | undefined,
-      comparisonLabel: tPairings("comparison.none"),
-    };
-
-    if (!selectedPairing || !selectedMonthKey) {
-      return defaults;
+  const selectedLoadoutCard =
+    loadoutCards.find((loadout) => loadout.key === selectedLoadoutKey) ?? null;
+  const hasSelectedLoadout = Boolean(selectedLoadoutCard);
+  const generalStats = useMemo(() => {
+    if (!selectedLoadoutCard) {
+      return [];
     }
 
-    const monthIndex = months.findIndex((month) => month.key === selectedMonthKey);
-    const previousMonthKey = monthIndex > 0 ? months[monthIndex - 1]?.key : null;
-    const selectedTotals = monthlyByKey.get(selectedMonthKey);
-    const comparisonTotals = previousMonthKey ? monthlyByKey.get(previousMonthKey) : undefined;
+    const durationSeconds = selectedLoadoutCard.totals.battleDuration / 1000;
+    const avgDurationSeconds =
+      selectedLoadoutCard.count > 0 ? durationSeconds / selectedLoadoutCard.count : 0;
 
-    return {
-      totals: selectedTotals?.totals ?? createEmptyTotals(),
-      count: selectedTotals?.count ?? 0,
-      comparisonTotals: comparisonTotals?.totals,
-      comparisonCount: comparisonTotals?.count,
-      comparisonLabel: previousMonthKey
-        ? tPairings("comparison.vsMonth", {
-            month: monthWithYearFormatter.format(parseMonthKey(previousMonthKey) ?? new Date()),
-          })
-        : tPairings("comparison.none"),
-    };
-  })();
+    return [
+      {
+        id: "battles",
+        name: tCommon("labels.battles"),
+        value: formatNumber(selectedLoadoutCard.count),
+        description: t("breakdown.stats.battles.description"),
+      },
+      {
+        id: "killPoints",
+        name: tCommon("metrics.killPoints"),
+        value: formatNumber(selectedLoadoutCard.totals.killScore),
+        description: t("breakdown.stats.killPoints.description"),
+      },
+      {
+        id: "enemyKillPoints",
+        name: t("breakdown.stats.enemyKillPoints.label"),
+        value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
+        description: t("breakdown.stats.enemyKillPoints.description"),
+      },
+      {
+        id: "severelyWounded",
+        name: t("breakdown.stats.severelyWounded.label"),
+        value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
+        description: t("breakdown.stats.severelyWounded.description"),
+      },
+      {
+        id: "enemySeverelyWounded",
+        name: t("breakdown.stats.enemySeverelyWounded.label"),
+        value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
+        description: t("breakdown.stats.enemySeverelyWounded.description"),
+      },
+      {
+        id: "avgDuration",
+        name: t("breakdown.stats.avgDuration.label"),
+        value: formatDurationSeconds(avgDurationSeconds),
+        description: t("breakdown.stats.avgDuration.description"),
+      },
+      {
+        id: "dps",
+        name: t("breakdown.stats.dps.label"),
+        value: formatPerSecond(
+          ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
+        ),
+        description: t("breakdown.stats.dps.description"),
+      },
+      {
+        id: "sps",
+        name: t("breakdown.stats.sps.label"),
+        value: formatPerSecond(
+          ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
+        ),
+        description: t("breakdown.stats.sps.description"),
+      },
+      {
+        id: "tps",
+        name: t("breakdown.stats.tps.label"),
+        value: formatPerSecond(
+          ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
+        ),
+        description: t("breakdown.stats.tps.description"),
+      },
+    ];
+  }, [selectedLoadoutCard, t, tCommon]);
 
-  const totalDurationSeconds =
-    monthStats.totals.battleDuration > 0 ? monthStats.totals.battleDuration / 1000 : 0;
-  const comparisonDurationSeconds =
-    monthStats.comparisonTotals && monthStats.comparisonTotals.battleDuration > 0
-      ? monthStats.comparisonTotals.battleDuration / 1000
-      : 0;
+  const enemyGranularity: EnemyGranularity =
+    selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
+  const enemyLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
+  const canLoadEnemies =
+    Boolean(selectedPairing) && loadoutsReady && !pairingsLoading && !pairingsError;
 
-  const averageBattleDurationSeconds =
-    monthStats.count > 0 ? totalDurationSeconds / monthStats.count : 0;
-  const comparisonAverageBattleDurationSeconds =
-    monthStats.comparisonTotals && monthStats.comparisonCount && monthStats.comparisonCount > 0
-      ? comparisonDurationSeconds / monthStats.comparisonCount
-      : undefined;
+  const {
+    data: enemies,
+    loading: enemiesLoading,
+    error: enemiesError,
+  } = usePairingEnemies({
+    governorId: activeGovernor?.governorId,
+    primaryCommanderId: canLoadEnemies ? (selectedPairing?.primaryCommanderId ?? null) : null,
+    secondaryCommanderId: canLoadEnemies ? (selectedPairing?.secondaryCommanderId ?? null) : null,
+    granularity: enemyGranularity,
+    loadoutKey: enemyLoadoutKey,
+    year,
+    startDate: rangeStartDate,
+    endDate: rangeEndDate,
+  });
 
-  const dpsPerSecond = totalDurationSeconds > 0 ? monthStats.totals.dps / totalDurationSeconds : 0;
-  const previousDpsPerSecond =
-    monthStats.comparisonTotals && comparisonDurationSeconds > 0
-      ? monthStats.comparisonTotals.dps / comparisonDurationSeconds
-      : undefined;
-  const spsPerSecond = totalDurationSeconds > 0 ? monthStats.totals.sps / totalDurationSeconds : 0;
-  const previousSpsPerSecond =
-    monthStats.comparisonTotals && comparisonDurationSeconds > 0
-      ? monthStats.comparisonTotals.sps / comparisonDurationSeconds
-      : undefined;
-  const tpsPerSecond = totalDurationSeconds > 0 ? monthStats.totals.tps / totalDurationSeconds : 0;
-  const previousTpsPerSecond =
-    monthStats.comparisonTotals && comparisonDurationSeconds > 0
-      ? monthStats.comparisonTotals.tps / comparisonDurationSeconds
-      : undefined;
+  useEffect(() => {
+    void opponentsResetKey;
+    setShowAllOpponents(false);
+  }, [opponentsResetKey]);
 
-  const metrics: PairingMetricDefinition[] = selectedPairing
-    ? [
-        {
-          key: "battleCount",
-          label: tCommon("labels.battles"),
-          value: monthStats.count,
-          previousValue: monthStats.comparisonCount,
-          trendDirection: "increase",
-          formatValue: formatNumber,
-          description: tPairings("metrics.battleCount.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "killScore",
-          label: tCommon("metrics.killPoints"),
-          value: monthStats.totals.killScore,
-          previousValue: monthStats.comparisonTotals?.killScore,
-          trendDirection: "increase",
-          formatValue: formatNumber,
-          description: tPairings("metrics.killScore.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "enemyKillScore",
-          label: tPairings("metrics.enemyKillScore.label"),
-          value: monthStats.totals.enemyKillScore,
-          previousValue: monthStats.comparisonTotals?.enemyKillScore,
-          trendDirection: "increase",
-          formatValue: formatNumber,
-          description: tPairings("metrics.enemyKillScore.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "severelyWounded",
-          label: tPairings("metrics.severelyWounded.label"),
-          value: monthStats.totals.severelyWounded,
-          previousValue: monthStats.comparisonTotals?.severelyWounded,
-          trendDirection: "decrease",
-          formatValue: formatNumber,
-          description: tPairings("metrics.severelyWounded.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "enemySeverelyWounded",
-          label: tPairings("metrics.enemySeverelyWounded.label"),
-          value: monthStats.totals.enemySeverelyWounded,
-          previousValue: monthStats.comparisonTotals?.enemySeverelyWounded,
-          trendDirection: "increase",
-          formatValue: formatNumber,
-          description: tPairings("metrics.enemySeverelyWounded.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "averageBattleDuration",
-          label: tPairings("metrics.averageBattleDuration.label"),
-          value: averageBattleDurationSeconds,
-          previousValue: comparisonAverageBattleDurationSeconds,
-          trendDirection: "decrease",
-          formatValue: formatDurationSeconds,
-          description: tPairings("metrics.averageBattleDuration.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "dps",
-          label: tPairings("metrics.dps.label"),
-          value: dpsPerSecond,
-          previousValue: previousDpsPerSecond,
-          trendDirection: "increase",
-          formatValue: formatPerSecond,
-          description: tPairings("metrics.dps.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "sps",
-          label: tPairings("metrics.sps.label"),
-          value: spsPerSecond,
-          previousValue: previousSpsPerSecond,
-          trendDirection: "increase",
-          formatValue: formatPerSecond,
-          description: tPairings("metrics.sps.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-        {
-          key: "tps",
-          label: tPairings("metrics.tps.label"),
-          value: tpsPerSecond,
-          previousValue: previousTpsPerSecond,
-          trendDirection: "decrease",
-          formatValue: formatPerSecond,
-          description: tPairings("metrics.tps.description"),
-          comparisonLabel: monthStats.comparisonLabel,
-        },
-      ]
-    : [];
+  const hasMoreOpponents = enemies.length > 10;
+  const visibleOpponents = showAllOpponents ? enemies : enemies.slice(0, 10);
+  const opponentRows = useMemo(
+    () =>
+      visibleOpponents.map((entry, index) => ({
+        id: `${entry.enemyPrimaryCommanderId}:${entry.enemySecondaryCommanderId}`,
+        index: index + 1,
+        pairing: formatCommanderPair(
+          entry.enemyPrimaryCommanderId,
+          entry.enemySecondaryCommanderId,
+          tCommon("labels.unknownCommander")
+        ),
+        battles: formatNumber(entry.count),
+        killPoints: formatNumber(entry.totals.killScore),
+        opponentKillPoints: formatNumber(entry.totals.enemyKillScore),
+        dps: formatPerSecond(ratePerSecond(entry.totals.dps, entry.totals.battleDuration)),
+        sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
+        tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
+      })),
+    [tCommon, visibleOpponents]
+  );
 
   if (!activeGovernor) {
     return null;
   }
 
   return (
-    <div className="mt-6 space-y-6">
-      <div className="flex flex-col gap-4 border-b border-zinc-200/80 pb-4 dark:border-white/10 lg:flex-row lg:items-center lg:justify-between">
-        <Text className="text-sm text-zinc-950 dark:text-white">{tPairings("intro")}</Text>
-        <div className="w-full max-w-md">
-          <Listbox<string | null>
-            name="pairing"
-            value={selectedKey ?? null}
-            placeholder={tPairings("selectPairing")}
-            onChange={(value) => setSelectedKey(value)}
-            disabled={pairingsLoading || pairingOptions.length === 0}
-          >
-            {pairingOptions.map((option) => (
-              <ListboxOption key={option.value} value={option.value}>
-                <ListboxLabel>{option.label}</ListboxLabel>
-              </ListboxOption>
-            ))}
-          </Listbox>
-        </div>
-      </div>
-
-      {error ? (
-        <Text className="text-sm/6 text-red-600 dark:text-red-400" role="status" aria-live="polite">
-          {error}
-        </Text>
-      ) : null}
-      {!pairingsLoading && !error && pairingOptions.length === 0 ? (
-        <Text
-          className="text-sm/6 text-zinc-500 dark:text-zinc-400"
-          role="status"
-          aria-live="polite"
-        >
-          {tPairings("states.empty")}
-        </Text>
-      ) : null}
-
-      {selectedPairing ? (
-        <>
-          <div className="border border-zinc-200/60 p-4 dark:border-white/10">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="text-base font-semibold text-zinc-950 dark:text-white">
-                  {tPairings("monthly.title", { year: chartYear })}
-                </div>
-                <Text className="text-sm text-zinc-600 dark:text-zinc-400">
-                  {tPairings("monthly.hint")}
-                </Text>
-              </div>
-              <div className="w-full max-w-[220px] sm:w-auto">
-                <Listbox<string | null>
-                  value={selectedMonthKey ?? null}
-                  onChange={(value) => setSelectedMonthKey(value)}
-                  name="month"
-                  placeholder={tPairings("monthly.select")}
-                >
-                  {months.map((month) => (
-                    <ListboxOption key={month.key} value={month.key}>
-                      <ListboxLabel>
-                        {monthWithYearFormatter.format(parseMonthKey(month.key) ?? new Date())}
-                      </ListboxLabel>
-                    </ListboxOption>
-                  ))}
-                </Listbox>
-              </div>
-            </div>
-            <div className="mt-4 h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#d4d4d8" opacity={0.15} />
-                  <XAxis
-                    dataKey="label"
-                    stroke="#a1a1aa"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 12 }}
-                  />
-                  <YAxis
-                    stroke="#a1a1aa"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 12 }}
-                    allowDecimals={false}
-                  />
-                  <RechartsTooltip
-                    cursor={{ fill: "rgba(24,24,27,0.05)" }}
-                    contentStyle={{
-                      backgroundColor: "rgba(24,24,27,0.9)",
-                      border: "1px solid rgba(228,228,231,0.25)",
-                      borderRadius: "12px",
-                      color: "#fafafa",
-                    }}
-                    labelStyle={{ color: "#fafafa" }}
-                    itemStyle={{ color: "#fafafa" }}
-                    formatter={(value: number) => [formatNumber(value), tCommon("labels.battles")]}
-                  />
-                  <Bar dataKey="battles" radius={[8, 8, 2, 2]}>
-                    {chartData.map((entry) => (
-                      <Cell
-                        key={entry.key}
-                        fill={entry.isSelected ? "#22c55e" : "#a1a1aa"}
-                        className="cursor-pointer transition-all duration-300"
-                        onClick={() => setSelectedMonthKey(entry.key)}
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2 border-b border-zinc-200/60 pb-4 dark:border-white/10 sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-lg font-semibold text-zinc-950 dark:text-white">
-              {selectedMonthLabel ?? tPairings("monthly.selectPrompt")}
-            </div>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {metrics.map((metric) => (
-              <PairingMetricCard
-                key={metric.key}
-                label={metric.label}
-                value={metric.value}
-                previousValue={metric.previousValue}
-                trendDirection={metric.trendDirection}
-                formatValue={metric.formatValue ?? formatNumber}
-                description={metric.description}
-                comparisonLabel={metric.comparisonLabel}
-              />
-            ))}
-          </div>
-        </>
-      ) : null}
+    <div className="space-y-10">
+      <Text>{t("intro")}</Text>
+      <PairingsFilters
+        pairingOptions={pairingOptions}
+        pairingValue={selectedPairingKey}
+        onPairingChange={setSelectedPairingKey}
+        pairingsLoading={pairingsLoading}
+        loadoutGranularity={loadoutGranularity}
+        onGranularityChange={setLoadoutGranularity}
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={setStartDate}
+        onEndDateChange={setEndDate}
+      />
+      <PairingsLoadouts
+        pairingsLoading={pairingsLoading}
+        pairingsError={pairingsError}
+        hasSelectedPairing={hasSelectedPairing}
+        loadoutsLoading={loadoutsLoading}
+        loadoutsError={loadoutsError}
+        loadoutCards={loadoutCards}
+        selectedLoadoutKey={selectedLoadoutKey}
+        onSelectLoadout={(key) => setSelectedLoadoutKey(key)}
+      />
+      <PairingsLoadoutBreakdown
+        pairingsLoading={pairingsLoading}
+        pairingsError={pairingsError}
+        hasSelectedPairing={hasSelectedPairing}
+        loadoutsLoading={loadoutsLoading}
+        loadoutsReady={loadoutsReady}
+        loadoutsError={loadoutsError}
+        hasSelectedLoadout={hasSelectedLoadout}
+        generalStats={generalStats}
+        enemiesLoading={enemiesLoading}
+        enemiesError={enemiesError}
+        opponentRows={opponentRows}
+        hasMoreOpponents={hasMoreOpponents}
+        showAllOpponents={showAllOpponents}
+        onToggleShowAllOpponents={() => setShowAllOpponents((prev) => !prev)}
+        opponentsId={opponentsId}
+      />
     </div>
   );
 }
