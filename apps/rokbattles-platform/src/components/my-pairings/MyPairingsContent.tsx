@@ -7,7 +7,6 @@ import { PairingsLoadoutBreakdown } from "@/components/my-pairings/PairingsLoado
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/PairingsLoadouts";
 import { Text } from "@/components/ui/Text";
 import { getCommanderName } from "@/hooks/useCommanderName";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import {
   type EnemyGranularity,
   type LoadoutGranularity,
@@ -85,7 +84,6 @@ function createLoadoutLabel(index: number) {
 }
 
 export function MyPairingsContent() {
-  const { user, loading } = useCurrentUser();
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
@@ -388,28 +386,8 @@ export function MyPairingsContent() {
     [visibleOpponents]
   );
 
-  if (loading) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        Loading your account...
-      </p>
-    );
-  }
-
-  if (!user) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must be logged in to view this page.
-      </p>
-    );
-  }
-
   if (!activeGovernor) {
-    return (
-      <p className="mt-8 text-sm text-zinc-500 dark:text-zinc-400" role="status" aria-live="polite">
-        You must have a claimed governor to view this page.
-      </p>
-    );
+    return null;
   }
 
   return (
