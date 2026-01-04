@@ -1,4 +1,4 @@
-use crate::{read_api_ingress_url, read_dirs};
+use crate::read_dirs;
 use anyhow::Context;
 use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
 use serde::{Deserialize, Serialize};
@@ -43,6 +43,7 @@ const FULL_REFRESH_VALIDATE_MAX_PATHS: usize = 512;
 const FS_EVENT_BUDGET: usize = 512;
 const FS_EVENT_QUEUE_CAPACITY: usize = 4096;
 const CONFIG_REFRESH_INTERVAL: Duration = Duration::from_secs(2);
+const API_INGRESS_URL: &str = "https://ingress.rokbattles.com/v1/ingress";
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
@@ -930,8 +931,7 @@ async fn post_file_to_api(
 pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
     let app = app.clone();
 
-    let api_url = read_api_ingress_url(&app)
-        .unwrap_or_else(|_| "https://rokbattles.com/api/v1/ingress".to_string());
+    let api_url = API_INGRESS_URL.to_string();
     let client = http_client();
 
     let (shutdown_tx, mut shutdown_rx) = watch::channel(false);

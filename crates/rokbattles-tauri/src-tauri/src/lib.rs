@@ -66,30 +66,6 @@ fn write_dirs(app: &AppHandle, dirs: &[String]) -> anyhow::Result<()> {
     Ok(())
 }
 
-pub fn read_api_ingress_url(app: &AppHandle) -> anyhow::Result<String> {
-    const DEFAULT_URL: &str = "https://rokbattles.com/api/v1/ingress";
-
-    let path = config_file(app)?;
-    if !path.exists() {
-        return Ok(DEFAULT_URL.to_string());
-    }
-    let data = fs::read(&path).with_context(|| format!("Failed reading {:?}", path))?;
-    if data.is_empty() {
-        return Ok(DEFAULT_URL.to_string());
-    }
-
-    let v: serde_json::Value =
-        serde_json::from_slice(&data).with_context(|| format!("Invalid JSON in {:?}", path))?;
-
-    if v.is_object()
-        && let Some(u) = v.get("ingressUrl").and_then(|x| x.as_str())
-        && !u.trim().is_empty()
-    {
-        return Ok(u.to_string());
-    }
-    Ok(DEFAULT_URL.to_string())
-}
-
 // https://tauri.app/plugin/updater/#checking-for-updates
 async fn update(app: AppHandle) -> tauri_plugin_updater::Result<()> {
     if let Some(update) = app.updater()?.check().await? {
