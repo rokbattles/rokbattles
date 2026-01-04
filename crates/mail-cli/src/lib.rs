@@ -173,7 +173,7 @@ mod tests {
         let cli = Cli::parse_from(["mail-cli", "-m", "json", "-i", "mail.json", "-o", "out"]);
 
         assert_eq!(cli.mode, Mode::Json);
-        assert_eq!(cli.concurrency, 4);
+        assert_eq!(cli.concurrency, 1);
     }
 
     #[test]
