@@ -55,8 +55,8 @@
       "castle_x": 7879.507,
       "castle_y": 8021.5415,
       "is_rally": null,
-      "npc_type": null,
-      "npc_btype": null,
+      "npc_type": 401,
+      "npc_btype": 1,
       "primary_commander": {
         "id": 273,
         "level": 41,

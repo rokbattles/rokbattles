@@ -1033,6 +1033,7 @@ impl Resolver for ParticipantEnemyResolver {
             "npc_type",
             atk_block
                 .get("NpcType")
+                .or_else(|| Self::attack_section_get(attack_section, "NpcType"))
                 .and_then(Value::as_i64)
                 .map(|x| x as i32),
         );
@@ -1041,6 +1042,7 @@ impl Resolver for ParticipantEnemyResolver {
             "npc_btype",
             atk_block
                 .get("NpcBType")
+                .or_else(|| Self::attack_section_get(attack_section, "NpcBType"))
                 .and_then(Value::as_i64)
                 .map(|x| x as i32),
         );
