@@ -582,8 +582,6 @@ impl Resolver for ParticipantSelfResolver {
 
         let obj = get_or_insert_object_map(mail, "self");
 
-        obj.insert("is_ranged_tower".into(), Value::Bool(false));
-
         // player id
         let player_pid = Self::find_selfchar_player_id(sections)
             .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))

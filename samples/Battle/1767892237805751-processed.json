@@ -41,7 +41,6 @@
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 2,
-      "is_ranged_tower": false,
       "armament_buffs": "10002_0.010000;3002_0.018000;3002_0.026000;3002_0.028000;3002_0.035000;4002_0.021000;4002_0.024000;4002_0.028000;4002_0.030000;5002_0.017000;5002_0.029000;5002_0.030000",
       "inscriptions": "-1;219;2101;2302"
     },
@@ -67,7 +66,6 @@
       "equipment": "{}",
       "equipment_2": "{}",
       "formation": 2,
-      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
