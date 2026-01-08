@@ -37,7 +37,6 @@
       "equipment": "{}",
       "equipment_2": null,
       "formation": 16,
-      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -51,8 +50,8 @@
       "castle_x": 7979.2666,
       "castle_y": 4432.381,
       "is_rally": null,
-      "npc_type": null,
-      "npc_btype": null,
+      "npc_type": 405,
+      "npc_btype": 1,
       "primary_commander": {
         "id": 273,
         "level": 45,
@@ -63,7 +62,6 @@
       "equipment": "{}",
       "equipment_2": null,
       "formation": 16,
-      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },

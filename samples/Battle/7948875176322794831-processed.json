@@ -37,7 +37,6 @@
       "equipment": "{}",
       "equipment_2": null,
       "formation": null,
-      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
@@ -63,7 +62,6 @@
       "equipment": "{}",
       "equipment_2": null,
       "formation": null,
-      "is_ranged_tower": false,
       "armament_buffs": null,
       "inscriptions": null
     },
