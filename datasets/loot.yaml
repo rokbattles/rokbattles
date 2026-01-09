@@ -53,6 +53,20 @@ loot:
         es: "5 minutos de Aceleración de Sanación"
         ko: "5분 치료 가속"
 
+    128:
+      name:
+        en: "Lvl 1 Tome of Knowledge"
+        de: "Lv.-1-Wissenskompendium"
+        es: "Tomo de conocimiento de nv. 1"
+        ko: "1레벨 지직의 서"
+
+    129:
+      name:
+        en: "Lvl 2 Tome of Knowledge"
+        de: "Lv.-1-Wissenskompendium"
+        es: "Tomo de conocimiento de nv. 2"
+        ko: "2레벨 지직의 서"
+
     130:
       name:
         en: "Lvl 3 Tome of Knowledge"

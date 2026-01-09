@@ -244,6 +244,7 @@
       "reports": "My Battle Reports",
       "favorites": "My Favorite Reports",
       "pairings": "My Pairings",
+      "rewards": "My Rewards",
       "settings": "Account Settings"
     },
     "settings": {
@@ -355,6 +356,35 @@
           "tps": "TPS"
         }
       }
+    }
+  },
+  "rewards": {
+    "intro": "Track the NPC rewards earned from barbarian reports.",
+    "states": {
+      "loading": "Loading rewards...",
+      "empty": "No NPC rewards found for this range."
+    },
+    "stats": {
+      "title": "NPC summary",
+      "barbs": {
+        "title": "Barbarian Kills"
+      },
+      "forts": {
+        "title": "Barbarian Forts"
+      },
+      "other": {
+        "title": "Other"
+      }
+    },
+    "rewards": {
+      "title": "Rewards",
+      "empty": "No rewards found for this range.",
+      "unknown": "Unknown reward {type}/{subType}"
+    },
+    "table": {
+      "name": "Name",
+      "amount": "Amount",
+      "drops": "Drops"
     }
   },
   "trends": {
