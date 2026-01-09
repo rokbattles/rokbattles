@@ -5,6 +5,7 @@ import { Field, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { Listbox, ListboxOption } from "@/components/ui/Listbox";
 import type { LoadoutGranularity } from "@/hooks/usePairings";
+import { formatLocalDateInput } from "@/lib/datetime";
 
 type PairingOption = {
   value: string;
@@ -38,6 +39,8 @@ export function PairingsFilters({
 }: PairingsFiltersProps) {
   const t = useTranslations("pairings");
   const tTrends = useTranslations("trends");
+  const minDate = "2025-01-01";
+  const maxDate = formatLocalDateInput(new Date());
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -73,6 +76,8 @@ export function PairingsFilters({
           id="pairings-start-date"
           type="date"
           value={startDate}
+          min={minDate}
+          max={maxDate}
           onChange={(event) => onStartDateChange(event.target.value)}
         />
       </Field>
@@ -82,6 +87,8 @@ export function PairingsFilters({
           id="pairings-end-date"
           type="date"
           value={endDate}
+          min={minDate}
+          max={maxDate}
           onChange={(event) => onEndDateChange(event.target.value)}
         />
       </Field>
