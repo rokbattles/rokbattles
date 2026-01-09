@@ -244,6 +244,7 @@
       "reports": "내 전투 보고서",
       "favorites": "내 즐겨찾기 보고서",
       "pairings": "내 조합",
+      "rewards": "My Rewards",
       "settings": "계정 설정"
     },
     "settings": {
@@ -355,6 +356,35 @@
           "tps": "TPS"
         }
       }
+    }
+  },
+  "rewards": {
+    "intro": "Track the NPC rewards earned from barbarian reports.",
+    "states": {
+      "loading": "Loading rewards...",
+      "empty": "No NPC rewards found for this range."
+    },
+    "stats": {
+      "title": "NPC summary",
+      "barbs": {
+        "title": "Barbarian Kills"
+      },
+      "forts": {
+        "title": "Barbarian Forts"
+      },
+      "other": {
+        "title": "Other"
+      }
+    },
+    "rewards": {
+      "title": "Rewards",
+      "empty": "No rewards found for this range.",
+      "unknown": "Unknown reward {type}/{subType}"
+    },
+    "table": {
+      "name": "Name",
+      "amount": "Amount",
+      "drops": "Drops"
     }
   },
   "trends": {

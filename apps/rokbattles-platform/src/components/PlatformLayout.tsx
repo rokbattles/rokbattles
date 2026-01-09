@@ -5,6 +5,7 @@ import {
   ArrowTrendingUpIcon,
   ChevronUpIcon,
   FireIcon,
+  GiftIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
@@ -142,6 +143,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     >
                       <ScaleIcon />
                       <SidebarLabel>{tAccount("titles.pairings")}</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem href="/account/rewards" current={pathname === "/account/rewards"}>
+                      <GiftIcon />
+                      <SidebarLabel>{tAccount("titles.rewards")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
