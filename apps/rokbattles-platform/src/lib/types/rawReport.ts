@@ -20,6 +20,12 @@ export interface RawCommanderInfo {
   skills?: string;
 }
 
+export interface RawNpcReward {
+  type?: number;
+  sub_type?: number;
+  value?: number;
+}
+
 export interface RawParticipantInfo {
   player_id?: number;
   app_uid?: string;
@@ -33,6 +39,7 @@ export interface RawParticipantInfo {
   alliance_building?: number | null;
   npc_type?: number | null;
   npc_btype?: number | null;
+  npc_rewards?: RawNpcReward[] | null;
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
   equipment?: string;

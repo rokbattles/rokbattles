@@ -569,6 +569,80 @@ impl ParticipantEnemyResolver {
             None => String::new(),
         }
     }
+
+    fn npc_reward_entry(source: &Value) -> Option<Value> {
+        let reward_type = source.get("Type").and_then(Value::as_i64)? as i32;
+        let sub_type = source.get("SubType").and_then(Value::as_i64)? as i32;
+        let value = source.get("Value").and_then(Value::as_i64)?;
+        let mut reward = Map::new();
+        map_put_i32(&mut reward, "type", Some(reward_type));
+        map_put_i32(&mut reward, "sub_type", Some(sub_type));
+        map_put_i64(&mut reward, "value", Some(value));
+        Some(Value::Object(reward))
+    }
+
+    fn has_npc_reward_fields(source: &Value) -> bool {
+        source.get("Type").is_some()
+            || source.get("SubType").is_some()
+            || source.get("Value").is_some()
+    }
+
+    fn collect_npc_rewards(group: &[Value], anchor: Option<usize>) -> Option<Vec<Value>> {
+        let candidates: Vec<usize> = group
+            .iter()
+            .enumerate()
+            .filter_map(|(i, sec)| sec.get("NpcKillLoot").map(|_| i))
+            .collect();
+        if candidates.is_empty() {
+            return None;
+        }
+
+        let npc_idx = if let Some(anchor) = anchor {
+            let mut best = candidates[0];
+            let mut best_dist = (best as isize - anchor as isize).abs();
+            for idx in candidates.iter().copied().skip(1) {
+                let dist = (idx as isize - anchor as isize).abs();
+                if dist < best_dist {
+                    best = idx;
+                    best_dist = dist;
+                }
+            }
+            best
+        } else {
+            candidates[0]
+        };
+
+        let mut rewards = Vec::new();
+        if let Some(loot) = group[npc_idx].get("NpcKillLoot")
+            && let Some(entry) = Self::npc_reward_entry(loot)
+        {
+            rewards.push(entry);
+        }
+        if let Some(entry) = Self::npc_reward_entry(&group[npc_idx]) {
+            rewards.push(entry);
+        }
+
+        // Reward entries bleed into following sections; usually only a few
+        for sec in group.iter().skip(npc_idx + 1) {
+            if sec.get("NpcKillLoot").is_some() {
+                break;
+            }
+            if !Self::has_npc_reward_fields(sec) {
+                break;
+            }
+            if let Some(entry) = Self::npc_reward_entry(sec) {
+                rewards.push(entry);
+            } else {
+                break;
+            }
+        }
+
+        if rewards.is_empty() {
+            None
+        } else {
+            Some(rewards)
+        }
+    }
 }
 
 impl Resolver for ParticipantEnemyResolver {
@@ -996,6 +1070,9 @@ impl Resolver for ParticipantEnemyResolver {
                 .and_then(Value::as_i64)
                 .map(|x| x as i32),
         );
+        if let Some(rewards) = Self::collect_npc_rewards(group, idx_opt) {
+            enemy_obj.insert("npc_rewards".into(), Value::Array(rewards));
+        }
 
         // commanders
         let hid = Self::value_i32_nonzero(c_idt.get("HId"))
