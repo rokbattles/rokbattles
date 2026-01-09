@@ -27,6 +27,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 36,
         "level": 60,
@@ -52,6 +53,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 1,
         "level": 40,

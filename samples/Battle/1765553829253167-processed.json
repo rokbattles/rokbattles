@@ -27,6 +27,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -56,6 +57,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -150,6 +152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -179,6 +182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -273,6 +277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -302,6 +307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -396,6 +402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -425,6 +432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -519,6 +527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -548,6 +557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 575,
         "level": 60,
@@ -642,6 +652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -671,6 +682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -765,6 +777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -794,6 +807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -888,6 +902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -917,6 +932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -1011,6 +1027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1040,6 +1057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 140,
         "level": 60,
@@ -1134,6 +1152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1163,6 +1182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -1257,6 +1277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1286,6 +1307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -1380,6 +1402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1409,6 +1432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -1503,6 +1527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1532,6 +1557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -1626,6 +1652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1655,6 +1682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -1749,6 +1777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1778,6 +1807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 138,
         "level": 60,
@@ -1872,6 +1902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -1901,6 +1932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -1995,6 +2027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2024,6 +2057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -2118,6 +2152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2147,6 +2182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -2241,6 +2277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2270,6 +2307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 579,
         "level": 60,
@@ -2364,6 +2402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2393,6 +2432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -2487,6 +2527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2516,6 +2557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 179,
         "level": 60,
@@ -2610,6 +2652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2639,6 +2682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -2733,6 +2777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2762,6 +2807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 179,
         "level": 60,
@@ -2856,6 +2902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -2885,6 +2932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -2979,6 +3027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3008,6 +3057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -3102,6 +3152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3131,6 +3182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -3225,6 +3277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3254,6 +3307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -3348,6 +3402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3377,6 +3432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -3471,6 +3527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3500,6 +3557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 575,
         "level": 60,
@@ -3594,6 +3652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3623,6 +3682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -3717,6 +3777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3746,6 +3807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 579,
         "level": 60,
@@ -3840,6 +3902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3869,6 +3932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -3963,6 +4027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -3992,6 +4057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -4086,6 +4152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4115,6 +4182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -4209,6 +4277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4238,6 +4307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -4332,6 +4402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4361,6 +4432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -4455,6 +4527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4484,6 +4557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -4578,6 +4652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4607,6 +4682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 179,
         "level": 60,
@@ -4701,6 +4777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4730,6 +4807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -4824,6 +4902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4853,6 +4932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 138,
         "level": 60,
@@ -4947,6 +5027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -4976,6 +5057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -5070,6 +5152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5099,6 +5182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -5193,6 +5277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5222,6 +5307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -5316,6 +5402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5345,6 +5432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -5439,6 +5527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5468,6 +5557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -5562,6 +5652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5591,6 +5682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -5685,6 +5777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5714,6 +5807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -5808,6 +5902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5837,6 +5932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -5931,6 +6027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -5960,6 +6057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -6054,6 +6152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6083,6 +6182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -6177,6 +6277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6206,6 +6307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -6300,6 +6402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6329,6 +6432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -6423,6 +6527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6452,6 +6557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -6546,6 +6652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6575,6 +6682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -6669,6 +6777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6698,6 +6807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -6792,6 +6902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6821,6 +6932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -6915,6 +7027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -6944,6 +7057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -7038,6 +7152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7067,6 +7182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -7161,6 +7277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7190,6 +7307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -7284,6 +7402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7313,6 +7432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -7407,6 +7527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7436,6 +7557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 179,
         "level": 60,
@@ -7530,6 +7652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7559,6 +7682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -7653,6 +7777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7682,6 +7807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 195,
         "level": 60,
@@ -7776,6 +7902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7805,6 +7932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 179,
         "level": 60,
@@ -7899,6 +8027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -7928,6 +8057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -8022,6 +8152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8051,6 +8182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -8145,6 +8277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8174,6 +8307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -8268,6 +8402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8297,6 +8432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -8391,6 +8527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8420,6 +8557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -8514,6 +8652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8543,6 +8682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -8637,6 +8777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8666,6 +8807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -8760,6 +8902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8789,6 +8932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 198,
         "level": 60,
@@ -8883,6 +9027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -8912,6 +9057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -9006,6 +9152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9035,6 +9182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 540,
         "level": 60,
@@ -9129,6 +9277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9158,6 +9307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -9252,6 +9402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9281,6 +9432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 575,
         "level": 60,
@@ -9375,6 +9527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9404,6 +9557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -9498,6 +9652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9527,6 +9682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -9621,6 +9777,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9650,6 +9807,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -9744,6 +9902,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9773,6 +9932,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -9867,6 +10027,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -9896,6 +10057,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 185,
         "level": 60,
@@ -9990,6 +10152,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -10019,6 +10182,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,
@@ -10113,6 +10277,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -10142,6 +10307,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 579,
         "level": 60,
@@ -10236,6 +10402,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -10265,6 +10432,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 182,
         "level": 60,
@@ -10359,6 +10527,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -10388,6 +10557,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 509,
         "level": 60,
@@ -10482,6 +10652,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 184,
         "level": 60,
@@ -10511,6 +10682,7 @@
       "is_rally": null,
       "npc_type": null,
       "npc_btype": null,
+      "npc_rewards": null,
       "primary_commander": {
         "id": 545,
         "level": 60,

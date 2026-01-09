@@ -101,6 +101,13 @@ pub struct Commander {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct NpcReward {
+    pub r#type: Option<i32>,
+    pub sub_type: Option<i32>,
+    pub value: Option<i64>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Participant {
     // PId
     pub player_id: Option<i64>,
@@ -129,6 +136,7 @@ pub struct Participant {
     // barb - 1
     // barb fort - 2
     pub npc_btype: Option<i32>,
+    pub npc_rewards: Option<Vec<NpcReward>>,
 
     pub primary_commander: Option<Commander>,
     pub secondary_commander: Option<Commander>,
