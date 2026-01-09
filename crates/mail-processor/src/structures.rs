@@ -129,12 +129,17 @@ pub struct Participant {
     // IsRally
     pub is_rally: Option<i32>,
 
-    // npc lvl
-    // barb - 1-40 (for HK) - need to verify range in LK
-    // barb fort - 100-110 (for HK) - need to verify range in LK
+    // npc type
+    // barb - 1-40 [need to verify]
+    // barb fort - 100-110 [need to verify]
+    // kvk barbs: 401 (lvl 41), 406 (lvl 46), 412 (lvl 52); likely 401..415 => lvl 41..55
+    // kvk barb forts: 121 (lvl 11), 122 (lvl 12); likely 121..125 => lvl 11..15
+    // Melfast (karuak ceremony): 35001 (lvl 1 hell) .. 35100 (lvl 30 hell); earlier difficulties not mapped
     pub npc_type: Option<i32>,
-    // barb - 1
-    // barb fort - 2
+    // npc btype (subtype)
+    // 1 -> barbs
+    // 2 -> barb forts
+    // 9 -> Melfast (Karuak Ceremony)
     pub npc_btype: Option<i32>,
     pub npc_rewards: Option<Vec<NpcReward>>,
 
