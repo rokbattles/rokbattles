@@ -1,13 +1,15 @@
 use crate::{
+    context::MailContext,
     helpers::{
         collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
         extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
         find_self_content_root, find_self_snapshot_section, get_or_insert_object_map, map_put_f64,
         map_put_i32, map_put_i64, map_put_str, parse_f64,
     },
-    resolvers::{Resolver, ResolverContext},
 };
+use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
+use std::convert::Infallible;
 use std::ptr;
 
 pub struct ParticipantSelfResolver;
@@ -575,8 +577,10 @@ impl ParticipantSelfResolver {
     }
 }
 
-impl Resolver for ParticipantSelfResolver {
-    fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
+impl Resolver<MailContext<'_>, Value> for ParticipantSelfResolver {
+    type Error = Infallible;
+
+    fn resolve(&self, ctx: &MailContext<'_>, mail: &mut Value) -> Result<(), Self::Error> {
         let sections = ctx.sections;
         let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
 

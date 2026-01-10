@@ -1,11 +1,13 @@
 use crate::{
+    context::MailContext,
     helpers::{
         find_attack_block_best_match, get_or_insert_object_map, map_get_i64,
         map_put_i64_with_prefix, value_matches_attack_id,
     },
-    resolvers::{Resolver, ResolverContext},
 };
+use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
+use std::convert::Infallible;
 
 pub struct BattleResolver;
 
@@ -149,8 +151,10 @@ impl BattleResolver {
     }
 }
 
-impl Resolver for BattleResolver {
-    fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
+impl Resolver<MailContext<'_>, Value> for BattleResolver {
+    type Error = Infallible;
+
+    fn resolve(&self, ctx: &MailContext<'_>, mail: &mut Value) -> Result<(), Self::Error> {
         let group = ctx.group;
         let (idx_opt, atk_block_opt) = find_attack_block_best_match(group, ctx.attack_id);
         let attack_idx = group.iter().position(|s| s.get(ctx.attack_id).is_some());

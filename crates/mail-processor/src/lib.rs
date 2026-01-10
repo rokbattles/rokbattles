@@ -1,11 +1,13 @@
+pub mod context;
+pub mod error;
 pub mod helpers;
 pub mod resolvers;
 pub mod structures;
 
 use crate::{
+    context::MailContext,
+    error::ProcessError,
     helpers::is_ascii_digits,
-    resolvers::ResolverChain,
-    resolvers::ResolverContext,
     resolvers::battle::BattleResolver,
     resolvers::metadata::MetadataResolver,
     resolvers::overview::OverviewResolver,
@@ -13,11 +15,11 @@ use crate::{
     resolvers::participant_self::ParticipantSelfResolver,
     structures::{DecodedMail, ParsedMail},
 };
-use anyhow::{Result, bail};
+use mail_processor_sdk::ResolverChain;
 use serde_json::json;
 use std::cmp::Ordering;
 
-pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
+pub fn process(json_text: &str) -> Result<Vec<ParsedMail>, ProcessError> {
     let root: DecodedMail = serde_json::from_str(json_text)?;
     let sections = &root.sections;
 
@@ -68,7 +70,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
     }
 
     if battles.is_empty() {
-        bail!("No battles found in mail")
+        return Err(ProcessError::NoBattles);
     }
 
     // Order and deduplicate
@@ -103,7 +105,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
 
     let mut entries: Vec<ParsedMail> = Vec::new();
 
-    for (attack_id, start, end) in battle_groups {
+    for (attack_id, start, end) in &battle_groups {
         let mut entry = json!({
             "metadata": {},
             "self": {},
@@ -112,11 +114,7 @@ pub fn process(json_text: &str) -> Result<Vec<ParsedMail>> {
             "battle_results": {}
         });
 
-        let ctx = ResolverContext {
-            sections,
-            group: &sections[start..end],
-            attack_id: &attack_id,
-        };
+        let ctx = MailContext::new(sections, &sections[*start..*end], attack_id.as_str());
 
         chain.apply(&ctx, &mut entry)?;
 

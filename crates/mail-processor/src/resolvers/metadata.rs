@@ -1,11 +1,13 @@
 use crate::{
+    context::MailContext,
     helpers::{
         find_self_content_root, find_self_snapshot_section, get_or_insert_object_map,
         map_insert_f64_if_absent, map_insert_i64_if_absent, map_insert_str_if_absent, parse_f64,
     },
-    resolvers::{Resolver, ResolverContext},
 };
+use mail_processor_sdk::Resolver;
 use serde_json::Value;
+use std::convert::Infallible;
 
 pub struct MetadataResolver;
 
@@ -122,8 +124,10 @@ impl MetadataResolver {
     }
 }
 
-impl Resolver for MetadataResolver {
-    fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
+impl Resolver<MailContext<'_>, Value> for MetadataResolver {
+    type Error = Infallible;
+
+    fn resolve(&self, ctx: &MailContext<'_>, mail: &mut Value) -> Result<(), Self::Error> {
         let meta = get_or_insert_object_map(mail, "metadata");
 
         let sections = ctx.sections;
