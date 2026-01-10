@@ -1,8 +1,10 @@
 use crate::{
+    context::MailContext,
     helpers::{get_or_insert_object_map, map_get_i64, map_put_i64_with_prefix},
-    resolvers::{Resolver, ResolverContext},
 };
+use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
+use std::convert::Infallible;
 
 pub struct OverviewResolver;
 
@@ -41,8 +43,10 @@ impl OverviewResolver {
     }
 }
 
-impl Resolver for OverviewResolver {
-    fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
+impl Resolver<MailContext<'_>, Value> for OverviewResolver {
+    type Error = Infallible;
+
+    fn resolve(&self, ctx: &MailContext<'_>, mail: &mut Value) -> Result<(), Self::Error> {
         let self_overview = Self::find_first_object_for_key(ctx.group, "SOv")
             .or_else(|| Self::find_first_object_for_key(ctx.sections, "SOv"));
         let enemy_overview = Self::find_first_object_for_key(ctx.group, "OOv")

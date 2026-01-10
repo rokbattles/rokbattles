@@ -1,13 +1,15 @@
 use crate::{
+    context::MailContext,
     helpers::{
         collect_affix_from_hwbs, collect_buffs_from_hwbs, extract_app_uid,
         extract_app_uid_from_avatar_url, extract_avatar_frame_url, extract_avatar_url,
         find_attack_block_best_match, get_or_insert_object_map, map_put_f64, map_put_i32,
         map_put_i64, map_put_str, parse_f64,
     },
-    resolvers::{Resolver, ResolverContext},
 };
+use mail_processor_sdk::Resolver;
 use serde_json::{Map, Value};
+use std::convert::Infallible;
 
 pub struct ParticipantEnemyResolver;
 
@@ -645,8 +647,10 @@ impl ParticipantEnemyResolver {
     }
 }
 
-impl Resolver for ParticipantEnemyResolver {
-    fn resolve(&self, ctx: &ResolverContext<'_>, mail: &mut Value) -> anyhow::Result<()> {
+impl Resolver<MailContext<'_>, Value> for ParticipantEnemyResolver {
+    type Error = Infallible;
+
+    fn resolve(&self, ctx: &MailContext<'_>, mail: &mut Value) -> Result<(), Self::Error> {
         let sections = ctx.sections;
         let group = ctx.group;
         let (idx_opt, atk_block_opt) = find_attack_block_best_match(group, ctx.attack_id);

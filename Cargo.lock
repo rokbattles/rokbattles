@@ -2664,8 +2664,8 @@ dependencies = [
 name = "mail-processor"
 version = "0.3.9"
 dependencies = [
- "anyhow",
  "itoa",
+ "mail-processor-sdk",
  "serde",
  "serde_json",
 ]
