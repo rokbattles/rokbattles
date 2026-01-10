@@ -11,7 +11,7 @@ anyhow = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 zstd = { workspace = true }
-mail-processor = { path = "../mail-processor" }
+mail-processor-battle = { path = "../mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
 mail-helper = { path = "../mail-helper" }
 mail-decoder = { path = "../mail-decoder" }

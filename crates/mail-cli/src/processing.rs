@@ -82,7 +82,7 @@ pub(crate) fn process_decoded_mail(
             serde_json::to_value(processed_mail)?
         }
         _ => {
-            let processed_mail = mail_processor::process(&decoded.raw_json_text)?;
+            let processed_mail = mail_processor_battle::process(&decoded.raw_json_text)?;
             serde_json::to_value(processed_mail)?
         }
     };

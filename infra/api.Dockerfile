@@ -6,7 +6,7 @@ RUN apk add --no-cache \
     openssl-dev pkgconfig git curl
 RUN rustup target add x86_64-unknown-linux-musl
 COPY . .
-RUN cargo build --release --target x86_64-unknown-linux-musl -p rokbattles-api
+RUN cargo build --release --target x86_64-unknown-linux-musl -p rokbattles-ingress
 
 FROM alpine:3.20 AS files
 RUN apk add --no-cache ca-certificates tzdata
@@ -20,8 +20,8 @@ COPY --from=files /etc/group /etc/group
 COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-api /bin/rokbattles-api
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-ingress /bin/rokbattles-ingress
 USER rokb:rokb
 WORKDIR /app
 EXPOSE 8000
-ENTRYPOINT ["/bin/rokbattles-api"]
+ENTRYPOINT ["/bin/rokbattles-ingress"]
