@@ -2,7 +2,7 @@
 members = [
     "crates/mail-cli",
     "crates/mail-decoder",
-    "crates/mail-processor",
+    "crates/mail-processor-battle",
     "crates/mail-processor-sdk",
     "crates/mail-processor-duelbattle2",
     "crates/mail-helper",
