@@ -26,12 +26,12 @@ tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
 tikv-jemallocator = "0.6.1"
 tauri-build = { version = "2.5.3", features = [] }
 tauri = { version = "2.9.5", features = [] }
-tauri-plugin-opener = "2.5.2"
-tauri-plugin-dialog = "2.4.2"
+tauri-plugin-opener = "2.5.3"
+tauri-plugin-dialog = "2.5.0"
 futures-util = "0.3.31"
 mongodb = "3.4.1"
 zstd = "0.13.3"
-blake3 = "1.8.2"
+blake3 = "1.8.3"
 reqwest = "0.12.28"
 futures = "0.3.31"
 tauri-plugin-updater = "2.9.0"
