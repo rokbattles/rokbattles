@@ -18,6 +18,7 @@
     "self": {
       "player_id": 41377732,
       "app_uid": "34280769",
+      "tracking_key": "",
       "player_name": "ˢJian x Laars",
       "alliance_tag": "2804",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/34280769/2025-12-10/C8DB08776002F73F189D227B4F9EBD9A_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 51148833,
       "app_uid": "42395710",
+      "tracking_key": "51148833_1765659043_103_539_SquareRally",
       "player_name": "RomanFerm",
       "alliance_tag": "64AL",
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1016.png",

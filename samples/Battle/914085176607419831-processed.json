@@ -18,6 +18,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "71738515_1766073597_540_575",
       "player_name": "G Var",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 37556801,
       "app_uid": "26855535",
+      "tracking_key": "37556801_1766074106_190_189",
       "player_name": "Benbu",
       "alliance_tag": null,
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",

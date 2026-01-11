@@ -704,6 +704,29 @@ impl Resolver<MailContext<'_>, Value> for ParticipantSelfResolver {
             obj.insert("app_uid".into(), Value::String(uid));
         }
 
+        let mut tracking_key = Self::section_tracking_key(self_snap)
+            .or_else(|| fallback_snap.and_then(Self::section_tracking_key))
+            .or_else(|| self_body.get("CTK").and_then(Value::as_str));
+        if (tracking_key.is_none() || matches!(tracking_key, Some(ctk) if ctk.is_empty()))
+            && let Some(pid) = player_pid
+        {
+            let non_empty = sections.iter().find_map(|sec| {
+                let ctk = Self::section_tracking_key(sec)?;
+                if !ctk.is_empty() && Self::tracking_key_belongs_to_pid(ctk, pid) {
+                    Some(ctk)
+                } else {
+                    None
+                }
+            });
+            if non_empty.is_some() {
+                tracking_key = non_empty;
+            }
+        }
+        obj.insert(
+            "tracking_key".into(),
+            Value::String(tracking_key.unwrap_or("").to_owned()),
+        );
+
         // alliance and castle pos
         let mut alliance_abbr: Option<String> = None;
         if let Some(pid) = player_pid {

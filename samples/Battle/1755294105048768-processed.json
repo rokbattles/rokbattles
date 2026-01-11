@@ -18,6 +18,7 @@
     "self": {
       "player_id": 110176153,
       "app_uid": "88504567",
+      "tracking_key": "110176153_1755294095_15_38",
       "player_name": "F7yst",
       "alliance_tag": "SO4L",
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/110176153/23/08/22/4d3650bd6339b4c4_640x640.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 130014943,
       "app_uid": "103134073",
+      "tracking_key": "",
       "player_name": "xAvarice",
       "alliance_tag": null,
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head10.png",
