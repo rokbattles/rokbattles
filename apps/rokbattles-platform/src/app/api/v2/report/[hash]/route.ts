@@ -1,6 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import client, { toPlainObject } from "@/lib/mongo";
+import type { RawReportPayload } from "@/lib/types/rawReport";
 import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
 
 export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[hash]">) {
@@ -35,10 +36,62 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       .aggregate(aggregationPipeline, { allowDiskUse: true })
       .toArray();
 
-    const items: ReportEntry[] = documents.map((doc) => ({
-      startDate: Number(doc.startDate),
-      report: toPlainObject(doc.report),
-    }));
+    let trackingKey: string | null = null;
+    const items: ReportEntry[] = documents.map((doc) => {
+      const report = toPlainObject(doc.report);
+      if (!trackingKey) {
+        trackingKey = extractTrackingKey(report);
+      }
+      return {
+        startDate: Number(doc.startDate),
+        report,
+      };
+    });
+
+    let merge:
+      | {
+          trackingKey: string;
+          reports: { parentHash: string; latestEmailTime: number }[];
+        }
+      | undefined;
+
+    if (trackingKey) {
+      const mergePipeline: Document[] = [
+        {
+          $match: {
+            "report.self.tracking_key": trackingKey,
+            "report.enemy.player_id": { $nin: [-2, 0] },
+            "metadata.parentHash": { $exists: true, $ne: null },
+          },
+        },
+        {
+          $group: {
+            _id: "$metadata.parentHash",
+            latestEmailTime: { $max: "$report.metadata.email_time" },
+          },
+        },
+        { $sort: { latestEmailTime: -1 } },
+      ];
+
+      const mergeDocs = await db
+        .collection("battleReports")
+        .aggregate(mergePipeline, { allowDiskUse: true })
+        .toArray();
+
+      const mergeReports = mergeDocs
+        .map((doc) => ({
+          parentHash: String(doc._id ?? ""),
+          latestEmailTime: Number(doc.latestEmailTime ?? 0),
+        }))
+        .filter((doc) => doc.parentHash.length > 0);
+
+      if (mergeReports.length > 1) {
+        merge = {
+          trackingKey,
+          reports: mergeReports,
+        };
+      }
+    }
 
     const totalsPipeline: Document[] = [
       { $match: matchPipeline },
@@ -109,6 +162,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
         items,
         count: items.length,
         ...(battleResults ? { battleResults } : {}),
+        ...(merge ? { merge } : {}),
       },
       {
         headers: {
@@ -128,4 +182,14 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       }
     );
   }
+}
+
+function extractTrackingKey(report: Record<string, unknown> | null | undefined): string | null {
+  const payload = report as RawReportPayload | null | undefined;
+  const candidate = payload?.self?.tracking_key;
+  if (typeof candidate !== "string") {
+    return null;
+  }
+  const trimmed = candidate.trim();
+  return trimmed.length > 0 ? trimmed : null;
 }

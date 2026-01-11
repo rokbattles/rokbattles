@@ -40,6 +40,7 @@ export interface RawParticipantInfo {
   npc_type?: number | null;
   npc_btype?: number | null;
   npc_rewards?: RawNpcReward[] | null;
+  tracking_key?: string;
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
   equipment?: string;

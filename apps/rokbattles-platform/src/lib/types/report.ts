@@ -3,6 +3,16 @@ export type ReportEntry = {
   report: Record<string, unknown>;
 };
 
+export type ReportMergeItem = {
+  parentHash: string;
+  latestEmailTime: number;
+};
+
+export type ReportMergeSummary = {
+  trackingKey: string;
+  reports: ReportMergeItem[];
+};
+
 export type BattleResultsTotals = {
   death: number;
   severelyWounded: number;
@@ -25,4 +35,5 @@ export type ReportByHashResponse = {
   items: ReportEntry[];
   count: number;
   battleResults?: BattleResultsSummary;
+  merge?: ReportMergeSummary;
 };
