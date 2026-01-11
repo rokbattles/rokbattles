@@ -20,3 +20,7 @@ blake3 = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

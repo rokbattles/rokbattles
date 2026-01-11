@@ -1,4 +1,5 @@
 FROM rust:1.92-alpine AS builder
+ENV CARGO_INCREMENTAL=0
 WORKDIR /app
 RUN apk add --no-cache \
     musl musl-dev libc-dev build-base \
@@ -6,7 +7,7 @@ RUN apk add --no-cache \
     openssl-dev pkgconfig git curl
 RUN rustup target add x86_64-unknown-linux-musl
 COPY . .
-RUN cargo build --release --target x86_64-unknown-linux-musl -p rokbattles-ingress
+RUN cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-ingress
 
 FROM alpine:3.20 AS files
 RUN apk add --no-cache ca-certificates tzdata
