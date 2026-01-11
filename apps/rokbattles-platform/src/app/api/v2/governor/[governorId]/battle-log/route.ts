@@ -10,7 +10,6 @@ type BattleReportDocument = {
   report?: {
     metadata?: {
       parentHash?: unknown;
-      hash?: unknown;
       email_time?: unknown;
       start_date?: unknown;
     };
@@ -102,7 +101,6 @@ export async function GET(
 
   const projection: Document = {
     "report.metadata.parentHash": 1,
-    "report.metadata.hash": 1,
     "report.metadata.email_time": 1,
     "report.metadata.start_date": 1,
     "report.self.player_id": 1,
@@ -143,10 +141,8 @@ export async function GET(
 
     const isNpc = otherParticipantId === -2;
     const parentHash = report.metadata?.parentHash;
-    const hash = report.metadata?.hash;
     const key =
       (typeof parentHash === "string" && parentHash.length > 0 && parentHash) ||
-      (typeof hash === "string" && hash.length > 0 && hash) ||
       (typeof doc._id === "string" && doc._id) ||
       String(doc._id ?? eventTime);
 

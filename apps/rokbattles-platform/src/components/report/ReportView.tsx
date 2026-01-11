@@ -113,12 +113,18 @@ export function ReportView({ hash }: ReportViewProps) {
             </>
           ) : null}
           <div className="space-y-12">
-            {entries.map((entry, index) => (
-              <div key={entry.hash}>
-                <ReportEntryCard entry={entry} />
-                {index < entries.length - 1 ? <Divider className="my-8" /> : null}
-              </div>
-            ))}
+            {entries.map((entry, index) => {
+              const payload = (entry.report ?? {}) as RawReportPayload;
+              const emailTime = payload?.metadata?.email_time;
+              const entryKey = `${emailTime ?? entry.startDate ?? index}-${index}`;
+
+              return (
+                <div key={entryKey}>
+                  <ReportEntryCard entry={entry} />
+                  {index < entries.length - 1 ? <Divider className="my-8" /> : null}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
