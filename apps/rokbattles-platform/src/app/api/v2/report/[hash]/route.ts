@@ -23,7 +23,6 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       {
         $project: {
           _id: 0,
-          hash: "$metadata.hash",
           startDate: "$report.metadata.start_date",
           report: "$report",
         },
@@ -37,7 +36,6 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       .toArray();
 
     const items: ReportEntry[] = documents.map((doc) => ({
-      hash: typeof doc.hash === "string" ? doc.hash : String(doc.hash ?? ""),
       startDate: Number(doc.startDate),
       report: toPlainObject(doc.report),
     }));

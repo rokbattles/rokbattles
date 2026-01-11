@@ -84,10 +84,9 @@ export async function GET(req: NextRequest) {
                 "report.enemy.player_id": { $nin: [-2, 0] },
               },
             },
-            { $sort: { "metadata.hash": 1 } },
+            { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
             {
               $project: {
-                entryHash: "$metadata.hash",
                 startDate: "$report.metadata.start_date",
                 selfCommanderId: "$report.self.primary_commander.id",
                 selfSecondaryCommanderId: { $ifNull: ["$report.self.secondary_commander.id", 0] },
@@ -128,7 +127,6 @@ export async function GET(req: NextRequest) {
             lastEnd: doc.summary?.lastEnd ?? 0,
           },
           entry: {
-            hash: doc.firstDoc?.entryHash ?? "",
             startDate: Number(doc.firstDoc?.startDate) || 0,
             selfCommanderId: Number(doc.firstDoc?.selfCommanderId) || 0,
             selfSecondaryCommanderId: Number(doc.firstDoc?.selfSecondaryCommanderId) || 0,

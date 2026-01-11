@@ -1,5 +1,4 @@
 use anyhow::{Context, Result, bail};
-use blake3::Hasher;
 use futures::stream::TryStreamExt;
 use mail_helper::EmailType;
 use mongodb::{
@@ -24,13 +23,6 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 #[cfg(not(target_env = "msvc"))]
 #[global_allocator]
 static GLOBAL: tikv_jemallocator::Jemalloc = tikv_jemallocator::Jemalloc;
-
-fn blake3_hash(data: &[u8]) -> String {
-    let mut hasher = Hasher::new();
-    hasher.update(data);
-    let hash = hasher.finalize();
-    hash.to_hex().to_string()
-}
 
 async fn process(
     db: &Database,
@@ -244,12 +236,8 @@ async fn process_mail(
 
             // Need to review bulk write API later, something might be wrong with it in current version of the driver
             for report in &mail_obj {
-                let rep_json = serde_json::to_vec(report)?;
-                let rep_hash = blake3_hash(&rep_json);
-
                 let report_doc = bson::to_document(report)?;
                 let mut metadata_doc = Document::new();
-                metadata_doc.insert("hash", rep_hash);
                 metadata_doc.insert("parentHash", mail_hash);
 
                 let mut insert_doc = Document::new();
@@ -265,12 +253,8 @@ async fn process_mail(
         EmailType::DuelBattle2 => {
             let processed_mail =
                 mail_processor_duelbattle2::process_sections(&decoded_mail.sections)?;
-            let rep_json = serde_json::to_vec(&processed_mail)?;
-            let rep_hash = blake3_hash(&rep_json);
-
             let report_doc = bson::to_document(&processed_mail)?;
             let mut metadata_doc = Document::new();
-            metadata_doc.insert("hash", rep_hash);
             metadata_doc.insert("parentHash", mail_hash);
 
             let mut insert_doc = Document::new();

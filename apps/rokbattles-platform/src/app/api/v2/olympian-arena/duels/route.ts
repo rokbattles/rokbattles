@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
               },
             },
           },
-          { $sort: { "metadata.hash": 1 } },
+          { $sort: { "report.metadata.email_time": 1 } },
           {
             $project: {
               senderPlayerId: "$report.sender.player_id",

@@ -261,10 +261,9 @@ export async function GET(req: NextRequest) {
               },
             },
           },
-          { $sort: { "metadata.hash": 1 } },
+          { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
           {
             $project: {
-              entryHash: "$metadata.hash",
               startDate: "$report.metadata.start_date",
               selfCommanderId: "$report.self.primary_commander.id",
               selfSecondaryCommanderId: { $ifNull: ["$report.self.secondary_commander.id", 0] },
@@ -295,7 +294,6 @@ export async function GET(req: NextRequest) {
     count: d.count,
     timespan: { firstStart: d.firstStart, lastEnd: d.lastEnd },
     entry: {
-      hash: d.firstDoc.entryHash,
       startDate: Number(d.firstDoc.startDate) || 0,
       selfCommanderId: Number(d.firstDoc.selfCommanderId) || 0,
       selfSecondaryCommanderId: Number(d.firstDoc.selfSecondaryCommanderId) || 0,

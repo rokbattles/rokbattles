@@ -58,7 +58,7 @@ async function fetchRecentReports(db: Db, governorId: number) {
                 },
               },
             },
-            { $sort: { "metadata.hash": 1 } },
+            { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
             {
               $project: {
                 selfPrimary: "$report.self.primary_commander.id",

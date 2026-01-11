@@ -1,5 +1,4 @@
 export type ReportEntry = {
-  hash: string;
   startDate: number;
   report: Record<string, unknown>;
 };

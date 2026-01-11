@@ -16,7 +16,6 @@ mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
 mail-helper = { path = "../mail-helper" }
 mail-decoder = { path = "../mail-decoder" }
 futures = { workspace = true }
-blake3 = { workspace = true }
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
 tikv-jemallocator = { workspace = true }

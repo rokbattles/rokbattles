@@ -7,7 +7,6 @@ import { ReportsFilterContext } from "@/components/context/ReportsFilterContext"
 import { buildReportsQueryParams } from "@/lib/reportsQuery";
 
 export type ReportSummaryEntry = {
-  hash: string;
   startDate: number;
   selfCommanderId: number;
   selfSecondaryCommanderId: number;
