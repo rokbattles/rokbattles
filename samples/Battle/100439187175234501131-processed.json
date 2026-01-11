@@ -18,6 +18,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 80837230,
       "app_uid": "24498214",
+      "tracking_key": "80837230_1752344634_186_179_SquareRally",
       "player_name": "西伯利亞狼",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24498214/2025-03-15/167A8515B5A676EFA9C2193C6DFDFA98_250x250.jpg",
@@ -143,6 +145,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -173,6 +176,7 @@
     "enemy": {
       "player_id": 92330300,
       "app_uid": "61119042",
+      "tracking_key": "92330300_1752344396_540_459",
       "player_name": "Kung Fu Tsar",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
@@ -268,6 +272,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -298,6 +303,7 @@
     "enemy": {
       "player_id": 92330300,
       "app_uid": "61119042",
+      "tracking_key": "92330300_1752344393_182_148",
       "player_name": "Kung Fu Tsar",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
@@ -393,6 +399,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -423,6 +430,7 @@
     "enemy": {
       "player_id": 92330300,
       "app_uid": "61119042",
+      "tracking_key": "92330300_1752344399_509_179",
       "player_name": "Kung Fu Tsar",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
@@ -518,6 +526,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -548,6 +557,7 @@
     "enemy": {
       "player_id": 92330300,
       "app_uid": "61119042",
+      "tracking_key": "92330300_1752344390_545_185",
       "player_name": "Kung Fu Tsar",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
@@ -643,6 +653,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "",
       "player_name": "agent G",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg",
@@ -673,6 +684,7 @@
     "enemy": {
       "player_id": 92330300,
       "app_uid": "61119042",
+      "tracking_key": "92330300_1752344387_198_140",
       "player_name": "Kung Fu Tsar",
       "alliance_tag": "NW25",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",

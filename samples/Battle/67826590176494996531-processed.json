@@ -18,6 +18,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "71738515_1764949023_7_96",
       "player_name": "Grigvar",
       "alliance_tag": "TL68",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-10-25/AEA4539C6DD82070AA755C88208623B6_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": -2,
       "app_uid": null,
+      "tracking_key": "-2_1764949552_273",
       "player_name": "",
       "alliance_tag": null,
       "avatar_url": null,

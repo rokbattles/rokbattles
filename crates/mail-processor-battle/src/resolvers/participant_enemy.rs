@@ -297,6 +297,24 @@ impl ParticipantEnemyResolver {
         })
     }
 
+    fn section_tracking_key(sec: &Value) -> Option<&str> {
+        sec.get("CTK")
+            .and_then(Value::as_str)
+            .or_else(|| sec.pointer("/body/content/CTK").and_then(Value::as_str))
+            .or_else(|| sec.pointer("/content/CTK").and_then(Value::as_str))
+    }
+
+    fn tracking_key_belongs_to_pid(ctk: &str, pid: i64) -> bool {
+        if ctk.is_empty() {
+            return false;
+        }
+        if let Some(pos) = ctk.as_bytes().iter().position(|&b| b == b'_') {
+            ctk[..pos].parse::<i64>().ok() == Some(pid)
+        } else {
+            ctk.parse::<i64>().ok() == Some(pid)
+        }
+    }
+
     fn value_i32_nonzero(v: Option<&Value>) -> Option<i32> {
         v.and_then(Value::as_i64)
             .filter(|&x| x != 0)
@@ -925,6 +943,31 @@ impl Resolver<MailContext<'_>, Value> for ParticipantEnemyResolver {
         if let Some(uid) = app_uid {
             enemy_obj.insert("app_uid".into(), Value::String(uid));
         }
+
+        let mut tracking_key = enemy_snap
+            .and_then(|snap| Self::section_tracking_key(snap))
+            .or_else(|| Self::section_tracking_key(c_idt))
+            .or_else(|| Self::section_tracking_key(atk_block))
+            .or_else(|| Self::attack_section_get(attack_section, "CTK").and_then(Value::as_str));
+        if (tracking_key.is_none() || matches!(tracking_key, Some(ctk) if ctk.is_empty()))
+            && let Some(pid) = pid
+        {
+            let non_empty = group.iter().chain(sections.iter()).find_map(|sec| {
+                let ctk = Self::section_tracking_key(sec)?;
+                if !ctk.is_empty() && Self::tracking_key_belongs_to_pid(ctk, pid) {
+                    Some(ctk)
+                } else {
+                    None
+                }
+            });
+            if non_empty.is_some() {
+                tracking_key = non_empty;
+            }
+        }
+        enemy_obj.insert(
+            "tracking_key".into(),
+            Value::String(tracking_key.unwrap_or("").to_owned()),
+        );
 
         // castle pos
         if let Some(snap) = enemy_snap

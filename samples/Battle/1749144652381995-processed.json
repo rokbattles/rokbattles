@@ -18,6 +18,7 @@
     "self": {
       "player_id": 66662936,
       "app_uid": "54578193",
+      "tracking_key": "66662936_1749144253_103_539_SquareRally",
       "player_name": "Lén Lén",
       "alliance_tag": "3083",
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/66662936/22/06/20/5b933a14d710cdb8_800x800.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 113063200,
       "app_uid": "91722043",
+      "tracking_key": "",
       "player_name": "ᴬᶜRafał",
       "alliance_tag": "861V",
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head09.png",

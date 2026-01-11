@@ -18,6 +18,7 @@
     "self": {
       "player_id": 20075558,
       "app_uid": "18278241",
+      "tracking_key": "20075558_1764512832_103_539_SquareRally",
       "player_name": "jën x ƒaräɀ",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 42450936,
       "app_uid": "100994654",
+      "tracking_key": "42450936_1764512939_545_185",
       "player_name": "Xcヽ Tuấn Vũ",
       "alliance_tag": "W676",
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",
@@ -143,6 +145,7 @@
     "self": {
       "player_id": 20075558,
       "app_uid": "18278241",
+      "tracking_key": "20075558_1764512832_103_539_SquareRally",
       "player_name": "jën x ƒaräɀ",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-11-14/3C273252D93A080201D4AFA5094FB0F3_250x250.jpg",
@@ -173,6 +176,7 @@
     "enemy": {
       "player_id": 42450936,
       "app_uid": "100994654",
+      "tracking_key": "42450936_1764512939_545_185",
       "player_name": "Xcヽ Tuấn Vũ",
       "alliance_tag": "W676",
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1015.png",

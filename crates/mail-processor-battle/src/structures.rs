@@ -113,6 +113,8 @@ pub struct Participant {
     pub player_id: Option<i64>,
     // AppUid
     pub app_uid: Option<String>,
+    // CTK
+    pub tracking_key: Option<String>,
     // PName
     pub player_name: Option<String>,
     // Abbr

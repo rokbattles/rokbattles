@@ -18,6 +18,7 @@
     "self": {
       "player_id": 29862805,
       "app_uid": "26855535",
+      "tracking_key": "29862805_1766073597_182_148",
       "player_name": "Benbu 벤부",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-12-07/AB876EA0D83EDD3AD76FF4496762753C_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 37556801,
       "app_uid": "26855535",
+      "tracking_key": "37556801_1766074106_190_189",
       "player_name": "Benbu",
       "alliance_tag": null,
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",

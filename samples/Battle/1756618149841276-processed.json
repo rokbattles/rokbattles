@@ -18,6 +18,7 @@
     "self": {
       "player_id": 4352779,
       "app_uid": "2850850",
+      "tracking_key": "4352779_1756617644_182_177_SquareRally",
       "player_name": "DDK38",
       "alliance_tag": "LX17",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2850850/2025-08-17/0D33A18440A65A3889EC039FFE66FBB2_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": -2,
       "app_uid": null,
+      "tracking_key": "-2_1756605890_86",
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,
@@ -139,6 +141,7 @@
     "self": {
       "player_id": 4352779,
       "app_uid": "2850850",
+      "tracking_key": "4352779_1756617644_182_177_SquareRally",
       "player_name": "DDK38",
       "alliance_tag": "LX17",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2850850/2025-08-17/0D33A18440A65A3889EC039FFE66FBB2_250x250.jpg",
@@ -169,6 +172,7 @@
     "enemy": {
       "player_id": -2,
       "app_uid": null,
+      "tracking_key": "-2_1756616937_204",
       "player_name": null,
       "alliance_tag": null,
       "avatar_url": null,

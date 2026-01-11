@@ -18,6 +18,7 @@
     "self": {
       "player_id": 113473285,
       "app_uid": "66704325",
+      "tracking_key": "113473285_1765378301_36",
       "player_name": "Dr kev",
       "alliance_tag": "=FW=",
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/113473285/24/03/28/d5a937187199c8b3_800x800.jpg",
@@ -44,6 +45,7 @@
     "enemy": {
       "player_id": 103895680,
       "app_uid": "84192330",
+      "tracking_key": "",
       "player_name": "ᵘˢSadistic2",
       "alliance_tag": null,
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/84192330/2025-07-19/EC9DCC0600057FDFD5FC7914C2BF8EF7_250x250.jpg",

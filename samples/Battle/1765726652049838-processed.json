@@ -18,6 +18,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "71738515_1765726447_103_575",
       "player_name": "G Var",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
@@ -48,6 +49,7 @@
     "enemy": {
       "player_id": 113101161,
       "app_uid": "89532548",
+      "tracking_key": "113101161_1765726425_540_575",
       "player_name": "ᶠᵒʳᵉsᵗ",
       "alliance_tag": "HELL",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/89532548/2024-08-14/ECE9BDDF8CC9740690FDEE6055384A4A_250x250.jpg",
@@ -143,6 +145,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "71738515_1765726447_103_575",
       "player_name": "G Var",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
@@ -173,6 +176,7 @@
     "enemy": {
       "player_id": 173723822,
       "app_uid": "220591111",
+      "tracking_key": "173723822_1765653860_7_134",
       "player_name": "ᶜShinuta ツ II",
       "alliance_tag": null,
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/220591111/2025-04-06/756C0B576E8A1CFA8CCB303FF5276CE1_250x250.jpg",
@@ -268,6 +272,7 @@
     "self": {
       "player_id": 71738515,
       "app_uid": "32624247",
+      "tracking_key": "71738515_1765726447_103_575",
       "player_name": "G Var",
       "alliance_tag": "SO4L",
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
@@ -298,6 +303,7 @@
     "enemy": {
       "player_id": 173723822,
       "app_uid": "220591111",
+      "tracking_key": "173723822_1765653867_99_1",
       "player_name": "ᶜShinuta ツ II",
       "alliance_tag": null,
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/220591111/2025-04-06/756C0B576E8A1CFA8CCB303FF5276CE1_250x250.jpg",
