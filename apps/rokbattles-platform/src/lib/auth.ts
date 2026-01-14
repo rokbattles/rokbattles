@@ -1,7 +1,7 @@
 import type { Db } from "mongodb";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import client from "@/lib/mongo";
+import clientPromise from "@/lib/mongo";
 import type { SessionDocument, UserDocument } from "@/lib/types/auth";
 
 export type AuthenticationFailureReason =
@@ -38,7 +38,7 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
     };
   }
 
-  const mongo = await client.connect();
+  const mongo = await clientPromise;
   const db = mongo.db();
 
   const session = await db.collection<SessionDocument>("userSessions").findOne({ sessionId: sid });
