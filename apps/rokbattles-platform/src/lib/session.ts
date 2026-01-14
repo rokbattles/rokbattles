@@ -1,14 +1,14 @@
 import { randomBytes } from "node:crypto";
 import { base64urlnopad } from "@scure/base";
 import { cookies } from "next/headers";
-import client from "@/lib/mongo";
+import clientPromise from "@/lib/mongo";
 
 function generateSessionId() {
   return base64urlnopad.encode(randomBytes(48));
 }
 
 export async function createSession(userId: string) {
-  const mongo = await client.connect();
+  const mongo = await clientPromise;
   const db = mongo.db();
 
   const sid = generateSessionId();
@@ -38,7 +38,7 @@ export async function deleteSession() {
   if (!cookieStore.has("sid")) return;
 
   const sid = cookieStore.get("sid");
-  const mongo = await client.connect();
+  const mongo = await clientPromise;
   const db = mongo.db();
 
   await db.collection("userSessions").deleteOne({ sessionId: sid });

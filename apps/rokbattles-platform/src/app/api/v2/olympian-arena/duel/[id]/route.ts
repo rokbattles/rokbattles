@@ -1,6 +1,6 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import client, { toPlainObject } from "@/lib/mongo";
+import clientPromise, { toPlainObject } from "@/lib/mongo";
 
 type DuelReportEntry = {
   report: Record<string, unknown>;
@@ -23,7 +23,7 @@ export async function GET(
   const duelId = parsedId;
 
   try {
-    const mongo = await client.connect();
+    const mongo = await clientPromise;
     const db = mongo.db();
 
     const matchPipeline: Document = {
