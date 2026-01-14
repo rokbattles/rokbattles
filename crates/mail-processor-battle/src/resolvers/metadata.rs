@@ -141,7 +141,6 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
         if let Some(g0) = sections.first() {
             map_insert_str_if_absent(meta, "email_id", g0.get("id").and_then(Value::as_str));
             map_insert_str_if_absent(meta, "email_type", g0.get("type").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_box", g0.get("box").and_then(Value::as_str));
             map_insert_i64_if_absent(
                 meta,
                 "email_time",
@@ -161,13 +160,6 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
                 .iter()
                 .find_map(|s| s.get("type").and_then(Value::as_str));
             map_insert_str_if_absent(meta, "email_type", email_type);
-        }
-
-        if meta.get("email_box").is_none() {
-            let email_box = sections
-                .iter()
-                .find_map(|s| s.get("box").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_box", email_box);
         }
 
         if meta.get("email_time").is_none() {
