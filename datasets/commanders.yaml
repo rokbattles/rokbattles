@@ -7,6 +7,16 @@ commanders:
       ko: "율리우스 카이사르"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 22
+        expertId: 61
+      - slot: 2
+        id: 1041
+      - slot: 3
+        id: 1006
+      - slot: 4
+        id: 1007
 
   3:
     name:
@@ -16,6 +26,17 @@ commanders:
       ko: "손무"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 69
+      - slot: 2
+        id: 1022
+      - slot: 3
+        id: 1023
+      - slot: 4
+        id: 1045
+      - slot: 5
+        id: 30
 
   4:
     name:
@@ -25,6 +46,16 @@ commanders:
       ko: "프리드리히 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 23
+        expertId: 62
+      - slot: 2
+        id: 1008
+      - slot: 3
+        id: 1075
+      - slot: 4
+        id: 1067
 
   5:
     name:
@@ -34,6 +65,17 @@ commanders:
       ko: "콘스탄티누스 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 85
+      - slot: 2
+        id: 1138
+      - slot: 3
+        id: 1139
+      - slot: 4
+        id: 1140
+      - slot: 5
+        id: 1148
 
   6:
     name:
@@ -43,6 +85,16 @@ commanders:
       ko: "이성계"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 24
+        expertId: 63
+      - slot: 2
+        id: 1009
+      - slot: 3
+        id: 1010
+      - slot: 4
+        id: 1011
 
   7:
     name:
@@ -52,6 +104,17 @@ commanders:
       ko: "조조"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 25
+      - slot: 2
+        id: 1101
+      - slot: 3
+        id: 1013
+      - slot: 4
+        id: 1042
+      - slot: 5
+        id: 1103
 
   8:
     name:
@@ -61,6 +124,17 @@ commanders:
       ko: "리처드 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 26
+      - slot: 2
+        id: 1043
+      - slot: 3
+        id: 1066
+      - slot: 4
+        id: 1014
+      - slot: 5
+        id: 1104
 
   9:
     name:
@@ -70,6 +144,16 @@ commanders:
       ko: "미나모토노 요시쓰네"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 27
+        expertId: 64
+      - slot: 2
+        id: 1015
+      - slot: 3
+        id: 1012
+      - slot: 4
+        id: 1016
 
   10:
     name:
@@ -79,6 +163,16 @@ commanders:
       ko: "카를 마르텔"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 28
+      - slot: 2
+        id: 1017
+        expertId: 1102
+      - slot: 3
+        id: 1018
+      - slot: 4
+        id: 1019
 
   11:
     name:
@@ -88,6 +182,17 @@ commanders:
       ko: "엘 시드"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 29
+      - slot: 2
+        id: 1021
+      - slot: 3
+        id: 1020
+      - slot: 4
+        id: 1044
+      - slot: 5
+        id: 1105
 
   12:
     name:
@@ -97,6 +202,16 @@ commanders:
       ko: "헤르만"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 31
+        expertId: 68
+      - slot: 2
+        id: 1024
+      - slot: 3
+        id: 1025
+      - slot: 4
+        id: 1046
 
   13:
     name:
@@ -106,6 +221,16 @@ commanders:
       ko: "구스노키 마사시게"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 32
+      - slot: 2
+        id: 1026
+      - slot: 3
+        id: 1027
+        expertId: 1109
+      - slot: 4
+        id: 1048
 
   14:
     name:
@@ -115,6 +240,16 @@ commanders:
       ko: "스키피오"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 33
+      - slot: 2
+        id: 1049
+        expertId: 1110
+      - slot: 3
+        id: 1028
+      - slot: 4
+        id: 1029
 
   15:
     name:
@@ -124,6 +259,16 @@ commanders:
       ko: "잔 다르크"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 34
+        expertId: 66
+      - slot: 2
+        id: 1030
+      - slot: 3
+        id: 1031
+      - slot: 4
+        id: 1047
 
   16:
     name:
@@ -133,6 +278,16 @@ commanders:
       ko: "을지문덕"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 35
+      - slot: 2
+        id: 1032
+      - slot: 3
+        id: 1040
+        expertId: 1108
+      - slot: 4
+        id: 1033
 
   17:
     name:
@@ -142,6 +297,16 @@ commanders:
       ko: "부디카"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 36
+        expertId: 67
+      - slot: 2
+        id: 1034
+      - slot: 3
+        id: 1035
+      - slot: 4
+        id: 1051
 
   18:
     name:
@@ -151,6 +316,16 @@ commanders:
       ko: "펠라기우스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 37
+      - slot: 2
+        id: 1036
+        expertId: 1107
+      - slot: 3
+        id: 1037
+      - slot: 4
+        id: 1050
 
   22:
     name:
@@ -160,6 +335,15 @@ commanders:
       ko: "수호자"
     prime: false
     rarity: advanced
+    skills:
+      - slot: 1
+        id: 42
+      - slot: 2
+        id: 1057
+      - slot: 3
+        id: 1058
+      - slot: 4
+        id: 1059
 
   23:
     name:
@@ -169,6 +353,15 @@ commanders:
       ko: "명시수"
     prime: false
     rarity: advanced
+    skills:
+      - slot: 1
+        id: 43
+      - slot: 2
+        id: 1060
+      - slot: 3
+        id: 1061
+      - slot: 4
+        id: 1062
 
   24:
     name:
@@ -178,6 +371,15 @@ commanders:
       ko: "명시수"
     prime: false
     rarity: advanced
+    skills:
+      - slot: 1
+        id: 41
+      - slot: 2
+        id: 1054
+      - slot: 3
+        id: 1055
+      - slot: 4
+        id: 1056
 
   25:
     name:
@@ -187,6 +389,15 @@ commanders:
       ko: "명시수"
     prime: false
     rarity: advanced
+    skills:
+      - slot: 1
+        id: 44
+      - slot: 2
+        id: 1063
+      - slot: 3
+        id: 1064
+      - slot: 4
+        id: 1065
 
   30:
     name:
@@ -196,6 +407,16 @@ commanders:
       ko: "한니발 바르카"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 49
+        expertId: 65
+      - slot: 2
+        id: 1071
+      - slot: 3
+        id: 1072
+      - slot: 4
+        id: 1073
 
   32:
     name:
@@ -205,6 +426,17 @@ commanders:
       ko: "틀레오파트라 7세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 51
+      - slot: 2
+        id: 1076
+      - slot: 3
+        id: 1077
+      - slot: 4
+        id: 1078
+      - slot: 5
+        id: 1106
 
   33:
     name:
@@ -214,6 +446,15 @@ commanders:
       ko: "쿠스탄차"
     prime: false
     rarity: elite
+    skills:
+      - slot: 1
+        id: 52
+      - slot: 2
+        id: 1079
+      - slot: 3
+        id: 1080
+      - slot: 4
+        id: 1081
 
   34:
     name:
@@ -223,6 +464,15 @@ commanders:
       ko: "가이우스 마리우스"
     prime: false
     rarity: elite
+    skills:
+      - slot: 1
+        id: 53
+      - slot: 2
+        id: 1082
+      - slot: 3
+        id: 1083
+      - slot: 4
+        id: 1084
 
   35:
     name:
@@ -232,6 +482,15 @@ commanders:
       ko: "토모에 고젠"
     prime: false
     rarity: elite
+    skills:
+      - slot: 1
+        id: 54
+      - slot: 2
+        id: 1085
+      - slot: 3
+        id: 1086
+      - slot: 4
+        id: 1087
 
   36:
     name:
@@ -241,6 +500,15 @@ commanders:
       ko: "랜슬롯"
     prime: false
     rarity: elite
+    skills:
+      - slot: 1
+        id: 55
+      - slot: 2
+        id: 1088
+      - slot: 3
+        id: 1089
+      - slot: 4
+        id: 1090
 
   37:
     name:
@@ -250,6 +518,16 @@ commanders:
       ko: "로하"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 56
+      - slot: 2
+        id: 1091
+      - slot: 3
+        id: 1092
+      - slot: 4
+        id: 1093
+        expertId: 1111
 
   38:
     name:
@@ -259,6 +537,15 @@ commanders:
       ko: "샤르카"
     prime: false
     rarity: elite
+    skills:
+      - slot: 1
+        id: 57
+      - slot: 2
+        id: 1094
+      - slot: 3
+        id: 1095
+      - slot: 4
+        id: 1096
 
   61:
     name:
@@ -268,6 +555,16 @@ commanders:
       ko: "벨리사리우스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 82
+      - slot: 2
+        id: 1129
+      - slot: 3
+        id: 1130
+        expertId: 1147
+      - slot: 4
+        id: 1131
 
   62:
     name:
@@ -277,6 +574,16 @@ commanders:
       ko: "바이바르스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 83
+        expertId: 88
+      - slot: 2
+        id: 1132
+      - slot: 3
+        id: 1133
+      - slot: 4
+        id: 1134
 
   63:
     name:
@@ -286,6 +593,16 @@ commanders:
       ko: "오스만 1세"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 84
+        expertId: 89
+      - slot: 2
+        id: 1135
+      - slot: 3
+        id: 1136
+      - slot: 4
+        id: 1137
 
   64:
     name:
@@ -295,6 +612,16 @@ commanders:
       ko: "살라딘"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 86
+        expertId: 90
+      - slot: 2
+        id: 1141
+      - slot: 3
+        id: 1143
+      - slot: 4
+        id: 1142
 
   65:
     name:
@@ -304,6 +631,16 @@ commanders:
       ko: "메흐메트 2세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 87
+        expertId: 91
+      - slot: 2
+        id: 1144
+      - slot: 3
+        id: 1145
+      - slot: 4
+        id: 1146
 
   66:
     name:
@@ -313,6 +650,16 @@ commanders:
       ko: "호목란"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 121
+        expertId: 122
+      - slot: 2
+        id: 1195
+      - slot: 3
+        id: 1196
+      - slot: 4
+        id: 1197
 
   95:
     name:
@@ -322,6 +669,17 @@ commanders:
       ko: "측천무후"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 142
+      - slot: 2
+        id: 1254
+      - slot: 3
+        id: 1255
+      - slot: 4
+        id: 1256
+      - slot: 5
+        id: 1257
 
   96:
     name:
@@ -331,6 +689,17 @@ commanders:
       ko: "칭기즈칸"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 120
+      - slot: 2
+        id: 1191
+      - slot: 3
+        id: 1192
+      - slot: 4
+        id: 1193
+      - slot: 5
+        id: 1194
 
   97:
     name:
@@ -340,6 +709,17 @@ commanders:
       ko: "샤를마뉴"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 137
+      - slot: 2
+        id: 1223
+      - slot: 3
+        id: 1225
+      - slot: 4
+        id: 1224
+      - slot: 5
+        id: 1226
 
   98:
     name:
@@ -349,6 +729,16 @@ commanders:
       ko: "알렉산더 대왕"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 128
+        expertId: 129
+      - slot: 2
+        id: 1199
+      - slot: 3
+        id: 1200
+      - slot: 4
+        id: 1201
 
   99:
     name:
@@ -358,6 +748,17 @@ commanders:
       ko: "애설플레드"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 135
+      - slot: 2
+        id: 1217
+      - slot: 3
+        id: 1218
+      - slot: 4
+        id: 1219
+      - slot: 5
+        id: 1220
 
   100:
     name:
@@ -367,6 +768,17 @@ commanders:
       ko: "토미리스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 139
+      - slot: 2
+        id: 1238
+      - slot: 3
+        id: 1239
+      - slot: 4
+        id: 1240
+      - slot: 5
+        id: 1244
 
   101:
     name:
@@ -376,6 +788,17 @@ commanders:
       ko: "에드워드 우드스톡"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 140
+      - slot: 2
+        id: 1241
+      - slot: 3
+        id: 1242
+      - slot: 4
+        id: 1243
+      - slot: 5
+        id: 1245
 
   102:
     name:
@@ -385,6 +808,17 @@ commanders:
       ko: "선덕여왕"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 141
+      - slot: 2
+        id: 1249
+      - slot: 3
+        id: 1250
+      - slot: 4
+        id: 1251
+      - slot: 5
+        id: 1252
 
   103:
     name:
@@ -394,6 +828,17 @@ commanders:
       ko: "아틸라"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 143
+      - slot: 2
+        id: 1258
+      - slot: 3
+        id: 1259
+      - slot: 4
+        id: 1260
+      - slot: 5
+        id: 1261
 
   104:
     name:
@@ -403,6 +848,17 @@ commanders:
       ko: "다케다 신겐"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 144
+      - slot: 2
+        id: 1262
+      - slot: 3
+        id: 1263
+      - slot: 4
+        id: 1264
+      - slot: 5
+        id: 1265
 
   105:
     name:
@@ -412,6 +868,17 @@ commanders:
       ko: "이시다 미츠나리"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 145
+      - slot: 2
+        id: 1266
+      - slot: 3
+        id: 1267
+      - slot: 4
+        id: 1268
+      - slot: 5
+        id: 1269
 
   106:
     name:
@@ -421,6 +888,16 @@ commanders:
       ko: "테오도라"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 146
+        expertId: 147
+      - slot: 2
+        id: 1270
+      - slot: 3
+        id: 1271
+      - slot: 4
+        id: 1272
 
   108:
     name:
@@ -430,6 +907,17 @@ commanders:
       ko: "관우"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 148
+      - slot: 2
+        id: 1273
+      - slot: 3
+        id: 1274
+      - slot: 4
+        id: 1275
+      - slot: 5
+        id: 1276
 
   109:
     name:
@@ -439,6 +927,17 @@ commanders:
       ko: "레오니다스 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 149
+      - slot: 2
+        id: 1277
+      - slot: 3
+        id: 1278
+      - slot: 4
+        id: 1279
+      - slot: 5
+        id: 1280
 
   110:
     name:
@@ -448,6 +947,16 @@ commanders:
       ko: "람세스 2세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 150
+        expertId: 151
+      - slot: 2
+        id: 1284
+      - slot: 3
+        id: 1285
+      - slot: 4
+        id: 1286
 
   111:
     name:
@@ -457,6 +966,17 @@ commanders:
       ko: "아르테미시아 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 152
+      - slot: 2
+        id: 1288
+      - slot: 3
+        id: 1287
+      - slot: 4
+        id: 1290
+      - slot: 5
+        id: 1289
 
   112:
     name:
@@ -466,6 +986,16 @@ commanders:
       ko: "카일라"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 153
+        expertId: 154
+      - slot: 2
+        id: 1302
+      - slot: 3
+        id: 1303
+      - slot: 4
+        id: 1304
 
   113:
     name:
@@ -475,6 +1005,17 @@ commanders:
       ko: "이순신"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 155
+      - slot: 2
+        id: 1305
+      - slot: 3
+        id: 1306
+      - slot: 4
+        id: 1307
+      - slot: 5
+        id: 1308
 
   114:
     name:
@@ -484,6 +1025,18 @@ commanders:
       ko: "찬드라굽타"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 157
+        expertId: 160
+      - slot: 2
+        id: 1309
+      - slot: 3
+        id: 1310
+      - slot: 4
+        id: 1311
+      - slot: 5
+        id: 1312
 
   115:
     name:
@@ -493,6 +1046,16 @@ commanders:
       ko: "윌리엄 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 158
+      - slot: 2
+        id: 1313
+      - slot: 3
+        id: 1314
+        expertId: 1316
+      - slot: 4
+        id: 1315
 
   116:
     name:
@@ -502,6 +1065,17 @@ commanders:
       ko: "마틸다 1세"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 161
+      - slot: 2
+        id: 1318
+      - slot: 3
+        id: 1319
+      - slot: 4
+        id: 1320
+      - slot: 5
+        id: 1321
 
   117:
     name:
@@ -511,6 +1085,17 @@ commanders:
       ko: "하랄 3세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 162
+      - slot: 2
+        id: 1322
+      - slot: 3
+        id: 1323
+      - slot: 4
+        id: 1324
+      - slot: 5
+        id: 1328
 
   118:
     name:
@@ -520,6 +1105,16 @@ commanders:
       ko: "제노비아"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 164
+        expertId: 165
+      - slot: 2
+        id: 1326
+      - slot: 3
+        id: 1325
+      - slot: 4
+        id: 1327
 
   119:
     name:
@@ -529,6 +1124,16 @@ commanders:
       ko: "여포"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 168
+        expertId: 169
+      - slot: 2
+        id: 1329
+      - slot: 3
+        id: 1330
+      - slot: 4
+        id: 1331
 
   120:
     name:
@@ -538,6 +1143,16 @@ commanders:
       ko: "초선"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 170
+        expertId: 171
+      - slot: 2
+        id: 1332
+      - slot: 3
+        id: 1333
+      - slot: 4
+        id: 1334
 
   121:
     name:
@@ -547,6 +1162,17 @@ commanders:
       ko: "키루스 대제"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 172
+      - slot: 2
+        id: 1335
+      - slot: 3
+        id: 1336
+      - slot: 4
+        id: 1337
+      - slot: 5
+        id: 1338
 
   122:
     name:
@@ -556,6 +1182,16 @@ commanders:
       ko: "네부카드네자르 2세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 173
+        expertId: 174
+      - slot: 2
+        id: 1339
+      - slot: 3
+        id: 1341
+      - slot: 4
+        id: 1340
 
   124:
     name:
@@ -565,6 +1201,16 @@ commanders:
       ko: "몬테수마 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 176
+      - slot: 2
+        id: 1342
+      - slot: 3
+        id: 1343
+      - slot: 4
+        id: 1344
+        expertId: 1345
 
   125:
     name:
@@ -574,6 +1220,16 @@ commanders:
       ko: "트라야누스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 177
+        expertId: 178
+      - slot: 2
+        id: 1346
+      - slot: 3
+        id: 1347
+      - slot: 4
+        id: 1348
 
   126:
     name:
@@ -583,6 +1239,17 @@ commanders:
       ko: "야드비가"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 179
+      - slot: 2
+        id: 1349
+      - slot: 3
+        id: 1350
+      - slot: 4
+        id: 1351
+      - slot: 5
+        id: 1352
 
   127:
     name:
@@ -592,6 +1259,17 @@ commanders:
       ko: "항우"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 180
+      - slot: 2
+        id: 1353
+      - slot: 3
+        id: 1354
+      - slot: 4
+        id: 1355
+      - slot: 5
+        id: 1356
 
   128:
     name:
@@ -601,6 +1279,16 @@ commanders:
       ko: "비에른"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 181
+        expertId: 182
+      - slot: 2
+        id: 1357
+      - slot: 3
+        id: 1358
+      - slot: 4
+        id: 1359
 
   129:
     name:
@@ -610,6 +1298,16 @@ commanders:
       ko: "라그나르 로드브로크"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 183
+        expertId: 184
+      - slot: 2
+        id: 1360
+      - slot: 3
+        id: 1361
+      - slot: 4
+        id: 1362
 
   130:
     name:
@@ -619,6 +1317,16 @@ commanders:
       ko: "척준경"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 185
+      - slot: 2
+        id: 1363
+      - slot: 3
+        id: 1364
+        expertId: 1366
+      - slot: 4
+        id: 1365
 
   131:
     name:
@@ -628,6 +1336,17 @@ commanders:
       ko: "파칼 2세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 187
+      - slot: 2
+        id: 1367
+      - slot: 3
+        id: 1368
+      - slot: 4
+        id: 1369
+      - slot: 5
+        id: 1370
 
   132:
     name:
@@ -637,6 +1356,16 @@ commanders:
       ko: "길가메시"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 188
+      - slot: 2
+        id: 1371
+      - slot: 3
+        id: 1372
+      - slot: 4
+        id: 1373
+        expertId: 1374
 
   133:
     name:
@@ -646,6 +1375,17 @@ commanders:
       ko: "아마니토레"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 189
+      - slot: 2
+        id: 1375
+      - slot: 3
+        id: 1376
+      - slot: 4
+        id: 1377
+      - slot: 5
+        id: 1378
 
   134:
     name:
@@ -655,6 +1395,16 @@ commanders:
       ko: "타마르 여왕"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 191
+        expertId: 192
+      - slot: 2
+        id: 1379
+      - slot: 3
+        id: 1380
+      - slot: 4
+        id: 1381
 
   135:
     name:
@@ -664,6 +1414,17 @@ commanders:
       ko: "혼다 타다카츠"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 193
+      - slot: 2
+        id: 1382
+      - slot: 3
+        id: 1384
+      - slot: 4
+        id: 1383
+      - slot: 5
+        id: 1385
 
   136:
     name:
@@ -673,6 +1434,17 @@ commanders:
       ko: "쉴레이만 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 194
+      - slot: 2
+        id: 1386
+      - slot: 3
+        id: 1387
+      - slot: 4
+        id: 1388
+      - slot: 5
+        id: 1389
 
   137:
     name:
@@ -682,6 +1454,17 @@ commanders:
       ko: "베르트랑 뒤게클랭"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 195
+      - slot: 2
+        id: 1391
+      - slot: 3
+        id: 1392
+      - slot: 4
+        id: 1393
+      - slot: 5
+        id: 1394
 
   138:
     name:
@@ -691,6 +1474,17 @@ commanders:
       ko: "알렉산드르 넵스키"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 196
+      - slot: 2
+        id: 1395
+      - slot: 3
+        id: 1396
+      - slot: 4
+        id: 1397
+      - slot: 5
+        id: 1398
 
   139:
     name:
@@ -700,6 +1494,17 @@ commanders:
       ko: "아에티우스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 197
+      - slot: 2
+        id: 1400
+      - slot: 3
+        id: 1401
+      - slot: 4
+        id: 1402
+      - slot: 5
+        id: 1403
 
   140:
     name:
@@ -709,6 +1514,17 @@ commanders:
       ko: "스키피오 아프리카누스"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 198
+      - slot: 2
+        id: 1404
+      - slot: 3
+        id: 1405
+      - slot: 4
+        id: 1406
+      - slot: 5
+        id: 1407
 
   141:
     name:
@@ -718,6 +1534,17 @@ commanders:
       ko: "투트모세 3세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 204
+      - slot: 2
+        id: 1420
+      - slot: 3
+        id: 1421
+      - slot: 4
+        id: 1422
+      - slot: 5
+        id: 1423
 
   142:
     name:
@@ -727,6 +1554,16 @@ commanders:
       ko: "임호텝"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 202
+        expertId: 203
+      - slot: 2
+        id: 1417
+      - slot: 3
+        id: 1418
+      - slot: 4
+        id: 1419
 
   145:
     name:
@@ -736,6 +1573,17 @@ commanders:
       ko: "헨리 5세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 205
+      - slot: 2
+        id: 1424
+      - slot: 3
+        id: 1425
+      - slot: 4
+        id: 1426
+      - slot: 5
+        id: 1427
 
   146:
     name:
@@ -745,6 +1593,17 @@ commanders:
       ko: "부디카"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 206
+      - slot: 2
+        id: 1428
+      - slot: 3
+        id: 1429
+      - slot: 4
+        id: 1430
+      - slot: 5
+        id: 1431
 
   147:
     name:
@@ -754,6 +1613,16 @@ commanders:
       ko: "얀 지슈카"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 207
+        expertId: 208
+      - slot: 2
+        id: 1432
+      - slot: 3
+        id: 1433
+      - slot: 4
+        id: 1434
 
   148:
     name:
@@ -763,6 +1632,17 @@ commanders:
       ko: "잔 다르크"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 209
+      - slot: 2
+        id: 1435
+      - slot: 3
+        id: 1437
+      - slot: 4
+        id: 1436
+      - slot: 5
+        id: 1465
 
   161:
     name:
@@ -772,6 +1652,16 @@ commanders:
       ko: "타리크 이븐 지야드"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 219
+        expertId: 220
+      - slot: 2
+        id: 1466
+      - slot: 3
+        id: 1467
+      - slot: 4
+        id: 1468
 
   162:
     name:
@@ -781,6 +1671,17 @@ commanders:
       ko: "사르곤 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 221
+      - slot: 2
+        id: 1469
+      - slot: 3
+        id: 1470
+      - slot: 4
+        id: 1471
+      - slot: 5
+        id: 1472
 
   175:
     name:
@@ -790,6 +1691,17 @@ commanders:
       ko: "마르그레테 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 239
+      - slot: 2
+        id: 1511
+      - slot: 3
+        id: 1512
+      - slot: 4
+        id: 1513
+      - slot: 5
+        id: 1514
 
   176:
     name:
@@ -799,6 +1711,17 @@ commanders:
       ko: "바부르"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 240
+      - slot: 2
+        id: 1515
+      - slot: 3
+        id: 1516
+      - slot: 4
+        id: 1517
+      - slot: 5
+        id: 1518
 
   177:
     name:
@@ -808,6 +1731,17 @@ commanders:
       ko: "플라비우스 헤라클리우스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 241
+      - slot: 2
+        id: 1519
+      - slot: 3
+        id: 1520
+      - slot: 4
+        id: 1521
+      - slot: 5
+        id: 1522
 
   178:
     name:
@@ -817,6 +1751,16 @@ commanders:
       ko: "디도"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 242
+      - slot: 2
+        id: 1523
+      - slot: 3
+        id: 1524
+        expertId: 1526
+      - slot: 4
+        id: 1525
 
   179:
     name:
@@ -826,6 +1770,17 @@ commanders:
       ko: "제갈량"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 243
+      - slot: 2
+        id: 1528
+      - slot: 3
+        id: 1529
+      - slot: 4
+        id: 1530
+      - slot: 5
+        id: 1531
 
   180:
     name:
@@ -835,6 +1790,17 @@ commanders:
       ko: "피로스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 238
+      - slot: 2
+        id: 1507
+      - slot: 3
+        id: 1508
+      - slot: 4
+        id: 1509
+      - slot: 5
+        id: 1510
 
   181:
     name:
@@ -844,6 +1810,16 @@ commanders:
       ko: "페리클레스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 236
+        expertId: 237
+      - slot: 2
+        id: 1504
+      - slot: 3
+        id: 1505
+      - slot: 4
+        id: 1506
 
   182:
     name:
@@ -853,6 +1829,16 @@ commanders:
       ko: "곽거병"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 246
+      - slot: 2
+        id: 1533
+      - slot: 3
+        id: 1534
+      - slot: 4
+        id: 1535
+        expertId: 1536
 
   183:
     name:
@@ -862,6 +1848,16 @@ commanders:
       ko: "유스티니아누스 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 247
+      - slot: 2
+        id: 1537
+      - slot: 3
+        id: 1538
+      - slot: 4
+        id: 1539
+        expertId: 1540
 
   184:
     name:
@@ -871,6 +1867,17 @@ commanders:
       ko: "고르곤"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 252
+      - slot: 2
+        id: 1548
+      - slot: 3
+        id: 1549
+      - slot: 4
+        id: 1550
+      - slot: 5
+        id: 1551
 
   185:
     name:
@@ -880,6 +1887,17 @@ commanders:
       ko: "유철"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 251
+      - slot: 2
+        id: 1544
+      - slot: 3
+        id: 1545
+      - slot: 4
+        id: 1546
+      - slot: 5
+        id: 1547
 
   186:
     name:
@@ -889,6 +1907,17 @@ commanders:
       ko: "아슈르바니팔"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 306
+      - slot: 2
+        id: 1582
+      - slot: 3
+        id: 1583
+      - slot: 4
+        id: 1584
+      - slot: 5
+        id: 1585
 
   187:
     name:
@@ -898,6 +1927,17 @@ commanders:
       ko: "헤르만"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 254
+      - slot: 2
+        id: 1564
+      - slot: 3
+        id: 1565
+      - slot: 4
+        id: 1566
+      - slot: 5
+        id: 1567
 
   188:
     name:
@@ -907,6 +1947,16 @@ commanders:
       ko: "라푸라푸"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 307
+        expertId: 308
+      - slot: 2
+        id: 1586
+      - slot: 3
+        id: 1587
+      - slot: 4
+        id: 1588
 
   189:
     name:
@@ -916,6 +1966,17 @@ commanders:
       ko: "곤살로 페르난데스 데 코르도바"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 314
+      - slot: 2
+        id: 1593
+      - slot: 3
+        id: 1594
+      - slot: 4
+        id: 1595
+      - slot: 5
+        id: 1596
 
   190:
     name:
@@ -925,6 +1986,16 @@ commanders:
       ko: "가자 마다"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 311
+      - slot: 2
+        id: 1589
+      - slot: 3
+        id: 1590
+        expertId: 1592
+      - slot: 4
+        id: 1591
 
   191:
     name:
@@ -934,6 +2005,17 @@ commanders:
       ko: "엘레오노르 다키텐"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 316
+      - slot: 2
+        id: 1601
+      - slot: 3
+        id: 1602
+      - slot: 4
+        id: 1603
+      - slot: 5
+        id: 1604
 
   192:
     name:
@@ -943,6 +2025,17 @@ commanders:
       ko: "벨리사리우스"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 315
+      - slot: 2
+        id: 1597
+      - slot: 3
+        id: 1598
+      - slot: 4
+        id: 1599
+      - slot: 5
+        id: 1600
 
   194:
     name:
@@ -952,6 +2045,17 @@ commanders:
       ko: "윌리엄 월리스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 258
+      - slot: 2
+        id: 1560
+      - slot: 3
+        id: 1561
+      - slot: 4
+        id: 1562
+      - slot: 5
+        id: 1563
 
   195:
     name:
@@ -961,6 +2065,17 @@ commanders:
       ko: "샤쟈르 알두르"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 364
+      - slot: 2
+        id: 1689
+      - slot: 3
+        id: 1691
+      - slot: 4
+        id: 1690
+      - slot: 5
+        id: 1692
 
   196:
     name:
@@ -970,6 +2085,17 @@ commanders:
       ko: "최영"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 363
+      - slot: 2
+        id: 1685
+      - slot: 3
+        id: 1686
+      - slot: 4
+        id: 1687
+      - slot: 5
+        id: 1688
 
   197:
     name:
@@ -979,6 +2105,17 @@ commanders:
       ko: "스키피오 아이밀리아누스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 309
+      - slot: 2
+        id: 1552
+      - slot: 3
+        id: 1553
+      - slot: 4
+        id: 1554
+      - slot: 5
+        id: 1555
 
   198:
     name:
@@ -988,6 +2125,16 @@ commanders:
       ko: "라그나르 로드브로크"
     prime: true
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 372
+        expertId: 373
+      - slot: 2
+        id: 1699
+      - slot: 3
+        id: 1700
+      - slot: 4
+        id: 1701
 
   459:
     name:
@@ -997,6 +2144,17 @@ commanders:
       ko: "필리포스 2세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 377
+      - slot: 2
+        id: 1702
+      - slot: 3
+        id: 1703
+      - slot: 4
+        id: 1704
+      - slot: 5
+        id: 1705
 
   460:
     name:
@@ -1006,6 +2164,17 @@ commanders:
       ko: "슈테판 3세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 378
+      - slot: 2
+        id: 1706
+      - slot: 3
+        id: 1707
+      - slot: 4
+        id: 1708
+      - slot: 5
+        id: 1709
 
   461:
     name:
@@ -1015,6 +2184,16 @@ commanders:
       ko: "후녀디 야노시"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 379
+      - slot: 2
+        id: 1710
+      - slot: 3
+        id: 1711
+        expertId: 1713
+      - slot: 4
+        id: 1712
 
   462:
     name:
@@ -1024,6 +2203,17 @@ commanders:
       ko: "시야칵"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 386
+      - slot: 2
+        id: 1723
+      - slot: 3
+        id: 1724
+      - slot: 4
+        id: 1725
+      - slot: 5
+        id: 1726
 
   463:
     name:
@@ -1033,6 +2223,16 @@ commanders:
       ko: "왁 차닐 아하우"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 387
+      - slot: 2
+        id: 1727
+      - slot: 3
+        id: 1728
+        expertId: 1730
+      - slot: 4
+        id: 1729
 
   503:
     name:
@@ -1042,6 +2242,17 @@ commanders:
       ko: "도쿠가와 이에야스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 356
+      - slot: 2
+        id: 1649
+      - slot: 3
+        id: 1650
+      - slot: 4
+        id: 1651
+      - slot: 5
+        id: 1652
 
   506:
     name:
@@ -1049,6 +2260,17 @@ commanders:
       de: "Shapur I"
       es: "Sapor I"
       ko: "샤푸르 1세"
+    skills:
+      - slot: 1
+        id: 359
+      - slot: 2
+        id: 1661
+      - slot: 3
+        id: 1662
+      - slot: 4
+        id: 1663
+      - slot: 5
+        id: 1664
 
   509:
     name:
@@ -1058,6 +2280,16 @@ commanders:
       ko: "영정"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 362
+      - slot: 2
+        id: 1673
+      - slot: 3
+        id: 1674
+        expertId: 1676
+      - slot: 4
+        id: 1675
 
   510:
     name:
@@ -1067,6 +2299,16 @@ commanders:
       ko: "마차시 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 409
+      - slot: 2
+        id: 1677
+      - slot: 3
+        id: 1678
+      - slot: 4
+        id: 1679
+        expertId: 1680
 
   536:
     name:
@@ -1076,6 +2318,16 @@ commanders:
       ko: "카트린 드 메디시스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 383
+      - slot: 2
+        id: 1714
+      - slot: 3
+        id: 1715
+        expertId: 1718
+      - slot: 4
+        id: 1716
 
   537:
     name:
@@ -1085,6 +2337,17 @@ commanders:
       ko: "나르세스"
     prime: false
     rarity: epic
+    skills:
+      - slot: 1
+        id: 384
+      - slot: 2
+        id: 1719
+      - slot: 3
+        id: 1720
+      - slot: 4
+        id: 1721
+      - slot: 5
+        id: 1722
 
   539:
     name:
@@ -1094,6 +2357,17 @@ commanders:
       ko: "수부타이"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 388
+      - slot: 2
+        id: 1731
+      - slot: 3
+        id: 1732
+      - slot: 4
+        id: 1733
+      - slot: 5
+        id: 1734
 
   540:
     name:
@@ -1103,6 +2377,17 @@ commanders:
       ko: "아서펜드래곤"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 389
+      - slot: 2
+        id: 1735
+      - slot: 3
+        id: 1736
+      - slot: 4
+        id: 1737
+      - slot: 5
+        id: 1738
 
   545:
     name:
@@ -1112,6 +2397,17 @@ commanders:
       ko: "백기"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 393
+      - slot: 2
+        id: 1751
+      - slot: 3
+        id: 1752
+      - slot: 4
+        id: 1753
+      - slot: 5
+        id: 1754
 
   546:
     name:
@@ -1121,6 +2417,16 @@ commanders:
       ko: "아폰수 드 알부케르크"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 410
+      - slot: 2
+        id: 1763
+      - slot: 3
+        id: 1764
+      - slot: 4
+        id: 1765
+        expertId: 1766
 
   564:
     name:
@@ -1130,6 +2436,17 @@ commanders:
       ko: "아르키메데스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 406
+      - slot: 2
+        id: 1755
+      - slot: 3
+        id: 1756
+      - slot: 4
+        id: 1757
+      - slot: 5
+        id: 1758
 
   565:
     name:
@@ -1139,6 +2456,16 @@ commanders:
       ko: "메리 1세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 407
+      - slot: 2
+        id: 1759
+      - slot: 3
+        id: 1760
+        expertId: 1762
+      - slot: 4
+        id: 1761
 
   572:
     name:
@@ -1148,6 +2475,17 @@ commanders:
       ko: "카지미에시"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 413
+      - slot: 2
+        id: 1767
+      - slot: 3
+        id: 1768
+      - slot: 4
+        id: 1769
+      - slot: 5
+        id: 1786
 
   573:
     name:
@@ -1157,6 +2495,17 @@ commanders:
       ko: "피피누스 3세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 414
+      - slot: 2
+        id: 1783
+      - slot: 3
+        id: 1784
+      - slot: 4
+        id: 1785
+      - slot: 5
+        id: 1770
 
   575:
     name:
@@ -1166,6 +2515,16 @@ commanders:
       ko: "아킬레우스"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 411
+      - slot: 2
+        id: 1787
+      - slot: 3
+        id: 1788
+        expertId: 1790
+      - slot: 4
+        id: 1789
 
   576:
     name:
@@ -1175,6 +2534,17 @@ commanders:
       ko: "헥토르"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 412
+      - slot: 2
+        id: 1791
+      - slot: 3
+        id: 1792
+      - slot: 4
+        id: 1793
+      - slot: 5
+        id: 1794
 
   578:
     name:
@@ -1184,6 +2554,17 @@ commanders:
       ko: "다비트 4세"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 415
+      - slot: 2
+        id: 1795
+      - slot: 3
+        id: 1796
+      - slot: 4
+        id: 1797
+      - slot: 5
+        id: 1798
 
   579:
     name:
@@ -1193,3 +2574,13 @@ commanders:
       ko: "강감찬"
     prime: false
     rarity: legendary
+    skills:
+      - slot: 1
+        id: 416
+        expertId: 417
+      - slot: 2
+        id: 1799
+      - slot: 3
+        id: 1800
+      - slot: 4
+        id: 1801
