@@ -75,7 +75,6 @@ pub struct Metadata {
     //   DuelBattle2 - Olympian Arena (troy kvk)
     pub email_type: Option<String>,
     pub email_receiver: Option<String>,
-    pub email_box: Option<String>,
     // email_role:
     //   HK/LK - gsmp, gs (gs is for older reports)
     //   AOO/OL - dungeon
