@@ -14,7 +14,7 @@ import {
 import { Field, Fieldset, Label, Legend } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
-import { useCommanderOptions } from "@/hooks/useCommanderName";
+import { useCommanderOptions } from "@/hooks/use-commander-name";
 import {
   ReportsFilterContext,
   type ReportsFilterSide,

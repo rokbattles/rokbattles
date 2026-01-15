@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Field, Label } from "@/components/ui/Fieldset";
 import { Input } from "@/components/ui/Input";
 import { Listbox, ListboxOption } from "@/components/ui/Listbox";
-import type { LoadoutGranularity } from "@/hooks/usePairings";
+import type { LoadoutGranularity } from "@/hooks/use-pairings";
 import { formatLocalDateInput } from "@/lib/datetime";
 
 type PairingOption = {

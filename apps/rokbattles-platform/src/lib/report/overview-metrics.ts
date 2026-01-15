@@ -1,4 +1,4 @@
-import type { RawOverview } from "@/lib/types/rawReport";
+import type { RawOverview } from "@/lib/types/raw-report";
 
 export const OVERVIEW_METRICS = [
   { labelKey: "troopUnits", selfKey: "max", enemyKey: "enemy_max" },

@@ -12,9 +12,13 @@ import {
   DescriptionTerm,
 } from "@/components/ui/DescriptionList";
 import { Subheading } from "@/components/ui/Heading";
-import { getArmamentInfo } from "@/hooks/useArmamentName";
+import { getArmamentInfo } from "@/hooks/use-armament-name";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
-import type { DuelBuffEntry, DuelCommanderInfo, DuelParticipantInfo } from "@/lib/types/duelReport";
+import type {
+  DuelBuffEntry,
+  DuelCommanderInfo,
+  DuelParticipantInfo,
+} from "@/lib/types/duel-report";
 
 type NormalizedBuff = {
   id: number;

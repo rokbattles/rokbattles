@@ -8,8 +8,8 @@ import {
   DescriptionTerm,
 } from "@/components/ui/DescriptionList";
 import { Subheading } from "@/components/ui/Heading";
-import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overviewMetrics";
-import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
+import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overview-metrics";
+import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 
 const COMMON_METRIC_KEYS = new Set(["dead", "remaining", "killPoints"]);
 

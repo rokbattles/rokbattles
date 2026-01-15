@@ -1,6 +1,6 @@
 "use client";
 
-import { getCommanderName } from "@/hooks/useCommanderName";
+import { getCommanderName } from "@/hooks/use-commander-name";
 
 type Props = {
   primaryId: number;

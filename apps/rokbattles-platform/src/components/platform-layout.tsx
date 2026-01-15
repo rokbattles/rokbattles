@@ -41,7 +41,7 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from "@/components/ui/Sidebar";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 

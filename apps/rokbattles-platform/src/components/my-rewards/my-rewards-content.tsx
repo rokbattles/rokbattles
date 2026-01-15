@@ -13,8 +13,8 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import { Text } from "@/components/ui/Text";
-import { getLootName, getLootOrder } from "@/hooks/useLootName";
-import { type RewardStats, useRewards } from "@/hooks/useRewards";
+import { getLootName, getLootOrder } from "@/hooks/use-loot-name";
+import { type RewardStats, useRewards } from "@/hooks/use-rewards";
 import { GovernorContext } from "@/providers/governor-context";
 
 const numberFormatter = new Intl.NumberFormat("en-US");

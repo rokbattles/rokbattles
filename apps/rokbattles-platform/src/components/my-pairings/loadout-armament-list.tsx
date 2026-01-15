@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { getArmamentInfo } from "@/hooks/useArmamentName";
-import type { LoadoutSnapshot } from "@/hooks/usePairings";
+import { getArmamentInfo } from "@/hooks/use-armament-name";
+import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
 type LoadoutArmamentListProps = {
   armaments: LoadoutSnapshot["armaments"];

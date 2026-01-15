@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Strong, Text } from "@/components/ui/Text";
-import { getCommanderName } from "@/hooks/useCommanderName";
-import { getFormationName } from "@/hooks/useFormationName";
-import type { RawCommanderInfo } from "@/lib/types/rawReport";
+import { getCommanderName } from "@/hooks/use-commander-name";
+import { getFormationName } from "@/hooks/use-formation-name";
+import type { RawCommanderInfo } from "@/lib/types/raw-report";
 
 type ReportCommanderRowProps = {
   commander?: RawCommanderInfo;

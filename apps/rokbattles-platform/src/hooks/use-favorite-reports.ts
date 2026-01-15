@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
-import type { ReportSummary } from "@/hooks/useReports";
+import type { ReportSummary } from "@/hooks/use-reports";
 import type { FavoriteReportType } from "@/lib/types/favorite";
 
 type FavoritesApiResponse = {

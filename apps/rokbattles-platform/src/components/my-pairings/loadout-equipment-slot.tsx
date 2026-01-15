@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { getEquipmentName } from "@/hooks/useEquipmentName";
-import type { LoadoutSnapshot } from "@/hooks/usePairings";
+import { getEquipmentName } from "@/hooks/use-equipment-name";
+import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
 type LoadoutEquipmentSlotProps = {
   token?: LoadoutSnapshot["equipment"][number];

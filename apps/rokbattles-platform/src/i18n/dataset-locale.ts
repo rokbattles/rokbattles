@@ -1,7 +1,7 @@
 "use client";
 
 import { defaultLocale, isSupportedLocale, languageCookieName } from "@/i18n/config";
-import { canUseDom } from "@/lib/util/canUseDom";
+import { canUseDom } from "@/lib/util/can-use-dom";
 
 const getLocaleFromCookie = () => {
   if (!canUseDom) return undefined;

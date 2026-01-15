@@ -20,13 +20,13 @@ import {
   SidebarSection,
 } from "@/components/ui/Sidebar";
 import { Text } from "@/components/ui/Text";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
-import { useReport } from "@/hooks/useReport";
-import { useReportFavorite } from "@/hooks/useReportFavorite";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { useReport } from "@/hooks/use-report";
+import { useReportFavorite } from "@/hooks/use-report-favorite";
 import { cn } from "@/lib/cn";
-import { hasOverviewData } from "@/lib/report/overviewMetrics";
-import type { RawOverview, RawReportPayload } from "@/lib/types/rawReport";
+import { hasOverviewData } from "@/lib/report/overview-metrics";
+import type { RawOverview, RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
 type ReportViewProps = {

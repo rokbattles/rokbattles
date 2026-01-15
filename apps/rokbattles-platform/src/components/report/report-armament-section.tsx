@@ -9,7 +9,7 @@ import {
   DescriptionTerm,
 } from "@/components/ui/DescriptionList";
 import { Subheading } from "@/components/ui/Heading";
-import { getArmamentInfo } from "@/hooks/useArmamentName";
+import { getArmamentInfo } from "@/hooks/use-armament-name";
 import type { ArmamentBuff } from "@/lib/report/parsers";
 
 type ReportArmamentSectionProps = {

@@ -9,8 +9,8 @@ import DuelReportEntryCard from "@/components/olympian-arena/duel-report-entry-c
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
 import { Heading } from "@/components/ui/Heading";
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import { useOlympianArenaDuel } from "@/hooks/useOlympianArenaDuel";
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { useOlympianArenaDuel } from "@/hooks/use-olympian-arena-duel";
 
 export type DuelReportViewProps = {
   duelId: string;

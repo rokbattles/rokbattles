@@ -2,7 +2,7 @@
 
 import ParticipantCell from "@/components/reports/participant-cell";
 import { TableCell, TableRow, TableRowHeader } from "@/components/ui/Table";
-import type { OlympianArenaDuelSummary } from "@/hooks/useOlympianArenaDuels";
+import type { OlympianArenaDuelSummary } from "@/hooks/use-olympian-arena-duels";
 import { formatUtcDateTime } from "@/lib/datetime";
 
 function normalizeCommanderId(id: number | null): number {

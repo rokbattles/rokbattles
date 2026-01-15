@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Strong, Text } from "@/components/ui/Text";
-import { getCommanderName } from "@/hooks/useCommanderName";
-import type { DuelCommanderInfo } from "@/lib/types/duelReport";
+import { getCommanderName } from "@/hooks/use-commander-name";
+import type { DuelCommanderInfo } from "@/lib/types/duel-report";
 
 type DuelCommanderRowProps = {
   commander: DuelCommanderInfo;

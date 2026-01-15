@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { useBattleLog } from "@/hooks/useBattleLog";
+import { useBattleLog } from "@/hooks/use-battle-log";
 import { cn } from "@/lib/cn";
 import { Subheading } from "../ui/Heading";
 import { Text } from "../ui/Text";

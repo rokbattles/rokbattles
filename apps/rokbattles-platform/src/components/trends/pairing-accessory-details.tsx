@@ -19,8 +19,8 @@ import {
   TableRowHeader,
 } from "@/components/ui/Table";
 import { Text } from "@/components/ui/Text";
-import { getCommanderName } from "@/hooks/useCommanderName";
-import { getEquipmentName } from "@/hooks/useEquipmentName";
+import { getCommanderName } from "@/hooks/use-commander-name";
+import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { CategoryKey, TrendSnapshot } from "@/lib/types/trends";
 
 const CATEGORY_LABELS: Record<CategoryKey, string> = {

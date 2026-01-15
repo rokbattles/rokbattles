@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Text } from "@/components/ui/Text";
-import { getEquipmentName } from "@/hooks/useEquipmentName";
+import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { AccessoryPairCount } from "@/lib/types/trends";
 
 export function AccessoryPairLabel({ pair }: { pair?: AccessoryPairCount }) {

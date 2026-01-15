@@ -5,7 +5,7 @@ import { ClaimGovernorForm } from "@/components/governors/claim-governor-form";
 import { Avatar } from "@/components/ui/Avatar";
 import { Subheading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 
 type AccountGovernorsContentProps = {

@@ -6,7 +6,7 @@ import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
 import { Text } from "@/components/ui/Text";
-import { getCommanderName } from "@/hooks/useCommanderName";
+import { getCommanderName } from "@/hooks/use-commander-name";
 import {
   type EnemyGranularity,
   type LoadoutGranularity,
@@ -14,7 +14,7 @@ import {
   usePairingEnemies,
   usePairingLoadouts,
   usePairings,
-} from "@/hooks/usePairings";
+} from "@/hooks/use-pairings";
 import { formatDurationShort } from "@/lib/datetime";
 import { GovernorContext } from "@/providers/governor-context";
 

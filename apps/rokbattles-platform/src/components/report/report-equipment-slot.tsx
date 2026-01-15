@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { getEquipmentName } from "@/hooks/useEquipmentName";
+import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
 type ReportEquipmentSlotProps = {

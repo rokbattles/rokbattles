@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import type { DuelReportPayload } from "@/lib/types/duelReport";
+import type { DuelReportPayload } from "@/lib/types/duel-report";
 
 export type DuelReportEntry = {
   report: DuelReportPayload;

@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { DuelSummaryTooltip } from "@/components/olympian-arena/duel-summary-tooltip";
-import type { DuelResults } from "@/lib/types/duelReport";
+import type { DuelResults } from "@/lib/types/duel-report";
 
 type DuelMetricConfig = {
   labelKey: string;

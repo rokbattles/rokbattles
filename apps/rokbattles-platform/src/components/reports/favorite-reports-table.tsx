@@ -2,8 +2,8 @@
 
 import { useCallback, useRef } from "react";
 import { TableBody } from "@/components/ui/Table";
-import { useFavoriteReports } from "@/hooks/useFavoriteReports";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { useFavoriteReports } from "@/hooks/use-favorite-reports";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import EmptyStateRow from "./empty-state-row";
 import ErrorRow from "./error-row";
 import LoadMoreRow from "./load-more-row";

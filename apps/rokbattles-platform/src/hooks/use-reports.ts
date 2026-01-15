@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { buildReportsQueryParams } from "@/lib/reportsQuery";
+import { buildReportsQueryParams } from "@/lib/reports-query";
 import { GovernorContext } from "@/providers/governor-context";
 import { ReportsFilterContext } from "@/providers/reports-filter-context";
 

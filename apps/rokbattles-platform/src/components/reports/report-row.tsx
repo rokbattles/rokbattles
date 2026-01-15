@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { TableCell, TableRow, TableRowHeader } from "@/components/ui/Table";
-import type { UseReportsResult } from "@/hooks/useReports";
+import type { UseReportsResult } from "@/hooks/use-reports";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
 import ParticipantCell from "./participant-cell";
 

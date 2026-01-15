@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, type ReactNode, use, useCallback, useEffect, useState } from "react";
-import { canUseDom } from "@/lib/util/canUseDom";
+import { canUseDom } from "@/lib/util/can-use-dom";
 
 type CookieConsent = {
   cookieConsent?: boolean;

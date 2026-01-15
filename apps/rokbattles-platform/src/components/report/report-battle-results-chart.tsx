@@ -11,7 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { ReportBattleSummaryTooltip } from "@/components/report/report-battle-summary-tooltip";
-import type { RawBattleResults } from "@/lib/types/rawReport";
+import type { RawBattleResults } from "@/lib/types/raw-report";
 
 type BattleMetricConfig = {
   labelKey: string;

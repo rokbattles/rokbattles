@@ -6,9 +6,9 @@ import ErrorRow from "@/components/reports/error-row";
 import LoadMoreRow from "@/components/reports/load-more-row";
 import SkeletonRows from "@/components/reports/skeleton-rows";
 import { TableBody } from "@/components/ui/Table";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import type { UseOlympianArenaDuelsResult } from "@/hooks/useOlympianArenaDuels";
-import { useOlympianArenaDuels } from "@/hooks/useOlympianArenaDuels";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import type { UseOlympianArenaDuelsResult } from "@/hooks/use-olympian-arena-duels";
+import { useOlympianArenaDuels } from "@/hooks/use-olympian-arena-duels";
 import OlympianArenaRow from "./olympian-arena-row";
 
 const SkeletonWidths = ["w-24", "w-36", "w-36", "w-20"] as const;

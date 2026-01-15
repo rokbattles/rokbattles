@@ -1,4 +1,4 @@
-import { getInscriptionName } from "@/hooks/useInscriptionName";
+import { getInscriptionName } from "@/hooks/use-inscription-name";
 import { cn } from "@/lib/cn";
 import { getInscriptionRarity } from "@/lib/report/parsers";
 

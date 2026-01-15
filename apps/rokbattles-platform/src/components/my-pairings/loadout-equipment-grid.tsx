@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadoutEquipmentSlot } from "@/components/my-pairings/loadout-equipment-slot";
-import type { LoadoutSnapshot } from "@/hooks/usePairings";
+import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
 type LoadoutEquipmentGridProps = {
   tokens: LoadoutSnapshot["equipment"];

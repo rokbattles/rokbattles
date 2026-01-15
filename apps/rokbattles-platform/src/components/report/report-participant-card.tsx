@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Subheading } from "@/components/ui/Heading";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
-import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/rawReport";
+import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/raw-report";
 
 const ARTIFACT_IDS = new Set([20401, 20402]);
 

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { ReportOverviewColumn } from "@/components/report/report-overview-column";
 import { Subheading } from "@/components/ui/Heading";
-import type { RawOverview, RawParticipantInfo } from "@/lib/types/rawReport";
+import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 
 export function ReportOverviewCard({
   overview,
