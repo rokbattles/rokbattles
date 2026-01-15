@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import OlympianArenaTable from "@/components/olympian-arena/OlympianArenaTable";
+import OlympianArenaTable from "@/components/olympian-arena/olympian-arena-table";
 import { Heading, Subheading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 

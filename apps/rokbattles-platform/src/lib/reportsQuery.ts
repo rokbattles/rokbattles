@@ -2,7 +2,7 @@ import type {
   ReportsFilterSide,
   ReportsFilterType,
   ReportsGarrisonBuildingType,
-} from "@/components/context/ReportsFilterContext";
+} from "@/providers/reports-filter-context";
 
 export type ReportsQueryParams = {
   cursor?: string;

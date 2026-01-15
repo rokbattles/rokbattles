@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { GovernorContext } from "@/components/context/GovernorContext";
 import type { CurrentUser } from "@/lib/types/current-user";
+import { GovernorContext } from "@/providers/governor-context";
 
 interface CurrentUserResponse {
   user: CurrentUser | null;

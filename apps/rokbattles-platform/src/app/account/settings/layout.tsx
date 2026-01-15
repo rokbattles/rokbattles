@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type React from "react";
-import { AccountSettingsNav } from "@/components/account/AccountSettingsNav";
+import { AccountSettingsNav } from "@/components/account/account-settings-nav";
 import { Heading } from "@/components/ui/Heading";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {

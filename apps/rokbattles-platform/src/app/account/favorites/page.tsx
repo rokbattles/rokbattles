@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import FavoriteReportsTable from "@/components/reports/FavoriteReportsTable";
+import FavoriteReportsTable from "@/components/reports/favorite-reports-table";
 import { Heading } from "@/components/ui/Heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import { requireCurrentUser } from "@/lib/require-user";

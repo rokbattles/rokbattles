@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { MyPairingsContent } from "@/components/my-pairings/MyPairingsContent";
+import { MyPairingsContent } from "@/components/my-pairings/my-pairings-content";
 import { Heading } from "@/components/ui/Heading";
 import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 

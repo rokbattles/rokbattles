@@ -1,4 +1,4 @@
-import { AccountGovernorsContent } from "@/components/account/AccountGovernorsContent";
+import { AccountGovernorsContent } from "@/components/account/account-governors-content";
 import { requireCurrentUser } from "@/lib/require-user";
 
 export default async function Page() {

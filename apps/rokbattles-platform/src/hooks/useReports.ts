@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { GovernorContext } from "@/components/context/GovernorContext";
-import { ReportsFilterContext } from "@/components/context/ReportsFilterContext";
 import { buildReportsQueryParams } from "@/lib/reportsQuery";
+import { GovernorContext } from "@/providers/governor-context";
+import { ReportsFilterContext } from "@/providers/reports-filter-context";
 
 export type ReportSummaryEntry = {
   startDate: number;
