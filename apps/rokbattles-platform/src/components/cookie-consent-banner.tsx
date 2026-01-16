@@ -24,15 +24,7 @@ export function CookieConsentBanner() {
     <div className="fixed sm:right-4 bottom-0 sm:bottom-4 w-full sm:w-96 z-50 border-t sm:border bg-white border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 sm:rounded-lg">
       <Text>
         {t.rich("message", {
-          link: (chunks) => (
-            <TextLink
-              href="https://rokbattles.com/legal/cookie-policy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {chunks}
-            </TextLink>
-          ),
+          link: (chunks) => <TextLink href="/legal/cookie-policy">{chunks}</TextLink>,
         })}
       </Text>
       <div className="flex gap-2 mt-4">

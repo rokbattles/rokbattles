@@ -9,6 +9,7 @@ import {
   MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
+  ShieldCheckIcon,
   StarIcon,
   SunIcon,
   TrophyIcon,
@@ -158,6 +159,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             )}
             <SidebarSpacer />
             <SidebarSection>
+              <SidebarItem href="/legal">
+                <ShieldCheckIcon />
+                <SidebarLabel>{t("legal")}</SidebarLabel>
+              </SidebarItem>
               <SidebarItem
                 href="/discord"
                 target="_blank"

@@ -5,6 +5,7 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY apps/rokbattles-platform ./apps/rokbattles-platform
+COPY legal ./apps/rokbattles-platform/legal
 COPY datasets ./datasets
 RUN corepack enable pnpm
 RUN pnpm install --frozen-lockfile
@@ -18,6 +19,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/apps/rokbattles-platform/public ./apps/rokbattles-platform/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/.next/static ./apps/rokbattles-platform/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/legal ./apps/rokbattles-platform/legal
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
