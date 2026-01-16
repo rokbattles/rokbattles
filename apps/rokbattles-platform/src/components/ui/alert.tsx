@@ -1,4 +1,13 @@
-import * as Headless from "@headlessui/react";
+import {
+  type DescriptionProps,
+  type DialogProps,
+  type DialogTitleProps,
+  Description as HeadlessDescription,
+  Dialog as HeadlessDialog,
+  DialogBackdrop as HeadlessDialogBackdrop,
+  DialogPanel as HeadlessDialogPanel,
+  DialogTitle as HeadlessDialogTitle,
+} from "@headlessui/react";
 import type React from "react";
 import { cn } from "@/lib/cn";
 import { Text } from "./text";
@@ -21,19 +30,19 @@ export function Alert({
   children,
   ...props
 }: { size?: keyof typeof sizes; className?: string; children: React.ReactNode } & Omit<
-  Headless.DialogProps,
+  DialogProps,
   "as" | "className"
 >) {
   return (
-    <Headless.Dialog {...props}>
-      <Headless.DialogBackdrop
+    <HeadlessDialog {...props}>
+      <HeadlessDialogBackdrop
         transition
         className="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/15 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50"
       />
 
       <div className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
         <div className="grid min-h-full grid-rows-[1fr_auto_1fr] justify-items-center p-8 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
-          <Headless.DialogPanel
+          <HeadlessDialogPanel
             transition
             className={cn(
               className,
@@ -43,19 +52,19 @@ export function Alert({
             )}
           >
             {children}
-          </Headless.DialogPanel>
+          </HeadlessDialogPanel>
         </div>
       </div>
-    </Headless.Dialog>
+    </HeadlessDialog>
   );
 }
 
 export function AlertTitle({
   className,
   ...props
-}: { className?: string } & Omit<Headless.DialogTitleProps, "as" | "className">) {
+}: { className?: string } & Omit<DialogTitleProps, "as" | "className">) {
   return (
-    <Headless.DialogTitle
+    <HeadlessDialogTitle
       {...props}
       className={cn(
         className,
@@ -68,9 +77,9 @@ export function AlertTitle({
 export function AlertDescription({
   className,
   ...props
-}: { className?: string } & Omit<Headless.DescriptionProps<typeof Text>, "as" | "className">) {
+}: { className?: string } & Omit<DescriptionProps<typeof Text>, "as" | "className">) {
   return (
-    <Headless.Description
+    <HeadlessDescription
       as={Text}
       {...props}
       className={cn(className, "mt-2 text-center text-pretty sm:text-left")}

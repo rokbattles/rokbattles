@@ -1,12 +1,19 @@
-import * as Headless from "@headlessui/react";
+import {
+  type FieldProps,
+  Field as HeadlessField,
+  Radio as HeadlessRadio,
+  RadioGroup as HeadlessRadioGroup,
+  type RadioGroupProps,
+  type RadioProps,
+} from "@headlessui/react";
 import { cn } from "@/lib/cn";
 
 export function RadioGroup({
   className,
   ...props
-}: { className?: string } & Omit<Headless.RadioGroupProps, "as" | "className">) {
+}: { className?: string } & Omit<RadioGroupProps, "as" | "className">) {
   return (
-    <Headless.RadioGroup
+    <HeadlessRadioGroup
       data-slot="control"
       {...props}
       className={cn(
@@ -23,9 +30,9 @@ export function RadioGroup({
 export function RadioField({
   className,
   ...props
-}: { className?: string } & Omit<Headless.FieldProps, "as" | "className">) {
+}: { className?: string } & Omit<FieldProps, "as" | "className">) {
   return (
-    <Headless.Field
+    <HeadlessField
       data-slot="field"
       {...props}
       className={cn(
@@ -121,12 +128,9 @@ export function Radio({
   color = "dark/zinc",
   className,
   ...props
-}: { color?: Color; className?: string } & Omit<
-  Headless.RadioProps,
-  "as" | "className" | "children"
->) {
+}: { color?: Color; className?: string } & Omit<RadioProps, "as" | "className" | "children">) {
   return (
-    <Headless.Radio
+    <HeadlessRadio
       data-slot="control"
       {...props}
       className={cn(className, "group inline-flex focus:outline-hidden")}
@@ -140,6 +144,6 @@ export function Radio({
           )}
         />
       </span>
-    </Headless.Radio>
+    </HeadlessRadio>
   );
 }

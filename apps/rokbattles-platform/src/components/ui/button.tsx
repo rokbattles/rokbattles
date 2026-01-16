@@ -1,4 +1,7 @@
-import * as Headless from "@headlessui/react";
+import {
+  Button as HeadlessButton,
+  type ButtonProps as HeadlessButtonProps,
+} from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
@@ -164,7 +167,7 @@ type ButtonProps = (
   | { color?: never; outline: true; plain?: never }
   | { color?: never; outline?: never; plain: true }
 ) & { className?: string; children: React.ReactNode } & (
-    | ({ href?: never } & Omit<Headless.ButtonProps, "as" | "className">)
+    | ({ href?: never } & Omit<HeadlessButtonProps, "as" | "className">)
     | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
   );
 
@@ -189,9 +192,9 @@ export const Button = forwardRef(function Button(
     </Link>
   ) : (
     // @ts-expect-error
-    <Headless.Button {...props} className={cn(classes, "cursor-default")} ref={ref}>
+    <HeadlessButton {...props} className={cn(classes, "cursor-default")} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
-    </Headless.Button>
+    </HeadlessButton>
   );
 });
 
