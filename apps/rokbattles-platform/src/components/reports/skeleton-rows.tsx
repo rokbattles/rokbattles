@@ -29,10 +29,8 @@ export default function SkeletonRows({
         </TableCell>
       </TableRow>
       {Array.from({ length: count }, (_, r) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: its okay
         <TableRow aria-hidden key={r}>
           {widths.map((w, c) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: its okay
             <TableCell key={c}>
               <div
                 className={cn(

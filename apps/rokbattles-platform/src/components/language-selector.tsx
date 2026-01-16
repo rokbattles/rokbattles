@@ -44,7 +44,6 @@ const setLocaleCookie = (locale: string) => {
     return;
   }
 
-  // biome-ignore lint/suspicious/noDocumentCookie: ignore
   document.cookie = `${languageCookieName}=${encodeURIComponent(
     locale
   )}; Max-Age=${COOKIE_MAX_AGE_SECONDS}; Path=/; SameSite=Lax; Secure`;

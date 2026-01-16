@@ -45,7 +45,6 @@ export function Avatar({
       )}
     >
       {initials && (
-        // biome-ignore lint/a11y/noSvgWithoutTitle: false positive
         <svg
           aria-hidden={alt ? undefined : "true"}
           className={cn(

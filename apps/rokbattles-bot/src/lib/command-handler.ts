@@ -21,10 +21,11 @@ export interface CommandHandler<C extends Client> {
   options: ApplicationCommandData;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: ignore
-export class CommandCollection extends Collection<string, CommandHandler<any>> {
-  // biome-ignore lint/suspicious/noExplicitAny: ignore
-  add(command: CommandHandler<any>) {
+export class CommandCollection<C extends Client = Client> extends Collection<
+  string,
+  CommandHandler<C>
+> {
+  add(command: CommandHandler<C>) {
     super.set(command.options.name.toLowerCase(), command);
   }
 }

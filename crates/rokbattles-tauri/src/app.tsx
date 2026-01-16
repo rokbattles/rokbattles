@@ -4,6 +4,9 @@ import { listen } from "@tauri-apps/api/event";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect, useState } from "react";
 
+const hasMessagePayload = (value: unknown): value is { message: unknown } =>
+  typeof value === "object" && value !== null && "message" in value;
+
 function App() {
   const [dirs, setDirs] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
@@ -24,20 +27,17 @@ function App() {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: incorrect lint error
   useEffect(() => {
     refresh();
   }, []);
 
   useEffect(() => {
     let isMounted = true;
-    const unlisten = listen<{ message: string }>("rokbattles", (e) => {
-      // biome-ignore lint/suspicious/noExplicitAny: ignore for now
-      const payload: any = e.payload as any;
-      const msg =
-        payload && typeof payload === "object" && "message" in payload
-          ? String(payload.message)
-          : String(payload);
+    const unlisten = listen<unknown>("rokbattles", (e) => {
+      const payload = e.payload;
+      const msg = hasMessagePayload(payload)
+        ? String(payload.message)
+        : String(payload);
       if (!isMounted) {
         return;
       }
