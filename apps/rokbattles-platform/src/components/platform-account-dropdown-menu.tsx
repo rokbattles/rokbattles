@@ -4,7 +4,6 @@ import {
   ArrowRightStartOnRectangleIcon,
   Cog6ToothIcon,
   ScaleIcon,
-  ShieldCheckIcon,
 } from "@heroicons/react/16/solid";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -37,14 +36,6 @@ export function PlatformAccountDropdownMenu({
         <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
           <ScaleIcon />
           <DropdownLabel>{t("cookieSettings")}</DropdownLabel>
-        </DropdownItem>
-        <DropdownItem
-          href="https://rokbattles.com/legal/privacy-policy"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ShieldCheckIcon />
-          <DropdownLabel>{t("privacyPolicy")}</DropdownLabel>
         </DropdownItem>
         <DropdownDivider />
         <DropdownItem onClick={() => handleLogout()}>

@@ -1,7 +1,6 @@
-import * as fsSync from "node:fs";
-import fs from "node:fs/promises";
-import path from "node:path";
-import { cache } from "react";
+import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 
 export type LegalDocument = {
   slug: string;
@@ -32,19 +31,19 @@ const documentsBySlug = new Map(LEGAL_DOCUMENTS.map((doc) => [doc.slug, doc]));
 function resolveLegalBasePath(): string {
   const envPath = process.env.ROKB_LEGAL_PATH;
   if (envPath && envPath.trim().length > 0) {
-    return path.resolve(envPath);
+    return resolve(envPath);
   }
 
   const cwd = process.cwd();
   const files = [
-    path.resolve(cwd, "legal"),
-    path.resolve(cwd, "..", "legal"),
-    path.resolve(cwd, "..", "..", "legal"),
+    resolve(cwd, "legal"),
+    resolve(cwd, "..", "legal"),
+    resolve(cwd, "..", "..", "legal"),
   ];
 
   for (const file of files) {
     try {
-      if (fsSync.existsSync(file)) {
+      if (existsSync(file)) {
         return file;
       }
     } catch {}
@@ -61,20 +60,20 @@ export function getLegalDocument(slug: string): LegalDocument | undefined {
   return documentsBySlug.get(slug);
 }
 
-export const loadLegalDocument = cache(
-  async (slug: string): Promise<(LegalDocument & { content: string }) | undefined> => {
-    const doc = getLegalDocument(slug);
-    if (!doc) return undefined;
+export async function loadLegalDocument(
+  slug: string
+): Promise<(LegalDocument & { content: string }) | undefined> {
+  const doc = getLegalDocument(slug);
+  if (!doc) return undefined;
 
-    const basePath = resolveLegalBasePath();
-    const filePath = path.join(basePath, doc.filename);
+  const basePath = resolveLegalBasePath();
+  const filePath = join(basePath, doc.filename);
 
-    try {
-      const content = await fs.readFile(filePath, "utf-8");
-      return { ...doc, content };
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      throw new Error(`Failed to read legal document '${slug}' from ${filePath}: ${message}`);
-    }
+  try {
+    const content = await readFile(filePath, "utf-8");
+    return { ...doc, content };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to read legal document '${slug}' from ${filePath}: ${message}`);
   }
-);
+}

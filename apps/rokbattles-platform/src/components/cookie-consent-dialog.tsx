@@ -20,15 +20,7 @@ export function CookieConsentDialog({ open, onClose }: CookieConsentDialogProps)
       <DialogTitle>{t("title")}</DialogTitle>
       <DialogDescription>
         {t.rich("message", {
-          link: (chunks) => (
-            <TextLink
-              href="https://rokbattles.com/legal/cookie-policy"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {chunks}
-            </TextLink>
-          ),
+          link: (chunks) => <TextLink href="/legal/cookie-policy">{chunks}</TextLink>,
         })}
       </DialogDescription>
       <DialogActions>

@@ -1,21 +1,9 @@
 services:
-  site:
-    build:
-      context: .
-      dockerfile: infra/Dockerfile
-    ports:
-      - "4444:3000"
-    environment:
-      NODE_ENV: production
-      ROKB_LEGAL_PATH: /app/legal
-    volumes:
-      - ./legal:/app/legal:ro
-    networks:
-      - rokbattles
   site-platform:
     build:
       context: .
       dockerfile: infra/platform.Dockerfile
+    restart: unless-stopped
     depends_on:
       mongo:
         condition: service_healthy
@@ -26,12 +14,16 @@ services:
     environment:
       NODE_ENV: production
       MONGO_URI: mongodb://mongo:27017/rokbattles
+      ROKB_LEGAL_PATH: /app/legal
+    volumes:
+      - ./legal:/app/legal:ro
     networks:
       - rokbattles
-  site-api:
+  site-ingress:
     build:
       context: .
-      dockerfile: infra/api.Dockerfile
+      dockerfile: infra/ingress.Dockerfile
+    restart: unless-stopped
     depends_on:
       mongo:
         condition: service_healthy
@@ -48,6 +40,7 @@ services:
     build:
       context: .
       dockerfile: infra/processor.Dockerfile
+    restart: unless-stopped
     depends_on:
       mongo:
         condition: service_healthy
@@ -100,7 +93,6 @@ services:
 volumes:
   clamav-db:
   clamav-log:
-  mongo-data:
 
 networks:
   rokbattles:
