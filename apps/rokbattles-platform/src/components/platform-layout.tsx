@@ -5,6 +5,7 @@ import {
   ArrowTrendingUpIcon,
   ChevronUpIcon,
   FireIcon,
+  FlagIcon,
   GiftIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
@@ -136,6 +137,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
                       <FireIcon />
                       <SidebarLabel>{t("myBattles")}</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem href="/account/kvks" current={pathname === "/account/kvks"}>
+                      <FlagIcon />
+                      <SidebarLabel>{tAccount("titles.kvks")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/pairings"

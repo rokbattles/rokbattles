@@ -1,6 +1,7 @@
 export interface RawReportMetadata {
   email_id?: string;
   email_time?: number;
+  server_id?: number;
   email_type?: string;
   email_receiver?: string;
   email_role?: string | null;
