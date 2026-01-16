@@ -25,7 +25,9 @@ export function Avatar({
   ...props
 }: AvatarProps & React.ComponentPropsWithoutRef<"span">) {
   const resolvedFrameSrc =
-    typeof frameSrc === "string" && frameSrc.trim().length > 0 ? frameSrc.trim() : null;
+    typeof frameSrc === "string" && frameSrc.trim().length > 0
+      ? frameSrc.trim()
+      : null;
   const radiusClass = square ? "rounded-(--avatar-radius)" : "rounded-full";
 
   return (
@@ -36,7 +38,7 @@ export function Avatar({
         className,
         // Basic layout
         "inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1",
-        "outline -outline-offset-1 outline-black/10 dark:outline-white/10",
+        "outline outline-black/10 -outline-offset-1 dark:outline-white/10",
         "relative",
         // Border radius
         radiusClass
@@ -45,21 +47,21 @@ export function Avatar({
       {initials && (
         // biome-ignore lint/a11y/noSvgWithoutTitle: false positive
         <svg
+          aria-hidden={alt ? undefined : "true"}
           className={cn(
-            "size-full fill-current p-[5%] text-[48px] font-medium uppercase select-none",
+            "size-full select-none fill-current p-[5%] font-medium text-[48px] uppercase",
             radiusClass
           )}
           viewBox="0 0 100 100"
-          aria-hidden={alt ? undefined : "true"}
         >
           {alt && <title>{alt}</title>}
           <text
-            x="50%"
-            y="50%"
             alignmentBaseline="middle"
             dominantBaseline="middle"
-            textAnchor="middle"
             dy=".125em"
+            textAnchor="middle"
+            x="50%"
+            y="50%"
           >
             {initials}
           </text>
@@ -67,22 +69,22 @@ export function Avatar({
       )}
       {src && (
         <Image
-          className={cn("object-cover", radiusClass)}
-          src={src}
           alt={alt}
+          className={cn("object-cover", radiusClass)}
           fill
-          unoptimized
           loading="lazy"
+          src={src}
+          unoptimized
         />
       )}
       {resolvedFrameSrc ? (
         <Image
-          className="pointer-events-none z-10 scale-[1.15] object-contain rounded-none"
-          src={resolvedFrameSrc}
           alt=""
+          className="pointer-events-none z-10 scale-[1.15] rounded-none object-contain"
           fill
-          unoptimized
           loading="lazy"
+          src={resolvedFrameSrc}
+          unoptimized
         />
       ) : null}
     </span>
@@ -101,28 +103,47 @@ export const AvatarButton = forwardRef(function AvatarButton(
   }: AvatarProps &
     (
       | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
-      | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
+      | ({ href: string } & Omit<
+          React.ComponentPropsWithoutRef<typeof Link>,
+          "className"
+        >)
     ),
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   const classes = cn(
     className,
     square ? "rounded-[20%]" : "rounded-full",
-    "relative inline-grid focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+    "relative inline-grid focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-blue-500 data-focus:outline-offset-2"
   );
 
   return typeof props.href === "string" ? (
     // @ts-expect-error
-    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
+    <Link
+      {...props}
+      className={classes}
+      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+    >
       <TouchTarget>
-        <Avatar src={src} frameSrc={frameSrc} square={square} initials={initials} alt={alt} />
+        <Avatar
+          alt={alt}
+          frameSrc={frameSrc}
+          initials={initials}
+          square={square}
+          src={src}
+        />
       </TouchTarget>
     </Link>
   ) : (
     // @ts-expect-error
     <HeadlessButton {...props} className={classes} ref={ref}>
       <TouchTarget>
-        <Avatar src={src} frameSrc={frameSrc} square={square} initials={initials} alt={alt} />
+        <Avatar
+          alt={alt}
+          frameSrc={frameSrc}
+          initials={initials}
+          square={square}
+          src={src}
+        />
       </TouchTarget>
     </HeadlessButton>
   );

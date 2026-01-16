@@ -10,8 +10,14 @@ import {
 } from "discord.js";
 
 export type CommandHandler<C extends Client> = {
-  chatInput: (client: C, interaction: ChatInputCommandInteraction) => Promise<unknown> | unknown;
-  autocomplete?: (client: C, interaction: AutocompleteInteraction) => Promise<unknown> | unknown;
+  chatInput: (
+    client: C,
+    interaction: ChatInputCommandInteraction
+  ) => Promise<unknown> | unknown;
+  autocomplete?: (
+    client: C,
+    interaction: AutocompleteInteraction
+  ) => Promise<unknown> | unknown;
   options: ApplicationCommandData;
 };
 
@@ -34,14 +40,19 @@ export async function registerGlobalCommands(
     await rest.put(Routes.applicationCommands(applicationId), {
       body: commands,
     });
-    console.log(`Successfully registered ${commands.length} application commands`);
+    console.log(
+      `Successfully registered ${commands.length} application commands`
+    );
   } catch (e) {
     console.error(e);
     process.exit(1);
   }
 }
 
-export async function unregisterGlobalCommands(token: string, applicationId: string) {
+export async function unregisterGlobalCommands(
+  token: string,
+  applicationId: string
+) {
   const rest = new REST().setToken(token);
 
   try {

@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, type ReactNode, use, useCallback, useEffect, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  use,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { canUseDom } from "@/lib/util/can-use-dom";
 
 type CookieConsent = {
@@ -24,7 +31,9 @@ const CookieConsentContext = createContext<CookieConsent>({
 });
 
 const getLocalValue = (): CookieConsentStorage | null => {
-  return canUseDom ? JSON.parse(window.localStorage.getItem("cookieConsent") || "null") : null;
+  return canUseDom
+    ? JSON.parse(window.localStorage.getItem("cookieConsent") || "null")
+    : null;
 };
 
 const setLocalValue = (accepted: boolean, country: string) => {
@@ -55,7 +64,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       const consent = getLocalValue();
       if (consent) {
         setCountry(consent.country);
-        setCookieConsent(consent.accepted || false);
+        setCookieConsent(consent.accepted);
         return;
       }
 

@@ -24,16 +24,16 @@ export function ReportOverviewCard({
       <Subheading>{t("overview.title")}</Subheading>
       <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
         <ReportOverviewColumn
-          side="self"
+          formatter={formatter}
           overview={overview}
           participant={selfParticipant}
-          formatter={formatter}
+          side="self"
         />
         <ReportOverviewColumn
-          side="enemy"
+          formatter={formatter}
           overview={overview}
           participant={enemyParticipant}
-          formatter={formatter}
+          side="enemy"
         />
       </div>
     </div>

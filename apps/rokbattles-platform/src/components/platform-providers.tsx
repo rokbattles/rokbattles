@@ -22,8 +22,8 @@ export default function PlatformProviders({
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <NuqsAdapter>
         <GovernorProvider
-          initialGovernors={initialGovernors}
           initialActiveGovernorId={initialActiveGovernorId}
+          initialGovernors={initialGovernors}
         >
           <ReportsFilterProvider>{children}</ReportsFilterProvider>
         </GovernorProvider>

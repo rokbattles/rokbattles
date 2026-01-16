@@ -4,7 +4,9 @@ const commanderMap = commandersData.commanders;
 
 type CommanderIdKey = keyof typeof commanderMap;
 
-export function getCommanderName(id: number | null | undefined): string | undefined {
+export function getCommanderName(
+  id: number | null | undefined
+): string | undefined {
   if (typeof id !== "number" || !Number.isFinite(id) || id <= 0) {
     return undefined;
   }
@@ -14,5 +16,8 @@ export function getCommanderName(id: number | null | undefined): string | undefi
     return undefined;
   }
 
-  return (commander.name as Record<string, string | undefined>).en ?? commander.name.en;
+  return (
+    (commander.name as Record<string, string | undefined>).en ??
+    commander.name.en
+  );
 }

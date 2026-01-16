@@ -84,14 +84,23 @@ export async function GET(req: NextRequest) {
                 "report.enemy.player_id": { $nin: [-2, 0] },
               },
             },
-            { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
+            {
+              $sort: {
+                "report.metadata.email_time": 1,
+                "report.metadata.start_date": 1,
+              },
+            },
             {
               $project: {
                 startDate: "$report.metadata.start_date",
                 selfCommanderId: "$report.self.primary_commander.id",
-                selfSecondaryCommanderId: { $ifNull: ["$report.self.secondary_commander.id", 0] },
+                selfSecondaryCommanderId: {
+                  $ifNull: ["$report.self.secondary_commander.id", 0],
+                },
                 enemyCommanderId: "$report.enemy.primary_commander.id",
-                enemySecondaryCommanderId: { $ifNull: ["$report.enemy.secondary_commander.id", 0] },
+                enemySecondaryCommanderId: {
+                  $ifNull: ["$report.enemy.secondary_commander.id", 0],
+                },
               },
             },
             { $limit: 1 },
@@ -111,7 +120,8 @@ export async function GET(req: NextRequest) {
   const hasMore = documents.length > 100;
   const finalDocuments = hasMore ? documents.slice(0, 100) : documents;
   const lastFavorite = finalDocuments[finalDocuments.length - 1];
-  const lastCreatedAt = lastFavorite?.createdAt instanceof Date ? lastFavorite.createdAt : null;
+  const lastCreatedAt =
+    lastFavorite?.createdAt instanceof Date ? lastFavorite.createdAt : null;
   const nextCursor =
     reportType === "battle" && hasMore && lastCreatedAt
       ? lastCreatedAt.getTime().toString()
@@ -129,9 +139,11 @@ export async function GET(req: NextRequest) {
           entry: {
             startDate: Number(doc.firstDoc?.startDate) || 0,
             selfCommanderId: Number(doc.firstDoc?.selfCommanderId) || 0,
-            selfSecondaryCommanderId: Number(doc.firstDoc?.selfSecondaryCommanderId) || 0,
+            selfSecondaryCommanderId:
+              Number(doc.firstDoc?.selfSecondaryCommanderId) || 0,
             enemyCommanderId: Number(doc.firstDoc?.enemyCommanderId) || 0,
-            enemySecondaryCommanderId: Number(doc.firstDoc?.enemySecondaryCommanderId) || 0,
+            enemySecondaryCommanderId:
+              Number(doc.firstDoc?.enemySecondaryCommanderId) || 0,
           },
         }))
       : [];

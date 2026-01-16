@@ -44,7 +44,6 @@ export function DropdownMenu({
   return (
     <HeadlessMenuItems
       {...props}
-      transition
       anchor={anchor}
       className={cn(
         className,
@@ -63,8 +62,9 @@ export function DropdownMenu({
         // Define grid at the menu level if subgrid is supported
         "supports-[grid-template-columns:subgrid]:grid supports-[grid-template-columns:subgrid]:grid-cols-[auto_1fr_1.5rem_0.5rem_auto]",
         // Transitions
-        "transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0"
+        "transition data-closed:data-leave:opacity-0 data-leave:duration-100 data-leave:ease-in"
       )}
+      transition
     />
   );
 }
@@ -92,7 +92,7 @@ export function DropdownItem({
     "col-span-full grid grid-cols-[auto_1fr_1.5rem_0.5rem_auto] items-center supports-[grid-template-columns:subgrid]:grid-cols-subgrid",
     // Icons
     "*:data-[slot=icon]:col-start-1 *:data-[slot=icon]:row-start-1 *:data-[slot=icon]:mr-2.5 *:data-[slot=icon]:-ml-0.5 *:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:mr-2 sm:*:data-[slot=icon]:size-4",
-    "*:data-[slot=icon]:text-zinc-500 data-focus:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400 dark:data-focus:*:data-[slot=icon]:text-white",
+    "data-focus:*:data-[slot=icon]:text-white *:data-[slot=icon]:text-zinc-500 dark:data-focus:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400",
     // Avatar
     "*:data-[slot=avatar]:mr-2.5 *:data-[slot=avatar]:-ml-1 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:mr-2 sm:*:data-[slot=avatar]:size-5"
   );
@@ -102,12 +102,25 @@ export function DropdownItem({
     <HeadlessMenuItem as={Link} {...props} className={classes} />
   ) : (
     // @ts-expect-error
-    <HeadlessMenuItem as="button" type="button" {...props} className={classes} />
+    <HeadlessMenuItem
+      as="button"
+      type="button"
+      {...props}
+      className={classes}
+    />
   );
 }
 
-export function DropdownHeader({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  return <div {...props} className={cn(className, "col-span-5 px-3.5 pt-2.5 pb-1 sm:px-3")} />;
+export function DropdownHeader({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={cn(className, "col-span-5 px-3.5 pt-2.5 pb-1 sm:px-3")}
+    />
+  );
 }
 
 export function DropdownSection({
@@ -135,7 +148,7 @@ export function DropdownHeading({
       {...props}
       className={cn(
         className,
-        "col-span-full grid grid-cols-[1fr_auto] gap-x-12 px-3.5 pt-2 pb-1 text-sm/5 font-medium text-zinc-500 sm:px-3 sm:text-xs/5 dark:text-zinc-400"
+        "col-span-full grid grid-cols-[1fr_auto] gap-x-12 px-3.5 pt-2 pb-1 font-medium text-sm/5 text-zinc-500 sm:px-3 sm:text-xs/5 dark:text-zinc-400"
       )}
     />
   );
@@ -156,12 +169,15 @@ export function DropdownDivider({
   );
 }
 
-export function DropdownLabel({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function DropdownLabel({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       {...props}
-      data-slot="label"
       className={cn(className, "col-start-2 row-start-1")}
+      data-slot="label"
       {...props}
     />
   );
@@ -199,12 +215,12 @@ export function DropdownShortcut({
     >
       {(Array.isArray(keys) ? keys : keys.split("")).map((char, index) => (
         <kbd
-          key={typeof keys === "string" ? keys : keys.join("-")}
           className={cn([
             "min-w-[2ch] text-center font-sans text-zinc-400 capitalize group-data-focus:text-white forced-colors:group-data-focus:text-[HighlightText]",
             // Make sure key names that are longer than one character (like "Tab") have extra space
             index > 0 && char.length > 1 && "pl-1",
           ])}
+          key={typeof keys === "string" ? keys : keys.join("-")}
         >
           {char}
         </kbd>

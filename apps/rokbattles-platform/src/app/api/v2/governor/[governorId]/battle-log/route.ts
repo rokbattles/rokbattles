@@ -24,7 +24,9 @@ type BattleLogDay = {
   npcCount: number;
 };
 
-function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
+function extractEventTimeMillis(
+  report: BattleReportDocument["report"]
+): number | null {
   const emailTime = normalizeTimestampMillis(report?.metadata?.email_time);
   if (emailTime != null) {
     return emailTime;
@@ -46,7 +48,11 @@ function formatDayKey(date: Date) {
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
-function buildMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+function buildMatchStage(
+  governorId: number,
+  startMillis: number,
+  endMillis: number
+): Document {
   const startSeconds = Math.floor(startMillis / 1000);
   const endSeconds = Math.floor(endMillis / 1000);
   const startMicros = Math.floor(startMillis * 1000);
@@ -55,12 +61,26 @@ function buildMatchStage(governorId: number, startMillis: number, endMillis: num
   return {
     $and: [
       { "report.enemy.player_id": { $ne: 0 } },
-      { $or: [{ "report.self.player_id": governorId }, { "report.enemy.player_id": governorId }] },
       {
         $or: [
-          { "report.metadata.start_date": { $gte: startSeconds, $lt: endSeconds } },
-          { "report.metadata.email_time": { $gte: startMillis, $lt: endMillis } },
-          { "report.metadata.email_time": { $gte: startMicros, $lt: endMicros } },
+          { "report.self.player_id": governorId },
+          { "report.enemy.player_id": governorId },
+        ],
+      },
+      {
+        $or: [
+          {
+            "report.metadata.start_date": {
+              $gte: startSeconds,
+              $lt: endSeconds,
+            },
+          },
+          {
+            "report.metadata.email_time": { $gte: startMillis, $lt: endMillis },
+          },
+          {
+            "report.metadata.email_time": { $gte: startMicros, $lt: endMicros },
+          },
         ],
       },
     ],
@@ -94,7 +114,9 @@ export async function GET(
   const searchParams = req.nextUrl.searchParams;
   const yearParam = searchParams.get("year");
   const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
-  const targetYear = Number.isFinite(parsedYear) ? parsedYear : new Date().getUTCFullYear();
+  const targetYear = Number.isFinite(parsedYear)
+    ? parsedYear
+    : new Date().getUTCFullYear();
 
   const startInclusive = new Date(Date.UTC(targetYear, 0, 1));
   const endExclusive = Date.UTC(targetYear + 1, 0, 1);
@@ -109,7 +131,9 @@ export async function GET(
 
   const documents = await db
     .collection<BattleReportDocument>("battleReports")
-    .find(buildMatchStage(governorId, startInclusive.getTime(), endExclusive), { projection })
+    .find(buildMatchStage(governorId, startInclusive.getTime(), endExclusive), {
+      projection,
+    })
     .toArray();
 
   const groupedByParent = new Map<
@@ -124,7 +148,11 @@ export async function GET(
     }
 
     const eventTime = extractEventTimeMillis(report);
-    if (eventTime == null || eventTime < startInclusive.getTime() || eventTime >= endExclusive) {
+    if (
+      eventTime == null ||
+      eventTime < startInclusive.getTime() ||
+      eventTime >= endExclusive
+    ) {
       continue;
     }
 
@@ -147,21 +175,24 @@ export async function GET(
       String(doc._id ?? eventTime);
 
     const existing = groupedByParent.get(key);
-    if (!existing) {
+    if (existing) {
+      existing.eventTime = Math.min(existing.eventTime, eventTime);
+      existing.hasNpc ||= isNpc;
+      existing.hasBattle ||= !isNpc;
+    } else {
       groupedByParent.set(key, {
         eventTime,
         hasNpc: isNpc,
         hasBattle: !isNpc,
       });
-    } else {
-      existing.eventTime = Math.min(existing.eventTime, eventTime);
-      existing.hasNpc ||= isNpc;
-      existing.hasBattle ||= !isNpc;
     }
   }
 
   const dayBuckets = new Map<string, BattleLogDay>();
-  for (let cursor = new Date(startInclusive); cursor.getTime() < endExclusive; ) {
+  for (
+    let cursor = new Date(startInclusive);
+    cursor.getTime() < endExclusive;
+  ) {
     const key = formatDayKey(cursor);
     dayBuckets.set(key, { date: key, battleCount: 0, npcCount: 0 });
     cursor = new Date(cursor.getTime() + 24 * 60 * 60 * 1000);

@@ -14,7 +14,15 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     .collection<ClaimedGovernorDocument>("claimedGovernors")
     .find(
       { discordId: user.discordId },
-      { projection: { _id: 0, governorId: 1, governorName: 1, governorAvatar: 1, createdAt: 1 } }
+      {
+        projection: {
+          _id: 0,
+          governorId: 1,
+          governorName: 1,
+          governorAvatar: 1,
+          createdAt: 1,
+        },
+      }
     )
     .sort({ createdAt: -1 })
     .toArray();

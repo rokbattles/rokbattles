@@ -24,7 +24,7 @@ export function useReportFavorite({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!enabled || !parentHash) {
+    if (!(enabled && parentHash)) {
       setFavorited(false);
       setLoading(false);
       setError(null);
@@ -44,7 +44,9 @@ export function useReportFavorite({
         );
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch favorite status: ${response.status}`);
+          throw new Error(
+            `Failed to fetch favorite status: ${response.status}`
+          );
         }
 
         const payload = (await response.json()) as FavoriteStatusResponse;
@@ -72,7 +74,7 @@ export function useReportFavorite({
   }, [enabled, parentHash, reportType]);
 
   const toggleFavorite = useCallback(async () => {
-    if (!enabled || !parentHash || updating) {
+    if (!(enabled && parentHash) || updating) {
       return;
     }
 

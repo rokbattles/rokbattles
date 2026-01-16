@@ -47,69 +47,75 @@ export function PairingsLoadouts({
         <Text>{t("states.loadingPairings")}</Text>
       ) : pairingsError ? (
         <Text>{pairingsError}</Text>
-      ) : !hasSelectedPairing ? (
-        <Text>{t("states.selectPairing")}</Text>
-      ) : loadoutsLoading ? (
-        <Text>{t("loadouts.states.loadingLoadouts")}</Text>
-      ) : loadoutsError ? (
-        <Text>{loadoutsError}</Text>
-      ) : (
-        <div className="overflow-x-auto pb-4 snap-x snap-mandatory">
-          <div className="flex items-stretch gap-4">
-            {loadoutCards.map((loadout) => {
-              const isSelected = loadout.key === selectedLoadoutKey;
+      ) : hasSelectedPairing ? (
+        loadoutsLoading ? (
+          <Text>{t("loadouts.states.loadingLoadouts")}</Text>
+        ) : loadoutsError ? (
+          <Text>{loadoutsError}</Text>
+        ) : (
+          <div className="snap-x snap-mandatory overflow-x-auto pb-4">
+            <div className="flex items-stretch gap-4">
+              {loadoutCards.map((loadout) => {
+                const isSelected = loadout.key === selectedLoadoutKey;
 
-              return (
-                <button
-                  key={loadout.key}
-                  type="button"
-                  onClick={() => onSelectLoadout(loadout.key)}
-                  aria-pressed={isSelected}
-                  className={cn(
-                    "snap-start shrink-0 rounded-md border border-zinc-200/70 bg-white/80 p-4 text-left transition hover:border-zinc-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/60 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
-                    "flex flex-col items-stretch justify-start self-stretch",
-                    "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
-                  )}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="text-sm font-semibold text-zinc-950 dark:text-white">
-                      {loadout.label}
-                    </span>
-                    <Badge
-                      color="blue"
-                      className={cn(!isSelected && "invisible")}
-                      aria-hidden={!isSelected}
-                    >
-                      {t("labels.selected")}
-                    </Badge>
-                  </div>
+                return (
+                  <button
+                    aria-pressed={isSelected}
+                    className={cn(
+                      "shrink-0 snap-start rounded-md border border-zinc-200/70 bg-white/80 p-4 text-left transition hover:border-zinc-300 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-blue-500/60 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+                      "flex flex-col items-stretch justify-start self-stretch",
+                      "w-full sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]"
+                    )}
+                    key={loadout.key}
+                    onClick={() => onSelectLoadout(loadout.key)}
+                    type="button"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="font-semibold text-sm text-zinc-950 dark:text-white">
+                        {loadout.label}
+                      </span>
+                      <Badge
+                        aria-hidden={!isSelected}
+                        className={cn(!isSelected && "invisible")}
+                        color="blue"
+                      >
+                        {t("labels.selected")}
+                      </Badge>
+                    </div>
 
-                  <div className="mt-4 space-y-4">
-                    <LoadoutEquipmentGrid tokens={loadout.loadout.equipment} />
+                    <div className="mt-4 space-y-4">
+                      <LoadoutEquipmentGrid
+                        tokens={loadout.loadout.equipment}
+                      />
 
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                        {t("labels.inscriptions")}
-                      </p>
-                      <div className="flex min-h-5 flex-wrap gap-1.5">
-                        {loadout.loadout.inscriptions.map((id) => (
-                          <ReportInscriptionBadge key={id} id={id} />
-                        ))}
+                      <div className="space-y-2">
+                        <p className="font-semibold text-xs text-zinc-500 uppercase tracking-wide">
+                          {t("labels.inscriptions")}
+                        </p>
+                        <div className="flex min-h-5 flex-wrap gap-1.5">
+                          {loadout.loadout.inscriptions.map((id) => (
+                            <ReportInscriptionBadge id={id} key={id} />
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <p className="font-semibold text-xs text-zinc-500 uppercase tracking-wide">
+                          {t("labels.armamentBuffs")}
+                        </p>
+                        <LoadoutArmamentList
+                          armaments={loadout.loadout.armaments}
+                        />
                       </div>
                     </div>
-
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                        {t("labels.armamentBuffs")}
-                      </p>
-                      <LoadoutArmamentList armaments={loadout.loadout.armaments} />
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )
+      ) : (
+        <Text>{t("states.selectPairing")}</Text>
       )}
     </section>
   );

@@ -17,7 +17,10 @@ type ReportArmamentSectionProps = {
   inscriptions: number[];
 };
 
-export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSectionProps) {
+export function ReportArmamentSection({
+  buffs,
+  inscriptions,
+}: ReportArmamentSectionProps) {
   const t = useTranslations("report");
   if (buffs.length === 0 && inscriptions.length === 0) {
     return null;
@@ -39,10 +42,11 @@ export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSec
         <DescriptionList>
           {buffs.map((buff) => (
             <Fragment key={buff.id}>
-              <DescriptionTerm className="pt-1! pb-1! border-none!">
-                {getArmamentInfo(buff.id ?? null)?.name ?? t("armament.fallback", { id: buff.id })}
+              <DescriptionTerm className="border-none! pt-1! pb-1!">
+                {getArmamentInfo(buff.id ?? null)?.name ??
+                  t("armament.fallback", { id: buff.id })}
               </DescriptionTerm>
-              <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
+              <DescriptionDetails className="border-none! pt-1! pb-1! tabular-nums sm:text-right">
                 {(Number(buff.value ?? 0) * 100).toFixed(2)}%
               </DescriptionDetails>
             </Fragment>

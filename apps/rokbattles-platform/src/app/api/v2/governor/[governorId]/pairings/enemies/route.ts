@@ -55,7 +55,9 @@ export async function GET(
   const granularityParam = url.searchParams.get("granularity");
   const loadoutKey = url.searchParams.get("loadoutKey");
   const primaryCommanderId = primaryParam ? Number(primaryParam) : Number.NaN;
-  const secondaryCommanderId = secondaryParam ? Number(secondaryParam) : Number.NaN;
+  const secondaryCommanderId = secondaryParam
+    ? Number(secondaryParam)
+    : Number.NaN;
   if (
     !Number.isFinite(primaryCommanderId) ||
     primaryCommanderId <= 0 ||
@@ -79,7 +81,11 @@ export async function GET(
   const nowYear = new Date().getUTCFullYear();
   const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
   const targetYear = Number.isFinite(parsedYear) ? parsedYear : nowYear;
-  const range = resolveDateRange({ startParam, endParam, fallbackYear: targetYear });
+  const range = resolveDateRange({
+    startParam,
+    endParam,
+    fallbackYear: targetYear,
+  });
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
@@ -140,13 +146,24 @@ export async function GET(
       }
 
       const eventTime = extractEventTimeMillis(report);
-      if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+      if (
+        eventTime == null ||
+        eventTime < startMillis ||
+        eventTime >= endMillis
+      ) {
         continue;
       }
 
-      const selfPrimary = normalizeCommanderId(report.self?.primary_commander?.id);
-      const selfSecondary = normalizeCommanderId(report.self?.secondary_commander?.id);
-      if (selfPrimary !== primaryCommanderId || selfSecondary !== secondaryCommanderId) {
+      const selfPrimary = normalizeCommanderId(
+        report.self?.primary_commander?.id
+      );
+      const selfSecondary = normalizeCommanderId(
+        report.self?.secondary_commander?.id
+      );
+      if (
+        selfPrimary !== primaryCommanderId ||
+        selfSecondary !== secondaryCommanderId
+      ) {
         continue;
       }
 
@@ -158,8 +175,12 @@ export async function GET(
         }
       }
 
-      const enemyPrimary = normalizeCommanderId(report.enemy?.primary_commander?.id);
-      const enemySecondary = normalizeCommanderId(report.enemy?.secondary_commander?.id);
+      const enemyPrimary = normalizeCommanderId(
+        report.enemy?.primary_commander?.id
+      );
+      const enemySecondary = normalizeCommanderId(
+        report.enemy?.secondary_commander?.id
+      );
       const enemyKey = `${enemyPrimary}:${enemySecondary}`;
       let bucket = buckets.get(enemyKey);
       if (!bucket) {
@@ -177,12 +198,14 @@ export async function GET(
       bucket.totals.battleDuration += extractBattleDurationMillis(report);
     }
 
-    const items: EnemyAggregate[] = Array.from(buckets.values()).map((bucket) => ({
-      enemyPrimaryCommanderId: bucket.enemyPrimaryCommanderId,
-      enemySecondaryCommanderId: bucket.enemySecondaryCommanderId,
-      count: bucket.count,
-      totals: bucket.totals,
-    }));
+    const items: EnemyAggregate[] = Array.from(buckets.values()).map(
+      (bucket) => ({
+        enemyPrimaryCommanderId: bucket.enemyPrimaryCommanderId,
+        enemySecondaryCommanderId: bucket.enemySecondaryCommanderId,
+        count: bucket.count,
+        totals: bucket.totals,
+      })
+    );
 
     items.sort((a, b) => {
       if (b.totals.killScore !== a.totals.killScore) {

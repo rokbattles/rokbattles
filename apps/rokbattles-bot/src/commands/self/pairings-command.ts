@@ -96,7 +96,11 @@ function createEmptyTotals(): MarchTotals {
   };
 }
 
-function createMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+function createMatchStage(
+  governorId: number,
+  startMillis: number,
+  endMillis: number
+): Document {
   const startSeconds = Math.floor(startMillis / 1000);
   const endSeconds = Math.floor(endMillis / 1000);
   const startMicros = Math.floor(startMillis * 1000);
@@ -150,7 +154,9 @@ function normalizeTimestampMillis(value: unknown): number | null {
   return numeric;
 }
 
-function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
+function extractEventTimeMillis(
+  report: BattleReportDocument["report"]
+): number | null {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return null;
@@ -169,7 +175,9 @@ function extractEventTimeMillis(report: BattleReportDocument["report"]): number 
   return null;
 }
 
-function extractBattleDurationMillis(report: BattleReportDocument["report"]): number {
+function extractBattleDurationMillis(
+  report: BattleReportDocument["report"]
+): number {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return 0;
@@ -185,7 +193,11 @@ function extractBattleDurationMillis(report: BattleReportDocument["report"]): nu
   return Math.max(0, end - start);
 }
 
-function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
+function aggregateReports(
+  reports: BattleReportDocument[],
+  startMillis: number,
+  endMillis: number
+) {
   const buckets = new Map<string, AggregationBucket>();
 
   for (const doc of reports) {
@@ -195,16 +207,24 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
     }
 
     const eventTime = extractEventTimeMillis(report);
-    if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+    if (
+      eventTime == null ||
+      eventTime < startMillis ||
+      eventTime >= endMillis
+    ) {
       continue;
     }
 
-    const primaryCommanderId = Math.trunc(normalizeNumber(report.self?.primary_commander?.id));
+    const primaryCommanderId = Math.trunc(
+      normalizeNumber(report.self?.primary_commander?.id)
+    );
     if (primaryCommanderId <= 0) {
       continue;
     }
 
-    const secondaryCommanderId = Math.trunc(normalizeNumber(report.self?.secondary_commander?.id));
+    const secondaryCommanderId = Math.trunc(
+      normalizeNumber(report.self?.secondary_commander?.id)
+    );
     const key = `${primaryCommanderId}:${secondaryCommanderId}`;
 
     let bucket = buckets.get(key);
@@ -228,7 +248,9 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
       const wounded = normalizeNumber(battleResults.wounded);
       const enemyKillScore = normalizeNumber(battleResults.enemy_kill_score);
       const enemyDeaths = normalizeNumber(battleResults.enemy_death);
-      const enemySeverelyWounded = normalizeNumber(battleResults.enemy_severely_wounded);
+      const enemySeverelyWounded = normalizeNumber(
+        battleResults.enemy_severely_wounded
+      );
       const enemyWounded = normalizeNumber(battleResults.enemy_wounded);
 
       bucket.totals.killScore += killScore;
@@ -277,7 +299,7 @@ function formatDurationSeconds(value: number): string {
   }
 
   const units: Array<[string, number]> = [
-    ["d", 86400],
+    ["d", 86_400],
     ["h", 3600],
     ["m", 60],
     ["s", 1],
@@ -404,10 +426,14 @@ export const PairingsCommand: CommandHandler<BaseClient> = {
     const rawGovernorId = interaction.options.getString("governor", true);
     const governorId = Number.parseInt(rawGovernorId, 10);
 
-    const isClaimed = claimedGovernors.some((claim) => claim.governorId === governorId);
+    const isClaimed = claimedGovernors.some(
+      (claim) => claim.governorId === governorId
+    );
     if (!isClaimed) {
       responseContainer.addTextDisplayComponents((builder) =>
-        builder.setContent("You can only query pairings for a governor you have claimed.")
+        builder.setContent(
+          "You can only query pairings for a governor you have claimed."
+        )
       );
 
       await interaction.editReply({
@@ -436,13 +462,28 @@ export const PairingsCommand: CommandHandler<BaseClient> = {
     );
 
     for (const [index, pairing] of topPairings.entries()) {
-      const pairingName = createPairing(pairing.primaryCommanderId, pairing.secondaryCommanderId);
+      const pairingName = createPairing(
+        pairing.primaryCommanderId,
+        pairing.secondaryCommanderId
+      );
       const totalDurationSeconds =
-        pairing.totals.battleDuration > 0 ? pairing.totals.battleDuration / 1000 : 0;
-      const averageDurationSeconds = pairing.count > 0 ? totalDurationSeconds / pairing.count : 0;
-      const dps = totalDurationSeconds > 0 ? pairing.totals.dps / totalDurationSeconds : 0;
-      const sps = totalDurationSeconds > 0 ? pairing.totals.sps / totalDurationSeconds : 0;
-      const tps = totalDurationSeconds > 0 ? pairing.totals.tps / totalDurationSeconds : 0;
+        pairing.totals.battleDuration > 0
+          ? pairing.totals.battleDuration / 1000
+          : 0;
+      const averageDurationSeconds =
+        pairing.count > 0 ? totalDurationSeconds / pairing.count : 0;
+      const dps =
+        totalDurationSeconds > 0
+          ? pairing.totals.dps / totalDurationSeconds
+          : 0;
+      const sps =
+        totalDurationSeconds > 0
+          ? pairing.totals.sps / totalDurationSeconds
+          : 0;
+      const tps =
+        totalDurationSeconds > 0
+          ? pairing.totals.tps / totalDurationSeconds
+          : 0;
 
       const content = [
         `### ${index + 1}. ${pairingName}`,
@@ -463,7 +504,9 @@ export const PairingsCommand: CommandHandler<BaseClient> = {
         `* TPS: ${formatPerSecond(tps)}`,
       ].join("\n");
 
-      responseContainer.addTextDisplayComponents((builder) => builder.setContent(content));
+      responseContainer.addTextDisplayComponents((builder) =>
+        builder.setContent(content)
+      );
 
       if (index < topPairings.length - 1) {
         responseContainer.addSeparatorComponents(new SeparatorBuilder());

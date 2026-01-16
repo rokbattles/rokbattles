@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { deriveCodeChallenge, generateCodeVerifier, generateState } from "@/lib/discord";
+import {
+  deriveCodeChallenge,
+  generateCodeVerifier,
+  generateState,
+} from "@/lib/discord";
 import clientPromise from "@/lib/mongo";
 
 export async function GET() {

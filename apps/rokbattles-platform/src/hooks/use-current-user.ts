@@ -81,7 +81,10 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
     };
   }, [fetchUser, hasInitialUser]);
 
-  const refresh = useCallback(() => fetchUser({ showLoading: true }), [fetchUser]);
+  const refresh = useCallback(
+    () => fetchUser({ showLoading: true }),
+    [fetchUser]
+  );
 
   return {
     user,

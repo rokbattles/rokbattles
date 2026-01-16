@@ -91,7 +91,11 @@ export function createEmptyTotals(): MarchTotals {
   };
 }
 
-export function createMatchStage(governorId: number, startMillis: number, endMillis: number) {
+export function createMatchStage(
+  governorId: number,
+  startMillis: number,
+  endMillis: number
+) {
   const startMicros = Math.floor(startMillis * 1000);
   const endMicros = Math.floor(endMillis * 1000);
 
@@ -115,11 +119,15 @@ export function createMatchStage(governorId: number, startMillis: number, endMil
   } satisfies Document;
 }
 
-export function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
+export function extractEventTimeMillis(
+  report: BattleReportDocument["report"]
+): number | null {
   return normalizeTimestampMillis(report?.metadata?.email_time);
 }
 
-export function extractBattleDurationMillis(report: BattleReportDocument["report"]): number {
+export function extractBattleDurationMillis(
+  report: BattleReportDocument["report"]
+): number {
   const rawMetadata = report?.metadata;
   if (!rawMetadata) {
     return 0;
@@ -137,7 +145,9 @@ export function extractBattleDurationMillis(report: BattleReportDocument["report
 
 export function applyBattleResults(
   totals: MarchTotals,
-  battleResults: BattleReportDocument["report"] extends { battle_results?: infer Results }
+  battleResults: BattleReportDocument["report"] extends {
+    battle_results?: infer Results;
+  }
     ? Results
     : unknown
 ) {
@@ -239,8 +249,12 @@ function normalizeInscriptions(inscriptions: number[]) {
   return Array.from(new Set(inscriptions)).sort((a, b) => a - b);
 }
 
-function normalizeArmaments(armaments: { id: number; value: number }[]): LoadoutArmament[] {
-  const ids = Array.from(new Set(armaments.map((buff) => buff.id))).sort((a, b) => a - b);
+function normalizeArmaments(
+  armaments: { id: number; value: number }[]
+): LoadoutArmament[] {
+  const ids = Array.from(new Set(armaments.map((buff) => buff.id))).sort(
+    (a, b) => a - b
+  );
   return ids.map((id) => ({ id }));
 }
 
@@ -255,7 +269,9 @@ export function buildLoadoutSnapshot(
   const armaments = parseArmamentBuffs(report?.self?.armament_buffs ?? null);
   const formationValue = report?.self?.formation;
   const formation =
-    typeof formationValue === "number" && Number.isFinite(formationValue) && formationValue !== 0
+    typeof formationValue === "number" &&
+    Number.isFinite(formationValue) &&
+    formationValue !== 0
       ? formationValue
       : null;
 

@@ -1,8 +1,8 @@
-import { PairingsCommand } from "@/commands/self/PairingsCommand";
-import { ReportsCommand } from "@/commands/self/ReportsCommand";
-import { HelpCommand } from "@/commands/system/HelpCommand";
-import { MailcacheCommand } from "@/commands/system/MailcacheCommand";
-import { CommandCollection } from "@/lib/CommandHandler";
+import { PairingsCommand } from "@/commands/self/pairings-command";
+import { ReportsCommand } from "@/commands/self/reports-command";
+import { HelpCommand } from "@/commands/system/help-command";
+import { MailcacheCommand } from "@/commands/system/mailcache-command";
+import { CommandCollection } from "@/lib/command-handler";
 
 export function commands(): CommandCollection {
   const coll = new CommandCollection();

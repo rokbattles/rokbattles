@@ -9,18 +9,23 @@ type ReportEquipmentSectionProps = {
   tokens: EquipmentToken[];
 };
 
-export function ReportEquipmentSection({ tokens }: ReportEquipmentSectionProps) {
+export function ReportEquipmentSection({
+  tokens,
+}: ReportEquipmentSectionProps) {
   const t = useTranslations("report");
-  const slots = tokens.reduce<Record<number, EquipmentToken | undefined>>((acc, token) => {
-    acc[token.slot] = token;
-    return acc;
-  }, {});
+  const slots = tokens.reduce<Record<number, EquipmentToken | undefined>>(
+    (acc, token) => {
+      acc[token.slot] = token;
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="space-y-2">
       <Subheading>{t("equipment.title")}</Subheading>
       <div className="flex justify-center">
-        <div className="grid grid-cols-[auto_auto_auto] gap-2 justify-items-center">
+        <div className="grid grid-cols-[auto_auto_auto] justify-items-center gap-2">
           <div />
           <ReportEquipmentSlot token={slots[2]} />
           <div />

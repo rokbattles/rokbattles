@@ -1,5 +1,5 @@
-import { SlashCommandHandler } from "@/events/SlashCommandHandler";
-import { EventCollection } from "@/lib/EventHandler";
+import { SlashCommandHandler } from "@/events/slash-command-handler";
+import { EventCollection } from "@/lib/event-handler";
 
 export function events(): EventCollection {
   const coll = new EventCollection();

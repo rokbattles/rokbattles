@@ -12,7 +12,13 @@ export function Pagination({
 }: React.ComponentPropsWithoutRef<"nav">) {
   const t = useTranslations("pagination");
   const resolvedLabel = ariaLabel ?? t("navigation");
-  return <nav aria-label={resolvedLabel} {...props} className={cn(className, "flex gap-x-2")} />;
+  return (
+    <nav
+      aria-label={resolvedLabel}
+      {...props}
+      className={cn(className, "flex gap-x-2")}
+    />
+  );
 }
 
 export function PaginationPrevious({
@@ -26,21 +32,21 @@ export function PaginationPrevious({
     <span className={cn(className, "grow basis-0")}>
       <Button
         {...(href === null ? { disabled: true } : { href })}
-        plain
         aria-label={t("previousPage")}
+        plain
       >
         <svg
+          aria-hidden="true"
           className="stroke-current"
           data-slot="icon"
-          viewBox="0 0 16 16"
           fill="none"
-          aria-hidden="true"
+          viewBox="0 0 16 16"
         >
           <path
             d="M2.75 8H13.25M2.75 8L5.25 5.5M2.75 8L5.25 10.5"
-            strokeWidth={1.5}
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth={1.5}
           />
         </svg>
         {label}
@@ -58,20 +64,24 @@ export function PaginationNext({
   const label = children ?? t("next");
   return (
     <span className={cn(className, "flex grow basis-0 justify-end")}>
-      <Button {...(href === null ? { disabled: true } : { href })} plain aria-label={t("nextPage")}>
+      <Button
+        {...(href === null ? { disabled: true } : { href })}
+        aria-label={t("nextPage")}
+        plain
+      >
         {label}
         <svg
+          aria-hidden="true"
           className="stroke-current"
           data-slot="icon"
-          viewBox="0 0 16 16"
           fill="none"
-          aria-hidden="true"
+          viewBox="0 0 16 16"
         >
           <path
             d="M13.25 8L2.75 8M13.25 8L10.75 10.5M13.25 8L10.75 5.5"
-            strokeWidth={1.5}
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth={1.5}
           />
         </svg>
       </Button>
@@ -79,8 +89,16 @@ export function PaginationNext({
   );
 }
 
-export function PaginationList({ className, ...props }: React.ComponentPropsWithoutRef<"span">) {
-  return <span {...props} className={cn(className, "hidden items-baseline gap-x-2 sm:flex")} />;
+export function PaginationList({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"span">) {
+  return (
+    <span
+      {...props}
+      className={cn(className, "hidden items-baseline gap-x-2 sm:flex")}
+    />
+  );
 }
 
 export function PaginationPage({
@@ -88,20 +106,24 @@ export function PaginationPage({
   className,
   current = false,
   children,
-}: React.PropsWithChildren<{ href: string; className?: string; current?: boolean }>) {
+}: React.PropsWithChildren<{
+  href: string;
+  className?: string;
+  current?: boolean;
+}>) {
   const t = useTranslations("pagination");
   const pageLabel = t("pageLabel", { page: String(children) });
   return (
     <Button
-      href={href}
-      plain
-      aria-label={pageLabel}
       aria-current={current ? "page" : undefined}
+      aria-label={pageLabel}
       className={cn(
         className,
         "min-w-9 before:absolute before:-inset-px before:rounded-lg",
         current && "before:bg-zinc-950/5 dark:before:bg-white/10"
       )}
+      href={href}
+      plain
     >
       <span className="-mx-0.5">{children}</span>
     </Button>
@@ -119,7 +141,7 @@ export function PaginationGap({
       {...props}
       className={cn(
         className,
-        "w-9 text-center text-sm/6 font-semibold text-zinc-950 select-none dark:text-white"
+        "w-9 select-none text-center font-semibold text-sm/6 text-zinc-950 dark:text-white"
       )}
     >
       {children}

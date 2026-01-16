@@ -78,107 +78,130 @@ export function PairingsLoadoutBreakdown({
         <Text>{t("states.loadingPairings")}</Text>
       ) : pairingsError ? (
         <Text>{pairingsError}</Text>
-      ) : !hasSelectedPairing ? (
-        <Text>{t("states.selectPairing")}</Text>
-      ) : loadoutsLoading || !loadoutsReady ? (
-        <Text>{t("breakdown.states.loadingBreakdown")}</Text>
-      ) : loadoutsError ? (
-        <Text>{loadoutsError}</Text>
-      ) : !hasSelectedLoadout ? (
-        <Text>{t("breakdown.states.selectLoadout")}</Text>
-      ) : (
-        <>
-          <div className="space-y-3">
-            <div className="grid gap-6 grid-cols-2 lg:grid-cols-3">
-              {generalStats.map((stat) => (
-                <div
-                  key={stat.id}
-                  className="space-y-3 border-b border-zinc-200/60 pb-4 dark:border-white/10"
-                >
-                  <div className="space-y-1">
-                    <div className="text-sm font-semibold text-zinc-950 dark:text-white">
-                      {stat.name}
+      ) : hasSelectedPairing ? (
+        loadoutsLoading || !loadoutsReady ? (
+          <Text>{t("breakdown.states.loadingBreakdown")}</Text>
+        ) : loadoutsError ? (
+          <Text>{loadoutsError}</Text>
+        ) : hasSelectedLoadout ? (
+          <>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-6 lg:grid-cols-3">
+                {generalStats.map((stat) => (
+                  <div
+                    className="space-y-3 border-zinc-200/60 border-b pb-4 dark:border-white/10"
+                    key={stat.id}
+                  >
+                    <div className="space-y-1">
+                      <div className="font-semibold text-sm text-zinc-950 dark:text-white">
+                        {stat.name}
+                      </div>
+                      <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                        {stat.description}
+                      </p>
                     </div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{stat.description}</p>
+                    <div className="mt-4 font-semibold text-3xl/8 text-zinc-950 sm:text-3xl dark:text-white">
+                      {stat.value}
+                    </div>
                   </div>
-                  <div className="mt-4 text-3xl/8 font-semibold text-zinc-950 sm:text-3xl dark:text-white">
-                    {stat.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div>
-              <div className="text-sm font-semibold text-zinc-950 dark:text-white">
-                {t("breakdown.opponents.title")}
+                ))}
               </div>
             </div>
-            {enemiesLoading ? (
-              <Text>{t("breakdown.opponents.loading")}</Text>
-            ) : enemiesError ? (
-              <Text>{enemiesError}</Text>
-            ) : opponentRows.length === 0 ? (
-              <Text>{t("breakdown.opponents.empty")}</Text>
-            ) : (
-              <>
-                <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-                  <TableHead>
-                    <TableRow>
-                      <TableHeader className="w-12">{tTrends("table.rank")}</TableHeader>
-                      <TableHeader>{t("breakdown.opponents.table.pairing")}</TableHeader>
-                      <TableHeader className="w-24">{tCommon("labels.battles")}</TableHeader>
-                      <TableHeader className="w-32">{tCommon("metrics.killPoints")}</TableHeader>
-                      <TableHeader className="w-40">
-                        {t("breakdown.stats.enemyKillPoints.label")}
-                      </TableHeader>
-                      <TableHeader className="w-20">
-                        {t("breakdown.opponents.table.dps")}
-                      </TableHeader>
-                      <TableHeader className="w-20">
-                        {t("breakdown.opponents.table.sps")}
-                      </TableHeader>
-                      <TableHeader className="w-20">
-                        {t("breakdown.opponents.table.tps")}
-                      </TableHeader>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody id={opponentsId}>
-                    {opponentRows.map((entry) => (
-                      <TableRow key={entry.id}>
-                        <TableCell className="w-12 tabular-nums text-zinc-500 dark:text-zinc-400">
-                          {entry.index}
-                        </TableCell>
-                        <TableCell className="text-zinc-900 dark:text-white">
-                          {entry.pairing}
-                        </TableCell>
-                        <TableCell className="w-24">{entry.battles}</TableCell>
-                        <TableCell className="w-32">{entry.killPoints}</TableCell>
-                        <TableCell className="w-40">{entry.opponentKillPoints}</TableCell>
-                        <TableCell className="w-20">{entry.dps}</TableCell>
-                        <TableCell className="w-20">{entry.sps}</TableCell>
-                        <TableCell className="w-20">{entry.tps}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-                {hasMoreOpponents ? (
-                  <Button
-                    plain
-                    type="button"
-                    onClick={onToggleShowAllOpponents}
-                    aria-expanded={showAllOpponents}
-                    aria-controls={opponentsId}
-                    className="text-sm"
+
+            <div className="space-y-3">
+              <div>
+                <div className="font-semibold text-sm text-zinc-950 dark:text-white">
+                  {t("breakdown.opponents.title")}
+                </div>
+              </div>
+              {enemiesLoading ? (
+                <Text>{t("breakdown.opponents.loading")}</Text>
+              ) : enemiesError ? (
+                <Text>{enemiesError}</Text>
+              ) : opponentRows.length === 0 ? (
+                <Text>{t("breakdown.opponents.empty")}</Text>
+              ) : (
+                <>
+                  <Table
+                    className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]"
+                    dense
                   >
-                    {showAllOpponents ? tCommon("actions.showLess") : tCommon("actions.showMore")}
-                  </Button>
-                ) : null}
-              </>
-            )}
-          </div>
-        </>
+                    <TableHead>
+                      <TableRow>
+                        <TableHeader className="w-12">
+                          {tTrends("table.rank")}
+                        </TableHeader>
+                        <TableHeader>
+                          {t("breakdown.opponents.table.pairing")}
+                        </TableHeader>
+                        <TableHeader className="w-24">
+                          {tCommon("labels.battles")}
+                        </TableHeader>
+                        <TableHeader className="w-32">
+                          {tCommon("metrics.killPoints")}
+                        </TableHeader>
+                        <TableHeader className="w-40">
+                          {t("breakdown.stats.enemyKillPoints.label")}
+                        </TableHeader>
+                        <TableHeader className="w-20">
+                          {t("breakdown.opponents.table.dps")}
+                        </TableHeader>
+                        <TableHeader className="w-20">
+                          {t("breakdown.opponents.table.sps")}
+                        </TableHeader>
+                        <TableHeader className="w-20">
+                          {t("breakdown.opponents.table.tps")}
+                        </TableHeader>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody id={opponentsId}>
+                      {opponentRows.map((entry) => (
+                        <TableRow key={entry.id}>
+                          <TableCell className="w-12 text-zinc-500 tabular-nums dark:text-zinc-400">
+                            {entry.index}
+                          </TableCell>
+                          <TableCell className="text-zinc-900 dark:text-white">
+                            {entry.pairing}
+                          </TableCell>
+                          <TableCell className="w-24">
+                            {entry.battles}
+                          </TableCell>
+                          <TableCell className="w-32">
+                            {entry.killPoints}
+                          </TableCell>
+                          <TableCell className="w-40">
+                            {entry.opponentKillPoints}
+                          </TableCell>
+                          <TableCell className="w-20">{entry.dps}</TableCell>
+                          <TableCell className="w-20">{entry.sps}</TableCell>
+                          <TableCell className="w-20">{entry.tps}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  {hasMoreOpponents ? (
+                    <Button
+                      aria-controls={opponentsId}
+                      aria-expanded={showAllOpponents}
+                      className="text-sm"
+                      onClick={onToggleShowAllOpponents}
+                      plain
+                      type="button"
+                    >
+                      {showAllOpponents
+                        ? tCommon("actions.showLess")
+                        : tCommon("actions.showMore")}
+                    </Button>
+                  ) : null}
+                </>
+              )}
+            </div>
+          </>
+        ) : (
+          <Text>{t("breakdown.states.selectLoadout")}</Text>
+        )
+      ) : (
+        <Text>{t("states.selectPairing")}</Text>
       )}
     </section>
   );

@@ -48,9 +48,9 @@ export function PairingsFilters({
         <Label>{tTrends("table.pairing")}</Label>
         <Listbox
           aria-label={tTrends("table.pairing")}
-          value={pairingValue}
-          onChange={onPairingChange}
           disabled={pairingsLoading || pairingOptions.length === 0}
+          onChange={onPairingChange}
+          value={pairingValue}
         >
           {pairingOptions.map((option) => (
             <ListboxOption key={option.value} value={option.value}>
@@ -63,10 +63,12 @@ export function PairingsFilters({
         <Label>{t("filters.loadoutGranularity")}</Label>
         <Listbox
           aria-label={t("filters.loadoutGranularity")}
-          value={loadoutGranularity}
           onChange={onGranularityChange}
+          value={loadoutGranularity}
         >
-          <ListboxOption value="normalized">{t("filters.normalized")}</ListboxOption>
+          <ListboxOption value="normalized">
+            {t("filters.normalized")}
+          </ListboxOption>
           <ListboxOption value="exact">{t("filters.exact")}</ListboxOption>
         </Listbox>
       </Field>
@@ -74,22 +76,22 @@ export function PairingsFilters({
         <Label htmlFor="pairings-start-date">{t("filters.startDate")}</Label>
         <Input
           id="pairings-start-date"
+          max={maxDate}
+          min={minDate}
+          onChange={(event) => onStartDateChange(event.target.value)}
           type="date"
           value={startDate}
-          min={minDate}
-          max={maxDate}
-          onChange={(event) => onStartDateChange(event.target.value)}
         />
       </Field>
       <Field className="space-y-2">
         <Label htmlFor="pairings-end-date">{t("filters.endDate")}</Label>
         <Input
           id="pairings-end-date"
+          max={maxDate}
+          min={minDate}
+          onChange={(event) => onEndDateChange(event.target.value)}
           type="date"
           value={endDate}
-          min={minDate}
-          max={maxDate}
-          onChange={(event) => onEndDateChange(event.target.value)}
         />
       </Field>
     </div>

@@ -8,17 +8,16 @@ type LoadoutEquipmentGridProps = {
 };
 
 export function LoadoutEquipmentGrid({ tokens }: LoadoutEquipmentGridProps) {
-  const slots = tokens.reduce<Record<number, LoadoutSnapshot["equipment"][number] | undefined>>(
-    (acc, token) => {
-      acc[token.slot] = token;
-      return acc;
-    },
-    {}
-  );
+  const slots = tokens.reduce<
+    Record<number, LoadoutSnapshot["equipment"][number] | undefined>
+  >((acc, token) => {
+    acc[token.slot] = token;
+    return acc;
+  }, {});
 
   return (
     <div className="flex justify-center">
-      <div className="grid grid-cols-[auto_auto_auto] gap-2 justify-items-center">
+      <div className="grid grid-cols-[auto_auto_auto] justify-items-center gap-2">
         <div />
         <LoadoutEquipmentSlot token={slots[2]} />
         <div />

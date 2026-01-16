@@ -13,34 +13,38 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
   const t = useTranslations("report");
   const { tier, isSpecialTalent } = getTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
-  const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : undefined;
-  const equipmentAlt = token?.id != null ? t("equipment.slotAlt", { id: token.id }) : undefined;
+  const label =
+    token?.id != null
+      ? (getEquipmentName(token.id) ?? token.id.toString())
+      : undefined;
+  const equipmentAlt =
+    token?.id != null ? t("equipment.slotAlt", { id: token.id }) : undefined;
 
   return (
     <div
-      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-zinc-600/10 dark:bg-white/5 sm:h-16 sm:w-16"
+      className="relative h-14 w-14 select-none overflow-hidden rounded-lg bg-zinc-600/10 sm:h-16 sm:w-16 dark:bg-white/5"
       title={label}
     >
       {token?.id ? (
         <Image
-          src={`/lilith/images/equipment/${token.id}.png`}
           alt={equipmentAlt ?? ""}
+          className="object-contain"
           fill
           sizes="(min-width: 640px) 64px, 56px"
-          className="object-contain"
+          src={`/lilith/images/equipment/${token.id}.png`}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-zinc-300">
+        <div className="flex h-full w-full items-center justify-center font-semibold text-[10px] text-zinc-300">
           -
         </div>
       )}
       {tierLabel ? (
-        <span className="absolute bottom-1 left-1 rounded bg-black/70 px-1 text-[0.625rem] font-semibold text-white">
+        <span className="absolute bottom-1 left-1 rounded bg-black/70 px-1 font-semibold text-[0.625rem] text-white">
           {tierLabel}
         </span>
       ) : null}
       {isSpecialTalent ? (
-        <span className="absolute bottom-1 right-1 rounded bg-amber-500 px-1 text-[0.625rem] font-semibold text-white">
+        <span className="absolute right-1 bottom-1 rounded bg-amber-500 px-1 font-semibold text-[0.625rem] text-white">
           ST
         </span>
       ) : null}

@@ -23,21 +23,27 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   return (
     <section className="space-y-6">
       <header className="flex flex-wrap items-center gap-3">
-        <Subheading level={3} className="text-lg">
+        <Subheading className="text-lg" level={3}>
           {periodLabel}
         </Subheading>
       </header>
 
       <section className="space-y-4">
-        <Subheading level={3} className="text-base">
+        <Subheading className="text-base" level={3}>
           {t("summary")}
         </Subheading>
         <DuelResultsChart results={results} />
       </section>
 
       <section className="grid gap-8 lg:grid-cols-2">
-        <DuelParticipantCard participant={sender} isWinner={outcome?.winner === "sender"} />
-        <DuelParticipantCard participant={opponent} isWinner={outcome?.winner === "opponent"} />
+        <DuelParticipantCard
+          isWinner={outcome?.winner === "sender"}
+          participant={sender}
+        />
+        <DuelParticipantCard
+          isWinner={outcome?.winner === "opponent"}
+          participant={opponent}
+        />
       </section>
     </section>
   );

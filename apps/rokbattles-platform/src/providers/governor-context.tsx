@@ -11,7 +11,9 @@ export type GovernorContextValue = {
   selectGovernor: (governorId: number) => void;
 };
 
-export const GovernorContext = createContext<GovernorContextValue | undefined>(undefined);
+export const GovernorContext = createContext<GovernorContextValue | undefined>(
+  undefined
+);
 
 type GovernorProviderProps = {
   children: ReactNode;
@@ -24,17 +26,23 @@ export function GovernorProvider({
   initialGovernors = [],
   initialActiveGovernorId,
 }: GovernorProviderProps) {
-  const [governors, setGovernorsState] = useState<ClaimedGovernor[]>(() => initialGovernors);
-  const [activeGovernorId, setActiveGovernorId] = useState<number | undefined>(() => {
-    if (
-      initialActiveGovernorId != null &&
-      initialGovernors.some((governor) => governor.governorId === initialActiveGovernorId)
-    ) {
-      return initialActiveGovernorId;
-    }
+  const [governors, setGovernorsState] = useState<ClaimedGovernor[]>(
+    () => initialGovernors
+  );
+  const [activeGovernorId, setActiveGovernorId] = useState<number | undefined>(
+    () => {
+      if (
+        initialActiveGovernorId != null &&
+        initialGovernors.some(
+          (governor) => governor.governorId === initialActiveGovernorId
+        )
+      ) {
+        return initialActiveGovernorId;
+      }
 
-    return initialGovernors[0]?.governorId;
-  });
+      return initialGovernors[0]?.governorId;
+    }
+  );
 
   const setGovernors = useCallback((nextGovernors: ClaimedGovernor[]) => {
     setGovernorsState(nextGovernors);
@@ -43,7 +51,10 @@ export function GovernorProvider({
         return undefined;
       }
 
-      if (currentId != null && nextGovernors.some((gov) => gov.governorId === currentId)) {
+      if (
+        currentId != null &&
+        nextGovernors.some((gov) => gov.governorId === currentId)
+      ) {
         return currentId;
       }
 
@@ -62,7 +73,10 @@ export function GovernorProvider({
           return governorId;
         }
 
-        if (currentId != null && governors.some((governor) => governor.governorId === currentId)) {
+        if (
+          currentId != null &&
+          governors.some((governor) => governor.governorId === currentId)
+        ) {
           return currentId;
         }
 
@@ -84,5 +98,9 @@ export function GovernorProvider({
     selectGovernor,
   };
 
-  return <GovernorContext.Provider value={value}>{children}</GovernorContext.Provider>;
+  return (
+    <GovernorContext.Provider value={value}>
+      {children}
+    </GovernorContext.Provider>
+  );
 }

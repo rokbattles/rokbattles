@@ -74,6 +74,8 @@ export async function loadLegalDocument(
     return { ...doc, content };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to read legal document '${slug}' from ${filePath}: ${message}`);
+    throw new Error(
+      `Failed to read legal document '${slug}' from ${filePath}: ${message}`
+    );
   }
 }

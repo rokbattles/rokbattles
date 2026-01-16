@@ -70,7 +70,8 @@ export async function GET(req: NextRequest) {
               senderAvatarUrl: "$report.sender.avatar_url",
               senderFrameUrl: "$report.sender.frame_url",
               senderPrimaryCommanderId: "$report.sender.commanders.primary.id",
-              senderSecondaryCommanderId: "$report.sender.commanders.secondary.id",
+              senderSecondaryCommanderId:
+                "$report.sender.commanders.secondary.id",
               opponentPlayerId: "$report.opponent.player_id",
               opponentPlayerName: "$report.opponent.player_name",
               opponentKingdom: "$report.opponent.kingdom",
@@ -78,8 +79,10 @@ export async function GET(req: NextRequest) {
               opponentDuelId: "$report.opponent.duel_id",
               opponentAvatarUrl: "$report.opponent.avatar_url",
               opponentFrameUrl: "$report.opponent.frame_url",
-              opponentPrimaryCommanderId: "$report.opponent.commanders.primary.id",
-              opponentSecondaryCommanderId: "$report.opponent.commanders.secondary.id",
+              opponentPrimaryCommanderId:
+                "$report.opponent.commanders.primary.id",
+              opponentSecondaryCommanderId:
+                "$report.opponent.commanders.secondary.id",
             },
           },
           { $limit: 1 },

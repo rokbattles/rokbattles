@@ -51,12 +51,14 @@ export default function OlympianArenaTable({
   return (
     <TableBody>
       {data.map((duel) => (
-        <OlympianArenaRow key={duel.duelId} duel={duel} />
+        <OlympianArenaRow duel={duel} key={duel.duelId} />
       ))}
       {loading && data.length === 0 ? (
         <SkeletonRows count={skeletonCount} widths={SkeletonWidths} />
       ) : null}
-      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={4} /> : null}
+      {!(loading || error) && data.length === 0 ? (
+        <EmptyStateRow colSpan={4} />
+      ) : null}
       {error ? <ErrorRow colSpan={4} error={error} /> : null}
       {cursor ? (
         <LoadMoreRow

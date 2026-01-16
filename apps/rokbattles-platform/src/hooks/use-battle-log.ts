@@ -15,7 +15,10 @@ export type BattleLogResponse = {
   days: BattleLogDay[];
 };
 
-export function useBattleLog(governorId: number | null | undefined, year?: number) {
+export function useBattleLog(
+  governorId: number | null | undefined,
+  year?: number
+) {
   const t = useTranslations("errors");
   const [data, setData] = useState<BattleLogResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -52,7 +55,8 @@ export function useBattleLog(governorId: number | null | undefined, year?: numbe
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : t("battleLog.generic");
+        const message =
+          err instanceof Error ? err.message : t("battleLog.generic");
         setError(message);
         setData(null);
       })

@@ -2,7 +2,14 @@ const FALLBACK_UTC_DISPLAY = "UTC --/-- --:--";
 
 type LongLike = { $numberLong: string };
 type DateLike = { $date: string | LongLike };
-export type DateInput = number | string | Date | LongLike | DateLike | null | undefined;
+export type DateInput =
+  | number
+  | string
+  | Date
+  | LongLike
+  | DateLike
+  | null
+  | undefined;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
@@ -108,7 +115,7 @@ export function formatDurationShort(start: DateInput, end: DateInput): string {
   const startDate = toDate(start);
   const endDate = toDate(end);
 
-  if (!startDate || !endDate) {
+  if (!(startDate && endDate)) {
     return "0s";
   }
 

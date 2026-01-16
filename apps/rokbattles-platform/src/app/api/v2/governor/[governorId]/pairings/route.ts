@@ -29,7 +29,11 @@ type PairingAggregate = {
   totals: AggregationBucket["totals"];
 };
 
-function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
+function aggregateReports(
+  reports: BattleReportDocument[],
+  startMillis: number,
+  endMillis: number
+) {
   const buckets = new Map<string, AggregationBucket>();
 
   for (const doc of reports) {
@@ -39,16 +43,24 @@ function aggregateReports(reports: BattleReportDocument[], startMillis: number, 
     }
 
     const eventTime = extractEventTimeMillis(report);
-    if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+    if (
+      eventTime == null ||
+      eventTime < startMillis ||
+      eventTime >= endMillis
+    ) {
       continue;
     }
 
-    const primaryCommanderId = normalizeCommanderId(report.self?.primary_commander?.id);
+    const primaryCommanderId = normalizeCommanderId(
+      report.self?.primary_commander?.id
+    );
     if (primaryCommanderId <= 0) {
       continue;
     }
 
-    const secondaryCommanderId = normalizeCommanderId(report.self?.secondary_commander?.id);
+    const secondaryCommanderId = normalizeCommanderId(
+      report.self?.secondary_commander?.id
+    );
     const key = `${primaryCommanderId}:${secondaryCommanderId}`;
 
     let bucket = buckets.get(key);
@@ -93,7 +105,11 @@ export async function GET(
   const endParam = url.searchParams.get("end");
   const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
   const targetYear = Number.isFinite(parsedYear) ? parsedYear : nowYear;
-  const range = resolveDateRange({ startParam, endParam, fallbackYear: targetYear });
+  const range = resolveDateRange({
+    startParam,
+    endParam,
+    fallbackYear: targetYear,
+  });
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
@@ -122,10 +138,16 @@ export async function GET(
   try {
     const reports = await db
       .collection<BattleReportDocument>("battleReports")
-      .find(createMatchStage(governorId, range.startMillis, range.endMillis), { projection })
+      .find(createMatchStage(governorId, range.startMillis, range.endMillis), {
+        projection,
+      })
       .toArray();
 
-    const buckets = aggregateReports(reports, range.startMillis, range.endMillis);
+    const buckets = aggregateReports(
+      reports,
+      range.startMillis,
+      range.endMillis
+    );
     const items: PairingAggregate[] = [];
 
     for (const bucket of buckets.values()) {

@@ -41,7 +41,9 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
   const mongo = await clientPromise;
   const db = mongo.db();
 
-  const session = await db.collection<SessionDocument>("userSessions").findOne({ sessionId: sid });
+  const session = await db
+    .collection<SessionDocument>("userSessions")
+    .findOne({ sessionId: sid });
   if (!session) {
     cookieStore.delete("sid");
     return {
@@ -52,7 +54,9 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
 
   const now = new Date();
   if (session.expiresAt <= now) {
-    await db.collection<SessionDocument>("userSessions").deleteOne({ sessionId: sid });
+    await db
+      .collection<SessionDocument>("userSessions")
+      .deleteOne({ sessionId: sid });
     cookieStore.delete("sid");
 
     return {
@@ -61,9 +65,13 @@ export async function authenticateRequest(): Promise<AuthenticationResult> {
     };
   }
 
-  const user = await db.collection<UserDocument>("users").findOne({ discordId: session.userId });
+  const user = await db
+    .collection<UserDocument>("users")
+    .findOne({ discordId: session.userId });
   if (!user) {
-    await db.collection<SessionDocument>("userSessions").deleteOne({ sessionId: sid });
+    await db
+      .collection<SessionDocument>("userSessions")
+      .deleteOne({ sessionId: sid });
     cookieStore.delete("sid");
 
     return {
@@ -93,6 +101,9 @@ export async function requireAuthContext() {
   return {
     ok: false as const,
     reason: result.reason,
-    response: NextResponse.json({ error: "unauthorized", reason: result.reason }, { status: 401 }),
+    response: NextResponse.json(
+      { error: "unauthorized", reason: result.reason },
+      { status: 401 }
+    ),
   };
 }

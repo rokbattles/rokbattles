@@ -20,7 +20,10 @@ export function Fieldset({
   return (
     <HeadlessFieldset
       {...props}
-      className={cn(className, "*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6")}
+      className={cn(
+        className,
+        "*:data-[slot=text]:mt-1 [&>*+[data-slot=control]]:mt-6"
+      )}
     />
   );
 }
@@ -35,14 +38,23 @@ export function Legend({
       {...props}
       className={cn(
         className,
-        "text-base/6 font-semibold text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
+        "font-semibold text-base/6 text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
       )}
     />
   );
 }
 
-export function FieldGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  return <div data-slot="control" {...props} className={cn(className, "space-y-8")} />;
+export function FieldGroup({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
+  return (
+    <div
+      data-slot="control"
+      {...props}
+      className={cn(className, "space-y-8")}
+    />
+  );
 }
 
 export function Field({
@@ -75,7 +87,7 @@ export function Label({
       {...props}
       className={cn(
         className,
-        "text-base/6 text-zinc-950 select-none data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
+        "select-none text-base/6 text-zinc-950 data-disabled:opacity-50 sm:text-sm/6 dark:text-white"
       )}
     />
   );

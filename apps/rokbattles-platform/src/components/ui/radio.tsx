@@ -128,7 +128,10 @@ export function Radio({
   color = "dark/zinc",
   className,
   ...props
-}: { color?: Color; className?: string } & Omit<RadioProps, "as" | "className" | "children">) {
+}: { color?: Color; className?: string } & Omit<
+  RadioProps,
+  "as" | "className" | "children"
+>) {
   return (
     <HeadlessRadio
       data-slot="control"

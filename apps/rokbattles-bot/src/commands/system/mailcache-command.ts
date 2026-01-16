@@ -4,8 +4,8 @@ import {
   ContainerBuilder,
   MessageFlags,
 } from "discord.js";
-import type { BaseClient } from "@/lib/BaseClient";
-import type { CommandHandler } from "@/lib/CommandHandler";
+import type { BaseClient } from "@/lib/base-client";
+import type { CommandHandler } from "@/lib/command-handler";
 
 export const MailcacheCommand: CommandHandler<BaseClient> = {
   options: {

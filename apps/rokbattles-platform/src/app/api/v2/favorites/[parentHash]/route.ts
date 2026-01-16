@@ -8,7 +8,10 @@ function normalizeParentHash(value: string | null | undefined) {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-export async function GET(req: NextRequest, ctx: RouteContext<"/api/v2/favorites/[parentHash]">) {
+export async function GET(
+  req: NextRequest,
+  ctx: RouteContext<"/api/v2/favorites/[parentHash]">
+) {
   const authResult = await requireAuthContext();
   if (!authResult.ok) {
     return authResult.response;
@@ -20,21 +23,25 @@ export async function GET(req: NextRequest, ctx: RouteContext<"/api/v2/favorites
     return NextResponse.json({ error: "Missing report hash" }, { status: 400 });
   }
 
-  const reportType = parseReportType(req.nextUrl.searchParams.get("reportType"));
+  const reportType = parseReportType(
+    req.nextUrl.searchParams.get("reportType")
+  );
   if (!reportType) {
     return NextResponse.json({ error: "Invalid reportType" }, { status: 400 });
   }
 
   const { db, user } = authResult.context;
 
-  const existingFavorite = await db.collection<ReportFavoriteDocument>("reportFavorites").findOne(
-    {
-      discordId: user.discordId,
-      reportType,
-      parentHash: normalizedHash,
-    },
-    { projection: { _id: 1 } }
-  );
+  const existingFavorite = await db
+    .collection<ReportFavoriteDocument>("reportFavorites")
+    .findOne(
+      {
+        discordId: user.discordId,
+        reportType,
+        parentHash: normalizedHash,
+      },
+      { projection: { _id: 1 } }
+    );
 
   return NextResponse.json(
     { favorited: Boolean(existingFavorite) },
@@ -46,7 +53,10 @@ export async function GET(req: NextRequest, ctx: RouteContext<"/api/v2/favorites
   );
 }
 
-export async function POST(req: NextRequest, ctx: RouteContext<"/api/v2/favorites/[parentHash]">) {
+export async function POST(
+  req: NextRequest,
+  ctx: RouteContext<"/api/v2/favorites/[parentHash]">
+) {
   const authResult = await requireAuthContext();
   if (!authResult.ok) {
     return authResult.response;
@@ -58,7 +68,9 @@ export async function POST(req: NextRequest, ctx: RouteContext<"/api/v2/favorite
     return NextResponse.json({ error: "Missing report hash" }, { status: 400 });
   }
 
-  const reportType = parseReportType(req.nextUrl.searchParams.get("reportType"));
+  const reportType = parseReportType(
+    req.nextUrl.searchParams.get("reportType")
+  );
   if (!reportType) {
     return NextResponse.json({ error: "Invalid reportType" }, { status: 400 });
   }
@@ -109,7 +121,9 @@ export async function DELETE(
     return NextResponse.json({ error: "Missing report hash" }, { status: 400 });
   }
 
-  const reportType = parseReportType(req.nextUrl.searchParams.get("reportType"));
+  const reportType = parseReportType(
+    req.nextUrl.searchParams.get("reportType")
+  );
   if (!reportType) {
     return NextResponse.json({ error: "Invalid reportType" }, { status: 400 });
   }

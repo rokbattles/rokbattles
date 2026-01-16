@@ -6,7 +6,7 @@ import { Text } from "@/components/ui/text";
 export function ReportEmptyState() {
   const t = useTranslations("report");
   return (
-    <Text role="status" aria-live="polite">
+    <Text aria-live="polite" role="status">
       {t("states.empty")}
     </Text>
   );

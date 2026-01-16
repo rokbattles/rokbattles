@@ -12,7 +12,9 @@ type AccountGovernorsContentProps = {
   initialUser: CurrentUser;
 };
 
-export function AccountGovernorsContent({ initialUser }: AccountGovernorsContentProps) {
+export function AccountGovernorsContent({
+  initialUser,
+}: AccountGovernorsContentProps) {
   const t = useTranslations("account");
   const tCommon = useTranslations("common");
   const { user, refresh } = useCurrentUser({ initialUser });
@@ -22,7 +24,7 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
   const canClaimMore = claimedGovernors.length < 3;
 
   return (
-    <div className="space-y-8 mt-8">
+    <div className="mt-8 space-y-8">
       <section className="space-y-4">
         <Subheading level={3}>{t("governors.claimedTitle")}</Subheading>
         {claimedGovernors.length === 0 ? (
@@ -30,11 +32,18 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
         ) : (
           <ul className="divide-y divide-zinc-950/5 rounded border border-zinc-950/10 text-sm dark:divide-white/10 dark:border-white/10">
             {claimedGovernors.map((governor) => (
-              <li key={governor.governorId} className="flex items-center gap-3 px-4 py-3">
+              <li
+                className="flex items-center gap-3 px-4 py-3"
+                key={governor.governorId}
+              >
                 {governor.governorAvatar ? (
-                  <Avatar src={governor.governorAvatar} className="size-10" square />
+                  <Avatar
+                    className="size-10"
+                    square
+                    src={governor.governorAvatar}
+                  />
                 ) : (
-                  <Avatar initials="G" className="size-10" square />
+                  <Avatar className="size-10" initials="G" square />
                 )}
                 <div className="min-w-0">
                   <p className="truncate font-medium text-zinc-950 dark:text-white">

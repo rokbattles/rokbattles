@@ -1,5 +1,5 @@
 import { commands } from "@/commands";
-import { registerGlobalCommands } from "@/lib/CommandHandler";
+import { registerGlobalCommands } from "@/lib/command-handler";
 
 (async () => {
   try {

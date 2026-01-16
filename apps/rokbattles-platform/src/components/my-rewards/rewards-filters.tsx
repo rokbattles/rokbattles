@@ -25,25 +25,27 @@ export function RewardsFilters({
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Field className="space-y-2">
-        <Label htmlFor="rewards-start-date">{tPairings("filters.startDate")}</Label>
+        <Label htmlFor="rewards-start-date">
+          {tPairings("filters.startDate")}
+        </Label>
         <Input
           id="rewards-start-date"
+          max={maxDate}
+          min={minDate}
+          onChange={(event) => onStartDateChange(event.target.value)}
           type="date"
           value={startDate}
-          min={minDate}
-          max={maxDate}
-          onChange={(event) => onStartDateChange(event.target.value)}
         />
       </Field>
       <Field className="space-y-2">
         <Label htmlFor="rewards-end-date">{tPairings("filters.endDate")}</Label>
         <Input
           id="rewards-end-date"
+          max={maxDate}
+          min={minDate}
+          onChange={(event) => onEndDateChange(event.target.value)}
           type="date"
           value={endDate}
-          min={minDate}
-          max={maxDate}
-          onChange={(event) => onEndDateChange(event.target.value)}
         />
       </Field>
     </div>

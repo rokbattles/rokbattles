@@ -57,25 +57,29 @@ export default async function Layout({ children }: LayoutProps<"/">) {
 
   return (
     <html
-      lang={locale}
       className={cn(
         inter.variable,
         "text-zinc-950 antialiased lg:bg-zinc-100 dark:bg-zinc-900 dark:text-white dark:lg:bg-zinc-950"
       )}
+      lang={locale}
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://plat-fau-global.lilithgame.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://imimg.lilithcdn.com" />
-        <link rel="dns-prefetch" href="https://imv2-gl.lilithgame.com" />
-        <link rel="dns-prefetch" href="https://static-gl.lilithgame.com" />
+        <link
+          crossOrigin=""
+          href="https://plat-fau-global.lilithgame.com"
+          rel="preconnect"
+        />
+        <link href="https://imimg.lilithcdn.com" rel="dns-prefetch" />
+        <link href="https://imv2-gl.lilithgame.com" rel="dns-prefetch" />
+        <link href="https://static-gl.lilithgame.com" rel="dns-prefetch" />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <CookieConsentProvider>
             <PlatformProviders
-              initialGovernors={initialGovernors}
               initialActiveGovernorId={initialActiveGovernorId}
+              initialGovernors={initialGovernors}
             >
               <PlatformLayout initialUser={user}>{children}</PlatformLayout>
             </PlatformProviders>

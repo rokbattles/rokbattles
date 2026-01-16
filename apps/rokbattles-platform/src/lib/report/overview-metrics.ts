@@ -8,16 +8,27 @@ export const OVERVIEW_METRICS = [
     selfKey: "severely_wounded",
     enemyKey: "enemy_severely_wounded",
   },
-  { labelKey: "slightlyWounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
+  {
+    labelKey: "slightlyWounded",
+    selfKey: "wounded",
+    enemyKey: "enemy_wounded",
+  },
   { labelKey: "remaining", selfKey: "remaining", enemyKey: "enemy_remaining" },
-  { labelKey: "killPoints", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
+  {
+    labelKey: "killPoints",
+    selfKey: "kill_score",
+    enemyKey: "enemy_kill_score",
+  },
 ] as const satisfies readonly {
   labelKey: string;
   selfKey: keyof RawOverview;
   enemyKey: keyof RawOverview;
 }[];
 
-export function getOverviewValue(overview: RawOverview, key: keyof RawOverview) {
+export function getOverviewValue(
+  overview: RawOverview,
+  key: keyof RawOverview
+) {
   const value = overview?.[key];
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return null;

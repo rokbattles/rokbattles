@@ -1,4 +1,4 @@
-import { BaseClient } from "@/lib/BaseClient";
+import { BaseClient } from "@/lib/base-client";
 
 const client = new BaseClient({ intents: [] });
 

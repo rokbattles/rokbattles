@@ -15,18 +15,23 @@ const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
   return (
     <TableRow>
       <TableCell colSpan={colSpan}>
-        <div ref={ref} className="h-1" aria-hidden="true" />
+        <div aria-hidden="true" className="h-1" ref={ref} />
         {loading ? (
           <div
+            aria-live="polite"
             className="mb-1 text-center text-zinc-500 dark:text-zinc-400"
             role="status"
-            aria-live="polite"
           >
             {t("states.loadingMore")}
           </div>
         ) : (
           <div className="flex justify-center">
-            <Button plain type="button" onClick={onLoadMore} className="text-sm/6">
+            <Button
+              className="text-sm/6"
+              onClick={onLoadMore}
+              plain
+              type="button"
+            >
               {t("actions.loadMore")}
             </Button>
           </div>

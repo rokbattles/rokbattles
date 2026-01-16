@@ -29,27 +29,28 @@ export function Alert({
   className,
   children,
   ...props
-}: { size?: keyof typeof sizes; className?: string; children: React.ReactNode } & Omit<
-  DialogProps,
-  "as" | "className"
->) {
+}: {
+  size?: keyof typeof sizes;
+  className?: string;
+  children: React.ReactNode;
+} & Omit<DialogProps, "as" | "className">) {
   return (
     <HeadlessDialog {...props}>
       <HeadlessDialogBackdrop
-        transition
         className="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/15 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50"
+        transition
       />
 
       <div className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
         <div className="grid min-h-full grid-rows-[1fr_auto_1fr] justify-items-center p-8 sm:grid-rows-[1fr_auto_3fr] sm:p-4">
           <HeadlessDialogPanel
-            transition
             className={cn(
               className,
               sizes[size],
               "row-start-2 w-full rounded-2xl bg-white p-8 shadow-lg ring-1 ring-zinc-950/10 sm:rounded-2xl sm:p-6 dark:bg-zinc-900 dark:ring-white/10 forced-colors:outline",
-              "transition duration-100 will-change-transform data-closed:opacity-0 data-enter:ease-out data-closed:data-enter:scale-95 data-leave:ease-in"
+              "transition duration-100 will-change-transform data-closed:data-enter:scale-95 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in"
             )}
+            transition
           >
             {children}
           </HeadlessDialogPanel>
@@ -68,7 +69,7 @@ export function AlertTitle({
       {...props}
       className={cn(
         className,
-        "text-center text-base/6 font-semibold text-balance text-zinc-950 sm:text-left sm:text-sm/6 sm:text-wrap dark:text-white"
+        "text-balance text-center font-semibold text-base/6 text-zinc-950 sm:text-wrap sm:text-left sm:text-sm/6 dark:text-white"
       )}
     />
   );
@@ -77,21 +78,30 @@ export function AlertTitle({
 export function AlertDescription({
   className,
   ...props
-}: { className?: string } & Omit<DescriptionProps<typeof Text>, "as" | "className">) {
+}: { className?: string } & Omit<
+  DescriptionProps<typeof Text>,
+  "as" | "className"
+>) {
   return (
     <HeadlessDescription
       as={Text}
       {...props}
-      className={cn(className, "mt-2 text-center text-pretty sm:text-left")}
+      className={cn(className, "mt-2 text-pretty text-center sm:text-left")}
     />
   );
 }
 
-export function AlertBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function AlertBody({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   return <div {...props} className={cn(className, "mt-4")} />;
 }
 
-export function AlertActions({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function AlertActions({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       {...props}

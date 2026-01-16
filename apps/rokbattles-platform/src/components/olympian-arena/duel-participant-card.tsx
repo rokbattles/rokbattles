@@ -43,7 +43,8 @@ export function DuelParticipantCard({
   const tCommon = useTranslations("common");
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant.player_name.trim() || tCommon("labels.unknownCommander");
+  const playerName =
+    participant.player_name.trim() || tCommon("labels.unknownCommander");
   const allianceTag = participant.alliance.trim();
   const playerId = participant.player_id;
 
@@ -75,15 +76,15 @@ export function DuelParticipantCard({
     <div className="flex flex-col gap-5">
       <div className="flex items-start gap-3">
         <Avatar
-          src={participant.avatar_url || undefined}
-          frameSrc={normalizeFrameUrl(participant.frame_url)}
           alt={playerName}
-          initials={getInitials(playerName)}
           className="size-12"
+          frameSrc={normalizeFrameUrl(participant.frame_url)}
+          initials={getInitials(playerName)}
+          src={participant.avatar_url || undefined}
         />
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <div className="text-base font-semibold text-zinc-900 dark:text-white">
+            <div className="font-semibold text-base text-zinc-900 dark:text-white">
               {playerName}
             </div>
             {isWinner ? <Badge color="emerald">{t("winner")}</Badge> : null}
@@ -103,10 +104,16 @@ export function DuelParticipantCard({
             <Subheading>{tCommon("labels.commanders")}</Subheading>
             <div className="space-y-2">
               {showPrimary ? (
-                <DuelCommanderRow commander={primary} label={tCommon("labels.primary")} />
+                <DuelCommanderRow
+                  commander={primary}
+                  label={tCommon("labels.primary")}
+                />
               ) : null}
               {showSecondary ? (
-                <DuelCommanderRow commander={secondary} label={tCommon("labels.secondary")} />
+                <DuelCommanderRow
+                  commander={secondary}
+                  label={tCommon("labels.secondary")}
+                />
               ) : null}
             </div>
           </div>
@@ -117,10 +124,10 @@ export function DuelParticipantCard({
             <DescriptionList id={buffsId}>
               {visibleBuffs.map((buff) => (
                 <Fragment key={buff.id}>
-                  <DescriptionTerm className="pt-1! pb-1! border-none!">
+                  <DescriptionTerm className="border-none! pt-1! pb-1!">
                     {buff.name}
                   </DescriptionTerm>
-                  <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
+                  <DescriptionDetails className="border-none! pt-1! pb-1! tabular-nums sm:text-right">
                     {formatBuffValue(buff.value, buff.percent)}
                   </DescriptionDetails>
                 </Fragment>
@@ -128,14 +135,16 @@ export function DuelParticipantCard({
             </DescriptionList>
             {hasMore ? (
               <Button
+                aria-controls={buffsId}
+                aria-expanded={expanded}
+                className="text-sm"
+                onClick={() => setExpanded((prev) => !prev)}
                 plain
                 type="button"
-                onClick={() => setExpanded((prev) => !prev)}
-                aria-expanded={expanded}
-                aria-controls={buffsId}
-                className="text-sm"
               >
-                {expanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
+                {expanded
+                  ? tCommon("actions.showLess")
+                  : tCommon("actions.showMore")}
               </Button>
             ) : null}
           </div>

@@ -7,7 +7,10 @@ import {
 import type React from "react";
 import { cn } from "@/lib/cn";
 
-export function SwitchGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function SwitchGroup({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       data-slot="control"
@@ -166,13 +169,13 @@ export function Switch({
         // Checked
         "data-checked:bg-(--switch-bg) data-checked:ring-(--switch-bg-ring) dark:data-checked:bg-(--switch-bg) dark:data-checked:ring-(--switch-bg-ring)",
         // Focus
-        "focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500",
+        "focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-blue-500 data-focus:outline-offset-2",
         // Hover
-        "data-hover:ring-black/15 data-hover:data-checked:ring-(--switch-bg-ring)",
-        "dark:data-hover:ring-white/25 dark:data-hover:data-checked:ring-(--switch-bg-ring)",
+        "data-hover:data-checked:ring-(--switch-bg-ring) data-hover:ring-black/15",
+        "dark:data-hover:data-checked:ring-(--switch-bg-ring) dark:data-hover:ring-white/25",
         // Disabled
-        "data-disabled:bg-zinc-200 data-disabled:opacity-50 data-disabled:data-checked:bg-zinc-200 data-disabled:data-checked:ring-black/5",
-        "dark:data-disabled:bg-white/15 dark:data-disabled:data-checked:bg-white/15 dark:data-disabled:data-checked:ring-white/15",
+        "data-disabled:data-checked:bg-zinc-200 data-disabled:data-checked:ring-black/5 data-disabled:bg-zinc-200 data-disabled:opacity-50",
+        "dark:data-disabled:data-checked:bg-white/15 dark:data-disabled:data-checked:ring-white/15 dark:data-disabled:bg-white/15",
         // Color specific styles
         colors[color]
       )}

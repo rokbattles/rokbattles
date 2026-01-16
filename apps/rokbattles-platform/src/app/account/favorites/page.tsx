@@ -12,14 +12,23 @@ export default async function Page() {
   return (
     <>
       <Heading>{tAccount("titles.favorites")}</Heading>
-      <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table
+        className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]"
+        dense
+      >
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-1/6">{tCommon("labels.time")}</TableHeader>
+            <TableHeader className="sm:w-1/6">
+              {tCommon("labels.time")}
+            </TableHeader>
             <TableHeader>{tCommon("labels.sender")}</TableHeader>
             <TableHeader>{tCommon("labels.opponent")}</TableHeader>
-            <TableHeader className="sm:w-1/6">{tCommon("labels.battles")}</TableHeader>
-            <TableHeader className="sm:w-1/6">{tReports("table.duration")}</TableHeader>
+            <TableHeader className="sm:w-1/6">
+              {tCommon("labels.battles")}
+            </TableHeader>
+            <TableHeader className="sm:w-1/6">
+              {tReports("table.duration")}
+            </TableHeader>
           </TableRow>
         </TableHead>
         <FavoriteReportsTable />

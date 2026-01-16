@@ -42,7 +42,9 @@ export function toPlainObject(source: unknown): Record<string, unknown> {
       "$numberLong" in (value as Record<string, unknown>) &&
       typeof (value as Record<string, unknown>).$numberLong === "string"
     ) {
-      const numericValue = Number((value as { $numberLong: string }).$numberLong);
+      const numericValue = Number(
+        (value as { $numberLong: string }).$numberLong
+      );
       return Number.isFinite(numericValue)
         ? numericValue
         : (value as { $numberLong: string }).$numberLong;

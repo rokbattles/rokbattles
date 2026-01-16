@@ -36,7 +36,9 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
 
     const fetchDuel = async () => {
       try {
-        const res = await fetch(`/api/v2/olympian-arena/duel/${encodeURIComponent(duelId)}`);
+        const res = await fetch(
+          `/api/v2/olympian-arena/duel/${encodeURIComponent(duelId)}`
+        );
 
         if (!res.ok) {
           throw new Error(t("duel.fetch", { status: res.status }));

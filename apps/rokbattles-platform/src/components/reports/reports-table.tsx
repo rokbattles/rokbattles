@@ -48,8 +48,12 @@ export default function ReportsTable({
       {data.map((report) => (
         <ReportRow key={report.parentHash} report={report} />
       ))}
-      {loading && data.length === 0 ? <SkeletonRows count={skeletonCount} /> : null}
-      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={5} /> : null}
+      {loading && data.length === 0 ? (
+        <SkeletonRows count={skeletonCount} />
+      ) : null}
+      {!(loading || error) && data.length === 0 ? (
+        <EmptyStateRow colSpan={5} />
+      ) : null}
       {error ? <ErrorRow colSpan={5} error={error} /> : null}
       {cursor ? (
         <LoadMoreRow

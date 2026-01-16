@@ -84,18 +84,25 @@ export default function PairingAccessoryDetails({
   }, [t]);
 
   const categoryKey: CategoryKey | null =
-    category === "field" || category === "rally" || category === "garrison" ? category : null;
+    category === "field" || category === "rally" || category === "garrison"
+      ? category
+      : null;
   const pairing =
     snapshot?.categories && categoryKey
       ? (snapshot.categories[categoryKey]?.pairings.find(
           (entry) =>
-            entry.primaryCommanderId === primaryId && entry.secondaryCommanderId === secondaryId
+            entry.primaryCommanderId === primaryId &&
+            entry.secondaryCommanderId === secondaryId
         ) ?? null)
       : null;
 
   if (loading) {
     return (
-      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+      <Text
+        aria-live="polite"
+        className="mt-6 text-sm text-zinc-500"
+        role="status"
+      >
         {t("states.detailsLoading")}
       </Text>
     );
@@ -104,9 +111,9 @@ export default function PairingAccessoryDetails({
   if (error) {
     return (
       <Text
-        className="mt-6 text-sm text-rose-600 dark:text-rose-400"
-        role="status"
         aria-live="polite"
+        className="mt-6 text-rose-600 text-sm dark:text-rose-400"
+        role="status"
       >
         {error}
       </Text>
@@ -115,7 +122,11 @@ export default function PairingAccessoryDetails({
 
   if (!categoryKey) {
     return (
-      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+      <Text
+        aria-live="polite"
+        className="mt-6 text-sm text-zinc-500"
+        role="status"
+      >
         {t("states.unknownCategory")}
       </Text>
     );
@@ -123,13 +134,19 @@ export default function PairingAccessoryDetails({
 
   if (!pairing) {
     return (
-      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+      <Text
+        aria-live="polite"
+        className="mt-6 text-sm text-zinc-500"
+        role="status"
+      >
         {t("states.notFound")}
       </Text>
     );
   }
 
-  const visiblePairs = pairsExpanded ? pairing.accessoryPairs : pairing.accessoryPairs.slice(0, 10);
+  const visiblePairs = pairsExpanded
+    ? pairing.accessoryPairs
+    : pairing.accessoryPairs.slice(0, 10);
   const hasMorePairs = pairing.accessoryPairs.length > 10;
   const visibleAccessories = accessoriesExpanded
     ? pairing.accessories
@@ -146,19 +163,26 @@ export default function PairingAccessoryDetails({
           <DescriptionTerm>{tCommon("labels.secondary")}</DescriptionTerm>
           <DescriptionDetails>{secondaryName}</DescriptionDetails>
           <DescriptionTerm>{t("details.category")}</DescriptionTerm>
-          <DescriptionDetails>{t(CATEGORY_LABELS[categoryKey])}</DescriptionDetails>
+          <DescriptionDetails>
+            {t(CATEGORY_LABELS[categoryKey])}
+          </DescriptionDetails>
           <DescriptionTerm>{t("overview.period")}</DescriptionTerm>
           <DescriptionDetails>
             {snapshot?.period?.label ?? t("overview.periodFallback")}
           </DescriptionDetails>
           <DescriptionTerm>{t("details.totalReports")}</DescriptionTerm>
-          <DescriptionDetails>{pairing.reportCount.toLocaleString()}</DescriptionDetails>
+          <DescriptionDetails>
+            {pairing.reportCount.toLocaleString()}
+          </DescriptionDetails>
         </DescriptionList>
       </div>
 
       <section className="space-y-3">
         <Subheading>{t("details.accessoryPairs.title")}</Subheading>
-        <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
+        <Table
+          className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]"
+          dense
+        >
           <TableHead>
             <TableRow>
               <TableHeader className="w-12">{t("table.rank")}</TableHeader>
@@ -170,13 +194,17 @@ export default function PairingAccessoryDetails({
             {pairing.accessoryPairs.length > 0 ? (
               visiblePairs.map((entry, index) => (
                 <TableRow key={`${entry.ids[0]}:${entry.ids[1]}`}>
-                  <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
+                  <TableRowHeader className="w-12 tabular-nums">
+                    {index + 1}
+                  </TableRowHeader>
                   <TableCell>
-                    {getEquipmentName(entry.ids[0]) ?? tCommon("labels.unknown")}{" "}
+                    {getEquipmentName(entry.ids[0]) ??
+                      tCommon("labels.unknown")}{" "}
                     <span className="text-zinc-600 dark:text-zinc-400">
                       {tCommon("labels.and")}
                     </span>{" "}
-                    {getEquipmentName(entry.ids[1]) ?? tCommon("labels.unknown")}
+                    {getEquipmentName(entry.ids[1]) ??
+                      tCommon("labels.unknown")}
                   </TableCell>
                   <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
@@ -186,7 +214,9 @@ export default function PairingAccessoryDetails({
             ) : (
               <TableRow>
                 <TableCell colSpan={3}>
-                  <Text className="text-sm text-zinc-500">{t("accessories.emptyPairs")}</Text>
+                  <Text className="text-sm text-zinc-500">
+                    {t("accessories.emptyPairs")}
+                  </Text>
                 </TableCell>
               </TableRow>
             )}
@@ -194,21 +224,26 @@ export default function PairingAccessoryDetails({
         </Table>
         {hasMorePairs ? (
           <Button
+            aria-controls={pairsId}
+            aria-expanded={pairsExpanded}
+            className="text-sm"
+            onClick={() => setPairsExpanded((prev) => !prev)}
             plain
             type="button"
-            onClick={() => setPairsExpanded((prev) => !prev)}
-            aria-expanded={pairsExpanded}
-            aria-controls={pairsId}
-            className="text-sm"
           >
-            {pairsExpanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
+            {pairsExpanded
+              ? tCommon("actions.showLess")
+              : tCommon("actions.showMore")}
           </Button>
         ) : null}
       </section>
 
       <section className="space-y-3">
         <Subheading>{t("details.accessories.title")}</Subheading>
-        <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
+        <Table
+          className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]"
+          dense
+        >
           <TableHead>
             <TableRow>
               <TableHeader className="w-12">{t("table.rank")}</TableHeader>
@@ -220,8 +255,12 @@ export default function PairingAccessoryDetails({
             {pairing.accessories.length > 0 ? (
               visibleAccessories.map((entry, index) => (
                 <TableRow key={entry.id}>
-                  <TableRowHeader className="w-12 tabular-nums">{index + 1}</TableRowHeader>
-                  <TableCell>{getEquipmentName(entry.id) ?? tCommon("labels.unknown")}</TableCell>
+                  <TableRowHeader className="w-12 tabular-nums">
+                    {index + 1}
+                  </TableRowHeader>
+                  <TableCell>
+                    {getEquipmentName(entry.id) ?? tCommon("labels.unknown")}
+                  </TableCell>
                   <TableCell className="w-32 tabular-nums">
                     {entry.count.toLocaleString()}
                   </TableCell>
@@ -230,7 +269,9 @@ export default function PairingAccessoryDetails({
             ) : (
               <TableRow>
                 <TableCell colSpan={3}>
-                  <Text className="text-sm text-zinc-500">{t("accessories.emptyAccessories")}</Text>
+                  <Text className="text-sm text-zinc-500">
+                    {t("accessories.emptyAccessories")}
+                  </Text>
                 </TableCell>
               </TableRow>
             )}
@@ -238,14 +279,16 @@ export default function PairingAccessoryDetails({
         </Table>
         {hasMoreAccessories ? (
           <Button
+            aria-controls={accessoriesId}
+            aria-expanded={accessoriesExpanded}
+            className="text-sm"
+            onClick={() => setAccessoriesExpanded((prev) => !prev)}
             plain
             type="button"
-            onClick={() => setAccessoriesExpanded((prev) => !prev)}
-            aria-expanded={accessoriesExpanded}
-            aria-controls={accessoriesId}
-            className="text-sm"
           >
-            {accessoriesExpanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
+            {accessoriesExpanded
+              ? tCommon("actions.showLess")
+              : tCommon("actions.showMore")}
           </Button>
         ) : null}
       </section>

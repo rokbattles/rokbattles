@@ -74,7 +74,8 @@ export function useFavoriteReports({
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : t("favorites.generic");
+        const message =
+          err instanceof Error ? err.message : t("favorites.generic");
         setError(message);
       })
       .finally(() => {
@@ -105,7 +106,8 @@ export function useFavoriteReports({
       setFavorites((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("favorites.generic");
+      const message =
+        err instanceof Error ? err.message : t("favorites.generic");
       setError(message);
     } finally {
       setLoading(false);

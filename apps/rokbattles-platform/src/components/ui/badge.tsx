@@ -47,7 +47,7 @@ export function Badge({
       {...props}
       className={cn(
         className,
-        "inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline",
+        "inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 font-medium text-sm/5 sm:text-xs/5 forced-colors:outline",
         colors[color]
       )}
     />
@@ -62,18 +62,25 @@ export const BadgeButton = forwardRef(function BadgeButton(
     ...props
   }: BadgeProps & { className?: string; children: React.ReactNode } & (
       | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
-      | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
+      | ({ href: string } & Omit<
+          React.ComponentPropsWithoutRef<typeof Link>,
+          "className"
+        >)
     ),
   ref: React.ForwardedRef<HTMLElement>
 ) {
   const classes = cn(
     className,
-    "group relative inline-flex rounded-md focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500"
+    "group relative inline-flex rounded-md focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-blue-500 data-focus:outline-offset-2"
   );
 
   return typeof props.href === "string" ? (
     // @ts-expect-error
-    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
+    <Link
+      {...props}
+      className={classes}
+      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+    >
       <TouchTarget>
         <Badge color={color}>{children}</Badge>
       </TouchTarget>

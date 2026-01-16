@@ -23,13 +23,20 @@ export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
           getArmamentInfo(buff.id ?? null)?.name ??
           tReport("armament.fallback", { id: fallbackId });
         const valueLabel =
-          typeof buff.value === "number" ? `${(buff.value * 100).toFixed(2)}%` : null;
+          typeof buff.value === "number"
+            ? `${(buff.value * 100).toFixed(2)}%`
+            : null;
 
         return (
-          <div key={`${buff.id}-${buff.value ?? "none"}`} className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-2"
+            key={`${buff.id}-${buff.value ?? "none"}`}
+          >
             <span className="min-w-0 flex-1 truncate">{name}</span>
             {valueLabel ? (
-              <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{valueLabel}</span>
+              <span className="text-zinc-500 tabular-nums dark:text-zinc-400">
+                {valueLabel}
+              </span>
             ) : null}
           </div>
         );

@@ -10,7 +10,10 @@ import { useTranslations } from "next-intl";
 import type React from "react";
 import { cn } from "@/lib/cn";
 
-export function CheckboxGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function CheckboxGroup({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       data-slot="control"
@@ -140,25 +143,25 @@ export function Checkbox({
       <span className={cn([base, colors[color]])}>
         <svg
           className="size-4 stroke-(--checkbox-check) opacity-0 group-data-checked:opacity-100 sm:h-3.5 sm:w-3.5"
-          viewBox="0 0 14 14"
           fill="none"
+          viewBox="0 0 14 14"
         >
           <title>{t("icons.checkmark")}</title>
           {/* Checkmark icon */}
           <path
             className="opacity-100 group-data-indeterminate:opacity-0"
             d="M3 8L6 11L11 3.5"
-            strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth={2}
           />
           {/* Indeterminate icon */}
           <path
             className="opacity-0 group-data-indeterminate:opacity-100"
             d="M3 7H11"
-            strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"
+            strokeWidth={2}
           />
         </svg>
       </span>

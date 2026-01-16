@@ -10,7 +10,10 @@ type FormationIdKey = keyof typeof formationMap;
 type FormationEntry = (typeof formationMap)[FormationIdKey];
 type FormationLocale = keyof FormationEntry["name"];
 
-export function getFormationName(id: number | null | undefined, locale?: string) {
+export function getFormationName(
+  id: number | null | undefined,
+  locale?: string
+) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }

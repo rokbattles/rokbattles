@@ -21,13 +21,20 @@ export async function GET(req: NextRequest) {
 
   const parseSide = (value: string | null): ReportsFilterSide | undefined => {
     if (!value) return undefined;
-    if (value === "none" || value === "sender" || value === "opponent" || value === "both") {
+    if (
+      value === "none" ||
+      value === "sender" ||
+      value === "opponent" ||
+      value === "both"
+    ) {
       return value;
     }
     return undefined;
   };
 
-  const parseGarrisonBuilding = (value: string | null): ReportsGarrisonBuildingType | undefined => {
+  const parseGarrisonBuilding = (
+    value: string | null
+  ): ReportsGarrisonBuildingType | undefined => {
     if (!value) return undefined;
     if (value === "flag" || value === "fortress" || value === "other") {
       return value;
@@ -50,7 +57,10 @@ export async function GET(req: NextRequest) {
     if (Number.isFinite(n)) {
       parsedPlayerId = n;
     } else {
-      return NextResponse.json({ error: "Invalid governor id" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid governor id" },
+        { status: 400 }
+      );
     }
   }
 
@@ -60,7 +70,10 @@ export async function GET(req: NextRequest) {
     if (Number.isFinite(n)) {
       parsedSenderPrimaryCommanderId = n;
     } else {
-      return NextResponse.json({ error: "Invalid sender primary commander id" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid sender primary commander id" },
+        { status: 400 }
+      );
     }
   }
 
@@ -70,7 +83,10 @@ export async function GET(req: NextRequest) {
     if (Number.isFinite(n)) {
       parsedSenderSecondaryCommanderId = n;
     } else {
-      return NextResponse.json({ error: "Invalid sender secondary commander id" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid sender secondary commander id" },
+        { status: 400 }
+      );
     }
   }
 
@@ -80,7 +96,10 @@ export async function GET(req: NextRequest) {
     if (Number.isFinite(n)) {
       parsedOpponentPrimaryCommanderId = n;
     } else {
-      return NextResponse.json({ error: "Invalid opponent primary commander id" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid opponent primary commander id" },
+        { status: 400 }
+      );
     }
   }
 
@@ -104,12 +123,18 @@ export async function GET(req: NextRequest) {
 
   const parsedGarrisonSide = parseSide(garrisonSideParam) ?? "none";
   if (garrisonSideParam && !parseSide(garrisonSideParam)) {
-    return NextResponse.json({ error: "Invalid garrison side" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid garrison side" },
+      { status: 400 }
+    );
   }
 
   const parsedGarrisonBuilding = parseGarrisonBuilding(garrisonBuildingParam);
   if (garrisonBuildingParam && !parsedGarrisonBuilding) {
-    return NextResponse.json({ error: "Invalid garrison building" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid garrison building" },
+      { status: 400 }
+    );
   }
 
   const sideOverlaps =
@@ -210,10 +235,14 @@ export async function GET(req: NextRequest) {
 
   const garrisonConditions: Document[] = [];
   if (parsedGarrisonSide === "sender" || parsedGarrisonSide === "both") {
-    garrisonConditions.push(buildGarrisonCondition("report.self.alliance_building"));
+    garrisonConditions.push(
+      buildGarrisonCondition("report.self.alliance_building")
+    );
   }
   if (parsedGarrisonSide === "opponent" || parsedGarrisonSide === "both") {
-    garrisonConditions.push(buildGarrisonCondition("report.enemy.alliance_building"));
+    garrisonConditions.push(
+      buildGarrisonCondition("report.enemy.alliance_building")
+    );
   }
   if (garrisonConditions.length === 1) {
     matchPipeline.push(garrisonConditions[0]);
@@ -261,14 +290,23 @@ export async function GET(req: NextRequest) {
               },
             },
           },
-          { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
+          {
+            $sort: {
+              "report.metadata.email_time": 1,
+              "report.metadata.start_date": 1,
+            },
+          },
           {
             $project: {
               startDate: "$report.metadata.start_date",
               selfCommanderId: "$report.self.primary_commander.id",
-              selfSecondaryCommanderId: { $ifNull: ["$report.self.secondary_commander.id", 0] },
+              selfSecondaryCommanderId: {
+                $ifNull: ["$report.self.secondary_commander.id", 0],
+              },
               enemyCommanderId: "$report.enemy.primary_commander.id",
-              enemySecondaryCommanderId: { $ifNull: ["$report.enemy.secondary_commander.id", 0] },
+              enemySecondaryCommanderId: {
+                $ifNull: ["$report.enemy.secondary_commander.id", 0],
+              },
             },
           },
           { $limit: 1 },
@@ -296,9 +334,11 @@ export async function GET(req: NextRequest) {
     entry: {
       startDate: Number(d.firstDoc.startDate) || 0,
       selfCommanderId: Number(d.firstDoc.selfCommanderId) || 0,
-      selfSecondaryCommanderId: Number(d.firstDoc.selfSecondaryCommanderId) || 0,
+      selfSecondaryCommanderId:
+        Number(d.firstDoc.selfSecondaryCommanderId) || 0,
       enemyCommanderId: Number(d.firstDoc.enemyCommanderId) || 0,
-      enemySecondaryCommanderId: Number(d.firstDoc.enemySecondaryCommanderId) || 0,
+      enemySecondaryCommanderId:
+        Number(d.firstDoc.enemySecondaryCommanderId) || 0,
     },
   }));
 

@@ -18,7 +18,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Text } from "@/components/ui/text";
-import type { CategoryKey, CategorySnapshot, TrendSnapshot } from "@/lib/types/trends";
+import type {
+  CategoryKey,
+  CategorySnapshot,
+  TrendSnapshot,
+} from "@/lib/types/trends";
 
 const CATEGORY_META: Record<CategoryKey, { titleKey: string }> = {
   field: { titleKey: "categories.field" },
@@ -102,7 +106,11 @@ export default function PairingTrendsContent() {
 
   if (loading) {
     return (
-      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+      <Text
+        aria-live="polite"
+        className="mt-6 text-sm text-zinc-500"
+        role="status"
+      >
         {t("states.loading")}
       </Text>
     );
@@ -111,9 +119,9 @@ export default function PairingTrendsContent() {
   if (error) {
     return (
       <Text
-        className="mt-6 text-sm text-rose-600 dark:text-rose-400"
-        role="status"
         aria-live="polite"
+        className="mt-6 text-rose-600 text-sm dark:text-rose-400"
+        role="status"
       >
         {error}
       </Text>
@@ -122,7 +130,11 @@ export default function PairingTrendsContent() {
 
   if (!snapshot) {
     return (
-      <Text className="mt-6 text-sm text-zinc-500" role="status" aria-live="polite">
+      <Text
+        aria-live="polite"
+        className="mt-6 text-sm text-zinc-500"
+        role="status"
+      >
         {t("states.empty")}
       </Text>
     );
@@ -157,7 +169,7 @@ export default function PairingTrendsContent() {
         const pairings = category?.pairings ?? [];
 
         return (
-          <section key={key} className="space-y-4">
+          <section className="space-y-4" key={key}>
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <div>
                 <Subheading>{t(meta.titleKey)}</Subheading>
@@ -171,29 +183,36 @@ export default function PairingTrendsContent() {
               </div>
             </div>
 
-            <Table dense className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]">
+            <Table
+              className="[--gutter:--spacing(4)] lg:[--gutter:--spacing(6)]"
+              dense
+            >
               <TableHead>
                 <TableRow>
                   <TableHeader className="w-12">{t("table.rank")}</TableHeader>
                   <TableHeader>{t("table.pairing")}</TableHeader>
                   <TableHeader>{t("table.topAccessory")}</TableHeader>
-                  <TableHeader className="w-32">{t("table.reports")}</TableHeader>
+                  <TableHeader className="w-32">
+                    {t("table.reports")}
+                  </TableHeader>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {pairings.length > 0 ? (
                   pairings.map((pairing, index) => (
                     <PairingRow
-                      key={`${pairing.primaryCommanderId}:${pairing.secondaryCommanderId}`}
-                      pairing={pairing}
                       categoryKey={key}
                       index={index + 1}
+                      key={`${pairing.primaryCommanderId}:${pairing.secondaryCommanderId}`}
+                      pairing={pairing}
                     />
                   ))
                 ) : (
                   <TableRow>
                     <TableCell colSpan={4}>
-                      <Text className="text-sm text-zinc-500">{t("states.thresholdEmpty")}</Text>
+                      <Text className="text-sm text-zinc-500">
+                        {t("states.thresholdEmpty")}
+                      </Text>
                     </TableCell>
                   </TableRow>
                 )}

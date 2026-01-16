@@ -6,7 +6,9 @@ export function generateStaticParams() {
   return getLegalDocuments().map((doc) => ({ slug: doc.slug }));
 }
 
-export default async function LegalDocumentPage({ params }: PageProps<"/legal/[slug]">) {
+export default async function LegalDocumentPage({
+  params,
+}: PageProps<"/legal/[slug]">) {
   const { slug } = await params;
   const doc = await loadLegalDocument(slug);
 

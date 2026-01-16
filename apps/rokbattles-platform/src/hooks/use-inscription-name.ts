@@ -10,7 +10,10 @@ type InscriptionIdKey = keyof typeof inscriptionMap;
 type InscriptionEntry = (typeof inscriptionMap)[InscriptionIdKey];
 type InscriptionLocale = keyof InscriptionEntry["name"];
 
-export function getInscriptionName(id: number | null | undefined, locale?: string) {
+export function getInscriptionName(
+  id: number | null | undefined,
+  locale?: string
+) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }

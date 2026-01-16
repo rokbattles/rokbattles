@@ -38,7 +38,8 @@ export function useReport(hash: string | null | undefined) {
           setError(null);
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : t("report.generic");
+        const message =
+          err instanceof Error ? err.message : t("report.generic");
         if (!cancelled) {
           setError(message);
           setData(null);

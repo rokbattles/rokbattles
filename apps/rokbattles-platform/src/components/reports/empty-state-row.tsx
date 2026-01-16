@@ -7,7 +7,7 @@ export default function EmptyStateRow({ colSpan }: { colSpan: number }) {
   const t = useTranslations("reports");
   return (
     <TableRow>
-      <TableCell colSpan={colSpan} role="status" aria-live="polite">
+      <TableCell aria-live="polite" colSpan={colSpan} role="status">
         {t("states.empty")}
       </TableCell>
     </TableRow>

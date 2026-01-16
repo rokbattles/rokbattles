@@ -47,7 +47,9 @@ export async function GET(
   const endParam = url.searchParams.get("end");
   const granularityParam = url.searchParams.get("granularity");
   const primaryCommanderId = primaryParam ? Number(primaryParam) : Number.NaN;
-  const secondaryCommanderId = secondaryParam ? Number(secondaryParam) : Number.NaN;
+  const secondaryCommanderId = secondaryParam
+    ? Number(secondaryParam)
+    : Number.NaN;
   if (
     !Number.isFinite(primaryCommanderId) ||
     primaryCommanderId <= 0 ||
@@ -67,7 +69,11 @@ export async function GET(
   const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
   const targetYear = Number.isFinite(parsedYear) ? parsedYear : nowYear;
   const granularity = parseGranularity(granularityParam);
-  const range = resolveDateRange({ startParam, endParam, fallbackYear: targetYear });
+  const range = resolveDateRange({
+    startParam,
+    endParam,
+    fallbackYear: targetYear,
+  });
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
@@ -111,7 +117,11 @@ export async function GET(
 
     const buckets = new Map<
       string,
-      { loadout: LoadoutSnapshot; count: number; totals: ReturnType<typeof createEmptyTotals> }
+      {
+        loadout: LoadoutSnapshot;
+        count: number;
+        totals: ReturnType<typeof createEmptyTotals>;
+      }
     >();
 
     for (const doc of reports) {
@@ -121,13 +131,24 @@ export async function GET(
       }
 
       const eventTime = extractEventTimeMillis(report);
-      if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
+      if (
+        eventTime == null ||
+        eventTime < startMillis ||
+        eventTime >= endMillis
+      ) {
         continue;
       }
 
-      const selfPrimary = normalizeCommanderId(report.self?.primary_commander?.id);
-      const selfSecondary = normalizeCommanderId(report.self?.secondary_commander?.id);
-      if (selfPrimary !== primaryCommanderId || selfSecondary !== secondaryCommanderId) {
+      const selfPrimary = normalizeCommanderId(
+        report.self?.primary_commander?.id
+      );
+      const selfSecondary = normalizeCommanderId(
+        report.self?.secondary_commander?.id
+      );
+      if (
+        selfPrimary !== primaryCommanderId ||
+        selfSecondary !== secondaryCommanderId
+      ) {
         continue;
       }
 
@@ -148,12 +169,14 @@ export async function GET(
       bucket.totals.battleDuration += extractBattleDurationMillis(report);
     }
 
-    const items: LoadoutAggregate[] = Array.from(buckets.entries()).map(([key, bucket]) => ({
-      key,
-      count: bucket.count,
-      totals: bucket.totals,
-      loadout: bucket.loadout,
-    }));
+    const items: LoadoutAggregate[] = Array.from(buckets.entries()).map(
+      ([key, bucket]) => ({
+        key,
+        count: bucket.count,
+        totals: bucket.totals,
+        loadout: bucket.loadout,
+      })
+    );
 
     items.sort((a, b) => {
       if (b.totals.killScore !== a.totals.killScore) {

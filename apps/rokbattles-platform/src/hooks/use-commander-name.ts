@@ -10,7 +10,10 @@ type CommanderIdKey = keyof typeof commanderMap;
 type CommanderEntry = (typeof commanderMap)[CommanderIdKey];
 type CommanderLocale = keyof CommanderEntry["name"];
 
-export function getCommanderName(id: number | null | undefined, locale?: string) {
+export function getCommanderName(
+  id: number | null | undefined,
+  locale?: string
+) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }

@@ -97,43 +97,50 @@ function App() {
     <main className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="mx-auto max-w-3xl p-6">
         <header className="mb-6 flex items-center justify-between gap-3">
-          <h1 className="text-xl font-semibold tracking-tight">ROK Battles</h1>
+          <h1 className="font-semibold text-xl tracking-tight">ROK Battles</h1>
           <div className="flex items-center gap-2">
             <button
-              type="button"
-              onClick={handleReprocess}
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 font-medium text-sm text-white hover:bg-zinc-600 disabled:opacity-60"
               disabled={isReprocessing}
-              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
+              onClick={handleReprocess}
+              type="button"
             >
               {isReprocessing ? "Reprocessing..." : "Reprocess all"}
             </button>
             <button
-              type="button"
-              onClick={handleAdd}
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 font-medium text-sm text-white hover:bg-zinc-600 disabled:opacity-60"
               disabled={isAdding}
-              className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
+              onClick={handleAdd}
+              type="button"
             >
               {isAdding ? "Adding..." : "Add directory"}
             </button>
           </div>
         </header>
         <section className="rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
-          <div className="flex items-center justify-between border-b border-zinc-800 p-4">
-            <h2 className="text-base font-medium">Watched Directories</h2>
+          <div className="flex items-center justify-between border-zinc-800 border-b p-4">
+            <h2 className="font-medium text-base">Watched Directories</h2>
           </div>
           {isLoading ? (
-            <div className="p-8 text-center text-sm text-zinc-400">Loading directories...</div>
+            <div className="p-8 text-center text-sm text-zinc-400">
+              Loading directories...
+            </div>
           ) : hasDirs ? (
             <ul className="divide-y divide-zinc-800">
               {dirs.map((dir) => (
-                <li key={dir} className="flex items-center justify-between gap-4 p-3">
+                <li
+                  className="flex items-center justify-between gap-4 p-3"
+                  key={dir}
+                >
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-zinc-200">{dir}</p>
+                    <p className="truncate font-medium text-sm text-zinc-200">
+                      {dir}
+                    </p>
                   </div>
                   <button
-                    type="button"
+                    className="inline-flex items-center rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1.5 font-medium text-xs text-zinc-200 hover:bg-zinc-700"
                     onClick={() => handleRemove(dir)}
-                    className="inline-flex items-center rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1.5 text-xs font-medium text-zinc-200 hover:bg-zinc-700"
+                    type="button"
                   >
                     Remove
                   </button>
@@ -147,19 +154,21 @@ function App() {
           )}
         </section>
         <section className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
-          <div className="flex items-center justify-between border-b border-zinc-800 p-4">
-            <h2 className="text-base font-medium">Logs</h2>
+          <div className="flex items-center justify-between border-zinc-800 border-b p-4">
+            <h2 className="font-medium text-base">Logs</h2>
           </div>
           <div className="h-64 overflow-y-auto overflow-x-hidden">
             {logs.length === 0 ? (
-              <div className="h-full p-8 text-center text-sm text-zinc-400">No logs yet.</div>
+              <div className="h-full p-8 text-center text-sm text-zinc-400">
+                No logs yet.
+              </div>
             ) : (
               <div className="divide-y-0">
                 {logs.map((log, idx) => (
                   <div
                     // biome-ignore lint/suspicious/noArrayIndexKey: will change later
+                    className="whitespace-pre-wrap break-words px-3 py-1 font-mono text-xs text-zinc-300"
                     key={idx}
-                    className="px-3 py-1 text-xs text-zinc-300 font-mono break-words whitespace-pre-wrap"
                   >
                     {log}
                   </div>

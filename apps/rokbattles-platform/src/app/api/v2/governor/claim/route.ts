@@ -18,7 +18,9 @@ export async function POST(req: NextRequest) {
   }
 
   const governorId = parseGovernorId(
-    payload && typeof payload === "object" ? (payload as Record<string, unknown>).governorId : null
+    payload && typeof payload === "object"
+      ? (payload as Record<string, unknown>).governorId
+      : null
   );
 
   if (governorId == null) {
@@ -36,7 +38,10 @@ export async function POST(req: NextRequest) {
     .collection<ClaimedGovernorDocument>("claimedGovernors")
     .findOne({ governorId });
   if (existingClaim) {
-    return NextResponse.json({ error: "Governor already claimed" }, { status: 409 });
+    return NextResponse.json(
+      { error: "Governor already claimed" },
+      { status: 409 }
+    );
   }
 
   const currentClaims = await db
@@ -50,7 +55,10 @@ export async function POST(req: NextRequest) {
     .collection("battleReports")
     .find(
       {
-        $or: [{ "report.self.player_id": governorId }, { "report.enemy.player_id": governorId }],
+        $or: [
+          { "report.self.player_id": governorId },
+          { "report.enemy.player_id": governorId },
+        ],
       },
       {
         projection: {
@@ -83,9 +91,13 @@ export async function POST(req: NextRequest) {
   }
 
   const governorName =
-    participant && typeof participant.player_name === "string" ? participant.player_name : null;
+    participant && typeof participant.player_name === "string"
+      ? participant.player_name
+      : null;
   const governorAvatar =
-    participant && typeof participant.avatar_url === "string" ? participant.avatar_url : null;
+    participant && typeof participant.avatar_url === "string"
+      ? participant.avatar_url
+      : null;
 
   const createdAt = new Date();
   const claim: ClaimedGovernorDocument = {
@@ -96,7 +108,9 @@ export async function POST(req: NextRequest) {
     governorAvatar,
   };
 
-  await db.collection<ClaimedGovernorDocument>("claimedGovernors").insertOne(claim);
+  await db
+    .collection<ClaimedGovernorDocument>("claimedGovernors")
+    .insertOne(claim);
 
   return NextResponse.json({
     claim,

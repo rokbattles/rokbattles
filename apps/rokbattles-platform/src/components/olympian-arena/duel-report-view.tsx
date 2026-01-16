@@ -51,16 +51,25 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
         if (resetTimerRef.current) {
           clearTimeout(resetTimerRef.current);
         }
-        resetTimerRef.current = window.setTimeout(() => setIsCopied(false), 2000);
+        resetTimerRef.current = window.setTimeout(
+          () => setIsCopied(false),
+          2000
+        );
       })
-      .catch((err) => console.error("Failed to copy duel report to clipboard", err));
+      .catch((err) =>
+        console.error("Failed to copy duel report to clipboard", err)
+      );
   }
 
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
         <Heading>{t("title")}</Heading>
-        <Button className="-my-0.5" disabled={isCopied || !hasValidId} onClick={handleShare}>
+        <Button
+          className="-my-0.5"
+          disabled={isCopied || !hasValidId}
+          onClick={handleShare}
+        >
           {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
         </Button>
       </div>
@@ -74,7 +83,12 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       ) : (
         <div className="space-y-12">
           {entries.map((entry, index) => (
-            <div key={entry.report.metadata.email_id || `${duelIdValue ?? "duel"}-${index}`}>
+            <div
+              key={
+                entry.report.metadata.email_id ||
+                `${duelIdValue ?? "duel"}-${index}`
+              }
+            >
               <DuelReportEntryCard entry={entry} />
               {index < entries.length - 1 ? <Divider className="my-8" /> : null}
             </div>

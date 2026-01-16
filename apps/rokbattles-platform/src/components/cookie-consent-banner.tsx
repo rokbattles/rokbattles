@@ -21,13 +21,15 @@ export function CookieConsentBanner() {
   }
 
   return (
-    <div className="fixed sm:right-4 bottom-0 sm:bottom-4 w-full sm:w-96 z-50 border-t sm:border bg-white border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 sm:rounded-lg">
+    <div className="fixed bottom-0 z-50 flex w-full flex-col border-zinc-200 border-t bg-white p-4 sm:right-4 sm:bottom-4 sm:w-96 sm:rounded-lg sm:border dark:border-zinc-700 dark:bg-zinc-800">
       <Text>
         {t.rich("message", {
-          link: (chunks) => <TextLink href="/legal/cookie-policy">{chunks}</TextLink>,
+          link: (chunks) => (
+            <TextLink href="/legal/cookie-policy">{chunks}</TextLink>
+          ),
         })}
       </Text>
-      <div className="flex gap-2 mt-4">
+      <div className="mt-4 flex gap-2">
         <Button
           color="blue"
           onClick={() => {

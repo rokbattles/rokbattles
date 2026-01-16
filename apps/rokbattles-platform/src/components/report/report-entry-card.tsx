@@ -19,7 +19,8 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   const battleResults = payload?.battle_results;
   const selfParticipant = payload?.self;
   const enemyParticipant = payload?.enemy;
-  const omitArtifacts = metadata?.email_role === "dungeon" || metadata?.is_kvk === 0;
+  const omitArtifacts =
+    metadata?.email_role === "dungeon" || metadata?.is_kvk === 0;
 
   const start = metadata?.start_date ?? entry.startDate;
   const end = metadata?.end_date;
@@ -28,22 +29,28 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   return (
     <section className="space-y-6">
       <header className="flex flex-wrap items-center gap-3">
-        <Subheading level={3} className="text-lg">
+        <Subheading className="text-lg" level={3}>
           {periodLabel}
         </Subheading>
       </header>
 
       {battleResults ? (
         <section className="space-y-4">
-          <Subheading level={3} className="text-base">
+          <Subheading className="text-base" level={3}>
             {t("entry.battleSummary")}
           </Subheading>
           <ReportBattleResultsChart results={battleResults} />
         </section>
       ) : null}
       <section className="grid gap-8 lg:grid-cols-2">
-        <ReportParticipantCard participant={selfParticipant} showArtifacts={!omitArtifacts} />
-        <ReportParticipantCard participant={enemyParticipant} showArtifacts={!omitArtifacts} />
+        <ReportParticipantCard
+          participant={selfParticipant}
+          showArtifacts={!omitArtifacts}
+        />
+        <ReportParticipantCard
+          participant={enemyParticipant}
+          showArtifacts={!omitArtifacts}
+        />
       </section>
     </section>
   );
@@ -83,7 +90,9 @@ function formatPeriod(
 function formatUtc(
   date: Date,
   t: ReturnType<typeof useTranslations>,
-  options: { includeDate?: boolean; includePrefix?: boolean } = { includeDate: true }
+  options: { includeDate?: boolean; includePrefix?: boolean } = {
+    includeDate: true,
+  }
 ) {
   const includeDate = options.includeDate ?? true;
   const includePrefix = options.includePrefix ?? true;

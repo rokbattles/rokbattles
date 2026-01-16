@@ -96,7 +96,11 @@ type PairingsOptions = {
   endDate?: string;
 };
 
-function buildRangeParams(options: { startDate?: string; endDate?: string; year?: number | null }) {
+function buildRangeParams(options: {
+  startDate?: string;
+  endDate?: string;
+  year?: number | null;
+}) {
   const { startDate, endDate, year } = options;
   if (startDate && endDate) {
     return new URLSearchParams({ start: startDate, end: endDate });
@@ -126,9 +130,12 @@ export function usePairings(options: PairingsOptions): PairingsResult {
 
     try {
       const params = buildRangeParams({ startDate, endDate });
-      const res = await fetch(`/api/v2/governor/${governorId}/pairings?${params}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `/api/v2/governor/${governorId}/pairings?${params}`,
+        {
+          cache: "no-store",
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`Failed to load pairings: ${res.status}`);
@@ -208,9 +215,12 @@ export function usePairingLoadouts(options: {
     params.set("granularity", granularity);
 
     try {
-      const res = await fetch(`/api/v2/governor/${governorId}/pairings/loadouts?${params}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `/api/v2/governor/${governorId}/pairings/loadouts?${params}`,
+        {
+          cache: "no-store",
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`Failed to load pairings: ${res.status}`);
@@ -226,7 +236,15 @@ export function usePairingLoadouts(options: {
     } finally {
       setLoading(false);
     }
-  }, [governorId, primaryCommanderId, secondaryCommanderId, granularity, year, startDate, endDate]);
+  }, [
+    governorId,
+    primaryCommanderId,
+    secondaryCommanderId,
+    granularity,
+    year,
+    startDate,
+    endDate,
+  ]);
 
   useEffect(() => {
     setData([]);
@@ -295,9 +313,12 @@ export function usePairingEnemies(options: {
     }
 
     try {
-      const res = await fetch(`/api/v2/governor/${governorId}/pairings/enemies?${params}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `/api/v2/governor/${governorId}/pairings/enemies?${params}`,
+        {
+          cache: "no-store",
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`Failed to load pairings: ${res.status}`);

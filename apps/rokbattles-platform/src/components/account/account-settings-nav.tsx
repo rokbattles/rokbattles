@@ -2,7 +2,12 @@
 
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/navbar";
+import {
+  Navbar,
+  NavbarItem,
+  NavbarLabel,
+  NavbarSection,
+} from "@/components/ui/navbar";
 
 export function AccountSettingsNav() {
   const t = useTranslations("account");
@@ -16,7 +21,8 @@ export function AccountSettingsNav() {
     {
       href: "/account/settings/governors",
       label: t("settings.nav.governors"),
-      isActive: (path: string) => path.startsWith("/account/settings/governors"),
+      isActive: (path: string) =>
+        path.startsWith("/account/settings/governors"),
     },
   ];
 
@@ -24,7 +30,11 @@ export function AccountSettingsNav() {
     <Navbar className="gap-2">
       <NavbarSection>
         {settingsItems.map((item) => (
-          <NavbarItem key={item.href} href={item.href} current={item.isActive(pathname)}>
+          <NavbarItem
+            current={item.isActive(pathname)}
+            href={item.href}
+            key={item.href}
+          >
             <NavbarLabel>{item.label}</NavbarLabel>
           </NavbarItem>
         ))}

@@ -4,7 +4,10 @@ import { useTranslations } from "next-intl";
 import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
-import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
+import {
+  type LoadoutCard,
+  PairingsLoadouts,
+} from "@/components/my-pairings/pairings-loadouts";
 import { Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import {
@@ -58,7 +61,10 @@ function formatDurationSeconds(valueSeconds: number) {
 }
 
 function ratePerSecond(value: number, durationMillis: number) {
-  if (!Number.isFinite(value) || !Number.isFinite(durationMillis) || durationMillis <= 0) {
+  if (
+    !(Number.isFinite(value) && Number.isFinite(durationMillis)) ||
+    durationMillis <= 0
+  ) {
     return 0;
   }
 
@@ -69,9 +75,15 @@ function createPairingKey(primaryId: number, secondaryId: number) {
   return `${primaryId}:${secondaryId}`;
 }
 
-function formatCommanderPair(primaryId: number, secondaryId: number, unknownLabel: string) {
-  const primaryName = primaryId > 0 ? (getCommanderName(primaryId) ?? primaryId) : unknownLabel;
-  const secondaryName = secondaryId > 0 ? (getCommanderName(secondaryId) ?? secondaryId) : null;
+function formatCommanderPair(
+  primaryId: number,
+  secondaryId: number,
+  unknownLabel: string
+) {
+  const primaryName =
+    primaryId > 0 ? (getCommanderName(primaryId) ?? primaryId) : unknownLabel;
+  const secondaryName =
+    secondaryId > 0 ? (getCommanderName(secondaryId) ?? secondaryId) : null;
 
   if (!secondaryName) {
     return String(primaryName);
@@ -106,9 +118,14 @@ export function MyPairingsContent() {
     startDate: rangeStartDate,
     endDate: rangeEndDate,
   });
-  const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
-  const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("normalized");
-  const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(ALL_LOADOUT_KEY);
+  const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(
+    null
+  );
+  const [loadoutGranularity, setLoadoutGranularity] =
+    useState<LoadoutGranularity>("normalized");
+  const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(
+    ALL_LOADOUT_KEY
+  );
   const [loadoutsFetchStarted, setLoadoutsFetchStarted] = useState(false);
   const [loadoutsReady, setLoadoutsReady] = useState(false);
   const [showAllOpponents, setShowAllOpponents] = useState(false);
@@ -125,21 +142,30 @@ export function MyPairingsContent() {
         current &&
         data.some(
           (pairing) =>
-            createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) === current
+            createPairingKey(
+              pairing.primaryCommanderId,
+              pairing.secondaryCommanderId
+            ) === current
         )
       ) {
         return current;
       }
 
       const first = data[0];
-      return createPairingKey(first.primaryCommanderId, first.secondaryCommanderId);
+      return createPairingKey(
+        first.primaryCommanderId,
+        first.secondaryCommanderId
+      );
     });
   }, [data]);
 
   const pairingOptions = useMemo(
     () =>
       data.map((pairing) => ({
-        value: createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId),
+        value: createPairingKey(
+          pairing.primaryCommanderId,
+          pairing.secondaryCommanderId
+        ),
         label: formatCommanderPair(
           pairing.primaryCommanderId,
           pairing.secondaryCommanderId,
@@ -151,20 +177,27 @@ export function MyPairingsContent() {
 
   const selectedPairing = data.find(
     (pairing) =>
-      createPairingKey(pairing.primaryCommanderId, pairing.secondaryCommanderId) ===
-      selectedPairingKey
+      createPairingKey(
+        pairing.primaryCommanderId,
+        pairing.secondaryCommanderId
+      ) === selectedPairingKey
   );
   const hasSelectedPairing = Boolean(selectedPairing);
 
-  const canLoadLoadouts = hasSelectedPairing && !pairingsLoading && !pairingsError;
+  const canLoadLoadouts =
+    hasSelectedPairing && !pairingsLoading && !pairingsError;
   const {
     data: loadouts,
     loading: loadoutsLoading,
     error: loadoutsError,
   } = usePairingLoadouts({
     governorId: activeGovernor?.governorId,
-    primaryCommanderId: canLoadLoadouts ? (selectedPairing?.primaryCommanderId ?? null) : null,
-    secondaryCommanderId: canLoadLoadouts ? (selectedPairing?.secondaryCommanderId ?? null) : null,
+    primaryCommanderId: canLoadLoadouts
+      ? (selectedPairing?.primaryCommanderId ?? null)
+      : null,
+    secondaryCommanderId: canLoadLoadouts
+      ? (selectedPairing?.secondaryCommanderId ?? null)
+      : null,
     granularity: loadoutGranularity,
     year,
     startDate: rangeStartDate,
@@ -198,7 +231,13 @@ export function MyPairingsContent() {
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
       ].join("|"),
-    [selectedPairingKey, selectedLoadoutKey, loadoutGranularity, rangeStartDate, rangeEndDate]
+    [
+      selectedPairingKey,
+      selectedLoadoutKey,
+      loadoutGranularity,
+      rangeStartDate,
+      rangeEndDate,
+    ]
   );
 
   useEffect(() => {
@@ -271,7 +310,9 @@ export function MyPairingsContent() {
 
     const durationSeconds = selectedLoadoutCard.totals.battleDuration / 1000;
     const avgDurationSeconds =
-      selectedLoadoutCard.count > 0 ? durationSeconds / selectedLoadoutCard.count : 0;
+      selectedLoadoutCard.count > 0
+        ? durationSeconds / selectedLoadoutCard.count
+        : 0;
 
     return [
       {
@@ -314,7 +355,10 @@ export function MyPairingsContent() {
         id: "dps",
         name: t("breakdown.stats.dps.label"),
         value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
+          ratePerSecond(
+            selectedLoadoutCard.totals.dps,
+            selectedLoadoutCard.totals.battleDuration
+          )
         ),
         description: t("breakdown.stats.dps.description"),
       },
@@ -322,7 +366,10 @@ export function MyPairingsContent() {
         id: "sps",
         name: t("breakdown.stats.sps.label"),
         value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
+          ratePerSecond(
+            selectedLoadoutCard.totals.sps,
+            selectedLoadoutCard.totals.battleDuration
+          )
         ),
         description: t("breakdown.stats.sps.description"),
       },
@@ -330,7 +377,10 @@ export function MyPairingsContent() {
         id: "tps",
         name: t("breakdown.stats.tps.label"),
         value: formatPerSecond(
-          ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
+          ratePerSecond(
+            selectedLoadoutCard.totals.tps,
+            selectedLoadoutCard.totals.battleDuration
+          )
         ),
         description: t("breakdown.stats.tps.description"),
       },
@@ -339,9 +389,13 @@ export function MyPairingsContent() {
 
   const enemyGranularity: EnemyGranularity =
     selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
-  const enemyLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
+  const enemyLoadoutKey =
+    selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
   const canLoadEnemies =
-    Boolean(selectedPairing) && loadoutsReady && !pairingsLoading && !pairingsError;
+    Boolean(selectedPairing) &&
+    loadoutsReady &&
+    !pairingsLoading &&
+    !pairingsError;
 
   const {
     data: enemies,
@@ -349,8 +403,12 @@ export function MyPairingsContent() {
     error: enemiesError,
   } = usePairingEnemies({
     governorId: activeGovernor?.governorId,
-    primaryCommanderId: canLoadEnemies ? (selectedPairing?.primaryCommanderId ?? null) : null,
-    secondaryCommanderId: canLoadEnemies ? (selectedPairing?.secondaryCommanderId ?? null) : null,
+    primaryCommanderId: canLoadEnemies
+      ? (selectedPairing?.primaryCommanderId ?? null)
+      : null,
+    secondaryCommanderId: canLoadEnemies
+      ? (selectedPairing?.secondaryCommanderId ?? null)
+      : null,
     granularity: enemyGranularity,
     loadoutKey: enemyLoadoutKey,
     year,
@@ -378,9 +436,15 @@ export function MyPairingsContent() {
         battles: formatNumber(entry.count),
         killPoints: formatNumber(entry.totals.killScore),
         opponentKillPoints: formatNumber(entry.totals.enemyKillScore),
-        dps: formatPerSecond(ratePerSecond(entry.totals.dps, entry.totals.battleDuration)),
-        sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
-        tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
+        dps: formatPerSecond(
+          ratePerSecond(entry.totals.dps, entry.totals.battleDuration)
+        ),
+        sps: formatPerSecond(
+          ratePerSecond(entry.totals.sps, entry.totals.battleDuration)
+        ),
+        tps: formatPerSecond(
+          ratePerSecond(entry.totals.tps, entry.totals.battleDuration)
+        ),
       })),
     [tCommon, visibleOpponents]
   );
@@ -393,43 +457,43 @@ export function MyPairingsContent() {
     <div className="space-y-10">
       <Text>{t("intro")}</Text>
       <PairingsFilters
-        pairingOptions={pairingOptions}
-        pairingValue={selectedPairingKey}
-        onPairingChange={setSelectedPairingKey}
-        pairingsLoading={pairingsLoading}
-        loadoutGranularity={loadoutGranularity}
-        onGranularityChange={setLoadoutGranularity}
-        startDate={startDate}
         endDate={endDate}
-        onStartDateChange={setStartDate}
+        loadoutGranularity={loadoutGranularity}
         onEndDateChange={setEndDate}
+        onGranularityChange={setLoadoutGranularity}
+        onPairingChange={setSelectedPairingKey}
+        onStartDateChange={setStartDate}
+        pairingOptions={pairingOptions}
+        pairingsLoading={pairingsLoading}
+        pairingValue={selectedPairingKey}
+        startDate={startDate}
       />
       <PairingsLoadouts
-        pairingsLoading={pairingsLoading}
-        pairingsError={pairingsError}
         hasSelectedPairing={hasSelectedPairing}
-        loadoutsLoading={loadoutsLoading}
-        loadoutsError={loadoutsError}
         loadoutCards={loadoutCards}
-        selectedLoadoutKey={selectedLoadoutKey}
+        loadoutsError={loadoutsError}
+        loadoutsLoading={loadoutsLoading}
         onSelectLoadout={(key) => setSelectedLoadoutKey(key)}
+        pairingsError={pairingsError}
+        pairingsLoading={pairingsLoading}
+        selectedLoadoutKey={selectedLoadoutKey}
       />
       <PairingsLoadoutBreakdown
-        pairingsLoading={pairingsLoading}
-        pairingsError={pairingsError}
+        enemiesError={enemiesError}
+        enemiesLoading={enemiesLoading}
+        generalStats={generalStats}
+        hasMoreOpponents={hasMoreOpponents}
+        hasSelectedLoadout={hasSelectedLoadout}
         hasSelectedPairing={hasSelectedPairing}
+        loadoutsError={loadoutsError}
         loadoutsLoading={loadoutsLoading}
         loadoutsReady={loadoutsReady}
-        loadoutsError={loadoutsError}
-        hasSelectedLoadout={hasSelectedLoadout}
-        generalStats={generalStats}
-        enemiesLoading={enemiesLoading}
-        enemiesError={enemiesError}
-        opponentRows={opponentRows}
-        hasMoreOpponents={hasMoreOpponents}
-        showAllOpponents={showAllOpponents}
         onToggleShowAllOpponents={() => setShowAllOpponents((prev) => !prev)}
+        opponentRows={opponentRows}
         opponentsId={opponentsId}
+        pairingsError={pairingsError}
+        pairingsLoading={pairingsLoading}
+        showAllOpponents={showAllOpponents}
       />
     </div>
   );

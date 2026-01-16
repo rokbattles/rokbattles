@@ -3,7 +3,13 @@
 import { useTranslations } from "next-intl";
 import { type FormEvent, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
+import {
+  Description,
+  ErrorMessage,
+  Field,
+  FieldGroup,
+  Label,
+} from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 
 type ClaimGovernorFormProps = {
@@ -27,19 +33,29 @@ function isClaimResponse(payload: unknown): payload is ClaimResponse {
     return false;
   }
 
-  if ("claim" in payload && payload.claim && typeof payload.claim === "object") {
+  if (
+    "claim" in payload &&
+    payload.claim &&
+    typeof payload.claim === "object"
+  ) {
     const claim = payload.claim as Record<string, unknown>;
     return typeof claim.governorId === "number";
   }
 
-  if ("error" in payload && typeof (payload as { error?: unknown }).error === "string") {
+  if (
+    "error" in payload &&
+    typeof (payload as { error?: unknown }).error === "string"
+  ) {
     return true;
   }
 
   return false;
 }
 
-export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorFormProps) {
+export function ClaimGovernorForm({
+  canClaimMore,
+  onClaimed,
+}: ClaimGovernorFormProps) {
   const t = useTranslations("account");
   const tCommon = useTranslations("common");
   const [governorIdInput, setGovernorIdInput] = useState("");
@@ -120,37 +136,39 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form noValidate onSubmit={handleSubmit}>
       <FieldGroup>
         <Field>
           <Label htmlFor={id}>{tCommon("fields.governorId")}</Label>
           <Input
+            autoComplete="off"
+            disabled={isSubmitting || !canClaimMore}
             id={id}
-            name="governorId"
             inputMode="numeric"
-            pattern="[0-9]*"
-            placeholder={tCommon("placeholders.governorId")}
-            value={governorIdInput}
+            name="governorId"
             onChange={(event) => {
               setGovernorIdInput(event.target.value);
               if (errorMessage) {
                 setErrorMessage(null);
               }
             }}
-            disabled={isSubmitting || !canClaimMore}
-            autoComplete="off"
+            pattern="[0-9]*"
+            placeholder={tCommon("placeholders.governorId")}
+            value={governorIdInput}
           />
           {errorMessage ? (
             <ErrorMessage>{errorMessage}</ErrorMessage>
-          ) : !canClaimMore ? (
+          ) : canClaimMore ? undefined : (
             <Description>{t("claimForm.maxReached")}</Description>
-          ) : undefined}
+          )}
         </Field>
       </FieldGroup>
       <div className="mt-4 flex items-center gap-3">
         <Button
+          disabled={
+            !canClaimMore || isSubmitting || governorIdInput.trim() === ""
+          }
           type="submit"
-          disabled={!canClaimMore || isSubmitting || governorIdInput.trim() === ""}
         >
           {isSubmitting ? t("claimForm.submitting") : t("claimForm.submit")}
         </Button>

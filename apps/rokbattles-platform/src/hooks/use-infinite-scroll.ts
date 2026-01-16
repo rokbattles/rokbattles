@@ -32,7 +32,7 @@ export function useInfiniteScroll({
       observerRef.current?.disconnect();
       observerRef.current = null;
 
-      if (!node || !enabled) return;
+      if (!(node && enabled)) return;
 
       observerRef.current = new IntersectionObserver(
         (entries) => {

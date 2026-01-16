@@ -8,7 +8,10 @@ import {
   DescriptionTerm,
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
-import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overview-metrics";
+import {
+  getOverviewValue,
+  OVERVIEW_METRICS,
+} from "@/lib/report/overview-metrics";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 
 const COMMON_METRIC_KEYS = new Set(["dead", "remaining", "killPoints"]);
@@ -30,7 +33,9 @@ export function ReportOverviewColumn({
   const tCommon = useTranslations("common");
   const participantName = participant?.player_name?.trim();
   const sideTitle =
-    side === "self" ? participantName || tCommon("labels.unknown") : t("overview.allEnemies");
+    side === "self"
+      ? participantName || tCommon("labels.unknown")
+      : t("overview.allEnemies");
   return (
     <div className="space-y-3 rounded bg-zinc-600/10 p-4 dark:bg-white/5">
       <Subheading>{sideTitle}</Subheading>
@@ -43,8 +48,10 @@ export function ReportOverviewColumn({
             : t(`overview.metrics.${metric.labelKey}`);
           return (
             <Fragment key={`${side}-${metric.labelKey}`}>
-              <DescriptionTerm className="pt-1! pb-1! border-none!">{label}</DescriptionTerm>
-              <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
+              <DescriptionTerm className="border-none! pt-1! pb-1!">
+                {label}
+              </DescriptionTerm>
+              <DescriptionDetails className="border-none! pt-1! pb-1! tabular-nums sm:text-right">
                 {value == null ? tCommon("labels.na") : formatter.format(value)}
               </DescriptionDetails>
             </Fragment>

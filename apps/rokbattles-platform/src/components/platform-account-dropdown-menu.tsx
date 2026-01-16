@@ -28,7 +28,7 @@ export function PlatformAccountDropdownMenu({
 
   return (
     <>
-      <DropdownMenu className="min-w-64" anchor={anchor}>
+      <DropdownMenu anchor={anchor} className="min-w-64">
         <DropdownItem href="/account/settings">
           <Cog6ToothIcon />
           <DropdownLabel>{tAccount("titles.settings")}</DropdownLabel>
@@ -43,7 +43,10 @@ export function PlatformAccountDropdownMenu({
           <DropdownLabel>{t("signOut")}</DropdownLabel>
         </DropdownItem>
       </DropdownMenu>
-      <CookieConsentDialog open={isCookieDialogOpen} onClose={() => setIsCookieDialogOpen(false)} />
+      <CookieConsentDialog
+        onClose={() => setIsCookieDialogOpen(false)}
+        open={isCookieDialogOpen}
+      />
     </>
   );
 }

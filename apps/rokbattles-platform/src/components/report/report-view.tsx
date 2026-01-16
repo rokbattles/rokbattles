@@ -41,7 +41,9 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
   const normalizedHash = hash?.trim() ?? "";
   const searchParamsString = searchParams.toString();
 
-  const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
+  const { data, loading, error } = useReport(
+    normalizedHash.length > 0 ? normalizedHash : null
+  );
   const { user, loading: userLoading } = useCurrentUser();
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
@@ -57,18 +59,26 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
 
   const entries: ReportEntry[] = data?.items ?? [];
   const overviewSource = findOverviewSource(entries);
-  const showFavoriteButton = Boolean(!userLoading && user && normalizedHash.length > 0);
+  const showFavoriteButton = Boolean(
+    !userLoading && user && normalizedHash.length > 0
+  );
   const mergeReports = [...(data?.merge?.reports ?? [])].sort(
     (a, b) => b.latestEmailTime - a.latestEmailTime
   );
   const mergeEligible = mergeReports.length > 1;
   const showMergeBanner = mergeEligible;
   const showMergeLayout = mergeEligible && mergeMode;
-  const mergeToggleHref = buildReportHref(normalizedHash, searchParamsString, !mergeMode);
+  const mergeToggleHref = buildReportHref(
+    normalizedHash,
+    searchParamsString,
+    !mergeMode
+  );
   const mergeActionLabel = mergeMode
     ? t("merge.bannerActionDisable")
     : t("merge.bannerActionEnable");
-  const mergeTitle = mergeMode ? t("merge.bannerTitleEnable") : t("merge.bannerTitleDisable");
+  const mergeTitle = mergeMode
+    ? t("merge.bannerTitleEnable")
+    : t("merge.bannerTitleDisable");
 
   const {
     favorited,
@@ -89,9 +99,14 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
         if (resetTimerRef.current) {
           clearTimeout(resetTimerRef.current);
         }
-        resetTimerRef.current = window.setTimeout(() => setIsCopied(false), 2000);
+        resetTimerRef.current = window.setTimeout(
+          () => setIsCopied(false),
+          2000
+        );
       })
-      .catch((err) => console.error("Failed to copy battle report to clipboard", err));
+      .catch((err) =>
+        console.error("Failed to copy battle report to clipboard", err)
+      );
   }
 
   const reportContent = (
@@ -100,7 +115,9 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
         <div className="rounded-md bg-blue-50 p-4 dark:bg-blue-500/10 dark:outline dark:outline-blue-500/20">
           <div className="flex items-center">
             <div className="ml-3 flex-1 md:flex md:items-center md:justify-between">
-              <Text className="text-blue-700! dark:text-blue-300!">{mergeTitle}</Text>
+              <Text className="text-blue-700! dark:text-blue-300!">
+                {mergeTitle}
+              </Text>
               <div className="mt-3 text-sm md:mt-0 md:ml-6">
                 <Button color="blue" href={mergeToggleHref}>
                   {mergeActionLabel}
@@ -115,14 +132,23 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
         <div className="flex items-center gap-2">
           {showFavoriteButton ? (
             <Button
-              className="-my-0.5"
-              aria-label={favorited ? t("actions.unfavoriteAria") : t("actions.favoriteAria")}
+              aria-label={
+                favorited
+                  ? t("actions.unfavoriteAria")
+                  : t("actions.favoriteAria")
+              }
               aria-pressed={favorited}
+              className="-my-0.5"
               disabled={favoriteLoading || updating}
               onClick={toggleFavorite}
             >
-              <StarIcon data-slot="icon" className={cn(favorited ? "fill-amber-500" : "")} />
-              {favorited ? tCommon("actions.unfavorite") : tCommon("actions.favorite")}
+              <StarIcon
+                className={cn(favorited ? "fill-amber-500" : "")}
+                data-slot="icon"
+              />
+              {favorited
+                ? tCommon("actions.unfavorite")
+                : tCommon("actions.favorite")}
             </Button>
           ) : null}
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
@@ -142,9 +168,9 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
           {overviewSource && hasOverviewData(overviewSource.overview) ? (
             <>
               <ReportOverviewCard
+                enemyParticipant={overviewSource.enemy}
                 overview={overviewSource.overview}
                 selfParticipant={overviewSource.self}
-                enemyParticipant={overviewSource.enemy}
               />
               <Divider />
             </>
@@ -158,7 +184,9 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
               return (
                 <div key={entryKey}>
                   <ReportEntryCard entry={entry} />
-                  {index < entries.length - 1 ? <Divider className="my-8" /> : null}
+                  {index < entries.length - 1 ? (
+                    <Divider className="my-8" />
+                  ) : null}
                 </div>
               );
             })}
@@ -180,11 +208,21 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
             <SidebarSection>
               {mergeReports.map((report, index) => {
                 const labelNumber = mergeReports.length - index;
-                const href = buildReportHref(report.parentHash, searchParamsString, true);
+                const href = buildReportHref(
+                  report.parentHash,
+                  searchParamsString,
+                  true
+                );
                 const isActive = report.parentHash === normalizedHash;
                 return (
-                  <SidebarItem key={report.parentHash} href={href} current={isActive}>
-                    <SidebarLabel>{t("merge.sidebarItem", { index: labelNumber })}</SidebarLabel>
+                  <SidebarItem
+                    current={isActive}
+                    href={href}
+                    key={report.parentHash}
+                  >
+                    <SidebarLabel>
+                      {t("merge.sidebarItem", { index: labelNumber })}
+                    </SidebarLabel>
                   </SidebarItem>
                 );
               })}
@@ -211,7 +249,11 @@ function findOverviewSource(entries: ReportEntry[]) {
   return null;
 }
 
-function buildReportHref(hash: string, queryString: string, mergeEnabled: boolean) {
+function buildReportHref(
+  hash: string,
+  queryString: string,
+  mergeEnabled: boolean
+) {
   const params = new URLSearchParams(queryString);
   if (mergeEnabled) {
     params.set("merge", "1");

@@ -34,8 +34,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error }, { status: 400 });
   }
 
-  if (!code || !state) {
-    return NextResponse.json({ error: "Missing code or state" }, { status: 400 });
+  if (!(code && state)) {
+    return NextResponse.json(
+      { error: "Missing code or state" },
+      { status: 400 }
+    );
   }
 
   const mongo = await clientPromise;
@@ -43,7 +46,10 @@ export async function GET(req: NextRequest) {
 
   const oauthState = await db.collection("oauthStates").findOne({ state });
   if (!oauthState) {
-    return NextResponse.json({ error: "Invalid or expired state" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid or expired state" },
+      { status: 400 }
+    );
   }
 
   const { verifier } = oauthState;
@@ -73,7 +79,10 @@ export async function GET(req: NextRequest) {
 
     await db.collection("oauthStates").deleteOne({ state });
 
-    return NextResponse.json({ error: "Token exchange failed", reason }, { status: 400 });
+    return NextResponse.json(
+      { error: "Token exchange failed", reason },
+      { status: 400 }
+    );
   }
 
   const token = (await tokenResponse.json()) as TokenResponse;
@@ -87,7 +96,10 @@ export async function GET(req: NextRequest) {
   if (!profileResponse.ok) {
     await db.collection("oauthStates").deleteOne({ state });
 
-    return NextResponse.json({ error: "Failed to fetch Discord profile" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Failed to fetch Discord profile" },
+      { status: 400 }
+    );
   }
 
   const profile = (await profileResponse.json()) as ProfileResponse;
@@ -95,13 +107,20 @@ export async function GET(req: NextRequest) {
   const email = profile.email ?? null;
   const verified = profile.verified ?? false;
 
-  if (!email || !verified) {
+  if (!(email && verified)) {
     await db.collection("oauthStates").deleteOne({ state });
 
-    return NextResponse.json({ error: "Discord email not verified." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Discord email not verified." },
+      { status: 400 }
+    );
   }
 
-  const avatarUrl = buildAvatarURL(profile.id, profile.avatar, profile.discriminator);
+  const avatarUrl = buildAvatarURL(
+    profile.id,
+    profile.avatar,
+    profile.discriminator
+  );
   const now = new Date();
 
   await db.collection("users").updateOne(

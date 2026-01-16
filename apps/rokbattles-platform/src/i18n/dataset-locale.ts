@@ -1,6 +1,10 @@
 "use client";
 
-import { defaultLocale, isSupportedLocale, languageCookieName } from "@/i18n/config";
+import {
+  defaultLocale,
+  isSupportedLocale,
+  languageCookieName,
+} from "@/i18n/config";
 import { canUseDom } from "@/lib/util/can-use-dom";
 
 const getLocaleFromCookie = () => {
@@ -20,6 +24,8 @@ export function resolveDatasetLocale(locale?: string) {
   }
 
   const cookieLocale = getLocaleFromCookie();
-  const selectedLocale = isSupportedLocale(cookieLocale) ? cookieLocale : defaultLocale;
+  const selectedLocale = isSupportedLocale(cookieLocale)
+    ? cookieLocale
+    : defaultLocale;
   return selectedLocale;
 }

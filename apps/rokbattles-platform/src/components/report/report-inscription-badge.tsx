@@ -9,12 +9,13 @@ type ReportInscriptionBadgeProps = {
 export function ReportInscriptionBadge({ id }: ReportInscriptionBadgeProps) {
   const name = getInscriptionName(id ?? null);
   const rarity = getInscriptionRarity(id);
-  const color = rarity === "special" ? "amber" : rarity === "rare" ? "blue" : "gray";
+  const color =
+    rarity === "special" ? "amber" : rarity === "rare" ? "blue" : "gray";
 
   const label = name ?? id.toString();
 
   return (
-    <div className="relative flex h-5 w-28 select-none items-center justify-center text-xs font-semibold">
+    <div className="relative flex h-5 w-28 select-none items-center justify-center font-semibold text-xs">
       <div
         className={cn(
           "absolute inset-0 [clip-path:polygon(90%_0%,_100%_50%,_90%_100%,_10%_100%,_0%_50%,_10%_0%)]",
@@ -29,9 +30,12 @@ export function ReportInscriptionBadge({ id }: ReportInscriptionBadgeProps) {
       <div
         className={cn(
           "absolute inset-px [clip-path:polygon(90%_0%,_100%_50%,_90%_100%,_10%_100%,_0%_50%,_10%_0%)]",
-          color === "amber" && "bg-gradient-to-b from-[rgb(255,255,123)] to-[rgb(255,217,44)]",
-          color === "blue" && "bg-gradient-to-b from-[rgb(207,237,255)] to-[rgb(160,192,255)]",
-          color === "gray" && "bg-gradient-to-b from-[rgb(229,230,230)] to-[rgb(231,231,231)]"
+          color === "amber" &&
+            "bg-gradient-to-b from-[rgb(255,255,123)] to-[rgb(255,217,44)]",
+          color === "blue" &&
+            "bg-gradient-to-b from-[rgb(207,237,255)] to-[rgb(160,192,255)]",
+          color === "gray" &&
+            "bg-gradient-to-b from-[rgb(229,230,230)] to-[rgb(231,231,231)]"
         )}
       />
       <span

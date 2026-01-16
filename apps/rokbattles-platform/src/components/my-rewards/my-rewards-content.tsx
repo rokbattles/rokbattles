@@ -86,7 +86,8 @@ export function MyRewardsContent() {
 
       return {
         key: `${reward.type}:${reward.subType}`,
-        order: getLootOrder(reward.type, reward.subType) ?? Number.POSITIVE_INFINITY,
+        order:
+          getLootOrder(reward.type, reward.subType) ?? Number.POSITIVE_INFINITY,
         name,
         total: formatNumber(reward.total),
         count: reward.count,
@@ -105,10 +106,10 @@ export function MyRewardsContent() {
     <div className="space-y-10">
       <Text>{t("intro")}</Text>
       <RewardsFilters
-        startDate={startDate}
         endDate={endDate}
-        onStartDateChange={setStartDate}
         onEndDateChange={setEndDate}
+        onStartDateChange={setStartDate}
+        startDate={startDate}
       />
       <section className="space-y-4">
         <Subheading>{t("stats.title")}</Subheading>
@@ -120,18 +121,18 @@ export function MyRewardsContent() {
           <Text>{t("states.empty")}</Text>
         ) : (
           <div className="space-y-3">
-            <div className="grid gap-6 grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-6 lg:grid-cols-3">
               {summaryStats.map((stat) => (
                 <div
+                  className="space-y-3 border-zinc-200/60 border-b pb-4 dark:border-white/10"
                   key={stat.id}
-                  className="space-y-3 border-b border-zinc-200/60 pb-4 dark:border-white/10"
                 >
                   <div className="space-y-1">
-                    <div className="text-sm font-semibold text-zinc-950 dark:text-white">
+                    <div className="font-semibold text-sm text-zinc-950 dark:text-white">
                       {stat.name}
                     </div>
                   </div>
-                  <div className="mt-4 text-3xl/8 font-semibold text-zinc-950 sm:text-3xl dark:text-white">
+                  <div className="mt-4 font-semibold text-3xl/8 text-zinc-950 sm:text-3xl dark:text-white">
                     {stat.value}
                   </div>
                 </div>
@@ -149,7 +150,10 @@ export function MyRewardsContent() {
         ) : rewardRows.length === 0 ? (
           <Text>{t("rewards.empty")}</Text>
         ) : (
-          <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+          <Table
+            className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]"
+            dense
+          >
             <TableHead>
               <TableRow>
                 <TableHeader>{t("table.name")}</TableHeader>
@@ -162,7 +166,9 @@ export function MyRewardsContent() {
                 <TableRow key={reward.key}>
                   <TableCell>{reward.name}</TableCell>
                   <TableCell className="tabular-nums">{reward.total}</TableCell>
-                  <TableCell className="tabular-nums">{formatNumber(reward.count)}</TableCell>
+                  <TableCell className="tabular-nums">
+                    {formatNumber(reward.count)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

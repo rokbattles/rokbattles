@@ -61,20 +61,28 @@ function addDays(date: Date, days: number) {
 }
 
 function startOfWeekSunday(date: Date) {
-  const copy = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const copy = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
   const weekday = copy.getUTCDay();
   copy.setUTCDate(copy.getUTCDate() - weekday);
   return copy;
 }
 
 function endOfWeekSaturday(date: Date) {
-  const copy = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const copy = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
   const weekday = copy.getUTCDay();
   copy.setUTCDate(copy.getUTCDate() + (6 - weekday));
   return copy;
 }
 
-function buildWeeks(startDate: string, endDate: string, dayMap: Map<string, DayCell>) {
+function buildWeeks(
+  startDate: string,
+  endDate: string,
+  dayMap: Map<string, DayCell>
+) {
   const rangeStart = parseUtcDateString(startDate);
   const rangeEnd = parseUtcDateString(endDate);
   const gridStart = startOfWeekSunday(rangeStart);
@@ -123,7 +131,8 @@ function getCellVisuals(day: DayCell) {
   const total = day.battleCount + day.npcCount;
   if (total === 0) {
     return {
-      className: "border border-zinc-200/70 bg-zinc-100/80 dark:border-white/15 dark:bg-white/5",
+      className:
+        "border border-zinc-200/70 bg-zinc-100/80 dark:border-white/15 dark:bg-white/5",
       style: undefined,
     };
   }
@@ -134,7 +143,8 @@ function getCellVisuals(day: DayCell) {
 
   if (day.npcCount > 0 && day.battleCount > 0) {
     return {
-      className: "border border-zinc-200/70 shadow-sm shadow-zinc-900/5 dark:border-white/15",
+      className:
+        "border border-zinc-200/70 shadow-sm shadow-zinc-900/5 dark:border-white/15",
       style: {
         background: `linear-gradient(135deg, ${npcColor} 0%, ${npcColor} 49.5%, ${battleColor} 49.5%, ${battleColor} 100%)`,
         backgroundClip: "padding-box",
@@ -143,7 +153,8 @@ function getCellVisuals(day: DayCell) {
   }
 
   return {
-    className: "border border-white/80 shadow-sm shadow-zinc-900/5 dark:border-white/10",
+    className:
+      "border border-white/80 shadow-sm shadow-zinc-900/5 dark:border-white/10",
     style: { backgroundColor: day.npcCount > 0 ? npcColor : battleColor },
   };
 }
@@ -167,7 +178,9 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
     });
   }
 
-  const weeks = data ? buildWeeks(data.startDate, data.endDate, dayMap) : buildSkeletonWeeks();
+  const weeks = data
+    ? buildWeeks(data.startDate, data.endDate, dayMap)
+    : buildSkeletonWeeks();
 
   const totals = data
     ? data.days.reduce(
@@ -187,17 +200,19 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
         <div className="space-y-1">
           <Subheading>{t("title")}</Subheading>
           <Text
+            aria-live={loading ? "polite" : undefined}
             className="text-sm/6 sm:text-xs/6"
             role={loading ? "status" : undefined}
-            aria-live={loading ? "polite" : undefined}
           >
-            {loading ? t("loading", { year: displayYear }) : t("summary", { year: displayYear })}
+            {loading
+              ? t("loading", { year: displayYear })
+              : t("summary", { year: displayYear })}
           </Text>
         </div>
       </div>
       <div className="overflow-x-auto pb-1">
         <div className="flex items-start gap-3">
-          <div className="hidden grid grid-rows-7 gap-[0.2rem] pt-[0.15rem] text-[11px] font-medium text-zinc-500 sm:grid sm:pt-[0.25rem] sm:pr-1 dark:text-zinc-400">
+          <div className="grid hidden grid-rows-7 gap-[0.2rem] pt-[0.15rem] font-medium text-[11px] text-zinc-500 sm:grid sm:pt-[0.25rem] sm:pr-1 dark:text-zinc-400">
             <span className="row-start-2">{t("weekdays.mon")}</span>
             <span className="row-start-4">{t("weekdays.wed")}</span>
             <span className="row-start-6">{t("weekdays.fri")}</span>
@@ -205,8 +220,8 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
           <div className="grid auto-cols-[0.8rem] grid-flow-col gap-[0.2rem] sm:auto-cols-[0.85rem] sm:gap-[0.25rem] md:auto-cols-[0.9rem] md:gap-[0.3rem] lg:auto-cols-[0.95rem]">
             {weeks.map((week) => (
               <div
-                key={week.id}
                 className="grid grid-rows-7 gap-[0.2rem] sm:gap-[0.25rem] md:gap-[0.3rem]"
+                key={week.id}
               >
                 {week.days.map((day, idx) => {
                   const { className, style } = getCellVisuals(day);
@@ -220,16 +235,18 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
 
                   return (
                     <button
-                      key={`${week.id}-${idx}`}
-                      type="button"
-                      title={interactive && day.inRange ? label : undefined}
-                      aria-label={interactive && day.inRange ? label : undefined}
-                      tabIndex={interactive && day.inRange ? 0 : -1}
+                      aria-label={
+                        interactive && day.inRange ? label : undefined
+                      }
                       className={cn(
-                        "relative inline-flex aspect-square h-3 w-3 items-center justify-center border transition duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4",
+                        "relative inline-flex aspect-square h-3 w-3 items-center justify-center border transition duration-150 ease-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2 sm:h-3.5 sm:w-3.5 lg:h-4 lg:w-4",
                         className
                       )}
+                      key={`${week.id}-${idx}`}
                       style={style}
+                      tabIndex={interactive && day.inRange ? 0 : -1}
+                      title={interactive && day.inRange ? label : undefined}
+                      type="button"
                     />
                   );
                 })}
@@ -250,7 +267,9 @@ export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
           <span className="inline-block size-2.5 rounded-xs bg-yellow-500" />
           {t("totals.npc", { count: totals.npc })}
         </span>
-        {error ? <span className="text-amber-600 dark:text-amber-300">{error}</span> : null}
+        {error ? (
+          <span className="text-amber-600 dark:text-amber-300">{error}</span>
+        ) : null}
       </div>
     </section>
   );

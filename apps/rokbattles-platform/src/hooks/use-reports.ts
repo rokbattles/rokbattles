@@ -44,7 +44,9 @@ export type UseReportsOptions = {
   scope?: ReportsScope;
 };
 
-export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReportsResult {
+export function useReports({
+  scope = "all",
+}: UseReportsOptions = {}): UseReportsResult {
   const t = useTranslations("errors");
   const context = useContext(ReportsFilterContext);
   const governorContext = useContext(GovernorContext);
@@ -54,7 +56,9 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
   }
 
   if (scope === "mine" && !governorContext) {
-    throw new Error("useReports must be used within a GovernorProvider when scope is mine");
+    throw new Error(
+      "useReports must be used within a GovernorProvider when scope is mine"
+    );
   }
 
   const {
@@ -68,7 +72,10 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
     garrisonSide,
     garrisonBuildingType,
   } = context;
-  const playerId = scope === "mine" ? governorContext?.activeGovernor?.governorId : filterPlayerId;
+  const playerId =
+    scope === "mine"
+      ? governorContext?.activeGovernor?.governorId
+      : filterPlayerId;
 
   const [reports, setReports] = useState<ReportSummary[]>([]);
   const [loading, setLoading] = useState(false);
@@ -141,7 +148,8 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : t("reports.generic");
+        const message =
+          err instanceof Error ? err.message : t("reports.generic");
         setError(message);
       })
       .finally(() => {

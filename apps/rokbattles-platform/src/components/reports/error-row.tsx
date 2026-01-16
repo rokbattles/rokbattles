@@ -2,10 +2,16 @@
 
 import { TableCell, TableRow } from "@/components/ui/table";
 
-export default function ErrorRow({ colSpan, error }: { colSpan: number; error: string }) {
+export default function ErrorRow({
+  colSpan,
+  error,
+}: {
+  colSpan: number;
+  error: string;
+}) {
   return (
     <TableRow>
-      <TableCell colSpan={colSpan} role="status" aria-live="polite">
+      <TableCell aria-live="polite" colSpan={colSpan} role="status">
         {error}
       </TableCell>
     </TableRow>

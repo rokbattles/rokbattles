@@ -3,7 +3,11 @@ import type React from "react";
 import { AccountSettingsNav } from "@/components/account/account-settings-nav";
 import { Heading } from "@/components/ui/heading";
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const t = await getTranslations("account");
   return (
     <div className="space-y-4">

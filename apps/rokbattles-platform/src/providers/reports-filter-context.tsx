@@ -9,21 +9,36 @@ export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
 const filterTypes = new Set<ReportsFilterType>(["kvk", "ark", "home"]);
-const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
-const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
+const filterSides = new Set<ReportsFilterSide>([
+  "none",
+  "sender",
+  "opponent",
+  "both",
+]);
+const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>([
+  "flag",
+  "fortress",
+  "other",
+]);
 
-function resolveFilterType(value: string | null): ReportsFilterType | undefined {
+function resolveFilterType(
+  value: string | null
+): ReportsFilterType | undefined {
   if (!value) {
     return undefined;
   }
-  return filterTypes.has(value as ReportsFilterType) ? (value as ReportsFilterType) : undefined;
+  return filterTypes.has(value as ReportsFilterType)
+    ? (value as ReportsFilterType)
+    : undefined;
 }
 
 function resolveSide(value: string | null): ReportsFilterSide {
   if (!value) {
     return "none";
   }
-  return filterSides.has(value as ReportsFilterSide) ? (value as ReportsFilterSide) : "none";
+  return filterSides.has(value as ReportsFilterSide)
+    ? (value as ReportsFilterSide)
+    : "none";
 }
 
 function resolveGarrisonBuildingType(
@@ -55,72 +70,97 @@ export type ReportsFilterContextValue = {
   garrisonSide: ReportsFilterSide;
   setGarrisonSide: Dispatch<SetStateAction<ReportsFilterSide>>;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
-  setGarrisonBuildingType: Dispatch<SetStateAction<ReportsGarrisonBuildingType | undefined>>;
+  setGarrisonBuildingType: Dispatch<
+    SetStateAction<ReportsGarrisonBuildingType | undefined>
+  >;
   reset: () => void;
 };
 
-export const ReportsFilterContext = createContext<ReportsFilterContextValue | undefined>(undefined);
+export const ReportsFilterContext = createContext<
+  ReportsFilterContextValue | undefined
+>(undefined);
 
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
-  const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
+  const [playerIdParam, setPlayerIdParam] = useQueryState(
+    "pid",
+    parseAsInteger
+  );
   const [typeParam, setTypeParam] = useQueryState("type", parseAsString);
-  const [senderPrimaryCommanderParam, setSenderPrimaryCommanderParam] = useQueryState(
-    "spc",
-    parseAsInteger
+  const [senderPrimaryCommanderParam, setSenderPrimaryCommanderParam] =
+    useQueryState("spc", parseAsInteger);
+  const [senderSecondaryCommanderParam, setSenderSecondaryCommanderParam] =
+    useQueryState("ssc", parseAsInteger);
+  const [opponentPrimaryCommanderParam, setOpponentPrimaryCommanderParam] =
+    useQueryState("opc", parseAsInteger);
+  const [opponentSecondaryCommanderParam, setOpponentSecondaryCommanderParam] =
+    useQueryState("osc", parseAsInteger);
+  const [rallySideParam, setRallySideParam] = useQueryState(
+    "rs",
+    parseAsString
   );
-  const [senderSecondaryCommanderParam, setSenderSecondaryCommanderParam] = useQueryState(
-    "ssc",
-    parseAsInteger
+  const [garrisonSideParam, setGarrisonSideParam] = useQueryState(
+    "gs",
+    parseAsString
   );
-  const [opponentPrimaryCommanderParam, setOpponentPrimaryCommanderParam] = useQueryState(
-    "opc",
-    parseAsInteger
+  const [garrisonBuildingParam, setGarrisonBuildingParam] = useQueryState(
+    "gb",
+    parseAsString
   );
-  const [opponentSecondaryCommanderParam, setOpponentSecondaryCommanderParam] = useQueryState(
-    "osc",
-    parseAsInteger
-  );
-  const [rallySideParam, setRallySideParam] = useQueryState("rs", parseAsString);
-  const [garrisonSideParam, setGarrisonSideParam] = useQueryState("gs", parseAsString);
-  const [garrisonBuildingParam, setGarrisonBuildingParam] = useQueryState("gb", parseAsString);
 
   const playerId = playerIdParam ?? undefined;
   const type = resolveFilterType(typeParam);
   const senderPrimaryCommanderId = senderPrimaryCommanderParam ?? undefined;
   const senderSecondaryCommanderId = senderSecondaryCommanderParam ?? undefined;
   const opponentPrimaryCommanderId = opponentPrimaryCommanderParam ?? undefined;
-  const opponentSecondaryCommanderId = opponentSecondaryCommanderParam ?? undefined;
+  const opponentSecondaryCommanderId =
+    opponentSecondaryCommanderParam ?? undefined;
   const rallySide = resolveSide(rallySideParam);
   const garrisonSide = resolveSide(garrisonSideParam);
-  const garrisonBuildingType = resolveGarrisonBuildingType(garrisonBuildingParam);
+  const garrisonBuildingType = resolveGarrisonBuildingType(
+    garrisonBuildingParam
+  );
 
   const setPlayerId: Dispatch<SetStateAction<number | undefined>> = (value) => {
     const next = typeof value === "function" ? value(playerId) : value;
     setPlayerIdParam(next ?? null);
   };
 
-  const setType: Dispatch<SetStateAction<ReportsFilterType | undefined>> = (value) => {
+  const setType: Dispatch<SetStateAction<ReportsFilterType | undefined>> = (
+    value
+  ) => {
     const next = typeof value === "function" ? value(type) : value;
     setTypeParam(next ?? null);
   };
 
-  const setSenderPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(senderPrimaryCommanderId) : value;
+  const setSenderPrimaryCommanderId: Dispatch<
+    SetStateAction<number | undefined>
+  > = (value) => {
+    const next =
+      typeof value === "function" ? value(senderPrimaryCommanderId) : value;
     setSenderPrimaryCommanderParam(next ?? null);
   };
 
-  const setSenderSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(senderSecondaryCommanderId) : value;
+  const setSenderSecondaryCommanderId: Dispatch<
+    SetStateAction<number | undefined>
+  > = (value) => {
+    const next =
+      typeof value === "function" ? value(senderSecondaryCommanderId) : value;
     setSenderSecondaryCommanderParam(next ?? null);
   };
 
-  const setOpponentPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(opponentPrimaryCommanderId) : value;
+  const setOpponentPrimaryCommanderId: Dispatch<
+    SetStateAction<number | undefined>
+  > = (value) => {
+    const next =
+      typeof value === "function" ? value(opponentPrimaryCommanderId) : value;
     setOpponentPrimaryCommanderParam(next ?? null);
   };
 
-  const setOpponentSecondaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
-    const next = typeof value === "function" ? value(opponentSecondaryCommanderId) : value;
+  const setOpponentSecondaryCommanderId: Dispatch<
+    SetStateAction<number | undefined>
+  > = (value) => {
+    const next =
+      typeof value === "function" ? value(opponentSecondaryCommanderId) : value;
     setOpponentSecondaryCommanderParam(next ?? null);
   };
 
@@ -129,7 +169,9 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setRallySideParam(next === "none" ? null : next);
   };
 
-  const setGarrisonSide: Dispatch<SetStateAction<ReportsFilterSide>> = (value) => {
+  const setGarrisonSide: Dispatch<SetStateAction<ReportsFilterSide>> = (
+    value
+  ) => {
     const next = typeof value === "function" ? value(garrisonSide) : value;
     setGarrisonSideParam(next === "none" ? null : next);
   };
@@ -137,7 +179,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setGarrisonBuildingType: Dispatch<
     SetStateAction<ReportsGarrisonBuildingType | undefined>
   > = (value) => {
-    const next = typeof value === "function" ? value(garrisonBuildingType) : value;
+    const next =
+      typeof value === "function" ? value(garrisonBuildingType) : value;
     setGarrisonBuildingParam(next ?? null);
   };
 
@@ -175,5 +218,9 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     reset,
   };
 
-  return <ReportsFilterContext.Provider value={value}>{children}</ReportsFilterContext.Provider>;
+  return (
+    <ReportsFilterContext.Provider value={value}>
+      {children}
+    </ReportsFilterContext.Provider>
+  );
 }

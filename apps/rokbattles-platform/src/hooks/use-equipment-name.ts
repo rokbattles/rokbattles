@@ -10,7 +10,10 @@ type EquipmentIdKey = keyof typeof equipmentMap;
 type EquipmentEntry = (typeof equipmentMap)[EquipmentIdKey];
 type EquipmentLocale = keyof EquipmentEntry["name"];
 
-export function getEquipmentName(id: number | null | undefined, locale?: string) {
+export function getEquipmentName(
+  id: number | null | undefined,
+  locale?: string
+) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }

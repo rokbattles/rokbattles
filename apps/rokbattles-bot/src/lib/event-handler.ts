@@ -6,7 +6,10 @@ export type EventHandler<C extends Client, E extends keyof ClientEvents> = (
 ) => Promise<unknown> | unknown;
 
 // biome-ignore lint/suspicious/noExplicitAny: ignore
-export class EventCollection extends Collection<keyof ClientEvents, EventHandler<any, any>[]> {
+export class EventCollection extends Collection<
+  keyof ClientEvents,
+  EventHandler<any, any>[]
+> {
   // biome-ignore lint/suspicious/noExplicitAny: ignore
   add(event: keyof ClientEvents, handler: EventHandler<any, any>) {
     const item = this.get(event) || [];
@@ -15,7 +18,10 @@ export class EventCollection extends Collection<keyof ClientEvents, EventHandler
   }
 }
 
-export function registerEvents<C extends Client>(client: C, collection: EventCollection) {
+export function registerEvents<C extends Client>(
+  client: C,
+  collection: EventCollection
+) {
   collection.forEach((handlers, event) => {
     const method = event === "ready" ? "once" : "on";
 

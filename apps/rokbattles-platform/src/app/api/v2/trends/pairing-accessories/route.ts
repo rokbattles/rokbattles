@@ -16,11 +16,16 @@ export async function GET() {
     );
 
     if (!doc) {
-      return NextResponse.json({ error: "Trend snapshot not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Trend snapshot not found" },
+        { status: 404 }
+      );
     }
 
     const generatedAt =
-      doc.generatedAt instanceof Date ? doc.generatedAt.toISOString() : doc.generatedAt;
+      doc.generatedAt instanceof Date
+        ? doc.generatedAt.toISOString()
+        : doc.generatedAt;
 
     return NextResponse.json(
       {
@@ -35,6 +40,9 @@ export async function GET() {
     );
   } catch (error) {
     console.error("Failed to load trend snapshot", error);
-    return NextResponse.json({ error: "Failed to load trend snapshot" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to load trend snapshot" },
+      { status: 500 }
+    );
   }
 }

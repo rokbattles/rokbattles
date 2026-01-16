@@ -19,7 +19,13 @@ type BattleMetricConfig = {
   enemyKey: keyof RawBattleResults;
 };
 
-const COMMON_METRIC_KEYS = new Set(["units", "remaining", "dead", "severelyWounded", "killPoints"]);
+const COMMON_METRIC_KEYS = new Set([
+  "units",
+  "remaining",
+  "dead",
+  "severelyWounded",
+  "killPoints",
+]);
 
 const BATTLE_METRICS: readonly BattleMetricConfig[] = [
   { labelKey: "units", selfKey: "max", enemyKey: "enemy_max" },
@@ -31,9 +37,21 @@ const BATTLE_METRICS: readonly BattleMetricConfig[] = [
     selfKey: "severely_wounded",
     enemyKey: "enemy_severely_wounded",
   },
-  { labelKey: "slightlyWounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
-  { labelKey: "watchtowerDamage", selfKey: "watchtower", enemyKey: "enemy_watchtower" },
-  { labelKey: "killPoints", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
+  {
+    labelKey: "slightlyWounded",
+    selfKey: "wounded",
+    enemyKey: "enemy_wounded",
+  },
+  {
+    labelKey: "watchtowerDamage",
+    selfKey: "watchtower",
+    enemyKey: "enemy_watchtower",
+  },
+  {
+    labelKey: "killPoints",
+    selfKey: "kill_score",
+    enemyKey: "enemy_kill_score",
+  },
 ] as const;
 
 type BattleSummaryDatum = {
@@ -47,7 +65,10 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-function getMetricValue(results: RawBattleResults, key: keyof RawBattleResults) {
+function getMetricValue(
+  results: RawBattleResults,
+  key: keyof RawBattleResults
+) {
   const raw = results?.[key];
   if (typeof raw !== "number" || !Number.isFinite(raw)) {
     return null;
@@ -81,7 +102,11 @@ function buildChartData(
   return rows;
 }
 
-export function ReportBattleResultsChart({ results }: { results: RawBattleResults }) {
+export function ReportBattleResultsChart({
+  results,
+}: {
+  results: RawBattleResults;
+}) {
   const t = useTranslations("report");
   const tCommon = useTranslations("common");
   const chartData = buildChartData(results, t, tCommon);
@@ -99,45 +124,49 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
             layout="vertical"
             margin={{ top: 12, right: 16, bottom: 12, left: 4 }}
           >
-            <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#d4d4d8" />
+            <CartesianGrid
+              horizontal={false}
+              stroke="#d4d4d8"
+              strokeDasharray="3 3"
+            />
             <XAxis
-              type="number"
-              tickFormatter={(value) => numberFormatter.format(value)}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
               axisLine={{ stroke: "#d4d4d8" }}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tickFormatter={(value) => numberFormatter.format(value)}
               tickLine={false}
+              type="number"
             />
             <YAxis
-              type="category"
-              dataKey="label"
-              width={140}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
               axisLine={{ stroke: "#d4d4d8" }}
+              dataKey="label"
+              tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
+              type="category"
+              width={140}
             />
             <RechartsTooltip
-              cursor={{ fill: "rgba(39, 39, 42, 0.08)" }}
               content={(props) => (
                 <ReportBattleSummaryTooltip
                   active={props.active}
-                  payload={props.payload}
                   label={props.label}
+                  payload={props.payload}
                 />
               )}
+              cursor={{ fill: "rgba(39, 39, 42, 0.08)" }}
             />
             <Bar
               dataKey="self"
-              stackId="battle"
               fill="#3b82f6"
-              radius={[4, 0, 0, 4]}
               maxBarSize={28}
+              radius={[4, 0, 0, 4]}
+              stackId="battle"
             />
             <Bar
               dataKey="enemy"
-              stackId="battle"
               fill="#f87171"
-              radius={[0, 4, 4, 0]}
               maxBarSize={28}
+              radius={[0, 4, 4, 0]}
+              stackId="battle"
             />
           </BarChart>
         </ResponsiveContainer>

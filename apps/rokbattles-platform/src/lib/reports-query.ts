@@ -36,7 +36,10 @@ export function buildReportsQueryParams({
     params.set("pid", String(playerId));
   }
   if (type) params.set("type", type);
-  if (typeof senderPrimaryCommanderId === "number" && Number.isFinite(senderPrimaryCommanderId)) {
+  if (
+    typeof senderPrimaryCommanderId === "number" &&
+    Number.isFinite(senderPrimaryCommanderId)
+  ) {
     params.set("spc", String(senderPrimaryCommanderId));
   }
   if (

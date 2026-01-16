@@ -5,7 +5,12 @@ import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import Flag from "react-flagpack";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/fieldset";
 import { Radio, RadioField, RadioGroup } from "@/components/ui/radio";
 import { SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
@@ -54,7 +59,8 @@ export function LanguageSelector() {
   }, []);
 
   const currentLanguage =
-    languageOptions.find((option) => option.locale === currentLocale) ?? languageOptions[0];
+    languageOptions.find((option) => option.locale === currentLocale) ??
+    languageOptions[0];
 
   const handleOpen = useCallback(() => {
     setSelectedLocale(currentLocale);
@@ -72,7 +78,9 @@ export function LanguageSelector() {
   );
 
   const handleSave = useCallback(() => {
-    const nextLocale = isSupportedLocale(selectedLocale) ? selectedLocale : defaultLocale;
+    const nextLocale = isSupportedLocale(selectedLocale)
+      ? selectedLocale
+      : defaultLocale;
     setLocaleCookie(nextLocale);
     setCurrentLocale(nextLocale);
     setIsOpen(false);
@@ -81,26 +89,31 @@ export function LanguageSelector() {
 
   return (
     <>
-      <SidebarItem onClick={handleOpen} aria-label={t("select")}>
-        <span data-slot="icon" className="flex items-center justify-center">
-          <Flag code={currentLanguage.flagCode} size="m" hasBorder={false} />
+      <SidebarItem aria-label={t("select")} onClick={handleOpen}>
+        <span className="flex items-center justify-center" data-slot="icon">
+          <Flag code={currentLanguage.flagCode} hasBorder={false} size="m" />
         </span>
         <SidebarLabel>{currentLanguage.label}</SidebarLabel>
       </SidebarItem>
-      <Dialog open={isOpen} onClose={handleClose} size="xl">
+      <Dialog onClose={handleClose} open={isOpen} size="xl">
         <DialogTitle>{t("title")}</DialogTitle>
         <DialogBody>
           <RadioGroup
-            value={selectedLocale}
-            onChange={setSelectedLocale}
             aria-label={t("select")}
             name="platformLanguage"
+            onChange={setSelectedLocale}
+            value={selectedLocale}
           >
             {languageOptions.map((option) => (
               <RadioField key={option.locale}>
                 <Radio value={option.locale} />
                 <Label className="flex items-center gap-3">
-                  <Flag code={option.flagCode} size="m" hasBorder={false} className="shrink-0" />
+                  <Flag
+                    className="shrink-0"
+                    code={option.flagCode}
+                    hasBorder={false}
+                    size="m"
+                  />
                   <span className="truncate">{option.label}</span>
                 </Label>
               </RadioField>
@@ -108,7 +121,7 @@ export function LanguageSelector() {
           </RadioGroup>
         </DialogBody>
         <DialogActions>
-          <Button outline onClick={() => handleClose(false)}>
+          <Button onClick={() => handleClose(false)} outline>
             {tCommon("actions.cancel")}
           </Button>
           <Button onClick={handleSave}>{t("save")}</Button>

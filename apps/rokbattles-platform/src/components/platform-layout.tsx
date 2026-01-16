@@ -69,7 +69,11 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const showMyReports = Boolean(!loading && user && activeGovernor);
   const isDark = isMounted ? resolvedTheme === "dark" : false;
   const ThemeIcon = isDark ? SunIcon : MoonIcon;
-  const themeLabel = isMounted ? (isDark ? t("lightMode") : t("darkMode")) : t("theme");
+  const themeLabel = isMounted
+    ? isDark
+      ? t("lightMode")
+      : t("darkMode")
+    : t("theme");
 
   useEffect(() => {
     setIsMounted(true);
@@ -98,10 +102,16 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             {!loading &&
               (user ? (
                 <Dropdown>
-                  <DropdownButton as={NavbarItem} aria-label={t("openAccountMenu")}>
-                    <Avatar src={user.avatar} square />
+                  <DropdownButton
+                    aria-label={t("openAccountMenu")}
+                    as={NavbarItem}
+                  >
+                    <Avatar square src={user.avatar} />
                   </DropdownButton>
-                  <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
+                  <PlatformAccountDropdownMenu
+                    anchor="bottom end"
+                    handleLogout={handleLogout}
+                  />
                 </Dropdown>
               ) : (
                 <NavbarItem href="/api/auth/discord/login">
@@ -116,15 +126,18 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           {!loading && user ? <SidebarGovernorHeader user={user} /> : null}
           <SidebarBody>
             <SidebarSection>
-              <SidebarItem href="/" current={pathname === "/"}>
+              <SidebarItem current={pathname === "/"} href="/">
                 <FireIcon />
                 <SidebarLabel>{t("exploreBattles")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
+              <SidebarItem
+                current={pathname === "/olympian-arena"}
+                href="/olympian-arena"
+              >
                 <TrophyIcon />
                 <SidebarLabel>{t("exploreDuels")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem href="/trends" current={pathname === "/trends"}>
+              <SidebarItem current={pathname === "/trends"} href="/trends">
                 <ArrowTrendingUpIcon />
                 <SidebarLabel>{t("exploreTrends")}</SidebarLabel>
               </SidebarItem>
@@ -134,24 +147,33 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <SidebarHeading>{t("account")}</SidebarHeading>
                 {showMyReports ? (
                   <>
-                    <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
+                    <SidebarItem
+                      current={pathname === "/account/reports"}
+                      href="/account/reports"
+                    >
                       <FireIcon />
                       <SidebarLabel>{t("myBattles")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
-                      href="/account/pairings"
                       current={pathname === "/account/pairings"}
+                      href="/account/pairings"
                     >
                       <ScaleIcon />
                       <SidebarLabel>{tAccount("titles.pairings")}</SidebarLabel>
                     </SidebarItem>
-                    <SidebarItem href="/account/rewards" current={pathname === "/account/rewards"}>
+                    <SidebarItem
+                      current={pathname === "/account/rewards"}
+                      href="/account/rewards"
+                    >
                       <GiftIcon />
                       <SidebarLabel>{tAccount("titles.rewards")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
-                <SidebarItem href="/account/favorites" current={pathname === "/account/favorites"}>
+                <SidebarItem
+                  current={pathname === "/account/favorites"}
+                  href="/account/favorites"
+                >
                   <StarIcon />
                   <SidebarLabel>{t("myFavorites")}</SidebarLabel>
                 </SidebarItem>
@@ -165,23 +187,26 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               </SidebarItem>
               <SidebarItem
                 href="/discord"
-                target="_blank"
-                rel="noopener noreferrer"
                 prefetch={false}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>{t("support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/desktop-app"
-                target="_blank"
-                rel="noopener noreferrer"
                 prefetch={false}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <ArrowDownTrayIcon />
                 <SidebarLabel>{t("desktopApp")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem onClick={handleThemeToggle} aria-label={t("toggleTheme")}>
+              <SidebarItem
+                aria-label={t("toggleTheme")}
+                onClick={handleThemeToggle}
+              >
                 <ThemeIcon />
                 <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
@@ -197,19 +222,22 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               <Dropdown>
                 <DropdownButton as={SidebarItem}>
                   <span className="flex min-w-0 items-center gap-3">
-                    <Avatar src={user.avatar} className="size-10" square />
+                    <Avatar className="size-10" square src={user.avatar} />
                     <span className="min-w-0">
-                      <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
+                      <span className="block truncate font-medium text-sm/5 text-zinc-950 dark:text-white">
                         {user.globalName ?? user.username}
                       </span>
-                      <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
+                      <span className="block truncate font-normal text-xs/5 text-zinc-500 dark:text-zinc-400">
                         {user.email}
                       </span>
                     </span>
                   </span>
                   <ChevronUpIcon />
                 </DropdownButton>
-                <PlatformAccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
+                <PlatformAccountDropdownMenu
+                  anchor="top start"
+                  handleLogout={handleLogout}
+                />
               </Dropdown>
             ) : (
               <SidebarItem href="/api/auth/discord/login" prefetch={false}>

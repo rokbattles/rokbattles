@@ -2,11 +2,12 @@ import { ApplicationCommandType } from "discord.js";
 import type { BaseClient } from "@/lib/BaseClient";
 import type { EventHandler } from "@/lib/EventHandler";
 
-export const SlashCommandHandler: EventHandler<BaseClient, "interactionCreate"> = async (
-  client,
-  interaction
-) => {
-  if (!interaction.isChatInputCommand() && !interaction.isAutocomplete()) return;
+export const SlashCommandHandler: EventHandler<
+  BaseClient,
+  "interactionCreate"
+> = async (client, interaction) => {
+  if (!(interaction.isChatInputCommand() || interaction.isAutocomplete()))
+    return;
 
   const command = client.commands.get(interaction.commandName.toLowerCase());
   if (!command) return;

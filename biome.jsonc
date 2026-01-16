@@ -6,9 +6,6 @@
     "ultracite/biome/next"
   ],
   "files": {
-    "includes": [
-      "**",
-      "!**/samples"
-    ]
+    "includes": ["!**/samples"]
   }
 }

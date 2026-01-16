@@ -32,6 +32,7 @@ export function getArmamentInfo(
   const name =
     (armament.name as Record<string, string | undefined>)[requestedLocale] ??
     armament.name[defaultLocale as ArmamentLocale];
-  const percent = typeof armament.percent === "boolean" ? armament.percent : true;
+  const percent =
+    typeof armament.percent === "boolean" ? armament.percent : true;
   return name ? { name, percent } : undefined;
 }

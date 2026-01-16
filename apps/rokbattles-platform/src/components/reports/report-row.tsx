@@ -25,7 +25,7 @@ export default function ReportRow({ report }: { report: Report }) {
     : `/report/${report.parentHash}`;
 
   return (
-    <TableRow key={report.parentHash} href={href}>
+    <TableRow href={href} key={report.parentHash}>
       <TableRowHeader className="font-medium text-zinc-950 dark:text-white">
         {formatUtcDateTime(report.entry.startDate)}
       </TableRowHeader>
@@ -43,7 +43,10 @@ export default function ReportRow({ report }: { report: Report }) {
       </TableCell>
       <TableCell>{report.count.toLocaleString()}</TableCell>
       <TableCell>
-        {formatDurationShort(report.timespan.firstStart, report.timespan.lastEnd)}
+        {formatDurationShort(
+          report.timespan.firstStart,
+          report.timespan.lastEnd
+        )}
       </TableCell>
     </TableRow>
   );

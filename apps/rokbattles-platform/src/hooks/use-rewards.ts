@@ -38,7 +38,11 @@ type RewardsOptions = {
   endDate?: string;
 };
 
-function buildRangeParams(options: { startDate?: string; endDate?: string; year?: number | null }) {
+function buildRangeParams(options: {
+  startDate?: string;
+  endDate?: string;
+  year?: number | null;
+}) {
   const { startDate, endDate, year } = options;
   if (startDate && endDate) {
     return new URLSearchParams({ start: startDate, end: endDate });
@@ -68,9 +72,12 @@ export function useRewards(options: RewardsOptions): RewardsResult {
 
     try {
       const params = buildRangeParams({ startDate, endDate });
-      const res = await fetch(`/api/v2/governor/${governorId}/rewards?${params}`, {
-        cache: "no-store",
-      });
+      const res = await fetch(
+        `/api/v2/governor/${governorId}/rewards?${params}`,
+        {
+          cache: "no-store",
+        }
+      );
 
       if (!res.ok) {
         throw new Error(`Failed to load rewards: ${res.status}`);

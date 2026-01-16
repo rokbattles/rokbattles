@@ -36,7 +36,9 @@ type RewardBucket = {
   count: number;
 };
 
-function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
+function extractEventTimeMillis(
+  report: BattleReportDocument["report"]
+): number | null {
   const emailTime = normalizeTimestampMillis(report?.metadata?.email_time);
   if (emailTime != null) {
     return emailTime;
@@ -70,7 +72,11 @@ function isKvkBarbarianFort(npcType: number | null, npcBtype: number | null) {
   return npcBtype === 2 && npcType >= 121 && npcType <= 125;
 }
 
-function buildMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+function buildMatchStage(
+  governorId: number,
+  startMillis: number,
+  endMillis: number
+): Document {
   const startMicros = Math.floor(startMillis * 1000);
   const endMicros = Math.floor(endMillis * 1000);
 
@@ -108,7 +114,11 @@ export async function GET(
   const endParam = url.searchParams.get("end");
   const parsedYear = yearParam ? Number(yearParam) : Number.NaN;
   const targetYear = Number.isFinite(parsedYear) ? parsedYear : nowYear;
-  const range = resolveDateRange({ startParam, endParam, fallbackYear: targetYear });
+  const range = resolveDateRange({
+    startParam,
+    endParam,
+    fallbackYear: targetYear,
+  });
 
   const claim = await db
     .collection<ClaimedGovernorDocument>("claimedGovernors")
@@ -129,7 +139,9 @@ export async function GET(
   try {
     const reports = await db
       .collection<BattleReportDocument>("battleReports")
-      .find(buildMatchStage(governorId, range.startMillis, range.endMillis), { projection })
+      .find(buildMatchStage(governorId, range.startMillis, range.endMillis), {
+        projection,
+      })
       .toArray();
 
     const rewardBuckets = new Map<string, RewardBucket>();
@@ -146,7 +158,11 @@ export async function GET(
       }
 
       const eventTime = extractEventTimeMillis(report);
-      if (eventTime == null || eventTime < range.startMillis || eventTime >= range.endMillis) {
+      if (
+        eventTime == null ||
+        eventTime < range.startMillis ||
+        eventTime >= range.endMillis
+      ) {
         continue;
       }
 
@@ -165,7 +181,7 @@ export async function GET(
         otherNpcKills += 1;
       }
 
-      if (!isKvkBarb && !isKvkFort) {
+      if (!(isKvkBarb || isKvkFort)) {
         continue;
       }
 

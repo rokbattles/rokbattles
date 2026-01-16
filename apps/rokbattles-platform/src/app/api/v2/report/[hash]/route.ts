@@ -2,9 +2,16 @@ import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import clientPromise, { toPlainObject } from "@/lib/mongo";
 import type { RawReportPayload } from "@/lib/types/raw-report";
-import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
+import type {
+  BattleResultsSummary,
+  BattleResultsTotals,
+  ReportEntry,
+} from "@/lib/types/report";
 
-export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[hash]">) {
+export async function GET(
+  _req: NextRequest,
+  ctx: RouteContext<"/api/v2/report/[hash]">
+) {
   const { hash } = await ctx.params;
   if (!hash) {
     return NextResponse.json({ error: "Missing report hash" }, { status: 400 });
@@ -99,17 +106,31 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
         $group: {
           _id: null,
           death: { $sum: { $ifNull: ["$report.battle_results.death", 0] } },
-          severelyWounded: { $sum: { $ifNull: ["$report.battle_results.severely_wounded", 0] } },
+          severelyWounded: {
+            $sum: { $ifNull: ["$report.battle_results.severely_wounded", 0] },
+          },
           wounded: { $sum: { $ifNull: ["$report.battle_results.wounded", 0] } },
           remaining: { $min: "$report.battle_results.remaining" },
-          killScore: { $sum: { $ifNull: ["$report.battle_results.kill_score", 0] } },
-          enemyDeath: { $sum: { $ifNull: ["$report.battle_results.enemy_death", 0] } },
-          enemySeverelyWounded: {
-            $sum: { $ifNull: ["$report.battle_results.enemy_severely_wounded", 0] },
+          killScore: {
+            $sum: { $ifNull: ["$report.battle_results.kill_score", 0] },
           },
-          enemyWounded: { $sum: { $ifNull: ["$report.battle_results.enemy_wounded", 0] } },
-          enemyRemaining: { $sum: { $ifNull: ["$report.battle_results.enemy_remaining", 0] } },
-          enemyKillScore: { $sum: { $ifNull: ["$report.battle_results.enemy_kill_score", 0] } },
+          enemyDeath: {
+            $sum: { $ifNull: ["$report.battle_results.enemy_death", 0] },
+          },
+          enemySeverelyWounded: {
+            $sum: {
+              $ifNull: ["$report.battle_results.enemy_severely_wounded", 0],
+            },
+          },
+          enemyWounded: {
+            $sum: { $ifNull: ["$report.battle_results.enemy_wounded", 0] },
+          },
+          enemyRemaining: {
+            $sum: { $ifNull: ["$report.battle_results.enemy_remaining", 0] },
+          },
+          enemyKillScore: {
+            $sum: { $ifNull: ["$report.battle_results.enemy_kill_score", 0] },
+          },
         },
       },
       {
@@ -154,7 +175,9 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
       console.error("Failed to compute report totals", error);
     }
 
-    const battleResults: BattleResultsSummary | undefined = totals ? { total: totals } : undefined;
+    const battleResults: BattleResultsSummary | undefined = totals
+      ? { total: totals }
+      : undefined;
 
     return NextResponse.json(
       {
@@ -184,7 +207,9 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
   }
 }
 
-function extractTrackingKey(report: Record<string, unknown> | null | undefined): string | null {
+function extractTrackingKey(
+  report: Record<string, unknown> | null | undefined
+): string | null {
   const payload = report as RawReportPayload | null | undefined;
   const candidate = payload?.self?.tracking_key;
   if (typeof candidate !== "string") {

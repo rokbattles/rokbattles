@@ -5,7 +5,9 @@ export type EquipmentToken = {
   attr?: number;
 };
 
-export function parseEquipment(raw: string | null | undefined): EquipmentToken[] {
+export function parseEquipment(
+  raw: string | null | undefined
+): EquipmentToken[] {
   if (!raw) {
     return [];
   }
@@ -54,7 +56,9 @@ export function parseEquipment(raw: string | null | undefined): EquipmentToken[]
   return result.sort((a, b) => a.slot - b.slot);
 }
 
-export function parseSemicolonNumberList(raw: string | null | undefined): number[] {
+export function parseSemicolonNumberList(
+  raw: string | null | undefined
+): number[] {
   if (!raw) {
     return [];
   }
@@ -70,7 +74,9 @@ export type ArmamentBuff = {
   value: number;
 };
 
-export function parseArmamentBuffs(raw: string | null | undefined): ArmamentBuff[] {
+export function parseArmamentBuffs(
+  raw: string | null | undefined
+): ArmamentBuff[] {
   if (!raw) {
     return [];
   }

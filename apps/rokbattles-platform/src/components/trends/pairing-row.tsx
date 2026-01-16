@@ -27,7 +27,9 @@ export function PairingRow({
       <TableCell>
         <AccessoryPairLabel pair={topPair} />
       </TableCell>
-      <TableCell className="w-32 tabular-nums">{pairing.reportCount.toLocaleString()}</TableCell>
+      <TableCell className="w-32 tabular-nums">
+        {pairing.reportCount.toLocaleString()}
+      </TableCell>
     </TableRow>
   );
 }

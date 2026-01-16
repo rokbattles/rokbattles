@@ -4,7 +4,9 @@ import { getTranslations } from "next-intl/server";
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
 
-export async function generateMetadata({ params }: PageProps<"/report/[hash]">): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps<"/report/[hash]">): Promise<Metadata> {
   const t = await getTranslations("report");
   const { hash } = await params;
 
@@ -55,15 +57,23 @@ function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
   return query ? `?${query}` : "";
 }
 
-export default async function Page({ params, searchParams }: PageProps<"/report/[hash]">) {
-  const [t, tNav] = await Promise.all([getTranslations("report"), getTranslations("navigation")]);
+export default async function Page({
+  params,
+  searchParams,
+}: PageProps<"/report/[hash]">) {
+  const [t, tNav] = await Promise.all([
+    getTranslations("report"),
+    getTranslations("navigation"),
+  ]);
   const { hash } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
   const mergeParam = resolveSearchParam(resolvedSearchParams.merge);
   const mergeMode = mergeParam === "1" || mergeParam === "true";
-  const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
-  const isAccountFavorites = fromParam === "account-favorites" || fromParam === "my-favorites";
+  const isAccountReports =
+    fromParam === "account-reports" || fromParam === "my-reports";
+  const isAccountFavorites =
+    fromParam === "account-favorites" || fromParam === "my-favorites";
   const backBase = isAccountReports
     ? "/account/reports"
     : isAccountFavorites
@@ -78,10 +88,10 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
 
   return (
     <>
-      <div className="max-lg:hidden mb-8">
+      <div className="mb-8 max-lg:hidden">
         <Link
-          href={`${backBase}${backQuery}`}
           className="inline-flex items-center gap-2 text-sm/6 text-zinc-500 dark:text-zinc-400"
+          href={`${backBase}${backQuery}`}
         >
           <ChevronLeftIcon className="size-4 fill-zinc-400 dark:fill-zinc-500" />
           {backLabel}
