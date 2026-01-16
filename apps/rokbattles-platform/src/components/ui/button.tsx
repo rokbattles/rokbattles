@@ -2,7 +2,7 @@ import * as Headless from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
-import { Link } from "./Link";
+import { Link } from "./link";
 
 const styles = {
   base: [

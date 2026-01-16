@@ -3,8 +3,8 @@ import Image from "next/image";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
-import { TouchTarget } from "./Button";
-import { Link } from "./Link";
+import { TouchTarget } from "./button";
+import { Link } from "./link";
 
 type AvatarProps = {
   src?: string | null;

@@ -1,4 +1,4 @@
-import { Text } from "@/components/ui/Text";
+import { Text } from "@/components/ui/text";
 
 export function ReportErrorState({ message }: { message: string }) {
   return (

@@ -14,7 +14,7 @@ import {
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
-} from "@/components/ui/Dropdown";
+} from "@/components/ui/dropdown";
 
 export function PlatformAccountDropdownMenu({
   anchor,

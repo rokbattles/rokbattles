@@ -3,15 +3,15 @@
 import { useTranslations } from "next-intl";
 import { Fragment, useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/duel-commander-row";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
-} from "@/components/ui/DescriptionList";
-import { Subheading } from "@/components/ui/Heading";
+} from "@/components/ui/description-list";
+import { Subheading } from "@/components/ui/heading";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import type {

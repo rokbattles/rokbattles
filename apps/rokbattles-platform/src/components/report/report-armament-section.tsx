@@ -7,8 +7,8 @@ import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
-} from "@/components/ui/DescriptionList";
-import { Subheading } from "@/components/ui/Heading";
+} from "@/components/ui/description-list";
+import { Subheading } from "@/components/ui/heading";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import type { ArmamentBuff } from "@/lib/report/parsers";
 

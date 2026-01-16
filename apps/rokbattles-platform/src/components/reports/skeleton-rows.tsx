@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { TableCell, TableRow } from "@/components/ui/Table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/cn";
 
 type Props = {

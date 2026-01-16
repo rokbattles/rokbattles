@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Strong, Text } from "@/components/ui/Text";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Strong, Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import { getFormationName } from "@/hooks/use-formation-name";
 import type { RawCommanderInfo } from "@/lib/types/raw-report";

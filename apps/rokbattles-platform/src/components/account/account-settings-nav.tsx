@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/Navbar";
+import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/navbar";
 
 export function AccountSettingsNav() {
   const t = useTranslations("account");

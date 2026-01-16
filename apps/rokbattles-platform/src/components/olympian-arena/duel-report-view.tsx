@@ -6,9 +6,9 @@ import { DuelEmptyState } from "@/components/olympian-arena/duel-empty-state";
 import { DuelErrorState } from "@/components/olympian-arena/duel-error-state";
 import { DuelLoadingState } from "@/components/olympian-arena/duel-loading-state";
 import DuelReportEntryCard from "@/components/olympian-arena/duel-report-entry-card";
-import { Button } from "@/components/ui/Button";
-import { Divider } from "@/components/ui/Divider";
-import { Heading } from "@/components/ui/Heading";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
+import { Heading } from "@/components/ui/heading";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useOlympianArenaDuel } from "@/hooks/use-olympian-arena-duel";
 

@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { Text, TextLink } from "@/components/ui/Text";
+import { Button } from "@/components/ui/button";
+import { Text, TextLink } from "@/components/ui/text";
 import { useCookieConsent } from "@/providers/cookie-consent-context";
 
 export function CookieConsentBanner() {

@@ -1,7 +1,7 @@
 import * as Headless from "@headlessui/react";
 import type React from "react";
 import { cn } from "@/lib/cn";
-import { Text } from "./Text";
+import { Text } from "./text";
 
 const sizes = {
   xs: "sm:max-w-xs",

@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import Flag from "react-flagpack";
-import { Button } from "@/components/ui/Button";
-import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/Dialog";
-import { Label } from "@/components/ui/Fieldset";
-import { Radio, RadioField, RadioGroup } from "@/components/ui/Radio";
-import { SidebarItem, SidebarLabel } from "@/components/ui/Sidebar";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/fieldset";
+import { Radio, RadioField, RadioGroup } from "@/components/ui/radio";
+import { SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
 import {
   defaultLocale,
   isSupportedLocale,

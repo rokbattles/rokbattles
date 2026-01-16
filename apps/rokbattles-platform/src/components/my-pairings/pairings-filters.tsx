@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Field, Label } from "@/components/ui/Fieldset";
-import { Input } from "@/components/ui/Input";
-import { Listbox, ListboxOption } from "@/components/ui/Listbox";
+import { Field, Label } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
+import { Listbox, ListboxOption } from "@/components/ui/listbox";
 import type { LoadoutGranularity } from "@/hooks/use-pairings";
 import { formatLocalDateInput } from "@/lib/datetime";
 

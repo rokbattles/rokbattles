@@ -1,8 +1,8 @@
 import { ChevronLeftIcon } from "@heroicons/react/16/solid";
 import { getTranslations } from "next-intl/server";
 import PairingAccessoryDetails from "@/components/trends/pairing-accessory-details";
-import { Link } from "@/components/ui/Link";
-import { Text } from "@/components/ui/Text";
+import { Link } from "@/components/ui/link";
+import { Text } from "@/components/ui/text";
 
 export default async function Page({
   params,

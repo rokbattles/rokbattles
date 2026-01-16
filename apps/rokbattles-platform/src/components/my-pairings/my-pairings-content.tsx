@@ -5,7 +5,7 @@ import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
-import { Text } from "@/components/ui/Text";
+import { Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import {
   type EnemyGranularity,

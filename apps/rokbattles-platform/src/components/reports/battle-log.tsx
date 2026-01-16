@@ -2,8 +2,8 @@
 import { useTranslations } from "next-intl";
 import { useBattleLog } from "@/hooks/use-battle-log";
 import { cn } from "@/lib/cn";
-import { Subheading } from "../ui/Heading";
-import { Text } from "../ui/Text";
+import { Subheading } from "../ui/heading";
+import { Text } from "../ui/text";
 
 type BattleLogProps = {
   governorId: number;

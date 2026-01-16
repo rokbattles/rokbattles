@@ -1,4 +1,4 @@
-import { Text } from "@/components/ui/Text";
+import { Text } from "@/components/ui/text";
 
 export function DuelErrorState({ message }: { message: string }) {
   return (

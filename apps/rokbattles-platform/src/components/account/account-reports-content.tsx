@@ -6,8 +6,8 @@ import { useContext } from "react";
 import { BattleLog } from "@/components/reports/battle-log";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
-import { Heading, Subheading } from "@/components/ui/Heading";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import { Heading, Subheading } from "@/components/ui/heading";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { GovernorContext } from "@/providers/governor-context";
 
 export function AccountReportsContent() {

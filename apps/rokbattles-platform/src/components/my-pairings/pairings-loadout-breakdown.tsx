@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/Button";
-import { Subheading } from "@/components/ui/Heading";
+import { Button } from "@/components/ui/button";
+import { Subheading } from "@/components/ui/heading";
 import {
   Table,
   TableBody,
@@ -10,8 +10,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
-import { Text } from "@/components/ui/Text";
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
 
 type GeneralStat = {
   id: string;

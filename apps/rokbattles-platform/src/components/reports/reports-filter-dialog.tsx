@@ -3,17 +3,17 @@
 import { useTranslations } from "next-intl";
 import type React from "react";
 import { useContext, useEffect, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogDescription,
   DialogTitle,
-} from "@/components/ui/Dialog";
-import { Field, Fieldset, Label, Legend } from "@/components/ui/Fieldset";
-import { Input } from "@/components/ui/Input";
-import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/Listbox";
+} from "@/components/ui/dialog";
+import { Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
+import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
 import {
   ReportsFilterContext,

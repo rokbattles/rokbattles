@@ -3,7 +3,7 @@
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/16/solid";
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
-import { Avatar } from "@/components/ui/Avatar";
+import { Avatar } from "@/components/ui/avatar";
 import {
   Dropdown,
   DropdownButton,
@@ -12,8 +12,8 @@ import {
   DropdownItem,
   DropdownLabel,
   DropdownMenu,
-} from "@/components/ui/Dropdown";
-import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/Sidebar";
+} from "@/components/ui/dropdown";
+import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 

@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { type FormEvent, useId, useState } from "react";
-import { Button } from "@/components/ui/Button";
-import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/Fieldset";
-import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/button";
+import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
 
 type ClaimGovernorFormProps = {
   canClaimMore: boolean;

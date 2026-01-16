@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import { LoadoutArmamentList } from "@/components/my-pairings/loadout-armament-list";
 import { LoadoutEquipmentGrid } from "@/components/my-pairings/loadout-equipment-grid";
 import { ReportInscriptionBadge } from "@/components/report/report-inscription-badge";
-import { Badge } from "@/components/ui/Badge";
-import { Subheading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
+import { Badge } from "@/components/ui/badge";
+import { Subheading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 import type { LoadoutAggregate } from "@/hooks/use-pairings";
 import { cn } from "@/lib/cn";
 

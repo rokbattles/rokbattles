@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import type React from "react";
 import { cn } from "@/lib/cn";
-import { Button } from "./Button";
+import { Button } from "./button";
 
 export function Pagination({
   "aria-label": ariaLabel,

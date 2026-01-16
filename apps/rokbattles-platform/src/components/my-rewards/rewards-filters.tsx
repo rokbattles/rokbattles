@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Field, Label } from "@/components/ui/Fieldset";
-import { Input } from "@/components/ui/Input";
+import { Field, Label } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
 import { formatLocalDateInput } from "@/lib/datetime";
 
 type RewardsFiltersProps = {

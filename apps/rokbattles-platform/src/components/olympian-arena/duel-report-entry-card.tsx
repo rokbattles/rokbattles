@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { DuelParticipantCard } from "@/components/olympian-arena/duel-participant-card";
 import { DuelResultsChart } from "@/components/olympian-arena/duel-results-chart";
-import { Subheading } from "@/components/ui/Heading";
+import { Subheading } from "@/components/ui/heading";
 import type { DuelReportEntry } from "@/hooks/use-olympian-arena-duel";
 import { formatUtcDateTime } from "@/lib/datetime";
 import type { DuelResults } from "@/lib/types/duel-report";

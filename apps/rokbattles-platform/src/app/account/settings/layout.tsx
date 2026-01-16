@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type React from "react";
 import { AccountSettingsNav } from "@/components/account/account-settings-nav";
-import { Heading } from "@/components/ui/Heading";
+import { Heading } from "@/components/ui/heading";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const t = await getTranslations("account");

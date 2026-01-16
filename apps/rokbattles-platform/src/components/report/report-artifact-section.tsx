@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { ReportEquipmentSlot } from "@/components/report/report-equipment-slot";
-import { Subheading } from "@/components/ui/Heading";
+import { Subheading } from "@/components/ui/heading";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
 type ReportArtifactSectionProps = {

@@ -5,7 +5,7 @@ import EmptyStateRow from "@/components/reports/empty-state-row";
 import ErrorRow from "@/components/reports/error-row";
 import LoadMoreRow from "@/components/reports/load-more-row";
 import SkeletonRows from "@/components/reports/skeleton-rows";
-import { TableBody } from "@/components/ui/Table";
+import { TableBody } from "@/components/ui/table";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import type { UseOlympianArenaDuelsResult } from "@/hooks/use-olympian-arena-duels";
 import { useOlympianArenaDuels } from "@/hooks/use-olympian-arena-duels";

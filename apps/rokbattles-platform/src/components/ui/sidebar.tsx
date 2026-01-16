@@ -5,8 +5,8 @@ import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useId } from "react";
 import { cn } from "@/lib/cn";
-import { TouchTarget } from "./Button";
-import { Link } from "./Link";
+import { TouchTarget } from "./button";
+import { Link } from "./link";
 
 export function Sidebar({ className, ...props }: React.ComponentPropsWithoutRef<"nav">) {
   return <nav {...props} className={cn(className, "flex h-full min-h-0 flex-col")} />;

@@ -2,9 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { ClaimGovernorForm } from "@/components/governors/claim-governor-form";
-import { Avatar } from "@/components/ui/Avatar";
-import { Subheading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
+import { Avatar } from "@/components/ui/avatar";
+import { Subheading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 

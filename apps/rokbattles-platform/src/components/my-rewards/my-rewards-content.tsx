@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useContext, useMemo, useState } from "react";
 import { RewardsFilters } from "@/components/my-rewards/rewards-filters";
-import { Subheading } from "@/components/ui/Heading";
+import { Subheading } from "@/components/ui/heading";
 import {
   Table,
   TableBody,
@@ -11,8 +11,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
-import { Text } from "@/components/ui/Text";
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
 import { getLootName, getLootOrder } from "@/hooks/use-loot-name";
 import { type RewardStats, useRewards } from "@/hooks/use-rewards";
 import { GovernorContext } from "@/providers/governor-context";

@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { forwardRef } from "react";
-import { Button } from "@/components/ui/Button";
-import { TableCell, TableRow } from "@/components/ui/Table";
+import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
 
 type Props = { colSpan: number; loading: boolean; onLoadMore: () => void };
 

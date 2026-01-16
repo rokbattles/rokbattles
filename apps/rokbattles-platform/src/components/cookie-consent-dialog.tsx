@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/Button";
-import { Dialog, DialogActions, DialogDescription, DialogTitle } from "@/components/ui/Dialog";
-import { TextLink } from "@/components/ui/Text";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogActions, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { TextLink } from "@/components/ui/text";
 import { useCookieConsent } from "@/providers/cookie-consent-context";
 
 type CookieConsentDialogProps = {

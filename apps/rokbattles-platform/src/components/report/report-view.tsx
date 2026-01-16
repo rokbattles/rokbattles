@@ -9,17 +9,17 @@ import { ReportEntryCard } from "@/components/report/report-entry-card";
 import { ReportErrorState } from "@/components/report/report-error-state";
 import { ReportLoadingState } from "@/components/report/report-loading-state";
 import { ReportOverviewCard } from "@/components/report/report-overview-card";
-import { Button } from "@/components/ui/Button";
-import { Divider } from "@/components/ui/Divider";
-import { Heading } from "@/components/ui/Heading";
+import { Button } from "@/components/ui/button";
+import { Divider } from "@/components/ui/divider";
+import { Heading } from "@/components/ui/heading";
 import {
   Sidebar,
   SidebarBody,
   SidebarItem,
   SidebarLabel,
   SidebarSection,
-} from "@/components/ui/Sidebar";
-import { Text } from "@/components/ui/Text";
+} from "@/components/ui/sidebar";
+import { Text } from "@/components/ui/text";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useReport } from "@/hooks/use-report";

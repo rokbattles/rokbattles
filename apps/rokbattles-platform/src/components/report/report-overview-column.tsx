@@ -6,8 +6,8 @@ import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
-} from "@/components/ui/DescriptionList";
-import { Subheading } from "@/components/ui/Heading";
+} from "@/components/ui/description-list";
+import { Subheading } from "@/components/ui/heading";
 import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overview-metrics";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 

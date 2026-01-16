@@ -21,16 +21,16 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { LanguageSelector } from "@/components/language-selector";
 import { PlatformAccountDropdownMenu } from "@/components/platform-account-dropdown-menu";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
-import { Avatar } from "@/components/ui/Avatar";
-import { Dropdown, DropdownButton } from "@/components/ui/Dropdown";
-import { SidebarLayout } from "@/components/ui/layout/SidebarLayout";
+import { Avatar } from "@/components/ui/avatar";
+import { Dropdown, DropdownButton } from "@/components/ui/dropdown";
+import { SidebarLayout } from "@/components/ui/layout/sidebar-layout";
 import {
   Navbar,
   NavbarItem,
   NavbarLabel,
   NavbarSection,
   NavbarSpacer,
-} from "@/components/ui/Navbar";
+} from "@/components/ui/navbar";
 import {
   Sidebar,
   SidebarBody,
@@ -40,7 +40,7 @@ import {
   SidebarLabel,
   SidebarSection,
   SidebarSpacer,
-} from "@/components/ui/Sidebar";
+} from "@/components/ui/sidebar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";

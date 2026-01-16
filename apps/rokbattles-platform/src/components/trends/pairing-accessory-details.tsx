@@ -2,13 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
-} from "@/components/ui/DescriptionList";
-import { Heading, Subheading } from "@/components/ui/Heading";
+} from "@/components/ui/description-list";
+import { Heading, Subheading } from "@/components/ui/heading";
 import {
   Table,
   TableBody,
@@ -17,8 +17,8 @@ import {
   TableHeader,
   TableRow,
   TableRowHeader,
-} from "@/components/ui/Table";
-import { Text } from "@/components/ui/Text";
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { CategoryKey, TrendSnapshot } from "@/lib/types/trends";

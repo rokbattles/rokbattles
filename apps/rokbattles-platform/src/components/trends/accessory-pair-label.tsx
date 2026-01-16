@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Text } from "@/components/ui/Text";
+import { Text } from "@/components/ui/text";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { AccessoryPairCount } from "@/lib/types/trends";
 

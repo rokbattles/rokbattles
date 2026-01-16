@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { Link } from "./Link";
+import { Link } from "./link";
 
 export function Text({ className, ...props }: React.ComponentPropsWithoutRef<"p">) {
   return (

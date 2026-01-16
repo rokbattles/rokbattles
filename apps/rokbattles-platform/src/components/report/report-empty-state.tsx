@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Text } from "@/components/ui/Text";
+import { Text } from "@/components/ui/text";
 
 export function ReportEmptyState() {
   const t = useTranslations("report");

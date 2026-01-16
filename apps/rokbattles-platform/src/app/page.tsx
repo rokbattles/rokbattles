@@ -2,8 +2,8 @@ import { FunnelIcon } from "@heroicons/react/16/solid";
 import { getTranslations } from "next-intl/server";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
-import { Heading, Subheading } from "@/components/ui/Heading";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import { Heading, Subheading } from "@/components/ui/heading";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default async function Page() {
   const [t, tCommon] = await Promise.all([getTranslations("reports"), getTranslations("common")]);

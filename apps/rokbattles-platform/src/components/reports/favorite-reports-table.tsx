@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef } from "react";
-import { TableBody } from "@/components/ui/Table";
+import { TableBody } from "@/components/ui/table";
 import { useFavoriteReports } from "@/hooks/use-favorite-reports";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import EmptyStateRow from "./empty-state-row";

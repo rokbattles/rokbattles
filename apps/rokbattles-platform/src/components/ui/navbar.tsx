@@ -5,8 +5,8 @@ import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useId } from "react";
 import { cn } from "@/lib/cn";
-import { TouchTarget } from "./Button";
-import { Link } from "./Link";
+import { TouchTarget } from "./button";
+import { Link } from "./link";
 
 export function Navbar({ className, ...props }: React.ComponentPropsWithoutRef<"nav">) {
   return <nav {...props} className={cn(className, "flex flex-1 items-center gap-4 py-2.5")} />;

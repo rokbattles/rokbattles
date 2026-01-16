@@ -7,8 +7,8 @@ import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
-} from "@/components/ui/DescriptionList";
-import { Heading, Subheading } from "@/components/ui/Heading";
+} from "@/components/ui/description-list";
+import { Heading, Subheading } from "@/components/ui/heading";
 import {
   Table,
   TableBody,
@@ -16,8 +16,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
-import { Text } from "@/components/ui/Text";
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
 import type { CategoryKey, CategorySnapshot, TrendSnapshot } from "@/lib/types/trends";
 
 const CATEGORY_META: Record<CategoryKey, { titleKey: string }> = {

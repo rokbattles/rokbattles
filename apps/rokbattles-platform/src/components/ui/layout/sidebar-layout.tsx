@@ -4,7 +4,7 @@ import * as Headless from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import type React from "react";
 import { useState } from "react";
-import { NavbarItem } from "@/components/ui/Navbar";
+import { NavbarItem } from "@/components/ui/navbar";
 
 function OpenMenuIcon() {
   return (

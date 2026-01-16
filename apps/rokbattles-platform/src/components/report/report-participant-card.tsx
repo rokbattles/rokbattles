@@ -5,9 +5,9 @@ import { ReportArmamentSection } from "@/components/report/report-armament-secti
 import { ReportArtifactSection } from "@/components/report/report-artifact-section";
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
 import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Subheading } from "@/components/ui/Heading";
+import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Subheading } from "@/components/ui/heading";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
 import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/raw-report";

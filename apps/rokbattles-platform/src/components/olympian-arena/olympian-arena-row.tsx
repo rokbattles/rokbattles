@@ -1,7 +1,7 @@
 "use client";
 
 import ParticipantCell from "@/components/reports/participant-cell";
-import { TableCell, TableRow, TableRowHeader } from "@/components/ui/Table";
+import { TableCell, TableRow, TableRowHeader } from "@/components/ui/table";
 import type { OlympianArenaDuelSummary } from "@/hooks/use-olympian-arena-duels";
 import { formatUtcDateTime } from "@/lib/datetime";
 
