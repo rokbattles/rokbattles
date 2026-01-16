@@ -1,9 +1,11 @@
 use anyhow::Result;
 use std::sync::Arc;
 use twilight_http::Client as HttpClient;
-use twilight_model::application::command::{Command as DiscordCommand, CommandType};
-use twilight_model::application::interaction::Interaction;
-use twilight_model::id;
+use twilight_model::{
+    application::command::{Command as DiscordCommand, CommandType},
+    application::interaction::Interaction,
+    id,
+};
 
 pub struct CommandContext {
     pub interaction: Interaction,
