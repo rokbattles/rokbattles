@@ -1,6 +1,6 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import { type ButtonProps, Button as HeadlessButton } from "@headlessui/react";
 import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useId } from "react";
@@ -43,7 +43,7 @@ export const NavbarItem = forwardRef(function NavbarItem(
     children,
     ...props
   }: { current?: boolean; className?: string; children: React.ReactNode } & (
-    | ({ href?: never } & Omit<Headless.ButtonProps, "as" | "className">)
+    | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
     | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
   ),
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
@@ -87,14 +87,14 @@ export const NavbarItem = forwardRef(function NavbarItem(
         </Link>
       ) : (
         // @ts-expect-error
-        <Headless.Button
+        <HeadlessButton
           {...props}
           className={cn("cursor-default", classes)}
           data-current={current ? "true" : undefined}
           ref={ref}
         >
           <TouchTarget>{children}</TouchTarget>
-        </Headless.Button>
+        </HeadlessButton>
       )}
     </span>
   );

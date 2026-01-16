@@ -1,4 +1,4 @@
-import * as Headless from "@headlessui/react";
+import { type ButtonProps, Button as HeadlessButton } from "@headlessui/react";
 import Image from "next/image";
 import type React from "react";
 import { forwardRef } from "react";
@@ -100,7 +100,7 @@ export const AvatarButton = forwardRef(function AvatarButton(
     ...props
   }: AvatarProps &
     (
-      | ({ href?: never } & Omit<Headless.ButtonProps, "as" | "className">)
+      | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
       | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
     ),
   ref: React.ForwardedRef<HTMLButtonElement>
@@ -120,10 +120,10 @@ export const AvatarButton = forwardRef(function AvatarButton(
     </Link>
   ) : (
     // @ts-expect-error
-    <Headless.Button {...props} className={classes} ref={ref}>
+    <HeadlessButton {...props} className={classes} ref={ref}>
       <TouchTarget>
         <Avatar src={src} frameSrc={frameSrc} square={square} initials={initials} alt={alt} />
       </TouchTarget>
-    </Headless.Button>
+    </HeadlessButton>
   );
 });

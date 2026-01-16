@@ -1,31 +1,48 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import {
+  type DescriptionProps,
+  Description as HeadlessDescription,
+  Menu as HeadlessMenu,
+  MenuButton as HeadlessMenuButton,
+  MenuHeading as HeadlessMenuHeading,
+  MenuItem as HeadlessMenuItem,
+  MenuItems as HeadlessMenuItems,
+  MenuSection as HeadlessMenuSection,
+  MenuSeparator as HeadlessMenuSeparator,
+  type MenuButtonProps,
+  type MenuHeadingProps,
+  type MenuItemProps,
+  type MenuItemsProps,
+  type MenuProps,
+  type MenuSectionProps,
+  type MenuSeparatorProps,
+} from "@headlessui/react";
 import type React from "react";
 import { cn } from "@/lib/cn";
 import { Button } from "./button";
 import { Link } from "./link";
 
-export function Dropdown(props: Headless.MenuProps) {
-  return <Headless.Menu {...props} />;
+export function Dropdown(props: MenuProps) {
+  return <HeadlessMenu {...props} />;
 }
 
 export function DropdownButton<T extends React.ElementType = typeof Button>({
   // @ts-expect-error
   as = Button,
   ...props
-}: { className?: string } & Omit<Headless.MenuButtonProps<T>, "className">) {
+}: { className?: string } & Omit<MenuButtonProps<T>, "className">) {
   // @ts-expect-error
-  return <Headless.MenuButton as={as} {...props} />;
+  return <HeadlessMenuButton as={as} {...props} />;
 }
 
 export function DropdownMenu({
   anchor = "bottom",
   className,
   ...props
-}: { className?: string } & Omit<Headless.MenuItemsProps, "as" | "className">) {
+}: { className?: string } & Omit<MenuItemsProps, "as" | "className">) {
   return (
-    <Headless.MenuItems
+    <HeadlessMenuItems
       {...props}
       transition
       anchor={anchor}
@@ -56,8 +73,8 @@ export function DropdownItem({
   className,
   ...props
 }: { className?: string } & (
-  | ({ href?: never } & Omit<Headless.MenuItemProps<"button">, "as" | "className">)
-  | ({ href: string } & Omit<Headless.MenuItemProps<typeof Link>, "as" | "className">)
+  | ({ href?: never } & Omit<MenuItemProps<"button">, "as" | "className">)
+  | ({ href: string } & Omit<MenuItemProps<typeof Link>, "as" | "className">)
 )) {
   const classes = cn(
     className,
@@ -82,10 +99,10 @@ export function DropdownItem({
 
   return typeof props.href === "string" ? (
     // @ts-expect-error
-    <Headless.MenuItem as={Link} {...props} className={classes} />
+    <HeadlessMenuItem as={Link} {...props} className={classes} />
   ) : (
     // @ts-expect-error
-    <Headless.MenuItem as="button" type="button" {...props} className={classes} />
+    <HeadlessMenuItem as="button" type="button" {...props} className={classes} />
   );
 }
 
@@ -96,9 +113,9 @@ export function DropdownHeader({ className, ...props }: React.ComponentPropsWith
 export function DropdownSection({
   className,
   ...props
-}: { className?: string } & Omit<Headless.MenuSectionProps, "as" | "className">) {
+}: { className?: string } & Omit<MenuSectionProps, "as" | "className">) {
   return (
-    <Headless.MenuSection
+    <HeadlessMenuSection
       {...props}
       className={cn(
         className,
@@ -112,9 +129,9 @@ export function DropdownSection({
 export function DropdownHeading({
   className,
   ...props
-}: { className?: string } & Omit<Headless.MenuHeadingProps, "as" | "className">) {
+}: { className?: string } & Omit<MenuHeadingProps, "as" | "className">) {
   return (
-    <Headless.MenuHeading
+    <HeadlessMenuHeading
       {...props}
       className={cn(
         className,
@@ -127,9 +144,9 @@ export function DropdownHeading({
 export function DropdownDivider({
   className,
   ...props
-}: { className?: string } & Omit<Headless.MenuSeparatorProps, "as" | "className">) {
+}: { className?: string } & Omit<MenuSeparatorProps, "as" | "className">) {
   return (
-    <Headless.MenuSeparator
+    <HeadlessMenuSeparator
       {...props}
       className={cn(
         className,
@@ -153,9 +170,9 @@ export function DropdownLabel({ className, ...props }: React.ComponentPropsWitho
 export function DropdownDescription({
   className,
   ...props
-}: { className?: string } & Omit<Headless.DescriptionProps, "as" | "className">) {
+}: { className?: string } & Omit<DescriptionProps, "as" | "className">) {
   return (
-    <Headless.Description
+    <HeadlessDescription
       data-slot="description"
       {...props}
       className={cn(
@@ -171,11 +188,11 @@ export function DropdownShortcut({
   className,
   ...props
 }: { keys: string | string[]; className?: string } & Omit<
-  Headless.DescriptionProps<"kbd">,
+  DescriptionProps<"kbd">,
   "as" | "className"
 >) {
   return (
-    <Headless.Description
+    <HeadlessDescription
       as="kbd"
       {...props}
       className={cn(className, "col-start-5 row-start-1 flex justify-self-end")}
@@ -192,6 +209,6 @@ export function DropdownShortcut({
           {char}
         </kbd>
       ))}
-    </Headless.Description>
+    </HeadlessDescription>
   );
 }

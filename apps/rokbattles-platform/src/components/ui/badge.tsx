@@ -1,4 +1,4 @@
-import * as Headless from "@headlessui/react";
+import { type ButtonProps, Button as HeadlessButton } from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
@@ -61,7 +61,7 @@ export const BadgeButton = forwardRef(function BadgeButton(
     children,
     ...props
   }: BadgeProps & { className?: string; children: React.ReactNode } & (
-      | ({ href?: never } & Omit<Headless.ButtonProps, "as" | "className">)
+      | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
       | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
     ),
   ref: React.ForwardedRef<HTMLElement>
@@ -80,10 +80,10 @@ export const BadgeButton = forwardRef(function BadgeButton(
     </Link>
   ) : (
     // @ts-expect-error
-    <Headless.Button {...props} className={classes} ref={ref}>
+    <HeadlessButton {...props} className={classes} ref={ref}>
       <TouchTarget>
         <Badge color={color}>{children}</Badge>
       </TouchTarget>
-    </Headless.Button>
+    </HeadlessButton>
   );
 });

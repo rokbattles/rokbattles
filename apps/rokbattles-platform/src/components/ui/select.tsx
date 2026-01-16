@@ -1,14 +1,10 @@
-import * as Headless from "@headlessui/react";
+import { Select as HeadlessSelect, type SelectProps } from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
 
 export const Select = forwardRef(function Select(
-  {
-    className,
-    multiple,
-    ...props
-  }: { className?: string } & Omit<Headless.SelectProps, "as" | "className">,
+  { className, multiple, ...props }: { className?: string } & Omit<SelectProps, "as" | "className">,
   ref: React.ForwardedRef<HTMLSelectElement>
 ) {
   return (
@@ -28,7 +24,7 @@ export const Select = forwardRef(function Select(
         "has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none",
       ])}
     >
-      <Headless.Select
+      <HeadlessSelect
         ref={ref}
         multiple={multiple}
         {...props}

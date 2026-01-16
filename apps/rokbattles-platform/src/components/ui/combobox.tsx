@@ -1,6 +1,14 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import {
+  type ComboboxOptionProps,
+  type ComboboxProps,
+  Combobox as HeadlessCombobox,
+  ComboboxButton as HeadlessComboboxButton,
+  ComboboxInput as HeadlessComboboxInput,
+  ComboboxOption as HeadlessComboboxOption,
+  ComboboxOptions as HeadlessComboboxOptions,
+} from "@headlessui/react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 
@@ -24,7 +32,7 @@ export function Combobox<T>({
   autoFocus?: boolean;
   "aria-label"?: string;
   children: (value: NonNullable<T>) => React.ReactElement;
-} & Omit<Headless.ComboboxProps<T, false>, "as" | "multiple" | "children"> & {
+} & Omit<ComboboxProps<T, false>, "as" | "multiple" | "children"> & {
     anchor?: "top" | "bottom";
   }) {
   const [query, setQuery] = useState("");
@@ -39,7 +47,7 @@ export function Combobox<T>({
         );
 
   return (
-    <Headless.Combobox
+    <HeadlessCombobox
       {...props}
       multiple={false}
       virtual={{ options: filteredOptions }}
@@ -63,7 +71,7 @@ export function Combobox<T>({
           "has-data-invalid:before:shadow-red-500/10",
         ])}
       >
-        <Headless.ComboboxInput
+        <HeadlessComboboxInput
           autoFocus={autoFocus}
           data-slot="control"
           aria-label={ariaLabel}
@@ -92,7 +100,7 @@ export function Combobox<T>({
             "dark:scheme-dark",
           ])}
         />
-        <Headless.ComboboxButton className="group absolute inset-y-0 right-0 flex items-center px-2">
+        <HeadlessComboboxButton className="group absolute inset-y-0 right-0 flex items-center px-2">
           <svg
             className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 group-data-hover:stroke-zinc-700 sm:size-4 dark:stroke-zinc-400 dark:group-data-hover:stroke-zinc-300 forced-colors:stroke-[CanvasText]"
             viewBox="0 0 16 16"
@@ -112,9 +120,9 @@ export function Combobox<T>({
               strokeLinejoin="round"
             />
           </svg>
-        </Headless.ComboboxButton>
+        </HeadlessComboboxButton>
       </span>
-      <Headless.ComboboxOptions
+      <HeadlessComboboxOptions
         transition
         anchor={anchor}
         className={cn(
@@ -135,8 +143,8 @@ export function Combobox<T>({
         )}
       >
         {({ option }) => children(option)}
-      </Headless.ComboboxOptions>
-    </Headless.Combobox>
+      </HeadlessComboboxOptions>
+    </HeadlessCombobox>
   );
 }
 
@@ -145,7 +153,7 @@ export function ComboboxOption<T>({
   className,
   ...props
 }: { className?: string; children?: React.ReactNode } & Omit<
-  Headless.ComboboxOptionProps<"div", T>,
+  ComboboxOptionProps<"div", T>,
   "as" | "className"
 >) {
   const sharedClasses = cn(
@@ -160,7 +168,7 @@ export function ComboboxOption<T>({
   );
 
   return (
-    <Headless.ComboboxOption
+    <HeadlessComboboxOption
       {...props}
       className={cn(
         // Basic layout
@@ -184,7 +192,7 @@ export function ComboboxOption<T>({
       >
         <path d="M4 8.5l3 3L12 4" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-    </Headless.ComboboxOption>
+    </HeadlessComboboxOption>
   );
 }
 

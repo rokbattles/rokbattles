@@ -1,4 +1,4 @@
-import * as Headless from "@headlessui/react";
+import { Input as HeadlessInput, type InputProps } from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
@@ -30,7 +30,7 @@ export const Input = forwardRef(function Input(
   }: {
     className?: string;
     type?: "email" | "number" | "password" | "search" | "tel" | "text" | "url" | DateType;
-  } & Omit<Headless.InputProps, "as" | "className">,
+  } & Omit<InputProps, "as" | "className">,
   ref: React.ForwardedRef<HTMLInputElement>
 ) {
   return (
@@ -50,7 +50,7 @@ export const Input = forwardRef(function Input(
         "has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none",
       ])}
     >
-      <Headless.Input
+      <HeadlessInput
         ref={ref}
         {...props}
         className={cn([

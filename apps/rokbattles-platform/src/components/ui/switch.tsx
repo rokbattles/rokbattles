@@ -1,4 +1,9 @@
-import * as Headless from "@headlessui/react";
+import {
+  type FieldProps,
+  Field as HeadlessField,
+  Switch as HeadlessSwitch,
+  type SwitchProps,
+} from "@headlessui/react";
 import type React from "react";
 import { cn } from "@/lib/cn";
 
@@ -21,9 +26,9 @@ export function SwitchGroup({ className, ...props }: React.ComponentPropsWithout
 export function SwitchField({
   className,
   ...props
-}: { className?: string } & Omit<Headless.FieldProps, "as" | "className">) {
+}: { className?: string } & Omit<FieldProps, "as" | "className">) {
   return (
-    <Headless.Field
+    <HeadlessField
       data-slot="field"
       {...props}
       className={cn(
@@ -143,9 +148,9 @@ export function Switch({
 }: {
   color?: Color;
   className?: string;
-} & Omit<Headless.SwitchProps, "as" | "className" | "children">) {
+} & Omit<SwitchProps, "as" | "className" | "children">) {
   return (
-    <Headless.Switch
+    <HeadlessSwitch
       data-slot="control"
       {...props}
       className={cn(
@@ -190,6 +195,6 @@ export function Switch({
           "group-data-checked:group-data-disabled:bg-white group-data-checked:group-data-disabled:shadow-sm group-data-checked:group-data-disabled:ring-black/5"
         )}
       />
-    </Headless.Switch>
+    </HeadlessSwitch>
   );
 }

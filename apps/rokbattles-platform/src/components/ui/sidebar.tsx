@@ -1,6 +1,10 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import {
+  type ButtonProps,
+  Button as HeadlessButton,
+  CloseButton as HeadlessCloseButton,
+} from "@headlessui/react";
 import { LayoutGroup, motion } from "motion/react";
 import type React from "react";
 import { forwardRef, useId } from "react";
@@ -87,8 +91,8 @@ export const SidebarItem = forwardRef(function SidebarItem(
     children,
     ...props
   }: { current?: boolean; className?: string; children: React.ReactNode } & (
-    | ({ href?: never } & Omit<Headless.ButtonProps, "as" | "className">)
-    | ({ href: string } & Omit<Headless.ButtonProps<typeof Link>, "as" | "className">)
+    | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
+    | ({ href: string } & Omit<ButtonProps<typeof Link>, "as" | "className">)
   ),
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
 ) {
@@ -124,7 +128,7 @@ export const SidebarItem = forwardRef(function SidebarItem(
       )}
       {typeof props.href === "string" ? (
         // @ts-expect-error
-        <Headless.CloseButton
+        <HeadlessCloseButton
           as={Link}
           {...props}
           className={classes}
@@ -132,17 +136,17 @@ export const SidebarItem = forwardRef(function SidebarItem(
           ref={ref}
         >
           <TouchTarget>{children}</TouchTarget>
-        </Headless.CloseButton>
+        </HeadlessCloseButton>
       ) : (
         // @ts-expect-error
-        <Headless.Button
+        <HeadlessButton
           {...props}
           className={cn("cursor-default", classes)}
           data-current={current ? "true" : undefined}
           ref={ref}
         >
           <TouchTarget>{children}</TouchTarget>
-        </Headless.Button>
+        </HeadlessButton>
       )}
     </span>
   );

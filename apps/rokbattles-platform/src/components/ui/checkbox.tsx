@@ -1,6 +1,11 @@
 "use client";
 
-import * as Headless from "@headlessui/react";
+import {
+  type CheckboxProps,
+  type FieldProps,
+  Checkbox as HeadlessCheckbox,
+  Field as HeadlessField,
+} from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import type React from "react";
 import { cn } from "@/lib/cn";
@@ -24,9 +29,9 @@ export function CheckboxGroup({ className, ...props }: React.ComponentPropsWitho
 export function CheckboxField({
   className,
   ...props
-}: { className?: string } & Omit<Headless.FieldProps, "as" | "className">) {
+}: { className?: string } & Omit<FieldProps, "as" | "className">) {
   return (
-    <Headless.Field
+    <HeadlessField
       data-slot="field"
       {...props}
       className={cn(
@@ -124,10 +129,10 @@ export function Checkbox({
 }: {
   color?: Color;
   className?: string;
-} & Omit<Headless.CheckboxProps, "as" | "className">) {
+} & Omit<CheckboxProps, "as" | "className">) {
   const t = useTranslations("common");
   return (
-    <Headless.Checkbox
+    <HeadlessCheckbox
       data-slot="control"
       {...props}
       className={cn(className, "group inline-flex focus:outline-hidden")}
@@ -157,6 +162,6 @@ export function Checkbox({
           />
         </svg>
       </span>
-    </Headless.Checkbox>
+    </HeadlessCheckbox>
   );
 }
