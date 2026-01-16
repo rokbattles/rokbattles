@@ -5,9 +5,9 @@ import { ReportEquipmentSlot } from "@/components/report/report-equipment-slot";
 import { Subheading } from "@/components/ui/heading";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
-type ReportEquipmentSectionProps = {
+interface ReportEquipmentSectionProps {
   tokens: EquipmentToken[];
-};
+}
 
 export function ReportEquipmentSection({
   tokens,

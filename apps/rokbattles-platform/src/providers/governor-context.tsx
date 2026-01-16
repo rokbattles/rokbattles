@@ -4,22 +4,22 @@ import type { ReactNode } from "react";
 import { createContext, useCallback, useState } from "react";
 import type { ClaimedGovernor } from "@/lib/types/current-user";
 
-export type GovernorContextValue = {
+export interface GovernorContextValue {
   activeGovernor?: ClaimedGovernor;
   governors: ClaimedGovernor[];
   setGovernors: (governors: ClaimedGovernor[]) => void;
   selectGovernor: (governorId: number) => void;
-};
+}
 
 export const GovernorContext = createContext<GovernorContextValue | undefined>(
   undefined
 );
 
-type GovernorProviderProps = {
+interface GovernorProviderProps {
   children: ReactNode;
   initialGovernors?: ClaimedGovernor[];
   initialActiveGovernorId?: number;
-};
+}
 
 export function GovernorProvider({
   children,

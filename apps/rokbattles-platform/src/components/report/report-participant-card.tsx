@@ -21,10 +21,10 @@ import type {
 
 const ARTIFACT_IDS = new Set([20_401, 20_402]);
 
-type ReportParticipantCardProps = {
+interface ReportParticipantCardProps {
   participant?: RawParticipantInfo;
   showArtifacts?: boolean;
-};
+}
 
 export function ReportParticipantCard({
   participant,

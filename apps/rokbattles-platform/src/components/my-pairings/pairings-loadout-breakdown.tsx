@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/table";
 import { Text } from "@/components/ui/text";
 
-type GeneralStat = {
+interface GeneralStat {
   id: string;
   name: string;
   value: string;
   description: string;
-};
+}
 
-type OpponentRow = {
+interface OpponentRow {
   id: string;
   index: number;
   pairing: string;
@@ -30,9 +30,9 @@ type OpponentRow = {
   dps: string;
   sps: string;
   tps: string;
-};
+}
 
-type PairingsLoadoutBreakdownProps = {
+interface PairingsLoadoutBreakdownProps {
   pairingsLoading: boolean;
   pairingsError: string | null;
   hasSelectedPairing: boolean;
@@ -48,7 +48,7 @@ type PairingsLoadoutBreakdownProps = {
   showAllOpponents: boolean;
   onToggleShowAllOpponents: () => void;
   opponentsId: string;
-};
+}
 
 export function PairingsLoadoutBreakdown({
   pairingsLoading,

@@ -20,12 +20,12 @@ export type AuthenticationResult =
       reason: AuthenticationFailureReason;
     };
 
-export type AuthenticatedRequestContext = {
+export interface AuthenticatedRequestContext {
   sid: string;
   session: SessionDocument;
   user: UserDocument;
   db: Db;
-};
+}
 
 export async function authenticateRequest(): Promise<AuthenticationResult> {
   const cookieStore = await cookies();

@@ -38,7 +38,9 @@ function App() {
         payload && typeof payload === "object" && "message" in payload
           ? String(payload.message)
           : String(payload);
-      if (!isMounted) return;
+      if (!isMounted) {
+        return;
+      }
       setLogs((prev) => {
         const next = [...prev, msg];
         return next.length > 100 ? next.slice(next.length - 100) : next;
@@ -60,7 +62,9 @@ function App() {
         multiple: true,
         directory: true,
       });
-      if (!selection) return;
+      if (!selection) {
+        return;
+      }
 
       const selected = Array.isArray(selection) ? selection : [selection];
 

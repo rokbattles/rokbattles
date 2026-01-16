@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef } from "react";
 
-type Options = {
+interface Options {
   enabled: boolean;
   loading: boolean;
   onLoadMore: () => void;
   rootMargin?: string;
   threshold?: number;
-};
+}
 
 export function useInfiniteScroll({
   enabled,
@@ -32,7 +32,9 @@ export function useInfiniteScroll({
       observerRef.current?.disconnect();
       observerRef.current = null;
 
-      if (!(node && enabled)) return;
+      if (!(node && enabled)) {
+        return;
+      }
 
       observerRef.current = new IntersectionObserver(
         (entries) => {

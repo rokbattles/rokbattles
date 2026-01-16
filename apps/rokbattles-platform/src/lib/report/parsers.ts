@@ -1,9 +1,9 @@
-export type EquipmentToken = {
+export interface EquipmentToken {
   slot: number;
   id: number;
   craft?: number;
   attr?: number;
-};
+}
 
 export function parseEquipment(
   raw: string | null | undefined
@@ -69,10 +69,10 @@ export function parseSemicolonNumberList(
     .filter((value) => Number.isFinite(value) && value !== -1);
 }
 
-export type ArmamentBuff = {
+export interface ArmamentBuff {
   id: number;
   value: number;
-};
+}
 
 export function parseArmamentBuffs(
   raw: string | null | undefined

@@ -7,7 +7,7 @@ import {
   parseSemicolonNumberList,
 } from "@/lib/report/parsers";
 
-export type BattleReportDocument = {
+export interface BattleReportDocument {
   report?: {
     metadata?: {
       email_time?: unknown;
@@ -37,9 +37,9 @@ export type BattleReportDocument = {
       enemy_wounded?: unknown;
     };
   };
-};
+}
 
-export type MarchTotals = {
+export interface MarchTotals {
   killScore: number;
   deaths: number;
   severelyWounded: number;
@@ -52,27 +52,27 @@ export type MarchTotals = {
   sps: number;
   tps: number;
   battleDuration: number;
-};
+}
 
 export type LoadoutGranularity = "exact" | "normalized";
 
-export type LoadoutArmament = {
+export interface LoadoutArmament {
   id: number;
   value?: number;
-};
+}
 
-export type LoadoutSnapshot = {
+export interface LoadoutSnapshot {
   equipment: EquipmentToken[];
   armaments: LoadoutArmament[];
   inscriptions: number[];
   formation: number | null;
-};
+}
 
-type DateRange = {
+interface DateRange {
   startMillis: number;
   endMillis: number;
   year: number;
-};
+}
 
 export function createEmptyTotals(): MarchTotals {
   return {

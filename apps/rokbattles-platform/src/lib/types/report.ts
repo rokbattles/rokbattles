@@ -1,19 +1,19 @@
-export type ReportEntry = {
+export interface ReportEntry {
   startDate: number;
   report: Record<string, unknown>;
-};
+}
 
-export type ReportMergeItem = {
+export interface ReportMergeItem {
   parentHash: string;
   latestEmailTime: number;
-};
+}
 
-export type ReportMergeSummary = {
+export interface ReportMergeSummary {
   trackingKey: string;
   reports: ReportMergeItem[];
-};
+}
 
-export type BattleResultsTotals = {
+export interface BattleResultsTotals {
   death: number;
   severelyWounded: number;
   wounded: number;
@@ -24,16 +24,16 @@ export type BattleResultsTotals = {
   enemyWounded: number;
   enemyRemaining: number;
   enemyKillScore: number;
-};
+}
 
-export type BattleResultsSummary = {
+export interface BattleResultsSummary {
   total?: BattleResultsTotals;
-};
+}
 
-export type ReportByHashResponse = {
+export interface ReportByHashResponse {
   parentHash: string;
   items: ReportEntry[];
   count: number;
   battleResults?: BattleResultsSummary;
   merge?: ReportMergeSummary;
-};
+}

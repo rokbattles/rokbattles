@@ -11,11 +11,11 @@ import type { CommandHandler } from "@/lib/CommandHandler";
 import { getCommanderName } from "@/lib/getCommanderName";
 import { mongo } from "@/lib/mongo";
 
-type ClaimedGovernorDocument = {
+interface ClaimedGovernorDocument {
   governorId: number;
-};
+}
 
-type BattleReportDocument = {
+interface BattleReportDocument {
   report?: {
     metadata?: {
       email_time?: unknown;
@@ -37,9 +37,9 @@ type BattleReportDocument = {
       enemy_wounded?: unknown;
     };
   };
-};
+}
 
-type MarchTotals = {
+interface MarchTotals {
   killScore: number;
   deaths: number;
   severelyWounded: number;
@@ -52,21 +52,21 @@ type MarchTotals = {
   sps: number;
   tps: number;
   battleDuration: number;
-};
+}
 
-type AggregationBucket = {
+interface AggregationBucket {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
   totals: MarchTotals;
-};
+}
 
-type PairingAggregate = {
+interface PairingAggregate {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
   totals: MarchTotals;
-};
+}
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 const perSecondFormatter = new Intl.NumberFormat("en-US", {
@@ -298,7 +298,7 @@ function formatDurationSeconds(value: number): string {
     return "0s";
   }
 
-  const units: Array<[string, number]> = [
+  const units: [string, number][] = [
     ["d", 86_400],
     ["h", 3600],
     ["m", 60],

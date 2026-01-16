@@ -15,19 +15,19 @@ import {
 } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type AggregationBucket = {
+interface AggregationBucket {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
   totals: MarchTotals;
-};
+}
 
-type PairingAggregate = {
+interface PairingAggregate {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
   totals: AggregationBucket["totals"];
-};
+}
 
 function aggregateReports(
   reports: BattleReportDocument[],

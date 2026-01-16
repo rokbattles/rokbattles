@@ -20,7 +20,9 @@ export async function GET(req: NextRequest) {
   type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
   const parseSide = (value: string | null): ReportsFilterSide | undefined => {
-    if (!value) return undefined;
+    if (!value) {
+      return undefined;
+    }
     if (
       value === "none" ||
       value === "sender" ||
@@ -35,7 +37,9 @@ export async function GET(req: NextRequest) {
   const parseGarrisonBuilding = (
     value: string | null
   ): ReportsGarrisonBuildingType | undefined => {
-    if (!value) return undefined;
+    if (!value) {
+      return undefined;
+    }
     if (value === "flag" || value === "fortress" || value === "other") {
       return value;
     }
@@ -324,7 +328,7 @@ export async function GET(req: NextRequest) {
   const hasMore = documents.length > 100;
   const finalDocuments = hasMore ? documents.slice(0, 100) : documents;
   const finalCursor: string | undefined = hasMore
-    ? finalDocuments[finalDocuments.length - 1].latestMailTime.toString()
+    ? finalDocuments.at(-1).latestMailTime.toString()
     : undefined;
 
   const items = finalDocuments.map((d) => ({

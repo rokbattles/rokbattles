@@ -14,7 +14,7 @@ export type LoadoutCard = LoadoutAggregate & {
   label: string;
 };
 
-type PairingsLoadoutsProps = {
+interface PairingsLoadoutsProps {
   pairingsLoading: boolean;
   pairingsError: string | null;
   hasSelectedPairing: boolean;
@@ -23,7 +23,7 @@ type PairingsLoadoutsProps = {
   loadoutCards: LoadoutCard[];
   selectedLoadoutKey: string | null;
   onSelectLoadout: (key: string) => void;
-};
+}
 
 export function PairingsLoadouts({
   pairingsLoading,

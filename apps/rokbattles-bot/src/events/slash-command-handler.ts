@@ -6,11 +6,14 @@ export const SlashCommandHandler: EventHandler<
   BaseClient,
   "interactionCreate"
 > = async (client, interaction) => {
-  if (!(interaction.isChatInputCommand() || interaction.isAutocomplete()))
+  if (!(interaction.isChatInputCommand() || interaction.isAutocomplete())) {
     return;
+  }
 
   const command = client.commands.get(interaction.commandName.toLowerCase());
-  if (!command) return;
+  if (!command) {
+    return;
+  }
 
   switch (interaction.commandType) {
     case ApplicationCommandType.ChatInput: {

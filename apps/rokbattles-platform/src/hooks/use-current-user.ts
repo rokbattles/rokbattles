@@ -8,13 +8,13 @@ interface CurrentUserResponse {
   user: CurrentUser | null;
 }
 
-type UseCurrentUserOptions = {
+interface UseCurrentUserOptions {
   initialUser?: CurrentUser | null;
-};
+}
 
-type FetchUserOptions = {
+interface FetchUserOptions {
   showLoading?: boolean;
-};
+}
 
 export function useCurrentUser(options: UseCurrentUserOptions = {}) {
   const { initialUser } = options;

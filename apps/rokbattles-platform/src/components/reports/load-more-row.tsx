@@ -5,7 +5,11 @@ import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 
-type Props = { colSpan: number; loading: boolean; onLoadMore: () => void };
+interface Props {
+  colSpan: number;
+  loading: boolean;
+  onLoadMore: () => void;
+}
 
 const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
   { colSpan, loading, onLoadMore },

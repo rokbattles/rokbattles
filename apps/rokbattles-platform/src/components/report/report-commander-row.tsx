@@ -8,10 +8,10 @@ import { getCommanderName } from "@/hooks/use-commander-name";
 import { getFormationName } from "@/hooks/use-formation-name";
 import type { RawCommanderInfo } from "@/lib/types/raw-report";
 
-type ReportCommanderRowProps = {
+interface ReportCommanderRowProps {
   commander?: RawCommanderInfo;
   formation?: number | null;
-};
+}
 
 export function ReportCommanderRow({
   commander,

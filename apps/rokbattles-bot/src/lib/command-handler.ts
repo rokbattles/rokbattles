@@ -9,7 +9,7 @@ import {
   Routes,
 } from "discord.js";
 
-export type CommandHandler<C extends Client> = {
+export interface CommandHandler<C extends Client> {
   chatInput: (
     client: C,
     interaction: ChatInputCommandInteraction
@@ -19,7 +19,7 @@ export type CommandHandler<C extends Client> = {
     interaction: AutocompleteInteraction
   ) => Promise<unknown> | unknown;
   options: ApplicationCommandData;
-};
+}
 
 // biome-ignore lint/suspicious/noExplicitAny: ignore
 export class CommandCollection extends Collection<string, CommandHandler<any>> {

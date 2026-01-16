@@ -52,7 +52,7 @@ function resolveGarrisonBuildingType(
     : undefined;
 }
 
-export type ReportsFilterContextValue = {
+export interface ReportsFilterContextValue {
   playerId?: number;
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
   type?: ReportsFilterType;
@@ -74,7 +74,7 @@ export type ReportsFilterContextValue = {
     SetStateAction<ReportsGarrisonBuildingType | undefined>
   >;
   reset: () => void;
-};
+}
 
 export const ReportsFilterContext = createContext<
   ReportsFilterContextValue | undefined

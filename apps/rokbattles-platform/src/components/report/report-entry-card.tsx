@@ -7,9 +7,9 @@ import { Subheading } from "@/components/ui/heading";
 import type { RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
-type ReportEntryCardProps = {
+interface ReportEntryCardProps {
   entry: ReportEntry;
-};
+}
 
 export function ReportEntryCard({ entry }: ReportEntryCardProps) {
   const t = useTranslations("report");

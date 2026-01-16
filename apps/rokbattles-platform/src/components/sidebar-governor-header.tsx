@@ -21,9 +21,9 @@ import {
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
-type SidebarGovernorHeaderProps = {
+interface SidebarGovernorHeaderProps {
   user: CurrentUser;
-};
+}
 
 export function SidebarGovernorHeader({ user }: SidebarGovernorHeaderProps) {
   const t = useTranslations("navigation");

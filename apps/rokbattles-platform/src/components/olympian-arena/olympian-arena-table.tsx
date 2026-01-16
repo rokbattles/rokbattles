@@ -15,10 +15,10 @@ const SkeletonWidths = ["w-24", "w-36", "w-36", "w-20"] as const;
 
 type UseDuelsHook = () => UseOlympianArenaDuelsResult;
 
-type OlympianArenaTableProps = {
+interface OlympianArenaTableProps {
   useDuelsHook?: UseDuelsHook;
   skeletonCount?: number;
-};
+}
 
 export default function OlympianArenaTable({
   useDuelsHook = useOlympianArenaDuels,

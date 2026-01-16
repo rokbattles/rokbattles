@@ -3,17 +3,17 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-export type BattleLogDay = {
+export interface BattleLogDay {
   date: string;
   battleCount: number;
   npcCount: number;
-};
+}
 
-export type BattleLogResponse = {
+export interface BattleLogResponse {
   startDate: string;
   endDate: string;
   days: BattleLogDay[];
-};
+}
 
 export function useBattleLog(
   governorId: number | null | undefined,

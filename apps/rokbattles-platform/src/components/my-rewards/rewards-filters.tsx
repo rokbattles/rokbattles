@@ -5,12 +5,12 @@ import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { formatLocalDateInput } from "@/lib/datetime";
 
-type RewardsFiltersProps = {
+interface RewardsFiltersProps {
   startDate: string;
   endDate: string;
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
-};
+}
 
 export function RewardsFilters({
   startDate,

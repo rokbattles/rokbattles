@@ -11,10 +11,10 @@ import {
 import { TextLink } from "@/components/ui/text";
 import { useCookieConsent } from "@/providers/cookie-consent-context";
 
-type CookieConsentDialogProps = {
+interface CookieConsentDialogProps {
   open: boolean;
   onClose: () => void;
-};
+}
 
 export function CookieConsentDialog({
   open,

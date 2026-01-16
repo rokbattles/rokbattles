@@ -6,15 +6,15 @@ import { buildReportsQueryParams } from "@/lib/reports-query";
 import { GovernorContext } from "@/providers/governor-context";
 import { ReportsFilterContext } from "@/providers/reports-filter-context";
 
-export type ReportSummaryEntry = {
+export interface ReportSummaryEntry {
   startDate: number;
   selfCommanderId: number;
   selfSecondaryCommanderId: number;
   enemyCommanderId: number;
   enemySecondaryCommanderId: number;
-};
+}
 
-export type ReportSummary = {
+export interface ReportSummary {
   parentHash: string;
   count: number;
   timespan: {
@@ -22,27 +22,27 @@ export type ReportSummary = {
     lastEnd: number;
   };
   entry: ReportSummaryEntry;
-};
+}
 
-type ReportsApiResponse = {
+interface ReportsApiResponse {
   items: ReportSummary[];
   count: number;
   cursor?: string;
-};
+}
 
-export type UseReportsResult = {
+export interface UseReportsResult {
   data: ReportSummary[];
   loading: boolean;
   error: string | null;
   cursor: string | undefined;
   loadMore: () => Promise<void>;
-};
+}
 
 export type ReportsScope = "all" | "mine";
 
-export type UseReportsOptions = {
+export interface UseReportsOptions {
   scope?: ReportsScope;
-};
+}
 
 export function useReports({
   scope = "all",

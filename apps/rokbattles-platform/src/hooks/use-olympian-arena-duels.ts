@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
-export type OlympianArenaParticipant = {
+export interface OlympianArenaParticipant {
   playerId: number | null;
   playerName: string | null;
   kingdom: number | null;
@@ -13,9 +13,9 @@ export type OlympianArenaParticipant = {
   frameUrl: string | null;
   primaryCommanderId: number | null;
   secondaryCommanderId: number | null;
-};
+}
 
-export type OlympianArenaDuelSummary = {
+export interface OlympianArenaDuelSummary {
   duelId: number;
   count: number;
   winStreak: number;
@@ -24,21 +24,21 @@ export type OlympianArenaDuelSummary = {
     sender: OlympianArenaParticipant;
     opponent: OlympianArenaParticipant;
   };
-};
+}
 
-type OlympianArenaApiResponse = {
+interface OlympianArenaApiResponse {
   items: OlympianArenaDuelSummary[];
   count: number;
   cursor?: string;
-};
+}
 
-export type UseOlympianArenaDuelsResult = {
+export interface UseOlympianArenaDuelsResult {
   data: OlympianArenaDuelSummary[];
   loading: boolean;
   error: string | null;
   cursor: string | undefined;
   loadMore: () => Promise<void>;
-};
+}
 
 function buildQueryParams(cursor: string | undefined) {
   const params = new URLSearchParams();

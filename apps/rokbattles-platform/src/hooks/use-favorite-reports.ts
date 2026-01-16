@@ -5,23 +5,23 @@ import { useCallback, useEffect, useState } from "react";
 import type { ReportSummary } from "@/hooks/use-reports";
 import type { FavoriteReportType } from "@/lib/types/favorite";
 
-type FavoritesApiResponse = {
+interface FavoritesApiResponse {
   items: ReportSummary[];
   count: number;
   cursor?: string;
-};
+}
 
-export type UseFavoriteReportsResult = {
+export interface UseFavoriteReportsResult {
   data: ReportSummary[];
   loading: boolean;
   error: string | null;
   cursor: string | undefined;
   loadMore: () => Promise<void>;
-};
+}
 
-type UseFavoriteReportsOptions = {
+interface UseFavoriteReportsOptions {
   reportType?: FavoriteReportType;
-};
+}
 
 export function useFavoriteReports({
   reportType = "battle",

@@ -2,9 +2,9 @@ import { getInscriptionName } from "@/hooks/use-inscription-name";
 import { cn } from "@/lib/cn";
 import { getInscriptionRarity } from "@/lib/report/parsers";
 
-type ReportInscriptionBadgeProps = {
+interface ReportInscriptionBadgeProps {
   id: number;
-};
+}
 
 export function ReportInscriptionBadge({ id }: ReportInscriptionBadgeProps) {
   const name = getInscriptionName(id ?? null);

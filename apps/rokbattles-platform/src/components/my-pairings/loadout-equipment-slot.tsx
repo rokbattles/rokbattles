@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
-type LoadoutEquipmentSlotProps = {
+interface LoadoutEquipmentSlotProps {
   token?: LoadoutSnapshot["equipment"][number];
-};
+}
 
 function getTierInfo(attr?: number) {
   if (typeof attr !== "number" || !Number.isFinite(attr)) {

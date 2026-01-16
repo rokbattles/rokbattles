@@ -2,11 +2,11 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
-export type LegalDocument = {
+export interface LegalDocument {
   slug: string;
   title: string;
   filename: string;
-};
+}
 
 const LEGAL_DOCUMENTS: LegalDocument[] = [
   {
@@ -64,7 +64,9 @@ export async function loadLegalDocument(
   slug: string
 ): Promise<(LegalDocument & { content: string }) | undefined> {
   const doc = getLegalDocument(slug);
-  if (!doc) return undefined;
+  if (!doc) {
+    return undefined;
+  }
 
   const basePath = resolveLegalBasePath();
   const filePath = join(basePath, doc.filename);

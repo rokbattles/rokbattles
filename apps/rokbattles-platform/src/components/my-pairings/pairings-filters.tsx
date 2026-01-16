@@ -7,12 +7,12 @@ import { Listbox, ListboxOption } from "@/components/ui/listbox";
 import type { LoadoutGranularity } from "@/hooks/use-pairings";
 import { formatLocalDateInput } from "@/lib/datetime";
 
-type PairingOption = {
+interface PairingOption {
   value: string;
   label: string;
-};
+}
 
-type PairingsFiltersProps = {
+interface PairingsFiltersProps {
   pairingOptions: PairingOption[];
   pairingValue: string | null;
   onPairingChange: (value: string | null) => void;
@@ -23,7 +23,7 @@ type PairingsFiltersProps = {
   endDate: string;
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
-};
+}
 
 export function PairingsFilters({
   pairingOptions,

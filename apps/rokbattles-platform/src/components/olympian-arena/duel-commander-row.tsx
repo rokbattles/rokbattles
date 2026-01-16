@@ -7,10 +7,10 @@ import { Strong, Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import type { DuelCommanderInfo } from "@/lib/types/duel-report";
 
-type DuelCommanderRowProps = {
+interface DuelCommanderRowProps {
   commander: DuelCommanderInfo;
   label: string;
-};
+}
 
 export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
   const tCommon = useTranslations("common");

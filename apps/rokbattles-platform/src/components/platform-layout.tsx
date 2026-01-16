@@ -46,10 +46,10 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
-type PlatformLayoutProps = {
+interface PlatformLayoutProps {
   children: React.ReactNode;
   initialUser?: CurrentUser | null;
-};
+}
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const t = useTranslations("navigation");

@@ -10,10 +10,10 @@ import LoadMoreRow from "./load-more-row";
 import ReportRow from "./report-row";
 import SkeletonRows from "./skeleton-rows";
 
-type ReportsTableProps = {
+interface ReportsTableProps {
   scope?: ReportsScope;
   skeletonCount?: number;
-};
+}
 
 export default function ReportsTable({
   scope = "all",

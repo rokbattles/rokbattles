@@ -8,9 +8,9 @@ import { Text } from "@/components/ui/text";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 
-type AccountGovernorsContentProps = {
+interface AccountGovernorsContentProps {
   initialUser: CurrentUser;
-};
+}
 
 export function AccountGovernorsContent({
   initialUser,

@@ -16,12 +16,12 @@ import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 
 const COMMON_METRIC_KEYS = new Set(["dead", "remaining", "killPoints"]);
 
-type ReportOverviewColumnProps = {
+interface ReportOverviewColumnProps {
   side: "self" | "enemy";
   overview: RawOverview;
   participant?: RawParticipantInfo;
   formatter: Intl.NumberFormat;
-};
+}
 
 export function ReportOverviewColumn({
   side,

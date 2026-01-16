@@ -30,10 +30,10 @@ export function getCommanderName(
   );
 }
 
-export type CommanderOption = {
+export interface CommanderOption {
   id: number;
   name: string;
-};
+}
 
 export function useCommanderOptions(locale?: string) {
   const requestedLocale = resolveDatasetLocale(locale);

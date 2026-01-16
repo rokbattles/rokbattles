@@ -94,7 +94,7 @@ export default function PairingTrendsContent() {
   }, [t]);
 
   const categoryData = snapshot?.categories;
-  const categories: Array<[CategoryKey, CategorySnapshot]> = [];
+  const categories: [CategoryKey, CategorySnapshot][] = [];
   if (categoryData) {
     (["field", "rally", "garrison"] as CategoryKey[]).forEach((key) => {
       const category = categoryData[key];

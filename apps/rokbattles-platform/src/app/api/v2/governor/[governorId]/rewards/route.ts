@@ -6,13 +6,13 @@ import { parseGovernorId } from "@/lib/governor";
 import { resolveDateRange } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type NpcRewardEntry = {
+interface NpcRewardEntry {
   type?: unknown;
   sub_type?: unknown;
   value?: unknown;
-};
+}
 
-type BattleReportDocument = {
+interface BattleReportDocument {
   report?: {
     metadata?: {
       email_time?: unknown;
@@ -27,14 +27,14 @@ type BattleReportDocument = {
       npc_rewards?: NpcRewardEntry[] | null;
     };
   };
-};
+}
 
-type RewardBucket = {
+interface RewardBucket {
   type: number;
   subType: number;
   total: number;
   count: number;
-};
+}
 
 function extractEventTimeMillis(
   report: BattleReportDocument["report"]

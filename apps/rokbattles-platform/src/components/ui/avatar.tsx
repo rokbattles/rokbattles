@@ -6,14 +6,14 @@ import { cn } from "@/lib/cn";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 
-type AvatarProps = {
+interface AvatarProps {
   src?: string | null;
   frameSrc?: string | null;
   square?: boolean;
   initials?: string;
   alt?: string;
   className?: string;
-};
+}
 
 export function Avatar({
   src = null,

@@ -12,9 +12,9 @@ import { Heading } from "@/components/ui/heading";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useOlympianArenaDuel } from "@/hooks/use-olympian-arena-duel";
 
-export type DuelReportViewProps = {
+export interface DuelReportViewProps {
   duelId: string;
-};
+}
 
 export default function DuelReportView({ duelId }: DuelReportViewProps) {
   const t = useTranslations("duels");

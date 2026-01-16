@@ -2,11 +2,11 @@
 
 import { useTranslations } from "next-intl";
 
-type ReportBattleSummaryTooltipProps = {
+interface ReportBattleSummaryTooltipProps {
   active?: boolean;
   payload?: unknown;
   label?: string | number;
-};
+}
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,

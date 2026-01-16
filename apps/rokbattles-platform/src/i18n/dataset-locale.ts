@@ -8,12 +8,16 @@ import {
 import { canUseDom } from "@/lib/util/can-use-dom";
 
 const getLocaleFromCookie = () => {
-  if (!canUseDom) return undefined;
+  if (!canUseDom) {
+    return undefined;
+  }
 
   const entry = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${languageCookieName}=`));
-  if (!entry) return undefined;
+  if (!entry) {
+    return undefined;
+  }
 
   return decodeURIComponent(entry.split("=").slice(1).join("="));
 };

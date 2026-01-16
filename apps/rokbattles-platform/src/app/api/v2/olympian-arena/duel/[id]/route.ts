@@ -2,9 +2,9 @@ import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import clientPromise, { toPlainObject } from "@/lib/mongo";
 
-type DuelReportEntry = {
+interface DuelReportEntry {
   report: Record<string, unknown>;
-};
+}
 
 export async function GET(
   _req: NextRequest,

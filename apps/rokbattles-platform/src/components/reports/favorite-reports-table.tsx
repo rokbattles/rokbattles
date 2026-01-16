@@ -10,9 +10,9 @@ import LoadMoreRow from "./load-more-row";
 import ReportRow from "./report-row";
 import SkeletonRows from "./skeleton-rows";
 
-type FavoriteReportsTableProps = {
+interface FavoriteReportsTableProps {
   skeletonCount?: number;
-};
+}
 
 export default function FavoriteReportsTable({
   skeletonCount = 10,

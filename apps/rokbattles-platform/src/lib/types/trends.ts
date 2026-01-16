@@ -1,28 +1,28 @@
-export type AccessoryPairCount = {
+export interface AccessoryPairCount {
   ids: [number, number];
   count: number;
-};
+}
 
-export type AccessoryCount = {
+export interface AccessoryCount {
   id: number;
   count: number;
-};
+}
 
-export type PairingSnapshot = {
+export interface PairingSnapshot {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   reportCount: number;
   accessorySampleCount: number;
   accessoryPairs: AccessoryPairCount[];
   accessories: AccessoryCount[];
-};
+}
 
-export type CategorySnapshot = {
+export interface CategorySnapshot {
   totalReports: number;
   pairings: PairingSnapshot[];
-};
+}
 
-export type TrendSnapshot = {
+export interface TrendSnapshot {
   trendId: string;
   generatedAt?: string;
   period?: {
@@ -41,6 +41,6 @@ export type TrendSnapshot = {
     rally?: CategorySnapshot;
     garrison?: CategorySnapshot;
   };
-};
+}
 
 export type CategoryKey = "field" | "rally" | "garrison";

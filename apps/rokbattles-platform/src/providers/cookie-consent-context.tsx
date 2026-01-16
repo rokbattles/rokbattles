@@ -10,18 +10,18 @@ import {
 } from "react";
 import { canUseDom } from "@/lib/util/can-use-dom";
 
-type CookieConsent = {
+interface CookieConsent {
   cookieConsent?: boolean;
   country?: string;
   showConsent?: boolean;
   updateCookieConsent: (accepted: boolean) => void;
-};
+}
 
-type CookieConsentStorage = {
+interface CookieConsentStorage {
   accepted: boolean;
   at: string;
   country: string;
-};
+}
 
 const CookieConsentContext = createContext<CookieConsent>({
   cookieConsent: undefined,

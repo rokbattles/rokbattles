@@ -1,7 +1,11 @@
 const FALLBACK_UTC_DISPLAY = "UTC --/-- --:--";
 
-type LongLike = { $numberLong: string };
-type DateLike = { $date: string | LongLike };
+interface LongLike {
+  $numberLong: string;
+}
+interface DateLike {
+  $date: string | LongLike;
+}
 export type DateInput =
   | number
   | string

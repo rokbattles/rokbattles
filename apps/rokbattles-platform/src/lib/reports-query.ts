@@ -4,7 +4,7 @@ import type {
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
-export type ReportsQueryParams = {
+export interface ReportsQueryParams {
   cursor?: string;
   playerId?: number;
   type?: ReportsFilterType;
@@ -15,7 +15,7 @@ export type ReportsQueryParams = {
   rallySide: ReportsFilterSide;
   garrisonSide: ReportsFilterSide;
   garrisonBuildingType?: ReportsGarrisonBuildingType;
-};
+}
 
 export function buildReportsQueryParams({
   cursor,
@@ -31,11 +31,15 @@ export function buildReportsQueryParams({
 }: ReportsQueryParams) {
   const params = new URLSearchParams();
 
-  if (cursor) params.set("cursor", cursor);
+  if (cursor) {
+    params.set("cursor", cursor);
+  }
   if (typeof playerId === "number" && Number.isFinite(playerId)) {
     params.set("pid", String(playerId));
   }
-  if (type) params.set("type", type);
+  if (type) {
+    params.set("type", type);
+  }
   if (
     typeof senderPrimaryCommanderId === "number" &&
     Number.isFinite(senderPrimaryCommanderId)

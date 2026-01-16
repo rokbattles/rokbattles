@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
-export type PairingTotals = {
+export interface PairingTotals {
   killScore: number;
   deaths: number;
   severelyWounded: number;
@@ -16,85 +16,85 @@ export type PairingTotals = {
   sps: number;
   tps: number;
   battleDuration: number;
-};
+}
 
-export type PairingAggregate = {
+export interface PairingAggregate {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   count: number;
   totals: PairingTotals;
-};
+}
 
-export type PairingsResponse = {
+export interface PairingsResponse {
   year: number;
   items: PairingAggregate[];
-};
+}
 
-export type PairingsResult = {
+export interface PairingsResult {
   data: PairingAggregate[];
   loading: boolean;
   error: string | null;
   year: number | null;
-};
+}
 
 export type LoadoutGranularity = "exact" | "normalized";
 
-export type LoadoutArmament = {
+export interface LoadoutArmament {
   id: number;
   value?: number;
-};
+}
 
-export type LoadoutSnapshot = {
+export interface LoadoutSnapshot {
   equipment: EquipmentToken[];
   armaments: LoadoutArmament[];
   inscriptions: number[];
   formation: number | null;
-};
+}
 
-export type LoadoutAggregate = {
+export interface LoadoutAggregate {
   key: string;
   count: number;
   totals: PairingTotals;
   loadout: LoadoutSnapshot;
-};
+}
 
-export type PairingLoadoutsResponse = {
+export interface PairingLoadoutsResponse {
   items: LoadoutAggregate[];
-};
+}
 
-export type PairingLoadoutsResult = {
+export interface PairingLoadoutsResult {
   data: LoadoutAggregate[];
   loading: boolean;
   error: string | null;
-};
+}
 
 export type EnemyGranularity = "overall" | LoadoutGranularity;
 
-export type EnemyAggregate = {
+export interface EnemyAggregate {
   enemyPrimaryCommanderId: number;
   enemySecondaryCommanderId: number;
   count: number;
   totals: PairingTotals;
-};
+}
 
-export type PairingEnemiesResponse = {
+export interface PairingEnemiesResponse {
   items: EnemyAggregate[];
-};
+}
 
-export type PairingEnemiesResult = {
+export interface PairingEnemiesResult {
   data: EnemyAggregate[];
   loading: boolean;
   error: string | null;
-};
+}
 
 const DEFAULT_YEAR = new Date().getUTCFullYear();
 const GENERIC_ERROR = "Failed to load pairings.";
 
-type PairingsOptions = {
+interface PairingsOptions {
   governorId: number | null | undefined;
   startDate?: string;
   endDate?: string;
-};
+}
 
 function buildRangeParams(options: {
   startDate?: string;

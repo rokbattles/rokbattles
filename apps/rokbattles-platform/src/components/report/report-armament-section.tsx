@@ -12,10 +12,10 @@ import { Subheading } from "@/components/ui/heading";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import type { ArmamentBuff } from "@/lib/report/parsers";
 
-type ReportArmamentSectionProps = {
+interface ReportArmamentSectionProps {
   buffs: ArmamentBuff[];
   inscriptions: number[];
-};
+}
 
 export function ReportArmamentSection({
   buffs,

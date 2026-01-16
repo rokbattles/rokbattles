@@ -24,19 +24,25 @@ import {
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 const getLocaleFromCookie = () => {
-  if (typeof document === "undefined") return defaultLocale;
+  if (typeof document === "undefined") {
+    return defaultLocale;
+  }
 
   const entry = document.cookie
     .split("; ")
     .find((cookie) => cookie.startsWith(`${languageCookieName}=`));
-  if (!entry) return defaultLocale;
+  if (!entry) {
+    return defaultLocale;
+  }
 
   const value = decodeURIComponent(entry.split("=").slice(1).join("="));
   return isSupportedLocale(value) ? value : defaultLocale;
 };
 
 const setLocaleCookie = (locale: string) => {
-  if (typeof document === "undefined") return;
+  if (typeof document === "undefined") {
+    return;
+  }
 
   // biome-ignore lint/suspicious/noDocumentCookie: ignore
   document.cookie = `${languageCookieName}=${encodeURIComponent(

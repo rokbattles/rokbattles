@@ -13,11 +13,11 @@ import {
 import { DuelSummaryTooltip } from "@/components/olympian-arena/duel-summary-tooltip";
 import type { DuelResults } from "@/lib/types/duel-report";
 
-type DuelMetricConfig = {
+interface DuelMetricConfig {
   labelKey: string;
   senderKey: keyof DuelResults;
   opponentKey: keyof DuelResults;
-};
+}
 
 const COMMON_METRIC_KEYS = new Set([
   "units",
@@ -48,12 +48,12 @@ const DUEL_METRICS: readonly DuelMetricConfig[] = [
   { labelKey: "power", senderKey: "power", opponentKey: "opponent_power" },
 ] as const;
 
-type DuelSummaryDatum = {
+interface DuelSummaryDatum {
   key: string;
   label: string;
   sender: number;
   opponent: number;
-};
+}
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,

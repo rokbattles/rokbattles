@@ -35,7 +35,9 @@ export async function createSession(userId: string) {
 
 export async function deleteSession() {
   const cookieStore = await cookies();
-  if (!cookieStore.has("sid")) return;
+  if (!cookieStore.has("sid")) {
+    return;
+  }
 
   const sid = cookieStore.get("sid");
   const mongo = await clientPromise;

@@ -18,12 +18,12 @@ import {
 } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type LoadoutAggregate = {
+interface LoadoutAggregate {
   key: string;
   count: number;
   totals: ReturnType<typeof createEmptyTotals>;
   loadout: LoadoutSnapshot;
-};
+}
 
 function parseGranularity(raw: string | null): LoadoutGranularity {
   return raw === "normalized" ? "normalized" : "exact";

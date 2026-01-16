@@ -3,15 +3,15 @@
 import { useCallback, useEffect, useState } from "react";
 import type { FavoriteReportType } from "@/lib/types/favorite";
 
-type UseReportFavoriteOptions = {
+interface UseReportFavoriteOptions {
   parentHash?: string | null;
   reportType?: FavoriteReportType;
   enabled?: boolean;
-};
+}
 
-type FavoriteStatusResponse = {
+interface FavoriteStatusResponse {
   favorited: boolean;
-};
+}
 
 export function useReportFavorite({
   parentHash,

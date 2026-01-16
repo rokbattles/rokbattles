@@ -7,11 +7,11 @@ import type { ClaimedGovernor } from "@/lib/types/current-user";
 import { GovernorProvider } from "@/providers/governor-context";
 import { ReportsFilterProvider } from "@/providers/reports-filter-context";
 
-type PlatformProvidersProps = {
+interface PlatformProvidersProps {
   children: React.ReactNode;
   initialGovernors?: ClaimedGovernor[];
   initialActiveGovernorId?: number;
-};
+}
 
 export default function PlatformProviders({
   children,

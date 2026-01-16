@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 
-type ClaimGovernorFormProps = {
+interface ClaimGovernorFormProps {
   canClaimMore: boolean;
   onClaimed: () => Promise<void>;
-};
+}
 
 type ClaimResponse =
   | {

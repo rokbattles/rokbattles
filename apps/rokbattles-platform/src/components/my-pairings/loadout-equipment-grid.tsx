@@ -3,9 +3,9 @@
 import { LoadoutEquipmentSlot } from "@/components/my-pairings/loadout-equipment-slot";
 import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
-type LoadoutEquipmentGridProps = {
+interface LoadoutEquipmentGridProps {
   tokens: LoadoutSnapshot["equipment"];
-};
+}
 
 export function LoadoutEquipmentGrid({ tokens }: LoadoutEquipmentGridProps) {
   const slots = tokens.reduce<

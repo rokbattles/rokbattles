@@ -5,7 +5,7 @@ import { normalizeTimestampMillis } from "@/lib/datetime";
 import { parseGovernorId } from "@/lib/governor";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type BattleReportDocument = {
+interface BattleReportDocument {
   _id?: unknown;
   report?: {
     metadata?: {
@@ -16,13 +16,13 @@ type BattleReportDocument = {
     self?: { player_id?: unknown };
     enemy?: { player_id?: unknown };
   };
-};
+}
 
-type BattleLogDay = {
+interface BattleLogDay {
   date: string;
   battleCount: number;
   npcCount: number;
-};
+}
 
 function extractEventTimeMillis(
   report: BattleReportDocument["report"]

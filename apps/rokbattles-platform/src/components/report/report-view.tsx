@@ -29,10 +29,10 @@ import { hasOverviewData } from "@/lib/report/overview-metrics";
 import type { RawOverview, RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
-type ReportViewProps = {
+interface ReportViewProps {
   hash: string;
   mergeMode?: boolean;
-};
+}
 
 export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
   const t = useTranslations("report");

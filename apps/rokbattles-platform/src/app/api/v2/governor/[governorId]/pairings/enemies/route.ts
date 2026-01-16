@@ -17,12 +17,12 @@ import {
 } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type EnemyAggregate = {
+interface EnemyAggregate {
   enemyPrimaryCommanderId: number;
   enemySecondaryCommanderId: number;
   count: number;
   totals: ReturnType<typeof createEmptyTotals>;
-};
+}
 
 type EnemyGranularity = "overall" | LoadoutGranularity;
 

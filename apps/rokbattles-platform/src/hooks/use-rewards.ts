@@ -2,41 +2,41 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-export type RewardAggregate = {
+export interface RewardAggregate {
   type: number;
   subType: number;
   total: number;
   count: number;
-};
+}
 
-export type RewardStats = {
+export interface RewardStats {
   totalReports: number;
   barbKills: number;
   barbFortKills: number;
   otherNpcKills: number;
-};
+}
 
-export type RewardsResponse = {
+export interface RewardsResponse {
   year: number;
   stats: RewardStats;
   rewards: RewardAggregate[];
-};
+}
 
-export type RewardsResult = {
+export interface RewardsResult {
   data: RewardsResponse | null;
   loading: boolean;
   error: string | null;
   year: number | null;
-};
+}
 
 const DEFAULT_YEAR = new Date().getUTCFullYear();
 const GENERIC_ERROR = "Failed to load rewards.";
 
-type RewardsOptions = {
+interface RewardsOptions {
   governorId: number | null | undefined;
   startDate?: string;
   endDate?: string;
-};
+}
 
 function buildRangeParams(options: {
   startDate?: string;

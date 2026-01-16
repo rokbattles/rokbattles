@@ -20,17 +20,17 @@ import type {
   DuelParticipantInfo,
 } from "@/lib/types/duel-report";
 
-type NormalizedBuff = {
+interface NormalizedBuff {
   id: number;
   value: number;
-};
+}
 
-type TroopBuffDisplay = {
+interface TroopBuffDisplay {
   id: number;
   value: number;
   name: string;
   percent: boolean;
-};
+}
 
 export function DuelParticipantCard({
   participant,

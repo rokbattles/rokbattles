@@ -4,9 +4,9 @@ import { useTranslations } from "next-intl";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import type { LoadoutSnapshot } from "@/hooks/use-pairings";
 
-type LoadoutArmamentListProps = {
+interface LoadoutArmamentListProps {
   armaments: LoadoutSnapshot["armaments"];
-};
+}
 
 export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
   const tReport = useTranslations("report");

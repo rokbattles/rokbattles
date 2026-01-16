@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
-type ReportEquipmentSlotProps = {
+interface ReportEquipmentSlotProps {
   token?: EquipmentToken;
-};
+}
 
 export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
   const t = useTranslations("report");

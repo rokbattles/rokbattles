@@ -9,11 +9,11 @@ import type { CommandHandler } from "@/lib/CommandHandler";
 import { getCommanderName } from "@/lib/getCommanderName";
 import { mongo } from "@/lib/mongo";
 
-type ClaimedGovernorDocument = {
+interface ClaimedGovernorDocument {
   governorId: number;
-};
+}
 
-type RecentReportDocument = {
+interface RecentReportDocument {
   count: number;
   parentHash: string;
   self: {
@@ -24,7 +24,7 @@ type RecentReportDocument = {
     primary: number;
     secondary?: number;
   };
-};
+}
 
 async function fetchRecentReports(db: Db, governorId: number) {
   return db

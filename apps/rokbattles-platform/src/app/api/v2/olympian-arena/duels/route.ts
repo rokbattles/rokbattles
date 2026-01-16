@@ -100,7 +100,7 @@ export async function GET(req: NextRequest) {
   const hasMore = documents.length > 100;
   const finalDocuments = hasMore ? documents.slice(0, 100) : documents;
   const finalCursor: string | undefined = hasMore
-    ? finalDocuments[finalDocuments.length - 1].latestMailTime.toString()
+    ? finalDocuments.at(-1).latestMailTime.toString()
     : undefined;
 
   const items = finalDocuments.map((d) => ({

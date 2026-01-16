@@ -4,15 +4,15 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import type { DuelReportPayload } from "@/lib/types/duel-report";
 
-export type DuelReportEntry = {
+export interface DuelReportEntry {
   report: DuelReportPayload;
-};
+}
 
-export type DuelReportResponse = {
+export interface DuelReportResponse {
   duelId: number;
   items: DuelReportEntry[];
   count: number;
-};
+}
 
 export function useOlympianArenaDuel(duelId: number | null | undefined) {
   const t = useTranslations("errors");

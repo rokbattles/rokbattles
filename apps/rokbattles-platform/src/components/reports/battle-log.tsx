@@ -5,23 +5,23 @@ import { cn } from "@/lib/cn";
 import { Subheading } from "../ui/heading";
 import { Text } from "../ui/text";
 
-type BattleLogProps = {
+interface BattleLogProps {
   governorId: number;
   year?: number;
-};
+}
 
-type DayCell = {
+interface DayCell {
   date: Date;
   key: string;
   battleCount: number;
   npcCount: number;
   inRange: boolean;
-};
+}
 
-type WeekColumn = {
+interface WeekColumn {
   id: string;
   days: DayCell[];
-};
+}
 
 function buildSkeletonWeeks(columns = 55) {
   return Array.from({ length: columns }, (_, index) => ({

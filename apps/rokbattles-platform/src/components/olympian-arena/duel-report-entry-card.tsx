@@ -8,9 +8,9 @@ import type { DuelReportEntry } from "@/hooks/use-olympian-arena-duel";
 import { formatUtcDateTime } from "@/lib/datetime";
 import type { DuelResults } from "@/lib/types/duel-report";
 
-type DuelEntryCardProps = {
+interface DuelEntryCardProps {
   entry: DuelReportEntry;
-};
+}
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   const t = useTranslations("duels");

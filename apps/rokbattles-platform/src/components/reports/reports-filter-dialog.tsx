@@ -22,7 +22,10 @@ import {
   type ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
 
-type SideOption = { value: ReportsFilterSide; label: string };
+interface SideOption {
+  value: ReportsFilterSide;
+  label: string;
+}
 
 function selectionHasSide(
   selection: ReportsFilterSide,
@@ -60,10 +63,11 @@ export function ReportsFilterDialog({
   const t = useTranslations("reports.filter");
   const tCommon = useTranslations("common");
   const context = useContext(ReportsFilterContext);
-  if (!context)
+  if (!context) {
     throw new Error(
       "ReportsFilterDialog must be used within a ReportsFilterProvider"
     );
+  }
 
   const {
     playerId,
@@ -143,7 +147,9 @@ export function ReportsFilterDialog({
   const commanderOptions = useCommanderOptions();
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return;
+    }
     const nextRallySide = rallySide;
     const nextGarrisonSide = selectionsOverlap(nextRallySide, garrisonSide)
       ? "none"
@@ -250,7 +256,9 @@ export function ReportsFilterDialog({
                     disabled={hasLockedPlayerId}
                     inputMode="numeric"
                     onChange={(event) => {
-                      if (hasLockedPlayerId) return;
+                      if (hasLockedPlayerId) {
+                        return;
+                      }
                       setLocalPlayerId(event.target.value);
                     }}
                     pattern="[0-9]*"

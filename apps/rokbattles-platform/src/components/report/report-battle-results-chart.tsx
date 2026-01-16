@@ -13,11 +13,11 @@ import {
 import { ReportBattleSummaryTooltip } from "@/components/report/report-battle-summary-tooltip";
 import type { RawBattleResults } from "@/lib/types/raw-report";
 
-type BattleMetricConfig = {
+interface BattleMetricConfig {
   labelKey: string;
   selfKey: keyof RawBattleResults;
   enemyKey: keyof RawBattleResults;
-};
+}
 
 const COMMON_METRIC_KEYS = new Set([
   "units",
@@ -54,12 +54,12 @@ const BATTLE_METRICS: readonly BattleMetricConfig[] = [
   },
 ] as const;
 
-type BattleSummaryDatum = {
+interface BattleSummaryDatum {
   key: string;
   label: string;
   self: number;
   enemy: number;
-};
+}
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,

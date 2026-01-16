@@ -2,10 +2,10 @@
 
 import { getCommanderName } from "@/hooks/use-commander-name";
 
-type Props = {
+interface Props {
   primaryId: number;
   secondaryId: number;
-};
+}
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
   return (

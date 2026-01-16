@@ -1,4 +1,4 @@
-export type DuelReportPayload = {
+export interface DuelReportPayload {
   metadata: {
     email_id: string;
     email_time: number;
@@ -8,9 +8,9 @@ export type DuelReportPayload = {
   sender: DuelParticipantInfo;
   opponent: DuelParticipantInfo;
   results: DuelResults;
-};
+}
 
-export type DuelParticipantInfo = {
+export interface DuelParticipantInfo {
   player_id: number;
   player_name: string;
   kingdom: number;
@@ -23,28 +23,28 @@ export type DuelParticipantInfo = {
     secondary: DuelCommanderInfo;
   };
   buffs: DuelBuffEntry[];
-};
+}
 
-export type DuelCommanderInfo = {
+export interface DuelCommanderInfo {
   id: number;
   level: number;
   star: number;
   awakened: boolean;
   skills: DuelSkillInfo[];
-};
+}
 
-export type DuelSkillInfo = {
+export interface DuelSkillInfo {
   id: number;
   level: number;
   order: number;
-};
+}
 
-export type DuelBuffEntry = {
+export interface DuelBuffEntry {
   id: number;
   value: number;
-};
+}
 
-export type DuelResults = {
+export interface DuelResults {
   kill_points: number;
   sev_wounded: number;
   wounded: number;
@@ -61,4 +61,4 @@ export type DuelResults = {
   opponent_units: number;
   opponent_power: number;
   opponent_win: boolean;
-};
+}

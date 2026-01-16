@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
 
   const hasMore = documents.length > 100;
   const finalDocuments = hasMore ? documents.slice(0, 100) : documents;
-  const lastFavorite = finalDocuments[finalDocuments.length - 1];
+  const lastFavorite = finalDocuments.at(-1);
   const lastCreatedAt =
     lastFavorite?.createdAt instanceof Date ? lastFavorite.createdAt : null;
   const nextCursor =

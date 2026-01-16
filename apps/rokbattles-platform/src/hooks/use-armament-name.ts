@@ -10,10 +10,10 @@ type ArmamentIdKey = keyof typeof armamentMap;
 type ArmamentEntry = (typeof armamentMap)[ArmamentIdKey];
 type ArmamentLocale = keyof ArmamentEntry["name"];
 
-type ArmamentInfo = {
+interface ArmamentInfo {
   name: string;
   percent: boolean;
-};
+}
 
 export function getArmamentInfo(
   id: number | null | undefined,

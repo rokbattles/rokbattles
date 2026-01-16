@@ -4,10 +4,10 @@ import { useTranslations } from "next-intl";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/cn";
 
-type Props = {
+interface Props {
   count?: number;
   widths?: readonly string[];
-};
+}
 
 const DefaultWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 

@@ -4,15 +4,15 @@ import clientPromise from "@/lib/mongo";
 import { rewriteUrl } from "@/lib/rewrite-url";
 import { createSession } from "@/lib/session";
 
-type TokenResponse = {
+interface TokenResponse {
   access_token: string;
   token_type: string;
   expires_in: number;
   refresh_token?: string;
   scope: string;
-};
+}
 
-type ProfileResponse = {
+interface ProfileResponse {
   id: string;
   username: string;
   global_name: string | null;
@@ -20,7 +20,7 @@ type ProfileResponse = {
   avatar: string | null;
   email?: string | null;
   verified?: boolean;
-};
+}
 
 export async function GET(req: NextRequest) {
   const forwardedReq = rewriteUrl(req);
