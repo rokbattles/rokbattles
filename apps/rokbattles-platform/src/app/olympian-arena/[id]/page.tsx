@@ -1,7 +1,7 @@
 import { ChevronLeftIcon } from "@heroicons/react/16/solid";
 import { getTranslations } from "next-intl/server";
-import DuelReportView from "@/components/olympian-arena/DuelReportView";
-import { Link } from "@/components/ui/Link";
+import DuelReportView from "@/components/olympian-arena/duel-report-view";
+import { Link } from "@/components/ui/link";
 
 export default async function Page({ params }: PageProps<"/olympian-arena/[id]">) {
   const t = await getTranslations("navigation");

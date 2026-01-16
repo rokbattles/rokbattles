@@ -1,8 +1,8 @@
 import { ChevronLeftIcon } from "@heroicons/react/16/solid";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { ReportView } from "@/components/report/ReportView";
-import { Link } from "@/components/ui/Link";
+import { ReportView } from "@/components/report/report-view";
+import { Link } from "@/components/ui/link";
 
 export async function generateMetadata({ params }: PageProps<"/report/[hash]">): Promise<Metadata> {
   const t = await getTranslations("report");

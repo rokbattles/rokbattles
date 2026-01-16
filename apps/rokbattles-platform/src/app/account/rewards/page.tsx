@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { MyRewardsContent } from "@/components/my-rewards/MyRewardsContent";
-import { Heading } from "@/components/ui/Heading";
+import { MyRewardsContent } from "@/components/my-rewards/my-rewards-content";
+import { Heading } from "@/components/ui/heading";
 import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 
 export default async function Page() {

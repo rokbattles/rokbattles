@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { buildAvatarURL } from "@/lib/discord";
 import clientPromise from "@/lib/mongo";
-import { rewriteUrl } from "@/lib/rewriteUrl";
+import { rewriteUrl } from "@/lib/rewrite-url";
 import { createSession } from "@/lib/session";
 
 type TokenResponse = {
