@@ -4,7 +4,7 @@ import { events } from "@/events";
 import { registerEvents } from "@/lib/event-handler";
 
 export class BaseClient extends Client {
-  public commands = commands();
+  commands = commands();
 
   constructor(options: ClientOptions) {
     super(options);

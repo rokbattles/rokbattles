@@ -1,6 +1,6 @@
 import { ApplicationCommandType } from "discord.js";
-import type { BaseClient } from "@/lib/BaseClient";
-import type { EventHandler } from "@/lib/EventHandler";
+import type { BaseClient } from "@/lib/base-client";
+import type { EventHandler } from "@/lib/event-handler";
 
 export const SlashCommandHandler: EventHandler<
   BaseClient,

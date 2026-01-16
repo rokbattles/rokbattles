@@ -44,11 +44,11 @@ function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
       continue;
     }
     if (Array.isArray(value)) {
-      value.forEach((entry) => {
+      for (const entry of value) {
         if (entry != null) {
           params.append(key, entry);
         }
-      });
+      }
     } else if (value != null) {
       params.set(key, value);
     }

@@ -5,7 +5,6 @@ export type EventHandler<C extends Client, E extends keyof ClientEvents> = (
   ...args: ClientEvents[E]
 ) => Promise<unknown> | unknown;
 
-// biome-ignore lint/suspicious/noExplicitAny: ignore
 export class EventCollection extends Collection<
   keyof ClientEvents,
   EventHandler<any, any>[]

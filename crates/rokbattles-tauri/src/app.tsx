@@ -49,7 +49,7 @@ function App() {
 
     return () => {
       isMounted = false;
-      unlisten.then((fn) => fn()).catch(() => {});
+      unlisten.then((fn) => fn()).catch(console.error);
     };
   }, []);
 
@@ -125,11 +125,12 @@ function App() {
           <div className="flex items-center justify-between border-zinc-800 border-b p-4">
             <h2 className="font-medium text-base">Watched Directories</h2>
           </div>
-          {isLoading ? (
+          {isLoading && (
             <div className="p-8 text-center text-sm text-zinc-400">
               Loading directories...
             </div>
-          ) : hasDirs ? (
+          )}
+          {!isLoading && hasDirs ? (
             <ul className="divide-y divide-zinc-800">
               {dirs.map((dir) => (
                 <li
@@ -168,11 +169,10 @@ function App() {
               </div>
             ) : (
               <div className="divide-y-0">
-                {logs.map((log, idx) => (
+                {logs.map((log) => (
                   <div
-                    // biome-ignore lint/suspicious/noArrayIndexKey: will change later
                     className="whitespace-pre-wrap break-words px-3 py-1 font-mono text-xs text-zinc-300"
-                    key={idx}
+                    key={log}
                   >
                     {log}
                   </div>

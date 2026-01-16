@@ -4,6 +4,8 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const yaml = require("yaml");
 
+const REGEX = /\.ya?ml$/i;
+
 async function main() {
   const repoRoot = path.resolve(__dirname, "../../..");
   const datasetsDir = path.join(repoRoot, "datasets");
@@ -11,17 +13,14 @@ async function main() {
 
   const entries = await fs.readdir(datasetsDir, { withFileTypes: true });
   const yamlFiles = entries.filter(
-    (entry) => entry.isFile() && /\.ya?ml$/i.test(entry.name)
+    (entry) => entry.isFile() && REGEX.test(entry.name)
   );
 
   await fs.mkdir(outputDir, { recursive: true });
 
   for (const file of yamlFiles) {
     const sourcePath = path.join(datasetsDir, file.name);
-    const targetPath = path.join(
-      outputDir,
-      file.name.replace(/\.ya?ml$/i, ".json")
-    );
+    const targetPath = path.join(outputDir, file.name.replace(REGEX, ".json"));
 
     const raw = await fs.readFile(sourcePath, "utf8");
     const documents = yaml.parseAllDocuments(raw);
@@ -37,4 +36,4 @@ async function main() {
   console.log("Success");
 }
 
-void main();
+main().catch(console.error);

@@ -6,9 +6,9 @@ import {
   SeparatorBuilder,
 } from "discord.js";
 import type { Db, Document } from "mongodb";
-import type { BaseClient } from "@/lib/BaseClient";
-import type { CommandHandler } from "@/lib/CommandHandler";
-import { getCommanderName } from "@/lib/getCommanderName";
+import type { BaseClient } from "@/lib/base-client";
+import type { CommandHandler } from "@/lib/command-handler";
+import { getCommanderName } from "@/lib/get-commander-name";
 import { mongo } from "@/lib/mongo";
 
 interface ClaimedGovernorDocument {
