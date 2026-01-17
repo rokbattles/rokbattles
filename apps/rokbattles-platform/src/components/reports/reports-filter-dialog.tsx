@@ -210,14 +210,17 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     <ListboxOption value="">
                       <ListboxLabel>{tCommon("labels.all")}</ListboxLabel>
                     </ListboxOption>
-                    <ListboxOption value="kvk">
-                      <ListboxLabel>{t("typeOptions.kvk")}</ListboxLabel>
+                    <ListboxOption value="home">
+                      <ListboxLabel>{t("typeOptions.home")}</ListboxLabel>
                     </ListboxOption>
                     <ListboxOption value="ark">
                       <ListboxLabel>{t("typeOptions.ark")}</ListboxLabel>
                     </ListboxOption>
-                    <ListboxOption value="home">
-                      <ListboxLabel>{t("typeOptions.home")}</ListboxLabel>
+                    <ListboxOption value="kvk">
+                      <ListboxLabel>{t("typeOptions.kvk")}</ListboxLabel>
+                    </ListboxOption>
+                    <ListboxOption value="strife">
+                      <ListboxLabel>{t("typeOptions.strife")}</ListboxLabel>
                     </ListboxOption>
                   </Listbox>
                 </Field>

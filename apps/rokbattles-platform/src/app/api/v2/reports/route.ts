@@ -35,9 +35,9 @@ export async function GET(req: NextRequest) {
     return undefined;
   };
 
-  let parsedType: string | undefined;
+  let parsedType: "home" | "ark" | "kvk" | "strife" | undefined;
   if (type) {
-    if (["kvk", "ark", "home"].includes(type)) {
+    if (type === "home" || type === "ark" || type === "kvk" || type === "strife") {
       parsedType = type;
     } else {
       return NextResponse.json({ error: "Invalid type" }, { status: 400 });
@@ -179,6 +179,10 @@ export async function GET(req: NextRequest) {
     if (parsedType === "home") {
       matchPipeline.push({ "report.metadata.is_kvk": 0 });
       matchPipeline.push({ "report.metadata.email_role": { $ne: "dungeon" } });
+    }
+
+    if (parsedType === "strife") {
+      matchPipeline.push({ "report.metadata.is_strife": 1 });
     }
   }
 
