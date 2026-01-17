@@ -249,6 +249,7 @@
   "account": {
     "titles": {
       "reports": "My Battle Reports",
+      "kvks": "My KVKs",
       "favorites": "My Favorite Reports",
       "pairings": "My Pairings",
       "rewards": "My Rewards",
@@ -280,6 +281,18 @@
         "alreadyClaimed": "This governor is already claimed.",
         "unknown": "Something went wrong while claiming the governor. Please try again."
       }
+    }
+  },
+  "kvks": {
+    "table": {
+      "kvk": "KVK",
+      "stateDate": "State Date",
+      "endDate": "End Date",
+      "battleReports": "Battle Reports"
+    },
+    "states": {
+      "loading": "Loading KVKs...",
+      "empty": "No KVK battle reports found."
     }
   },
   "pairings": {
@@ -474,6 +487,10 @@
     "pairings": {
       "fetch": "Failed to load marches: {status}",
       "generic": "Failed to load marches."
+    },
+    "kvks": {
+      "fetch": "Failed to load KVKs: {status}",
+      "generic": "Failed to load KVKs."
     }
   }
 }

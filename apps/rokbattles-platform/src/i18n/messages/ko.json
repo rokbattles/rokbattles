@@ -249,6 +249,7 @@
   "account": {
     "titles": {
       "reports": "내 전투 보고서",
+      "kvks": "My KVKs",
       "favorites": "내 즐겨찾기 보고서",
       "pairings": "내 조합",
       "rewards": "My Rewards",
@@ -280,6 +281,18 @@
         "alreadyClaimed": "이미 등록된 지도자입니다.",
         "unknown": "지도자 등록 중 오류가 발생했습니다. 다시 시도해 주세요."
       }
+    }
+  },
+  "kvks": {
+    "table": {
+      "kvk": "KVK",
+      "stateDate": "State Date",
+      "endDate": "End Date",
+      "battleReports": "Battle Reports"
+    },
+    "states": {
+      "loading": "Loading KVKs...",
+      "empty": "No KVK battle reports found."
     }
   },
   "pairings": {
@@ -474,6 +487,10 @@
     "pairings": {
       "fetch": "행군 부대 정보를 불러오지 못했습니다: {status}",
       "generic": "행군 부대 정보를 불러오지 못했습니다."
+    },
+    "kvks": {
+      "fetch": "Failed to load KVKs: {status}",
+      "generic": "Failed to load KVKs."
     }
   }
 }
