@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { buildAvatarURL } from "@/lib/discord";
-import client from "@/lib/mongo";
-import { rewriteUrl } from "@/lib/rewriteUrl";
+import clientPromise from "@/lib/mongo";
+import { rewriteUrl } from "@/lib/rewrite-url";
 import { createSession } from "@/lib/session";
 
 type TokenResponse = {
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing code or state" }, { status: 400 });
   }
 
-  const mongo = await client.connect();
+  const mongo = await clientPromise;
   const db = mongo.db();
 
   const oauthState = await db.collection("oauthStates").findOne({ state });

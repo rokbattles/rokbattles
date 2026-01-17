@@ -141,7 +141,6 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
         if let Some(g0) = sections.first() {
             map_insert_str_if_absent(meta, "email_id", g0.get("id").and_then(Value::as_str));
             map_insert_str_if_absent(meta, "email_type", g0.get("type").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_box", g0.get("box").and_then(Value::as_str));
             map_insert_i64_if_absent(
                 meta,
                 "email_time",
@@ -161,13 +160,6 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
                 .iter()
                 .find_map(|s| s.get("type").and_then(Value::as_str));
             map_insert_str_if_absent(meta, "email_type", email_type);
-        }
-
-        if meta.get("email_box").is_none() {
-            let email_box = sections
-                .iter()
-                .find_map(|s| s.get("box").and_then(Value::as_str));
-            map_insert_str_if_absent(meta, "email_box", email_box);
         }
 
         if meta.get("email_time").is_none() {
@@ -294,16 +286,17 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
         }
 
         // email receiver
-        let self_snap = find_self_snapshot_section(sections).unwrap_or(&Value::Null);
-        let self_body = find_self_content_root(sections).unwrap_or(&Value::Null);
-        if let Some(pid) = self_snap
-            .get("PId")
-            .and_then(Value::as_i64)
-            .or_else(|| self_body.pointer("/SelfChar/PId").and_then(Value::as_i64))
-            && pid != 0
-        {
-            meta.entry("email_receiver")
-                .or_insert(Value::String(pid.to_string()));
+        if meta.get("email_receiver").is_none() {
+            let receiver = sections.iter().find_map(|section| {
+                section.get("receiver").and_then(|value| match value {
+                    Value::String(s) => Some(s.to_owned()),
+                    Value::Number(n) => Some(n.to_string()),
+                    _ => None,
+                })
+            });
+            if let Some(receiver) = receiver {
+                meta.insert("email_receiver".to_string(), Value::String(receiver));
+            }
         }
 
         Ok(())

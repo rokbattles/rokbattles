@@ -1,7 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import client, { toPlainObject } from "@/lib/mongo";
-import type { RawReportPayload } from "@/lib/types/rawReport";
+import clientPromise, { toPlainObject } from "@/lib/mongo";
+import type { RawReportPayload } from "@/lib/types/raw-report";
 import type { BattleResultsSummary, BattleResultsTotals, ReportEntry } from "@/lib/types/report";
 
 export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[hash]">) {
@@ -11,7 +11,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/v2/report/[
   }
 
   try {
-    const mongo = await client.connect();
+    const mongo = await clientPromise;
     const db = mongo.db();
 
     const matchPipeline: Document = {

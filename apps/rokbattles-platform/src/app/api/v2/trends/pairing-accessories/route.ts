@@ -1,10 +1,10 @@
 import type { Document } from "mongodb";
 import { NextResponse } from "next/server";
-import client from "@/lib/mongo";
+import clientPromise from "@/lib/mongo";
 
 export async function GET() {
   try {
-    const mongo = await client.connect();
+    const mongo = await clientPromise;
     const db = mongo.db();
 
     const doc = await db.collection<Document>("trendSnapshots").findOne(

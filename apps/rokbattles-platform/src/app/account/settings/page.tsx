@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { Description, Field, FieldGroup, Label } from "@/components/ui/Fieldset";
-import { Input } from "@/components/ui/Input";
+import { Description, Field, FieldGroup, Label } from "@/components/ui/fieldset";
+import { Input } from "@/components/ui/input";
 import { requireCurrentUser } from "@/lib/require-user";
 
 export default async function Page() {

@@ -1,6 +1,6 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
-import client from "@/lib/mongo";
+import clientPromise from "@/lib/mongo";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -124,7 +124,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const mongo = await client.connect();
+  const mongo = await clientPromise;
   const db = mongo.db();
 
   const matchPipeline: Document[] = [

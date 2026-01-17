@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import { CookieConsentBanner } from "@/components/CookieConsentBanner";
-import { PlatformLayout } from "@/components/PlatformLayout";
-import PlatformProviders from "@/components/PlatformProviders";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
+import { PlatformLayout } from "@/components/platform-layout";
+import PlatformProviders from "@/components/platform-providers";
 import { cn } from "@/lib/cn";
 import { getCurrentUser } from "@/lib/current-user";
-import { CookieConsentProvider } from "@/providers/CookieConsentContext";
+import { CookieConsentProvider } from "@/providers/cookie-consent-context";
 
 const inter = Inter({
   subsets: ["latin"],
