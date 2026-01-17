@@ -380,6 +380,27 @@ mod tests {
     }
 
     #[test]
+    fn metadata_sets_is_strife_for_non_pioneer_supreme_strife_reports() {
+        let sections = vec![json!({
+            "body": {
+                "content": {
+                    "SelfChar": {
+                        "PId": 1,
+                        "Titan": {
+                            "Pioneer": false,
+                            "Round": 1,
+                            "BattleId": "21009_1768262400898",
+                            "TeamId": 2
+                        }
+                    }
+                }
+            }
+        })];
+        let metadata = resolve_metadata(&sections);
+        assert_eq!(metadata.get("is_strife").and_then(Value::as_i64), Some(1));
+    }
+
+    #[test]
     fn metadata_clears_is_strife_for_non_strife_reports() {
         let sections = vec![json!({
             "body": {
