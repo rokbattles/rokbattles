@@ -5,6 +5,7 @@ export interface RawReportMetadata {
   email_receiver?: string;
   email_role?: string | null;
   is_kvk?: number;
+  is_strife?: number;
   attack_id?: string;
   start_date?: number;
   end_date?: number;

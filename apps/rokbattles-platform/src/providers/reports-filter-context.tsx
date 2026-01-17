@@ -4,11 +4,11 @@ import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext } from "react";
 
-export type ReportsFilterType = "kvk" | "ark" | "home";
+export type ReportsFilterType = "home" | "ark" | "kvk" | "strife";
 export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
-const filterTypes = new Set<ReportsFilterType>(["kvk", "ark", "home"]);
+const filterTypes = new Set<ReportsFilterType>(["home", "ark", "kvk", "strife"]);
 const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
 const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
 

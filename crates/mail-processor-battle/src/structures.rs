@@ -83,6 +83,8 @@ pub struct Metadata {
 
     // 1 if kvk or conquers season, otherwise 0
     pub is_kvk: Option<i32>,
+    // contains Titan info
+    pub is_strife: Option<i32>,
     pub attack_id: Option<String>,
     pub start_date: Option<i64>,
     pub end_date: Option<i64>,
