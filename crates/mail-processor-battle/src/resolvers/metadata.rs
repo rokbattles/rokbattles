@@ -22,6 +22,37 @@ impl MetadataResolver {
         Self
     }
 
+    fn value_truthy(v: &Value) -> bool {
+        match v {
+            Value::Null => false,
+            Value::Bool(b) => *b,
+            Value::Number(n) => n
+                .as_i64()
+                .map(|x| x != 0)
+                .or_else(|| n.as_u64().map(|x| x != 0))
+                .or_else(|| n.as_f64().map(|x| x != 0.0))
+                .unwrap_or(false),
+            Value::String(s) => !s.trim().is_empty(),
+            Value::Array(values) => values.iter().any(Self::value_truthy),
+            Value::Object(map) => map.values().any(Self::value_truthy),
+        }
+    }
+
+    fn has_strife_titan(v: &Value) -> bool {
+        match v {
+            Value::Object(map) => {
+                if let Some(titan) = map.get("Titan")
+                    && Self::value_truthy(titan)
+                {
+                    return true;
+                }
+                map.values().any(Self::has_strife_titan)
+            }
+            Value::Array(values) => values.iter().any(Self::has_strife_titan),
+            _ => false,
+        }
+    }
+
     fn parse_i128(v: Option<&Value>) -> Option<i128> {
         match v {
             Some(Value::Number(n)) => n.as_i64().map(|x| x as i128),
@@ -233,6 +264,14 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
             .unwrap_or(0);
         meta.entry("is_kvk").or_insert(Value::from(is_kvk_val));
 
+        if meta.get("is_strife").is_none() {
+            let is_strife = sections.iter().any(Self::has_strife_titan);
+            meta.insert(
+                "is_strife".to_string(),
+                Value::from(if is_strife { 1 } else { 0 }),
+            );
+        }
+
         // start and end time
         let base_epoch = Self::first_epoch_geq(sections, "Bts", 1_000_000_000)
             .or_else(|| {
@@ -300,5 +339,63 @@ impl Resolver<MailContext<'_>, Value> for MetadataResolver {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::MetadataResolver;
+    use crate::context::MailContext;
+    use mail_processor_sdk::Resolver;
+    use serde_json::{Value, json};
+
+    fn resolve_metadata(sections: &[Value]) -> Value {
+        let mut mail = json!({ "metadata": {} });
+        let ctx = MailContext::new(sections, sections, "0");
+        MetadataResolver::new()
+            .resolve(&ctx, &mut mail)
+            .expect("resolve metadata");
+        mail["metadata"].clone()
+    }
+
+    #[test]
+    fn metadata_sets_is_strife_for_supreme_strife_reports() {
+        let sections = vec![json!({
+            "body": {
+                "content": {
+                    "SelfChar": {
+                        "PId": 1,
+                        "Titan": {
+                            "Pioneer": true,
+                            "Round": 1,
+                            "BattleId": "21009_1768262400898",
+                            "TeamId": 2
+                        }
+                    }
+                }
+            }
+        })];
+        let metadata = resolve_metadata(&sections);
+        assert_eq!(metadata.get("is_strife").and_then(Value::as_i64), Some(1));
+    }
+
+    #[test]
+    fn metadata_clears_is_strife_for_non_strife_reports() {
+        let sections = vec![json!({
+            "body": {
+                "content": {
+                    "SelfChar": {
+                        "PId": 2,
+                        "Titan": {
+                            "Round": 0,
+                            "BattleId": "",
+                            "TeamId": 0
+                        }
+                    }
+                }
+            }
+        })];
+        let metadata = resolve_metadata(&sections);
+        assert_eq!(metadata.get("is_strife").and_then(Value::as_i64), Some(0));
     }
 }
