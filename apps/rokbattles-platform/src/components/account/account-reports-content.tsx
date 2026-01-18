@@ -29,7 +29,7 @@ export function AccountReportsContent() {
   return (
     <>
       <Heading>{tAccount("titles.reports")}</Heading>
-      <BattleLog governorId={activeGovernor.governorId} year={2025} />
+      <BattleLog governorId={activeGovernor.governorId} />
       <div className="mt-8 flex items-end justify-between">
         <Subheading>{tCommon("headings.liveFeed")}</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
