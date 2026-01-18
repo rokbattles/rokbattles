@@ -148,7 +148,7 @@ function getCellVisuals(day: DayCell) {
   };
 }
 
-export function BattleLog({ governorId, year = 2025 }: BattleLogProps) {
+export function BattleLog({ governorId, year = 2026 }: BattleLogProps) {
   const t = useTranslations("battleLog");
   const { data, error, loading } = useBattleLog(governorId, year);
   const interactive = Boolean(data);
