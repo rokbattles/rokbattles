@@ -1,10 +1,13 @@
 commanders:
   1:
     name:
-      en: "Julius Caesar"
       de: "Julius Cäsar"
+      en: "Julius Caesar"
       es: "Julio César"
+      fr: "Jules César"
       ko: "율리우스 카이사르"
+      pl: "Juliusz Cezar"
+      zh_CN: "尤利乌斯·凯撒"
     prime: false
     rarity: legendary
     skills:
@@ -20,10 +23,13 @@ commanders:
 
   3:
     name:
-      en: "Sun Tzu"
       de: "Sun Tzu"
+      en: "Sun Tzu"
       es: "Sun Tzu"
+      fr: "Sun Zi"
       ko: "손무"
+      pl: "Sun Zi"
+      zh_CN: "孙武"
     prime: false
     rarity: epic
     skills:
@@ -40,10 +46,13 @@ commanders:
 
   4:
     name:
-      en: "Frederick I"
       de: "Friedrich I."
+      en: "Frederick I"
       es: "Federico I"
+      fr: "Frédéric Ier"
       ko: "프리드리히 1세"
+      pl: "Fryderyk I"
+      zh_CN: "腓特烈一世"
     prime: false
     rarity: legendary
     skills:
@@ -59,10 +68,13 @@ commanders:
 
   5:
     name:
-      en: "Constantine I"
       de: "Konstantin I."
+      en: "Constantine I"
       es: "Constantino I"
+      fr: "Constantin Ier"
       ko: "콘스탄티누스 1세"
+      pl: "Konstantyn I"
+      zh_CN: "君士坦丁一世"
     prime: false
     rarity: legendary
     skills:
@@ -79,10 +91,13 @@ commanders:
 
   6:
     name:
-      en: "Yi Seong-Gye"
       de: "Yi Seong-Gye"
+      en: "Yi Seong-Gye"
       es: "Yi Seong-Gye"
+      fr: "Yi Seong-Gye"
       ko: "이성계"
+      pl: "Yi Seong-Gye"
+      zh_CN: "李成桂"
     prime: false
     rarity: legendary
     skills:
@@ -98,10 +113,13 @@ commanders:
 
   7:
     name:
-      en: "Cao Cao"
       de: "Cao Cao"
+      en: "Cao Cao"
       es: "Cao Cao"
+      fr: "Cao Cao"
       ko: "조조"
+      pl: "Cao Cao"
+      zh_CN: "曹操"
     prime: false
     rarity: legendary
     skills:
@@ -118,10 +136,13 @@ commanders:
 
   8:
     name:
-      en: "Richard I"
       de: "Richard I."
+      en: "Richard I"
       es: "Ricardo I"
+      fr: "Richard Ier"
       ko: "리처드 1세"
+      pl: "Ryszard I"
+      zh_CN: "理查一世"
     prime: false
     rarity: legendary
     skills:
@@ -138,10 +159,13 @@ commanders:
 
   9:
     name:
-      en: "Minamoto no Yoshitsune"
       de: "Minamoto no Yoshitsune"
+      en: "Minamoto no Yoshitsune"
       es: "Minamoto no Yoshitsune"
+      fr: "Minamoto no Yoshitsune"
       ko: "미나모토노 요시쓰네"
+      pl: "Minamoto no Yoshitsune"
+      zh_CN: "源义经"
     prime: false
     rarity: legendary
     skills:
@@ -157,10 +181,13 @@ commanders:
 
   10:
     name:
-      en: "Charles Martel"
       de: "Charles Martel"
+      en: "Charles Martel"
       es: "Carlos Martel"
+      fr: "Charles Martel"
       ko: "카를 마르텔"
+      pl: "Karol Młot"
+      zh_CN: "查理·马特"
     prime: false
     rarity: legendary
     skills:
@@ -176,10 +203,13 @@ commanders:
 
   11:
     name:
-      en: "El Cid"
       de: "El Cid"
+      en: "El Cid"
       es: "El Cid"
+      fr: "Le Cid"
       ko: "엘 시드"
+      pl: "Cyd Waleczny"
+      zh_CN: "熙德"
     prime: false
     rarity: legendary
     skills:
@@ -196,10 +226,13 @@ commanders:
 
   12:
     name:
-      en: "Hermann"
       de: "Hermann"
+      en: "Hermann"
       es: "Hermann"
+      fr: "Hermann le Chérusque"
       ko: "헤르만"
+      pl: "Hermann"
+      zh_CN: "海尔曼"
     prime: false
     rarity: epic
     skills:
@@ -215,10 +248,13 @@ commanders:
 
   13:
     name:
-      en: "Kusunoki Masashige"
       de: "Kusunoki Masashige"
+      en: "Kusunoki Masashige"
       es: "Kusunoki Masashige"
+      fr: "Kusunoki Masashige"
       ko: "구스노키 마사시게"
+      pl: "Kusunoki Masashige"
+      zh_CN: "楠木正成"
     prime: false
     rarity: epic
     skills:
@@ -234,10 +270,13 @@ commanders:
 
   14:
     name:
-      en: "Scipio Africanus"
       de: "Scipio Africanus"
+      en: "Scipio Africanus"
       es: "Escipión el Africano"
+      fr: "Scipion l'Africain"
       ko: "스키피오"
+      pl: "Scypion Afrykański"
+      zh_CN: "西庇阿·阿非利加努斯"
     prime: false
     rarity: epic
     skills:
@@ -253,10 +292,13 @@ commanders:
 
   15:
     name:
-      en: "Joan of Arc"
       de: "Johanna von Orléans"
+      en: "Joan of Arc"
       es: "Juana de Arco"
+      fr: "Jeanne d'Arc"
       ko: "잔 다르크"
+      pl: "Joanna d'Arc"
+      zh_CN: "贞德"
     prime: false
     rarity: epic
     skills:
@@ -272,10 +314,13 @@ commanders:
 
   16:
     name:
-      en: "Eulji Mundeok"
       de: "Eulji Mundeok"
+      en: "Eulji Mundeok"
       es: "Eulji Mundeok"
+      fr: "Eulji Mundeok"
       ko: "을지문덕"
+      pl: "Eulji Mundeok"
+      zh_CN: "乙支文德"
     prime: false
     rarity: epic
     skills:
@@ -291,10 +336,13 @@ commanders:
 
   17:
     name:
-      en: "Boudica"
       de: "Boudicca"
+      en: "Boudica"
       es: "Boudica"
+      fr: "Boadicée"
       ko: "부디카"
+      pl: "Boudika"
+      zh_CN: "布狄卡"
     prime: false
     rarity: epic
     skills:
@@ -310,10 +358,13 @@ commanders:
 
   18:
     name:
-      en: "Pelagius"
       de: "Pelayo"
+      en: "Pelagius"
       es: "Pelayo"
+      fr: "Pélage"
       ko: "펠라기우스"
+      pl: "Pelagiusz"
+      zh_CN: "佩拉约"
     prime: false
     rarity: epic
     skills:
@@ -329,10 +380,13 @@ commanders:
 
   22:
     name:
-      en: "City Keeper"
       de: "Stadthüter"
+      en: "City Keeper"
       es: "Guardián de la Ciudad"
+      fr: "Gardien de la ville"
       ko: "수호자"
+      pl: "Strażnik miasta"
+      zh_CN: "守护者"
     prime: false
     rarity: advanced
     skills:
@@ -347,10 +401,13 @@ commanders:
 
   23:
     name:
-      en: "Markswoman"
       de: "Scharfschützin"
+      en: "Markswoman"
       es: "Francotiradora"
+      fr: "Tireuse d'élite"
       ko: "명시수"
+      pl: "Łowczyni"
+      zh_CN: "神射手"
     prime: false
     rarity: advanced
     skills:
@@ -365,10 +422,13 @@ commanders:
 
   24:
     name:
-      en: "Centurion"
       de: "Zenturio"
+      en: "Centurion"
       es: "Centurión"
+      fr: "Centurion"
       ko: "명시수"
+      pl: "Centurion"
+      zh_CN: "百夫长"
     prime: false
     rarity: advanced
     skills:
@@ -383,10 +443,13 @@ commanders:
 
   25:
     name:
-      en: "Dragon Lancer"
       de: "Drachenulan"
+      en: "Dragon Lancer"
       es: "Lancero de Dragón"
+      fr: "Lancier dragon"
       ko: "명시수"
+      pl: "Smoczy lansjer"
+      zh_CN: "龙骑兵"
     prime: false
     rarity: advanced
     skills:
@@ -401,10 +464,13 @@ commanders:
 
   30:
     name:
-      en: "Hannibal Barca"
       de: "Hannibal Barca"
+      en: "Hannibal Barca"
       es: "Aníbal Barca"
+      fr: "Hannibal Barca"
       ko: "한니발 바르카"
+      pl: "Hannibal"
+      zh_CN: "汉尼拔·巴卡"
     prime: false
     rarity: legendary
     skills:
@@ -420,10 +486,13 @@ commanders:
 
   32:
     name:
-      en: "Cleopatra VII"
       de: "Kleopatra VII."
+      en: "Cleopatra VII"
       es: "Cleopatra VII"
+      fr: "Cléopâtre VII"
       ko: "틀레오파트라 7세"
+      pl: "Kleopatra VII"
+      zh_CN: "克丽奥佩特拉七世"
     prime: false
     rarity: legendary
     skills:
@@ -440,10 +509,13 @@ commanders:
 
   33:
     name:
-      en: "Constance"
       de: "Constance"
+      en: "Constance"
       es: "Constanza"
+      fr: "Constance"
       ko: "쿠스탄차"
+      pl: "Konstancja"
+      zh_CN: "科斯坦察"
     prime: false
     rarity: elite
     skills:
@@ -458,10 +530,13 @@ commanders:
 
   34:
     name:
-      en: "Gaius Marius"
       de: "Gaius Marius"
+      en: "Gaius Marius"
       es: "Cayo Mario"
+      fr: "Caius Marius"
       ko: "가이우스 마리우스"
+      pl: "Gajusz Mariusz"
+      zh_CN: "盖乌斯·马略"
     prime: false
     rarity: elite
     skills:
@@ -476,10 +551,13 @@ commanders:
 
   35:
     name:
-      en: "Tomoe Gozen"
       de: "Tomoe Gozen"
+      en: "Tomoe Gozen"
       es: "Tomoe Gozen"
+      fr: "Tomoe Gozen"
       ko: "토모에 고젠"
+      pl: "Tomoe Gozen"
+      zh_CN: "巴御前"
     prime: false
     rarity: elite
     skills:
@@ -494,10 +572,13 @@ commanders:
 
   36:
     name:
-      en: "Lancelot"
       de: "Lancelot"
+      en: "Lancelot"
       es: "Lanzarote"
+      fr: "Lancelot"
       ko: "랜슬롯"
+      pl: "Lancelot"
+      zh_CN: "兰斯洛特"
     prime: false
     rarity: elite
     skills:
@@ -512,10 +593,13 @@ commanders:
 
   37:
     name:
-      en: "Lohar"
       de: "Lohar"
+      en: "Lohar"
       es: "Lohar"
+      fr: "Lohar"
       ko: "로하"
+      pl: "Lohar"
+      zh_CN: "洛哈"
     prime: false
     rarity: epic
     skills:
@@ -531,10 +615,13 @@ commanders:
 
   38:
     name:
-      en: "Šárka"
       de: "Sarka"
+      en: "Šárka"
       es: "Sárka"
+      fr: "Šárka"
       ko: "샤르카"
+      pl: "Sárka"
+      zh_CN: "萨尔卡"
     prime: false
     rarity: elite
     skills:
@@ -549,10 +636,13 @@ commanders:
 
   61:
     name:
-      en: "Belisarius"
       de: "Belisarius"
+      en: "Belisarius"
       es: "Belisario"
+      fr: "Bélisaire"
       ko: "벨리사리우스"
+      pl: "Belizariusz"
+      zh_CN: "贝利撒留"
     prime: false
     rarity: epic
     skills:
@@ -568,10 +658,13 @@ commanders:
 
   62:
     name:
-      en: "Baibars"
       de: "Baibars"
+      en: "Baibars"
       es: "Baibars"
+      fr: "Baybars"
       ko: "바이바르스"
+      pl: "Bajbars"
+      zh_CN: "拜巴尔"
     prime: false
     rarity: epic
     skills:
@@ -587,10 +680,13 @@ commanders:
 
   63:
     name:
-      en: "Osman I"
       de: "Osman I."
+      en: "Osman I"
       es: "Osmán I"
+      fr: "Osman I"
       ko: "오스만 1세"
+      pl: "Osman I"
+      zh_CN: "奥斯曼一世"
     prime: false
     rarity: epic
     skills:
@@ -606,10 +702,13 @@ commanders:
 
   64:
     name:
-      en: "Saladin"
       de: "Saladin"
+      en: "Saladin"
       es: "Saladino"
+      fr: "Saladin"
       ko: "살라딘"
+      pl: "Saladyn"
+      zh_CN: "萨拉丁"
     prime: false
     rarity: legendary
     skills:
@@ -625,10 +724,13 @@ commanders:
 
   65:
     name:
-      en: "Mehmed II"
       de: "Mehmed II."
+      en: "Mehmed II"
       es: "Mehmed II"
+      fr: "Mehmed II"
       ko: "메흐메트 2세"
+      pl: "Mehmed II"
+      zh_CN: "穆罕默德二世"
     prime: false
     rarity: legendary
     skills:
@@ -644,10 +746,13 @@ commanders:
 
   66:
     name:
-      en: "Mulan"
       de: "Mulan"
+      en: "Mulan"
       es: "Mulan"
+      fr: "Mulan"
       ko: "호목란"
+      pl: "Mulan"
+      zh_CN: "花木兰"
     prime: false
     rarity: legendary
     skills:
@@ -663,10 +768,13 @@ commanders:
 
   95:
     name:
-      en: "Wu Zetian"
       de: "Wu Zetian"
+      en: "Wu Zetian"
       es: "Wu Zetian"
+      fr: "Wu Zetian"
       ko: "측천무후"
+      pl: "Wu Zetian"
+      zh_CN: "武则天"
     prime: false
     rarity: legendary
     skills:
@@ -683,10 +791,13 @@ commanders:
 
   96:
     name:
-      en: "Genghis Khan"
       de: "Dschingis Khan"
+      en: "Genghis Khan"
       es: "Genghis Khan"
+      fr: "Genghis Khan"
       ko: "칭기즈칸"
+      pl: "Czyngis-chan"
+      zh_CN: "孛儿只斤·铁木真"
     prime: false
     rarity: legendary
     skills:
@@ -703,10 +814,13 @@ commanders:
 
   97:
     name:
-      en: "Charlemagne"
       de: "Karl der Große"
+      en: "Charlemagne"
       es: "Carlomagno"
+      fr: "Charlemagne"
       ko: "샤를마뉴"
+      pl: "Karol Wielki"
+      zh_CN: "查理曼"
     prime: false
     rarity: legendary
     skills:
@@ -723,10 +837,13 @@ commanders:
 
   98:
     name:
-      en: "Alexander the Great"
       de: "Alexander der Große"
+      en: "Alexander the Great"
       es: "Alejandro Magno"
+      fr: "Alexandre le Grand"
       ko: "알렉산더 대왕"
+      pl: "Aleksander Wielki"
+      zh_CN: "亚历山大大帝"
     prime: false
     rarity: legendary
     skills:
@@ -742,10 +859,13 @@ commanders:
 
   99:
     name:
-      en: "Æthelflæd"
       de: "Ethelfleda"
+      en: "Æthelflæd"
       es: "Ethelfleda"
+      fr: "Ethelfleda"
       ko: "애설플레드"
+      pl: "Ethelfleda"
+      zh_CN: "埃塞尔弗莱德"
     prime: false
     rarity: legendary
     skills:
@@ -762,10 +882,13 @@ commanders:
 
   100:
     name:
-      en: "Tomyris"
       de: "Tomyris"
+      en: "Tomyris"
       es: "Tomiris"
+      fr: "Tomyris"
       ko: "토미리스"
+      pl: "Tomyris"
+      zh_CN: "托米丽司"
     prime: false
     rarity: legendary
     skills:
@@ -782,10 +905,13 @@ commanders:
 
   101:
     name:
-      en: "Edward of Woodstock"
       de: "Eduard of Woodstock"
+      en: "Edward of Woodstock"
       es: "Eduardo de Woodstock"
+      fr: "Édouard de Woodstock"
       ko: "에드워드 우드스톡"
+      pl: "Edward Czarny Książę"
+      zh_CN: "爱德华"
     prime: false
     rarity: legendary
     skills:
@@ -802,10 +928,13 @@ commanders:
 
   102:
     name:
-      en: "Seondeok"
       de: "Seondeok"
+      en: "Seondeok"
       es: "Seondeok"
+      fr: "Seondeok"
       ko: "선덕여왕"
+      pl: "Seondeok"
+      zh_CN: "善德女王"
     prime: false
     rarity: legendary
     skills:
@@ -822,10 +951,13 @@ commanders:
 
   103:
     name:
-      en: "Attila"
       de: "Attila"
+      en: "Attila"
       es: "Atila"
+      fr: "Attila"
       ko: "아틸라"
+      pl: "Attyla"
+      zh_CN: "阿提拉"
     prime: false
     rarity: legendary
     skills:
@@ -842,10 +974,13 @@ commanders:
 
   104:
     name:
-      en: "Takeda Shingen"
       de: "Takeda Shingen"
+      en: "Takeda Shingen"
       es: "Takeda Shingen"
+      fr: "Takeda Shingen"
       ko: "다케다 신겐"
+      pl: "Takeda Shingen"
+      zh_CN: "武田信玄"
     prime: false
     rarity: legendary
     skills:
@@ -862,10 +997,13 @@ commanders:
 
   105:
     name:
-      en: "Ishida Mitsunari"
       de: "Ishida Mitsunari"
+      en: "Ishida Mitsunari"
       es: "Ishida Mitsunari"
+      fr: "Ishida Mitsunari"
       ko: "이시다 미츠나리"
+      pl: "Ishida Mitsunari"
+      zh_CN: "石田三成"
     prime: false
     rarity: legendary
     skills:
@@ -882,10 +1020,13 @@ commanders:
 
   106:
     name:
-      en: "Theodora"
       de: "Theodora"
+      en: "Theodora"
       es: "Teodora"
+      fr: "Théodora"
       ko: "테오도라"
+      pl: "Teodora"
+      zh_CN: "狄奥多拉"
     prime: false
     rarity: legendary
     skills:
@@ -901,10 +1042,13 @@ commanders:
 
   108:
     name:
-      en: "Guan Yu"
       de: "Guan Yu"
+      en: "Guan Yu"
       es: "Guan Yu"
+      fr: "Guan Yu"
       ko: "관우"
+      pl: "Guan Yu"
+      zh_CN: "关羽"
     prime: false
     rarity: legendary
     skills:
@@ -921,10 +1065,13 @@ commanders:
 
   109:
     name:
-      en: "Leonidas I"
       de: "Leonidas I."
+      en: "Leonidas I"
       es: "Leónidas I"
+      fr: "Léonidas Ier"
       ko: "레오니다스 1세"
+      pl: "Leonidas I"
+      zh_CN: "列奥尼达一世"
     prime: false
     rarity: legendary
     skills:
@@ -941,10 +1088,13 @@ commanders:
 
   110:
     name:
-      en: "Ramesses II"
       de: "Ramesses II."
+      en: "Ramesses II"
       es: "Ramsés II"
+      fr: "Ramsès II"
       ko: "람세스 2세"
+      pl: "Ramzes II"
+      zh_CN: "拉美西斯二世"
     prime: false
     rarity: legendary
     skills:
@@ -960,10 +1110,13 @@ commanders:
 
   111:
     name:
-      en: "Artemisia I"
       de: "Artemisia I."
+      en: "Artemisia I"
       es: "Artemisia I"
+      fr: "Artémise Ire"
       ko: "아르테미시아 1세"
+      pl: "Artemizja I"
+      zh_CN: "阿尔特米西亚一世"
     prime: false
     rarity: legendary
     skills:
@@ -980,10 +1133,13 @@ commanders:
 
   112:
     name:
-      en: "Keira"
       de: "Keira"
+      en: "Keira"
       es: "Keira"
+      fr: "Keira"
       ko: "카일라"
+      pl: "Keira"
+      zh_CN: "凯拉"
     prime: false
     rarity: epic
     skills:
@@ -999,10 +1155,13 @@ commanders:
 
   113:
     name:
-      en: "Yi Sun-sin"
       de: "Yi Sun-sin"
+      en: "Yi Sun-sin"
       es: "Yi Sun-sin."
+      fr: "Yi Sun-sin"
       ko: "이순신"
+      pl: "Yi Sun-sin"
+      zh_CN: "李舜臣"
     prime: false
     rarity: legendary
     skills:
@@ -1019,10 +1178,13 @@ commanders:
 
   114:
     name:
-      en: "Chandragupta Maurya"
       de: "Chandragupta Maurya"
+      en: "Chandragupta Maurya"
       es: "Chandragupta Maurya"
+      fr: "Chandragupta Maurya"
       ko: "찬드라굽타"
+      pl: "Chandragupta Maurya"
+      zh_CN: "旃陀罗笈多"
     prime: false
     rarity: legendary
     skills:
@@ -1040,10 +1202,13 @@ commanders:
 
   115:
     name:
-      en: "William I"
       de: "Wilhelm I."
+      en: "William I"
       es: "Guillermo I"
+      fr: "Guillaume Ier"
       ko: "윌리엄 1세"
+      pl: "William I"
+      zh_CN: "威廉一世"
     prime: false
     rarity: legendary
     skills:
@@ -1059,10 +1224,13 @@ commanders:
 
   116:
     name:
-      en: "Matilda of Flanders"
       de: "Mathilde von Flandern"
+      en: "Matilda of Flanders"
       es: "Matilde de Flandes"
+      fr: "Mathilde de Flandre"
       ko: "마틸다 1세"
+      pl: "Matylda Flandryjska"
+      zh_CN: "玛蒂尔达一世"
     prime: false
     rarity: epic
     skills:
@@ -1079,10 +1247,13 @@ commanders:
 
   117:
     name:
-      en: "Harald Sigurdsson"
       de: "Harald III."
+      en: "Harald Sigurdsson"
       es: "Harald Sigurdsson"
+      fr: "Harald Sigurdsson"
       ko: "하랄 3세"
+      pl: "Harald III Srogi"
+      zh_CN: "哈拉尔三世"
     prime: false
     rarity: legendary
     skills:
@@ -1099,10 +1270,13 @@ commanders:
 
   118:
     name:
-      en: "Zenobia"
       de: "Zenobia"
+      en: "Zenobia"
       es: "Zenobia"
+      fr: "Zénobie"
       ko: "제노비아"
+      pl: "Zenobia"
+      zh_CN: "芝诺比娅"
     prime: false
     rarity: legendary
     skills:
@@ -1118,10 +1292,13 @@ commanders:
 
   119:
     name:
-      en: "Lu Bu"
       de: "Lü Bu"
+      en: "Lu Bu"
       es: "Lu Bu"
+      fr: "Lu Bu"
       ko: "여포"
+      pl: "Lu Bu"
+      zh_CN: "吕布"
     prime: false
     rarity: legendary
     skills:
@@ -1137,10 +1314,13 @@ commanders:
 
   120:
     name:
-      en: "Diaochan"
       de: "Diaochan"
+      en: "Diaochan"
       es: "Diaochan"
+      fr: "Diaochan"
       ko: "초선"
+      pl: "Diaochan"
+      zh_CN: "貂蝉"
     prime: false
     rarity: epic
     skills:
@@ -1156,10 +1336,13 @@ commanders:
 
   121:
     name:
-      en: "Cyrus the Great"
       de: "Kyros der Große"
+      en: "Cyrus the Great"
       es: "Ciro el Grande"
+      fr: "Cyrus le Grand"
       ko: "키루스 대제"
+      pl: "Cyrus Wielki"
+      zh_CN: "居鲁士大帝"
     prime: false
     rarity: legendary
     skills:
@@ -1176,10 +1359,13 @@ commanders:
 
   122:
     name:
-      en: "Nebuchadnezzar II"
       de: "Nebukadnezar II."
+      en: "Nebuchadnezzar II"
       es: "Nabucodonosor II"
+      fr: "Nabuchodonosor II"
       ko: "네부카드네자르 2세"
+      pl: "Nabuchodonozor II"
+      zh_CN: "尼布甲尼撒二世"
     prime: false
     rarity: legendary
     skills:
@@ -1195,10 +1381,13 @@ commanders:
 
   124:
     name:
-      en: "Moctezuma I"
       de: "Moctezuma I."
+      en: "Moctezuma I"
       es: "Moctezuma I"
+      fr: "Moctezuma Ier"
       ko: "몬테수마 1세"
+      pl: "Montezuma I"
+      zh_CN: "蒙特祖马一世"
     prime: false
     rarity: legendary
     skills:
@@ -1214,10 +1403,13 @@ commanders:
 
   125:
     name:
-      en: "Trajan"
       de: "Trajan"
+      en: "Trajan"
       es: "Trajano"
+      fr: "Trajan"
       ko: "트라야누스"
+      pl: "Trajan"
+      zh_CN: "图拉真"
     prime: false
     rarity: legendary
     skills:
@@ -1233,10 +1425,13 @@ commanders:
 
   126:
     name:
-      en: "Jadwiga"
       de: "Hedwig"
+      en: "Jadwiga"
       es: "Jadwiga"
+      fr: "Hedwige"
       ko: "야드비가"
+      pl: "Jadwiga"
+      zh_CN: "雅德维加"
     prime: false
     rarity: legendary
     skills:
@@ -1253,10 +1448,13 @@ commanders:
 
   127:
     name:
-      en: "Xiang Yu"
       de: "Xiang Yu"
+      en: "Xiang Yu"
       es: "Xiang Yu."
+      fr: "Xiang Yu"
       ko: "항우"
+      pl: "Xiang Yu"
+      zh_CN: "项羽"
     prime: false
     rarity: legendary
     skills:
@@ -1273,10 +1471,13 @@ commanders:
 
   128:
     name:
-      en: "Björn Ironside"
       de: "Björn Ironside"
+      en: "Björn Ironside"
       es: "Björn Brazo de Hierro"
+      fr: "Björn Côtes-de-Fer"
       ko: "비에른"
+      pl: "Björn Żelaznoboki"
+      zh_CN: "比约恩"
     prime: false
     rarity: epic
     skills:
@@ -1292,10 +1493,13 @@ commanders:
 
   129:
     name:
-      en: "Ragnar Lodbrok"
       de: "Ragnar Lodbrok"
+      en: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
+      fr: "Ragnar Lodbrok"
       ko: "라그나르 로드브로크"
+      pl: "Ragnar Lodbrok"
+      zh_CN: "朗纳尔·洛德布罗克"
     prime: false
     rarity: legendary
     skills:
@@ -1311,10 +1515,13 @@ commanders:
 
   130:
     name:
-      en: "Cheok Jun-gyeong"
       de: "Cheok Jun-gyeong"
+      en: "Cheok Jun-gyeong"
       es: "Cheok Jun-gyeong"
+      fr: "Cheok Jun-gyeong"
       ko: "척준경"
+      pl: "Cheok Jun-gyeong"
+      zh_CN: "拓俊京"
     prime: false
     rarity: legendary
     skills:
@@ -1330,10 +1537,13 @@ commanders:
 
   131:
     name:
-      en: "Kʼinich Janaabʼ Pakal"
       de: "K’inich Janaab Pakal"
+      en: "Kʼinich Janaabʼ Pakal"
       es: "Kʼinich Janaabʼ Pakal"
+      fr: "Kʼinich Janaabʼ Pakal"
       ko: "파칼 2세"
+      pl: "Kʼinich Janaabʼ Pakal"
+      zh_CN: "巴加尔二世"
     prime: false
     rarity: legendary
     skills:
@@ -1350,10 +1560,13 @@ commanders:
 
   132:
     name:
-      en: "Gilgamesh"
       de: "Gilgamesch"
+      en: "Gilgamesh"
       es: "Gilgamesh"
+      fr: "Gilgamesh"
       ko: "길가메시"
+      pl: "Gilgamesz"
+      zh_CN: "吉尔伽美什"
     prime: false
     rarity: legendary
     skills:
@@ -1369,10 +1582,13 @@ commanders:
 
   133:
     name:
-      en: "Amanitore"
       de: "Amanitore"
+      en: "Amanitore"
       es: "Amanitore"
+      fr: "Amanitore"
       ko: "아마니토레"
+      pl: "Amanitore"
+      zh_CN: "阿曼尼托尔"
     prime: false
     rarity: legendary
     skills:
@@ -1389,10 +1605,13 @@ commanders:
 
   134:
     name:
-      en: "Queen Tamar of Georgia"
       de: "Königin Tamar von Georgien"
+      en: "Queen Tamar of Georgia"
       es: "Reina Tamara de Georgia"
+      fr: "Reine Tamar de Géorgie"
       ko: "타마르 여왕"
+      pl: "Tamara – królowa Gruzji"
+      zh_CN: "塔玛尔女王"
     prime: false
     rarity: epic
     skills:
@@ -1408,10 +1627,13 @@ commanders:
 
   135:
     name:
-      en: "Honda Tadakatsu"
       de: "Honda Tadakatsu"
+      en: "Honda Tadakatsu"
       es: "Honda Tadakatsu"
+      fr: "Honda Tadakatsu"
       ko: "혼다 타다카츠"
+      pl: "Honda Tadakatsu"
+      zh_CN: "本多忠胜"
     prime: false
     rarity: legendary
     skills:
@@ -1428,10 +1650,13 @@ commanders:
 
   136:
     name:
-      en: "Suleiman I"
       de: "Süleiman I."
+      en: "Suleiman I"
       es: "Solimán I"
+      fr: "Soliman Ier"
       ko: "쉴레이만 1세"
+      pl: "Sulejman Wspaniały"
+      zh_CN: "苏莱曼一世"
     prime: false
     rarity: legendary
     skills:
@@ -1448,10 +1673,13 @@ commanders:
 
   137:
     name:
-      en: "Bertrand du Guesclin"
       de: "Bertrand du Guesclin"
+      en: "Bertrand du Guesclin"
       es: "Bertrand du Guesclin"
+      fr: "Bertrand du Guesclin"
       ko: "베르트랑 뒤게클랭"
+      pl: "Bertrand du Guesclin"
+      zh_CN: "贝特朗·杜·盖克兰"
     prime: false
     rarity: legendary
     skills:
@@ -1468,10 +1696,13 @@ commanders:
 
   138:
     name:
-      en: "Alexander Nevsky"
       de: "Alexander Newski"
+      en: "Alexander Nevsky"
       es: "Alejandro Nevsky"
+      fr: "Alexandre Nevsky"
       ko: "알렉산드르 넵스키"
+      pl: "Aleksander Newski"
+      zh_CN: "亚历山大·涅夫斯基"
     prime: false
     rarity: legendary
     skills:
@@ -1488,10 +1719,13 @@ commanders:
 
   139:
     name:
-      en: "Flavius Aetius"
       de: "Flavius Aëtius"
+      en: "Flavius Aetius"
       es: "Flavio Aecio"
+      fr: "Aétius"
       ko: "아에티우스"
+      pl: "Aecjusz Flawiusz"
+      zh_CN: "埃提乌斯"
     prime: false
     rarity: legendary
     skills:
@@ -1508,10 +1742,13 @@ commanders:
 
   140:
     name:
-      en: "Scipio Africanus"
       de: "Scipio Africanus"
+      en: "Scipio Africanus"
       es: "Escipión el Africano"
+      fr: "Scipion l'Africain"
       ko: "스키피오 아프리카누스"
+      pl: "Scypion Afrykański"
+      zh_CN: "西庇阿·阿非利加努斯"
     prime: true
     rarity: legendary
     skills:
@@ -1528,10 +1765,13 @@ commanders:
 
   141:
     name:
-      en: "Thutmose III"
       de: "Thutmosis III."
+      en: "Thutmose III"
       es: "Tutmosis III"
+      fr: "Thoutmôsis III"
       ko: "투트모세 3세"
+      pl: "Totmes III"
+      zh_CN: "图特摩斯三世"
     prime: false
     rarity: legendary
     skills:
@@ -1548,10 +1788,13 @@ commanders:
 
   142:
     name:
-      en: "Imhotep"
       de: "Imhotep"
+      en: "Imhotep"
       es: "Imhotep"
+      fr: "Imhotep"
       ko: "임호텝"
+      pl: "Imhotep"
+      zh_CN: "伊姆霍特普"
     prime: false
     rarity: epic
     skills:
@@ -1567,10 +1810,13 @@ commanders:
 
   145:
     name:
-      en: "Henry V"
       de: "Heinrich V."
+      en: "Henry V"
       es: "Enrique V"
+      fr: "Henri V"
       ko: "헨리 5세"
+      pl: "Henryk V"
+      zh_CN: "亨利五世"
     prime: false
     rarity: legendary
     skills:
@@ -1587,10 +1833,13 @@ commanders:
 
   146:
     name:
-      en: "Boudica"
       de: "Boudicca"
+      en: "Boudica"
       es: "Boudica"
+      fr: "Boadicée"
       ko: "부디카"
+      pl: "Boudika"
+      zh_CN: "布狄卡"
     prime: true
     rarity: legendary
     skills:
@@ -1607,10 +1856,13 @@ commanders:
 
   147:
     name:
-      en: "Jan Žižka"
       de: "Jan Žižka"
+      en: "Jan Žižka"
       es: "Jan Žižka"
+      fr: "Jan Žižka"
       ko: "얀 지슈카"
+      pl: "Jan Žižka"
+      zh_CN: "扬·杰式卡"
     prime: false
     rarity: legendary
     skills:
@@ -1626,10 +1878,13 @@ commanders:
 
   148:
     name:
-      en: "Joan of Arc"
       de: "Johanna von Orléans"
+      en: "Joan of Arc"
       es: "Juana de Arco"
+      fr: "Jeanne d'Arc"
       ko: "잔 다르크"
+      pl: "Joanna d’Arc"
+      zh_CN: "贞德"
     prime: true
     rarity: legendary
     skills:
@@ -1646,10 +1901,13 @@ commanders:
 
   161:
     name:
-      en: "Tariq ibn Ziyad"
       de: "Tariq ibn Ziyad"
+      en: "Tariq ibn Ziyad"
       es: "Tariq ibn Ziyad"
+      fr: "Tariq ibn Ziyad"
       ko: "타리크 이븐 지야드"
+      pl: "Tarik ibn Ziyad"
+      zh_CN: "塔里克·伊本·齐亚德"
     prime: false
     rarity: legendary
     skills:
@@ -1665,10 +1923,13 @@ commanders:
 
   162:
     name:
-      en: "Sargon the Great"
       de: "Sargon von Akkad"
+      en: "Sargon the Great"
       es: "Sargón el Grande"
+      fr: "Sargon d'Akkad"
       ko: "사르곤 1세"
+      pl: "Sargon Wielki"
+      zh_CN: "萨尔贡一世"
     prime: false
     rarity: legendary
     skills:
@@ -1685,10 +1946,13 @@ commanders:
 
   175:
     name:
-      en: "Margaret I"
       de: "Margarethe I."
+      en: "Margaret I"
       es: "Margarita I"
+      fr: "Margaret Ire"
       ko: "마르그레테 1세"
+      pl: "Małgorzata I"
+      zh_CN: "玛格丽特一世"
     prime: false
     rarity: legendary
     skills:
@@ -1705,10 +1969,13 @@ commanders:
 
   176:
     name:
-      en: "Babur"
       de: "Babur"
+      en: "Babur"
       es: "Babur"
+      fr: "Babur"
       ko: "바부르"
+      pl: "Babur"
+      zh_CN: "巴布尔"
     prime: false
     rarity: legendary
     skills:
@@ -1725,10 +1992,13 @@ commanders:
 
   177:
     name:
-      en: "Heraclius"
       de: "Herakleios"
+      en: "Heraclius"
       es: "Heraclio"
+      fr: "Héraclius"
       ko: "플라비우스 헤라클리우스"
+      pl: "Herakliusz"
+      zh_CN: "弗拉维乌斯·希拉克略"
     prime: false
     rarity: legendary
     skills:
@@ -1745,10 +2015,13 @@ commanders:
 
   178:
     name:
-      en: "Dido"
       de: "Dido"
+      en: "Dido"
       es: "Dido"
+      fr: "Didon"
       ko: "디도"
+      pl: "Dydona"
+      zh_CN: "狄多"
     prime: false
     rarity: legendary
     skills:
@@ -1764,10 +2037,13 @@ commanders:
 
   179:
     name:
-      en: "Zhuge Liang"
       de: "Zhuge Liang"
+      en: "Zhuge Liang"
       es: "Zhuge Liang"
+      fr: "Zhuge Liang"
       ko: "제갈량"
+      pl: "Zhuge Liang"
+      zh_CN: "诸葛亮"
     prime: false
     rarity: legendary
     skills:
@@ -1784,10 +2060,13 @@ commanders:
 
   180:
     name:
-      en: "Pyrrhus"
       de: "Pyrrhos"
+      en: "Pyrrhus"
       es: "Pirro"
+      fr: "Pyrrhus"
       ko: "피로스"
+      pl: "Pyrrus"
+      zh_CN: "皮洛士"
     prime: false
     rarity: legendary
     skills:
@@ -1804,10 +2083,13 @@ commanders:
 
   181:
     name:
-      en: "Pericles"
       de: "Perikles"
+      en: "Pericles"
       es: "Pericles"
+      fr: "Périclès"
       ko: "페리클레스"
+      pl: "Perykles"
+      zh_CN: "伯里克利"
     prime: false
     rarity: epic
     skills:
@@ -1823,10 +2105,13 @@ commanders:
 
   182:
     name:
-      en: "Huo Qubing"
       de: "Huo Qubing"
+      en: "Huo Qubing"
       es: "Huo Qubing"
+      fr: "Huo Qubing"
       ko: "곽거병"
+      pl: "Huo Qubing"
+      zh_CN: "霍去病"
     prime: false
     rarity: legendary
     skills:
@@ -1842,10 +2127,13 @@ commanders:
 
   183:
     name:
-      en: "Justinian I"
       de: "Justinian I."
+      en: "Justinian I"
       es: "Justiniano I"
+      fr: "Justinien Ier"
       ko: "유스티니아누스 1세"
+      pl: "Justynian I"
+      zh_CN: "查士丁尼一世"
     prime: false
     rarity: legendary
     skills:
@@ -1861,10 +2149,13 @@ commanders:
 
   184:
     name:
-      en: "Gorgo"
       de: "Gorgo"
+      en: "Gorgo"
       es: "Gorgo"
+      fr: "Gorgô"
       ko: "고르곤"
+      pl: "Gorgo"
+      zh_CN: "戈尔戈"
     prime: false
     rarity: legendary
     skills:
@@ -1881,10 +2172,13 @@ commanders:
 
   185:
     name:
-      en: "Liu Che"
       de: "Liu Che"
+      en: "Liu Che"
       es: "Liu Che"
+      fr: "Liu Che"
       ko: "유철"
+      pl: "Liu Che"
+      zh_CN: "刘彻"
     prime: false
     rarity: legendary
     skills:
@@ -1901,10 +2195,13 @@ commanders:
 
   186:
     name:
-      en: "Ashurbanipal"
       de: "Assurbanipal"
+      en: "Ashurbanipal"
       es: "Asurbanipal"
+      fr: "Assurbanipal"
       ko: "아슈르바니팔"
+      pl: "Aszurbanipal"
+      zh_CN: "亚述巴尼拔"
     prime: false
     rarity: legendary
     skills:
@@ -1921,10 +2218,13 @@ commanders:
 
   187:
     name:
-      en: "Hermann"
       de: "Hermann"
+      en: "Hermann"
       es: "Hermann"
+      fr: "Hermann le Chérusque"
       ko: "헤르만"
+      pl: "Hermann"
+      zh_CN: "海尔曼"
     prime: true
     rarity: legendary
     skills:
@@ -1941,10 +2241,13 @@ commanders:
 
   188:
     name:
-      en: "Lapulapu"
       de: "Lapu-Lapu"
+      en: "Lapulapu"
       es: "Lapulapu"
+      fr: "Lapu-Lapu"
       ko: "라푸라푸"
+      pl: "Lapu-Lapu"
+      zh_CN: "拉普拉普"
     prime: false
     rarity: legendary
     skills:
@@ -1960,10 +2263,13 @@ commanders:
 
   189:
     name:
-      en: "Gonzalo de Córdoba"
       de: "Gonzalo de Córdoba"
+      en: "Gonzalo de Córdoba"
       es: "Gonzalo de Córdoba"
+      fr: "Gonzalve de Cordoue"
       ko: "곤살로 페르난데스 데 코르도바"
+      pl: "Gonzalo de Córdoba"
+      zh_CN: "贡萨洛·德·科尔多瓦"
     prime: false
     rarity: legendary
     skills:
@@ -1980,10 +2286,13 @@ commanders:
 
   190:
     name:
-      en: "Gajah Mada"
       de: "Gajah Mada"
+      en: "Gajah Mada"
       es: "Gajah Mada"
+      fr: "Gajah Mada"
       ko: "가자 마다"
+      pl: "Gajah Mada"
+      zh_CN: "加查·马达"
     prime: false
     rarity: legendary
     skills:
@@ -1999,10 +2308,13 @@ commanders:
 
   191:
     name:
-      en: "Eleanor of Aquitaine"
       de: "Eleonore von Aquitanien"
+      en: "Eleanor of Aquitaine"
       es: "Leonor de Aquitania"
+      fr: "Aliénor d'Aquitaine"
       ko: "엘레오노르 다키텐"
+      pl: "Eleonora Akwitańska"
+      zh_CN: "阿基坦的埃莉诺"
     prime: false
     rarity: legendary
     skills:
@@ -2019,10 +2331,13 @@ commanders:
 
   192:
     name:
-      en: "Belisarius"
       de: "Belisarius"
+      en: "Belisarius"
       es: "Belisario"
+      fr: "Bélisaire"
       ko: "벨리사리우스"
+      pl: "Belizariusz"
+      zh_CN: "贝利撒留"
     prime: true
     rarity: legendary
     skills:
@@ -2039,10 +2354,13 @@ commanders:
 
   194:
     name:
-      en: "William Wallace"
       de: "William Wallace"
+      en: "William Wallace"
       es: "William Wallace"
+      fr: "William Wallace"
       ko: "윌리엄 월리스"
+      pl: "William Wallace"
+      zh_CN: "威廉·华莱士"
     prime: false
     rarity: legendary
     skills:
@@ -2059,10 +2377,13 @@ commanders:
 
   195:
     name:
-      en: "Shajar al-Durr"
       de: "Shajar al-Durr"
+      en: "Shajar al-Durr"
       es: "Shajar al-Durr"
+      fr: "Chajar ad-Durr"
       ko: "샤쟈르 알두르"
+      pl: "Szadżar al-Durr"
+      zh_CN: "舍哲尔·杜尔"
     prime: false
     rarity: legendary
     skills:
@@ -2079,10 +2400,13 @@ commanders:
 
   196:
     name:
-      en: "Choe Yeong"
       de: "Choe Yeong"
+      en: "Choe Yeong"
       es: "Choe Yeong"
+      fr: "Choe Yeong"
       ko: "최영"
+      pl: "Choe Yeong"
+      zh_CN: "崔莹"
     prime: false
     rarity: legendary
     skills:
@@ -2099,10 +2423,13 @@ commanders:
 
   197:
     name:
-      en: "Scipio Aemilianus"
       de: "Scipio Aemilianus"
+      en: "Scipio Aemilianus"
       es: "Escipión Emiliano"
+      fr: "Scipion Émilien"
       ko: "스키피오 아이밀리아누스"
+      pl: "Scypion Młodszy"
+      zh_CN: "西庇阿·埃米利安努斯"
     prime: false
     rarity: legendary
     skills:
@@ -2119,10 +2446,13 @@ commanders:
 
   198:
     name:
-      en: "Ragnar Lodbrok"
       de: "Ragnar Lodbrok"
+      en: "Ragnar Lodbrok"
       es: "Ragnar Lodbrok"
+      fr: "Ragnar Lodbrok"
       ko: "라그나르 로드브로크"
+      pl: "Ragnar Lodbrok"
+      zh_CN: "朗纳尔·洛德布罗克"
     prime: true
     rarity: legendary
     skills:
@@ -2138,10 +2468,13 @@ commanders:
 
   459:
     name:
-      en: "Philip II"
       de: "Philipp II."
+      en: "Philip II"
       es: "Filipo II"
+      fr: "Philippe II"
       ko: "필리포스 2세"
+      pl: "Filip II"
+      zh_CN: "腓力二世"
     prime: false
     rarity: legendary
     skills:
@@ -2158,10 +2491,13 @@ commanders:
 
   460:
     name:
-      en: "Stephen III"
       de: "Stephan III."
+      en: "Stephen III"
       es: "Esteban III"
+      fr: "Étienne III"
       ko: "슈테판 3세"
+      pl: "Stefan III"
+      zh_CN: "斯特凡三世"
     prime: false
     rarity: legendary
     skills:
@@ -2178,10 +2514,13 @@ commanders:
 
   461:
     name:
-      en: "John Hunyadi"
       de: "Johann Hunyadi"
+      en: "John Hunyadi"
       es: "John Hunyadi"
+      fr: "John Hunyadi"
       ko: "후녀디 야노시"
+      pl: "János Hunyady"
+      zh_CN: "匈雅提·亚诺什"
     prime: false
     rarity: legendary
     skills:
@@ -2197,10 +2536,13 @@ commanders:
 
   462:
     name:
-      en: "Siyaj K'ak'"
       de: "Siyaj K’ak’"
+      en: "Siyaj K'ak'"
       es: "Siyaj K'ak'"
+      fr: "Siyaj K'ak'"
       ko: "시야칵"
+      pl: "Siyaj K’ak’"
+      zh_CN: "西亚·卡克"
     prime: false
     rarity: legendary
     skills:
@@ -2217,10 +2559,13 @@ commanders:
 
   463:
     name:
-      en: "Wak Chanil Ajaw"
       de: "Wak Chanil Ajaw"
+      en: "Wak Chanil Ajaw"
       es: "Wak Chanil Ajaw"
+      fr: "Wak Chanil Ajaw"
       ko: "왁 차닐 아하우"
+      pl: "Wak Chanil Ajaw"
+      zh_CN: "瓦克·查尼尔·阿豪"
     prime: false
     rarity: epic
     skills:
@@ -2236,10 +2581,13 @@ commanders:
 
   503:
     name:
-      en: "Tokugawa Ieyasu"
       de: "Tokugawa Ieyasu"
+      en: "Tokugawa Ieyasu"
       es: "Tokugawa Ieyasu"
+      fr: "Tokugawa Ieyasu"
       ko: "도쿠가와 이에야스"
+      pl: "Ieyasu Tokugawa"
+      zh_CN: "德川家康"
     prime: false
     rarity: legendary
     skills:
@@ -2256,10 +2604,13 @@ commanders:
 
   506:
     name:
-      en: "Shapur I"
       de: "Shapur I"
+      en: "Shapur I"
       es: "Sapor I"
+      fr: "Chapour Ier"
       ko: "샤푸르 1세"
+      pl: "Szapur I"
+      zh_CN: "沙普尔一世"
     skills:
       - slot: 1
         id: 359
@@ -2274,10 +2625,13 @@ commanders:
 
   509:
     name:
-      en: "Qin Shi Huang"
       de: "Qin Shi Huang"
+      en: "Qin Shi Huang"
       es: "Qin Shi Huang"
+      fr: "Qin Shi Huang"
       ko: "영정"
+      pl: "Qin Shi Huang"
+      zh_CN: "嬴政"
     prime: false
     rarity: legendary
     skills:
@@ -2293,10 +2647,13 @@ commanders:
 
   510:
     name:
-      en: "Matthias I"
       de: "Matthias I."
+      en: "Matthias I"
       es: "Matías I"
+      fr: "Matthias Ier"
       ko: "마차시 1세"
+      pl: "Maciej I"
+      zh_CN: "马加什一世"
     prime: false
     rarity: legendary
     skills:
@@ -2312,10 +2669,13 @@ commanders:
 
   536:
     name:
-      en: "Catherine de' Medici"
       de: "Caterina de’ Medici"
+      en: "Catherine de' Medici"
       es: "Catalina de Médici"
+      fr: "Catherine de Médicis"
       ko: "카트린 드 메디시스"
+      pl: "Katarzyna Medycejska"
+      zh_CN: "凯瑟琳·德·美第奇"
     prime: false
     rarity: epic
     skills:
@@ -2331,10 +2691,13 @@ commanders:
 
   537:
     name:
-      en: "Narses"
       de: "Narses"
+      en: "Narses"
       es: "Narsés"
+      fr: "Narsès"
       ko: "나르세스"
+      pl: "Narses"
+      zh_CN: "纳尔塞斯"
     prime: false
     rarity: epic
     skills:
@@ -2351,10 +2714,13 @@ commanders:
 
   539:
     name:
-      en: "Subutai"
       de: "Subutai"
+      en: "Subutai"
       es: "Subotai"
+      fr: "Subutai"
       ko: "수부타이"
+      pl: "Subedej"
+      zh_CN: "速不台"
     prime: false
     rarity: legendary
     skills:
@@ -2371,10 +2737,13 @@ commanders:
 
   540:
     name:
-      en: "Arthur Pendragon"
       de: "Artus Pendragon"
+      en: "Arthur Pendragon"
       es: "Arturo Pendragon"
+      fr: "Arthur Pendragon"
       ko: "아서펜드래곤"
+      pl: "Artur Pendragon"
+      zh_CN: "亚瑟·潘德拉贡"
     prime: false
     rarity: legendary
     skills:
@@ -2391,10 +2760,13 @@ commanders:
 
   545:
     name:
-      en: "Bai Qi"
       de: "Bai Qi"
+      en: "Bai Qi"
       es: "Bai Qi"
+      fr: "Bai Qi"
       ko: "백기"
+      pl: "Bai Qi"
+      zh_CN: "白起"
     prime: false
     rarity: legendary
     skills:
@@ -2411,10 +2783,13 @@ commanders:
 
   546:
     name:
-      en: "Afonso de Albuquerque"
       de: "Afonso de Albuquerque"
+      en: "Afonso de Albuquerque"
       es: "Afonso de Albuquerque"
+      fr: "Afonso de Albuquerque"
       ko: "아폰수 드 알부케르크"
+      pl: "Afonso de Albuquerque"
+      zh_CN: "阿方索·德·阿尔布克尔克"
     prime: false
     rarity: legendary
     skills:
@@ -2430,10 +2805,13 @@ commanders:
 
   564:
     name:
-      en: "Archimedes"
       de: "Archimedes"
+      en: "Archimedes"
       es: "Arquímedes"
+      fr: "Archimède"
       ko: "아르키메데스"
+      pl: "Archimedes"
+      zh_CN: "阿基米德"
     prime: false
     rarity: legendary
     skills:
@@ -2450,10 +2828,13 @@ commanders:
 
   565:
     name:
-      en: "Mary I"
       de: "Mary I."
+      en: "Mary I"
       es: "María I"
+      fr: "Marie Ire"
       ko: "메리 1세"
+      pl: "Maria I"
+      zh_CN: "玛丽一世"
     prime: false
     rarity: legendary
     skills:
@@ -2469,10 +2850,13 @@ commanders:
 
   572:
     name:
-      en: "Casimir III"
       de: "Kasimir III."
+      en: "Casimir III"
       es: "Casimiro III"
+      fr: "Casimir III"
       ko: "카지미에시"
+      pl: "Kazimierz III"
+      zh_CN: "卡西米日"
     prime: false
     rarity: legendary
     skills:
@@ -2489,10 +2873,13 @@ commanders:
 
   573:
     name:
-      en: "Pepin III"
       de: "Pippin III."
+      en: "Pepin III"
       es: "Pipino III"
+      fr: "Pépin III"
       ko: "피피누스 3세"
+      pl: "Pepin III"
+      zh_CN: "丕平三世"
     prime: false
     rarity: legendary
     skills:
@@ -2509,10 +2896,13 @@ commanders:
 
   575:
     name:
-      en: "Achilles"
       de: "Achilleus"
+      en: "Achilles"
       es: "Aquiles"
+      fr: "Achille"
       ko: "아킬레우스"
+      pl: "Achilles"
+      zh_CN: "阿喀琉斯"
     prime: false
     rarity: legendary
     skills:
@@ -2528,10 +2918,13 @@ commanders:
 
   576:
     name:
-      en: "Hector"
       de: "Hektor"
+      en: "Hector"
       es: "Héctor"
+      fr: "Hector"
       ko: "헥토르"
+      pl: "Hektor"
+      zh_CN: "赫克托尔"
     prime: false
     rarity: legendary
     skills:
@@ -2548,10 +2941,13 @@ commanders:
 
   578:
     name:
-      en: "David IV"
       de: "David IV"
+      en: "David IV"
       es: "David IV"
+      fr: "David IV"
       ko: "다비트 4세"
+      pl: "Dawid IV"
+      zh_CN: "大卫四世"
     prime: false
     rarity: legendary
     skills:
@@ -2568,10 +2964,13 @@ commanders:
 
   579:
     name:
-      en: "Gang Gamchan"
       de: "Gang Gam-chan"
+      en: "Gang Gamchan"
       es: "Gang Gam-chan"
+      fr: "Gang Gam-chan"
       ko: "강감찬"
+      pl: "Gang Gam-Chan"
+      zh_CN: "姜邯赞"
     prime: false
     rarity: legendary
     skills:
