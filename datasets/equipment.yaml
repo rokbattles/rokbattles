@@ -14,50 +14,74 @@ equipment:
       de: "Waffen"
       en: "Weapons"
       es: "Armas"
+      fr: "Armes"
       ko: "병장기"
+      pl: "Bronie"
+      zh_CN: "武器"
 
     2:
       de: "Helme"
       en: "Helms"
       es: "Cascos"
+      fr: "Casques"
       ko: "투구"
+      pl: "Hełmy"
+      zh_CN: "头盔"
 
     3:
       de: "Brust"
       en: "Chest"
       es: "Pecho"
+      fr: "Plastron"
       ko: "상의"
+      pl: "Skrzynia"
+      zh_CN: "上装"
 
     4:
       de: "Handschuhe"
       en: "Gloves"
       es: "Guantes"
+      fr: "Gants"
       ko: "장갑"
+      pl: "Rękawice"
+      zh_CN: "手套"
 
     5:
       de: "Hosen"
       en: "Legs"
       es: "Piernas"
+      fr: "Jambes"
       ko: "하의"
+      pl: "Nogi"
+      zh_CN: "下装"
 
     6:
       de: "Stiefel"
       en: "Boots"
       es: "Botas"
+      fr: "Bottes"
       ko: "신발"
+      pl: "Buty"
+      zh_CN: "鞋子"
 
     7:
       de: "Accessoires"
       en: "Accessories"
       es: "Accesorios"
+      fr: "Accessoires"
       ko: "장신구"
+      pl: "Akcesoria"
+      zh_CN: "饰品"
 
     # right accessory if two accessory equipped
     8:
       de: "Accessoires"
       en: "Accessories"
       es: "Accesorios"
+      fr: "Accessoires"
       ko: "장신구"
+      pl: "Akcesoria"
+      zh_CN: "饰品"
 
   item:
     20001:
