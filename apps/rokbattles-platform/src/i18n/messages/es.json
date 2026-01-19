@@ -32,7 +32,15 @@
   "language": {
     "title": "Lenguaje",
     "select": "Seleccionar lenguaje",
-    "save": "Guardar"
+    "save": "Guardar",
+    "site": {
+      "label": "Site languages",
+      "description": "Translated across the site and datasets."
+    },
+    "dataset": {
+      "label": "Dataset languages",
+      "description": "Additional translations for game data only. Coverage may be incomplete or out of date."
+    }
   },
   "cookieConsent": {
     "title": "Congifuración de cookies",

@@ -32,7 +32,15 @@
   "language": {
     "title": "언어",
     "select": "언어 선택",
-    "save": "저장"
+    "save": "저장",
+    "site": {
+      "label": "Site languages",
+      "description": "Translated across the site and datasets."
+    },
+    "dataset": {
+      "label": "Dataset languages",
+      "description": "Additional translations for game data only. Coverage may be incomplete or out of date."
+    }
   },
   "cookieConsent": {
     "title": "쿠키 설정",
