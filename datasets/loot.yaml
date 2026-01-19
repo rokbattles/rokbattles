@@ -5,162 +5,162 @@ loot:
   1:
     9:
       name:
-        en: "Crystals"
         de: "Kristalle"
+        en: "Crystals"
         es: "Cristales"
         ko: "수정"
 
   2:
     26:
       name:
-        en: "10 Gems"
         de: "10 Edelsteine"
+        en: "10 Gems"
         es: "10 gemas"
         ko: "보석 10개"
 
     28:
       name:
-        en: "100 Gems"
         de: "100 Edelsteine"
+        en: "100 Gems"
         es: "100 gemas"
         ko: "보석 100개"
 
     34:
       name:
-        en: "1-Minute Speedup"
         de: "1 Minute Beschleunigung"
+        en: "1-Minute Speedup"
         es: "1 minuto de Aceleración"
         ko: "1분 가속"
 
     71:
       name:
-        en: "1-Minute Training Speedup"
         de: "1 Minute Ausbildungsbeschleunigung"
+        en: "1-Minute Training Speedup"
         es: "1 minutos de Aceleración de Entrenamiento"
         ko: "1분 훈련 가속"
 
     72:
       name:
-        en: "5-Minute Training Speedup"
         de: "5 Minuten Ausbildungsbeschleunigung"
+        en: "5-Minute Training Speedup"
         es: "5 minutos de Aceleración de Entrenamiento"
         ko: "5분 훈련 가속"
 
     92:
       name:
-        en: "5-Minute Healing Speedup"
         de: "5 Minuten Heilungsbeschleunigung"
+        en: "5-Minute Healing Speedup"
         es: "5 minutos de Aceleración de Sanación"
         ko: "5분 치료 가속"
 
     128:
       name:
-        en: "Lvl 1 Tome of Knowledge"
         de: "Lv.-1-Wissenskompendium"
+        en: "Lvl 1 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 1"
         ko: "1레벨 지직의 서"
 
     129:
       name:
-        en: "Lvl 2 Tome of Knowledge"
         de: "Lv.-1-Wissenskompendium"
+        en: "Lvl 2 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 2"
         ko: "2레벨 지직의 서"
 
     130:
       name:
-        en: "Lvl 3 Tome of Knowledge"
         de: "Lv.-3-Wissenskompendium"
+        en: "Lvl 3 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 3"
         ko: "3레벨 지직의 서"
 
     141:
       name:
-        en: "1,000 Food"
         de: "1.000 Proviant"
+        en: "1,000 Food"
         es: "1 000 de Alimento"
         ko: "식량 1,000개"
 
     142:
       name:
-        en: "1,000 Wood"
         de: "1.000 Holz"
+        en: "1,000 Wood"
         es: "1 000 de Madera"
         ko: "목재 1,000개"
 
     143:
       name:
-        en: "750 Stone"
         de: "750 Steine"
+        en: "750 Stone"
         es: "750 de Piedra"
         ko: "석재 750개"
 
     144:
       name:
-        en: "500 Gold"
         de: "500 Gold"
+        en: "500 Gold"
         es: "500 de Oro"
         ko: "금화 500개"
 
     412:
       name:
-        en: "Leather (NORMAL)"
         de: "Leder (NORMAL)"
+        en: "Leather (NORMAL)"
         es: "Cuero (NORMAL)"
         ko: "가죽 (일반)"
 
     413:
       name:
-        en: "Iron Ore (NORMAL)"
         de: "Eisenerz (NORMAL)"
+        en: "Iron Ore (NORMAL)"
         es: "Mineral de hierro (NORMAL)"
         ko: "철광석 (일반)"
 
     414:
       name:
-        en: "Animal Bone (NORMAL)"
         de: "Tierknochen (NORMAL)"
+        en: "Animal Bone (NORMAL)"
         es: "Hueso animal (NORMAL)"
         ko: "짐승뼈 (일반)"
 
     417:
       name:
-        en: "Ebony (NORMAL)"
         de: "Ebenholz (NORMAL)"
+        en: "Ebony (NORMAL)"
         es: "Ébano (NORMAL)"
         ko: "흑단 (일반)"
 
     419:
       name:
-        en: "Leather (ADVANCED)"
         de: "Leder (FORTGESCHRITTEN)"
+        en: "Leather (ADVANCED)"
         es: "Cuero (AVANZADO)"
         ko: "가죽 (우수)"
 
     420:
       name:
-        en: "Iron Ore (ADVANCED)"
         de: "Eisenerz (FORTGESCHRITTEN)"
+        en: "Iron Ore (ADVANCED)"
         es: "Mineral de hierro (AVANZADO)"
         ko: "철광석 (우수)"
 
     421:
       name:
-        en: "Animal Bone (ADVANCED)"
         de: "Tierknochen (FORTGESCHRITTEN)"
+        en: "Animal Bone (ADVANCED)"
         es: "Hueso animal (AVANZADO)"
         ko: "짐승뼈 (우수)"
 
     424:
       name:
-        en: "Ebony (ADVANCED)"
         de: "Ebenholz (FORTGESCHRITTEN)"
+        en: "Ebony (ADVANCED)"
         es: "Ébano (AVANZADO)"
         ko: "흑단 (우수)"
 
     7005:
       name:
-        en: "Lvl 1 Resource Pack C"
         de: "Lv.-1-Ressourcenpack C"
+        en: "Lvl 1 Resource Pack C"
         es: "Paquete de recursos C de nv. 1"
         ko: "초급 자원 포켓 C"
