@@ -6,95 +6,137 @@ formations:
       de: "Bogenformation"
       en: "Arch Formation"
       es: "Formación en arco"
+      fr: "Formation en arc de cercle"
       ko: "언월진"
+      pl: "Łuk"
+      zh_CN: "拱形阵"
 
   2:
     name:
       de: "Keilformation"
       en: "Wedge Formation"
       es: "Formación en cuña"
+      fr: "Formation en pointe"
       ko: "쐐기대형"
+      pl: "Kiln"
+      zh_CN: "楔形阵"
 
   3:
     name:
       de: "V-Formation"
       en: "V Formation"
       es: "Formación en V"
+      fr: "Formation en V"
       ko: "안행 진형"
+      pl: "Formacja V"
+      zh_CN: "雁行阵"
 
   4:
     name:
       de: "Diagonalformation"
       en: "Echelon Formation"
       es: "Formación escalonada"
+      fr: "Formation échelonnée"
       ko: "사선대형"
+      pl: "Eszelon"
+      zh_CN: "斜线阵"
 
   5:
     name:
       de: "Karree-Formation"
       en: "Hollow Square Formation"
       es: "Formación en cuadro hueco"
+      fr: "Formation en carré vide"
       ko: "공심 방진"
+      pl: "Pusty czworobok"
+      zh_CN: "空心方阵"
 
   6:
     name:
       de: "Linienformation"
       en: "Line Formation"
       es: "Formación en línea"
+      fr: "Formation en ligne"
       ko: "일자진"
+      pl: "Formacja Liniowa"
+      zh_CN: "一字阵"
 
   7:
     name:
       de: "Dreifach-Linienformation"
       en: "Triple line Formation"
       es: "Formación de línea triple"
+      fr: "Formation en trois lignes"
       ko: "삼익진"
+      pl: "Potrójna linia"
+      zh_CN: "三翼阵"
 
   8:
     name:
       de: "Schildkrötenformation"
       en: "Testudo Formation"
       es: "Formación testudo"
+      fr: "Formation en tortue"
       ko: "귀갑 진형"
+      pl: "Formacja Testudo"
+      zh_CN: "龟甲阵"
 
   9:
     name:
       de: "Ringformation"
       en: "Circle Formation"
       es: "Formación en círculo"
+      fr: "Formation en cercle"
       ko: "서클 진형"
+      pl: "Formacja Kręgu"
+      zh_CN: "圆形阵"
 
   10:
     name:
       de: "Staffelformation"
       en: "Staggered Formation"
       es: "Formación intercalada"
+      fr: "Formation en double éperon"
       ko: "비대칭 진형"
+      pl: "Formacja schodkowa"
+      zh_CN: "交错阵"
 
   13:
     name:
       de: "Deltaformation"
       en: "Delta Formation"
       es: "Formación delta"
+      fr: "Formation Delta"
       ko: "삼행진"
+      pl: "Formacja delta"
+      zh_CN: "三线阵"
 
   14:
     name:
       de: "Tercio-Formation"
       en: "Tercio Formation"
       es: "Formación de tercios"
+      fr: "Formation Tercio"
       ko: "대형 방진"
+      pl: "Formacja Tercio"
+      zh_CN: "大方阵"
 
   16:
     name:
       de: "Doppel-Linienformation"
       en: "Double Line Formation"
       es: "Formación en línea doble"
+      fr: "Formation en deux lignes"
       ko: "양익진"
+      pl: "Formacja podwójnej linii"
+      zh_CN: "双线阵"
 
   17:
     name:
       de: "Zangen-Formation"
       en: "Pincer Formation"
       es: "Formación de pinza"
+      fr: "Formation en tenaille"
       ko: "반월진"
+      pl: "Formacja kleszcze"
+      zh_CN: "偃月阵"
