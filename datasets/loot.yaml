@@ -8,7 +8,10 @@ loot:
         de: "Kristalle"
         en: "Crystals"
         es: "Cristales"
+        fr: "Cristaux"
         ko: "수정"
+        pl: "Kryształy"
+        zh_CN: "水晶"
 
   2:
     26:
@@ -16,151 +19,217 @@ loot:
         de: "10 Edelsteine"
         en: "10 Gems"
         es: "10 gemas"
+        fr: "10 gemmes"
         ko: "보석 10개"
+        pl: "10 klejnotów"
+        zh_CN: "10 宝石"
 
     28:
       name:
         de: "100 Edelsteine"
         en: "100 Gems"
         es: "100 gemas"
+        fr: "100 gemmes"
         ko: "보석 100개"
+        pl: "100 klejnotów"
+        zh_CN: "100 宝石"
 
     34:
       name:
         de: "1 Minute Beschleunigung"
         en: "1-Minute Speedup"
         es: "1 minuto de Aceleración"
+        fr: "Accélération - 1 minute"
         ko: "1분 가속"
+        pl: "1-min przyspieszenie"
+        zh_CN: "1分钟加速"
 
     71:
       name:
         de: "1 Minute Ausbildungsbeschleunigung"
         en: "1-Minute Training Speedup"
         es: "1 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 1 minute"
         ko: "1분 훈련 가속"
+        pl: "1-min. przyspieszenie szkolenia"
+        zh_CN: "1分钟训练加速"
 
     72:
       name:
         de: "5 Minuten Ausbildungsbeschleunigung"
         en: "5-Minute Training Speedup"
         es: "5 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 5 minutes"
         ko: "5분 훈련 가속"
+        pl: "5-min. przyspieszenie szkolenia"
+        zh_CN: "5分钟训练加速"
 
     92:
       name:
         de: "5 Minuten Heilungsbeschleunigung"
         en: "5-Minute Healing Speedup"
         es: "5 minutos de Aceleración de Sanación"
+        fr: "Accélération de soin - 5 minutes"
         ko: "5분 치료 가속"
+        pl: "5-min. przyspieszenie leczenia"
+        zh_CN: "5分钟治疗加速"
 
     128:
       name:
         de: "Lv.-1-Wissenskompendium"
         en: "Lvl 1 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 1"
+        fr: "Tome du savoir niv. 1"
         ko: "1레벨 지직의 서"
+        pl: "Księga wiedzy poz. 1"
+        zh_CN: "等级1知识之书"
 
     129:
       name:
         de: "Lv.-1-Wissenskompendium"
         en: "Lvl 2 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 2"
+        fr: "Tome du savoir niv. 2"
         ko: "2레벨 지직의 서"
+        pl: "Księga wiedzy poz. 2"
+        zh_CN: "等级2知识之书"
 
     130:
       name:
         de: "Lv.-3-Wissenskompendium"
         en: "Lvl 3 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 3"
+        fr: "Tome du savoir niv. 3"
         ko: "3레벨 지직의 서"
+        pl: "Księga wiedzy poz. 3"
+        zh_CN: "等级3知识之书"
 
     141:
       name:
         de: "1.000 Proviant"
         en: "1,000 Food"
         es: "1 000 de Alimento"
+        fr: "1 000 unités de nourriture"
         ko: "식량 1,000개"
+        pl: "1 000 żywności"
+        zh_CN: "1,000 食物"
 
     142:
       name:
         de: "1.000 Holz"
         en: "1,000 Wood"
         es: "1 000 de Madera"
+        fr: "1 000 unités de bois"
         ko: "목재 1,000개"
+        pl: "1 000 drewna"
+        zh_CN: "1,000 木材"
 
     143:
       name:
         de: "750 Steine"
         en: "750 Stone"
         es: "750 de Piedra"
+        fr: "750 pierres"
         ko: "석재 750개"
+        pl: "750 kamienia"
+        zh_CN: "750 石料"
 
     144:
       name:
         de: "500 Gold"
         en: "500 Gold"
         es: "500 de Oro"
+        fr: "500 unités d'or"
         ko: "금화 500개"
+        pl: "500 złota"
+        zh_CN: "500 金币"
 
     412:
       name:
         de: "Leder (NORMAL)"
         en: "Leather (NORMAL)"
         es: "Cuero (NORMAL)"
+        fr: "Cuir (NORMAL)"
         ko: "가죽 (일반)"
+        pl: "Skóra (Zwykły)"
+        zh_CN: "皮革（普通）"
 
     413:
       name:
         de: "Eisenerz (NORMAL)"
         en: "Iron Ore (NORMAL)"
         es: "Mineral de hierro (NORMAL)"
+        fr: "Minerai de fer (NORMAL)"
         ko: "철광석 (일반)"
+        pl: "Ruda żelaza (Zwykły)"
+        zh_CN: "铁矿石（普通）"
 
     414:
       name:
         de: "Tierknochen (NORMAL)"
         en: "Animal Bone (NORMAL)"
         es: "Hueso animal (NORMAL)"
+        fr: "Os d'animal (NORMAL)"
         ko: "짐승뼈 (일반)"
+        pl: "Kość zwierzęca (Zwykły)"
+        zh_CN: "兽骨（普通）"
 
     417:
       name:
         de: "Ebenholz (NORMAL)"
         en: "Ebony (NORMAL)"
         es: "Ébano (NORMAL)"
+        fr: "Ébène (NORMAL)"
         ko: "흑단 (일반)"
+        pl: "Heban (Zwykły)"
+        zh_CN: "乌木（普通）"
 
     419:
       name:
         de: "Leder (FORTGESCHRITTEN)"
         en: "Leather (ADVANCED)"
         es: "Cuero (AVANZADO)"
+        fr: "Cuir (AVANCÉ)"
         ko: "가죽 (우수)"
+        pl: "Skóra (Zaawansowana)"
+        zh_CN: "皮革（优秀）"
 
     420:
       name:
         de: "Eisenerz (FORTGESCHRITTEN)"
         en: "Iron Ore (ADVANCED)"
         es: "Mineral de hierro (AVANZADO)"
+        fr: "Minerai de fer (AVANCÉ)"
         ko: "철광석 (우수)"
+        pl: "Ruda żelaza (Zaawansowana)"
+        zh_CN: "铁矿石（优秀）"
 
     421:
       name:
         de: "Tierknochen (FORTGESCHRITTEN)"
         en: "Animal Bone (ADVANCED)"
         es: "Hueso animal (AVANZADO)"
+        fr: "Os d'animal (AVANCÉ)"
         ko: "짐승뼈 (우수)"
+        pl: "Kość zwierzęca (Zaawansowana)"
+        zh_CN: "兽骨（优秀）"
 
     424:
       name:
         de: "Ebenholz (FORTGESCHRITTEN)"
         en: "Ebony (ADVANCED)"
         es: "Ébano (AVANZADO)"
+        fr: "Ébène (AVANCÉ)"
         ko: "흑단 (우수)"
+        pl: "Heban (Zaawansowana)"
+        zh_CN: "乌木（优秀）"
 
     7005:
       name:
         de: "Lv.-1-Ressourcenpack C"
         en: "Lvl 1 Resource Pack C"
         es: "Paquete de recursos C de nv. 1"
+        fr: "Pack de ressources C niv. 1"
         ko: "초급 자원 포켓 C"
+        pl: "Paczka surowców (C) poz. 1"
+        zh_CN: "初级资源包C"
