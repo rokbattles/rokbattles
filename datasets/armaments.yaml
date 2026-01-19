@@ -1,496 +1,496 @@
 armaments:
   2004:
     name:
-      en: "Gold Gathering Speed"
       de: "Goldsammelgeschwindigkeit"
+      en: "Gold Gathering Speed"
       es: "Velocidad de Recolección de Oro"
       ko: "금화 채집 솝도"
     percent: true
 
   3001:
     name:
-      en: "Infantry Attack"
       de: "Infanterieangriff"
+      en: "Infantry Attack"
       es: "Ataque de Infantería"
       ko: "보병 유닛 공격력"
     percent: true
 
   3002:
     name:
-      en: "Cavalry Attack"
       de: "Kavallerieangriff"
+      en: "Cavalry Attack"
       es: "Ataque de la Caballería"
       ko: "기마병 유닛 공격력"
     percent: true
 
   3003:
     name:
-      en: "Archer Attack"
       de: "Bogenschützenangriff"
+      en: "Archer Attack"
       es: "Ataque del Arquero"
       ko: "궁병 유닛 공격력"
     percent: true
 
   3004:
     name:
-      en: "Siege Unit Attack"
       de: "Belagerungstruppenangriff"
+      en: "Siege Unit Attack"
       es: "Ataque de la Unidad de Asedio"
       ko: "공성 유닛 공격력"
     percent: true
 
   3112:
     name:
-      en: "Archer Damage"
       de: "Bogenschützenschaden"
+      en: "Archer Damage"
       es: "Daño de arquero"
       ko: "궁병 피해"
     percent: true
 
   4001:
     name:
-      en: "Infantry Defense"
       de: "Infanterieverteidigung"
+      en: "Infantry Defense"
       es: "Defensa de la Infantería"
       ko: "보병 유닛 방어력"
     percent: true
 
   4002:
     name:
-      en: "Cavalry Defense"
       de: "Kavallerieverteidigung"
+      en: "Cavalry Defense"
       es: "Defensa de la Caballería"
       ko: "기마병 유닛 방어력"
     percent: true
 
   4003:
     name:
-      en: "Archer Defense"
       de: "Bogenschützenverteidigung"
+      en: "Archer Defense"
       es: "Defensa del Arquero"
       ko: "궁병 유닛 방어력"
     percent: true
 
   4004:
     name:
-      en: "Siege Unit Defense"
       de: "Belagerungstruppenverteidigung"
+      en: "Siege Unit Defense"
       es: "Defensa de la Unidad de Asedio"
       ko: "공성 유닛 방어력"
     percent: true
 
   5001:
     name:
-      en: "Infantry Health"
       de: "Infanteriegesundheit"
+      en: "Infantry Health"
       es: "Salud de la Infantería"
       ko: "보병 유닛 생명력"
     percent: true
 
   5002:
     name:
-      en: "Cavalry Health"
       de: "Kavalleriegesundheit"
+      en: "Cavalry Health"
       es: "Salud de la Caballería"
       ko: "기마병 유닛 생명력"
     percent: true
 
   5003:
     name:
-      en: "Archer Health"
       de: "Bogenschützengesundheit"
+      en: "Archer Health"
       es: "Salud del Arquero"
       ko: "궁병 유닛 생명력"
     percent: true
 
   5004:
     name:
-      en: "Siege Unit Health"
       de: "Belagerungstruppengesundheit"
+      en: "Siege Unit Health"
       es: "Salud de la Unidad de Asedio"
       ko: "공성 유닛 생명력"
     percent: true
 
   5501:
     name:
-      en: "Infantry Base Attack"
       de: "Infanterie-Basisangriff"
+      en: "Infantry Base Attack"
       es: "Ataque base de infantería"
       ko: "보병 유닛 기본 공격력"
     percent: false
 
   5502:
     name:
-      en: "Cavalry Base Attack"
       de: "Kavallerie-Basisangriff"
+      en: "Cavalry Base Attack"
       es: "Ataque base de caballería"
       ko: "기마병 유닛 기본 공격력"
     percent: false
 
   5503:
     name:
-      en: "Archer Base Attack"
       de: "Bogenschützen-Basisangriff"
+      en: "Archer Base Attack"
       es: "Ataque base de arquero"
       ko: "궁병 유닛 기본 공격력"
     percent: false
 
   5504:
     name:
-      en: "Siege Unit Base Attack"
       de: "Belagerungseinheiten-Basisangriff"
+      en: "Siege Unit Base Attack"
       es: "Ataque base de unidad de asedio"
       ko: "공성 유닛 기본 공격력"
     percent: false
 
   5511:
     name:
-      en: "Infantry Base Defense"
       de: "Infanterie-Basisverteidigung"
+      en: "Infantry Base Defense"
       es: "Defensa base de infantería"
       ko: "보병 유닛 기본 방어력"
     percent: false
 
   5512:
     name:
-      en: "Cavalry Base Defense"
       de: "Kavallerie-Basisverteidigung"
+      en: "Cavalry Base Defense"
       es: "Defensa base de caballería"
       ko: "기마병 유닛 기본 방어력"
     percent: false
 
   5513:
     name:
-      en: "Archer Base Defense"
       de: "Bogenschützen-Basisverteidigung"
+      en: "Archer Base Defense"
       es: "Defensa base de arquero"
       ko: "궁병 유닛 기본 방어력"
     percent: false
 
   5514:
     name:
-      en: "Siege Unit Base Defense"
       de: "Belagerungseinheiten-Basisverteidigung"
+      en: "Siege Unit Base Defense"
       es: "Defensa base de unidad de asedio"
       ko: "공성 유닛 기본 방어력"
     percent: false
 
   5521:
     name:
-      en: "Infantry Base Health"
       de: "Infanterie-Basisgesundheit"
+      en: "Infantry Base Health"
       es: "Salud base de infantería"
       ko: "보병 유닛 기본 생명력"
     percent: false
 
   5522:
     name:
-      en: "Cavalry Base Health"
       de: "Kavallerie-Basisgesundheit"
+      en: "Cavalry Base Health"
       es: "Salud base de caballería"
       ko: "기마병 유닛 기본 생명력"
     percent: false
 
   5523:
     name:
-      en: "Archer Base Health"
       de: "Bogenschützen-Basisgesundheit"
+      en: "Archer Base Health"
       es: "Salud base de arquero"
       ko: "궁병 유닛 기본 생명력"
     percent: false
 
   5524:
     name:
-      en: "Siege Unit Base Health"
       de: "Belagerungseinheiten-Basisgesundheit"
+      en: "Siege Unit Base Health"
       es: "Salud base de unidad de asedio"
       ko: "공성 유닛 기본 생명력"
     percent: false
 
   6001:
     name:
-      en: "March Speed (Infantry)"
       de: "Marschtempo (Infanterie)"
+      en: "March Speed (Infantry)"
       es: "Velocidad de marcha (infantería)"
       ko: "보병 속도"
     percent: true
 
   6002:
     name:
-      en: "March Speed (Cavalry)"
       de: "Marschtempo (Kavallerie)"
+      en: "March Speed (Cavalry)"
       es: "Velocidad de marcha (caballería)"
       ko: "기마병 속도"
     percent: true
 
   6003:
     name:
-      en: "March Speed (Archers)"
       de: "Marschtempo (Bogenschützen)"
+      en: "March Speed (Archers)"
       es: "Velocidad de marcha (arqueros)"
       ko: "궁병 속도"
     percent: true
 
   6004:
     name:
-      en: "March Speed (Siege Units)"
       de: "Marschtempo (Belagerungseinheiten)"
+      en: "March Speed (Siege Units)"
       es: "Velocidad de marcha (unidades de asedio)"
       ko: "공성 유닛 속도"
     percent: true
 
   8000:
     name:
-      en: "Troop Load"
       de: "Truppentraglast"
+      en: "Troop Load"
       es: "Carga de las Tropas"
       ko: "부대 적재량"
     percent: true
 
   10002:
     name:
-      en: "All Damage"
       de: "Aller Schaden"
+      en: "All Damage"
       es: "Daño Total"
       ko: "전체 피해"
     percent: true
 
   10006:
     name:
-      en: "Normal Damage"
       de: "Normaler Schaden"
+      en: "Normal Damage"
       es: "Daño normal"
       ko: "일반 공격 피해"
     percent: true
 
   10007:
     name:
-      en: "Skill Damage"
       de: "Fähigkeitsschaden"
+      en: "Skill Damage"
       es: "Daño de habilidad"
       ko: "스킬 피해"
     percent: true
 
   10008:
     name:
-      en: "Counterattack Damage"
       de: "Gegenangriffsschaden"
+      en: "Counterattack Damage"
       es: "Daño del Contraataque"
       ko: "반격 피해"
     percent: true
 
   10016:
     name:
-      en: "Damage to Barbarians"
       de: "Schaden an Barbaren"
+      en: "Damage to Barbarians"
       es: "Daño a Bárbaros"
       ko: "야만인에게 입히는 피해"
     percent: true
 
   10101:
     name:
-      en: "Damage Reduction vs Barbarians"
       de: "Schadenverringerung gegen Barbaren"
+      en: "Damage Reduction vs Barbarians"
       es: "Reducción de daño vs bárbaros"
       ko: "야만인 피해 경감"
     percent: true
 
   10109:
     name:
-      en: "Normal Damage Reduction"
       de: "Normale Schadenverringerung"
+      en: "Normal Damage Reduction"
       es: "Reducción del daño normal"
       ko: "일반 공격 피해 경감"
     percent: true
 
   10110:
     name:
-      en: "Skill Damage Reduction"
       de: "Fähigkeitsschadenverringerung"
+      en: "Skill Damage Reduction"
       es: "Reducción del daño de habilidad"
       ko: "스킬 피해 경감"
     percent: true
 
   10111:
     name:
-      en: "Counterattack Damage Reduction"
       de: "Gegenangriffsschadenverringerung"
+      en: "Counterattack Damage Reduction"
       es: "Reducción del Daño del Contraataque"
       ko: "반격 피해 경감"
     percent: true
 
   10300:
     name:
-      en: "Infantry Damage to Cavalry"
       de: "Infanterie-Schaden an Kavallerie"
+      en: "Infantry Damage to Cavalry"
       es: "Daño de infantería a caballería"
       ko: "보병 유닛이 기마병 유닛에게 입히는 피애"
     percent: true
 
   10302:
     name:
-      en: "Archer Damage to Infantry"
       de: "Bogenschützen-Schaden an Infanterie"
+      en: "Archer Damage to Infantry"
       es: "Daño de arqueros a infantería"
       ko: "궁병 유닛이 보병 유닛에게 입히는 피애"
     percent: true
 
   10304:
     name:
-      en: "Cavalry Damage to Archers"
       de: "Kavallerie-Schaden an Bogenschützen"
+      en: "Cavalry Damage to Archers"
       es: "Daño de caballería a arqueros"
       ko: "기마병 유닛이 궁병 유닛에게 입히는 피애"
     percent: true
 
   12017:
     name:
-      en: "Rallied Army Attack"
       de: "Sammeltruppenangriff"
+      en: "Rallied Army Attack"
       es: "Ataque de las Tropas Congregadas"
       ko: "집결 부대 공격력"
     percent: true
 
   12052:
     name:
-      en: "Rallied Army Damage"
       de: "Schaden durch Sammelarmee"
+      en: "Rallied Army Damage"
       es: "Daño de ejército congregado"
       ko: "집결 부대의 모든 피해"
     percent: true
 
   12066:
     name:
-      en: "Damage to Rallied Armies/Garrisons"
       de: "Schaden gegen Sammelarmeen/Garnisonen"
+      en: "Damage to Rallied Armies/Garrisons"
       es: "Daño a guarniciones/ejércitos congregados"
       ko: "집결/주둔 부대에 입히는 피해"
     percent: true
 
   15028:
     name:
-      en: "Ranged Normal Damage Reduction"
       de: "Normale Fernangriffsschadenverringerung"
+      en: "Ranged Normal Damage Reduction"
       es: "Reducción de daño normal a distancia"
       ko: "원거리 일반 공격 피해 경감"
     percent: true
 
   15032:
     name:
-      en: "Ranged Skill Damage Reduction"
       de: "Fernkampf-Fähigkeitsschadenverringerung"
+      en: "Ranged Skill Damage Reduction"
       es: "Reducción de daño de habilidad a distancia"
       ko: "원거리 스킬 피해 경감"
     percent: true
 
   15033:
     name:
-      en: "Ranged Skill Damage"
       de: "Fernkampf-Fähigkeitsschaden"
+      en: "Ranged Skill Damage"
       es: "Daño de habilidad a distancia"
       ko: "원거리 스킬 피해"
     percent: true
 
   15063:
     name:
-      en: "Smite Damage"
       de: "Schmetterschaden"
+      en: "Smite Damage"
       es: "Daño de embate"
       ko: "강타 피해"
     percent: true
 
   15073:
     name:
-      en: "Ranged Counterattack Damage Reduction"
       de: "Fernkampf-Gegenangriffsschadensverringerung"
+      en: "Ranged Counterattack Damage Reduction"
       es: "Reducción de daño de contraataque a distancia"
       ko: "원가리 반격 피해 경감"
     percent: true
 
   15075:
     name:
-      en: "Ranged Smite Damage"
       de: "Fernkampf-Schmetterschaden"
+      en: "Ranged Smite Damage"
       es: "Daño de embate a distancia"
       ko: "원거리 강타 피해"
     percent: true
 
   15089:
     name:
-      en: "Enemy Attack Ignored"
       de: "Angriff des Feindes ignoriert"
+      en: "Enemy Attack Ignored"
       es: "Ataque del enemigo ignorado"
       ko: "적군 부대 공격력 무시"
     percent: true
 
   15090:
     name:
-      en: "Enemy Defense Ignored"
       de: "Verteidigung des Feindes ignoriert"
+      en: "Enemy Defense Ignored"
       es: "Defensa del enemigo ignorada"
       ko: "적군 부대 방어력 무시"
     percent: true
 
   15091:
     name:
-      en: "Enemy Health Ignored"
       de: "Gesundheit des Feindes ignoriert"
+      en: "Enemy Health Ignored"
       es: "Salud del enemigo ignorada"
       ko: "적군 부대 생명력 무시"
     percent: true
 
   15092:
     name:
-      en: "Damage to Troops on the Map"
       de: "Schaden an Truppen auf der Karte"
+      en: "Damage to Troops on the Map"
       es: "Daño a tropas en el mapa"
       ko: "필드에 있는 부대에 입히는 피해"
     percent: true
 
   17400:
     name:
-      en: "Combo Attack Damage"
       de: "Kombo-Angriffsschaden"
+      en: "Combo Attack Damage"
       es: "Daño de ataque combinado"
       ko: "연격 피해"
     percent: true
 
   17401:
     name:
-      en: "Ranged Combo Attack Damage"
       de: "Kombo-Fernkampfangriffsschaden"
+      en: "Ranged Combo Attack Damage"
       es: "Daño de ataque combinado a distancia"
       ko: "원거리 연격 피해"
     percent: true
 
   20034:
     name:
-      en: "Damage Resistance"
       de: "Schadenwiderstand"
+      en: "Damage Resistance"
       es: "Resistencia al daño"
       ko: "모든 피해 저항"
     percent: true
 
   20039:
     name:
-      en: "Smite Damage Boost"
       de: "Schmetterschadensboost"
+      en: "Smite Damage Boost"
       es: "Refuerzo de daño de embate"
       ko: "강타 피해 증폭"
     percent: true
 
   20062:
     name:
-      en: "Combo Attack Damage Boost"
       de: "Kombo-Angriffsschadensboost"
+      en: "Combo Attack Damage Boost"
       es: "Refuerzo de daño de ataque combinado"
       ko: "연격 피해 증폭"
     percent: true
 
   20064:
     name:
-      en: "Combo Attack Damage Resistance"
       de: "Kombo-Angriffsschadenwiderstand"
+      en: "Combo Attack Damage Resistance"
       es: "Resistencia al daño de ataque combinado"
       ko: "연격 피해 저항"
     percent: true
@@ -499,8 +499,8 @@ armaments:
   # Guessing (not enough samples to be sure)
   20066:
     name:
-      en: "Damage From Cavalry Reduction"
       de: "Schadenverringerung durch Kavallerie"
+      en: "Damage From Cavalry Reduction"
       es: "Reducción de daño recibido de caballería"
       ko: "기마병에게 받는 피해 감소"
     percent: true
@@ -508,24 +508,24 @@ armaments:
   # Guessing (not enough samples to be sure)
   20067:
     name:
-      en: "Damage From Archers Reduction"
       de: "Schadenverringerung durch Bogenschützen"
+      en: "Damage From Archers Reduction"
       es: "Reducción de daño recibido de arqueros"
       ko: "궁병에게 받는 피해 감소"
     percent: true
 
   20068:
     name:
-      en: "Damage From Infantry Reduction"
       de: "Schadenverringerung durch Infanterie"
+      en: "Damage From Infantry Reduction"
       es: "Reducción de daño recibido de infantería"
       ko: "보병에게 받는 피해 감소"
     percent: true
 
   20069:
     name:
-      en: "Damage From Siege Units Reduction"
       de: "Schadenverringerung durch Belagerungseinheiten"
+      en: "Damage From Siege Units Reduction"
       es: "Reducción de daño recibido de unidades de asedio"
       ko: "공성 유닛에게 받는 피해 감소"
     percent: true
@@ -533,8 +533,8 @@ armaments:
   # Guessing (not enough samples to be sure)
   20070:
     name:
-      en: "Damage Bonus vs Cavalry"
       de: "Schadensbonus gegen Kavallerie"
+      en: "Damage Bonus vs Cavalry"
       es: "Bonificación de daño contra caballería"
       ko: "기마병 유닛에게 입히는 피해 증가"
     percent: true
@@ -542,32 +542,32 @@ armaments:
   # Guessing (not enough samples to be sure)
   20071:
     name:
-      en: "Damage Bonus vs Archers"
       de: "Schadensbonus gegen Bogenschützen"
+      en: "Damage Bonus vs Archers"
       es: "Bonificación de daño contra arqueros"
       ko: "궁병 유닛에게 입히는 피해 증가"
     percent: true
 
   20072:
     name:
-      en: "Damage Bonus vs Infantry"
       de: "Schadensbonus gegen Infanterie"
+      en: "Damage Bonus vs Infantry"
       es: "Bonificación de daño contra infantería"
       ko: "보병 유닛에게 입히는 피해 증가"
     percent: true
 
   20073:
     name:
-      en: "Damage Bonus vs Siege Units"
       de: "Schadensbonus gegen Belagerungseinheiten"
+      en: "Damage Bonus vs Siege Units"
       es: "Bonificación de daño contra unidades de asedio"
       ko: "공성 유닛에게 입히는 피해 증가"
     percent: true
 
   30029:
     name:
-      en: "Damage Reduction vs Poisoned Troops (Per Stack)"
       de: "Schadenverringerung gegen vergiftete Truppen (pro Stapel)"
+      en: "Damage Reduction vs Poisoned Troops (Per Stack)"
       es: "Reducción de daño vs tropas envenenadas (por acumulación)"
       ko: "중독 부대로부터 받는 모든 피해 감소(스택당)"
     percent: true
