@@ -251,7 +251,10 @@ armaments:
       de: "Marschtempo (Infanterie)"
       en: "March Speed (Infantry)"
       es: "Velocidad de marcha (infantería)"
+      fr: "Vitesse de marche (infanterie)"
       ko: "보병 속도"
+      pl: "Szybkość marszu (piechota)"
+      zh_CN: "步兵速度"
     percent: true
 
   6002:
@@ -259,7 +262,10 @@ armaments:
       de: "Marschtempo (Kavallerie)"
       en: "March Speed (Cavalry)"
       es: "Velocidad de marcha (caballería)"
+      fr: "Vitesse de marche (cavalerie)"
       ko: "기마병 속도"
+      pl: "Szybkość marszu (kawaleria)"
+      zh_CN: "骑兵速度"
     percent: true
 
   6003:
@@ -267,7 +273,10 @@ armaments:
       de: "Marschtempo (Bogenschützen)"
       en: "March Speed (Archers)"
       es: "Velocidad de marcha (arqueros)"
+      fr: "Vitesse de marche (archers)"
       ko: "궁병 속도"
+      pl: "Szybkość marszu (łucznicy)"
+      zh_CN: "弓兵速度"
     percent: true
 
   6004:
@@ -275,7 +284,10 @@ armaments:
       de: "Marschtempo (Belagerungseinheiten)"
       en: "March Speed (Siege Units)"
       es: "Velocidad de marcha (unidades de asedio)"
+      fr: "Vitesse de marche (unités de siège)"
       ko: "공성 유닛 속도"
+      pl: "Szybkość marszu (jedn. oblężnicze)"
+      zh_CN: "攻城单位速度"
     percent: true
 
   8000:
