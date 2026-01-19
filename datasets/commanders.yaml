@@ -8,6 +8,14 @@ commanders:
       ko: "율리우스 카이사르"
       pl: "Juliusz Cezar"
       zh_CN: "尤利乌斯·凯撒"
+    epithet:
+      de: "Der ungekrönte Herrscher"
+      en: "The Uncrowned Emperor"
+      es: "El Emperador Sin Corona"
+      fr: "L'empereur sans couronne"
+      ko: "무곤의 제왕"
+      pl: "Niekoronowany cesarz"
+      zh_CN: "无冕之王"
     prime: false
     rarity: legendary
     skills:
@@ -30,6 +38,14 @@ commanders:
       ko: "손무"
       pl: "Sun Zi"
       zh_CN: "孙武"
+    epithet:
+      de: "Taktikgenie"
+      en: "Tactical Genius"
+      es: "Genio Táctico"
+      fr: "Génie tactique"
+      ko: "하늘의 인재"
+      pl: "Geniusz taktyki"
+      zh_CN: "天纵之才"
     prime: false
     rarity: epic
     skills:
@@ -53,6 +69,14 @@ commanders:
       ko: "프리드리히 1세"
       pl: "Fryderyk I"
       zh_CN: "腓特烈一世"
+    epithet:
+      de: "Barbarossa"
+      en: "Barbarossa"
+      es: "Barbarroja"
+      fr: "Barberousse"
+      ko: "빨간 수염"
+      pl: "Barbarossa"
+      zh_CN: "红胡子"
     prime: false
     rarity: legendary
     skills:
@@ -75,6 +99,14 @@ commanders:
       ko: "콘스탄티누스 1세"
       pl: "Konstantyn I"
       zh_CN: "君士坦丁一世"
+    epithet:
+      de: "Einzigartiger Kriegsherr"
+      en: "Peerless Lord"
+      es: "Señor supremo"
+      fr: "Seigneur sans égal"
+      ko: "비할 데 없는 군주"
+      pl: "Niezrównany pan"
+      zh_CN: "唯一圣主"
     prime: false
     rarity: legendary
     skills:
@@ -98,6 +130,14 @@ commanders:
       ko: "이성계"
       pl: "Yi Seong-Gye"
       zh_CN: "李成桂"
+    epithet:
+      de: "Bogen der Revolution"
+      en: "Bow of Revolution"
+      es: "El Arco de la Revolución"
+      fr: "Arc de la révolution"
+      ko: "변혁의 활"
+      pl: "Łuk rewolucji"
+      zh_CN: "变革之弓"
     prime: false
     rarity: legendary
     skills:
@@ -120,6 +160,14 @@ commanders:
       ko: "조조"
       pl: "Cao Cao"
       zh_CN: "曹操"
+    epithet:
+      de: "Eroberer des Chaos"
+      en: "Conqueror of Chaos"
+      es: "Conquistador del Caos"
+      fr: "Conquérant du chaos"
+      ko: "난세의 효웅"
+      pl: "Zdobywca chaosu"
+      zh_CN: "乱世枭雄"
     prime: false
     rarity: legendary
     skills:
@@ -143,6 +191,14 @@ commanders:
       ko: "리처드 1세"
       pl: "Ryszard I"
       zh_CN: "理查一世"
+    epithet:
+      de: "Das Löwenherz"
+      en: "The Lionheart"
+      es: "Corazón de León"
+      fr: "Cœur de lion"
+      ko: "사자심왕"
+      pl: "Lwie Serce"
+      zh_CN: "狮心王"
     prime: false
     rarity: legendary
     skills:
@@ -166,6 +222,14 @@ commanders:
       ko: "미나모토노 요시쓰네"
       pl: "Minamoto no Yoshitsune"
       zh_CN: "源义经"
+    epithet:
+      de: "Kamakuras Warlord"
+      en: "Kamakura's Warlord"
+      es: "El Caudillo de Kamakura"
+      fr: "Seigneur de guerre de Kamakura"
+      ko: "가마쿠라의 군신"
+      pl: "Wojownik z Kamakury"
+      zh_CN: "镰仓战神"
     prime: false
     rarity: legendary
     skills:
@@ -188,6 +252,14 @@ commanders:
       ko: "카를 마르텔"
       pl: "Karol Młot"
       zh_CN: "查理·马特"
+    epithet:
+      de: "Der unsterbliche Hammer"
+      en: "The Immortal Hammer"
+      es: "El Martillo Inmortal"
+      fr: "Le marteau immortel"
+      ko: "불후한 해머"
+      pl: "Nieśmiertelny młot"
+      zh_CN: "不朽战锤"
     prime: false
     rarity: legendary
     skills:
@@ -210,6 +282,14 @@ commanders:
       ko: "엘 시드"
       pl: "Cyd Waleczny"
       zh_CN: "熙德"
+    epithet:
+      de: "Heiliger Overlord"
+      en: "Holy Overlord"
+      es: "Señor Sagrado"
+      fr: "Saint seigneur"
+      ko: "신성의 영주"
+      pl: "Święty suweren"
+      zh_CN: "神圣领主"
     prime: false
     rarity: legendary
     skills:
@@ -233,6 +313,14 @@ commanders:
       ko: "헤르만"
       pl: "Hermann"
       zh_CN: "海尔曼"
+    epithet:
+      de: "Teutoburger Befreier"
+      en: "Teutoburg's Liberator"
+      es: "Libertador de Teutoburgo"
+      fr: "Libérateur de Teutoburg"
+      ko: "토이토부르크의 해방자"
+      pl: "Wybawca Teutoburga"
+      zh_CN: "条顿堡的解放者"
     prime: false
     rarity: epic
     skills:
@@ -255,6 +343,14 @@ commanders:
       ko: "구스노키 마사시게"
       pl: "Kusunoki Masashige"
       zh_CN: "楠木正成"
+    epithet:
+      de: "Der Geist von Bushido"
+      en: "Bushido Spirit"
+      es: "Espíritu del Bushido"
+      fr: "L'esprit du Bushido"
+      ko: "무사도의 혼"
+      pl: "Duch Bushido"
+      zh_CN: "武士道之魂"
     prime: false
     rarity: epic
     skills:
@@ -277,6 +373,14 @@ commanders:
       ko: "스키피오"
       pl: "Scypion Afrykański"
       zh_CN: "西庇阿·阿非利加努斯"
+    epithet:
+      de: "Klingen der Kriegsführung"
+      en: "Blades of Warfare"
+      es: "Cuchillas de Guerra"
+      fr: "Lames de la guerre"
+      ko: "전쟁의 칼날"
+      pl: "Bojowe ostrza"
+      zh_CN: "战火双刃"
     prime: false
     rarity: epic
     skills:
@@ -299,6 +403,14 @@ commanders:
       ko: "잔 다르크"
       pl: "Joanna d'Arc"
       zh_CN: "贞德"
+    epithet:
+      de: "Die Jungfrau von Orléans"
+      en: "The Maid of Orléans"
+      es: "La Doncella de Orleans"
+      fr: "La pucelle d'Orléans"
+      ko: "오를레앙의 성처녀"
+      pl: "Dziewica Orleańska"
+      zh_CN: "奥尔良少女"
     prime: false
     rarity: epic
     skills:
@@ -321,6 +433,14 @@ commanders:
       ko: "을지문덕"
       pl: "Eulji Mundeok"
       zh_CN: "乙支文德"
+    epithet:
+      de: "Elegantes Auftreten"
+      en: "Elegant Demeanor"
+      es: "Comportamiento Elegante"
+      fr: "Conduite élégante"
+      ko: "무장의 풍모"
+      pl: "Chodząca elegancja"
+      zh_CN: "儒将之风"
     prime: false
     rarity: epic
     skills:
@@ -343,6 +463,14 @@ commanders:
       ko: "부디카"
       pl: "Boudika"
       zh_CN: "布狄卡"
+    epithet:
+      de: "Keltische Rose"
+      en: "Celtic Rose"
+      es: "Rosa Celta"
+      fr: "Rose celtique"
+      ko: "켈트의 장미"
+      pl: "Celtycka róża"
+      zh_CN: "凯尔特玫瑰"
     prime: false
     rarity: epic
     skills:
@@ -365,6 +493,14 @@ commanders:
       ko: "펠라기우스"
       pl: "Pelagiusz"
       zh_CN: "佩拉约"
+    epithet:
+      de: "Widerspenstiger Erweckungsprediger"
+      en: "Unruly Revivalist"
+      es: "Revivalista Rebelde"
+      fr: "Évangéliste indiscipliné"
+      ko: "빼어난 부흥자"
+      pl: "Nieposłuszny odnowiciel"
+      zh_CN: "不羁的复兴者"
     prime: false
     rarity: epic
     skills:
@@ -387,6 +523,14 @@ commanders:
       ko: "수호자"
       pl: "Strażnik miasta"
       zh_CN: "守护者"
+    epithet:
+      de: "Schild des Volkes"
+      en: "Shield of the People"
+      es: "Escudo de los Pueblos"
+      fr: "Bouclier du peuple"
+      ko: "백성의 방패"
+      pl: "Tarcza ludu"
+      zh_CN: "人民之盾"
     prime: false
     rarity: advanced
     skills:
@@ -408,6 +552,14 @@ commanders:
       ko: "명시수"
       pl: "Łowczyni"
       zh_CN: "神射手"
+    epithet:
+      de: "Schattenschlange"
+      en: "Shadow Snake"
+      es: "Serpiente de Sombra"
+      fr: "Serpent de l'ombre"
+      ko: "그림자의 뱀"
+      pl: "Mroczny wąż"
+      zh_CN: "暗影蝰蛇"
     prime: false
     rarity: advanced
     skills:
@@ -429,6 +581,14 @@ commanders:
       ko: "명시수"
       pl: "Centurion"
       zh_CN: "百夫长"
+    epithet:
+      de: "Adlerflügel"
+      en: "Wings of the Eagle"
+      es: "Alas del Águila"
+      fr: "Ailes de l'aigle"
+      ko: "독수리의 날개"
+      pl: "Skrzydła orła"
+      zh_CN: "雄鹰之翼"
     prime: false
     rarity: advanced
     skills:
@@ -450,6 +610,14 @@ commanders:
       ko: "명시수"
       pl: "Smoczy lansjer"
       zh_CN: "龙骑兵"
+    epithet:
+      de: "Feuerlanze"
+      en: "Lance in the Fire"
+      es: "Lanza en el Fuego"
+      fr: "Lance dans le feu"
+      ko: "불타는 창"
+      pl: "Lanca w ogniu"
+      zh_CN: "浴火战矛"
     prime: false
     rarity: advanced
     skills:
@@ -471,6 +639,14 @@ commanders:
       ko: "한니발 바르카"
       pl: "Hannibal"
       zh_CN: "汉尼拔·巴卡"
+    epithet:
+      de: "Karthagos Wächter"
+      en: "Carthage's Guardian"
+      es: "Guardián de Cartago"
+      fr: "Gardien de Carthage"
+      ko: "카르타고의 수호자"
+      pl: "Strażnik Kartaginy"
+      zh_CN: "迦太基守护者"
     prime: false
     rarity: legendary
     skills:
@@ -493,6 +669,14 @@ commanders:
       ko: "틀레오파트라 7세"
       pl: "Kleopatra VII"
       zh_CN: "克丽奥佩特拉七世"
+    epithet:
+      de: "Königin von Ägypten"
+      en: "Queen of Egypt"
+      es: "Reina de Egipto"
+      fr: "Reine d'Égypte"
+      ko: "이집트의 여왕"
+      pl: "Królowa Egiptu"
+      zh_CN: "埃及艳后"
     prime: false
     rarity: legendary
     skills:
@@ -516,6 +700,14 @@ commanders:
       ko: "쿠스탄차"
       pl: "Konstancja"
       zh_CN: "科斯坦察"
+    epithet:
+      de: "Königin von Sizilien"
+      en: "Queen of Sicily"
+      es: "La Reina de Sicilia"
+      fr: "Reine de Sicile"
+      ko: "쿠스탄차"
+      pl: "Królowa Sycylii"
+      zh_CN: "西西里女王"
     prime: false
     rarity: elite
     skills:
@@ -537,6 +729,14 @@ commanders:
       ko: "가이우스 마리우스"
       pl: "Gajusz Mariusz"
       zh_CN: "盖乌斯·马略"
+    epithet:
+      de: "Reformer der Legionen"
+      en: "Reformer of the Legions"
+      es: "Reformador de las Legiones"
+      fr: "Réformateur des légions"
+      ko: "군단 변혁가"
+      pl: "Reformator legionów"
+      zh_CN: "军团变革者"
     prime: false
     rarity: elite
     skills:
@@ -558,6 +758,14 @@ commanders:
       ko: "토모에 고젠"
       pl: "Tomoe Gozen"
       zh_CN: "巴御前"
+    epithet:
+      de: "Schönheit der Untergehenden Sonne"
+      en: "Beauty of the Falling Sun"
+      es: "La Belleza del Sol Poniente"
+      fr: "Beauté du soleil tombant"
+      ko: "토모에 고젠"
+      pl: "Piękno zachodzącego słońca"
+      zh_CN: "落日之美人"
     prime: false
     rarity: elite
     skills:
@@ -579,6 +787,14 @@ commanders:
       ko: "랜슬롯"
       pl: "Lancelot"
       zh_CN: "兰斯洛特"
+    epithet:
+      de: "Ritter des Sees"
+      en: "Knight of the Lake"
+      es: "Caballero del Lago"
+      fr: "Chevalier du lac"
+      ko: "호수의 기사"
+      pl: "Rycerz z jeziora"
+      zh_CN: "湖上骑士"
     prime: false
     rarity: elite
     skills:
@@ -600,6 +816,14 @@ commanders:
       ko: "로하"
       pl: "Lohar"
       zh_CN: "洛哈"
+    epithet:
+      de: "Brüllender Barbar"
+      en: "Roaring Barbarian"
+      es: "Bárbaro Rugidor"
+      fr: "Barbare rugissant"
+      ko: "야만인의 포효"
+      pl: "Ryczący barbarzyńca"
+      zh_CN: "蛮族咆哮者"
     prime: false
     rarity: epic
     skills:
@@ -622,6 +846,14 @@ commanders:
       ko: "샤르카"
       pl: "Sárka"
       zh_CN: "萨尔卡"
+    epithet:
+      de: "Todesmet"
+      en: "Mead of Death"
+      es: "La Pócima de la Muerte"
+      fr: "Hydromel de la mort"
+      ko: "죽음의 밀주"
+      pl: "Zabójczy miód"
+      zh_CN: "死亡蜜酒"
     prime: false
     rarity: elite
     skills:
@@ -643,6 +875,14 @@ commanders:
       ko: "벨리사리우스"
       pl: "Belizariusz"
       zh_CN: "贝利撒留"
+    epithet:
+      de: "Der letzte Römer"
+      en: "Last of the Romans"
+      es: "El último de los romanos"
+      fr: "Le dernier des Romains"
+      ko: "최후의 로마인"
+      pl: "Ostatni Rzymianin"
+      zh_CN: "最后的罗马人"
     prime: false
     rarity: epic
     skills:
@@ -665,6 +905,14 @@ commanders:
       ko: "바이바르스"
       pl: "Bajbars"
       zh_CN: "拜巴尔"
+    epithet:
+      de: "Vater der Eroberung"
+      en: "Father of Conquest"
+      es: "Padre de la conquista"
+      fr: "Père de la Conquête"
+      ko: "정복의 아버지"
+      pl: "Ojciec podbojów"
+      zh_CN: "天选之豹"
     prime: false
     rarity: epic
     skills:
@@ -687,6 +935,14 @@ commanders:
       ko: "오스만 1세"
       pl: "Osman I"
       zh_CN: "奥斯曼一世"
+    epithet:
+      de: "Imperialer Pionier"
+      en: "Imperial Pioneer"
+      es: "Pionero imperial"
+      fr: "Pionnier impérial"
+      ko: "제국의 개척자"
+      pl: "Cesarski pionier"
+      zh_CN: "帝国先驱"
     prime: false
     rarity: epic
     skills:
@@ -709,6 +965,14 @@ commanders:
       ko: "살라딘"
       pl: "Saladyn"
       zh_CN: "萨拉丁"
+    epithet:
+      de: "Al-Malik an-Nasir"
+      en: "Al-Malik an-Nasir"
+      es: "Al-Malik an-Nasir"
+      fr: "Al-Malik an-Nasir"
+      ko: "알말리크 안나시르"
+      pl: "Al-Malik an-Nasir"
+      zh_CN: "纳赛尔国王"
     prime: false
     rarity: legendary
     skills:
@@ -731,6 +995,14 @@ commanders:
       ko: "메흐메트 2세"
       pl: "Mehmed II"
       zh_CN: "穆罕默德二世"
+    epithet:
+      de: "Eroberer von Istanbul"
+      en: "Conqueror of Istanbul"
+      es: "El Conquistador de Estambul"
+      fr: "Conquérant d'Istanbul"
+      ko: "이스탄불의 정복자"
+      pl: "Zdobywca Stambułu"
+      zh_CN: "伊斯坦布尔征服者"
     prime: false
     rarity: legendary
     skills:
@@ -753,6 +1025,14 @@ commanders:
       ko: "호목란"
       pl: "Mulan"
       zh_CN: "花木兰"
+    epithet:
+      de: "Legendäre Heldin"
+      en: "Legendary Heroine"
+      es: "Heroína legendaria"
+      fr: "Héroïne légendaire"
+      ko: "혁명의 영웅"
+      pl: "Legendarna bohaterka"
+      zh_CN: "巾帼英雄"
     prime: false
     rarity: legendary
     skills:
@@ -775,6 +1055,14 @@ commanders:
       ko: "측천무후"
       pl: "Wu Zetian"
       zh_CN: "武则天"
+    epithet:
+      de: "Die Ewige Kaiserin"
+      en: "The Eternal Empress"
+      es: "La Emperatriz Eterna"
+      fr: "L'impératrice éternelle"
+      ko: "천고 여세"
+      pl: "Wieczna Cesarzowa"
+      zh_CN: "千古女帝"
     prime: false
     rarity: legendary
     skills:
@@ -798,6 +1086,14 @@ commanders:
       ko: "칭기즈칸"
       pl: "Czyngis-chan"
       zh_CN: "孛儿只斤·铁木真"
+    epithet:
+      de: "Erster Großkhan"
+      en: "First Khagan"
+      es: "Primer Khagan"
+      fr: "Premier Khagan"
+      ko: "최초의 카간"
+      pl: "Pierwszy Kagan"
+      zh_CN: "成吉思汗"
     prime: false
     rarity: legendary
     skills:
@@ -821,6 +1117,14 @@ commanders:
       ko: "샤를마뉴"
       pl: "Karol Wielki"
       zh_CN: "查理曼"
+    epithet:
+      de: "Pater Europae (Vater Europas)"
+      en: "Pater Europae"
+      es: "Pater Europae"
+      fr: "Pater Europae"
+      ko: "유럽의 아버지"
+      pl: "Pater Europae"
+      zh_CN: "欧洲之父"
     prime: false
     rarity: legendary
     skills:
@@ -844,6 +1148,14 @@ commanders:
       ko: "알렉산더 대왕"
       pl: "Aleksander Wielki"
       zh_CN: "亚历山大大帝"
+    epithet:
+      de: "Welteroberer"
+      en: "World Conqueror"
+      es: "Conquistador del Mundo"
+      fr: "Conquérant du monde"
+      ko: "세계 정복자"
+      pl: "Zdobywca świata"
+      zh_CN: "征服之王"
     prime: false
     rarity: legendary
     skills:
@@ -866,6 +1178,14 @@ commanders:
       ko: "애설플레드"
       pl: "Ethelfleda"
       zh_CN: "埃塞尔弗莱德"
+    epithet:
+      de: "Dame von Mercia"
+      en: "Lady of the Mercians"
+      es: "Señora de Mercia"
+      fr: "Dame des Merciens"
+      ko: "머시아의 왕비"
+      pl: "Pani Mercji"
+      zh_CN: "麦西亚领主"
     prime: false
     rarity: legendary
     skills:
@@ -889,6 +1209,14 @@ commanders:
       ko: "토미리스"
       pl: "Tomyris"
       zh_CN: "托米丽司"
+    epithet:
+      de: "Königin der Massageten"
+      en: "Queen of the Massagetae"
+      es: "Reina de los masagetas"
+      fr: "Reine des Massagètes"
+      ko: "스키티아의 여왕"
+      pl: "Królowa Massagetów"
+      zh_CN: "马萨革泰统治者"
     prime: false
     rarity: legendary
     skills:
@@ -912,6 +1240,14 @@ commanders:
       ko: "에드워드 우드스톡"
       pl: "Edward Czarny Książę"
       zh_CN: "爱德华"
+    epithet:
+      de: "Der schwarze Prinz"
+      en: "The Black Prince"
+      es: "El Príncipe Negro"
+      fr: "Le Prince Noir"
+      ko: "흑태자"
+      pl: "Czarny Książę"
+      zh_CN: "黑太子"
     prime: false
     rarity: legendary
     skills:
@@ -935,6 +1271,14 @@ commanders:
       ko: "선덕여왕"
       pl: "Seondeok"
       zh_CN: "善德女王"
+    epithet:
+      de: "Königin von Silla"
+      en: "Queen of Silla"
+      es: "Reina de Silla"
+      fr: "Reine de Silla"
+      ko: "신라의 왕"
+      pl: "Królowa Silli"
+      zh_CN: "新罗之主"
     prime: false
     rarity: legendary
     skills:
@@ -958,6 +1302,14 @@ commanders:
       ko: "아틸라"
       pl: "Attyla"
       zh_CN: "阿提拉"
+    epithet:
+      de: "Geißel Gottes"
+      en: "The Scourge of God"
+      es: "El Azote de Dios"
+      fr: "Le Fléau de Dieu"
+      ko: "신의 징벌"
+      pl: "Boska plaga"
+      zh_CN: "上帝之鞭"
     prime: false
     rarity: legendary
     skills:
@@ -981,6 +1333,14 @@ commanders:
       ko: "다케다 신겐"
       pl: "Takeda Shingen"
       zh_CN: "武田信玄"
+    epithet:
+      de: "Tiger von Kai"
+      en: "The Tiger of Kai"
+      es: "El Tigre de Kai"
+      fr: "Le Tigre de Kai"
+      ko: "가이의 호랑이"
+      pl: "Tygrys prowincji Kai"
+      zh_CN: "甲斐之虎"
     prime: false
     rarity: legendary
     skills:
@@ -1004,6 +1364,14 @@ commanders:
       ko: "이시다 미츠나리"
       pl: "Ishida Mitsunari"
       zh_CN: "石田三成"
+    epithet:
+      de: "Tragischer Held von Azuchi-Momoyama"
+      en: "Tragic Hero of Azuchi-Momoyama"
+      es: "Héroe trágico de Azuchi-Momoyama"
+      fr: "Le héros tragique d'Azuchi-Momoyama"
+      ko: "아즈치 모모야마의 눈물"
+      pl: "Tragiczny bohater okresu Azuchi-Momoyama"
+      zh_CN: "安土桃山之泪"
     prime: false
     rarity: legendary
     skills:
@@ -1027,6 +1395,14 @@ commanders:
       ko: "테오도라"
       pl: "Teodora"
       zh_CN: "狄奥多拉"
+    epithet:
+      de: "Die Gabe des Himmels"
+      en: "Heaven's Bounty"
+      es: "Recompensa del paraíso"
+      fr: "Prime des cieux"
+      ko: "신의 선물"
+      pl: "Niebiańska nagroda"
+      zh_CN: "上帝的赠礼"
     prime: false
     rarity: legendary
     skills:
@@ -1049,6 +1425,14 @@ commanders:
       ko: "관우"
       pl: "Guan Yu"
       zh_CN: "关羽"
+    epithet:
+      de: "Herr vom Prachtvollen Barte"
+      en: "Lord of the Magnificent Beard"
+      es: "Señor de la barba magnífica"
+      fr: "Le Seigneur à la Barbe Glorieuse"
+      ko: "미염공"
+      pl: "Człowiek z imponującą brodą"
+      zh_CN: "美髯公"
     prime: false
     rarity: legendary
     skills:
@@ -1072,6 +1456,14 @@ commanders:
       ko: "레오니다스 1세"
       pl: "Leonidas I"
       zh_CN: "列奥尼达一世"
+    epithet:
+      de: "Unbezwingbares Kraftpaket"
+      en: "Indomitable Powerhouse"
+      es: "Potencia indomable"
+      fr: "Puissance indomptable"
+      ko: "만인지적"
+      pl: "Nieposkromiona potęga"
+      zh_CN: "万人之敌"
     prime: false
     rarity: legendary
     skills:
@@ -1095,6 +1487,14 @@ commanders:
       ko: "람세스 2세"
       pl: "Ramzes II"
       zh_CN: "拉美西斯二世"
+    epithet:
+      de: "Von den Göttern begünstigt"
+      en: "Favored by Gods"
+      es: "Con el favor de los dioses"
+      fr: "Faveur des dieux"
+      ko: "신들의 총아"
+      pl: "Ulubieniec bogów"
+      zh_CN: "众神的宠儿"
     prime: false
     rarity: legendary
     skills:
@@ -1117,6 +1517,14 @@ commanders:
       ko: "아르테미시아 1세"
       pl: "Artemizja I"
       zh_CN: "阿尔特米西亚一世"
+    epithet:
+      de: "Königin von Caria"
+      en: "Queen of Caria"
+      es: "Reina de Caria"
+      fr: "Reine de Caria"
+      ko: "카리아 여왕"
+      pl: "Królowa Karii"
+      zh_CN: "卡里亚女王"
     prime: false
     rarity: legendary
     skills:
@@ -1140,6 +1548,14 @@ commanders:
       ko: "카일라"
       pl: "Keira"
       zh_CN: "凯拉"
+    epithet:
+      de: "Das rote Chamäleon"
+      en: "The Red Chameleon"
+      es: "El Camaleón Rojo"
+      fr: "Le Caméléon rouge"
+      ko: "선홍색 카멜레온"
+      pl: "Czerwony kameleon"
+      zh_CN: "猩红避役"
     prime: false
     rarity: epic
     skills:
@@ -1162,6 +1578,14 @@ commanders:
       ko: "이순신"
       pl: "Yi Sun-sin"
       zh_CN: "李舜臣"
+    epithet:
+      de: "Herzog der Treue und der Kriegsführung"
+      en: "Duke of Loyalty and Warfare"
+      es: "Duque de la lealtad y la guerra"
+      fr: "Duc de la loyauté et du combat"
+      ko: "충무공"
+      pl: "Książę lojalności i wojny"
+      zh_CN: "忠武公"
     prime: false
     rarity: legendary
     skills:
@@ -1185,6 +1609,14 @@ commanders:
       ko: "찬드라굽타"
       pl: "Chandragupta Maurya"
       zh_CN: "旃陀罗笈多"
+    epithet:
+      de: "Herr der Pfaue"
+      en: "Lord of the Peacocks"
+      es: "Señor de los Pavos Reales"
+      fr: "Seigneur des paons"
+      ko: "공작성왕"
+      pl: "Władca pawi"
+      zh_CN: "孔雀圣主"
     prime: false
     rarity: legendary
     skills:
@@ -1209,6 +1641,14 @@ commanders:
       ko: "윌리엄 1세"
       pl: "William I"
       zh_CN: "威廉一世"
+    epithet:
+      de: "Der Eroberer"
+      en: "The Conqueror"
+      es: "El Conquistador"
+      fr: "Le Conquérant"
+      ko: "정복자"
+      pl: "Zdobywca"
+      zh_CN: "征服者"
     prime: false
     rarity: legendary
     skills:
@@ -1231,6 +1671,14 @@ commanders:
       ko: "마틸다 1세"
       pl: "Matylda Flandryjska"
       zh_CN: "玛蒂尔达一世"
+    epithet:
+      de: "Regierende Herzogin der Normandie"
+      en: "Duchess Regent of Normandy"
+      es: "Duquesa y regente de Normandía"
+      fr: "Duchesse régente de Normandie"
+      ko: "노르망디 섭정 여왕"
+      pl: "Regentka Normandii"
+      zh_CN: "诺曼底摄政女王"
     prime: false
     rarity: epic
     skills:
@@ -1254,6 +1702,14 @@ commanders:
       ko: "하랄 3세"
       pl: "Harald III Srogi"
       zh_CN: "哈拉尔三世"
+    epithet:
+      de: "König von Norwegen"
+      en: "Hardrada"
+      es: "Hardrada"
+      fr: "Hardrada"
+      ko: "무정한 자"
+      pl: "Hardrada"
+      zh_CN: "无情者"
     prime: false
     rarity: legendary
     skills:
@@ -1277,6 +1733,14 @@ commanders:
       ko: "제노비아"
       pl: "Zenobia"
       zh_CN: "芝诺比娅"
+    epithet:
+      de: "Königin von Palmyra"
+      en: "Queen of Palmyra"
+      es: "Emperatriz de Palmira"
+      fr: "Reine de Palmyre"
+      ko: "팔미라 여왕"
+      pl: "Królowa Palmyry"
+      zh_CN: "帕尔米拉女王"
     prime: false
     rarity: legendary
     skills:
@@ -1299,6 +1763,14 @@ commanders:
       ko: "여포"
       pl: "Lu Bu"
       zh_CN: "吕布"
+    epithet:
+      de: "Der mächtige Dämonengott"
+      en: "The Powerful Demon God"
+      es: "El Poderoso Dios Demonio"
+      fr: "Le puissant démon"
+      ko: "최강의 귀신"
+      pl: "Potężny demoniczny bóg"
+      zh_CN: "最强的鬼神"
     prime: false
     rarity: legendary
     skills:
@@ -1321,6 +1793,14 @@ commanders:
       ko: "초선"
       pl: "Diaochan"
       zh_CN: "貂蝉"
+    epithet:
+      de: "Die bezaubernde Tänzerin"
+      en: "The Intriguing Dancer"
+      es: "La Bailarina Seductora"
+      fr: "La danseuse intrigante"
+      ko: "책모의 무희"
+      pl: "Intrygująca tancerka"
+      zh_CN: "策谋的舞姬"
     prime: false
     rarity: epic
     skills:
@@ -1343,6 +1823,14 @@ commanders:
       ko: "키루스 대제"
       pl: "Cyrus Wielki"
       zh_CN: "居鲁士大帝"
+    epithet:
+      de: "Gründer des Perserreichs"
+      en: "Founder of the Persian Empire"
+      es: "Fundador del Imperio persa"
+      fr: "Fondateur de l'Empire perse"
+      ko: "페르시아 제국의 통치자"
+      pl: "Założyciel Imperium Perskiego"
+      zh_CN: "波斯帝国缔造者"
     prime: false
     rarity: legendary
     skills:
@@ -1366,6 +1854,14 @@ commanders:
       ko: "네부카드네자르 2세"
       pl: "Nabuchodonozor II"
       zh_CN: "尼布甲尼撒二世"
+    epithet:
+      de: "Der Baumeister Babylons"
+      en: "Restorer of Babylon"
+      es: "Restaurador de Babilonia"
+      fr: "Le restaurateur de Babylone"
+      ko: "바빌론의 부흥자"
+      pl: "Odnowiciel Babilonu"
+      zh_CN: "巴比伦复兴者"
     prime: false
     rarity: legendary
     skills:
@@ -1388,6 +1884,14 @@ commanders:
       ko: "몬테수마 1세"
       pl: "Montezuma I"
       zh_CN: "蒙特祖马一世"
+    epithet:
+      de: "Aztekischer Adler"
+      en: "Aztec Eagle"
+      es: "Águila azteca"
+      fr: "L'Aigle aztèque"
+      ko: "아주텍의 독수리"
+      pl: "Orzeł Azteków"
+      zh_CN: "阿兹特克雄鹰"
     prime: false
     rarity: legendary
     skills:
@@ -1410,6 +1914,14 @@ commanders:
       ko: "트라야누스"
       pl: "Trajan"
       zh_CN: "图拉真"
+    epithet:
+      de: "Optimus Princeps"
+      en: "Optimus Princeps"
+      es: "Optimus Princeps"
+      fr: "Optimus Princeps"
+      ko: "지고의 황제"
+      pl: "Optimus Princeps"
+      zh_CN: "最佳元首"
     prime: false
     rarity: legendary
     skills:
@@ -1432,6 +1944,14 @@ commanders:
       ko: "야드비가"
       pl: "Jadwiga"
       zh_CN: "雅德维加"
+    epithet:
+      de: "Heilige Herrscherin"
+      en: "Holy Sovereign"
+      es: "Santa soberana"
+      fr: "Sainte souveraine"
+      ko: "성결한 군주"
+      pl: "Święta królowa"
+      zh_CN: "圣洁君主"
     prime: false
     rarity: legendary
     skills:
@@ -1455,6 +1975,14 @@ commanders:
       ko: "항우"
       pl: "Xiang Yu"
       zh_CN: "项羽"
+    epithet:
+      de: "König des Westlichen Chu"
+      en: "King of Western Chu"
+      es: "Rey de Chu occidental"
+      fr: "Roi du Chu occidental"
+      ko: "서초패왕"
+      pl: "Król Zachodniego Chu"
+      zh_CN: "西楚霸王"
     prime: false
     rarity: legendary
     skills:
@@ -1478,6 +2006,14 @@ commanders:
       ko: "비에른"
       pl: "Björn Żelaznoboki"
       zh_CN: "比约恩"
+    epithet:
+      de: "König des Kattegats"
+      en: "King of Kattegat"
+      es: "Rey de Kattegat"
+      fr: "Roi du Cattégat"
+      ko: "카테가트 용사"
+      pl: "Król Kattegat"
+      zh_CN: "卡特加特勇士"
     prime: false
     rarity: epic
     skills:
@@ -1500,6 +2036,14 @@ commanders:
       ko: "라그나르 로드브로크"
       pl: "Ragnar Lodbrok"
       zh_CN: "朗纳尔·洛德布罗克"
+    epithet:
+      de: "Legende des Nordens"
+      en: "Legend of the North"
+      es: "Leyenda nórdica"
+      fr: "La légende du Nord"
+      ko: "북해의 전설"
+      pl: "Legenda Północy"
+      zh_CN: "北海传奇"
     prime: false
     rarity: legendary
     skills:
@@ -1522,6 +2066,14 @@ commanders:
       ko: "척준경"
       pl: "Cheok Jun-gyeong"
       zh_CN: "拓俊京"
+    epithet:
+      de: "Minister-Beschützer"
+      en: "Minister Protector"
+      es: "Ministro protector"
+      fr: "Protecteur de ministre"
+      ko: "사직의 수호자"
+      pl: "Minister Opiekun"
+      zh_CN: "卫社之臣"
     prime: false
     rarity: legendary
     skills:
@@ -1544,6 +2096,14 @@ commanders:
       ko: "파칼 2세"
       pl: "Kʼinich Janaabʼ Pakal"
       zh_CN: "巴加尔二世"
+    epithet:
+      de: "Sonne des Ewigen Ruhms"
+      en: "Sun of Eternal Glory"
+      es: "Sol de la gloria eterna"
+      fr: "Soleil de la gloire éternelle"
+      ko: "영원한 태양"
+      pl: "Słońce Wiecznej Chwały"
+      zh_CN: "永耀之日"
     prime: false
     rarity: legendary
     skills:
@@ -1567,6 +2127,14 @@ commanders:
       ko: "길가메시"
       pl: "Gilgamesz"
       zh_CN: "吉尔伽美什"
+    epithet:
+      de: "Zorn von Ishtar"
+      en: "Wrath of Ishtar"
+      es: "Furia de Ishtar"
+      fr: "Colère d'Ishtar"
+      ko: "신의 분노"
+      pl: "Gniew Isztar"
+      zh_CN: "天神之怒"
     prime: false
     rarity: legendary
     skills:
@@ -1589,6 +2157,14 @@ commanders:
       ko: "아마니토레"
       pl: "Amanitore"
       zh_CN: "阿曼尼托尔"
+    epithet:
+      de: "Nubische Kandake"
+      en: "Nubian Kandake"
+      es: "Kandake nubia"
+      fr: "Candace nubienne"
+      ko: "누비아 칸다케"
+      pl: "Nubijska Kandaka"
+      zh_CN: "努比亚甘达刻"
     prime: false
     rarity: legendary
     skills:
@@ -1612,6 +2188,14 @@ commanders:
       ko: "타마르 여왕"
       pl: "Tamara – królowa Gruzji"
       zh_CN: "塔玛尔女王"
+    epithet:
+      de: "Der georgische Wille"
+      en: "The Georgian Will"
+      es: "La voluntad georgiana"
+      fr: "La volonté géorgienne"
+      ko: "조지아의 심장"
+      pl: "Gruzińska wola"
+      zh_CN: "格鲁吉亚之心"
     prime: false
     rarity: epic
     skills:
@@ -1634,6 +2218,14 @@ commanders:
       ko: "혼다 타다카츠"
       pl: "Honda Tadakatsu"
       zh_CN: "本多忠胜"
+    epithet:
+      de: "Tokugawas Hirsch"
+      en: "The Deer of Tokugawa"
+      es: "El Ciervo de Tokugawa"
+      fr: "Le cerf de Tokugawa"
+      ko: "도쿠가와의 사슴"
+      pl: "Jeleń klanu Tokugawa"
+      zh_CN: "德川之鹿"
     prime: false
     rarity: legendary
     skills:
@@ -1657,6 +2249,14 @@ commanders:
       ko: "쉴레이만 1세"
       pl: "Sulejman Wspaniały"
       zh_CN: "苏莱曼一世"
+    epithet:
+      de: "Kanuni"
+      en: "Kanuni"
+      es: "Kanuni"
+      fr: "Kanuni"
+      ko: "카누니"
+      pl: "Kanuni"
+      zh_CN: "卡努尼"
     prime: false
     rarity: legendary
     skills:
@@ -1680,6 +2280,14 @@ commanders:
       ko: "베르트랑 뒤게클랭"
       pl: "Bertrand du Guesclin"
       zh_CN: "贝特朗·杜·盖克兰"
+    epithet:
+      de: "Der Adler der Bretagne"
+      en: "The Eagle of Brittany"
+      es: "El Águila de Bretaña"
+      fr: "Le dogue noir de Brocéliande"
+      ko: "브리타니의 독수리"
+      pl: "Orzeł Bretanii"
+      zh_CN: "布列塔尼之鹰"
     prime: false
     rarity: legendary
     skills:
@@ -1703,6 +2311,14 @@ commanders:
       ko: "알렉산드르 넵스키"
       pl: "Aleksander Newski"
       zh_CN: "亚历山大·涅夫斯基"
+    epithet:
+      de: "Der Held der Newa"
+      en: "The Hero of Neva River"
+      es: "El Héroe del Río Nevá"
+      fr: "Le héros de la Neva"
+      ko: "네바 강의 영웅"
+      pl: "Bohater znad Newy"
+      zh_CN: "涅瓦河的英雄"
     prime: false
     rarity: legendary
     skills:
@@ -1726,6 +2342,14 @@ commanders:
       ko: "아에티우스"
       pl: "Aecjusz Flawiusz"
       zh_CN: "埃提乌斯"
+    epithet:
+      de: "Patrizier Roms"
+      en: "Patrician of Rome"
+      es: "Patricio de Roma"
+      fr: "Patrice de Rome"
+      ko: "로마의 수호자"
+      pl: "Rzymski patrycjusz"
+      zh_CN: "罗马护国公"
     prime: false
     rarity: legendary
     skills:
@@ -1749,6 +2373,14 @@ commanders:
       ko: "스키피오 아프리카누스"
       pl: "Scypion Afrykański"
       zh_CN: "西庇阿·阿非利加努斯"
+    epithet:
+      de: "Held von Zama"
+      en: "Hero of Zama"
+      es: "Héroe de Zama"
+      fr: "Héros de Zama"
+      ko: "자마의 전쟁신"
+      pl: "Bohater spod Zamy"
+      zh_CN: "扎马的军神"
     prime: true
     rarity: legendary
     skills:
@@ -1772,6 +2404,14 @@ commanders:
       ko: "투트모세 3세"
       pl: "Totmes III"
       zh_CN: "图特摩斯三世"
+    epithet:
+      de: "Schützling von Thoth"
+      en: "Beloved of Thoth"
+      es: "Favorito de Thot"
+      fr: "Aimé de Thoth"
+      ko: "토트신이 좋아하는 사람"
+      pl: "Ukochana Thota"
+      zh_CN: "托特神喜爱之人"
     prime: false
     rarity: legendary
     skills:
@@ -1795,6 +2435,14 @@ commanders:
       ko: "임호텝"
       pl: "Imhotep"
       zh_CN: "伊姆霍特普"
+    epithet:
+      de: "Mann des Friedens"
+      en: "Man of Peace"
+      es: "Hombre de paz"
+      fr: "Homme de paix"
+      ko: "평화주의자"
+      pl: "Pacyfista"
+      zh_CN: "和平之人"
     prime: false
     rarity: epic
     skills:
@@ -1817,6 +2465,14 @@ commanders:
       ko: "헨리 5세"
       pl: "Henryk V"
       zh_CN: "亨利五世"
+    epithet:
+      de: "König der Lancaster"
+      en: "Lancastrian King"
+      es: "Rey lancastriano"
+      fr: "Roi lancastrien"
+      ko: "랭커스터의 왕"
+      pl: "Król z Lancasterów"
+      zh_CN: "兰开斯特之王"
     prime: false
     rarity: legendary
     skills:
@@ -1840,6 +2496,14 @@ commanders:
       ko: "부디카"
       pl: "Boudika"
       zh_CN: "布狄卡"
+    epithet:
+      de: "Königin der Icener"
+      en: "Queen of the Iceni"
+      es: "Reina de los icenos"
+      fr: "Reine des Icènes"
+      ko: "이케니의 여왕"
+      pl: "Królowa Icenów"
+      zh_CN: "爱西尼女王"
     prime: true
     rarity: legendary
     skills:
@@ -1863,6 +2527,14 @@ commanders:
       ko: "얀 지슈카"
       pl: "Jan Žižka"
       zh_CN: "扬·杰式卡"
+    epithet:
+      de: "Žižka vom Kelch"
+      en: "Žižka of the Chalice"
+      es: "Žižka del Cáliz"
+      fr: "Žižka du calice"
+      ko: "성배의 영주"
+      pl: "Žižka z Kalicha"
+      zh_CN: "圣杯领主"
     prime: false
     rarity: legendary
     skills:
@@ -1885,6 +2557,14 @@ commanders:
       ko: "잔 다르크"
       pl: "Joanna d’Arc"
       zh_CN: "贞德"
+    epithet:
+      de: "Jungfrau von Orléans"
+      en: "Virgin Warrior"
+      es: "Virgen Guerrera"
+      fr: "La Pucelle"
+      ko: "잔 다르크"
+      pl: "Wojownicza dziewica"
+      zh_CN: "天佑圣女"
     prime: true
     rarity: legendary
     skills:
@@ -1908,6 +2588,14 @@ commanders:
       ko: "타리크 이븐 지야드"
       pl: "Tarik ibn Ziyad"
       zh_CN: "塔里克·伊本·齐亚德"
+    epithet:
+      de: "Statthalter von al-Andalus"
+      en: "Governor of al-Andalus"
+      es: "Gobernador de al-Ándalus"
+      fr: "Gouverneur d'Al-Andalus"
+      ko: "알안달루스 총독"
+      pl: "Namiestnik Al-Andalus"
+      zh_CN: "安达卢斯总督"
     prime: false
     rarity: legendary
     skills:
@@ -1930,6 +2618,14 @@ commanders:
       ko: "사르곤 1세"
       pl: "Sargon Wielki"
       zh_CN: "萨尔贡一世"
+    epithet:
+      de: "Kaiser des Reiches von Akkad"
+      en: "Emperor of Akkad"
+      es: "Emperador de Acadia"
+      fr: "Empereur d'Akkad"
+      ko: "아카드 왕"
+      pl: "Cesarz Akadu"
+      zh_CN: "阿卡德大帝"
     prime: false
     rarity: legendary
     skills:
@@ -1953,6 +2649,14 @@ commanders:
       ko: "마르그레테 1세"
       pl: "Małgorzata I"
       zh_CN: "玛格丽特一世"
+    epithet:
+      de: "Obere Königin des Nordens"
+      en: "High Queen of the North"
+      es: "Reina Suprema del Norte"
+      fr: "Grande reine du Nord"
+      ko: "북유럽 여왕"
+      pl: "Królowa Północy"
+      zh_CN: "北欧女王"
     prime: false
     rarity: legendary
     skills:
@@ -1976,6 +2680,14 @@ commanders:
       ko: "바부르"
       pl: "Babur"
       zh_CN: "巴布尔"
+    epithet:
+      de: "Vorfahre der Mogule"
+      en: "Forefather of the Mughals"
+      es: "Antecesor de los Mogoles"
+      fr: "Ancêtre des Moghols"
+      ko: "무굴 창시자"
+      pl: "Wielki Ojciec Mogołów"
+      zh_CN: "莫卧儿开创者"
     prime: false
     rarity: legendary
     skills:
@@ -1999,6 +2711,14 @@ commanders:
       ko: "플라비우스 헤라클리우스"
       pl: "Herakliusz"
       zh_CN: "弗拉维乌斯·希拉克略"
+    epithet:
+      de: "Der erste Basileus"
+      en: "The First Basileus"
+      es: "El Primer Basileus"
+      fr: "Premier Basileus"
+      ko: "비잔움 혁신왕"
+      pl: "Pierwszy basileus"
+      zh_CN: "拜占庭革新之王"
     prime: false
     rarity: legendary
     skills:
@@ -2022,6 +2742,14 @@ commanders:
       ko: "디도"
       pl: "Dydona"
       zh_CN: "狄多"
+    epithet:
+      de: "Erste Königin Karthagos"
+      en: "First Queen of Carthage"
+      es: "Primera reina de Cartago"
+      fr: "Première reine de Carthage"
+      ko: "카르타고의 여왕"
+      pl: "Pierwsza królowa Kartaginy"
+      zh_CN: "迦太基女王"
     prime: false
     rarity: legendary
     skills:
@@ -2044,6 +2772,14 @@ commanders:
       ko: "제갈량"
       pl: "Zhuge Liang"
       zh_CN: "诸葛亮"
+    epithet:
+      de: "Kauernder Drache"
+      en: "Crouching Dragon"
+      es: "Dragón agazapado"
+      fr: "Dragon accroupi"
+      ko: "와룡선생"
+      pl: "Przyczajony smok"
+      zh_CN: "卧龙先生"
     prime: false
     rarity: legendary
     skills:
@@ -2067,6 +2803,14 @@ commanders:
       ko: "피로스"
       pl: "Pyrrus"
       zh_CN: "皮洛士"
+    epithet:
+      de: "König von Epirus"
+      en: "King of Epirus"
+      es: "Rey de Epiro"
+      fr: "Roi d'Épire"
+      ko: "에페이로스의 왕"
+      pl: "Król Epiru"
+      zh_CN: "伊庇鲁斯之王"
     prime: false
     rarity: legendary
     skills:
@@ -2090,6 +2834,14 @@ commanders:
       ko: "페리클레스"
       pl: "Perykles"
       zh_CN: "伯里克利"
+    epithet:
+      de: "Vater Athens"
+      en: "Father of Athens"
+      es: "Padre de Atenas"
+      fr: "Père d'Athènes"
+      ko: "아테네의 아버지"
+      pl: "Ojciec Aten"
+      zh_CN: "雅典之父"
     prime: false
     rarity: epic
     skills:
@@ -2112,6 +2864,14 @@ commanders:
       ko: "곽거병"
       pl: "Huo Qubing"
       zh_CN: "霍去病"
+    epithet:
+      de: "Marquis Guanjun"
+      en: "Marquis Guanjun"
+      es: "Marqués de Guanjun"
+      fr: "Marquis Guanjun"
+      ko: "관군후"
+      pl: "Markiz Guanjun"
+      zh_CN: "冠军侯"
     prime: false
     rarity: legendary
     skills:
@@ -2134,6 +2894,14 @@ commanders:
       ko: "유스티니아누스 1세"
       pl: "Justynian I"
       zh_CN: "查士丁尼一世"
+    epithet:
+      de: "Allzeit wacher Kaiser"
+      en: "Unsleeping Emperor"
+      es: "Emperador que no duerme"
+      fr: "L'empereur qui ne dort jamais"
+      ko: "아코이메토스"
+      pl: "Cesarz, który nie śpi"
+      zh_CN: "不眠皇帝"
     prime: false
     rarity: legendary
     skills:
@@ -2156,6 +2924,14 @@ commanders:
       ko: "고르곤"
       pl: "Gorgo"
       zh_CN: "戈尔戈"
+    epithet:
+      de: "Lakonischer Adler"
+      en: "Laconian Eagle"
+      es: "Águila de Laconia"
+      fr: "Aigle de Laconie"
+      ko: "라코니아의 독수리"
+      pl: "Orzeł lakoński"
+      zh_CN: "拉科尼亚之鹰"
     prime: false
     rarity: legendary
     skills:
@@ -2179,6 +2955,14 @@ commanders:
       ko: "유철"
       pl: "Liu Che"
       zh_CN: "刘彻"
+    epithet:
+      de: "Kaiser Wu von Han"
+      en: "Emperor Wu of Han"
+      es: "Emperador Wu de Han"
+      fr: "Empereur Wu des Han"
+      ko: "한무제"
+      pl: "Cesarz Wu z dynastii Han"
+      zh_CN: "汉武帝"
     prime: false
     rarity: legendary
     skills:
@@ -2202,6 +2986,14 @@ commanders:
       ko: "아슈르바니팔"
       pl: "Aszurbanipal"
       zh_CN: "亚述巴尼拔"
+    epithet:
+      de: "König von Assyrien"
+      en: "King of Assyria"
+      es: "Rey de Asiria"
+      fr: "Roi d'Assyrie"
+      ko: "신아시리아의 왕"
+      pl: "Król Asyrii"
+      zh_CN: "新亚述国王"
     prime: false
     rarity: legendary
     skills:
@@ -2225,6 +3017,14 @@ commanders:
       ko: "헤르만"
       pl: "Hermann"
       zh_CN: "海尔曼"
+    epithet:
+      de: "Teutoburger Wolf"
+      en: "Wolf of Teutoburg"
+      es: "Lobo de Teutoburgo"
+      fr: "Loup de Teutobourg"
+      ko: "게르만 늑대왕"
+      pl: "Wilk z Lasu Teutoburskiego"
+      zh_CN: "日耳曼狼王"
     prime: true
     rarity: legendary
     skills:
@@ -2248,6 +3048,14 @@ commanders:
       ko: "라푸라푸"
       pl: "Lapu-Lapu"
       zh_CN: "拉普拉普"
+    epithet:
+      de: "Der Uferstein-Schild"
+      en: "The Shorestone Shield"
+      es: "Escudo de Piedra Costero"
+      fr: "La pierre côtière"
+      ko: "수호의 부석"
+      pl: "Głaz z Wyspy Mactan"
+      zh_CN: "护佑的海石"
     prime: false
     rarity: legendary
     skills:
@@ -2270,6 +3078,14 @@ commanders:
       ko: "곤살로 페르난데스 데 코르도바"
       pl: "Gonzalo de Córdoba"
       zh_CN: "贡萨洛·德·科尔多瓦"
+    epithet:
+      de: "Vater der Tercios"
+      en: "Father of the Tercio"
+      es: "Padre de los Tercios"
+      fr: "Le père du Tercio"
+      ko: "전쟁을 바꾼 사람"
+      pl: "Ojciec Tercios"
+      zh_CN: "改变战争的人"
     prime: false
     rarity: legendary
     skills:
@@ -2293,6 +3109,14 @@ commanders:
       ko: "가자 마다"
       pl: "Gajah Mada"
       zh_CN: "加查·马达"
+    epithet:
+      de: "Jirnnodhara"
+      en: "Jirnnodhara"
+      es: "Jirnnodhara"
+      fr: "Jirnnodhara"
+      ko: "4상합일"
+      pl: "Odnowiciel"
+      zh_CN: "四相合一"
     prime: false
     rarity: legendary
     skills:
@@ -2315,6 +3139,14 @@ commanders:
       ko: "엘레오노르 다키텐"
       pl: "Eleonora Akwitańska"
       zh_CN: "阿基坦的埃莉诺"
+    epithet:
+      de: "Herzogin der Wildblumen"
+      en: "The Wildflower Duchess"
+      es: "Duquesa de las Flores Silvestres"
+      fr: "La duchesse des fleurs"
+      ko: "들꽃"
+      pl: "Księżna polnych kwiatów"
+      zh_CN: "原野之花"
     prime: false
     rarity: legendary
     skills:
@@ -2338,6 +3170,14 @@ commanders:
       ko: "벨리사리우스"
       pl: "Belizariusz"
       zh_CN: "贝利撒留"
+    epithet:
+      de: "Renovator Imperii"
+      en: "Renovator Imperii"
+      es: "Renovator Imperii"
+      fr: "Renovator Imperii"
+      ko: "제국의 해와 달"
+      pl: "Renovator imperii"
+      zh_CN: "帝国日月"
     prime: true
     rarity: legendary
     skills:
@@ -2361,6 +3201,14 @@ commanders:
       ko: "윌리엄 월리스"
       pl: "William Wallace"
       zh_CN: "威廉·华莱士"
+    epithet:
+      de: "Wächter Schottlands"
+      en: "Guardian of Scotland"
+      es: "Guardián de Escocia"
+      fr: "Gardien de l'Écosse"
+      ko: "푸른 하늘의 수호자"
+      pl: "Strażnik Szkocji"
+      zh_CN: "天空之蓝"
     prime: false
     rarity: legendary
     skills:
@@ -2384,6 +3232,14 @@ commanders:
       ko: "샤쟈르 알두르"
       pl: "Szadżar al-Durr"
       zh_CN: "舍哲尔·杜尔"
+    epithet:
+      de: "Perlenbaum"
+      en: "Tree of Pearls"
+      es: "Árbol de Perlas"
+      fr: "Arbre de perles"
+      ko: "진주 나무"
+      pl: "Perłowe drzewo"
+      zh_CN: "珍珠小枝"
     prime: false
     rarity: legendary
     skills:
@@ -2407,6 +3263,14 @@ commanders:
       ko: "최영"
       pl: "Choe Yeong"
       zh_CN: "崔莹"
+    epithet:
+      de: "Fürst Mumin"
+      en: "Lord Mumin"
+      es: "Señor Mumin"
+      fr: "Seigneur Mumin"
+      ko: "무민공"
+      pl: "Lord Mumin"
+      zh_CN: "武愍公"
     prime: false
     rarity: legendary
     skills:
@@ -2430,6 +3294,14 @@ commanders:
       ko: "스키피오 아이밀리아누스"
       pl: "Scypion Młodszy"
       zh_CN: "西庇阿·埃米利安努斯"
+    epithet:
+      de: "Eroberer Karthagos"
+      en: "Conqueror of Carthage"
+      es: "Conquistador de Cartago"
+      fr: "Conquérant de Carthage"
+      ko: "전승의 장군"
+      pl: "Zdobywca Kartaginy"
+      zh_CN: "全胜将军"
     prime: false
     rarity: legendary
     skills:
@@ -2453,6 +3325,14 @@ commanders:
       ko: "라그나르 로드브로크"
       pl: "Ragnar Lodbrok"
       zh_CN: "朗纳尔·洛德布罗克"
+    epithet:
+      de: "Odins Macht"
+      en: "Odin's Might"
+      es: "Poder de Odín"
+      fr: "Puissance d'Odin"
+      ko: "오딘의 힘"
+      pl: "Potęga Odyna"
+      zh_CN: "奥丁之力"
     prime: true
     rarity: legendary
     skills:
@@ -2475,6 +3355,14 @@ commanders:
       ko: "필리포스 2세"
       pl: "Filip II"
       zh_CN: "腓力二世"
+    epithet:
+      de: "Stern der Argeaden"
+      en: "Star of the Argeadai"
+      es: "Estrella de los Argéadas"
+      fr: "Étoile des Argéades"
+      ko: "새벽의 선구자"
+      pl: "Gwiazda Argeadów"
+      zh_CN: "破晓先驱"
     prime: false
     rarity: legendary
     skills:
@@ -2498,6 +3386,14 @@ commanders:
       ko: "슈테판 3세"
       pl: "Stefan III"
       zh_CN: "斯特凡三世"
+    epithet:
+      de: "Der Große"
+      en: "Cel Mare"
+      es: "El Grande"
+      fr: "Cel Mare"
+      ko: "위대한 자"
+      pl: "Cel Mare"
+      zh_CN: "摩尔达维亚大公"
     prime: false
     rarity: legendary
     skills:
@@ -2521,6 +3417,14 @@ commanders:
       ko: "후녀디 야노시"
       pl: "János Hunyady"
       zh_CN: "匈雅提·亚诺什"
+    epithet:
+      de: "Athleta Christi"
+      en: "Athleta Christi"
+      es: "Athleta Christi"
+      fr: "Athleta Christi"
+      ko: "정의의 기사"
+      pl: "Athleta Christi"
+      zh_CN: "正义骑士"
     prime: false
     rarity: legendary
     skills:
@@ -2543,6 +3447,14 @@ commanders:
       ko: "시야칵"
       pl: "Siyaj K’ak’"
       zh_CN: "西亚·卡克"
+    epithet:
+      de: "Feuer wird geboren"
+      en: "Fire is Born"
+      es: "Creador del fuego"
+      fr: "Naissance du feu"
+      ko: "스모킹 프로그"
+      pl: "Rodzący się Ogień"
+      zh_CN: "冒烟青蛙"
     prime: false
     rarity: legendary
     skills:
@@ -2566,6 +3478,14 @@ commanders:
       ko: "왁 차닐 아하우"
       pl: "Wak Chanil Ajaw"
       zh_CN: "瓦克·查尼尔·阿豪"
+    epithet:
+      de: "Lady Six Sky"
+      en: "Lady Six Sky"
+      es: "Lady Six Sky"
+      fr: "Dame Six Cieux"
+      ko: "여섯 하늘 여왕"
+      pl: "Lady Six Sky"
+      zh_CN: "六天夫人"
     prime: false
     rarity: epic
     skills:
@@ -2588,6 +3508,14 @@ commanders:
       ko: "도쿠가와 이에야스"
       pl: "Ieyasu Tokugawa"
       zh_CN: "德川家康"
+    epithet:
+      de: "Tōshō Daigongen"
+      en: "Tōshō Daigongen"
+      es: "Tōshō Daigongen"
+      fr: "Tōshō Daigongen"
+      ko: "동조대권현"
+      pl: "Tōshō Daigongen"
+      zh_CN: "东照大权现"
     prime: false
     rarity: legendary
     skills:
@@ -2611,6 +3539,14 @@ commanders:
       ko: "샤푸르 1세"
       pl: "Szapur I"
       zh_CN: "沙普尔一世"
+    epithet:
+      de: "Shahanshah"
+      en: "Shahanshah"
+      es: "Sahansah"
+      fr: "Shahanshah"
+      ko: "진주 나무"
+      pl: "Szachinszach"
+      zh_CN: "萨珊晨辉"
     skills:
       - slot: 1
         id: 359
@@ -2632,6 +3568,14 @@ commanders:
       ko: "영정"
       pl: "Qin Shi Huang"
       zh_CN: "嬴政"
+    epithet:
+      de: "Der erste Kaiser"
+      en: "The First Emperor"
+      es: "El primer emperador"
+      fr: "Le premier Empereur"
+      ko: "시황제"
+      pl: "Pierwszy Cesarz"
+      zh_CN: "始皇帝"
     prime: false
     rarity: legendary
     skills:
@@ -2654,6 +3598,14 @@ commanders:
       ko: "마차시 1세"
       pl: "Maciej I"
       zh_CN: "马加什一世"
+    epithet:
+      de: "Corvinus"
+      en: "Corvinus"
+      es: "Corvino"
+      fr: "Corvin"
+      ko: "헝가리 정의왕"
+      pl: "Korwin"
+      zh_CN: "匈牙利雄主"
     prime: false
     rarity: legendary
     skills:
@@ -2676,6 +3628,14 @@ commanders:
       ko: "카트린 드 메디시스"
       pl: "Katarzyna Medycejska"
       zh_CN: "凯瑟琳·德·美第奇"
+    epithet:
+      de: "Schattenkönigin"
+      en: "Shadow Queen"
+      es: "Reina Negra"
+      fr: "Reine noire"
+      ko: "권모술수의 여왕"
+      pl: "Królowa Cieni"
+      zh_CN: "权谋女王"
     prime: false
     rarity: epic
     skills:
@@ -2698,6 +3658,14 @@ commanders:
       ko: "나르세스"
       pl: "Narses"
       zh_CN: "纳尔塞斯"
+    epithet:
+      de: "Großkammerherr"
+      en: "Grand Chamberlain"
+      es: "Gran Chambelán"
+      fr: "Grand chambellan"
+      ko: "제국의 실에"
+      pl: "Wielki Szambelan"
+      zh_CN: "帝国权臣"
     prime: false
     rarity: epic
     skills:
@@ -2721,6 +3689,14 @@ commanders:
       ko: "수부타이"
       pl: "Subedej"
       zh_CN: "速不台"
+    epithet:
+      de: "Schwert des Khans"
+      en: "Sword of the Khan"
+      es: "Espada del Khan"
+      fr: "Épée du Khan"
+      ko: "대칸의 검"
+      pl: "Miecz Chana"
+      zh_CN: "忠武佐命"
     prime: false
     rarity: legendary
     skills:
@@ -2744,6 +3720,14 @@ commanders:
       ko: "아서펜드래곤"
       pl: "Artur Pendragon"
       zh_CN: "亚瑟·潘德拉贡"
+    epithet:
+      de: "Eins. und zuk. König"
+      en: "Once and Future King"
+      es: "Rey pasado y futuro"
+      fr: "Le roi promis"
+      ko: "브리튼인의 왕"
+      pl: "Król Ter. i na Wieki"
+      zh_CN: "天选之王"
     prime: false
     rarity: legendary
     skills:
@@ -2767,6 +3751,14 @@ commanders:
       ko: "백기"
       pl: "Bai Qi"
       zh_CN: "白起"
+    epithet:
+      de: "Gottheit des Todes"
+      en: "Deity of Death"
+      es: "Dios de la Muerte"
+      fr: "Divinité de la mort"
+      ko: "삭기"
+      pl: "Bóstwo Śmierci"
+      zh_CN: "杀神"
     prime: false
     rarity: legendary
     skills:
@@ -2790,6 +3782,14 @@ commanders:
       ko: "아폰수 드 알부케르크"
       pl: "Afonso de Albuquerque"
       zh_CN: "阿方索·德·阿尔布克尔克"
+    epithet:
+      de: "Cäsar des Ostens"
+      en: "Caesar of the East"
+      es: "César del Oriente"
+      fr: "César d'Orient"
+      ko: "동양의 카이사르"
+      pl: "Cezar Wschodu"
+      zh_CN: "东方凯撒"
     prime: false
     rarity: legendary
     skills:
@@ -2812,6 +3812,14 @@ commanders:
       ko: "아르키메데스"
       pl: "Archimedes"
       zh_CN: "阿基米德"
+    epithet:
+      de: "Vater der Mathematik"
+      en: "Father of Mathematics"
+      es: "Padre de las matemáticas"
+      fr: "Père des mathématiques"
+      ko: "수학의 아버지"
+      pl: "Ojciec Matematyki"
+      zh_CN: "数学之父"
     prime: false
     rarity: legendary
     skills:
@@ -2835,6 +3843,14 @@ commanders:
       ko: "메리 1세"
       pl: "Maria I"
       zh_CN: "玛丽一世"
+    epithet:
+      de: "Bloody Mary"
+      en: "Bloody Mary"
+      es: "María la Sangrienta"
+      fr: "Marie la Sanglante"
+      ko: "블러디 메리"
+      pl: "Krwawa Maria"
+      zh_CN: "红皇后"
     prime: false
     rarity: legendary
     skills:
@@ -2857,6 +3873,14 @@ commanders:
       ko: "카지미에시"
       pl: "Kazimierz III"
       zh_CN: "卡西米日"
+    epithet:
+      de: "Wielki Król"
+      en: "Wielki Król"
+      es: "El Grande"
+      fr: "Wielki Król"
+      ko: "피아스트 군주"
+      pl: "Wielki"
+      zh_CN: "皮亚斯特王"
     prime: false
     rarity: legendary
     skills:
@@ -2880,6 +3904,14 @@ commanders:
       ko: "피피누스 3세"
       pl: "Pepin III"
       zh_CN: "丕平三世"
+    epithet:
+      de: "Le Bref"
+      en: "Le Bref"
+      es: "El Breve"
+      fr: "Le Bref"
+      ko: "단신왕 피핀"
+      pl: "le Bref"
+      zh_CN: "矮子丕平"
     prime: false
     rarity: legendary
     skills:
@@ -2903,6 +3935,14 @@ commanders:
       ko: "아킬레우스"
       pl: "Achilles"
       zh_CN: "阿喀琉斯"
+    epithet:
+      de: "Flinkfüßig"
+      en: "Swift-Footed"
+      es: "Pies ligeros"
+      fr: "Achille aux pieds rapides"
+      ko: "최강의 그리스 전사"
+      pl: "Szybkostopy"
+      zh_CN: "希腊第一勇士"
     prime: false
     rarity: legendary
     skills:
@@ -2925,6 +3965,14 @@ commanders:
       ko: "헥토르"
       pl: "Hektor"
       zh_CN: "赫克托尔"
+    epithet:
+      de: "Prinz mit glänzendem Helm"
+      en: "Prince of the Gleaming Helm"
+      es: "Príncipe del casco brillante"
+      fr: "Hector au casque étincelant"
+      ko: "트로이의 기둥"
+      pl: "Książę Błyszczącego Hełmu"
+      zh_CN: "护城者"
     prime: false
     rarity: legendary
     skills:
@@ -2948,6 +3996,14 @@ commanders:
       ko: "다비트 4세"
       pl: "Dawid IV"
       zh_CN: "大卫四世"
+    epithet:
+      de: "Der Baumeister"
+      en: "The Builder"
+      es: "El Constructor"
+      fr: "Le bâtisseur"
+      ko: "건설자"
+      pl: "Budowniczy"
+      zh_CN: "建国者"
     prime: false
     rarity: legendary
     skills:
@@ -2971,6 +4027,14 @@ commanders:
       ko: "강감찬"
       pl: "Gang Gam-Chan"
       zh_CN: "姜邯赞"
+    epithet:
+      de: "Schwert des Fallenden Sterns"
+      en: "Sword of the Falling Star"
+      es: "Espada de la Estrella Fugaz"
+      fr: "Épée de l'étoile filante"
+      ko: "추풍협모안국봉상공신"
+      pl: "Miecz Spadającej Gwiazdy"
+      zh_CN: "落星将相"
     prime: false
     rarity: legendary
     skills:
