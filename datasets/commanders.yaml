@@ -41,7 +41,7 @@ commanders:
   4:
     name:
       en: "Frederick I"
-      de: "Friedrich I"
+      de: "Friedrich I."
       es: "Federico I"
       ko: "프리드리히 1세"
     prime: false
@@ -60,7 +60,7 @@ commanders:
   5:
     name:
       en: "Constantine I"
-      de: "Konstantin I"
+      de: "Konstantin I."
       es: "Constantino I"
       ko: "콘스탄티누스 1세"
     prime: false
@@ -119,7 +119,7 @@ commanders:
   8:
     name:
       en: "Richard I"
-      de: "Richard I"
+      de: "Richard I."
       es: "Ricardo I"
       ko: "리처드 1세"
     prime: false
@@ -292,7 +292,7 @@ commanders:
   17:
     name:
       en: "Boudica"
-      de: "Boundicca"
+      de: "Boudicca"
       es: "Boudica"
       ko: "부디카"
     prime: false
@@ -421,7 +421,7 @@ commanders:
   32:
     name:
       en: "Cleopatra VII"
-      de: "Kleopatra VII"
+      de: "Kleopatra VII."
       es: "Cleopatra VII"
       ko: "틀레오파트라 7세"
     prime: false
@@ -588,7 +588,7 @@ commanders:
   63:
     name:
       en: "Osman I"
-      de: "Osman I"
+      de: "Osman I."
       es: "Osmán I"
       ko: "오스만 1세"
     prime: false
@@ -626,7 +626,7 @@ commanders:
   65:
     name:
       en: "Mehmed II"
-      de: "Mehmed II"
+      de: "Mehmed II."
       es: "Mehmed II"
       ko: "메흐메트 2세"
     prime: false
@@ -922,7 +922,7 @@ commanders:
   109:
     name:
       en: "Leonidas I"
-      de: "Leonidas I"
+      de: "Leonidas I."
       es: "Leónidas I"
       ko: "레오니다스 1세"
     prime: false
@@ -942,7 +942,7 @@ commanders:
   110:
     name:
       en: "Ramesses II"
-      de: "Ramesses II"
+      de: "Ramesses II."
       es: "Ramsés II"
       ko: "람세스 2세"
     prime: false
@@ -961,7 +961,7 @@ commanders:
   111:
     name:
       en: "Artemisia I"
-      de: "Artemisia I"
+      de: "Artemisia I."
       es: "Artemisia I"
       ko: "아르테미시아 1세"
     prime: false
@@ -1001,7 +1001,7 @@ commanders:
     name:
       en: "Yi Sun-sin"
       de: "Yi Sun-sin"
-      es: "Yi Sun-sin"
+      es: "Yi Sun-sin."
       ko: "이순신"
     prime: false
     rarity: legendary
@@ -1041,7 +1041,7 @@ commanders:
   115:
     name:
       en: "William I"
-      de: "Wilhelm I"
+      de: "Wilhelm I."
       es: "Guillermo I"
       ko: "윌리엄 1세"
     prime: false
@@ -1080,7 +1080,7 @@ commanders:
   117:
     name:
       en: "Harald Sigurdsson"
-      de: "Harald III"
+      de: "Harald III."
       es: "Harald Sigurdsson"
       ko: "하랄 3세"
     prime: false
@@ -1177,7 +1177,7 @@ commanders:
   122:
     name:
       en: "Nebuchadnezzar II"
-      de: "Nebukadnezar II"
+      de: "Nebukadnezar II."
       es: "Nabucodonosor II"
       ko: "네부카드네자르 2세"
     prime: false
@@ -1196,7 +1196,7 @@ commanders:
   124:
     name:
       en: "Moctezuma I"
-      de: "Moctezuma I"
+      de: "Moctezuma I."
       es: "Moctezuma I"
       ko: "몬테수마 1세"
     prime: false
@@ -1255,7 +1255,7 @@ commanders:
     name:
       en: "Xiang Yu"
       de: "Xiang Yu"
-      es: "Xiang Yu"
+      es: "Xiang Yu."
       ko: "항우"
     prime: false
     rarity: legendary
@@ -1330,9 +1330,9 @@ commanders:
 
   131:
     name:
-      en: "K'inich Janaab' Pakal"
-      de: "K'inich Janaab Pakal"
-      es: "K'inich Janaab' Pakal"
+      en: "Kʼinich Janaabʼ Pakal"
+      de: "K’inich Janaab Pakal"
+      es: "Kʼinich Janaabʼ Pakal"
       ko: "파칼 2세"
     prime: false
     rarity: legendary
@@ -1429,7 +1429,7 @@ commanders:
   136:
     name:
       en: "Suleiman I"
-      de: "Süleiman I"
+      de: "Süleiman I."
       es: "Solimán I"
       ko: "쉴레이만 1세"
     prime: false
@@ -1529,7 +1529,7 @@ commanders:
   141:
     name:
       en: "Thutmose III"
-      de: "Thutmosis III"
+      de: "Thutmosis III."
       es: "Tutmosis III"
       ko: "투트모세 3세"
     prime: false
@@ -1568,7 +1568,7 @@ commanders:
   145:
     name:
       en: "Henry V"
-      de: "Heinrich V"
+      de: "Heinrich V."
       es: "Enrique V"
       ko: "헨리 5세"
     prime: false
@@ -1686,7 +1686,7 @@ commanders:
   175:
     name:
       en: "Margaret I"
-      de: "Margarethe I"
+      de: "Margarethe I."
       es: "Margarita I"
       ko: "마르그레테 1세"
     prime: false
@@ -1843,7 +1843,7 @@ commanders:
   183:
     name:
       en: "Justinian I"
-      de: "Justinian I"
+      de: "Justinian I."
       es: "Justiniano I"
       ko: "유스티니아누스 1세"
     prime: false
@@ -2139,7 +2139,7 @@ commanders:
   459:
     name:
       en: "Philip II"
-      de: "Philipp II"
+      de: "Philipp II."
       es: "Filipo II"
       ko: "필리포스 2세"
     prime: false
@@ -2159,7 +2159,7 @@ commanders:
   460:
     name:
       en: "Stephen III"
-      de: "Stephan III"
+      de: "Stephan III."
       es: "Esteban III"
       ko: "슈테판 3세"
     prime: false
@@ -2198,7 +2198,7 @@ commanders:
   462:
     name:
       en: "Siyaj K'ak'"
-      de: "Siyaj K'ak'"
+      de: "Siyaj K’ak’"
       es: "Siyaj K'ak'"
       ko: "시야칵"
     prime: false
@@ -2294,7 +2294,7 @@ commanders:
   510:
     name:
       en: "Matthias I"
-      de: "Matthias I"
+      de: "Matthias I."
       es: "Matías I"
       ko: "마차시 1세"
     prime: false
@@ -2313,7 +2313,7 @@ commanders:
   536:
     name:
       en: "Catherine de' Medici"
-      de: "Caterina de' Medici"
+      de: "Caterina de’ Medici"
       es: "Catalina de Médici"
       ko: "카트린 드 메디시스"
     prime: false
@@ -2451,7 +2451,7 @@ commanders:
   565:
     name:
       en: "Mary I"
-      de: "Mary I"
+      de: "Mary I."
       es: "María I"
       ko: "메리 1세"
     prime: false
@@ -2470,7 +2470,7 @@ commanders:
   572:
     name:
       en: "Casimir III"
-      de: "Kasimir III"
+      de: "Kasimir III."
       es: "Casimiro III"
       ko: "카지미에시"
     prime: false
@@ -2490,7 +2490,7 @@ commanders:
   573:
     name:
       en: "Pepin III"
-      de: "Pippin III"
+      de: "Pippin III."
       es: "Pipino III"
       ko: "피피누스 3세"
     prime: false
