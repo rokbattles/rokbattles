@@ -6,17 +6,23 @@ import { useCallback, useEffect, useState } from "react";
 import Flag from "react-flagpack";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/fieldset";
+import { Description, Fieldset, Label, Legend } from "@/components/ui/fieldset";
 import { Radio, RadioField, RadioGroup } from "@/components/ui/radio";
 import { SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
 import {
+  datasetLanguageOptions,
   defaultLocale,
-  isSupportedLocale,
+  isDatasetLocale,
+  isSiteLocale,
   languageCookieName,
-  languageOptions,
+  siteLanguageOptions,
 } from "@/i18n/config";
 
 const COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
+
+const datasetOnlyLanguageOptions = datasetLanguageOptions.filter(
+  (option) => !isSiteLocale(option.locale)
+);
 
 const getLocaleFromCookie = () => {
   if (typeof document === "undefined") return defaultLocale;
@@ -27,7 +33,7 @@ const getLocaleFromCookie = () => {
   if (!entry) return defaultLocale;
 
   const value = decodeURIComponent(entry.split("=").slice(1).join("="));
-  return isSupportedLocale(value) ? value : defaultLocale;
+  return isDatasetLocale(value) ? value : defaultLocale;
 };
 
 const setLocaleCookie = (locale: string) => {
@@ -54,7 +60,8 @@ export function LanguageSelector() {
   }, []);
 
   const currentLanguage =
-    languageOptions.find((option) => option.locale === currentLocale) ?? languageOptions[0];
+    datasetLanguageOptions.find((option) => option.locale === currentLocale) ??
+    datasetLanguageOptions[0];
 
   const handleOpen = useCallback(() => {
     setSelectedLocale(currentLocale);
@@ -72,7 +79,7 @@ export function LanguageSelector() {
   );
 
   const handleSave = useCallback(() => {
-    const nextLocale = isSupportedLocale(selectedLocale) ? selectedLocale : defaultLocale;
+    const nextLocale = isDatasetLocale(selectedLocale) ? selectedLocale : defaultLocale;
     setLocaleCookie(nextLocale);
     setCurrentLocale(nextLocale);
     setIsOpen(false);
@@ -96,15 +103,46 @@ export function LanguageSelector() {
             aria-label={t("select")}
             name="platformLanguage"
           >
-            {languageOptions.map((option) => (
-              <RadioField key={option.locale}>
-                <Radio value={option.locale} />
-                <Label className="flex items-center gap-3">
-                  <Flag code={option.flagCode} size="m" hasBorder={false} className="shrink-0" />
-                  <span className="truncate">{option.label}</span>
-                </Label>
-              </RadioField>
-            ))}
+            <Fieldset>
+              <Legend>{t("site.label")}</Legend>
+              <Description>{t("site.description")}</Description>
+              <div data-slot="control" className="space-y-3">
+                {siteLanguageOptions.map((option) => (
+                  <RadioField key={option.locale}>
+                    <Radio value={option.locale} />
+                    <Label className="flex items-center gap-3">
+                      <Flag
+                        code={option.flagCode}
+                        size="m"
+                        hasBorder={false}
+                        className="shrink-0"
+                      />
+                      <span className="truncate">{option.label}</span>
+                    </Label>
+                  </RadioField>
+                ))}
+              </div>
+            </Fieldset>
+            <Fieldset>
+              <Legend>{t("dataset.label")}</Legend>
+              <Description>{t("dataset.description")}</Description>
+              <div data-slot="control" className="space-y-3">
+                {datasetOnlyLanguageOptions.map((option) => (
+                  <RadioField key={option.locale}>
+                    <Radio value={option.locale} />
+                    <Label className="flex items-center gap-3">
+                      <Flag
+                        code={option.flagCode}
+                        size="m"
+                        hasBorder={false}
+                        className="shrink-0"
+                      />
+                      <span className="truncate">{option.label}</span>
+                    </Label>
+                  </RadioField>
+                ))}
+              </div>
+            </Fieldset>
           </RadioGroup>
         </DialogBody>
         <DialogActions>
