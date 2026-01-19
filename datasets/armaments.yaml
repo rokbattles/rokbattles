@@ -4,7 +4,10 @@ armaments:
       de: "Goldsammelgeschwindigkeit"
       en: "Gold Gathering Speed"
       es: "Velocidad de Recolección de Oro"
+      fr: "Vitesse de récolte d'or"
       ko: "금화 채집 솝도"
+      pl: "Szybkość zbioru złota"
+      zh_CN: "金矿采集速度"
     percent: true
 
   3001:
@@ -12,7 +15,10 @@ armaments:
       de: "Infanterieangriff"
       en: "Infantry Attack"
       es: "Ataque de Infantería"
+      fr: "Attaque de l'infanterie"
       ko: "보병 유닛 공격력"
+      pl: "Atak piechoty"
+      zh_CN: "步兵单位攻击力"
     percent: true
 
   3002:
@@ -20,7 +26,10 @@ armaments:
       de: "Kavallerieangriff"
       en: "Cavalry Attack"
       es: "Ataque de la Caballería"
+      fr: "Attaque de la cavalerie"
       ko: "기마병 유닛 공격력"
+      pl: "Atak kawalerii"
+      zh_CN: "骑兵单位攻击力"
     percent: true
 
   3003:
@@ -28,7 +37,10 @@ armaments:
       de: "Bogenschützenangriff"
       en: "Archer Attack"
       es: "Ataque del Arquero"
+      fr: "Attaque des archers"
       ko: "궁병 유닛 공격력"
+      pl: "Atak łuczników"
+      zh_CN: "弓兵单位攻击力"
     percent: true
 
   3004:
@@ -36,7 +48,10 @@ armaments:
       de: "Belagerungstruppenangriff"
       en: "Siege Unit Attack"
       es: "Ataque de la Unidad de Asedio"
+      fr: "Attaque unités de sièges"
       ko: "공성 유닛 공격력"
+      pl: "Atak jedn. oblężniczych"
+      zh_CN: "攻城单位攻击力"
     percent: true
 
   3112:
@@ -52,7 +67,10 @@ armaments:
       de: "Infanterieverteidigung"
       en: "Infantry Defense"
       es: "Defensa de la Infantería"
+      fr: "Défense de l'infanterie"
       ko: "보병 유닛 방어력"
+      pl: "Obrona piechoty"
+      zh_CN: "步兵单位防御力"
     percent: true
 
   4002:
@@ -60,7 +78,10 @@ armaments:
       de: "Kavallerieverteidigung"
       en: "Cavalry Defense"
       es: "Defensa de la Caballería"
+      fr: "Défense de la cavalerie"
       ko: "기마병 유닛 방어력"
+      pl: "Obrona kawalerii"
+      zh_CN: "骑兵单位防御力"
     percent: true
 
   4003:
@@ -68,7 +89,10 @@ armaments:
       de: "Bogenschützenverteidigung"
       en: "Archer Defense"
       es: "Defensa del Arquero"
+      fr: "Défense des archers"
       ko: "궁병 유닛 방어력"
+      pl: "Obrona łuczników"
+      zh_CN: "弓兵单位防御力"
     percent: true
 
   4004:
@@ -76,7 +100,10 @@ armaments:
       de: "Belagerungstruppenverteidigung"
       en: "Siege Unit Defense"
       es: "Defensa de la Unidad de Asedio"
+      fr: "Défense unités de sièges"
       ko: "공성 유닛 방어력"
+      pl: "Obrona jedn. oblężniczych"
+      zh_CN: "攻城单位防御力"
     percent: true
 
   5001:
@@ -84,7 +111,10 @@ armaments:
       de: "Infanteriegesundheit"
       en: "Infantry Health"
       es: "Salud de la Infantería"
+      fr: "Santé de l'infanterie"
       ko: "보병 유닛 생명력"
+      pl: "PZ piechoty"
+      zh_CN: "步兵单位生命值"
     percent: true
 
   5002:
@@ -92,7 +122,10 @@ armaments:
       de: "Kavalleriegesundheit"
       en: "Cavalry Health"
       es: "Salud de la Caballería"
+      fr: "Santé de la cavalerie"
       ko: "기마병 유닛 생명력"
+      pl: "PZ kawalerii"
+      zh_CN: "骑兵单位生命值"
     percent: true
 
   5003:
@@ -100,7 +133,10 @@ armaments:
       de: "Bogenschützengesundheit"
       en: "Archer Health"
       es: "Salud del Arquero"
+      fr: "Santé des archers"
       ko: "궁병 유닛 생명력"
+      pl: "PZ łuczników"
+      zh_CN: "弓兵单位生命值"
     percent: true
 
   5004:
@@ -108,7 +144,10 @@ armaments:
       de: "Belagerungstruppengesundheit"
       en: "Siege Unit Health"
       es: "Salud de la Unidad de Asedio"
+      fr: "Santé unités de sièges"
       ko: "공성 유닛 생명력"
+      pl: "PZ jedn. oblężniczych"
+      zh_CN: "攻城单位生命值"
     percent: true
 
   5501:
@@ -244,7 +283,10 @@ armaments:
       de: "Truppentraglast"
       en: "Troop Load"
       es: "Carga de las Tropas"
+      fr: "Charge de troupes"
       ko: "부대 적재량"
+      pl: "Ładowność oddziałów"
+      zh_CN: "部队负载"
     percent: true
 
   10002:
@@ -252,7 +294,10 @@ armaments:
       de: "Aller Schaden"
       en: "All Damage"
       es: "Daño Total"
+      fr: "Dégâts totaux"
       ko: "전체 피해"
+      pl: "Wszystkie obrażenia"
+      zh_CN: "所有伤害"
     percent: true
 
   10006:
@@ -284,7 +329,10 @@ armaments:
       de: "Schaden an Barbaren"
       en: "Damage to Barbarians"
       es: "Daño a Bárbaros"
+      fr: "Dégâts sur barbares"
       ko: "야만인에게 입히는 피해"
+      pl: "Obrażenia zadane barbarzyńcom"
+      zh_CN: "对野蛮人的伤害"
     percent: true
 
   10101:
@@ -292,7 +340,10 @@ armaments:
       de: "Schadenverringerung gegen Barbaren"
       en: "Damage Reduction vs Barbarians"
       es: "Reducción de daño vs bárbaros"
+      fr: "Réd. dégâts face aux barbares"
       ko: "야만인 피해 경감"
+      pl: "Redukcja obrażeń od barbarzyńców"
+      zh_CN: "野蛮人伤害减免"
     percent: true
 
   10109:
@@ -571,4 +622,3 @@ armaments:
       es: "Reducción de daño vs tropas envenenadas (por acumulación)"
       ko: "중독 부대로부터 받는 모든 피해 감소(스택당)"
     percent: true
-
