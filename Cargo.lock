@@ -4089,6 +4089,7 @@ dependencies = [
  "blake3",
  "futures-util",
  "mail-decoder",
+ "mail-decoder-v2",
  "mail-helper",
  "mongodb",
  "serde_json",

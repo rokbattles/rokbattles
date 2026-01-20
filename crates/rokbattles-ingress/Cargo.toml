@@ -11,6 +11,7 @@ tracing = { workspace = true }
 tracing-subscriber = { workspace = true }
 futures-util = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
+mail-decoder-v2 = { path = "../mail-decoder-v2" }
 mongodb = { workspace = true }
 zstd = { workspace = true }
 serde_json = { workspace = true }
