@@ -231,7 +231,7 @@ async fn process_mail(
 
     let docs = match mail_type {
         EmailType::Battle => {
-            let mail_obj = mail_processor_battle::process(mail_str)?;
+            let mail_obj = mail_processor_battle::process_sections(&decoded_mail.sections)?;
             let mut docs = Vec::with_capacity(mail_obj.len());
 
             // Need to review bulk write API later, something might be wrong with it in current version of the driver

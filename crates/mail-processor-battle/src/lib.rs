@@ -5,24 +5,16 @@ pub mod resolvers;
 pub mod structures;
 
 use crate::{
-    context::MailContext,
-    error::ProcessError,
-    helpers::is_ascii_digits,
-    resolvers::battle::BattleResolver,
-    resolvers::metadata::MetadataResolver,
-    resolvers::overview::OverviewResolver,
-    resolvers::participant_enemy::ParticipantEnemyResolver,
-    resolvers::participant_self::ParticipantSelfResolver,
-    structures::{DecodedMail, ParsedMail},
+    context::MailContext, error::ProcessError, helpers::is_ascii_digits,
+    resolvers::battle::BattleResolver, resolvers::metadata::MetadataResolver,
+    resolvers::overview::OverviewResolver, resolvers::participant_enemy::ParticipantEnemyResolver,
+    resolvers::participant_self::ParticipantSelfResolver, structures::ParsedMail,
 };
 use mail_processor_sdk::ResolverChain;
-use serde_json::json;
+use serde_json::{Value, json};
 use std::cmp::Ordering;
 
-pub fn process(json_text: &str) -> Result<Vec<ParsedMail>, ProcessError> {
-    let root: DecodedMail = serde_json::from_str(json_text)?;
-    let sections = &root.sections;
-
+pub fn process_sections(sections: &[Value]) -> Result<Vec<ParsedMail>, ProcessError> {
     if sections.is_empty() {
         return Ok(Vec::new());
     }
