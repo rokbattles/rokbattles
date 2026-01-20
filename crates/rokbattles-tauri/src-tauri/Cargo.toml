@@ -1,6 +1,6 @@
 [package]
 name = "rokbattles-tauri"
-version = "0.3.10"
+version = "0.3.11"
 description = "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms."
 authors = ["Sylke Technologies, LLC"]
 edition = "2024"
