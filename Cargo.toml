@@ -8,7 +8,8 @@ members = [
     "crates/mail-helper",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
-    "crates/rokbattles-tauri/src-tauri"
+    "crates/rokbattles-tauri/src-tauri",
+    "crates/mail-decoder-v2"
 ]
 resolver = "3"
 

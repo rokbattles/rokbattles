@@ -2606,6 +2606,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-decoder-v2"
+version = "0.4.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
 name = "mail-helper"
 version = "0.3.11"
 dependencies = [
@@ -4082,6 +4089,7 @@ dependencies = [
  "blake3",
  "futures-util",
  "mail-decoder",
+ "mail-decoder-v2",
  "mail-helper",
  "mongodb",
  "serde_json",

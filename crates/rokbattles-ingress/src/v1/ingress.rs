@@ -107,6 +107,32 @@ fn is_numeric(input: &str) -> bool {
     !input.is_empty() && input.chars().all(|c| c.is_ascii_digit())
 }
 
+fn mail_id_from_v2(value: &serde_json::Value) -> Option<String> {
+    let id = value.get("id")?;
+    match id {
+        serde_json::Value::String(s) => Some(s.clone()),
+        serde_json::Value::Number(n) => n
+            .as_i64()
+            .map(|v| v.to_string())
+            .or_else(|| n.as_u64().map(|v| v.to_string())),
+        _ => None,
+    }
+}
+
+fn mail_type_from_v2(value: &serde_json::Value) -> Option<&str> {
+    value.get("type")?.as_str()
+}
+
+fn attacks_count_from_v2(value: &serde_json::Value) -> usize {
+    value
+        .get("body")
+        .and_then(|body| body.get("content"))
+        .and_then(|content| content.get("Attacks"))
+        .and_then(|attacks| attacks.as_object())
+        .map(|attacks| attacks.len())
+        .unwrap_or(0)
+}
+
 fn ct_ok(h: &HeaderMap) -> bool {
     matches!(
         h.get("content-type").and_then(|v| v.to_str().ok()),
@@ -420,6 +446,176 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         return (status, reason).into_response();
     }
 
+    let decoded_mail_v2 = match mail_decoder_v2::decode(&buf) {
+        Ok(mail) => mail,
+        Err(_) => {
+            warn!("ingress rejected: mail decoder v2 failed");
+            return (
+                StatusCode::UNPROCESSABLE_ENTITY,
+                "rok mail decoder v2 failed",
+            )
+                .into_response();
+        }
+    };
+
+    let mail_id_v2 = match mail_id_from_v2(&decoded_mail_v2) {
+        Some(id) => id,
+        None => {
+            warn!("ingress rejected: mail decoder v2 missing id");
+            return (StatusCode::UNPROCESSABLE_ENTITY, "rok mail missing id").into_response();
+        }
+    };
+
+    let mail_type_v2 =
+        match mail_type_from_v2(&decoded_mail_v2).and_then(SupportedMailType::from_str) {
+            Some(value) => value,
+            None => {
+                debug!(
+                    mail_type = mail_type_from_v2(&decoded_mail_v2).unwrap_or("unknown"),
+                    "ingress rejected: unsupported mail type (v2)"
+                );
+                return (
+                    StatusCode::UNPROCESSABLE_ENTITY,
+                    "not a supported rok mail type",
+                )
+                    .into_response();
+            }
+        };
+
+    let attacks_count = attacks_count_from_v2(&decoded_mail_v2);
+    debug!(
+        mail_id = %mail_id_v2,
+        mail_type = mail_type_v2.as_str(),
+        mail_attack_count = attacks_count,
+        "decoded mail v2 metadata"
+    );
+
+    let mails_raw_collection = st.db.collection::<Document>("mails_raw");
+    let raw_filter = doc! { "mail_id": &mail_id_v2 };
+    let existing_raw = match mails_raw_collection.find_one(raw_filter.clone()).await {
+        Ok(doc) => doc,
+        Err(err) => {
+            warn!(error = %err, "database lookup for existing raw mail failed");
+            return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+        }
+    };
+
+    let existing_attacks = existing_raw
+        .as_ref()
+        .and_then(|doc| doc.get("mail_attack_count"))
+        .and_then(|value| match value {
+            Bson::Int32(v) => Some(i64::from(*v)),
+            Bson::Int64(v) => Some(*v),
+            Bson::Double(v) => Some(*v as i64),
+            _ => None,
+        })
+        .unwrap_or(0);
+
+    let should_store_raw = existing_raw.is_none() || (attacks_count as i64) > existing_attacks;
+    debug!(
+        mail_id = %mail_id_v2,
+        existing_attacks,
+        attacks_count,
+        should_store_raw,
+        "checked raw mail record"
+    );
+
+    if should_store_raw {
+        let decoded_mail_v2_json_text = match serde_json::to_string(&decoded_mail_v2) {
+            Ok(value) => value,
+            Err(_) => {
+                return (StatusCode::INTERNAL_SERVER_ERROR, "serialization failed").into_response();
+            }
+        };
+
+        let compressed_mail_v2 = match zstd_compress(&decoded_mail_v2_json_text, 5) {
+            Ok(c) => c,
+            Err(_) => {
+                return (StatusCode::INTERNAL_SERVER_ERROR, "compression failed").into_response();
+            }
+        };
+
+        let raw_time = DateTime::now();
+        let update = doc! {
+            "$set": {
+                "mail_id": &mail_id_v2,
+                "mail_attack_count": attacks_count as i64,
+                "mail_value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_mail_v2 },
+                "updatedAt": raw_time,
+            },
+            "$setOnInsert": {
+                "createdAt": raw_time,
+            },
+        };
+
+        let result = mails_raw_collection
+            .update_one(raw_filter.clone(), update)
+            .upsert(true)
+            .await;
+
+        if let Err(err) = result {
+            warn!(mail_id = %mail_id_v2, error = %err, "database upsert for raw mail failed");
+            return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+        }
+
+        let lossless_doc = match mail_decoder_v2::decode_lossless(&buf) {
+            Ok(doc) => doc,
+            Err(_) => {
+                warn!("ingress rejected: mail decoder v2 lossless failed");
+                return (
+                    StatusCode::UNPROCESSABLE_ENTITY,
+                    "rok mail lossless decoder failed",
+                )
+                    .into_response();
+            }
+        };
+
+        let lossless_json = mail_decoder_v2::lossless_to_json(&lossless_doc);
+        let lossless_json_text = match serde_json::to_string(&lossless_json) {
+            Ok(value) => value,
+            Err(_) => {
+                return (StatusCode::INTERNAL_SERVER_ERROR, "serialization failed").into_response();
+            }
+        };
+
+        let compressed_lossless = match zstd_compress(&lossless_json_text, 5) {
+            Ok(c) => c,
+            Err(_) => {
+                return (StatusCode::INTERNAL_SERVER_ERROR, "compression failed").into_response();
+            }
+        };
+
+        let lossless_update = doc! {
+            "$set": {
+                "mail_id": &mail_id_v2,
+                "mail_attack_count": attacks_count as i64,
+                "mail_value": Binary { subtype: BinarySubtype::Generic, bytes: compressed_lossless },
+                "updatedAt": raw_time,
+            },
+            "$setOnInsert": {
+                "createdAt": raw_time,
+            },
+        };
+
+        let mails_raw_lossless_collection = st.db.collection::<Document>("mails_raw_lossless");
+        let lossless_result = mails_raw_lossless_collection
+            .update_one(raw_filter, lossless_update)
+            .upsert(true)
+            .await;
+
+        if let Err(err) = lossless_result {
+            warn!(
+                mail_id = %mail_id_v2,
+                error = %err,
+                "database upsert for lossless raw mail failed"
+            );
+            return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
+        }
+    }
+
+    let decoded_mail_hash = blake3_hash(&buf);
+    debug!(decoded_mail_hash = %decoded_mail_hash, "computed decoded mail hash");
+
     let decoded_mail = match mail_decoder::decode(&buf).map(|m| m.into_owned()) {
         Ok(m) => m,
         Err(_) => {
@@ -460,8 +656,6 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     };
 
-    let decoded_mail_hash = blake3_hash(&buf);
-    debug!(decoded_mail_hash = %decoded_mail_hash, "computed decoded mail hash");
     debug!(
         mail_id = %mail_id,
         mail_time = ?mail_time,
