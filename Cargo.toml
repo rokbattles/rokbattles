@@ -2,10 +2,11 @@
 members = [
     "crates/mail-cli",
     "crates/mail-decoder",
-    "crates/mail-processor-battle",
-    "crates/mail-processor-sdk",
-    "crates/mail-processor-duelbattle2",
     "crates/mail-helper",
+    "crates/mail-processor-battle",
+    "crates/mail-processor-duelbattle2",
+    "crates/mail-processor-sdk",
+    "crates/rokbattles-bot",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
     "crates/rokbattles-tauri/src-tauri"
@@ -37,6 +38,9 @@ futures = "0.3.31"
 tauri-plugin-updater = "2.9.0"
 memchr = "2.7.6"
 notify = "8.2.0"
+twilight-gateway = "0.17.1"
+twilight-http = "0.17.1"
+twilight-model = "0.17.1"
 
 [profile.release]
 lto = "thin"
