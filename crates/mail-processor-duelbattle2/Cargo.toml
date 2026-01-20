@@ -1,6 +1,6 @@
 [package]
 name = "mail-processor-duelbattle2"
-version = "0.3.10"
+version = "0.3.11"
 edition = "2024"
 
 [dependencies]
