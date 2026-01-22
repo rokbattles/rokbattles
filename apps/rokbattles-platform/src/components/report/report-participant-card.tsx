@@ -12,7 +12,7 @@ import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
 import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/raw-report";
 
-const ARTIFACT_IDS = new Set([20401, 20402]);
+const ARTIFACT_IDS = new Set([20201, 20202, 20203, 20401, 20402]);
 
 type ReportParticipantCardProps = {
   participant?: RawParticipantInfo;
