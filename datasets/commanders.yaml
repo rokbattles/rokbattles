@@ -4050,9 +4050,30 @@ commanders:
 
   595:
     name:
+      de: "Sun Tzu"
       en: "Sun Tzu"
+      es: "Sun Tzu"
+      fr: "Sun Zi"
+      ko: "손무"
+      pl: "Sun Zi"
+      zh_CN: "孙武"
     epithet:
+      de: "Der Künstler des Krieges"
       en: "Artist of War"
+      es: "Artista de guerra"
+      fr: "Artiste de guerre"
+      ko: "병법의 시조"
+      pl: "Artysta Wojny"
+      zh_CN: "兵家之师"
     prime: true
     rarity: legendary
     skills:
+      - slot: 1
+        id: 419
+        expertId: 420
+      - slot: 2
+        id: 1802
+      - slot: 3
+        id: 1803
+      - slot: 4
+        id: 1804
