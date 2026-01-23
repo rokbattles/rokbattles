@@ -588,6 +588,13 @@ equipment:
         es: "Hoz de Pedro"
         ko: "피터의 낫"
 
+    20078:
+      name:
+        de: "Karminroter Ring"
+        en: "Crimson Ring"
+        es: "Anillo carmesí"
+        ko: "적혈의 반지"
+
     20079:
       name:
         de: "Kopftuch des Ernters"
@@ -1078,12 +1085,17 @@ equipment:
         es: "Silla de montar de las mil bendiciones"
         ko: "축복 안장"
 
+    20201:
+      name:
+        en: "Artifact - Lancer's Banner"
+
     20202:
       name:
-        de: "Karminroter Ring"
-        en: "Crimson Ring"
-        es: "Anillo carmesí"
-        ko: "적혈의 반지"
+        en: "Artifact - Berserker's Brooch"
+
+    20203:
+      name:
+        en: "Artifact - Sniper's Fletch"
 
     20401:
       name:
