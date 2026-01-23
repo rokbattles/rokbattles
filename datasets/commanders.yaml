@@ -4047,3 +4047,12 @@ commanders:
         id: 1800
       - slot: 4
         id: 1801
+
+  595:
+    name:
+      en: "Sun Tzu"
+    epithet:
+      en: "Artist of War"
+    prime: true
+    rarity: legendary
+    skills:
