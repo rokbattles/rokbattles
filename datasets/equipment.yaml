@@ -1087,26 +1087,35 @@ equipment:
 
     20201:
       name:
+        de: "Artefakt - Banner des Ulan"
         en: "Artifact - Lancer's Banner"
+        es: "Artefacto: Estandarte de lancero"
+        ko: "장신구ㆍ철기병의 깃발"
 
     20202:
       name:
+        de: "Artefakt - Brosche des Berserkers"
         en: "Artifact - Berserker's Brooch"
+        es: "Artefacto: Prendedor de berserker"
+        ko: "장신구ㆍ버서커의 브로치"
 
     20203:
       name:
+        de: "Artefakt - Pfeilbefiederung des Scharfschützen"
         en: "Artifact - Sniper's Fletch"
+        es: "Artefacto: Flecha de francotirador"
+        ko: "장신구ㆍ파멸의 화살"
 
     20401:
       name:
         de: "Artefakt - Megingjörð"
         en: "Artifact - Megingjörð"
-        es: "Artefacto - Megingjörð"
-        ko: "장신구 - 메깅요르드"
+        es: "Artefacto: Megingjörð"
+        ko: "장신구ㆍ메깅요르드"
 
     20402:
       name:
         de: "Artefakt - Emblem der Nike"
         en: "Artifact - Emblem of Nike"
-        es: "Artefacto - emblema de Nike"
-        ko: "장신구 - 영광의 휘장"
+        es: "Artefacto: emblema de Nike"
+        ko: "장신구ㆍ영광의 휘장"
