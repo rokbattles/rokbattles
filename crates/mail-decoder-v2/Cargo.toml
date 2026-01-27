@@ -1,7 +1,7 @@
 [package]
 name = "mail-decoder-v2"
 # This version differs from the rest of our codebase because this is a prerelease prior to data migration.
-version = "0.4.0"
+version = "1.0.0"
 edition = "2024"
 
 [dependencies]

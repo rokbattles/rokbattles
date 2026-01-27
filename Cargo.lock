@@ -2581,7 +2581,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "anyhow",
  "clap",
@@ -2597,7 +2597,7 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "anyhow",
  "memchr",
@@ -2607,14 +2607,14 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder-v2"
-version = "0.4.0"
+version = "1.0.0"
 dependencies = [
  "serde_json",
 ]
 
 [[package]]
 name = "mail-helper"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "mail-decoder",
  "serde",
@@ -2623,7 +2623,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-battle"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "itoa",
  "mail-processor-sdk",
@@ -2633,7 +2633,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "mail-processor-sdk",
  "serde",
@@ -2642,7 +2642,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-sdk"
-version = "0.3.11"
+version = "0.3.12"
 
 [[package]]
 name = "markup5ever"
@@ -4085,7 +4085,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-ingress"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "anyhow",
  "axum",
@@ -4106,7 +4106,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "anyhow",
  "futures",
@@ -4125,7 +4125,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-tauri"
-version = "0.3.11"
+version = "0.3.12"
 dependencies = [
  "anyhow",
  "mail-decoder",
