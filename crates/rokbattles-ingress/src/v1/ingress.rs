@@ -28,6 +28,7 @@ const SUPPORTED_MINOR_VERSIONS: &[u64] = &[2, 3];
 enum SupportedMailType {
     Battle,
     DuelBattle2,
+    BarCanyonKillBoss,
 }
 
 impl SupportedMailType {
@@ -36,6 +37,8 @@ impl SupportedMailType {
             Some(Self::Battle)
         } else if value.eq_ignore_ascii_case("DuelBattle2") {
             Some(Self::DuelBattle2)
+        } else if value.eq_ignore_ascii_case("BarCanyonKillBoss") {
+            Some(Self::BarCanyonKillBoss)
         } else {
             None
         }
@@ -45,6 +48,7 @@ impl SupportedMailType {
         match self {
             Self::Battle => "Battle",
             Self::DuelBattle2 => "DuelBattle2",
+            Self::BarCanyonKillBoss => "BarCanyonKillBoss",
         }
     }
 
@@ -52,6 +56,7 @@ impl SupportedMailType {
         match self {
             Self::Battle => "pending",
             Self::DuelBattle2 => "pending",
+            Self::BarCanyonKillBoss => "nonprocessable",
         }
     }
 
@@ -59,6 +64,7 @@ impl SupportedMailType {
         match self {
             Self::Battle => "reprocess",
             Self::DuelBattle2 => "reprocess",
+            Self::BarCanyonKillBoss => "nonprocessable",
         }
     }
 }

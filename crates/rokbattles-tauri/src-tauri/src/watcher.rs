@@ -1113,7 +1113,9 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
                 let first_type = detect_mail_type(&decoded);
                 let supported_type = first_type.is_some_and(|t| {
-                    t.eq_ignore_ascii_case("Battle") || t.eq_ignore_ascii_case("DuelBattle2")
+                    t.eq_ignore_ascii_case("Battle")
+                        || t.eq_ignore_ascii_case("DuelBattle2")
+                        || t.eq_ignore_ascii_case("BarCanyonKillBoss")
                 });
                 if !supported_type {
                     metrics_skipped += 1;
