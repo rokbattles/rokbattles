@@ -44,6 +44,46 @@ loot:
         pl: "1-min przyspieszenie"
         zh_CN: "1分钟加速"
 
+    47:
+      name:
+        de: "Silberschlüssel"
+        en: "Silver Key"
+        es: "Llave de Plata"
+        fr: "Clé en argent"
+        ko: "백은 열쇠"
+        pl: "Srebrny klucz"
+        zh_CN: "白银钥匙"
+
+    48:
+      name:
+        de: "Goldschlüssel"
+        en: "Golden Key"
+        es: "Llave de Oro"
+        fr: "Clé en or"
+        ko: "황금 열쇠"
+        pl: "Złoty klucz"
+        zh_CN: "黄金钥匙"
+
+    60:
+      name:
+        de: "30 Minuten Beschleunigung"
+        en: "30-Minute Speedup"
+        es: "30 minuto de Aceleración"
+        fr: "Accélération - 30 minutes"
+        ko: "30분 가속"
+        pl: "30-min. przyspieszenie"
+        zh_CN: "30分钟加速"
+
+    65:
+      name:
+        de: "30 Minuten Bau-Beschleunigung"
+        en: "30-Minute Building Speedup"
+        es: "30 minutos de Aceleración de Construcción"
+        fr: "Accélération de construction - 30 minutes"
+        ko: "30분 건설 가속"
+        pl: "30-min. przyspieszenie budowy"
+        zh_CN: "30分钟建造加速"
+
     71:
       name:
         de: "1 Minute Ausbildungsbeschleunigung"
@@ -64,6 +104,16 @@ loot:
         pl: "5-min. przyspieszenie szkolenia"
         zh_CN: "5分钟训练加速"
 
+    85:
+      name:
+        de: "30 Minuten Forschungsbeschleunigung"
+        en: "30-Minute Research Speedup"
+        es: "30 minutos de Aceleración de Investigación"
+        fr: "Accélération de recherche - 30 minutes"
+        ko: "30분 연구 가속"
+        pl: "30-min. przyspieszenie badania"
+        zh_CN: "30分钟研究加速"
+
     92:
       name:
         de: "5 Minuten Heilungsbeschleunigung"
@@ -73,6 +123,37 @@ loot:
         ko: "5분 치료 가속"
         pl: "5-min. przyspieszenie leczenia"
         zh_CN: "5分钟治疗加速"
+
+    113:
+      name:
+        de: "12-Stunden verbesserter Angriff"
+        en: "12-Hour Enhanced Attack"
+        es: "12 horas de Mejora de Ataque"
+        fr: "Amélioration d'attaque - 12 heures"
+        ko: "12시간 공격력 강화"
+        pl: "12-godz. wzmocniony atak"
+        zh_CN: "12小时攻击强化"
+
+    115:
+      name:
+        de: "12-Stunden verbesserte Verteidigung"
+        en: "12-Hour Enhanced Defense"
+        es: "12 horas de Mejora de Defensa"
+        fr: "Amélioration de défense - 12 heures"
+        ko: "12시간 방어력 강화"
+        pl: "12-godz. wzmocniona obrona"
+        zh_CN: "12小时防御强化"
+
+    # 100
+    124:
+      name:
+        de: "Grundlegende Aktionspunkterholung"
+        en: "Basic Action Point Recovery"
+        es: "Recuperación de puntos de acción básica"
+        fr: "Restauration basique de points d'action"
+        ko: "초급 행동력 회복"
+        pl: "Zwykła regeneracja pkt akcji"
+        zh_CN: "初级行动力恢复"
 
     128:
       name:
@@ -233,3 +314,47 @@ loot:
         ko: "초급 자원 포켓 C"
         pl: "Paczka surowców (C) poz. 1"
         zh_CN: "初级资源包C"
+
+    # Normal
+    7051:
+      name:
+        de: "Ausrüstungsmaterialtruhe"
+        en: "Equipment Materials Chest"
+        es: "Cofre de materiales de equipamiento"
+        fr: "Coffre de matériaux d'équipement"
+        ko: "장비 재료상자"
+        pl: "Skrzynia materiałów na zwykły ekwipunek"
+        zh_CN: "装备材料箱"
+
+    # Advanced
+    7052:
+      name:
+        de: "Ausrüstungsmaterialtruhe"
+        en: "Equipment Materials Chest"
+        es: "Cofre de materiales de equipamiento"
+        fr: "Coffre de matériaux d'équipement"
+        ko: "장비 재료상자"
+        pl: "Skrzynia materiałów na zaawansowany ekwipunek"
+        zh_CN: "装备材料箱"
+
+    # Elite
+    7053:
+      name:
+        de: "Ausrüstungsmaterialtruhe"
+        en: "Equipment Materials Chest"
+        es: "Cofre de materiales de equipamiento"
+        fr: "Coffre de matériaux d'équipement"
+        ko: "장비 재료상자"
+        pl: "Skrzynia materiałów na elitarny ekwipunek"
+        zh_CN: "装备材料箱"
+
+    # Epic
+    9998:
+      name:
+        de: "Brandneue Sternenlicht-Skulptur"
+        en: "Brand-new Starlight Sculpture"
+        es: "Escultura de Starlight Nueva"
+        fr: "Sculpture de lumière d'étoile neuve"
+        ko: "새로운 별빛 조각상"
+        pl: "Nowiutka rzeźba gwiezdna"
+        zh_CN: "新的星光雕像"
