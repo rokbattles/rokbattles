@@ -1,0 +1,16 @@
+[package]
+name = "mail-cli"
+version = "1.0.0"
+edition = "2024"
+
+[dependencies]
+clap = { workspace = true, features = ["derive"] }
+mail-decoder = { path = "../mail-decoder" }
+mail-processor-barcanyonkillboss = { path = "../mail-processor-barcanyonkillboss" }
+mail-processor-battle = { path = "../mail-processor-battle" }
+mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
+mail-processor-sdk = { path = "../mail-processor-sdk" }
+serde_json = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
