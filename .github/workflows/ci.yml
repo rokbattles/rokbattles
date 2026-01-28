@@ -15,7 +15,7 @@ env:
 
 jobs:
   lint-test-ts:
-    name: Test TypeScript
+    name: Lint & Test TypeScript
     runs-on: ubuntu-latest
     #        env:
     #            MONGO_URI: "mongodb://127.0.0.1:27017/rokbattles" # required to build/test platform
@@ -75,7 +75,7 @@ jobs:
           cargo clippy --workspace --all-targets --no-default-features
 
   test-rs:
-    name: Test Rust (${{ matrix.os }}
+    name: Test Rust (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
