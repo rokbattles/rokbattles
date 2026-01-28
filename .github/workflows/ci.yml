@@ -38,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run ultracite
-        run: pnpm run lint
+        run: pnpm run check
 
   #            - name: Build @rokbattles/platform
   #              run: pnpm -F @rokbattles/platform generate:datasets && pnpm -F @rokbattles/platform build
