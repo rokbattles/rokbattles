@@ -16,6 +16,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-processor-battle"
+version = "1.0.0"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
 name = "mail-processor-duelbattle2"
 version = "1.0.0"
 dependencies = [
