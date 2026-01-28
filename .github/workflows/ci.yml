@@ -1,139 +1,111 @@
 name: CI
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 permissions:
-    contents: read
+  contents: read
 
 env:
-    CARGO_TERM_COLOR: always
-    RUSTFLAGS: -Dwarnings
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -Dwarnings
 
 jobs:
-    lint-ts:
-        name: Lint TypeScript
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  submodules: true
+  lint-test-ts:
+    name: Test TypeScript
+    runs-on: ubuntu-latest
+    #        env:
+    #            MONGO_URI: "mongodb://127.0.0.1:27017/rokbattles" # required to build/test platform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
 
-            - name: Setup Biome
-              uses: biomejs/setup-biome@v2
-              with:
-                  version: latest
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-            - name: Run Biome
-              run: biome ci .
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
 
-    test-ts:
-        name: Test TypeScript
-        runs-on: ubuntu-latest
-        env:
-            MONGO_URI: "mongodb://127.0.0.1:27017/rokbattles" # required to build/test platform
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  submodules: true
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v4
+      - name: Run ultracite
+        run: pnpm run lint
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 24
-                  cache: "pnpm"
+  #            - name: Build @rokbattles/platform
+  #              run: pnpm -F @rokbattles/platform generate:datasets && pnpm -F @rokbattles/platform build
 
-            - name: Install dependencies
-              run: pnpm install --frozen-lockfile
+  #            - name: Build @rokbattles/tauri
+  #              run: pnpm -F @rokbattles/tauri build
 
-            - name: Build @rokbattles/marketing
-              run: pnpm -F @rokbattles/marketing build
+  lint-rs:
+    name: Lint Rust
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Build @rokbattles/platform
-              run: pnpm -F @rokbattles/platform generate:datasets && pnpm -F @rokbattles/platform build
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-            - name: Build @rokbattles/tauri
-              run: pnpm -F @rokbattles/tauri build
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
 
-    lint-rs:
-        name: Lint Rust
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
 
-            - name: Install dependencies
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: rustfmt
+        run: cargo fmt --all -- --check
 
-            - name: Install Rust (stable)
-              uses: dtolnay/rust-toolchain@stable
-              with:
-                  components: rustfmt, clippy
+      - name: clippy (all targets, all features)
+        run: |
+          cargo clippy --workspace --all-targets --all-features
+          cargo clippy --workspace --all-targets --no-default-features
 
-            - name: Cache Rust build
-              uses: Swatinem/rust-cache@v2
+  test-rs:
+    name: Test Rust (${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: rustfmt
-              run: cargo fmt --all -- --check
+      - name: Install dependencies (Ubuntu only)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-            - name: clippy (all targets, all features)
-              run: |
-                  cargo clippy --workspace --all-targets --all-features
-                  cargo clippy --workspace --all-targets --no-default-features
+      - name: Install Rust
+        id: toolchain
+        uses: dtolnay/rust-toolchain@stable
 
-    test-rs:
-        name: Test Rust (${{ matrix.os }} - ${{ matrix.toolchain }})
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
-                toolchain: [stable, nightly]
-                include:
-                    - toolchain: nightly
-                      allow-failure: true
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
 
-            - name: Install dependencies (Ubuntu only)
-              if: matrix.os == 'ubuntu-latest'
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: Build (default features)
+        run: cargo build --workspace --all-targets --verbose
 
-            - name: Install Rust
-              id: toolchain
-              uses: dtolnay/rust-toolchain@master
-              with:
-                  toolchain: ${{ matrix.toolchain }}
+      - name: Build (no default features)
+        run: cargo build --workspace --all-targets --no-default-features --verbose
 
-            - name: Cache Rust build
-              uses: Swatinem/rust-cache@v2
+      - name: Test (default features)
+        run: cargo test --workspace --all-features --verbose
 
-            - name: Build (default features)
-              run: cargo build --workspace --all-targets --verbose
-
-            - name: Build (no default features)
-              run: cargo build --workspace --all-targets --no-default-features --verbose
-
-            - name: Test (default features)
-              run: cargo test --workspace --all-features --verbose
-
-            - name: Test (no default features)
-              run: cargo test --workspace --no-default-features --verbose
-
-            - name: Allow nightly failures
-              if: matrix.toolchain == 'nightly'
-              continue-on-error: true
-              run: echo "Nightly allowed to fail"
+      - name: Test (no default features)
+        run: cargo test --workspace --no-default-features --verbose
