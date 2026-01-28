@@ -1,6 +1,0 @@
-[package]
-name = "mail-processor-sdk"
-version = "0.3.12"
-edition = "2024"
-
-[dependencies]
