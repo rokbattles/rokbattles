@@ -1,0 +1,543 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "detail": {
+      "AtkPlayer": {
+        "Abbr": "SO4L",
+        "DuelTeamId": 1357157902,
+        "Heroes": {
+          "AssistHero": {
+            "Awaked": true,
+            "HeroId": 575,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 411,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1787,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1790,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1789,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "Buffs": [
+            1,
+            {
+              "BuffId": 5524,
+              "BuffValue": 6
+            },
+            2,
+            {
+              "BuffId": 10002,
+              "BuffValue": 0.112
+            },
+            3,
+            {
+              "BuffId": 3001,
+              "BuffValue": 1.76
+            },
+            4,
+            {
+              "BuffId": 10110,
+              "BuffValue": 0.12
+            },
+            5,
+            {
+              "BuffId": 17401,
+              "BuffValue": 0.03
+            },
+            6,
+            {
+              "BuffId": 3002,
+              "BuffValue": 2.06
+            },
+            7,
+            {
+              "BuffId": 5003,
+              "BuffValue": 0.72
+            },
+            8,
+            {
+              "BuffId": 3004,
+              "BuffValue": 1.545
+            },
+            9,
+            {
+              "BuffId": 15090,
+              "BuffValue": 0.02
+            },
+            10,
+            {
+              "BuffId": 3008,
+              "BuffValue": 0
+            },
+            11,
+            {
+              "BuffId": 4002,
+              "BuffValue": 1.672
+            },
+            12,
+            {
+              "BuffId": 12017,
+              "BuffValue": 0.05
+            },
+            13,
+            {
+              "BuffId": 20062,
+              "BuffValue": 0.15
+            },
+            14,
+            {
+              "BuffId": 5004,
+              "BuffValue": 0.63
+            },
+            15,
+            {
+              "BuffId": 10109,
+              "BuffValue": 0.015
+            },
+            16,
+            {
+              "BuffId": 20034,
+              "BuffValue": 0.02
+            },
+            17,
+            {
+              "BuffId": 5001,
+              "BuffValue": 0.88
+            },
+            18,
+            {
+              "BuffId": 5523,
+              "BuffValue": 6
+            },
+            19,
+            {
+              "BuffId": 5502,
+              "BuffValue": 6
+            },
+            20,
+            {
+              "BuffId": 3003,
+              "BuffValue": 1.75
+            },
+            21,
+            {
+              "BuffId": 5512,
+              "BuffValue": 6
+            },
+            22,
+            {
+              "BuffId": 10304,
+              "BuffValue": 0.09
+            },
+            23,
+            {
+              "BuffId": 4003,
+              "BuffValue": 1.455
+            },
+            24,
+            {
+              "BuffId": 17400,
+              "BuffValue": 0.13
+            },
+            25,
+            {
+              "BuffId": 15091,
+              "BuffValue": 0.01
+            },
+            26,
+            {
+              "BuffId": 10008,
+              "BuffValue": 0.03
+            },
+            27,
+            {
+              "BuffId": 4004,
+              "BuffValue": 1.275
+            },
+            28,
+            {
+              "BuffId": 4001,
+              "BuffValue": 1.475
+            },
+            29,
+            {
+              "BuffId": 5522,
+              "BuffValue": 12
+            },
+            30,
+            {
+              "BuffId": 5521,
+              "BuffValue": 6
+            },
+            31,
+            {
+              "BuffId": 5002,
+              "BuffValue": 1.232
+            },
+            32,
+            {
+              "BuffId": 10006,
+              "BuffValue": 0.03
+            },
+            33,
+            {
+              "BuffId": 10016,
+              "BuffValue": 1.25
+            },
+            34,
+            {
+              "BuffId": 15028,
+              "BuffValue": 0.015
+            }
+          ],
+          "MainHero": {
+            "Awaked": true,
+            "HeroId": 540,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 389,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1735,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1736,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1737,
+                "SkillTrans": []
+              },
+              5,
+              {
+                "Id": 4,
+                "Level": 1,
+                "SkillId": 1738,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "PosIdx": 1
+        },
+        "IsWin": true,
+        "KillScore": 1143920,
+        "LosePower": 211630,
+        "PlayerAvatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg\"}",
+        "PlayerId": 71738515,
+        "PlayerName": "G Var",
+        "ServerId": 1804,
+        "UnitBadHurt": 21163,
+        "UnitDead": 0,
+        "UnitHurt": 144680,
+        "UnitReturn": 0,
+        "UnitTotal": 314798,
+        "WinCnt": 5
+      },
+      "DefPlayer": {
+        "Abbr": "HELL",
+        "DuelTeamId": 1755157902,
+        "Heroes": {
+          "AssistHero": {
+            "Awaked": true,
+            "HeroId": 6,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 63,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1009,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1010,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1011,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "Buffs": [
+            1,
+            {
+              "BuffId": 5521,
+              "BuffValue": 6
+            },
+            2,
+            {
+              "BuffId": 15033,
+              "BuffValue": 0.03
+            },
+            3,
+            {
+              "BuffId": 5001,
+              "BuffValue": 0.665
+            },
+            4,
+            {
+              "BuffId": 3002,
+              "BuffValue": 1.395
+            },
+            5,
+            {
+              "BuffId": 5523,
+              "BuffValue": 13
+            },
+            6,
+            {
+              "BuffId": 12017,
+              "BuffValue": 0.05
+            },
+            7,
+            {
+              "BuffId": 10110,
+              "BuffValue": 0.06
+            },
+            8,
+            {
+              "BuffId": 10016,
+              "BuffValue": 1.05
+            },
+            9,
+            {
+              "BuffId": 3004,
+              "BuffValue": 1.175
+            },
+            10,
+            {
+              "BuffId": 10002,
+              "BuffValue": 0.05
+            },
+            11,
+            {
+              "BuffId": 4004,
+              "BuffValue": 1.045
+            },
+            12,
+            {
+              "BuffId": 10007,
+              "BuffValue": 0.81
+            },
+            13,
+            {
+              "BuffId": 5524,
+              "BuffValue": 6
+            },
+            14,
+            {
+              "BuffId": 4003,
+              "BuffValue": 1.935
+            },
+            15,
+            {
+              "BuffId": 10006,
+              "BuffValue": 0.015
+            },
+            16,
+            {
+              "BuffId": 4001,
+              "BuffValue": 1.265
+            },
+            17,
+            {
+              "BuffId": 5002,
+              "BuffValue": 0.665
+            },
+            18,
+            {
+              "BuffId": 5503,
+              "BuffValue": 6
+            },
+            19,
+            {
+              "BuffId": 5004,
+              "BuffValue": 0.615
+            },
+            20,
+            {
+              "BuffId": 15032,
+              "BuffValue": 0.06
+            },
+            21,
+            {
+              "BuffId": 5513,
+              "BuffValue": 7
+            },
+            22,
+            {
+              "BuffId": 3001,
+              "BuffValue": 1.33
+            },
+            23,
+            {
+              "BuffId": 20009,
+              "BuffValue": 0.11
+            },
+            24,
+            {
+              "BuffId": 5522,
+              "BuffValue": 6
+            },
+            25,
+            {
+              "BuffId": 10302,
+              "BuffValue": 0.09
+            },
+            26,
+            {
+              "BuffId": 5003,
+              "BuffValue": 0.961
+            },
+            27,
+            {
+              "BuffId": 4002,
+              "BuffValue": 1.11
+            },
+            28,
+            {
+              "BuffId": 3003,
+              "BuffValue": 1.814
+            }
+          ],
+          "MainHero": {
+            "Awaked": true,
+            "HeroId": 509,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 362,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1673,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1676,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1675,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "PosIdx": 11
+        },
+        "IsWin": false,
+        "KillScore": 423260,
+        "LosePower": 571960,
+        "PlayerAvatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/37622964/2025-12-09/1CED9D5087912020B062CD99010A8405_250x250.jpg\"}",
+        "PlayerId": 44878075,
+        "PlayerName": "㋡ Euphoria",
+        "ServerId": 1964,
+        "UnitBadHurt": 57196,
+        "UnitDead": 0,
+        "UnitHurt": 302804,
+        "UnitReturn": 0,
+        "UnitTotal": 360000,
+        "WinCnt": 0
+      },
+      "FightId": 1121157901,
+      "FightTs": 1766182528014
+    },
+    "kvs": [],
+    "subTitle": "5-win streak",
+    "title": "<b>[HELL]</b>㋡ Euphoria's Challenge"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "4198599176618253831",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15790,
+  "starMark": 0,
+  "time": 1766182538914120,
+  "title": "",
+  "type": "DuelBattle2",
+  "unread": false
+}

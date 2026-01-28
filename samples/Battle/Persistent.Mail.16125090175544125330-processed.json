@@ -1,0 +1,1152 @@
+{
+  "metadata": {
+    "mail_id": "16125090175544125330",
+    "mail_receiver": "player_34961809",
+    "mail_role": "gsmp",
+    "mail_time": 1755441253685821,
+    "server_id": 15597
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "3174",
+        "id": 5918310,
+        "name": "Spartanś Warriors"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": "29126922",
+      "attack": {
+        "id": 201971501,
+        "x": 3076.314,
+        "y": 3192.9502
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": -6870,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 70120,
+          "merits": 0,
+          "power": -19350,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 172803,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1935,
+          "skill_power": -12480,
+          "slightly_wounded": 12292,
+          "troop_units": 267228,
+          "troop_units_max": 337976,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": -4840,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 38700,
+          "merits": 0,
+          "power": -35060,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 364084,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 3506,
+          "skill_power": -30220,
+          "slightly_wounded": 21720,
+          "troop_units": 447333,
+          "troop_units_max": 450675,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 2,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3189.4238,
+        "y": 3065.1885
+      },
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "104",
+              "buffs": "3001_0.026000;4001_0.026000;5001_0.035000",
+              "id": 1
+            },
+            {
+              "affix": "204",
+              "buffs": "3001_0.035000;4001_0.021000;5001_0.031000",
+              "id": 2
+            },
+            {
+              "affix": "317",
+              "buffs": "3001_0.033000;4001_0.034000;10002_0.019000",
+              "id": 3
+            },
+            {
+              "affix": "17402",
+              "buffs": "6001_0.023000;4001_0.015000;5001_0.029000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{4:20016_329:14,7:20037_753:12,1:20002_648:14,5:20144_769:12,2:20005_656:15,8:20040_728:12,6:20018_327:15,3:20026_658:13}",
+          "formation": 17,
+          "id": 545,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1752,
+              "level": 5
+            },
+            {
+              "id": 1753,
+              "level": 5
+            },
+            {
+              "id": 1754,
+              "level": 1
+            },
+            {
+              "id": 393,
+              "level": 5
+            },
+            {
+              "id": 1751,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 185,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 251,
+              "level": 5
+            },
+            {
+              "id": 1544,
+              "level": 5
+            },
+            {
+              "id": 1545,
+              "level": 5
+            },
+            {
+              "id": 1546,
+              "level": 5
+            },
+            {
+              "id": 1547,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "kingdom_id": 2174,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "3174"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          },
+          "participant_id": 1455619,
+          "player_id": 33171104,
+          "player_name": "SnaiL蝸牛 ぴっぴ"
+        }
+      ],
+      "player_id": 33171104,
+      "player_name": "SnaiL蝸牛 ぴっぴ",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "33171104_1755440993_545_185"
+    },
+    {
+      "alliance": {
+        "abbreviation": "3174",
+        "id": 5918310,
+        "name": "Spartanś Warriors"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": "29126922",
+      "attack": {
+        "id": 201972401,
+        "x": 3074.6917,
+        "y": 3189.8972
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": -9050,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 100860,
+          "merits": 0,
+          "power": -21270,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 217391,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 2127,
+          "skill_power": -12220,
+          "slightly_wounded": 15094,
+          "troop_units": 321398,
+          "troop_units_max": 355950,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": -6980,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 42540,
+          "merits": 0,
+          "power": -50430,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 364084,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 5043,
+          "skill_power": -43450,
+          "slightly_wounded": 38746,
+          "troop_units": 450675,
+          "troop_units_max": 450675,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 2,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3189.4238,
+        "y": 3065.1885
+      },
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "2101",
+              "buffs": "3003_0.016000;4003_0.035000;5003_0.027000",
+              "id": 1
+            },
+            {
+              "affix": "2202",
+              "buffs": "3003_0.016000;4003_0.030000;10002_0.015000",
+              "id": 2
+            },
+            {
+              "affix": "2301",
+              "buffs": "3003_0.017000;6003_0.028000;10002_0.020000",
+              "id": 3
+            },
+            {
+              "affix": "2402",
+              "buffs": "3003_0.030000;4003_0.025000;5003_0.022000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{4:20022_721:21,5:20144_738:24,6:20145_742:25,7:20040_750:22,8:20037_752:1,2:20020_713:24,3:20021_743:23,1:20019_723:24}",
+          "formation": 2,
+          "id": 509,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 362,
+              "level": 5
+            },
+            {
+              "id": 1673,
+              "level": 5
+            },
+            {
+              "id": 1676,
+              "level": 5
+            },
+            {
+              "id": 1675,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 6,
+          "level": 60,
+          "relics": [
+            {
+              "id": 20008,
+              "level": 3
+            }
+          ],
+          "skills": [
+            {
+              "id": 1009,
+              "level": 5
+            },
+            {
+              "id": 1010,
+              "level": 5
+            },
+            {
+              "id": 1011,
+              "level": 5
+            },
+            {
+              "id": 63,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "kingdom_id": 2174,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "3174"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          },
+          "participant_id": 1455623,
+          "player_id": 33171104,
+          "player_name": "SnaiL蝸牛 ぴっぴ"
+        }
+      ],
+      "player_id": 33171104,
+      "player_name": "SnaiL蝸牛 ぴっぴ",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "33171104_1755440996_509_6"
+    },
+    {
+      "alliance": {
+        "abbreviation": "3174",
+        "id": 5918310,
+        "name": "Spartanś Warriors"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": "29126922",
+      "attack": {
+        "id": 201973401,
+        "x": 3079.349,
+        "y": 3188.185
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 30140,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 286543,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 287992,
+          "troop_units_max": 330000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -15070,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 364084,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1507,
+          "skill_power": -15070,
+          "slightly_wounded": 11105,
+          "troop_units": 393464,
+          "troop_units_max": 450675,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 2,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3189.4238,
+        "y": 3065.1885
+      },
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "104",
+              "buffs": "3003_0.033000;4003_0.033000;5003_0.026000",
+              "id": 1
+            },
+            {
+              "affix": "204",
+              "buffs": "3004_0.016000;4003_0.015000;5003_0.030000",
+              "id": 2
+            },
+            {
+              "affix": "304",
+              "buffs": "2004_0.075000;6003_0.032000;5003_0.015000",
+              "id": 3
+            },
+            {
+              "affix": "419",
+              "buffs": "3003_0.034000;4003_0.035000;5003_0.016000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{2:20020_747:2,3:20021_724:2,1:20019_746:2,4:20022_745:1,5:20023_712:2,6:20024_722:1,7:20037_751:1,8:20040_777:1}",
+          "formation": 2,
+          "id": 179,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1529,
+              "level": 5
+            },
+            {
+              "id": 1530,
+              "level": 5
+            },
+            {
+              "id": 1531,
+              "level": 1
+            },
+            {
+              "id": 243,
+              "level": 5
+            },
+            {
+              "id": 1528,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 187,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1566,
+              "level": 5
+            },
+            {
+              "id": 1567,
+              "level": 1
+            },
+            {
+              "id": 254,
+              "level": 5
+            },
+            {
+              "id": 1564,
+              "level": 5
+            },
+            {
+              "id": 1565,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "kingdom_id": 2174,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "3174"
+          },
+          "commanders": {
+            "primary": {
+              "id": 179,
+              "level": 60
+            },
+            "secondary": {
+              "id": 187,
+              "level": 60
+            }
+          },
+          "participant_id": 1455629,
+          "player_id": 33171104,
+          "player_name": "SnaiL蝸牛 ぴっぴ"
+        }
+      ],
+      "player_id": 33171104,
+      "player_name": "SnaiL蝸牛 ぴっぴ",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "33171104_1755440999_179_187"
+    },
+    {
+      "alliance": {
+        "abbreviation": "3174",
+        "id": 5918310,
+        "name": "Spartanś Warriors"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": "29126922",
+      "attack": {
+        "id": 201975601,
+        "x": 3079.349,
+        "y": 3188.185
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 2419,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -13450,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 220035,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1345,
+          "skill_power": -13450,
+          "slightly_wounded": 6381,
+          "troop_units": 227518,
+          "troop_units_max": 330000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 26900,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 364084,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 395486,
+          "troop_units_max": 450675,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 2,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3189.4238,
+        "y": 3065.1885
+      },
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "13101",
+              "buffs": "3002_0.026000;4002_0.026000;5002_0.028000",
+              "id": 1
+            },
+            {
+              "affix": "204",
+              "buffs": "3002_0.025000;4002_0.035000;5002_0.016000",
+              "id": 2
+            },
+            {
+              "affix": "311",
+              "buffs": "6002_0.034000;4002_0.022000;5002_0.030000",
+              "id": 3
+            },
+            {
+              "affix": "13402",
+              "buffs": "3002_0.020000;4002_0.031000;5002_0.021000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{7:20041_582:1,2:20008_707:1,3:20009_733:2,1:20007_709:2,4:20028_730:2,5:20033_749:2,6:20012_729:1,8:20037_727:1}",
+          "formation": 13,
+          "id": 540,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 389,
+              "level": 5
+            },
+            {
+              "id": 1735,
+              "level": 5
+            },
+            {
+              "id": 1736,
+              "level": 5
+            },
+            {
+              "id": 1737,
+              "level": 5
+            },
+            {
+              "id": 1738,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 459,
+          "level": 38,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1704,
+              "level": 5
+            },
+            {
+              "id": 1705,
+              "level": 1
+            },
+            {
+              "id": 377,
+              "level": 5
+            },
+            {
+              "id": 1702,
+              "level": 5
+            },
+            {
+              "id": 1703,
+              "level": 5
+            }
+          ],
+          "star_level": 4
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "kingdom_id": 2174,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "3174"
+          },
+          "commanders": {
+            "primary": {
+              "id": 540,
+              "level": 60
+            },
+            "secondary": {
+              "id": 459,
+              "level": 38
+            }
+          },
+          "participant_id": 1455638,
+          "player_id": 33171104,
+          "player_name": "SnaiL蝸牛 ぴっぴ"
+        }
+      ],
+      "player_id": 33171104,
+      "player_name": "SnaiL蝸牛 ぴっぴ",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "33171104_1755441005_540_459"
+    },
+    {
+      "alliance": {
+        "abbreviation": "3174",
+        "id": 5918310,
+        "name": "Spartanś Warriors"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": "29126922",
+      "attack": {
+        "id": 201976401,
+        "x": 3079.349,
+        "y": 3188.185
+      },
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 13540,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 185864,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 189404,
+          "troop_units_max": 332664,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -6770,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 364084,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 677,
+          "skill_power": -6770,
+          "slightly_wounded": 4287,
+          "troop_units": 400450,
+          "troop_units_max": 450675,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 2,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3189.4238,
+        "y": 3065.1885
+      },
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "2101",
+              "buffs": "3002_0.015000;4002_0.032000;5002_0.032000",
+              "id": 1
+            },
+            {
+              "affix": "204",
+              "buffs": "3002_0.035000;4002_0.017000;5002_0.034000",
+              "id": 2
+            },
+            {
+              "affix": "315",
+              "buffs": "3002_0.016000;4002_0.033000;5002_0.015000",
+              "id": 3
+            },
+            {
+              "affix": "2401",
+              "buffs": "3002_0.029000;4002_0.018000;5002_0.031000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20001_765:2,7:20037_614:1,4:20028_701:34,5:20033_708:32,6:20012_700:32,8:20040_748:32,2:20004_766:1,3:20009_702:32}",
+          "formation": 2,
+          "id": 182,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 246,
+              "level": 5
+            },
+            {
+              "id": 1533,
+              "level": 5
+            },
+            {
+              "id": 1534,
+              "level": 5
+            },
+            {
+              "id": 1536,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 148,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1465,
+              "level": 1
+            },
+            {
+              "id": 209,
+              "level": 5
+            },
+            {
+              "id": 1435,
+              "level": 5
+            },
+            {
+              "id": 1437,
+              "level": 5
+            },
+            {
+              "id": 1436,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "kingdom_id": 2174,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "3174"
+          },
+          "commanders": {
+            "primary": {
+              "id": 182,
+              "level": 60
+            },
+            "secondary": {
+              "id": 148,
+              "level": 60
+            }
+          },
+          "participant_id": 1455643,
+          "player_id": 33171104,
+          "player_name": "SnaiL蝸牛 ぴっぴ"
+        }
+      ],
+      "player_id": 33171104,
+      "player_name": "SnaiL蝸牛 ぴっぴ",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "33171104_1755441008_182_148"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "FCK",
+      "id": 3724982,
+      "name": "Fight Club:Kingdom"
+    },
+    "alliance_building_id": null,
+    "app_id": 8518744,
+    "app_uid": "399975",
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg",
+    "camp_id": 4,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 3081.745,
+      "y": 3187.8926
+    },
+    "commanders": {
+      "primary": {
+        "armaments": [
+          {
+            "affix": "103;111",
+            "buffs": "3001_0.026000;4001_0.015000;5001_0.022000",
+            "id": 1
+          },
+          {
+            "affix": "17202",
+            "buffs": "3001_0.020000;4001_0.017000;5001_0.029000",
+            "id": 2
+          },
+          {
+            "affix": "304;317",
+            "buffs": "3001_0.018000;4001_0.030000;5001_0.015000",
+            "id": 3
+          },
+          {
+            "affix": "17402;417",
+            "buffs": "3001_0.018000;4001_0.019000;5001_0.018000",
+            "id": 4
+          }
+        ],
+        "awakened": true,
+        "equipment": "{3:20142_816:2,1:20140_815:1,5:20144_845:1,4:20143_854:1,6:20145_808:3,7:20038_867:1,8:20037_809:1,2:20014_703:2}",
+        "formation": 17,
+        "id": 185,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 1544,
+            "level": 5
+          },
+          {
+            "id": 1545,
+            "level": 5
+          },
+          {
+            "id": 1546,
+            "level": 5
+          },
+          {
+            "id": 1547,
+            "level": 1
+          },
+          {
+            "id": 251,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": 2,
+        "id": 98,
+        "level": 60,
+        "relics": [
+          {
+            "id": 10019,
+            "level": 2
+          }
+        ],
+        "skills": [
+          {
+            "id": 129,
+            "level": 5
+          },
+          {
+            "id": 1199,
+            "level": 5
+          },
+          {
+            "id": 1200,
+            "level": 5
+          },
+          {
+            "id": 1201,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_113.png",
+    "kingdom_id": 1425,
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "FCK"
+        },
+        "commanders": {
+          "primary": {
+            "id": 185,
+            "level": 60
+          },
+          "secondary": {
+            "id": 98,
+            "level": 60
+          }
+        },
+        "participant_id": 1455952,
+        "player_id": 34961809,
+        "player_name": "Viatina乂Fayst"
+      }
+    ],
+    "player_id": 34961809,
+    "player_name": "Viatina乂Fayst",
+    "rally": null,
+    "structure_id": null,
+    "supreme_strife": {
+      "battle_id": "",
+      "round": 0,
+      "team_id": 0
+    },
+    "tracking_key": "34961809_1755441222_185_98"
+  },
+  "summary": {
+    "opponent": {
+      "dead": 0,
+      "kill_points": 214660,
+      "remaining": 1082636,
+      "severely_wounded": 5407,
+      "slightly_wounded": 33767,
+      "troop_units": 1293540
+    },
+    "sender": {
+      "dead": 0,
+      "kill_points": 108140,
+      "remaining": 364084,
+      "severely_wounded": 10733,
+      "slightly_wounded": 75858,
+      "troop_units": 450675
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1755441253,
+    "events": [],
+    "sampling": [
+      {
+        "count": 450675,
+        "tick": 458683
+      },
+      {
+        "count": 447333,
+        "tick": 458684
+      },
+      {
+        "count": 395486,
+        "tick": 458696
+      },
+      {
+        "count": 381081,
+        "tick": 458697
+      },
+      {
+        "count": 379648,
+        "tick": 458698
+      },
+      {
+        "count": 364084,
+        "tick": 458701
+      }
+    ],
+    "start_tick": 458683,
+    "start_timestamp": 1755441234
+  }
+}

@@ -1,0 +1,1775 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "83786601": {
+          "Bts": 109507,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "61119042",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 128,
+                  "SkillId": 1358,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 3,
+                  "SkillId": 1023,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 83786601,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "92330300_1752344387_198_140",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3412.2314,
+              "Y": 3894.792
+            },
+            "CtId": 500008,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{2:20014_201:2,1:20013_214:2,4:20016_223:1,6:20018_222:2,3:20026_220:2,5:20032_162:13,7:20097_173:10}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 198,
+            "HId2": 140,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 373,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1699,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1700,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1701,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1404,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1405,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1406,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1407,
+                "SkillLevel": 1
+              },
+              5,
+              {
+                "SkillId": 198,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "104",
+                "Buffs": "3001_0.017000;4001_0.017000;5001_0.026000",
+                "Id": "75102011_6075"
+              },
+              "2": {
+                "Affix": "209",
+                "Buffs": "3001_0.015000;4001_0.033000;5001_0.028000",
+                "Id": "75202011_6501"
+              },
+              "3": {
+                "Affix": "2302",
+                "Buffs": "3001_0.035000;4001_0.022000;5001_0.029000",
+                "Id": "75302010_17430"
+              },
+              "4": {
+                "Affix": "2402",
+                "Buffs": "3001_0.017000;4001_0.030000;5001_0.029000",
+                "Id": "75402010_10193"
+              }
+            },
+            "Idt": "83786601",
+            "IfAI": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 92330300,
+            "PName": "Kung Fu Tsar",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "F64D35BFBDB78A13089149DE54B04E0D"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 5482540,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 683259,
+            "InitMax": 86720742,
+            "KillScore": 111080,
+            "Max": 5705621,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109515,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 292554,
+            "DeadReduceCnt": 0,
+            "Death": 5554,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 13967,
+            "HurtCntEnd": 117954,
+            "InitMax": 431397,
+            "KillScore": 0,
+            "Max": 322434,
+            "Power": -55540,
+            "RetreatCnt": 0,
+            "SkillPower": -55540,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "500008": {
+              "Abbr": "NW25",
+              "HId": 198,
+              "HId2": 140,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 92330300,
+              "PName": "Kung Fu Tsar"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 8,
+          "TickStart": 109507
+        },
+        "83790901": {
+          "Bts": 109500,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "61119042",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 10,
+                  "SkillId": 1019,
+                  "SkillLevel": 2
+                },
+                2,
+                {
+                  "HeroId": 181,
+                  "SkillId": 1504,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 83790901,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "92330300_1752344390_545_185",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3412.2314,
+              "Y": 3894.792
+            },
+            "CtId": 500047,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{6:20145_197:2,7:20097_102:0,8:20040_226:1,5:20144_208:12,3:20026_194:2,1:20002_224:11,2:20005_219:1,4:20029_202:3}",
+            "HEq2": "{}",
+            "HFMs": 17,
+            "HFMs2": 17,
+            "HId": 545,
+            "HId2": 185,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1754,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 393,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1751,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1752,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1753,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1545,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1546,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1547,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 251,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1544,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "17101",
+                "Buffs": "3001_0.025000;4001_0.022000;10002_0.010000",
+                "Id": "75117011_16254"
+              },
+              "2": {
+                "Affix": "-1",
+                "Buffs": "3001_0.017000;4001_0.033000;10016_0.040000",
+                "Id": "75217010_15924"
+              },
+              "3": {
+                "Affix": "17302",
+                "Buffs": "3001_0.034000;4001_0.016000;5001_0.017000",
+                "Id": "75317011_15936"
+              },
+              "4": {
+                "Affix": "415",
+                "Buffs": "3001_0.019000;4001_0.020000;5001_0.035000",
+                "Id": "75417011_16255"
+              }
+            },
+            "Idt": "83790901",
+            "IfAI": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 92330300,
+            "PName": "Kung Fu Tsar",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "F64D35BFBDB78A13089149DE54B04E0D"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 5491196,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 675800,
+            "InitMax": 86720742,
+            "KillScore": 368240,
+            "Max": 5978444,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109515,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 224590,
+            "DeadReduceCnt": 0,
+            "Death": 18412,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 38618,
+            "HurtCntEnd": 166673,
+            "InitMax": 430645,
+            "KillScore": 0,
+            "Max": 315777,
+            "Power": -184120,
+            "RetreatCnt": 0,
+            "SkillPower": -184120,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "500047": {
+              "Abbr": "NW25",
+              "HId": 545,
+              "HId2": 185,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 92330300,
+              "PName": "Kung Fu Tsar"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 14,
+          "TickStart": 109500
+        },
+        "83795401": {
+          "Bts": 109507,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "61119042",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 18,
+                  "SkillId": 1050,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 7,
+                  "SkillId": 1013,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 83795401,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "92330300_1752344393_182_148",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3412.2314,
+              "Y": 3894.792
+            },
+            "CtId": 500085,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{7:20076_56:30,2:20008_186:2,3:20009_204:1,5:20033_217:2,1:20007_188:32,4:20028_174:31,8:20037_183:1,6:20012_203:1}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 182,
+            "HId2": 148,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1534,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1536,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 246,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1533,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 209,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1435,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1437,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1436,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1465,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "2102;120",
+                "Buffs": "3002_0.029000;4002_0.015000;5002_0.024000",
+                "Id": "75102012_5047"
+              },
+              "2": {
+                "Affix": "2202",
+                "Buffs": "3002_0.019000;4002_0.034000;5002_0.029000",
+                "Id": "75202010_7289"
+              },
+              "3": {
+                "Affix": "2302",
+                "Buffs": "3002_0.015000;4002_0.015000;5002_0.020000",
+                "Id": "75302010_15430"
+              },
+              "4": {
+                "Affix": "413",
+                "Buffs": "3002_0.027000;4002_0.017000;5002_0.033000",
+                "Id": "75402011_8336"
+              }
+            },
+            "Idt": "83795401",
+            "IfAI": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 92330300,
+            "PName": "Kung Fu Tsar",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "F64D35BFBDB78A13089149DE54B04E0D"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 5315229,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 827646,
+            "InitMax": 86720742,
+            "KillScore": 302540,
+            "Max": 5705621,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109523,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 224859,
+            "DeadReduceCnt": 0,
+            "Death": 15127,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 34352,
+            "HurtCntEnd": 164520,
+            "InitMax": 430000,
+            "KillScore": 0,
+            "Max": 314531,
+            "Power": -151270,
+            "RetreatCnt": 0,
+            "SkillPower": -151270,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "500085": {
+              "Abbr": "NW25",
+              "HId": 182,
+              "HId2": 148,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 92330300,
+              "PName": "Kung Fu Tsar"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 14,
+          "TickStart": 109507
+        },
+        "83799901": {
+          "Bts": 109500,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "61119042",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 62,
+                  "SkillId": 1132,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 103,
+                  "SkillId": 1259,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 83799901,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "92330300_1752344396_540_459",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3412.2314,
+              "Y": 3894.792
+            },
+            "CtId": 500114,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{7:20040_231:31,8:20075_218:30,2:20004_196:1,3:20009_236:33,1:20001_198:1,5:20033_181:33,4:20028_199:32,6:20012_161:32}",
+            "HEq2": "{}",
+            "HFMs": 13,
+            "HFMs2": 4,
+            "HId": 540,
+            "HId2": 459,
+            "HLv": 60,
+            "HLv2": 40,
+            "HSS": [
+              1,
+              {
+                "SkillId": 389,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1735,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1736,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1737,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1738,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 377,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1702,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1703,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1704,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1705,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 4,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "13101",
+                "Buffs": "3002_0.034000;4002_0.019000;5002_0.015000",
+                "Id": "75113010_12237"
+              },
+              "2": {
+                "Affix": "13201",
+                "Buffs": "3002_0.019000;4002_0.017000;5002_0.027000",
+                "Id": "75213011_18379"
+              },
+              "3": {
+                "Affix": "13301",
+                "Buffs": "3002_0.034000;4002_0.034000;5002_0.031000",
+                "Id": "75313011_12375"
+              },
+              "4": {
+                "Affix": "13402",
+                "Buffs": "6002_0.024000;4002_0.017000;5002_0.019000",
+                "Id": "75413011_12634"
+              }
+            },
+            "Idt": "83799901",
+            "IfAI": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 92330300,
+            "PName": "Kung Fu Tsar",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "F64D35BFBDB78A13089149DE54B04E0D"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 5697661,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 498974,
+            "InitMax": 86720742,
+            "KillScore": 199600,
+            "Max": 5978444,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109508,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 257555,
+            "DeadReduceCnt": 0,
+            "Death": 9980,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 21769,
+            "HurtCntEnd": 143303,
+            "InitMax": 432795,
+            "KillScore": 0,
+            "Max": 317168,
+            "Power": -99800,
+            "RetreatCnt": 0,
+            "SkillPower": -99800,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "500114": {
+              "Abbr": "NW25",
+              "HId": 540,
+              "HId2": 459,
+              "HLv": 60,
+              "HLv2": 40,
+              "PId": 92330300,
+              "PName": "Kung Fu Tsar"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 9,
+          "TickStart": 109500
+        },
+        "83804801": {
+          "Bts": 109507,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "61119042",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 12,
+                  "SkillId": 1024,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 142,
+                  "SkillId": 1417,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 83804801,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "92330300_1752344399_509_179",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3412.2314,
+              "Y": 3894.792
+            },
+            "CtId": 500158,
+            "HAw": false,
+            "HAw2": true,
+            "HEq": "{2:20006_229:1,1:20003_239:1,4:20143_207:0,5:20144_205:1,7:20097_145:20,3:20021_240:0,6:20024_241:0}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 509,
+            "HId2": 179,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 362,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1673,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1674,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1675,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1531,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 243,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1528,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1529,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1530,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "115;117",
+                "Buffs": "3003_0.022000;4003_0.015000;10002_0.017000",
+                "Id": "75102012_17930"
+              },
+              "2": {
+                "Affix": "204",
+                "Buffs": "3003_0.017000;4003_0.019000;5003_0.018000",
+                "Id": "75202011_10187"
+              },
+              "3": {
+                "Affix": "309",
+                "Buffs": "3003_0.015000;4003_0.018000;5003_0.020000",
+                "Id": "75302011_7367"
+              },
+              "4": {
+                "Affix": "405",
+                "Buffs": "3003_0.023000;4003_0.021000;5003_0.019000",
+                "Id": "75402011_17433"
+              }
+            },
+            "HWBs2": {
+              "1": "75102011_13683",
+              "4": "75402001_111"
+            },
+            "Idt": "83804801",
+            "IfAI": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 92330300,
+            "PName": "Kung Fu Tsar",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "F64D35BFBDB78A13089149DE54B04E0D"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 5315229,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 827646,
+            "InitMax": 86720742,
+            "KillScore": 664020,
+            "Max": 5705621,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109523,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 21791,
+            "DeadReduceCnt": 0,
+            "Death": 33201,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 11075,
+            "HurtCntEnd": 314622,
+            "InitMax": 430000,
+            "KillScore": 0,
+            "Max": 91449,
+            "Power": -332010,
+            "RetreatCnt": 0,
+            "SkillPower": -332010,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "500158": {
+              "Abbr": "NW25",
+              "HId": 509,
+              "HId2": 179,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 92330300,
+              "PName": "Kung Fu Tsar"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 12,
+          "TickStart": 109507
+        },
+        "84479901": {
+          "Bts": 109490,
+          "CIdt": {
+            "AId": 5139029,
+            "AName": "NEW  WORLD",
+            "Abbr": "NW25",
+            "AppUid": "24498214",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24498214/2025-03-15/167A8515B5A676EFA9C2193C6DFDFA98_250x250.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 142,
+                  "SkillId": 1417,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 10,
+                  "SkillId": 1019,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 84479901,
+            "COSId": 1925,
+            "CT": 1,
+            "CTK": "80837230_1752344634_186_179_SquareRally",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3440.455,
+              "Y": 3960.3057
+            },
+            "CtId": 502682,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{5:20023_254:25,6:20024_257:25,2:20020_253:25,3:20021_252:25,1:20019_240:25,4:20022_282:24,7:20037_272:25,8:20041_290:25}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 186,
+            "HId2": 179,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1583,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1584,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1585,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 306,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1582,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 243,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1528,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1529,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1530,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1531,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "2101",
+                "Buffs": "3003_0.018000;4003_0.033000;10002_0.020000",
+                "Id": "75102001_221"
+              },
+              "2": {
+                "Affix": "2201",
+                "Buffs": "3003_0.024000;4003_0.034000;5003_0.035000",
+                "Id": "75202011_22620"
+              },
+              "3": {
+                "Affix": "2301",
+                "Buffs": "3003_0.033000;4003_0.026000;5003_0.026000",
+                "Id": "75302000_2801"
+              },
+              "4": {
+                "Affix": "2401;417",
+                "Buffs": "3003_0.028000;4003_0.029000;5003_0.025000",
+                "Id": "75402012_17562"
+              }
+            },
+            "Idt": "84479901",
+            "IfAI": 0,
+            "IsRally": true,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 80837230,
+            "PName": "西伯利亞狼",
+            "PkgNameNew": "com.lilithgame.roc.ios",
+            "SerSeason": "100",
+            "SideId": 4,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "7344B72C-BE71-4AE6-88F2-C9FF7C0DE5DA"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -417899,
+            "BadHurt": 121447,
+            "BadReduceCnt": 0,
+            "Cnt": 5315229,
+            "DeadReduceCnt": 0,
+            "Death": 3439,
+            "Gt": 50000,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 826540,
+            "HurtCntEnd": 827646,
+            "InitMax": 86720742,
+            "KillScore": 2024818,
+            "Max": 6316655,
+            "Power": -1131761,
+            "RetreatCnt": 0,
+            "SkillPower": -713862,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 109521,
+          "Kill": {
+            "AddCnt": 112621,
+            "AtkPower": -601462,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 2017456,
+            "DeadReduceCnt": 0,
+            "Death": 139437,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 779122,
+            "HurtCntEnd": 1288707,
+            "InitMax": 3599999,
+            "KillScore": 2302550,
+            "Max": 3599999,
+            "Power": -948451,
+            "RetreatCnt": 0,
+            "SkillPower": -346989,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "498357": {
+              "Abbr": ">NS",
+              "HId": 509,
+              "HId2": 195,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 144242946,
+              "PName": "ᴺˢkabao"
+            },
+            "498838": {
+              "Abbr": "NW25",
+              "HId": 179,
+              "HId2": 194,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 128314090,
+              "PName": "Dragonshrimp"
+            },
+            "500039": {
+              "Abbr": "NW25",
+              "HId": 101,
+              "HId2": 179,
+              "HLv": 60,
+              "HLv2": 50,
+              "PId": 155484254,
+              "PName": "O G U Z   B E Y"
+            },
+            "501977": {
+              "Abbr": "NW25",
+              "HId": 6,
+              "HId2": 141,
+              "HLv": 56,
+              "HLv2": 33,
+              "PId": 140495716,
+              "PName": "Uzman 1"
+            },
+            "502682": {
+              "Abbr": "NW25",
+              "HId": 186,
+              "HId2": 179,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 80837230,
+              "PName": "西伯利亞狼"
+            },
+            "502762": {
+              "Abbr": "NW25",
+              "HId": 99,
+              "HId2": 108,
+              "HLv": 60,
+              "HLv2": 39,
+              "PId": 140406466,
+              "PName": "SCGon II"
+            },
+            "502813": {
+              "Abbr": "NW25",
+              "HId": 179,
+              "HId2": 162,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 111071796,
+              "PName": "Murad ferma 07"
+            },
+            "502815": {
+              "Abbr": "#Z-E",
+              "HId": 138,
+              "HId2": 99,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 137385467,
+              "PName": "乄total1440"
+            },
+            "502869": {
+              "Abbr": "NW25",
+              "HId": 7,
+              "HId2": 99,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 124005566,
+              "PName": "sw MURAD"
+            },
+            "502959": {
+              "Abbr": "NW25",
+              "HId": 138,
+              "HId2": 190,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 31508952,
+              "PName": "敘利亞虎"
+            },
+            "503110": {
+              "Abbr": "NW25",
+              "HId": 185,
+              "HId2": 0,
+              "HLv": 60,
+              "HLv2": 0,
+              "PId": 6443458,
+              "PName": "HK Dollʰᵏ 88"
+            },
+            "503390": {
+              "Abbr": "NW25",
+              "HId": 179,
+              "HId2": 186,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 92350934,
+              "PName": "KungFu Duck 02"
+            },
+            "503407": {
+              "Abbr": "NW25",
+              "HId": 127,
+              "HId2": 64,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 118815758,
+              "PName": "Murad ferma 05"
+            },
+            "503420": {
+              "Abbr": "NW25",
+              "HId": 179,
+              "HId2": 187,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 138655713,
+              "PName": "Flower Sniffer"
+            },
+            "503611": {
+              "Abbr": "NW25",
+              "HId": 148,
+              "HId2": 99,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 125801656,
+              "PName": "Murad ferma 04"
+            },
+            "504247": {
+              "Abbr": "NW25",
+              "HId": 1,
+              "HId2": 4,
+              "HLv": 60,
+              "HLv2": 40,
+              "PId": 20068197,
+              "PName": "KungFu Drake"
+            },
+            "504273": {
+              "Abbr": "NW25",
+              "HId": 115,
+              "HId2": 99,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 123941805,
+              "PName": "Murad ferma 06"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3506.0898,
+            "Y": 3958.3018
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 32,
+          "TickStart": 109490
+        }
+      },
+      "Btk": 109490,
+      "Bts": 1752344977,
+      "DataOmit": false,
+      "Ets": 1752345011,
+      "Events": [],
+      "GsId": 15538,
+      "Id": 9694158,
+      "LLScriptSchema": 224,
+      "LoadSource": "oss",
+      "OOv": {
+        "BadHurt": 0,
+        "Cnt": 3038805,
+        "Dead": 221711,
+        "Hurt": 898903,
+        "KillScore": 2302550,
+        "Max": 5073979
+      },
+      "Role": "gsmp",
+      "RoomId": 0,
+      "SOv": {
+        "BadHurt": 121447,
+        "Cnt": 5315229,
+        "Dead": 3439,
+        "Hurt": 826540,
+        "KillScore": 3670298,
+        "Max": 6316655
+      },
+      "STs": {
+        "-2": {
+          "Abbr": "",
+          "HId": 0,
+          "HId2": 0,
+          "HLv": 0,
+          "HLv2": 0,
+          "PId": 71738515,
+          "PName": ""
+        },
+        "0": {
+          "Abbr": "SO4L",
+          "HId": 184,
+          "HId2": 177,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 71738515,
+          "PName": "agent G"
+        },
+        "426075": {
+          "Abbr": "332O",
+          "HId": 61,
+          "HId2": 38,
+          "HLv": 50,
+          "HLv2": 47,
+          "PId": 110756787,
+          "PName": "F2yst"
+        },
+        "497563": {
+          "Abbr": "332O",
+          "HId": 545,
+          "HId2": 185,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 160265021,
+          "PName": "7vidasᶜʷ"
+        },
+        "503183": {
+          "Abbr": "332O",
+          "HId": 61,
+          "HId2": 180,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 131927527,
+          "PName": "Ade Armando"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 6316655,
+          "T": 109490
+        },
+        2,
+        {
+          "Cnt": 5978444,
+          "T": 109500
+        },
+        3,
+        {
+          "Cnt": 5697661,
+          "T": 109508
+        },
+        4,
+        {
+          "Cnt": 5482540,
+          "T": 109515
+        },
+        5,
+        {
+          "Cnt": 5315229,
+          "T": 109523
+        }
+      ],
+      "Schema": 224,
+      "SelfChar": {
+        "AId": 4805441,
+        "AName": "魂社会SoulReapers",
+        "Abbr": "SO4L",
+        "AppUid": "32624247",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_146.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-06-13/DF0A8619A6F2A3A01E87EC7264B2CC4E_250x250.jpg\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": true,
+          "SKILLS": [
+            1,
+            {
+              "HeroId": 10,
+              "SkillId": 1019,
+              "SkillLevel": 5
+            },
+            2,
+            {
+              "HeroId": 3,
+              "SkillId": 1023,
+              "SkillLevel": 5
+            }
+          ]
+        },
+        "CId": 555403,
+        "COSId": 1804,
+        "CT": 3,
+        "CTK": "",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3506.0898,
+          "Y": 3958.3018
+        },
+        "CtId": 0,
+        "GtLevel": 25,
+        "HAw": true,
+        "HAw2": true,
+        "HEq": "{5:20032_351:13,7:20037_372:11,8:20038_320:1,6:20034_232:14,2:20014_258:13,3:20026_243:13,1:20013_288:2,4:20029_244:13}",
+        "HEq2": "{}",
+        "HFMs": 17,
+        "HFMs2": 5,
+        "HId": 184,
+        "HId2": 177,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 252,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1548,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1549,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1550,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1551,
+            "SkillLevel": 1
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 241,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1519,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1520,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1521,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1522,
+            "SkillLevel": 1
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "17101",
+            "Buffs": "3001_0.024000;4001_0.016000;5001_0.032000",
+            "Id": "75117011_11150"
+          },
+          "2": {
+            "Affix": "17202",
+            "Buffs": "3001_0.024000;4001_0.028000;5001_0.026000",
+            "Id": "75217011_11151"
+          },
+          "3": {
+            "Affix": "17302",
+            "Buffs": "6001_0.019000;4001_0.019000;5001_0.029000",
+            "Id": "75317011_11152"
+          },
+          "4": {
+            "Affix": "418",
+            "Buffs": "3001_0.021000;4001_0.033000;5001_0.018000",
+            "Id": "75417011_11153"
+          }
+        },
+        "HWBs2": {
+          "1": "75105001_2481",
+          "2": "75205000_1458",
+          "3": "74305001_3623",
+          "4": "75405000_1862"
+        },
+        "Idt": "555403",
+        "IfAI": 0,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 71738515,
+        "PName": "agent G",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "100",
+        "SideId": 2,
+        "Titan": {
+          "BattleId": "",
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "489044729533721131"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": true
+    }
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "100439187175234501131",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15538,
+  "starMark": 0,
+  "time": 1752345011341072,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

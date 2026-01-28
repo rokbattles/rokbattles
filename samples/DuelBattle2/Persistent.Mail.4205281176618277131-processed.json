@@ -1,0 +1,428 @@
+{
+  "metadata": {
+    "mail_id": "4205281176618277131",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1766182771852339,
+    "server_id": 15790
+  },
+  "opponent": {
+    "alliance": {
+      "abbreviation": "14IN"
+    },
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/207405301/2025-01-05/F0229E431E540C811CB5E77E4F64ADDF_250x250.jpg",
+    "buffs": [
+      {
+        "id": 20067,
+        "value": 0.01
+      },
+      {
+        "id": 5003,
+        "value": 0.935
+      },
+      {
+        "id": 20066,
+        "value": 0.01
+      },
+      {
+        "id": 4001,
+        "value": 2.166
+      },
+      {
+        "id": 3002,
+        "value": 1.75
+      },
+      {
+        "id": 15075,
+        "value": 0.03
+      },
+      {
+        "id": 10007,
+        "value": 0.05
+      },
+      {
+        "id": 15063,
+        "value": 0.13
+      },
+      {
+        "id": 5522,
+        "value": 8
+      },
+      {
+        "id": 5524,
+        "value": 8
+      },
+      {
+        "id": 5001,
+        "value": 1.173
+      },
+      {
+        "id": 20070,
+        "value": 0.01
+      },
+      {
+        "id": 10002,
+        "value": 0.02
+      },
+      {
+        "id": 3001,
+        "value": 2.693
+      },
+      {
+        "id": 20039,
+        "value": 0.1
+      },
+      {
+        "id": 15092,
+        "value": 0.015
+      },
+      {
+        "id": 12017,
+        "value": 0.05
+      },
+      {
+        "id": 3003,
+        "value": 1.82
+      },
+      {
+        "id": 10300,
+        "value": 0.09
+      },
+      {
+        "id": 20071,
+        "value": 0.01
+      },
+      {
+        "id": 5002,
+        "value": 0.815
+      },
+      {
+        "id": 4004,
+        "value": 1.13
+      },
+      {
+        "id": 15089,
+        "value": 0.015
+      },
+      {
+        "id": 5501,
+        "value": 8
+      },
+      {
+        "id": 5521,
+        "value": 16
+      },
+      {
+        "id": 20064,
+        "value": 0.05
+      },
+      {
+        "id": 3004,
+        "value": 1.695
+      },
+      {
+        "id": 10006,
+        "value": 0.115
+      },
+      {
+        "id": 20072,
+        "value": 0.01
+      },
+      {
+        "id": 10008,
+        "value": 0.03
+      },
+      {
+        "id": 10110,
+        "value": 0.06
+      },
+      {
+        "id": 15091,
+        "value": 0.05
+      },
+      {
+        "id": 5511,
+        "value": 8
+      },
+      {
+        "id": 3008,
+        "value": 0
+      },
+      {
+        "id": 5523,
+        "value": 8
+      },
+      {
+        "id": 4003,
+        "value": 1.41
+      },
+      {
+        "id": 5004,
+        "value": 0.71
+      },
+      {
+        "id": 10016,
+        "value": 1.25
+      },
+      {
+        "id": 20068,
+        "value": 0.01
+      },
+      {
+        "id": 4002,
+        "value": 1.31
+      }
+    ],
+    "duel": {
+      "team_id": 1786157902
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+    "player_id": 150490776,
+    "player_name": "Mjkelᴼᶠ",
+    "primary_commander": {
+      "awakened": true,
+      "id": 545,
+      "level": 60,
+      "skills": [
+        {
+          "id": 393,
+          "level": 5
+        },
+        {
+          "id": 1751,
+          "level": 5
+        },
+        {
+          "id": 1752,
+          "level": 5
+        },
+        {
+          "id": 1753,
+          "level": 5
+        },
+        {
+          "id": 1754,
+          "level": 1
+        }
+      ],
+      "star_level": 6
+    },
+    "secondary_commander": {
+      "awakened": true,
+      "id": 575,
+      "level": 40,
+      "skills": [
+        {
+          "id": 411,
+          "level": 5
+        },
+        {
+          "id": 1787,
+          "level": 5
+        },
+        {
+          "id": 1790,
+          "level": 5
+        },
+        {
+          "id": 1789,
+          "level": 5
+        }
+      ],
+      "star_level": 4
+    }
+  },
+  "sender": {
+    "alliance": {
+      "abbreviation": "SO4L"
+    },
+    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
+    "buffs": [
+      {
+        "id": 5524,
+        "value": 6
+      },
+      {
+        "id": 5523,
+        "value": 13
+      },
+      {
+        "id": 5004,
+        "value": 0.715
+      },
+      {
+        "id": 5513,
+        "value": 7
+      },
+      {
+        "id": 10006,
+        "value": 0.015
+      },
+      {
+        "id": 5001,
+        "value": 0.865
+      },
+      {
+        "id": 3002,
+        "value": 1.31
+      },
+      {
+        "id": 3004,
+        "value": 1.12
+      },
+      {
+        "id": 4003,
+        "value": 2.112
+      },
+      {
+        "id": 3008,
+        "value": 0
+      },
+      {
+        "id": 3001,
+        "value": 1.38
+      },
+      {
+        "id": 10016,
+        "value": 1.25
+      },
+      {
+        "id": 10110,
+        "value": 0
+      },
+      {
+        "id": 15032,
+        "value": 0
+      },
+      {
+        "id": 15090,
+        "value": 0.04
+      },
+      {
+        "id": 10007,
+        "value": 0.25
+      },
+      {
+        "id": 15033,
+        "value": 0.09
+      },
+      {
+        "id": 5521,
+        "value": 6
+      },
+      {
+        "id": 5003,
+        "value": 1.367
+      },
+      {
+        "id": 3003,
+        "value": 1.806
+      },
+      {
+        "id": 10002,
+        "value": 0.08
+      },
+      {
+        "id": 15089,
+        "value": 0.01
+      },
+      {
+        "id": 3112,
+        "value": 0.05
+      },
+      {
+        "id": 5522,
+        "value": 6
+      },
+      {
+        "id": 5002,
+        "value": 0.805
+      },
+      {
+        "id": 10302,
+        "value": 0.09
+      },
+      {
+        "id": 15091,
+        "value": 0.015
+      },
+      {
+        "id": 12017,
+        "value": 0.05
+      },
+      {
+        "id": 5503,
+        "value": 6
+      },
+      {
+        "id": 4001,
+        "value": 1.45
+      },
+      {
+        "id": 4002,
+        "value": 1.52
+      },
+      {
+        "id": 4004,
+        "value": 1.286
+      }
+    ],
+    "duel": {
+      "team_id": 1378157902
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+    "player_id": 71738515,
+    "player_name": "G Var",
+    "primary_commander": {
+      "awakened": true,
+      "id": 509,
+      "level": 60,
+      "skills": [
+        {
+          "id": 362,
+          "level": 5
+        },
+        {
+          "id": 1673,
+          "level": 5
+        },
+        {
+          "id": 1676,
+          "level": 5
+        },
+        {
+          "id": 1675,
+          "level": 5
+        }
+      ],
+      "star_level": 6
+    },
+    "secondary_commander": {
+      "awakened": true,
+      "id": 179,
+      "level": 60,
+      "skills": [
+        {
+          "id": 243,
+          "level": 5
+        },
+        {
+          "id": 1528,
+          "level": 5
+        },
+        {
+          "id": 1529,
+          "level": 5
+        },
+        {
+          "id": 1530,
+          "level": 5
+        },
+        {
+          "id": 1531,
+          "level": 1
+        }
+      ],
+      "star_level": 6
+    }
+  }
+}

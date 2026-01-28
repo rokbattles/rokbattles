@@ -1,45 +1,32 @@
-pub mod context;
-pub mod error;
-mod helpers;
-pub mod resolvers;
-pub mod structures;
+#![forbid(unsafe_code)]
 
-use mail_processor_sdk::ResolverChain;
+//! Processor for DuelBattle2 mail reports.
+
+mod commander;
+mod metadata;
+mod opponent;
+mod player;
+mod sender;
+
+use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-use crate::context::MailContext;
-use crate::error::ProcessError;
-use crate::resolvers::{DetailsResolver, MetadataResolver};
-use crate::structures::DuelBattle2Mail;
+pub use mail_processor_sdk::{ExtractError, Section};
 
-/// Processes decoded DuelBattle2 mail sections into a structured output.
-///
-/// The input is expected to be the `sections` array from decoded mail JSON.
-pub fn process_sections(sections: &[Value]) -> Result<DuelBattle2Mail, ProcessError> {
-    if sections.is_empty() {
-        return Err(ProcessError::EmptySections);
-    }
-
-    let ctx = MailContext::new(sections);
-    let mut output = DuelBattle2Mail::default();
-
-    let chain = ResolverChain::new()
-        .with(MetadataResolver::new())
-        .with(DetailsResolver::new());
-    chain.apply(&ctx, &mut output)?;
-
-    Ok(output)
+/// Process a decoded DuelBattle2 mail with parallel extractors.
+pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
+    processor().process_parallel(input)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::process_sections;
-    use crate::error::ProcessError;
+/// Process a decoded DuelBattle2 mail in extractor order.
+pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
+    processor().process_sequential(input)
+}
 
-    #[test]
-    fn process_sections_rejects_empty_payloads() {
-        let err = process_sections(&[]).unwrap_err();
-
-        assert!(matches!(err, ProcessError::EmptySections));
-    }
+fn processor() -> Processor {
+    Processor::new(vec![
+        Box::new(metadata::MetadataExtractor::new()),
+        Box::new(sender::SenderExtractor::new()),
+        Box::new(opponent::OpponentExtractor::new()),
+    ])
 }

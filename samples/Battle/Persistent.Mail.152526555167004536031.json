@@ -1,0 +1,641 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "74305003": {
+          "Bts": 1378409,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "AppUid": "59019014",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_138.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/72217206/21/11/14/134189077080e094_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 74305003,
+            "COSId": 993,
+            "CT": 3,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3968.9177,
+              "Y": 3077.6057
+            },
+            "CtId": 0,
+            "GtLevel": 25,
+            "HAw": true,
+            "HAw2": false,
+            "HClt2": [
+              1,
+              6
+            ],
+            "HEq": "{}",
+            "HEq2": "{}",
+            "HId": 13,
+            "HId2": 10,
+            "HLv": 50,
+            "HLv2": 55,
+            "HSS": [
+              1,
+              {
+                "SkillId": 32,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1026,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1109,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1048,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 28,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1017,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1018,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1019,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "74305003",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 72217206,
+            "PName": "Queen SammyJo",
+            "Udid": "0FB36A3A2A12A92C44740A81AD07B683"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -133996,
+            "BadHurt": 0,
+            "Cnt": 2261980,
+            "Death": 20557,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 3998,
+            "HurtCntEnd": 17586,
+            "InitMax": 2314910,
+            "Max": 2286535,
+            "Power": -147568,
+            "RetreatCnt": 0,
+            "SkillPower": -13572
+          },
+          "Def": 2,
+          "Ets": 1378436,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -2648040,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 833928,
+            "Gt": 2000,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 130912,
+            "HurtCntEnd": 130912,
+            "InitMax": 8719274,
+            "Max": 966840,
+            "Power": -3014252,
+            "RetreatCnt": 0,
+            "SkillPower": -366212
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "-2": {
+              "Abbr": "",
+              "HId": 0,
+              "HId2": 0,
+              "HLv": 0,
+              "HLv2": 0,
+              "PId": 72217206,
+              "PName": ""
+            },
+            "0": {
+              "Abbr": "",
+              "HId": 13,
+              "HId2": 10,
+              "HLv": 50,
+              "HLv2": 55,
+              "PId": 72217206,
+              "PName": "Queen SammyJo"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 3962.5576,
+            "Y": 3077.6057
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfRobRess2": {
+            "2428546": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1195068
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1195068
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 1195068
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1195068
+              }
+            ],
+            "2428567": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 912720
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 912720
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 912720
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 912720
+              }
+            ],
+            "2428590": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 899393
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 899393
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 899393
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 899393
+              }
+            ],
+            "2428591": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1039431
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1039431
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 1039431
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1039431
+              }
+            ],
+            "2428603": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1091149
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1091149
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 1091149
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1091149
+              }
+            ],
+            "2428634": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 926848
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 926848
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 926848
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 926848
+              }
+            ],
+            "2428652": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 899393
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 899393
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 899393
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 899393
+              }
+            ],
+            "2428658": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1216388
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1216388
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 1216388
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1216388
+              }
+            ],
+            "2428754": [
+              1,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1070354
+              },
+              2,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1070354
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 1070354
+              },
+              4,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1070354
+              }
+            ]
+          },
+          "Tick": 28,
+          "TickStart": 1378409
+        }
+      },
+      "Btk": 1378409,
+      "Bts": 1670045333,
+      "DataOmit": false,
+      "Ets": 1670045360,
+      "Events": [],
+      "GsId": 993,
+      "Id": 25171293,
+      "Role": "gs",
+      "RoomId": 0,
+      "STs": {
+        "2427596": {
+          "Abbr": "K993",
+          "HId": 98,
+          "HId2": 117,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 28482639,
+          "PName": "Grig n Snow"
+        },
+        "2427612": {
+          "Abbr": "K993",
+          "HId": 108,
+          "HId2": 109,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 71821488,
+          "PName": "BabyGriggy"
+        },
+        "2428546": {
+          "Abbr": "K993",
+          "HId": 98,
+          "HId2": 10,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 71738515,
+          "PName": "Grigvar"
+        },
+        "2428567": {
+          "Abbr": "K993",
+          "HId": 120,
+          "HId2": 66,
+          "HLv": 54,
+          "HLv2": 46,
+          "PId": 73096751,
+          "PName": "Picnicatpeanut"
+        },
+        "2428590": {
+          "Abbr": "K993",
+          "HId": 99,
+          "HId2": 7,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 70588457,
+          "PName": "ALEXIS 1"
+        },
+        "2428591": {
+          "Abbr": "K993",
+          "HId": 10,
+          "HId2": 3,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 60192245,
+          "PName": "65 CICAK YOO"
+        },
+        "2428603": {
+          "Abbr": "K993",
+          "HId": 108,
+          "HId2": 98,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 70576072,
+          "PName": "HR Saboc"
+        },
+        "2428634": {
+          "Abbr": "K993",
+          "HId": 99,
+          "HId2": 98,
+          "HLv": 60,
+          "HLv2": 47,
+          "PId": 22797809,
+          "PName": "DavidT55"
+        },
+        "2428652": {
+          "Abbr": "K993",
+          "HId": 98,
+          "HId2": 99,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 71741483,
+          "PName": "Salt Heart"
+        },
+        "2428658": {
+          "Abbr": "K993",
+          "HId": 99,
+          "HId2": 1,
+          "HLv": 60,
+          "HLv2": 35,
+          "PId": 63003749,
+          "PName": "BigGrigBunny"
+        },
+        "2428754": {
+          "Abbr": "K993",
+          "HId": 99,
+          "HId2": 10,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 70641538,
+          "PName": "kamajy"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 2286535,
+          "T": 1378409
+        },
+        2,
+        {
+          "Cnt": 2261980,
+          "T": 1378436
+        }
+      ],
+      "SelfChar": {
+        "AId": 2486154,
+        "AName": "Touch my Totem",
+        "Abbr": "K993",
+        "AppUid": "32624247",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/71738515/21/03/23/772b976e9190428e_800x800.jpg\"}",
+        "CASS": {
+          "ENABLE": false
+        },
+        "CId": 254225801,
+        "COSId": 993,
+        "CT": 1,
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3955.5234,
+          "Y": 3078.9907
+        },
+        "CtId": 2428546,
+        "HAw": true,
+        "HAw2": true,
+        "HClt2": [
+          1,
+          6
+        ],
+        "HEq": "{7:20040_264:1,1:20013_288:1,4:20029_244:1,8:20037_312:1,2:20014_258:11,3:20026_243:11,5:20068_257:10,6:20034_232:11}",
+        "HEq2": "{}",
+        "HId": 98,
+        "HId2": 10,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 1199,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1200,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1201,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 129,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 28,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1102,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1018,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1019,
+            "SkillLevel": 5
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "Idt": "254225801",
+        "IsRally": true,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 71738515,
+        "PName": "Grigvar",
+        "Udid": "240202569340121156"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": false
+    }
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "id": "152526555167004536031",
+  "mailScene": 0,
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 11579,
+  "time": 1670045360524087,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

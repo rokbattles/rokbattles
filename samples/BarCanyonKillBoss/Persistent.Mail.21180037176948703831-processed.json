@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "mail_id": "21180037176948703831",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1769487038624149,
+    "server_id": 1804
+  },
+  "npc": {
+    "level": 25,
+    "location": {
+      "x": 5484.9345703125,
+      "y": 4776.703125
+    },
+    "type": 102000055
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg",
+      "damage_rate": 5.884444236755371,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 65,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 48,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 71738515,
+      "player_name": "Grigvar"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/39215561/2026-01-15/E42D8545227DA9895E71E102D1707788_250x250.jpg",
+      "damage_rate": 61.646663665771484,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 60,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 47043938,
+      "player_name": "QuackerOats"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg",
+      "damage_rate": 8.809444427490234,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 65,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 20075558,
+      "player_name": "jën x ƒaräɀ"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101127807/2026-01-20/E13916EAED30F309354CD289C0A433F4_250x250.jpg",
+      "damage_rate": 8.44111156463623,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 65,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 48,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7051,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 126616046,
+      "player_name": "Macronator"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2026-01-23/C6594945F18336C61EAF740482162E35_250x250.jpg",
+      "damage_rate": 6.271111011505127,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 65,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 29862805,
+      "player_name": "Benbu 벤부"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/102041458/2026-01-27/3410C6E0991B3112239720C62AB1FE92_250x250.jpg",
+      "damage_rate": 4.899444580078125,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 85,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 128123718,
+      "player_name": "ˢAuthentiks"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100611693/2025-12-16/E84C388456127AA9831269A560ABCB48_250x250.jpg",
+      "damage_rate": 4.0477776527404785,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 85,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 125690938,
+      "player_name": "Mac Pro"
+    }
+  ]
+}

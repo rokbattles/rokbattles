@@ -1,0 +1,1386 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "201971501": {
+          "Bts": 458684,
+          "CIdt": {
+            "AId": 5918310,
+            "AName": "Spartanś Warriors",
+            "Abbr": "3174",
+            "AppUid": "29126922",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 15,
+                  "SkillId": 1047,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 10,
+                  "SkillId": 1019,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 201971501,
+            "COSId": 2174,
+            "CT": 1,
+            "CTK": "33171104_1755440993_545_185",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3189.4238,
+              "Y": 3065.1885
+            },
+            "CtId": 1455619,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{4:20016_329:14,7:20037_753:12,1:20002_648:14,5:20144_769:12,2:20005_656:15,8:20040_728:12,6:20018_327:15,3:20026_658:13}",
+            "HEq2": "{}",
+            "HFMs": 17,
+            "HFMs2": 2,
+            "HId": 545,
+            "HId2": 185,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1752,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1753,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1754,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 393,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1751,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 251,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1544,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1545,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1546,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1547,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "104",
+                "Buffs": "3001_0.026000;4001_0.026000;5001_0.035000",
+                "Id": "75117010_21479"
+              },
+              "2": {
+                "Affix": "204",
+                "Buffs": "3001_0.035000;4001_0.021000;5001_0.031000",
+                "Id": "75217011_21476"
+              },
+              "3": {
+                "Affix": "317",
+                "Buffs": "3001_0.033000;4001_0.034000;10002_0.019000",
+                "Id": "75317010_21477"
+              },
+              "4": {
+                "Affix": "17402",
+                "Buffs": "6001_0.023000;4001_0.015000;5001_0.029000",
+                "Id": "75417011_21478"
+              }
+            },
+            "Idt": "201971501",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 33171104,
+            "PName": "SnaiL蝸牛 ぴっぴ",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100",
+            "SideId": 2,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "315324108357759225"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -4840,
+            "BadHurt": 3506,
+            "BadReduceCnt": 0,
+            "Cnt": 364084,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 21720,
+            "HurtCntEnd": 75858,
+            "InitMax": 450675,
+            "KillScore": 38700,
+            "Max": 447333,
+            "Power": -35060,
+            "RetreatCnt": 0,
+            "SkillPower": -30220,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 458701,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -6870,
+            "BadHurt": 1935,
+            "BadReduceCnt": 0,
+            "Cnt": 172803,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 12292,
+            "HurtCntEnd": 143332,
+            "InitMax": 337976,
+            "KillScore": 70120,
+            "Max": 267228,
+            "Power": -19350,
+            "RetreatCnt": 0,
+            "SkillPower": -12480,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1455619": {
+              "Abbr": "3174",
+              "HId": 545,
+              "HId2": 185,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 33171104,
+              "PName": "SnaiL蝸牛 ぴっぴ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3076.314,
+            "Y": 3192.9502
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 17,
+          "TickStart": 458684
+        },
+        "201972401": {
+          "Bts": 458683,
+          "CIdt": {
+            "AId": 5918310,
+            "AName": "Spartanś Warriors",
+            "Abbr": "3174",
+            "AppUid": "29126922",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 14,
+                  "SkillId": 1029,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 142,
+                  "SkillId": 1417,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 201972401,
+            "COSId": 2174,
+            "CT": 1,
+            "CTK": "33171104_1755440996_509_6",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3189.4238,
+              "Y": 3065.1885
+            },
+            "CtId": 1455623,
+            "HAw": true,
+            "HAw2": true,
+            "HClt2": [
+              1,
+              20008,
+              2,
+              3
+            ],
+            "HCte2": [
+              1,
+              {
+                "ColId": 20008
+              }
+            ],
+            "HEq": "{4:20022_721:21,5:20144_738:24,6:20145_742:25,7:20040_750:22,8:20037_752:1,2:20020_713:24,3:20021_743:23,1:20019_723:24}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HId": 509,
+            "HId2": 6,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 362,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1673,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1676,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1675,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1009,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1010,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1011,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 63,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "2101",
+                "Buffs": "3003_0.016000;4003_0.035000;5003_0.027000",
+                "Id": "75102001_3928"
+              },
+              "2": {
+                "Affix": "2202",
+                "Buffs": "3003_0.016000;4003_0.030000;10002_0.015000",
+                "Id": "75202021_8196"
+              },
+              "3": {
+                "Affix": "2301",
+                "Buffs": "3003_0.017000;6003_0.028000;10002_0.020000",
+                "Id": "75302000_6494"
+              },
+              "4": {
+                "Affix": "2402",
+                "Buffs": "3003_0.030000;4003_0.025000;5003_0.022000",
+                "Id": "75402010_20202"
+              }
+            },
+            "Idt": "201972401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 33171104,
+            "PName": "SnaiL蝸牛 ぴっぴ",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100",
+            "SideId": 2,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "315324108357759225"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -6980,
+            "BadHurt": 5043,
+            "BadReduceCnt": 0,
+            "Cnt": 364084,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 38746,
+            "HurtCntEnd": 75858,
+            "InitMax": 450675,
+            "KillScore": 42540,
+            "Max": 450675,
+            "Power": -50430,
+            "RetreatCnt": 0,
+            "SkillPower": -43450,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 458701,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -9050,
+            "BadHurt": 2127,
+            "BadReduceCnt": 0,
+            "Cnt": 217391,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 15094,
+            "HurtCntEnd": 120864,
+            "InitMax": 355950,
+            "KillScore": 100860,
+            "Max": 321398,
+            "Power": -21270,
+            "RetreatCnt": 0,
+            "SkillPower": -12220,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1455623": {
+              "Abbr": "3174",
+              "HId": 509,
+              "HId2": 6,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 33171104,
+              "PName": "SnaiL蝸牛 ぴっぴ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3074.6917,
+            "Y": 3189.8972
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 19,
+          "TickStart": 458683
+        },
+        "201973401": {
+          "Bts": 458697,
+          "CIdt": {
+            "AId": 5918310,
+            "AName": "Spartanś Warriors",
+            "Abbr": "3174",
+            "AppUid": "29126922",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 112,
+                  "SkillId": 1303,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 17,
+                  "SkillId": 1051,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 201973401,
+            "COSId": 2174,
+            "CT": 1,
+            "CTK": "33171104_1755440999_179_187",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3189.4238,
+              "Y": 3065.1885
+            },
+            "CtId": 1455629,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{2:20020_747:2,3:20021_724:2,1:20019_746:2,4:20022_745:1,5:20023_712:2,6:20024_722:1,7:20037_751:1,8:20040_777:1}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 179,
+            "HId2": 187,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1529,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1530,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1531,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 243,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1528,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1566,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1567,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 254,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1564,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1565,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "104",
+                "Buffs": "3003_0.033000;4003_0.033000;5003_0.026000",
+                "Id": "75102000_3319"
+              },
+              "2": {
+                "Affix": "204",
+                "Buffs": "3004_0.016000;4003_0.015000;5003_0.030000",
+                "Id": "75202011_8999"
+              },
+              "3": {
+                "Affix": "304",
+                "Buffs": "2004_0.075000;6003_0.032000;5003_0.015000",
+                "Id": "75302011_16157"
+              },
+              "4": {
+                "Affix": "419",
+                "Buffs": "3003_0.034000;4003_0.035000;5003_0.016000",
+                "Id": "75402001_1638"
+              }
+            },
+            "Idt": "201973401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 33171104,
+            "PName": "SnaiL蝸牛 ぴっぴ",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100",
+            "SideId": 2,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "315324108357759225"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 1507,
+            "BadReduceCnt": 0,
+            "Cnt": 364084,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 11105,
+            "HurtCntEnd": 75858,
+            "InitMax": 450675,
+            "KillScore": 0,
+            "Max": 393464,
+            "Power": -15070,
+            "RetreatCnt": 0,
+            "SkillPower": -15070,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 458701,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 286543,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 37672,
+            "InitMax": 330000,
+            "KillScore": 30140,
+            "Max": 287992,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1455629": {
+              "Abbr": "3174",
+              "HId": 179,
+              "HId2": 187,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 33171104,
+              "PName": "SnaiL蝸牛 ぴっぴ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3079.349,
+            "Y": 3188.185
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 4,
+          "TickStart": 458697
+        },
+        "201975601": {
+          "Bts": 458696,
+          "CIdt": {
+            "AId": 5918310,
+            "AName": "Spartanś Warriors",
+            "Abbr": "3174",
+            "AppUid": "29126922",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 18,
+                  "SkillId": 1050,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 110,
+                  "SkillId": 1286,
+                  "SkillLevel": 1
+                }
+              ]
+            },
+            "CId": 201975601,
+            "COSId": 2174,
+            "CT": 1,
+            "CTK": "33171104_1755441005_540_459",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3189.4238,
+              "Y": 3065.1885
+            },
+            "CtId": 1455638,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{7:20041_582:1,2:20008_707:1,3:20009_733:2,1:20007_709:2,4:20028_730:2,5:20033_749:2,6:20012_729:1,8:20037_727:1}",
+            "HEq2": "{}",
+            "HFMs": 13,
+            "HId": 540,
+            "HId2": 459,
+            "HLv": 60,
+            "HLv2": 38,
+            "HSS": [
+              1,
+              {
+                "SkillId": 389,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1735,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1736,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1737,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1738,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1704,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1705,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 377,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1702,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1703,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 4,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "13101",
+                "Buffs": "3002_0.026000;4002_0.026000;5002_0.028000",
+                "Id": "75113011_23037"
+              },
+              "2": {
+                "Affix": "204",
+                "Buffs": "3002_0.025000;4002_0.035000;5002_0.016000",
+                "Id": "75213011_22089"
+              },
+              "3": {
+                "Affix": "311",
+                "Buffs": "6002_0.034000;4002_0.022000;5002_0.030000",
+                "Id": "75313011_20430"
+              },
+              "4": {
+                "Affix": "13402",
+                "Buffs": "3002_0.020000;4002_0.031000;5002_0.021000",
+                "Id": "75413011_23038"
+              }
+            },
+            "Idt": "201975601",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 33171104,
+            "PName": "SnaiL蝸牛 ぴっぴ",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100",
+            "SideId": 2,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "315324108357759225"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 364084,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 75858,
+            "InitMax": 450675,
+            "KillScore": 26900,
+            "Max": 395486,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 458701,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 1345,
+            "BadReduceCnt": 0,
+            "Cnt": 220035,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 2419,
+            "Hurt": 6381,
+            "HurtCntEnd": 89840,
+            "InitMax": 330000,
+            "KillScore": 0,
+            "Max": 227518,
+            "Power": -13450,
+            "RetreatCnt": 0,
+            "SkillPower": -13450,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1455638": {
+              "Abbr": "3174",
+              "HId": 540,
+              "HId2": 459,
+              "HLv": 60,
+              "HLv2": 38,
+              "PId": 33171104,
+              "PName": "SnaiL蝸牛 ぴっぴ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3079.349,
+            "Y": 3188.185
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 5,
+          "TickStart": 458696
+        },
+        "201976401": {
+          "Bts": 458696,
+          "CIdt": {
+            "AId": 5918310,
+            "AName": "Spartanś Warriors",
+            "Abbr": "3174",
+            "AppUid": "29126922",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 7,
+                  "SkillId": 1013,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 64,
+                  "SkillId": 1141,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 201976401,
+            "COSId": 2174,
+            "CT": 1,
+            "CTK": "33171104_1755441008_182_148",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 3189.4238,
+              "Y": 3065.1885
+            },
+            "CtId": 1455643,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20001_765:2,7:20037_614:1,4:20028_701:34,5:20033_708:32,6:20012_700:32,8:20040_748:32,2:20004_766:1,3:20009_702:32}",
+            "HEq2": "{}",
+            "HFMs": 2,
+            "HFMs2": 2,
+            "HId": 182,
+            "HId2": 148,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 246,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1533,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1534,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1536,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1465,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 209,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1435,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1437,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1436,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "2101",
+                "Buffs": "3002_0.015000;4002_0.032000;5002_0.032000",
+                "Id": "75102000_406"
+              },
+              "2": {
+                "Affix": "204",
+                "Buffs": "3002_0.035000;4002_0.017000;5002_0.034000",
+                "Id": "75202011_16078"
+              },
+              "3": {
+                "Affix": "315",
+                "Buffs": "3002_0.016000;4002_0.033000;5002_0.015000",
+                "Id": "75302001_7268"
+              },
+              "4": {
+                "Affix": "2401",
+                "Buffs": "3002_0.029000;4002_0.018000;5002_0.031000",
+                "Id": "75402011_22093"
+              }
+            },
+            "Idt": "201976401",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 33171104,
+            "PName": "SnaiL蝸牛 ぴっぴ",
+            "PkgNameNew": "com.lilithgames.rok.pc.int",
+            "SerSeason": "100",
+            "SideId": 2,
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "315324108357759225"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 677,
+            "BadReduceCnt": 0,
+            "Cnt": 364084,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 4287,
+            "HurtCntEnd": 75858,
+            "InitMax": 450675,
+            "KillScore": 0,
+            "Max": 400450,
+            "Power": -6770,
+            "RetreatCnt": 0,
+            "SkillPower": -6770,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 0,
+          "Ets": 458701,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 185864,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 124906,
+            "InitMax": 332664,
+            "KillScore": 13540,
+            "Max": 189404,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1455643": {
+              "Abbr": "3174",
+              "HId": 182,
+              "HId2": 148,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 33171104,
+              "PName": "SnaiL蝸牛 ぴっぴ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3079.349,
+            "Y": 3188.185
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 5,
+          "TickStart": 458696
+        }
+      },
+      "Btk": 458683,
+      "Bts": 1755441234,
+      "DataOmit": false,
+      "Ets": 1755441253,
+      "Events": [],
+      "GsId": 15597,
+      "Id": 6773952,
+      "LLScriptSchema": 224,
+      "LoadSource": "oss",
+      "OOv": {
+        "BadHurt": 5407,
+        "Cnt": 1082636,
+        "Dead": 0,
+        "Hurt": 33767,
+        "KillScore": 214660,
+        "Max": 1293540
+      },
+      "Role": "gsmp",
+      "RoomId": 0,
+      "SOv": {
+        "BadHurt": 10733,
+        "Cnt": 364084,
+        "Dead": 0,
+        "Hurt": 75858,
+        "KillScore": 108140,
+        "Max": 450675
+      },
+      "STs": {
+        "1455952": {
+          "Abbr": "FCK",
+          "HId": 185,
+          "HId2": 98,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 34961809,
+          "PName": "Viatina乂Fayst"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 450675,
+          "T": 458683
+        },
+        2,
+        {
+          "Cnt": 447333,
+          "T": 458684
+        },
+        3,
+        {
+          "Cnt": 395486,
+          "T": 458696
+        },
+        4,
+        {
+          "Cnt": 381081,
+          "T": 458697
+        },
+        5,
+        {
+          "Cnt": 379648,
+          "T": 458698
+        },
+        6,
+        {
+          "Cnt": 364084,
+          "T": 458701
+        }
+      ],
+      "Schema": 224,
+      "SelfChar": {
+        "AId": 3724982,
+        "AName": "Fight Club:Kingdom",
+        "Abbr": "FCK",
+        "AppUid": "8518744-399975",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_113.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": true,
+          "SKILLS": [
+            1,
+            {
+              "HeroId": 14,
+              "SkillId": 1029,
+              "SkillLevel": 5
+            },
+            2,
+            {
+              "HeroId": 128,
+              "SkillId": 1358,
+              "SkillLevel": 5
+            }
+          ]
+        },
+        "CId": 202048101,
+        "COSId": 1425,
+        "CT": 1,
+        "CTK": "34961809_1755441222_185_98",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3081.745,
+          "Y": 3187.8926
+        },
+        "CtId": 1455952,
+        "HAw": true,
+        "HAw2": true,
+        "HClt2": [
+          1,
+          10019,
+          2,
+          2
+        ],
+        "HCte2": [
+          1,
+          {
+            "ColId": 10019
+          }
+        ],
+        "HEq": "{3:20142_816:2,1:20140_815:1,5:20144_845:1,4:20143_854:1,6:20145_808:3,7:20038_867:1,8:20037_809:1,2:20014_703:2}",
+        "HEq2": "{}",
+        "HFMs": 17,
+        "HFMs2": 2,
+        "HId": 185,
+        "HId2": 98,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 1544,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1545,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1546,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1547,
+            "SkillLevel": 1
+          },
+          5,
+          {
+            "SkillId": 251,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 129,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1199,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1200,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1201,
+            "SkillLevel": 5
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "103;111",
+            "Buffs": "3001_0.026000;4001_0.015000;5001_0.022000",
+            "Id": "75117012_29248"
+          },
+          "2": {
+            "Affix": "17202",
+            "Buffs": "3001_0.020000;4001_0.017000;5001_0.029000",
+            "Id": "75217011_29245"
+          },
+          "3": {
+            "Affix": "304;317",
+            "Buffs": "3001_0.018000;4001_0.030000;5001_0.015000",
+            "Id": "75317012_29247"
+          },
+          "4": {
+            "Affix": "17402;417",
+            "Buffs": "3001_0.018000;4001_0.019000;5001_0.018000",
+            "Id": "75417012_29246"
+          }
+        },
+        "Idt": "202048101",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 34961809,
+        "PName": "Viatina乂Fayst",
+        "PkgNameNew": "com.lilithgames.rok.gpkr",
+        "SerSeason": "100",
+        "SideId": 4,
+        "Titan": {
+          "BattleId": "",
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "AC6CBB3420008748CA2CD6664601B0F6"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": true
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "16125090175544125330",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_34961809",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15597,
+  "starMark": 0,
+  "time": 1755441253685821,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}
