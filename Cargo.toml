@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "crates/mail-cli",
-    "crates/mail-decoder",
+    "crates/mail-decoder-legacy",
     "crates/mail-processor-battle",
     "crates/mail-processor-sdk",
     "crates/mail-processor-duelbattle2",
@@ -9,7 +9,7 @@ members = [
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
     "crates/rokbattles-tauri/src-tauri",
-    "crates/mail-decoder-v2"
+    "crates/mail-decoder"
 ]
 resolver = "3"
 
