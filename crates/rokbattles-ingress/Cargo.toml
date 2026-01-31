@@ -1,0 +1,20 @@
+[package]
+name = "rokbattles-ingress"
+version = "1.0.0"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true, features = ["multipart"] }
+bytes = { workspace = true }
+dotenvy = { workspace = true }
+flate2 = { workspace = true, default-features = false, features = ["zlib"] }
+mail-decoder = { path = "../mail-decoder" }
+mongodb = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "time"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+tower_governor = { workspace = true, default-features = false, features = ["axum"] }
+zstd = { workspace = true }

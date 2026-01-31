@@ -256,13 +256,10 @@ fn write_processed_json(
 ) -> Result<(), MailCliError> {
     let processed_input = match value {
         Value::Object(_) => Some(value),
-        Value::Array(items) => {
-            if items.len() == 1 {
-                items.first().filter(|item| item.is_object())
-            } else {
-                None
-            }
-        }
+        Value::Array(items) => match items.as_slice() {
+            [item] if item.is_object() => Some(item),
+            _ => None,
+        },
         _ => None,
     };
     let Some(processed_input) = processed_input else {
