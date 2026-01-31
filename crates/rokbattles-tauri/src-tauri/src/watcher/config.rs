@@ -58,7 +58,7 @@ pub(crate) struct WatcherConfig {
 impl Default for WatcherConfig {
     fn default() -> Self {
         Self {
-            processed_file_name: "processed-v2.json",
+            processed_file_name: "processed-v3.json",
             upload_queue_file_name: "upload-queue.json",
             store_flush_every_updates: 20_000,
             store_flush_interval: Duration::from_secs(300),
