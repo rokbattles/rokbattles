@@ -56,11 +56,7 @@ function App() {
   const handleAdd = async () => {
     try {
       setIsAdding(true);
-      try {
-        await invoke("pause_watcher");
-      } catch (e) {
-        console.error("Failed to pause watcher", e);
-      }
+      await invoke("pause_watcher");
       const selection = await open({
         multiple: true,
         directory: true,
@@ -74,12 +70,8 @@ function App() {
     } catch (e) {
       console.error("Failed to add dirs", e);
     } finally {
-      try {
-        await invoke("resume_watcher");
-      } catch (e) {
-        console.error("Failed to resume watcher", e);
-      }
       setIsAdding(false);
+      await invoke("resume_watcher");
     }
   };
 
