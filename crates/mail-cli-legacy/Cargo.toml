@@ -1,0 +1,16 @@
+[package]
+name = "mail-cli-legacy"
+version = "0.3.12"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+serde_json = { workspace = true }
+clap = { workspace = true }
+mail-decoder-legacy = { path = "../mail-decoder-legacy" }
+mail-helper-legacy = { path = "../mail-helper-legacy" }
+mail-processor-battle-legacy = { path = "../mail-processor-battle-legacy" }
+mail-processor-duelbattle2-legacy = { path = "../mail-processor-duelbattle2-legacy" }
+mongodb = { workspace = true }
+tokio = { workspace = true }
+zstd = { workspace = true }

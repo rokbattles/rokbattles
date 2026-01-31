@@ -7,7 +7,7 @@ RUN apk add --no-cache \
     openssl-dev pkgconfig git curl
 RUN rustup target add x86_64-unknown-linux-musl
 COPY . .
-RUN cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-processor
+RUN cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-processor-legacy
 
 FROM alpine:3.20 AS files
 RUN apk add --no-cache ca-certificates tzdata
@@ -21,7 +21,7 @@ COPY --from=files /etc/group /etc/group
 COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-processor /bin/rokbattles-processor
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-processor-legacy /bin/rokbattles-processor-legacy
 USER rokb:rokb
 WORKDIR /app
-ENTRYPOINT ["/bin/rokbattles-processor"]
+ENTRYPOINT ["/bin/rokbattles-processor-legacy"]
