@@ -1,13 +1,13 @@
 [workspace]
 members = [
-    "crates/mail-cli",
+    "crates/mail-cli-legacy",
     "crates/mail-decoder-legacy",
-    "crates/mail-processor-battle",
-    "crates/mail-processor-sdk",
-    "crates/mail-processor-duelbattle2",
-    "crates/mail-helper",
-    "crates/rokbattles-ingress",
-    "crates/rokbattles-processor",
+    "crates/mail-processor-battle-legacy",
+    "crates/mail-processor-sdk-legacy",
+    "crates/mail-processor-duelbattle2-legacy",
+    "crates/mail-helper-legacy",
+    "crates/rokbattles-ingress-legacy",
+    "crates/rokbattles-processor-legacy",
     "crates/rokbattles-tauri/src-tauri",
     "crates/mail-decoder"
 ]

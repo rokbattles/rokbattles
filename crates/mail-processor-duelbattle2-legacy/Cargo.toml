@@ -1,0 +1,9 @@
+[package]
+name = "mail-processor-duelbattle2-legacy"
+version = "0.3.12"
+edition = "2024"
+
+[dependencies]
+mail-processor-sdk-legacy = { path = "../mail-processor-sdk-legacy" }
+serde = { workspace = true }
+serde_json = { workspace = true }
