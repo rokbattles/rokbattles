@@ -240,16 +240,16 @@ fn parse_rok_mail_id(filename: &str) -> Option<u128> {
     rest.parse::<u128>().ok()
 }
 
-fn detect_mail_type<'a>(mail: &'a mail_decoder::MailBorrowed<'a>) -> Option<&'a str> {
+fn detect_mail_type<'a>(mail: &'a mail_decoder_legacy::MailBorrowed<'a>) -> Option<&'a str> {
     for section in &mail.sections {
-        let mail_decoder::ValueBorrowed::Object(entries) = section else {
+        let mail_decoder_legacy::ValueBorrowed::Object(entries) = section else {
             continue;
         };
         for (key, value) in entries {
             if *key != "type" {
                 continue;
             }
-            let mail_decoder::ValueBorrowed::String(value) = value else {
+            let mail_decoder_legacy::ValueBorrowed::String(value) = value else {
                 return None;
             };
             return Some(value);
@@ -263,7 +263,7 @@ fn has_rok_fileheader_from_file(path: &PathBuf) -> anyhow::Result<bool> {
         .with_context(|| format!("Failed to open file for header check: {:?}", path))?;
     let mut buf = [0u8; 32];
     let _ = f.read(&mut buf)?;
-    Ok(mail_decoder::has_rok_mail_header(&buf))
+    Ok(mail_decoder_legacy::has_rok_mail_header(&buf))
 }
 
 #[derive(Debug, Clone)]
@@ -1101,7 +1101,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     }
                 };
 
-                let decoded = match mail_decoder::decode(&bytes) {
+                let decoded = match mail_decoder_legacy::decode(&bytes) {
                     Ok(m) => m,
                     Err(e) => {
                         metrics_decode_failed += 1;

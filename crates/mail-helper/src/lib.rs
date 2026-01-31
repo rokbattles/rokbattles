@@ -1,4 +1,4 @@
-use mail_decoder::Mail;
+use mail_decoder_legacy::Mail;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 

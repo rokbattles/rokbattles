@@ -2585,7 +2585,7 @@ version = "0.3.12"
 dependencies = [
  "anyhow",
  "clap",
- "mail-decoder",
+ "mail-decoder-legacy",
  "mail-helper",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
@@ -2597,6 +2597,13 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
+version = "1.0.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
+name = "mail-decoder-legacy"
 version = "0.3.12"
 dependencies = [
  "anyhow",
@@ -2606,17 +2613,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-decoder-v2"
-version = "1.0.0"
-dependencies = [
- "serde_json",
-]
-
-[[package]]
 name = "mail-helper"
 version = "0.3.12"
 dependencies = [
- "mail-decoder",
+ "mail-decoder-legacy",
  "serde",
  "serde_json",
 ]
@@ -4092,7 +4092,7 @@ dependencies = [
  "blake3",
  "futures-util",
  "mail-decoder",
- "mail-decoder-v2",
+ "mail-decoder-legacy",
  "mail-helper",
  "mongodb",
  "serde_json",
@@ -4110,7 +4110,7 @@ version = "0.3.12"
 dependencies = [
  "anyhow",
  "futures",
- "mail-decoder",
+ "mail-decoder-legacy",
  "mail-helper",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
@@ -4128,7 +4128,7 @@ name = "rokbattles-tauri"
 version = "0.3.12"
 dependencies = [
  "anyhow",
- "mail-decoder",
+ "mail-decoder-legacy",
  "notify",
  "reqwest",
  "serde",

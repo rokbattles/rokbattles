@@ -79,7 +79,7 @@ async fn run_mongo(cli: Cli) -> Result<()> {
         .ok_or_else(|| anyhow!("mongo mode requires --output <path>"))?;
 
     let (id, raw_json_text) = mongo::fetch_mail_from_mongo(hash).await?;
-    let decoded_mail: mail_decoder::Mail =
+    let decoded_mail: mail_decoder_legacy::Mail =
         serde_json::from_str(&raw_json_text).context("failed to parse mail JSON from mongo")?;
     let decoded = processing::DecodedMail {
         id,

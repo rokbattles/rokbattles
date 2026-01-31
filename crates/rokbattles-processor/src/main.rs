@@ -198,7 +198,7 @@ async fn process_mail(
     let mail_str = std::str::from_utf8(&mail_bytes)?;
 
     // Parse mail metadata and detect type before selecting a processor.
-    let decoded_mail: mail_decoder::Mail = serde_json::from_str(mail_str)?;
+    let decoded_mail: mail_decoder_legacy::Mail = serde_json::from_str(mail_str)?;
     let mail_type = mail_helper::detect_mail_type(&decoded_mail).context("missing mail type")?;
     let collection_label = match &mail_type {
         EmailType::Battle => "battleReports",

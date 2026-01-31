@@ -14,7 +14,7 @@ pub(crate) enum InputFormat {
 pub(crate) struct DecodedMail {
     pub(crate) id: String,
     pub(crate) raw_json_text: String,
-    pub(crate) decoded_mail: mail_decoder::Mail,
+    pub(crate) decoded_mail: mail_decoder_legacy::Mail,
 }
 
 pub(crate) fn process_local_file(
@@ -35,7 +35,7 @@ fn decode_binary(path: &Path) -> Result<DecodedMail> {
     let bytes = std::fs::read(path)
         .with_context(|| format!("failed to read input file: {}", path.display()))?;
     let id = io::friendly_identifier_from_path(path);
-    let decoded_mail = mail_decoder::decode(&bytes)?.into_owned();
+    let decoded_mail = mail_decoder_legacy::decode(&bytes)?.into_owned();
     let raw_json_text = serde_json::to_string(&decoded_mail)?;
 
     Ok(DecodedMail {
@@ -48,7 +48,7 @@ fn decode_binary(path: &Path) -> Result<DecodedMail> {
 fn decode_json(path: &Path) -> Result<DecodedMail> {
     let raw_json_text = std::fs::read_to_string(path)
         .with_context(|| format!("failed to read input file: {}", path.display()))?;
-    let decoded_mail: mail_decoder::Mail = serde_json::from_str(&raw_json_text)
+    let decoded_mail: mail_decoder_legacy::Mail = serde_json::from_str(&raw_json_text)
         .with_context(|| format!("failed to parse mail JSON: {}", path.display()))?;
     let id = io::friendly_identifier_from_path(path);
 

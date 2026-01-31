@@ -385,7 +385,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         }
     }
 
-    if !mail_decoder::has_rok_mail_header(&peek) {
+    if !mail_decoder_legacy::has_rok_mail_header(&peek) {
         debug!("ingress rejected: missing rok mail header");
         return (StatusCode::UNSUPPORTED_MEDIA_TYPE, "not rok mail").into_response();
     }
@@ -452,7 +452,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
         return (status, reason).into_response();
     }
 
-    let decoded_mail_v2 = match mail_decoder_v2::decode(&buf) {
+    let decoded_mail_v2 = match mail_decoder::decode(&buf) {
         Ok(mail) => mail,
         Err(_) => {
             warn!("ingress rejected: mail decoder v2 failed");
@@ -564,7 +564,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             return (StatusCode::SERVICE_UNAVAILABLE, "service error").into_response();
         }
 
-        let lossless_doc = match mail_decoder_v2::decode_lossless(&buf) {
+        let lossless_doc = match mail_decoder::decode_lossless(&buf) {
             Ok(doc) => doc,
             Err(_) => {
                 warn!("ingress rejected: mail decoder v2 lossless failed");
@@ -576,7 +576,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
             }
         };
 
-        let lossless_json = mail_decoder_v2::lossless_to_json(&lossless_doc);
+        let lossless_json = mail_decoder::lossless_to_json(&lossless_doc);
         let lossless_json_text = match serde_json::to_string(&lossless_json) {
             Ok(value) => value,
             Err(_) => {
@@ -622,7 +622,7 @@ pub async fn ingress(State(st): State<AppState>, req: Request<Body>) -> impl Int
     let decoded_mail_hash = blake3_hash(&buf);
     debug!(decoded_mail_hash = %decoded_mail_hash, "computed decoded mail hash");
 
-    let decoded_mail = match mail_decoder::decode(&buf).map(|m| m.into_owned()) {
+    let decoded_mail = match mail_decoder_legacy::decode(&buf).map(|m| m.into_owned()) {
         Ok(m) => m,
         Err(_) => {
             warn!("ingress rejected: mail decoder failed");
