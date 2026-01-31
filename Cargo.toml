@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "crates/mail-cli",
     "crates/mail-cli-legacy",
     "crates/mail-decoder",
     "crates/mail-decoder-legacy",
@@ -42,6 +43,7 @@ futures = "0.3.31"
 tauri-plugin-updater = "2.9.0"
 memchr = "2.7.6"
 notify = "8.2.0"
+tempfile = "3.24.0"
 
 [profile.release]
 lto = "thin"
