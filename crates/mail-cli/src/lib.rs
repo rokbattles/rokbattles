@@ -254,29 +254,48 @@ fn write_processed_json(
     value: &Value,
     pretty: bool,
 ) -> Result<(), MailCliError> {
+    let processed_input = match value {
+        Value::Object(_) => Some(value),
+        Value::Array(items) => {
+            if items.len() == 1 {
+                items.first().filter(|item| item.is_object())
+            } else {
+                None
+            }
+        }
+        _ => None,
+    };
+    let Some(processed_input) = processed_input else {
+        return Ok(());
+    };
+
     // Only emit processed output for mail types with dedicated processors.
-    let mail_type = value.get("type").and_then(|value| value.as_str());
+    let mail_type = processed_input.get("type").and_then(|value| value.as_str());
     let processed = match mail_type {
         Some("BarCanyonKillBoss") => Some(
-            mail_processor_barcanyonkillboss::process_parallel(value).map_err(|source| {
+            mail_processor_barcanyonkillboss::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                },
+            )?,
+        ),
+        Some("Battle") => Some(
+            mail_processor_battle::process_parallel(processed_input).map_err(|source| {
                 MailCliError::Process {
                     source,
                     path: input_path.to_path_buf(),
                 }
             })?,
         ),
-        Some("Battle") => Some(mail_processor_battle::process_parallel(value).map_err(
-            |source| MailCliError::Process {
-                source,
-                path: input_path.to_path_buf(),
-            },
-        )?),
-        Some("DuelBattle2") => Some(mail_processor_duelbattle2::process_parallel(value).map_err(
-            |source| MailCliError::Process {
-                source,
-                path: input_path.to_path_buf(),
-            },
-        )?),
+        Some("DuelBattle2") => Some(
+            mail_processor_duelbattle2::process_parallel(processed_input).map_err(|source| {
+                MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                }
+            })?,
+        ),
         _ => None,
     };
 
@@ -434,6 +453,23 @@ mod tests {
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("1002579517552941234"));
+    }
+
+    #[test]
+    fn write_processed_json_handles_singleton_array() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Battle/Persistent.Mail.33830971176980291131.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        assert!(matches!(value, Value::Array(_)));
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["metadata"]["mail_id"], json!("33830971176980291131"));
     }
 
     #[test]
