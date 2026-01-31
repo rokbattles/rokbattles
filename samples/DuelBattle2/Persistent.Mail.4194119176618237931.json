@@ -1,0 +1,614 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "detail": {
+      "AtkPlayer": {
+        "Abbr": "SO4L",
+        "DuelTeamId": 1345157902,
+        "Heroes": {
+          "AssistHero": {
+            "Awaked": true,
+            "HeroId": 185,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 251,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1544,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1545,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1546,
+                "SkillTrans": []
+              },
+              5,
+              {
+                "Id": 4,
+                "Level": 1,
+                "SkillId": 1547,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "Buffs": [
+            1,
+            {
+              "BuffId": 5511,
+              "BuffValue": 8
+            },
+            2,
+            {
+              "BuffId": 20039,
+              "BuffValue": 0.11
+            },
+            3,
+            {
+              "BuffId": 10300,
+              "BuffValue": 0.09
+            },
+            4,
+            {
+              "BuffId": 5522,
+              "BuffValue": 7
+            },
+            5,
+            {
+              "BuffId": 3004,
+              "BuffValue": 1.11
+            },
+            6,
+            {
+              "BuffId": 5524,
+              "BuffValue": 7
+            },
+            7,
+            {
+              "BuffId": 15089,
+              "BuffValue": 0.015
+            },
+            8,
+            {
+              "BuffId": 15091,
+              "BuffValue": 0.035
+            },
+            9,
+            {
+              "BuffId": 5004,
+              "BuffValue": 0.61
+            },
+            10,
+            {
+              "BuffId": 5002,
+              "BuffValue": 0.74
+            },
+            11,
+            {
+              "BuffId": 10006,
+              "BuffValue": 0.115
+            },
+            12,
+            {
+              "BuffId": 4001,
+              "BuffValue": 2.502
+            },
+            13,
+            {
+              "BuffId": 10016,
+              "BuffValue": 1.25
+            },
+            14,
+            {
+              "BuffId": 20064,
+              "BuffValue": 0.04
+            },
+            15,
+            {
+              "BuffId": 3008,
+              "BuffValue": 0
+            },
+            16,
+            {
+              "BuffId": 3002,
+              "BuffValue": 1.285
+            },
+            17,
+            {
+              "BuffId": 15075,
+              "BuffValue": 0.03
+            },
+            18,
+            {
+              "BuffId": 3001,
+              "BuffValue": 1.94
+            },
+            19,
+            {
+              "BuffId": 4002,
+              "BuffValue": 1.595
+            },
+            20,
+            {
+              "BuffId": 10002,
+              "BuffValue": 0.08
+            },
+            21,
+            {
+              "BuffId": 5501,
+              "BuffValue": 7
+            },
+            22,
+            {
+              "BuffId": 15092,
+              "BuffValue": 0.03
+            },
+            23,
+            {
+              "BuffId": 5003,
+              "BuffValue": 0.82
+            },
+            24,
+            {
+              "BuffId": 12066,
+              "BuffValue": 0.015
+            },
+            25,
+            {
+              "BuffId": 5521,
+              "BuffValue": 15
+            },
+            26,
+            {
+              "BuffId": 15063,
+              "BuffValue": 0.13
+            },
+            27,
+            {
+              "BuffId": 10110,
+              "BuffValue": 0.06
+            },
+            28,
+            {
+              "BuffId": 5523,
+              "BuffValue": 7
+            },
+            29,
+            {
+              "BuffId": 10008,
+              "BuffValue": 0.03
+            },
+            30,
+            {
+              "BuffId": 3003,
+              "BuffValue": 1.35
+            },
+            31,
+            {
+              "BuffId": 5001,
+              "BuffValue": 1.08
+            },
+            32,
+            {
+              "BuffId": 4003,
+              "BuffValue": 1.595
+            },
+            33,
+            {
+              "BuffId": 12017,
+              "BuffValue": 0.05
+            },
+            34,
+            {
+              "BuffId": 4004,
+              "BuffValue": 1.315
+            }
+          ],
+          "MainHero": {
+            "Awaked": true,
+            "HeroId": 545,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 393,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1751,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1752,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1753,
+                "SkillTrans": []
+              },
+              5,
+              {
+                "Id": 4,
+                "Level": 1,
+                "SkillId": 1754,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "PosIdx": 1
+        },
+        "IsWin": false,
+        "KillScore": 760220,
+        "LosePower": 593810,
+        "PlayerAvatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg\"}",
+        "PlayerId": 71738515,
+        "PlayerName": "G Var",
+        "ServerId": 1804,
+        "UnitBadHurt": 59381,
+        "UnitDead": 0,
+        "UnitHurt": 380287,
+        "UnitReturn": 0,
+        "UnitTotal": 439668,
+        "WinCnt": 0
+      },
+      "DefPlayer": {
+        "Abbr": "63DS",
+        "DuelTeamId": 1740157902,
+        "Heroes": {
+          "AssistHero": {
+            "Awaked": true,
+            "HeroId": 185,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 251,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1544,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1545,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1546,
+                "SkillTrans": []
+              },
+              5,
+              {
+                "Id": 4,
+                "Level": 1,
+                "SkillId": 1547,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "Buffs": [
+            1,
+            {
+              "BuffId": 15089,
+              "BuffValue": 0.015
+            },
+            2,
+            {
+              "BuffId": 5511,
+              "BuffValue": 8
+            },
+            3,
+            {
+              "BuffId": 10002,
+              "BuffValue": 0.05
+            },
+            4,
+            {
+              "BuffId": 4002,
+              "BuffValue": 1.635
+            },
+            5,
+            {
+              "BuffId": 10006,
+              "BuffValue": 0.115
+            },
+            6,
+            {
+              "BuffId": 15075,
+              "BuffValue": 0.03
+            },
+            7,
+            {
+              "BuffId": 20039,
+              "BuffValue": 0.2
+            },
+            8,
+            {
+              "BuffId": 4003,
+              "BuffValue": 1.595
+            },
+            9,
+            {
+              "BuffId": 10300,
+              "BuffValue": 0.09
+            },
+            10,
+            {
+              "BuffId": 5003,
+              "BuffValue": 0.83
+            },
+            11,
+            {
+              "BuffId": 20068,
+              "BuffValue": 0.045
+            },
+            12,
+            {
+              "BuffId": 3003,
+              "BuffValue": 1.52
+            },
+            13,
+            {
+              "BuffId": 5004,
+              "BuffValue": 0.775
+            },
+            14,
+            {
+              "BuffId": 3001,
+              "BuffValue": 2.277
+            },
+            15,
+            {
+              "BuffId": 15092,
+              "BuffValue": 0.06
+            },
+            16,
+            {
+              "BuffId": 15091,
+              "BuffValue": 0.045
+            },
+            17,
+            {
+              "BuffId": 4001,
+              "BuffValue": 2.46
+            },
+            18,
+            {
+              "BuffId": 10008,
+              "BuffValue": 0.03
+            },
+            19,
+            {
+              "BuffId": 5524,
+              "BuffValue": 7
+            },
+            20,
+            {
+              "BuffId": 4004,
+              "BuffValue": 1.465
+            },
+            21,
+            {
+              "BuffId": 5501,
+              "BuffValue": 8
+            },
+            22,
+            {
+              "BuffId": 20071,
+              "BuffValue": 0.02
+            },
+            23,
+            {
+              "BuffId": 12017,
+              "BuffValue": 0.05
+            },
+            24,
+            {
+              "BuffId": 5522,
+              "BuffValue": 7
+            },
+            25,
+            {
+              "BuffId": 20070,
+              "BuffValue": 0.02
+            },
+            26,
+            {
+              "BuffId": 5523,
+              "BuffValue": 7
+            },
+            27,
+            {
+              "BuffId": 20066,
+              "BuffValue": 0.02
+            },
+            28,
+            {
+              "BuffId": 20067,
+              "BuffValue": 0.02
+            },
+            29,
+            {
+              "BuffId": 3004,
+              "BuffValue": 1.455
+            },
+            30,
+            {
+              "BuffId": 10110,
+              "BuffValue": 0.06
+            },
+            31,
+            {
+              "BuffId": 5521,
+              "BuffValue": 15
+            },
+            32,
+            {
+              "BuffId": 3002,
+              "BuffValue": 1.56
+            },
+            33,
+            {
+              "BuffId": 20064,
+              "BuffValue": 0.05
+            },
+            34,
+            {
+              "BuffId": 5001,
+              "BuffValue": 1.092
+            },
+            35,
+            {
+              "BuffId": 10016,
+              "BuffValue": 1.325
+            },
+            36,
+            {
+              "BuffId": 5002,
+              "BuffValue": 0.815
+            },
+            37,
+            {
+              "BuffId": 20072,
+              "BuffValue": 0.045
+            },
+            38,
+            {
+              "BuffId": 15063,
+              "BuffValue": 0.13
+            }
+          ],
+          "MainHero": {
+            "Awaked": true,
+            "HeroId": 545,
+            "HeroLevel": 60,
+            "Skills": [
+              1,
+              {
+                "Id": 0,
+                "Level": 5,
+                "SkillId": 393,
+                "SkillTrans": []
+              },
+              2,
+              {
+                "Id": 1,
+                "Level": 5,
+                "SkillId": 1751,
+                "SkillTrans": []
+              },
+              3,
+              {
+                "Id": 2,
+                "Level": 5,
+                "SkillId": 1752,
+                "SkillTrans": []
+              },
+              4,
+              {
+                "Id": 3,
+                "Level": 5,
+                "SkillId": 1753,
+                "SkillTrans": []
+              },
+              5,
+              {
+                "Id": 4,
+                "Level": 1,
+                "SkillId": 1754,
+                "SkillTrans": []
+              }
+            ],
+            "Star": 6
+          },
+          "PosIdx": 11
+        },
+        "IsWin": true,
+        "KillScore": 1187620,
+        "LosePower": 380110,
+        "PlayerAvatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_214.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/220637844/2025-07-05/AB91AEAA23A074E6017C90BD1B777DD1_250x250.jpg\"}",
+        "PlayerId": 172513198,
+        "PlayerName": "ᵀᴷKwstas",
+        "ServerId": 1563,
+        "UnitBadHurt": 38011,
+        "UnitDead": 0,
+        "UnitHurt": 255562,
+        "UnitReturn": 0,
+        "UnitTotal": 356745,
+        "WinCnt": 3
+      },
+      "FightId": 1106157901,
+      "FightTs": 1766182368997
+    },
+    "kvs": [],
+    "subTitle": "Defeat",
+    "title": "<b>[63DS]</b>ᵀᴷKwstas's Challenge"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "4194119176618237931",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15790,
+  "starMark": 0,
+  "time": 1766182379846826,
+  "title": "",
+  "type": "DuelBattle2",
+  "unread": false
+}

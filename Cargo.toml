@@ -1,15 +1,19 @@
 [workspace]
 members = [
     "crates/mail-cli-legacy",
+    "crates/mail-decoder",
     "crates/mail-decoder-legacy",
-    "crates/mail-processor-battle-legacy",
-    "crates/mail-processor-sdk-legacy",
-    "crates/mail-processor-duelbattle2-legacy",
     "crates/mail-helper-legacy",
+    "crates/mail-processor-barcanyonkillboss",
+    "crates/mail-processor-battle",
+    "crates/mail-processor-battle-legacy",
+    "crates/mail-processor-duelbattle2",
+    "crates/mail-processor-duelbattle2-legacy",
+    "crates/mail-processor-sdk",
+    "crates/mail-processor-sdk-legacy",
     "crates/rokbattles-ingress-legacy",
     "crates/rokbattles-processor-legacy",
     "crates/rokbattles-tauri/src-tauri",
-    "crates/mail-decoder"
 ]
 resolver = "3"
 

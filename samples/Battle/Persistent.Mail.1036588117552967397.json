@@ -1,0 +1,328 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "595003": {
+          "Bts": 315089,
+          "CIdt": {
+            "AId": 4808188,
+            "AName": "魂社会 Squad Zero",
+            "Abbr": "04Z",
+            "AppUid": "26855535",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head01.png\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 595003,
+            "COSId": 1804,
+            "CT": 3,
+            "CTK": "",
+            "CastleLevel": 13,
+            "CastlePos": {
+              "X": 3718.2246,
+              "Y": 5000.6074
+            },
+            "CtId": 0,
+            "GtLevel": 3,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HEq2": "{}",
+            "HId": 23,
+            "HId2": 24,
+            "HLv": 1,
+            "HLv2": 1,
+            "HSS": [
+              1,
+              {
+                "SkillId": 43,
+                "SkillLevel": 2
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 41,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 1,
+            "HSt2": 1,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "Idt": "595003",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 181252461,
+            "PName": "F4 Benbu",
+            "PkgNameNew": "com.lilithgame.roc.gp",
+            "SerSeason": "100",
+            "Titan": {
+              "BattleId": "",
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "D70D9EC49171C8DCC52E4FA4C5B51713"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 176000,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 176000,
+            "KillScore": 0,
+            "Max": 176000,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 315089,
+          "FullLoad": true,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 2000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 114512,
+            "KillScore": 0,
+            "Max": 0,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "-2": {
+              "Abbr": "",
+              "HId": 0,
+              "HId2": 0,
+              "HLv": 0,
+              "HLv2": 0,
+              "PId": 181252461,
+              "PName": ""
+            },
+            "0": {
+              "Abbr": "04Z",
+              "HId": 23,
+              "HId2": 24,
+              "HLv": 1,
+              "HLv2": 1,
+              "PId": 181252461,
+              "PName": "F4 Benbu"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 3721.7715,
+            "Y": 5006.329
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "Tick": 1,
+          "TickStart": 315089
+        }
+      },
+      "Btk": 315089,
+      "Bts": 1755296739,
+      "DataOmit": false,
+      "Ets": 1755296739,
+      "Events": [],
+      "GsId": 1804,
+      "Id": 5391307,
+      "LLScriptSchema": 224,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "577305": {
+          "Abbr": "",
+          "HId": 32,
+          "HId2": 34,
+          "HLv": 38,
+          "HLv2": 37,
+          "PId": 141393181,
+          "PName": "F12yst"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 176000,
+          "T": 315089
+        },
+        2,
+        {
+          "Cnt": 176000,
+          "T": 315089
+        }
+      ],
+      "Schema": 10,
+      "SelfChar": {
+        "AId": 0,
+        "AName": "",
+        "Abbr": "",
+        "AppUid": "88504567",
+        "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/141393181/23/08/22/05bbba99719497e4_640x640.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 69746201,
+        "COSId": 1804,
+        "CT": 1,
+        "CTK": "141393181_1755296725_32_34",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 3732.539,
+          "Y": 5001.4316
+        },
+        "CtId": 577305,
+        "HAw": false,
+        "HAw2": false,
+        "HEq": "{}",
+        "HEq2": "{}",
+        "HFMs": 6,
+        "HId": 32,
+        "HId2": 34,
+        "HLv": 38,
+        "HLv2": 37,
+        "HSS": [
+          1,
+          {
+            "SkillId": 51,
+            "SkillLevel": 4
+          },
+          2,
+          {
+            "SkillId": 1076,
+            "SkillLevel": 3
+          },
+          3,
+          {
+            "SkillId": 1077,
+            "SkillLevel": 1
+          },
+          4,
+          {
+            "SkillId": 1078,
+            "SkillLevel": 1
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 53,
+            "SkillLevel": 4
+          },
+          2,
+          {
+            "SkillId": 1082,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1083,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1084,
+            "SkillLevel": 1
+          }
+        ],
+        "HSt": 4,
+        "HSt2": 4,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "Idt": "69746201",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 141393181,
+        "PName": "F12yst",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "100",
+        "Titan": {
+          "BattleId": "",
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "240202569329839116"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": false
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "1036588117552967397",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_141393181",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1755296739305311,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}
