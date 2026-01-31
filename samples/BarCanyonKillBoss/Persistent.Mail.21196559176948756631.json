@@ -1,0 +1,263 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Ironhand Baulur",
+      "infos": [
+        1,
+        {
+          "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png\"}",
+          "damageRate": 8.773333549499512,
+          "idx": 7,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 85,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 7051,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 113,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Grigvar",
+          "order": 2,
+          "playerId": 71738515
+        },
+        2,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/39215561/2026-01-15/E42D8545227DA9895E71E102D1707788_250x250.jpg\"}",
+          "damageRate": 48.398887634277344,
+          "idx": 2,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 60,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 113,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "QuackerOats",
+          "order": 2,
+          "playerId": 47043938
+        },
+        3,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg\"}",
+          "damageRate": 13.763334274291992,
+          "idx": 4,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 65,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "jën x ƒaräɀ",
+          "order": 2,
+          "playerId": 20075558
+        },
+        4,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/102041458/2026-01-27/3410C6E0991B3112239720C62AB1FE92_250x250.jpg\"}",
+          "damageRate": 8.484444618225098,
+          "idx": 6,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 85,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 7051,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "ˢAuthentiks",
+          "order": 2,
+          "playerId": 128123718
+        },
+        5,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_215.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101127807/2026-01-20/E13916EAED30F309354CD289C0A433F4_250x250.jpg\"}",
+          "damageRate": 7.191667079925537,
+          "idx": 1,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 60,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 7053,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 124,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Macronator",
+          "order": 2,
+          "playerId": 126616046
+        },
+        6,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2026-01-23/C6594945F18336C61EAF740482162E35_250x250.jpg\"}",
+          "damageRate": 6.909444332122803,
+          "idx": 5,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 60,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Benbu 벤부",
+          "order": 2,
+          "playerId": 29862805
+        },
+        7,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100611693/2025-12-16/E84C388456127AA9831269A560ABCB48_250x250.jpg\"}",
+          "damageRate": 6.478888511657715,
+          "idx": 3,
+          "loots": [
+            1,
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            2,
+            {
+              "SubType": 65,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 7053,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Mac Pro",
+          "order": 2,
+          "playerId": 125690938
+        }
+      ],
+      "npcLevel": 25,
+      "npcType": 102000055,
+      "pos": {
+        "x": 2270.36083984375,
+        "y": 3339.219970703125
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "21196559176948756631",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1769487566621383,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": false
+}

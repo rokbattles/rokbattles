@@ -1,6 +1,6 @@
 {
   "addition": "",
-  "attachments": {},
+  "attachments": [],
   "ba_result": {
     "level": 38,
     "result": 2
@@ -15,7 +15,7 @@
             "AName": "",
             "Abbr": "",
             "Avatar": "",
-            "CAHAH": {},
+            "CAHAH": [],
             "CASS": {
               "Ban": false,
               "ENABLE": false
@@ -155,7 +155,7 @@
             "DuCnt": 0,
             "DuMax": 0
           },
-          "OpsKvkModBuffIds": {},
+          "OpsKvkModBuffIds": [],
           "Pos": {
             "X": 3804.8684,
             "Y": 3974.8313
@@ -166,7 +166,7 @@
             "DuCnt": 0,
             "DuMax": 0
           },
-          "SelfKvkModBuffIds": {},
+          "SelfKvkModBuffIds": [],
           "StatShowType": 1,
           "Tick": 11,
           "TickStart": 35058
@@ -176,7 +176,7 @@
       "Bts": 1768931412,
       "DataOmit": false,
       "Ets": 1768931423,
-      "Events": {},
+      "Events": [],
       "GsId": 1804,
       "Id": 6232813,
       "LLScriptSchema": 320,
@@ -213,7 +213,7 @@
         "Abbr": "SO4L",
         "AppUid": "32624247",
         "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png\"}",
-        "CAHAH": {},
+        "CAHAH": [],
         "CASS": {
           "Ban": false,
           "ENABLE": false
@@ -340,7 +340,7 @@
     }
   },
   "box": "Report",
-  "flaglist": {},
+  "flaglist": [],
   "holdTag": 0,
   "id": "1409019176893142331",
   "isMergeChild": false,
