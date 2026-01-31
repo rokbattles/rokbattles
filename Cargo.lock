@@ -4228,6 +4228,7 @@ dependencies = [
  "js-sys",
  "log",
  "mime",
+ "mime_guess",
  "native-tls",
  "percent-encoding",
  "pin-project-lite",
@@ -4362,7 +4363,7 @@ name = "rokbattles-tauri"
 version = "0.3.12"
 dependencies = [
  "anyhow",
- "mail-decoder-legacy",
+ "mail-decoder",
  "notify",
  "reqwest",
  "serde",
