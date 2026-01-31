@@ -56,6 +56,11 @@ function App() {
   const handleAdd = async () => {
     try {
       setIsAdding(true);
+      try {
+        await invoke("pause_watcher");
+      } catch (e) {
+        console.error("Failed to pause watcher", e);
+      }
       const selection = await open({
         multiple: true,
         directory: true,
@@ -69,6 +74,11 @@ function App() {
     } catch (e) {
       console.error("Failed to add dirs", e);
     } finally {
+      try {
+        await invoke("resume_watcher");
+      } catch (e) {
+        console.error("Failed to resume watcher", e);
+      }
       setIsAdding(false);
     }
   };
@@ -110,7 +120,7 @@ function App() {
             <button
               type="button"
               onClick={handleAdd}
-              disabled={isAdding}
+              disabled={isAdding || isReprocessing}
               className="inline-flex items-center gap-2 rounded-md bg-zinc-700 px-3 py-2 text-sm font-medium text-white hover:bg-zinc-600 disabled:opacity-60"
             >
               {isAdding ? "Adding..." : "Add directory"}

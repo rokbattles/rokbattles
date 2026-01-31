@@ -133,6 +133,24 @@ async fn reprocess_all(
     Ok(())
 }
 
+#[tauri::command]
+async fn pause_watcher(
+    app: AppHandle,
+    watcher: tauri::State<'_, WatcherManager>,
+) -> Result<(), String> {
+    watcher.stop(&app).await;
+    Ok(())
+}
+
+#[tauri::command]
+async fn resume_watcher(
+    app: AppHandle,
+    watcher: tauri::State<'_, WatcherManager>,
+) -> Result<(), String> {
+    watcher.start(&app).await;
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let app = tauri::Builder::default()
@@ -158,7 +176,9 @@ pub fn run() {
             list_dirs,
             add_dir,
             remove_dir,
-            reprocess_all
+            reprocess_all,
+            pause_watcher,
+            resume_watcher
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application");
