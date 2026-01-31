@@ -54,3 +54,5 @@ tower_governor = { version = "0.8.0", default-features = false }
 [profile.release]
 lto = "thin"
 codegen-units = 1
+panic = "abort"
+strip = "symbols"
