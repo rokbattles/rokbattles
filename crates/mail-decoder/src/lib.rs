@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! Mail binary decoder.
 //!
 //! # Format

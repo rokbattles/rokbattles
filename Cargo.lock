@@ -2580,6 +2580,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-cli"
+version = "1.0.0"
+dependencies = [
+ "clap",
+ "mail-decoder",
+ "mail-processor-barcanyonkillboss",
+ "mail-processor-battle",
+ "mail-processor-duelbattle2",
+ "mail-processor-sdk",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "mail-cli-legacy"
 version = "0.3.12"
 dependencies = [
