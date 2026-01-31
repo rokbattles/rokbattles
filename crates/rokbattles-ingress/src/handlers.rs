@@ -246,8 +246,8 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
 }
 
 fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
-    decoded
-        .get("type")
+    let root = normalize_root(decoded).ok_or_else(|| ApiError::bad_request("missing mail type"))?;
+    root.get("type")
         .and_then(value_to_string)
         .ok_or_else(|| ApiError::bad_request("missing mail type"))
 }
@@ -257,13 +257,12 @@ fn is_supported_mail_type(mail_type: &str) -> bool {
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
-    decoded
-        .get("id")
+    let root = normalize_root(decoded)?;
+    root.get("id")
         .and_then(value_to_string)
-        .or_else(|| decoded.get("mail_id").and_then(value_to_string))
+        .or_else(|| root.get("mail_id").and_then(value_to_string))
         .or_else(|| {
-            decoded
-                .get("metadata")
+            root.get("metadata")
                 .and_then(|meta| meta.get("mail_id"))
                 .and_then(value_to_string)
         })
@@ -273,6 +272,21 @@ fn value_to_string(value: &Value) -> Option<String> {
     match value {
         Value::String(value) => Some(value.clone()),
         Value::Number(value) => Some(value.to_string()),
+        _ => None,
+    }
+}
+
+/// Normalize the decoded mail payload to a single root object.
+///
+/// Some mail samples encode as a singleton array; in that case we treat the sole
+/// object as the root. Any other shape is rejected.
+fn normalize_root(value: &Value) -> Option<&Value> {
+    match value {
+        Value::Object(_) => Some(value),
+        Value::Array(items) => match items.as_slice() {
+            [item] if item.is_object() => Some(item),
+            _ => None,
+        },
         _ => None,
     }
 }
@@ -409,6 +423,12 @@ mod tests {
     }
 
     #[test]
+    fn extracts_mail_type_from_singleton_array() {
+        let decoded = json!([{ "type": "Battle" }]);
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "Battle");
+    }
+
+    #[test]
     fn supports_known_mail_types() {
         assert!(is_supported_mail_type("Battle"));
         assert!(is_supported_mail_type("DuelBattle2"));
@@ -419,6 +439,12 @@ mod tests {
     #[test]
     fn extracts_mail_id_from_id() {
         let decoded = json!({ "id": "12345" });
+        assert_eq!(extract_mail_id(&decoded).as_deref(), Some("12345"));
+    }
+
+    #[test]
+    fn extracts_mail_id_from_singleton_array() {
+        let decoded = json!([{ "id": "12345" }]);
         assert_eq!(extract_mail_id(&decoded).as_deref(), Some("12345"));
     }
 
