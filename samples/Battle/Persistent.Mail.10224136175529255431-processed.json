@@ -15,7 +15,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "74853482",
+      "app_uid": 74853482,
       "attack": {
         "id": "69344001",
         "x": 3872.8352,
@@ -203,7 +203,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "74853482",
+      "app_uid": 74853482,
       "attack": {
         "id": "69345901",
         "x": 3872.8352,
@@ -392,7 +392,7 @@
     },
     "alliance_building_id": null,
     "app_id": 2104267,
-    "app_uid": "32624247",
+    "app_uid": 32624247,
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-08-05/0439DD1061F65AFF1ABAF81479C4267A_250x250.jpg",
     "camp_id": null,
     "castle": {
