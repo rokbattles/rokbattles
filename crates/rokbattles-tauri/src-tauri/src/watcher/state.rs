@@ -30,6 +30,7 @@ pub(crate) struct WatcherState {
     pub(crate) hot_paths: VecDeque<String>,
     pub(crate) hot_set: HashSet<String>,
     pub(crate) hot_last_scan: Instant,
+    pub(crate) api_backoff_until_ms: Option<u128>,
 }
 
 impl WatcherState {
@@ -67,6 +68,7 @@ impl WatcherState {
             hot_paths: VecDeque::new(),
             hot_set: HashSet::new(),
             hot_last_scan: Instant::now(),
+            api_backoff_until_ms: None,
         }
     }
 
@@ -200,6 +202,26 @@ impl WatcherState {
         }
         self.hot_set.insert(path.clone());
         self.hot_paths.push_back(path);
+    }
+
+    pub(crate) fn rate_limit_remaining_ms(&mut self, now_ms: u128) -> Option<u128> {
+        let until = self.api_backoff_until_ms?;
+        if until <= now_ms {
+            self.api_backoff_until_ms = None;
+            return None;
+        }
+        Some(until.saturating_sub(now_ms))
+    }
+
+    pub(crate) fn extend_rate_limit(&mut self, now_ms: u128, backoff: std::time::Duration) -> bool {
+        let until = now_ms.saturating_add(backoff.as_millis());
+        match self.api_backoff_until_ms {
+            Some(existing) if existing >= until => false,
+            _ => {
+                self.api_backoff_until_ms = Some(until);
+                true
+            }
+        }
     }
 }
 

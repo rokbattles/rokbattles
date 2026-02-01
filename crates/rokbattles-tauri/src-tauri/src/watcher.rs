@@ -178,7 +178,9 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                 }
             }
 
-            if let Some(item) = state.pop_ready_upload(now_ms) {
+            if state.rate_limit_remaining_ms(now_ms).is_none()
+                && let Some(item) = state.pop_ready_upload(now_ms)
+            {
                 let path = PathBuf::from(&item.path);
                 let Some(file_name) = file_name_for_upload(&path) else {
                     emit_log(&app, "Skipping file with invalid name");
@@ -270,20 +272,39 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                         emit_log(&app, status.log_message(&file_name));
                     }
                     Err(e) => {
-                        emit_log(
-                            &app,
-                            format!("Failed to upload {}: {}", file_name, e.message),
-                        );
-
                         let retryable = is_retryable_status(e.status);
                         if retryable {
                             let mut next = item;
                             next.attempts = next.attempts.saturating_add(1);
-                            let backoff = e
-                                .retry_after
-                                .unwrap_or_else(|| upload_backoff(next.attempts));
+                            let retry_after = e.retry_after.filter(|delay| delay.as_millis() > 0);
+                            let backoff =
+                                retry_after.unwrap_or_else(|| upload_backoff(next.attempts));
                             next.not_before_ms = Some(now_ms.saturating_add(backoff.as_millis()));
                             state.requeue_upload(next);
+
+                            if e.status == Some(reqwest::StatusCode::TOO_MANY_REQUESTS) {
+                                if state.extend_rate_limit(now_ms, backoff) {
+                                    let wait_secs =
+                                        (backoff.as_millis().saturating_add(999) / 1000).max(1);
+                                    emit_log(
+                                        &app,
+                                        format!(
+                                            "Rate limited by API (429). Pausing uploads for {}s.",
+                                            wait_secs
+                                        ),
+                                    );
+                                }
+                            } else {
+                                emit_log(
+                                    &app,
+                                    format!("Failed to upload {}: {}", file_name, e.message),
+                                );
+                            }
+                        } else {
+                            emit_log(
+                                &app,
+                                format!("Failed to upload {}: {}", file_name, e.message),
+                            );
                         }
                     }
                 }

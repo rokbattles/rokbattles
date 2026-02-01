@@ -48,13 +48,10 @@ impl Config {
         let rate_limit_per_minute = parse_nonzero_u32(
             "RATE_LIMIT_PER_MINUTE",
             env::var("RATE_LIMIT_PER_MINUTE").ok(),
-            255,
+            765,
         )?;
-        let rate_limit_burst = parse_nonzero_u32(
-            "RATE_LIMIT_BURST",
-            env::var("RATE_LIMIT_BURST").ok(),
-            rate_limit_per_minute.get(),
-        )?;
+        let rate_limit_burst =
+            parse_nonzero_u32("RATE_LIMIT_BURST", env::var("RATE_LIMIT_BURST").ok(), 1530)?;
         let rate_limit_key =
             parse_rate_limit_key(env::var("RATE_LIMIT_KEY").ok(), RateLimitKey::Peer)?;
 
