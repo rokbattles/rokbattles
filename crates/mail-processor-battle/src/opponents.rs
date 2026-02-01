@@ -433,7 +433,7 @@ mod tests {
         assert!(opponents[0]["commanders"]["primary"]["id"].is_null());
         assert!(opponents[0]["commanders"]["secondary"]["id"].is_null());
         assert_eq!(opponents[0]["app_id"], json!(2104267));
-        assert_eq!(opponents[0]["app_uid"], json!("103134073"));
+        assert_eq!(opponents[0]["app_uid"], json!(103134073));
         let participants = opponents[0]["participants"]
             .as_array()
             .expect("participants array");
@@ -476,7 +476,7 @@ mod tests {
         assert!(opponents[1]["commanders"]["primary"]["id"].is_null());
         assert!(opponents[1]["commanders"]["secondary"]["id"].is_null());
         assert_eq!(opponents[1]["app_id"], json!(8518744));
-        assert_eq!(opponents[1]["app_uid"], json!("399975"));
+        assert_eq!(opponents[1]["app_uid"], json!(399975));
         assert_eq!(
             opponents[1]["frame_url"],
             json!("https://example.com/frame.png")

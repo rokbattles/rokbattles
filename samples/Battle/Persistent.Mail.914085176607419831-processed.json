@@ -15,7 +15,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "26855535",
+      "app_uid": 26855535,
       "attack": {
         "id": "20385801",
         "x": 7394.313,
@@ -204,7 +204,7 @@
     },
     "alliance_building_id": null,
     "app_id": 2104267,
-    "app_uid": "32624247",
+    "app_uid": 32624247,
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2025-12-07/A148C6B7BAF717C52970B3B4476AB77D_250x250.jpg",
     "camp_id": 2,
     "castle": {

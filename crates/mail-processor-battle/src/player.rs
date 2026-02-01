@@ -97,7 +97,10 @@ pub(crate) fn extract_player_fields(
         "app_id".to_string(),
         app_id.map(Value::from).unwrap_or(Value::Null),
     );
-    fields.insert("app_uid".to_string(), app_uid);
+    fields.insert(
+        "app_uid".to_string(),
+        app_uid.map(Value::from).unwrap_or(Value::Null),
+    );
     fields.insert("avatar_url".to_string(), avatar_url);
     fields.insert("frame_url".to_string(), frame_url);
     fields.insert("supreme_strife".to_string(), supreme_strife);
@@ -161,24 +164,32 @@ fn optional_u64_field(
 }
 
 /// Extract the app_id and app_uid values from the AppUid field.
-fn extract_app_identity(player: &Map<String, Value>) -> Result<(Option<u64>, Value), ExtractError> {
+fn extract_app_identity(
+    player: &Map<String, Value>,
+) -> Result<(Option<u64>, Option<u64>), ExtractError> {
     let app_uid = read_app_uid(player)?;
     match app_uid {
         Some(text) => {
             if let Some((prefix, uid)) = text.split_once('-') {
-                let app_id = prefix
-                    .parse::<u64>()
-                    .map_err(|_| ExtractError::InvalidFieldType {
-                        field: "AppUid",
-                        expected: "dash-delimited app_id-app_uid",
-                    })?;
-                Ok((Some(app_id), Value::String(uid.to_string())))
+                let app_id = parse_app_uid_number(prefix, "dash-delimited app_id-app_uid")?;
+                let app_uid = parse_app_uid_number(uid, "dash-delimited app_id-app_uid")?;
+                Ok((Some(app_id), Some(app_uid)))
             } else {
-                Ok((Some(APP_ID_INTERNATIONAL), Value::String(text)))
+                let app_uid = parse_app_uid_number(&text, "unsigned integer")?;
+                Ok((Some(APP_ID_INTERNATIONAL), Some(app_uid)))
             }
         }
-        None => Ok((None, Value::Null)),
+        None => Ok((None, None)),
     }
+}
+
+fn parse_app_uid_number(value: &str, expected: &'static str) -> Result<u64, ExtractError> {
+    value
+        .parse::<u64>()
+        .map_err(|_| ExtractError::InvalidFieldType {
+            field: "AppUid",
+            expected,
+        })
 }
 
 /// Read the AppUid as a string when present.
@@ -186,16 +197,25 @@ fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractEr
     match player.get("AppUid") {
         None | Some(Value::Null) => Ok(None),
         Some(Value::String(text)) => {
-            if text.trim().is_empty() {
+            let trimmed = text.trim();
+            if trimmed.is_empty() {
                 Ok(None)
             } else {
-                Ok(Some(text.clone()))
+                Ok(Some(trimmed.to_string()))
             }
         }
-        Some(Value::Number(number)) => Ok(Some(number.to_string())),
+        Some(Value::Number(number)) => number.as_u64().map_or_else(
+            || {
+                Err(ExtractError::InvalidFieldType {
+                    field: "AppUid",
+                    expected: "string or unsigned integer",
+                })
+            },
+            |value| Ok(Some(value.to_string())),
+        ),
         _ => Err(ExtractError::InvalidFieldType {
             field: "AppUid",
-            expected: "string or number",
+            expected: "string or unsigned integer",
         }),
     }
 }
@@ -714,7 +734,7 @@ mod tests {
         player.insert("AppUid".to_string(), json!("103134073"));
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(fields.get("app_id"), Some(&json!(APP_ID_INTERNATIONAL)));
-        assert_eq!(fields.get("app_uid"), Some(&json!("103134073")));
+        assert_eq!(fields.get("app_uid"), Some(&json!(103134073)));
     }
 
     #[test]
@@ -797,6 +817,6 @@ mod tests {
         player.insert("AppUid".to_string(), json!("8518744-399975"));
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(fields.get("app_id"), Some(&json!(8518744)));
-        assert_eq!(fields.get("app_uid"), Some(&json!("399975")));
+        assert_eq!(fields.get("app_uid"), Some(&json!(399975)));
     }
 }

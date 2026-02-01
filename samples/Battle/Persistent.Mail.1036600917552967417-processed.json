@@ -15,7 +15,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "26855535",
+      "app_uid": 26855535,
       "attack": {
         "id": "595003",
         "x": 3724.0547,
@@ -173,7 +173,7 @@
     },
     "alliance_building_id": null,
     "app_id": 2104267,
-    "app_uid": "88504567",
+    "app_uid": 88504567,
     "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/141393181/23/08/22/05bbba99719497e4_640x640.jpg",
     "camp_id": null,
     "castle": {

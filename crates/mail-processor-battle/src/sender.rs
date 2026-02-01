@@ -117,7 +117,7 @@ mod tests {
         assert!(fields["commanders"]["secondary"]["id"].is_null());
         assert!(fields["commanders"]["primary"]["armaments"].is_null());
         assert_eq!(fields["app_id"], json!(8518744));
-        assert_eq!(fields["app_uid"], json!("123"));
+        assert_eq!(fields["app_uid"], json!(123));
         assert_eq!(
             fields["avatar_url"],
             json!("https://example.com/avatar.png")
@@ -236,7 +236,7 @@ mod tests {
         assert_eq!(fields["commanders"]["secondary"]["awakened"], json!(false));
         assert_eq!(fields["commanders"]["secondary"]["star_level"], json!(4));
         assert_eq!(fields["app_id"], json!(2104267));
-        assert_eq!(fields["app_uid"], json!("88504567"));
+        assert_eq!(fields["app_uid"], json!(88504567));
         assert_eq!(
             fields["avatar_url"],
             json!(

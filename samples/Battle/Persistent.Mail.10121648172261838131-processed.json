@@ -15,7 +15,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "27181005",
+      "app_uid": 27181005,
       "attack": {
         "id": "78354401",
         "x": 3734.555,
@@ -208,7 +208,7 @@
       },
       "alliance_building_id": 1,
       "app_id": 2104267,
-      "app_uid": "48744212",
+      "app_uid": 48744212,
       "attack": {
         "id": "79272307",
         "x": 3734.555,
@@ -922,7 +922,7 @@
       },
       "alliance_building_id": 1,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79272307_1",
         "x": 3735.03,
@@ -1438,7 +1438,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "207386386",
+      "app_uid": 207386386,
       "attack": {
         "id": "79428901",
         "x": 3734.555,
@@ -1626,7 +1626,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "207386386",
+      "app_uid": 207386386,
       "attack": {
         "id": "79431101",
         "x": 3734.555,
@@ -1818,7 +1818,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "12276172",
+      "app_uid": 12276172,
       "attack": {
         "id": "79692501",
         "x": 3734.555,
@@ -2006,7 +2006,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79850001",
         "x": 3734.555,
@@ -2198,7 +2198,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79852001",
         "x": 3734.555,
@@ -2391,7 +2391,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79855401",
         "x": 3734.555,
@@ -2588,7 +2588,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79859501",
         "x": 3734.555,
@@ -2772,7 +2772,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79862501",
         "x": 3734.555,
@@ -2964,7 +2964,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "206960812",
+      "app_uid": 206960812,
       "attack": {
         "id": "79898701",
         "x": 3734.555,
@@ -3156,7 +3156,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "206960812",
+      "app_uid": 206960812,
       "attack": {
         "id": "79904701",
         "x": 3734.555,
@@ -3349,7 +3349,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2754079",
+      "app_uid": 2754079,
       "attack": {
         "id": "79915901",
         "x": 3734.555,
@@ -3546,7 +3546,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2754079",
+      "app_uid": 2754079,
       "attack": {
         "id": "79916001",
         "x": 3734.555,
@@ -3735,7 +3735,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2754079",
+      "app_uid": 2754079,
       "attack": {
         "id": "79916101",
         "x": 3734.555,
@@ -3927,7 +3927,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2754079",
+      "app_uid": 2754079,
       "attack": {
         "id": "79916201",
         "x": 3734.555,
@@ -4119,7 +4119,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "4814057",
+      "app_uid": 4814057,
       "attack": {
         "id": "79957201",
         "x": 3735.06,
@@ -4311,7 +4311,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "4814057",
+      "app_uid": 4814057,
       "attack": {
         "id": "79966101",
         "x": 3735.06,
@@ -4503,7 +4503,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "58464965",
+      "app_uid": 58464965,
       "attack": {
         "id": "79990201",
         "x": 3734.555,
@@ -4695,7 +4695,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2161730",
+      "app_uid": 2161730,
       "attack": {
         "id": "79993901",
         "x": 3735.03,
@@ -4887,7 +4887,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2161730",
+      "app_uid": 2161730,
       "attack": {
         "id": "79996101",
         "x": 3735.06,
@@ -5079,7 +5079,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2161730",
+      "app_uid": 2161730,
       "attack": {
         "id": "79999401",
         "x": 3735.06,
@@ -5271,7 +5271,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2161730",
+      "app_uid": 2161730,
       "attack": {
         "id": "80002601",
         "x": 3735.03,
@@ -5455,7 +5455,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "9807420",
+      "app_uid": 9807420,
       "attack": {
         "id": "80003601",
         "x": 3735.03,
@@ -5647,7 +5647,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "9807420",
+      "app_uid": 9807420,
       "attack": {
         "id": "80010101",
         "x": 3734.7925,
@@ -5835,7 +5835,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "67205657",
+      "app_uid": 67205657,
       "attack": {
         "id": "80010401",
         "x": 3735.03,
@@ -6027,7 +6027,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "2161730",
+      "app_uid": 2161730,
       "attack": {
         "id": "80011201",
         "x": 3735.03,
@@ -6219,7 +6219,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "67205657",
+      "app_uid": 67205657,
       "attack": {
         "id": "80013001",
         "x": 3734.7925,
@@ -6407,7 +6407,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "67205657",
+      "app_uid": 67205657,
       "attack": {
         "id": "80016301",
         "x": 3735.03,
@@ -6599,7 +6599,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "67205657",
+      "app_uid": 67205657,
       "attack": {
         "id": "80019201",
         "x": 3734.7925,
@@ -6792,7 +6792,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "16229303",
+      "app_uid": 16229303,
       "attack": {
         "id": "80078501",
         "x": 3735.03,
@@ -6984,7 +6984,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "16229303",
+      "app_uid": 16229303,
       "attack": {
         "id": "80079001",
         "x": 3735.03,
@@ -7181,7 +7181,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "16229303",
+      "app_uid": 16229303,
       "attack": {
         "id": "80080101",
         "x": 3735.03,
@@ -7373,7 +7373,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "16229303",
+      "app_uid": 16229303,
       "attack": {
         "id": "80082101",
         "x": 3735.03,
@@ -7561,7 +7561,7 @@
       },
       "alliance_building_id": null,
       "app_id": 2104267,
-      "app_uid": "16229303",
+      "app_uid": 16229303,
       "attack": {
         "id": "80082701",
         "x": 3735.03,
@@ -7754,7 +7754,7 @@
     },
     "alliance_building_id": null,
     "app_id": 8518744,
-    "app_uid": "399975",
+    "app_uid": 399975,
     "avatar_url": "https://static-gl.lilithgame.com/p/IM/10043/0/399975/2024-05-16/CD609F2A19D90C11CA700AF5C7BA8542_250x250.jpg",
     "camp_id": 3,
     "castle": {
