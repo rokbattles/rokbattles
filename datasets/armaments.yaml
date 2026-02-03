@@ -59,7 +59,10 @@ armaments:
       de: "Bogenschützenschaden"
       en: "Archer Damage"
       es: "Daño de arquero"
+      fr: "Dégâts des archers"
       ko: "궁병 피해"
+      pl: "Obrażenia łuczników"
+      zh_CN: "弓兵伤害"
     percent: true
 
   4001:
@@ -155,7 +158,10 @@ armaments:
       de: "Infanterie-Basisangriff"
       en: "Infantry Base Attack"
       es: "Ataque base de infantería"
+      fr: "Attaque de base de l'infanterie"
       ko: "보병 유닛 기본 공격력"
+      pl: "Bazowy atak piechoty"
+      zh_CN: "步兵单位基础攻击力"
     percent: false
 
   5502:
@@ -163,7 +169,10 @@ armaments:
       de: "Kavallerie-Basisangriff"
       en: "Cavalry Base Attack"
       es: "Ataque base de caballería"
+      fr: "Attaque de base de la cavalerie"
       ko: "기마병 유닛 기본 공격력"
+      pl: "Bazowy atak kawalerii"
+      zh_CN: "骑兵单位基础攻击力"
     percent: false
 
   5503:
@@ -171,7 +180,10 @@ armaments:
       de: "Bogenschützen-Basisangriff"
       en: "Archer Base Attack"
       es: "Ataque base de arquero"
+      fr: "Attaque de base des archers"
       ko: "궁병 유닛 기본 공격력"
+      pl: "Bazowy atak łuczników"
+      zh_CN: "弓兵单位基础攻击力"
     percent: false
 
   5504:
@@ -179,7 +191,10 @@ armaments:
       de: "Belagerungseinheiten-Basisangriff"
       en: "Siege Unit Base Attack"
       es: "Ataque base de unidad de asedio"
+      fr: "Attaque de base unités de sièges"
       ko: "공성 유닛 기본 공격력"
+      pl: "Bazowy atak jedn. oblężniczych"
+      zh_CN: "攻城单位基础攻击力"
     percent: false
 
   5511:
@@ -187,7 +202,10 @@ armaments:
       de: "Infanterie-Basisverteidigung"
       en: "Infantry Base Defense"
       es: "Defensa base de infantería"
+      fr: "Défense de base de l'infanterie"
       ko: "보병 유닛 기본 방어력"
+      pl: "Bazowa obrona piechoty"
+      zh_CN: "步兵单位基础防御力"
     percent: false
 
   5512:
@@ -195,7 +213,10 @@ armaments:
       de: "Kavallerie-Basisverteidigung"
       en: "Cavalry Base Defense"
       es: "Defensa base de caballería"
+      fr: "Défense de base de la cavalerie"
       ko: "기마병 유닛 기본 방어력"
+      pl: "Bazowa obrona kawalerii"
+      zh_CN: "骑兵单位基础防御力"
     percent: false
 
   5513:
@@ -203,7 +224,10 @@ armaments:
       de: "Bogenschützen-Basisverteidigung"
       en: "Archer Base Defense"
       es: "Defensa base de arquero"
+      fr: "Défense de base des archers"
       ko: "궁병 유닛 기본 방어력"
+      pl: "Bazowa obrona łuczników"
+      zh_CN: "弓兵单位基础防御力"
     percent: false
 
   5514:
@@ -211,7 +235,10 @@ armaments:
       de: "Belagerungseinheiten-Basisverteidigung"
       en: "Siege Unit Base Defense"
       es: "Defensa base de unidad de asedio"
+      fr: "Défense de base unités de siège"
       ko: "공성 유닛 기본 방어력"
+      pl: "Bazowa obrona jedn. oblężniczych"
+      zh_CN: "攻城单位基础防御力"
     percent: false
 
   5521:
@@ -219,7 +246,10 @@ armaments:
       de: "Infanterie-Basisgesundheit"
       en: "Infantry Base Health"
       es: "Salud base de infantería"
+      fr: "Santé de base de l'infanterie"
       ko: "보병 유닛 기본 생명력"
+      pl: "Bazowe zdrowie piechoty"
+      zh_CN: "步兵单位基础生命值"
     percent: false
 
   5522:
@@ -227,7 +257,10 @@ armaments:
       de: "Kavallerie-Basisgesundheit"
       en: "Cavalry Base Health"
       es: "Salud base de caballería"
+      fr: "Santé de base de la cavalerie"
       ko: "기마병 유닛 기본 생명력"
+      pl: "Bazowe zdrowie kawalerii"
+      zh_CN: "骑兵单位基础生命值"
     percent: false
 
   5523:
@@ -235,7 +268,10 @@ armaments:
       de: "Bogenschützen-Basisgesundheit"
       en: "Archer Base Health"
       es: "Salud base de arquero"
+      fr: "Santé de base des archers"
       ko: "궁병 유닛 기본 생명력"
+      pl: "Bazowe zdrowie łuczników"
+      zh_CN: "弓兵单位基础生命值"
     percent: false
 
   5524:
@@ -243,7 +279,10 @@ armaments:
       de: "Belagerungseinheiten-Basisgesundheit"
       en: "Siege Unit Base Health"
       es: "Salud base de unidad de asedio"
+      fr: "Santé de base unités de siège"
       ko: "공성 유닛 기본 생명력"
+      pl: "Bazowe zdrowie jedn. oblężniczych"
+      zh_CN: "攻城单位基础生命值"
     percent: false
 
   6001:
@@ -317,7 +356,10 @@ armaments:
       de: "Normaler Schaden"
       en: "Normal Damage"
       es: "Daño normal"
+      fr: "Dégâts normaux"
       ko: "일반 공격 피해"
+      pl: "Podstawowe obrażenia"
+      zh_CN: "普通攻击伤害"
     percent: true
 
   10007:
@@ -325,7 +367,10 @@ armaments:
       de: "Fähigkeitsschaden"
       en: "Skill Damage"
       es: "Daño de habilidad"
+      fr: "Dégâts de compétence"
       ko: "스킬 피해"
+      pl: "Obrażenia od umiejętności"
+      zh_CN: "技能伤害"
     percent: true
 
   10008:
@@ -333,7 +378,10 @@ armaments:
       de: "Gegenangriffsschaden"
       en: "Counterattack Damage"
       es: "Daño del Contraataque"
+      fr: "Dégâts de contre-attaque"
       ko: "반격 피해"
+      pl: "Obrażenia od kontrataku"
+      zh_CN: "反击伤害"
     percent: true
 
   10016:
@@ -363,7 +411,10 @@ armaments:
       de: "Normale Schadenverringerung"
       en: "Normal Damage Reduction"
       es: "Reducción del daño normal"
+      fr: "Réduction des dégâts normaux"
       ko: "일반 공격 피해 경감"
+      pl: "Redukcja podstawowych obrażeń"
+      zh_CN: "普通攻击伤害减免"
     percent: true
 
   10110:
@@ -371,7 +422,10 @@ armaments:
       de: "Fähigkeitsschadenverringerung"
       en: "Skill Damage Reduction"
       es: "Reducción del daño de habilidad"
+      fr: "Réduction des dégâts de compétence"
       ko: "스킬 피해 경감"
+      pl: "Redukcja obrażeń od umiejętności"
+      zh_CN: "技能伤害减免"
     percent: true
 
   10111:
@@ -379,7 +433,10 @@ armaments:
       de: "Gegenangriffsschadenverringerung"
       en: "Counterattack Damage Reduction"
       es: "Reducción del Daño del Contraataque"
+      fr: "Réduction des dégâts de contre-attaque"
       ko: "반격 피해 경감"
+      pl: "Redukcja obrażeń od kontrataku"
+      zh_CN: "反击伤害减免"
     percent: true
 
   10300:
@@ -387,7 +444,10 @@ armaments:
       de: "Infanterie-Schaden an Kavallerie"
       en: "Infantry Damage to Cavalry"
       es: "Daño de infantería a caballería"
+      fr: "Dégâts d'infanterie à la cavalerie"
       ko: "보병 유닛이 기마병 유닛에게 입히는 피애"
+      pl: "Obrażenia piechoty przeciw kawalerii"
+      zh_CN: "步兵单位对骑兵单位的伤害"
     percent: true
 
   10302:
@@ -395,7 +455,10 @@ armaments:
       de: "Bogenschützen-Schaden an Infanterie"
       en: "Archer Damage to Infantry"
       es: "Daño de arqueros a infantería"
+      fr: "Dégâts d'archers à l'infanterie"
       ko: "궁병 유닛이 보병 유닛에게 입히는 피애"
+      pl: "Obrażenia łuczników przeciw piechocie"
+      zh_CN: "弓兵单位对步兵单位的伤害"
     percent: true
 
   10304:
@@ -403,7 +466,10 @@ armaments:
       de: "Kavallerie-Schaden an Bogenschützen"
       en: "Cavalry Damage to Archers"
       es: "Daño de caballería a arqueros"
+      fr: "Dégâts de cavalerie aux archers"
       ko: "기마병 유닛이 궁병 유닛에게 입히는 피애"
+      pl: "Obrażenia kawalerii przeciw łucznikom"
+      zh_CN: "骑兵单位对弓兵单位的伤害"
     percent: true
 
   12017:
@@ -411,7 +477,10 @@ armaments:
       de: "Sammeltruppenangriff"
       en: "Rallied Army Attack"
       es: "Ataque de las Tropas Congregadas"
+      fr: "Attaque de troupes en rassemblement"
       ko: "집결 부대 공격력"
+      pl: "Atak zmobilizowanej armii"
+      zh_CN: "集结部队攻击力"
     percent: true
 
   12052:
@@ -419,7 +488,10 @@ armaments:
       de: "Schaden durch Sammelarmee"
       en: "Rallied Army Damage"
       es: "Daño de ejército congregado"
+      fr: "Dégâts de l'armée ralliée"
       ko: "집결 부대의 모든 피해"
+      pl: "Obrażenia zmobilizowanej armii"
+      zh_CN: "集结部队的所有伤害"
     percent: true
 
   12066:
@@ -427,7 +499,10 @@ armaments:
       de: "Schaden gegen Sammelarmeen/Garnisonen"
       en: "Damage to Rallied Armies/Garrisons"
       es: "Daño a guarniciones/ejércitos congregados"
+      fr: "Dégâts aux armées ralliées/garnisons"
       ko: "집결/주둔 부대에 입히는 피해"
+      pl: "Obrażenia zadawane mobilizacjom/garnizonom"
+      zh_CN: "对集结/驻防部队造成伤害"
     percent: true
 
   15028:
@@ -435,7 +510,10 @@ armaments:
       de: "Normale Fernangriffsschadenverringerung"
       en: "Ranged Normal Damage Reduction"
       es: "Reducción de daño normal a distancia"
+      fr: "Réduction des dégâts normaux à distance"
       ko: "원거리 일반 공격 피해 경감"
+      pl: "Redukcja podstawowych obrażeń dystansowych"
+      zh_CN: "远程普通攻击伤害减免"
     percent: true
 
   15032:
@@ -443,7 +521,10 @@ armaments:
       de: "Fernkampf-Fähigkeitsschadenverringerung"
       en: "Ranged Skill Damage Reduction"
       es: "Reducción de daño de habilidad a distancia"
+      fr: "Réduction des dégâts de compétence à distance"
       ko: "원거리 스킬 피해 경감"
+      pl: "Redukcja obrażeń od umiejętności dystansowych"
+      zh_CN: "远程技能伤害减免"
     percent: true
 
   15033:
@@ -451,7 +532,10 @@ armaments:
       de: "Fernkampf-Fähigkeitsschaden"
       en: "Ranged Skill Damage"
       es: "Daño de habilidad a distancia"
+      fr: "Dégâts de concussion à distance"
       ko: "원거리 스킬 피해"
+      pl: "Dystansowe obrażenia od rąbnięcia"
+      zh_CN: "远程重击伤害"
     percent: true
 
   15063:
@@ -459,7 +543,10 @@ armaments:
       de: "Schmetterschaden"
       en: "Smite Damage"
       es: "Daño de embate"
+      fr: "Dégâts de concussion"
       ko: "강타 피해"
+      pl: "Obrażenia od rąbnięcia"
+      zh_CN: "重击伤害"
     percent: true
 
   15073:
@@ -467,7 +554,10 @@ armaments:
       de: "Fernkampf-Gegenangriffsschadensverringerung"
       en: "Ranged Counterattack Damage Reduction"
       es: "Reducción de daño de contraataque a distancia"
+      fr: "Réduction des dégâts de contre-attaque à distance subis"
       ko: "원가리 반격 피해 경감"
+      pl: "Redukcja obrażeń dystansowych od kontrataku"
+      zh_CN: "远程反击伤害减免"
     percent: true
 
   15075:
@@ -475,7 +565,10 @@ armaments:
       de: "Fernkampf-Schmetterschaden"
       en: "Ranged Smite Damage"
       es: "Daño de embate a distancia"
+      fr: "Dégâts de concussion à distance"
       ko: "원거리 강타 피해"
+      pl: "Dystansowe obrażenia od rąbnięcia"
+      zh_CN: "远程重击伤害"
     percent: true
 
   15089:
@@ -483,7 +576,10 @@ armaments:
       de: "Angriff des Feindes ignoriert"
       en: "Enemy Attack Ignored"
       es: "Ataque del enemigo ignorado"
+      fr: "Attaque de l'ennemi ignorée"
       ko: "적군 부대 공격력 무시"
+      pl: "Pominięcie ataku wroga"
+      zh_CN: "无视敌方部队攻击力"
     percent: true
 
   15090:
@@ -491,7 +587,10 @@ armaments:
       de: "Verteidigung des Feindes ignoriert"
       en: "Enemy Defense Ignored"
       es: "Defensa del enemigo ignorada"
+      fr: "Défense de l'ennemi ignorée"
       ko: "적군 부대 방어력 무시"
+      pl: "Pominięcie obrony wroga"
+      zh_CN: "无视敌方部队防御力"
     percent: true
 
   15091:
@@ -499,7 +598,10 @@ armaments:
       de: "Gesundheit des Feindes ignoriert"
       en: "Enemy Health Ignored"
       es: "Salud del enemigo ignorada"
+      fr: "Santé de l'ennemi ignorée"
       ko: "적군 부대 생명력 무시"
+      pl: "Pominięcie PZ wroga"
+      zh_CN: "无视敌方部队生命值"
     percent: true
 
   15092:
@@ -507,7 +609,10 @@ armaments:
       de: "Schaden an Truppen auf der Karte"
       en: "Damage to Troops on the Map"
       es: "Daño a tropas en el mapa"
+      fr: "Dégâts aux troupes sur la carte"
       ko: "필드에 있는 부대에 입히는 피해"
+      pl: "Obrażenia zadawane oddziałom na mapie"
+      zh_CN: "对在野外的部队造成伤害"
     percent: true
 
   17400:
@@ -515,7 +620,10 @@ armaments:
       de: "Kombo-Angriffsschaden"
       en: "Combo Attack Damage"
       es: "Daño de ataque combinado"
+      fr: "Dégâts d'attaque combinée"
       ko: "연격 피해"
+      pl: "Obrażenia od ataku kombo"
+      zh_CN: "连击伤害"
     percent: true
 
   17401:
@@ -523,7 +631,10 @@ armaments:
       de: "Kombo-Fernkampfangriffsschaden"
       en: "Ranged Combo Attack Damage"
       es: "Daño de ataque combinado a distancia"
+      fr: "Dégâts d'attaque combinée à distance"
       ko: "원거리 연격 피해"
+      pl: "Dystansowe obrażenia od ataku kombo"
+      zh_CN: "远程连击伤害"
     percent: true
 
   20034:
@@ -531,7 +642,10 @@ armaments:
       de: "Schadenwiderstand"
       en: "Damage Resistance"
       es: "Resistencia al daño"
+      fr: "Résistance aux dégâts d'attaque combinée"
       ko: "모든 피해 저항"
+      pl: "Odporność na obrażenia od ataku kombo"
+      zh_CN: "连击伤害抗性"
     percent: true
 
   20039:
@@ -539,7 +653,10 @@ armaments:
       de: "Schmetterschadensboost"
       en: "Smite Damage Boost"
       es: "Refuerzo de daño de embate"
+      fr: "Boost de dégâts de concussion"
       ko: "강타 피해 증폭"
+      pl: "Wzmocnienie obrażeń od rąbnięcia"
+      zh_CN: "重击伤害增幅"
     percent: true
 
   20062:
@@ -547,7 +664,10 @@ armaments:
       de: "Kombo-Angriffsschadensboost"
       en: "Combo Attack Damage Boost"
       es: "Refuerzo de daño de ataque combinado"
+      fr: "Boost de dégâts d'attaque combinée"
       ko: "연격 피해 증폭"
+      pl: "Wzmocnienie obrażeń od ataku kombo"
+      zh_CN: "连击伤害增幅"
     percent: true
 
   20064:
@@ -555,7 +675,10 @@ armaments:
       de: "Kombo-Angriffsschadenwiderstand"
       en: "Combo Attack Damage Resistance"
       es: "Resistencia al daño de ataque combinado"
+      fr: "Résistance aux dégâts"
       ko: "연격 피해 저항"
+      pl: "Odporność na obrażenia"
+      zh_CN: "所有伤害抗性"
     percent: true
 
   # The 20066 to 20069 and 20070 to 20073 may be flip-flopped (not enough samples to be sure)
@@ -565,7 +688,10 @@ armaments:
       de: "Schadenverringerung durch Kavallerie"
       en: "Damage From Cavalry Reduction"
       es: "Reducción de daño recibido de caballería"
+      fr: "Réduction des dégâts de cavalerie"
       ko: "기마병에게 받는 피해 감소"
+      pl: "Zmniejszenie obrażeń od kawalerii"
+      zh_CN: "受到的骑兵伤害降低"
     percent: true
 
   # Guessing (not enough samples to be sure)
@@ -574,7 +700,10 @@ armaments:
       de: "Schadenverringerung durch Bogenschützen"
       en: "Damage From Archers Reduction"
       es: "Reducción de daño recibido de arqueros"
+      fr: "Réduction des dégâts d'archers"
       ko: "궁병에게 받는 피해 감소"
+      pl: "Zmniejszenie obrażeń od łuczników"
+      zh_CN: "受到的弓兵伤害降低"
     percent: true
 
   20068:
@@ -582,7 +711,10 @@ armaments:
       de: "Schadenverringerung durch Infanterie"
       en: "Damage From Infantry Reduction"
       es: "Reducción de daño recibido de infantería"
+      fr: "Réduction des dégâts d'infanterie"
       ko: "보병에게 받는 피해 감소"
+      pl: "Zmniejszenie obrażeń od piechoty"
+      zh_CN: "受到的步兵伤害降低"
     percent: true
 
   20069:
@@ -590,7 +722,10 @@ armaments:
       de: "Schadenverringerung durch Belagerungseinheiten"
       en: "Damage From Siege Units Reduction"
       es: "Reducción de daño recibido de unidades de asedio"
+      fr: "Réduction des dégâts des unités de siège"
       ko: "공성 유닛에게 받는 피해 감소"
+      pl: "Zmniejszenie obrażeń od jednostek oblężniczych"
+      zh_CN: "受到的攻城单位伤害降低"
     percent: true
 
   # Guessing (not enough samples to be sure)
@@ -599,7 +734,10 @@ armaments:
       de: "Schadensbonus gegen Kavallerie"
       en: "Damage Bonus vs Cavalry"
       es: "Bonificación de daño contra caballería"
+      fr: "Bonus de dégâts contre la cavalerie"
       ko: "기마병 유닛에게 입히는 피해 증가"
+      pl: "Premia do obrażeń przeciw kawalerii"
+      zh_CN: "对骑兵单位造成的伤害提升"
     percent: true
 
   # Guessing (not enough samples to be sure)
@@ -608,7 +746,10 @@ armaments:
       de: "Schadensbonus gegen Bogenschützen"
       en: "Damage Bonus vs Archers"
       es: "Bonificación de daño contra arqueros"
+      fr: "Bonus de dégâts contre les archers"
       ko: "궁병 유닛에게 입히는 피해 증가"
+      pl: "Premia do obrażeń przeciw łucznikom"
+      zh_CN: "对弓兵单位造成的伤害提升"
     percent: true
 
   20072:
@@ -616,7 +757,10 @@ armaments:
       de: "Schadensbonus gegen Infanterie"
       en: "Damage Bonus vs Infantry"
       es: "Bonificación de daño contra infantería"
+      fr: "Bonus de dégâts contre l'infanterie"
       ko: "보병 유닛에게 입히는 피해 증가"
+      pl: "Premia do obrażeń przeciw piechocie"
+      zh_CN: "对步兵单位造成的伤害提升"
     percent: true
 
   20073:
@@ -624,7 +768,10 @@ armaments:
       de: "Schadensbonus gegen Belagerungseinheiten"
       en: "Damage Bonus vs Siege Units"
       es: "Bonificación de daño contra unidades de asedio"
+      fr: "Bonus de dégâts contre les unités de siège"
       ko: "공성 유닛에게 입히는 피해 증가"
+      pl: "Premia do obrażeń przeciw jednostkom oblężniczym"
+      zh_CN: "对攻城单位造成的伤害提升"
     percent: true
 
   30029:
@@ -632,5 +779,8 @@ armaments:
       de: "Schadenverringerung gegen vergiftete Truppen (pro Stapel)"
       en: "Damage Reduction vs Poisoned Troops (Per Stack)"
       es: "Reducción de daño vs tropas envenenadas (por acumulación)"
+      fr: "Réduction des dégâts contre les troupes empoisonnées (par cumul)"
       ko: "중독 부대로부터 받는 모든 피해 감소(스택당)"
+      pl: "Redukcja obrażeń przeciwko zatrutym oddziałom (na kumulację)"
+      zh_CN: "受到来自中毒部队的所有伤害降低（每层）"
     percent: true
