@@ -1,4 +1,4 @@
-FROM rust:1.92-alpine AS builder
+FROM rust:1.93-alpine AS builder
 ENV CARGO_INCREMENTAL=0
 WORKDIR /app
 RUN apk add --no-cache \
