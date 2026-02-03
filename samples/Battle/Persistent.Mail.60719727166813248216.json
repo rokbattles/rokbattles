@@ -1,0 +1,1993 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "721984701": {
+          "Bts": 1536214,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-1122193",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/39115363/22/09/27/73d119af4c639958_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 721984701,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 360.39648,
+              "Y": 1830.6523
+            },
+            "CtId": 5222323,
+            "HAw": true,
+            "HAw2": false,
+            "HEq": "{1:20061_515:30,5:20033_623:31,6:20071_668:0,7:20037_670:1,2:20090_627:30,8:20040_666:31,3:20064_237:30,4:20028_649:1}",
+            "HEq2": "{}",
+            "HId": 127,
+            "HId2": 115,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1356,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 180,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1353,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1354,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1355,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1314,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1315,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 158,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1313,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "721984701",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39115363,
+            "PName": "Old s",
+            "Udid": "2802FD47271CF6AD4BD51D957E743962"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "Cnt": 7852994,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 16039,
+            "Hurt": 0,
+            "HurtCntEnd": 228324,
+            "InitMax": 70343848,
+            "Max": 7837295,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 0,
+          "Ets": 1536222,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "Cnt": 111464,
+            "Death": 25597,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 31982,
+            "HurtCntEnd": 109588,
+            "InitMax": 260000,
+            "Max": 169043,
+            "Power": -255970,
+            "RetreatCnt": 0,
+            "SkillPower": -255970
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222323": {
+              "Abbr": "K887",
+              "HId": 127,
+              "HId2": 115,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39115363,
+              "PName": "Old s"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 6,
+          "TickStart": 1536214
+        },
+        "721998701": {
+          "Bts": 1536215,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "33775191",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/39771228/22/11/01/b793e57fb4c69142_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 721998701,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 426.09082,
+              "Y": 1641.2861
+            },
+            "CtId": 5222411,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{2:20062_63:30,1:20007_82:1,5:20070_32:30,6:20071_78:30,3:20025_91:30,4:20066_72:30,7:20037_108:1,8:20119_106:1}",
+            "HEq2": "{}",
+            "HId": 103,
+            "HId2": 104,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1258,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1259,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1260,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1261,
+                "SkillLevel": 1
+              },
+              5,
+              {
+                "SkillId": 143,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 144,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1262,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1263,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1264,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1265,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "721998701",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39771228,
+            "PName": "Саrnagе",
+            "Udid": "58B2BE43-01BB-4938-908F-66A289B2AF0B"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": -96804,
+            "BadHurt": 16149,
+            "Cnt": 7771222,
+            "Death": 171,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 30002,
+            "Hurt": 28706,
+            "HurtCntEnd": 248981,
+            "InitMax": 70343848,
+            "Max": 7750783,
+            "Power": -96804,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 0,
+          "Ets": 1536232,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -668610,
+            "BadHurt": 0,
+            "Cnt": 91176,
+            "Death": 66861,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 80588,
+            "HurtCntEnd": 144293,
+            "InitMax": 318000,
+            "Max": 238625,
+            "Power": -668610,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222411": {
+              "Abbr": "K887",
+              "HId": 103,
+              "HId2": 104,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39771228,
+              "PName": "Саrnagе"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 12,
+          "TickStart": 1536215
+        },
+        "722007901": {
+          "Bts": 1536220,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "33775191",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/39771228/22/11/01/b793e57fb4c69142_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722007901,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 426.09082,
+              "Y": 1641.2861
+            },
+            "CtId": 5222473,
+            "HAw": true,
+            "HAw2": false,
+            "HEq": "{4:20085_25:10,6:20096_75:0,1:20060_48:0,5:20032_81:10,3:20015_109:0,2:20014_105:0}",
+            "HEq2": "{}",
+            "HId": 108,
+            "HId2": 140,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 148,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1273,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1274,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1275,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1276,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 198,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1404,
+                "SkillLevel": 2
+              },
+              3,
+              {
+                "SkillId": 1405,
+                "SkillLevel": 4
+              },
+              4,
+              {
+                "SkillId": 1406,
+                "SkillLevel": 3
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722007901",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39771228,
+            "PName": "Саrnagе",
+            "Udid": "58B2BE43-01BB-4938-908F-66A289B2AF0B"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": -25039,
+            "BadHurt": 4008,
+            "Cnt": 7771222,
+            "Death": 70,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 13963,
+            "Hurt": 584,
+            "HurtCntEnd": 248981,
+            "InitMax": 70343848,
+            "Max": 7634235,
+            "Power": -25039,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 0,
+          "Ets": 1536232,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -320080,
+            "BadHurt": 0,
+            "Cnt": 144429,
+            "Death": 60137,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 1748,
+            "Hurt": 36850,
+            "HurtCntEnd": 98319,
+            "InitMax": 318000,
+            "Max": 239668,
+            "Power": -601370,
+            "RetreatCnt": 0,
+            "SkillPower": -281290
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222473": {
+              "Abbr": "K887",
+              "HId": 108,
+              "HId2": 140,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39771228,
+              "PName": "Саrnagе"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 6,
+          "TickStart": 1536220
+        },
+        "722028701": {
+          "Bts": 1536220,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "33775191",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/39771228/22/11/01/b793e57fb4c69142_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722028701,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 426.09082,
+              "Y": 1641.2861
+            },
+            "CtId": 5222605,
+            "HAw": false,
+            "HAw2": true,
+            "HClt2": [
+              1,
+              8
+            ],
+            "HEq": "{}",
+            "HEq2": "{3:20091_29:0,6:20111_77:0,2:20051_62:0}",
+            "HId": 111,
+            "HId2": 6,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1288,
+                "SkillLevel": 3
+              },
+              2,
+              {
+                "SkillId": 1287,
+                "SkillLevel": 3
+              },
+              3,
+              {
+                "SkillId": 1290,
+                "SkillLevel": 2
+              },
+              4,
+              {
+                "SkillId": 152,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 63,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1009,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1010,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1011,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722028701",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39771228,
+            "PName": "Саrnagе",
+            "Udid": "58B2BE43-01BB-4938-908F-66A289B2AF0B"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": -50220,
+            "BadHurt": 9611,
+            "Cnt": 7771222,
+            "Death": 144,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 13963,
+            "Hurt": 1962,
+            "HurtCntEnd": 248981,
+            "InitMax": 70343848,
+            "Max": 7634235,
+            "Power": -51917,
+            "RetreatCnt": 0,
+            "SkillPower": -1697
+          },
+          "Def": 0,
+          "Ets": 1536232,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -812800,
+            "BadHurt": 0,
+            "Cnt": 137337,
+            "Death": 81280,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 6784,
+            "HurtCntEnd": 86443,
+            "InitMax": 318000,
+            "Max": 229026,
+            "Power": -812800,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222605": {
+              "Abbr": "K887",
+              "HId": 111,
+              "HId2": 6,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39771228,
+              "PName": "Саrnagе"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 8,
+          "TickStart": 1536220
+        },
+        "722395801": {
+          "Bts": 1536212,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "33775191",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/39771228/22/11/01/b793e57fb4c69142_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722395801,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 426.09082,
+              "Y": 1641.2861
+            },
+            "CtId": 5222383,
+            "HAw": true,
+            "HAw2": false,
+            "HEq": "{2:20008_110:0,3:20009_102:0,1:20001_107:1,4:20010_99:1,7:20040_97:1,5:20011_95:0,8:20118_103:1,6:20012_100:0}",
+            "HEq2": "{}",
+            "HId": 138,
+            "HId2": 148,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1398,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 196,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1395,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1396,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1397,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1436,
+                "SkillLevel": 4
+              },
+              2,
+              {
+                "SkillId": 209,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1435,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1437,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722395801",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39771228,
+            "PName": "Саrnagе",
+            "Udid": "58B2BE43-01BB-4938-908F-66A289B2AF0B"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": -159905,
+            "BadHurt": 97421,
+            "Cnt": 7771222,
+            "Death": 303,
+            "Gt": 755,
+            "GtMax": 50000,
+            "Healing": 46910,
+            "Hurt": 86417,
+            "HurtCntEnd": 248981,
+            "InitMax": 70343848,
+            "Max": 7907967,
+            "Power": -252749,
+            "RetreatCnt": 0,
+            "SkillPower": -92844
+          },
+          "Def": 0,
+          "Ets": 1536233,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -1133870,
+            "BadHurt": 0,
+            "Cnt": 87013,
+            "Death": 113387,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 84740,
+            "HurtCntEnd": 112265,
+            "InitMax": 318000,
+            "Max": 287713,
+            "Power": -1133870,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222383": {
+              "Abbr": "K887",
+              "HId": 138,
+              "HId2": 148,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39771228,
+              "PName": "Саrnagе"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 15,
+          "TickStart": 1536212
+        },
+        "722601401": {
+          "Bts": 1536211,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-3184881",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/64596713/22/05/20/bdfc28c003869f97_740x740.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722601401,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 414.0879,
+              "Y": 1844.169
+            },
+            "CtId": 5226186,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{4:20016_454:10,7:20118_438:10,1:20013_309:10,2:20014_343:10,3:20026_381:10,5:20032_388:10,6:20018_363:10}",
+            "HEq2": "{7:20118_415:0,8:20044_407:0}",
+            "HId": 108,
+            "HId2": 140,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1275,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1276,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 148,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1273,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1274,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1406,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1407,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 198,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1404,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1405,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722601401",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 64596713,
+            "PName": "VIP맹인",
+            "Udid": "62756437651529259"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -8118,
+            "BadHurt": 1376,
+            "Cnt": 7713905,
+            "Death": 10,
+            "Gt": 766,
+            "GtMax": 50000,
+            "Healing": 16908,
+            "Hurt": 6575,
+            "HurtCntEnd": 143883,
+            "InitMax": 70343848,
+            "Max": 7957130,
+            "Power": -8118,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 2,
+          "Ets": 1536216,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -743940,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 74394,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 269782,
+            "InitMax": 388000,
+            "Max": 74394,
+            "Power": -743940,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5226186": {
+              "Abbr": "K887",
+              "HId": 108,
+              "HId2": 140,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 64596713,
+              "PName": "VIP맹인"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 6,
+          "TickStart": 1536211
+        },
+        "722754301": {
+          "Bts": 1536205,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-3184881",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/64596713/22/05/20/bdfc28c003869f97_740x740.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722754301,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 414.0879,
+              "Y": 1844.169
+            },
+            "CtId": 5227213,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{6:20024_404:21,2:20020_397:20,7:20040_393:0,4:20022_405:20,3:20021_396:20,5:20023_399:21,8:20039_478:0,1:20019_347:20}",
+            "HEq2": "{4:20022_451:0,2:20020_450:0}",
+            "HId": 146,
+            "HId2": 122,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1431,
+                "SkillLevel": 1
+              },
+              2,
+              {
+                "SkillId": 206,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1428,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1429,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1430,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 174,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1339,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1341,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1340,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722754301",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 64596713,
+            "PName": "VIP맹인",
+            "Udid": "62756437651529259"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -141978,
+            "BadHurt": 49406,
+            "Cnt": 7805100,
+            "Death": 198,
+            "Gt": 33427,
+            "GtMax": 50000,
+            "Healing": 111721,
+            "Hurt": 49316,
+            "HurtCntEnd": 83261,
+            "InitMax": 70249035,
+            "Max": 7941551,
+            "Power": -170852,
+            "RetreatCnt": 0,
+            "SkillPower": -28874
+          },
+          "Def": 2,
+          "Ets": 1536215,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -1153430,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 185342,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 202658,
+            "HurtCntEnd": 0,
+            "InitMax": 388000,
+            "Max": 388000,
+            "Power": -1853420,
+            "RetreatCnt": 0,
+            "SkillPower": -699990
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5227213": {
+              "Abbr": "K887",
+              "HId": 146,
+              "HId2": 122,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 64596713,
+              "PName": "VIP맹인"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 11,
+          "TickStart": 1536205
+        },
+        "722761901": {
+          "Bts": 1536206,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-3184881",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/64596713/22/05/20/bdfc28c003869f97_740x740.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722761901,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 414.0879,
+              "Y": 1844.169
+            },
+            "CtId": 5227263,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{4:20028_434:30,1:20007_411:30,7:20040_420:1,6:20012_426:30,2:20008_433:30,3:20009_412:31,5:20033_409:31,8:20037_503:0}",
+            "HEq2": "{}",
+            "HId": 127,
+            "HId2": 135,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 180,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1353,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1354,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1355,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1356,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 193,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1382,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1384,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1383,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1385,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722761901",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 64596713,
+            "PName": "VIP맹인",
+            "Udid": "62756437651529259"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": -196078,
+            "BadHurt": 104018,
+            "Cnt": 7771222,
+            "Death": 218,
+            "Gt": 14157,
+            "GtMax": 50000,
+            "Healing": 141723,
+            "Hurt": 118808,
+            "HurtCntEnd": 248981,
+            "InitMax": 70249035,
+            "Max": 7927556,
+            "Power": -281449,
+            "RetreatCnt": 0,
+            "SkillPower": -85371
+          },
+          "Def": 0,
+          "Ets": 1536231,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -1416960,
+            "BadHurt": 0,
+            "Cnt": 5953,
+            "Death": 213693,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 188354,
+            "HurtCntEnd": 188354,
+            "InitMax": 408000,
+            "Max": 408000,
+            "Power": -2136930,
+            "RetreatCnt": 0,
+            "SkillPower": -719970
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5227263": {
+              "Abbr": "K887",
+              "HId": 127,
+              "HId2": 135,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 64596713,
+              "PName": "VIP맹인"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 21,
+          "TickStart": 1536206
+        },
+        "722802501": {
+          "Bts": 1536212,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-3184881",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/64596713/22/05/20/bdfc28c003869f97_740x740.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722802501,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 414.0879,
+              "Y": 1844.169
+            },
+            "CtId": 5224651,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{5:20033_422:31,6:20012_410:31,4:20028_413:30,1:20007_456:30,7:20040_432:1,8:20037_406:1,2:20008_408:30,3:20009_431:31}",
+            "HEq2": "{}",
+            "HId": 103,
+            "HId2": 138,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1258,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1259,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1260,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1261,
+                "SkillLevel": 1
+              },
+              5,
+              {
+                "SkillId": 143,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 196,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1395,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1396,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1397,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1398,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722802501",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 64596713,
+            "PName": "VIP맹인",
+            "Udid": "62756437651529259"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -2094,
+            "BadHurt": 357,
+            "Cnt": 7805100,
+            "Death": 3,
+            "Gt": 303,
+            "GtMax": 50000,
+            "Healing": 16908,
+            "Hurt": 1938,
+            "HurtCntEnd": 83261,
+            "InitMax": 70343848,
+            "Max": 7904309,
+            "Power": -2094,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 2,
+          "Ets": 1536215,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -271330,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 33503,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 302095,
+            "InitMax": 388000,
+            "Max": 33503,
+            "Power": -335030,
+            "RetreatCnt": 0,
+            "SkillPower": -63700
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5224651": {
+              "Abbr": "K887",
+              "HId": 103,
+              "HId2": 138,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 64596713,
+              "PName": "VIP맹인"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 4,
+          "TickStart": 1536212
+        },
+        "722803101": {
+          "Bts": 1536220,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "8518744-1207552",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/34979098/22/06/25/25a28fcc79496674_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722803101,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 194.48096,
+              "Y": 1654.0322
+            },
+            "CtId": 5223530,
+            "HAw": false,
+            "HAw2": true,
+            "HClt2": [
+              1,
+              3
+            ],
+            "HEq": "{3:20084_203:30,4:20085_204:30,2:20090_205:30,6:20086_206:30,1:20100_207:30,5:20101_208:30}",
+            "HEq2": "{}",
+            "HId": 64,
+            "HId2": 99,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 86,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1141,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1143,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1142,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 135,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1217,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1218,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1219,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1220,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722803101",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 34979098,
+            "PName": "Fear of God",
+            "Udid": "17A7AF2D-56F3-40D9-A7EE-A2A34DF77CDA"
+          },
+          "Damage": {
+            "AddCnt": 324000,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "Cnt": 7941892,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 182866,
+            "InitMax": 70343848,
+            "Max": 7634235,
+            "Power": 0,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "Def": 2,
+          "Ets": 1536221,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 27756,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 252440,
+            "InitMax": 324000,
+            "Max": 27756,
+            "Power": -277560,
+            "RetreatCnt": 0,
+            "SkillPower": -277560
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5223530": {
+              "Abbr": "K887",
+              "HId": 64,
+              "HId2": 99,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 34979098,
+              "PName": "Fear of God"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 2,
+          "TickStart": 1536220
+        },
+        "722803401": {
+          "Bts": 1536213,
+          "CIdt": {
+            "AId": 2164848,
+            "AName": "Global Alliance K887",
+            "Abbr": "K887",
+            "AppUid": "33775191",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/39771228/22/11/01/b793e57fb4c69142_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": false
+            },
+            "CId": 722803401,
+            "COSId": 887,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 426.09082,
+              "Y": 1641.2861
+            },
+            "CtId": 5222756,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{4:20085_26:30,5:20094_31:30,6:20086_30:30,7:20121_67:30,2:20008_98:0,3:20084_60:30,1:20061_104:30}",
+            "HEq2": "{}",
+            "HId": 127,
+            "HId2": 115,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1354,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1355,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1356,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 180,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1353,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 158,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1313,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1316,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1315,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "722803401",
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 39771228,
+            "PName": "Саrnagе",
+            "Udid": "58B2BE43-01BB-4938-908F-66A289B2AF0B"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": 0,
+            "BadHurt": 7290,
+            "Cnt": 7805100,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 50000,
+            "Healing": 12657,
+            "Hurt": 1585,
+            "HurtCntEnd": 83261,
+            "InitMax": 70343848,
+            "Max": 7862858,
+            "Power": -8442,
+            "RetreatCnt": 0,
+            "SkillPower": -8442
+          },
+          "Def": 2,
+          "Ets": 1536215,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -325440,
+            "BadHurt": 0,
+            "Cnt": 0,
+            "Death": 32544,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 251941,
+            "InitMax": 326000,
+            "Max": 32544,
+            "Power": -325440,
+            "RetreatCnt": 0,
+            "SkillPower": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5222756": {
+              "Abbr": "K887",
+              "HId": 127,
+              "HId2": 115,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 39771228,
+              "PName": "Саrnagе"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 471.71045,
+            "Y": 1825.6514
+          },
+          "ReportShowType": 0,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 3,
+          "TickStart": 1536213
+        }
+      },
+      "Btk": 1536205,
+      "Bts": 1668132454,
+      "DataOmit": false,
+      "Ets": 1668132482,
+      "Events": [
+        1,
+        {
+          "CastleHealing": {
+            "Cnt": 94813,
+            "IsSelf": false
+          },
+          "Et": 16,
+          "T": 1536211
+        },
+        2,
+        {
+          "AssistUnits": {
+            "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/12607995/22/09/07/7f641f051c1531c7_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "Cnt": 324000,
+            "HId": 145,
+            "HId2": 146,
+            "HLv": 60,
+            "HLv2": 60,
+            "IsSelf": false,
+            "PId": 12607995,
+            "PName": "MHEПOX",
+            "TId": 5227678
+          },
+          "Et": 18,
+          "T": 1536221
+        }
+      ],
+      "GsId": 11574,
+      "Id": 17943445,
+      "Role": "gs",
+      "RoomId": 0,
+      "STs": {
+        "-2": {
+          "Abbr": "",
+          "HId": 0,
+          "HId2": 0,
+          "HLv": 0,
+          "HLv2": 0,
+          "PId": 7607766,
+          "PName": ""
+        },
+        "0": {
+          "Abbr": "DooM",
+          "HId": 118,
+          "HId2": 113,
+          "HLv": 60,
+          "HLv2": 40,
+          "PId": 7607766,
+          "PName": "wb74"
+        },
+        "5227387": {
+          "Abbr": "Hoom",
+          "HId": 3,
+          "HId2": 8,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 2138280,
+          "PName": "DrkSidePleasure"
+        },
+        "5227678": {
+          "Abbr": "Hoom",
+          "HId": 145,
+          "HId2": 146,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 12607995,
+          "PName": "MHEПOX"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 7941551,
+          "T": 1536205
+        },
+        2,
+        {
+          "Cnt": 7927556,
+          "T": 1536206
+        },
+        3,
+        {
+          "Cnt": 7887604,
+          "T": 1536208
+        },
+        4,
+        {
+          "Cnt": 7876003,
+          "T": 1536209
+        },
+        5,
+        {
+          "Cnt": 7865188,
+          "T": 1536210
+        },
+        6,
+        {
+          "Cnt": 7957130,
+          "T": 1536211
+        },
+        7,
+        {
+          "Cnt": 7904309,
+          "T": 1536212
+        },
+        8,
+        {
+          "Cnt": 7859884,
+          "T": 1536213
+        },
+        9,
+        {
+          "Cnt": 7805100,
+          "T": 1536214
+        },
+        10,
+        {
+          "Cnt": 7750783,
+          "T": 1536215
+        },
+        11,
+        {
+          "Cnt": 7713905,
+          "T": 1536216
+        },
+        12,
+        {
+          "Cnt": 7617892,
+          "T": 1536220
+        },
+        13,
+        {
+          "Cnt": 7841068,
+          "T": 1536222
+        },
+        14,
+        {
+          "Cnt": 7791925,
+          "T": 1536223
+        },
+        15,
+        {
+          "Cnt": 7771222,
+          "T": 1536233
+        }
+      ],
+      "SelfChar": {
+        "AId": 1282368,
+        "AName": "Phãntom",
+        "Abbr": "DooM",
+        "AppUid": "7051299",
+        "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/7607766/22/04/14/18ef9606fb02795e_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\"}",
+        "CASS": {
+          "ENABLE": false
+        },
+        "CId": 131009103,
+        "COSId": 561,
+        "CT": 3,
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 471.71045,
+          "Y": 1825.6514
+        },
+        "CtId": 0,
+        "GtLevel": 25,
+        "HAw": true,
+        "HAw2": true,
+        "HEq": "{6:20018_285:11,4:20016_284:11,2:20005_237:11,3:20026_233:11,5:20032_290:11,7:20037_312:1,8:20040_364:1,1:20002_286:11}",
+        "HEq2": "{}",
+        "HId": 118,
+        "HId2": 113,
+        "HLv": 60,
+        "HLv2": 40,
+        "HSS": [
+          1,
+          {
+            "SkillId": 165,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1326,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1325,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1327,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 1307,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1308,
+            "SkillLevel": 1
+          },
+          3,
+          {
+            "SkillId": 155,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1305,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1306,
+            "SkillLevel": 5
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 4,
+        "Idt": "131009103",
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 7607766,
+        "PName": "wb74",
+        "Udid": "192366509934594135"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": true
+    }
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "60719727166813248216",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_12607995",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 960,
+  "starMark": 0,
+  "time": 1668132482738933,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}
