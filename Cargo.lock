@@ -4340,6 +4340,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-processor"
+version = "0.1.0"
+dependencies = [
+ "dotenvy",
+ "futures",
+ "mail-processor-barcanyonkillboss",
+ "mail-processor-battle",
+ "mail-processor-duelbattle2",
+ "mail-processor-sdk",
+ "mongodb",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "zstd",
+]
+
+[[package]]
 name = "rokbattles-processor-legacy"
 version = "0.3.12"
 dependencies = [

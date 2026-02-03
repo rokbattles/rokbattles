@@ -14,6 +14,7 @@ members = [
     "crates/mail-processor-sdk-legacy",
     "crates/rokbattles-ingress",
     "crates/rokbattles-ingress-legacy",
+    "crates/rokbattles-processor",
     "crates/rokbattles-processor-legacy",
     "crates/rokbattles-tauri/src-tauri",
 ]
