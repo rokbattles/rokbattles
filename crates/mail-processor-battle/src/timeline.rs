@@ -3,9 +3,7 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64};
 use serde_json::{Map, Value, json};
 
-use crate::content::{
-    require_child_object, require_content, require_string_field, require_u64_field,
-};
+use crate::content::{require_content, require_string_field, require_u64_field};
 use crate::player::parse_avatar;
 
 /// Extracts timeline snapshots from Battle mail.
@@ -56,7 +54,18 @@ impl Extractor for TimelineExtractor {
             })?;
             let tick = require_u64(event, "T")?;
             let event_type = require_u64(event, "Et")?;
-            let assist_units = require_child_object(event_map, "AssistUnits")?;
+            let assist_units = match event_map.get("AssistUnits") {
+                Some(Value::Object(map)) => map,
+                Some(_) => {
+                    return Err(ExtractError::InvalidFieldType {
+                        field: "AssistUnits",
+                        expected: "object",
+                    });
+                }
+                None => {
+                    continue;
+                }
+            };
             let player_id = require_signed_id_field(assist_units, "PId")?;
             let player_name = require_string_field(assist_units, "PName")?;
             let count = optional_u64_field(assist_units, "Cnt")?;
@@ -261,6 +270,49 @@ mod tests {
         let events = fields["events"].as_array().expect("events array");
         assert_eq!(events.len(), 1);
         assert!(events[0]["count"].is_null());
+    }
+
+    #[test]
+    fn timeline_extractor_skips_events_without_assist_units() {
+        let input = json!({
+            "body": {
+                "content": {
+                    "Bts": 10,
+                    "Ets": 20,
+                    "Btk": 5,
+                    "Samples": [],
+                    "Events": [
+                        1,
+                        {
+                            "T": 7,
+                            "Et": 18,
+                            "CastleHealing": { "Cnt": 5, "IsSelf": 1 }
+                        },
+                        2,
+                        {
+                            "T": 9,
+                            "Et": 18,
+                            "AssistUnits": {
+                                "PId": 42,
+                                "PName": "Alpha",
+                                "Avatar": "null",
+                                "HId": 10,
+                                "HLv": 20,
+                                "HId2": 11,
+                                "HLv2": 21
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+        let extractor = TimelineExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+
+        let fields = section.fields();
+        let events = fields["events"].as_array().expect("events array");
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0]["tick"], json!(9));
     }
 
     #[test]
