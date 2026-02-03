@@ -1,0 +1,72 @@
+relics:
+  # Predicting the 2nd item in the array is actually the max level, not the level
+  # of the relic itself (at the time which means we dont need to extract it).
+  # Likely follows this pattern, but need confirmation:
+  # Level 1 -> XX
+  # Level 2 -> 100XX
+  # Level 3 -> 200XX
+
+  # El Cid (lvl 1)
+  7:
+    name:
+      en: "El Cid's Tizona"
+
+  # Alexander the Great (lvl 1)
+  19:
+    name:
+      en: "Macedonian Sarissa"
+
+  # Attila (lvl 1)
+  24:
+    name:
+      en: "Hun Bow"
+
+  # Cao Cao (lvl 2)
+  10001:
+    name:
+      en: "The Collected Works of Cao Cao"
+
+  # Minamoto (lvl 2)
+  10002:
+    name:
+      en: "The Bamboo Flute of Shizuka Gozen"
+
+  # Aethelflaed (lvl 2)
+  10003:
+    name:
+      en: "Sutton Hoo Helmet"
+
+  # Constantine I (lvl 2)
+  10018:
+    name:
+      en: "Edict of Milan"
+
+  # Richard I (lvl 3)
+  20005:
+    name:
+      en: "Three Lions Escutcheon"
+
+  # Charles Martel (lvl 3)
+  20006:
+    name:
+      en: "Merovingian Ring"
+
+  # Yi Seong-Gye (lvl 3)
+  20008:
+    name:
+      en: "Twin Dragons Inscription"
+
+  # Mulan (lvl 3)
+  20009:
+    name:
+      en: "Dragon and Phoenix Jade Ornament"
+
+  # Mehmed II (lvl 3)
+  20011:
+    name:
+      en: "Yatagan"
+
+  # Julius Caesar (lvl 3)
+  20013:
+    name:
+      en: "Bellum Gallicum"
