@@ -36,7 +36,8 @@ pub(crate) fn extract_participants(
         let participant_id = parse_participant_id(participant_id, field)?;
         let player_id = require_signed_id_field(participant, "PId")?;
         let player_name = require_string_field(participant, "PName")?;
-        let alliance_abbr = require_string_field(participant, "Abbr")?;
+        // Some reports omit alliance abbreviations for participants; default to empty.
+        let alliance_abbr = optional_string_field(participant, "Abbr")?.unwrap_or_default();
         let primary_id = optional_u64_field(participant, "HId")?;
         let primary_level = optional_u64_field(participant, "HLv")?;
         let secondary_id = optional_u64_field(participant, "HId2")?;
@@ -86,6 +87,20 @@ fn require_signed_id_field(
         field,
         expected: "integer",
     })
+}
+
+fn optional_string_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Option<String>, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(None),
+        Some(Value::String(text)) => Ok(Some(text.clone())),
+        _ => Err(ExtractError::InvalidFieldType {
+            field,
+            expected: "string",
+        }),
+    }
 }
 
 fn optional_u64_field(
@@ -156,6 +171,39 @@ mod tests {
                     "commanders": {
                         "primary": { "id": 12, "level": 22 },
                         "secondary": { "id": 13, "level": 23 },
+                    }
+                }
+            ])
+        );
+    }
+
+    #[test]
+    fn extract_participants_defaults_missing_abbr() {
+        let input = json!({
+            "STs": {
+                "1": {
+                    "PId": 100,
+                    "PName": "Alpha",
+                    "HId": 10,
+                    "HLv": 20,
+                    "HId2": 11,
+                    "HLv2": 21
+                }
+            }
+        });
+
+        let participants = extract_participants(input.as_object().unwrap(), "STs").unwrap();
+        assert_eq!(
+            participants,
+            json!([
+                {
+                    "participant_id": 1,
+                    "player_id": 100,
+                    "player_name": "Alpha",
+                    "alliance": { "abbreviation": "" },
+                    "commanders": {
+                        "primary": { "id": 10, "level": 20 },
+                        "secondary": { "id": 11, "level": 21 },
                     }
                 }
             ])
