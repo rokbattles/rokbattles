@@ -1,0 +1,5115 @@
+{
+  "metadata": {
+    "mail_id": "41633096157514072311",
+    "mail_receiver": "player_23984527",
+    "mail_role": "gs",
+    "mail_time": 1575140723042084,
+    "server_id": 11533
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": 1,
+      "app_id": 2104267,
+      "app_uid": 14767414,
+      "attack": {
+        "id": "976507",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23872628/19/11/26/b8c8a74c32c1fb05_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 544879,
+          "death_reduction": null,
+          "heal": 1009134,
+          "kill_points": 0,
+          "merits": null,
+          "power": -5158292,
+          "reinforcements_join": 6642819,
+          "reinforcements_leave": 492030,
+          "remaining": 1447436,
+          "severe_wound_reduction": null,
+          "severely_wounded": 456964,
+          "skill_power": 0,
+          "slightly_wounded": 6201801,
+          "troop_units": 1500000,
+          "troop_units_max": 1523161,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 818133,
+          "death_reduction": null,
+          "heal": 1291271,
+          "kill_points": 0,
+          "merits": null,
+          "power": -3360708,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 947356,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 4619058,
+          "troop_units": 1500000,
+          "troop_units_max": 1500000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3768.3408,
+        "y": 3833.366
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{4:20116_1,2:20113_14,5:20094_20,1:20088_18,3:20105_19}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1014,
+              "level": 5
+            },
+            {
+              "id": 1104,
+              "level": 1
+            },
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{6:20117_4}",
+          "formation": null,
+          "id": 6,
+          "level": 57,
+          "relics": null,
+          "skills": [
+            {
+              "id": 63,
+              "level": 5
+            },
+            {
+              "id": 1009,
+              "level": 5
+            },
+            {
+              "id": 1010,
+              "level": 5
+            },
+            {
+              "id": 1011,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_31.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            },
+            "secondary": {
+              "id": 18,
+              "level": 50
+            }
+          },
+          "participant_id": 1059794,
+          "player_id": 23919208,
+          "player_name": "EOB 喵腳"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 3,
+              "level": 54
+            }
+          },
+          "participant_id": 1060086,
+          "player_id": 25835654,
+          "player_name": "GrandpaPiG"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 42
+            }
+          },
+          "participant_id": 1061172,
+          "player_id": 23923155,
+          "player_name": "Cookie69Monster"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 14,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 34
+            }
+          },
+          "participant_id": 1061278,
+          "player_id": 23804299,
+          "player_name": "HAS KRAL IV"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 3,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1061304,
+          "player_id": 23775929,
+          "player_name": "LyLyCute"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 18,
+              "level": 60
+            },
+            "secondary": {
+              "id": 15,
+              "level": 60
+            }
+          },
+          "participant_id": 1064702,
+          "player_id": 23639163,
+          "player_name": "Phocidea"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 59
+            },
+            "secondary": {
+              "id": 15,
+              "level": 60
+            }
+          },
+          "participant_id": 1064986,
+          "player_id": 23259836,
+          "player_name": "Nhi   Hí"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 57
+            }
+          },
+          "participant_id": 1065022,
+          "player_id": 23872628,
+          "player_name": "Eiden2018"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 49
+            },
+            "secondary": {
+              "id": 17,
+              "level": 49
+            }
+          },
+          "participant_id": 1065545,
+          "player_id": 23794621,
+          "player_name": "Pure Shadow"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 60
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          },
+          "participant_id": 1065709,
+          "player_id": 23259836,
+          "player_name": "Nhi   Hí"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 63,
+              "level": 57
+            },
+            "secondary": {
+              "id": 61,
+              "level": 45
+            }
+          },
+          "participant_id": 1075498,
+          "player_id": 24117935,
+          "player_name": "HAS ATATURK"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 57
+            },
+            "secondary": {
+              "id": 3,
+              "level": 47
+            }
+          },
+          "participant_id": 1075713,
+          "player_id": 23919208,
+          "player_name": "EOB 喵腳"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 60
+            }
+          },
+          "participant_id": 1075906,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 96,
+              "level": 53
+            },
+            "secondary": {
+              "id": 7,
+              "level": 50
+            }
+          },
+          "participant_id": 1076367,
+          "player_id": 23874349,
+          "player_name": "HAS PANZER"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 41
+            }
+          },
+          "participant_id": 1076501,
+          "player_id": 23855822,
+          "player_name": "Wanger94"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 30,
+              "level": 60
+            },
+            "secondary": {
+              "id": 16,
+              "level": 45
+            }
+          },
+          "participant_id": 1076569,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 56
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          },
+          "participant_id": 1076656,
+          "player_id": 24237253,
+          "player_name": "Gunz88"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1076672,
+          "player_id": 25899634,
+          "player_name": "Simon시몬"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 30,
+              "level": 60
+            },
+            "secondary": {
+              "id": 14,
+              "level": 60
+            }
+          },
+          "participant_id": 1076898,
+          "player_id": 23855047,
+          "player_name": "Navion69"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 42
+            },
+            "secondary": {
+              "id": 99,
+              "level": 39
+            }
+          },
+          "participant_id": 1076921,
+          "player_id": 23919208,
+          "player_name": "EOB 喵腳"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 1,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          },
+          "participant_id": 1077029,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          },
+          "participant_id": 1077046,
+          "player_id": 23866612,
+          "player_name": "VirusLoveLy"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 4,
+              "level": 52
+            },
+            "secondary": {
+              "id": 63,
+              "level": 58
+            }
+          },
+          "participant_id": 1077142,
+          "player_id": 23881213,
+          "player_name": "Sanya007"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 57
+            },
+            "secondary": {
+              "id": 1,
+              "level": 50
+            }
+          },
+          "participant_id": 1077186,
+          "player_id": 23432594,
+          "player_name": "cruack"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 7,
+              "level": 60
+            },
+            "secondary": {
+              "id": 9,
+              "level": 60
+            }
+          },
+          "participant_id": 1077207,
+          "player_id": 23866612,
+          "player_name": "VirusLoveLy"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 6,
+              "level": 60
+            },
+            "secondary": {
+              "id": 17,
+              "level": 59
+            }
+          },
+          "participant_id": 1077316,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 9,
+              "level": 50
+            },
+            "secondary": {
+              "id": 16,
+              "level": 50
+            }
+          },
+          "participant_id": 1077457,
+          "player_id": 23764073,
+          "player_name": "VixoriteVNW"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 41
+            }
+          },
+          "participant_id": 1077473,
+          "player_id": 23855822,
+          "player_name": "Wanger94"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 10,
+              "level": 60
+            },
+            "secondary": {
+              "id": 8,
+              "level": 60
+            }
+          },
+          "participant_id": 1077511,
+          "player_id": 23881159,
+          "player_name": "MemphusX"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 60
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          },
+          "participant_id": 1077593,
+          "player_id": 23259836,
+          "player_name": "Nhi   Hí"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 4,
+              "level": 52
+            },
+            "secondary": {
+              "id": 63,
+              "level": 58
+            }
+          },
+          "participant_id": 1077655,
+          "player_id": 23881213,
+          "player_name": "Sanya007"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          },
+          "participant_id": 1077786,
+          "player_id": 23866612,
+          "player_name": "VirusLoveLy"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 52
+            },
+            "secondary": {
+              "id": 3,
+              "level": 49
+            }
+          },
+          "participant_id": 1077797,
+          "player_id": 23764073,
+          "player_name": "VixoriteVNW"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 12,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1077861,
+          "player_id": 23923155,
+          "player_name": "Cookie69Monster"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 53
+            },
+            "secondary": {
+              "id": 35,
+              "level": 53
+            }
+          },
+          "participant_id": 1077906,
+          "player_id": 23974117,
+          "player_name": "Sorcerer Tim"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 14,
+              "level": 55
+            },
+            "secondary": {
+              "id": 63,
+              "level": 10
+            }
+          },
+          "participant_id": 1077945,
+          "player_id": 23286254,
+          "player_name": "Darrys"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1077969,
+          "player_id": 23639163,
+          "player_name": "Phocidea"
+        },
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 57
+            }
+          },
+          "participant_id": 1078062,
+          "player_id": 23872628,
+          "player_name": "Eiden2018"
+        }
+      ],
+      "player_id": 23872628,
+      "player_name": "Eiden2018",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 17937930,
+      "attack": {
+        "id": "140591501",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23516745/19/11/26/8645a25a1a814bde_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -499920,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 49992,
+          "skill_power": 0,
+          "slightly_wounded": 107706,
+          "troop_units": 248044,
+          "troop_units_max": 316000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 50414,
+          "kill_points": 0,
+          "merits": null,
+          "power": -62230,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 979945,
+          "severe_wound_reduction": null,
+          "severely_wounded": 15049,
+          "skill_power": 0,
+          "slightly_wounded": 33802,
+          "troop_units": 1347955,
+          "troop_units_max": 1872886,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3665.0342,
+        "y": 3798.88
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{1:20088_50,5:20115_47}",
+          "formation": null,
+          "id": 99,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1220,
+              "level": 1
+            },
+            {
+              "id": 135,
+              "level": 5
+            },
+            {
+              "id": 1217,
+              "level": 5
+            },
+            {
+              "id": 1218,
+              "level": 5
+            },
+            {
+              "id": 1219,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20115_17,3:20114_9,6:20117_15}",
+          "formation": null,
+          "id": 6,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 63,
+              "level": 5
+            },
+            {
+              "id": 1009,
+              "level": 5
+            },
+            {
+              "id": 1010,
+              "level": 5
+            },
+            {
+              "id": 1011,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 60
+            }
+          },
+          "participant_id": 1065662,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        }
+      ],
+      "player_id": 23516745,
+      "player_name": "dabrus",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 17937930,
+      "attack": {
+        "id": "140593301",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23516745/19/11/26/8645a25a1a814bde_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -832220,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 83222,
+          "skill_power": 0,
+          "slightly_wounded": 201833,
+          "troop_units": 316375,
+          "troop_units_max": 346000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 92111,
+          "kill_points": 0,
+          "merits": null,
+          "power": -58726,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 975054,
+          "severe_wound_reduction": null,
+          "severely_wounded": 13798,
+          "skill_power": 0,
+          "slightly_wounded": 50006,
+          "troop_units": 1293459,
+          "troop_units_max": 1872886,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3665.0342,
+        "y": 3798.88
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20101_42,2:20062_49,6:20117_4,3:20114_48,1:20045_39,4:20116_35}",
+          "formation": null,
+          "id": 1,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 61,
+              "level": 5
+            },
+            {
+              "id": 1041,
+              "level": 5
+            },
+            {
+              "id": 1006,
+              "level": 5
+            },
+            {
+              "id": 1007,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "",
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "star_level": 0
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 1,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1072678,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        }
+      ],
+      "player_id": 23516745,
+      "player_name": "dabrus",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 18913595,
+      "attack": {
+        "id": "140620301",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23259836/19/07/02/0240394dc05f1611_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -95148,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 103485,
+          "severe_wound_reduction": null,
+          "severely_wounded": 23787,
+          "skill_power": 0,
+          "slightly_wounded": 20283,
+          "troop_units": 147555,
+          "troop_units_max": 148441,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 965979,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1263583,
+          "troop_units_max": 2426311,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3642.3076,
+        "y": 3802.5
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20115_20,6:20117_0}",
+          "formation": null,
+          "id": 99,
+          "level": 59,
+          "relics": null,
+          "skills": [
+            {
+              "id": 135,
+              "level": 5
+            },
+            {
+              "id": 1217,
+              "level": 5
+            },
+            {
+              "id": 1218,
+              "level": 5
+            },
+            {
+              "id": 1219,
+              "level": 5
+            },
+            {
+              "id": 1220,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20101_33,6:20110_35}",
+          "formation": null,
+          "id": 15,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 66,
+              "level": 5
+            },
+            {
+              "id": 1030,
+              "level": 5
+            },
+            {
+              "id": 1031,
+              "level": 5
+            },
+            {
+              "id": 1047,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 99,
+              "level": 59
+            },
+            "secondary": {
+              "id": 15,
+              "level": 60
+            }
+          },
+          "participant_id": 1064986,
+          "player_id": 23259836,
+          "player_name": "Nhi   Hí"
+        }
+      ],
+      "player_id": 23259836,
+      "player_name": "Nhi   Hí",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 23298086,
+      "attack": {
+        "id": "140622301",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/25899634/19/11/30/054338c42ae21582_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -42120,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 180685,
+          "severe_wound_reduction": null,
+          "severely_wounded": 10530,
+          "skill_power": 0,
+          "slightly_wounded": 18710,
+          "troop_units": 209925,
+          "troop_units_max": 210000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 10063,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 963460,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1223483,
+          "troop_units_max": 2426311,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3729.2148,
+        "y": 3792.5579
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 37,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1091,
+              "level": 5
+            },
+            {
+              "id": 1092,
+              "level": 5
+            },
+            {
+              "id": 1111,
+              "level": 5
+            },
+            {
+              "id": 56,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "",
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "star_level": 0
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1076672,
+          "player_id": 25899634,
+          "player_name": "Simon시몬"
+        }
+      ],
+      "player_id": 25899634,
+      "player_name": "Simon시몬",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21563992,
+      "attack": {
+        "id": "140647401",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23855047/19/11/27/613dd67a698fb9db_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -27812,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 325542,
+          "severe_wound_reduction": null,
+          "severely_wounded": 6953,
+          "skill_power": 0,
+          "slightly_wounded": 23505,
+          "troop_units": 356000,
+          "troop_units_max": 356000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 944536,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1332508,
+          "troop_units_max": 3060061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3780.7764,
+        "y": 3823.1492
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20094_20}",
+          "formation": null,
+          "id": 30,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 65,
+              "level": 5
+            },
+            {
+              "id": 1071,
+              "level": 5
+            },
+            {
+              "id": 1072,
+              "level": 5
+            },
+            {
+              "id": 1073,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 14,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1110,
+              "level": 5
+            },
+            {
+              "id": 1028,
+              "level": 5
+            },
+            {
+              "id": 1029,
+              "level": 5
+            },
+            {
+              "id": 33,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 30,
+              "level": 60
+            },
+            "secondary": {
+              "id": 14,
+              "level": 60
+            }
+          },
+          "participant_id": 1076898,
+          "player_id": 23855047,
+          "player_name": "Navion69"
+        }
+      ],
+      "player_id": 23855047,
+      "player_name": "Navion69",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21898375,
+      "attack": {
+        "id": "140655801",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/24237253/19/09/02/aba7a90ec1e2cd00_1280x1280.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 192921,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 192921,
+          "troop_units_max": 247500,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 937896,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1365823,
+          "troop_units_max": 3266061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3631.1445,
+        "y": 3819.4084
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{2:20113_20,1:20088_50,3:20091_54,4:20116_33,5:20094_70}",
+          "formation": null,
+          "id": 8,
+          "level": 56,
+          "relics": null,
+          "skills": [
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            },
+            {
+              "id": 1014,
+              "level": 2
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{2:20113_58,4:20116_60}",
+          "formation": null,
+          "id": 3,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1023,
+              "level": 5
+            },
+            {
+              "id": 1045,
+              "level": 5
+            },
+            {
+              "id": 69,
+              "level": 5
+            },
+            {
+              "id": 1022,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 56
+            },
+            "secondary": {
+              "id": 3,
+              "level": 60
+            }
+          },
+          "participant_id": 1076656,
+          "player_id": 24237253,
+          "player_name": "Gunz88"
+        }
+      ],
+      "player_id": 24237253,
+      "player_name": "Gunz88",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 17202828,
+      "attack": {
+        "id": "140697501",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23432594/19/11/26/427a6cc7cce0cda7_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -82260,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 133565,
+          "severe_wound_reduction": null,
+          "severely_wounded": 20565,
+          "skill_power": 0,
+          "slightly_wounded": 18037,
+          "troop_units": 172167,
+          "troop_units_max": 172167,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 9615,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 921875,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1086022,
+          "troop_units_max": 3516061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3768.2988,
+        "y": 3898.3625
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{3:20091_29,4:20116_7,5:20094_30,2:20113_20}",
+          "formation": null,
+          "id": 16,
+          "level": 57,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1033,
+              "level": 5
+            },
+            {
+              "id": 35,
+              "level": 5
+            },
+            {
+              "id": 1032,
+              "level": 5
+            },
+            {
+              "id": 1108,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{3:20091_40}",
+          "formation": null,
+          "id": 1,
+          "level": 50,
+          "relics": null,
+          "skills": [
+            {
+              "id": 22,
+              "level": 5
+            },
+            {
+              "id": 1041,
+              "level": 5
+            },
+            {
+              "id": 1006,
+              "level": 1
+            },
+            {
+              "id": 1007,
+              "level": 1
+            }
+          ],
+          "star_level": 5
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 57
+            },
+            "secondary": {
+              "id": 1,
+              "level": 50
+            }
+          },
+          "participant_id": 1077186,
+          "player_id": 23432594,
+          "player_name": "cruack"
+        }
+      ],
+      "player_id": 23432594,
+      "player_name": "cruack",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 9602340,
+      "app_uid": 687672,
+      "attack": {
+        "id": "140713701",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23919208/19/11/30/3e2deb93f441cf5f_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -122720,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 134371,
+          "severe_wound_reduction": null,
+          "severely_wounded": 30680,
+          "skill_power": 0,
+          "slightly_wounded": 14949,
+          "troop_units": 180000,
+          "troop_units_max": 180000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 915939,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1320504,
+          "troop_units_max": 4008061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3633.0098,
+        "y": 3961.2634
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 61,
+          "level": 42,
+          "relics": null,
+          "skills": [
+            {
+              "id": 82,
+              "level": 5
+            },
+            {
+              "id": 1129,
+              "level": 5
+            },
+            {
+              "id": 1147,
+              "level": 5
+            },
+            {
+              "id": 1131,
+              "level": 5
+            }
+          ],
+          "star_level": 5
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 99,
+          "level": 39,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1217,
+              "level": 5
+            },
+            {
+              "id": 1218,
+              "level": 4
+            },
+            {
+              "id": 1219,
+              "level": 1
+            },
+            {
+              "id": 135,
+              "level": 5
+            }
+          ],
+          "star_level": 4
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 61,
+              "level": 42
+            },
+            "secondary": {
+              "id": 99,
+              "level": 39
+            }
+          },
+          "participant_id": 1076921,
+          "player_id": 23919208,
+          "player_name": "EOB 喵腳"
+        }
+      ],
+      "player_id": 23919208,
+      "player_name": "EOB 喵腳",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 17202828,
+      "attack": {
+        "id": "140713801",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23432594/19/11/26/427a6cc7cce0cda7_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -63084,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 66300,
+          "severe_wound_reduction": null,
+          "severely_wounded": 15771,
+          "skill_power": 0,
+          "slightly_wounded": 11524,
+          "troop_units": 93595,
+          "troop_units_max": 172167,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 10593,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 916210,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1320504,
+          "troop_units_max": 4008061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3768.2988,
+        "y": 3898.3625
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{3:20091_29,4:20116_7,5:20094_30,2:20113_20}",
+          "formation": null,
+          "id": 16,
+          "level": 57,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1032,
+              "level": 5
+            },
+            {
+              "id": 1108,
+              "level": 5
+            },
+            {
+              "id": 1033,
+              "level": 5
+            },
+            {
+              "id": 35,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{3:20091_40}",
+          "formation": null,
+          "id": 1,
+          "level": 50,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1006,
+              "level": 1
+            },
+            {
+              "id": 1007,
+              "level": 1
+            },
+            {
+              "id": 22,
+              "level": 5
+            },
+            {
+              "id": 1041,
+              "level": 5
+            }
+          ],
+          "star_level": 5
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 16,
+              "level": 57
+            },
+            "secondary": {
+              "id": 1,
+              "level": 50
+            }
+          },
+          "participant_id": 1077186,
+          "player_id": 23432594,
+          "player_name": "cruack"
+        }
+      ],
+      "player_id": 23432594,
+      "player_name": "cruack",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21564582,
+      "attack": {
+        "id": "140715801",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23855822/19/11/29/e34ec167e7f0a032_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -55836,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 13959,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 13959,
+          "troop_units_max": 260000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 915562,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1295088,
+          "troop_units_max": 4008061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3769.8926,
+        "y": 3814.2354
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{1:20088_82,2:20113_84,4:20116_83}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1014,
+              "level": 5
+            },
+            {
+              "id": 1104,
+              "level": 1
+            },
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 10,
+          "level": 41,
+          "relics": null,
+          "skills": [
+            {
+              "id": 28,
+              "level": 5
+            },
+            {
+              "id": 1017,
+              "level": 5
+            },
+            {
+              "id": 1018,
+              "level": 1
+            },
+            {
+              "id": 1019,
+              "level": 1
+            }
+          ],
+          "star_level": 5
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 10,
+              "level": 41
+            }
+          },
+          "participant_id": 1076501,
+          "player_id": 23855822,
+          "player_name": "Wanger94"
+        }
+      ],
+      "player_id": 23855822,
+      "player_name": "Wanger94",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21586062,
+      "attack": {
+        "id": "140723401",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23881213/19/11/09/a73dc4a70a606cfd_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -108616,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 56207,
+          "severe_wound_reduction": null,
+          "severely_wounded": 27154,
+          "skill_power": 0,
+          "slightly_wounded": 11409,
+          "troop_units": 94770,
+          "troop_units_max": 250880,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 10194,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 914023,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1204871,
+          "troop_units_max": 4008061,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3820.708,
+        "y": 3821.1716
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 4,
+          "level": 52,
+          "relics": null,
+          "skills": [
+            {
+              "id": 23,
+              "level": 3
+            },
+            {
+              "id": 1008,
+              "level": 5
+            },
+            {
+              "id": 1075,
+              "level": 5
+            },
+            {
+              "id": 1067,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 63,
+          "level": 58,
+          "relics": null,
+          "skills": [
+            {
+              "id": 89,
+              "level": 5
+            },
+            {
+              "id": 1135,
+              "level": 5
+            },
+            {
+              "id": 1136,
+              "level": 5
+            },
+            {
+              "id": 1137,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 4,
+              "level": 52
+            },
+            "secondary": {
+              "id": 63,
+              "level": 58
+            }
+          },
+          "participant_id": 1077142,
+          "player_id": 23881213,
+          "player_name": "Sanya007"
+        }
+      ],
+      "player_id": 23881213,
+      "player_name": "Sanya007",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 18205258,
+      "attack": {
+        "id": "140749401",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23866612/19/11/29/b8cc78e80a91654f_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -99100,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 24775,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 24775,
+          "troop_units_max": 210000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 907538,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1062425,
+          "troop_units_max": 4355386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3790.3955,
+        "y": 3832.8066
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20094_50,1:20088_42,3:20091_48,4:20116_37,2:20113_51}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            },
+            {
+              "id": 1014,
+              "level": 5
+            },
+            {
+              "id": 1104,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 99,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 135,
+              "level": 5
+            },
+            {
+              "id": 1217,
+              "level": 5
+            },
+            {
+              "id": 1218,
+              "level": 5
+            },
+            {
+              "id": 1219,
+              "level": 5
+            },
+            {
+              "id": 1220,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          },
+          "participant_id": 1077046,
+          "player_id": 23866612,
+          "player_name": "VirusLoveLy"
+        }
+      ],
+      "player_id": 23866612,
+      "player_name": "VirusLoveLy",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21586062,
+      "attack": {
+        "id": "140758701",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23881213/19/11/09/a73dc4a70a606cfd_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -95020,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 198043,
+          "severe_wound_reduction": null,
+          "severely_wounded": 23755,
+          "skill_power": 0,
+          "slightly_wounded": 29082,
+          "troop_units": 250880,
+          "troop_units_max": 250880,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 957995,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1444951,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3820.708,
+        "y": 3821.1716
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": null,
+          "id": 4,
+          "level": 52,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1067,
+              "level": 5
+            },
+            {
+              "id": 23,
+              "level": 3
+            },
+            {
+              "id": 1008,
+              "level": 5
+            },
+            {
+              "id": 1075,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 63,
+          "level": 58,
+          "relics": null,
+          "skills": [
+            {
+              "id": 89,
+              "level": 5
+            },
+            {
+              "id": 1135,
+              "level": 5
+            },
+            {
+              "id": 1136,
+              "level": 5
+            },
+            {
+              "id": 1137,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 4,
+              "level": 52
+            },
+            "secondary": {
+              "id": 63,
+              "level": 58
+            }
+          },
+          "participant_id": 1077655,
+          "player_id": 23881213,
+          "player_name": "Sanya007"
+        }
+      ],
+      "player_id": 23881213,
+      "player_name": "Sanya007",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 18205258,
+      "attack": {
+        "id": "140771501",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23866612/19/11/29/b8cc78e80a91654f_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -39856,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 131085,
+          "severe_wound_reduction": null,
+          "severely_wounded": 9964,
+          "skill_power": 0,
+          "slightly_wounded": 14948,
+          "troop_units": 155997,
+          "troop_units_max": 156396,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 956707,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1289634,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3790.3955,
+        "y": 3832.8066
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{1:20088_42,3:20091_48,4:20116_37,2:20113_51,5:20094_50}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1104,
+              "level": 1
+            },
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            },
+            {
+              "id": 1014,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 99,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 135,
+              "level": 5
+            },
+            {
+              "id": 1217,
+              "level": 5
+            },
+            {
+              "id": 1218,
+              "level": 5
+            },
+            {
+              "id": 1219,
+              "level": 5
+            },
+            {
+              "id": 1220,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 99,
+              "level": 60
+            }
+          },
+          "participant_id": 1077786,
+          "player_id": 23866612,
+          "player_name": "VirusLoveLy"
+        }
+      ],
+      "player_id": 23866612,
+      "player_name": "VirusLoveLy",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21389648,
+      "attack": {
+        "id": "140786001",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23639163/19/11/28/0656590d97ad3f93_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 260000,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 260000,
+          "troop_units_max": 260000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 955217,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1125493,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3757.5586,
+        "y": 3823.9998
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 37,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1091,
+              "level": 5
+            },
+            {
+              "id": 1092,
+              "level": 5
+            },
+            {
+              "id": 1111,
+              "level": 5
+            },
+            {
+              "id": 56,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "",
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "star_level": 0
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 60
+            },
+            "secondary": {
+              "id": 0,
+              "level": 0
+            }
+          },
+          "participant_id": 1077969,
+          "player_id": 23639163,
+          "player_name": "Phocidea"
+        }
+      ],
+      "player_id": 23639163,
+      "player_name": "Phocidea",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 14767414,
+      "attack": {
+        "id": "140793601",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23872628/19/11/26/b8c8a74c32c1fb05_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -34224,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 8556,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 8556,
+          "troop_units_max": 200000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 953352,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 990216,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3768.3408,
+        "y": 3833.366
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{3:20105_19,4:20116_1,2:20113_14,5:20094_20,1:20088_18}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            },
+            {
+              "id": 1014,
+              "level": 5
+            },
+            {
+              "id": 1104,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{6:20117_4}",
+          "formation": null,
+          "id": 6,
+          "level": 57,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1011,
+              "level": 5
+            },
+            {
+              "id": 63,
+              "level": 5
+            },
+            {
+              "id": 1009,
+              "level": 5
+            },
+            {
+              "id": 1010,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_31.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 8,
+              "level": 60
+            },
+            "secondary": {
+              "id": 6,
+              "level": 57
+            }
+          },
+          "participant_id": 1065022,
+          "player_id": 23872628,
+          "player_name": "Eiden2018"
+        }
+      ],
+      "player_id": 23872628,
+      "player_name": "Eiden2018",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 17937930,
+      "attack": {
+        "id": "140796601",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23516745/19/11/26/8645a25a1a814bde_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": -146270,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": null,
+          "severely_wounded": 14627,
+          "skill_power": 0,
+          "slightly_wounded": 5919,
+          "troop_units": 20546,
+          "troop_units_max": 334000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 8979,
+          "kill_points": 0,
+          "merits": null,
+          "power": -1972,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 952579,
+          "severe_wound_reduction": null,
+          "severely_wounded": 484,
+          "skill_power": 0,
+          "slightly_wounded": 263,
+          "troop_units": 945841,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3665.0342,
+        "y": 3798.88
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{6:20117_18,5:20115_22}",
+          "formation": null,
+          "id": 30,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 65,
+              "level": 5
+            },
+            {
+              "id": 1071,
+              "level": 5
+            },
+            {
+              "id": 1072,
+              "level": 5
+            },
+            {
+              "id": 1073,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 16,
+          "level": 45,
+          "relics": null,
+          "skills": [
+            {
+              "id": 35,
+              "level": 5
+            },
+            {
+              "id": 1032,
+              "level": 5
+            },
+            {
+              "id": 1108,
+              "level": 5
+            },
+            {
+              "id": 1033,
+              "level": 5
+            }
+          ],
+          "star_level": 5
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 30,
+              "level": 60
+            },
+            "secondary": {
+              "id": 16,
+              "level": 45
+            }
+          },
+          "participant_id": 1076569,
+          "player_id": 23516745,
+          "player_name": "dabrus"
+        }
+      ],
+      "player_id": 23516745,
+      "player_name": "dabrus",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21666035,
+      "attack": {
+        "id": "140799201",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23974117/19/06/15/fc5ba365fe3fa175_200x200.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 196500,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 196500,
+          "troop_units_max": 196500,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 952708,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 925928,
+          "troop_units_max": 4817386,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3740.4482,
+        "y": 3914.9326
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{5:20115_2,3:20114_19}",
+          "formation": null,
+          "id": 37,
+          "level": 53,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1091,
+              "level": 5
+            },
+            {
+              "id": 1092,
+              "level": 5
+            },
+            {
+              "id": 1111,
+              "level": 5
+            },
+            {
+              "id": 56,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{3:20114_7,6:20117_0}",
+          "formation": null,
+          "id": 35,
+          "level": 53,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1086,
+              "level": 5
+            },
+            {
+              "id": 1087,
+              "level": 5
+            },
+            {
+              "id": 54,
+              "level": 5
+            },
+            {
+              "id": 1085,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 37,
+              "level": 53
+            },
+            "secondary": {
+              "id": 35,
+              "level": 53
+            }
+          },
+          "participant_id": 1077906,
+          "player_id": 23974117,
+          "player_name": "Sorcerer Tim"
+        }
+      ],
+      "player_id": 23974117,
+      "player_name": "Sorcerer Tim",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    },
+    {
+      "alliance": {
+        "abbreviation": "VNW",
+        "id": 775100,
+        "name": "THE ONE"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 21586012,
+      "attack": {
+        "id": "140834001",
+        "x": 3759.9849,
+        "y": 3805.0188
+      },
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23881159/19/09/01/114687911906e97f_1280x1280.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 255914,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 255914,
+          "troop_units_max": 260000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": null,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": null,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": null,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 934962,
+          "severe_wound_reduction": null,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 964144,
+          "troop_units_max": 5372299,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": null,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 3811.3613,
+        "y": 3804.9775
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{2:20113_94,3:20091_55,4:20116_18,1:20088_90,5:20094_82}",
+          "formation": null,
+          "id": 10,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1102,
+              "level": 5
+            },
+            {
+              "id": 1018,
+              "level": 5
+            },
+            {
+              "id": 1019,
+              "level": 5
+            },
+            {
+              "id": 28,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": null,
+          "id": 8,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 26,
+              "level": 5
+            },
+            {
+              "id": 1043,
+              "level": 5
+            },
+            {
+              "id": 1066,
+              "level": 5
+            },
+            {
+              "id": 1014,
+              "level": 5
+            },
+            {
+              "id": 1104,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+      "kingdom_id": null,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": ""
+          },
+          "commanders": {
+            "primary": {
+              "id": 10,
+              "level": 60
+            },
+            "secondary": {
+              "id": 8,
+              "level": 60
+            }
+          },
+          "participant_id": 1077511,
+          "player_id": 23881159,
+          "player_name": "MemphusX"
+        }
+      ],
+      "player_id": 23881159,
+      "player_name": "MemphusX",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": null,
+        "round": null,
+        "team_id": null
+      },
+      "tracking_key": ""
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "VOV~",
+      "id": 775016,
+      "name": "Vikings of Valhalla"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 10395380,
+    "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/15068434/19/10/10/324ad0fbd1c3caf9_200x200.jpg",
+    "camp_id": null,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 3723.6807,
+      "y": 3731.8762
+    },
+    "commanders": {
+      "primary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "",
+        "formation": null,
+        "id": 6,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 63,
+            "level": 5
+          },
+          {
+            "id": 1009,
+            "level": 5
+          },
+          {
+            "id": 1010,
+            "level": 5
+          },
+          {
+            "id": 1011,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "",
+        "formation": null,
+        "id": 8,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 26,
+            "level": 5
+          },
+          {
+            "id": 1043,
+            "level": 5
+          },
+          {
+            "id": 1066,
+            "level": 5
+          },
+          {
+            "id": 1014,
+            "level": 5
+          },
+          {
+            "id": 1104,
+            "level": 1
+          }
+        ],
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+    "kingdom_id": null,
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 38
+          },
+          "secondary": {
+            "id": 13,
+            "level": 28
+          }
+        },
+        "participant_id": 1048818,
+        "player_id": 23340025,
+        "player_name": "xX Ostara Xx"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 55
+          },
+          "secondary": {
+            "id": 63,
+            "level": 34
+          }
+        },
+        "participant_id": 1069682,
+        "player_id": 23874324,
+        "player_name": "Hu Brant"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 9,
+            "level": 60
+          },
+          "secondary": {
+            "id": 7,
+            "level": 48
+          }
+        },
+        "participant_id": 1072428,
+        "player_id": 23882252,
+        "player_name": "JYMB"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 13,
+            "level": 40
+          }
+        },
+        "participant_id": 1072899,
+        "player_id": 23868068,
+        "player_name": "pikemans"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 55
+          },
+          "secondary": {
+            "id": 15,
+            "level": 47
+          }
+        },
+        "participant_id": 1074053,
+        "player_id": 23873761,
+        "player_name": "Jimin TaeTae"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 11,
+            "level": 41
+          },
+          "secondary": {
+            "id": 17,
+            "level": 60
+          }
+        },
+        "participant_id": 1074088,
+        "player_id": 8635279,
+        "player_name": "Garhod"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 56
+          },
+          "secondary": {
+            "id": 11,
+            "level": 39
+          }
+        },
+        "participant_id": 1074159,
+        "player_id": 23883013,
+        "player_name": "xX Ali Xx"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 6,
+            "level": 50
+          },
+          "secondary": {
+            "id": 11,
+            "level": 37
+          }
+        },
+        "participant_id": 1074334,
+        "player_id": 23360078,
+        "player_name": "xX Tyr Xx"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 6,
+            "level": 46
+          }
+        },
+        "participant_id": 1075045,
+        "player_id": 18456133,
+        "player_name": "Basilisa"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 11,
+            "level": 50
+          }
+        },
+        "participant_id": 1075197,
+        "player_id": 12687319,
+        "player_name": "Seeker Of Chaos"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 11,
+            "level": 30
+          }
+        },
+        "participant_id": 1075350,
+        "player_id": 18434302,
+        "player_name": "TheMadKing 36x"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 6,
+            "level": 60
+          },
+          "secondary": {
+            "id": 8,
+            "level": 60
+          }
+        },
+        "participant_id": 1075402,
+        "player_id": 15068434,
+        "player_name": "Ø Heimdall Ø"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 17,
+            "level": 60
+          },
+          "secondary": {
+            "id": 99,
+            "level": 53
+          }
+        },
+        "participant_id": 1075424,
+        "player_id": 8437387,
+        "player_name": "DEATHDEALERR"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 13,
+            "level": 48
+          },
+          "secondary": {
+            "id": 6,
+            "level": 30
+          }
+        },
+        "participant_id": 1075425,
+        "player_id": 23899097,
+        "player_name": "xX KIO Xx"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 50
+          },
+          "secondary": {
+            "id": 12,
+            "level": 30
+          }
+        },
+        "participant_id": 1075625,
+        "player_id": 23455215,
+        "player_name": "Lindys"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 32
+          },
+          "secondary": {
+            "id": 11,
+            "level": 10
+          }
+        },
+        "participant_id": 1075635,
+        "player_id": 23873169,
+        "player_name": "NattyNat"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 13,
+            "level": 60
+          },
+          "secondary": {
+            "id": 9,
+            "level": 60
+          }
+        },
+        "participant_id": 1075759,
+        "player_id": 15513255,
+        "player_name": "michaelone"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 61,
+            "level": 60
+          },
+          "secondary": {
+            "id": 63,
+            "level": 32
+          }
+        },
+        "participant_id": 1075858,
+        "player_id": 11822759,
+        "player_name": "Basedward"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 41
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40
+          }
+        },
+        "participant_id": 1075938,
+        "player_id": 18640855,
+        "player_name": "WRMFrostieChips"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 13,
+            "level": 50
+          },
+          "secondary": {
+            "id": 6,
+            "level": 43
+          }
+        },
+        "participant_id": 1076002,
+        "player_id": 18889842,
+        "player_name": "Trunks WRM"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 17,
+            "level": 60
+          },
+          "secondary": {
+            "id": 9,
+            "level": 60
+          }
+        },
+        "participant_id": 1076244,
+        "player_id": 9874885,
+        "player_name": "Tao Bluemorpho"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 6,
+            "level": 60
+          },
+          "secondary": {
+            "id": 13,
+            "level": 35
+          }
+        },
+        "participant_id": 1076304,
+        "player_id": 4379337,
+        "player_name": "ZeroGaMePlaY"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 44
+          },
+          "secondary": {
+            "id": 17,
+            "level": 44
+          }
+        },
+        "participant_id": 1076859,
+        "player_id": 23983372,
+        "player_name": "The real IRA"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 8,
+            "level": 52
+          },
+          "secondary": {
+            "id": 3,
+            "level": 45
+          }
+        },
+        "participant_id": 1076890,
+        "player_id": 20164254,
+        "player_name": "L E G I O"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 52
+          },
+          "secondary": {
+            "id": 12,
+            "level": 48
+          }
+        },
+        "participant_id": 1076924,
+        "player_id": 23907875,
+        "player_name": "嗨小嵐叫你"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 49
+          },
+          "secondary": {
+            "id": 15,
+            "level": 43
+          }
+        },
+        "participant_id": 1077012,
+        "player_id": 23981433,
+        "player_name": "Jakhazzz"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 4,
+            "level": 46
+          },
+          "secondary": {
+            "id": 1,
+            "level": 42
+          }
+        },
+        "participant_id": 1077294,
+        "player_id": 17532823,
+        "player_name": "TroubleT420"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 30,
+            "level": 60
+          },
+          "secondary": {
+            "id": 1,
+            "level": 50
+          }
+        },
+        "participant_id": 1077472,
+        "player_id": 23984527,
+        "player_name": "Caliqtr"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 45
+          },
+          "secondary": {
+            "id": 17,
+            "level": 50
+          }
+        },
+        "participant_id": 1077882,
+        "player_id": 23847535,
+        "player_name": "Amarix"
+      },
+      {
+        "alliance": {
+          "abbreviation": ""
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 30
+          },
+          "secondary": {
+            "id": 17,
+            "level": 51
+          }
+        },
+        "participant_id": 1077965,
+        "player_id": 9858536,
+        "player_name": "TaO GGG"
+      }
+    ],
+    "player_id": 15068434,
+    "player_name": "Ø Heimdall Ø",
+    "rally": true,
+    "structure_id": null,
+    "supreme_strife": {
+      "battle_id": null,
+      "round": null,
+      "team_id": null
+    },
+    "tracking_key": ""
+  },
+  "summary": {
+    "opponent": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    },
+    "sender": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1575140722,
+    "events": [
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/8635279/19/07/06/cb542de86d495d3a_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 11,
+            "level": 41
+          },
+          "secondary": {
+            "id": 17,
+            "level": 60
+          }
+        },
+        "count": 38925,
+        "event_id": 1074088,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_9.png",
+        "player_id": 8635279,
+        "player_name": "Garhod",
+        "tick": 474994,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23874324/19/10/02/c8f7d20c723158fd_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 55
+          },
+          "secondary": {
+            "id": 63,
+            "level": 34
+          }
+        },
+        "count": 193886,
+        "event_id": 1069682,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+        "player_id": 23874324,
+        "player_name": "Hu Brant",
+        "tick": 474995,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/18640855/19/05/08/faaa932c23c28fe0_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 41
+          },
+          "secondary": {
+            "id": 6,
+            "level": 40
+          }
+        },
+        "count": 143878,
+        "event_id": 1075938,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+        "player_id": 18640855,
+        "player_name": "WRMFrostieChips",
+        "tick": 475028,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/4379337/19/02/15/bcc0760f1d13afa0_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 6,
+            "level": 60
+          },
+          "secondary": {
+            "id": 13,
+            "level": 35
+          }
+        },
+        "count": 193434,
+        "event_id": 1076304,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+        "player_id": 4379337,
+        "player_name": "ZeroGaMePlaY",
+        "tick": 475039,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23873761/19/11/16/eb5b03590f522deb_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 55
+          },
+          "secondary": {
+            "id": 15,
+            "level": 47
+          }
+        },
+        "count": 203425,
+        "event_id": 1074053,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+        "player_id": 23873761,
+        "player_name": "Jimin TaeTae",
+        "tick": 475064,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/18889842/19/03/28/e7c791ed76faa30a_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 13,
+            "level": 50
+          },
+          "secondary": {
+            "id": 6,
+            "level": 43
+          }
+        },
+        "count": 243750,
+        "event_id": 1076002,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_9.png",
+        "player_id": 18889842,
+        "player_name": "Trunks WRM",
+        "tick": 475114,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/11822759/19/01/31/21897204575fa810_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 61,
+            "level": 60
+          },
+          "secondary": {
+            "id": 63,
+            "level": 32
+          }
+        },
+        "count": 119300,
+        "event_id": 1075858,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+        "player_id": 11822759,
+        "player_name": "Basedward",
+        "tick": 475139,
+        "type": 18
+      },
+      {
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head14.png",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 32
+          },
+          "secondary": {
+            "id": 11,
+            "level": 10
+          }
+        },
+        "count": 150991,
+        "event_id": 1075635,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_31.png",
+        "player_id": 23873169,
+        "player_name": "NattyNat",
+        "tick": 475174,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/9874885/19/07/29/8e21d60ab8facd49_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 17,
+            "level": 60
+          },
+          "secondary": {
+            "id": 9,
+            "level": 60
+          }
+        },
+        "count": 206000,
+        "event_id": 1076244,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_6.png",
+        "player_id": 9874885,
+        "player_name": "Tao Bluemorpho",
+        "tick": 475222,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/18434302/19/11/27/ee4a91e6e1548a63_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 11,
+            "level": 30
+          }
+        },
+        "count": 246238,
+        "event_id": 1075350,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+        "player_id": 18434302,
+        "player_name": "TheMadKing 36x",
+        "tick": 475289,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23983372/19/10/18/52397ddfea500020_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 44
+          },
+          "secondary": {
+            "id": 17,
+            "level": 44
+          }
+        },
+        "count": 182000,
+        "event_id": 1076859,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "player_id": 23983372,
+        "player_name": "The real IRA",
+        "tick": 475396,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/12687319/19/03/01/2df28e0be23306cd_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 11,
+            "level": 50
+          }
+        },
+        "count": 310000,
+        "event_id": 1075197,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
+        "player_id": 12687319,
+        "player_name": "Seeker Of Chaos",
+        "tick": 475411,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/17532823/19/05/05/9abeb3dfc1ab4a20_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 4,
+            "level": 46
+          },
+          "secondary": {
+            "id": 1,
+            "level": 42
+          }
+        },
+        "count": 115553,
+        "event_id": 1077294,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "player_id": 17532823,
+        "player_name": "TroubleT420",
+        "tick": 475476,
+        "type": 18
+      },
+      {
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head18.png",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 49
+          },
+          "secondary": {
+            "id": 15,
+            "level": 43
+          }
+        },
+        "count": 166385,
+        "event_id": 1077012,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "player_id": 23981433,
+        "player_name": "Jakhazzz",
+        "tick": 475481,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/20164254/19/11/27/659aa2cef82b6f6d_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 8,
+            "level": 52
+          },
+          "secondary": {
+            "id": 3,
+            "level": 45
+          }
+        },
+        "count": 196000,
+        "event_id": 1076890,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+        "player_id": 20164254,
+        "player_name": "L E G I O",
+        "tick": 475554,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23984527/19/11/17/8386876095ced345_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 30,
+            "level": 60
+          },
+          "secondary": {
+            "id": 1,
+            "level": 50
+          }
+        },
+        "count": 266000,
+        "event_id": 1077472,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
+        "player_id": 23984527,
+        "player_name": "Caliqtr",
+        "tick": 475560,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/23907875/19/05/25/aec21262eefdf90d_200x200.jpg",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 52
+          },
+          "secondary": {
+            "id": 12,
+            "level": 48
+          }
+        },
+        "count": 201880,
+        "event_id": 1076924,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png",
+        "player_id": 23907875,
+        "player_name": "嗨小嵐叫你",
+        "tick": 475696,
+        "type": 18
+      },
+      {
+        "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/23868068/19/09/25/4aa8e5dacdfd582a_1280x1280.jpg",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 60
+          },
+          "secondary": {
+            "id": 13,
+            "level": 40
+          }
+        },
+        "count": 191993,
+        "event_id": 1072899,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+        "player_id": 23868068,
+        "player_name": "pikemans",
+        "tick": 475712,
+        "type": 18
+      },
+      {
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head17.png",
+        "commanders": {
+          "primary": {
+            "id": 12,
+            "level": 45
+          },
+          "secondary": {
+            "id": 17,
+            "level": 50
+          }
+        },
+        "count": 164000,
+        "event_id": 1077882,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+        "player_id": 23847535,
+        "player_name": "Amarix",
+        "tick": 475742,
+        "type": 18
+      },
+      {
+        "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head21.png",
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 30
+          },
+          "secondary": {
+            "id": 17,
+            "level": 51
+          }
+        },
+        "count": 173040,
+        "event_id": 1077965,
+        "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png",
+        "player_id": 9858536,
+        "player_name": "TaO GGG",
+        "tick": 475810,
+        "type": 18
+      }
+    ],
+    "sampling": [
+      {
+        "count": 1500000,
+        "tick": 474937
+      },
+      {
+        "count": 1340559,
+        "tick": 474965
+      },
+      {
+        "count": 1211845,
+        "tick": 474994
+      },
+      {
+        "count": 1164957,
+        "tick": 475023
+      },
+      {
+        "count": 1314407,
+        "tick": 475051
+      },
+      {
+        "count": 1365486,
+        "tick": 475080
+      },
+      {
+        "count": 1231053,
+        "tick": 475109
+      },
+      {
+        "count": 1440136,
+        "tick": 475139
+      },
+      {
+        "count": 1290362,
+        "tick": 475167
+      },
+      {
+        "count": 1357197,
+        "tick": 475195
+      },
+      {
+        "count": 1407722,
+        "tick": 475224
+      },
+      {
+        "count": 1277108,
+        "tick": 475254
+      },
+      {
+        "count": 1149258,
+        "tick": 475283
+      },
+      {
+        "count": 1314603,
+        "tick": 475311
+      },
+      {
+        "count": 1222533,
+        "tick": 475341
+      },
+      {
+        "count": 1091529,
+        "tick": 475370
+      },
+      {
+        "count": 1143841,
+        "tick": 475399
+      },
+      {
+        "count": 1340920,
+        "tick": 475427
+      },
+      {
+        "count": 1221205,
+        "tick": 475459
+      },
+      {
+        "count": 1341271,
+        "tick": 475489
+      },
+      {
+        "count": 1194062,
+        "tick": 475517
+      },
+      {
+        "count": 1073699,
+        "tick": 475545
+      },
+      {
+        "count": 1424330,
+        "tick": 475574
+      },
+      {
+        "count": 1285793,
+        "tick": 475605
+      },
+      {
+        "count": 1155674,
+        "tick": 475633
+      },
+      {
+        "count": 1012564,
+        "tick": 475663
+      },
+      {
+        "count": 876338,
+        "tick": 475692
+      },
+      {
+        "count": 1125763,
+        "tick": 475721
+      },
+      {
+        "count": 1155206,
+        "tick": 475750
+      },
+      {
+        "count": 1016863,
+        "tick": 475779
+      },
+      {
+        "count": 880968,
+        "tick": 475807
+      },
+      {
+        "count": 934962,
+        "tick": 475829
+      }
+    ],
+    "start_tick": 474874,
+    "start_timestamp": 1575139767
+  }
+}
