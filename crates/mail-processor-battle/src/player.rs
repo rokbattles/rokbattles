@@ -21,7 +21,7 @@ pub(crate) fn extract_player_fields(
 ) -> Result<Map<String, Value>, ExtractError> {
     let player_id = require_signed_id_field(player, "PId")?;
     let player_name = require_string_field(player, "PName")?;
-    let kingdom_id = require_u64_field(player, "COSId")?;
+    let kingdom_id = optional_u64_field(player, "COSId")?;
     let alliance_id = require_u64_field(player, "AId")?;
     let alliance_name = require_string_field(player, "AName")?;
     let alliance_abbr = require_string_field(player, "Abbr")?;
@@ -57,7 +57,10 @@ pub(crate) fn extract_player_fields(
     let mut fields = Map::new();
     fields.insert("player_id".to_string(), Value::from(player_id));
     fields.insert("player_name".to_string(), Value::String(player_name));
-    fields.insert("kingdom_id".to_string(), Value::from(kingdom_id));
+    fields.insert(
+        "kingdom_id".to_string(),
+        kingdom_id.map(Value::from).unwrap_or(Value::Null),
+    );
     fields.insert(
         "alliance".to_string(),
         json!({
@@ -562,6 +565,14 @@ mod tests {
             fields.get("avatar_url"),
             Some(&json!("https://example.com/avatar.png"))
         );
+    }
+
+    #[test]
+    fn extract_player_fields_allows_missing_kingdom_id() {
+        let mut player = base_player();
+        player.remove("COSId");
+        let fields = extract_player_fields(&player).unwrap();
+        assert_eq!(fields.get("kingdom_id"), Some(&json!(null)));
     }
 
     #[test]

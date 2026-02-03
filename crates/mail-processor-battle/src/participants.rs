@@ -14,10 +14,16 @@ pub(crate) fn extract_participants(
         None | Some(Value::Null) => return Ok(Value::Array(Vec::new())),
         Some(value) => value,
     };
-    let participants = value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "object",
-    })?;
+    let participants = match value {
+        Value::Object(participants) => participants,
+        Value::Array(items) if items.is_empty() => return Ok(Value::Array(Vec::new())),
+        _ => {
+            return Err(ExtractError::InvalidFieldType {
+                field,
+                expected: "object",
+            });
+        }
+    };
 
     let mut entries = Vec::with_capacity(participants.len());
     for (participant_id, participant) in participants {
@@ -160,6 +166,13 @@ mod tests {
     fn extract_participants_allows_missing_field() {
         let input = json!({});
         let participants = extract_participants(input.as_object().unwrap(), "STs").unwrap();
+        assert_eq!(participants, Value::Array(Vec::new()));
+    }
+
+    #[test]
+    fn extract_participants_allows_empty_array() {
+        let input = json!({ "OTs": [] });
+        let participants = extract_participants(input.as_object().unwrap(), "OTs").unwrap();
         assert_eq!(participants, Value::Array(Vec::new()));
     }
 }

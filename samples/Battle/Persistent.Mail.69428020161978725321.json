@@ -1,0 +1,928 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "809122101": {
+          "Bts": 1470644,
+          "CIdt": {
+            "AId": 103132,
+            "AName": "OVER LORD",
+            "Abbr": "OV!",
+            "AppUid": "2827380",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 12,
+                  "SkillId": 1024,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 112,
+                  "SkillId": 1303,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 809122101,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 4252.177,
+              "Y": 4479.4824
+            },
+            "CtId": 5290334,
+            "HAw": true,
+            "HAw2": false,
+            "HEq": "{2:20051_144,5:20054_143,4:20053_149,3:20052_101,6:20073_148,1:20088_39}",
+            "HEq2": "{}",
+            "HId": 99,
+            "HId2": 65,
+            "HLv": 60,
+            "HLv2": 50,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1219,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1220,
+                "SkillLevel": 1
+              },
+              3,
+              {
+                "SkillId": 135,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1217,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1218,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 87,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1144,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1145,
+                "SkillLevel": 3
+              },
+              4,
+              {
+                "SkillId": 1146,
+                "SkillLevel": 3
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 5,
+            "Idt": "809122101",
+            "PId": 2987686,
+            "PName": "XxX  JOKER  XxX",
+            "Udid": "CE853F47-B5DD-405A-B6AF-46F7AC1AB433"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 781,
+            "Cnt": 304364,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 4613,
+            "Hurt": 6048,
+            "HurtCntEnd": 16032,
+            "InitMax": 324000,
+            "Max": 313787,
+            "Power": -7810,
+            "RetreatCnt": 0
+          },
+          "Def": 0,
+          "Ets": 1470659,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Cnt": 266105,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 11026,
+            "InitMax": 280000,
+            "Max": 270032,
+            "Power": 0,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5290334": {
+              "Abbr": "OV!",
+              "HId": 99,
+              "HId2": 65,
+              "HLv": 60,
+              "HLv2": 50,
+              "PId": 2987686,
+              "PName": "XxX  JOKER  XxX"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 4007.4604,
+            "Y": 4532.009
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 6,
+          "TickStart": 1470644
+        },
+        "809136501": {
+          "Bts": 1470642,
+          "CIdt": {
+            "AId": 103132,
+            "AName": "OVER LORD",
+            "Abbr": "OV!",
+            "AppUid": "2827380",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 3,
+                  "SkillId": 1045,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 65,
+                  "SkillId": 1144,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 809136501,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 4252.177,
+              "Y": 4479.4824
+            },
+            "CtId": 5290414,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{6:20071_83,1:20007_151,3:20025_147,5:20070_119,7:20037_131,8:20075_118,4:20066_50,2:20062_111}",
+            "HEq2": "{1:20100_11}",
+            "HId": 64,
+            "HId2": 115,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 90,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1141,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1143,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1142,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 158,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1313,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1316,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1315,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "809136501",
+            "PId": 2987686,
+            "PName": "XxX  JOKER  XxX",
+            "Udid": "CE853F47-B5DD-405A-B6AF-46F7AC1AB433"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 1366,
+            "Cnt": 304364,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 4613,
+            "Hurt": 6074,
+            "HurtCntEnd": 16032,
+            "InitMax": 324000,
+            "Max": 319717,
+            "Power": -13660,
+            "RetreatCnt": 0
+          },
+          "Def": 0,
+          "Ets": 1470659,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 3061,
+            "Cnt": 91240,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 11996,
+            "HurtCntEnd": 140807,
+            "InitMax": 262000,
+            "Max": 240807,
+            "Power": -30610,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5290414": {
+              "Abbr": "OV!",
+              "HId": 64,
+              "HId2": 115,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 2987686,
+              "PName": "XxX  JOKER  XxX"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 4009.0642,
+            "Y": 4529.0264
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 11,
+          "TickStart": 1470642
+        },
+        "809148701": {
+          "Bts": 1470649,
+          "CIdt": {
+            "AId": 103132,
+            "AName": "OVER LORD",
+            "Abbr": "OV!",
+            "AppUid": "2827380",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 17,
+                  "SkillId": 1035,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 61,
+                  "SkillId": 1131,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 809148701,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 4252.177,
+              "Y": 4479.4824
+            },
+            "CtId": 5290482,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{1:20060_92,3:20052_159,2:20051_103,6:20073_93,5:20054_107,4:20053_127}",
+            "HEq2": "{}",
+            "HId": 110,
+            "HId2": 6,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 1286,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 151,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1284,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1285,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 63,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1009,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1010,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1011,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "809148701",
+            "PId": 2987686,
+            "PName": "XxX  JOKER  XxX",
+            "Udid": "CE853F47-B5DD-405A-B6AF-46F7AC1AB433"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Cnt": 304364,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 4613,
+            "Hurt": 0,
+            "HurtCntEnd": 16032,
+            "InitMax": 324000,
+            "Max": 302109,
+            "Power": 0,
+            "RetreatCnt": 0
+          },
+          "Def": 0,
+          "Ets": 1470659,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Cnt": 213277,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 2794,
+            "Hurt": 0,
+            "HurtCntEnd": 40338,
+            "InitMax": 262000,
+            "Max": 224173,
+            "Power": 0,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5290482": {
+              "Abbr": "OV!",
+              "HId": 110,
+              "HId2": 6,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 2987686,
+              "PName": "XxX  JOKER  XxX"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 4010.5613,
+            "Y": 4532.5957
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 6,
+          "TickStart": 1470649
+        },
+        "809162201": {
+          "Bts": 1470644,
+          "CIdt": {
+            "AId": 103132,
+            "AName": "OVER LORD",
+            "Abbr": "OV!",
+            "AppUid": "2827380",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": true
+            },
+            "CId": 809162201,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 4252.177,
+              "Y": 4479.4824
+            },
+            "CtId": 5290573,
+            "HAw": true,
+            "HAw2": true,
+            "HEq": "{2:20063_150,3:20065_77,1:20059_104,4:20067_80,5:20068_106,6:20034_70}",
+            "HEq2": "{2:20063_105}",
+            "HId": 108,
+            "HId2": 10,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 148,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1273,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1274,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1275,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1276,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 28,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1102,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1018,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1019,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "809162201",
+            "PId": 2987686,
+            "PName": "XxX  JOKER  XxX",
+            "Udid": "CE853F47-B5DD-405A-B6AF-46F7AC1AB433"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 577,
+            "Cnt": 304364,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 4613,
+            "Hurt": 3824,
+            "HurtCntEnd": 16032,
+            "InitMax": 324000,
+            "Max": 318188,
+            "Power": -5770,
+            "RetreatCnt": 0
+          },
+          "Def": 0,
+          "Ets": 1470657,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 0,
+            "Cnt": 237388,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 21396,
+            "InitMax": 262000,
+            "Max": 239581,
+            "Power": 0,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5290573": {
+              "Abbr": "OV!",
+              "HId": 108,
+              "HId2": 10,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 2987686,
+              "PName": "XxX  JOKER  XxX"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 4007.4604,
+            "Y": 4532.009
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 7,
+          "TickStart": 1470644
+        },
+        "809183001": {
+          "Bts": 1470634,
+          "CIdt": {
+            "AId": 103132,
+            "AName": "OVER LORD",
+            "Abbr": "OV!",
+            "AppUid": "2827380",
+            "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg\"}",
+            "CASS": {
+              "ENABLE": true,
+              "SKILLS": [
+                1,
+                {
+                  "HeroId": 64,
+                  "SkillId": 1141,
+                  "SkillLevel": 5
+                },
+                2,
+                {
+                  "HeroId": 62,
+                  "SkillId": 1134,
+                  "SkillLevel": 5
+                }
+              ]
+            },
+            "CId": 809183001,
+            "CT": 1,
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 4252.177,
+              "Y": 4479.4824
+            },
+            "CtId": 5290702,
+            "HAw": false,
+            "HAw2": true,
+            "HEq": "{1:20061_161,5:20101_23,6:20086_64,4:20085_142,2:20090_87,3:20064_116}",
+            "HEq2": "{2:20083_135,3:20084_139}",
+            "HId": 127,
+            "HId2": 7,
+            "HLv": 60,
+            "HLv2": 60,
+            "HSS": [
+              1,
+              {
+                "SkillId": 180,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1353,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1354,
+                "SkillLevel": 2
+              },
+              4,
+              {
+                "SkillId": 1355,
+                "SkillLevel": 3
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 25,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1101,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1013,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1042,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1103,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 6,
+            "Idt": "809183001",
+            "PId": 2987686,
+            "PName": "XxX  JOKER  XxX",
+            "Udid": "CE853F47-B5DD-405A-B6AF-46F7AC1AB433"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 880,
+            "Cnt": 304364,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 4613,
+            "Hurt": 4699,
+            "HurtCntEnd": 16032,
+            "InitMax": 324000,
+            "Max": 324000,
+            "Power": -8800,
+            "RetreatCnt": 0
+          },
+          "Def": 0,
+          "Ets": 1470658,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 2377,
+            "Cnt": 225034,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 2649,
+            "Hurt": 15042,
+            "HurtCntEnd": 30109,
+            "InitMax": 262000,
+            "Max": 260363,
+            "Power": -23770,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "5290702": {
+              "Abbr": "OV!",
+              "HId": 127,
+              "HId2": 7,
+              "HLv": 60,
+              "HLv2": 60,
+              "PId": 2987686,
+              "PName": "XxX  JOKER  XxX"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 4009.0654,
+            "Y": 4527.3203
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 12,
+          "TickStart": 1470634
+        }
+      },
+      "Btk": 1470634,
+      "Bts": 1619787228,
+      "Ets": 1619787253,
+      "Events": [],
+      "GsId": 11516,
+      "Id": 20490591,
+      "Role": "gs",
+      "STs": {
+        "5292349": {
+          "Abbr": "TmW",
+          "HId": 98,
+          "HId2": 8,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 4361125,
+          "PName": "精武丶羅剎"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 324000,
+          "T": 1470634
+        },
+        2,
+        {
+          "Cnt": 319717,
+          "T": 1470642
+        },
+        3,
+        {
+          "Cnt": 313787,
+          "T": 1470644
+        },
+        4,
+        {
+          "Cnt": 306754,
+          "T": 1470647
+        },
+        5,
+        {
+          "Cnt": 302109,
+          "T": 1470649
+        },
+        6,
+        {
+          "Cnt": 301506,
+          "T": 1470650
+        },
+        7,
+        {
+          "Cnt": 304364,
+          "T": 1470659
+        }
+      ],
+      "SelfChar": {
+        "AId": 132890,
+        "AName": "Tell me when",
+        "Abbr": "TmW",
+        "AppUid": "4121243",
+        "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/4361125/21/04/26/22e953a50b46eb96_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png\"}",
+        "CASS": {
+          "ENABLE": true
+        },
+        "CId": 809453101,
+        "CT": 1,
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 4006.0938,
+          "Y": 4511.8994
+        },
+        "CtId": 5292349,
+        "HAw": true,
+        "HAw2": true,
+        "HEq": "{3:20065_257,1:20089_239,4:20067_231,5:20068_290,7:20120_287,8:20097_293,6:20072_253,2:20063_227}",
+        "HEq2": "{6:20086_153,1:20089_139,4:20085_38,5:20094_203}",
+        "HId": 98,
+        "HId2": 8,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 1201,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 129,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1199,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1200,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 1104,
+            "SkillLevel": 1
+          },
+          2,
+          {
+            "SkillId": 26,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1043,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1066,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1014,
+            "SkillLevel": 5
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "Idt": "809453101",
+        "PId": 4361125,
+        "PName": "精武丶羅剎",
+        "Udid": "A45DB087-B656-4E57-9E49-8089D28ADD20"
+      },
+      "TickSkip": 100,
+      "isConquerSeason": true
+    }
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "69428020161978725321",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_4361125",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15373,
+  "starMark": 0,
+  "time": 1619787253187050,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

@@ -182,8 +182,9 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     let watchtower_max = require_u64_field(overview, "GtMax")?;
     let watchtower = require_u64_field(overview, "Gt")?;
     let power = require_i64_field(overview, "Power")?;
-    let attack_power = require_i64_field(overview, "AtkPower")?;
-    let skill_power = require_i64_field(overview, "SkillPower")?;
+    // Some battle reports omit attack or skill power; default to 0 instead of failing.
+    let attack_power = optional_i64_field(overview, "AtkPower")?.unwrap_or(0);
+    let skill_power = optional_i64_field(overview, "SkillPower")?.unwrap_or(0);
     // Some battle reports omit merits and reduction counters.
     let merits = optional_u64_field(overview, "WarExploits")?;
     let death_reduction = optional_u64_field(overview, "DeadReduceCnt")?;
@@ -295,6 +296,33 @@ fn optional_u64_field(
                 field,
                 expected: "unsigned integer",
             }),
+    }
+}
+
+/// Read an optional signed integer field from a JSON map.
+fn optional_i64_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Option<i64>, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(None),
+        Some(value) => {
+            if let Some(value) = value.as_i64() {
+                return Ok(Some(value));
+            }
+            if let Some(value) = value.as_u64() {
+                return i64::try_from(value).map(Some).map_err(|_| {
+                    ExtractError::InvalidFieldType {
+                        field,
+                        expected: "signed 64-bit integer",
+                    }
+                });
+            }
+            Err(ExtractError::InvalidFieldType {
+                field,
+                expected: "integer",
+            })
+        }
     }
 }
 
@@ -645,6 +673,45 @@ mod tests {
         assert!(results["sender"]["merits"].is_null());
         assert!(results["sender"]["death_reduction"].is_null());
         assert!(results["sender"]["severe_wound_reduction"].is_null());
+    }
+
+    #[test]
+    fn extract_battle_results_defaults_missing_attack_power() {
+        let attack = json!({
+            "Damage": {
+                "AddCnt": 1,
+                "RetreatCnt": 2,
+                "BadHurt": 3,
+                "Hurt": 4,
+                "Cnt": 5,
+                "Death": 6,
+                "Healing": 7,
+                "Max": 8,
+                "InitMax": 9,
+                "GtMax": 10,
+                "Gt": 11,
+                "Power": -12
+            },
+            "Kill": {
+                "AddCnt": 13,
+                "RetreatCnt": 14,
+                "BadHurt": 15,
+                "Hurt": 16,
+                "Cnt": 17,
+                "Death": 18,
+                "Healing": 19,
+                "Max": 20,
+                "InitMax": 21,
+                "GtMax": 22,
+                "Gt": 23,
+                "Power": -24
+            }
+        });
+        let results = extract_battle_results(attack.as_object().unwrap()).expect("results");
+        assert_eq!(results["sender"]["attack_power"], json!(0));
+        assert_eq!(results["sender"]["skill_power"], json!(0));
+        assert_eq!(results["opponent"]["attack_power"], json!(0));
+        assert_eq!(results["opponent"]["skill_power"], json!(0));
     }
 
     #[test]

@@ -1,0 +1,267 @@
+{
+  "metadata": {
+    "mail_id": "53118177176782122317",
+    "mail_receiver": "player_37556801",
+    "mail_role": "gsmp",
+    "mail_time": 1767821223319047,
+    "server_id": 1804
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "K20H",
+        "id": 45136,
+        "name": "Excited Hippo World~"
+      },
+      "alliance_building_id": 3,
+      "app_id": null,
+      "app_uid": null,
+      "attack": {
+        "id": "592909807",
+        "x": 6305.955,
+        "y": 6393.1953
+      },
+      "avatar_url": "",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 0,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 0,
+          "troop_units_max": 0,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 0,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 1,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 1,
+          "troop_units_max": 1,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 1,
+      "castle": {
+        "level": 0,
+        "watchtower": null,
+        "x": 6303.77,
+        "y": 6396.98
+      },
+      "commanders": {
+        "primary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": null,
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "star_level": 0
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": null,
+          "formation": null,
+          "id": 0,
+          "level": 0,
+          "relics": null,
+          "skills": null,
+          "star_level": 0
+        }
+      },
+      "frame_url": null,
+      "kingdom_id": 0,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "participants": [],
+      "player_id": 0,
+      "player_name": "",
+      "rally": null,
+      "structure_id": null,
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": ""
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 26855535,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
+    "camp_id": 2,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 6354.712,
+      "y": 6319.234
+    },
+    "commanders": {
+      "primary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": 2,
+        "id": 140,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 198,
+            "level": 5
+          },
+          {
+            "id": 1404,
+            "level": 5
+          },
+          {
+            "id": 1405,
+            "level": 5
+          },
+          {
+            "id": 1406,
+            "level": 5
+          },
+          {
+            "id": 1407,
+            "level": 1
+          }
+        ],
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{1:20128_97:0,2:20129_89:160,3:20130_90:0,4:20131_91:0,5:20132_92:0,6:20133_93:0,7:20075_51:0,8:20164_101:0}",
+        "formation": 3,
+        "id": 190,
+        "level": 60,
+        "relics": null,
+        "skills": [
+          {
+            "id": 311,
+            "level": 5
+          },
+          {
+            "id": 1589,
+            "level": 5
+          },
+          {
+            "id": 1592,
+            "level": 5
+          },
+          {
+            "id": 1591,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+    "kingdom_id": 1804,
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "SO4L"
+        },
+        "commanders": {
+          "primary": {
+            "id": 140,
+            "level": 60
+          },
+          "secondary": {
+            "id": 190,
+            "level": 60
+          }
+        },
+        "participant_id": 4581875,
+        "player_id": 37556801,
+        "player_name": "Benbu"
+      }
+    ],
+    "player_id": 37556801,
+    "player_name": "Benbu",
+    "rally": null,
+    "structure_id": null,
+    "supreme_strife": {
+      "battle_id": "",
+      "round": 0,
+      "team_id": 0
+    },
+    "tracking_key": "37556801_1767821166_140_190"
+  },
+  "summary": {
+    "opponent": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    },
+    "sender": {
+      "dead": null,
+      "kill_points": null,
+      "remaining": null,
+      "severely_wounded": null,
+      "slightly_wounded": null,
+      "troop_units": null
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1767821223,
+    "events": [],
+    "sampling": [
+      {
+        "count": 1,
+        "tick": 1314485
+      },
+      {
+        "count": 1,
+        "tick": 1314486
+      }
+    ],
+    "start_tick": 1314485,
+    "start_timestamp": 1767821222
+  }
+}
