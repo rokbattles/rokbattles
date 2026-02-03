@@ -42,10 +42,11 @@ impl Extractor for TimelineExtractor {
         // Event type (Et) mappings:
         // - 18: reinforcements join
         // - 26: reinforcements leave (Cnt may be omitted when march count hits 0)
-        let events_value = content
-            .get("Events")
-            .ok_or(ExtractError::MissingField { field: "Events" })?;
-        let events = indexed_array_values(events_value, "Events")?;
+        // Some reports omit events entirely; treat missing or null as empty.
+        let events = match content.get("Events") {
+            None | Some(Value::Null) => Vec::new(),
+            Some(value) => indexed_array_values(value, "Events")?,
+        };
         let mut event_entries = Vec::with_capacity(events.len());
         for event in events {
             let event_map = event.as_object().ok_or(ExtractError::InvalidFieldType {
@@ -313,6 +314,26 @@ mod tests {
         let events = fields["events"].as_array().expect("events array");
         assert_eq!(events.len(), 1);
         assert_eq!(events[0]["tick"], json!(9));
+    }
+
+    #[test]
+    fn timeline_extractor_defaults_missing_events() {
+        let input = json!({
+            "body": {
+                "content": {
+                    "Bts": 10,
+                    "Ets": 20,
+                    "Btk": 5,
+                    "Samples": []
+                }
+            }
+        });
+        let extractor = TimelineExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+
+        let fields = section.fields();
+        let events = fields["events"].as_array().expect("events array");
+        assert!(events.is_empty());
     }
 
     #[test]
