@@ -30,7 +30,7 @@ pub enum ConfigError {
 impl Config {
     /// Load configuration from the environment (and `.env` if present).
     pub fn from_env() -> Result<Self, ConfigError> {
-        let bind_addr = env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".to_string());
+        let bind_addr = env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8000".to_string());
         let mongo_uri = required_env("MONGODB_URI")?;
         let clamav_enabled = parse_bool(env::var("CLAMAV_ENABLED").ok(), false)?;
         let clamav_addr = env::var("CLAMAV_ADDR").unwrap_or_else(|_| "127.0.0.1:3310".to_string());
