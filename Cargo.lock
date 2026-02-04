@@ -126,18 +126,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "arrayref"
-version = "0.3.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "76a2e8124351fda1ef8aaaa3bbd7ebbcb486bbcd4225aca0aa0d84bb2db8fecb"
-
-[[package]]
-name = "arrayvec"
-version = "0.7.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c02d123df017efcdfbd739ef81735b36c5ba83ec3c59c80a9d7ecc718f92e50"
-
-[[package]]
 name = "async-broadcast"
 version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -393,20 +381,6 @@ dependencies = [
  "radium",
  "tap",
  "wyz",
-]
-
-[[package]]
-name = "blake3"
-version = "1.8.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2468ef7d57b3fb7e16b576e8377cdbde2320c60e1491e961d11da40fc4f02a2d"
-dependencies = [
- "arrayref",
- "arrayvec",
- "cc",
- "cfg-if",
- "constant_time_eq",
- "cpufeatures",
 ]
 
 [[package]]
@@ -719,12 +693,6 @@ dependencies = [
  "once_cell",
  "tiny-keccak",
 ]
-
-[[package]]
-name = "constant_time_eq"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3d52eff69cd5e647efe296129160853a42795992097e8af39800e1060caeea9b"
 
 [[package]]
 name = "convert_case"
@@ -2669,44 +2637,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-cli-legacy"
-version = "0.3.12"
-dependencies = [
- "anyhow",
- "clap",
- "mail-decoder-legacy",
- "mail-helper-legacy",
- "mail-processor-battle-legacy",
- "mail-processor-duelbattle2-legacy",
- "mongodb",
- "serde_json",
- "tokio",
- "zstd",
-]
-
-[[package]]
 name = "mail-decoder"
 version = "1.0.0"
 dependencies = [
- "serde_json",
-]
-
-[[package]]
-name = "mail-decoder-legacy"
-version = "0.3.12"
-dependencies = [
- "anyhow",
- "memchr",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "mail-helper-legacy"
-version = "0.3.12"
-dependencies = [
- "mail-decoder-legacy",
- "serde",
  "serde_json",
 ]
 
@@ -2727,29 +2660,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-processor-battle-legacy"
-version = "0.3.12"
-dependencies = [
- "itoa",
- "mail-processor-sdk-legacy",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "mail-processor-duelbattle2"
 version = "1.0.0"
 dependencies = [
  "mail-processor-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-duelbattle2-legacy"
-version = "0.3.12"
-dependencies = [
- "mail-processor-sdk-legacy",
- "serde",
  "serde_json",
 ]
 
@@ -2760,10 +2674,6 @@ dependencies = [
  "serde",
  "serde_json",
 ]
-
-[[package]]
-name = "mail-processor-sdk-legacy"
-version = "0.3.12"
 
 [[package]]
 name = "markup5ever"
@@ -4283,27 +4193,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rokbattles-ingress-legacy"
-version = "0.3.12"
-dependencies = [
- "anyhow",
- "axum",
- "blake3",
- "futures-util",
- "mail-decoder",
- "mail-decoder-legacy",
- "mail-helper-legacy",
- "mongodb",
- "serde_json",
- "tikv-jemallocator",
- "tokio",
- "tower-http",
- "tracing",
- "tracing-subscriber",
- "zstd",
-]
-
-[[package]]
 name = "rokbattles-processor"
 version = "1.0.0"
 dependencies = [
@@ -4316,25 +4205,6 @@ dependencies = [
  "mongodb",
  "serde_json",
  "thiserror 2.0.18",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "zstd",
-]
-
-[[package]]
-name = "rokbattles-processor-legacy"
-version = "0.3.12"
-dependencies = [
- "anyhow",
- "futures",
- "mail-decoder-legacy",
- "mail-helper-legacy",
- "mail-processor-battle-legacy",
- "mail-processor-duelbattle2-legacy",
- "mongodb",
- "serde_json",
- "tikv-jemallocator",
  "tokio",
  "tracing",
  "tracing-subscriber",
@@ -5596,26 +5466,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tikv-jemalloc-sys"
-version = "0.6.1+5.3.0-1-ge13ca993e8ccb9ba9847cc330696e02839f328f7"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cd8aa5b2ab86a2cefa406d889139c162cbb230092f7d1d7cbc1716405d852a3b"
-dependencies = [
- "cc",
- "libc",
-]
-
-[[package]]
-name = "tikv-jemallocator"
-version = "0.6.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0359b4327f954e0567e69fb191cf1436617748813819c94b8cd4a431422d053a"
-dependencies = [
- "libc",
- "tikv-jemalloc-sys",
-]
-
-[[package]]
 name = "time"
 version = "0.3.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5864,14 +5714,11 @@ dependencies = [
  "futures-util",
  "http",
  "http-body",
- "http-body-util",
  "iri-string",
  "pin-project-lite",
- "tokio",
  "tower",
  "tower-layer",
  "tower-service",
- "tracing",
 ]
 
 [[package]]
