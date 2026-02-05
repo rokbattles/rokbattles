@@ -4077,3 +4077,24 @@ commanders:
         id: 1803
       - slot: 4
         id: 1804
+
+  596:
+    name:
+      de: "Ivar"
+      en: "Ivar"
+      es: "Ivar"
+      fr: "Ivar"
+      ko: "이바르"
+      pl: "Ivar"
+      zh_CN: "伊瓦尔"
+    epithet:
+      de: "Der Knochenlose"
+      en: "The Boneless"
+      es: "El Deshuesado"
+      fr: "Le Désossé"
+      ko: "뼈 벖는 자"
+      pl: "Bez Kości"
+      zh_CN: "无骨者"
+    prime: false
+    rarity: legendary
+    skills:
