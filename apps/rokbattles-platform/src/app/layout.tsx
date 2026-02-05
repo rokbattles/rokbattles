@@ -1,9 +1,20 @@
+import { getLocale } from "next-intl/server";
 import type { ReactNode } from "react";
+import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang={locale}>
+      <body>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+      </body>
     </html>
   );
 }

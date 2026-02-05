@@ -1,3 +1,7 @@
+import { useExtracted } from "next-intl";
+
 export default function Page() {
-  return "ROK Battles";
+  const t = useExtracted();
+
+  return <div>{t("ROK Battles")}</div>;
 }

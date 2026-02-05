@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next"
+    "dev": "next -H 0.0.0.0"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
