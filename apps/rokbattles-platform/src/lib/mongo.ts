@@ -1,3 +1,4 @@
+import "server-only";
 import { MongoClient, type MongoClientOptions } from "mongodb";
 
 const uri = process.env.MONGODB_URI;

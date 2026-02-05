@@ -6,8 +6,32 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
+#: src/app/kingdom/[kingdom]/page.tsx:39
+msgid "q5TmbN"
+msgstr "Governors"
+
+#: src/app/kingdom/[kingdom]/page.tsx:40
+msgid "9uOFF3"
+msgstr "Overview"
+
 #: src/app/page.tsx:6
 #: src/components/app-layout.tsx:26
 #: src/components/app-layout.tsx:35
 msgid "Xh4TDU"
 msgstr "ROK Battles"
+
+#: src/components/kingdom-governors-table.tsx:31
+msgid "02koas"
+msgstr "#"
+
+#: src/components/kingdom-governors-table.tsx:32
+msgid "qlcuNQ"
+msgstr "ID"
+
+#: src/components/kingdom-governors-table.tsx:33
+msgid "HAlOn1"
+msgstr "Name"
+
+#: src/components/kingdom-governors-table.tsx:34
+msgid "YXoHk0"
+msgstr "Power"

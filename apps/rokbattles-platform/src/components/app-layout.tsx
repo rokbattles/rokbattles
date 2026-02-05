@@ -1,4 +1,4 @@
-import { useExtracted } from "next-intl";
+import { getExtracted } from "next-intl/server";
 import type { ReactNode } from "react";
 import {
   Navbar,
@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/sidebar";
 import { StackedLayout } from "@/components/ui/stacked-layout";
 
-export default function AppLayout({ children }: { children: ReactNode }) {
-  const t = useExtracted();
+export default async function AppLayout({ children }: { children: ReactNode }) {
+  const t = await getExtracted();
 
   return (
     <StackedLayout

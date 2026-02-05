@@ -1,7 +1,7 @@
-import { useExtracted } from "next-intl";
+import { getExtracted } from "next-intl/server";
 
-export default function Page() {
-  const t = useExtracted();
+export default async function Page() {
+  const t = await getExtracted();
 
   return <div>{t("ROK Battles")}</div>;
 }
