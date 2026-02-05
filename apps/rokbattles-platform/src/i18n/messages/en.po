@@ -7,5 +7,7 @@ msgstr ""
 "X-Crowdin-SourceKey: msgstr\n"
 
 #: src/app/page.tsx:6
+#: src/components/app-layout.tsx:26
+#: src/components/app-layout.tsx:35
 msgid "Xh4TDU"
 msgstr "ROK Battles"

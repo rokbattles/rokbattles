@@ -2,6 +2,7 @@ import { getLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
+import AppLayout from "@/components/app-layout";
 
 export default async function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default async function RootLayout({
       lang={locale}
     >
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <AppLayout>{children}</AppLayout>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
