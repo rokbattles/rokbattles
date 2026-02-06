@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next -H 0.0.0.0"
+    "dev": "next -H 0.0.0.0",
+    "generate:datasets": "node ./scripts/generate-datasets.cjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
@@ -26,6 +27,7 @@
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.2"
   }
 }
