@@ -1,7 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import clientPromise from "@/lib/mongo";
-import { parseObjectId } from "@/lib/parse-object-id";
+import { parseCursorTime } from "@/lib/parse-cursor-time";
 import type {
   ExploreOlympianArenaPage,
   ExploreOlympianArenaPageDb,
@@ -16,16 +16,17 @@ export const fetchExploreOlympianArena = cache(
     afterParam?: string,
     beforeParam?: string
   ): Promise<ExploreOlympianArenaPage> {
-    const beforeCursor = parseObjectId(beforeParam);
-    const afterCursor = beforeCursor ? null : parseObjectId(afterParam);
+    const beforeCursor = parseCursorTime(beforeParam);
+    const afterCursor =
+      beforeCursor !== null ? null : parseCursorTime(afterParam);
     let cursorMatch:
-      | { latest_doc_id: { $gt: typeof beforeCursor } }
-      | { latest_doc_id: { $lt: typeof afterCursor } }
+      | { first_mail_time: { $gt: number } }
+      | { first_mail_time: { $lt: number } }
       | null = null;
-    if (beforeCursor) {
-      cursorMatch = { latest_doc_id: { $gt: beforeCursor } };
-    } else if (afterCursor) {
-      cursorMatch = { latest_doc_id: { $lt: afterCursor } };
+    if (beforeCursor !== null) {
+      cursorMatch = { first_mail_time: { $gt: beforeCursor } };
+    } else if (afterCursor !== null) {
+      cursorMatch = { first_mail_time: { $lt: afterCursor } };
     }
 
     const client = await clientPromise;
@@ -54,8 +55,6 @@ export const fetchExploreOlympianArena = cache(
           $group: {
             _id: "$sender.duel.team_id",
             first_mail_time: { $first: "$metadata.mail_time" },
-            latest_mail_time: { $last: "$metadata.mail_time" },
-            latest_doc_id: { $last: "$_id" },
             sender_primary: { $first: "$sender.primary_commander.id" },
             sender_secondary: { $first: "$sender.secondary_commander.id" },
             opponent_primary: { $first: "$opponent.primary_commander.id" },
@@ -128,20 +127,19 @@ export const fetchExploreOlympianArena = cache(
         {
           $facet: {
             rows: [
-              ...(beforeCursor
+              ...(beforeCursor !== null
                 ? [
-                    { $sort: { latest_doc_id: 1, _id: 1 } },
+                    { $sort: { first_mail_time: 1, _id: 1 } },
                     { $limit: EXPLORE_ARENA_FETCH_SIZE },
                   ]
                 : [
-                    { $sort: { latest_doc_id: -1, _id: -1 } },
+                    { $sort: { first_mail_time: -1, _id: -1 } },
                     { $limit: EXPLORE_ARENA_FETCH_SIZE },
                   ]),
               {
                 $project: {
                   _id: 1,
                   first_mail_time: 1,
-                  latest_doc_id: 1,
                   sender_commanders: {
                     primary: "$sender_primary",
                     secondary: "$sender_secondary",
@@ -178,7 +176,8 @@ export const fetchExploreOlympianArena = cache(
     const pagedRows = hasMoreInQueryDirection
       ? result.rows.slice(0, EXPLORE_ARENA_PAGE_SIZE)
       : result.rows;
-    const orderedRows = beforeCursor ? [...pagedRows].reverse() : pagedRows;
+    const orderedRows =
+      beforeCursor !== null ? [...pagedRows].reverse() : pagedRows;
 
     const rows = orderedRows.map((row) => ({
       id: row._id.toString(),
@@ -190,19 +189,20 @@ export const fetchExploreOlympianArena = cache(
       winStreak: row.win_streak,
     }));
 
-    const isInitialPage = !(afterCursor || beforeCursor);
+    const isInitialPage = afterCursor === null && beforeCursor === null;
     const firstRow = orderedRows.at(0);
     const lastRow = orderedRows.at(-1);
 
     const previousBefore =
       firstRow &&
       !isInitialPage &&
-      (afterCursor || (beforeCursor && hasMoreInQueryDirection))
-        ? firstRow.latest_doc_id.toString()
+      (afterCursor !== null ||
+        (beforeCursor !== null && hasMoreInQueryDirection))
+        ? firstRow.first_mail_time.toString()
         : null;
     const nextAfter =
-      lastRow && (beforeCursor || hasMoreInQueryDirection)
-        ? lastRow.latest_doc_id.toString()
+      lastRow && (beforeCursor !== null || hasMoreInQueryDirection)
+        ? lastRow.first_mail_time.toString()
         : null;
 
     return { rows, nextAfter, previousBefore };

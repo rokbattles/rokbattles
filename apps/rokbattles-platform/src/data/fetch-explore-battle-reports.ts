@@ -1,7 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import clientPromise from "@/lib/mongo";
-import { parseObjectId } from "@/lib/parse-object-id";
+import { parseCursorTime } from "@/lib/parse-cursor-time";
 import type {
   ExploreBattleReportsPage,
   ExploreBattleReportsPageDb,
@@ -16,18 +16,17 @@ export const fetchExploreBattleReports = cache(
     afterParam?: string,
     beforeParam?: string
   ): Promise<ExploreBattleReportsPage> {
-    const beforeCursor = parseObjectId(beforeParam);
-    const afterCursor = beforeCursor ? null : parseObjectId(afterParam);
+    const beforeCursor = parseCursorTime(beforeParam);
+    const afterCursor =
+      beforeCursor !== null ? null : parseCursorTime(afterParam);
     let cursorMatch:
-      | { _id: { $gt: typeof beforeCursor } }
-      | {
-          _id: { $lt: typeof afterCursor };
-        }
+      | { "metadata.mail_time": { $gt: number } }
+      | { "metadata.mail_time": { $lt: number } }
       | null = null;
-    if (beforeCursor) {
-      cursorMatch = { _id: { $gt: beforeCursor } };
-    } else if (afterCursor) {
-      cursorMatch = { _id: { $lt: afterCursor } };
+    if (beforeCursor !== null) {
+      cursorMatch = { "metadata.mail_time": { $gt: beforeCursor } };
+    } else if (afterCursor !== null) {
+      cursorMatch = { "metadata.mail_time": { $lt: afterCursor } };
     }
 
     const client = await clientPromise;
@@ -422,19 +421,20 @@ export const fetchExploreBattleReports = cache(
         {
           $facet: {
             rows: [
-              ...(beforeCursor
+              ...(beforeCursor !== null
                 ? [
-                    { $sort: { _id: 1 } },
+                    { $sort: { "metadata.mail_time": 1 } },
                     { $limit: EXPLORE_REPORTS_FETCH_SIZE },
                   ]
                 : [
-                    { $sort: { _id: -1 } },
+                    { $sort: { "metadata.mail_time": -1 } },
                     { $limit: EXPLORE_REPORTS_FETCH_SIZE },
                   ]),
               {
                 $project: {
                   _id: 1,
                   mail_id: "$metadata.mail_id",
+                  mail_time: "$metadata.mail_time",
                   start_timestamp: "$timeline.start_timestamp",
                   end_timestamp: "$timeline.end_timestamp",
                   sender_commanders: {
@@ -512,7 +512,8 @@ export const fetchExploreBattleReports = cache(
     const pagedRows = hasMoreInQueryDirection
       ? result.rows.slice(0, EXPLORE_REPORTS_PAGE_SIZE)
       : result.rows;
-    const orderedRows = beforeCursor ? [...pagedRows].reverse() : pagedRows;
+    const orderedRows =
+      beforeCursor !== null ? [...pagedRows].reverse() : pagedRows;
 
     const rows = orderedRows.map((row) => ({
       id: row._id.toString(),
@@ -548,18 +549,21 @@ export const fetchExploreBattleReports = cache(
       },
     }));
 
-    const isInitialPage = !(afterCursor || beforeCursor);
-    const firstRow = rows.at(0);
-    const lastRow = rows.at(-1);
+    const isInitialPage = afterCursor === null && beforeCursor === null;
+    const firstRow = orderedRows.at(0);
+    const lastRow = orderedRows.at(-1);
 
     const previousBefore =
       firstRow &&
       !isInitialPage &&
-      (afterCursor || (beforeCursor && hasMoreInQueryDirection))
-        ? firstRow.id
+      (afterCursor !== null ||
+        (beforeCursor !== null && hasMoreInQueryDirection))
+        ? firstRow.mail_time.toString()
         : null;
     const nextAfter =
-      lastRow && (beforeCursor || hasMoreInQueryDirection) ? lastRow.id : null;
+      lastRow && (beforeCursor !== null || hasMoreInQueryDirection)
+        ? lastRow.mail_time.toString()
+        : null;
 
     return { rows, nextAfter, previousBefore };
   }

@@ -33,6 +33,7 @@ export interface ExploreBattleTimelineDb {
 export interface ExploreBattleReportRowDb {
   _id: ObjectId;
   mail_id: string | null;
+  mail_time: number;
   start_timestamp: number | null;
   end_timestamp: number | null;
   sender_commanders: ExploreCommanderPair;
