@@ -42,44 +42,206 @@ export const fetchExploreBattleReports = cache(
                 },
               },
             },
-            fallback_sender_kp: {
+            fallback_sender_summary: {
               $reduce: {
                 input: { $ifNull: ["$opponents", []] },
-                initialValue: 0,
+                initialValue: {
+                  kill_points: 0,
+                  dead: 0,
+                  severely_wounded: 0,
+                  slightly_wounded: 0,
+                  remaining: 0,
+                  troop_units: 0,
+                },
                 in: {
-                  $add: [
-                    "$$value",
-                    {
-                      $cond: [
-                        {
-                          $isNumber: "$$this.battle_results.sender.kill_points",
-                        },
-                        "$$this.battle_results.sender.kill_points",
-                        0,
-                      ],
-                    },
-                  ],
+                  kill_points: {
+                    $add: [
+                      "$$value.kill_points",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.sender.kill_points",
+                          },
+                          "$$this.battle_results.sender.kill_points",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  dead: {
+                    $add: [
+                      "$$value.dead",
+                      {
+                        $cond: [
+                          { $isNumber: "$$this.battle_results.sender.dead" },
+                          "$$this.battle_results.sender.dead",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  severely_wounded: {
+                    $add: [
+                      "$$value.severely_wounded",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.sender.severely_wounded",
+                          },
+                          "$$this.battle_results.sender.severely_wounded",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  slightly_wounded: {
+                    $add: [
+                      "$$value.slightly_wounded",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.sender.slightly_wounded",
+                          },
+                          "$$this.battle_results.sender.slightly_wounded",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  remaining: {
+                    $add: [
+                      "$$value.remaining",
+                      {
+                        $cond: [
+                          {
+                            $isNumber: "$$this.battle_results.sender.remaining",
+                          },
+                          "$$this.battle_results.sender.remaining",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  troop_units: {
+                    $add: [
+                      "$$value.troop_units",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.sender.troop_units",
+                          },
+                          "$$this.battle_results.sender.troop_units",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
                 },
               },
             },
-            fallback_opponent_kp: {
+            fallback_opponent_summary: {
               $reduce: {
                 input: { $ifNull: ["$opponents", []] },
-                initialValue: 0,
+                initialValue: {
+                  kill_points: 0,
+                  dead: 0,
+                  severely_wounded: 0,
+                  slightly_wounded: 0,
+                  remaining: 0,
+                  troop_units: 0,
+                },
                 in: {
-                  $add: [
-                    "$$value",
-                    {
-                      $cond: [
-                        {
-                          $isNumber:
-                            "$$this.battle_results.opponent.kill_points",
-                        },
-                        "$$this.battle_results.opponent.kill_points",
-                        0,
-                      ],
-                    },
-                  ],
+                  kill_points: {
+                    $add: [
+                      "$$value.kill_points",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.opponent.kill_points",
+                          },
+                          "$$this.battle_results.opponent.kill_points",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  dead: {
+                    $add: [
+                      "$$value.dead",
+                      {
+                        $cond: [
+                          { $isNumber: "$$this.battle_results.opponent.dead" },
+                          "$$this.battle_results.opponent.dead",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  severely_wounded: {
+                    $add: [
+                      "$$value.severely_wounded",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.opponent.severely_wounded",
+                          },
+                          "$$this.battle_results.opponent.severely_wounded",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  slightly_wounded: {
+                    $add: [
+                      "$$value.slightly_wounded",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.opponent.slightly_wounded",
+                          },
+                          "$$this.battle_results.opponent.slightly_wounded",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  remaining: {
+                    $add: [
+                      "$$value.remaining",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.opponent.remaining",
+                          },
+                          "$$this.battle_results.opponent.remaining",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
+                  troop_units: {
+                    $add: [
+                      "$$value.troop_units",
+                      {
+                        $cond: [
+                          {
+                            $isNumber:
+                              "$$this.battle_results.opponent.troop_units",
+                          },
+                          "$$this.battle_results.opponent.troop_units",
+                          0,
+                        ],
+                      },
+                    ],
+                  },
                 },
               },
             },
@@ -114,30 +276,100 @@ export const fetchExploreBattleReports = cache(
                 },
               },
             },
-            sender_kp: {
-              $cond: [
-                {
-                  $and: [
-                    { $isNumber: "$summary.sender.kill_points" },
-                    { $isNumber: "$summary.opponent.kill_points" },
-                  ],
-                },
-                "$summary.sender.kill_points",
-                "$fallback_sender_kp",
-              ],
+            sender_summary: {
+              kill_points: {
+                $cond: [
+                  { $isNumber: "$summary.sender.kill_points" },
+                  "$summary.sender.kill_points",
+                  "$fallback_sender_summary.kill_points",
+                ],
+              },
+              dead: {
+                $cond: [
+                  { $isNumber: "$summary.sender.dead" },
+                  "$summary.sender.dead",
+                  "$fallback_sender_summary.dead",
+                ],
+              },
+              severely_wounded: {
+                $cond: [
+                  { $isNumber: "$summary.sender.severely_wounded" },
+                  "$summary.sender.severely_wounded",
+                  "$fallback_sender_summary.severely_wounded",
+                ],
+              },
+              slightly_wounded: {
+                $cond: [
+                  { $isNumber: "$summary.sender.slightly_wounded" },
+                  "$summary.sender.slightly_wounded",
+                  "$fallback_sender_summary.slightly_wounded",
+                ],
+              },
+              remaining: {
+                $cond: [
+                  { $isNumber: "$summary.sender.remaining" },
+                  "$summary.sender.remaining",
+                  "$fallback_sender_summary.remaining",
+                ],
+              },
+              troop_units: {
+                $cond: [
+                  { $isNumber: "$summary.sender.troop_units" },
+                  "$summary.sender.troop_units",
+                  "$fallback_sender_summary.troop_units",
+                ],
+              },
             },
-            opponent_kp: {
-              $cond: [
-                {
-                  $and: [
-                    { $isNumber: "$summary.sender.kill_points" },
-                    { $isNumber: "$summary.opponent.kill_points" },
-                  ],
-                },
-                "$summary.opponent.kill_points",
-                "$fallback_opponent_kp",
-              ],
+            opponent_summary: {
+              kill_points: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.kill_points" },
+                  "$summary.opponent.kill_points",
+                  "$fallback_opponent_summary.kill_points",
+                ],
+              },
+              dead: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.dead" },
+                  "$summary.opponent.dead",
+                  "$fallback_opponent_summary.dead",
+                ],
+              },
+              severely_wounded: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.severely_wounded" },
+                  "$summary.opponent.severely_wounded",
+                  "$fallback_opponent_summary.severely_wounded",
+                ],
+              },
+              slightly_wounded: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.slightly_wounded" },
+                  "$summary.opponent.slightly_wounded",
+                  "$fallback_opponent_summary.slightly_wounded",
+                ],
+              },
+              remaining: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.remaining" },
+                  "$summary.opponent.remaining",
+                  "$fallback_opponent_summary.remaining",
+                ],
+              },
+              troop_units: {
+                $cond: [
+                  { $isNumber: "$summary.opponent.troop_units" },
+                  "$summary.opponent.troop_units",
+                  "$fallback_opponent_summary.troop_units",
+                ],
+              },
             },
+          },
+        },
+        {
+          $addFields: {
+            sender_kp: "$sender_summary.kill_points",
+            opponent_kp: "$opponent_summary.kill_points",
           },
         },
         {
@@ -198,6 +430,35 @@ export const fetchExploreBattleReports = cache(
                       ],
                     },
                   },
+                  summary: {
+                    sender: "$sender_summary",
+                    opponent: "$opponent_summary",
+                  },
+                  timeline: {
+                    start_timestamp: "$timeline.start_timestamp",
+                    end_timestamp: "$timeline.end_timestamp",
+                    sampling: {
+                      $map: {
+                        input: {
+                          $filter: {
+                            input: { $ifNull: ["$timeline.sampling", []] },
+                            as: "sample",
+                            cond: {
+                              $and: [
+                                { $isNumber: "$$sample.tick" },
+                                { $isNumber: "$$sample.count" },
+                              ],
+                            },
+                          },
+                        },
+                        as: "sample",
+                        in: {
+                          tick: "$$sample.tick",
+                          count: "$$sample.count",
+                        },
+                      },
+                    },
+                  },
                   trade_percentage: 1,
                   battles: 1,
                 },
@@ -229,6 +490,29 @@ export const fetchExploreBattleReports = cache(
         opponentCommanders: row.opponent_commanders,
         tradePercentage: row.trade_percentage,
         battles: row.battles,
+        summary: {
+          sender: {
+            dead: row.summary.sender.dead,
+            killPoints: row.summary.sender.kill_points,
+            remaining: row.summary.sender.remaining,
+            severelyWounded: row.summary.sender.severely_wounded,
+            slightlyWounded: row.summary.sender.slightly_wounded,
+            troopUnits: row.summary.sender.troop_units,
+          },
+          opponent: {
+            dead: row.summary.opponent.dead,
+            killPoints: row.summary.opponent.kill_points,
+            remaining: row.summary.opponent.remaining,
+            severelyWounded: row.summary.opponent.severely_wounded,
+            slightlyWounded: row.summary.opponent.slightly_wounded,
+            troopUnits: row.summary.opponent.troop_units,
+          },
+        },
+        timeline: {
+          startTimestamp: row.timeline.start_timestamp,
+          endTimestamp: row.timeline.end_timestamp,
+          sampling: row.timeline.sampling,
+        },
       })),
       total: result.total,
     };

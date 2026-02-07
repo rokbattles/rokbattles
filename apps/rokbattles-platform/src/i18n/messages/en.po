@@ -19,38 +19,105 @@ msgid "q5TmbN"
 msgstr "Governors"
 
 #: src/app/kingdom/[kingdom]/page.tsx:40
+#: src/components/explore/explore-battle-reports-table.tsx:114
 msgid "9uOFF3"
 msgstr "Overview"
 
 #: src/app/page.tsx:6
+#: src/app/report/[id]/page.tsx:6
 #: src/components/app-layout.tsx:26
 #: src/components/app-layout.tsx:35
 msgid "Xh4TDU"
 msgstr "ROK Battles"
 
-#: src/components/explore/explore-battle-reports-table.tsx:57
+#: src/components/explore/explore-battle-reports-table.tsx:54
 msgid "ug01Mk"
 msgstr "Time"
 
-#: src/components/explore/explore-battle-reports-table.tsx:58
+#: src/components/explore/explore-battle-reports-table.tsx:55
+#: src/components/explore/explore-report-overview-drawer.tsx:238
 msgid "nbwXXN"
 msgstr "Sender"
 
-#: src/components/explore/explore-battle-reports-table.tsx:59
+#: src/components/explore/explore-battle-reports-table.tsx:56
 msgid "Mdj7Fr"
 msgstr "Opponent"
 
-#: src/components/explore/explore-battle-reports-table.tsx:60
+#: src/components/explore/explore-battle-reports-table.tsx:57
 msgid "c+sY33"
 msgstr "Trade %"
 
-#: src/components/explore/explore-battle-reports-table.tsx:61
+#: src/components/explore/explore-battle-reports-table.tsx:58
 msgid "9bVtCz"
 msgstr "Battles"
 
-#: src/components/explore/explore-battle-reports-table.tsx:62
+#: src/components/explore/explore-battle-reports-table.tsx:59
 msgid "IuFETn"
 msgstr "Duration"
+
+#: src/components/explore/explore-battle-reports-table.tsx:61
+msgid "QlsDcr"
+msgstr "Action"
+
+#: src/components/explore/explore-battle-reports-table.tsx:119
+msgid "5Hzwqs"
+msgstr "Favorite"
+
+#: src/components/explore/explore-battle-reports-table.tsx:123
+msgid "OKhRC6"
+msgstr "Share"
+
+#: src/components/explore/explore-overview-summary-card.tsx:26
+msgid "kzHEVE"
+msgstr "Troop Units"
+
+#: src/components/explore/explore-overview-summary-card.tsx:34
+msgid "NxzeNU"
+msgstr "Dead"
+
+#: src/components/explore/explore-overview-summary-card.tsx:42
+msgid "sz3C4k"
+msgstr "Severely Wounded"
+
+#: src/components/explore/explore-overview-summary-card.tsx:50
+msgid "1ISgLB"
+msgstr "Slightly Wounded"
+
+#: src/components/explore/explore-overview-summary-card.tsx:58
+msgid "ka8VLG"
+msgstr "Remaining"
+
+#: src/components/explore/explore-overview-summary-card.tsx:67
+msgid "RCtKQ2"
+msgstr "Kill Points"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:130
+msgid "QRVQkf"
+msgstr "Battle overview"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:132
+msgid "EWfXcY"
+msgstr "A quick glance at the battle report before opening it."
+
+#: src/components/explore/explore-report-overview-drawer.tsx:137
+msgid "lY8J2h"
+msgstr "Battle timeline"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:234
+msgid "eQhi5P"
+msgstr "Data summary"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:242
+msgid "ABZ08/"
+msgstr "All Enemies"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:249
+msgid "rbrahO"
+msgstr "Close"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:259
+msgid "bvIiB8"
+msgstr "See full report"
 
 #: src/components/kingdoms/kingdom-governors-table.tsx:31
 msgid "02koas"

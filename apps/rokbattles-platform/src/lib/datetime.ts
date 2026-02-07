@@ -1,12 +1,12 @@
 const FALLBACK_UTC_DISPLAY = "UTC --/-- --:--";
 
-type TimestampInput = number | null | undefined;
+export type TimestampInput = number | null | undefined;
 
 function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
 
-function normalizeEpochMillis(value: number): number {
+export function normalizeEpochMillis(value: number): number {
   const absoluteValue = Math.abs(value);
 
   if (absoluteValue >= 1e17) {
@@ -24,7 +24,7 @@ function normalizeEpochMillis(value: number): number {
   return Math.trunc(value);
 }
 
-function toMillis(value: TimestampInput): number | null {
+export function toEpochMillis(value: TimestampInput): number | null {
   if (value == null || !Number.isFinite(value)) {
     return null;
   }
@@ -33,7 +33,7 @@ function toMillis(value: TimestampInput): number | null {
 }
 
 export function formatUtcDateTime(value: TimestampInput): string {
-  const millis = toMillis(value);
+  const millis = toEpochMillis(value);
 
   if (millis == null) {
     return FALLBACK_UTC_DISPLAY;
@@ -53,12 +53,35 @@ export function formatUtcDateTime(value: TimestampInput): string {
   return `UTC ${month}/${day} ${hour}:${minute}`;
 }
 
+export function formatUtcTime(
+  value: TimestampInput,
+  fallback = "--:--:--"
+): string {
+  const millis = toEpochMillis(value);
+
+  if (millis == null) {
+    return fallback;
+  }
+
+  const date = new Date(millis);
+
+  if (Number.isNaN(date.getTime())) {
+    return fallback;
+  }
+
+  const hour = pad(date.getUTCHours());
+  const minute = pad(date.getUTCMinutes());
+  const second = pad(date.getUTCSeconds());
+
+  return `${hour}:${minute}:${second}`;
+}
+
 export function formatDurationShort(
   startValue: TimestampInput,
   endValue: TimestampInput
 ): string {
-  const startMillis = toMillis(startValue);
-  const endMillis = toMillis(endValue);
+  const startMillis = toEpochMillis(startValue);
+  const endMillis = toEpochMillis(endValue);
 
   if (startMillis == null || endMillis == null) {
     return "0s";
