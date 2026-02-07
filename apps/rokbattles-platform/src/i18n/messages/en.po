@@ -7,6 +7,7 @@ msgstr ""
 "X-Crowdin-SourceKey: msgstr\n"
 
 #: src/app/explore/page.tsx:27
+#: src/components/app-layout.tsx:45
 msgid "xmv5Of"
 msgstr "Battle Reports"
 
@@ -25,10 +26,18 @@ msgstr "Overview"
 
 #: src/app/page.tsx:6
 #: src/app/report/[id]/page.tsx:6
-#: src/components/app-layout.tsx:26
-#: src/components/app-layout.tsx:35
+#: src/components/app-layout.tsx:34
+#: src/components/app-layout.tsx:58
 msgid "Xh4TDU"
 msgstr "ROK Battles"
+
+#: src/components/app-layout.tsx:40
+msgid "7JlauX"
+msgstr "Explore"
+
+#: src/components/app-layout.tsx:48
+msgid "sqvUg2"
+msgstr "Olympian Arena"
 
 #: src/components/explore/explore-battle-reports-table.tsx:54
 msgid "ug01Mk"

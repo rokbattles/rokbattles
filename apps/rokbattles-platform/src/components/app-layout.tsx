@@ -1,9 +1,17 @@
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { getExtracted } from "next-intl/server";
 import type { ReactNode } from "react";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu,
+} from "@/components/ui/dropdown";
 import {
   Navbar,
   NavbarDivider,
   NavbarItem,
+  NavbarLabel,
   NavbarSection,
 } from "@/components/ui/navbar";
 import {
@@ -26,7 +34,22 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
             {t("ROK Battles")}
           </NavbarItem>
           <NavbarDivider className="max-lg:hidden" />
-          <NavbarSection className="max-lg:hidden" />
+          <NavbarSection className="max-lg:hidden">
+            <Dropdown>
+              <DropdownButton as={NavbarItem}>
+                <NavbarLabel>{t("Explore")}</NavbarLabel>
+                <ChevronDownIcon />
+              </DropdownButton>
+              <DropdownMenu anchor="bottom start" className="min-w-48">
+                <DropdownItem href="/explore">
+                  {t("Battle Reports")}
+                </DropdownItem>
+                <DropdownItem href="/explore/arena">
+                  {t("Olympian Arena")}
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarSection>
         </Navbar>
       }
       sidebar={
