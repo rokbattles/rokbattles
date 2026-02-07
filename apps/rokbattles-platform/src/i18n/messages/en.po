@@ -27,7 +27,7 @@ msgstr "Overview"
 #: src/app/page.tsx:6
 #: src/app/report/[id]/page.tsx:6
 #: src/components/app-layout.tsx:34
-#: src/components/app-layout.tsx:58
+#: src/components/app-layout.tsx:59
 msgid "Xh4TDU"
 msgstr "ROK Battles"
 
@@ -38,6 +38,10 @@ msgstr "Explore"
 #: src/components/app-layout.tsx:48
 msgid "sqvUg2"
 msgstr "Olympian Arena"
+
+#: src/components/app-layout.tsx:50
+msgid "CPpsOf"
+msgstr "Trends"
 
 #: src/components/explore/explore-battle-reports-table.tsx:54
 msgid "ug01Mk"

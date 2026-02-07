@@ -47,6 +47,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                 <DropdownItem href="/explore/arena">
                   {t("Olympian Arena")}
                 </DropdownItem>
+                <DropdownItem disabled>{t("Trends")}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarSection>
