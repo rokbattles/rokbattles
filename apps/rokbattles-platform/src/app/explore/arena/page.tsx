@@ -7,22 +7,22 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { fetchExploreOlympianArena } from "@/data/fetch-explore-olympian-arena";
-import { toInt } from "@/lib/params-helper";
+import { toStr } from "@/lib/params-helper";
 
 export default async function Page({
   searchParams,
 }: PageProps<"/explore/arena">) {
   const t = await getExtracted();
   const resolvedSearchParams = await searchParams;
-  const page = Math.max(1, Math.trunc(toInt(resolvedSearchParams.page, 1)));
-  const size = Math.min(
-    100,
-    Math.max(1, Math.trunc(toInt(resolvedSearchParams.size, 10)))
-  );
-  const reports = await fetchExploreOlympianArena(page, size);
-  const hasNext = page * size < reports.total;
-  const prevHref = page > 1 ? `?page=${page - 1}&size=${size}` : undefined;
-  const nextHref = hasNext ? `?page=${page + 1}&size=${size}` : undefined;
+  const after = toStr(resolvedSearchParams.after);
+  const before = toStr(resolvedSearchParams.before);
+  const reports = await fetchExploreOlympianArena(after, before);
+  const prevHref = reports.previousBefore
+    ? `?before=${encodeURIComponent(reports.previousBefore)}`
+    : undefined;
+  const nextHref = reports.nextAfter
+    ? `?after=${encodeURIComponent(reports.nextAfter)}`
+    : undefined;
 
   return (
     <>

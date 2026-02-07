@@ -45,7 +45,6 @@ export interface ExploreBattleReportRowDb {
 
 export interface ExploreBattleReportsPageDb {
   rows: ExploreBattleReportRowDb[];
-  total: number;
 }
 
 export interface ExploreBattleReportRow {
@@ -88,5 +87,6 @@ export interface ExploreBattleTimeline {
 
 export interface ExploreBattleReportsPage {
   rows: ExploreBattleReportRow[];
-  total: number;
+  nextAfter: string | null;
+  previousBefore: string | null;
 }

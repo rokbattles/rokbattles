@@ -1,3 +1,5 @@
+import type { ObjectId } from "mongodb";
+
 export interface ExploreOlympianArenaCommanderPair {
   primary: number;
   secondary: number | null;
@@ -6,6 +8,7 @@ export interface ExploreOlympianArenaCommanderPair {
 export interface ExploreOlympianArenaRowDb {
   _id: number;
   first_mail_time: number;
+  latest_doc_id: ObjectId;
   sender_commanders: ExploreOlympianArenaCommanderPair;
   opponent_commanders: ExploreOlympianArenaCommanderPair;
   trade_percentage: number;
@@ -14,7 +17,6 @@ export interface ExploreOlympianArenaRowDb {
 
 export interface ExploreOlympianArenaPageDb {
   rows: ExploreOlympianArenaRowDb[];
-  total: number;
 }
 
 export interface ExploreOlympianArenaRow {
@@ -29,5 +31,6 @@ export interface ExploreOlympianArenaRow {
 
 export interface ExploreOlympianArenaPage {
   rows: ExploreOlympianArenaRow[];
-  total: number;
+  nextAfter: string | null;
+  previousBefore: string | null;
 }

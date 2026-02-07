@@ -1,25 +1,41 @@
 import "server-only";
 import { cache } from "react";
 import clientPromise from "@/lib/mongo";
+import { parseObjectId } from "@/lib/parse-object-id";
 import type {
   ExploreOlympianArenaPage,
   ExploreOlympianArenaPageDb,
 } from "@/lib/types/explore-olympian-arena";
 import type { MailsDuelBattle2Document } from "@/lib/types/mails-duelbattle2";
 
+const EXPLORE_ARENA_PAGE_SIZE = 100;
+const EXPLORE_ARENA_FETCH_SIZE = EXPLORE_ARENA_PAGE_SIZE + 1;
+
 export const fetchExploreOlympianArena = cache(
   async function fetchExploreOlympianArena(
-    pageParam: number,
-    sizeParam: number
+    afterParam?: string,
+    beforeParam?: string
   ): Promise<ExploreOlympianArenaPage> {
-    const page = Math.max(1, Math.trunc(pageParam));
-    const size = Math.min(100, Math.max(1, Math.trunc(sizeParam)));
-    const skip = (page - 1) * size;
+    const beforeCursor = parseObjectId(beforeParam);
+    const afterCursor = beforeCursor ? null : parseObjectId(afterParam);
+    let cursorMatch:
+      | { latest_doc_id: { $gt: typeof beforeCursor } }
+      | { latest_doc_id: { $lt: typeof afterCursor } }
+      | null = null;
+    if (beforeCursor) {
+      cursorMatch = { latest_doc_id: { $gt: beforeCursor } };
+    } else if (afterCursor) {
+      cursorMatch = { latest_doc_id: { $lt: afterCursor } };
+    }
 
     const client = await clientPromise;
 
     if (!client) {
-      return { rows: [], total: 0 };
+      return {
+        rows: [],
+        nextAfter: null,
+        previousBefore: null,
+      };
     }
 
     const db = client.db();
@@ -39,6 +55,7 @@ export const fetchExploreOlympianArena = cache(
             _id: "$sender.duel.team_id",
             first_mail_time: { $first: "$metadata.mail_time" },
             latest_mail_time: { $last: "$metadata.mail_time" },
+            latest_doc_id: { $last: "$_id" },
             sender_primary: { $first: "$sender.primary_commander.id" },
             sender_secondary: { $first: "$sender.secondary_commander.id" },
             opponent_primary: { $first: "$opponent.primary_commander.id" },
@@ -107,16 +124,24 @@ export const fetchExploreOlympianArena = cache(
             },
           },
         },
+        ...(cursorMatch ? [{ $match: cursorMatch }] : []),
         {
           $facet: {
             rows: [
-              { $sort: { latest_mail_time: -1, _id: -1 } },
-              { $skip: skip },
-              { $limit: size },
+              ...(beforeCursor
+                ? [
+                    { $sort: { latest_doc_id: 1, _id: 1 } },
+                    { $limit: EXPLORE_ARENA_FETCH_SIZE },
+                  ]
+                : [
+                    { $sort: { latest_doc_id: -1, _id: -1 } },
+                    { $limit: EXPLORE_ARENA_FETCH_SIZE },
+                  ]),
               {
                 $project: {
                   _id: 1,
                   first_mail_time: 1,
+                  latest_doc_id: 1,
                   sender_commanders: {
                     primary: "$sender_primary",
                     secondary: "$sender_secondary",
@@ -130,33 +155,56 @@ export const fetchExploreOlympianArena = cache(
                 },
               },
             ],
-            total: [{ $count: "value" }],
           },
         },
         {
           $project: {
             rows: 1,
-            total: { $ifNull: [{ $first: "$total.value" }, 0] },
           },
         },
       ])
       .next();
 
     if (!result) {
-      return { rows: [], total: 0 };
+      return {
+        rows: [],
+        nextAfter: null,
+        previousBefore: null,
+      };
     }
 
-    return {
-      rows: result.rows.map((row) => ({
-        id: row._id.toString(),
-        teamId: row._id,
-        mailTime: row.first_mail_time,
-        senderCommanders: row.sender_commanders,
-        opponentCommanders: row.opponent_commanders,
-        tradePercentage: row.trade_percentage,
-        winStreak: row.win_streak,
-      })),
-      total: result.total,
-    };
+    const hasMoreInQueryDirection =
+      result.rows.length > EXPLORE_ARENA_PAGE_SIZE;
+    const pagedRows = hasMoreInQueryDirection
+      ? result.rows.slice(0, EXPLORE_ARENA_PAGE_SIZE)
+      : result.rows;
+    const orderedRows = beforeCursor ? [...pagedRows].reverse() : pagedRows;
+
+    const rows = orderedRows.map((row) => ({
+      id: row._id.toString(),
+      teamId: row._id,
+      mailTime: row.first_mail_time,
+      senderCommanders: row.sender_commanders,
+      opponentCommanders: row.opponent_commanders,
+      tradePercentage: row.trade_percentage,
+      winStreak: row.win_streak,
+    }));
+
+    const isInitialPage = !(afterCursor || beforeCursor);
+    const firstRow = orderedRows.at(0);
+    const lastRow = orderedRows.at(-1);
+
+    const previousBefore =
+      firstRow &&
+      !isInitialPage &&
+      (afterCursor || (beforeCursor && hasMoreInQueryDirection))
+        ? firstRow.latest_doc_id.toString()
+        : null;
+    const nextAfter =
+      lastRow && (beforeCursor || hasMoreInQueryDirection)
+        ? lastRow.latest_doc_id.toString()
+        : null;
+
+    return { rows, nextAfter, previousBefore };
   }
 );

@@ -1,25 +1,43 @@
 import "server-only";
 import { cache } from "react";
 import clientPromise from "@/lib/mongo";
+import { parseObjectId } from "@/lib/parse-object-id";
 import type {
   ExploreBattleReportsPage,
   ExploreBattleReportsPageDb,
 } from "@/lib/types/explore-battle-reports";
 import type { MailsBattleDocument } from "@/lib/types/mails-battle";
 
+const EXPLORE_REPORTS_PAGE_SIZE = 100;
+const EXPLORE_REPORTS_FETCH_SIZE = EXPLORE_REPORTS_PAGE_SIZE + 1;
+
 export const fetchExploreBattleReports = cache(
   async function fetchExploreBattleReports(
-    pageParam: number,
-    sizeParam: number
+    afterParam?: string,
+    beforeParam?: string
   ): Promise<ExploreBattleReportsPage> {
-    const page = Math.max(1, Math.trunc(pageParam));
-    const size = Math.min(100, Math.max(1, Math.trunc(sizeParam)));
-    const skip = (page - 1) * size;
+    const beforeCursor = parseObjectId(beforeParam);
+    const afterCursor = beforeCursor ? null : parseObjectId(afterParam);
+    let cursorMatch:
+      | { _id: { $gt: typeof beforeCursor } }
+      | {
+          _id: { $lt: typeof afterCursor };
+        }
+      | null = null;
+    if (beforeCursor) {
+      cursorMatch = { _id: { $gt: beforeCursor } };
+    } else if (afterCursor) {
+      cursorMatch = { _id: { $lt: afterCursor } };
+    }
 
     const client = await clientPromise;
 
     if (!client) {
-      return { rows: [], total: 0 };
+      return {
+        rows: [],
+        nextAfter: null,
+        previousBefore: null,
+      };
     }
 
     const db = client.db();
@@ -27,6 +45,7 @@ export const fetchExploreBattleReports = cache(
     const result = await db
       .collection<MailsBattleDocument>("mails_battle")
       .aggregate<ExploreBattleReportsPageDb>([
+        ...(cursorMatch ? [{ $match: cursorMatch }] : []),
         {
           $addFields: {
             valid_opponents: {
@@ -403,9 +422,15 @@ export const fetchExploreBattleReports = cache(
         {
           $facet: {
             rows: [
-              { $sort: { "metadata.mail_time": -1, _id: -1 } },
-              { $skip: skip },
-              { $limit: size },
+              ...(beforeCursor
+                ? [
+                    { $sort: { _id: 1 } },
+                    { $limit: EXPLORE_REPORTS_FETCH_SIZE },
+                  ]
+                : [
+                    { $sort: { _id: -1 } },
+                    { $limit: EXPLORE_REPORTS_FETCH_SIZE },
+                  ]),
               {
                 $project: {
                   _id: 1,
@@ -464,57 +489,78 @@ export const fetchExploreBattleReports = cache(
                 },
               },
             ],
-            total: [{ $count: "value" }],
           },
         },
         {
           $project: {
             rows: 1,
-            total: { $ifNull: [{ $first: "$total.value" }, 0] },
           },
         },
       ])
       .next();
 
     if (!result) {
-      return { rows: [], total: 0 };
+      return {
+        rows: [],
+        nextAfter: null,
+        previousBefore: null,
+      };
     }
 
-    return {
-      rows: result.rows.map((row) => ({
-        id: row._id.toString(),
-        mailId: row.mail_id ?? row._id.toString(),
-        startTimestamp: row.start_timestamp ?? null,
-        endTimestamp: row.end_timestamp ?? null,
-        senderCommanders: row.sender_commanders,
-        opponentCommanders: row.opponent_commanders,
-        tradePercentage: row.trade_percentage,
-        battles: row.battles,
-        summary: {
-          sender: {
-            dead: row.summary.sender.dead,
-            killPoints: row.summary.sender.kill_points,
-            remaining: row.summary.sender.remaining,
-            severelyWounded: row.summary.sender.severely_wounded,
-            slightlyWounded: row.summary.sender.slightly_wounded,
-            troopUnits: row.summary.sender.troop_units,
-          },
-          opponent: {
-            dead: row.summary.opponent.dead,
-            killPoints: row.summary.opponent.kill_points,
-            remaining: row.summary.opponent.remaining,
-            severelyWounded: row.summary.opponent.severely_wounded,
-            slightlyWounded: row.summary.opponent.slightly_wounded,
-            troopUnits: row.summary.opponent.troop_units,
-          },
+    const hasMoreInQueryDirection =
+      result.rows.length > EXPLORE_REPORTS_PAGE_SIZE;
+    const pagedRows = hasMoreInQueryDirection
+      ? result.rows.slice(0, EXPLORE_REPORTS_PAGE_SIZE)
+      : result.rows;
+    const orderedRows = beforeCursor ? [...pagedRows].reverse() : pagedRows;
+
+    const rows = orderedRows.map((row) => ({
+      id: row._id.toString(),
+      mailId: row.mail_id ?? row._id.toString(),
+      startTimestamp: row.start_timestamp ?? null,
+      endTimestamp: row.end_timestamp ?? null,
+      senderCommanders: row.sender_commanders,
+      opponentCommanders: row.opponent_commanders,
+      tradePercentage: row.trade_percentage,
+      battles: row.battles,
+      summary: {
+        sender: {
+          dead: row.summary.sender.dead,
+          killPoints: row.summary.sender.kill_points,
+          remaining: row.summary.sender.remaining,
+          severelyWounded: row.summary.sender.severely_wounded,
+          slightlyWounded: row.summary.sender.slightly_wounded,
+          troopUnits: row.summary.sender.troop_units,
         },
-        timeline: {
-          startTimestamp: row.timeline.start_timestamp,
-          endTimestamp: row.timeline.end_timestamp,
-          sampling: row.timeline.sampling,
+        opponent: {
+          dead: row.summary.opponent.dead,
+          killPoints: row.summary.opponent.kill_points,
+          remaining: row.summary.opponent.remaining,
+          severelyWounded: row.summary.opponent.severely_wounded,
+          slightlyWounded: row.summary.opponent.slightly_wounded,
+          troopUnits: row.summary.opponent.troop_units,
         },
-      })),
-      total: result.total,
-    };
+      },
+      timeline: {
+        startTimestamp: row.timeline.start_timestamp,
+        endTimestamp: row.timeline.end_timestamp,
+        sampling: row.timeline.sampling,
+      },
+    }));
+
+    const isInitialPage = !(afterCursor || beforeCursor);
+    const firstRow = rows.at(0);
+    const lastRow = rows.at(-1);
+
+    const previousBefore =
+      firstRow &&
+      !isInitialPage &&
+      (afterCursor || (beforeCursor && hasMoreInQueryDirection))
+        ? firstRow.id
+        : null;
+    const nextAfter =
+      lastRow && (beforeCursor || hasMoreInQueryDirection) ? lastRow.id : null;
+
+    return { rows, nextAfter, previousBefore };
   }
 );
