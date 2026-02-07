@@ -1,10 +1,19 @@
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import {
+  ArrowTrendingUpIcon,
+  ChevronDownIcon,
+  Cog6ToothIcon,
+  FireIcon,
+  TrophyIcon,
+  UsersIcon,
+} from "@heroicons/react/16/solid";
 import { getExtracted } from "next-intl/server";
 import type { ReactNode } from "react";
 import {
   Dropdown,
   DropdownButton,
+  DropdownDivider,
   DropdownItem,
+  DropdownLabel,
   DropdownMenu,
 } from "@/components/ui/dropdown";
 import {
@@ -42,12 +51,38 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               </DropdownButton>
               <DropdownMenu anchor="bottom start" className="min-w-48">
                 <DropdownItem href="/explore">
-                  {t("Battle Reports")}
+                  <FireIcon />
+                  <DropdownLabel>{t("Battle Reports")}</DropdownLabel>
                 </DropdownItem>
                 <DropdownItem href="/explore/arena">
-                  {t("Olympian Arena")}
+                  <TrophyIcon />
+                  <DropdownLabel>{t("Olympian Arena")}</DropdownLabel>
                 </DropdownItem>
-                <DropdownItem disabled>{t("Trends")}</DropdownItem>
+                <DropdownItem disabled>
+                  <ArrowTrendingUpIcon />
+                  <DropdownLabel>{t("Trends")}</DropdownLabel>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownButton as={NavbarItem}>
+                <NavbarLabel>Kingdom</NavbarLabel>
+                <ChevronDownIcon />
+              </DropdownButton>
+              <DropdownMenu anchor="bottom start" className="min-w-48">
+                <DropdownItem disabled>
+                  <UsersIcon />
+                  <DropdownLabel>{t("Governors")}</DropdownLabel>
+                </DropdownItem>
+                <DropdownItem disabled>
+                  <FireIcon />
+                  <DropdownLabel>{t("KVKs")}</DropdownLabel>
+                </DropdownItem>
+                <DropdownDivider />
+                <DropdownItem disabled>
+                  <Cog6ToothIcon />
+                  <DropdownLabel>{t("Management")}</DropdownLabel>
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </NavbarSection>
