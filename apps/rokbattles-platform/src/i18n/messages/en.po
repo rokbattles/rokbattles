@@ -44,36 +44,41 @@ msgstr "Explore"
 msgid "CPpsOf"
 msgstr "Trends"
 
-#: src/components/explore/explore-battle-reports-table.tsx:46
+#: src/components/explore/explore-battle-reports-table.tsx:44
 #: src/components/explore/explore-olympian-arena-table.tsx:32
 msgid "ug01Mk"
 msgstr "Time"
 
-#: src/components/explore/explore-battle-reports-table.tsx:47
+#: src/components/explore/explore-battle-reports-table.tsx:45
 #: src/components/explore/explore-olympian-arena-table.tsx:33
 #: src/components/explore/explore-report-overview-drawer.tsx:238
 msgid "nbwXXN"
 msgstr "Sender"
 
-#: src/components/explore/explore-battle-reports-table.tsx:48
+#: src/components/explore/explore-battle-reports-table.tsx:46
 #: src/components/explore/explore-olympian-arena-table.tsx:34
 msgid "Mdj7Fr"
 msgstr "Opponent"
 
-#: src/components/explore/explore-battle-reports-table.tsx:49
+#: src/components/explore/explore-battle-reports-table.tsx:47
 #: src/components/explore/explore-olympian-arena-table.tsx:35
+msgid "Y3Z7jw"
+msgstr "Kill Count"
+
+#: src/components/explore/explore-battle-reports-table.tsx:48
+#: src/components/explore/explore-olympian-arena-table.tsx:36
 msgid "c+sY33"
 msgstr "Trade %"
 
-#: src/components/explore/explore-battle-reports-table.tsx:50
+#: src/components/explore/explore-battle-reports-table.tsx:49
 msgid "9bVtCz"
 msgstr "Battles"
 
-#: src/components/explore/explore-battle-reports-table.tsx:51
+#: src/components/explore/explore-battle-reports-table.tsx:50
 msgid "IuFETn"
 msgstr "Duration"
 
-#: src/components/explore/explore-olympian-arena-table.tsx:36
+#: src/components/explore/explore-olympian-arena-table.tsx:37
 msgid "aXdZke"
 msgstr "Win Streak"
 

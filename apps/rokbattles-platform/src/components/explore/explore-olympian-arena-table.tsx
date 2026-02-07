@@ -32,6 +32,7 @@ export default function ExploreOlympianArenaTable({
           <TableHeader className="w-36">{t("Time")}</TableHeader>
           <TableHeader>{t("Sender")}</TableHeader>
           <TableHeader>{t("Opponent")}</TableHeader>
+          <TableHeader className="w-32">{t("Kill Count")}</TableHeader>
           <TableHeader className="w-32">{t("Trade %")}</TableHeader>
           <TableHeader className="w-32">{t("Win Streak")}</TableHeader>
         </TableRow>
@@ -53,6 +54,9 @@ export default function ExploreOlympianArenaTable({
                 primary={row.opponentCommanders.primary}
                 secondary={row.opponentCommanders.secondary}
               />
+            </TableCell>
+            <TableCell className="tabular-nums">
+              +{row.killCount.toLocaleString()}
             </TableCell>
             <TableCell className="tabular-nums">
               {formatTradePercentage(row.tradePercentage)}

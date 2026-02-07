@@ -77,6 +77,28 @@ export const fetchExploreOlympianArena = cache(
                 ],
               },
             },
+            opponent_kill_count_total: {
+              $sum: {
+                $add: [
+                  {
+                    $cond: [
+                      { $isNumber: "$battle_results.opponent.dead" },
+                      "$battle_results.opponent.dead",
+                      0,
+                    ],
+                  },
+                  {
+                    $cond: [
+                      {
+                        $isNumber: "$battle_results.opponent.severely_wounded",
+                      },
+                      "$battle_results.opponent.severely_wounded",
+                      0,
+                    ],
+                  },
+                ],
+              },
+            },
             sender_wins: {
               $push: { $eq: ["$battle_results.sender.win", true] },
             },
@@ -148,6 +170,7 @@ export const fetchExploreOlympianArena = cache(
                     primary: "$opponent_primary",
                     secondary: "$opponent_secondary",
                   },
+                  kill_count: "$opponent_kill_count_total",
                   trade_percentage: 1,
                   win_streak: 1,
                 },
@@ -185,6 +208,7 @@ export const fetchExploreOlympianArena = cache(
       mailTime: row.first_mail_time,
       senderCommanders: row.sender_commanders,
       opponentCommanders: row.opponent_commanders,
+      killCount: row.kill_count,
       tradePercentage: row.trade_percentage,
       winStreak: row.win_streak,
     }));

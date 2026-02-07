@@ -8,6 +8,7 @@ export interface ExploreOlympianArenaRowDb {
   first_mail_time: number;
   sender_commanders: ExploreOlympianArenaCommanderPair;
   opponent_commanders: ExploreOlympianArenaCommanderPair;
+  kill_count: number;
   trade_percentage: number;
   win_streak: number;
 }
@@ -22,6 +23,7 @@ export interface ExploreOlympianArenaRow {
   mailTime: number;
   senderCommanders: ExploreOlympianArenaCommanderPair;
   opponentCommanders: ExploreOlympianArenaCommanderPair;
+  killCount: number;
   tradePercentage: number;
   winStreak: number;
 }
