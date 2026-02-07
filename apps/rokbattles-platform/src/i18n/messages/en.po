@@ -6,12 +6,12 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/explore/arena/page.tsx:33
+#: src/app/explore/arena/page.tsx:29
 #: src/components/app-layout.tsx:48
 msgid "sqvUg2"
 msgstr "Olympian Arena"
 
-#: src/app/explore/arena/page.tsx:34
+#: src/app/explore/arena/page.tsx:30
 #: src/app/explore/page.tsx:28
 msgid "W74uY7"
 msgstr "Live feed"

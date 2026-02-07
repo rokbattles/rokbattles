@@ -30,6 +30,7 @@ export const fetchExploreOlympianArena = cache(
         {
           $match: {
             "sender.duel.team_id": { $exists: true, $ne: null },
+            "metadata.mail_time": { $exists: true, $ne: null },
           },
         },
         { $sort: { "metadata.mail_time": 1, _id: 1 } },
@@ -42,14 +43,67 @@ export const fetchExploreOlympianArena = cache(
             sender_secondary: { $first: "$sender.secondary_commander.id" },
             opponent_primary: { $first: "$opponent.primary_commander.id" },
             opponent_secondary: { $first: "$opponent.secondary_commander.id" },
-            battles: { $sum: 1 },
+            sender_kp_total: {
+              $sum: {
+                $cond: [
+                  { $isNumber: "$battle_results.sender.kill_points" },
+                  "$battle_results.sender.kill_points",
+                  0,
+                ],
+              },
+            },
+            opponent_kp_total: {
+              $sum: {
+                $cond: [
+                  { $isNumber: "$battle_results.opponent.kill_points" },
+                  "$battle_results.opponent.kill_points",
+                  0,
+                ],
+              },
+            },
+            sender_wins: {
+              $push: { $eq: ["$battle_results.sender.win", true] },
+            },
           },
         },
         {
           $addFields: {
-            trade_percentage: 0,
+            trade_percentage: {
+              $round: [
+                {
+                  $cond: [
+                    { $gt: ["$opponent_kp_total", 0] },
+                    {
+                      $multiply: [
+                        { $divide: ["$sender_kp_total", "$opponent_kp_total"] },
+                        100,
+                      ],
+                    },
+                    {
+                      $cond: [
+                        { $eq: ["$sender_kp_total", "$opponent_kp_total"] },
+                        100,
+                        0,
+                      ],
+                    },
+                  ],
+                },
+                0,
+              ],
+            },
             win_streak: {
-              $max: [{ $subtract: ["$battles", 1] }, 0],
+              $let: {
+                vars: {
+                  first_loss_index: { $indexOfArray: ["$sender_wins", false] },
+                },
+                in: {
+                  $cond: [
+                    { $eq: ["$$first_loss_index", -1] },
+                    { $size: "$sender_wins" },
+                    "$$first_loss_index",
+                  ],
+                },
+              },
             },
           },
         },
@@ -64,12 +118,12 @@ export const fetchExploreOlympianArena = cache(
                   _id: 1,
                   first_mail_time: 1,
                   sender_commanders: {
-                    primary: { $ifNull: ["$sender_primary", null] },
-                    secondary: { $ifNull: ["$sender_secondary", null] },
+                    primary: "$sender_primary",
+                    secondary: "$sender_secondary",
                   },
                   opponent_commanders: {
-                    primary: { $ifNull: ["$opponent_primary", null] },
-                    secondary: { $ifNull: ["$opponent_secondary", null] },
+                    primary: "$opponent_primary",
+                    secondary: "$opponent_secondary",
                   },
                   trade_percentage: 1,
                   win_streak: 1,
@@ -96,7 +150,7 @@ export const fetchExploreOlympianArena = cache(
       rows: result.rows.map((row) => ({
         id: row._id.toString(),
         teamId: row._id,
-        mailTime: row.first_mail_time ?? null,
+        mailTime: row.first_mail_time,
         senderCommanders: row.sender_commanders,
         opponentCommanders: row.opponent_commanders,
         tradePercentage: row.trade_percentage,

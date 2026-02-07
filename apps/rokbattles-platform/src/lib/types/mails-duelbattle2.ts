@@ -37,12 +37,29 @@ interface MailsDuelBattle2Player {
     team_id: number;
   };
   primary_commander: MailsDuelBattle2Commander;
-  secondary_commander: MailsDuelBattle2Commander;
+  secondary_commander: MailsDuelBattle2Commander | null;
   buffs: MailsDuelBattle2Buff[];
+}
+
+interface MailsDuelBattle2BattleResultsEntry {
+  kill_points: number;
+  severely_wounded: number;
+  slightly_wounded: number;
+  dead: number;
+  heal: number;
+  units: number;
+  power: number;
+  win: boolean;
+}
+
+interface MailsDuelBattle2BattleResults {
+  sender: MailsDuelBattle2BattleResultsEntry;
+  opponent: MailsDuelBattle2BattleResultsEntry;
 }
 
 interface MailsDuelBattle2Fields {
   metadata: MailsDuelBattle2Metadata;
+  battle_results: MailsDuelBattle2BattleResults;
   sender: MailsDuelBattle2Player;
   opponent: MailsDuelBattle2Player;
 }

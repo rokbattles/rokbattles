@@ -1,11 +1,11 @@
 export interface ExploreOlympianArenaCommanderPair {
-  primary: number | null;
+  primary: number;
   secondary: number | null;
 }
 
 export interface ExploreOlympianArenaRowDb {
   _id: number;
-  first_mail_time: number | null;
+  first_mail_time: number;
   sender_commanders: ExploreOlympianArenaCommanderPair;
   opponent_commanders: ExploreOlympianArenaCommanderPair;
   trade_percentage: number;
@@ -20,7 +20,7 @@ export interface ExploreOlympianArenaPageDb {
 export interface ExploreOlympianArenaRow {
   id: string;
   teamId: number;
-  mailTime: number | null;
+  mailTime: number;
   senderCommanders: ExploreOlympianArenaCommanderPair;
   opponentCommanders: ExploreOlympianArenaCommanderPair;
   tradePercentage: number;
