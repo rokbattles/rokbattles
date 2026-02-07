@@ -7,7 +7,7 @@ msgstr ""
 "X-Crowdin-SourceKey: msgstr\n"
 
 #: src/app/explore/arena/page.tsx:29
-#: src/components/app-layout.tsx:59
+#: src/components/app-layout.tsx:65
 msgid "sqvUg2"
 msgstr "Olympian Arena"
 
@@ -17,12 +17,12 @@ msgid "W74uY7"
 msgstr "Live feed"
 
 #: src/app/explore/page.tsx:27
-#: src/components/app-layout.tsx:55
+#: src/components/app-layout.tsx:61
 msgid "xmv5Of"
 msgstr "Battle Reports"
 
 #: src/app/kingdom/[kingdom]/page.tsx:39
-#: src/components/app-layout.tsx:75
+#: src/components/app-layout.tsx:81
 msgid "q5TmbN"
 msgstr "Governors"
 
@@ -32,26 +32,38 @@ msgstr "Overview"
 
 #: src/app/page.tsx:6
 #: src/app/report/[id]/page.tsx:6
-#: src/components/app-layout.tsx:43
-#: src/components/app-layout.tsx:94
+#: src/components/app-layout.tsx:49
+#: src/components/app-layout.tsx:129
 msgid "Xh4TDU"
 msgstr "ROK Battles"
 
-#: src/components/app-layout.tsx:49
+#: src/components/app-layout.tsx:55
 msgid "7JlauX"
 msgstr "Explore"
 
-#: src/components/app-layout.tsx:63
+#: src/components/app-layout.tsx:69
 msgid "CPpsOf"
 msgstr "Trends"
 
-#: src/components/app-layout.tsx:79
+#: src/components/app-layout.tsx:85
 msgid "HbwNV0"
 msgstr "KVKs"
 
-#: src/components/app-layout.tsx:84
+#: src/components/app-layout.tsx:90
 msgid "m6lDC9"
 msgstr "Management"
+
+#: src/components/app-layout.tsx:109
+msgid "D3idYv"
+msgstr "Settings"
+
+#: src/components/app-layout.tsx:114
+msgid "xXbJso"
+msgstr "Sign out"
+
+#: src/components/app-layout.tsx:120
+msgid "SQJto2"
+msgstr "Sign in"
 
 #: src/components/explore/explore-battle-reports-table.tsx:44
 #: src/components/explore/explore-olympian-arena-table.tsx:32

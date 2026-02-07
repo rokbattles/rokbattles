@@ -6,6 +6,7 @@
     "dev": "next -H 0.0.0.0",
     "build": "next build",
     "typecheck": "next typegen && tsc --noEmit",
+    "generate:indexes": "node ./scripts/generate-indexes.mjs",
     "generate:messages": "node ./scripts/extract-messages.mjs",
     "generate:datasets": "node ./scripts/generate-datasets.cjs"
   },

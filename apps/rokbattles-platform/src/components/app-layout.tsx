@@ -1,4 +1,5 @@
 import {
+  ArrowRightStartOnRectangleIcon,
   ArrowTrendingUpIcon,
   ChevronDownIcon,
   Cog6ToothIcon,
@@ -8,6 +9,8 @@ import {
 } from "@heroicons/react/16/solid";
 import { getExtracted } from "next-intl/server";
 import type { ReactNode } from "react";
+import { signOut } from "@/actions/sign-out";
+import { Avatar } from "@/components/ui/avatar";
 import {
   Dropdown,
   DropdownButton,
@@ -22,6 +25,7 @@ import {
   NavbarItem,
   NavbarLabel,
   NavbarSection,
+  NavbarSpacer,
 } from "@/components/ui/navbar";
 import {
   Sidebar,
@@ -31,9 +35,11 @@ import {
   SidebarSection,
 } from "@/components/ui/sidebar";
 import { StackedLayout } from "@/components/ui/stacked-layout";
+import { fetchCurrentUser } from "@/data/fetch-current-user";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const t = await getExtracted();
+  const currentUser = await fetchCurrentUser();
 
   return (
     <StackedLayout
@@ -45,7 +51,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
           <NavbarDivider className="max-lg:hidden" />
           <NavbarSection className="max-lg:hidden">
             <Dropdown>
-              <DropdownButton as={NavbarItem}>
+              <DropdownButton aria-label="Open explore menu" as={NavbarItem}>
                 <NavbarLabel>{t("Explore")}</NavbarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
@@ -65,7 +71,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
               </DropdownMenu>
             </Dropdown>
             <Dropdown>
-              <DropdownButton as={NavbarItem}>
+              <DropdownButton aria-label="Open kingdom menu" as={NavbarItem}>
                 <NavbarLabel>Kingdom</NavbarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
@@ -85,6 +91,35 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+          </NavbarSection>
+          <NavbarSpacer />
+          <NavbarSection>
+            {currentUser ? (
+              <Dropdown>
+                <DropdownButton aria-label="Open account menu" as={NavbarItem}>
+                  <Avatar
+                    alt={currentUser.globalName ?? currentUser.username}
+                    square
+                    src={currentUser.avatar}
+                  />
+                </DropdownButton>
+                <DropdownMenu anchor="bottom end" className="min-w-48">
+                  <DropdownItem disabled>
+                    <Cog6ToothIcon />
+                    <DropdownLabel>{t("Settings")}</DropdownLabel>
+                  </DropdownItem>
+                  <DropdownDivider />
+                  <DropdownItem onClick={signOut}>
+                    <ArrowRightStartOnRectangleIcon />
+                    <DropdownLabel>{t("Sign out")}</DropdownLabel>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <NavbarItem href="/api/auth/login" prefetch={false}>
+                <NavbarLabel>{t("Sign in")}</NavbarLabel>
+              </NavbarItem>
+            )}
           </NavbarSection>
         </Navbar>
       }
