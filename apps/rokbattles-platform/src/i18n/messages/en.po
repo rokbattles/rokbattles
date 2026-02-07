@@ -26,7 +26,6 @@ msgid "q5TmbN"
 msgstr "Governors"
 
 #: src/app/kingdom/[kingdom]/page.tsx:40
-#: src/components/explore/explore-battle-reports-table.tsx:114
 msgid "9uOFF3"
 msgstr "Overview"
 
@@ -45,46 +44,34 @@ msgstr "Explore"
 msgid "CPpsOf"
 msgstr "Trends"
 
-#: src/components/explore/explore-battle-reports-table.tsx:54
+#: src/components/explore/explore-battle-reports-table.tsx:46
 #: src/components/explore/explore-olympian-arena-table.tsx:32
 msgid "ug01Mk"
 msgstr "Time"
 
-#: src/components/explore/explore-battle-reports-table.tsx:55
+#: src/components/explore/explore-battle-reports-table.tsx:47
 #: src/components/explore/explore-olympian-arena-table.tsx:33
 #: src/components/explore/explore-report-overview-drawer.tsx:238
 msgid "nbwXXN"
 msgstr "Sender"
 
-#: src/components/explore/explore-battle-reports-table.tsx:56
+#: src/components/explore/explore-battle-reports-table.tsx:48
 #: src/components/explore/explore-olympian-arena-table.tsx:34
 msgid "Mdj7Fr"
 msgstr "Opponent"
 
-#: src/components/explore/explore-battle-reports-table.tsx:57
+#: src/components/explore/explore-battle-reports-table.tsx:49
 #: src/components/explore/explore-olympian-arena-table.tsx:35
 msgid "c+sY33"
 msgstr "Trade %"
 
-#: src/components/explore/explore-battle-reports-table.tsx:58
+#: src/components/explore/explore-battle-reports-table.tsx:50
 msgid "9bVtCz"
 msgstr "Battles"
 
-#: src/components/explore/explore-battle-reports-table.tsx:59
+#: src/components/explore/explore-battle-reports-table.tsx:51
 msgid "IuFETn"
 msgstr "Duration"
-
-#: src/components/explore/explore-battle-reports-table.tsx:61
-msgid "QlsDcr"
-msgstr "Action"
-
-#: src/components/explore/explore-battle-reports-table.tsx:119
-msgid "5Hzwqs"
-msgstr "Favorite"
-
-#: src/components/explore/explore-battle-reports-table.tsx:123
-msgid "OKhRC6"
-msgstr "Share"
 
 #: src/components/explore/explore-olympian-arena-table.tsx:36
 msgid "aXdZke"

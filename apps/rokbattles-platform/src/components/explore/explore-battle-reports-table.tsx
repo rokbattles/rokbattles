@@ -1,20 +1,6 @@
 "use client";
-
-import {
-  EllipsisVerticalIcon,
-  EyeIcon,
-  ShareIcon,
-  StarIcon,
-} from "@heroicons/react/16/solid";
 import { useExtracted } from "next-intl";
 import { useState } from "react";
-import {
-  Dropdown,
-  DropdownButton,
-  DropdownItem,
-  DropdownLabel,
-  DropdownMenu,
-} from "@/components/ui/dropdown";
 import {
   Table,
   TableBody,
@@ -41,6 +27,10 @@ export default function ExploreBattleReportsTable({
   const [overviewRow, setOverviewRow] = useState<ExploreBattleReportRow | null>(
     null
   );
+  const isMobileViewport = () =>
+    typeof window !== "undefined" &&
+    (window.matchMedia("(max-width: 767px)").matches ||
+      window.matchMedia("(hover: none) and (pointer: coarse)").matches);
 
   return (
     <>
@@ -57,16 +47,32 @@ export default function ExploreBattleReportsTable({
             <TableHeader className="w-32">{t("Trade %")}</TableHeader>
             <TableHeader className="w-32">{t("Battles")}</TableHeader>
             <TableHeader className="w-32">{t("Duration")}</TableHeader>
-            <TableHeader className="w-16">
-              <span className="sr-only">{t("Action")}</span>
-            </TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
           {reports.rows.map((row) => (
             <TableRow
+              className={row.battles > 1 ? "cursor-pointer" : undefined}
               href={`/report/${encodeURIComponent(row.mailId)}`}
               key={row.id}
+              onClickCapture={(event) => {
+                if (row.battles <= 1 || isMobileViewport()) {
+                  return;
+                }
+
+                if (
+                  event.button !== 0 ||
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.altKey ||
+                  event.shiftKey
+                ) {
+                  return;
+                }
+
+                event.preventDefault();
+                setOverviewRow(row);
+              }}
             >
               <TableCell className="tabular-nums">
                 {formatUtcDateTime(row.startTimestamp)}
@@ -91,39 +97,6 @@ export default function ExploreBattleReportsTable({
               </TableCell>
               <TableCell className="tabular-nums">
                 {formatDurationShort(row.startTimestamp, row.endTimestamp)}
-              </TableCell>
-              <TableCell>
-                <Dropdown>
-                  <DropdownButton
-                    className="relative z-10 min-w-0 px-2 py-1.5"
-                    plain
-                    type="button"
-                  >
-                    <EllipsisVerticalIcon data-slot="icon" />
-                  </DropdownButton>
-                  <DropdownMenu anchor="bottom end">
-                    {row.battles > 1 ? (
-                      <DropdownItem
-                        onClick={(event) => {
-                          event.preventDefault();
-                          event.stopPropagation();
-                          setOverviewRow(row);
-                        }}
-                      >
-                        <EyeIcon data-slot="icon" />
-                        <DropdownLabel>{t("Overview")}</DropdownLabel>
-                      </DropdownItem>
-                    ) : null}
-                    <DropdownItem disabled>
-                      <StarIcon data-slot="icon" />
-                      <DropdownLabel>{t("Favorite")}</DropdownLabel>
-                    </DropdownItem>
-                    <DropdownItem disabled>
-                      <ShareIcon data-slot="icon" />
-                      <DropdownLabel>{t("Share")}</DropdownLabel>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
               </TableCell>
             </TableRow>
           ))}
