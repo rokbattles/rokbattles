@@ -2,6 +2,7 @@
 
 //! Processor for DuelBattle2 mail reports.
 
+mod battle_results;
 mod commander;
 mod metadata;
 mod opponent;
@@ -28,5 +29,6 @@ fn processor() -> Processor {
         Box::new(metadata::MetadataExtractor::new()),
         Box::new(sender::SenderExtractor::new()),
         Box::new(opponent::OpponentExtractor::new()),
+        Box::new(battle_results::BattleResultsExtractor::new()),
     ])
 }
