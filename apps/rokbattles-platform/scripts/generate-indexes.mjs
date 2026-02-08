@@ -24,16 +24,25 @@ async function main() {
         .collection("userSessions")
         .createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }),
       db.collection("users").createIndex({ discordId: 1 }, { unique: true }),
+      db
+        .collection("user_binds")
+        .createIndex({ governorId: 1 }, { unique: true }),
+      db.collection("user_binds").createIndex({ discordId: 1, updatedAt: -1 }),
+      db.collection("user_binds").createIndex({ discordId: 1, isDefault: 1 }),
+      db.collection("user_binds").createIndex({ discordId: 1, isVisible: 1 }),
+      db.collection("user_binds").createIndex({ discordId: 1, appUid: 1 }),
+      db
+        .collection("user_binds")
+        .createIndex({ pendingDeleteAt: 1 }, { expireAfterSeconds: 0 }),
     ]);
 
-    console.log("Auth indexes ensured.");
+    console.log("Success");
   } finally {
     await client.close();
   }
 }
 
 main().catch((error) => {
-  console.error("Failed to ensure auth indexes.");
   console.error(error);
   process.exit(1);
 });

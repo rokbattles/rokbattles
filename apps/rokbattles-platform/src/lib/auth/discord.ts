@@ -12,7 +12,7 @@ export function buildAvatarURL(
 ) {
   if (avatar) {
     const extension = avatar.startsWith("a_") ? "gif" : "png";
-    return `https://cdn.discordapp.com/avatars/${id}/${avatar}.${extension}?size=256`;
+    return `https://cdn.discordapp.com/avatars/${id}/${avatar}.${extension}`;
   }
 
   const index =

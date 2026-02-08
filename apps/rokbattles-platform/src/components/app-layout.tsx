@@ -7,9 +7,11 @@ import {
   TrophyIcon,
   UsersIcon,
 } from "@heroicons/react/16/solid";
+import { cookies } from "next/headers";
 import { getExtracted } from "next-intl/server";
 import type { ReactNode } from "react";
 import { signOut } from "@/actions/sign-out";
+import { NoBindsBanner } from "@/components/account/no-binds-banner";
 import { Avatar } from "@/components/ui/avatar";
 import {
   Dropdown,
@@ -36,10 +38,22 @@ import {
 } from "@/components/ui/sidebar";
 import { StackedLayout } from "@/components/ui/stacked-layout";
 import { fetchCurrentUser } from "@/data/fetch-current-user";
+import { fetchCurrentUserBinds } from "@/data/fetch-current-user-binds";
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const t = await getExtracted();
-  const currentUser = await fetchCurrentUser();
+  const [currentUser, cookieStore] = await Promise.all([
+    fetchCurrentUser(),
+    cookies(),
+  ]);
+  let showNoBindsBanner = false;
+
+  if (currentUser) {
+    const binds = await fetchCurrentUserBinds(currentUser.discordId);
+    const isBannerDismissed =
+      cookieStore.get("hideNoBindsBanner")?.value === "1";
+    showNoBindsBanner = !isBannerDismissed && binds.length === 0;
+  }
 
   return (
     <StackedLayout
@@ -72,7 +86,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
             </Dropdown>
             <Dropdown>
               <DropdownButton aria-label="Open kingdom menu" as={NavbarItem}>
-                <NavbarLabel>Kingdom</NavbarLabel>
+                <NavbarLabel>{t("Kingdom")}</NavbarLabel>
                 <ChevronDownIcon />
               </DropdownButton>
               <DropdownMenu anchor="bottom start" className="min-w-48">
@@ -104,7 +118,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
                   />
                 </DropdownButton>
                 <DropdownMenu anchor="bottom end" className="min-w-48">
-                  <DropdownItem disabled>
+                  <DropdownItem href="/account/settings">
                     <Cog6ToothIcon />
                     <DropdownLabel>{t("Settings")}</DropdownLabel>
                   </DropdownItem>
@@ -134,7 +148,10 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
         </Sidebar>
       }
     >
-      {children}
+      <div className="space-y-6">
+        {showNoBindsBanner ? <NoBindsBanner /> : null}
+        {children}
+      </div>
     </StackedLayout>
   );
 }

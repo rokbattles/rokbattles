@@ -22,11 +22,11 @@ const config: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      // new URL("https://imimg.lilithcdn.com/**"),
-      // new URL("https://imv2-gl.lilithgame.com/**"),
-      // new URL("https://plat-fau-global.lilithgame.com/**"),
-      // new URL("https://static-gl.lilithgame.com/**"),
-      // new URL("https://cdn.discordapp.com/**"),
+      new URL("https://imimg.lilithcdn.com/**"),
+      new URL("http://imimg.lilithcdn.com/**"),
+      new URL("https://imv2-gl.lilithgame.com/**"),
+      new URL("https://plat-fau-global.lilithgame.com/**"),
+      new URL("https://static-gl.lilithgame.com/**"),
       {
         protocol: "https",
         hostname: "cdn.discordapp.com",
