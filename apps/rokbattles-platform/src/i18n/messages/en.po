@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: next-intl\n"
+"X-Crowdin-SourceKey: msgstr\n"
+
+#: src/app/explore/arena/page.tsx:29
+#: src/components/app-layout.tsx:79
+msgid "sqvUg2"
+msgstr "Olympian Arena"
+
+#: src/app/explore/arena/page.tsx:30
+#: src/app/explore/page.tsx:28
+msgid "W74uY7"
+msgstr "Live feed"
+
+#: src/app/explore/page.tsx:27
+#: src/components/app-layout.tsx:75
+msgid "xmv5Of"
+msgstr "Battle Reports"
+
+#: src/app/kingdom/[kingdom]/page.tsx:39
+#: src/components/app-layout.tsx:95
+msgid "q5TmbN"
+msgstr "Governors"
+
+#: src/app/kingdom/[kingdom]/page.tsx:40
+msgid "9uOFF3"
+msgstr "Overview"
+
+#: src/app/page.tsx:6
+#: src/app/report/[id]/page.tsx:6
+#: src/components/app-layout.tsx:63
+#: src/components/app-layout.tsx:143
+msgid "Xh4TDU"
+msgstr "ROK Battles"
+
+#: src/components/account/account-settings-content.tsx:96
+#: src/components/app-layout.tsx:123
+msgid "D3idYv"
+msgstr "Settings"
+
+#: src/components/account/account-settings-content.tsx:97
+msgid "GSDilK"
+msgstr "Manage account details and game binds."
+
+#: src/components/account/account-settings-content.tsx:101
+#: src/components/account/account-settings-content.tsx:163
+msgid "TwyMau"
+msgstr "Account"
+
+#: src/components/account/account-settings-content.tsx:104
+msgid "sy+pv5"
+msgstr "Email"
+
+#: src/components/account/account-settings-content.tsx:113
+msgid "rmEwjk"
+msgstr "Your email address is synced from Discord."
+
+#: src/components/account/account-settings-content.tsx:120
+msgid "VJ1WyR"
+msgstr "Game Binds"
+
+#: src/components/account/account-settings-content.tsx:132
+msgid "GNDCcc"
+msgstr "Governor ID"
+
+#: src/components/account/account-settings-content.tsx:153
+msgid "dbfVtv"
+msgstr "Binding..."
+
+#: src/components/account/account-settings-content.tsx:153
+msgid "jq0x/H"
+msgstr "Bind account"
+
+#: src/components/account/account-settings-content.tsx:162
+#: src/components/kingdoms/kingdom-governors-table.tsx:31
+msgid "02koas"
+msgstr "#"
+
+#: src/components/account/account-settings-content.tsx:164
+#: src/components/kingdoms/kingdom-governors-table.tsx:32
+msgid "qlcuNQ"
+msgstr "ID"
+
+#: src/components/account/account-settings-content.tsx:166
+#: src/components/account/account-settings-content.tsx:222
+msgid "wL7VAE"
+msgstr "Actions"
+
+#: src/components/account/account-settings-content.tsx:198
+msgid "FiXNt1"
+msgstr "default"
+
+#: src/components/account/account-settings-content.tsx:201
+msgid "qQSsa1"
+msgstr "hidden"
+
+#: src/components/account/account-settings-content.tsx:205
+msgid "T63hrT"
+msgstr "deletes at {date}"
+
+#: src/components/account/account-settings-content.tsx:240
+msgid "+5lhl7"
+msgstr "Cancel unlink"
+
+#: src/components/account/account-settings-content.tsx:256
+msgid "6hEevT"
+msgstr "Set default"
+
+#: src/components/account/account-settings-content.tsx:272
+msgid "VA/Z1S"
+msgstr "Hide"
+
+#: src/components/account/account-settings-content.tsx:272
+msgid "K7AkdL"
+msgstr "Show"
+
+#: src/components/account/account-settings-content.tsx:285
+msgid "4PKxPs"
+msgstr "Unlink"
+
+#: src/components/account/no-binds-banner.tsx:12
+msgid "0X1Szz"
+msgstr "Hey! It looks like you haven't bound an account yet."
+
+#: src/components/account/no-binds-banner.tsx:16
+msgid "XNDWDb"
+msgstr "Bind an account"
+
+#: src/components/account/no-binds-banner.tsx:20
+msgid "TDaF6J"
+msgstr "Dismiss"
+
+#: src/components/app-layout.tsx:69
+msgid "7JlauX"
+msgstr "Explore"
+
+#: src/components/app-layout.tsx:83
+msgid "CPpsOf"
+msgstr "Trends"
+
+#: src/components/app-layout.tsx:89
+msgid "RL4lPF"
+msgstr "Kingdom"
+
+#: src/components/app-layout.tsx:99
+msgid "HbwNV0"
+msgstr "KVKs"
+
+#: src/components/app-layout.tsx:104
+msgid "m6lDC9"
+msgstr "Management"
+
+#: src/components/app-layout.tsx:128
+msgid "xXbJso"
+msgstr "Sign out"
+
+#: src/components/app-layout.tsx:134
+msgid "SQJto2"
+msgstr "Sign in"
+
+#: src/components/explore/explore-battle-reports-table.tsx:44
+#: src/components/explore/explore-olympian-arena-table.tsx:32
+msgid "ug01Mk"
+msgstr "Time"
+
+#: src/components/explore/explore-battle-reports-table.tsx:45
+#: src/components/explore/explore-olympian-arena-table.tsx:33
+#: src/components/explore/explore-report-overview-drawer.tsx:238
+msgid "nbwXXN"
+msgstr "Sender"
+
+#: src/components/explore/explore-battle-reports-table.tsx:46
+#: src/components/explore/explore-olympian-arena-table.tsx:34
+msgid "Mdj7Fr"
+msgstr "Opponent"
+
+#: src/components/explore/explore-battle-reports-table.tsx:47
+#: src/components/explore/explore-olympian-arena-table.tsx:35
+msgid "Y3Z7jw"
+msgstr "Kill Count"
+
+#: src/components/explore/explore-battle-reports-table.tsx:48
+#: src/components/explore/explore-olympian-arena-table.tsx:36
+msgid "c+sY33"
+msgstr "Trade %"
+
+#: src/components/explore/explore-battle-reports-table.tsx:49
+msgid "9bVtCz"
+msgstr "Battles"
+
+#: src/components/explore/explore-battle-reports-table.tsx:50
+msgid "IuFETn"
+msgstr "Duration"
+
+#: src/components/explore/explore-olympian-arena-table.tsx:37
+msgid "aXdZke"
+msgstr "Win Streak"
+
+#: src/components/explore/explore-overview-summary-card.tsx:26
+msgid "kzHEVE"
+msgstr "Troop Units"
+
+#: src/components/explore/explore-overview-summary-card.tsx:34
+msgid "NxzeNU"
+msgstr "Dead"
+
+#: src/components/explore/explore-overview-summary-card.tsx:42
+msgid "sz3C4k"
+msgstr "Severely Wounded"
+
+#: src/components/explore/explore-overview-summary-card.tsx:50
+msgid "1ISgLB"
+msgstr "Slightly Wounded"
+
+#: src/components/explore/explore-overview-summary-card.tsx:58
+msgid "ka8VLG"
+msgstr "Remaining"
+
+#: src/components/explore/explore-overview-summary-card.tsx:67
+msgid "RCtKQ2"
+msgstr "Kill Points"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:130
+msgid "QRVQkf"
+msgstr "Battle overview"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:132
+msgid "EWfXcY"
+msgstr "A quick glance at the battle report before opening it."
+
+#: src/components/explore/explore-report-overview-drawer.tsx:137
+msgid "lY8J2h"
+msgstr "Battle timeline"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:234
+msgid "eQhi5P"
+msgstr "Data summary"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:242
+msgid "ABZ08/"
+msgstr "All Enemies"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:249
+msgid "rbrahO"
+msgstr "Close"
+
+#: src/components/explore/explore-report-overview-drawer.tsx:259
+msgid "bvIiB8"
+msgstr "See full report"
+
+#: src/components/kingdoms/kingdom-governors-table.tsx:33
+msgid "HAlOn1"
+msgstr "Name"
+
+#: src/components/kingdoms/kingdom-governors-table.tsx:34
+msgid "YXoHk0"
+msgstr "Power"

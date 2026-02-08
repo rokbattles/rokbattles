@@ -1,4 +1,26 @@
 {
+  "battle_results": {
+    "opponent": {
+      "dead": 0,
+      "heal": 0,
+      "kill_points": 609580,
+      "power": 679570,
+      "severely_wounded": 67957,
+      "slightly_wounded": 365160,
+      "units": 433117,
+      "win": false
+    },
+    "sender": {
+      "dead": 0,
+      "heal": 0,
+      "kill_points": 1359140,
+      "power": 304790,
+      "severely_wounded": 30479,
+      "slightly_wounded": 200017,
+      "units": 396176,
+      "win": true
+    }
+  },
   "metadata": {
     "mail_id": "4197616176618250531",
     "mail_receiver": "player_71738515",
