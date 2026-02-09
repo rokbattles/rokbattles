@@ -124,10 +124,13 @@ fn extract_attack_entry(
     let position = require_child_object(attack, "Pos")?;
     let attack_x = require_number_field(position, "X")?;
     let attack_y = require_number_field(position, "Y")?;
+    let (start_tick, end_tick) = extract_attack_tick_bounds(attack)?;
     fields.insert(
         "attack".to_string(),
         json!({ "id": attack_key.clone(), "x": attack_x, "y": attack_y }),
     );
+    fields.insert("start_tick".to_string(), Value::from(start_tick));
+    fields.insert("end_tick".to_string(), Value::from(end_tick));
     let participants = extract_participants(attack, "OTs")?;
     fields.insert("participants".to_string(), participants);
     let npc = extract_npc(attack, opponent)?;
@@ -135,6 +138,16 @@ fn extract_attack_entry(
     let battle_results = extract_battle_results(attack)?;
     fields.insert("battle_results".to_string(), battle_results);
     Ok((attack_id, attack_key, Value::Object(fields)))
+}
+
+/// Extract attack-level boundary ticks from `Bts` and `Ets`.
+///
+/// We expose these values on each opponent as `start_tick` and `end_tick`
+/// to keep per-opponent timing boundaries co-located with attack details.
+fn extract_attack_tick_bounds(attack: &Map<String, Value>) -> Result<(u64, u64), ExtractError> {
+    let start_tick = require_u64_field(attack, "Bts")?;
+    let end_tick = require_u64_field(attack, "Ets")?;
+    Ok((start_tick, end_tick))
 }
 
 /// Extract NPC-related metadata from the attack entry and opponent payload.
@@ -364,6 +377,8 @@ mod tests {
                 "content": {
                     "Attacks": {
                         "10": {
+                            "Bts": 110,
+                            "Ets": 120,
                             "Pos": { "X": 12.5, "Y": 34.75 },
                             "OTs": {
                                 "5": {
@@ -395,6 +410,8 @@ mod tests {
                             }
                         },
                         "20": {
+                            "Bts": 210,
+                            "Ets": 220,
                             "Pos": { "X": 98, "Y": 76 },
                             "OTs": {
                                 "-2": {
@@ -435,6 +452,8 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 2);
         assert_eq!(opponents[0]["attack"]["id"], json!("10"));
+        assert_eq!(opponents[0]["start_tick"], json!(110));
+        assert_eq!(opponents[0]["end_tick"], json!(120));
         assert_eq!(opponents[0]["attack"]["x"], json!(12.5));
         assert_eq!(opponents[0]["attack"]["y"], json!(34.75));
         assert_eq!(opponents[0]["player_id"], json!(1));
@@ -480,6 +499,8 @@ mod tests {
             })
         );
         assert_eq!(opponents[1]["attack"]["id"], json!("20"));
+        assert_eq!(opponents[1]["start_tick"], json!(210));
+        assert_eq!(opponents[1]["end_tick"], json!(220));
         assert_eq!(opponents[1]["attack"]["x"], json!(98));
         assert_eq!(opponents[1]["attack"]["y"], json!(76));
         assert_eq!(opponents[1]["player_id"], json!(2));
@@ -534,6 +555,39 @@ mod tests {
         let extractor = OpponentsExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
         assert!(matches!(err, ExtractError::MissingField { .. }));
+    }
+
+    #[test]
+    fn opponents_extractor_rejects_missing_attack_tick_bounds() {
+        let input = json!({
+            "body": {
+                "content": {
+                    "Attacks": {
+                        "10": {
+                            "Ets": 120,
+                            "Pos": { "X": 12.5, "Y": 34.75 },
+                            "OTs": {},
+                            "CIdt": {
+                                "PId": 1,
+                                "PName": "EnemyOne",
+                                "COSId": 101,
+                                "AId": 1,
+                                "AName": "AllianceOne",
+                                "Abbr": "ONE",
+                                "AbT": 3,
+                                "CastlePos": { "X": 50, "Y": 60 },
+                                "CastleLevel": 20,
+                                "CTK": "",
+                                "Avatar": "https://example.com/one.png"
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        let extractor = OpponentsExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(err, ExtractError::MissingField { field: "Bts" }));
     }
 
     #[test]
@@ -725,6 +779,8 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 1);
         assert_eq!(opponents[0]["attack"]["id"], json!("603103"));
+        assert_eq!(opponents[0]["start_tick"], json!(312472));
+        assert_eq!(opponents[0]["end_tick"], json!(312472));
         assert_eq!(opponents[0]["attack"]["x"], json!(2200.1484));
         assert_eq!(opponents[0]["attack"]["y"], json!(6296.3677));
         assert_eq!(opponents[0]["player_id"], json!(130014943));
@@ -802,6 +858,8 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 1);
         assert_eq!(opponents[0]["attack"]["id"], json!("10852801"));
+        assert_eq!(opponents[0]["start_tick"], json!(35058));
+        assert_eq!(opponents[0]["end_tick"], json!(35068));
         assert_eq!(opponents[0]["attack"]["x"], json!(3804.8684));
         assert_eq!(opponents[0]["attack"]["y"], json!(3974.8313));
         assert_eq!(opponents[0]["player_id"], json!(-2));

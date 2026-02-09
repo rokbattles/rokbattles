@@ -131,6 +131,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1378436,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_138.png",
       "kingdom_id": 993,
       "npc": {
@@ -180,6 +181,7 @@
       "player_id": 72217206,
       "player_name": "Queen SammyJo",
       "rally": null,
+      "start_tick": 1378409,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
