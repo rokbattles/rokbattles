@@ -156,6 +156,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 310904,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
       "kingdom_id": 1804,
       "npc": {
@@ -187,6 +188,7 @@
       "player_id": 129155556,
       "player_name": "ˢNinoveraptor",
       "rally": null,
+      "start_tick": 310841,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -344,6 +346,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 310890,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
       "kingdom_id": 1804,
       "npc": {
@@ -375,6 +378,7 @@
       "player_id": 129155556,
       "player_name": "ˢNinoveraptor",
       "rally": null,
+      "start_tick": 310841,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

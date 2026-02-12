@@ -131,6 +131,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 312472,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
       "kingdom_id": 1804,
       "npc": {
@@ -180,6 +181,7 @@
       "player_id": 130014943,
       "player_name": "xAvarice",
       "rally": null,
+      "start_tick": 312472,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
