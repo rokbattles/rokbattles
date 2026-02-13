@@ -4098,3 +4098,13 @@ commanders:
     prime: false
     rarity: legendary
     skills:
+      - slot: 1
+        id: 423
+      - slot: 2
+        id: 1805
+      - slot: 3
+        id: 1806
+      - slot: 4
+        id: 1807
+      - slot: 5
+        id: 1808
