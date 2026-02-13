@@ -2,7 +2,6 @@
 
 import {
   ArrowDownTrayIcon,
-  ArrowTrendingUpIcon,
   ChevronUpIcon,
   FireIcon,
   GiftIcon,
@@ -123,10 +122,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
                 <TrophyIcon />
                 <SidebarLabel>{t("exploreDuels")}</SidebarLabel>
-              </SidebarItem>
-              <SidebarItem href="/trends" current={pathname === "/trends"}>
-                <ArrowTrendingUpIcon />
-                <SidebarLabel>{t("exploreTrends")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (

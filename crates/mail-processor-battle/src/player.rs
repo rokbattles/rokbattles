@@ -21,7 +21,7 @@ pub(crate) fn extract_player_fields(
 ) -> Result<Map<String, Value>, ExtractError> {
     let player_id = require_signed_id_field(player, "PId")?;
     let player_name = require_string_field(player, "PName")?;
-    let kingdom_id = optional_u64_field(player, "COSId")?;
+    let kingdom_id = extract_kingdom_id(player)?;
     let alliance_id = require_u64_field(player, "AId")?;
     let alliance_name = require_string_field(player, "AName")?;
     let alliance_abbr = require_string_field(player, "Abbr")?;
@@ -108,6 +108,11 @@ pub(crate) fn extract_player_fields(
     fields.insert("frame_url".to_string(), frame_url);
     fields.insert("supreme_strife".to_string(), supreme_strife);
     Ok(fields)
+}
+
+/// Extract kingdom id from `COSId`.
+pub(crate) fn extract_kingdom_id(player: &Map<String, Value>) -> Result<Option<u64>, ExtractError> {
+    optional_u64_field(player, "COSId")
 }
 
 /// Require a numeric identifier that can be either signed or unsigned.

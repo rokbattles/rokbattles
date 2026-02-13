@@ -4,25 +4,12 @@ import { getTranslations } from "next-intl/server";
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
 
-export async function generateMetadata({ params }: PageProps<"/report/[hash]">): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("report");
-  const { hash } = await params;
-
-  const normalizedHash = hash?.trim() ?? "";
-  const imageUrl = `/report/${encodeURIComponent(normalizedHash)}/opengraph-image`;
   const title = t("battleReportTitle");
 
   return {
     title,
-    openGraph: {
-      title,
-      images: [{ url: imageUrl }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      images: [imageUrl],
-    },
   };
 }
 
