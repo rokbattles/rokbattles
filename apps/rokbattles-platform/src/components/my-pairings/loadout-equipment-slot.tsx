@@ -47,7 +47,7 @@ export function LoadoutEquipmentSlot({ token }: LoadoutEquipmentSlotProps) {
     >
       {token?.id ? (
         <Image
-          src={`/lilith/images/equipment/${token.id}.png`}
+          src={`/game/equipment/${token.id}.png`}
           alt={label}
           fill
           sizes="(min-width: 640px) 56px, 48px"

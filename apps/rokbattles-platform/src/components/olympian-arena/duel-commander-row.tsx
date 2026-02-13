@@ -18,7 +18,7 @@ export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
   const commanderName = getCommanderName(Number.isFinite(commanderId) ? commanderId : null);
   const level = Number.isFinite(commander.level) ? commander.level : null;
   const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
-  const commanderIconSrc = `/lilith/images/commander/${commanderId}.png`;
+  const commanderIconSrc = `/game/commander/${commanderId}.png`;
   const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });
 
   return (
