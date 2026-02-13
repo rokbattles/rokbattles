@@ -107,6 +107,7 @@
           "star_level": 1
         }
       },
+      "end_tick": 315072,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -156,6 +157,7 @@
       "player_id": 181252461,
       "player_name": "F4 Benbu",
       "rally": null,
+      "start_tick": 315072,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
