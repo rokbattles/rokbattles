@@ -5,7 +5,8 @@
   "scripts": {
     "build": "next build --turbo",
     "dev": "next -H 0.0.0.0",
-    "generate:datasets": "node ./scripts/generate-datasets.cjs"
+    "generate:datasets": "node ./scripts/generate-datasets.cjs",
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",

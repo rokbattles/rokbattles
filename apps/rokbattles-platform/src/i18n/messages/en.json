@@ -222,7 +222,9 @@
     "title": "Duel Report",
     "listTitle": "Olympian Arena Reports",
     "table": {
-      "winStreak": "Win Streak"
+      "winStreak": "Win Streak",
+      "killCount": "Kill Count",
+      "tradePercent": "Trade %"
     },
     "summary": "Duel summary",
     "winner": "Winner",

@@ -11,13 +11,15 @@ export default async function Page() {
       <div className="mt-8">
         <Subheading>{tCommon("headings.liveFeed")}</Subheading>
       </div>
-      <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-1/6">{tCommon("labels.time")}</TableHeader>
+            <TableHeader className="sm:w-36">{tCommon("labels.time")}</TableHeader>
             <TableHeader>{tCommon("labels.sender")}</TableHeader>
             <TableHeader>{tCommon("labels.opponent")}</TableHeader>
-            <TableHeader className="sm:w-1/6">{t("table.winStreak")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("table.killCount")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("table.tradePercent")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("table.winStreak")}</TableHeader>
           </TableRow>
         </TableHead>
         <OlympianArenaTable />

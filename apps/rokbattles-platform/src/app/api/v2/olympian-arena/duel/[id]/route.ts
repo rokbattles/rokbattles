@@ -1,10 +1,7 @@
 import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import clientPromise, { toPlainObject } from "@/lib/mongo";
-
-type DuelReportEntry = {
-  report: Record<string, unknown>;
-};
+import type { DuelBattle2MailDocument } from "@/lib/types/duelbattle2";
 
 export async function GET(
   _req: NextRequest,
@@ -27,28 +24,31 @@ export async function GET(
     const db = mongo.db();
 
     const matchPipeline: Document = {
-      "report.sender.duel_id": duelId,
+      "sender.duel.team_id": duelId,
     };
 
     const aggregationPipeline: Document[] = [
       { $match: matchPipeline },
+      { $sort: { "metadata.mail_time": 1 } },
       {
         $project: {
-          _id: 0,
-          report: "$report",
+          _id: { $toString: "$_id" },
+          metadata: 1,
+          sender: 1,
+          opponent: 1,
+          battle_results: 1,
         },
       },
-      { $sort: { "report.metadata.email_time": 1 } },
     ];
 
     const documents = await db
-      .collection("duelbattle2Reports")
+      .collection("mails_duelbattle2")
       .aggregate(aggregationPipeline, { allowDiskUse: true })
       .toArray();
 
-    const items: DuelReportEntry[] = documents.map((doc) => ({
-      report: toPlainObject(doc.report),
-    }));
+    const items: DuelBattle2MailDocument[] = documents.map(
+      (doc) => toPlainObject(doc) as DuelBattle2MailDocument
+    );
 
     return NextResponse.json(
       {

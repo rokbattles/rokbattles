@@ -6,7 +6,7 @@ import { DuelResultsChart } from "@/components/olympian-arena/duel-results-chart
 import { Subheading } from "@/components/ui/heading";
 import type { DuelReportEntry } from "@/hooks/use-olympian-arena-duel";
 import { formatUtcDateTime } from "@/lib/datetime";
-import type { DuelResults } from "@/lib/types/duel-report";
+import type { DuelBattle2BattleResults } from "@/lib/types/duelbattle2";
 
 type DuelEntryCardProps = {
   entry: DuelReportEntry;
@@ -14,11 +14,10 @@ type DuelEntryCardProps = {
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   const t = useTranslations("duels");
-  const payload = entry.report;
-  const { metadata, results, sender, opponent } = payload;
+  const { metadata, battle_results: battleResults, sender, opponent } = entry;
 
-  const periodLabel = formatUtcDateTime(metadata.email_time);
-  const outcome = getOutcome(results);
+  const periodLabel = formatUtcDateTime(metadata.mail_time);
+  const outcome = getOutcome(battleResults);
 
   return (
     <section className="space-y-6">
@@ -32,7 +31,7 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
         <Subheading level={3} className="text-base">
           {t("summary")}
         </Subheading>
-        <DuelResultsChart results={results} />
+        <DuelResultsChart results={battleResults} />
       </section>
 
       <section className="grid gap-8 lg:grid-cols-2">
@@ -43,12 +42,12 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   );
 }
 
-function getOutcome(results: DuelResults) {
-  if (results.win === true) {
+function getOutcome(results: DuelBattle2BattleResults) {
+  if (results.sender.win === true) {
     return { winner: "sender" as const };
   }
 
-  if (results.opponent_win === true) {
+  if (results.opponent.win === true) {
     return { winner: "opponent" as const };
   }
 

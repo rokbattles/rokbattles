@@ -6,8 +6,9 @@ import { useCallback, useEffect, useState } from "react";
 export type OlympianArenaParticipant = {
   playerId: number | null;
   playerName: string | null;
-  kingdom: number | null;
-  alliance: string | null;
+  alliance: {
+    abbreviation: string;
+  };
   duelId: number | null;
   avatarUrl: string | null;
   frameUrl: string | null;
@@ -19,7 +20,9 @@ export type OlympianArenaDuelSummary = {
   duelId: number;
   count: number;
   winStreak: number;
-  emailTime: number;
+  mailTime: number;
+  killCount: number;
+  tradePercent: number;
   entry: {
     sender: OlympianArenaParticipant;
     opponent: OlympianArenaParticipant;

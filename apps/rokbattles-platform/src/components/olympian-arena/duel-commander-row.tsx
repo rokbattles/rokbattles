@@ -5,10 +5,10 @@ import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Strong, Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
-import type { DuelCommanderInfo } from "@/lib/types/duel-report";
+import type { DuelBattle2Commander } from "@/lib/types/duelbattle2";
 
 type DuelCommanderRowProps = {
-  commander: DuelCommanderInfo;
+  commander: DuelBattle2Commander;
   label: string;
 };
 
