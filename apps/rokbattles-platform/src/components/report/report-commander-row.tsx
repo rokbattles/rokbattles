@@ -22,7 +22,7 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   const level = typeof commander?.level === "number" ? commander.level : null;
   const skillSummary = commander?.skills?.trim();
   const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
-  const commanderIconSrc = `/lilith/images/commander/${commanderId}.png`;
+  const commanderIconSrc = `/game/commander/${commanderId}.png`;
   const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });
   const formationLabel =
     typeof formation === "number"
