@@ -11,7 +11,7 @@ import type { UseOlympianArenaDuelsResult } from "@/hooks/use-olympian-arena-due
 import { useOlympianArenaDuels } from "@/hooks/use-olympian-arena-duels";
 import OlympianArenaRow from "./olympian-arena-row";
 
-const SkeletonWidths = ["w-24", "w-36", "w-36", "w-20"] as const;
+const SkeletonWidths = ["w-24", "w-36", "w-36", "w-28", "w-20", "w-20"] as const;
 
 type UseDuelsHook = () => UseOlympianArenaDuelsResult;
 
@@ -56,11 +56,11 @@ export default function OlympianArenaTable({
       {loading && data.length === 0 ? (
         <SkeletonRows count={skeletonCount} widths={SkeletonWidths} />
       ) : null}
-      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={4} /> : null}
-      {error ? <ErrorRow colSpan={4} error={error} /> : null}
+      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={6} /> : null}
+      {error ? <ErrorRow colSpan={6} error={error} /> : null}
       {cursor ? (
         <LoadMoreRow
-          colSpan={4}
+          colSpan={6}
           loading={loading}
           onLoadMore={handleLoadMore}
           ref={setSentinelRef}

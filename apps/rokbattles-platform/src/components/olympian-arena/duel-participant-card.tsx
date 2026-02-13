@@ -15,10 +15,10 @@ import { Subheading } from "@/components/ui/heading";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
 import type {
-  DuelBuffEntry,
-  DuelCommanderInfo,
-  DuelParticipantInfo,
-} from "@/lib/types/duel-report";
+  DuelBattle2Buff,
+  DuelBattle2Commander,
+  DuelBattle2Player,
+} from "@/lib/types/duelbattle2";
 
 type NormalizedBuff = {
   id: number;
@@ -36,7 +36,7 @@ export function DuelParticipantCard({
   participant,
   isWinner,
 }: {
-  participant: DuelParticipantInfo;
+  participant: DuelBattle2Player;
   isWinner?: boolean;
 }) {
   const t = useTranslations("duels");
@@ -44,7 +44,7 @@ export function DuelParticipantCard({
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
   const playerName = participant.player_name.trim() || tCommon("labels.unknownCommander");
-  const allianceTag = participant.alliance.trim();
+  const allianceTag = participant.alliance.abbreviation.trim();
   const playerId = participant.player_id;
 
   const buffs = normalizeBuffs(participant.buffs);
@@ -66,8 +66,8 @@ export function DuelParticipantCard({
   const visibleBuffs = expanded ? displayBuffs : displayBuffs.slice(0, 10);
   const hasMore = displayBuffs.length > 10;
 
-  const primary = participant.commanders.primary;
-  const secondary = participant.commanders.secondary;
+  const primary = participant.primary_commander;
+  const secondary = participant.secondary_commander;
   const showPrimary = hasCommander(primary);
   const showSecondary = hasCommander(secondary);
 
@@ -145,7 +145,7 @@ export function DuelParticipantCard({
   );
 }
 
-function hasCommander(commander: DuelCommanderInfo) {
+function hasCommander(commander: DuelBattle2Commander) {
   return Number.isFinite(commander.id);
 }
 
@@ -171,7 +171,7 @@ function formatSignedNumber(value: number) {
   return `${sign}${formatted}`;
 }
 
-function normalizeBuffs(rawBuffs: DuelBuffEntry[]): NormalizedBuff[] {
+function normalizeBuffs(rawBuffs: readonly DuelBattle2Buff[]): NormalizedBuff[] {
   const aggregate = new Map<number, number>();
 
   for (const buff of rawBuffs) {

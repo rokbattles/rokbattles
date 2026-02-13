@@ -74,7 +74,7 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       ) : (
         <div className="space-y-12">
           {entries.map((entry, index) => (
-            <div key={entry.report.metadata.email_id || `${duelIdValue ?? "duel"}-${index}`}>
+            <div key={entry.metadata.mail_id || entry._id || `${duelIdValue ?? "duel"}-${index}`}>
               <DuelReportEntryCard entry={entry} />
               {index < entries.length - 1 ? <Divider className="my-8" /> : null}
             </div>

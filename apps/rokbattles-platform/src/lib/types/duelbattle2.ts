@@ -5,6 +5,10 @@ export type DuelBattle2Mail = {
   battle_results: DuelBattle2BattleResults;
 };
 
+export type DuelBattle2MailDocument = DuelBattle2Mail & {
+  _id?: string;
+};
+
 export type DuelBattle2Metadata = {
   mail_id: string;
   mail_time: number;
