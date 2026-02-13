@@ -156,6 +156,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 109515,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
       "kingdom_id": 1925,
       "npc": {
@@ -187,6 +188,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "start_tick": 109507,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -348,6 +350,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 109515,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
       "kingdom_id": 1925,
       "npc": {
@@ -379,6 +382,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "start_tick": 109500,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -536,6 +540,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 109523,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
       "kingdom_id": 1925,
       "npc": {
@@ -567,6 +572,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "start_tick": 109507,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -728,6 +734,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 109508,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
       "kingdom_id": 1925,
       "npc": {
@@ -759,6 +766,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "start_tick": 109500,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -916,6 +924,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 109523,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
       "kingdom_id": 1925,
       "npc": {
@@ -947,6 +956,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "start_tick": 109507,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -1108,6 +1118,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 109521,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
       "kingdom_id": 1925,
       "npc": {
@@ -1427,6 +1438,7 @@
       "player_id": 80837230,
       "player_name": "西伯利亞狼",
       "rally": true,
+      "start_tick": 109490,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

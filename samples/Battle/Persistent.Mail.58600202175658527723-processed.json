@@ -160,6 +160,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1603627,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 1804,
       "npc": {
@@ -191,6 +192,7 @@
       "player_id": 29862805,
       "player_name": "Titanobenbu",
       "rally": null,
+      "start_tick": 1603621,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

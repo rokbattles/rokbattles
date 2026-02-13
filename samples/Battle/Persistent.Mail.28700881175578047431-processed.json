@@ -102,6 +102,7 @@
           "star_level": 1
         }
       },
+      "end_tick": 798824,
       "frame_url": null,
       "kingdom_id": 0,
       "npc": {
@@ -133,6 +134,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "start_tick": 798757,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

@@ -161,6 +161,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120721,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 2074,
       "npc": {
@@ -192,6 +193,7 @@
       "player_id": 89554760,
       "player_name": "KanomTᵒᵐ",
       "rally": null,
+      "start_tick": 120717,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -353,6 +355,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120793,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
       "kingdom_id": 2074,
       "npc": {
@@ -906,6 +909,7 @@
       "player_id": 59351306,
       "player_name": "SOMTAM Miller",
       "rally": null,
+      "start_tick": 120689,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1067,6 +1071,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -1422,6 +1427,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120793,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1579,6 +1585,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120716,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_148.png",
       "kingdom_id": 2074,
       "npc": {
@@ -1610,6 +1617,7 @@
       "player_id": 149352350,
       "player_name": "KanomPᵃⁿᵍ",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1771,6 +1779,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 120721,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_148.png",
       "kingdom_id": 2074,
       "npc": {
@@ -1802,6 +1811,7 @@
       "player_id": 149352350,
       "player_name": "KanomPᵃⁿᵍ",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1959,6 +1969,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120727,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 2074,
       "npc": {
@@ -1990,6 +2001,7 @@
       "player_id": 23016065,
       "player_name": "Mr Jeep",
       "rally": null,
+      "start_tick": 120719,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2151,6 +2163,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120719,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -2182,6 +2195,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2344,6 +2358,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120721,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -2375,6 +2390,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120701,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2541,6 +2557,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 120712,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -2572,6 +2589,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120705,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2725,6 +2743,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 120719,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -2756,6 +2775,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120704,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2917,6 +2937,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120720,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -2948,6 +2969,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120701,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3109,6 +3131,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120718,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 2074,
       "npc": {
@@ -3140,6 +3163,7 @@
       "player_id": 148711145,
       "player_name": "sɪɢᴍᴀ",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3302,6 +3326,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120717,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 2074,
       "npc": {
@@ -3333,6 +3358,7 @@
       "player_id": 148711145,
       "player_name": "sɪɢᴍᴀ",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3499,6 +3525,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120721,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 2074,
       "npc": {
@@ -3530,6 +3557,7 @@
       "player_id": 35381336,
       "player_name": "亗SlamDawg",
       "rally": null,
+      "start_tick": 120712,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3688,6 +3716,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120731,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 2074,
       "npc": {
@@ -3719,6 +3748,7 @@
       "player_id": 35381336,
       "player_name": "亗SlamDawg",
       "rally": null,
+      "start_tick": 120709,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3880,6 +3910,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120719,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 2074,
       "npc": {
@@ -3911,6 +3942,7 @@
       "player_id": 35381336,
       "player_name": "亗SlamDawg",
       "rally": null,
+      "start_tick": 120707,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4072,6 +4104,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120730,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 2074,
       "npc": {
@@ -4103,6 +4136,7 @@
       "player_id": 35381336,
       "player_name": "亗SlamDawg",
       "rally": null,
+      "start_tick": 120711,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4264,6 +4298,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120777,
       "frame_url": null,
       "kingdom_id": 2074,
       "npc": {
@@ -4295,6 +4330,7 @@
       "player_id": 5221475,
       "player_name": "Mr nuer",
       "rally": null,
+      "start_tick": 120767,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4456,6 +4492,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120772,
       "frame_url": null,
       "kingdom_id": 2074,
       "npc": {
@@ -4487,6 +4524,7 @@
       "player_id": 5221475,
       "player_name": "Mr nuer",
       "rally": null,
+      "start_tick": 120769,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4648,6 +4686,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120719,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_130.png",
       "kingdom_id": 2074,
       "npc": {
@@ -4679,6 +4718,7 @@
       "player_id": 76104153,
       "player_name": "OmOshi Miller",
       "rally": null,
+      "start_tick": 120702,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4840,6 +4880,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png",
       "kingdom_id": 2074,
       "npc": {
@@ -4871,6 +4912,7 @@
       "player_id": 2308579,
       "player_name": "Niezy Miller",
       "rally": null,
+      "start_tick": 120783,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5032,6 +5074,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 120786,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png",
       "kingdom_id": 2074,
       "npc": {
@@ -5063,6 +5106,7 @@
       "player_id": 2308579,
       "player_name": "Niezy Miller",
       "rally": null,
+      "start_tick": 120777,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5224,6 +5268,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120783,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png",
       "kingdom_id": 2074,
       "npc": {
@@ -5255,6 +5300,7 @@
       "player_id": 2308579,
       "player_name": "Niezy Miller",
       "rally": null,
+      "start_tick": 120767,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5408,6 +5454,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png",
       "kingdom_id": 2074,
       "npc": {
@@ -5439,6 +5486,7 @@
       "player_id": 2308579,
       "player_name": "Niezy Miller",
       "rally": null,
+      "start_tick": 120781,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5600,6 +5648,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120785,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_175.png",
       "kingdom_id": 2074,
       "npc": {
@@ -5631,6 +5680,7 @@
       "player_id": 10824810,
       "player_name": "ﾐ Lemon Mini",
       "rally": null,
+      "start_tick": 120781,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5788,6 +5838,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_175.png",
       "kingdom_id": 2074,
       "npc": {
@@ -5819,6 +5870,7 @@
       "player_id": 10824810,
       "player_name": "ﾐ Lemon Mini",
       "rally": null,
+      "start_tick": 120800,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5980,6 +6032,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120789,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_129.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6011,6 +6064,7 @@
       "player_id": 82768938,
       "player_name": "ﾐ Lemon",
       "rally": null,
+      "start_tick": 120786,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6172,6 +6226,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120794,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6203,6 +6258,7 @@
       "player_id": 2308579,
       "player_name": "Niezy Miller",
       "rally": null,
+      "start_tick": 120779,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6360,6 +6416,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_129.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6391,6 +6448,7 @@
       "player_id": 82768938,
       "player_name": "ﾐ Lemon",
       "rally": null,
+      "start_tick": 120800,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6552,6 +6610,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 120792,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_129.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6583,6 +6642,7 @@
       "player_id": 82768938,
       "player_name": "ﾐ Lemon",
       "rally": null,
+      "start_tick": 120786,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6745,6 +6805,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_129.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6776,6 +6837,7 @@
       "player_id": 82768938,
       "player_name": "ﾐ Lemon",
       "rally": null,
+      "start_tick": 120800,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6937,6 +6999,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_183.png",
       "kingdom_id": 2074,
       "npc": {
@@ -6968,6 +7031,7 @@
       "player_id": 17839483,
       "player_name": "ᵀᴳﾒTHE HULK",
       "rally": null,
+      "start_tick": 120790,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7134,6 +7198,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120798,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_183.png",
       "kingdom_id": 2074,
       "npc": {
@@ -7165,6 +7230,7 @@
       "player_id": 17839483,
       "player_name": "ᵀᴳﾒTHE HULK",
       "rally": null,
+      "start_tick": 120787,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7326,6 +7392,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_183.png",
       "kingdom_id": 2074,
       "npc": {
@@ -7357,6 +7424,7 @@
       "player_id": 17839483,
       "player_name": "ᵀᴳﾒTHE HULK",
       "rally": null,
+      "start_tick": 120788,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7514,6 +7582,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_183.png",
       "kingdom_id": 2074,
       "npc": {
@@ -7545,6 +7614,7 @@
       "player_id": 17839483,
       "player_name": "ᵀᴳﾒTHE HULK",
       "rally": null,
+      "start_tick": 120789,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7706,6 +7776,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 120800,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_183.png",
       "kingdom_id": 2074,
       "npc": {
@@ -7737,6 +7808,7 @@
       "player_id": 17839483,
       "player_name": "ᵀᴳﾒTHE HULK",
       "rally": null,
+      "start_tick": 120786,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
