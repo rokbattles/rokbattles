@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { TableCell, TableRow, TableRowHeader } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import type { UseReportsResult } from "@/hooks/use-reports";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
 import ParticipantCell from "./participant-cell";
@@ -21,9 +21,9 @@ export default function ReportRow({ report }: { report: Report }) {
 
   return (
     <TableRow key={report.parentHash} href={href}>
-      <TableRowHeader className="font-medium text-zinc-950 dark:text-white">
+      <TableCell className="font-medium text-zinc-950 dark:text-white">
         {formatUtcDateTime(report.entry.startDate)}
-      </TableRowHeader>
+      </TableCell>
       <TableCell>
         <ParticipantCell
           primaryId={report.entry.selfCommanderId}

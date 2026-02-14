@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import { Fragment, useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/duel-commander-row";
-import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +11,9 @@ import {
   DescriptionTerm,
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
+import { GameAvatar } from "@/components/v1/game-avatar";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
-import { getInitials, normalizeFrameUrl } from "@/lib/avatar";
+import { getInitials } from "@/lib/avatar";
 import type {
   DuelBattle2Buff,
   DuelBattle2Commander,
@@ -74,9 +74,9 @@ export function DuelParticipantCard({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-start gap-3">
-        <Avatar
-          src={participant.avatar_url || undefined}
-          frameSrc={normalizeFrameUrl(participant.frame_url)}
+        <GameAvatar
+          avatarUrl={participant.avatar_url || null}
+          frameUrl={participant.frame_url || null}
           alt={playerName}
           initials={getInitials(playerName)}
           className="size-12"

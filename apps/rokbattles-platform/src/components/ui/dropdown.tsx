@@ -1,29 +1,29 @@
 "use client";
 
 import {
-  type DescriptionProps,
   Description as HeadlessDescription,
+  type DescriptionProps as HeadlessDescriptionProps,
   Menu as HeadlessMenu,
   MenuButton as HeadlessMenuButton,
+  type MenuButtonProps as HeadlessMenuButtonProps,
   MenuHeading as HeadlessMenuHeading,
+  type MenuHeadingProps as HeadlessMenuHeadingProps,
   MenuItem as HeadlessMenuItem,
+  type MenuItemProps as HeadlessMenuItemProps,
   MenuItems as HeadlessMenuItems,
+  type MenuItemsProps as HeadlessMenuItemsProps,
+  type MenuProps as HeadlessMenuProps,
   MenuSection as HeadlessMenuSection,
+  type MenuSectionProps as HeadlessMenuSectionProps,
   MenuSeparator as HeadlessMenuSeparator,
-  type MenuButtonProps,
-  type MenuHeadingProps,
-  type MenuItemProps,
-  type MenuItemsProps,
-  type MenuProps,
-  type MenuSectionProps,
-  type MenuSeparatorProps,
+  type MenuSeparatorProps as HeadlessMenuSeparatorProps,
 } from "@headlessui/react";
 import type React from "react";
 import { cn } from "@/lib/cn";
 import { Button } from "./button";
 import { Link } from "./link";
 
-export function Dropdown(props: MenuProps) {
+export function Dropdown(props: HeadlessMenuProps) {
   return <HeadlessMenu {...props} />;
 }
 
@@ -31,7 +31,7 @@ export function DropdownButton<T extends React.ElementType = typeof Button>({
   // @ts-expect-error
   as = Button,
   ...props
-}: { className?: string } & Omit<MenuButtonProps<T>, "className">) {
+}: { className?: string } & Omit<HeadlessMenuButtonProps<T>, "className">) {
   // @ts-expect-error
   return <HeadlessMenuButton as={as} {...props} />;
 }
@@ -40,11 +40,10 @@ export function DropdownMenu({
   anchor = "bottom",
   className,
   ...props
-}: { className?: string } & Omit<MenuItemsProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessMenuItemsProps, "as" | "className">) {
   return (
     <HeadlessMenuItems
       {...props}
-      transition
       anchor={anchor}
       className={cn(
         className,
@@ -63,8 +62,9 @@ export function DropdownMenu({
         // Define grid at the menu level if subgrid is supported
         "supports-[grid-template-columns:subgrid]:grid supports-[grid-template-columns:subgrid]:grid-cols-[auto_1fr_1.5rem_0.5rem_auto]",
         // Transitions
-        "transition data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0"
+        "transition data-closed:data-leave:opacity-0 data-leave:duration-100 data-leave:ease-in"
       )}
+      transition
     />
   );
 }
@@ -73,8 +73,8 @@ export function DropdownItem({
   className,
   ...props
 }: { className?: string } & (
-  | ({ href?: never } & Omit<MenuItemProps<"button">, "as" | "className">)
-  | ({ href: string } & Omit<MenuItemProps<typeof Link>, "as" | "className">)
+  | Omit<HeadlessMenuItemProps<"button">, "as" | "className">
+  | Omit<HeadlessMenuItemProps<typeof Link>, "as" | "className">
 )) {
   const classes = cn(
     className,
@@ -92,16 +92,14 @@ export function DropdownItem({
     "col-span-full grid grid-cols-[auto_1fr_1.5rem_0.5rem_auto] items-center supports-[grid-template-columns:subgrid]:grid-cols-subgrid",
     // Icons
     "*:data-[slot=icon]:col-start-1 *:data-[slot=icon]:row-start-1 *:data-[slot=icon]:mr-2.5 *:data-[slot=icon]:-ml-0.5 *:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:mr-2 sm:*:data-[slot=icon]:size-4",
-    "*:data-[slot=icon]:text-zinc-500 data-focus:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400 dark:data-focus:*:data-[slot=icon]:text-white",
+    "data-focus:*:data-[slot=icon]:text-white *:data-[slot=icon]:text-zinc-500 dark:data-focus:*:data-[slot=icon]:text-white dark:*:data-[slot=icon]:text-zinc-400",
     // Avatar
     "*:data-[slot=avatar]:mr-2.5 *:data-[slot=avatar]:-ml-1 *:data-[slot=avatar]:size-6 sm:*:data-[slot=avatar]:mr-2 sm:*:data-[slot=avatar]:size-5"
   );
 
-  return typeof props.href === "string" ? (
-    // @ts-expect-error
+  return "href" in props ? (
     <HeadlessMenuItem as={Link} {...props} className={classes} />
   ) : (
-    // @ts-expect-error
     <HeadlessMenuItem as="button" type="button" {...props} className={classes} />
   );
 }
@@ -113,7 +111,7 @@ export function DropdownHeader({ className, ...props }: React.ComponentPropsWith
 export function DropdownSection({
   className,
   ...props
-}: { className?: string } & Omit<MenuSectionProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessMenuSectionProps, "as" | "className">) {
   return (
     <HeadlessMenuSection
       {...props}
@@ -129,13 +127,13 @@ export function DropdownSection({
 export function DropdownHeading({
   className,
   ...props
-}: { className?: string } & Omit<MenuHeadingProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessMenuHeadingProps, "as" | "className">) {
   return (
     <HeadlessMenuHeading
       {...props}
       className={cn(
         className,
-        "col-span-full grid grid-cols-[1fr_auto] gap-x-12 px-3.5 pt-2 pb-1 text-sm/5 font-medium text-zinc-500 sm:px-3 sm:text-xs/5 dark:text-zinc-400"
+        "col-span-full grid grid-cols-[1fr_auto] gap-x-12 px-3.5 pt-2 pb-1 font-medium text-sm/5 text-zinc-500 sm:px-3 sm:text-xs/5 dark:text-zinc-400"
       )}
     />
   );
@@ -144,7 +142,7 @@ export function DropdownHeading({
 export function DropdownDivider({
   className,
   ...props
-}: { className?: string } & Omit<MenuSeparatorProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessMenuSeparatorProps, "as" | "className">) {
   return (
     <HeadlessMenuSeparator
       {...props}
@@ -160,8 +158,8 @@ export function DropdownLabel({ className, ...props }: React.ComponentPropsWitho
   return (
     <div
       {...props}
-      data-slot="label"
       className={cn(className, "col-start-2 row-start-1")}
+      data-slot="label"
       {...props}
     />
   );
@@ -170,7 +168,7 @@ export function DropdownLabel({ className, ...props }: React.ComponentPropsWitho
 export function DropdownDescription({
   className,
   ...props
-}: { className?: string } & Omit<DescriptionProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessDescriptionProps, "as" | "className">) {
   return (
     <HeadlessDescription
       data-slot="description"
@@ -188,7 +186,7 @@ export function DropdownShortcut({
   className,
   ...props
 }: { keys: string | string[]; className?: string } & Omit<
-  DescriptionProps<"kbd">,
+  HeadlessDescriptionProps<"kbd">,
   "as" | "className"
 >) {
   return (
@@ -199,12 +197,12 @@ export function DropdownShortcut({
     >
       {(Array.isArray(keys) ? keys : keys.split("")).map((char, index) => (
         <kbd
-          key={typeof keys === "string" ? keys : keys.join("-")}
           className={cn([
             "min-w-[2ch] text-center font-sans text-zinc-400 capitalize group-data-focus:text-white forced-colors:group-data-focus:text-[HighlightText]",
             // Make sure key names that are longer than one character (like "Tab") have extra space
             index > 0 && char.length > 1 && "pl-1",
           ])}
+          key={char}
         >
           {char}
         </kbd>

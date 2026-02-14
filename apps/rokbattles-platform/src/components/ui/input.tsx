@@ -1,4 +1,4 @@
-import { Input as HeadlessInput, type InputProps } from "@headlessui/react";
+import { Input as HeadlessInput, type InputProps as HeadlessInputProps } from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
@@ -6,14 +6,14 @@ import { cn } from "@/lib/cn";
 export function InputGroup({ children }: React.ComponentPropsWithoutRef<"span">) {
   return (
     <span
-      data-slot="control"
       className={cn(
         "relative isolate block",
-        "has-[[data-slot=icon]:first-child]:[&_input]:pl-10 has-[[data-slot=icon]:last-child]:[&_input]:pr-10 sm:has-[[data-slot=icon]:first-child]:[&_input]:pl-8 sm:has-[[data-slot=icon]:last-child]:[&_input]:pr-8",
+        "has-[[data-slot=icon]:last-child]:[&_input]:pr-10 has-[[data-slot=icon]:first-child]:[&_input]:pl-10 sm:has-[[data-slot=icon]:last-child]:[&_input]:pr-8 sm:has-[[data-slot=icon]:first-child]:[&_input]:pl-8",
         "*:data-[slot=icon]:pointer-events-none *:data-[slot=icon]:absolute *:data-[slot=icon]:top-3 *:data-[slot=icon]:z-10 *:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:top-2.5 sm:*:data-[slot=icon]:size-4",
         "[&>[data-slot=icon]:first-child]:left-3 sm:[&>[data-slot=icon]:first-child]:left-2.5 [&>[data-slot=icon]:last-child]:right-3 sm:[&>[data-slot=icon]:last-child]:right-2.5",
         "*:data-[slot=icon]:text-zinc-500 dark:*:data-[slot=icon]:text-zinc-400"
       )}
+      data-slot="control"
     >
       {children}
     </span>
@@ -30,12 +30,11 @@ export const Input = forwardRef(function Input(
   }: {
     className?: string;
     type?: "email" | "number" | "password" | "search" | "tel" | "text" | "url" | DateType;
-  } & Omit<InputProps, "as" | "className">,
+  } & Omit<HeadlessInputProps, "as" | "className">,
   ref: React.ForwardedRef<HTMLInputElement>
 ) {
   return (
     <span
-      data-slot="control"
       className={cn([
         className,
         // Basic layout
@@ -48,7 +47,10 @@ export const Input = forwardRef(function Input(
         "after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset sm:focus-within:after:ring-2 sm:focus-within:after:ring-blue-500",
         // Disabled state
         "has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none",
+        // Invalid state
+        "has-data-invalid:before:shadow-red-500/10",
       ])}
+      data-slot="control"
     >
       <HeadlessInput
         ref={ref}
@@ -81,9 +83,9 @@ export const Input = forwardRef(function Input(
           // Hide default focus styles
           "focus:outline-hidden",
           // Invalid state
-          "data-invalid:border-red-500 data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-600 dark:data-invalid:data-hover:border-red-600",
+          "data-invalid:data-hover:border-red-500 data-invalid:border-red-500 dark:data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-500",
           // Disabled state
-          "data-disabled:border-zinc-950/20 dark:data-disabled:border-white/15 dark:data-disabled:bg-white/2.5 dark:data-hover:data-disabled:border-white/15",
+          "data-disabled:border-zinc-950/20 dark:data-hover:data-disabled:border-white/15 dark:data-disabled:border-white/15 dark:data-disabled:bg-white/2.5",
           // System icons
           "dark:scheme-dark",
         ])}

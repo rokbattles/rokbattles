@@ -13,42 +13,63 @@ import { cn } from "@/lib/cn";
 import { Text } from "./text";
 
 const sizes = {
-  xs: "sm:max-w-xs",
-  sm: "sm:max-w-sm",
-  md: "sm:max-w-md",
-  lg: "sm:max-w-lg",
-  xl: "sm:max-w-xl",
-  "2xl": "sm:max-w-2xl",
-  "3xl": "sm:max-w-3xl",
-  "4xl": "sm:max-w-4xl",
-  "5xl": "sm:max-w-5xl",
-};
+  xs: "max-w-xs",
+  sm: "max-w-sm",
+  md: "max-w-md",
+  lg: "max-w-lg",
+  xl: "max-w-xl",
+  "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
+  "4xl": "max-w-4xl",
+  "5xl": "max-w-5xl",
+} as const;
 
-export function Dialog({
-  size = "lg",
+const sides = {
+  left: {
+    container: "left-0 pr-10 sm:pr-16",
+    panel: "data-closed:-translate-x-full",
+  },
+  right: {
+    container: "right-0 pl-10 sm:pl-16",
+    panel: "data-closed:translate-x-full",
+  },
+} as const;
+
+export function Drawer({
+  size = "md",
+  side = "right",
   className,
   children,
   ...props
 }: {
   size?: keyof typeof sizes;
+  side?: keyof typeof sides;
   className?: string;
   children: React.ReactNode;
 } & Omit<HeadlessDialogProps, "as" | "className">) {
+  const sideStyles = sides[side];
+
   return (
     <HeadlessDialog {...props}>
       <HeadlessDialogBackdrop
-        className="fixed inset-0 flex w-screen justify-center overflow-y-auto bg-zinc-950/25 px-2 py-2 transition duration-100 focus:outline-0 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:px-6 sm:py-8 lg:px-8 lg:py-16 dark:bg-zinc-950/50"
+        className="fixed inset-0 bg-zinc-950/25 transition duration-200 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in dark:bg-zinc-950/50"
         transition
       />
 
-      <div className="fixed inset-0 w-screen overflow-y-auto pt-6 sm:pt-0">
-        <div className="grid min-h-full grid-rows-[1fr_auto] justify-items-center sm:grid-rows-[1fr_auto_3fr] sm:p-4">
+      <div className="fixed inset-0 overflow-hidden">
+        <div
+          className={cn(
+            "pointer-events-none fixed inset-y-0 flex max-w-full",
+            sideStyles.container
+          )}
+        >
           <HeadlessDialogPanel
             className={cn(
               className,
               sizes[size],
-              "row-start-2 w-full min-w-0 rounded-t-3xl bg-white p-(--gutter) shadow-lg ring-1 ring-zinc-950/10 [--gutter:--spacing(8)] sm:mb-auto sm:rounded-2xl dark:bg-zinc-900 dark:ring-white/10 forced-colors:outline",
-              "transition duration-100 will-change-transform data-closed:translate-y-12 data-closed:opacity-0 data-enter:ease-out data-leave:ease-in sm:data-closed:data-enter:scale-95 sm:data-closed:translate-y-0"
+              "pointer-events-auto flex h-full min-h-0 w-screen flex-col bg-white p-(--gutter) shadow-lg ring-1 ring-zinc-950/10 [--gutter:--spacing(8)] dark:bg-zinc-900 dark:ring-white/10 forced-colors:outline",
+              "transition duration-300 will-change-transform data-enter:ease-out data-leave:ease-in",
+              sideStyles.panel
             )}
             transition
           >
@@ -60,7 +81,7 @@ export function Dialog({
   );
 }
 
-export function DialogTitle({
+export function DrawerTitle({
   className,
   ...props
 }: { className?: string } & Omit<HeadlessDialogTitleProps, "as" | "className">) {
@@ -75,18 +96,18 @@ export function DialogTitle({
   );
 }
 
-export function DialogDescription({
+export function DrawerDescription({
   className,
   ...props
 }: { className?: string } & Omit<HeadlessDescriptionProps<typeof Text>, "as" | "className">) {
   return <HeadlessDescription as={Text} {...props} className={cn(className, "mt-2 text-pretty")} />;
 }
 
-export function DialogBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  return <div {...props} className={cn(className, "mt-6")} />;
+export function DrawerBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+  return <div {...props} className={cn(className, "mt-6 min-h-0 flex-1 overflow-y-auto")} />;
 }
 
-export function DialogActions({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+export function DrawerActions({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       {...props}

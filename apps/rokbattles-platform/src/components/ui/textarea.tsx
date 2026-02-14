@@ -1,4 +1,7 @@
-import { Textarea as HeadlessTextarea, type TextareaProps } from "@headlessui/react";
+import {
+  Textarea as HeadlessTextarea,
+  type TextareaProps as HeadlessTextareaProps,
+} from "@headlessui/react";
 import type React from "react";
 import { forwardRef } from "react";
 import { cn } from "@/lib/cn";
@@ -8,12 +11,11 @@ export const Textarea = forwardRef(function Textarea(
     className,
     resizable = true,
     ...props
-  }: { className?: string; resizable?: boolean } & Omit<TextareaProps, "as" | "className">,
+  }: { className?: string; resizable?: boolean } & Omit<HeadlessTextareaProps, "as" | "className">,
   ref: React.ForwardedRef<HTMLTextAreaElement>
 ) {
   return (
     <span
-      data-slot="control"
       className={cn([
         className,
         // Basic layout
@@ -27,6 +29,7 @@ export const Textarea = forwardRef(function Textarea(
         // Disabled state
         "has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none",
       ])}
+      data-slot="control"
     >
       <HeadlessTextarea
         ref={ref}
@@ -43,7 +46,7 @@ export const Textarea = forwardRef(function Textarea(
           // Hide default focus styles
           "focus:outline-hidden",
           // Invalid state
-          "data-invalid:border-red-500 data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-600 dark:data-invalid:data-hover:border-red-600",
+          "data-invalid:data-hover:border-red-500 data-invalid:border-red-500 dark:data-invalid:data-hover:border-red-600 dark:data-invalid:border-red-600",
           // Disabled state
           "disabled:border-zinc-950/20 dark:disabled:border-white/15 dark:disabled:bg-white/2.5 dark:data-hover:disabled:border-white/15",
           // Resizable
