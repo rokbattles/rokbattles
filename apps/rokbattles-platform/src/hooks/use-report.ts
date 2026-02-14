@@ -2,16 +2,16 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import type { ReportByHashResponse } from "@/lib/types/report";
+import type { ReportByIdResponse } from "@/lib/types/report";
 
-export function useReport(hash: string | null | undefined) {
+export function useReport(id: string | null | undefined) {
   const t = useTranslations("errors");
-  const [data, setData] = useState<ReportByHashResponse | null>(null);
+  const [data, setData] = useState<ReportByIdResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!hash) {
+    if (!id) {
       setData(null);
       setError(null);
       setLoading(false);
@@ -26,13 +26,13 @@ export function useReport(hash: string | null | undefined) {
 
     const fetchReport = async () => {
       try {
-        const res = await fetch(`/api/v2/report/${encodeURIComponent(hash)}`);
+        const res = await fetch(`/api/v2/report/${encodeURIComponent(id)}`);
 
         if (!res.ok) {
           throw new Error(t("report.fetch", { status: res.status }));
         }
 
-        const payload = (await res.json()) as ReportByHashResponse;
+        const payload = (await res.json()) as ReportByIdResponse;
         if (!cancelled) {
           setData(payload);
           setError(null);
@@ -55,7 +55,7 @@ export function useReport(hash: string | null | undefined) {
     return () => {
       cancelled = true;
     };
-  }, [hash, t]);
+  }, [id, t]);
 
   return {
     data,
