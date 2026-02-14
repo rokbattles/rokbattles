@@ -6,6 +6,18 @@ function toFiniteNumber(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }
 
+function computeTradePercent(senderKillPoints: number, opponentKillPoints: number): number {
+  if (senderKillPoints === opponentKillPoints) {
+    return 100;
+  }
+
+  if (opponentKillPoints <= 0) {
+    return 0;
+  }
+
+  return Math.round((senderKillPoints / opponentKillPoints) * 100);
+}
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
 
@@ -35,11 +47,11 @@ export async function GET(req: NextRequest) {
             $cond: [{ $eq: ["$battle_results.sender.win", true] }, 1, 0],
           },
         },
-        senderKillCount: {
+        opponentKillCount: {
           $sum: {
             $add: [
-              { $ifNull: ["$battle_results.sender.severely_wounded", 0] },
-              { $ifNull: ["$battle_results.sender.dead", 0] },
+              { $ifNull: ["$battle_results.opponent.severely_wounded", 0] },
+              { $ifNull: ["$battle_results.opponent.dead", 0] },
             ],
           },
         },
@@ -125,13 +137,11 @@ export async function GET(req: NextRequest) {
     count: toFiniteNumber(d.count),
     winStreak: toFiniteNumber(d.winStreak),
     mailTime: toFiniteNumber(d.firstMailTime),
-    killCount: toFiniteNumber(d.senderKillCount),
-    tradePercent:
-      toFiniteNumber(d.opponentKillPoints) > 0
-        ? Math.round(
-            (toFiniteNumber(d.senderKillPoints) / toFiniteNumber(d.opponentKillPoints)) * 100
-          )
-        : 0,
+    killCount: toFiniteNumber(d.opponentKillCount),
+    tradePercent: computeTradePercent(
+      toFiniteNumber(d.senderKillPoints),
+      toFiniteNumber(d.opponentKillPoints)
+    ),
     entry: {
       sender: {
         playerId: toFiniteNumber(d.firstDoc.senderPlayerId),

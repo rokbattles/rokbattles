@@ -19,6 +19,8 @@ type OpponentBattleResultLike = {
     kill_points?: unknown;
   } | null;
   opponent?: {
+    dead?: unknown;
+    severely_wounded?: unknown;
     kill_points?: unknown;
   } | null;
 };
@@ -42,6 +44,8 @@ type BattleSummaryLike = {
     kill_points?: unknown;
   } | null;
   opponent?: {
+    dead?: unknown;
+    severely_wounded?: unknown;
     kill_points?: unknown;
   } | null;
 };
@@ -52,6 +56,18 @@ function toFiniteNumber(value: unknown): number {
 
 function isFiniteNumber(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value);
+}
+
+function computeTradePercent(senderKillPoints: number, opponentKillPoints: number): number {
+  if (senderKillPoints === opponentKillPoints) {
+    return 100;
+  }
+
+  if (opponentKillPoints <= 0) {
+    return 0;
+  }
+
+  return Math.round((senderKillPoints / opponentKillPoints) * 100);
 }
 
 function parseNumberParam(
@@ -208,25 +224,24 @@ function computeKillAndTradePercent(summary: unknown, opponents: OpponentLike[])
   const summaryData = (summary ?? null) as BattleSummaryLike | null;
   const senderSummary = summaryData?.sender ?? null;
   const opponentSummary = summaryData?.opponent ?? null;
-  const senderSeverelyWounded = senderSummary?.severely_wounded;
-  const senderDead = senderSummary?.dead;
+  const opponentSeverelyWounded = opponentSummary?.severely_wounded;
+  const opponentDead = opponentSummary?.dead;
   const senderKillPoints = senderSummary?.kill_points;
   const opponentKillPoints = opponentSummary?.kill_points;
   const hasSummaryMetrics =
     typeof senderSummary === "object" &&
     typeof opponentSummary === "object" &&
-    isFiniteNumber(senderSeverelyWounded) &&
-    isFiniteNumber(senderDead) &&
+    isFiniteNumber(opponentSeverelyWounded) &&
+    isFiniteNumber(opponentDead) &&
     isFiniteNumber(senderKillPoints) &&
     isFiniteNumber(opponentKillPoints);
 
   if (hasSummaryMetrics) {
-    const senderKillCount = senderSeverelyWounded + senderDead;
+    const opponentKillCount = opponentSeverelyWounded + opponentDead;
 
     return {
-      killCount: senderKillCount,
-      tradePercent:
-        opponentKillPoints > 0 ? Math.round((senderKillPoints / opponentKillPoints) * 100) : 0,
+      killCount: opponentKillCount,
+      tradePercent: computeTradePercent(senderKillPoints, opponentKillPoints),
     };
   }
 
@@ -236,7 +251,7 @@ function computeKillAndTradePercent(summary: unknown, opponents: OpponentLike[])
       const opponentResult = opponent.battle_results?.opponent;
 
       totals.killCount +=
-        toFiniteNumber(senderResult?.severely_wounded) + toFiniteNumber(senderResult?.dead);
+        toFiniteNumber(opponentResult?.severely_wounded) + toFiniteNumber(opponentResult?.dead);
       totals.senderKillPoints += toFiniteNumber(senderResult?.kill_points);
       totals.opponentKillPoints += toFiniteNumber(opponentResult?.kill_points);
       return totals;
@@ -246,10 +261,7 @@ function computeKillAndTradePercent(summary: unknown, opponents: OpponentLike[])
 
   return {
     killCount: aggregated.killCount,
-    tradePercent:
-      aggregated.opponentKillPoints > 0
-        ? Math.round((aggregated.senderKillPoints / aggregated.opponentKillPoints) * 100)
-        : 0,
+    tradePercent: computeTradePercent(aggregated.senderKillPoints, aggregated.opponentKillPoints),
   };
 }
 
