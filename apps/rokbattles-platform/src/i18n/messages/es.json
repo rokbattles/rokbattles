@@ -19,7 +19,6 @@
     "exploreDuels": "Explorar duelos",
     "exploreTrends": "Explorar trends",
     "myBattles": "Mis batallas",
-    "myFavorites": "Mis favoritos",
     "support": "Soporte",
     "desktopApp": "Aplicación de escritorio",
     "cookieSettings": "Configuración de cookies",
@@ -53,8 +52,6 @@
       "apply": "Aplicar",
       "cancel": "Cancelar",
       "copied": "Copiado",
-      "favorite": "Favorito",
-      "unfavorite": "No favorito",
       "loadMore": "Cargar más",
       "reset": "Resetear",
       "share": "Compartir",
@@ -159,19 +156,7 @@
     "title": "Reporte",
     "battleReportTitle": "Reporte de batallas",
     "back": {
-      "reports": "Volver a mis reportes",
-      "favorites": "Volver a mis favoritos"
-    },
-    "actions": {
-      "favoriteAria": "Reporte de favoritos",
-      "unfavoriteAria": "Reporte de no favorito"
-    },
-    "merge": {
-      "bannerTitleDisable": "Try the experimental merge view for this report.",
-      "bannerTitleEnable": "You're viewing the experimental merge view for this report.",
-      "bannerActionEnable": "Enable",
-      "bannerActionDisable": "Disable",
-      "sidebarItem": "Report {index}"
+      "reports": "Volver a mis reportes"
     },
     "entry": {
       "battleSummary": "Resumen de la batalla",
@@ -260,7 +245,6 @@
   "account": {
     "titles": {
       "reports": "Mi reporte de batallas.",
-      "favorites": "Mi reporte de favoritos.",
       "pairings": "Mis combinaciones.",
       "rewards": "My Rewards",
       "settings": "Configuración de cuenta."
@@ -465,10 +449,6 @@
     "report": {
       "fetch": "Error al obtener reporte: {status}",
       "generic": "Error al obtener reporte."
-    },
-    "favorites": {
-      "fetch": "Error al obtener favoritos: {status}",
-      "generic": "Error al obtener favoritos."
     },
     "duels": {
       "fetch": "Error al obtener duelos:  {status}",

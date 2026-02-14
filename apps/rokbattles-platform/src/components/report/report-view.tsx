@@ -1,7 +1,5 @@
 "use client";
 
-import { StarIcon } from "@heroicons/react/16/solid";
-import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/report-empty-state";
@@ -12,37 +10,22 @@ import { ReportOverviewCard } from "@/components/report/report-overview-card";
 import { Button } from "@/components/ui/button";
 import { Divider } from "@/components/ui/divider";
 import { Heading } from "@/components/ui/heading";
-import {
-  Sidebar,
-  SidebarBody,
-  SidebarItem,
-  SidebarLabel,
-  SidebarSection,
-} from "@/components/ui/sidebar";
-import { Text } from "@/components/ui/text";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { useReport } from "@/hooks/use-report";
-import { useReportFavorite } from "@/hooks/use-report-favorite";
-import { cn } from "@/lib/cn";
 import { hasOverviewData } from "@/lib/report/overview-metrics";
 import type { RawOverview, RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
 type ReportViewProps = {
   hash: string;
-  mergeMode?: boolean;
 };
 
-export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
+export function ReportView({ hash }: ReportViewProps) {
   const t = useTranslations("report");
   const tCommon = useTranslations("common");
-  const searchParams = useSearchParams();
   const normalizedHash = hash?.trim() ?? "";
-  const searchParamsString = searchParams.toString();
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
-  const { user, loading: userLoading } = useCurrentUser();
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const resetTimerRef = useRef<number>(null);
@@ -57,29 +40,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
 
   const entries: ReportEntry[] = data?.items ?? [];
   const overviewSource = findOverviewSource(entries);
-  const showFavoriteButton = Boolean(!userLoading && user && normalizedHash.length > 0);
-  const mergeReports = [...(data?.merge?.reports ?? [])].sort(
-    (a, b) => b.latestEmailTime - a.latestEmailTime
-  );
-  const mergeEligible = mergeReports.length > 1;
-  const showMergeBanner = mergeEligible;
-  const showMergeLayout = mergeEligible && mergeMode;
-  const mergeToggleHref = buildReportHref(normalizedHash, searchParamsString, !mergeMode);
-  const mergeActionLabel = mergeMode
-    ? t("merge.bannerActionDisable")
-    : t("merge.bannerActionEnable");
-  const mergeTitle = mergeMode ? t("merge.bannerTitleEnable") : t("merge.bannerTitleDisable");
-
-  const {
-    favorited,
-    loading: favoriteLoading,
-    updating,
-    toggleFavorite,
-  } = useReportFavorite({
-    parentHash: normalizedHash,
-    reportType: "battle",
-    enabled: showFavoriteButton,
-  });
 
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
@@ -94,37 +54,11 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
       .catch((err) => console.error("Failed to copy battle report to clipboard", err));
   }
 
-  const reportContent = (
+  return (
     <section className="space-y-8">
-      {showMergeBanner ? (
-        <div className="rounded-md bg-blue-50 p-4 dark:bg-blue-500/10 dark:outline dark:outline-blue-500/20">
-          <div className="flex items-center">
-            <div className="ml-3 flex-1 md:flex md:items-center md:justify-between">
-              <Text className="text-blue-700! dark:text-blue-300!">{mergeTitle}</Text>
-              <div className="mt-3 text-sm md:mt-0 md:ml-6">
-                <Button color="blue" href={mergeToggleHref}>
-                  {mergeActionLabel}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
       <div className="flex items-end justify-between gap-4">
         <Heading>{t("title")}</Heading>
         <div className="flex items-center gap-2">
-          {showFavoriteButton ? (
-            <Button
-              className="-my-0.5"
-              aria-label={favorited ? t("actions.unfavoriteAria") : t("actions.favoriteAria")}
-              aria-pressed={favorited}
-              disabled={favoriteLoading || updating}
-              onClick={toggleFavorite}
-            >
-              <StarIcon data-slot="icon" className={cn(favorited ? "fill-amber-500" : "")} />
-              {favorited ? tCommon("actions.unfavorite") : tCommon("actions.favorite")}
-            </Button>
-          ) : null}
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
             {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
           </Button>
@@ -167,34 +101,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
       )}
     </section>
   );
-
-  if (!showMergeLayout) {
-    return reportContent;
-  }
-
-  return (
-    <div className="grid gap-2 lg:grid-cols-[220px_minmax(0,1fr)]">
-      <aside>
-        <Sidebar>
-          <SidebarBody className="p-0">
-            <SidebarSection>
-              {mergeReports.map((report, index) => {
-                const labelNumber = mergeReports.length - index;
-                const href = buildReportHref(report.parentHash, searchParamsString, true);
-                const isActive = report.parentHash === normalizedHash;
-                return (
-                  <SidebarItem key={report.parentHash} href={href} current={isActive}>
-                    <SidebarLabel>{t("merge.sidebarItem", { index: labelNumber })}</SidebarLabel>
-                  </SidebarItem>
-                );
-              })}
-            </SidebarSection>
-          </SidebarBody>
-        </Sidebar>
-      </aside>
-      {reportContent}
-    </div>
-  );
 }
 
 function findOverviewSource(entries: ReportEntry[]) {
@@ -209,15 +115,4 @@ function findOverviewSource(entries: ReportEntry[]) {
     }
   }
   return null;
-}
-
-function buildReportHref(hash: string, queryString: string, mergeEnabled: boolean) {
-  const params = new URLSearchParams(queryString);
-  if (mergeEnabled) {
-    params.set("merge", "1");
-  } else {
-    params.delete("merge");
-  }
-  const query = params.toString();
-  return `/report/${encodeURIComponent(hash)}${query ? `?${query}` : ""}`;
 }
