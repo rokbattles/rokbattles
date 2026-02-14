@@ -225,23 +225,6 @@
       "invalid": "We could not load this duel."
     }
   },
-  "battleLog": {
-    "title": "Battle Log",
-    "loading": "Loading your battle log for {year}...",
-    "summary": "All reports for {year}. Hover to see counts.",
-    "weekdays": {
-      "mon": "Mon",
-      "wed": "Wed",
-      "fri": "Fri"
-    },
-    "tooltip": "{date}: {battleCount, plural, one {# battle report} other {# battle reports}}, {npcCount, plural, one {# NPC report} other {# NPC reports}}",
-    "outsideRange": "Outside selected range",
-    "totals": {
-      "totalReports": "{count, number} Total reports",
-      "battles": "{count, number} Battles",
-      "npc": "{count, number} NPC"
-    }
-  },
   "account": {
     "titles": {
       "reports": "My Battle Reports",
@@ -457,10 +440,6 @@
     "duel": {
       "fetch": "Failed to fetch duel: {status}",
       "generic": "Failed to fetch duel."
-    },
-    "battleLog": {
-      "fetch": "Failed to load battle log ({status})",
-      "generic": "Failed to load battle log."
     },
     "pairings": {
       "fetch": "Failed to load marches: {status}",

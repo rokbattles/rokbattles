@@ -225,23 +225,6 @@
       "invalid": "No pudimos cargar este duelo."
     }
   },
-  "battleLog": {
-    "title": "Registro de batallas",
-    "loading": "Cargando su registro de batalla de {year}…",
-    "summary": "Todos los reportes de {year}. Pase el cursor para ver los conteos.",
-    "weekdays": {
-      "mon": "Lunes",
-      "wed": "Miércoles",
-      "fri": "Viernes"
-    },
-    "tooltip": "{date}: {battleCount, plural, one {# battle report} other {# battle reports}}, {npcCount, plural, one {# NPC report} other {# NPC reports}}",
-    "outsideRange": "Fuera del rango seleccionado",
-    "totals": {
-      "totalReports": "{count, number} reportes totales",
-      "battles": "{count, number} Batallas",
-      "npc": "{count, number} NPC"
-    }
-  },
   "account": {
     "titles": {
       "reports": "Mi reporte de batallas.",
@@ -457,10 +440,6 @@
     "duel": {
       "fetch": "Error al obtener duelo: {status}",
       "generic": "Error al obtener duelo."
-    },
-    "battleLog": {
-      "fetch": "Error al cargar el registro de batalla: ({status})",
-      "generic": "Error al cargar el registro de batalla."
     },
     "pairings": {
       "fetch": "Error al cargar marchas: {status}",
