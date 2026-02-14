@@ -225,23 +225,6 @@
       "invalid": "결투 정보를 불러올 수 없습니다."
     }
   },
-  "battleLog": {
-    "title": "전투 로그",
-    "loading": "{year}년 전투 로그를 불러오는 중...",
-    "summary": "{year}년 전체 보고서입니다. 마우스를 올리면 상세 수치를 확인할 수 있습니다.",
-    "weekdays": {
-      "mon": "월",
-      "wed": "수",
-      "fri": "금"
-    },
-    "tooltip": "{date}: {battleCount, plural, one {전투 보고서 #건} other {전투 보고서 #건}}, {npcCount, plural, one {NPC 보고서 #건} other {NPC 보고서 #건}}",
-    "outsideRange": "선택 범위 외",
-    "totals": {
-      "totalReports": "총 보고서 {count, number}건",
-      "battles": "전투 {count, number}건",
-      "npc": "NPC {count, number}건"
-    }
-  },
   "account": {
     "titles": {
       "reports": "내 전투 보고서",
@@ -457,10 +440,6 @@
     "duel": {
       "fetch": "결투 정보를 가져오지 못했습니다: {status}",
       "generic": "결투 정보를 가져오지 못했습니다."
-    },
-    "battleLog": {
-      "fetch": "전투 로그를 불러오지 못했습니다 ({status})",
-      "generic": "전투 로그를 불러오지 못했습니다."
     },
     "pairings": {
       "fetch": "행군 부대 정보를 불러오지 못했습니다: {status}",

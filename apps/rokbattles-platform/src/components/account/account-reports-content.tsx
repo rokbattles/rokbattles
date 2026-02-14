@@ -3,7 +3,6 @@
 import { FunnelIcon } from "@heroicons/react/16/solid";
 import { useTranslations } from "next-intl";
 import { useContext } from "react";
-import { BattleLog } from "@/components/reports/battle-log";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
 import { Heading, Subheading } from "@/components/ui/heading";
@@ -29,7 +28,6 @@ export function AccountReportsContent() {
   return (
     <>
       <Heading>{tAccount("titles.reports")}</Heading>
-      <BattleLog governorId={activeGovernor.governorId} />
       <div className="mt-8 flex items-end justify-between">
         <Subheading>{tCommon("headings.liveFeed")}</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
