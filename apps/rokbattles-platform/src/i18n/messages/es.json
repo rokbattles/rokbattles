@@ -158,13 +158,6 @@
     "back": {
       "reports": "Volver a mis reportes"
     },
-    "merge": {
-      "bannerTitleDisable": "Try the experimental merge view for this report.",
-      "bannerTitleEnable": "You're viewing the experimental merge view for this report.",
-      "bannerActionEnable": "Enable",
-      "bannerActionDisable": "Disable",
-      "sidebarItem": "Report {index}"
-    },
     "entry": {
       "battleSummary": "Resumen de la batalla",
       "unknownPeriod": "Periodo desconocido",

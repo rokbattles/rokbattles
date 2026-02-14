@@ -158,13 +158,6 @@
     "back": {
       "reports": "내 보고서로 돌아가기"
     },
-    "merge": {
-      "bannerTitleDisable": "Try the experimental merge view for this report.",
-      "bannerTitleEnable": "You're viewing the experimental merge view for this report.",
-      "bannerActionEnable": "Enable",
-      "bannerActionDisable": "Disable",
-      "sidebarItem": "Report {index}"
-    },
     "entry": {
       "battleSummary": "전투 요약",
       "unknownPeriod": "기간 불명",

@@ -47,8 +47,6 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const { hash } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
-  const mergeParam = resolveSearchParam(resolvedSearchParams.merge);
-  const mergeMode = mergeParam === "1" || mergeParam === "true";
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
   const backBase = isAccountReports ? "/account/reports" : "/";
   const backLabel = isAccountReports ? t("back.reports") : tNav("exploreBattles");
@@ -65,7 +63,7 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
           {backLabel}
         </Link>
       </div>
-      <ReportView hash={hash ?? ""} mergeMode={mergeMode} />
+      <ReportView hash={hash ?? ""} />
     </>
   );
 }
