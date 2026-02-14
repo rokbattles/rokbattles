@@ -4,15 +4,14 @@ import { requireAuthContext } from "@/lib/auth";
 import { parseGovernorId } from "@/lib/governor";
 import {
   applyBattleResults,
-  type BattleReportDocument,
   buildLoadoutKey,
   buildLoadoutSnapshot,
   createEmptyTotals,
   createMatchStage,
-  extractBattleDurationMillis,
   extractEventTimeMillis,
+  flattenPairingBattleEntries,
   type LoadoutGranularity,
-  normalizeCommanderId,
+  type PairingsBattleMailDocument,
   resolveDateRange,
 } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
@@ -93,33 +92,35 @@ export async function GET(
 
   const projection: Document = {
     _id: 0,
-    "report.metadata.email_time": 1,
-    "report.metadata.start_date": 1,
-    "report.metadata.end_date": 1,
-    "report.self.primary_commander.id": 1,
-    "report.self.secondary_commander.id": 1,
-    "report.self.equipment": 1,
-    "report.self.formation": 1,
-    "report.self.armament_buffs": 1,
-    "report.self.inscriptions": 1,
-    "report.enemy.primary_commander.id": 1,
-    "report.enemy.secondary_commander.id": 1,
-    "report.battle_results.kill_score": 1,
-    "report.battle_results.death": 1,
-    "report.battle_results.severely_wounded": 1,
-    "report.battle_results.wounded": 1,
-    "report.battle_results.enemy_kill_score": 1,
-    "report.battle_results.enemy_death": 1,
-    "report.battle_results.enemy_severely_wounded": 1,
-    "report.battle_results.enemy_wounded": 1,
+    "metadata.mail_time": 1,
+    "timeline.start_timestamp": 1,
+    "sender.commanders.primary.id": 1,
+    "sender.commanders.secondary.id": 1,
+    "sender.commanders.primary.equipment": 1,
+    "sender.commanders.primary.formation": 1,
+    "sender.commanders.primary.armaments": 1,
+    "sender.commanders.secondary.armaments": 1,
+    "opponents.player_id": 1,
+    "opponents.start_tick": 1,
+    "opponents.end_tick": 1,
+    "opponents.commanders.primary.id": 1,
+    "opponents.commanders.secondary.id": 1,
+    "opponents.battle_results.sender.kill_points": 1,
+    "opponents.battle_results.sender.dead": 1,
+    "opponents.battle_results.sender.severely_wounded": 1,
+    "opponents.battle_results.sender.slightly_wounded": 1,
+    "opponents.battle_results.opponent.kill_points": 1,
+    "opponents.battle_results.opponent.dead": 1,
+    "opponents.battle_results.opponent.severely_wounded": 1,
+    "opponents.battle_results.opponent.slightly_wounded": 1,
   };
 
   try {
     const matchStage = createMatchStage(governorId, startMillis, endMillis);
-    matchStage["report.self.primary_commander.id"] = primaryCommanderId;
+    matchStage["sender.commanders.primary.id"] = primaryCommanderId;
 
     const reports = await db
-      .collection<BattleReportDocument>("battleReports")
+      .collection<PairingsBattleMailDocument>("mails_battle")
       .find(matchStage, { projection })
       .toArray();
 
@@ -133,48 +134,46 @@ export async function GET(
       }
     >();
 
-    for (const doc of reports) {
-      const report = doc.report;
-      if (!report) {
-        continue;
-      }
-
-      const eventTime = extractEventTimeMillis(report);
+    for (const mail of reports) {
+      const eventTime = extractEventTimeMillis(mail);
       if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
         continue;
       }
 
-      const selfPrimary = normalizeCommanderId(report.self?.primary_commander?.id);
-      const selfSecondary = normalizeCommanderId(report.self?.secondary_commander?.id);
-      if (selfPrimary !== primaryCommanderId || selfSecondary !== secondaryCommanderId) {
+      const entries = flattenPairingBattleEntries(mail).filter(
+        (entry) =>
+          entry.selfPrimaryCommanderId === primaryCommanderId &&
+          entry.selfSecondaryCommanderId === secondaryCommanderId
+      );
+      if (entries.length === 0) {
         continue;
       }
 
       if (granularity !== "overall") {
-        const snapshot = buildLoadoutSnapshot(report, granularity);
+        const snapshot = buildLoadoutSnapshot(mail, granularity);
         const key = buildLoadoutKey(snapshot);
         if (key !== loadoutKey) {
           continue;
         }
       }
 
-      const enemyPrimary = normalizeCommanderId(report.enemy?.primary_commander?.id);
-      const enemySecondary = normalizeCommanderId(report.enemy?.secondary_commander?.id);
-      const enemyKey = `${enemyPrimary}:${enemySecondary}`;
-      let bucket = buckets.get(enemyKey);
-      if (!bucket) {
-        bucket = {
-          enemyPrimaryCommanderId: enemyPrimary,
-          enemySecondaryCommanderId: enemySecondary,
-          count: 0,
-          totals: createEmptyTotals(),
-        };
-        buckets.set(enemyKey, bucket);
-      }
+      for (const entry of entries) {
+        const enemyKey = `${entry.enemyPrimaryCommanderId}:${entry.enemySecondaryCommanderId}`;
+        let bucket = buckets.get(enemyKey);
+        if (!bucket) {
+          bucket = {
+            enemyPrimaryCommanderId: entry.enemyPrimaryCommanderId,
+            enemySecondaryCommanderId: entry.enemySecondaryCommanderId,
+            count: 0,
+            totals: createEmptyTotals(),
+          };
+          buckets.set(enemyKey, bucket);
+        }
 
-      bucket.count += 1;
-      applyBattleResults(bucket.totals, report.battle_results);
-      bucket.totals.battleDuration += extractBattleDurationMillis(report);
+        bucket.count += 1;
+        applyBattleResults(bucket.totals, entry.battleResults);
+        bucket.totals.battleDuration += entry.battleDurationMillis;
+      }
     }
 
     const items: EnemyAggregate[] = Array.from(buckets.values()).map((bucket) => ({
