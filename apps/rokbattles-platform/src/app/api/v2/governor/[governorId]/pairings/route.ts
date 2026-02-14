@@ -4,13 +4,13 @@ import { requireAuthContext } from "@/lib/auth";
 import { parseGovernorId } from "@/lib/governor";
 import {
   applyBattleResults,
-  type BattleReportDocument,
   createEmptyTotals,
   createMatchStage,
-  extractBattleDurationMillis,
   extractEventTimeMillis,
+  flattenPairingBattleEntries,
   type MarchTotals,
   normalizeCommanderId,
+  type PairingsBattleMailDocument,
   resolveDateRange,
 } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
@@ -29,42 +29,43 @@ type PairingAggregate = {
   totals: AggregationBucket["totals"];
 };
 
-function aggregateReports(reports: BattleReportDocument[], startMillis: number, endMillis: number) {
+function aggregateReports(
+  mails: PairingsBattleMailDocument[],
+  startMillis: number,
+  endMillis: number
+) {
   const buckets = new Map<string, AggregationBucket>();
 
-  for (const doc of reports) {
-    const report = doc.report;
-    if (!report) {
-      continue;
-    }
-
-    const eventTime = extractEventTimeMillis(report);
+  for (const mail of mails) {
+    const eventTime = extractEventTimeMillis(mail);
     if (eventTime == null || eventTime < startMillis || eventTime >= endMillis) {
       continue;
     }
 
-    const primaryCommanderId = normalizeCommanderId(report.self?.primary_commander?.id);
-    if (primaryCommanderId <= 0) {
-      continue;
+    for (const entry of flattenPairingBattleEntries(mail)) {
+      const primaryCommanderId = normalizeCommanderId(entry.selfPrimaryCommanderId);
+      if (primaryCommanderId <= 0) {
+        continue;
+      }
+
+      const secondaryCommanderId = normalizeCommanderId(entry.selfSecondaryCommanderId);
+      const key = `${primaryCommanderId}:${secondaryCommanderId}`;
+
+      let bucket = buckets.get(key);
+      if (!bucket) {
+        bucket = {
+          primaryCommanderId,
+          secondaryCommanderId,
+          count: 0,
+          totals: createEmptyTotals(),
+        };
+        buckets.set(key, bucket);
+      }
+
+      bucket.count += 1;
+      applyBattleResults(bucket.totals, entry.battleResults);
+      bucket.totals.battleDuration += entry.battleDurationMillis;
     }
-
-    const secondaryCommanderId = normalizeCommanderId(report.self?.secondary_commander?.id);
-    const key = `${primaryCommanderId}:${secondaryCommanderId}`;
-
-    let bucket = buckets.get(key);
-    if (!bucket) {
-      bucket = {
-        primaryCommanderId,
-        secondaryCommanderId,
-        count: 0,
-        totals: createEmptyTotals(),
-      };
-      buckets.set(key, bucket);
-    }
-
-    bucket.count += 1;
-    applyBattleResults(bucket.totals, report.battle_results);
-    bucket.totals.battleDuration += extractBattleDurationMillis(report);
   }
 
   return buckets;
@@ -104,24 +105,28 @@ export async function GET(
 
   const projection: Document = {
     _id: 0,
-    "report.metadata.email_time": 1,
-    "report.metadata.start_date": 1,
-    "report.metadata.end_date": 1,
-    "report.self.primary_commander.id": 1,
-    "report.self.secondary_commander.id": 1,
-    "report.battle_results.kill_score": 1,
-    "report.battle_results.death": 1,
-    "report.battle_results.severely_wounded": 1,
-    "report.battle_results.wounded": 1,
-    "report.battle_results.enemy_kill_score": 1,
-    "report.battle_results.enemy_death": 1,
-    "report.battle_results.enemy_severely_wounded": 1,
-    "report.battle_results.enemy_wounded": 1,
+    "metadata.mail_time": 1,
+    "timeline.start_timestamp": 1,
+    "sender.commanders.primary.id": 1,
+    "sender.commanders.secondary.id": 1,
+    "opponents.player_id": 1,
+    "opponents.start_tick": 1,
+    "opponents.end_tick": 1,
+    "opponents.commanders.primary.id": 1,
+    "opponents.commanders.secondary.id": 1,
+    "opponents.battle_results.sender.kill_points": 1,
+    "opponents.battle_results.sender.dead": 1,
+    "opponents.battle_results.sender.severely_wounded": 1,
+    "opponents.battle_results.sender.slightly_wounded": 1,
+    "opponents.battle_results.opponent.kill_points": 1,
+    "opponents.battle_results.opponent.dead": 1,
+    "opponents.battle_results.opponent.severely_wounded": 1,
+    "opponents.battle_results.opponent.slightly_wounded": 1,
   };
 
   try {
     const reports = await db
-      .collection<BattleReportDocument>("battleReports")
+      .collection<PairingsBattleMailDocument>("mails_battle")
       .find(createMatchStage(governorId, range.startMillis, range.endMillis), { projection })
       .toArray();
 

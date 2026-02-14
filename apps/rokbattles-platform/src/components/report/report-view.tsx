@@ -12,20 +12,21 @@ import { Divider } from "@/components/ui/divider";
 import { Heading } from "@/components/ui/heading";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useReport } from "@/hooks/use-report";
+import { adaptBattleMailToReport } from "@/lib/report/battle-mail-adapter";
 import { hasOverviewData } from "@/lib/report/overview-metrics";
-import type { RawOverview, RawReportPayload } from "@/lib/types/raw-report";
+import type { RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
 
 type ReportViewProps = {
-  hash: string;
+  id: string;
 };
 
-export function ReportView({ hash }: ReportViewProps) {
+export function ReportView({ id }: ReportViewProps) {
   const t = useTranslations("report");
   const tCommon = useTranslations("common");
-  const normalizedHash = hash?.trim() ?? "";
+  const normalizedId = id?.trim() ?? "";
 
-  const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
+  const { data, loading, error } = useReport(normalizedId.length > 0 ? normalizedId : null);
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const resetTimerRef = useRef<number>(null);
@@ -38,11 +39,14 @@ export function ReportView({ hash }: ReportViewProps) {
     };
   }, []);
 
-  const entries: ReportEntry[] = data?.items ?? [];
-  const overviewSource = findOverviewSource(entries);
+  const mappedReport = data?.mail ? adaptBattleMailToReport(data.mail) : null;
+  const entries: ReportEntry[] = mappedReport?.entries ?? [];
+  const overview = mappedReport?.overview ?? null;
+  const selfParticipant = mappedReport?.selfParticipant;
+  const enemyParticipant = mappedReport?.enemyParticipant;
 
   function handleShare() {
-    copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
+    copy(`https://platform.rokbattles.com/report/${encodeURIComponent(normalizedId)}`)
       .then(() => console.log("Battle report copied to clipboard", copiedText))
       .then(() => {
         setIsCopied(true);
@@ -73,12 +77,12 @@ export function ReportView({ hash }: ReportViewProps) {
         <ReportEmptyState />
       ) : (
         <div className="space-y-12">
-          {overviewSource && hasOverviewData(overviewSource.overview) ? (
+          {overview && hasOverviewData(overview) ? (
             <>
               <ReportOverviewCard
-                overview={overviewSource.overview}
-                selfParticipant={overviewSource.self}
-                enemyParticipant={overviewSource.enemy}
+                overview={overview}
+                selfParticipant={selfParticipant}
+                enemyParticipant={enemyParticipant}
               />
               <Divider />
             </>
@@ -101,18 +105,4 @@ export function ReportView({ hash }: ReportViewProps) {
       )}
     </section>
   );
-}
-
-function findOverviewSource(entries: ReportEntry[]) {
-  for (const entry of entries) {
-    const payload = (entry.report ?? {}) as RawReportPayload;
-    if (payload?.overview && typeof payload.overview === "object") {
-      return {
-        overview: payload.overview as RawOverview,
-        self: payload.self,
-        enemy: payload.enemy,
-      };
-    }
-  }
-  return null;
 }

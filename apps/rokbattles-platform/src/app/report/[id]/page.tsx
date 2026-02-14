@@ -42,9 +42,9 @@ function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
   return query ? `?${query}` : "";
 }
 
-export default async function Page({ params, searchParams }: PageProps<"/report/[hash]">) {
+export default async function Page({ params, searchParams }: PageProps<"/report/[id]">) {
   const [t, tNav] = await Promise.all([getTranslations("report"), getTranslations("navigation")]);
-  const { hash } = await params;
+  const { id } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
@@ -63,7 +63,7 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
           {backLabel}
         </Link>
       </div>
-      <ReportView hash={hash ?? ""} />
+      <ReportView id={id ?? ""} />
     </>
   );
 }

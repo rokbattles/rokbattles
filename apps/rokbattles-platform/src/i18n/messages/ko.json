@@ -114,7 +114,9 @@
   "reports": {
     "title": "전투 보고서",
     "table": {
-      "duration": "지속 시간"
+      "duration": "지속 시간",
+      "killCount": "Kill Count",
+      "tradePercent": "Trade %"
     },
     "filter": {
       "trigger": "필터",

@@ -12,6 +12,7 @@ export type BattleMetadata = {
   mail_receiver: string;
   server_id: number;
   mail_role: string;
+  kvk: boolean;
 };
 
 export type BattleSender = BattlePlayer;

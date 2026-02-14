@@ -2,6 +2,257 @@ import type { Document } from "mongodb";
 import { type NextRequest, NextResponse } from "next/server";
 import clientPromise from "@/lib/mongo";
 
+type ReportsFilterType = "home" | "ark" | "kvk" | "strife";
+type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
+type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
+
+const INVALID_OPPONENT_PLAYER_IDS = new Set([-2, 0]);
+
+type CommanderLike = {
+  id?: unknown;
+};
+
+type OpponentBattleResultLike = {
+  sender?: {
+    dead?: unknown;
+    severely_wounded?: unknown;
+    kill_points?: unknown;
+  } | null;
+  opponent?: {
+    kill_points?: unknown;
+  } | null;
+};
+
+type OpponentLike = {
+  player_id?: unknown;
+  start_tick?: unknown;
+  rally?: unknown;
+  alliance_building_id?: unknown;
+  commanders?: {
+    primary?: CommanderLike | null;
+    secondary?: CommanderLike | null;
+  } | null;
+  battle_results?: OpponentBattleResultLike | null;
+};
+
+type BattleSummaryLike = {
+  sender?: {
+    dead?: unknown;
+    severely_wounded?: unknown;
+    kill_points?: unknown;
+  } | null;
+  opponent?: {
+    kill_points?: unknown;
+  } | null;
+};
+
+function toFiniteNumber(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : 0;
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function parseNumberParam(
+  value: string | null,
+  error: string
+): { value?: number; response?: NextResponse } {
+  if (!value) {
+    return {};
+  }
+
+  const parsedValue = Number(value);
+  if (Number.isFinite(parsedValue)) {
+    return { value: parsedValue };
+  }
+
+  return {
+    response: NextResponse.json({ error }, { status: 400 }),
+  };
+}
+
+function parseFilterType(value: string | null): {
+  value?: ReportsFilterType;
+  response?: NextResponse;
+} {
+  if (!value) {
+    return {};
+  }
+
+  if (value === "home" || value === "ark" || value === "kvk" || value === "strife") {
+    return { value };
+  }
+
+  return {
+    response: NextResponse.json({ error: "Invalid type" }, { status: 400 }),
+  };
+}
+
+function parseFilterSide(
+  value: string | null,
+  error: string
+): { value?: ReportsFilterSide; response?: NextResponse } {
+  if (!value) {
+    return {};
+  }
+
+  if (value === "none" || value === "sender" || value === "opponent" || value === "both") {
+    return { value };
+  }
+
+  return {
+    response: NextResponse.json({ error }, { status: 400 }),
+  };
+}
+
+function parseGarrisonBuildingType(value: string | null): {
+  value?: ReportsGarrisonBuildingType;
+  response?: NextResponse;
+} {
+  if (!value) {
+    return {};
+  }
+
+  if (value === "flag" || value === "fortress" || value === "other") {
+    return { value };
+  }
+
+  return {
+    response: NextResponse.json({ error: "Invalid garrison building" }, { status: 400 }),
+  };
+}
+
+function isStrifeReportCondition() {
+  return {
+    $and: [
+      { "sender.supreme_strife.battle_id": { $exists: true, $nin: [null, ""] } },
+      { "sender.supreme_strife.team_id": { $exists: true, $nin: [null, 0] } },
+    ],
+  };
+}
+
+function buildGarrisonFieldCondition(
+  path: string,
+  type: ReportsGarrisonBuildingType | undefined
+): Document {
+  if (type === "flag") {
+    return { [path]: 1 };
+  }
+  if (type === "fortress") {
+    return { [path]: 3 };
+  }
+  if (type === "other") {
+    return { [path]: { $exists: true, $nin: [1, 3, null] } };
+  }
+  return { [path]: { $exists: true, $ne: null } };
+}
+
+function buildOpponentGarrisonCondition(type: ReportsGarrisonBuildingType | undefined): Document {
+  if (type === "flag") {
+    return {
+      opponents: {
+        $elemMatch: { player_id: { $nin: [-2, 0] }, alliance_building_id: 1 },
+      },
+    };
+  }
+  if (type === "fortress") {
+    return {
+      opponents: {
+        $elemMatch: { player_id: { $nin: [-2, 0] }, alliance_building_id: 3 },
+      },
+    };
+  }
+  if (type === "other") {
+    return {
+      opponents: {
+        $elemMatch: {
+          player_id: { $nin: [-2, 0] },
+          alliance_building_id: { $exists: true, $nin: [1, 3, null] },
+        },
+      },
+    };
+  }
+  return {
+    opponents: {
+      $elemMatch: {
+        player_id: { $nin: [-2, 0] },
+        alliance_building_id: { $exists: true, $ne: null },
+      },
+    },
+  };
+}
+
+function getValidOpponents(value: unknown): OpponentLike[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter((opponent): opponent is OpponentLike => {
+    const playerId = toFiniteNumber((opponent as OpponentLike).player_id);
+    return !INVALID_OPPONENT_PLAYER_IDS.has(playerId);
+  });
+}
+
+function getSortedOpponents(opponents: OpponentLike[]): OpponentLike[] {
+  return [...opponents].sort((a, b) => {
+    const tickDelta = toFiniteNumber(a.start_tick) - toFiniteNumber(b.start_tick);
+    if (tickDelta !== 0) {
+      return tickDelta;
+    }
+    return toFiniteNumber(a.player_id) - toFiniteNumber(b.player_id);
+  });
+}
+
+function computeKillAndTradePercent(summary: unknown, opponents: OpponentLike[]) {
+  const summaryData = (summary ?? null) as BattleSummaryLike | null;
+  const senderSummary = summaryData?.sender ?? null;
+  const opponentSummary = summaryData?.opponent ?? null;
+  const senderSeverelyWounded = senderSummary?.severely_wounded;
+  const senderDead = senderSummary?.dead;
+  const senderKillPoints = senderSummary?.kill_points;
+  const opponentKillPoints = opponentSummary?.kill_points;
+  const hasSummaryMetrics =
+    typeof senderSummary === "object" &&
+    typeof opponentSummary === "object" &&
+    isFiniteNumber(senderSeverelyWounded) &&
+    isFiniteNumber(senderDead) &&
+    isFiniteNumber(senderKillPoints) &&
+    isFiniteNumber(opponentKillPoints);
+
+  if (hasSummaryMetrics) {
+    const senderKillCount = senderSeverelyWounded + senderDead;
+
+    return {
+      killCount: senderKillCount,
+      tradePercent:
+        opponentKillPoints > 0 ? Math.round((senderKillPoints / opponentKillPoints) * 100) : 0,
+    };
+  }
+
+  const aggregated = opponents.reduce(
+    (totals, opponent) => {
+      const senderResult = opponent.battle_results?.sender;
+      const opponentResult = opponent.battle_results?.opponent;
+
+      totals.killCount +=
+        toFiniteNumber(senderResult?.severely_wounded) + toFiniteNumber(senderResult?.dead);
+      totals.senderKillPoints += toFiniteNumber(senderResult?.kill_points);
+      totals.opponentKillPoints += toFiniteNumber(opponentResult?.kill_points);
+      return totals;
+    },
+    { killCount: 0, senderKillPoints: 0, opponentKillPoints: 0 }
+  );
+
+  return {
+    killCount: aggregated.killCount,
+    tradePercent:
+      aggregated.opponentKillPoints > 0
+        ? Math.round((aggregated.senderKillPoints / aggregated.opponentKillPoints) * 100)
+        : 0,
+  };
+}
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
 
@@ -16,101 +267,61 @@ export async function GET(req: NextRequest) {
   const garrisonSideParam = searchParams.get("gs");
   const garrisonBuildingParam = searchParams.get("gb");
 
-  type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
-  type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
+  const parsedTypeResult = parseFilterType(type);
+  if (parsedTypeResult.response) return parsedTypeResult.response;
+  const parsedType = parsedTypeResult.value;
 
-  const parseSide = (value: string | null): ReportsFilterSide | undefined => {
-    if (!value) return undefined;
-    if (value === "none" || value === "sender" || value === "opponent" || value === "both") {
-      return value;
-    }
-    return undefined;
-  };
+  const parsedCursorResult = parseNumberParam(cursor, "Invalid cursor");
+  if (parsedCursorResult.response) return parsedCursorResult.response;
+  const parsedCursor = parsedCursorResult.value;
 
-  const parseGarrisonBuilding = (value: string | null): ReportsGarrisonBuildingType | undefined => {
-    if (!value) return undefined;
-    if (value === "flag" || value === "fortress" || value === "other") {
-      return value;
-    }
-    return undefined;
-  };
+  const parsedPlayerIdResult = parseNumberParam(playerId, "Invalid governor id");
+  if (parsedPlayerIdResult.response) return parsedPlayerIdResult.response;
+  const parsedPlayerId = parsedPlayerIdResult.value;
 
-  let parsedType: "home" | "ark" | "kvk" | "strife" | undefined;
-  if (type) {
-    if (type === "home" || type === "ark" || type === "kvk" || type === "strife") {
-      parsedType = type;
-    } else {
-      return NextResponse.json({ error: "Invalid type" }, { status: 400 });
-    }
-  }
+  const parsedSenderPrimaryCommanderIdResult = parseNumberParam(
+    senderPrimaryCommanderId,
+    "Invalid sender primary commander id"
+  );
+  if (parsedSenderPrimaryCommanderIdResult.response)
+    return parsedSenderPrimaryCommanderIdResult.response;
+  const parsedSenderPrimaryCommanderId = parsedSenderPrimaryCommanderIdResult.value;
 
-  let parsedPlayerId: number | undefined;
-  if (playerId) {
-    const n = Number(playerId);
-    if (Number.isFinite(n)) {
-      parsedPlayerId = n;
-    } else {
-      return NextResponse.json({ error: "Invalid governor id" }, { status: 400 });
-    }
-  }
+  const parsedSenderSecondaryCommanderIdResult = parseNumberParam(
+    senderSecondaryCommanderId,
+    "Invalid sender secondary commander id"
+  );
+  if (parsedSenderSecondaryCommanderIdResult.response)
+    return parsedSenderSecondaryCommanderIdResult.response;
+  const parsedSenderSecondaryCommanderId = parsedSenderSecondaryCommanderIdResult.value;
 
-  let parsedSenderPrimaryCommanderId: number | undefined;
-  if (senderPrimaryCommanderId) {
-    const n = Number(senderPrimaryCommanderId);
-    if (Number.isFinite(n)) {
-      parsedSenderPrimaryCommanderId = n;
-    } else {
-      return NextResponse.json({ error: "Invalid sender primary commander id" }, { status: 400 });
-    }
-  }
+  const parsedOpponentPrimaryCommanderIdResult = parseNumberParam(
+    opponentPrimaryCommanderId,
+    "Invalid opponent primary commander id"
+  );
+  if (parsedOpponentPrimaryCommanderIdResult.response)
+    return parsedOpponentPrimaryCommanderIdResult.response;
+  const parsedOpponentPrimaryCommanderId = parsedOpponentPrimaryCommanderIdResult.value;
 
-  let parsedSenderSecondaryCommanderId: number | undefined;
-  if (senderSecondaryCommanderId) {
-    const n = Number(senderSecondaryCommanderId);
-    if (Number.isFinite(n)) {
-      parsedSenderSecondaryCommanderId = n;
-    } else {
-      return NextResponse.json({ error: "Invalid sender secondary commander id" }, { status: 400 });
-    }
-  }
+  const parsedOpponentSecondaryCommanderIdResult = parseNumberParam(
+    opponentSecondaryCommanderId,
+    "Invalid opponent secondary commander id"
+  );
+  if (parsedOpponentSecondaryCommanderIdResult.response)
+    return parsedOpponentSecondaryCommanderIdResult.response;
+  const parsedOpponentSecondaryCommanderId = parsedOpponentSecondaryCommanderIdResult.value;
 
-  let parsedOpponentPrimaryCommanderId: number | undefined;
-  if (opponentPrimaryCommanderId) {
-    const n = Number(opponentPrimaryCommanderId);
-    if (Number.isFinite(n)) {
-      parsedOpponentPrimaryCommanderId = n;
-    } else {
-      return NextResponse.json({ error: "Invalid opponent primary commander id" }, { status: 400 });
-    }
-  }
+  const parsedRallySideResult = parseFilterSide(rallySideParam, "Invalid rally side");
+  if (parsedRallySideResult.response) return parsedRallySideResult.response;
+  const parsedRallySide = parsedRallySideResult.value ?? "none";
 
-  let parsedOpponentSecondaryCommanderId: number | undefined;
-  if (opponentSecondaryCommanderId) {
-    const n = Number(opponentSecondaryCommanderId);
-    if (Number.isFinite(n)) {
-      parsedOpponentSecondaryCommanderId = n;
-    } else {
-      return NextResponse.json(
-        { error: "Invalid opponent secondary commander id" },
-        { status: 400 }
-      );
-    }
-  }
+  const parsedGarrisonSideResult = parseFilterSide(garrisonSideParam, "Invalid garrison side");
+  if (parsedGarrisonSideResult.response) return parsedGarrisonSideResult.response;
+  const parsedGarrisonSide = parsedGarrisonSideResult.value ?? "none";
 
-  const parsedRallySide = parseSide(rallySideParam) ?? "none";
-  if (rallySideParam && !parseSide(rallySideParam)) {
-    return NextResponse.json({ error: "Invalid rally side" }, { status: 400 });
-  }
-
-  const parsedGarrisonSide = parseSide(garrisonSideParam) ?? "none";
-  if (garrisonSideParam && !parseSide(garrisonSideParam)) {
-    return NextResponse.json({ error: "Invalid garrison side" }, { status: 400 });
-  }
-
-  const parsedGarrisonBuilding = parseGarrisonBuilding(garrisonBuildingParam);
-  if (garrisonBuildingParam && !parsedGarrisonBuilding) {
-    return NextResponse.json({ error: "Invalid garrison building" }, { status: 400 });
-  }
+  const parsedGarrisonBuildingResult = parseGarrisonBuildingType(garrisonBuildingParam);
+  if (parsedGarrisonBuildingResult.response) return parsedGarrisonBuildingResult.response;
+  const parsedGarrisonBuilding = parsedGarrisonBuildingResult.value;
 
   const sideOverlaps =
     ((parsedRallySide === "sender" || parsedRallySide === "both") &&
@@ -128,70 +339,92 @@ export async function GET(req: NextRequest) {
   const db = mongo.db();
 
   const matchPipeline: Document[] = [
-    // Filter out npc & empty structures
-    // TODO consider $gt 0 to see if its more performant
-    { "report.enemy.player_id": { $nin: [-2, 0] } },
+    { opponents: { $elemMatch: { player_id: { $nin: [-2, 0] } } } },
   ];
+
+  if (parsedCursor !== undefined) {
+    matchPipeline.push({ "metadata.mail_time": { $lt: parsedCursor } });
+  }
 
   if (parsedPlayerId !== undefined) {
     matchPipeline.push({
-      $or: [
-        { "report.self.player_id": parsedPlayerId },
-        { "report.enemy.player_id": parsedPlayerId },
-      ],
+      $or: [{ "sender.player_id": parsedPlayerId }, { "opponents.player_id": parsedPlayerId }],
     });
   }
 
   if (parsedSenderPrimaryCommanderId !== undefined) {
     matchPipeline.push({
-      "report.self.primary_commander.id": parsedSenderPrimaryCommanderId,
+      "sender.commanders.primary.id": parsedSenderPrimaryCommanderId,
     });
   }
 
   if (parsedSenderSecondaryCommanderId !== undefined) {
     matchPipeline.push({
-      "report.self.secondary_commander.id": parsedSenderSecondaryCommanderId,
+      "sender.commanders.secondary.id": parsedSenderSecondaryCommanderId,
     });
   }
 
   if (parsedOpponentPrimaryCommanderId !== undefined) {
     matchPipeline.push({
-      "report.enemy.primary_commander.id": parsedOpponentPrimaryCommanderId,
+      opponents: {
+        $elemMatch: {
+          player_id: { $nin: [-2, 0] },
+          "commanders.primary.id": parsedOpponentPrimaryCommanderId,
+        },
+      },
     });
   }
 
   if (parsedOpponentSecondaryCommanderId !== undefined) {
     matchPipeline.push({
-      "report.enemy.secondary_commander.id": parsedOpponentSecondaryCommanderId,
+      opponents: {
+        $elemMatch: {
+          player_id: { $nin: [-2, 0] },
+          "commanders.secondary.id": parsedOpponentSecondaryCommanderId,
+        },
+      },
     });
   }
 
   if (parsedType) {
     if (parsedType === "kvk") {
-      matchPipeline.push({ "report.metadata.is_kvk": 1 });
-      matchPipeline.push({ "report.metadata.email_role": { $ne: "dungeon" } });
+      matchPipeline.push({ "metadata.kvk": true });
     }
 
     if (parsedType === "ark") {
-      matchPipeline.push({ "report.metadata.email_role": "dungeon" });
+      matchPipeline.push({ "metadata.mail_role": "dungeon" });
     }
 
     if (parsedType === "home") {
-      matchPipeline.push({ "report.metadata.is_kvk": 0 });
-      matchPipeline.push({ "report.metadata.email_role": { $ne: "dungeon" } });
+      matchPipeline.push({
+        $and: [
+          { "metadata.kvk": { $ne: true } },
+          { "metadata.mail_role": { $ne: "dungeon" } },
+          {
+            $or: [
+              { "sender.supreme_strife.battle_id": { $in: [null, ""] } },
+              { "sender.supreme_strife.team_id": { $in: [null, 0] } },
+            ],
+          },
+        ],
+      });
     }
 
     if (parsedType === "strife") {
-      matchPipeline.push({ "report.metadata.is_strife": 1 });
+      matchPipeline.push(isStrifeReportCondition());
     }
   }
 
   const rallyConditions: Document[] = [];
   if (parsedRallySide === "sender" || parsedRallySide === "both") {
-    rallyConditions.push({ "report.self.is_rally": { $in: [1, true] } });
+    rallyConditions.push({ "sender.rally": { $in: [1, true] } });
   }
   if (parsedRallySide === "opponent" || parsedRallySide === "both") {
-    rallyConditions.push({ "report.enemy.is_rally": { $in: [1, true] } });
+    rallyConditions.push({
+      opponents: {
+        $elemMatch: { player_id: { $nin: [-2, 0] }, rally: { $in: [1, true] } },
+      },
+    });
   }
   if (rallyConditions.length === 1) {
     matchPipeline.push(rallyConditions[0]);
@@ -199,25 +432,14 @@ export async function GET(req: NextRequest) {
     matchPipeline.push({ $or: rallyConditions });
   }
 
-  const buildGarrisonCondition = (path: string) => {
-    if (parsedGarrisonBuilding === "flag") {
-      return { [path]: 1 };
-    }
-    if (parsedGarrisonBuilding === "fortress") {
-      return { [path]: 3 };
-    }
-    if (parsedGarrisonBuilding === "other") {
-      return { [path]: { $exists: true, $nin: [1, 3, null] } };
-    }
-    return { [path]: { $exists: true, $ne: null } };
-  };
-
   const garrisonConditions: Document[] = [];
   if (parsedGarrisonSide === "sender" || parsedGarrisonSide === "both") {
-    garrisonConditions.push(buildGarrisonCondition("report.self.alliance_building"));
+    garrisonConditions.push(
+      buildGarrisonFieldCondition("sender.alliance_building_id", parsedGarrisonBuilding)
+    );
   }
   if (parsedGarrisonSide === "opponent" || parsedGarrisonSide === "both") {
-    garrisonConditions.push(buildGarrisonCondition("report.enemy.alliance_building"));
+    garrisonConditions.push(buildOpponentGarrisonCondition(parsedGarrisonBuilding));
   }
   if (garrisonConditions.length === 1) {
     matchPipeline.push(garrisonConditions[0]);
@@ -230,81 +452,71 @@ export async function GET(req: NextRequest) {
 
   const aggregationPipeline: Document[] = [
     { $match: finalMatchPipeline },
-    {
-      $group: {
-        _id: "$metadata.parentHash",
-        count: { $sum: 1 },
-        firstStart: { $min: "$report.metadata.start_date" },
-        latestMailTime: { $max: "$report.metadata.email_time" },
-        lastEnd: { $max: "$report.metadata.end_date" },
-      },
-    },
-    ...(cursor
-      ? [
-          {
-            $match: {
-              $expr: { $lt: ["$latestMailTime", { $toLong: cursor }] },
-            },
-          },
-        ]
-      : []),
-    { $sort: { latestMailTime: -1 } },
+    { $sort: { "metadata.mail_time": -1 } },
     { $limit: 101 },
     {
-      $lookup: {
-        from: "battleReports",
-        let: { ph: "$_id", fs: "$firstStart" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  { $eq: ["$metadata.parentHash", "$$ph"] },
-                  { $eq: ["$report.metadata.start_date", "$$fs"] },
-                ],
-              },
-            },
-          },
-          { $sort: { "report.metadata.email_time": 1, "report.metadata.start_date": 1 } },
-          {
-            $project: {
-              startDate: "$report.metadata.start_date",
-              selfCommanderId: "$report.self.primary_commander.id",
-              selfSecondaryCommanderId: { $ifNull: ["$report.self.secondary_commander.id", 0] },
-              enemyCommanderId: "$report.enemy.primary_commander.id",
-              enemySecondaryCommanderId: { $ifNull: ["$report.enemy.secondary_commander.id", 0] },
-            },
-          },
-          { $limit: 1 },
-        ],
-        as: "firstDoc",
+      $project: {
+        _id: 0,
+        mailId: "$metadata.mail_id",
+        mailTime: "$metadata.mail_time",
+        timelineStart: "$timeline.start_timestamp",
+        timelineEnd: "$timeline.end_timestamp",
+        senderPrimaryCommanderId: "$sender.commanders.primary.id",
+        senderSecondaryCommanderId: "$sender.commanders.secondary.id",
+        opponents: "$opponents",
+        summary: "$summary",
       },
     },
-    { $unwind: "$firstDoc" },
   ];
 
   const documents = await db
-    .collection("battleReports")
+    .collection("mails_battle")
     .aggregate(aggregationPipeline, { allowDiskUse: true })
     .toArray();
+
   const hasMore = documents.length > 100;
   const finalDocuments = hasMore ? documents.slice(0, 100) : documents;
   const finalCursor: string | undefined = hasMore
-    ? finalDocuments[finalDocuments.length - 1].latestMailTime.toString()
+    ? String(toFiniteNumber(finalDocuments[finalDocuments.length - 1].mailTime))
     : undefined;
 
-  const items = finalDocuments.map((d) => ({
-    parentHash: d._id,
-    count: d.count,
-    timespan: { firstStart: d.firstStart, lastEnd: d.lastEnd },
-    entry: {
-      startDate: Number(d.firstDoc.startDate) || 0,
-      selfCommanderId: Number(d.firstDoc.selfCommanderId) || 0,
-      selfSecondaryCommanderId: Number(d.firstDoc.selfSecondaryCommanderId) || 0,
-      enemyCommanderId: Number(d.firstDoc.enemyCommanderId) || 0,
-      enemySecondaryCommanderId: Number(d.firstDoc.enemySecondaryCommanderId) || 0,
-    },
-  }));
+  const items = finalDocuments
+    .map((document) => {
+      const mailId = typeof document.mailId === "string" ? document.mailId : "";
+      if (mailId === "") {
+        return null;
+      }
+
+      const validOpponents = getSortedOpponents(getValidOpponents(document.opponents));
+      const firstOpponent = validOpponents[0];
+
+      if (!firstOpponent) {
+        return null;
+      }
+
+      const { killCount, tradePercent } = computeKillAndTradePercent(
+        document.summary,
+        validOpponents
+      );
+
+      return {
+        mailId,
+        timeStart: toFiniteNumber(document.timelineStart),
+        timeEnd: toFiniteNumber(document.timelineEnd),
+        sender: {
+          primaryCommanderId: toFiniteNumber(document.senderPrimaryCommanderId),
+          secondaryCommanderId: toFiniteNumber(document.senderSecondaryCommanderId),
+        },
+        opponent: {
+          primaryCommanderId: toFiniteNumber(firstOpponent.commanders?.primary?.id),
+          secondaryCommanderId: toFiniteNumber(firstOpponent.commanders?.secondary?.id),
+        },
+        battles: validOpponents.length,
+        killCount,
+        tradePercent,
+      };
+    })
+    .filter((item): item is NonNullable<typeof item> => item !== null);
 
   return NextResponse.json(
     {

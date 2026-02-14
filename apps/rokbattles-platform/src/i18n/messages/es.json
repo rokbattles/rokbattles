@@ -114,7 +114,9 @@
   "reports": {
     "title": "Reporte de batallas",
     "table": {
-      "duration": "Duración"
+      "duration": "Duración",
+      "killCount": "Kill Count",
+      "tradePercent": "Trade %"
     },
     "filter": {
       "trigger": "Filtro",

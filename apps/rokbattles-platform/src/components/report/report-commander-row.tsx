@@ -20,7 +20,6 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   const commanderName = getCommanderName(commanderId ?? null);
   const formationName = getFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
-  const skillSummary = commander?.skills?.trim();
   const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
   const commanderIconSrc = `/game/commander/${commanderId}.png`;
   const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });
@@ -37,7 +36,6 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
       </span>
       {formationLabel ? <Badge>{formationLabel}</Badge> : null}
       {level != null ? <Badge>{tCommon("labels.level", { level })}</Badge> : null}
-      {skillSummary ? <Badge>{skillSummary}</Badge> : null}
     </Text>
   );
 }

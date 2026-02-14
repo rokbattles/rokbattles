@@ -10,6 +10,8 @@ import LoadMoreRow from "./load-more-row";
 import ReportRow from "./report-row";
 import SkeletonRows from "./skeleton-rows";
 
+const SkeletonWidths = ["w-24", "w-36", "w-36", "w-16", "w-20", "w-20", "w-24"] as const;
+
 type ReportsTableProps = {
   scope?: ReportsScope;
   skeletonCount?: number;
@@ -46,14 +48,16 @@ export default function ReportsTable({
   return (
     <TableBody>
       {data.map((report) => (
-        <ReportRow key={report.parentHash} report={report} />
+        <ReportRow key={report.mailId} report={report} />
       ))}
-      {loading && data.length === 0 ? <SkeletonRows count={skeletonCount} /> : null}
-      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={5} /> : null}
-      {error ? <ErrorRow colSpan={5} error={error} /> : null}
+      {loading && data.length === 0 ? (
+        <SkeletonRows count={skeletonCount} widths={SkeletonWidths} />
+      ) : null}
+      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={7} /> : null}
+      {error ? <ErrorRow colSpan={7} error={error} /> : null}
       {cursor ? (
         <LoadMoreRow
-          colSpan={5}
+          colSpan={7}
           loading={loading}
           onLoadMore={handleLoadMore}
           ref={setSentinelRef}
