@@ -9,10 +9,6 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
-function normalizeCommanderId(id: number | null): number {
-  return typeof id === "number" && Number.isFinite(id) ? id : 0;
-}
-
 function formatKillCount(value: number): string {
   if (!Number.isFinite(value)) {
     return "+0";
@@ -39,14 +35,14 @@ export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSumm
       </TableCell>
       <TableCell>
         <ParticipantCell
-          primaryId={normalizeCommanderId(duel.entry.sender.primaryCommanderId)}
-          secondaryId={normalizeCommanderId(duel.entry.sender.secondaryCommanderId)}
+          primaryId={duel.entry.sender.primaryCommanderId}
+          secondaryId={duel.entry.sender.secondaryCommanderId}
         />
       </TableCell>
       <TableCell>
         <ParticipantCell
-          primaryId={normalizeCommanderId(duel.entry.opponent.primaryCommanderId)}
-          secondaryId={normalizeCommanderId(duel.entry.opponent.secondaryCommanderId)}
+          primaryId={duel.entry.opponent.primaryCommanderId}
+          secondaryId={duel.entry.opponent.secondaryCommanderId}
         />
       </TableCell>
       <TableCell>{formatKillCount(duel.killCount)}</TableCell>
