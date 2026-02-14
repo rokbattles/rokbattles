@@ -304,12 +304,15 @@ function getValidSortedOpponents(mail: BattleMail): BattleOpponent[] {
 }
 
 function mapEntry(mail: BattleMail, opponent: BattleOpponent): ReportEntry {
-  const timelineStart = toFiniteNumber(mail.timeline.start_timestamp);
+  const timelineStartTimestamp = toFiniteNumber(mail.timeline.start_timestamp);
+  const timelineStartTick = toFiniteNumber(mail.timeline.start_tick);
   const startTick = toFiniteNumber(opponent.start_tick);
   const endTickValue = toOptionalNumber(opponent.end_tick);
   const endTick = endTickValue ?? startTick;
-  const startDate = timelineStart + startTick;
-  const endDate = timelineStart + endTick;
+  const startTickOffset = startTick - timelineStartTick;
+  const endTickOffset = endTick - timelineStartTick;
+  const startDate = timelineStartTimestamp + startTickOffset;
+  const endDate = timelineStartTimestamp + endTickOffset;
 
   const payload: RawReportPayload = {
     metadata: {
