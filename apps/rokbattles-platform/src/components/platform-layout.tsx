@@ -9,7 +9,6 @@ import {
   QuestionMarkCircleIcon,
   ScaleIcon,
   ShieldCheckIcon,
-  StarIcon,
   SunIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
@@ -146,10 +145,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     </SidebarItem>
                   </>
                 ) : null}
-                <SidebarItem href="/account/favorites" current={pathname === "/account/favorites"}>
-                  <StarIcon />
-                  <SidebarLabel>{t("myFavorites")}</SidebarLabel>
-                </SidebarItem>
               </SidebarSection>
             )}
             <SidebarSpacer />

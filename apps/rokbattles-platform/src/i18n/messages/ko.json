@@ -19,7 +19,6 @@
     "exploreDuels": "결투 탐색",
     "exploreTrends": "트렌드 탐색",
     "myBattles": "내 전투",
-    "myFavorites": "즐겨찾기",
     "support": "고객 지원",
     "desktopApp": "데스크톱 앱",
     "cookieSettings": "쿠키 설정",
@@ -53,8 +52,6 @@
       "apply": "적용",
       "cancel": "취소",
       "copied": "복사됨",
-      "favorite": "즐겨찾기 추가",
-      "unfavorite": "즐겨찾기 해제",
       "loadMore": "더 보기",
       "reset": "초기화",
       "share": "공유",
@@ -159,12 +156,7 @@
     "title": "보고서",
     "battleReportTitle": "전투 보고서",
     "back": {
-      "reports": "내 보고서로 돌아가기",
-      "favorites": "내 즐겨찾기로 돌아가기"
-    },
-    "actions": {
-      "favoriteAria": "보고서 즐겨찾기",
-      "unfavoriteAria": "보고서 즐겨찾기 해제"
+      "reports": "내 보고서로 돌아가기"
     },
     "merge": {
       "bannerTitleDisable": "Try the experimental merge view for this report.",
@@ -260,7 +252,6 @@
   "account": {
     "titles": {
       "reports": "내 전투 보고서",
-      "favorites": "내 즐겨찾기 보고서",
       "pairings": "내 조합",
       "rewards": "My Rewards",
       "settings": "계정 설정"
@@ -465,10 +456,6 @@
     "report": {
       "fetch": "보고서를 가져오지 못했습니다: {status}",
       "generic": "보고서를 가져오지 못했습니다."
-    },
-    "favorites": {
-      "fetch": "즐겨찾기 목록을 가져오지 못했습니다: {status}",
-      "generic": "즐겨찾기 목록을 가져오지 못했습니다."
     },
     "duels": {
       "fetch": "결투 목록을 가져오지 못했습니다: {status}",

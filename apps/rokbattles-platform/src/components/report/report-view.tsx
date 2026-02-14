@@ -1,6 +1,5 @@
 "use client";
 
-import { StarIcon } from "@heroicons/react/16/solid";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -21,10 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Text } from "@/components/ui/text";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { useReport } from "@/hooks/use-report";
-import { useReportFavorite } from "@/hooks/use-report-favorite";
-import { cn } from "@/lib/cn";
 import { hasOverviewData } from "@/lib/report/overview-metrics";
 import type { RawOverview, RawReportPayload } from "@/lib/types/raw-report";
 import type { ReportEntry } from "@/lib/types/report";
@@ -42,7 +38,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
   const searchParamsString = searchParams.toString();
 
   const { data, loading, error } = useReport(normalizedHash.length > 0 ? normalizedHash : null);
-  const { user, loading: userLoading } = useCurrentUser();
   const [copiedText, copy] = useCopyToClipboard();
   const [isCopied, setIsCopied] = useState(false);
   const resetTimerRef = useRef<number>(null);
@@ -57,7 +52,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
 
   const entries: ReportEntry[] = data?.items ?? [];
   const overviewSource = findOverviewSource(entries);
-  const showFavoriteButton = Boolean(!userLoading && user && normalizedHash.length > 0);
   const mergeReports = [...(data?.merge?.reports ?? [])].sort(
     (a, b) => b.latestEmailTime - a.latestEmailTime
   );
@@ -69,17 +63,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
     ? t("merge.bannerActionDisable")
     : t("merge.bannerActionEnable");
   const mergeTitle = mergeMode ? t("merge.bannerTitleEnable") : t("merge.bannerTitleDisable");
-
-  const {
-    favorited,
-    loading: favoriteLoading,
-    updating,
-    toggleFavorite,
-  } = useReportFavorite({
-    parentHash: normalizedHash,
-    reportType: "battle",
-    enabled: showFavoriteButton,
-  });
 
   function handleShare() {
     copy(`https://platform.rokbattles.com/report/${normalizedHash}`)
@@ -113,18 +96,6 @@ export function ReportView({ hash, mergeMode = false }: ReportViewProps) {
       <div className="flex items-end justify-between gap-4">
         <Heading>{t("title")}</Heading>
         <div className="flex items-center gap-2">
-          {showFavoriteButton ? (
-            <Button
-              className="-my-0.5"
-              aria-label={favorited ? t("actions.unfavoriteAria") : t("actions.favoriteAria")}
-              aria-pressed={favorited}
-              disabled={favoriteLoading || updating}
-              onClick={toggleFavorite}
-            >
-              <StarIcon data-slot="icon" className={cn(favorited ? "fill-amber-500" : "")} />
-              {favorited ? tCommon("actions.unfavorite") : tCommon("actions.favorite")}
-            </Button>
-          ) : null}
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
             {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
           </Button>

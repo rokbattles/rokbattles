@@ -19,7 +19,6 @@
     "exploreDuels": "Explore Duels",
     "exploreTrends": "Explore Trends",
     "myBattles": "My Battles",
-    "myFavorites": "My Favorites",
     "support": "Support",
     "desktopApp": "Desktop App",
     "cookieSettings": "Cookie Settings",
@@ -53,8 +52,6 @@
       "apply": "Apply",
       "cancel": "Cancel",
       "copied": "Copied",
-      "favorite": "Favorite",
-      "unfavorite": "Unfavorite",
       "loadMore": "Load more",
       "reset": "Reset",
       "share": "Share",
@@ -159,12 +156,7 @@
     "title": "Report",
     "battleReportTitle": "Battle Report",
     "back": {
-      "reports": "Back to My Reports",
-      "favorites": "Back to My Favorites"
-    },
-    "actions": {
-      "favoriteAria": "Favorite report",
-      "unfavoriteAria": "Unfavorite report"
+      "reports": "Back to My Reports"
     },
     "merge": {
       "bannerTitleDisable": "Try the experimental merge view for this report.",
@@ -258,7 +250,6 @@
   "account": {
     "titles": {
       "reports": "My Battle Reports",
-      "favorites": "My Favorite Reports",
       "pairings": "My Pairings",
       "rewards": "My Rewards",
       "settings": "Account Settings"
@@ -463,10 +454,6 @@
     "report": {
       "fetch": "Failed to fetch report: {status}",
       "generic": "Failed to fetch report."
-    },
-    "favorites": {
-      "fetch": "Failed to fetch favorites: {status}",
-      "generic": "Failed to fetch favorites."
     },
     "duels": {
       "fetch": "Failed to fetch duels: {status}",

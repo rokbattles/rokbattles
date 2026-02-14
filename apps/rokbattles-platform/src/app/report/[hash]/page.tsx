@@ -50,17 +50,8 @@ export default async function Page({ params, searchParams }: PageProps<"/report/
   const mergeParam = resolveSearchParam(resolvedSearchParams.merge);
   const mergeMode = mergeParam === "1" || mergeParam === "true";
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
-  const isAccountFavorites = fromParam === "account-favorites" || fromParam === "my-favorites";
-  const backBase = isAccountReports
-    ? "/account/reports"
-    : isAccountFavorites
-      ? "/account/favorites"
-      : "/";
-  const backLabel = isAccountReports
-    ? t("back.reports")
-    : isAccountFavorites
-      ? t("back.favorites")
-      : tNav("exploreBattles");
+  const backBase = isAccountReports ? "/account/reports" : "/";
+  const backLabel = isAccountReports ? t("back.reports") : tNav("exploreBattles");
   const backQuery = buildQueryString(resolvedSearchParams, "from");
 
   return (
