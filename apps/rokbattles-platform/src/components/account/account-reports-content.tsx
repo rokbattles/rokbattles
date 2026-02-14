@@ -35,14 +35,16 @@ export function AccountReportsContent() {
           {tReports("filter.trigger")}
         </ReportsFilterDialog>
       </div>
-      <Table dense className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+      <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-1/6">{tCommon("labels.time")}</TableHeader>
+            <TableHeader className="sm:w-36">{tCommon("labels.time")}</TableHeader>
             <TableHeader>{tCommon("labels.sender")}</TableHeader>
             <TableHeader>{tCommon("labels.opponent")}</TableHeader>
-            <TableHeader className="sm:w-1/6">{tCommon("labels.battles")}</TableHeader>
-            <TableHeader className="sm:w-1/6">{tReports("table.duration")}</TableHeader>
+            <TableHeader className="sm:w-32">{tCommon("labels.battles")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("table.killCount")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("table.tradePercent")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("table.duration")}</TableHeader>
           </TableRow>
         </TableHead>
         <ReportsTable scope="mine" />

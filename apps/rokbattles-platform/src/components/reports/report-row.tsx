@@ -8,6 +8,28 @@ import ParticipantCell from "./participant-cell";
 
 type Report = UseReportsResult["data"][number];
 
+const numberFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
+function formatKillCount(value: number): string {
+  if (!Number.isFinite(value)) {
+    return "+0";
+  }
+
+  const normalized = Math.round(value);
+  const sign = normalized >= 0 ? "+" : "";
+  return `${sign}${numberFormatter.format(normalized)}`;
+}
+
+function formatTradePercent(value: number): string {
+  if (!Number.isFinite(value)) {
+    return "0%";
+  }
+
+  return `${Math.round(value)}%`;
+}
+
 export default function ReportRow({ report }: { report: Report }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -15,31 +37,30 @@ export default function ReportRow({ report }: { report: Report }) {
   const from = pathname === "/account/reports" ? "account-reports" : "reports";
   query.set("from", from);
   const queryString = query.toString();
-  const href = queryString
-    ? `/report/${report.parentHash}?${queryString}`
-    : `/report/${report.parentHash}`;
+  const encodedMailId = encodeURIComponent(report.mailId);
+  const href = queryString ? `/report/${encodedMailId}?${queryString}` : `/report/${encodedMailId}`;
 
   return (
-    <TableRow key={report.parentHash} href={href}>
+    <TableRow href={href}>
       <TableCell className="font-medium text-zinc-950 dark:text-white">
-        {formatUtcDateTime(report.entry.startDate)}
+        {formatUtcDateTime(report.timeStart)}
       </TableCell>
       <TableCell>
         <ParticipantCell
-          primaryId={report.entry.selfCommanderId}
-          secondaryId={report.entry.selfSecondaryCommanderId}
+          primaryId={report.sender.primaryCommanderId}
+          secondaryId={report.sender.secondaryCommanderId}
         />
       </TableCell>
       <TableCell>
         <ParticipantCell
-          primaryId={report.entry.enemyCommanderId}
-          secondaryId={report.entry.enemySecondaryCommanderId}
+          primaryId={report.opponent.primaryCommanderId}
+          secondaryId={report.opponent.secondaryCommanderId}
         />
       </TableCell>
-      <TableCell>{report.count.toLocaleString()}</TableCell>
-      <TableCell>
-        {formatDurationShort(report.timespan.firstStart, report.timespan.lastEnd)}
-      </TableCell>
+      <TableCell>{report.battles.toLocaleString()}</TableCell>
+      <TableCell>{formatKillCount(report.killCount)}</TableCell>
+      <TableCell>{formatTradePercent(report.tradePercent)}</TableCell>
+      <TableCell>{formatDurationShort(report.timeStart, report.timeEnd)}</TableCell>
     </TableRow>
   );
 }

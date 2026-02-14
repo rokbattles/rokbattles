@@ -6,22 +6,20 @@ import { buildReportsQueryParams } from "@/lib/reports-query";
 import { GovernorContext } from "@/providers/governor-context";
 import { ReportsFilterContext } from "@/providers/reports-filter-context";
 
-export type ReportSummaryEntry = {
-  startDate: number;
-  selfCommanderId: number;
-  selfSecondaryCommanderId: number;
-  enemyCommanderId: number;
-  enemySecondaryCommanderId: number;
+export type ReportSummaryParticipant = {
+  primaryCommanderId: number;
+  secondaryCommanderId: number;
 };
 
 export type ReportSummary = {
-  parentHash: string;
-  count: number;
-  timespan: {
-    firstStart: number;
-    lastEnd: number;
-  };
-  entry: ReportSummaryEntry;
+  mailId: string;
+  timeStart: number;
+  timeEnd: number;
+  sender: ReportSummaryParticipant;
+  opponent: ReportSummaryParticipant;
+  battles: number;
+  killCount: number;
+  tradePercent: number;
 };
 
 type ReportsApiResponse = {
