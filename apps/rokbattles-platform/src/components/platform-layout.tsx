@@ -22,7 +22,6 @@ import { PlatformAccountDropdownMenu } from "@/components/platform-account-dropd
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Avatar } from "@/components/ui/avatar";
 import { Dropdown, DropdownButton } from "@/components/ui/dropdown";
-import { SidebarLayout } from "@/components/ui/layout/sidebar-layout";
 import {
   Navbar,
   NavbarItem,
@@ -40,6 +39,7 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from "@/components/ui/sidebar";
+import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";

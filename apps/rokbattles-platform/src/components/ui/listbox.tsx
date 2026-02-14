@@ -4,11 +4,12 @@ import {
   Listbox as HeadlessListbox,
   ListboxButton as HeadlessListboxButton,
   ListboxOption as HeadlessListboxOption,
+  type ListboxOptionProps as HeadlessListboxOptionProps,
   ListboxOptions as HeadlessListboxOptions,
+  type ListboxProps as HeadlessListboxProps,
   ListboxSelectedOption as HeadlessListboxSelectedOption,
-  type ListboxOptionProps,
-  type ListboxProps,
 } from "@headlessui/react";
+import type React from "react";
 import { Fragment } from "react";
 import { cn } from "@/lib/cn";
 
@@ -25,13 +26,12 @@ export function Listbox<T>({
   autoFocus?: boolean;
   "aria-label"?: string;
   children?: React.ReactNode;
-} & Omit<ListboxProps<typeof Fragment, T>, "as" | "multiple">) {
+} & Omit<HeadlessListboxProps<typeof Fragment, T>, "as" | "multiple">) {
   return (
     <HeadlessListbox {...props} multiple={false}>
       <HeadlessListboxButton
-        autoFocus={autoFocus}
-        data-slot="control"
         aria-label={ariaLabel}
+        autoFocus={autoFocus}
         className={cn([
           className,
           // Basic layout
@@ -47,13 +47,10 @@ export function Listbox<T>({
           // Disabled state
           "data-disabled:opacity-50 data-disabled:before:bg-zinc-950/5 data-disabled:before:shadow-none",
         ])}
+        data-slot="control"
       >
         <HeadlessListboxSelectedOption
           as="span"
-          options={options}
-          placeholder={
-            placeholder && <span className="block truncate text-zinc-500">{placeholder}</span>
-          }
           className={cn([
             // Basic layout
             "relative block w-full appearance-none rounded-lg py-[calc(--spacing(2.5)-1px)] sm:py-[calc(--spacing(1.5)-1px)]",
@@ -68,41 +65,44 @@ export function Listbox<T>({
             // Background color
             "bg-transparent dark:bg-white/5",
             // Invalid state
-            "group-data-invalid:border-red-500 group-data-hover:group-data-invalid:border-red-500 dark:group-data-invalid:border-red-600 dark:data-hover:group-data-invalid:border-red-600",
+            "group-data-hover:group-data-invalid:border-red-500 group-data-invalid:border-red-500 dark:group-data-invalid:border-red-600 dark:data-hover:group-data-invalid:border-red-600",
             // Disabled state
             "group-data-disabled:border-zinc-950/20 group-data-disabled:opacity-100 dark:group-data-disabled:border-white/15 dark:group-data-disabled:bg-white/2.5 dark:group-data-disabled:data-hover:border-white/15",
           ])}
+          options={options}
+          placeholder={
+            placeholder && <span className="block truncate text-zinc-500">{placeholder}</span>
+          }
         />
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <svg
-            className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
-            viewBox="0 0 16 16"
             aria-hidden="true"
+            className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
             fill="none"
+            viewBox="0 0 16 16"
           >
             <path
               d="M5.75 10.75L8 13L10.25 10.75"
-              strokeWidth={1.5}
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth={1.5}
             />
             <path
               d="M10.25 5.25L8 3L5.75 5.25"
-              strokeWidth={1.5}
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth={1.5}
             />
           </svg>
         </span>
       </HeadlessListboxButton>
       <HeadlessListboxOptions
-        transition
         anchor="selection start"
         className={cn(
           // Anchor positioning
           "[--anchor-offset:-1.625rem] [--anchor-padding:--spacing(4)] sm:[--anchor-offset:-1.375rem]",
           // Base styles
-          "isolate w-max min-w-[calc(var(--button-width)+1.75rem)] scroll-py-1 rounded-xl p-1 select-none",
+          "isolate w-max min-w-[calc(var(--button-width)+1.75rem)] select-none scroll-py-1 rounded-xl p-1",
           // Invisible border that is only visible in `forced-colors` mode for accessibility purposes
           "outline outline-transparent focus:outline-hidden",
           // Handle scrolling when menu won't fit in viewport
@@ -114,6 +114,7 @@ export function Listbox<T>({
           // Transitions
           "transition-opacity duration-100 ease-in data-closed:data-leave:opacity-0 data-transition:pointer-events-none"
         )}
+        transition
       >
         {options}
       </HeadlessListboxOptions>
@@ -126,7 +127,7 @@ export function ListboxOption<T>({
   className,
   ...props
 }: { className?: string; children?: React.ReactNode } & Omit<
-  ListboxOptionProps<"div", T>,
+  HeadlessListboxOptionProps<"div", T>,
   "as" | "className"
 >) {
   const sharedClasses = cn(
@@ -163,16 +164,16 @@ export function ListboxOption<T>({
             )}
           >
             <svg
-              className="relative hidden size-5 self-center stroke-current group-data-selected/option:inline sm:size-4"
-              viewBox="0 0 16 16"
-              fill="none"
               aria-hidden="true"
+              className="relative hidden size-5 self-center stroke-current group-data-selected/option:inline sm:size-4"
+              fill="none"
+              viewBox="0 0 16 16"
             >
               <path
                 d="M4 8.5l3 3L12 4"
-                strokeWidth={1.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                strokeWidth={1.5}
               />
             </svg>
             <span className={cn(className, sharedClasses, "col-start-2")}>{children}</span>
@@ -202,7 +203,7 @@ export function ListboxDescription({
       {...props}
       className={cn(
         className,
-        "flex flex-1 overflow-hidden text-zinc-500 group-data-focus/option:text-white before:w-2 before:min-w-0 before:shrink dark:text-zinc-400"
+        "flex flex-1 overflow-hidden text-zinc-500 before:w-2 before:min-w-0 before:shrink group-data-focus/option:text-white dark:text-zinc-400"
       )}
     >
       <span className="flex-1 truncate">{children}</span>

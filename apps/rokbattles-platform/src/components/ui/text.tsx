@@ -1,3 +1,4 @@
+import type React from "react";
 import { cn } from "@/lib/cn";
 import { Link } from "./link";
 
@@ -35,7 +36,7 @@ export function Code({ className, ...props }: React.ComponentPropsWithoutRef<"co
       {...props}
       className={cn(
         className,
-        "rounded-sm border border-zinc-950/10 bg-zinc-950/2.5 px-0.5 text-sm font-medium text-zinc-950 sm:text-[0.8125rem] dark:border-white/20 dark:bg-white/5 dark:text-white"
+        "rounded-sm border border-zinc-950/10 bg-zinc-950/2.5 px-0.5 font-medium text-sm text-zinc-950 sm:text-[0.8125rem] dark:border-white/20 dark:bg-white/5 dark:text-white"
       )}
     />
   );

@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  type ButtonProps,
   Button as HeadlessButton,
+  type ButtonProps as HeadlessButtonProps,
   CloseButton as HeadlessCloseButton,
 } from "@headlessui/react";
-import { LayoutGroup, motion } from "motion/react";
+import { LayoutGroup, motion } from "framer-motion";
 import type React from "react";
 import { forwardRef, useId } from "react";
 import { cn } from "@/lib/cn";
@@ -22,7 +22,7 @@ export function SidebarHeader({ className, ...props }: React.ComponentPropsWitho
       {...props}
       className={cn(
         className,
-        "flex flex-col border-b border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
+        "flex flex-col border-zinc-950/5 border-b p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
       )}
     />
   );
@@ -46,7 +46,7 @@ export function SidebarFooter({ className, ...props }: React.ComponentPropsWitho
       {...props}
       className={cn(
         className,
-        "flex flex-col border-t border-zinc-950/5 p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
+        "flex flex-col border-zinc-950/5 border-t p-4 dark:border-white/5 [&>[data-slot=section]+[data-slot=section]]:mt-2.5"
       )}
     />
   );
@@ -57,7 +57,7 @@ export function SidebarSection({ className, ...props }: React.ComponentPropsWith
 
   return (
     <LayoutGroup id={id}>
-      <div {...props} data-slot="section" className={cn(className, "flex flex-col gap-0.5")} />
+      <div {...props} className={cn(className, "flex flex-col gap-0.5")} data-slot="section" />
     </LayoutGroup>
   );
 }
@@ -66,7 +66,7 @@ export function SidebarDivider({ className, ...props }: React.ComponentPropsWith
   return (
     <hr
       {...props}
-      className={cn(className, "my-4 border-t border-zinc-950/5 lg:-mx-4 dark:border-white/5")}
+      className={cn(className, "my-4 border-zinc-950/5 border-t lg:-mx-4 dark:border-white/5")}
     />
   );
 }
@@ -79,7 +79,7 @@ export function SidebarHeading({ className, ...props }: React.ComponentPropsWith
   return (
     <h3
       {...props}
-      className={cn(className, "mb-1 px-2 text-xs/6 font-medium text-zinc-500 dark:text-zinc-400")}
+      className={cn(className, "mb-1 px-2 font-medium text-xs/6 text-zinc-500 dark:text-zinc-400")}
     />
   );
 }
@@ -91,14 +91,14 @@ export const SidebarItem = forwardRef(function SidebarItem(
     children,
     ...props
   }: { current?: boolean; className?: string; children: React.ReactNode } & (
-    | ({ href?: never } & Omit<ButtonProps, "as" | "className">)
-    | ({ href: string } & Omit<ButtonProps<typeof Link>, "as" | "className">)
+    | Omit<HeadlessButtonProps, "as" | "className">
+    | Omit<HeadlessButtonProps<typeof Link>, "as" | "className">
   ),
   ref: React.ForwardedRef<HTMLAnchorElement | HTMLButtonElement>
 ) {
   const classes = cn(
     // Base
-    "flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left text-base/6 font-medium text-zinc-950 sm:py-2 sm:text-sm/5",
+    "flex w-full items-center gap-3 rounded-lg px-2 py-2.5 text-left font-medium text-base/6 text-zinc-950 sm:py-2 sm:text-sm/5",
     // Leading icon/icon-only
     "*:data-[slot=icon]:size-6 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:fill-zinc-500 sm:*:data-[slot=icon]:size-5",
     // Trailing icon (down chevron or similar)
@@ -122,12 +122,11 @@ export const SidebarItem = forwardRef(function SidebarItem(
     <span className={cn(className, "relative")}>
       {current && (
         <motion.span
-          layoutId="current-indicator"
           className="absolute inset-y-2 -left-4 w-0.5 rounded-full bg-zinc-950 dark:bg-white"
+          layoutId="current-indicator"
         />
       )}
-      {typeof props.href === "string" ? (
-        // @ts-expect-error
+      {"href" in props ? (
         <HeadlessCloseButton
           as={Link}
           {...props}
@@ -138,7 +137,6 @@ export const SidebarItem = forwardRef(function SidebarItem(
           <TouchTarget>{children}</TouchTarget>
         </HeadlessCloseButton>
       ) : (
-        // @ts-expect-error
         <HeadlessButton
           {...props}
           className={cn("cursor-default", classes)}

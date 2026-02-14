@@ -1,7 +1,7 @@
 "use client";
 
 import ParticipantCell from "@/components/reports/participant-cell";
-import { TableCell, TableRow, TableRowHeader } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/table";
 import type { OlympianArenaDuelSummary } from "@/hooks/use-olympian-arena-duels";
 import { formatUtcDateTime } from "@/lib/datetime";
 
@@ -34,9 +34,9 @@ function formatTradePercent(value: number): string {
 export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSummary }) {
   return (
     <TableRow href={`/olympian-arena/${duel.duelId}`}>
-      <TableRowHeader className="font-medium text-zinc-950 dark:text-white">
+      <TableCell className="font-medium text-zinc-950 dark:text-white">
         {formatUtcDateTime(duel.mailTime)}
-      </TableRowHeader>
+      </TableCell>
       <TableCell>
         <ParticipantCell
           primaryId={normalizeCommanderId(duel.entry.sender.primaryCommanderId)}

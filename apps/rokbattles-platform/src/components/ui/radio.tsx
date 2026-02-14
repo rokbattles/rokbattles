@@ -1,17 +1,17 @@
 import {
-  type FieldProps,
   Field as HeadlessField,
+  type FieldProps as HeadlessFieldProps,
   Radio as HeadlessRadio,
   RadioGroup as HeadlessRadioGroup,
-  type RadioGroupProps,
-  type RadioProps,
+  type RadioGroupProps as HeadlessRadioGroupProps,
+  type RadioProps as HeadlessRadioProps,
 } from "@headlessui/react";
 import { cn } from "@/lib/cn";
 
 export function RadioGroup({
   className,
   ...props
-}: { className?: string } & Omit<RadioGroupProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessRadioGroupProps, "as" | "className">) {
   return (
     <HeadlessRadioGroup
       data-slot="control"
@@ -30,7 +30,7 @@ export function RadioGroup({
 export function RadioField({
   className,
   ...props
-}: { className?: string } & Omit<FieldProps, "as" | "className">) {
+}: { className?: string } & Omit<HeadlessFieldProps, "as" | "className">) {
   return (
     <HeadlessField
       data-slot="field"
@@ -128,7 +128,10 @@ export function Radio({
   color = "dark/zinc",
   className,
   ...props
-}: { color?: Color; className?: string } & Omit<RadioProps, "as" | "className" | "children">) {
+}: { color?: Color; className?: string } & Omit<
+  HeadlessRadioProps,
+  "as" | "className" | "children"
+>) {
   return (
     <HeadlessRadio
       data-slot="control"

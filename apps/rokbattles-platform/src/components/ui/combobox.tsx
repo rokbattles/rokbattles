@@ -1,14 +1,15 @@
 "use client";
 
 import {
-  type ComboboxOptionProps,
-  type ComboboxProps,
   Combobox as HeadlessCombobox,
   ComboboxButton as HeadlessComboboxButton,
   ComboboxInput as HeadlessComboboxInput,
   ComboboxOption as HeadlessComboboxOption,
+  type ComboboxOptionProps as HeadlessComboboxOptionProps,
   ComboboxOptions as HeadlessComboboxOptions,
+  type ComboboxProps as HeadlessComboboxProps,
 } from "@headlessui/react";
+import type React from "react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 
@@ -32,7 +33,7 @@ export function Combobox<T>({
   autoFocus?: boolean;
   "aria-label"?: string;
   children: (value: NonNullable<T>) => React.ReactElement;
-} & Omit<ComboboxProps<T, false>, "as" | "multiple" | "children"> & {
+} & Omit<HeadlessComboboxProps<T, false>, "as" | "multiple" | "children"> & {
     anchor?: "top" | "bottom";
   }) {
   const [query, setQuery] = useState("");
@@ -50,11 +51,10 @@ export function Combobox<T>({
     <HeadlessCombobox
       {...props}
       multiple={false}
-      virtual={{ options: filteredOptions }}
       onClose={() => setQuery("")}
+      virtual={{ options: filteredOptions }}
     >
       <span
-        data-slot="control"
         className={cn([
           className,
           // Basic layout
@@ -70,14 +70,11 @@ export function Combobox<T>({
           // Invalid state
           "has-data-invalid:before:shadow-red-500/10",
         ])}
+        data-slot="control"
       >
         <HeadlessComboboxInput
-          autoFocus={autoFocus}
-          data-slot="control"
           aria-label={ariaLabel}
-          displayValue={(option: T) => displayValue(option) ?? ""}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder={placeholder}
+          autoFocus={autoFocus}
           className={cn([
             className,
             // Basic layout
@@ -93,43 +90,46 @@ export function Combobox<T>({
             // Hide default focus styles
             "focus:outline-hidden",
             // Invalid state
-            "data-invalid:border-red-500 data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-500 dark:data-invalid:data-hover:border-red-500",
+            "data-invalid:data-hover:border-red-500 data-invalid:border-red-500 dark:data-invalid:data-hover:border-red-500 dark:data-invalid:border-red-500",
             // Disabled state
-            "data-disabled:border-zinc-950/20 dark:data-disabled:border-white/15 dark:data-disabled:bg-white/2.5 dark:data-hover:data-disabled:border-white/15",
+            "data-disabled:border-zinc-950/20 dark:data-hover:data-disabled:border-white/15 dark:data-disabled:border-white/15 dark:data-disabled:bg-white/2.5",
             // System icons
             "dark:scheme-dark",
           ])}
+          data-slot="control"
+          displayValue={(option: T) => displayValue(option) ?? ""}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder={placeholder}
         />
         <HeadlessComboboxButton className="group absolute inset-y-0 right-0 flex items-center px-2">
           <svg
-            className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 group-data-hover:stroke-zinc-700 sm:size-4 dark:stroke-zinc-400 dark:group-data-hover:stroke-zinc-300 forced-colors:stroke-[CanvasText]"
-            viewBox="0 0 16 16"
             aria-hidden="true"
+            className="size-5 stroke-zinc-500 group-data-disabled:stroke-zinc-600 group-data-hover:stroke-zinc-700 sm:size-4 dark:stroke-zinc-400 dark:group-data-hover:stroke-zinc-300 forced-colors:stroke-[CanvasText]"
             fill="none"
+            viewBox="0 0 16 16"
           >
             <path
               d="M5.75 10.75L8 13L10.25 10.75"
-              strokeWidth={1.5}
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth={1.5}
             />
             <path
               d="M10.25 5.25L8 3L5.75 5.25"
-              strokeWidth={1.5}
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth={1.5}
             />
           </svg>
         </HeadlessComboboxButton>
       </span>
       <HeadlessComboboxOptions
-        transition
         anchor={anchor}
         className={cn(
           // Anchor positioning
           "[--anchor-gap:--spacing(2)] [--anchor-padding:--spacing(4)] sm:data-[anchor~=start]:[--anchor-offset:-4px]",
           // Base styles,
-          "isolate min-w-[calc(var(--input-width)+8px)] scroll-py-1 rounded-xl p-1 select-none empty:invisible",
+          "isolate min-w-[calc(var(--input-width)+8px)] select-none scroll-py-1 rounded-xl p-1 empty:invisible",
           // Invisible border that is only visible in `forced-colors` mode for accessibility purposes
           "outline outline-transparent focus:outline-hidden",
           // Handle scrolling when menu won't fit in viewport
@@ -141,6 +141,7 @@ export function Combobox<T>({
           // Transitions
           "transition-opacity duration-100 ease-in data-closed:data-leave:opacity-0 data-transition:pointer-events-none"
         )}
+        transition
       >
         {({ option }) => children(option)}
       </HeadlessComboboxOptions>
@@ -153,7 +154,7 @@ export function ComboboxOption<T>({
   className,
   ...props
 }: { className?: string; children?: React.ReactNode } & Omit<
-  ComboboxOptionProps<"div", T>,
+  HeadlessComboboxOptionProps<"div", T>,
   "as" | "className"
 >) {
   const sharedClasses = cn(
@@ -185,12 +186,12 @@ export function ComboboxOption<T>({
     >
       <span className={cn(className, sharedClasses)}>{children}</span>
       <svg
-        className="relative col-start-2 hidden size-5 self-center stroke-current group-data-selected/option:inline sm:size-4"
-        viewBox="0 0 16 16"
-        fill="none"
         aria-hidden="true"
+        className="relative col-start-2 hidden size-5 self-center stroke-current group-data-selected/option:inline sm:size-4"
+        fill="none"
+        viewBox="0 0 16 16"
       >
-        <path d="M4 8.5l3 3L12 4" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M4 8.5l3 3L12 4" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
       </svg>
     </HeadlessComboboxOption>
   );
@@ -215,7 +216,7 @@ export function ComboboxDescription({
       {...props}
       className={cn(
         className,
-        "flex flex-1 overflow-hidden text-zinc-500 group-data-focus/option:text-white before:w-2 before:min-w-0 before:shrink dark:text-zinc-400"
+        "flex flex-1 overflow-hidden text-zinc-500 before:w-2 before:min-w-0 before:shrink group-data-focus/option:text-white dark:text-zinc-400"
       )}
     >
       <span className="flex-1 truncate">{children}</span>

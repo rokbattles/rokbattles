@@ -167,31 +167,31 @@ type ButtonProps = (
   | { color?: never; outline: true; plain?: never }
   | { color?: never; outline?: never; plain: true }
 ) & { className?: string; children: React.ReactNode } & (
-    | ({ href?: never } & Omit<HeadlessButtonProps, "as" | "className">)
-    | ({ href: string } & Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">)
+    | Omit<HeadlessButtonProps, "as" | "className">
+    | Omit<React.ComponentPropsWithoutRef<typeof Link>, "className">
   );
 
 export const Button = forwardRef(function Button(
   { color, outline, plain, className, children, ...props }: ButtonProps,
   ref: React.ForwardedRef<HTMLElement>
 ) {
-  const classes = cn(
-    className,
-    styles.base,
-    outline
-      ? styles.outline
-      : plain
-        ? styles.plain
-        : cn(styles.solid, styles.colors[color ?? "dark/zinc"])
-  );
+  let variantClasses: string;
 
-  return typeof props.href === "string" ? (
-    // @ts-expect-error
+  if (outline) {
+    variantClasses = cn(styles.outline);
+  } else if (plain) {
+    variantClasses = cn(styles.plain);
+  } else {
+    variantClasses = cn(styles.solid, styles.colors[color ?? "dark/zinc"]);
+  }
+
+  const classes = cn(className, styles.base, variantClasses);
+
+  return "href" in props ? (
     <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    // @ts-expect-error
     <HeadlessButton {...props} className={cn(classes, "cursor-default")} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
     </HeadlessButton>
@@ -205,8 +205,8 @@ export function TouchTarget({ children }: { children: React.ReactNode }) {
   return (
     <>
       <span
-        className="absolute top-1/2 left-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 pointer-fine:hidden"
         aria-hidden="true"
+        className="absolute top-1/2 left-1/2 pointer-fine:hidden size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2"
       />
       {children}
     </>
