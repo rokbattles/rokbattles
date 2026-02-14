@@ -6,27 +6,29 @@ import { parseGovernorId } from "@/lib/governor";
 import { resolveDateRange } from "@/lib/pairings/shared";
 import type { ClaimedGovernorDocument } from "@/lib/types/auth";
 
-type NpcRewardEntry = {
+type BattleLootEntry = {
   type?: unknown;
   sub_type?: unknown;
   value?: unknown;
 };
 
-type BattleReportDocument = {
-  report?: {
-    metadata?: {
-      email_time?: unknown;
-    };
-    self?: {
-      player_id?: unknown;
-    };
-    enemy?: {
-      player_id?: unknown;
-      npc_type?: unknown;
-      npc_btype?: unknown;
-      npc_rewards?: NpcRewardEntry[] | null;
-    };
+type BattleOpponentDocument = {
+  player_id?: unknown;
+  npc?: {
+    type?: unknown;
+    b_type?: unknown;
+    loot?: BattleLootEntry[] | null;
   };
+};
+
+type BattleMailDocument = {
+  metadata?: {
+    mail_time?: unknown;
+  };
+  sender?: {
+    player_id?: unknown;
+  };
+  opponents?: BattleOpponentDocument[] | null;
 };
 
 type RewardBucket = {
@@ -36,13 +38,8 @@ type RewardBucket = {
   count: number;
 };
 
-function extractEventTimeMillis(report: BattleReportDocument["report"]): number | null {
-  const emailTime = normalizeTimestampMillis(report?.metadata?.email_time);
-  if (emailTime != null) {
-    return emailTime;
-  }
-
-  return null;
+function extractEventTimeMillis(mail: BattleMailDocument): number | null {
+  return normalizeTimestampMillis(mail.metadata?.mail_time);
 }
 
 function parseNumeric(value: unknown): number | null {
@@ -71,15 +68,21 @@ function isKvkBarbarianFort(npcType: number | null, npcBtype: number | null) {
 }
 
 function buildMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
+  const startSeconds = Math.floor(startMillis / 1000);
+  const endSeconds = Math.floor(endMillis / 1000);
   const startMicros = Math.floor(startMillis * 1000);
   const endMicros = Math.floor(endMillis * 1000);
 
   return {
     $and: [
-      { "report.self.player_id": governorId },
-      { "report.enemy.player_id": -2 },
+      { "sender.player_id": governorId },
+      { opponents: { $elemMatch: { player_id: -2 } } },
       {
-        "report.metadata.email_time": { $gte: startMicros, $lt: endMicros },
+        $or: [
+          { "metadata.mail_time": { $gte: startSeconds, $lt: endSeconds } },
+          { "metadata.mail_time": { $gte: startMillis, $lt: endMillis } },
+          { "metadata.mail_time": { $gte: startMicros, $lt: endMicros } },
+        ],
       },
     ],
   };
@@ -119,16 +122,16 @@ export async function GET(
 
   const projection: Document = {
     _id: 0,
-    "report.metadata.email_time": 1,
-    "report.enemy.player_id": 1,
-    "report.enemy.npc_type": 1,
-    "report.enemy.npc_btype": 1,
-    "report.enemy.npc_rewards": 1,
+    "metadata.mail_time": 1,
+    "opponents.player_id": 1,
+    "opponents.npc.type": 1,
+    "opponents.npc.b_type": 1,
+    "opponents.npc.loot": 1,
   };
 
   try {
-    const reports = await db
-      .collection<BattleReportDocument>("battleReports")
+    const mails = await db
+      .collection<BattleMailDocument>("mails_battle")
       .find(buildMatchStage(governorId, range.startMillis, range.endMillis), { projection })
       .toArray();
 
@@ -139,62 +142,69 @@ export async function GET(
     let barbFortKills = 0;
     let otherNpcKills = 0;
 
-    for (const doc of reports) {
-      const report = doc.report;
-      if (!report) {
-        continue;
-      }
-
-      const eventTime = extractEventTimeMillis(report);
+    for (const mail of mails) {
+      const eventTime = extractEventTimeMillis(mail);
       if (eventTime == null || eventTime < range.startMillis || eventTime >= range.endMillis) {
         continue;
       }
 
-      const npcBtype = parseNumeric(report.enemy?.npc_btype);
-      const npcType = parseNumeric(report.enemy?.npc_type);
-      const isKvkBarb = isKvkBarbarian(npcType, npcBtype);
-      const isKvkFort = isKvkBarbarianFort(npcType, npcBtype);
-
-      totalReports += 1;
-
-      if (isKvkBarb) {
-        barbKills += 1;
-      } else if (isKvkFort) {
-        barbFortKills += 1;
-      } else {
-        otherNpcKills += 1;
-      }
-
-      if (!isKvkBarb && !isKvkFort) {
+      const opponents = mail.opponents;
+      if (!Array.isArray(opponents) || opponents.length === 0) {
         continue;
       }
 
-      const rewards = report.enemy?.npc_rewards;
-      if (!Array.isArray(rewards)) {
-        continue;
-      }
-
-      for (const reward of rewards) {
-        const type = parseNumeric(reward.type);
-        const subType = parseNumeric(reward.sub_type);
-        const value = parseNumeric(reward.value);
-
-        if (type == null || subType == null || value == null) {
+      for (const opponent of opponents) {
+        const opponentId = parseNumeric(opponent.player_id);
+        if (opponentId !== -2) {
           continue;
         }
 
-        const key = `${type}:${subType}`;
-        const existing = rewardBuckets.get(key);
-        if (existing) {
-          existing.total += value;
-          existing.count += 1;
+        const npcBtype = parseNumeric(opponent.npc?.b_type);
+        const npcType = parseNumeric(opponent.npc?.type);
+        const isKvkBarb = isKvkBarbarian(npcType, npcBtype);
+        const isKvkFort = isKvkBarbarianFort(npcType, npcBtype);
+
+        totalReports += 1;
+
+        if (isKvkBarb) {
+          barbKills += 1;
+        } else if (isKvkFort) {
+          barbFortKills += 1;
         } else {
-          rewardBuckets.set(key, {
-            type,
-            subType,
-            total: value,
-            count: 1,
-          });
+          otherNpcKills += 1;
+        }
+
+        if (!isKvkBarb && !isKvkFort) {
+          continue;
+        }
+
+        const rewards = opponent.npc?.loot;
+        if (!Array.isArray(rewards)) {
+          continue;
+        }
+
+        for (const reward of rewards) {
+          const type = parseNumeric(reward.type);
+          const subType = parseNumeric(reward.sub_type);
+          const value = parseNumeric(reward.value);
+
+          if (type == null || subType == null || value == null) {
+            continue;
+          }
+
+          const key = `${type}:${subType}`;
+          const existing = rewardBuckets.get(key);
+          if (existing) {
+            existing.total += value;
+            existing.count += 1;
+          } else {
+            rewardBuckets.set(key, {
+              type,
+              subType,
+              total: value,
+              count: 1,
+            });
+          }
         }
       }
     }
