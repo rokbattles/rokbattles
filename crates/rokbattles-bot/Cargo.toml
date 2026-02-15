@@ -1,0 +1,15 @@
+[package]
+name = "rokbattles-bot"
+version = "1.0.0-rc.1"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+dotenvy = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "signal"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+twilight-gateway = { workspace = true }
+twilight-http = { workspace = true }
+twilight-model = { workspace = true }
+rustls = { workspace = true, features = ["ring", "std", "tls12"] }

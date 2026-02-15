@@ -54,11 +54,8 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Build @rokbattles/platform-legacy
-              run: pnpm -F @rokbattles/platform-legacy generate:datasets && pnpm -F @rokbattles/platform-legacy build
-
-            - name: Build @rokbattles/bot
-              run: pnpm -F @rokbattles/bot generate:datasets && pnpm -F @rokbattles/bot build
+            - name: Build @rokbattles/platform
+              run: pnpm -F @rokbattles/platform generate:datasets && pnpm -F @rokbattles/platform build
 
             - name: Build @rokbattles/tauri
               run: pnpm -F @rokbattles/tauri build
