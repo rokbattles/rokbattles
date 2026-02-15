@@ -83,6 +83,16 @@ equipment:
       pl: "Akcesoria"
       zh_CN: "饰品"
 
+  # Missing:
+  # N_46 Dusk Visage
+  # N_47 Shadow of the Sands
+  # N_48 Yin and Yang
+  # N_49 Thoth's Sacrifice
+  # N_50 Udor's Legs
+  # N_301 Curio - Riding Crop
+  # N_302 Curio - Footman's Pledge
+  # N_303 Curio - Bowman's Pin
+  # N_304 Curio - Besieger's Brooch
   item:
     20001:
       name:
@@ -90,7 +100,7 @@ equipment:
         en: "Sacred Dominion"
         es: "Dominio sagrado"
         fr: "Territoire sacré"
-        ko: "찬란.신성한 심판"
+        ko: "찬란·신성한 심판"
         pl: "Święta władza"
         zh_CN: "耀世·神圣裁决"
 
@@ -110,9 +120,9 @@ equipment:
         en: "The Hydra's Blast"
         es: "Asalto de la hidra"
         fr: "Explosion de l'hydre"
-        ko: "질퐁.히드라 석궁"
+        ko: "질풍.히드라 석궁"
         pl: "Podmuch hydry"
-        zh_CN: "疾风·九头蛇嚎"
+        zh_CN: "疾风·九头蛇弩"
 
     20004:
       name:
@@ -272,7 +282,7 @@ equipment:
         fr: "Arc de souffle du dragon"
         ko: "용의 숨결 석궁"
         pl: "Łuk smoczego tchnienia"
-        zh_CN: "无路龙息之弓"
+        zh_CN: "无踪龙息之弓"
 
     20020:
       name:
@@ -282,7 +292,7 @@ equipment:
         fr: "Casque de souffle du dragon"
         ko: "용의 숨결 철투구"
         pl: "Hełm smoczego tchnienia"
-        zh_CN: "无路龙息铁盔"
+        zh_CN: "无踪龙息铁盔"
 
     20021:
       name:
@@ -292,7 +302,7 @@ equipment:
         fr: "Plaque de souffle du dragon"
         ko: "용의 숨결 갑옷"
         pl: "Zbroja smoczego tchnienia"
-        zh_CN: "无赦龙息铠甲"
+        zh_CN: "无踪龙息铠甲"
 
     20022:
       name:
@@ -302,7 +312,7 @@ equipment:
         fr: "Crispins de souffle du dragon"
         ko: "용의 숨결 보호대"
         pl: "Karwasze smoczego tchnienia"
-        zh_CN: "无赦龙息护臂"
+        zh_CN: "无踪龙息护臂"
 
     20023:
       name:
@@ -312,7 +322,7 @@ equipment:
         fr: "Tassettes de souffle du dragon"
         ko: "용의 숨결 하갑"
         pl: "Taszka smoczego tchnienia"
-        zh_CN: "无赦龙息裙甲"
+        zh_CN: "无踪龙息裙甲"
 
     20024:
       name:
@@ -322,7 +332,7 @@ equipment:
         fr: "Bottes de souffle du dragon"
         ko: "용의 숨결 부츠"
         pl: "Buty smoczego tchnienia"
-        zh_CN: "无赦龙息之履"
+        zh_CN: "无踪龙息之履"
 
     20025:
       name:
@@ -450,7 +460,7 @@ equipment:
         en: "Ring of Doom"
         es: "Anillo de la perdición"
         fr: "Anneau de damnation"
-        ko: "심판의 반자"
+        ko: "심판의 반지"
         pl: "Pierścień zagłady"
         zh_CN: "末日之戒"
 
@@ -508,7 +518,7 @@ equipment:
       name:
         de: "Scolas Glücksmünze"
         en: "Scolas' Lucky Coin"
-        es: "Moneda de la suerete de Scola"
+        es: "Moneda de la suerte de Scola"
         fr: "Pièce porte-bonheur de Scolas"
         ko: "스콜라스의 행운 코인"
         pl: "Szczęśliwa moneta Scolasa"
@@ -540,7 +550,7 @@ equipment:
         en: "Revival Helm"
         es: "Casco de resurgimiento"
         fr: "Casque de résurrection"
-        ko: "부할자의 투구"
+        ko: "부활자의 투구"
         pl: "Hełm odrodzenia"
         zh_CN: "复兴者头盔"
 
@@ -550,7 +560,7 @@ equipment:
         en: "Revival Plate"
         es: "Peto de resurgimiento"
         fr: "Plaque de résurrection"
-        ko: "부할자의 갑옷"
+        ko: "부활자의 갑옷"
         pl: "Zbroja odrodzenia"
         zh_CN: "复兴者铠甲"
 
@@ -560,7 +570,7 @@ equipment:
         en: "Revival Gauntlets"
         es: "Guanteletes de resurgimiento"
         fr: "Gantelets de résurrection"
-        ko: "부할자의 장갑"
+        ko: "부활자의 장갑"
         pl: "Rękawice odrodzenia"
         zh_CN: "复兴者手套"
 
@@ -570,7 +580,7 @@ equipment:
         en: "Revival Greaves"
         es: "Grebas de resurgimiento"
         fr: "Grèves de résurrection"
-        ko: "부할자의 다리갑옷"
+        ko: "부활자의 다리갑옷"
         pl: "Nagolenniki odrodzenia"
         zh_CN: "复兴者腿甲"
 
@@ -640,7 +650,7 @@ equipment:
         en: "Heart of the Saint"
         es: "Corazón del santo"
         fr: "Cœur du saint"
-        ko: "성자의마음"
+        ko: "성자의 마음"
         pl: "Serce świętego"
         zh_CN: "圣者之心"
 
@@ -772,13 +782,13 @@ equipment:
         fr: "Pendentif du barde"
         ko: "음유시인의 노래"
         pl: "Wisior pieśniarza"
-        zh_CN: "哈游诗人的呼吸"
+        zh_CN: "吟游诗人的咏叹"
 
     20075:
       name:
-        de: "Stumme Prufüng"
+        de: "Stumme Prüfung"
         en: "Silent Trial"
-        es: "Jucio silencioso"
+        es: "Juicio silencioso"
         fr: "Épreuve du silence"
         ko: "고요한 심판"
         pl: "Cichy sąd"
@@ -818,7 +828,7 @@ equipment:
       name:
         de: "Kopftuch des Ernters"
         en: "Harvester's Headscarf"
-        es: "Velo de sagador"
+        es: "Velo de segador"
         fr: "Écharpe du moissonneur"
         ko: "수확자의 두건"
         pl: "Chusta żniwiarza"
@@ -852,7 +862,7 @@ equipment:
         fr: "Bottes du moissonneur"
         ko: "수확자의 장화"
         pl: "Buty żniwiarza"
-        zh_CN: "收获者简靴"
+        zh_CN: "收获者筒靴"
 
     20083:
       name:
@@ -939,7 +949,7 @@ equipment:
         de: "Schwere Rüstung des Kommandanten"
         en: "Commander's Heavy Armor"
         es: "Armadura pesada de comandante"
-        fr: "Armure lourde de commandant"
+        fr: "Armure lourde du commandant"
         ko: "지휘관 중갑"
         pl: "Ciężka zbroja dowódcy"
         zh_CN: "指挥官重铠"
@@ -1061,7 +1071,7 @@ equipment:
         es: "Casco del terror"
         fr: "Casque de peur"
         ko: "경외의 투구"
-        pl: "Helm trwogi"
+        pl: "Hełm trwogi"
         zh_CN: "敬畏之盔"
 
     20104:
@@ -1071,8 +1081,8 @@ equipment:
         es: "Casco del fénix"
         fr: "Casque du phénix"
         ko: "피닉스 날개투구"
-        pl: "Helm feniksa"
-        zh_CN: "凤翎盔"
+        pl: "Hełm feniksa"
+        zh_CN: "凤翅盔"
 
     20105:
       name:
@@ -1338,7 +1348,7 @@ equipment:
       name:
         de: "Kampferprobte Stulpen des Ritters"
         en: "Knight's Battleworn Gauntlets"
-        es: "Guanteletes curtidoes de caballero"
+        es: "Guanteletes curtidos de caballero"
         fr: "Gantelets usés de chevalier"
         ko: "날카로운 기사의 장갑"
         pl: "Rycerskie znoszone rękawice"
@@ -1372,7 +1382,7 @@ equipment:
         fr: "Bâton à plumes de sorcière"
         ko: "마법의 지팡이"
         pl: "Pierzasty kostur wiedźmy"
-        zh_CN: "巫祝的啄吸之杖"
+        zh_CN: "巫祝的咏叹之杖"
 
     20135:
       name:
@@ -1421,8 +1431,8 @@ equipment:
         es: "Botas de lodazal de bruja"
         fr: "Bottillons des marais de sorcière"
         ko: "마법의 앵글부츠"
-        pl: "Ublocone kalosze wiedźmy"
-        zh_CN: "巫咒的泥泞短靴"
+        pl: "Ubłocone kalosze wiedźmy"
+        zh_CN: "巫祝的泥泞短靴"
 
     20140:
       name:
@@ -1460,7 +1470,7 @@ equipment:
         en: "Gauntlets of the Glorious Goddess"
         es: "Guanteletes de la diosa gloriosa"
         fr: "Gantelets de la glorieuse déesse"
-        ko: "여신의 한갑"
+        ko: "여신의 완갑"
         pl: "Rękawice czcigodnej bogini"
         zh_CN: "辉煌女神的腕甲"
 
@@ -1490,7 +1500,7 @@ equipment:
         en: "Immolating Plume"
         es: "Pluma inmoladora"
         fr: "Panache d'immolation"
-        ko: "볼타는 깃털"
+        ko: "불타는 깃털"
         pl: "Pióropusz ofiarny"
         zh_CN: "焚烬之羽"
 
@@ -1507,7 +1517,7 @@ equipment:
     20167:
       name:
         de: "Sattel der tausend Segnungen"
-        en: "Saddle of Thousand Blessings"
+        en: "Saddle of a Thousand Blessings"
         es: "Silla de montar de las mil bendiciones"
         fr: "Selle aux mille bénédictions"
         ko: "축복 안장"
@@ -1520,8 +1530,9 @@ equipment:
         en: "Artifact - Lancer's Banner"
         es: "Artefacto: Estandarte de lancero"
         fr: "Artefact - Bannière de lancier"
-        ko: "장신구ㆍ철기병의 깃발"
-        zh_CN: "秘饰·铁骑之旗"
+        ko: "장신구 · 철기병의 깃발"
+        pl: "Artefakt – Sztandar lansjera"
+        zh_CN: "秘饰·铁骑之旌"
 
     20202:
       name:
@@ -1529,7 +1540,8 @@ equipment:
         en: "Artifact - Berserker's Brooch"
         es: "Artefacto: Prendedor de berserker"
         fr: "Artefact - Broche de berserker"
-        ko: "장신구ㆍ버서커의 브로치"
+        ko: "장신구 · 버서커의 브로치"
+        pl: "Artefakt – Brosza berserka"
         zh_CN: "秘饰·狂战胸针"
 
     20203:
@@ -1538,22 +1550,26 @@ equipment:
         en: "Artifact - Sniper's Fletch"
         es: "Artefacto: Flecha de francotirador"
         fr: "Artefact - Flèche de tireur d'élite"
-        ko: "장신구ㆍ파멸의 화살"
+        ko: "장신구 · 파멸의 화살"
+        pl: "Artefakt – Pierzysko strzelca"
         zh_CN: "秘饰·破魂羽矢"
 
     20401:
       name:
         de: "Artefakt - Megingjörð"
         en: "Artifact - Megingjörð"
-        es: "Artefacto: Megingjörð"
-        ko: "장신구ㆍ메깅요르드"
+        es: "Artefacto - Megingjörð"
+        fr: "Artefact - Megingjörð"
+        ko: "장신구 · 메깅요르드"
+        pl: "Artefakt – Megingjörð"
+        zh_CN: "秘饰·雷神腰带"
 
     20402:
       name:
-        de: "Artefakt - Emblem der Nike"
+        de: "Artefakt – Emblem der Nike"
         en: "Artifact - Emblem of Nike"
         es: "Artefacto: emblema de Nike"
         fr: "Artefact - Emblème de Niké"
-        ko: "장신구ㆍ영광의 휘장"
-        pl: "Artefakt – herb Nike"
+        ko: "장신구·영광의 휘장"
+        pl: "Artefakt – herb Nike"
         zh_CN: "秘饰·胜耀之徽"
