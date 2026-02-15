@@ -9,11 +9,11 @@ inscriptions:
 
   101:
     name:
-      de: "Krigsschrei"
+      de: "Kriegsschrei"
       en: "Warcry"
       es: "Grito de guerra"
       fr: "Cri de guerre"
-      ko: "전재의 포효"
+      ko: "전쟁의 포효"
       pl: "Okrzyk bojowy"
       zh_CN: "战吼"
     rarity: common
@@ -45,7 +45,7 @@ inscriptions:
       de: "Flink"
       en: "Swift"
       es: "Celeridad"
-      fr: "Vélocité"
+      fr: "Véloce"
       ko: "질주"
       pl: "Zwinność"
       zh_CN: "疾走"
@@ -145,7 +145,7 @@ inscriptions:
       en: "Breaker"
       es: "Quebrantamiento"
       fr: "Casseur"
-      ko: "갑옷 패진"
+      ko: "갑옷 파괴"
       pl: "Niszczyciel"
       zh_CN: "碎甲"
     rarity: common
@@ -163,7 +163,7 @@ inscriptions:
 
   116:
     name:
-      de: "Schutzbefohelm"
+      de: "Schutzbefohlen"
       en: "Ward"
       es: "Protección"
       fr: "Amulette"
@@ -180,7 +180,7 @@ inscriptions:
       fr: "Phalange"
       ko: "방패진"
       pl: "Falanga"
-      zh_CN: "后阵"
+      zh_CN: "盾阵"
     rarity: common
 
   118:
@@ -202,7 +202,7 @@ inscriptions:
       fr: "Secousses"
       ko: "진동"
       pl: "Wstrząsy"
-      zh_CN: "震撼"
+      zh_CN: "震骸"
     rarity: common
 
   120:
@@ -211,7 +211,7 @@ inscriptions:
       en: "Calm"
       es: "Calma"
       fr: "Calme"
-      ko: "침악"
+      ko: "침착"
       pl: "Spokój"
       zh_CN: "从容"
     rarity: common
@@ -233,7 +233,7 @@ inscriptions:
       en: "Warcry"
       es: "Grito de guerra"
       fr: "Cri de guerre"
-      ko: "전재의 포효"
+      ko: "전쟁의 포효"
       pl: "Okrzyk bojowy"
       zh_CN: "战吼"
     rarity: common
@@ -265,7 +265,7 @@ inscriptions:
       de: "Flink"
       en: "Swift"
       es: "Celeridad"
-      fr: "Vélocité"
+      fr: "Véloce"
       ko: "질주"
       pl: "Zwinność"
       zh_CN: "疾走"
@@ -321,7 +321,7 @@ inscriptions:
       en: "Enrichment"
       es: "Enriquecimiento"
       fr: "Enrichissement"
-      ko: "일핰천금"
+      ko: "일확천금"
       pl: "Fortuna"
       zh_CN: "淘金"
     rarity: common
@@ -334,7 +334,7 @@ inscriptions:
       fr: "Brutal"
       ko: "담금질"
       pl: "Brutalność"
-      zh_CN: "浮刃"
+      zh_CN: "淬刃"
     rarity: common
 
   203:
@@ -378,7 +378,7 @@ inscriptions:
       fr: "Annexer"
       ko: "완납"
       pl: "Zaborca"
-      zh_CN: "奇谋"
+      zh_CN: "清缴"
     rarity: common
 
   207:
@@ -389,7 +389,7 @@ inscriptions:
       fr: "Soif de guerre"
       ko: "백열전"
       pl: "Głód wojny"
-      zh_CN: "酷战"
+      zh_CN: "酣战"
     rarity: common
 
   208:
@@ -420,7 +420,7 @@ inscriptions:
       en: "Fearsome"
       es: "Temible"
       fr: "Redoutable"
-      ko: "위퐁당당"
+      ko: "위풍당당"
       pl: "Groza"
       zh_CN: "雄威"
     rarity: common
@@ -431,7 +431,7 @@ inscriptions:
       en: "Evasive"
       es: "Evasión"
       fr: "Évasif"
-      ko: "희피"
+      ko: "회피"
       pl: "Unik"
       zh_CN: "闪避"
     rarity: common
@@ -452,7 +452,7 @@ inscriptions:
       de: "Atempause"
       en: "Respite"
       es: "Alivio"
-      fr: "Répît"
+      fr: "Répit"
       ko: "숨결"
       pl: "Wytchnienie"
       zh_CN: "喘息"
@@ -515,7 +515,7 @@ inscriptions:
 
   219:
     name:
-      de: "Aufmungterung"
+      de: "Aufmunterung"
       en: "Uplifting"
       es: "Inspiración"
       fr: "Exaltant"
@@ -554,7 +554,7 @@ inscriptions:
       fr: "Brutal"
       ko: "담금질"
       pl: "Brutalność"
-      zh_CN: "浮刃"
+      zh_CN: "淬刃"
     rarity: common
 
   224:
@@ -598,7 +598,7 @@ inscriptions:
       fr: "Annexer"
       ko: "완납"
       pl: "Zaborca"
-      zh_CN: "奇谋"
+      zh_CN: "清缴"
     rarity: common
 
   228:
@@ -609,7 +609,7 @@ inscriptions:
       fr: "Soif de guerre"
       ko: "백열전"
       pl: "Głód wojny"
-      zh_CN: "酷战"
+      zh_CN: "酣战"
     rarity: common
 
   229:
@@ -1058,7 +1058,7 @@ inscriptions:
       en: "Elite"
       es: "Élite"
       fr: "Élite"
-      ko: "신평"
+      ko: "신병"
       pl: "Elita"
       zh_CN: "神兵"
     rarity: common
@@ -1069,7 +1069,7 @@ inscriptions:
       en: "Evasive"
       es: "Evasión"
       fr: "Évasif"
-      ko: "적회피"
+      ko: "적 회피"
       pl: "Unik"
       zh_CN: "避敌"
     rarity: common
@@ -1368,7 +1368,7 @@ inscriptions:
       fr: "Chasseur"
       ko: "전력 맹공"
       pl: "Łowca"
-      zh_CN: "猎手"
+      zh_CN: "穷追猛击"
     rarity: special
 
   2102:
@@ -1428,7 +1428,7 @@ inscriptions:
 
   2401:
     name:
-      de: "Unerschroken"
+      de: "Unerschrocken"
       en: "Intrepid"
       es: "Intrépido"
       fr: "Intrépide"
@@ -1464,8 +1464,8 @@ inscriptions:
       de: "Vollständig spannen"
       en: "Full Draw"
       es: "Arcos tensados"
-      fr: "Pleine allonge"
-      ko: "발사준비"
+      fr: "Empennage"
+      ko: "발사 준비"
       pl: "Maksymalny naciąg"
       zh_CN: "张弓"
     rarity: rare
@@ -1508,7 +1508,7 @@ inscriptions:
       de: "Gehärtet"
       en: "Tempered"
       es: "Templado"
-      fr: "Endurci"
+      fr: "Trempage"
       ko: "강력한 저항"
       pl: "Zahartowanie"
       zh_CN: "强抗"
@@ -1522,7 +1522,7 @@ inscriptions:
       fr: "Futé"
       ko: "늠름한 자태"
       pl: "Bystrość"
-      zh_CN: "箭弩齐发"
+      zh_CN: "策马弯弓"
     rarity: special
 
   3402:
@@ -1607,7 +1607,7 @@ inscriptions:
       de: "Feststehend"
       en: "Fixed"
       es: "Reparación"
-      fr: "Fixé"
+      fr: "Réparé"
       ko: "난공불락"
       pl: "Naprawa"
       zh_CN: "坚不可摧"
@@ -1659,7 +1659,7 @@ inscriptions:
 
   5202:
     name:
-      de: "Aegis"
+      de: "Aigis"
       en: "Aegis"
       es: "Égida"
       fr: "Égide"
@@ -1674,7 +1674,7 @@ inscriptions:
       en: "Crowned"
       es: "Coronación"
       fr: "Couronné"
-      ko: "용감우쌍"
+      ko: "용감무쌍"
       pl: "Korona"
       zh_CN: "勇冠三军"
     rarity: special
@@ -1695,7 +1695,7 @@ inscriptions:
       de: "Rundum"
       en: "Rounded"
       es: "Integral"
-      fr: "Arrondi"
+      fr: "Complet"
       ko: "정교한 무기"
       pl: "Okrążenie"
       zh_CN: "坚甲利兵"
@@ -1751,7 +1751,7 @@ inscriptions:
       en: "Safeguard"
       es: "Salvaguarda"
       fr: "Sauvegarde"
-      ko: "세이프가츠"
+      ko: "세이프가드"
       pl: "Ochrona"
       zh_CN: "防护"
     rarity: rare
@@ -1762,7 +1762,7 @@ inscriptions:
       en: "Moneyed"
       es: "Pudiente"
       fr: "Aisé"
-      ko: "점석겅금"
+      ko: "점석성금"
       pl: "Krezus"
       zh_CN: "点石成金"
     rarity: special
@@ -1794,7 +1794,7 @@ inscriptions:
       de: "Starker Rücken"
       en: "Sturdy Back"
       es: "Retaguardia fornida"
-      fr: "Dos solide"
+      fr: "Solidité"
       ko: "풍요"
       pl: "Mocne zaplecze"
       zh_CN: "硕果"
@@ -1803,9 +1803,9 @@ inscriptions:
   7101:
     name:
       de: "Verstrickt"
-      en: "Emmeshed"
+      en: "Enmeshed"
       es: "Maraña"
-      fr: "Enchevêtrement"
+      fr: "Empêtré"
       ko: "빈틈없는 경계망"
       pl: "Wplątanie"
       zh_CN: "天罗地网"
@@ -1816,7 +1816,7 @@ inscriptions:
       de: "Umschlingend"
       en: "Entangling"
       es: "Enredo"
-      fr: "Entravant"
+      fr: "Enchevêtrement"
       ko: "속박"
       pl: "Oplątanie"
       zh_CN: "束缚"
@@ -1828,7 +1828,7 @@ inscriptions:
       en: "Logistical"
       es: "Logística"
       fr: "Logistique"
-      ko: "겡한 군세"
+      ko: "성한 군세"
       pl: "Logistyka"
       zh_CN: "兵多将广"
     rarity: special
@@ -1861,7 +1861,7 @@ inscriptions:
       en: "Sprinter"
       es: "Velocista"
       fr: "Sprint"
-      ko: "겐각"
+      ko: "건각"
       pl: "Sprinter"
       zh_CN: "健步"
     rarity: rare
@@ -1882,7 +1882,7 @@ inscriptions:
       de: "Läufer"
       en: "Strider"
       es: "Pasos largos"
-      fr: "Arpenteur"
+      fr: "Presser le pas"
       ko: "질주"
       pl: "Wędrowiec"
       zh_CN: "疾驰"
@@ -1904,7 +1904,7 @@ inscriptions:
       de: "Eisern"
       en: "Ironclad"
       es: "Invulnerable"
-      fr: "Blindé"
+      fr: "Cuirasse"
       ko: "호신"
       pl: "Nieprzejednanie"
       zh_CN: "护身"
@@ -1923,7 +1923,7 @@ inscriptions:
 
   8202:
     name:
-      de: "Zushlagen und parieren"
+      de: "Zuschlagen und parieren"
       en: "Strike & Parry"
       es: "Golpe y bloqueo"
       fr: "Frappe et parade"
@@ -1936,7 +1936,7 @@ inscriptions:
     name:
       de: "Schild-Schlag"
       en: "Shield Bash"
-      es: "Glope de escudo"
+      es: "Golpe de escudo"
       fr: "Coup de bouclier"
       ko: "방패 강타"
       pl: "Uderzenie tarczą"
@@ -1981,8 +1981,8 @@ inscriptions:
       de: "Rächer"
       en: "Avenger"
       es: "Vengador"
-      fr: "Vengeur"
-      ko: "눈에는눈"
+      fr: "Vengeance"
+      ko: "눈에는 눈"
       pl: "Mściciel"
       zh_CN: "以眼还眼"
     rarity: special
@@ -2004,7 +2004,7 @@ inscriptions:
       en: "Guarding Light"
       es: "Luz protectora"
       fr: "Lumière protectrice"
-      ko: "수호의빛"
+      ko: "수호의 빛"
       pl: "Opiekuńcze światło"
       zh_CN: "守护之光"
     rarity: special
@@ -2025,8 +2025,8 @@ inscriptions:
       de: "Die Kurve kriegen"
       en: "Turn the Corner"
       es: "Apuro superado"
-      fr: "Renverser la situation"
-      ko: "전회위복"
+      fr: "Virage"
+      ko: "전화위복"
       pl: "Z górki"
       zh_CN: "转危为安"
     rarity: special
@@ -2036,7 +2036,7 @@ inscriptions:
       de: "Aufsteigen"
       en: "Rise Up"
       es: "De pie"
-      fr: "Se relever"
+      fr: "Soulèvement"
       ko: "완강"
       pl: "Powstanie"
       zh_CN: "顽抗"
@@ -2055,7 +2055,7 @@ inscriptions:
 
   9402:
     name:
-      de: "Erfischend"
+      de: "Erfrischend"
       en: "Refreshing"
       es: "Refrescante"
       fr: "Rafraîchissement"
@@ -2105,7 +2105,7 @@ inscriptions:
       fr: "Répartition"
       ko: "호신"
       pl: "Rozproszenie"
-      zh_CN: "联防御敌"
+      zh_CN: "护体"
     rarity: rare
 
   10301:
@@ -2116,7 +2116,7 @@ inscriptions:
       fr: "Pleine force"
       ko: "천군만마"
       pl: "Pełna moc"
-      zh_CN: "硬气"
+      zh_CN: "千军万马"
     rarity: special
 
   10302:
@@ -2127,7 +2127,7 @@ inscriptions:
       fr: "Troupes de choc"
       ko: "강팀"
       pl: "Oddziały uderzeniowe"
-      zh_CN: "千军万马"
+      zh_CN: "劲旅"
     rarity: rare
 
   10401:
@@ -2138,7 +2138,7 @@ inscriptions:
       fr: "Faire front"
       ko: "연합 방어"
       pl: "Zjednoczony front"
-      zh_CN: "联防"
+      zh_CN: "联防御敌"
     rarity: special
 
   10402:
@@ -2149,18 +2149,18 @@ inscriptions:
       fr: "Défense mutuelle"
       ko: "공동 방어"
       pl: "Obopólna ochrona"
-      zh_CN: "护体"
+      zh_CN: "联防"
     rarity: rare
 
   13101:
     name:
       de: "Verdrescher"
-      en: "Trasher"
+      en: "Thrasher"
       es: "Trilladora"
       fr: "Broyeur"
       ko: "쉬운 제압"
       pl: "Kat"
-      zh_CN: "横扫拉扯"
+      zh_CN: "摧枯拉朽"
     rarity: special
 
   13102:
@@ -2171,13 +2171,13 @@ inscriptions:
       fr: "Tabasseur"
       ko: "박살"
       pl: "Miotacz"
-      zh_CN: "推进"
+      zh_CN: "摧毁"
     rarity: rare
 
   13201:
     name:
       de: "Schmetterlingseffekt"
-      en: "Butterfly"
+      en: "Butterfly Effect"
       es: "Efecto mariposa"
       fr: "Effet papillon"
       ko: "나비 효과"
@@ -2202,7 +2202,7 @@ inscriptions:
       en: "Steelskin"
       es: "Piel acerada"
       fr: "Peau d'acier"
-      ko: "강철의몸"
+      ko: "강철의 몸"
       pl: "Stalowy pancerz"
       zh_CN: "钢铁之躯"
     rarity: special
@@ -2237,7 +2237,7 @@ inscriptions:
       fr: "Impitoyable"
       ko: "묵직한 연격"
       pl: "Nieustępliwość"
-      zh_CN: "连发"
+      zh_CN: "连袭"
     rarity: rare
 
   14101:
@@ -2257,7 +2257,7 @@ inscriptions:
       en: "Vigilant"
       es: "Alerta"
       fr: "Vigilant"
-      ko: "곙각심"
+      ko: "경각심"
       pl: "Czujność"
       zh_CN: "警觉"
     rarity: rare
@@ -2268,7 +2268,7 @@ inscriptions:
       en: "Fortified"
       es: "Fortificación"
       fr: "Fortifications solides"
-      ko: "금성첼벽"
+      ko: "금성철벽"
       pl: "Wzmocnienie"
       zh_CN: "金城汤池"
     rarity: special
@@ -2301,7 +2301,7 @@ inscriptions:
       en: "Precautions"
       es: "Precauciones"
       fr: "Précautions"
-      ko: "첼벽"
+      ko: "철벽"
       pl: "Środki ostrożności"
       zh_CN: "严防"
     rarity: rare
@@ -2312,7 +2312,7 @@ inscriptions:
       en: "Steelheart"
       es: "Corazón de acero"
       fr: "Cœur d'acier"
-      ko: "강철의몸"
+      ko: "강철의 몸"
       pl: "Stalowe serce"
       zh_CN: "铁骨铮铮"
     rarity: special
@@ -2323,7 +2323,7 @@ inscriptions:
       en: "Ironsides"
       es: "Coraza de hierro"
       fr: "Cuirassés"
-      ko: "강첼의 뼈"
+      ko: "강철의 뼈"
       pl: "Żelazna odwaga"
       zh_CN: "铁骨"
     rarity: rare
@@ -2444,7 +2444,7 @@ inscriptions:
       en: "Demolisher"
       es: "Demoledor"
       fr: "Démolition"
-      ko: "잴풍 소탕"
+      ko: "질풍 소탕"
       pl: "Człowiek Demolka"
       zh_CN: "横扫千军"
     rarity: special
@@ -2466,7 +2466,7 @@ inscriptions:
       en: "Airtight"
       es: "Hermético"
       fr: "Herméticité"
-      ko: "첼벽수비"
+      ko: "철벽 수비"
       pl: "Szczelność"
       zh_CN: "滴水不漏"
     rarity: special
@@ -2477,7 +2477,7 @@ inscriptions:
       en: "Hardheaded"
       es: "Testarudo"
       fr: "Entêtement"
-      ko: "첼갑진"
+      ko: "철갑진"
       pl: "Wyrachowanie"
       zh_CN: "铁阵"
     rarity: rare
