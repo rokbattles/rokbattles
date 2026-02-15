@@ -240,7 +240,7 @@ mod tests {
 
     #[test]
     fn tsv_output_sanitizes_control_characters() {
-        let rows = vec![row(1, "N\t1", "line1\nline2")];
+        let rows = [row(1, "N\t1", "line1\nline2")];
         let refs = rows.iter().collect::<Vec<_>>();
         let mut output = Vec::new();
 
