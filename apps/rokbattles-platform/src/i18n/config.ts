@@ -27,25 +27,25 @@ export const datasetSupportedLocales = [
 ] as const;
 export type DatasetLocale = (typeof datasetSupportedLocales)[number];
 
-const localeMeta: Record<DatasetLocale, { label: string }> = {
-  en: { label: "English" },
-  fr: { label: "Français" },
-  de: { label: "Deutsch" },
-  ru: { label: "Русский" },
-  pt: { label: "Português" },
-  es: { label: "Español" },
-  it: { label: "Italiano" },
-  zh_CN: { label: "简体中文" },
-  zh_TW: { label: "繁體中文" },
-  ko: { label: "한국어" },
-  id: { label: "Indonesia" },
-  tr: { label: "Türkçe" },
-  th: { label: "ไทย" },
-  ms: { label: "Melayu" },
-  vi: { label: "Tiếng Việt" },
-  ar: { label: "العربية" },
-  ja: { label: "日本語" },
-  pl: { label: "Polski" },
+const localeMeta: Record<DatasetLocale, string> = {
+  en: "English",
+  fr: "Français",
+  de: "Deutsch",
+  ru: "Русский",
+  pt: "Português",
+  es: "Español",
+  it: "Italiano",
+  zh_CN: "简体中文",
+  zh_TW: "繁體中文",
+  ko: "한국어",
+  id: "Indonesia",
+  tr: "Türkçe",
+  th: "ไทย",
+  ms: "Melayu",
+  vi: "Tiếng Việt",
+  ar: "العربية",
+  ja: "日本語",
+  pl: "Polski",
 };
 
 const sortByLanguageLabel = <T extends { label: string }>(a: T, b: T) =>
@@ -54,14 +54,14 @@ const sortByLanguageLabel = <T extends { label: string }>(a: T, b: T) =>
 export const siteLanguageOptions = [...siteSupportedLocales]
   .map((locale) => ({
     locale,
-    ...localeMeta[locale],
+    label: localeMeta[locale],
   }))
   .sort(sortByLanguageLabel);
 
 export const datasetLanguageOptions = [...datasetSupportedLocales]
   .map((locale) => ({
     locale,
-    ...localeMeta[locale],
+    label: localeMeta[locale],
   }))
   .sort(sortByLanguageLabel);
 
