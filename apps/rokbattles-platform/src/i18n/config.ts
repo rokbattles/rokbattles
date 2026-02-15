@@ -5,28 +5,65 @@ export const defaultLocale = "en";
 export const siteSupportedLocales = ["en", "es", "ko"] as const;
 export type SiteLocale = (typeof siteSupportedLocales)[number];
 
-export const datasetSupportedLocales = ["de", "en", "es", "fr", "ko", "pl", "zh_CN"] as const;
+export const datasetSupportedLocales = [
+  "en",
+  "fr",
+  "de",
+  "ru",
+  "pt",
+  "es",
+  "it",
+  "zh_CN",
+  "zh_TW",
+  "ko",
+  "id",
+  "tr",
+  "th",
+  "ms",
+  "vi",
+  "ar",
+  "ja",
+  "pl",
+] as const;
 export type DatasetLocale = (typeof datasetSupportedLocales)[number];
 
-const localeMeta: Record<DatasetLocale, { label: string; flagCode: string }> = {
-  de: { label: "German", flagCode: "DE" },
-  en: { label: "English", flagCode: "US" },
-  es: { label: "Spanish", flagCode: "ES" },
-  fr: { label: "French", flagCode: "FR" },
-  ko: { label: "Korean", flagCode: "KR" },
-  pl: { label: "Polish", flagCode: "PL" },
-  zh_CN: { label: "Chinese (Simplified)", flagCode: "CN" },
+const localeMeta: Record<DatasetLocale, string> = {
+  en: "English",
+  fr: "Français",
+  de: "Deutsch",
+  ru: "Русский",
+  pt: "Português",
+  es: "Español",
+  it: "Italiano",
+  zh_CN: "简体中文",
+  zh_TW: "繁體中文",
+  ko: "한국어",
+  id: "Indonesia",
+  tr: "Türkçe",
+  th: "ไทย",
+  ms: "Melayu",
+  vi: "Tiếng Việt",
+  ar: "العربية",
+  ja: "日本語",
+  pl: "Polski",
 };
 
-export const siteLanguageOptions = siteSupportedLocales.map((locale) => ({
-  locale,
-  ...localeMeta[locale],
-}));
+const sortByLanguageLabel = <T extends { label: string }>(a: T, b: T) =>
+  a.label.localeCompare(b.label);
 
-export const datasetLanguageOptions = datasetSupportedLocales.map((locale) => ({
-  locale,
-  ...localeMeta[locale],
-}));
+export const siteLanguageOptions = [...siteSupportedLocales]
+  .map((locale) => ({
+    locale,
+    label: localeMeta[locale],
+  }))
+  .sort(sortByLanguageLabel);
+
+export const datasetLanguageOptions = [...datasetSupportedLocales]
+  .map((locale) => ({
+    locale,
+    label: localeMeta[locale],
+  }))
+  .sort(sortByLanguageLabel);
 
 export const isSiteLocale = (value?: string): value is SiteLocale =>
   Boolean(value) && siteSupportedLocales.includes(value as SiteLocale);
