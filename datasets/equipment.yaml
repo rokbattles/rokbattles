@@ -83,6 +83,16 @@ equipment:
       pl: "Akcesoria"
       zh_CN: "饰品"
 
+  # Missing:
+  # N_46 Dusk Visage
+  # N_47 Shadow of the Sands
+  # N_48 Yin and Yang
+  # N_49 Thoth's Sacrifice
+  # N_50 Udor's Legs
+  # N_301 Curio - Riding Crop
+  # N_302 Curio - Footman's Pledge
+  # N_303 Curio - Bowman's Pin
+  # N_304 Curio - Besieger's Brooch
   item:
     20001:
       name:
