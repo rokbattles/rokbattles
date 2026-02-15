@@ -75,9 +75,6 @@ importers:
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
-      react-flagpack:
-        specifier: ^2.0.6
-        version: 2.0.6(react@19.2.4)
       react-markdown:
         specifier: ^10.1.0
         version: 10.1.0(@types/react@19.2.14)(react@19.2.4)
@@ -2184,12 +2181,6 @@ packages:
     resolution: {integrity: sha512-AXJdLo8kgMbimY95O2aKQqsz2iWi9jMgKJhRBAxECE4IFxfcazB2LmzloIoibJI3C12IlY20+KFaLv+71bUJeQ==}
     peerDependencies:
       react: ^19.2.4
-
-  react-flagpack@2.0.6:
-    resolution: {integrity: sha512-ZLRC6u/d6AVTpMcFKZf2aSYPDmesPEzU084I99sU/Bcg32Jux6acE2bfHQnW2P/HYfSzx9YWwiNjJKxiW8OTGQ==}
-    hasBin: true
-    peerDependencies:
-      react: ^16.8.* || ^17.* || ^18.*
 
   react-is@19.1.1:
     resolution: {integrity: sha512-tr41fA15Vn8p4X9ntI+yCyeGSf1TlYaY5vlTZfQmeLBrFo3psOPX6HhTDnFNL9uj3EhP0KAQ80cugCl4b4BERA==}
@@ -4322,13 +4313,6 @@ snapshots:
     dependencies:
       react: 19.2.4
       scheduler: 0.27.0
-
-  react-flagpack@2.0.6(react@19.2.4):
-    dependencies:
-      chalk: 5.6.2
-      fs-extra: 11.3.3
-      meow: 13.2.0
-      react: 19.2.4
 
   react-is@19.1.1: {}
 

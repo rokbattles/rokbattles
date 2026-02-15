@@ -1,9 +1,9 @@
 "use client";
 
+import { LanguageIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
-import Flag from "react-flagpack";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
 import { Description, Fieldset, Label, Legend } from "@/components/ui/fieldset";
@@ -89,9 +89,7 @@ export function LanguageSelector() {
   return (
     <>
       <SidebarItem onClick={handleOpen} aria-label={t("select")}>
-        <span data-slot="icon" className="flex items-center justify-center">
-          <Flag code={currentLanguage.flagCode} size="m" hasBorder={false} />
-        </span>
+        <LanguageIcon />
         <SidebarLabel>{currentLanguage.label}</SidebarLabel>
       </SidebarItem>
       <Dialog open={isOpen} onClose={handleClose} size="xl">
@@ -103,46 +101,32 @@ export function LanguageSelector() {
             aria-label={t("select")}
             name="platformLanguage"
           >
-            <Fieldset>
-              <Legend>{t("site.label")}</Legend>
-              <Description>{t("site.description")}</Description>
-              <div data-slot="control" className="space-y-3">
-                {siteLanguageOptions.map((option) => (
-                  <RadioField key={option.locale}>
-                    <Radio value={option.locale} />
-                    <Label className="flex items-center gap-3">
-                      <Flag
-                        code={option.flagCode}
-                        size="m"
-                        hasBorder={false}
-                        className="shrink-0"
-                      />
-                      <span className="truncate">{option.label}</span>
-                    </Label>
-                  </RadioField>
-                ))}
-              </div>
-            </Fieldset>
-            <Fieldset>
-              <Legend>{t("dataset.label")}</Legend>
-              <Description>{t("dataset.description")}</Description>
-              <div data-slot="control" className="space-y-3">
-                {datasetOnlyLanguageOptions.map((option) => (
-                  <RadioField key={option.locale}>
-                    <Radio value={option.locale} />
-                    <Label className="flex items-center gap-3">
-                      <Flag
-                        code={option.flagCode}
-                        size="m"
-                        hasBorder={false}
-                        className="shrink-0"
-                      />
-                      <span className="truncate">{option.label}</span>
-                    </Label>
-                  </RadioField>
-                ))}
-              </div>
-            </Fieldset>
+            <div className="space-y-8">
+              <Fieldset>
+                <Legend>{t("site.label")}</Legend>
+                <Description>{t("site.description")}</Description>
+                <div data-slot="control" className="grid gap-3 sm:grid-cols-2">
+                  {siteLanguageOptions.map((option) => (
+                    <RadioField key={option.locale}>
+                      <Radio value={option.locale} />
+                      <Label className="truncate">{option.label}</Label>
+                    </RadioField>
+                  ))}
+                </div>
+              </Fieldset>
+              <Fieldset>
+                <Legend>{t("dataset.label")}</Legend>
+                <Description>{t("dataset.description")}</Description>
+                <div data-slot="control" className="grid gap-3 sm:grid-cols-2">
+                  {datasetOnlyLanguageOptions.map((option) => (
+                    <RadioField key={option.locale}>
+                      <Radio value={option.locale} />
+                      <Label className="truncate">{option.label}</Label>
+                    </RadioField>
+                  ))}
+                </div>
+              </Fieldset>
+            </div>
           </RadioGroup>
         </DialogBody>
         <DialogActions>
