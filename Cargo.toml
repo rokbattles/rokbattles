@@ -8,6 +8,7 @@ members = [
     "crates/mail-processor-battle",
     "crates/mail-processor-duelbattle2",
     "crates/mail-processor-sdk",
+    "crates/rokbattles-bot",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
     "crates/rokbattles-tauri/src-tauri",
@@ -39,6 +40,10 @@ dotenvy = "0.15.7"
 flate2 = { version = "1.1.9", default-features = false }
 thiserror = "2.0.18"
 tower_governor = { version = "0.8.0", default-features = false }
+twilight-gateway = "0.17.1"
+twilight-http = "0.17.1"
+twilight-model = "0.17.1"
+rustls = { version = "0.23.36", default-features = false }
 
 [profile.release]
 lto = "thin"

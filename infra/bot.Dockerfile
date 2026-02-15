@@ -1,20 +1,27 @@
-FROM node:24-alpine AS base
+FROM rust:1.93-alpine AS builder
+ENV CARGO_INCREMENTAL=0
 WORKDIR /app
+RUN apk add --no-cache \
+    musl musl-dev libc-dev build-base \
+    lld mold cmake clang clang-dev \
+    openssl-dev pkgconfig git curl
+RUN rustup target add x86_64-unknown-linux-musl
+COPY . .
+RUN cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-bot
 
-FROM base AS builder
-RUN apk add --no-cache libc6-compat
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY apps/rokbattles-bot ./apps/rokbattles-bot
-COPY datasets ./datasets
-RUN corepack enable pnpm
-RUN pnpm  install --frozen-lockfile
-RUN pnpm --filter=@rokbattles/bot... run generate:datasets
-RUN pnpm --filter=@rokbattles/bot... build
+FROM alpine:3.20 AS files
+RUN apk add --no-cache ca-certificates tzdata
+RUN addgroup --system --gid 10001 rokb && \
+    adduser  --system --uid 10001 --ingroup rokb --home /nonexistent --shell /sbin/nologin rokb
+RUN update-ca-certificates
 
-FROM base AS runner
-ENV NODE_ENV=production
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 bot
-COPY --from=builder --chown=bot:nodejs /app /app
-USER bot
-CMD ["node", "apps/rokbattles-bot/dist/index.js"]
+FROM scratch AS runner
+COPY --from=files /etc/passwd /etc/passwd
+COPY --from=files /etc/group /etc/group
+COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
+COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-bot /bin/rokbattles-bot
+USER rokb:rokb
+WORKDIR /app
+ENTRYPOINT ["/bin/rokbattles-bot"]
