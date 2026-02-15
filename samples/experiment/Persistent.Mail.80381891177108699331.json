@@ -1,0 +1,67 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 55
+        },
+        2,
+        {
+          "SubType": 130,
+          "Type": 2,
+          "Value": 48
+        },
+        3,
+        {
+          "SubType": 92,
+          "Type": 2,
+          "Value": 7
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "지도자님! 맹공을 퍼부은 끝에 X:654 Y:680에 위치한 7레벨 야만인 도시를 파괴했습니다. 이번 전투 중 총 49%의 피해를 입혀 <color=#00980e>6레벨의 </color>전리품을 획득했습니다.",
+    "position": {
+      "X": 3924.89404296875,
+      "Y": 4077.949951171875,
+      "Z": 0
+    },
+    "subParam": 1,
+    "subTitle": "야만인 도시를 파괴했습니다.",
+    "subType": 11,
+    "targetName": "레벨7",
+    "title": "야만인 도시 파괴 성공"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "80381891177108699331",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1771086993103758,
+  "title": "",
+  "type": "System",
+  "unread": true
+}
