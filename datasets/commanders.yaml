@@ -8,12 +8,12 @@ commanders:
       ko: "율리우스 카이사르"
       pl: "Juliusz Cezar"
       zh_CN: "尤利乌斯·凯撒"
-    epithet:
+    nickname:
       de: "Der ungekrönte Herrscher"
       en: "The Uncrowned Emperor"
       es: "El Emperador Sin Corona"
       fr: "L'empereur sans couronne"
-      ko: "무곤의 제왕"
+      ko: "무관의 제왕"
       pl: "Niekoronowany cesarz"
       zh_CN: "无冕之王"
     prime: false
@@ -38,7 +38,7 @@ commanders:
       ko: "손무"
       pl: "Sun Zi"
       zh_CN: "孙武"
-    epithet:
+    nickname:
       de: "Taktikgenie"
       en: "Tactical Genius"
       es: "Genio Táctico"
@@ -69,7 +69,7 @@ commanders:
       ko: "프리드리히 1세"
       pl: "Fryderyk I"
       zh_CN: "腓特烈一世"
-    epithet:
+    nickname:
       de: "Barbarossa"
       en: "Barbarossa"
       es: "Barbarroja"
@@ -99,7 +99,7 @@ commanders:
       ko: "콘스탄티누스 1세"
       pl: "Konstantyn I"
       zh_CN: "君士坦丁一世"
-    epithet:
+    nickname:
       de: "Einzigartiger Kriegsherr"
       en: "Peerless Lord"
       es: "Señor supremo"
@@ -130,7 +130,7 @@ commanders:
       ko: "이성계"
       pl: "Yi Seong-Gye"
       zh_CN: "李成桂"
-    epithet:
+    nickname:
       de: "Bogen der Revolution"
       en: "Bow of Revolution"
       es: "El Arco de la Revolución"
@@ -160,7 +160,7 @@ commanders:
       ko: "조조"
       pl: "Cao Cao"
       zh_CN: "曹操"
-    epithet:
+    nickname:
       de: "Eroberer des Chaos"
       en: "Conqueror of Chaos"
       es: "Conquistador del Caos"
@@ -191,7 +191,7 @@ commanders:
       ko: "리처드 1세"
       pl: "Ryszard I"
       zh_CN: "理查一世"
-    epithet:
+    nickname:
       de: "Das Löwenherz"
       en: "The Lionheart"
       es: "Corazón de León"
@@ -222,7 +222,7 @@ commanders:
       ko: "미나모토노 요시쓰네"
       pl: "Minamoto no Yoshitsune"
       zh_CN: "源义经"
-    epithet:
+    nickname:
       de: "Kamakuras Warlord"
       en: "Kamakura's Warlord"
       es: "El Caudillo de Kamakura"
@@ -252,7 +252,7 @@ commanders:
       ko: "카를 마르텔"
       pl: "Karol Młot"
       zh_CN: "查理·马特"
-    epithet:
+    nickname:
       de: "Der unsterbliche Hammer"
       en: "The Immortal Hammer"
       es: "El Martillo Inmortal"
@@ -282,7 +282,7 @@ commanders:
       ko: "엘 시드"
       pl: "Cyd Waleczny"
       zh_CN: "熙德"
-    epithet:
+    nickname:
       de: "Heiliger Overlord"
       en: "Holy Overlord"
       es: "Señor Sagrado"
@@ -313,7 +313,7 @@ commanders:
       ko: "헤르만"
       pl: "Hermann"
       zh_CN: "海尔曼"
-    epithet:
+    nickname:
       de: "Teutoburger Befreier"
       en: "Teutoburg's Liberator"
       es: "Libertador de Teutoburgo"
@@ -343,7 +343,7 @@ commanders:
       ko: "구스노키 마사시게"
       pl: "Kusunoki Masashige"
       zh_CN: "楠木正成"
-    epithet:
+    nickname:
       de: "Der Geist von Bushido"
       en: "Bushido Spirit"
       es: "Espíritu del Bushido"
@@ -373,7 +373,7 @@ commanders:
       ko: "스키피오"
       pl: "Scypion Afrykański"
       zh_CN: "西庇阿·阿非利加努斯"
-    epithet:
+    nickname:
       de: "Klingen der Kriegsführung"
       en: "Blades of Warfare"
       es: "Cuchillas de Guerra"
@@ -403,7 +403,7 @@ commanders:
       ko: "잔 다르크"
       pl: "Joanna d'Arc"
       zh_CN: "贞德"
-    epithet:
+    nickname:
       de: "Die Jungfrau von Orléans"
       en: "The Maid of Orléans"
       es: "La Doncella de Orleans"
@@ -433,7 +433,7 @@ commanders:
       ko: "을지문덕"
       pl: "Eulji Mundeok"
       zh_CN: "乙支文德"
-    epithet:
+    nickname:
       de: "Elegantes Auftreten"
       en: "Elegant Demeanor"
       es: "Comportamiento Elegante"
@@ -463,7 +463,7 @@ commanders:
       ko: "부디카"
       pl: "Boudika"
       zh_CN: "布狄卡"
-    epithet:
+    nickname:
       de: "Keltische Rose"
       en: "Celtic Rose"
       es: "Rosa Celta"
@@ -493,7 +493,7 @@ commanders:
       ko: "펠라기우스"
       pl: "Pelagiusz"
       zh_CN: "佩拉约"
-    epithet:
+    nickname:
       de: "Widerspenstiger Erweckungsprediger"
       en: "Unruly Revivalist"
       es: "Revivalista Rebelde"
@@ -523,7 +523,7 @@ commanders:
       ko: "수호자"
       pl: "Strażnik miasta"
       zh_CN: "守护者"
-    epithet:
+    nickname:
       de: "Schild des Volkes"
       en: "Shield of the People"
       es: "Escudo de los Pueblos"
@@ -549,10 +549,10 @@ commanders:
       en: "Markswoman"
       es: "Francotiradora"
       fr: "Tireuse d'élite"
-      ko: "명시수"
+      ko: "명사수"
       pl: "Łowczyni"
       zh_CN: "神射手"
-    epithet:
+    nickname:
       de: "Schattenschlange"
       en: "Shadow Snake"
       es: "Serpiente de Sombra"
@@ -578,10 +578,10 @@ commanders:
       en: "Centurion"
       es: "Centurión"
       fr: "Centurion"
-      ko: "명시수"
+      ko: "백부장"
       pl: "Centurion"
       zh_CN: "百夫长"
-    epithet:
+    nickname:
       de: "Adlerflügel"
       en: "Wings of the Eagle"
       es: "Alas del Águila"
@@ -607,10 +607,10 @@ commanders:
       en: "Dragon Lancer"
       es: "Lancero de Dragón"
       fr: "Lancier dragon"
-      ko: "명시수"
+      ko: "용기병"
       pl: "Smoczy lansjer"
       zh_CN: "龙骑兵"
-    epithet:
+    nickname:
       de: "Feuerlanze"
       en: "Lance in the Fire"
       es: "Lanza en el Fuego"
@@ -639,7 +639,7 @@ commanders:
       ko: "한니발 바르카"
       pl: "Hannibal"
       zh_CN: "汉尼拔·巴卡"
-    epithet:
+    nickname:
       de: "Karthagos Wächter"
       en: "Carthage's Guardian"
       es: "Guardián de Cartago"
@@ -666,10 +666,10 @@ commanders:
       en: "Cleopatra VII"
       es: "Cleopatra VII"
       fr: "Cléopâtre VII"
-      ko: "틀레오파트라 7세"
+      ko: "클레오파트라 7세"
       pl: "Kleopatra VII"
       zh_CN: "克丽奥佩特拉七世"
-    epithet:
+    nickname:
       de: "Königin von Ägypten"
       en: "Queen of Egypt"
       es: "Reina de Egipto"
@@ -700,12 +700,12 @@ commanders:
       ko: "쿠스탄차"
       pl: "Konstancja"
       zh_CN: "科斯坦察"
-    epithet:
+    nickname:
       de: "Königin von Sizilien"
       en: "Queen of Sicily"
       es: "La Reina de Sicilia"
       fr: "Reine de Sicile"
-      ko: "쿠스탄차"
+      ko: "시칠리아 여왕"
       pl: "Królowa Sycylii"
       zh_CN: "西西里女王"
     prime: false
@@ -729,7 +729,7 @@ commanders:
       ko: "가이우스 마리우스"
       pl: "Gajusz Mariusz"
       zh_CN: "盖乌斯·马略"
-    epithet:
+    nickname:
       de: "Reformer der Legionen"
       en: "Reformer of the Legions"
       es: "Reformador de las Legiones"
@@ -758,12 +758,12 @@ commanders:
       ko: "토모에 고젠"
       pl: "Tomoe Gozen"
       zh_CN: "巴御前"
-    epithet:
+    nickname:
       de: "Schönheit der Untergehenden Sonne"
       en: "Beauty of the Falling Sun"
       es: "La Belleza del Sol Poniente"
       fr: "Beauté du soleil tombant"
-      ko: "토모에 고젠"
+      ko: "낙양의 미인"
       pl: "Piękno zachodzącego słońca"
       zh_CN: "落日之美人"
     prime: false
@@ -787,7 +787,7 @@ commanders:
       ko: "랜슬롯"
       pl: "Lancelot"
       zh_CN: "兰斯洛特"
-    epithet:
+    nickname:
       de: "Ritter des Sees"
       en: "Knight of the Lake"
       es: "Caballero del Lago"
@@ -816,7 +816,7 @@ commanders:
       ko: "로하"
       pl: "Lohar"
       zh_CN: "洛哈"
-    epithet:
+    nickname:
       de: "Brüllender Barbar"
       en: "Roaring Barbarian"
       es: "Bárbaro Rugidor"
@@ -846,7 +846,7 @@ commanders:
       ko: "샤르카"
       pl: "Sárka"
       zh_CN: "萨尔卡"
-    epithet:
+    nickname:
       de: "Todesmet"
       en: "Mead of Death"
       es: "La Pócima de la Muerte"
@@ -875,7 +875,7 @@ commanders:
       ko: "벨리사리우스"
       pl: "Belizariusz"
       zh_CN: "贝利撒留"
-    epithet:
+    nickname:
       de: "Der letzte Römer"
       en: "Last of the Romans"
       es: "El último de los romanos"
@@ -905,7 +905,7 @@ commanders:
       ko: "바이바르스"
       pl: "Bajbars"
       zh_CN: "拜巴尔"
-    epithet:
+    nickname:
       de: "Vater der Eroberung"
       en: "Father of Conquest"
       es: "Padre de la conquista"
@@ -935,7 +935,7 @@ commanders:
       ko: "오스만 1세"
       pl: "Osman I"
       zh_CN: "奥斯曼一世"
-    epithet:
+    nickname:
       de: "Imperialer Pionier"
       en: "Imperial Pioneer"
       es: "Pionero imperial"
@@ -965,12 +965,12 @@ commanders:
       ko: "살라딘"
       pl: "Saladyn"
       zh_CN: "萨拉丁"
-    epithet:
+    nickname:
       de: "Al-Malik an-Nasir"
       en: "Al-Malik an-Nasir"
       es: "Al-Malik an-Nasir"
       fr: "Al-Malik an-Nasir"
-      ko: "알말리크 안나시르"
+      ko: "알 말리크 안 나시르"
       pl: "Al-Malik an-Nasir"
       zh_CN: "纳赛尔国王"
     prime: false
@@ -995,7 +995,7 @@ commanders:
       ko: "메흐메트 2세"
       pl: "Mehmed II"
       zh_CN: "穆罕默德二世"
-    epithet:
+    nickname:
       de: "Eroberer von Istanbul"
       en: "Conqueror of Istanbul"
       es: "El Conquistador de Estambul"
@@ -1022,10 +1022,10 @@ commanders:
       en: "Mulan"
       es: "Mulan"
       fr: "Mulan"
-      ko: "호목란"
+      ko: "화목란"
       pl: "Mulan"
       zh_CN: "花木兰"
-    epithet:
+    nickname:
       de: "Legendäre Heldin"
       en: "Legendary Heroine"
       es: "Heroína legendaria"
@@ -1055,12 +1055,12 @@ commanders:
       ko: "측천무후"
       pl: "Wu Zetian"
       zh_CN: "武则天"
-    epithet:
+    nickname:
       de: "Die Ewige Kaiserin"
       en: "The Eternal Empress"
       es: "La Emperatriz Eterna"
       fr: "L'impératrice éternelle"
-      ko: "천고 여세"
+      ko: "천고 여제"
       pl: "Wieczna Cesarzowa"
       zh_CN: "千古女帝"
     prime: false
@@ -1086,7 +1086,7 @@ commanders:
       ko: "칭기즈칸"
       pl: "Czyngis-chan"
       zh_CN: "孛儿只斤·铁木真"
-    epithet:
+    nickname:
       de: "Erster Großkhan"
       en: "First Khagan"
       es: "Primer Khagan"
@@ -1117,7 +1117,7 @@ commanders:
       ko: "샤를마뉴"
       pl: "Karol Wielki"
       zh_CN: "查理曼"
-    epithet:
+    nickname:
       de: "Pater Europae (Vater Europas)"
       en: "Pater Europae"
       es: "Pater Europae"
@@ -1148,7 +1148,7 @@ commanders:
       ko: "알렉산더 대왕"
       pl: "Aleksander Wielki"
       zh_CN: "亚历山大大帝"
-    epithet:
+    nickname:
       de: "Welteroberer"
       en: "World Conqueror"
       es: "Conquistador del Mundo"
@@ -1178,7 +1178,7 @@ commanders:
       ko: "애설플레드"
       pl: "Ethelfleda"
       zh_CN: "埃塞尔弗莱德"
-    epithet:
+    nickname:
       de: "Dame von Mercia"
       en: "Lady of the Mercians"
       es: "Señora de Mercia"
@@ -1209,7 +1209,7 @@ commanders:
       ko: "토미리스"
       pl: "Tomyris"
       zh_CN: "托米丽司"
-    epithet:
+    nickname:
       de: "Königin der Massageten"
       en: "Queen of the Massagetae"
       es: "Reina de los masagetas"
@@ -1240,7 +1240,7 @@ commanders:
       ko: "에드워드 우드스톡"
       pl: "Edward Czarny Książę"
       zh_CN: "爱德华"
-    epithet:
+    nickname:
       de: "Der schwarze Prinz"
       en: "The Black Prince"
       es: "El Príncipe Negro"
@@ -1271,7 +1271,7 @@ commanders:
       ko: "선덕여왕"
       pl: "Seondeok"
       zh_CN: "善德女王"
-    epithet:
+    nickname:
       de: "Königin von Silla"
       en: "Queen of Silla"
       es: "Reina de Silla"
@@ -1302,7 +1302,7 @@ commanders:
       ko: "아틸라"
       pl: "Attyla"
       zh_CN: "阿提拉"
-    epithet:
+    nickname:
       de: "Geißel Gottes"
       en: "The Scourge of God"
       es: "El Azote de Dios"
@@ -1333,7 +1333,7 @@ commanders:
       ko: "다케다 신겐"
       pl: "Takeda Shingen"
       zh_CN: "武田信玄"
-    epithet:
+    nickname:
       de: "Tiger von Kai"
       en: "The Tiger of Kai"
       es: "El Tigre de Kai"
@@ -1364,7 +1364,7 @@ commanders:
       ko: "이시다 미츠나리"
       pl: "Ishida Mitsunari"
       zh_CN: "石田三成"
-    epithet:
+    nickname:
       de: "Tragischer Held von Azuchi-Momoyama"
       en: "Tragic Hero of Azuchi-Momoyama"
       es: "Héroe trágico de Azuchi-Momoyama"
@@ -1395,7 +1395,7 @@ commanders:
       ko: "테오도라"
       pl: "Teodora"
       zh_CN: "狄奥多拉"
-    epithet:
+    nickname:
       de: "Die Gabe des Himmels"
       en: "Heaven's Bounty"
       es: "Recompensa del paraíso"
@@ -1425,7 +1425,7 @@ commanders:
       ko: "관우"
       pl: "Guan Yu"
       zh_CN: "关羽"
-    epithet:
+    nickname:
       de: "Herr vom Prachtvollen Barte"
       en: "Lord of the Magnificent Beard"
       es: "Señor de la barba magnífica"
@@ -1456,7 +1456,7 @@ commanders:
       ko: "레오니다스 1세"
       pl: "Leonidas I"
       zh_CN: "列奥尼达一世"
-    epithet:
+    nickname:
       de: "Unbezwingbares Kraftpaket"
       en: "Indomitable Powerhouse"
       es: "Potencia indomable"
@@ -1487,7 +1487,7 @@ commanders:
       ko: "람세스 2세"
       pl: "Ramzes II"
       zh_CN: "拉美西斯二世"
-    epithet:
+    nickname:
       de: "Von den Göttern begünstigt"
       en: "Favored by Gods"
       es: "Con el favor de los dioses"
@@ -1517,7 +1517,7 @@ commanders:
       ko: "아르테미시아 1세"
       pl: "Artemizja I"
       zh_CN: "阿尔特米西亚一世"
-    epithet:
+    nickname:
       de: "Königin von Caria"
       en: "Queen of Caria"
       es: "Reina de Caria"
@@ -1548,7 +1548,7 @@ commanders:
       ko: "카일라"
       pl: "Keira"
       zh_CN: "凯拉"
-    epithet:
+    nickname:
       de: "Das rote Chamäleon"
       en: "The Red Chameleon"
       es: "El Camaleón Rojo"
@@ -1578,7 +1578,7 @@ commanders:
       ko: "이순신"
       pl: "Yi Sun-sin"
       zh_CN: "李舜臣"
-    epithet:
+    nickname:
       de: "Herzog der Treue und der Kriegsführung"
       en: "Duke of Loyalty and Warfare"
       es: "Duque de la lealtad y la guerra"
@@ -1609,7 +1609,7 @@ commanders:
       ko: "찬드라굽타"
       pl: "Chandragupta Maurya"
       zh_CN: "旃陀罗笈多"
-    epithet:
+    nickname:
       de: "Herr der Pfaue"
       en: "Lord of the Peacocks"
       es: "Señor de los Pavos Reales"
@@ -1641,7 +1641,7 @@ commanders:
       ko: "윌리엄 1세"
       pl: "William I"
       zh_CN: "威廉一世"
-    epithet:
+    nickname:
       de: "Der Eroberer"
       en: "The Conqueror"
       es: "El Conquistador"
@@ -1671,7 +1671,7 @@ commanders:
       ko: "마틸다 1세"
       pl: "Matylda Flandryjska"
       zh_CN: "玛蒂尔达一世"
-    epithet:
+    nickname:
       de: "Regierende Herzogin der Normandie"
       en: "Duchess Regent of Normandy"
       es: "Duquesa y regente de Normandía"
@@ -1702,7 +1702,7 @@ commanders:
       ko: "하랄 3세"
       pl: "Harald III Srogi"
       zh_CN: "哈拉尔三世"
-    epithet:
+    nickname:
       de: "König von Norwegen"
       en: "Hardrada"
       es: "Hardrada"
@@ -1733,7 +1733,7 @@ commanders:
       ko: "제노비아"
       pl: "Zenobia"
       zh_CN: "芝诺比娅"
-    epithet:
+    nickname:
       de: "Königin von Palmyra"
       en: "Queen of Palmyra"
       es: "Emperatriz de Palmira"
@@ -1763,7 +1763,7 @@ commanders:
       ko: "여포"
       pl: "Lu Bu"
       zh_CN: "吕布"
-    epithet:
+    nickname:
       de: "Der mächtige Dämonengott"
       en: "The Powerful Demon God"
       es: "El Poderoso Dios Demonio"
@@ -1793,7 +1793,7 @@ commanders:
       ko: "초선"
       pl: "Diaochan"
       zh_CN: "貂蝉"
-    epithet:
+    nickname:
       de: "Die bezaubernde Tänzerin"
       en: "The Intriguing Dancer"
       es: "La Bailarina Seductora"
@@ -1823,7 +1823,7 @@ commanders:
       ko: "키루스 대제"
       pl: "Cyrus Wielki"
       zh_CN: "居鲁士大帝"
-    epithet:
+    nickname:
       de: "Gründer des Perserreichs"
       en: "Founder of the Persian Empire"
       es: "Fundador del Imperio persa"
@@ -1854,7 +1854,7 @@ commanders:
       ko: "네부카드네자르 2세"
       pl: "Nabuchodonozor II"
       zh_CN: "尼布甲尼撒二世"
-    epithet:
+    nickname:
       de: "Der Baumeister Babylons"
       en: "Restorer of Babylon"
       es: "Restaurador de Babilonia"
@@ -1884,12 +1884,12 @@ commanders:
       ko: "몬테수마 1세"
       pl: "Montezuma I"
       zh_CN: "蒙特祖马一世"
-    epithet:
+    nickname:
       de: "Aztekischer Adler"
       en: "Aztec Eagle"
       es: "Águila azteca"
       fr: "L'Aigle aztèque"
-      ko: "아주텍의 독수리"
+      ko: "아즈텍의 독수리"
       pl: "Orzeł Azteków"
       zh_CN: "阿兹特克雄鹰"
     prime: false
@@ -1914,7 +1914,7 @@ commanders:
       ko: "트라야누스"
       pl: "Trajan"
       zh_CN: "图拉真"
-    epithet:
+    nickname:
       de: "Optimus Princeps"
       en: "Optimus Princeps"
       es: "Optimus Princeps"
@@ -1944,7 +1944,7 @@ commanders:
       ko: "야드비가"
       pl: "Jadwiga"
       zh_CN: "雅德维加"
-    epithet:
+    nickname:
       de: "Heilige Herrscherin"
       en: "Holy Sovereign"
       es: "Santa soberana"
@@ -1975,7 +1975,7 @@ commanders:
       ko: "항우"
       pl: "Xiang Yu"
       zh_CN: "项羽"
-    epithet:
+    nickname:
       de: "König des Westlichen Chu"
       en: "King of Western Chu"
       es: "Rey de Chu occidental"
@@ -2006,7 +2006,7 @@ commanders:
       ko: "비에른"
       pl: "Björn Żelaznoboki"
       zh_CN: "比约恩"
-    epithet:
+    nickname:
       de: "König des Kattegats"
       en: "King of Kattegat"
       es: "Rey de Kattegat"
@@ -2036,7 +2036,7 @@ commanders:
       ko: "라그나르 로드브로크"
       pl: "Ragnar Lodbrok"
       zh_CN: "朗纳尔·洛德布罗克"
-    epithet:
+    nickname:
       de: "Legende des Nordens"
       en: "Legend of the North"
       es: "Leyenda nórdica"
@@ -2066,7 +2066,7 @@ commanders:
       ko: "척준경"
       pl: "Cheok Jun-gyeong"
       zh_CN: "拓俊京"
-    epithet:
+    nickname:
       de: "Minister-Beschützer"
       en: "Minister Protector"
       es: "Ministro protector"
@@ -2096,7 +2096,7 @@ commanders:
       ko: "파칼 2세"
       pl: "Kʼinich Janaabʼ Pakal"
       zh_CN: "巴加尔二世"
-    epithet:
+    nickname:
       de: "Sonne des Ewigen Ruhms"
       en: "Sun of Eternal Glory"
       es: "Sol de la gloria eterna"
@@ -2127,7 +2127,7 @@ commanders:
       ko: "길가메시"
       pl: "Gilgamesz"
       zh_CN: "吉尔伽美什"
-    epithet:
+    nickname:
       de: "Zorn von Ishtar"
       en: "Wrath of Ishtar"
       es: "Furia de Ishtar"
@@ -2157,7 +2157,7 @@ commanders:
       ko: "아마니토레"
       pl: "Amanitore"
       zh_CN: "阿曼尼托尔"
-    epithet:
+    nickname:
       de: "Nubische Kandake"
       en: "Nubian Kandake"
       es: "Kandake nubia"
@@ -2188,7 +2188,7 @@ commanders:
       ko: "타마르 여왕"
       pl: "Tamara – królowa Gruzji"
       zh_CN: "塔玛尔女王"
-    epithet:
+    nickname:
       de: "Der georgische Wille"
       en: "The Georgian Will"
       es: "La voluntad georgiana"
@@ -2218,7 +2218,7 @@ commanders:
       ko: "혼다 타다카츠"
       pl: "Honda Tadakatsu"
       zh_CN: "本多忠胜"
-    epithet:
+    nickname:
       de: "Tokugawas Hirsch"
       en: "The Deer of Tokugawa"
       es: "El Ciervo de Tokugawa"
@@ -2249,7 +2249,7 @@ commanders:
       ko: "쉴레이만 1세"
       pl: "Sulejman Wspaniały"
       zh_CN: "苏莱曼一世"
-    epithet:
+    nickname:
       de: "Kanuni"
       en: "Kanuni"
       es: "Kanuni"
@@ -2277,10 +2277,10 @@ commanders:
       en: "Bertrand du Guesclin"
       es: "Bertrand du Guesclin"
       fr: "Bertrand du Guesclin"
-      ko: "베르트랑 뒤게클랭"
+      ko: "베르트랑 뒤 게클랭"
       pl: "Bertrand du Guesclin"
       zh_CN: "贝特朗·杜·盖克兰"
-    epithet:
+    nickname:
       de: "Der Adler der Bretagne"
       en: "The Eagle of Brittany"
       es: "El Águila de Bretaña"
@@ -2311,7 +2311,7 @@ commanders:
       ko: "알렉산드르 넵스키"
       pl: "Aleksander Newski"
       zh_CN: "亚历山大·涅夫斯基"
-    epithet:
+    nickname:
       de: "Der Held der Newa"
       en: "The Hero of Neva River"
       es: "El Héroe del Río Nevá"
@@ -2342,7 +2342,7 @@ commanders:
       ko: "아에티우스"
       pl: "Aecjusz Flawiusz"
       zh_CN: "埃提乌斯"
-    epithet:
+    nickname:
       de: "Patrizier Roms"
       en: "Patrician of Rome"
       es: "Patricio de Roma"
@@ -2373,7 +2373,7 @@ commanders:
       ko: "스키피오 아프리카누스"
       pl: "Scypion Afrykański"
       zh_CN: "西庇阿·阿非利加努斯"
-    epithet:
+    nickname:
       de: "Held von Zama"
       en: "Hero of Zama"
       es: "Héroe de Zama"
@@ -2404,7 +2404,7 @@ commanders:
       ko: "투트모세 3세"
       pl: "Totmes III"
       zh_CN: "图特摩斯三世"
-    epithet:
+    nickname:
       de: "Schützling von Thoth"
       en: "Beloved of Thoth"
       es: "Favorito de Thot"
@@ -2435,7 +2435,7 @@ commanders:
       ko: "임호텝"
       pl: "Imhotep"
       zh_CN: "伊姆霍特普"
-    epithet:
+    nickname:
       de: "Mann des Friedens"
       en: "Man of Peace"
       es: "Hombre de paz"
@@ -2465,7 +2465,7 @@ commanders:
       ko: "헨리 5세"
       pl: "Henryk V"
       zh_CN: "亨利五世"
-    epithet:
+    nickname:
       de: "König der Lancaster"
       en: "Lancastrian King"
       es: "Rey lancastriano"
@@ -2496,7 +2496,7 @@ commanders:
       ko: "부디카"
       pl: "Boudika"
       zh_CN: "布狄卡"
-    epithet:
+    nickname:
       de: "Königin der Icener"
       en: "Queen of the Iceni"
       es: "Reina de los icenos"
@@ -2527,7 +2527,7 @@ commanders:
       ko: "얀 지슈카"
       pl: "Jan Žižka"
       zh_CN: "扬·杰式卡"
-    epithet:
+    nickname:
       de: "Žižka vom Kelch"
       en: "Žižka of the Chalice"
       es: "Žižka del Cáliz"
@@ -2557,12 +2557,12 @@ commanders:
       ko: "잔 다르크"
       pl: "Joanna d’Arc"
       zh_CN: "贞德"
-    epithet:
+    nickname:
       de: "Jungfrau von Orléans"
       en: "Virgin Warrior"
       es: "Virgen Guerrera"
       fr: "La Pucelle"
-      ko: "잔 다르크"
+      ko: "아르크의 성녀"
       pl: "Wojownicza dziewica"
       zh_CN: "天佑圣女"
     prime: true
@@ -2588,7 +2588,7 @@ commanders:
       ko: "타리크 이븐 지야드"
       pl: "Tarik ibn Ziyad"
       zh_CN: "塔里克·伊本·齐亚德"
-    epithet:
+    nickname:
       de: "Statthalter von al-Andalus"
       en: "Governor of al-Andalus"
       es: "Gobernador de al-Ándalus"
@@ -2618,7 +2618,7 @@ commanders:
       ko: "사르곤 1세"
       pl: "Sargon Wielki"
       zh_CN: "萨尔贡一世"
-    epithet:
+    nickname:
       de: "Kaiser des Reiches von Akkad"
       en: "Emperor of Akkad"
       es: "Emperador de Acadia"
@@ -2649,7 +2649,7 @@ commanders:
       ko: "마르그레테 1세"
       pl: "Małgorzata I"
       zh_CN: "玛格丽特一世"
-    epithet:
+    nickname:
       de: "Obere Königin des Nordens"
       en: "High Queen of the North"
       es: "Reina Suprema del Norte"
@@ -2680,7 +2680,7 @@ commanders:
       ko: "바부르"
       pl: "Babur"
       zh_CN: "巴布尔"
-    epithet:
+    nickname:
       de: "Vorfahre der Mogule"
       en: "Forefather of the Mughals"
       es: "Antecesor de los Mogoles"
@@ -2711,12 +2711,12 @@ commanders:
       ko: "플라비우스 헤라클리우스"
       pl: "Herakliusz"
       zh_CN: "弗拉维乌斯·希拉克略"
-    epithet:
+    nickname:
       de: "Der erste Basileus"
       en: "The First Basileus"
       es: "El Primer Basileus"
       fr: "Premier Basileus"
-      ko: "비잔움 혁신왕"
+      ko: "비잔티움 혁신왕"
       pl: "Pierwszy basileus"
       zh_CN: "拜占庭革新之王"
     prime: false
@@ -2742,7 +2742,7 @@ commanders:
       ko: "디도"
       pl: "Dydona"
       zh_CN: "狄多"
-    epithet:
+    nickname:
       de: "Erste Königin Karthagos"
       en: "First Queen of Carthage"
       es: "Primera reina de Cartago"
@@ -2772,7 +2772,7 @@ commanders:
       ko: "제갈량"
       pl: "Zhuge Liang"
       zh_CN: "诸葛亮"
-    epithet:
+    nickname:
       de: "Kauernder Drache"
       en: "Crouching Dragon"
       es: "Dragón agazapado"
@@ -2803,7 +2803,7 @@ commanders:
       ko: "피로스"
       pl: "Pyrrus"
       zh_CN: "皮洛士"
-    epithet:
+    nickname:
       de: "König von Epirus"
       en: "King of Epirus"
       es: "Rey de Epiro"
@@ -2834,7 +2834,7 @@ commanders:
       ko: "페리클레스"
       pl: "Perykles"
       zh_CN: "伯里克利"
-    epithet:
+    nickname:
       de: "Vater Athens"
       en: "Father of Athens"
       es: "Padre de Atenas"
@@ -2864,7 +2864,7 @@ commanders:
       ko: "곽거병"
       pl: "Huo Qubing"
       zh_CN: "霍去病"
-    epithet:
+    nickname:
       de: "Marquis Guanjun"
       en: "Marquis Guanjun"
       es: "Marqués de Guanjun"
@@ -2894,7 +2894,7 @@ commanders:
       ko: "유스티니아누스 1세"
       pl: "Justynian I"
       zh_CN: "查士丁尼一世"
-    epithet:
+    nickname:
       de: "Allzeit wacher Kaiser"
       en: "Unsleeping Emperor"
       es: "Emperador que no duerme"
@@ -2924,7 +2924,7 @@ commanders:
       ko: "고르곤"
       pl: "Gorgo"
       zh_CN: "戈尔戈"
-    epithet:
+    nickname:
       de: "Lakonischer Adler"
       en: "Laconian Eagle"
       es: "Águila de Laconia"
@@ -2955,7 +2955,7 @@ commanders:
       ko: "유철"
       pl: "Liu Che"
       zh_CN: "刘彻"
-    epithet:
+    nickname:
       de: "Kaiser Wu von Han"
       en: "Emperor Wu of Han"
       es: "Emperador Wu de Han"
@@ -2986,7 +2986,7 @@ commanders:
       ko: "아슈르바니팔"
       pl: "Aszurbanipal"
       zh_CN: "亚述巴尼拔"
-    epithet:
+    nickname:
       de: "König von Assyrien"
       en: "King of Assyria"
       es: "Rey de Asiria"
@@ -3017,7 +3017,7 @@ commanders:
       ko: "헤르만"
       pl: "Hermann"
       zh_CN: "海尔曼"
-    epithet:
+    nickname:
       de: "Teutoburger Wolf"
       en: "Wolf of Teutoburg"
       es: "Lobo de Teutoburgo"
@@ -3048,7 +3048,7 @@ commanders:
       ko: "라푸라푸"
       pl: "Lapu-Lapu"
       zh_CN: "拉普拉普"
-    epithet:
+    nickname:
       de: "Der Uferstein-Schild"
       en: "The Shorestone Shield"
       es: "Escudo de Piedra Costero"
@@ -3078,7 +3078,7 @@ commanders:
       ko: "곤살로 페르난데스 데 코르도바"
       pl: "Gonzalo de Córdoba"
       zh_CN: "贡萨洛·德·科尔多瓦"
-    epithet:
+    nickname:
       de: "Vater der Tercios"
       en: "Father of the Tercio"
       es: "Padre de los Tercios"
@@ -3109,7 +3109,7 @@ commanders:
       ko: "가자 마다"
       pl: "Gajah Mada"
       zh_CN: "加查·马达"
-    epithet:
+    nickname:
       de: "Jirnnodhara"
       en: "Jirnnodhara"
       es: "Jirnnodhara"
@@ -3139,7 +3139,7 @@ commanders:
       ko: "엘레오노르 다키텐"
       pl: "Eleonora Akwitańska"
       zh_CN: "阿基坦的埃莉诺"
-    epithet:
+    nickname:
       de: "Herzogin der Wildblumen"
       en: "The Wildflower Duchess"
       es: "Duquesa de las Flores Silvestres"
@@ -3170,7 +3170,7 @@ commanders:
       ko: "벨리사리우스"
       pl: "Belizariusz"
       zh_CN: "贝利撒留"
-    epithet:
+    nickname:
       de: "Renovator Imperii"
       en: "Renovator Imperii"
       es: "Renovator Imperii"
@@ -3201,7 +3201,7 @@ commanders:
       ko: "윌리엄 월리스"
       pl: "William Wallace"
       zh_CN: "威廉·华莱士"
-    epithet:
+    nickname:
       de: "Wächter Schottlands"
       en: "Guardian of Scotland"
       es: "Guardián de Escocia"
@@ -3232,7 +3232,7 @@ commanders:
       ko: "샤쟈르 알두르"
       pl: "Szadżar al-Durr"
       zh_CN: "舍哲尔·杜尔"
-    epithet:
+    nickname:
       de: "Perlenbaum"
       en: "Tree of Pearls"
       es: "Árbol de Perlas"
@@ -3263,7 +3263,7 @@ commanders:
       ko: "최영"
       pl: "Choe Yeong"
       zh_CN: "崔莹"
-    epithet:
+    nickname:
       de: "Fürst Mumin"
       en: "Lord Mumin"
       es: "Señor Mumin"
@@ -3294,7 +3294,7 @@ commanders:
       ko: "스키피오 아이밀리아누스"
       pl: "Scypion Młodszy"
       zh_CN: "西庇阿·埃米利安努斯"
-    epithet:
+    nickname:
       de: "Eroberer Karthagos"
       en: "Conqueror of Carthage"
       es: "Conquistador de Cartago"
@@ -3325,7 +3325,7 @@ commanders:
       ko: "라그나르 로드브로크"
       pl: "Ragnar Lodbrok"
       zh_CN: "朗纳尔·洛德布罗克"
-    epithet:
+    nickname:
       de: "Odins Macht"
       en: "Odin's Might"
       es: "Poder de Odín"
@@ -3355,7 +3355,7 @@ commanders:
       ko: "필리포스 2세"
       pl: "Filip II"
       zh_CN: "腓力二世"
-    epithet:
+    nickname:
       de: "Stern der Argeaden"
       en: "Star of the Argeadai"
       es: "Estrella de los Argéadas"
@@ -3386,7 +3386,7 @@ commanders:
       ko: "슈테판 3세"
       pl: "Stefan III"
       zh_CN: "斯特凡三世"
-    epithet:
+    nickname:
       de: "Der Große"
       en: "Cel Mare"
       es: "El Grande"
@@ -3417,7 +3417,7 @@ commanders:
       ko: "후녀디 야노시"
       pl: "János Hunyady"
       zh_CN: "匈雅提·亚诺什"
-    epithet:
+    nickname:
       de: "Athleta Christi"
       en: "Athleta Christi"
       es: "Athleta Christi"
@@ -3444,10 +3444,10 @@ commanders:
       en: "Siyaj K'ak'"
       es: "Siyaj K'ak'"
       fr: "Siyaj K'ak'"
-      ko: "시야칵"
+      ko: "시야 칵"
       pl: "Siyaj K’ak’"
       zh_CN: "西亚·卡克"
-    epithet:
+    nickname:
       de: "Feuer wird geboren"
       en: "Fire is Born"
       es: "Creador del fuego"
@@ -3478,7 +3478,7 @@ commanders:
       ko: "왁 차닐 아하우"
       pl: "Wak Chanil Ajaw"
       zh_CN: "瓦克·查尼尔·阿豪"
-    epithet:
+    nickname:
       de: "Lady Six Sky"
       en: "Lady Six Sky"
       es: "Lady Six Sky"
@@ -3508,7 +3508,7 @@ commanders:
       ko: "도쿠가와 이에야스"
       pl: "Ieyasu Tokugawa"
       zh_CN: "德川家康"
-    epithet:
+    nickname:
       de: "Tōshō Daigongen"
       en: "Tōshō Daigongen"
       es: "Tōshō Daigongen"
@@ -3539,12 +3539,12 @@ commanders:
       ko: "샤푸르 1세"
       pl: "Szapur I"
       zh_CN: "沙普尔一世"
-    epithet:
+    nickname:
       de: "Shahanshah"
       en: "Shahanshah"
       es: "Sahansah"
       fr: "Shahanshah"
-      ko: "진주 나무"
+      ko: "샤한샤의 여명"
       pl: "Szachinszach"
       zh_CN: "萨珊晨辉"
     skills:
@@ -3568,7 +3568,7 @@ commanders:
       ko: "영정"
       pl: "Qin Shi Huang"
       zh_CN: "嬴政"
-    epithet:
+    nickname:
       de: "Der erste Kaiser"
       en: "The First Emperor"
       es: "El primer emperador"
@@ -3598,7 +3598,7 @@ commanders:
       ko: "마차시 1세"
       pl: "Maciej I"
       zh_CN: "马加什一世"
-    epithet:
+    nickname:
       de: "Corvinus"
       en: "Corvinus"
       es: "Corvino"
@@ -3628,7 +3628,7 @@ commanders:
       ko: "카트린 드 메디시스"
       pl: "Katarzyna Medycejska"
       zh_CN: "凯瑟琳·德·美第奇"
-    epithet:
+    nickname:
       de: "Schattenkönigin"
       en: "Shadow Queen"
       es: "Reina Negra"
@@ -3658,12 +3658,12 @@ commanders:
       ko: "나르세스"
       pl: "Narses"
       zh_CN: "纳尔塞斯"
-    epithet:
+    nickname:
       de: "Großkammerherr"
       en: "Grand Chamberlain"
       es: "Gran Chambelán"
       fr: "Grand chambellan"
-      ko: "제국의 실에"
+      ko: "제국의 실세"
       pl: "Wielki Szambelan"
       zh_CN: "帝国权臣"
     prime: false
@@ -3689,7 +3689,7 @@ commanders:
       ko: "수부타이"
       pl: "Subedej"
       zh_CN: "速不台"
-    epithet:
+    nickname:
       de: "Schwert des Khans"
       en: "Sword of the Khan"
       es: "Espada del Khan"
@@ -3717,10 +3717,10 @@ commanders:
       en: "Arthur Pendragon"
       es: "Arturo Pendragon"
       fr: "Arthur Pendragon"
-      ko: "아서펜드래곤"
+      ko: "아서 펜드래곤"
       pl: "Artur Pendragon"
       zh_CN: "亚瑟·潘德拉贡"
-    epithet:
+    nickname:
       de: "Eins. und zuk. König"
       en: "Once and Future King"
       es: "Rey pasado y futuro"
@@ -3751,12 +3751,12 @@ commanders:
       ko: "백기"
       pl: "Bai Qi"
       zh_CN: "白起"
-    epithet:
+    nickname:
       de: "Gottheit des Todes"
       en: "Deity of Death"
       es: "Dios de la Muerte"
       fr: "Divinité de la mort"
-      ko: "삭기"
+      ko: "살신"
       pl: "Bóstwo Śmierci"
       zh_CN: "杀神"
     prime: false
@@ -3782,7 +3782,7 @@ commanders:
       ko: "아폰수 드 알부케르크"
       pl: "Afonso de Albuquerque"
       zh_CN: "阿方索·德·阿尔布克尔克"
-    epithet:
+    nickname:
       de: "Cäsar des Ostens"
       en: "Caesar of the East"
       es: "César del Oriente"
@@ -3812,7 +3812,7 @@ commanders:
       ko: "아르키메데스"
       pl: "Archimedes"
       zh_CN: "阿基米德"
-    epithet:
+    nickname:
       de: "Vater der Mathematik"
       en: "Father of Mathematics"
       es: "Padre de las matemáticas"
@@ -3843,7 +3843,7 @@ commanders:
       ko: "메리 1세"
       pl: "Maria I"
       zh_CN: "玛丽一世"
-    epithet:
+    nickname:
       de: "Bloody Mary"
       en: "Bloody Mary"
       es: "María la Sangrienta"
@@ -3873,7 +3873,7 @@ commanders:
       ko: "카지미에시"
       pl: "Kazimierz III"
       zh_CN: "卡西米日"
-    epithet:
+    nickname:
       de: "Wielki Król"
       en: "Wielki Król"
       es: "El Grande"
@@ -3904,7 +3904,7 @@ commanders:
       ko: "피피누스 3세"
       pl: "Pepin III"
       zh_CN: "丕平三世"
-    epithet:
+    nickname:
       de: "Le Bref"
       en: "Le Bref"
       es: "El Breve"
@@ -3935,7 +3935,7 @@ commanders:
       ko: "아킬레우스"
       pl: "Achilles"
       zh_CN: "阿喀琉斯"
-    epithet:
+    nickname:
       de: "Flinkfüßig"
       en: "Swift-Footed"
       es: "Pies ligeros"
@@ -3965,7 +3965,7 @@ commanders:
       ko: "헥토르"
       pl: "Hektor"
       zh_CN: "赫克托尔"
-    epithet:
+    nickname:
       de: "Prinz mit glänzendem Helm"
       en: "Prince of the Gleaming Helm"
       es: "Príncipe del casco brillante"
@@ -3996,7 +3996,7 @@ commanders:
       ko: "다비트 4세"
       pl: "Dawid IV"
       zh_CN: "大卫四世"
-    epithet:
+    nickname:
       de: "Der Baumeister"
       en: "The Builder"
       es: "El Constructor"
@@ -4027,12 +4027,12 @@ commanders:
       ko: "강감찬"
       pl: "Gang Gam-Chan"
       zh_CN: "姜邯赞"
-    epithet:
+    nickname:
       de: "Schwert des Fallenden Sterns"
       en: "Sword of the Falling Star"
       es: "Espada de la Estrella Fugaz"
       fr: "Épée de l'étoile filante"
-      ko: "추풍협모안국봉상공신"
+      ko: "추충협모안국봉상공신"
       pl: "Miecz Spadającej Gwiazdy"
       zh_CN: "落星将相"
     prime: false
@@ -4057,7 +4057,7 @@ commanders:
       ko: "손무"
       pl: "Sun Zi"
       zh_CN: "孙武"
-    epithet:
+    nickname:
       de: "Der Künstler des Krieges"
       en: "Artist of War"
       es: "Artista de guerra"
@@ -4087,12 +4087,12 @@ commanders:
       ko: "이바르"
       pl: "Ivar"
       zh_CN: "伊瓦尔"
-    epithet:
+    nickname:
       de: "Der Knochenlose"
       en: "The Boneless"
       es: "El Deshuesado"
       fr: "Le Désossé"
-      ko: "뼈 벖는 자"
+      ko: "뼈 없는 자"
       pl: "Bez Kości"
       zh_CN: "无骨者"
     prime: false
