@@ -21,14 +21,16 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
     ? (getCommanderName(primaryId) ?? String(primaryId))
     : unknownLabel;
   const primarySrc = isValidCommanderId(primaryId)
-    ? `/game/commander/${primaryId}.png`
-    : "/game/ui/commander_unknown.png";
+    ? `https://cdn.rokbattles.com/game/commander/${primaryId}.png`
+    : "https://cdn.rokbattles.com/game/ui/commander_unknown.png";
 
   const hasSecondary = isValidCommanderId(secondaryId);
   const secondaryName = hasSecondary
     ? (getCommanderName(secondaryId) ?? String(secondaryId))
     : null;
-  const secondarySrc = hasSecondary ? `/game/commander/${secondaryId}.png` : null;
+  const secondarySrc = hasSecondary
+    ? `https://cdn.rokbattles.com/game/commander/${secondaryId}.png`
+    : null;
 
   return (
     <div className="flex flex-col">

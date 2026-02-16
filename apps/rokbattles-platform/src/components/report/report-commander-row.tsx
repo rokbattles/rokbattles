@@ -21,7 +21,7 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   const formationName = getFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
   const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
-  const commanderIconSrc = `/game/commander/${commanderId}.png`;
+  const commanderIconSrc = `https://cdn.rokbattles.com/game/commander/${commanderId}.png`;
   const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });
   const formationLabel =
     typeof formation === "number"
