@@ -1,0 +1,78 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "PIC": "img_icon_item_48",
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 60
+        },
+        2,
+        {
+          "PIC": "img_icon_item_4",
+          "SubType": 130,
+          "Type": 2,
+          "Value": 51
+        },
+        3,
+        {
+          "PIC": "img_icon_item_11",
+          "SubType": 92,
+          "Type": 2,
+          "Value": 8
+        },
+        4,
+        {
+          "PIC": "img_icon_item_3",
+          "SubType": 182,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Congratulations! The Level 8 barbarian fort at X:558 Y:663 has been destroyed by your mighty onslaught.\n\nYou dealt 49% of the total damage and as a result have received the following <color=#00980e>Tier 6</color> trophies:",
+    "position": {
+      "X": 3349.89990234375,
+      "Y": 3979.39990234375,
+      "Z": 0
+    },
+    "subParam": 1,
+    "subTitle": "You Destroyed a Barbarian Fort",
+    "subType": 11,
+    "targetName": "Level8",
+    "title": "Barbarian Fort Successfully Destroyed"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "87924559177133857831",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1771338578845824,
+  "title": "",
+  "type": "System",
+  "unread": false
+}
