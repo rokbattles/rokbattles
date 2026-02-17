@@ -51,20 +51,32 @@ function parseNumeric(value: unknown): number | null {
   return Number.isFinite(numeric) ? numeric : null;
 }
 
-function isKvkBarbarian(npcType: number | null, npcBtype: number | null) {
+function isBarbarian(npcType: number | null, npcBtype: number | null) {
   if (npcType == null || npcBtype == null) {
     return false;
   }
 
-  return npcBtype === 1 && npcType >= 401 && npcType <= 415;
+  if (npcBtype !== 1) {
+    return false;
+  }
+
+  const isBarb = npcType >= 1 && npcType <= 40;
+  const isKvkBarb = npcType >= 401 && npcType <= 415;
+  return isBarb || isKvkBarb;
 }
 
-function isKvkBarbarianFort(npcType: number | null, npcBtype: number | null) {
+function isBarbarianFort(npcType: number | null, npcBtype: number | null) {
   if (npcType == null || npcBtype == null) {
     return false;
   }
 
-  return npcBtype === 2 && npcType >= 121 && npcType <= 125;
+  if (npcBtype !== 2) {
+    return false;
+  }
+
+  const isBarbFort = npcType >= 101 && npcType <= 110;
+  const isKvkBarbFort = npcType >= 121 && npcType <= 125;
+  return isBarbFort || isKvkBarbFort;
 }
 
 function buildMatchStage(governorId: number, startMillis: number, endMillis: number): Document {
@@ -161,20 +173,20 @@ export async function GET(
 
         const npcBtype = parseNumeric(opponent.npc?.b_type);
         const npcType = parseNumeric(opponent.npc?.type);
-        const isKvkBarb = isKvkBarbarian(npcType, npcBtype);
-        const isKvkFort = isKvkBarbarianFort(npcType, npcBtype);
+        const isBarb = isBarbarian(npcType, npcBtype);
+        const isFort = isBarbarianFort(npcType, npcBtype);
 
         totalReports += 1;
 
-        if (isKvkBarb) {
+        if (isBarb) {
           barbKills += 1;
-        } else if (isKvkFort) {
+        } else if (isFort) {
           barbFortKills += 1;
         } else {
           otherNpcKills += 1;
         }
 
-        if (!isKvkBarb && !isKvkFort) {
+        if (!isBarb && !isFort) {
           continue;
         }
 
