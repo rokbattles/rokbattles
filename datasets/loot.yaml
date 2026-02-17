@@ -1,7 +1,6 @@
 loot:
   # type
   # sub type
-
   1:
     9:
       name:
@@ -130,6 +129,27 @@ loot:
         zh_CN: "黄金钥匙"
         zh_TW: "黃金鑰匙"
 
+    58:
+      name:
+        ar: "تسريع 5 دقائق"
+        de: "5 Minuten Beschleunigung"
+        en: "5-Minute Speedup"
+        es: "5 minuto de Aceleración"
+        fr: "Accélération - 5 minutes"
+        id: "Speedup 5 Menit"
+        it: "Acceleratore da 5 minuti"
+        ja: "5分加速"
+        ko: "5분 가속"
+        ms: "Percepat 5 Minit"
+        pl: "5-min przyspieszenie"
+        pt: "Aceleração de 5 minutos"
+        ru: "5-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 5 นาที"
+        tr: "5 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 5 phút"
+        zh_CN: "5分钟加速"
+        zh_TW: "5分鐘加速"
+
     60:
       name:
         ar: "تسريع 30 دقيقة"
@@ -256,6 +276,27 @@ loot:
         zh_CN: "5分钟治疗加速"
         zh_TW: "5分鐘治療加速"
 
+    109:
+      name:
+        ar: "كتاب العهد"
+        de: "Buch der Verpflichtungen"
+        en: "Book of Covenant"
+        es: "Libro de Convenio"
+        fr: "Livre d'alliance"
+        id: "Book of Covenant"
+        it: "Libro dell'alleanza"
+        ja: "誓いの書"
+        ko: "계약의 서"
+        ms: "Buku Perjanjian"
+        pl: "Księga Przymierza"
+        pt: "Livro da Aliança"
+        ru: "Книга соглашений"
+        th: "หนังสือสัญญา"
+        tr: "Sözleşme Kitabı"
+        vi: "Sách giao ước"
+        zh_CN: "誓盟之书"
+        zh_TW: "誓盟之書"
+
     113:
       name:
         ar: "12 ساعة هجوم معزز"
@@ -297,8 +338,8 @@ loot:
         vi: "Tăng cường phòng thủ 12 giờ"
         zh_CN: "12小时防御强化"
         zh_TW: "12小時防禦強化"
-    # 100
 
+    # 100 AP
     124:
       name:
         ar: "استعادة نقاط الحرب الأساسية"
@@ -487,6 +528,28 @@ loot:
         vi: "Mũi tên chống trả"
         zh_CN: "抵抗之箭"
         zh_TW: "抵抗之箭"
+
+    # 50 AP
+    182:
+      name:
+        ar: "استعادة نقاط الحرب الطارئة"
+        de: "Notfall-Aktionspunkteerholung"
+        en: "Emergency Action Point Recovery"
+        es: "Recuperación de punto de acción urgente"
+        fr: "Récupération de points d'action urgente"
+        id: "Pemulihan Action Point Darurat"
+        it: "Recupero dei punti d'azione di emergenza"
+        ja: "緊急行動力回復"
+        ko: "긴급 행동력 회복"
+        ms: "Pemulihan Mata Tindakan Kecemasan"
+        pl: "Pilna regeneracja pkt akcji"
+        pt: "Recuperação de Ponto de Ação de Emergência"
+        ru: "Срочное восстановление очков действия"
+        th: "การฟื้นฟูคะแนนแอ็กชั่นเร่งด่วน"
+        tr: "Acil Durum Eylem Puanı Dolumu"
+        vi: "Khôi phục nhanh điểm hành động"
+        zh_CN: "紧急行动力恢复"
+        zh_TW: "緊急行動力恢復"
 
     # Unknown
     233:
@@ -724,6 +787,27 @@ loot:
         vi: "Gói Tài Nguyên C Cấp 1"
         zh_CN: "初级资源包C"
         zh_TW: "初級資源包C"
+
+    7006:
+      name:
+        ar: "حزمة الموارد مستوى 2"
+        de: "Lv.-2-Ressourcenpack"
+        en: "Lvl 2 Resource Pack"
+        es: "Paquete de recursos de nv. 2"
+        fr: "Pack de ressources niv. 2"
+        id: "Resource Pack Lvl. 2"
+        it: "Pacco risorse liv 2"
+        ja: "中級資源パック"
+        ko: "중급 자원 포켓"
+        ms: "Pek Sumber Thp 2"
+        pl: "Paczka surowców poz. 2"
+        pt: "Pacote de Recursos nv. 2"
+        ru: "Набор ресурсов ур. 2"
+        th: "แพ็คทรัพยากร เลเวล 2"
+        tr: "2. Sv. Kaynak Paketi"
+        vi: "Gói Tài Nguyên Cấp 2"
+        zh_CN: "中级资源包"
+        zh_TW: "中級資源包"
 
     # Normal
     7051:
