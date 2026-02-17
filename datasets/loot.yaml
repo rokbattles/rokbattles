@@ -635,6 +635,48 @@ loot:
         zh_CN: "乌木 (优秀)"
         zh_TW: "烏木 (優秀)"
 
+    7003:
+      name:
+        ar: "حزمة الموارد A مستوى 1"
+        de: "Lv.-1-Ressourcenpack A"
+        en: "Lvl 1 Resource Pack A"
+        es: "Paquete de recursos A de nv. 1"
+        fr: "Pack de ressources A niv. 1"
+        id: "Resource Pack A Lvl. 1"
+        it: "Pacco risorse A liv 1"
+        ja: "初級資源パックA"
+        ko: "초급 자원 포켓 A"
+        ms: "Pek Sumber A Thp 1"
+        pl: "Paczka surowców (A) poz. 1"
+        pt: "Pacote de Recursos A nv. 1"
+        ru: "Набор ресурсов А ур. 1"
+        th: "แพ็คทรัพยากร A เลเวล 1"
+        tr: "1. Sv. Kaynak Paketi A"
+        vi: "Gói Tài Nguyên A Cấp 1"
+        zh_CN: "初级资源包A"
+        zh_TW: "初級資源包A"
+
+    7004:
+      name:
+        ar: "حزمة الموارد B مستوى 1"
+        de: "Lv.-1-Ressourcenpack B"
+        en: "Lvl 1 Resource Pack B"
+        es: "Paquete de recursos B de nv. 1"
+        fr: "Pack de ressources B niv. 1"
+        id: "Resource Pack B Lvl. 1"
+        it: "Pacco risorse B liv 1"
+        ja: "初級資源パックB"
+        ko: "초급 자원 포켓 B"
+        ms: "Pek Sumber B Thp 1"
+        pl: "Paczka surowców (B) poz. 1"
+        pt: "Pacote de Recursos B nv. 1"
+        ru: "Набор ресурсов В ур. 1"
+        th: "แพ็คทรัพยากร B เลเวล 1"
+        tr: "1. Sv. Kaynak Paketi B"
+        vi: "Gói Tài Nguyên B Cấp 1"
+        zh_CN: "初级资源包B"
+        zh_TW: "初級資源包B"
+
     7005:
       name:
         ar: "حزمة الموارد C مستوى 1"
@@ -721,6 +763,50 @@ loot:
         vi: "Rương Vật Liệu Trang Bị"
         zh_CN: "装备材料箱"
         zh_TW: "裝備材料箱"
+
+    # Advanced
+    9996:
+      name:
+        ar: "تمثال النجم العتيق"
+        de: "Veraltete Sternenlicht-Skulptur"
+        en: "Obsolete Starlight Sculpture"
+        es: "Escultura de Starlight Obsoleta"
+        fr: "Sculpture de lumière d'étoile obsolète"
+        id: "Patung Cahaya Bintang yang Usang"
+        it: "Scultura di luce stellare obsoleta"
+        ja: "古びた星の勲章"
+        ko: "낡은 별빛 조각상"
+        ms: "Arca Cahaya Bintang Usang"
+        pl: "Stara rzeźba gwiezdna"
+        pt: "Escultura Luz estelar obsoleta"
+        ru: "Устаревшая скульптура лунного света"
+        th: "รูปปั้นแสงดาวเก่าเก็บ"
+        tr: "Eskimiş Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao cũ"
+        zh_CN: "陈旧的星光雕像"
+        zh_TW: "陳舊的星光雕像"
+
+    # Elite
+    9997:
+      name:
+        ar: "تمثال النجم العادي"
+        de: "Einfache Sternenlicht-Skulptur"
+        en: "Ordinary Starlight Sculpture"
+        es: "Escultura de Starlight Ordinaria"
+        fr: "Sculpture de lumière d'étoile ordinaire"
+        id: "Patung Cahaya Bintang yang Biasa"
+        it: "Scultura di luce stellare ordinaria"
+        ja: "平凡な星の勲章"
+        ko: "일반 별빛 조각상"
+        ms: "Arca Cahaya Bintang Biasa"
+        pl: "Zwykła rzeźba gwiezdna"
+        pt: "Escultura Luz estelar ordinária"
+        ru: "Обычная скульптура лунного света"
+        th: "รูปปั้นแสงดาวทั่วไป"
+        tr: "Sıradan Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao bình thường"
+        zh_CN: "普通的星光雕像"
+        zh_TW: "普通的星光雕像"
 
     # Epic
     9998:
