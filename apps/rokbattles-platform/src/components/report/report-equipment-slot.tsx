@@ -23,7 +23,7 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
     >
       {token?.id ? (
         <Image
-          src={`/game/equipment/${token.id}.png`}
+          src={`https://cdn.rokbattles.com/game/equipment/${token.id}.png`}
           alt={equipmentAlt ?? ""}
           fill
           sizes="(min-width: 640px) 64px, 56px"

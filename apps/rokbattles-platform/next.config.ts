@@ -17,13 +17,15 @@ const config: NextConfig = {
     typedEnv: true,
   },
   images: {
-    formats: ["image/avif", "image/webp"],
+    // formats: ["image/avif", "image/webp"],
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "imimg.lilithcdn.com", pathname: "/**" },
       { protocol: "https", hostname: "imv2-gl.lilithgame.com", pathname: "/**" },
       { protocol: "https", hostname: "plat-fau-global.lilithgame.com", pathname: "/**" },
       { protocol: "https", hostname: "static-gl.lilithgame.com", pathname: "/**" },
       { protocol: "https", hostname: "cdn.discordapp.com", pathname: "/**" },
+      { protocol: "https", hostname: "cdn.rokbattles.com", pathname: "/**" },
     ],
   },
   output: "standalone",
