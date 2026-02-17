@@ -467,6 +467,30 @@ loot:
         zh_CN: "500 金币"
         zh_TW: "500 金幣"
 
+    145:
+      name:
+        ar: "سهام المقاومة"
+        de: "Pfeil des Widerstandes"
+        en: "Arrow of Resistance"
+        es: "Flecha de Resistencia"
+        fr: "Flèche de résistance"
+        id: "Arrow of Resistance"
+        it: "Freccia della resistenza"
+        ja: "抵抗の一矢"
+        ko: "저항의 화살"
+        ms: "Anak Panah Rintangan"
+        pl: "Strzała oporu"
+        pt: "Flecha da Resistência"
+        ru: "Стрела сопротивления"
+        th: "ลูกธนูกันภัย"
+        tr: "Direnç Oku"
+        vi: "Mũi tên chống trả"
+        zh_CN: "抵抗之箭"
+        zh_TW: "抵抗之箭"
+
+    # Unknown
+    233:
+
     412:
       name:
         ar: "جلد (عادي)"
@@ -634,6 +658,9 @@ loot:
         vi: "Gỗ mun (NÂNG CAO)"
         zh_CN: "乌木 (优秀)"
         zh_TW: "烏木 (優秀)"
+
+    # Unknown
+    577:
 
     7003:
       name:
