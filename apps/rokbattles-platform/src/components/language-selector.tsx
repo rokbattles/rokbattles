@@ -2,7 +2,7 @@
 
 import { LanguageIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
@@ -46,8 +46,7 @@ const setLocaleCookie = (locale: string) => {
 };
 
 export function LanguageSelector() {
-  const t = useTranslations("language");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
@@ -88,23 +87,23 @@ export function LanguageSelector() {
 
   return (
     <>
-      <SidebarItem onClick={handleOpen} aria-label={t("select")}>
+      <SidebarItem onClick={handleOpen} aria-label={t("Select language")}>
         <LanguageIcon />
         <SidebarLabel>{currentLanguage.label}</SidebarLabel>
       </SidebarItem>
       <Dialog open={isOpen} onClose={handleClose} size="xl">
-        <DialogTitle>{t("title")}</DialogTitle>
+        <DialogTitle>{t("Language")}</DialogTitle>
         <DialogBody>
           <RadioGroup
             value={selectedLocale}
             onChange={setSelectedLocale}
-            aria-label={t("select")}
+            aria-label={t("Select language")}
             name="platformLanguage"
           >
             <div className="space-y-8">
               <Fieldset>
-                <Legend>{t("site.label")}</Legend>
-                <Description>{t("site.description")}</Description>
+                <Legend>{t("Site languages")}</Legend>
+                <Description>{t("Translated across the site and datasets.")}</Description>
                 <div data-slot="control" className="grid gap-3 sm:grid-cols-2">
                   {siteLanguageOptions.map((option) => (
                     <RadioField key={option.locale}>
@@ -115,8 +114,12 @@ export function LanguageSelector() {
                 </div>
               </Fieldset>
               <Fieldset>
-                <Legend>{t("dataset.label")}</Legend>
-                <Description>{t("dataset.description")}</Description>
+                <Legend>{t("Dataset languages")}</Legend>
+                <Description>
+                  {t(
+                    "Additional translations for game data only. Coverage may be incomplete or out of date."
+                  )}
+                </Description>
                 <div data-slot="control" className="grid gap-3 sm:grid-cols-2">
                   {datasetOnlyLanguageOptions.map((option) => (
                     <RadioField key={option.locale}>
@@ -131,9 +134,9 @@ export function LanguageSelector() {
         </DialogBody>
         <DialogActions>
           <Button outline onClick={() => handleClose(false)}>
-            {tCommon("actions.cancel")}
+            {t("Cancel")}
           </Button>
-          <Button onClick={handleSave}>{t("save")}</Button>
+          <Button onClick={handleSave}>{t("Save")}</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useCallback, useEffect, useState } from "react";
 
 export type OlympianArenaParticipant = {
@@ -55,7 +55,7 @@ function buildQueryParams(cursor: string | undefined) {
 }
 
 export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
-  const t = useTranslations("errors");
+  const t = useExtracted();
   const [duels, setDuels] = useState<OlympianArenaDuelSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,7 +70,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
       });
 
       if (!res.ok) {
-        throw new Error(t("duels.fetch", { status: res.status }));
+        throw new Error(t("Failed to fetch data"));
       }
 
       return (await res.json()) as OlympianArenaApiResponse;
@@ -99,7 +99,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : t("duels.generic");
+        const message = err instanceof Error ? err.message : t("Failed to fetch data");
         setError(message);
       })
       .finally(() => {
@@ -130,7 +130,7 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
       setDuels((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("duels.generic");
+      const message = err instanceof Error ? err.message : t("Failed to fetch data");
       setError(message);
     } finally {
       setLoading(false);

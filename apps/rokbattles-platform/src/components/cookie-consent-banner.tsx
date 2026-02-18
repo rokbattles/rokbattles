@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Text, TextLink } from "@/components/ui/text";
@@ -8,7 +8,7 @@ import { useCookieConsent } from "@/providers/cookie-consent-context";
 
 export function CookieConsentBanner() {
   const [closeBanner, setCloseBanner] = useState(false);
-  const t = useTranslations("cookieConsent");
+  const t = useExtracted();
 
   const { showConsent, updateCookieConsent } = useCookieConsent();
 
@@ -23,9 +23,9 @@ export function CookieConsentBanner() {
   return (
     <div className="fixed sm:right-4 bottom-0 sm:bottom-4 w-full sm:w-96 z-50 border-t sm:border bg-white border-zinc-200 dark:bg-zinc-800 dark:border-zinc-700 flex flex-col p-4 sm:rounded-lg">
       <Text>
-        {t.rich("message", {
-          link: (chunks) => <TextLink href="/legal/cookie-policy">{chunks}</TextLink>,
-        })}
+        We use only essential cookies for authentication, security, and site functionality. If we
+        add optional cookies in the future, you'll be able to manage them here. Read our{" "}
+        <TextLink href="/legal/cookie-policy">cookie policy</TextLink> for more information.
       </Text>
       <div className="flex gap-2 mt-4">
         <Button
@@ -35,7 +35,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          {t("accept")}
+          {t("Accept")}
         </Button>
         <Button
           onClick={() => {
@@ -43,7 +43,7 @@ export function CookieConsentBanner() {
             handleCloseBanner();
           }}
         >
-          {t("reject")}
+          {t("Reject")}
         </Button>
       </div>
     </div>

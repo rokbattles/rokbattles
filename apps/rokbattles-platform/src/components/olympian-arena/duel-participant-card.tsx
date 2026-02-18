@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Fragment, useId, useState } from "react";
 import { DuelCommanderRow } from "@/components/olympian-arena/duel-commander-row";
 import { Badge } from "@/components/ui/badge";
@@ -39,11 +39,10 @@ export function DuelParticipantCard({
   participant: DuelBattle2Player;
   isWinner?: boolean;
 }) {
-  const t = useTranslations("duels");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant.player_name.trim() || tCommon("labels.unknownCommander");
+  const playerName = participant.player_name.trim() || t("Unknown commander");
   const allianceTag = participant.alliance.abbreviation.trim();
   const playerId = participant.player_id;
 
@@ -86,11 +85,11 @@ export function DuelParticipantCard({
             <div className="text-base font-semibold text-zinc-900 dark:text-white">
               {playerName}
             </div>
-            {isWinner ? <Badge color="emerald">{t("winner")}</Badge> : null}
+            {isWinner ? <Badge color="emerald">{t("Winner")}</Badge> : null}
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>{tCommon("labels.id", { id: playerId })}</Badge>
+              <Badge>{t("ID {id}", { id: playerId.toString() })}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
           </div>
@@ -100,20 +99,18 @@ export function DuelParticipantCard({
       <div className="space-y-4">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{tCommon("labels.commanders")}</Subheading>
+            <Subheading>{t("Commanders")}</Subheading>
             <div className="space-y-2">
-              {showPrimary ? (
-                <DuelCommanderRow commander={primary} label={tCommon("labels.primary")} />
-              ) : null}
+              {showPrimary ? <DuelCommanderRow commander={primary} label={t("Primary")} /> : null}
               {showSecondary ? (
-                <DuelCommanderRow commander={secondary} label={tCommon("labels.secondary")} />
+                <DuelCommanderRow commander={secondary} label={t("Secondary")} />
               ) : null}
             </div>
           </div>
         ) : null}
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
-            <Subheading>{t("troopBuffs")}</Subheading>
+            <Subheading>{t("Troop Buffs")}</Subheading>
             <DescriptionList id={buffsId}>
               {visibleBuffs.map((buff) => (
                 <Fragment key={buff.id}>
@@ -135,7 +132,7 @@ export function DuelParticipantCard({
                 aria-controls={buffsId}
                 className="text-sm"
               >
-                {expanded ? tCommon("actions.showLess") : tCommon("actions.showMore")}
+                {expanded ? t("Show less") : t("Show more")}
               </Button>
             ) : null}
           </div>

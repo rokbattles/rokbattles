@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
@@ -10,11 +10,12 @@ type ReportEquipmentSlotProps = {
 };
 
 export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
-  const t = useTranslations("report");
+  const t = useExtracted();
   const { tier, isSpecialTalent } = getTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
   const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : undefined;
-  const equipmentAlt = token?.id != null ? t("equipment.slotAlt", { id: token.id }) : undefined;
+  const equipmentAlt =
+    token?.id != null ? t("Equipment {id}", { id: token.id.toString() }) : undefined;
 
   return (
     <div

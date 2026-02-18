@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -16,22 +16,18 @@ import type { DuelBattle2BattleResult, DuelBattle2BattleResults } from "@/lib/ty
 type DuelMetricConfig = {
   labelKey: string;
   valueKey: keyof DuelBattle2BattleResult;
-  commonLabel?: boolean;
 };
 
-const COMMON_METRIC_KEYS = new Set(["units", "dead", "severelyWounded", "killPoints"]);
-
 const DUEL_METRICS: readonly DuelMetricConfig[] = [
-  { labelKey: "units", valueKey: "units", commonLabel: true },
-  { labelKey: "dead", valueKey: "dead", commonLabel: true },
+  { labelKey: "units", valueKey: "units" },
+  { labelKey: "dead", valueKey: "dead" },
   {
     labelKey: "severelyWounded",
     valueKey: "severely_wounded",
-    commonLabel: true,
   },
   { labelKey: "wounded", valueKey: "slightly_wounded" },
   { labelKey: "healed", valueKey: "heal" },
-  { labelKey: "killPoints", valueKey: "kill_points", commonLabel: true },
+  { labelKey: "killPoints", valueKey: "kill_points" },
   { labelKey: "power", valueKey: "power" },
 ] as const;
 
@@ -54,11 +50,7 @@ function getMetricValue(results: DuelBattle2BattleResult, key: keyof DuelBattle2
   return raw;
 }
 
-function buildChartData(
-  results: DuelBattle2BattleResults,
-  t: ReturnType<typeof useTranslations>,
-  tCommon: ReturnType<typeof useTranslations>
-) {
+function buildChartData(results: DuelBattle2BattleResults, labels: Record<string, string>) {
   const rows: DuelSummaryDatum[] = [];
   for (const metric of DUEL_METRICS) {
     const senderValue = getMetricValue(results.sender, metric.valueKey);
@@ -66,10 +58,10 @@ function buildChartData(
     if (senderValue == null && opponentValue == null) {
       continue;
     }
-    const label =
-      metric.commonLabel || COMMON_METRIC_KEYS.has(metric.labelKey)
-        ? tCommon(`metrics.${metric.labelKey}`)
-        : t(`metrics.${metric.labelKey}`);
+    const label = labels[metric.labelKey];
+    if (!label) {
+      continue;
+    }
 
     rows.push({
       key: metric.labelKey,
@@ -82,9 +74,17 @@ function buildChartData(
 }
 
 export function DuelResultsChart({ results }: { results: DuelBattle2BattleResults }) {
-  const t = useTranslations("duels");
-  const tCommon = useTranslations("common");
-  const chartData = buildChartData(results, t, tCommon);
+  const t = useExtracted();
+  const chartLabels = {
+    units: t("Units"),
+    dead: t("Dead"),
+    severelyWounded: t("Severely wounded"),
+    wounded: t("Wounded"),
+    healed: t("Healed"),
+    killPoints: t("Kill Points"),
+    power: t("Power"),
+  };
+  const chartData = buildChartData(results, chartLabels);
 
   if (chartData.length === 0) {
     return null;

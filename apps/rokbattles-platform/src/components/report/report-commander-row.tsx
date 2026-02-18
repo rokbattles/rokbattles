@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Strong, Text } from "@/components/ui/text";
@@ -14,18 +14,17 @@ type ReportCommanderRowProps = {
 };
 
 export function ReportCommanderRow({ commander, formation }: ReportCommanderRowProps) {
-  const t = useTranslations("report");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
   const commanderId = commander?.id;
   const commanderName = getCommanderName(commanderId ?? null);
   const formationName = getFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
-  const commanderLabel = commanderName ?? commanderId ?? tCommon("labels.unknown");
+  const commanderLabel = commanderName ?? commanderId ?? t("Unknown");
   const commanderIconSrc = `https://cdn.rokbattles.com/game/commander/${commanderId}.png`;
-  const commanderAlt = tCommon("alt.namedIcon", { name: commanderLabel });
+  const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
   const formationLabel =
     typeof formation === "number"
-      ? (formationName ?? t("commanders.formationFallback", { formation }))
+      ? (formationName ?? t("Formation {formation}", { formation: formation.toString() }))
       : null;
 
   return (
@@ -35,7 +34,7 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
         <Strong>{commanderLabel}</Strong>
       </span>
       {formationLabel ? <Badge>{formationLabel}</Badge> : null}
-      {level != null ? <Badge>{tCommon("labels.level", { level })}</Badge> : null}
+      {level != null ? <Badge>{t("Lvl {level}", { level: level.toString() })}</Badge> : null}
     </Text>
   );
 }

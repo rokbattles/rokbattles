@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
   if (!profileResponse.ok) {
     await db.collection("oauthStates").deleteOne({ state });
 
-    return NextResponse.json({ error: "Failed to fetch Discord profile" }, { status: 400 });
+    return NextResponse.json({ error: "Failed to fetch data" }, { status: 400 });
   }
 
   const profile = (await profileResponse.json()) as ProfileResponse;

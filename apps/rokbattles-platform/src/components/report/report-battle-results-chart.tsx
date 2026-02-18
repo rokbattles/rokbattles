@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import {
   Bar,
   BarChart,
@@ -18,8 +18,6 @@ type BattleMetricConfig = {
   selfKey: keyof RawBattleResults;
   enemyKey: keyof RawBattleResults;
 };
-
-const COMMON_METRIC_KEYS = new Set(["units", "remaining", "dead", "severelyWounded", "killPoints"]);
 
 const BATTLE_METRICS: readonly BattleMetricConfig[] = [
   { labelKey: "units", selfKey: "max", enemyKey: "enemy_max" },
@@ -55,11 +53,7 @@ function getMetricValue(results: RawBattleResults, key: keyof RawBattleResults) 
   return raw;
 }
 
-function buildChartData(
-  results: RawBattleResults,
-  t: ReturnType<typeof useTranslations>,
-  tCommon: ReturnType<typeof useTranslations>
-) {
+function buildChartData(results: RawBattleResults, labels: Record<string, string>) {
   const rows: BattleSummaryDatum[] = [];
   for (const metric of BATTLE_METRICS) {
     const selfValue = getMetricValue(results, metric.selfKey);
@@ -67,9 +61,10 @@ function buildChartData(
     if (selfValue == null && enemyValue == null) {
       continue;
     }
-    const label = COMMON_METRIC_KEYS.has(metric.labelKey)
-      ? tCommon(`metrics.${metric.labelKey}`)
-      : t(`metrics.battle.${metric.labelKey}`);
+    const label = labels[metric.labelKey];
+    if (!label) {
+      continue;
+    }
 
     rows.push({
       key: metric.labelKey,
@@ -82,9 +77,18 @@ function buildChartData(
 }
 
 export function ReportBattleResultsChart({ results }: { results: RawBattleResults }) {
-  const t = useTranslations("report");
-  const tCommon = useTranslations("common");
-  const chartData = buildChartData(results, t, tCommon);
+  const t = useExtracted();
+  const chartLabels = {
+    units: t("Units"),
+    remaining: t("Remaining"),
+    heal: t("Heal"),
+    dead: t("Dead"),
+    severelyWounded: t("Severely wounded"),
+    slightlyWounded: t("Slightly wounded"),
+    watchtowerDamage: t("Watchtower Damage"),
+    killPoints: t("Kill Points"),
+  };
+  const chartData = buildChartData(results, chartLabels);
 
   if (chartData.length === 0) {
     return null;

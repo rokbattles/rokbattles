@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { DuelParticipantCard } from "@/components/olympian-arena/duel-participant-card";
 import { DuelResultsChart } from "@/components/olympian-arena/duel-results-chart";
 import { Subheading } from "@/components/ui/heading";
@@ -13,7 +13,7 @@ type DuelEntryCardProps = {
 };
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
-  const t = useTranslations("duels");
+  const t = useExtracted();
   const { metadata, battle_results: battleResults, sender, opponent } = entry;
 
   const periodLabel = formatUtcDateTime(metadata.mail_time);
@@ -29,7 +29,7 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
 
       <section className="space-y-4">
         <Subheading level={3} className="text-base">
-          {t("summary")}
+          {t("Duel summary")}
         </Subheading>
         <DuelResultsChart results={battleResults} />
       </section>

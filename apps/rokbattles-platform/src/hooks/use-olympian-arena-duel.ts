@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import type { DuelBattle2MailDocument } from "@/lib/types/duelbattle2";
 
@@ -13,7 +13,7 @@ export type DuelReportResponse = {
 };
 
 export function useOlympianArenaDuel(duelId: number | null | undefined) {
-  const t = useTranslations("errors");
+  const t = useExtracted();
   const [data, setData] = useState<DuelReportResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,7 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
         const res = await fetch(`/api/v2/olympian-arena/duel/${encodeURIComponent(duelId)}`);
 
         if (!res.ok) {
-          throw new Error(t("duel.fetch", { status: res.status }));
+          throw new Error(t("Failed to fetch data"));
         }
 
         const payload = (await res.json()) as DuelReportResponse;
@@ -46,7 +46,7 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
           setError(null);
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : t("duel.generic");
+        const message = err instanceof Error ? err.message : t("Failed to fetch data");
         if (!cancelled) {
           setError(message);
           setData(null);

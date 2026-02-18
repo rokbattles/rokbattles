@@ -1,14 +1,14 @@
-import { getTranslations } from "next-intl/server";
+import { getExtracted } from "next-intl/server";
 import type React from "react";
 import { AccountSettingsNav } from "@/components/account/account-settings-nav";
 import { Heading } from "@/components/ui/heading";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const t = await getTranslations("account");
+  const t = await getExtracted();
   return (
     <div className="space-y-4">
       <div>
-        <Heading>{t("titles.settings")}</Heading>
+        <Heading>{t("Account Settings")}</Heading>
       </div>
       <AccountSettingsNav />
       {children}

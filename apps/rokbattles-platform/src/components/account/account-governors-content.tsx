@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { ClaimGovernorForm } from "@/components/governors/claim-governor-form";
 import { Avatar } from "@/components/ui/avatar";
 import { Subheading } from "@/components/ui/heading";
@@ -13,8 +13,7 @@ type AccountGovernorsContentProps = {
 };
 
 export function AccountGovernorsContent({ initialUser }: AccountGovernorsContentProps) {
-  const t = useTranslations("account");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
   const { user, refresh } = useCurrentUser({ initialUser });
   const resolvedUser = user ?? initialUser;
 
@@ -24,9 +23,9 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
   return (
     <div className="space-y-8 mt-8">
       <section className="space-y-4">
-        <Subheading level={3}>{t("governors.claimedTitle")}</Subheading>
+        <Subheading level={3}>{t("Claimed governors")}</Subheading>
         {claimedGovernors.length === 0 ? (
-          <Text>{t("governors.noneClaimed")}</Text>
+          <Text>{t("No governors claimed yet.")}</Text>
         ) : (
           <ul className="divide-y divide-zinc-950/5 rounded border border-zinc-950/10 text-sm dark:divide-white/10 dark:border-white/10">
             {claimedGovernors.map((governor) => (
@@ -42,7 +41,7 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
                   </p>
                   {governor.governorName ? (
                     <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                      {tCommon("labels.id", { id: governor.governorId })}
+                      {t("ID {id}", { id: governor.governorId.toString() })}
                     </p>
                   ) : null}
                 </div>
@@ -52,8 +51,12 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
         )}
       </section>
       <section className="space-y-4">
-        <Subheading level={3}>{t("governors.claimTitle")}</Subheading>
-        <Text>{t("governors.claimDescription")}</Text>
+        <Subheading level={3}>{t("Claim a governor")}</Subheading>
+        <Text>
+          {t(
+            "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+          )}
+        </Text>
         <ClaimGovernorForm canClaimMore={canClaimMore} onClaimed={refresh} />
       </section>
     </div>

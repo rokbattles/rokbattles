@@ -1,25 +1,25 @@
-import { getTranslations } from "next-intl/server";
+import { getExtracted } from "next-intl/server";
 import OlympianArenaTable from "@/components/olympian-arena/olympian-arena-table";
 import { Heading, Subheading } from "@/components/ui/heading";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default async function Page() {
-  const [t, tCommon] = await Promise.all([getTranslations("duels"), getTranslations("common")]);
+  const t = await getExtracted();
   return (
     <>
-      <Heading>{t("listTitle")}</Heading>
+      <Heading>{t("Olympian Arena Reports")}</Heading>
       <div className="mt-8">
-        <Subheading>{tCommon("headings.liveFeed")}</Subheading>
+        <Subheading>{t("Live feed (UTC)")}</Subheading>
       </div>
       <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-36">{tCommon("labels.time")}</TableHeader>
-            <TableHeader>{tCommon("labels.sender")}</TableHeader>
-            <TableHeader>{tCommon("labels.opponent")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("table.killCount")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("table.tradePercent")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("table.winStreak")}</TableHeader>
+            <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
+            <TableHeader>{t("Sender")}</TableHeader>
+            <TableHeader>{t("Opponent")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Win Streak")}</TableHeader>
           </TableRow>
         </TableHead>
         <OlympianArenaTable />

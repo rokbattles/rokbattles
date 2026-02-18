@@ -6,6 +6,7 @@
     "build": "next build --turbo",
     "dev": "next -H 0.0.0.0",
     "generate:datasets": "node ./scripts/generate-datasets.cjs",
+    "generate:messages": "node ./scripts/generate-messages.mjs",
     "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {

@@ -1,14 +1,14 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { TableCell, TableRow } from "@/components/ui/table";
 
 export default function EmptyStateRow({ colSpan }: { colSpan: number }) {
-  const t = useTranslations("reports");
+  const t = useExtracted();
   return (
     <TableRow>
       <TableCell colSpan={colSpan} role="status" aria-live="polite">
-        {t("states.empty")}
+        {t("No reports found.")}
       </TableCell>
     </TableRow>
   );
