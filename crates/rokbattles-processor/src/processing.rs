@@ -80,6 +80,9 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
         MailType::Battle => mail_processor_battle::process_parallel(root)?,
         MailType::DuelBattle2 => mail_processor_duelbattle2::process_parallel(root)?,
         MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process_parallel(root)?,
+        MailType::SystemBarbarianFort => {
+            mail_processor_system_barbarianfort::process_parallel(root)?
+        }
     };
 
     let processed_doc = mongodb::bson::to_document(&processed)?;
@@ -136,11 +139,42 @@ fn normalize_root(value: &Value) -> Option<&Value> {
 }
 
 fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
+    if is_system_barbarian_fort_mail(root) {
+        return Ok(MailType::SystemBarbarianFort);
+    }
+
     let mail_type = root
         .get("type")
         .and_then(value_to_string)
         .ok_or_else(|| ProcessorError::InvalidMailPayload("missing mail type".to_string()))?;
     MailType::from_str(&mail_type).ok_or_else(|| ProcessorError::UnsupportedMailType(mail_type))
+}
+
+fn is_system_barbarian_fort_mail(root: &Value) -> bool {
+    let Some(root) = root.as_object() else {
+        return false;
+    };
+    if !matches!(root.get("type").and_then(Value::as_str), Some("System")) {
+        return false;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
+        return false;
+    }
+
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+    let sub_type = body.get("subType").and_then(value_as_u64);
+    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn value_as_u64(value: &Value) -> Option<u64> {
+    match value {
+        Value::Number(number) => number.as_u64(),
+        Value::String(text) => text.parse::<u64>().ok(),
+        _ => None,
+    }
 }
 
 fn value_to_string(value: &Value) -> Option<String> {
@@ -181,6 +215,20 @@ mod tests {
         let value = json!({ "type": "DuelBattle2" });
         let mail_type = extract_mail_type(&value).unwrap();
         assert_eq!(mail_type, MailType::DuelBattle2);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_system_barbarian_fort() {
+        let value = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 11
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::SystemBarbarianFort);
     }
 
     #[test]

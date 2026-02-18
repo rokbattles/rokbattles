@@ -19,6 +19,7 @@ pub struct Storage {
     battle: Collection<Document>,
     duelbattle2: Collection<Document>,
     barcanyonkillboss: Collection<Document>,
+    system_barbarianfort: Collection<Document>,
 }
 
 impl Storage {
@@ -29,6 +30,7 @@ impl Storage {
             battle: db.collection(MailType::Battle.collection_name()),
             duelbattle2: db.collection(MailType::DuelBattle2.collection_name()),
             barcanyonkillboss: db.collection(MailType::BarCanyonKillBoss.collection_name()),
+            system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
         }
     }
 
@@ -45,7 +47,12 @@ impl Storage {
             .build();
         self.battle.create_index(mail_id_index.clone()).await?;
         self.duelbattle2.create_index(mail_id_index.clone()).await?;
-        self.barcanyonkillboss.create_index(mail_id_index).await?;
+        self.barcanyonkillboss
+            .create_index(mail_id_index.clone())
+            .await?;
+        self.system_barbarianfort
+            .create_index(mail_id_index)
+            .await?;
 
         Ok(())
     }
@@ -80,6 +87,7 @@ impl Storage {
             MailType::Battle => &self.battle,
             MailType::DuelBattle2 => &self.duelbattle2,
             MailType::BarCanyonKillBoss => &self.barcanyonkillboss,
+            MailType::SystemBarbarianFort => &self.system_barbarianfort,
         };
 
         collection

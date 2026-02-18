@@ -1,0 +1,37 @@
+{
+  "body": {
+    "pos": {
+      "x": 3867.797119140625,
+      "y": 4096.7294921875
+    },
+    "target_name": "Level9"
+  },
+  "metadata": {
+    "mail_id": "87938122177133895831",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1771338958619245,
+    "server_id": 1804
+  },
+  "rewards": [
+    {
+      "sub_type": 7006,
+      "type": 2,
+      "value": 64
+    },
+    {
+      "sub_type": 130,
+      "type": 2,
+      "value": 55
+    },
+    {
+      "sub_type": 92,
+      "type": 2,
+      "value": 9
+    },
+    {
+      "sub_type": 182,
+      "type": 2,
+      "value": 1
+    }
+  ]
+}

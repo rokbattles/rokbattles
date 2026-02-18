@@ -2685,6 +2685,7 @@ dependencies = [
  "mail-processor-battle",
  "mail-processor-duelbattle2",
  "mail-processor-sdk",
+ "mail-processor-system-barbarianfort",
  "serde_json",
  "tempfile",
 ]
@@ -2725,6 +2726,14 @@ name = "mail-processor-sdk"
 version = "1.0.0-rc.3"
 dependencies = [
  "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-system-barbarianfort"
+version = "1.0.0-rc.3"
+dependencies = [
+ "mail-processor-sdk",
  "serde_json",
 ]
 
@@ -4283,6 +4292,7 @@ dependencies = [
  "mail-processor-battle",
  "mail-processor-duelbattle2",
  "mail-processor-sdk",
+ "mail-processor-system-barbarianfort",
  "mongodb",
  "serde_json",
  "thiserror 2.0.18",

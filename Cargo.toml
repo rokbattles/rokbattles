@@ -7,6 +7,7 @@ members = [
     "crates/mail-processor-barcanyonkillboss",
     "crates/mail-processor-battle",
     "crates/mail-processor-duelbattle2",
+    "crates/mail-processor-system-barbarianfort",
     "crates/mail-processor-sdk",
     "crates/rokbattles-bot",
     "crates/rokbattles-ingress",
