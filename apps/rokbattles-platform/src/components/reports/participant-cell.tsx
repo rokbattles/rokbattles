@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { getCommanderName } from "@/hooks/use-commander-name";
 
 type Props = {
@@ -14,8 +14,8 @@ function isValidCommanderId(id: number | null | undefined): id is number {
 }
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
-  const tCommon = useTranslations("common");
-  const unknownLabel = tCommon("labels.unknownCommander");
+  const tCommon = useExtracted();
+  const unknownLabel = tCommon("Unknown commander");
 
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId) ?? String(primaryId))
@@ -36,7 +36,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
     <div className="flex flex-col">
       <span className="inline-flex items-center gap-2">
         <Image
-          alt={tCommon("alt.namedIcon", { name: primaryName })}
+          alt={tCommon("{name} icon", { name: primaryName })}
           className="size-8 rounded-full object-cover"
           height={32}
           src={primarySrc}
@@ -47,7 +47,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
       {secondarySrc ? (
         <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
           <Image
-            alt={tCommon("alt.namedIcon", { name: secondaryName })}
+            alt={tCommon("{name} icon", { name: secondaryName })}
             className="size-8 rounded-full object-cover"
             height={32}
             src={secondarySrc}

@@ -1,12 +1,12 @@
 import { ChevronLeftIcon } from "@heroicons/react/16/solid";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getExtracted } from "next-intl/server";
 import { ReportView } from "@/components/report/report-view";
 import { Link } from "@/components/ui/link";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("report");
-  const title = t("battleReportTitle");
+  const t = await getExtracted();
+  const title = t("Battle Report");
 
   return {
     title,
@@ -43,13 +43,13 @@ function buildQueryString(searchParams: SearchParams, ignoreKey: string) {
 }
 
 export default async function Page({ params, searchParams }: PageProps<"/report/[id]">) {
-  const [t, tNav] = await Promise.all([getTranslations("report"), getTranslations("navigation")]);
+  const t = await getExtracted();
   const { id } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const fromParam = resolveSearchParam(resolvedSearchParams.from);
   const isAccountReports = fromParam === "account-reports" || fromParam === "my-reports";
   const backBase = isAccountReports ? "/account/reports" : "/";
-  const backLabel = isAccountReports ? t("back.reports") : tNav("exploreBattles");
+  const backLabel = isAccountReports ? t("Back to My Reports") : t("Explore Battles");
   const backQuery = buildQueryString(resolvedSearchParams, "from");
 
   return (

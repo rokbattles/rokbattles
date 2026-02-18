@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { getExtracted, getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { PlatformLayout } from "@/components/platform-layout";
 import PlatformProviders from "@/components/platform-providers";
@@ -19,10 +19,12 @@ const inter = Inter({
 const metadataBase = new URL("https://platform.rokbattles.com");
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("app");
-  const title = t("title");
-  const template = t("titleTemplate");
-  const description = t("description");
+  const t = await getExtracted();
+  const title = t("ROK Battles");
+  const template = t("%s - ROK Battles");
+  const description = t(
+    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
+  );
 
   return {
     metadataBase,

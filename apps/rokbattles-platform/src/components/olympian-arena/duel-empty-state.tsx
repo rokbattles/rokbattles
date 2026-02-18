@@ -1,13 +1,13 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Text } from "@/components/ui/text";
 
 export function DuelEmptyState() {
-  const t = useTranslations("duels");
+  const t = useExtracted();
   return (
     <Text role="status" aria-live="polite">
-      {t("states.empty")}
+      {t("No reports were found for this duel.")}
     </Text>
   );
 }

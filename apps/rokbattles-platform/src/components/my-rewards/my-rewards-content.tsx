@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useContext, useMemo, useState } from "react";
 import { RewardsFilters } from "@/components/my-rewards/rewards-filters";
 import { Subheading } from "@/components/ui/heading";
@@ -41,7 +41,7 @@ export function MyRewardsContent() {
     throw new Error("My Rewards must be used within a GovernorProvider");
   }
 
-  const t = useTranslations("rewards");
+  const t = useExtracted();
   const { activeGovernor } = governorContext;
 
   const [startDate, setStartDate] = useState<string>("");
@@ -61,17 +61,17 @@ export function MyRewardsContent() {
     () => [
       {
         id: "barbKills",
-        name: t("stats.barbs.title"),
+        name: t("Barbarian Kills"),
         value: formatNumber(stats.barbKills),
       },
       {
         id: "barbForts",
-        name: t("stats.forts.title"),
+        name: t("Barbarian Forts"),
         value: formatNumber(stats.barbFortKills),
       },
       {
         id: "otherNpc",
-        name: t("stats.other.title"),
+        name: t("Other"),
         value: formatNumber(stats.otherNpcKills),
       },
     ],
@@ -82,7 +82,10 @@ export function MyRewardsContent() {
     const rows = (data?.rewards ?? []).map((reward) => {
       const name =
         getLootName(reward.type, reward.subType) ??
-        t("rewards.unknown", { type: reward.type, subType: reward.subType });
+        t("Unknown reward {type}/{subType}", {
+          type: reward.type.toString(),
+          subType: reward.subType.toString(),
+        });
 
       return {
         key: `${reward.type}:${reward.subType}`,
@@ -103,7 +106,7 @@ export function MyRewardsContent() {
 
   return (
     <div className="space-y-10">
-      <Text>{t("intro")}</Text>
+      <Text>{t("Track the NPC rewards earned from barbarian reports.")}</Text>
       <RewardsFilters
         startDate={startDate}
         endDate={endDate}
@@ -111,13 +114,13 @@ export function MyRewardsContent() {
         onEndDateChange={setEndDate}
       />
       <section className="space-y-4">
-        <Subheading>{t("stats.title")}</Subheading>
+        <Subheading>{t("NPC summary")}</Subheading>
         {loading ? (
-          <Text>{t("states.loading")}</Text>
+          <Text>{t("Loading rewards...")}</Text>
         ) : error ? (
           <Text>{error}</Text>
         ) : stats.totalReports === 0 ? (
-          <Text>{t("states.empty")}</Text>
+          <Text>{t("No NPC rewards found for this range.")}</Text>
         ) : (
           <div className="space-y-3">
             <div className="grid gap-6 grid-cols-2 lg:grid-cols-3">
@@ -141,20 +144,20 @@ export function MyRewardsContent() {
         )}
       </section>
       <section className="space-y-4">
-        <Subheading>{t("rewards.title")}</Subheading>
+        <Subheading>{t("Rewards")}</Subheading>
         {loading ? (
-          <Text>{t("states.loading")}</Text>
+          <Text>{t("Loading rewards...")}</Text>
         ) : error ? (
           <Text>{error}</Text>
         ) : rewardRows.length === 0 ? (
-          <Text>{t("rewards.empty")}</Text>
+          <Text>{t("No rewards found for this range.")}</Text>
         ) : (
           <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
             <TableHead>
               <TableRow>
-                <TableHeader>{t("table.name")}</TableHeader>
-                <TableHeader>{t("table.amount")}</TableHeader>
-                <TableHeader>{t("table.drops")}</TableHeader>
+                <TableHeader>{t("Name")}</TableHeader>
+                <TableHeader>{t("Amount")}</TableHeader>
+                <TableHeader>{t("Drops")}</TableHeader>
               </TableRow>
             </TableHead>
             <TableBody>

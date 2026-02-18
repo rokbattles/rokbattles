@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { type FormEvent, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
@@ -40,8 +40,8 @@ function isClaimResponse(payload: unknown): payload is ClaimResponse {
 }
 
 export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorFormProps) {
-  const t = useTranslations("account");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
+  const tCommon = useExtracted();
   const [governorIdInput, setGovernorIdInput] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -51,19 +51,19 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
     event.preventDefault();
 
     if (!canClaimMore) {
-      setErrorMessage(t("claimForm.errors.maxReached"));
+      setErrorMessage(t("You can only claim up to three governors."));
       return;
     }
 
     const trimmed = governorIdInput.trim();
     if (trimmed === "") {
-      setErrorMessage(t("claimForm.errors.missingId"));
+      setErrorMessage(t("Enter a governor ID."));
       return;
     }
 
     const numericGovernorId = Number(trimmed);
     if (!Number.isFinite(numericGovernorId)) {
-      setErrorMessage(t("claimForm.errors.invalidId"));
+      setErrorMessage(t("Enter a valid governor ID."));
       return;
     }
 
@@ -93,7 +93,7 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
             "error" in payload &&
             typeof (payload as { error?: unknown }).error === "string" &&
             (payload as { error?: string }).error) ||
-          t("claimForm.errors.unavailable");
+          t("Unable to claim governor. Please try again.");
 
         setErrorMessage(message);
         return;
@@ -103,7 +103,7 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
         const claim = payload.claim;
 
         if (claim.alreadyClaimed) {
-          setErrorMessage(t("claimForm.errors.alreadyClaimed"));
+          setErrorMessage(t("This governor is already claimed."));
           return;
         }
       }
@@ -113,7 +113,7 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
       setErrorMessage(null);
     } catch (error) {
       console.error("Failed to claim governor", error);
-      setErrorMessage(t("claimForm.errors.unknown"));
+      setErrorMessage(t("Something went wrong while claiming the governor. Please try again."));
     } finally {
       setIsSubmitting(false);
     }
@@ -123,13 +123,13 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
     <form onSubmit={handleSubmit} noValidate>
       <FieldGroup>
         <Field>
-          <Label htmlFor={id}>{tCommon("fields.governorId")}</Label>
+          <Label htmlFor={id}>{tCommon("Governor ID")}</Label>
           <Input
             id={id}
             name="governorId"
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder={tCommon("placeholders.governorId")}
+            placeholder={tCommon("71738515")}
             value={governorIdInput}
             onChange={(event) => {
               setGovernorIdInput(event.target.value);
@@ -143,7 +143,9 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
           {errorMessage ? (
             <ErrorMessage>{errorMessage}</ErrorMessage>
           ) : !canClaimMore ? (
-            <Description>{t("claimForm.maxReached")}</Description>
+            <Description>
+              {t("You have reached the maximum of three claimed governors.")}
+            </Description>
           ) : undefined}
         </Field>
       </FieldGroup>
@@ -152,7 +154,7 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
           type="submit"
           disabled={!canClaimMore || isSubmitting || governorIdInput.trim() === ""}
         >
-          {isSubmitting ? t("claimForm.submitting") : t("claimForm.submit")}
+          {isSubmitting ? t("Claiming...") : t("Claim governor")}
         </Button>
       </div>
     </form>

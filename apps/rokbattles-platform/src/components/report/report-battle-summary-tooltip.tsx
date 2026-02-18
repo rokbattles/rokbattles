@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 
 type ReportBattleSummaryTooltipProps = {
   active?: boolean;
@@ -17,7 +17,7 @@ export function ReportBattleSummaryTooltip({
   payload,
   label,
 }: ReportBattleSummaryTooltipProps) {
-  const t = useTranslations("common");
+  const t = useExtracted();
   if (!active || !Array.isArray(payload) || payload.length === 0 || label == null) {
     return null;
   }
@@ -40,9 +40,9 @@ export function ReportBattleSummaryTooltip({
         {entries.map((entry) => {
           const descriptor =
             entry.key === "self"
-              ? { label: t("labels.sender"), color: "#3b82f6" }
+              ? { label: t("Sender"), color: "#3b82f6" }
               : entry.key === "enemy"
-                ? { label: t("labels.opponent"), color: "#f87171" }
+                ? { label: t("Opponent"), color: "#f87171" }
                 : null;
           if (!descriptor) {
             return null;

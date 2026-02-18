@@ -1,21 +1,21 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Navbar, NavbarItem, NavbarLabel, NavbarSection } from "@/components/ui/navbar";
 
 export function AccountSettingsNav() {
-  const t = useTranslations("account");
+  const t = useExtracted();
   const pathname = usePathname() ?? "";
   const settingsItems = [
     {
       href: "/account/settings",
-      label: t("settings.nav.general"),
+      label: t("General"),
       isActive: (path: string) => path === "/account/settings",
     },
     {
       href: "/account/settings/governors",
-      label: t("settings.nav.governors"),
+      label: t("Governors"),
       isActive: (path: string) => path.startsWith("/account/settings/governors"),
     },
   ];

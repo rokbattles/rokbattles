@@ -1,7 +1,7 @@
 "use client";
 
 import { FunnelIcon } from "@heroicons/react/16/solid";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useContext } from "react";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
@@ -10,9 +10,9 @@ import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { GovernorContext } from "@/providers/governor-context";
 
 export function AccountReportsContent() {
-  const tAccount = useTranslations("account");
-  const tReports = useTranslations("reports");
-  const tCommon = useTranslations("common");
+  const tAccount = useExtracted();
+  const tReports = useExtracted();
+  const tCommon = useExtracted();
   const governorContext = useContext(GovernorContext);
 
   if (!governorContext) {
@@ -27,24 +27,24 @@ export function AccountReportsContent() {
 
   return (
     <>
-      <Heading>{tAccount("titles.reports")}</Heading>
+      <Heading>{tAccount("My Battle Reports")}</Heading>
       <div className="mt-8 flex items-end justify-between">
-        <Subheading>{tCommon("headings.liveFeed")}</Subheading>
+        <Subheading>{tCommon("Live feed (UTC)")}</Subheading>
         <ReportsFilterDialog lockedPlayerId={activeGovernor.governorId}>
           <FunnelIcon />
-          {tReports("filter.trigger")}
+          {tReports("Filter")}
         </ReportsFilterDialog>
       </div>
       <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
         <TableHead>
           <TableRow>
-            <TableHeader className="sm:w-36">{tCommon("labels.time")}</TableHeader>
-            <TableHeader>{tCommon("labels.sender")}</TableHeader>
-            <TableHeader>{tCommon("labels.opponent")}</TableHeader>
-            <TableHeader className="sm:w-32">{tCommon("labels.battles")}</TableHeader>
-            <TableHeader className="sm:w-32">{tReports("table.killCount")}</TableHeader>
-            <TableHeader className="sm:w-32">{tReports("table.tradePercent")}</TableHeader>
-            <TableHeader className="sm:w-32">{tReports("table.duration")}</TableHeader>
+            <TableHeader className="sm:w-36">{tCommon("Time")}</TableHeader>
+            <TableHeader>{tCommon("Sender")}</TableHeader>
+            <TableHeader>{tCommon("Opponent")}</TableHeader>
+            <TableHeader className="sm:w-32">{tCommon("Battles")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("Kill Count")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("Trade %")}</TableHeader>
+            <TableHeader className="sm:w-32">{tReports("Duration")}</TableHeader>
           </TableRow>
         </TableHead>
         <ReportsTable scope="mine" />

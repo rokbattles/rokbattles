@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxOption } from "@/components/ui/listbox";
@@ -37,17 +37,17 @@ export function PairingsFilters({
   onStartDateChange,
   onEndDateChange,
 }: PairingsFiltersProps) {
-  const t = useTranslations("pairings");
-  const tTrends = useTranslations("trends");
+  const t = useExtracted();
+  const tTrends = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       <Field className="space-y-2">
-        <Label>{tTrends("table.pairing")}</Label>
+        <Label>{tTrends("Pairing")}</Label>
         <Listbox
-          aria-label={tTrends("table.pairing")}
+          aria-label={tTrends("Pairing")}
           value={pairingValue}
           onChange={onPairingChange}
           disabled={pairingsLoading || pairingOptions.length === 0}
@@ -60,18 +60,18 @@ export function PairingsFilters({
         </Listbox>
       </Field>
       <Field className="space-y-2">
-        <Label>{t("filters.loadoutGranularity")}</Label>
+        <Label>{t("Loadout granularity")}</Label>
         <Listbox
-          aria-label={t("filters.loadoutGranularity")}
+          aria-label={t("Loadout granularity")}
           value={loadoutGranularity}
           onChange={onGranularityChange}
         >
-          <ListboxOption value="normalized">{t("filters.normalized")}</ListboxOption>
-          <ListboxOption value="exact">{t("filters.exact")}</ListboxOption>
+          <ListboxOption value="normalized">{t("Normalized")}</ListboxOption>
+          <ListboxOption value="exact">{t("Exact")}</ListboxOption>
         </Listbox>
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="pairings-start-date">{t("filters.startDate")}</Label>
+        <Label htmlFor="pairings-start-date">{t("Start date")}</Label>
         <Input
           id="pairings-start-date"
           type="date"
@@ -82,7 +82,7 @@ export function PairingsFilters({
         />
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="pairings-end-date">{t("filters.endDate")}</Label>
+        <Label htmlFor="pairings-end-date">{t("End date")}</Label>
         <Input
           id="pairings-end-date"
           type="date"

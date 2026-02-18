@@ -5,7 +5,7 @@ import {
   Cog6ToothIcon,
   ScaleIcon,
 } from "@heroicons/react/16/solid";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useState } from "react";
 import { CookieConsentDialog } from "@/components/cookie-consent-dialog";
 import {
@@ -23,24 +23,24 @@ export function PlatformAccountDropdownMenu({
   handleLogout: () => Promise<void>;
 }) {
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
-  const t = useTranslations("navigation");
-  const tAccount = useTranslations("account");
+  const t = useExtracted();
+  const tAccount = useExtracted();
 
   return (
     <>
       <DropdownMenu className="min-w-64" anchor={anchor}>
         <DropdownItem href="/account/settings">
           <Cog6ToothIcon />
-          <DropdownLabel>{tAccount("titles.settings")}</DropdownLabel>
+          <DropdownLabel>{tAccount("Account Settings")}</DropdownLabel>
         </DropdownItem>
         <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
           <ScaleIcon />
-          <DropdownLabel>{t("cookieSettings")}</DropdownLabel>
+          <DropdownLabel>{t("Cookie Settings")}</DropdownLabel>
         </DropdownItem>
         <DropdownDivider />
         <DropdownItem onClick={() => handleLogout()}>
           <ArrowRightStartOnRectangleIcon />
-          <DropdownLabel>{t("signOut")}</DropdownLabel>
+          <DropdownLabel>{t("Sign out")}</DropdownLabel>
         </DropdownItem>
       </DropdownMenu>
       <CookieConsentDialog open={isCookieDialogOpen} onClose={() => setIsCookieDialogOpen(false)} />

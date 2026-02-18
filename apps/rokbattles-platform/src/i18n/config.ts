@@ -2,7 +2,7 @@ export const languageCookieName = "platformLanguage";
 
 export const defaultLocale = "en";
 
-export const siteSupportedLocales = ["en", "es", "ko"] as const;
+export const siteSupportedLocales = ["en"] as const;
 export type SiteLocale = (typeof siteSupportedLocales)[number];
 
 export const datasetSupportedLocales = [

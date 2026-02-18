@@ -13,7 +13,7 @@ import {
   TrophyIcon,
 } from "@heroicons/react/16/solid";
 import { usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useTheme } from "next-themes";
 import type React from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -50,8 +50,8 @@ type PlatformLayoutProps = {
 };
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
-  const t = useTranslations("navigation");
-  const tAccount = useTranslations("account");
+  const t = useExtracted();
+  const tAccount = useExtracted();
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
@@ -67,7 +67,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const showMyReports = Boolean(!loading && user && activeGovernor);
   const isDark = isMounted ? resolvedTheme === "dark" : false;
   const ThemeIcon = isDark ? SunIcon : MoonIcon;
-  const themeLabel = isMounted ? (isDark ? t("lightMode") : t("darkMode")) : t("theme");
+  const themeLabel = isMounted ? (isDark ? t("Light mode") : t("Dark mode")) : t("Theme");
 
   useEffect(() => {
     setIsMounted(true);
@@ -96,14 +96,14 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             {!loading &&
               (user ? (
                 <Dropdown>
-                  <DropdownButton as={NavbarItem} aria-label={t("openAccountMenu")}>
+                  <DropdownButton as={NavbarItem} aria-label={t("Open account menu")}>
                     <Avatar src={user.avatar} square />
                   </DropdownButton>
                   <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
                 <NavbarItem href="/api/auth/discord/login">
-                  <NavbarLabel>{t("signIn")}</NavbarLabel>
+                  <NavbarLabel>{t("Sign in")}</NavbarLabel>
                 </NavbarItem>
               ))}
           </NavbarSection>
@@ -116,32 +116,32 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSection>
               <SidebarItem href="/" current={pathname === "/"}>
                 <FireIcon />
-                <SidebarLabel>{t("exploreBattles")}</SidebarLabel>
+                <SidebarLabel>{t("Explore Battles")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
                 <TrophyIcon />
-                <SidebarLabel>{t("exploreDuels")}</SidebarLabel>
+                <SidebarLabel>{t("Explore Duels")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (
               <SidebarSection>
-                <SidebarHeading>{t("account")}</SidebarHeading>
+                <SidebarHeading>{t("Account")}</SidebarHeading>
                 {showMyReports ? (
                   <>
                     <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
                       <FireIcon />
-                      <SidebarLabel>{t("myBattles")}</SidebarLabel>
+                      <SidebarLabel>{t("My Battles")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem
                       href="/account/pairings"
                       current={pathname === "/account/pairings"}
                     >
                       <ScaleIcon />
-                      <SidebarLabel>{tAccount("titles.pairings")}</SidebarLabel>
+                      <SidebarLabel>{tAccount("My Pairings")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem href="/account/rewards" current={pathname === "/account/rewards"}>
                       <GiftIcon />
-                      <SidebarLabel>{tAccount("titles.rewards")}</SidebarLabel>
+                      <SidebarLabel>{tAccount("My Rewards")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
@@ -151,7 +151,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             <SidebarSection>
               <SidebarItem href="/legal">
                 <ShieldCheckIcon />
-                <SidebarLabel>{t("legal")}</SidebarLabel>
+                <SidebarLabel>{t("Legal")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/discord"
@@ -160,7 +160,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 prefetch={false}
               >
                 <QuestionMarkCircleIcon />
-                <SidebarLabel>{t("support")}</SidebarLabel>
+                <SidebarLabel>{t("Support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/desktop-app"
@@ -169,9 +169,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 prefetch={false}
               >
                 <ArrowDownTrayIcon />
-                <SidebarLabel>{t("desktopApp")}</SidebarLabel>
+                <SidebarLabel>{t("Desktop App")}</SidebarLabel>
               </SidebarItem>
-              <SidebarItem onClick={handleThemeToggle} aria-label={t("toggleTheme")}>
+              <SidebarItem onClick={handleThemeToggle} aria-label={t("Toggle theme")}>
                 <ThemeIcon />
                 <SidebarLabel>{themeLabel}</SidebarLabel>
               </SidebarItem>
@@ -181,7 +181,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           <SidebarFooter className="max-lg:hidden">
             {loading ? (
               <SidebarItem disabled>
-                <SidebarLabel>{t("loading")}</SidebarLabel>
+                <SidebarLabel>{t("Loading...")}</SidebarLabel>
               </SidebarItem>
             ) : user ? (
               <Dropdown>
@@ -203,7 +203,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               </Dropdown>
             ) : (
               <SidebarItem href="/api/auth/discord/login" prefetch={false}>
-                <SidebarLabel>{t("signIn")}</SidebarLabel>
+                <SidebarLabel>{t("Sign in")}</SidebarLabel>
               </SidebarItem>
             )}
           </SidebarFooter>

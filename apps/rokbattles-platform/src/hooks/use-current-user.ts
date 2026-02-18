@@ -49,7 +49,7 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
         }
 
         if (!response.ok) {
-          throw new Error("Failed to fetch current user");
+          throw new Error("Failed to fetch data");
         }
 
         const nextUser = payload?.user ?? null;
@@ -60,7 +60,7 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
           return;
         }
 
-        console.error("Failed to fetch current user", err);
+        console.error("Failed to fetch data", err);
         setUser(null);
         setGovernors([]);
       } finally {

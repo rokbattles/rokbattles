@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { formatLocalDateInput } from "@/lib/datetime";
@@ -18,14 +18,14 @@ export function RewardsFilters({
   onStartDateChange,
   onEndDateChange,
 }: RewardsFiltersProps) {
-  const tPairings = useTranslations("pairings");
+  const tPairings = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Field className="space-y-2">
-        <Label htmlFor="rewards-start-date">{tPairings("filters.startDate")}</Label>
+        <Label htmlFor="rewards-start-date">{tPairings("Start date")}</Label>
         <Input
           id="rewards-start-date"
           type="date"
@@ -36,7 +36,7 @@ export function RewardsFilters({
         />
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="rewards-end-date">{tPairings("filters.endDate")}</Label>
+        <Label htmlFor="rewards-end-date">{tPairings("End date")}</Label>
         <Input
           id="rewards-end-date"
           type="date"

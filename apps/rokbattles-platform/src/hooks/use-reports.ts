@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { buildReportsQueryParams } from "@/lib/reports-query";
 import { GovernorContext } from "@/providers/governor-context";
@@ -43,7 +43,7 @@ export type UseReportsOptions = {
 };
 
 export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReportsResult {
-  const t = useTranslations("errors");
+  const t = useExtracted();
   const context = useContext(ReportsFilterContext);
   const governorContext = useContext(GovernorContext);
 
@@ -93,7 +93,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
       });
 
       if (!res.ok) {
-        throw new Error(t("reports.fetch", { status: res.status }));
+        throw new Error(t("Failed to fetch data"));
       }
 
       return (await res.json()) as ReportsApiResponse;
@@ -139,7 +139,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
         if (cancelled) {
           return;
         }
-        const message = err instanceof Error ? err.message : t("reports.generic");
+        const message = err instanceof Error ? err.message : t("Failed to fetch data");
         setError(message);
       })
       .finally(() => {
@@ -174,7 +174,7 @@ export function useReports({ scope = "all" }: UseReportsOptions = {}): UseReport
       setReports((prev) => [...prev, ...data.items]);
       setError(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("reports.generic");
+      const message = err instanceof Error ? err.message : t("Failed to fetch data");
       setError(message);
     } finally {
       setLoading(false);

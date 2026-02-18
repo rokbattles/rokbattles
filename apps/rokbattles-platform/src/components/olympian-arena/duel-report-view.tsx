@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { DuelEmptyState } from "@/components/olympian-arena/duel-empty-state";
 import { DuelErrorState } from "@/components/olympian-arena/duel-error-state";
@@ -17,8 +17,8 @@ export type DuelReportViewProps = {
 };
 
 export default function DuelReportView({ duelId }: DuelReportViewProps) {
-  const t = useTranslations("duels");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
+  const tCommon = useExtracted();
   const normalizedId = duelId?.trim() ?? "";
   const parsedId = Number(normalizedId);
   const duelIdValue = Number.isFinite(parsedId) ? parsedId : null;
@@ -59,14 +59,14 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <Heading>{t("title")}</Heading>
+        <Heading>{t("Duel Report")}</Heading>
         <Button className="-my-0.5" disabled={isCopied || !hasValidId} onClick={handleShare}>
-          {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
+          {isCopied ? tCommon("Copied") : tCommon("Share")}
         </Button>
       </div>
       <Divider />
       {!hasValidId || error ? (
-        <DuelErrorState message={error ?? t("states.invalid")} />
+        <DuelErrorState message={error ?? t("We could not load this duel.")} />
       ) : loading ? (
         <DuelLoadingState />
       ) : entries.length === 0 ? (

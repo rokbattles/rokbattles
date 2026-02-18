@@ -1,7 +1,20 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin({
+  experimental: {
+    srcPath: "./src",
+    extract: {
+      sourceLocale: "en",
+    },
+    messages: {
+      path: "./src/i18n/messages",
+      format: "po",
+      locales: "infer",
+      precompile: true,
+    },
+  },
+});
 
 const plugins = [withNextIntl];
 const isProdEnv = process.env.NODE_ENV === "production";
@@ -12,12 +25,10 @@ const config: NextConfig = {
     removeConsole: isProdEnv,
   },
   compress: true,
-  devIndicators: false,
   experimental: {
     typedEnv: true,
   },
   images: {
-    // formats: ["image/avif", "image/webp"],
     unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "imimg.lilithcdn.com", pathname: "/**" },
@@ -41,16 +52,6 @@ const config: NextConfig = {
       {
         source: "/desktop-app",
         destination: "https://github.com/rokbattles/rokbattles/releases",
-        permanent: false,
-      },
-      {
-        source: "/my-reports",
-        destination: "/account/reports",
-        permanent: false,
-      },
-      {
-        source: "/my-pairings",
-        destination: "/account/pairings",
         permanent: false,
       },
     ];

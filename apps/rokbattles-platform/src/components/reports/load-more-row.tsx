@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -11,7 +11,7 @@ const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
   { colSpan, loading, onLoadMore },
   ref
 ) {
-  const t = useTranslations("common");
+  const t = useExtracted();
   return (
     <TableRow>
       <TableCell colSpan={colSpan}>
@@ -22,12 +22,12 @@ const LoadMoreRow = forwardRef<HTMLDivElement, Props>(function LoadMoreRow(
             role="status"
             aria-live="polite"
           >
-            {t("states.loadingMore")}
+            {t("Loading more...")}
           </div>
         ) : (
           <div className="flex justify-center">
             <Button plain type="button" onClick={onLoadMore} className="text-sm/6">
-              {t("actions.loadMore")}
+              {t("Load more")}
             </Button>
           </div>
         )}

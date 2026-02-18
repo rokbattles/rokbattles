@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { ReportArmamentSection } from "@/components/report/report-armament-section";
 import { ReportArtifactSection } from "@/components/report/report-artifact-section";
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
@@ -23,8 +23,8 @@ export function ReportParticipantCard({
   participant,
   showArtifacts = true,
 }: ReportParticipantCardProps) {
-  const tCommon = useTranslations("common");
-  const playerName = participant?.player_name?.trim() || tCommon("labels.unknownCommander");
+  const tCommon = useExtracted();
+  const playerName = participant?.player_name?.trim() || tCommon("Unknown commander");
   const allianceTag = participant?.alliance_tag?.trim();
   const playerId = participant?.player_id;
 
@@ -55,10 +55,10 @@ export function ReportParticipantCard({
           <div className="text-base font-semibold text-zinc-900 dark:text-white">{playerName}</div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>{tCommon("labels.id", { id: playerId })}</Badge>
+              <Badge>{tCommon("ID {id}", { id: playerId.toString() })}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
-            {participant?.is_rally ? <Badge>{tCommon("labels.rally")}</Badge> : null}
+            {participant?.is_rally ? <Badge>{tCommon("Rally")}</Badge> : null}
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ export function ReportParticipantCard({
       <div className="space-y-4">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{tCommon("labels.commanders")}</Subheading>
+            <Subheading>{tCommon("Commanders")}</Subheading>
             <div className="space-y-2">
               {showPrimary ? (
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />

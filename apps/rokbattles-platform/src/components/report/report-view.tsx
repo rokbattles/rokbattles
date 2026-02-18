@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useExtracted } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ReportEmptyState } from "@/components/report/report-empty-state";
 import { ReportEntryCard } from "@/components/report/report-entry-card";
@@ -22,8 +22,8 @@ type ReportViewProps = {
 };
 
 export function ReportView({ id }: ReportViewProps) {
-  const t = useTranslations("report");
-  const tCommon = useTranslations("common");
+  const t = useExtracted();
+  const tCommon = useExtracted();
   const normalizedId = id?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedId.length > 0 ? normalizedId : null);
@@ -61,10 +61,10 @@ export function ReportView({ id }: ReportViewProps) {
   return (
     <section className="space-y-8">
       <div className="flex items-end justify-between gap-4">
-        <Heading>{t("title")}</Heading>
+        <Heading>{t("Report")}</Heading>
         <div className="flex items-center gap-2">
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
-            {isCopied ? tCommon("actions.copied") : tCommon("actions.share")}
+            {isCopied ? tCommon("Copied") : tCommon("Share")}
           </Button>
         </div>
       </div>
