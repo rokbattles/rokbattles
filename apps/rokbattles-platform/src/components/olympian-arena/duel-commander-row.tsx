@@ -13,13 +13,13 @@ type DuelCommanderRowProps = {
 };
 
 export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
-  const tCommon = useExtracted();
+  const t = useExtracted();
   const commanderId = commander.id;
   const commanderName = getCommanderName(Number.isFinite(commanderId) ? commanderId : null);
   const level = Number.isFinite(commander.level) ? commander.level : null;
-  const commanderLabel = commanderName ?? commanderId ?? tCommon("Unknown");
+  const commanderLabel = commanderName ?? commanderId ?? t("Unknown");
   const commanderIconSrc = `https://cdn.rokbattles.com/game/commander/${commanderId}.png`;
-  const commanderAlt = tCommon("{name} icon", { name: commanderLabel.toString() });
+  const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
 
   return (
     <Text className="flex flex-wrap items-center gap-2 text-sm">
@@ -28,7 +28,7 @@ export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
         <Strong>{commanderLabel}</Strong>
       </span>
       <Badge>{label}</Badge>
-      {level != null ? <Badge>{tCommon("Lvl {level}", { level: level.toString() })}</Badge> : null}
+      {level != null ? <Badge>{t("Lvl {level}", { level: level.toString() })}</Badge> : null}
     </Text>
   );
 }

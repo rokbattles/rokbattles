@@ -51,7 +51,6 @@ type PlatformLayoutProps = {
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const t = useExtracted();
-  const tAccount = useExtracted();
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
@@ -137,11 +136,11 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       current={pathname === "/account/pairings"}
                     >
                       <ScaleIcon />
-                      <SidebarLabel>{tAccount("My Pairings")}</SidebarLabel>
+                      <SidebarLabel>{t("My Pairings")}</SidebarLabel>
                     </SidebarItem>
                     <SidebarItem href="/account/rewards" current={pathname === "/account/rewards"}>
                       <GiftIcon />
-                      <SidebarLabel>{tAccount("My Rewards")}</SidebarLabel>
+                      <SidebarLabel>{t("My Rewards")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}

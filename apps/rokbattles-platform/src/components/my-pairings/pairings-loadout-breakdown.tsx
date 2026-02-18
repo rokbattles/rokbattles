@@ -68,8 +68,6 @@ export function PairingsLoadoutBreakdown({
   opponentsId,
 }: PairingsLoadoutBreakdownProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
-  const tTrends = useExtracted();
 
   return (
     <section className="space-y-6">
@@ -126,10 +124,10 @@ export function PairingsLoadoutBreakdown({
                 <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
                   <TableHead>
                     <TableRow>
-                      <TableHeader className="w-12">{tTrends("#")}</TableHeader>
+                      <TableHeader className="w-12">{t("#")}</TableHeader>
                       <TableHeader>{t("Opponent pairing")}</TableHeader>
-                      <TableHeader className="w-24">{tCommon("Battles")}</TableHeader>
-                      <TableHeader className="w-32">{tCommon("Kill Points")}</TableHeader>
+                      <TableHeader className="w-24">{t("Battles")}</TableHeader>
+                      <TableHeader className="w-32">{t("Kill Points")}</TableHeader>
                       <TableHeader className="w-40">{t("Opponent Kill Points")}</TableHeader>
                       <TableHeader className="w-20">{t("DPS")}</TableHeader>
                       <TableHeader className="w-20">{t("SPS")}</TableHeader>
@@ -164,7 +162,7 @@ export function PairingsLoadoutBreakdown({
                     aria-controls={opponentsId}
                     className="text-sm"
                   >
-                    {showAllOpponents ? tCommon("Show less") : tCommon("Show more")}
+                    {showAllOpponents ? t("Show less") : t("Show more")}
                   </Button>
                 ) : null}
               </>

@@ -14,7 +14,7 @@ function isValidCommanderId(id: number | null | undefined): id is number {
 }
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
-  const tCommon = useExtracted();
+  const t = useExtracted();
   const unknownLabel = tCommon("Unknown commander");
 
   const primaryName = isValidCommanderId(primaryId)
@@ -36,7 +36,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
     <div className="flex flex-col">
       <span className="inline-flex items-center gap-2">
         <Image
-          alt={tCommon("{name} icon", { name: primaryName })}
+          alt={t("{name} icon", { name: primaryName })}
           className="size-8 rounded-full object-cover"
           height={32}
           src={primarySrc}
@@ -47,7 +47,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
       {secondarySrc ? (
         <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
           <Image
-            alt={tCommon("{name} icon", { name: secondaryName })}
+            alt={t("{name} icon", { name: secondaryName })}
             className="size-8 rounded-full object-cover"
             height={32}
             src={secondarySrc}

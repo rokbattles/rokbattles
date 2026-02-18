@@ -23,7 +23,6 @@ type ReportViewProps = {
 
 export function ReportView({ id }: ReportViewProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const normalizedId = id?.trim() ?? "";
 
   const { data, loading, error } = useReport(normalizedId.length > 0 ? normalizedId : null);
@@ -64,7 +63,7 @@ export function ReportView({ id }: ReportViewProps) {
         <Heading>{t("Report")}</Heading>
         <div className="flex items-center gap-2">
           <Button className="-my-0.5" disabled={isCopied} onClick={handleShare}>
-            {isCopied ? tCommon("Copied") : tCommon("Share")}
+            {isCopied ? t("Copied") : t("Share")}
           </Button>
         </div>
       </div>

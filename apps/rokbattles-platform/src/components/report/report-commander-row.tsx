@@ -15,14 +15,13 @@ type ReportCommanderRowProps = {
 
 export function ReportCommanderRow({ commander, formation }: ReportCommanderRowProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const commanderId = commander?.id;
   const commanderName = getCommanderName(commanderId ?? null);
   const formationName = getFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
-  const commanderLabel = commanderName ?? commanderId ?? tCommon("Unknown");
+  const commanderLabel = commanderName ?? commanderId ?? t("Unknown");
   const commanderIconSrc = `https://cdn.rokbattles.com/game/commander/${commanderId}.png`;
-  const commanderAlt = tCommon("{name} icon", { name: commanderLabel.toString() });
+  const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
   const formationLabel =
     typeof formation === "number"
       ? (formationName ?? t("Formation {formation}", { formation: formation.toString() }))
@@ -35,7 +34,7 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
         <Strong>{commanderLabel}</Strong>
       </span>
       {formationLabel ? <Badge>{formationLabel}</Badge> : null}
-      {level != null ? <Badge>{tCommon("Lvl {level}", { level: level.toString() })}</Badge> : null}
+      {level != null ? <Badge>{t("Lvl {level}", { level: level.toString() })}</Badge> : null}
     </Text>
   );
 }

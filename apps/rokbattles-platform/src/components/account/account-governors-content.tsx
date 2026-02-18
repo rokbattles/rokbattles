@@ -14,7 +14,6 @@ type AccountGovernorsContentProps = {
 
 export function AccountGovernorsContent({ initialUser }: AccountGovernorsContentProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const { user, refresh } = useCurrentUser({ initialUser });
   const resolvedUser = user ?? initialUser;
 
@@ -42,7 +41,7 @@ export function AccountGovernorsContent({ initialUser }: AccountGovernorsContent
                   </p>
                   {governor.governorName ? (
                     <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                      {tCommon("ID {id}", { id: governor.governorId.toString() })}
+                      {t("ID {id}", { id: governor.governorId.toString() })}
                     </p>
                   ) : null}
                 </div>

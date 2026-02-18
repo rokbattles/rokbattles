@@ -18,14 +18,14 @@ export function RewardsFilters({
   onStartDateChange,
   onEndDateChange,
 }: RewardsFiltersProps) {
-  const tPairings = useExtracted();
+  const t = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Field className="space-y-2">
-        <Label htmlFor="rewards-start-date">{tPairings("Start date")}</Label>
+        <Label htmlFor="rewards-start-date">{t("Start date")}</Label>
         <Input
           id="rewards-start-date"
           type="date"
@@ -36,7 +36,7 @@ export function RewardsFilters({
         />
       </Field>
       <Field className="space-y-2">
-        <Label htmlFor="rewards-end-date">{tPairings("End date")}</Label>
+        <Label htmlFor="rewards-end-date">{t("End date")}</Label>
         <Input
           id="rewards-end-date"
           type="date"

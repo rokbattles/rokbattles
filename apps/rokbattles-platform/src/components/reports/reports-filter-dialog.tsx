@@ -50,7 +50,6 @@ type ReportsFilterDialogProps = React.ComponentPropsWithoutRef<typeof Button> & 
 
 export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterDialogProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const context = useContext(ReportsFilterContext);
   if (!context) throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
 
@@ -103,8 +102,8 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
 
   const sideOptions: SideOption[] = [
     { value: "none", label: t("None") },
-    { value: "sender", label: tCommon("Sender") },
-    { value: "opponent", label: tCommon("Opponent") },
+    { value: "sender", label: t("Sender") },
+    { value: "opponent", label: t("Opponent") },
     { value: "both", label: t("Either side") },
   ];
 
@@ -188,11 +187,11 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               <Legend>{t("Metadata")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{tCommon("Governor ID")}</Label>
+                  <Label>{t("Governor ID")}</Label>
                   <Input
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    placeholder={tCommon("71738515")}
+                    placeholder={t("71738515")}
                     value={localPlayerId}
                     disabled={hasLockedPlayerId}
                     onChange={(event) => {
@@ -210,7 +209,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{tCommon("All")}</ListboxLabel>
+                      <ListboxLabel>{t("All")}</ListboxLabel>
                     </ListboxOption>
                     <ListboxOption value="home">
                       <ListboxLabel>{t("Home")}</ListboxLabel>
@@ -229,7 +228,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               </div>
             </Fieldset>
             <Fieldset>
-              <Legend>{tCommon("Sender")}</Legend>
+              <Legend>{t("Sender")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
                   <Label>{t("Primary Commander")}</Label>
@@ -240,7 +239,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{tCommon("All")}</ListboxLabel>
+                      <ListboxLabel>{t("All")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -258,7 +257,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{tCommon("All")}</ListboxLabel>
+                      <ListboxLabel>{t("All")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -270,7 +269,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               </div>
             </Fieldset>
             <Fieldset>
-              <Legend>{tCommon("Opponent")}</Legend>
+              <Legend>{t("Opponent")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
                   <Label>{t("Primary Commander")}</Label>
@@ -281,7 +280,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{tCommon("All")}</ListboxLabel>
+                      <ListboxLabel>{t("All")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -299,7 +298,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{tCommon("All")}</ListboxLabel>
+                      <ListboxLabel>{t("All")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -371,7 +370,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                       }}
                     >
                       <ListboxOption value="">
-                        <ListboxLabel>{tCommon("Any")}</ListboxLabel>
+                        <ListboxLabel>{t("Any")}</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="flag">
                         <ListboxLabel>{t("Alliance Flag")}</ListboxLabel>
@@ -391,7 +390,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
         </DialogBody>
         <DialogActions>
           <Button plain onClick={() => setIsOpen(false)}>
-            {tCommon("Cancel")}
+            {t("Cancel")}
           </Button>
           <Button
             plain
@@ -403,9 +402,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               setIsOpen(false);
             }}
           >
-            {tCommon("Reset")}
+            {t("Reset")}
           </Button>
-          <Button onClick={handleApply}>{tCommon("Apply")}</Button>
+          <Button onClick={handleApply}>{t("Apply")}</Button>
         </DialogActions>
       </Dialog>
     </>

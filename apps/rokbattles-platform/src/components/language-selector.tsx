@@ -47,7 +47,6 @@ const setLocaleCookie = (locale: string) => {
 
 export function LanguageSelector() {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(defaultLocale);
@@ -135,7 +134,7 @@ export function LanguageSelector() {
         </DialogBody>
         <DialogActions>
           <Button outline onClick={() => handleClose(false)}>
-            {tCommon("Cancel")}
+            {t("Cancel")}
           </Button>
           <Button onClick={handleSave}>{t("Save")}</Button>
         </DialogActions>

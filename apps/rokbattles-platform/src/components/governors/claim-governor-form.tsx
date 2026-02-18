@@ -41,7 +41,6 @@ function isClaimResponse(payload: unknown): payload is ClaimResponse {
 
 export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorFormProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const [governorIdInput, setGovernorIdInput] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -123,13 +122,13 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
     <form onSubmit={handleSubmit} noValidate>
       <FieldGroup>
         <Field>
-          <Label htmlFor={id}>{tCommon("Governor ID")}</Label>
+          <Label htmlFor={id}>{t("Governor ID")}</Label>
           <Input
             id={id}
             name="governorId"
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder={tCommon("71738515")}
+            placeholder={t("71738515")}
             value={governorIdInput}
             onChange={(event) => {
               setGovernorIdInput(event.target.value);

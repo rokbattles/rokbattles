@@ -18,7 +18,6 @@ export type DuelReportViewProps = {
 
 export default function DuelReportView({ duelId }: DuelReportViewProps) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const normalizedId = duelId?.trim() ?? "";
   const parsedId = Number(normalizedId);
   const duelIdValue = Number.isFinite(parsedId) ? parsedId : null;
@@ -61,7 +60,7 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       <div className="flex items-end justify-between gap-4">
         <Heading>{t("Duel Report")}</Heading>
         <Button className="-my-0.5" disabled={isCopied || !hasValidId} onClick={handleShare}>
-          {isCopied ? tCommon("Copied") : tCommon("Share")}
+          {isCopied ? t("Copied") : t("Share")}
         </Button>
       </div>
       <Divider />

@@ -38,16 +38,15 @@ export function PairingsFilters({
   onEndDateChange,
 }: PairingsFiltersProps) {
   const t = useExtracted();
-  const tTrends = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
       <Field className="space-y-2">
-        <Label>{tTrends("Pairing")}</Label>
+        <Label>{t("Pairing")}</Label>
         <Listbox
-          aria-label={tTrends("Pairing")}
+          aria-label={t("Pairing")}
           value={pairingValue}
           onChange={onPairingChange}
           disabled={pairingsLoading || pairingOptions.length === 0}

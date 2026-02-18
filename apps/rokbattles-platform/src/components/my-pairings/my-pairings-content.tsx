@@ -88,7 +88,6 @@ export function MyPairingsContent() {
   }
 
   const t = useExtracted();
-  const tCommon = useExtracted();
   const { activeGovernor } = governorContext;
 
   const [startDate, setStartDate] = useState<string>("");
@@ -143,10 +142,10 @@ export function MyPairingsContent() {
         label: formatCommanderPair(
           pairing.primaryCommanderId,
           pairing.secondaryCommanderId,
-          tCommon("Unknown commander")
+          t("Unknown commander")
         ),
       })),
-    [data, tCommon]
+    [data, t]
   );
 
   const selectedPairing = data.find(
@@ -276,13 +275,13 @@ export function MyPairingsContent() {
     return [
       {
         id: "battles",
-        name: tCommon("Battles"),
+        name: t("Battles"),
         value: formatNumber(selectedLoadoutCard.count),
         description: t("Total battles recorded for this loadout."),
       },
       {
         id: "killPoints",
-        name: tCommon("Kill Points"),
+        name: t("Kill Points"),
         value: formatNumber(selectedLoadoutCard.totals.killScore),
         description: t("Total kill points earned while using this pairing."),
       },
@@ -337,7 +336,7 @@ export function MyPairingsContent() {
         description: t("Rate at which your troops become severely wounded each second."),
       },
     ];
-  }, [selectedLoadoutCard, t, tCommon]);
+  }, [selectedLoadoutCard, t]);
 
   const enemyGranularity: EnemyGranularity =
     selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
@@ -375,7 +374,7 @@ export function MyPairingsContent() {
         pairing: formatCommanderPair(
           entry.enemyPrimaryCommanderId,
           entry.enemySecondaryCommanderId,
-          tCommon("Unknown commander")
+          t("Unknown commander")
         ),
         battles: formatNumber(entry.count),
         killPoints: formatNumber(entry.totals.killScore),
@@ -384,7 +383,7 @@ export function MyPairingsContent() {
         sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
         tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
       })),
-    [tCommon, visibleOpponents]
+    [t, visibleOpponents]
   );
 
   if (!activeGovernor) {

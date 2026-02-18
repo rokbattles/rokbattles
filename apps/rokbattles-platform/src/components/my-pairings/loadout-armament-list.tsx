@@ -9,7 +9,7 @@ type LoadoutArmamentListProps = {
 };
 
 export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
-  const tReport = useExtracted();
+  const t = useExtracted();
 
   if (armaments.length === 0) {
     return <div className="min-h-5" />;
@@ -20,7 +20,7 @@ export function LoadoutArmamentList({ armaments }: LoadoutArmamentListProps) {
       {armaments.map((buff) => {
         const fallbackId = typeof buff.id === "number" ? buff.id.toString() : "?";
         const name =
-          getArmamentInfo(buff.id ?? null)?.name ?? tReport("Armament {id}", { id: fallbackId });
+          getArmamentInfo(buff.id ?? null)?.name ?? t("Armament {id}", { id: fallbackId });
         const valueLabel =
           typeof buff.value === "number" ? `${(buff.value * 100).toFixed(2)}%` : null;
 

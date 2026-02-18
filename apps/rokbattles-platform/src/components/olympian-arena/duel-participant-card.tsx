@@ -40,10 +40,9 @@ export function DuelParticipantCard({
   isWinner?: boolean;
 }) {
   const t = useExtracted();
-  const tCommon = useExtracted();
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant.player_name.trim() || tCommon("Unknown commander");
+  const playerName = participant.player_name.trim() || t("Unknown commander");
   const allianceTag = participant.alliance.abbreviation.trim();
   const playerId = participant.player_id;
 
@@ -90,7 +89,7 @@ export function DuelParticipantCard({
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>{tCommon("ID {id}", { id: playerId.toString() })}</Badge>
+              <Badge>{t("ID {id}", { id: playerId.toString() })}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
           </div>
@@ -100,13 +99,11 @@ export function DuelParticipantCard({
       <div className="space-y-4">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{tCommon("Commanders")}</Subheading>
+            <Subheading>{t("Commanders")}</Subheading>
             <div className="space-y-2">
-              {showPrimary ? (
-                <DuelCommanderRow commander={primary} label={tCommon("Primary")} />
-              ) : null}
+              {showPrimary ? <DuelCommanderRow commander={primary} label={t("Primary")} /> : null}
               {showSecondary ? (
-                <DuelCommanderRow commander={secondary} label={tCommon("Secondary")} />
+                <DuelCommanderRow commander={secondary} label={t("Secondary")} />
               ) : null}
             </div>
           </div>
@@ -135,7 +132,7 @@ export function DuelParticipantCard({
                 aria-controls={buffsId}
                 className="text-sm"
               >
-                {expanded ? tCommon("Show less") : tCommon("Show more")}
+                {expanded ? t("Show less") : t("Show more")}
               </Button>
             ) : null}
           </div>

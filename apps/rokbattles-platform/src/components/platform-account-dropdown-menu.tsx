@@ -24,14 +24,13 @@ export function PlatformAccountDropdownMenu({
 }) {
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
   const t = useExtracted();
-  const tAccount = useExtracted();
 
   return (
     <>
       <DropdownMenu className="min-w-64" anchor={anchor}>
         <DropdownItem href="/account/settings">
           <Cog6ToothIcon />
-          <DropdownLabel>{tAccount("Account Settings")}</DropdownLabel>
+          <DropdownLabel>{t("Account Settings")}</DropdownLabel>
         </DropdownItem>
         <DropdownItem onClick={() => setIsCookieDialogOpen(true)}>
           <ScaleIcon />
