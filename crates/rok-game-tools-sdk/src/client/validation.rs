@@ -106,8 +106,10 @@ mod tests {
 
     #[test]
     fn request_validation_rejects_invalid_pagination() {
-        let mut req = KingdomListRequest::default();
-        req.page = 0;
+        let req = KingdomListRequest {
+            page: 0,
+            ..Default::default()
+        };
         let err = validate_kingdom_list_request(&req).expect_err("page validation should fail");
         assert!(matches!(
             err,
@@ -117,8 +119,10 @@ mod tests {
 
     #[test]
     fn request_validation_rejects_size_above_max() {
-        let mut req = KingdomListRequest::default();
-        req.size = 21;
+        let req = KingdomListRequest {
+            size: 21,
+            ..Default::default()
+        };
         let err = validate_kingdom_list_request(&req).expect_err("size validation should fail");
         assert!(matches!(
             err,
