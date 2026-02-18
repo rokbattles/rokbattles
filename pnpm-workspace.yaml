@@ -1,6 +1,6 @@
 packages:
-  - apps/*
   - crates/*
+  - site
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
