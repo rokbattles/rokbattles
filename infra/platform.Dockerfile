@@ -16,7 +16,6 @@ FROM base AS runner
 ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-COPY --from=builder /app/apps/rokbattles-platform/public ./apps/rokbattles-platform/public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/.next/static ./apps/rokbattles-platform/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/apps/rokbattles-platform/legal ./apps/rokbattles-platform/legal
