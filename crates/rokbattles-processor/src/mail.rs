@@ -8,6 +8,7 @@ pub enum MailType {
     Battle,
     DuelBattle2,
     BarCanyonKillBoss,
+    SystemBarbarianFort,
 }
 
 impl MailType {
@@ -17,6 +18,7 @@ impl MailType {
             "Battle" => Some(Self::Battle),
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
+            "SystemBarbarianFort" => Some(Self::SystemBarbarianFort),
             _ => None,
         }
     }
@@ -27,6 +29,7 @@ impl MailType {
             Self::Battle => "mails_battle",
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
+            Self::SystemBarbarianFort => "mails_system_barbarianfort",
         }
     }
 }
@@ -37,6 +40,7 @@ impl fmt::Display for MailType {
             Self::Battle => "Battle",
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
+            Self::SystemBarbarianFort => "SystemBarbarianFort",
         };
         write!(f, "{label}")
     }
@@ -57,6 +61,10 @@ mod tests {
             MailType::from_str("BarCanyonKillBoss"),
             Some(MailType::BarCanyonKillBoss)
         );
+        assert_eq!(
+            MailType::from_str("SystemBarbarianFort"),
+            Some(MailType::SystemBarbarianFort)
+        );
         assert_eq!(MailType::from_str("Unknown"), None);
     }
 
@@ -67,6 +75,10 @@ mod tests {
         assert_eq!(
             MailType::BarCanyonKillBoss.collection_name(),
             "mails_barcanyonkillboss"
+        );
+        assert_eq!(
+            MailType::SystemBarbarianFort.collection_name(),
+            "mails_system_barbarianfort"
         );
     }
 }

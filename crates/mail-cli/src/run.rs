@@ -7,6 +7,8 @@ use serde_json::Value;
 use crate::fs_utils::is_json_file;
 use crate::{Config, MailCliError, RunSummary};
 
+const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
+
 /// Decode every mail buffer in the input directory into JSON files.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
     let metadata = fs::metadata(&config.input_dir).map_err(|source| MailCliError::Io {
@@ -154,7 +156,7 @@ pub(crate) fn write_processed_json(
     };
 
     // Only emit processed output for mail types with dedicated processors.
-    let mail_type = processed_input.get("type").and_then(|value| value.as_str());
+    let mail_type = classify_processable_mail_type(processed_input);
     let processed = match mail_type {
         Some("BarCanyonKillBoss") => Some(
             mail_processor_barcanyonkillboss::process_parallel(processed_input).map_err(
@@ -180,6 +182,14 @@ pub(crate) fn write_processed_json(
                 }
             })?,
         ),
+        Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT) => Some(
+            mail_processor_system_barbarianfort::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                },
+            )?,
+        ),
         _ => None,
     };
 
@@ -204,6 +214,46 @@ pub(crate) fn write_processed_json(
         path: output_path,
     })?;
     Ok(())
+}
+
+fn classify_processable_mail_type(input: &Value) -> Option<&'static str> {
+    if is_system_barbarian_fort_mail(input) {
+        return Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT);
+    }
+
+    match input.get("type").and_then(|value| value.as_str()) {
+        Some("Battle") => Some("Battle"),
+        Some("DuelBattle2") => Some("DuelBattle2"),
+        Some("BarCanyonKillBoss") => Some("BarCanyonKillBoss"),
+        _ => None,
+    }
+}
+
+fn is_system_barbarian_fort_mail(root: &Value) -> bool {
+    let Some(root) = root.as_object() else {
+        return false;
+    };
+    if !matches!(root.get("type").and_then(Value::as_str), Some("System")) {
+        return false;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
+        return false;
+    }
+
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+    let sub_type = body.get("subType").and_then(value_as_u64);
+    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn value_as_u64(value: &Value) -> Option<u64> {
+    match value {
+        Value::Number(number) => number.as_u64(),
+        Value::String(text) => text.parse::<u64>().ok(),
+        _ => None,
+    }
 }
 
 #[cfg(test)]
@@ -388,5 +438,23 @@ mod tests {
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("4197312176618249531"));
+    }
+
+    #[test]
+    fn write_processed_json_writes_system_barbarianfort_fields() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/System/Persistent.Mail.87938122177133895831.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["metadata"]["mail_id"], json!("87938122177133895831"));
+        assert_eq!(parsed["body"]["target_name"], json!("Level9"));
+        assert_eq!(parsed["rewards"].as_array().unwrap().len(), 4);
     }
 }

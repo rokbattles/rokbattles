@@ -269,7 +269,10 @@ fn is_supported_mail_type(mail_type: &str) -> bool {
 }
 
 fn is_processable_mail_type(mail_type: &str) -> bool {
-    matches!(mail_type, "Battle" | "DuelBattle2" | "BarCanyonKillBoss")
+    matches!(
+        mail_type,
+        "Battle" | "DuelBattle2" | "BarCanyonKillBoss" | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+    )
 }
 
 fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
@@ -582,16 +585,16 @@ mod tests {
     }
 
     #[test]
-    fn status_mapping_marks_unprocessable_types() {
+    fn status_mapping_marks_system_barbarian_fort_processable() {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
         assert_eq!(
             insert_status_for_mail_type("SystemBarbarianFort"),
-            STATUS_UNPROCESSABLE
+            STATUS_PENDING
         );
         assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
         assert_eq!(
             update_status_for_mail_type("SystemBarbarianFort"),
-            STATUS_UNPROCESSABLE
+            STATUS_REPROCESS
         );
     }
 
