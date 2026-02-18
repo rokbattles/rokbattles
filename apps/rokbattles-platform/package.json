@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.2.0",
     "@scure/base": "^2.0.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.34.0",
+    "framer-motion": "^12.34.1",
     "mongodb": "^6.21.0",
     "next": "^16.1.6",
     "next-intl": "^4.8.3",
