@@ -18,6 +18,8 @@ use crate::state::AppState;
 
 const STATUS_PENDING: &str = "pending";
 const STATUS_REPROCESS: &str = "reprocess";
+const STATUS_UNPROCESSABLE: &str = "unprocessable";
+const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 
 /// Response payload returned from the upload endpoint.
 #[derive(Debug, Serialize)]
@@ -115,7 +117,7 @@ pub async fn upload(
                     "mail_id": &mail_id,
                     "mail_attack_count": attack_count,
                     "user_agent": &user_agent,
-                    "status": STATUS_PENDING,
+                    "status": insert_status_for_mail_type(&mail_type),
                     "mail_value": Bson::Binary(Binary {
                         subtype: BinarySubtype::Generic,
                         bytes: compressed,
@@ -150,7 +152,7 @@ pub async fn upload(
                 let raw_update = doc! {
                     "mail_attack_count": attack_count,
                     "user_agent": &user_agent,
-                    "status": STATUS_REPROCESS,
+                    "status": update_status_for_mail_type(&mail_type),
                     "mail_value": Bson::Binary(Binary {
                         subtype: BinarySubtype::Generic,
                         bytes: compressed,
@@ -247,13 +249,70 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
 
 fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
     let root = normalize_root(decoded).ok_or_else(|| ApiError::bad_request("missing mail type"))?;
-    root.get("type")
+    let mail_type = root
+        .get("type")
         .and_then(value_to_string)
-        .ok_or_else(|| ApiError::bad_request("missing mail type"))
+        .ok_or_else(|| ApiError::bad_request("missing mail type"))?;
+
+    if is_system_barbarian_fort_mail(root) {
+        return Ok(MAIL_TYPE_SYSTEM_BARBARIAN_FORT.to_string());
+    }
+
+    Ok(mail_type)
 }
 
 fn is_supported_mail_type(mail_type: &str) -> bool {
+    matches!(
+        mail_type,
+        "Battle" | "DuelBattle2" | "BarCanyonKillBoss" | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+    )
+}
+
+fn is_processable_mail_type(mail_type: &str) -> bool {
     matches!(mail_type, "Battle" | "DuelBattle2" | "BarCanyonKillBoss")
+}
+
+fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
+    if is_processable_mail_type(mail_type) {
+        STATUS_PENDING
+    } else {
+        STATUS_UNPROCESSABLE
+    }
+}
+
+fn update_status_for_mail_type(mail_type: &str) -> &'static str {
+    if is_processable_mail_type(mail_type) {
+        STATUS_REPROCESS
+    } else {
+        STATUS_UNPROCESSABLE
+    }
+}
+
+fn is_system_barbarian_fort_mail(root: &Value) -> bool {
+    let Some(root) = root.as_object() else {
+        return false;
+    };
+    if !matches!(root.get("type").and_then(Value::as_str), Some("System")) {
+        return false;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
+        return false;
+    }
+
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+    let sub_type = body.get("subType").and_then(value_as_u64);
+    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn value_as_u64(value: &Value) -> Option<u64> {
+    match value {
+        Value::Number(number) => number.as_u64(),
+        Value::String(text) => text.parse::<u64>().ok(),
+        _ => None,
+    }
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
@@ -433,7 +492,37 @@ mod tests {
         assert!(is_supported_mail_type("Battle"));
         assert!(is_supported_mail_type("DuelBattle2"));
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
+        assert!(is_supported_mail_type("SystemBarbarianFort"));
         assert!(!is_supported_mail_type("Unknown"));
+    }
+
+    #[test]
+    fn extracts_system_barbarian_fort_mail_type() {
+        let decoded = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 11
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "SystemBarbarianFort".to_string()
+        );
+    }
+
+    #[test]
+    fn keeps_regular_system_mail_type_unmodified() {
+        let decoded = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 10
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "System");
     }
 
     #[test]
@@ -490,6 +579,20 @@ mod tests {
     fn decide_action_skips_when_not_newer() {
         assert!(matches!(decide_action(Some(5), 4), UploadAction::Skip));
         assert!(matches!(decide_action(Some(4), 4), UploadAction::Skip));
+    }
+
+    #[test]
+    fn status_mapping_marks_unprocessable_types() {
+        assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
+        assert_eq!(
+            insert_status_for_mail_type("SystemBarbarianFort"),
+            STATUS_UNPROCESSABLE
+        );
+        assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
+        assert_eq!(
+            update_status_for_mail_type("SystemBarbarianFort"),
+            STATUS_UNPROCESSABLE
+        );
     }
 
     #[test]

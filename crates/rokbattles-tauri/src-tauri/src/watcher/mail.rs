@@ -1,6 +1,8 @@
 use serde_json::{Map, Value};
 use std::path::Path;
 
+const SYSTEM_BARBARIAN_FORT_MAIL_TYPE: &str = "SystemBarbarianFort";
+
 /// Parse the numeric mail id from a RoK mail filename.
 pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
     let rest = filename.strip_prefix("Persistent.Mail.")?;
@@ -31,11 +33,58 @@ pub(crate) fn detect_mail_type(value: &Value) -> Option<&str> {
     root.get("type").and_then(Value::as_str)
 }
 
-/// Check whether a mail type is supported by the upload pipeline.
-pub(crate) fn is_supported_mail_type(mail_type: &str) -> bool {
-    mail_type.eq_ignore_ascii_case("Battle")
-        || mail_type.eq_ignore_ascii_case("DuelBattle2")
-        || mail_type.eq_ignore_ascii_case("BarCanyonKillBoss")
+/// Detect a supported mail type, including typed System variants.
+pub(crate) fn detect_supported_mail_type(value: &Value) -> Option<&'static str> {
+    let root = normalize_mail_root(value)?;
+    let mail_type = root.get("type").and_then(Value::as_str)?;
+
+    if let Some(canonical) = canonical_supported_mail_type(mail_type) {
+        return Some(canonical);
+    }
+
+    if mail_type.eq_ignore_ascii_case("System") && is_system_barbarian_fort_mail(root) {
+        return Some(SYSTEM_BARBARIAN_FORT_MAIL_TYPE);
+    }
+
+    None
+}
+
+fn canonical_supported_mail_type(mail_type: &str) -> Option<&'static str> {
+    if mail_type.eq_ignore_ascii_case("Battle") {
+        return Some("Battle");
+    }
+    if mail_type.eq_ignore_ascii_case("DuelBattle2") {
+        return Some("DuelBattle2");
+    }
+    if mail_type.eq_ignore_ascii_case("BarCanyonKillBoss") {
+        return Some("BarCanyonKillBoss");
+    }
+    if mail_type.eq_ignore_ascii_case(SYSTEM_BARBARIAN_FORT_MAIL_TYPE) {
+        return Some(SYSTEM_BARBARIAN_FORT_MAIL_TYPE);
+    }
+    None
+}
+
+fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
+    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
+        return false;
+    }
+
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+    let sub_type = body.get("subType").and_then(value_as_u64);
+    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn value_as_u64(value: &Value) -> Option<u64> {
+    match value {
+        Value::Number(number) => number.as_u64(),
+        Value::String(text) => text.parse::<u64>().ok(),
+        _ => None,
+    }
 }
 
 /// Heuristic header validation to quickly skip non-mail buffers.
@@ -103,11 +152,56 @@ mod tests {
     }
 
     #[test]
+    fn detect_supported_mail_type_matches_system_barbarian_fort() {
+        let payload = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 11
+            }
+        });
+        assert_eq!(
+            detect_supported_mail_type(&payload),
+            Some("SystemBarbarianFort")
+        );
+    }
+
+    #[test]
+    fn detect_supported_mail_type_rejects_other_system_mail() {
+        let payload = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 10
+            }
+        });
+        assert_eq!(detect_supported_mail_type(&payload), None);
+    }
+
+    #[test]
     fn supported_mail_types_are_case_insensitive() {
-        assert!(is_supported_mail_type("Battle"));
-        assert!(is_supported_mail_type("duelbattle2"));
-        assert!(is_supported_mail_type("BARCANYONKILLBOSS"));
-        assert!(!is_supported_mail_type("Unknown"));
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "Battle" })),
+            Some("Battle")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "duelbattle2" })),
+            Some("DuelBattle2")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "BARCANYONKILLBOSS" })),
+            Some("BarCanyonKillBoss")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "systembarbarianfort" })),
+            Some("SystemBarbarianFort")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "Unknown" })),
+            None
+        );
     }
 
     #[test]
