@@ -15,7 +15,7 @@ function isValidCommanderId(id: number | null | undefined): id is number {
 
 export default function ParticipantCell({ primaryId, secondaryId }: Props) {
   const t = useExtracted();
-  const unknownLabel = tCommon("Unknown commander");
+  const unknownLabel = t("Unknown commander");
 
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId) ?? String(primaryId))

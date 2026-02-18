@@ -7,17 +7,17 @@ msgstr ""
 "X-Crowdin-SourceKey: msgstr\n"
 
 #: src/app/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:140
+#: src/components/platform-layout.tsx:139
 msgid "N42bBd"
 msgstr "My Pairings"
 
 #: src/app/account/rewards/page.tsx:12
-#: src/components/platform-layout.tsx:144
+#: src/components/platform-layout.tsx:143
 msgid "Wocb8I"
 msgstr "My Rewards"
 
 #: src/app/account/settings/layout.tsx:11
-#: src/components/platform-account-dropdown-menu.tsx:34
+#: src/components/platform-account-dropdown-menu.tsx:33
 msgid "NQgbYA"
 msgstr "Account Settings"
 
@@ -42,7 +42,7 @@ msgid "CIV+kQ"
 msgstr "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
 
 #: src/app/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:123
+#: src/components/platform-layout.tsx:122
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
@@ -52,45 +52,45 @@ msgstr "Olympian Arena Reports"
 
 #: src/app/olympian-arena/page.tsx:12
 #: src/app/page.tsx:15
-#: src/components/account/account-reports-content.tsx:32
+#: src/components/account/account-reports-content.tsx:30
 msgid "F2qQa8"
 msgstr "Live feed (UTC)"
 
 #: src/app/olympian-arena/page.tsx:17
 #: src/app/page.tsx:24
-#: src/components/account/account-reports-content.tsx:41
+#: src/components/account/account-reports-content.tsx:39
 msgid "ug01Mk"
 msgstr "Time"
 
 #: src/app/olympian-arena/page.tsx:18
 #: src/app/page.tsx:25
-#: src/components/account/account-reports-content.tsx:42
+#: src/components/account/account-reports-content.tsx:40
 #: src/components/olympian-arena/duel-summary-tooltip.tsx:39
 #: src/components/report/report-battle-summary-tooltip.tsx:43
-#: src/components/reports/reports-filter-dialog.tsx:106
-#: src/components/reports/reports-filter-dialog.tsx:232
+#: src/components/reports/reports-filter-dialog.tsx:105
+#: src/components/reports/reports-filter-dialog.tsx:231
 msgid "nbwXXN"
 msgstr "Sender"
 
 #: src/app/olympian-arena/page.tsx:19
 #: src/app/page.tsx:26
-#: src/components/account/account-reports-content.tsx:43
+#: src/components/account/account-reports-content.tsx:41
 #: src/components/olympian-arena/duel-summary-tooltip.tsx:41
 #: src/components/report/report-battle-summary-tooltip.tsx:45
-#: src/components/reports/reports-filter-dialog.tsx:107
-#: src/components/reports/reports-filter-dialog.tsx:273
+#: src/components/reports/reports-filter-dialog.tsx:106
+#: src/components/reports/reports-filter-dialog.tsx:272
 msgid "Mdj7Fr"
 msgstr "Opponent"
 
 #: src/app/olympian-arena/page.tsx:20
 #: src/app/page.tsx:28
-#: src/components/account/account-reports-content.tsx:45
+#: src/components/account/account-reports-content.tsx:43
 msgid "Y3Z7jw"
 msgstr "Kill Count"
 
 #: src/app/olympian-arena/page.tsx:21
 #: src/app/page.tsx:29
-#: src/components/account/account-reports-content.tsx:46
+#: src/components/account/account-reports-content.tsx:44
 msgid "c+sY33"
 msgstr "Trade %"
 
@@ -103,19 +103,19 @@ msgid "xmv5Of"
 msgstr "Battle Reports"
 
 #: src/app/page.tsx:18
-#: src/components/account/account-reports-content.tsx:35
+#: src/components/account/account-reports-content.tsx:33
 msgid "9Obw6C"
 msgstr "Filter"
 
 #: src/app/page.tsx:27
-#: src/components/account/account-reports-content.tsx:44
-#: src/components/my-pairings/my-pairings-content.tsx:279
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
+#: src/components/account/account-reports-content.tsx:42
+#: src/components/my-pairings/my-pairings-content.tsx:278
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 msgid "9bVtCz"
 msgstr "Battles"
 
 #: src/app/page.tsx:30
-#: src/components/account/account-reports-content.tsx:47
+#: src/components/account/account-reports-content.tsx:45
 msgid "IuFETn"
 msgstr "Duration"
 
@@ -128,33 +128,33 @@ msgid "irMluf"
 msgstr "Back to My Reports"
 
 #: src/app/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:119
+#: src/components/platform-layout.tsx:118
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
-#: src/components/account/account-governors-content.tsx:27
+#: src/components/account/account-governors-content.tsx:26
 msgid "pnoYAG"
 msgstr "Claimed governors"
 
-#: src/components/account/account-governors-content.tsx:29
+#: src/components/account/account-governors-content.tsx:28
 msgid "DCvHgU"
 msgstr "No governors claimed yet."
 
-#: src/components/account/account-governors-content.tsx:45
-#: src/components/olympian-arena/duel-participant-card.tsx:93
+#: src/components/account/account-governors-content.tsx:44
+#: src/components/olympian-arena/duel-participant-card.tsx:92
 #: src/components/report/report-participant-card.tsx:58
 msgid "tx/jZ/"
 msgstr "ID {id}"
 
-#: src/components/account/account-governors-content.tsx:55
+#: src/components/account/account-governors-content.tsx:54
 msgid "sv0atd"
 msgstr "Claim a governor"
 
-#: src/components/account/account-governors-content.tsx:57
+#: src/components/account/account-governors-content.tsx:56
 msgid "HOHINg"
 msgstr "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
 
-#: src/components/account/account-reports-content.tsx:30
+#: src/components/account/account-reports-content.tsx:28
 msgid "2YkOMs"
 msgstr "My Battle Reports"
 
@@ -180,83 +180,83 @@ msgstr "Reject"
 msgid "KS0bwV"
 msgstr "Cookie settings"
 
-#: src/components/governors/claim-governor-form.tsx:54
+#: src/components/governors/claim-governor-form.tsx:53
 msgid "H8VjMg"
 msgstr "You can only claim up to three governors."
 
-#: src/components/governors/claim-governor-form.tsx:60
+#: src/components/governors/claim-governor-form.tsx:59
 msgid "pf6kFc"
 msgstr "Enter a governor ID."
 
-#: src/components/governors/claim-governor-form.tsx:66
+#: src/components/governors/claim-governor-form.tsx:65
 msgid "I/clsA"
 msgstr "Enter a valid governor ID."
 
-#: src/components/governors/claim-governor-form.tsx:96
+#: src/components/governors/claim-governor-form.tsx:95
 msgid "qEVLQY"
 msgstr "Unable to claim governor. Please try again."
 
-#: src/components/governors/claim-governor-form.tsx:106
+#: src/components/governors/claim-governor-form.tsx:105
 msgid "stW4Ga"
 msgstr "This governor is already claimed."
 
-#: src/components/governors/claim-governor-form.tsx:116
+#: src/components/governors/claim-governor-form.tsx:115
 msgid "Iehjl1"
 msgstr "Something went wrong while claiming the governor. Please try again."
 
-#: src/components/governors/claim-governor-form.tsx:126
-#: src/components/reports/reports-filter-dialog.tsx:191
+#: src/components/governors/claim-governor-form.tsx:125
+#: src/components/reports/reports-filter-dialog.tsx:190
 msgid "GNDCcc"
 msgstr "Governor ID"
 
-#: src/components/governors/claim-governor-form.tsx:132
-#: src/components/reports/reports-filter-dialog.tsx:195
+#: src/components/governors/claim-governor-form.tsx:131
+#: src/components/reports/reports-filter-dialog.tsx:194
 msgid "bNKXH5"
 msgstr "71738515"
 
-#: src/components/governors/claim-governor-form.tsx:147
+#: src/components/governors/claim-governor-form.tsx:146
 msgid "ctg3qx"
 msgstr "You have reached the maximum of three claimed governors."
 
-#: src/components/governors/claim-governor-form.tsx:157
+#: src/components/governors/claim-governor-form.tsx:156
 msgid "ODncRd"
 msgstr "Claiming..."
 
-#: src/components/governors/claim-governor-form.tsx:157
+#: src/components/governors/claim-governor-form.tsx:156
 msgid "p5J4xw"
 msgstr "Claim governor"
 
-#: src/components/language-selector.tsx:91
-#: src/components/language-selector.tsx:101
+#: src/components/language-selector.tsx:90
+#: src/components/language-selector.tsx:100
 msgid "eVlu1R"
 msgstr "Select language"
 
-#: src/components/language-selector.tsx:96
+#: src/components/language-selector.tsx:95
 msgid "y1Z3or"
 msgstr "Language"
 
-#: src/components/language-selector.tsx:106
+#: src/components/language-selector.tsx:105
 msgid "v5g0+z"
 msgstr "Site languages"
 
-#: src/components/language-selector.tsx:107
+#: src/components/language-selector.tsx:106
 msgid "/aKNd5"
 msgstr "Translated across the site and datasets."
 
-#: src/components/language-selector.tsx:118
+#: src/components/language-selector.tsx:117
 msgid "y+9Z1F"
 msgstr "Dataset languages"
 
-#: src/components/language-selector.tsx:120
+#: src/components/language-selector.tsx:119
 msgid "QrGgH2"
 msgstr "Additional translations for game data only. Coverage may be incomplete or out of date."
 
-#: src/components/language-selector.tsx:138
-#: src/components/reports/reports-filter-dialog.tsx:394
+#: src/components/language-selector.tsx:137
+#: src/components/reports/reports-filter-dialog.tsx:393
 msgid "47FYwb"
 msgstr "Cancel"
 
-#: src/components/language-selector.tsx:140
+#: src/components/language-selector.tsx:139
 msgid "jvo0vs"
 msgstr "Save"
 
@@ -269,188 +269,188 @@ msgstr "Armament {id}"
 msgid "+RhnH+"
 msgstr "Empty"
 
-#: src/components/my-pairings/my-pairings-content.tsx:146
-#: src/components/my-pairings/my-pairings-content.tsx:378
-#: src/components/olympian-arena/duel-participant-card.tsx:46
+#: src/components/my-pairings/my-pairings-content.tsx:145
+#: src/components/my-pairings/my-pairings-content.tsx:377
+#: src/components/olympian-arena/duel-participant-card.tsx:45
 #: src/components/report/report-participant-card.tsx:27
 #: src/components/reports/participant-cell.tsx:18
 msgid "5hGibV"
 msgstr "Unknown commander"
 
-#: src/components/my-pairings/my-pairings-content.tsx:234
+#: src/components/my-pairings/my-pairings-content.tsx:233
 msgid "vxHX7Q"
 msgstr "All loadouts"
 
-#: src/components/my-pairings/my-pairings-content.tsx:242
+#: src/components/my-pairings/my-pairings-content.tsx:241
 msgid "5OhW+B"
 msgstr "Loadout {index}"
 
-#: src/components/my-pairings/my-pairings-content.tsx:281
+#: src/components/my-pairings/my-pairings-content.tsx:280
 msgid "W2cCAf"
 msgstr "Total battles recorded for this loadout."
 
-#: src/components/my-pairings/my-pairings-content.tsx:285
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
+#: src/components/my-pairings/my-pairings-content.tsx:284
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
 #: src/components/olympian-arena/duel-results-chart.tsx:84
 #: src/components/report/report-battle-results-chart.tsx:89
 #: src/components/report/report-overview-column.tsx:55
 msgid "RCtKQ2"
 msgstr "Kill Points"
 
-#: src/components/my-pairings/my-pairings-content.tsx:287
+#: src/components/my-pairings/my-pairings-content.tsx:286
 msgid "xh4gLq"
 msgstr "Total kill points earned while using this pairing."
 
-#: src/components/my-pairings/my-pairings-content.tsx:291
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
+#: src/components/my-pairings/my-pairings-content.tsx:290
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
 msgid "nGp3S1"
 msgstr "Opponent Kill Points"
 
-#: src/components/my-pairings/my-pairings-content.tsx:293
+#: src/components/my-pairings/my-pairings-content.tsx:292
 msgid "2OWOn1"
 msgstr "Total kill points your opponents earned against you."
 
-#: src/components/my-pairings/my-pairings-content.tsx:297
+#: src/components/my-pairings/my-pairings-content.tsx:296
 msgid "04DUsx"
 msgstr "Severely Wounded (Taken)"
 
-#: src/components/my-pairings/my-pairings-content.tsx:299
+#: src/components/my-pairings/my-pairings-content.tsx:298
 msgid "sCYwbS"
 msgstr "Number of your troops that became severely wounded while using this pairing."
 
-#: src/components/my-pairings/my-pairings-content.tsx:305
+#: src/components/my-pairings/my-pairings-content.tsx:304
 msgid "87sFXA"
 msgstr "Severely Wounded (Inflicted)"
 
-#: src/components/my-pairings/my-pairings-content.tsx:307
+#: src/components/my-pairings/my-pairings-content.tsx:306
 msgid "2oN4Ru"
 msgstr "Number of opponent troops you caused to become severely wounded."
 
-#: src/components/my-pairings/my-pairings-content.tsx:311
+#: src/components/my-pairings/my-pairings-content.tsx:310
 msgid "8RNVtf"
 msgstr "Avg. Battle Duration"
 
-#: src/components/my-pairings/my-pairings-content.tsx:313
+#: src/components/my-pairings/my-pairings-content.tsx:312
 msgid "OohBEM"
 msgstr "Average duration of battles recorded while using this pairing."
 
-#: src/components/my-pairings/my-pairings-content.tsx:317
+#: src/components/my-pairings/my-pairings-content.tsx:316
 msgid "jVC9W/"
 msgstr "Damage Per Second (DPS)"
 
-#: src/components/my-pairings/my-pairings-content.tsx:321
+#: src/components/my-pairings/my-pairings-content.tsx:320
 msgid "pJCnfG"
 msgstr "Average amount of damage you inflict per second while using this pairing."
 
-#: src/components/my-pairings/my-pairings-content.tsx:325
+#: src/components/my-pairings/my-pairings-content.tsx:324
 msgid "lsS3Jr"
 msgstr "Sevs Per Second (SPS)"
 
-#: src/components/my-pairings/my-pairings-content.tsx:329
+#: src/components/my-pairings/my-pairings-content.tsx:328
 msgid "obveBp"
 msgstr "Rate at which you inflict severely wounded troops each second."
 
-#: src/components/my-pairings/my-pairings-content.tsx:333
+#: src/components/my-pairings/my-pairings-content.tsx:332
 msgid "CY224M"
 msgstr "Sevs Taken Per Second (TPS)"
 
-#: src/components/my-pairings/my-pairings-content.tsx:337
+#: src/components/my-pairings/my-pairings-content.tsx:336
 msgid "ZTImOV"
 msgstr "Rate at which your troops become severely wounded each second."
 
-#: src/components/my-pairings/my-pairings-content.tsx:396
+#: src/components/my-pairings/my-pairings-content.tsx:395
 msgid "y+cvIx"
 msgstr "Analyze performance across commander pairings, loadouts, and matchups"
 
-#: src/components/my-pairings/pairings-filters.tsx:48
-#: src/components/my-pairings/pairings-filters.tsx:50
+#: src/components/my-pairings/pairings-filters.tsx:47
+#: src/components/my-pairings/pairings-filters.tsx:49
 msgid "goGXET"
 msgstr "Pairing"
 
-#: src/components/my-pairings/pairings-filters.tsx:63
-#: src/components/my-pairings/pairings-filters.tsx:65
+#: src/components/my-pairings/pairings-filters.tsx:62
+#: src/components/my-pairings/pairings-filters.tsx:64
 msgid "StqoPN"
 msgstr "Loadout granularity"
 
-#: src/components/my-pairings/pairings-filters.tsx:69
+#: src/components/my-pairings/pairings-filters.tsx:68
 msgid "KmYEy1"
 msgstr "Normalized"
 
-#: src/components/my-pairings/pairings-filters.tsx:70
+#: src/components/my-pairings/pairings-filters.tsx:69
 msgid "244wra"
 msgstr "Exact"
 
-#: src/components/my-pairings/pairings-filters.tsx:74
+#: src/components/my-pairings/pairings-filters.tsx:73
 #: src/components/my-rewards/rewards-filters.tsx:28
 msgid "n5QvJy"
 msgstr "Start date"
 
-#: src/components/my-pairings/pairings-filters.tsx:85
+#: src/components/my-pairings/pairings-filters.tsx:84
 #: src/components/my-rewards/rewards-filters.tsx:39
 msgid "Humfno"
 msgstr "End date"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:76
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:74
 msgid "ouEHpA"
 msgstr "Loadout breakdown"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:78
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:76
 #: src/components/my-pairings/pairings-loadouts.tsx:47
 msgid "dshKLk"
 msgstr "Loading pairings..."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:82
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:80
 #: src/components/my-pairings/pairings-loadouts.tsx:51
 msgid "DCzVxS"
 msgstr "Select a pairing to get started."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:84
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:82
 msgid "mNV3qS"
 msgstr "Loading loadout breakdown..."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:88
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:86
 msgid "yiwezx"
 msgstr "Select a loadout to view the breakdown."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:115
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:113
 msgid "HPFDiG"
 msgstr "Opponent pairings"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:119
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:117
 msgid "OBAkIS"
 msgstr "Loading enemy matchups..."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:123
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:121
 msgid "bey2Db"
 msgstr "No enemy pairings found for this selection."
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
 msgid "02koas"
 msgstr "#"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:128
 msgid "cSiC2v"
 msgstr "Opponent pairing"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:134
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
 msgid "+yzdej"
 msgstr "DPS"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:135
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
 msgid "nyW1oU"
 msgstr "SPS"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:136
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:134
 msgid "hZ3HBi"
 msgstr "TPS"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:167
-#: src/components/olympian-arena/duel-participant-card.tsx:138
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
+#: src/components/olympian-arena/duel-participant-card.tsx:135
 msgid "qyJtWy"
 msgstr "Show less"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:167
-#: src/components/olympian-arena/duel-participant-card.tsx:138
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
+#: src/components/olympian-arena/duel-participant-card.tsx:135
 msgid "aWpBzj"
 msgstr "Show more"
 
@@ -487,7 +487,7 @@ msgid "owXGag"
 msgstr "Barbarian Forts"
 
 #: src/components/my-rewards/my-rewards-content.tsx:74
-#: src/components/reports/reports-filter-dialog.tsx:383
+#: src/components/reports/reports-filter-dialog.tsx:382
 msgid "/VnDMl"
 msgstr "Other"
 
@@ -533,20 +533,20 @@ msgid "wrpHgq"
 msgstr "Drops"
 
 #: src/components/olympian-arena/duel-commander-row.tsx:20
-#: src/components/report/report-commander-row.tsx:23
+#: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
 msgstr "Unknown"
 
 #: src/components/olympian-arena/duel-commander-row.tsx:22
-#: src/components/report/report-commander-row.tsx:25
+#: src/components/report/report-commander-row.tsx:24
 #: src/components/reports/participant-cell.tsx:39
 #: src/components/reports/participant-cell.tsx:50
 msgid "+sdDeh"
 msgstr "{name} icon"
 
 #: src/components/olympian-arena/duel-commander-row.tsx:31
-#: src/components/report/report-commander-row.tsx:38
+#: src/components/report/report-commander-row.tsx:37
 msgid "XoCgY+"
 msgstr "Lvl {level}"
 
@@ -558,24 +558,24 @@ msgstr "No reports were found for this duel."
 msgid "U5Mxzi"
 msgstr "Loading duel report..."
 
-#: src/components/olympian-arena/duel-participant-card.tsx:89
+#: src/components/olympian-arena/duel-participant-card.tsx:88
 msgid "H+vBOj"
 msgstr "Winner"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:103
+#: src/components/olympian-arena/duel-participant-card.tsx:102
 #: src/components/report/report-participant-card.tsx:69
 msgid "DqkPqe"
 msgstr "Commanders"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:106
+#: src/components/olympian-arena/duel-participant-card.tsx:104
 msgid "t2Wr8I"
 msgstr "Primary"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:109
+#: src/components/olympian-arena/duel-participant-card.tsx:106
 msgid "6FQuCT"
 msgstr "Secondary"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:116
+#: src/components/olympian-arena/duel-participant-card.tsx:113
 msgid "cKnhhK"
 msgstr "Troop Buffs"
 
@@ -583,21 +583,21 @@ msgstr "Troop Buffs"
 msgid "CuNYjA"
 msgstr "Duel summary"
 
-#: src/components/olympian-arena/duel-report-view.tsx:62
+#: src/components/olympian-arena/duel-report-view.tsx:61
 msgid "m0+hvd"
 msgstr "Duel Report"
 
-#: src/components/olympian-arena/duel-report-view.tsx:64
-#: src/components/report/report-view.tsx:67
+#: src/components/olympian-arena/duel-report-view.tsx:63
+#: src/components/report/report-view.tsx:66
 msgid "p556q3"
 msgstr "Copied"
 
-#: src/components/olympian-arena/duel-report-view.tsx:64
-#: src/components/report/report-view.tsx:67
+#: src/components/olympian-arena/duel-report-view.tsx:63
+#: src/components/report/report-view.tsx:66
 msgid "OKhRC6"
 msgstr "Share"
 
-#: src/components/olympian-arena/duel-report-view.tsx:69
+#: src/components/olympian-arena/duel-report-view.tsx:68
 msgid "eukQnl"
 msgstr "We could not load this duel."
 
@@ -629,60 +629,60 @@ msgstr "Healed"
 msgid "YXoHk0"
 msgstr "Power"
 
-#: src/components/platform-account-dropdown-menu.tsx:38
+#: src/components/platform-account-dropdown-menu.tsx:37
 msgid "hquG55"
 msgstr "Cookie Settings"
 
-#: src/components/platform-account-dropdown-menu.tsx:43
+#: src/components/platform-account-dropdown-menu.tsx:42
 msgid "xXbJso"
 msgstr "Sign out"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:69
 msgid "Q7dLbA"
 msgstr "Light mode"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:69
 msgid "hMUQH5"
 msgstr "Dark mode"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:69
 msgid "Pe0ogR"
 msgstr "Theme"
 
-#: src/components/platform-layout.tsx:99
+#: src/components/platform-layout.tsx:98
 msgid "Lvr/gV"
 msgstr "Open account menu"
 
-#: src/components/platform-layout.tsx:106
-#: src/components/platform-layout.tsx:206
+#: src/components/platform-layout.tsx:105
+#: src/components/platform-layout.tsx:205
 msgid "SQJto2"
 msgstr "Sign in"
 
-#: src/components/platform-layout.tsx:128
+#: src/components/platform-layout.tsx:127
 msgid "TwyMau"
 msgstr "Account"
 
-#: src/components/platform-layout.tsx:133
+#: src/components/platform-layout.tsx:132
 msgid "NFE4yO"
 msgstr "My Battles"
 
-#: src/components/platform-layout.tsx:154
+#: src/components/platform-layout.tsx:153
 msgid "7oFrM6"
 msgstr "Legal"
 
-#: src/components/platform-layout.tsx:163
+#: src/components/platform-layout.tsx:162
 msgid "HqRNN8"
 msgstr "Support"
 
-#: src/components/platform-layout.tsx:172
+#: src/components/platform-layout.tsx:171
 msgid "QnWNmB"
 msgstr "Desktop App"
 
-#: src/components/platform-layout.tsx:174
+#: src/components/platform-layout.tsx:173
 msgid "EQpyb8"
 msgstr "Toggle theme"
 
-#: src/components/platform-layout.tsx:184
+#: src/components/platform-layout.tsx:183
 msgid "gjBiyj"
 msgstr "Loading..."
 
@@ -711,7 +711,7 @@ msgstr "Slightly wounded"
 msgid "2p4JJc"
 msgstr "Watchtower Damage"
 
-#: src/components/report/report-commander-row.tsx:28
+#: src/components/report/report-commander-row.tsx:27
 msgid "YeBMpE"
 msgstr "Formation {formation}"
 
@@ -771,7 +771,7 @@ msgstr "N/A"
 msgid "RJ+ZIh"
 msgstr "Rally"
 
-#: src/components/report/report-view.tsx:64
+#: src/components/report/report-view.tsx:63
 msgid "x5Tz6M"
 msgstr "Report"
 
@@ -787,97 +787,97 @@ msgstr "Loading more..."
 msgid "00LcfG"
 msgstr "Load more"
 
-#: src/components/reports/reports-filter-dialog.tsx:105
+#: src/components/reports/reports-filter-dialog.tsx:104
 msgid "450Fty"
 msgstr "None"
 
-#: src/components/reports/reports-filter-dialog.tsx:108
+#: src/components/reports/reports-filter-dialog.tsx:107
 msgid "bUd0tj"
 msgstr "Either side"
 
-#: src/components/reports/reports-filter-dialog.tsx:181
+#: src/components/reports/reports-filter-dialog.tsx:180
 msgid "zSOvI0"
 msgstr "Filters"
 
-#: src/components/reports/reports-filter-dialog.tsx:183
+#: src/components/reports/reports-filter-dialog.tsx:182
 msgid "lVxkzV"
 msgstr "Filter battle reports by metadata, commanders, and battle roles."
 
-#: src/components/reports/reports-filter-dialog.tsx:188
+#: src/components/reports/reports-filter-dialog.tsx:187
 msgid "8Q504V"
 msgstr "Metadata"
 
-#: src/components/reports/reports-filter-dialog.tsx:205
+#: src/components/reports/reports-filter-dialog.tsx:204
 msgid "+U6ozc"
 msgstr "Type"
 
-#: src/components/reports/reports-filter-dialog.tsx:213
-#: src/components/reports/reports-filter-dialog.tsx:243
-#: src/components/reports/reports-filter-dialog.tsx:261
-#: src/components/reports/reports-filter-dialog.tsx:284
-#: src/components/reports/reports-filter-dialog.tsx:302
+#: src/components/reports/reports-filter-dialog.tsx:212
+#: src/components/reports/reports-filter-dialog.tsx:242
+#: src/components/reports/reports-filter-dialog.tsx:260
+#: src/components/reports/reports-filter-dialog.tsx:283
+#: src/components/reports/reports-filter-dialog.tsx:301
 msgid "zQvVDJ"
 msgstr "All"
 
-#: src/components/reports/reports-filter-dialog.tsx:216
+#: src/components/reports/reports-filter-dialog.tsx:215
 msgid "ejEGdx"
 msgstr "Home"
 
-#: src/components/reports/reports-filter-dialog.tsx:219
+#: src/components/reports/reports-filter-dialog.tsx:218
 msgid "8Na2J4"
 msgstr "Ark of Osiris"
 
-#: src/components/reports/reports-filter-dialog.tsx:222
+#: src/components/reports/reports-filter-dialog.tsx:221
 msgid "mJFWRb"
 msgstr "KVK"
 
-#: src/components/reports/reports-filter-dialog.tsx:225
+#: src/components/reports/reports-filter-dialog.tsx:224
 msgid "Mro8Zx"
 msgstr "Supreme Strife"
 
-#: src/components/reports/reports-filter-dialog.tsx:235
-#: src/components/reports/reports-filter-dialog.tsx:276
+#: src/components/reports/reports-filter-dialog.tsx:234
+#: src/components/reports/reports-filter-dialog.tsx:275
 msgid "rS3oIg"
 msgstr "Primary Commander"
 
-#: src/components/reports/reports-filter-dialog.tsx:253
-#: src/components/reports/reports-filter-dialog.tsx:294
+#: src/components/reports/reports-filter-dialog.tsx:252
+#: src/components/reports/reports-filter-dialog.tsx:293
 msgid "SHldaq"
 msgstr "Secondary Commander"
 
-#: src/components/reports/reports-filter-dialog.tsx:314
+#: src/components/reports/reports-filter-dialog.tsx:313
 msgid "+XTzdP"
 msgstr "Battle"
 
-#: src/components/reports/reports-filter-dialog.tsx:317
+#: src/components/reports/reports-filter-dialog.tsx:316
 msgid "RZr1Nw"
 msgstr "Rally Side"
 
-#: src/components/reports/reports-filter-dialog.tsx:340
+#: src/components/reports/reports-filter-dialog.tsx:339
 msgid "PFb9jT"
 msgstr "Garrison Side"
 
-#: src/components/reports/reports-filter-dialog.tsx:366
+#: src/components/reports/reports-filter-dialog.tsx:365
 msgid "VqILpx"
 msgstr "Garrison Building"
 
-#: src/components/reports/reports-filter-dialog.tsx:374
+#: src/components/reports/reports-filter-dialog.tsx:373
 msgid "ToO3/h"
 msgstr "Any"
 
-#: src/components/reports/reports-filter-dialog.tsx:377
+#: src/components/reports/reports-filter-dialog.tsx:376
 msgid "ptYapO"
 msgstr "Alliance Flag"
 
-#: src/components/reports/reports-filter-dialog.tsx:380
+#: src/components/reports/reports-filter-dialog.tsx:379
 msgid "iScUrx"
 msgstr "Alliance Fortress"
 
-#: src/components/reports/reports-filter-dialog.tsx:406
+#: src/components/reports/reports-filter-dialog.tsx:405
 msgid "jm/spn"
 msgstr "Reset"
 
-#: src/components/reports/reports-filter-dialog.tsx:408
+#: src/components/reports/reports-filter-dialog.tsx:407
 msgid "EWw/tK"
 msgstr "Apply"
 
