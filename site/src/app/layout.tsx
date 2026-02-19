@@ -2,12 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getExtracted, getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
-import { PlatformLayout } from "@/components/platform-layout";
-import PlatformProviders from "@/components/platform-providers";
 import { cn } from "@/lib/cn";
-import { getCurrentUser } from "@/lib/current-user";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
 
 const inter = Inter({
@@ -16,44 +13,29 @@ const inter = Inter({
   display: "swap",
 });
 
-const metadataBase = new URL("https://platform.rokbattles.com");
-
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getExtracted();
-  const title = t("ROK Battles");
-  const template = t("%s - ROK Battles");
-  const description = t(
-    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
-  );
-
-  return {
-    metadataBase,
+export const metadata: Metadata = {
+  metadataBase: new URL("https://platform.rokbattles.com"),
+  title: {
+    default: "ROK Battles",
+    template: "%s - ROK Battles",
+  },
+  description:
+    "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms",
+  openGraph: {
     title: {
-      default: title,
-      template,
+      default: "ROK Battles",
+      template: "%s - ROK Battles",
     },
-    description,
-    openGraph: {
-      title: {
-        default: title,
-        template,
-      },
+  },
+  twitter: {
+    title: {
+      default: "ROK Battles",
+      template: "%s - ROK Battles",
     },
-    twitter: {
-      title: {
-        default: title,
-        template,
-      },
-    },
-  };
-}
+  },
+};
 
 export default async function Layout({ children }: LayoutProps<"/">) {
-  const user = await getCurrentUser();
-  const initialGovernors = user?.claimedGovernors ?? [];
-  const initialActiveGovernorId = initialGovernors[0]?.governorId;
-
-  // next-intl
   const locale = await getLocale();
   const messages = await getMessages();
 
@@ -71,16 +53,12 @@ export default async function Layout({ children }: LayoutProps<"/">) {
         <link rel="dns-prefetch" href="https://imimg.lilithcdn.com" />
         <link rel="dns-prefetch" href="https://imv2-gl.lilithgame.com" />
         <link rel="dns-prefetch" href="https://static-gl.lilithgame.com" />
+        <link rel="dns-prefetch" href="https://cdn.rokbattles.com" />
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <CookieConsentProvider>
-            <PlatformProviders
-              initialGovernors={initialGovernors}
-              initialActiveGovernorId={initialActiveGovernorId}
-            >
-              <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-            </PlatformProviders>
+            {children}
             <CookieConsentBanner />
           </CookieConsentProvider>
         </NextIntlClientProvider>
