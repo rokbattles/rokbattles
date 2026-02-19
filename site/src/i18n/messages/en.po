@@ -6,64 +6,52 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/account/pairings/page.tsx:11
+#: src/app/(main)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:139
 msgid "N42bBd"
 msgstr "My Pairings"
 
-#: src/app/account/rewards/page.tsx:12
+#: src/app/(main)/account/rewards/page.tsx:12
 #: src/components/platform-layout.tsx:143
 msgid "Wocb8I"
 msgstr "My Rewards"
 
-#: src/app/account/settings/layout.tsx:11
+#: src/app/(main)/account/settings/layout.tsx:11
 #: src/components/platform-account-dropdown-menu.tsx:33
 msgid "NQgbYA"
 msgstr "Account Settings"
 
-#: src/app/account/settings/page.tsx:13
+#: src/app/(main)/account/settings/page.tsx:13
 msgid "hJZwTS"
 msgstr "Email address"
 
-#: src/app/account/settings/page.tsx:15
+#: src/app/(main)/account/settings/page.tsx:15
 msgid "rmEwjk"
 msgstr "Your email address is synced from Discord."
 
-#: src/app/layout.tsx:23
-msgid "Xh4TDU"
-msgstr "ROK Battles"
-
-#: src/app/layout.tsx:24
-msgid "kRVuXT"
-msgstr "%s - ROK Battles"
-
-#: src/app/layout.tsx:25
-msgid "CIV+kQ"
-msgstr "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms"
-
-#: src/app/olympian-arena/[id]/page.tsx:18
+#: src/app/(main)/olympian-arena/[id]/page.tsx:18
 #: src/components/platform-layout.tsx:122
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
-#: src/app/olympian-arena/page.tsx:10
+#: src/app/(main)/olympian-arena/page.tsx:10
 msgid "78PvoX"
 msgstr "Olympian Arena Reports"
 
-#: src/app/olympian-arena/page.tsx:12
-#: src/app/page.tsx:15
+#: src/app/(main)/olympian-arena/page.tsx:12
+#: src/app/(main)/page.tsx:15
 #: src/components/account/account-reports-content.tsx:30
 msgid "F2qQa8"
 msgstr "Live feed (UTC)"
 
-#: src/app/olympian-arena/page.tsx:17
-#: src/app/page.tsx:24
+#: src/app/(main)/olympian-arena/page.tsx:17
+#: src/app/(main)/page.tsx:24
 #: src/components/account/account-reports-content.tsx:39
 msgid "ug01Mk"
 msgstr "Time"
 
-#: src/app/olympian-arena/page.tsx:18
-#: src/app/page.tsx:25
+#: src/app/(main)/olympian-arena/page.tsx:18
+#: src/app/(main)/page.tsx:25
 #: src/components/account/account-reports-content.tsx:40
 #: src/components/olympian-arena/duel-summary-tooltip.tsx:39
 #: src/components/report/report-battle-summary-tooltip.tsx:43
@@ -72,8 +60,8 @@ msgstr "Time"
 msgid "nbwXXN"
 msgstr "Sender"
 
-#: src/app/olympian-arena/page.tsx:19
-#: src/app/page.tsx:26
+#: src/app/(main)/olympian-arena/page.tsx:19
+#: src/app/(main)/page.tsx:26
 #: src/components/account/account-reports-content.tsx:41
 #: src/components/olympian-arena/duel-summary-tooltip.tsx:41
 #: src/components/report/report-battle-summary-tooltip.tsx:45
@@ -82,52 +70,52 @@ msgstr "Sender"
 msgid "Mdj7Fr"
 msgstr "Opponent"
 
-#: src/app/olympian-arena/page.tsx:20
-#: src/app/page.tsx:28
+#: src/app/(main)/olympian-arena/page.tsx:20
+#: src/app/(main)/page.tsx:28
 #: src/components/account/account-reports-content.tsx:43
 msgid "Y3Z7jw"
 msgstr "Kill Count"
 
-#: src/app/olympian-arena/page.tsx:21
-#: src/app/page.tsx:29
+#: src/app/(main)/olympian-arena/page.tsx:21
+#: src/app/(main)/page.tsx:29
 #: src/components/account/account-reports-content.tsx:44
 msgid "c+sY33"
 msgstr "Trade %"
 
-#: src/app/olympian-arena/page.tsx:22
+#: src/app/(main)/olympian-arena/page.tsx:22
 msgid "aXdZke"
 msgstr "Win Streak"
 
-#: src/app/page.tsx:13
+#: src/app/(main)/page.tsx:13
 msgid "xmv5Of"
 msgstr "Battle Reports"
 
-#: src/app/page.tsx:18
+#: src/app/(main)/page.tsx:18
 #: src/components/account/account-reports-content.tsx:33
 msgid "9Obw6C"
 msgstr "Filter"
 
-#: src/app/page.tsx:27
+#: src/app/(main)/page.tsx:27
 #: src/components/account/account-reports-content.tsx:42
 #: src/components/my-pairings/my-pairings-content.tsx:278
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 msgid "9bVtCz"
 msgstr "Battles"
 
-#: src/app/page.tsx:30
+#: src/app/(main)/page.tsx:30
 #: src/components/account/account-reports-content.tsx:45
 msgid "IuFETn"
 msgstr "Duration"
 
-#: src/app/report/[id]/page.tsx:9
+#: src/app/(main)/report/[id]/page.tsx:9
 msgid "1gqsiW"
 msgstr "Battle Report"
 
-#: src/app/report/[id]/page.tsx:52
+#: src/app/(main)/report/[id]/page.tsx:52
 msgid "irMluf"
 msgstr "Back to My Reports"
 
-#: src/app/report/[id]/page.tsx:52
+#: src/app/(main)/report/[id]/page.tsx:52
 #: src/components/platform-layout.tsx:118
 msgid "8PEDrB"
 msgstr "Explore Battles"
