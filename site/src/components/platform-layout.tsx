@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  ArrowDownTrayIcon,
+  ArrowDownTrayIcon, ChevronDownIcon,
   ChevronUpIcon,
   FireIcon,
   GiftIcon,
@@ -21,9 +21,9 @@ import { LanguageSelector } from "@/components/language-selector";
 import { PlatformAccountDropdownMenu } from "@/components/platform-account-dropdown-menu";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Avatar } from "@/components/ui/avatar";
-import { Dropdown, DropdownButton } from "@/components/ui/dropdown";
+import {Dropdown, DropdownButton, DropdownItem, DropdownLabel, DropdownMenu} from "@/components/ui/dropdown";
 import {
-  Navbar,
+  Navbar, NavbarDivider,
   NavbarItem,
   NavbarLabel,
   NavbarSection,
@@ -39,10 +39,10 @@ import {
   SidebarSection,
   SidebarSpacer,
 } from "@/components/ui/sidebar";
-import { SidebarLayout } from "@/components/ui/sidebar-layout";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
+import {StackedLayout} from "@/components/ui/stacked-layout";
 
 type PlatformLayoutProps = {
   children: React.ReactNode;
@@ -87,9 +87,31 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   }, [refresh]);
 
   return (
-    <SidebarLayout
+    <StackedLayout
       navbar={
         <Navbar>
+          <NavbarItem className="max-lg:hidden" disabled>
+            {t("ROK Battles")}
+          </NavbarItem>
+          <NavbarDivider className="max-lg:hidden"/>
+          <NavbarSection className="max-lg:hidden">
+            <Dropdown>
+              <DropdownButton aria-label="Open explore menu" as={NavbarItem}>
+                <NavbarLabel>{t("Explore")}</NavbarLabel>
+                <ChevronDownIcon />
+              </DropdownButton>
+              <DropdownMenu anchor="bottom start" className="min-w-48">
+                <DropdownItem href="/">
+                  <FireIcon />
+                  <DropdownLabel>{t("Battle Reports")}</DropdownLabel>
+                </DropdownItem>
+                <DropdownItem href="/olympian-arena">
+                  <TrophyIcon />
+                  <DropdownLabel>{t("Olympian Arena")}</DropdownLabel>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </NavbarSection>
           <NavbarSpacer />
           <NavbarSection>
             {!loading &&
@@ -210,6 +232,6 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
       }
     >
       {children}
-    </SidebarLayout>
+    </StackedLayout>
   );
 }

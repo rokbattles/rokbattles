@@ -7,12 +7,12 @@ msgstr ""
 "X-Crowdin-SourceKey: msgstr\n"
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:139
+#: src/components/platform-layout.tsx:161
 msgid "N42bBd"
 msgstr "My Pairings"
 
 #: src/app/(main)/account/rewards/page.tsx:12
-#: src/components/platform-layout.tsx:143
+#: src/components/platform-layout.tsx:165
 msgid "Wocb8I"
 msgstr "My Rewards"
 
@@ -30,7 +30,7 @@ msgid "rmEwjk"
 msgstr "Your email address is synced from Discord."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:122
+#: src/components/platform-layout.tsx:144
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
@@ -87,6 +87,7 @@ msgid "aXdZke"
 msgstr "Win Streak"
 
 #: src/app/(main)/page.tsx:13
+#: src/components/platform-layout.tsx:106
 msgid "xmv5Of"
 msgstr "Battle Reports"
 
@@ -116,7 +117,7 @@ msgid "irMluf"
 msgstr "Back to My Reports"
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:118
+#: src/components/platform-layout.tsx:140
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
@@ -637,40 +638,52 @@ msgstr "Dark mode"
 msgid "Pe0ogR"
 msgstr "Theme"
 
-#: src/components/platform-layout.tsx:98
+#: src/components/platform-layout.tsx:94
+msgid "Xh4TDU"
+msgstr "ROK Battles"
+
+#: src/components/platform-layout.tsx:100
+msgid "7JlauX"
+msgstr "Explore"
+
+#: src/components/platform-layout.tsx:110
+msgid "sqvUg2"
+msgstr "Olympian Arena"
+
+#: src/components/platform-layout.tsx:120
 msgid "Lvr/gV"
 msgstr "Open account menu"
 
-#: src/components/platform-layout.tsx:105
-#: src/components/platform-layout.tsx:205
+#: src/components/platform-layout.tsx:127
+#: src/components/platform-layout.tsx:227
 msgid "SQJto2"
 msgstr "Sign in"
 
-#: src/components/platform-layout.tsx:127
+#: src/components/platform-layout.tsx:149
 msgid "TwyMau"
 msgstr "Account"
 
-#: src/components/platform-layout.tsx:132
+#: src/components/platform-layout.tsx:154
 msgid "NFE4yO"
 msgstr "My Battles"
 
-#: src/components/platform-layout.tsx:153
+#: src/components/platform-layout.tsx:175
 msgid "7oFrM6"
 msgstr "Legal"
 
-#: src/components/platform-layout.tsx:162
+#: src/components/platform-layout.tsx:184
 msgid "HqRNN8"
 msgstr "Support"
 
-#: src/components/platform-layout.tsx:171
+#: src/components/platform-layout.tsx:193
 msgid "QnWNmB"
 msgstr "Desktop App"
 
-#: src/components/platform-layout.tsx:173
+#: src/components/platform-layout.tsx:195
 msgid "EQpyb8"
 msgstr "Toggle theme"
 
-#: src/components/platform-layout.tsx:183
+#: src/components/platform-layout.tsx:205
 msgid "gjBiyj"
 msgstr "Loading..."
 
