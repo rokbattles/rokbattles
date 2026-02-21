@@ -2,6 +2,12 @@ import { invoke } from "@tauri-apps/api/core";
 
 import type { CloseBehavior, CloseChoice } from "./close-behavior";
 
+export type DiscoverMailcacheResult = {
+  added_dirs: string[];
+  already_watched_dirs: string[];
+  message: string;
+};
+
 export function listDirs() {
   return invoke<string[]>("list_dirs");
 }
@@ -12,6 +18,10 @@ export function addDirs(paths: string[]) {
 
 export function removeDir(path: string) {
   return invoke<string[]>("remove_dir", { path });
+}
+
+export function discoverMailcacheDirs() {
+  return invoke<DiscoverMailcacheResult>("discover_mailcache_dirs");
 }
 
 export function pauseWatcher() {
