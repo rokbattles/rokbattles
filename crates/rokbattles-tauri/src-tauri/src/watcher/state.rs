@@ -191,6 +191,37 @@ impl WatcherState {
         }
     }
 
+    pub(crate) fn prune_removed_dirs_state(&mut self, active_dirs: &[PathBuf]) -> usize {
+        let mut removed = 0usize;
+
+        let old_queue_len = self.upload_queue.len();
+        self.upload_queue
+            .retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
+        let queue_removed = old_queue_len.saturating_sub(self.upload_queue.len());
+        if queue_removed > 0 {
+            removed = removed.saturating_add(queue_removed);
+            self.upload_queued_paths = self
+                .upload_queue
+                .iter()
+                .map(|item| item.path.clone())
+                .collect::<HashSet<_>>();
+            self.upload_queue_dirty_updates = self
+                .upload_queue_dirty_updates
+                .saturating_add(queue_removed);
+        }
+
+        let old_hot_len = self.hot_paths.len();
+        self.hot_paths
+            .retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
+        let hot_removed = old_hot_len.saturating_sub(self.hot_paths.len());
+        if hot_removed > 0 {
+            removed = removed.saturating_add(hot_removed);
+            self.hot_set = self.hot_paths.iter().cloned().collect::<HashSet<_>>();
+        }
+
+        removed
+    }
+
     fn track_hot_path(&mut self, path: String) {
         if self.hot_set.contains(&path) {
             return;
@@ -223,6 +254,11 @@ impl WatcherState {
             }
         }
     }
+}
+
+fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
+    let path = PathBuf::from(path);
+    active_dirs.iter().any(|dir| path.starts_with(dir))
 }
 
 #[cfg(test)]
@@ -299,5 +335,59 @@ mod tests {
 
         assert_eq!(state.upload_queue.len(), 1);
         assert_eq!(state.upload_queued_paths.len(), 1);
+    }
+
+    #[test]
+    fn prune_removed_dirs_state_drops_queue_and_hot_paths() {
+        let mut state = WatcherState::new(
+            WatcherConfig::default(),
+            ProcessedStore::default(),
+            UploadQueueStore::default(),
+        );
+        let active_dir = PathBuf::from("/active/mailcache");
+        state.enqueue_upload(make_item("/active/mailcache/Persistent.Mail.1", None));
+        state.enqueue_upload(make_item("/removed/mailcache/Persistent.Mail.2", None));
+        state
+            .hot_paths
+            .push_back("/active/mailcache/Persistent.Mail.1".to_string());
+        state
+            .hot_paths
+            .push_back("/removed/mailcache/Persistent.Mail.2".to_string());
+        state
+            .hot_set
+            .insert("/active/mailcache/Persistent.Mail.1".to_string());
+        state
+            .hot_set
+            .insert("/removed/mailcache/Persistent.Mail.2".to_string());
+
+        let removed = state.prune_removed_dirs_state(&[active_dir]);
+        assert!(removed >= 2);
+        assert_eq!(state.upload_queue.len(), 1);
+        assert!(
+            state
+                .hot_paths
+                .iter()
+                .all(|path| path == "/active/mailcache/Persistent.Mail.1")
+        );
+        assert!(
+            state
+                .upload_queued_paths
+                .contains("/active/mailcache/Persistent.Mail.1")
+        );
+        assert!(
+            state
+                .hot_set
+                .contains("/active/mailcache/Persistent.Mail.1")
+        );
+        assert!(
+            !state
+                .upload_queued_paths
+                .contains("/removed/mailcache/Persistent.Mail.2")
+        );
+        assert!(
+            !state
+                .hot_set
+                .contains("/removed/mailcache/Persistent.Mail.2")
+        );
     }
 }
