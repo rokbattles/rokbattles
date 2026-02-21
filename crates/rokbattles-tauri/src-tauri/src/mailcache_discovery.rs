@@ -4,24 +4,37 @@
 )]
 
 use std::{
-    collections::{BTreeSet, VecDeque},
+    collections::BTreeSet,
     fs,
     path::{Path, PathBuf},
+};
+#[cfg(any(test, target_os = "windows"))]
+use std::{
+    collections::VecDeque,
     time::{Duration, Instant},
 };
 
+#[cfg(any(test, target_os = "windows"))]
 const WINDOWS_MAILCACHE_SUFFIX_LOWER: &str = "\\rise of kingdoms game\\save\\mailcache";
 
+#[cfg(any(test, target_os = "windows"))]
 const WINDOWS_BASE_DIRS: &[&str] = &["Program Files (x86)", "Program Files"];
+#[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_BASE_CHILDREN: usize = 1024;
+#[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_FALLBACK_DEPTH: usize = 4;
+#[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_FALLBACK_DIRS: usize = 3500;
+#[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_FALLBACK_CHILDREN_PER_DIR: usize = 256;
+#[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_FALLBACK_DURATION: Duration = Duration::from_secs(2);
 
+#[cfg(any(test, target_os = "macos"))]
 const MAX_MACOS_CONTAINERS: usize = 2048;
 const MAX_MAILCACHE_FILES_TO_CHECK: usize = 4096;
 
+#[cfg(any(test, target_os = "windows"))]
 pub(crate) fn normalize_windows_path_for_display(path: &str) -> String {
     let normalized = path.trim().replace('/', "\\");
     if let Some(rest) = normalized.strip_prefix("\\\\?\\UNC\\") {
@@ -93,6 +106,7 @@ fn discover_macos_mailcache_dirs() -> Vec<PathBuf> {
     discover_macos_in_bases(&bases)
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn discover_windows_from_roots(roots: &[PathBuf]) -> Vec<PathBuf> {
     if roots.is_empty() {
         return Vec::new();
@@ -125,6 +139,7 @@ fn discover_windows_from_roots(roots: &[PathBuf]) -> Vec<PathBuf> {
     valid
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
     if !base.is_dir() {
         return;
@@ -157,6 +172,7 @@ fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
     }
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
     if !root.is_dir() {
         return;
@@ -207,6 +223,7 @@ fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
     }
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn should_skip_windows_dir(name: &str) -> bool {
     let lower = name.to_ascii_lowercase();
     matches!(
@@ -224,10 +241,12 @@ fn should_skip_windows_dir(name: &str) -> bool {
     )
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn is_valid_windows_mailcache_dir(path: &Path) -> bool {
     path_matches_windows_mailcache_suffix(path) && is_valid_mailcache_dir(path)
 }
 
+#[cfg(any(test, target_os = "windows"))]
 fn path_matches_windows_mailcache_suffix(path: &Path) -> bool {
     let normalized = path
         .to_string_lossy()
@@ -236,6 +255,7 @@ fn path_matches_windows_mailcache_suffix(path: &Path) -> bool {
     normalized.ends_with(WINDOWS_MAILCACHE_SUFFIX_LOWER)
 }
 
+#[cfg(any(test, target_os = "macos"))]
 fn discover_macos_in_bases(bases: &[PathBuf]) -> Vec<PathBuf> {
     let mut candidates = Vec::new();
     for base in bases {
@@ -268,10 +288,12 @@ fn discover_macos_in_bases(bases: &[PathBuf]) -> Vec<PathBuf> {
     candidates
 }
 
+#[cfg(any(test, target_os = "macos"))]
 fn is_valid_macos_mailcache_dir(path: &Path) -> bool {
     path_matches_macos_container_pattern(path) && is_valid_mailcache_dir(path)
 }
 
+#[cfg(any(test, target_os = "macos"))]
 fn path_matches_macos_container_pattern(path: &Path) -> bool {
     let normalized = path.to_string_lossy().replace('\\', "/");
     normalized.ends_with("/Data/Documents/mailcache") && normalized.contains("/Library/Containers/")
