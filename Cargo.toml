@@ -18,10 +18,10 @@ members = [
 resolver = "3"
 
 [workspace.dependencies]
-anyhow = "1.0.101"
+anyhow = "1.0.102"
 serde = "1.0.228"
 serde_json = "1.0.149"
-clap = "4.5.59"
+clap = "4.5.60"
 axum = "0.8.8"
 tokio = "1.49.0"
 tracing = "0.1.44"
