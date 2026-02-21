@@ -158,9 +158,8 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
 
             state.maybe_flush_store(&app);
             state.maybe_flush_upload_queue(&app);
-            state.maybe_rescan_hot(now_ms);
-
             let _ = refresh_scans_if_needed(&app, &mut state).await;
+            state.maybe_rescan_hot(now_ms);
             sync_fs_watches(&app, fs_watcher.as_mut(), &mut fs_watched_dirs, &state.dirs);
 
             for _ in 0..state.config.fs_event_budget {

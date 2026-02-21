@@ -118,6 +118,18 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
             .collect();
     }
 
+    let active_dirs = state.dirs.clone();
+    let pruned = state.prune_removed_dirs_state(&active_dirs);
+    if pruned > 0 {
+        emit_log(
+            app,
+            format!(
+                "Dropped {} stale watcher item(s) for directories that are no longer watched.",
+                pruned
+            ),
+        );
+    }
+
     let mut did_refresh = false;
     let mut refresh_count = 0u64;
     let mut full_refreshed_dirs: Vec<PathBuf> = Vec::new();
@@ -382,6 +394,10 @@ pub(crate) fn sync_fs_watches(
 }
 
 pub(crate) fn apply_fs_event(state: &mut WatcherState, path: PathBuf, now_ms: u128) {
+    if !state.dirs.iter().any(|dir| path.starts_with(dir)) {
+        return;
+    }
+
     let Some(name) = path.file_name().and_then(|s| s.to_str()) else {
         return;
     };
