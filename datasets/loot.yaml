@@ -66,6 +66,48 @@ loot:
         zh_CN: "100 宝石"
         zh_TW: "100 寶石"
 
+    30:
+      name:
+        ar: "500 جوهرة"
+        de: "500 Edelsteine"
+        en: "500 Gems"
+        es: "500 gemas"
+        fr: "500 gemmes"
+        id: "500 Gem"
+        it: "500 gemme"
+        ja: "500 宝石"
+        ko: "보석 500개"
+        ms: "500 Permata"
+        pl: "500 klejnotów"
+        pt: "500 Gemas"
+        ru: "500 самоцветов"
+        th: "500 อัญมณี"
+        tr: "500 Cevher"
+        vi: "500 Đá Quý"
+        zh_CN: "500 宝石"
+        zh_TW: "500 寶石"
+
+    32:
+      name:
+        ar: "2000 جوهرة"
+        de: "2.000 Edelsteine"
+        en: "2,000 Gems"
+        es: "2000 gemas"
+        fr: "2 000 gemmes"
+        id: "2.000 Gem"
+        it: "2.000 gemme"
+        ja: "2,000 宝石"
+        ko: "보석 2,000개"
+        ms: "2,000 Permata"
+        pl: "2000 klejnotów"
+        pt: "2.000 Gemas"
+        ru: "2000 самоцветов"
+        th: "2,000 อัญมณี"
+        tr: "2.000 Cevher"
+        vi: "2.000 Đá Quý"
+        zh_CN: "2,000 宝石"
+        zh_TW: "2,000 寶石"
+
     34:
       name:
         ar: "تسريع دقيقة"
@@ -86,6 +128,27 @@ loot:
         vi: "Tăng tốc 1 phút"
         zh_CN: "1分钟加速"
         zh_TW: "1分鐘加速"
+
+    44:
+      name:
+        ar: "نقل محدد"
+        de: "Gezielte Teleportierung"
+        en: "Targeted Teleport"
+        es: "Teletransporte Dirigido"
+        fr: "Téléportation ciblée"
+        id: "Teleportasi Ditargetkan"
+        it: "Teletrasporto mirato"
+        ja: "指定移転"
+        ko: "지정 도시 이전"
+        ms: "Teleport Disasarkan"
+        pl: "Teleportacja do celu"
+        pt: "Teleporte Direcionado"
+        ru: "Телепорт к цели"
+        th: "เทเลพอร์ตแบบกำหนดเป้าหมาย"
+        tr: "Hedefe Işınlanma"
+        vi: "Dịch Chuyển Có Mục Tiêu"
+        zh_CN: "定点迁城"
+        zh_TW: "定點遷城"
 
     47:
       name:
@@ -234,6 +297,27 @@ loot:
         zh_CN: "5分钟训练加速"
         zh_TW: "5分鐘訓練加速"
 
+    76:
+      name:
+        ar: "تسريع التدريب لمدة 60 دقيقة"
+        de: "60 Minuten Ausbildungsbeschleunigung"
+        en: "60-Minute Training Speedup"
+        es: "60 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 60 minutes"
+        id: "Speedup Melatih 60 Menit"
+        it: "Acceleratore addestramento da 60 minuti"
+        ja: "60分訓練加速"
+        ko: "60분 훈련 가속"
+        ms: "Percepat Latihan 60 Minit"
+        pl: "60-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 60 Minutos"
+        ru: "60-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 60 นาที"
+        tr: "60 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 60 phút"
+        zh_CN: "60分钟训练加速"
+        zh_TW: "60分鐘訓練加速"
+
     85:
       name:
         ar: "تسريع البحث لمدة 30 دقيقة"
@@ -318,6 +402,27 @@ loot:
         zh_CN: "12小时攻击强化"
         zh_TW: "12小時攻擊強化"
 
+    114:
+      name:
+        ar: "24 ساعة هجوم معزز"
+        de: "24-Stunden verbesserter Angriff"
+        en: "24-Hour Enhanced Attack"
+        es: "24 horas de Mejora de Ataque"
+        fr: "Amélioration d'attaque - 24 heures"
+        id: "Enhanced Attack 24 Jam"
+        it: "Attacco potenziato per 24 ore"
+        ja: "24時間攻撃強化"
+        ko: "24시간 공격력 강화"
+        ms: "Serangan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniony atak"
+        pt: "Ataque Aprimorado de 24 Horas"
+        ru: "Усиление атаки на 24 часа"
+        th: "เสริมพลังโจมตี 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Saldırı"
+        vi: "Tăng cường tấn công 24 giờ"
+        zh_CN: "24小时攻击强化"
+        zh_TW: "24小時攻擊強化"
+
     115:
       name:
         ar: "12 ساعة دفاع معزز"
@@ -338,6 +443,28 @@ loot:
         vi: "Tăng cường phòng thủ 12 giờ"
         zh_CN: "12小时防御强化"
         zh_TW: "12小時防禦強化"
+
+    # 25%
+    120:
+      name:
+        ar: "توسعة الجيش الأساسي"
+        de: "Grundlegende Armeeerweiterung"
+        en: "Basic Army Expansion"
+        es: "Expansión de tropas básica"
+        fr: "Expansion basique d'armée"
+        id: "Basic Army Expansion"
+        it: "Espansione di base dell'esercito"
+        ja: "初級部隊編成拡大"
+        ko: "초급 부대 확장"
+        ms: "Pertambahan Tentera Asas"
+        pl: "Podst. powiększenie armii"
+        pt: "Expansão Básica do Exército"
+        ru: "Базовое расширение армии"
+        th: "ขยายกองทัพพื้นฐาน"
+        tr: "Temel Ordu Genişletmesi"
+        vi: "Mở rộng quân đội cơ bản"
+        zh_CN: "初级军队扩编"
+        zh_TW: "初級軍隊擴編"
 
     # 100 AP
     124:
@@ -529,6 +656,27 @@ loot:
         zh_CN: "抵抗之箭"
         zh_TW: "抵抗之箭"
 
+    148:
+      name:
+        ar: "مجلد المعرفة مستوى 5"
+        de: "Lv.-5-Wissenskompendium"
+        en: "Lvl 5 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 5"
+        fr: "Tome du savoir niv. 5"
+        id: "Tome of Knowledge Lvl. 5"
+        it: "Tomo della conoscenza liv 5"
+        ja: "知識の書 Lv.5"
+        ko: "5레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 5"
+        pl: "Księga wiedzy poz. 5"
+        pt: "Tomo do Conhecimento nv. 5"
+        ru: "Фолиант знания ур. 5"
+        th: "ตำราแห่งความรู้ เลเวล 5"
+        tr: "5. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 5"
+        zh_CN: "等级5知识之书"
+        zh_TW: "等級5知識之書"
+
     # 50 AP
     182:
       name:
@@ -551,8 +699,51 @@ loot:
         zh_CN: "紧急行动力恢复"
         zh_TW: "緊急行動力恢復"
 
+    # 20,000
+    188:
+      name:
+        ar: "احتياطي مستوى 5"
+        de: "Level-5-Reserven"
+        en: "Level 5 Reserves"
+        es: "Reservas de Nivel 5"
+        fr: "Réserve Niveau 5"
+        id: "Reserves Level 5"
+        it: "Riserve Livello 5"
+        ja: "予備部隊 Lv.5"
+        ko: "5레벨 준비 부대"
+        ms: "Rizab Tahap 5"
+        pl: "Rezerwa poz. 5"
+        pt: "Reservas Nível 5"
+        ru: "Запас, ур. 5"
+        th: "ทรัพยากรเลเวล 5"
+        tr: "5. Seviye Rezervleri"
+        vi: "Kho dự trữ cấp 5"
+        zh_CN: "等级5 预备部队"
+        zh_TW: "等級5 預備部隊"
+
     # Unknown
     233:
+
+    405:
+      name:
+        ar: "5,000 رصيد فردي"
+        de: "5.000 Persönliche Credits"
+        en: "5,000 Individual Credits"
+        es: "5 000 Créditos Individuales"
+        fr: "5 000 points individuels"
+        id: "5.000 Credit Perorangan"
+        it: "5.000 Crediti individuali"
+        ja: "5,000 個人ポイント"
+        ko: "5,000 개인 포인트"
+        ms: "5,000 Kredit Individu"
+        pl: "5 000 pkt osobistych"
+        pt: "5.000 créditos individuais"
+        ru: "Личные кредиты: 5000"
+        th: "เครดิตส่วนบุคคล 5,000 เครดิต"
+        tr: "5.000 Bireysel Kredi"
+        vi: "5.000 Tín dụng cá nhân"
+        zh_CN: "5,000 个人积分"
+        zh_TW: "5,000 個人積分"
 
     412:
       name:
@@ -940,3 +1131,46 @@ loot:
         vi: "Tượng đèn sao mới"
         zh_CN: "崭新的星光雕像"
         zh_TW: "嶄新的星光雕像"
+
+    # Legendary
+    9999:
+      name:
+        ar: "تمثال النجم الباهر"
+        de: "Glanzvolle Sternenlicht-Skulptur"
+        en: "Dazzling Starlight Sculpture"
+        es: "Escultura de Starlight Resplandeciente"
+        fr: "Sculpture de lumière d'étoile éblouissante"
+        id: "Patung Cahaya Bintang yang Berkilau"
+        it: "Scultura di luce stellare abbacinante"
+        ja: "輝ける星の勲章"
+        ko: "찬란한 별빛 조각상"
+        ms: "Arca Cahaya Bintang Berkilauan"
+        pl: "Olśniewająca rzeźba gwiezdna"
+        pt: "Escultura Luz estelar Deslumbrante"
+        ru: "Ослепительная скульптура лунного света"
+        th: "รูปปั้นแสงดาวเปล่งประกาย"
+        tr: "Göz Kamaştırıcı Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao rực rỡ"
+        zh_CN: "璀璨的星光雕像"
+        zh_TW: "璀璨的星光雕像"
+
+    10005:
+      name:
+        ar: "تمثال قائد أسطوري"
+        de: "Legendäre-Kommandanten-Skulptur"
+        en: "Legendary Commander Sculpture"
+        es: "Escultura de comandante legendario"
+        fr: "Sculpture de commandant légendaire"
+        id: "Patung Komandan Legendaris"
+        it: "Scultura del comandante leggendaria"
+        ja: "レジェンド英雄像"
+        ko: "전설 사령관 조각상"
+        ms: "Arca Komander Legenda"
+        pl: "Rzeźba legendarnego dowódcy"
+        pt: "Escultura Comandante Lendário"
+        ru: "Скульптура легендарного командира"
+        th: "รูปปั้นผู้บัญชาการระดับตำนาน"
+        tr: "Efsanevi Komutan Heykeli"
+        vi: "Tượng chỉ huy huyền thoại"
+        zh_CN: "传说统帅雕像"
+        zh_TW: "傳說統帥雕像"
