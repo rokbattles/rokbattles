@@ -4,6 +4,7 @@ import {
   ArrowDownTrayIcon,
   ChevronUpIcon,
   FireIcon,
+  FlagIcon,
   GiftIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
@@ -141,6 +142,13 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     <SidebarItem href="/account/loot" current={pathname === "/account/loot"}>
                       <GiftIcon />
                       <SidebarLabel>{t("My Loot")}</SidebarLabel>
+                    </SidebarItem>
+                    <SidebarItem
+                      href="/account/ark"
+                      current={pathname === "/account/ark" || pathname.startsWith("/account/ark/")}
+                    >
+                      <FlagIcon />
+                      <SidebarLabel>{t("My Ark Matches")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}
