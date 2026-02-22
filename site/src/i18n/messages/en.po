@@ -6,14 +6,22 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
+#: src/app/(main)/account/ark/[matchId]/page.tsx:13
+msgid "WDt8Y9"
+msgstr "Ark Match"
+
+#: src/app/(main)/account/ark/page.tsx:20
+msgid "P2Qqmh"
+msgstr "Ark Match History"
+
 #: src/app/(main)/account/loot/page.tsx:37
 #: src/app/(main)/account/loot/page.tsx:50
-#: src/components/platform-layout.tsx:143
+#: src/components/platform-layout.tsx:144
 msgid "yF/GXb"
 msgstr "My Loot"
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:139
+#: src/components/platform-layout.tsx:140
 msgid "N42bBd"
 msgstr "My Pairings"
 
@@ -31,7 +39,7 @@ msgid "rmEwjk"
 msgstr "Your email address is synced from Discord."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:122
+#: src/components/platform-layout.tsx:123
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
@@ -47,6 +55,7 @@ msgstr "Live feed (UTC)"
 
 #: src/app/(main)/olympian-arena/page.tsx:17
 #: src/app/(main)/page.tsx:24
+#: src/components/account-ark/ark-match-history-table.tsx:27
 #: src/components/account/account-reports-content.tsx:39
 msgid "ug01Mk"
 msgstr "Time"
@@ -117,9 +126,63 @@ msgid "irMluf"
 msgstr "Back to My Reports"
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:118
+#: src/components/platform-layout.tsx:119
 msgid "8PEDrB"
 msgstr "Explore Battles"
+
+#: src/components/account-ark/ark-match-detail-placeholder.tsx:13
+msgid "UPfWQl"
+msgstr "Match ID: {id}"
+
+#: src/components/account-ark/ark-match-history-empty-state.tsx:9
+msgid "QKXR/H"
+msgstr "No Ark match history found for this governor yet."
+
+#: src/components/account-ark/ark-match-history-error-state.tsx:9
+msgid "6IRh9u"
+msgstr "Failed to load Ark match history."
+
+#: src/components/account-ark/ark-match-history-loading-state.tsx:6
+msgid "raC1gL"
+msgstr "Loading Ark match history..."
+
+#: src/components/account-ark/ark-match-history-table.tsx:16
+msgid "iVlule"
+msgstr "Unknown alliance"
+
+#: src/components/account-ark/ark-match-history-table.tsx:17
+#: src/components/olympian-arena/duel-commander-row.tsx:20
+#: src/components/report/report-commander-row.tsx:22
+#: src/components/report/report-overview-column.tsx:29
+msgid "5jeq8P"
+msgstr "Unknown"
+
+#: src/components/account-ark/ark-match-history-table.tsx:18
+#: src/components/account-ark/ark-match-history-table.tsx:28
+msgid "T4H9Lz"
+msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-table.tsx:19
+#: src/components/account-ark/ark-match-history-table.tsx:29
+msgid "lsSmtD"
+msgstr "Iset"
+
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lgBBrD"
+msgstr "View Ark match details"
+
+#: src/components/account-ark/ark-match-history-table.tsx:30
+#: src/components/olympian-arena/duel-participant-card.tsx:88
+msgid "H+vBOj"
+msgstr "Winner"
+
+#: src/components/account-ark/ark-match-history-table.tsx:31
+msgid "+a+2ug"
+msgstr "Members"
+
+#: src/components/account-ark/ark-match-history-table.tsx:32
+msgid "oLkLww"
+msgstr "Score"
 
 #: src/components/account-loot/account-loot-content.tsx:28
 msgid "+LBFrG"
@@ -153,12 +216,12 @@ msgstr "Baulur"
 msgid "XD64/m"
 msgstr "Failed to load loot."
 
-#: src/components/account-loot/loot-filters-client.tsx:102
+#: src/components/account-loot/loot-filters-client.tsx:97
 #: src/components/my-pairings/pairings-filters.tsx:73
 msgid "n5QvJy"
 msgstr "Start date"
 
-#: src/components/account-loot/loot-filters-client.tsx:113
+#: src/components/account-loot/loot-filters-client.tsx:108
 #: src/components/my-pairings/pairings-filters.tsx:84
 msgid "Humfno"
 msgstr "End date"
@@ -519,12 +582,6 @@ msgstr "Inscriptions"
 msgid "g+gbNs"
 msgstr "Armament buffs"
 
-#: src/components/olympian-arena/duel-commander-row.tsx:20
-#: src/components/report/report-commander-row.tsx:22
-#: src/components/report/report-overview-column.tsx:29
-msgid "5jeq8P"
-msgstr "Unknown"
-
 #: src/components/olympian-arena/duel-commander-row.tsx:22
 #: src/components/report/report-commander-row.tsx:24
 #: src/components/reports/participant-cell.tsx:39
@@ -544,10 +601,6 @@ msgstr "No reports were found for this duel."
 #: src/components/olympian-arena/duel-loading-state.tsx:10
 msgid "U5Mxzi"
 msgstr "Loading duel report..."
-
-#: src/components/olympian-arena/duel-participant-card.tsx:88
-msgid "H+vBOj"
-msgstr "Winner"
 
 #: src/components/olympian-arena/duel-participant-card.tsx:102
 #: src/components/report/report-participant-card.tsx:69
@@ -624,52 +677,56 @@ msgstr "Cookie Settings"
 msgid "xXbJso"
 msgstr "Sign out"
 
-#: src/components/platform-layout.tsx:69
+#: src/components/platform-layout.tsx:70
 msgid "Q7dLbA"
 msgstr "Light mode"
 
-#: src/components/platform-layout.tsx:69
+#: src/components/platform-layout.tsx:70
 msgid "hMUQH5"
 msgstr "Dark mode"
 
-#: src/components/platform-layout.tsx:69
+#: src/components/platform-layout.tsx:70
 msgid "Pe0ogR"
 msgstr "Theme"
 
-#: src/components/platform-layout.tsx:98
+#: src/components/platform-layout.tsx:99
 msgid "Lvr/gV"
 msgstr "Open account menu"
 
-#: src/components/platform-layout.tsx:105
-#: src/components/platform-layout.tsx:205
+#: src/components/platform-layout.tsx:106
+#: src/components/platform-layout.tsx:213
 msgid "SQJto2"
 msgstr "Sign in"
 
-#: src/components/platform-layout.tsx:127
+#: src/components/platform-layout.tsx:128
 msgid "TwyMau"
 msgstr "Account"
 
-#: src/components/platform-layout.tsx:132
+#: src/components/platform-layout.tsx:133
 msgid "NFE4yO"
 msgstr "My Battles"
 
-#: src/components/platform-layout.tsx:153
+#: src/components/platform-layout.tsx:151
+msgid "odeufe"
+msgstr "My Ark Matches"
+
+#: src/components/platform-layout.tsx:161
 msgid "7oFrM6"
 msgstr "Legal"
 
-#: src/components/platform-layout.tsx:162
+#: src/components/platform-layout.tsx:170
 msgid "HqRNN8"
 msgstr "Support"
 
-#: src/components/platform-layout.tsx:171
+#: src/components/platform-layout.tsx:179
 msgid "QnWNmB"
 msgstr "Desktop App"
 
-#: src/components/platform-layout.tsx:173
+#: src/components/platform-layout.tsx:181
 msgid "EQpyb8"
 msgstr "Toggle theme"
 
-#: src/components/platform-layout.tsx:183
+#: src/components/platform-layout.tsx:191
 msgid "gjBiyj"
 msgstr "Loading..."
 
