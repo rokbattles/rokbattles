@@ -35,14 +35,14 @@ export function ArkMatchHistoryRow({ row, labels }: ArkMatchHistoryRowProps) {
         ? labels.iset
         : labels.unknownWinner;
   const winnerBadgeColor = winnerSide === "seth" ? "red" : winnerSide === "iset" ? "blue" : "zinc";
-  const membersLabel = `${formatWholeNumber(sethAlliance?.members ?? 0)} vs ${formatWholeNumber(isetAlliance?.members ?? 0)}`;
-  const scoreLabel = `${formatWholeNumber(sethAlliance?.score ?? 0)} vs ${formatWholeNumber(isetAlliance?.score ?? 0)}`;
+  const membersLabel = `${formatWholeNumber(isetAlliance?.members ?? 0)} vs ${formatWholeNumber(sethAlliance?.members ?? 0)}`;
+  const scoreLabel = `${formatWholeNumber(isetAlliance?.score ?? 0)} vs ${formatWholeNumber(sethAlliance?.score ?? 0)}`;
 
   return (
     <TableRow href={detailsHref} title={labels.rowLinkTitle}>
       <TableCell className="tabular-nums">{formatUtcDateTime(row.mailTimeMillis)}</TableCell>
-      <TableCell>{formatArkAllianceLabel(sethAlliance, labels.unknownAlliance)}</TableCell>
       <TableCell>{formatArkAllianceLabel(isetAlliance, labels.unknownAlliance)}</TableCell>
+      <TableCell>{formatArkAllianceLabel(sethAlliance, labels.unknownAlliance)}</TableCell>
       <TableCell>
         <Badge color={winnerBadgeColor}>{winnerLabel}</Badge>
       </TableCell>

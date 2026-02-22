@@ -25,8 +25,8 @@ export async function ArkMatchHistoryTable({ rows }: ArkMatchHistoryTableProps) 
       <TableHead>
         <TableRow>
           <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
-          <TableHeader>{t("Seth")}</TableHeader>
           <TableHeader>{t("Iset")}</TableHeader>
+          <TableHeader>{t("Seth")}</TableHeader>
           <TableHeader className="sm:w-24">{t("Winner")}</TableHeader>
           <TableHeader className="sm:w-24">{t("Members")}</TableHeader>
           <TableHeader className="sm:w-40">{t("Score")}</TableHeader>
