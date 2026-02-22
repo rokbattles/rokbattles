@@ -6,7 +6,7 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(main)/account/ark/[matchId]/page.tsx:13
+#: src/app/(main)/account/ark/[matchId]/page.tsx:21
 msgid "WDt8Y9"
 msgstr "Ark Match"
 
@@ -55,7 +55,7 @@ msgstr "Live feed (UTC)"
 
 #: src/app/(main)/olympian-arena/page.tsx:17
 #: src/app/(main)/page.tsx:24
-#: src/components/account-ark/ark-match-history-table.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:17
 #: src/components/account/account-reports-content.tsx:39
 msgid "ug01Mk"
 msgstr "Time"
@@ -82,6 +82,7 @@ msgstr "Opponent"
 
 #: src/app/(main)/olympian-arena/page.tsx:20
 #: src/app/(main)/page.tsx:28
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
 #: src/components/account/account-reports-content.tsx:43
 msgid "Y3Z7jw"
 msgstr "Kill Count"
@@ -130,9 +131,158 @@ msgstr "Back to My Reports"
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
-#: src/components/account-ark/ark-match-detail-placeholder.tsx:13
-msgid "UPfWQl"
-msgstr "Match ID: {id}"
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:20
+#: src/components/my-pairings/my-pairings-content.tsx:145
+#: src/components/my-pairings/my-pairings-content.tsx:377
+#: src/components/olympian-arena/duel-participant-card.tsx:45
+#: src/components/report/report-participant-card.tsx:27
+#: src/components/reports/participant-cell.tsx:18
+msgid "5hGibV"
+msgstr "Unknown commander"
+
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:40
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:51
+#: src/components/olympian-arena/duel-commander-row.tsx:22
+#: src/components/report/report-commander-row.tsx:24
+#: src/components/reports/participant-cell.tsx:39
+#: src/components/reports/participant-cell.tsx:50
+msgid "+sdDeh"
+msgstr "{name} icon"
+
+#: src/components/account-ark/ark-match-detail-error-state.tsx:9
+msgid "Xe3O7i"
+msgstr "Failed to load Ark match details."
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:19
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:19
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
+#: src/components/report/report-overview-column.tsx:64
+msgid "PW+sL4"
+msgstr "N/A"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:23
+msgid "gkoU0i"
+msgstr "Individual Results"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
+msgid "FsjcN7"
+msgstr "Ark of Osiris Score"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:29
+msgid "JPFyHU"
+msgstr "Kill Score"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:33
+msgid "g/Nwxg"
+msgstr "Occupation Score"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:37
+msgid "5YClsN"
+msgstr "Provisions Score"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:41
+msgid "nCGWau"
+msgstr "Battles Won"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:45
+msgid "Hw0iax"
+msgstr "Battles Lost"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:49
+msgid "BXfxPW"
+msgstr "Win Percentage"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:53
+#: src/components/account-loot/loot-timeline-chart-client.tsx:124
+msgid "Sl01xK"
+msgstr "Kills"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:57
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
+#: src/components/report/report-overview-column.tsx:46
+msgid "sz3C4k"
+msgstr "Severely Wounded"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:61
+msgid "mJwM5A"
+msgstr "Units Healed"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:65
+msgid "itiyNN"
+msgstr "Speedups (minutes)"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:69
+msgid "lcP4aP"
+msgstr "Teleports"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:73
+msgid "5g03Dq"
+msgstr "Structures Entered"
+
+#: src/components/account-ark/ark-match-detail-loading-state.tsx:7
+msgid "ksU1u5"
+msgstr "Loading Ark match details..."
+
+#: src/components/account-ark/ark-match-detail-not-found-state.tsx:9
+msgid "gwll/b"
+msgstr "Ark match not found."
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:23
+msgid "9uOFF3"
+msgstr "Overview"
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:25
+msgid "VP5+CR"
+msgstr "Rank"
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:29
+#: src/components/account-ark/ark-match-history-table.tsx:22
+msgid "oLkLww"
+msgstr "Score"
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:33
+msgid "b5C+CG"
+msgstr "Total Battles"
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:37
+msgid "GY2gN9"
+msgstr "Kill Points Gain"
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:41
+msgid "9otZoU"
+msgstr "Kill Points Loss"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:28
+msgid "fq2V8a"
+msgstr "Pairings Performance"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:30
+msgid "Tm8lLF"
+msgstr "No pairings found for this match."
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:35
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
+msgid "02koas"
+msgstr "#"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:36
+#: src/components/my-pairings/pairings-filters.tsx:47
+#: src/components/my-pairings/pairings-filters.tsx:49
+msgid "goGXET"
+msgstr "Pairing"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:37
+msgid "ZtK0ZT"
+msgstr "Battles (win/total)"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
+#: src/components/my-pairings/my-pairings-content.tsx:284
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
+#: src/components/olympian-arena/duel-results-chart.tsx:84
+#: src/components/report/report-battle-results-chart.tsx:89
+#: src/components/report/report-overview-column.tsx:55
+msgid "RCtKQ2"
+msgstr "Kill Points"
 
 #: src/components/account-ark/ark-match-history-empty-state.tsx:9
 msgid "QKXR/H"
@@ -142,47 +292,44 @@ msgstr "No Ark match history found for this governor yet."
 msgid "6IRh9u"
 msgstr "Failed to load Ark match history."
 
-#: src/components/account-ark/ark-match-history-loading-state.tsx:6
+#: src/components/account-ark/ark-match-history-loading-state.tsx:7
 msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
-#: src/components/account-ark/ark-match-history-table.tsx:16
-msgid "iVlule"
-msgstr "Unknown alliance"
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:18
+msgid "lsSmtD"
+msgstr "Iset"
 
-#: src/components/account-ark/ark-match-history-table.tsx:17
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:19
+msgid "T4H9Lz"
+msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
 #: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
 msgstr "Unknown"
 
-#: src/components/account-ark/ark-match-history-table.tsx:18
-#: src/components/account-ark/ark-match-history-table.tsx:28
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-table.tsx:19
-#: src/components/account-ark/ark-match-history-table.tsx:29
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-table.tsx:20
+#: src/components/account-ark/ark-match-history-row.tsx:31
 msgid "lgBBrD"
 msgstr "View Ark match details"
 
-#: src/components/account-ark/ark-match-history-table.tsx:30
+#: src/components/account-ark/ark-match-history-row.tsx:33
+#: src/components/account-ark/ark-match-history-row.tsx:34
+msgid "iVlule"
+msgstr "Unknown alliance"
+
+#: src/components/account-ark/ark-match-history-table.tsx:20
 #: src/components/olympian-arena/duel-participant-card.tsx:88
 msgid "H+vBOj"
 msgstr "Winner"
 
-#: src/components/account-ark/ark-match-history-table.tsx:31
+#: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "+a+2ug"
 msgstr "Members"
-
-#: src/components/account-ark/ark-match-history-table.tsx:32
-msgid "oLkLww"
-msgstr "Score"
 
 #: src/components/account-loot/account-loot-content.tsx:28
 msgid "+LBFrG"
@@ -241,10 +388,6 @@ msgstr "Loot breakdown"
 #: src/components/account-loot/loot-table-section.tsx:29
 msgid "PF57EA"
 msgstr "No loot in this date range."
-
-#: src/components/account-loot/loot-timeline-chart-client.tsx:124
-msgid "Sl01xK"
-msgstr "Kills"
 
 #: src/components/account/account-governors-content.tsx:26
 msgid "pnoYAG"
@@ -383,14 +526,6 @@ msgstr "Armament {id}"
 msgid "+RhnH+"
 msgstr "Empty"
 
-#: src/components/my-pairings/my-pairings-content.tsx:145
-#: src/components/my-pairings/my-pairings-content.tsx:377
-#: src/components/olympian-arena/duel-participant-card.tsx:45
-#: src/components/report/report-participant-card.tsx:27
-#: src/components/reports/participant-cell.tsx:18
-msgid "5hGibV"
-msgstr "Unknown commander"
-
 #: src/components/my-pairings/my-pairings-content.tsx:233
 msgid "vxHX7Q"
 msgstr "All loadouts"
@@ -402,14 +537,6 @@ msgstr "Loadout {index}"
 #: src/components/my-pairings/my-pairings-content.tsx:280
 msgid "W2cCAf"
 msgstr "Total battles recorded for this loadout."
-
-#: src/components/my-pairings/my-pairings-content.tsx:284
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
-#: src/components/olympian-arena/duel-results-chart.tsx:84
-#: src/components/report/report-battle-results-chart.tsx:89
-#: src/components/report/report-overview-column.tsx:55
-msgid "RCtKQ2"
-msgstr "Kill Points"
 
 #: src/components/my-pairings/my-pairings-content.tsx:286
 msgid "xh4gLq"
@@ -476,11 +603,6 @@ msgstr "Rate at which your troops become severely wounded each second."
 msgid "y+cvIx"
 msgstr "Analyze performance across commander pairings, loadouts, and matchups"
 
-#: src/components/my-pairings/pairings-filters.tsx:47
-#: src/components/my-pairings/pairings-filters.tsx:49
-msgid "goGXET"
-msgstr "Pairing"
-
 #: src/components/my-pairings/pairings-filters.tsx:62
 #: src/components/my-pairings/pairings-filters.tsx:64
 msgid "StqoPN"
@@ -527,10 +649,6 @@ msgstr "Loading enemy matchups..."
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:121
 msgid "bey2Db"
 msgstr "No enemy pairings found for this selection."
-
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
-msgid "02koas"
-msgstr "#"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:128
 msgid "cSiC2v"
@@ -581,13 +699,6 @@ msgstr "Inscriptions"
 #: src/components/my-pairings/pairings-loadouts.tsx:103
 msgid "g+gbNs"
 msgstr "Armament buffs"
-
-#: src/components/olympian-arena/duel-commander-row.tsx:22
-#: src/components/report/report-commander-row.tsx:24
-#: src/components/reports/participant-cell.tsx:39
-#: src/components/reports/participant-cell.tsx:50
-msgid "+sdDeh"
-msgstr "{name} icon"
 
 #: src/components/olympian-arena/duel-commander-row.tsx:31
 #: src/components/report/report-commander-row.tsx:37
@@ -799,17 +910,9 @@ msgstr "All Enemies"
 msgid "kzHEVE"
 msgstr "Troop Units"
 
-#: src/components/report/report-overview-column.tsx:46
-msgid "sz3C4k"
-msgstr "Severely Wounded"
-
 #: src/components/report/report-overview-column.tsx:49
 msgid "1ISgLB"
 msgstr "Slightly Wounded"
-
-#: src/components/report/report-overview-column.tsx:64
-msgid "PW+sL4"
-msgstr "N/A"
 
 #: src/components/report/report-participant-card.tsx:61
 msgid "RJ+ZIh"

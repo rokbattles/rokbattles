@@ -1,17 +1,27 @@
+import { redirect } from "next/navigation";
 import { getExtracted } from "next-intl/server";
-import { ArkMatchDetailPlaceholder } from "@/components/account-ark/ark-match-detail-placeholder";
+import { Suspense } from "react";
+import { ArkMatchDetailContent } from "@/components/account-ark/ark-match-detail-content";
+import { ArkMatchDetailLoadingState } from "@/components/account-ark/ark-match-detail-loading-state";
 import { Heading } from "@/components/ui/heading";
 import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 
 export default async function Page({ params }: PageProps<"/account/ark/[matchId]">) {
-  await requireCurrentUserWithGovernor();
+  const user = await requireCurrentUserWithGovernor();
   const t = await getExtracted();
   const { matchId } = await params;
+  const governorId = user.claimedGovernors[0]?.governorId;
+
+  if (governorId == null) {
+    redirect("/account/settings/governors");
+  }
 
   return (
     <>
       <Heading>{t("Ark Match")}</Heading>
-      <ArkMatchDetailPlaceholder matchId={matchId} />
+      <Suspense fallback={<ArkMatchDetailLoadingState />}>
+        <ArkMatchDetailContent governorId={governorId} matchId={matchId} />
+      </Suspense>
     </>
   );
 }
