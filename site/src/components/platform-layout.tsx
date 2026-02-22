@@ -138,9 +138,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                       <ScaleIcon />
                       <SidebarLabel>{t("My Pairings")}</SidebarLabel>
                     </SidebarItem>
-                    <SidebarItem href="/account/rewards" current={pathname === "/account/rewards"}>
+                    <SidebarItem href="/account/loot" current={pathname === "/account/loot"}>
                       <GiftIcon />
-                      <SidebarLabel>{t("My Rewards")}</SidebarLabel>
+                      <SidebarLabel>{t("My Loot")}</SidebarLabel>
                     </SidebarItem>
                   </>
                 ) : null}

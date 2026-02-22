@@ -6,15 +6,16 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
+#: src/app/(main)/account/loot/page.tsx:37
+#: src/app/(main)/account/loot/page.tsx:50
+#: src/components/platform-layout.tsx:143
+msgid "yF/GXb"
+msgstr "My Loot"
+
 #: src/app/(main)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:139
 msgid "N42bBd"
 msgstr "My Pairings"
-
-#: src/app/(main)/account/rewards/page.tsx:12
-#: src/components/platform-layout.tsx:143
-msgid "Wocb8I"
-msgstr "My Rewards"
 
 #: src/app/(main)/account/settings/layout.tsx:11
 #: src/components/platform-account-dropdown-menu.tsx:33
@@ -119,6 +120,68 @@ msgstr "Back to My Reports"
 #: src/components/platform-layout.tsx:118
 msgid "8PEDrB"
 msgstr "Explore Battles"
+
+#: src/components/account-loot/account-loot-content.tsx:28
+msgid "+LBFrG"
+msgstr "See loot from Barbarian, Barbarian Fort, and Baulur reports."
+
+#: src/components/account-loot/loot-breakdown-table.tsx:24
+msgid "HAlOn1"
+msgstr "Name"
+
+#: src/components/account-loot/loot-breakdown-table.tsx:25
+msgid "/0TOL5"
+msgstr "Amount"
+
+#: src/components/account-loot/loot-breakdown-table.tsx:26
+msgid "wrpHgq"
+msgstr "Drops"
+
+#: src/components/account-loot/loot-category-list.tsx:36
+msgid "r3YbHp"
+msgstr "Barbarians"
+
+#: src/components/account-loot/loot-category-list.tsx:37
+msgid "Ap561B"
+msgstr "Barbarian Fort"
+
+#: src/components/account-loot/loot-category-list.tsx:38
+msgid "T8KvU4"
+msgstr "Baulur"
+
+#: src/components/account-loot/loot-error-state.tsx:6
+msgid "XD64/m"
+msgstr "Failed to load loot."
+
+#: src/components/account-loot/loot-filters-client.tsx:102
+#: src/components/my-pairings/pairings-filters.tsx:73
+msgid "n5QvJy"
+msgstr "Start date"
+
+#: src/components/account-loot/loot-filters-client.tsx:113
+#: src/components/my-pairings/pairings-filters.tsx:84
+msgid "Humfno"
+msgstr "End date"
+
+#: src/components/account-loot/loot-report-section.tsx:20
+msgid "sdkaef"
+msgstr "No reports in this date range."
+
+#: src/components/account-loot/loot-table-section.tsx:18
+msgid "WOPo3b"
+msgstr "Unknown reward {type}/{subType}"
+
+#: src/components/account-loot/loot-table-section.tsx:27
+msgid "QtM1tY"
+msgstr "Loot breakdown"
+
+#: src/components/account-loot/loot-table-section.tsx:29
+msgid "PF57EA"
+msgstr "No loot in this date range."
+
+#: src/components/account-loot/loot-timeline-chart-client.tsx:124
+msgid "Sl01xK"
+msgstr "Kills"
 
 #: src/components/account/account-governors-content.tsx:26
 msgid "pnoYAG"
@@ -368,16 +431,6 @@ msgstr "Normalized"
 msgid "244wra"
 msgstr "Exact"
 
-#: src/components/my-pairings/pairings-filters.tsx:73
-#: src/components/my-rewards/rewards-filters.tsx:28
-msgid "n5QvJy"
-msgstr "Start date"
-
-#: src/components/my-pairings/pairings-filters.tsx:84
-#: src/components/my-rewards/rewards-filters.tsx:39
-msgid "Humfno"
-msgstr "End date"
-
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:74
 msgid "ouEHpA"
 msgstr "Loadout breakdown"
@@ -465,60 +518,6 @@ msgstr "Inscriptions"
 #: src/components/my-pairings/pairings-loadouts.tsx:103
 msgid "g+gbNs"
 msgstr "Armament buffs"
-
-#: src/components/my-rewards/my-rewards-content.tsx:64
-msgid "t91AM7"
-msgstr "Barbarian Kills"
-
-#: src/components/my-rewards/my-rewards-content.tsx:69
-msgid "owXGag"
-msgstr "Barbarian Forts"
-
-#: src/components/my-rewards/my-rewards-content.tsx:74
-#: src/components/reports/reports-filter-dialog.tsx:382
-msgid "/VnDMl"
-msgstr "Other"
-
-#: src/components/my-rewards/my-rewards-content.tsx:85
-msgid "WOPo3b"
-msgstr "Unknown reward {type}/{subType}"
-
-#: src/components/my-rewards/my-rewards-content.tsx:109
-msgid "7q1s6R"
-msgstr "Track the NPC rewards earned from barbarian reports."
-
-#: src/components/my-rewards/my-rewards-content.tsx:117
-msgid "iSxJfb"
-msgstr "NPC summary"
-
-#: src/components/my-rewards/my-rewards-content.tsx:119
-#: src/components/my-rewards/my-rewards-content.tsx:149
-msgid "gMRQDv"
-msgstr "Loading rewards..."
-
-#: src/components/my-rewards/my-rewards-content.tsx:123
-msgid "tCVoMM"
-msgstr "No NPC rewards found for this range."
-
-#: src/components/my-rewards/my-rewards-content.tsx:147
-msgid "y0EYpw"
-msgstr "Rewards"
-
-#: src/components/my-rewards/my-rewards-content.tsx:153
-msgid "UrKglR"
-msgstr "No rewards found for this range."
-
-#: src/components/my-rewards/my-rewards-content.tsx:158
-msgid "HAlOn1"
-msgstr "Name"
-
-#: src/components/my-rewards/my-rewards-content.tsx:159
-msgid "/0TOL5"
-msgstr "Amount"
-
-#: src/components/my-rewards/my-rewards-content.tsx:160
-msgid "wrpHgq"
-msgstr "Drops"
 
 #: src/components/olympian-arena/duel-commander-row.tsx:20
 #: src/components/report/report-commander-row.tsx:22
@@ -860,6 +859,10 @@ msgstr "Alliance Flag"
 #: src/components/reports/reports-filter-dialog.tsx:379
 msgid "iScUrx"
 msgstr "Alliance Fortress"
+
+#: src/components/reports/reports-filter-dialog.tsx:382
+msgid "/VnDMl"
+msgstr "Other"
 
 #: src/components/reports/reports-filter-dialog.tsx:405
 msgid "jm/spn"
