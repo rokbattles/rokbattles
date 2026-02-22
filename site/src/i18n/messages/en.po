@@ -297,14 +297,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:18
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:19
 msgid "T4H9Lz"
 msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:18
+msgid "lsSmtD"
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -483,37 +483,25 @@ msgstr "Claiming..."
 msgid "p5J4xw"
 msgstr "Claim governor"
 
-#: src/components/language-selector.tsx:90
-#: src/components/language-selector.tsx:100
+#: src/components/language-selector.tsx:78
+#: src/components/language-selector.tsx:88
 msgid "eVlu1R"
 msgstr "Select language"
 
-#: src/components/language-selector.tsx:95
+#: src/components/language-selector.tsx:83
 msgid "y1Z3or"
 msgstr "Language"
 
-#: src/components/language-selector.tsx:105
-msgid "v5g0+z"
-msgstr "Site languages"
+#: src/components/language-selector.tsx:93
+msgid "QmFCUz"
+msgstr "Languages besides English may be incomplete. Untranslated text falls back to English."
 
-#: src/components/language-selector.tsx:106
-msgid "/aKNd5"
-msgstr "Translated across the site and datasets."
-
-#: src/components/language-selector.tsx:117
-msgid "y+9Z1F"
-msgstr "Dataset languages"
-
-#: src/components/language-selector.tsx:119
-msgid "QrGgH2"
-msgstr "Additional translations for game data only. Coverage may be incomplete or out of date."
-
-#: src/components/language-selector.tsx:137
+#: src/components/language-selector.tsx:110
 #: src/components/reports/reports-filter-dialog.tsx:393
 msgid "47FYwb"
 msgstr "Cancel"
 
-#: src/components/language-selector.tsx:139
+#: src/components/language-selector.tsx:112
 msgid "jvo0vs"
 msgstr "Save"
 
