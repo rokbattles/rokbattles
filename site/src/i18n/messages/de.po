@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Language: ko\n"
+"Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: next-intl\n"
@@ -23,42 +23,42 @@ msgstr ""
 #: src/app/(main)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:140
 msgid "N42bBd"
-msgstr "내 조합"
+msgstr ""
 
 #: src/app/(main)/account/settings/layout.tsx:11
 #: src/components/platform-account-dropdown-menu.tsx:33
 msgid "NQgbYA"
-msgstr "계정 설정"
+msgstr "Konto-Einstellungen"
 
 #: src/app/(main)/account/settings/page.tsx:13
 msgid "hJZwTS"
-msgstr "이메일 주소"
+msgstr ""
 
 #: src/app/(main)/account/settings/page.tsx:15
 msgid "rmEwjk"
-msgstr "이메일 주소는 디스코드와 동기화됩니다."
+msgstr ""
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
 #: src/components/platform-layout.tsx:123
 msgid "xVCzuX"
-msgstr "결투 탐색"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:10
 msgid "78PvoX"
-msgstr "올림피아 요새 보고서"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:12
 #: src/app/(main)/page.tsx:15
 #: src/components/account/account-reports-content.tsx:30
 msgid "F2qQa8"
-msgstr "실시간 피드 (UTC)"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:17
 #: src/app/(main)/page.tsx:24
 #: src/components/account-ark/ark-match-history-table.tsx:17
 #: src/components/account/account-reports-content.tsx:39
 msgid "ug01Mk"
-msgstr "시간"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:18
 #: src/app/(main)/page.tsx:25
@@ -68,7 +68,7 @@ msgstr "시간"
 #: src/components/reports/reports-filter-dialog.tsx:105
 #: src/components/reports/reports-filter-dialog.tsx:231
 msgid "nbwXXN"
-msgstr "발신인"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:19
 #: src/app/(main)/page.tsx:26
@@ -78,14 +78,14 @@ msgstr "발신인"
 #: src/components/reports/reports-filter-dialog.tsx:106
 #: src/components/reports/reports-filter-dialog.tsx:272
 msgid "Mdj7Fr"
-msgstr "상대방"
+msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:20
 #: src/app/(main)/page.tsx:28
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
 #: src/components/account/account-reports-content.tsx:43
 msgid "Y3Z7jw"
-msgstr "처치 수"
+msgstr "Kill-Anzahl"
 
 #: src/app/(main)/olympian-arena/page.tsx:21
 #: src/app/(main)/page.tsx:29
@@ -95,41 +95,41 @@ msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:22
 msgid "aXdZke"
-msgstr "연승 랭킹"
+msgstr "Siegesserie"
 
 #: src/app/(main)/page.tsx:13
 msgid "xmv5Of"
-msgstr "전투 보고"
+msgstr "Kampfberichte"
 
 #: src/app/(main)/page.tsx:18
 #: src/components/account/account-reports-content.tsx:33
 msgid "9Obw6C"
-msgstr "필터"
+msgstr ""
 
 #: src/app/(main)/page.tsx:27
 #: src/components/account/account-reports-content.tsx:42
 #: src/components/my-pairings/my-pairings-content.tsx:278
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 msgid "9bVtCz"
-msgstr "전투"
+msgstr ""
 
 #: src/app/(main)/page.tsx:30
 #: src/components/account/account-reports-content.tsx:45
 msgid "IuFETn"
-msgstr "지속 시간"
+msgstr ""
 
 #: src/app/(main)/report/[id]/page.tsx:9
 msgid "1gqsiW"
-msgstr "전투 보고"
+msgstr "Kampfbericht."
 
 #: src/app/(main)/report/[id]/page.tsx:52
 msgid "irMluf"
-msgstr "내 보고서로 돌아가기"
+msgstr ""
 
 #: src/app/(main)/report/[id]/page.tsx:52
 #: src/components/platform-layout.tsx:119
 msgid "8PEDrB"
-msgstr "전투 탐색"
+msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:20
 #: src/components/my-pairings/my-pairings-content.tsx:145
@@ -138,7 +138,7 @@ msgstr "전투 탐색"
 #: src/components/report/report-participant-card.tsx:27
 #: src/components/reports/participant-cell.tsx:18
 msgid "5hGibV"
-msgstr "알 수 없는 사령관"
+msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:40
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:51
@@ -147,7 +147,7 @@ msgstr "알 수 없는 사령관"
 #: src/components/reports/participant-cell.tsx:39
 #: src/components/reports/participant-cell.tsx:50
 msgid "+sdDeh"
-msgstr "{name} 아이콘"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx:9
 msgid "Xe3O7i"
@@ -158,7 +158,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
 #: src/components/report/report-overview-column.tsx:64
 msgid "PW+sL4"
-msgstr "해당 없음"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:23
 msgid "gkoU0i"
@@ -182,7 +182,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:41
 msgid "nCGWau"
-msgstr "승리 횟수"
+msgstr "Gewonnene Kämpfe"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:45
 msgid "Hw0iax"
@@ -201,7 +201,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
 #: src/components/report/report-overview-column.tsx:46
 msgid "sz3C4k"
-msgstr "중상"
+msgstr "schwer verletzt"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:61
 msgid "mJwM5A"
@@ -213,7 +213,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:69
 msgid "lcP4aP"
-msgstr "이전"
+msgstr "Teleportierungen"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:73
 msgid "5g03Dq"
@@ -269,7 +269,7 @@ msgstr ""
 #: src/components/my-pairings/pairings-filters.tsx:47
 #: src/components/my-pairings/pairings-filters.tsx:49
 msgid "goGXET"
-msgstr "조합"
+msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:37
 msgid "ZtK0ZT"
@@ -282,7 +282,7 @@ msgstr ""
 #: src/components/report/report-battle-results-chart.tsx:89
 #: src/components/report/report-overview-column.tsx:55
 msgid "RCtKQ2"
-msgstr "처치 점수"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-empty-state.tsx:9
 msgid "QKXR/H"
@@ -304,14 +304,14 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:18
 msgid "lsSmtD"
-msgstr "이세트"
+msgstr "Isis"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
 #: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
-msgstr "알 수 없음"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:31
 msgid "lgBBrD"
@@ -325,7 +325,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-table.tsx:20
 #: src/components/olympian-arena/duel-participant-card.tsx:88
 msgid "H+vBOj"
-msgstr "승리측"
+msgstr "Gewinner"
 
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "+a+2ug"
@@ -391,11 +391,11 @@ msgstr ""
 
 #: src/components/account/account-governors-content.tsx:26
 msgid "pnoYAG"
-msgstr "등록된 지도자"
+msgstr ""
 
 #: src/components/account/account-governors-content.tsx:28
 msgid "DCvHgU"
-msgstr "등록된 지도자가 없습니다."
+msgstr ""
 
 #: src/components/account/account-governors-content.tsx:44
 #: src/components/olympian-arena/duel-participant-card.tsx:92
@@ -405,66 +405,66 @@ msgstr ""
 
 #: src/components/account/account-governors-content.tsx:54
 msgid "sv0atd"
-msgstr "지도자 등록"
+msgstr ""
 
 #: src/components/account/account-governors-content.tsx:56
 msgid "HOHINg"
-msgstr "라이즈 오브 킹덤즈의 지도자 ID를 입력하여 계정에 연결하세요. 최대 3명까지 등록할 수 있습니다."
+msgstr ""
 
 #: src/components/account/account-reports-content.tsx:28
 msgid "2YkOMs"
-msgstr "내 전투 보고서"
+msgstr ""
 
 #: src/components/account/account-settings-nav.tsx:13
 msgid "1iEPTM"
-msgstr "일반"
+msgstr ""
 
 #: src/components/account/account-settings-nav.tsx:18
 msgid "q5TmbN"
-msgstr "지도자"
+msgstr ""
 
 #: src/components/cookie-consent-banner.tsx:38
 #: src/components/cookie-consent-dialog.tsx:42
 msgid "sjzLbX"
-msgstr "동의"
+msgstr ""
 
 #: src/components/cookie-consent-banner.tsx:46
 #: src/components/cookie-consent-dialog.tsx:33
 msgid "VzIOKf"
-msgstr "거부"
+msgstr ""
 
 #: src/components/cookie-consent-dialog.tsx:20
 msgid "KS0bwV"
-msgstr "쿠키 설정"
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:53
 msgid "H8VjMg"
-msgstr "지도자는 최대 3명까지만 등록할 수 있습니다."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:59
 msgid "pf6kFc"
-msgstr "지도자 ID를 입력하세요."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:65
 msgid "I/clsA"
-msgstr "올바른 지도자 ID를 입력하세요."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:95
 msgid "qEVLQY"
-msgstr "지도자를 등록할 수 없습니다. 다시 시도해 주세요."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:105
 msgid "stW4Ga"
-msgstr "이미 등록된 지도자입니다."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:115
 msgid "Iehjl1"
-msgstr "지도자 등록 중 오류가 발생했습니다. 다시 시도해 주세요."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:125
 #: src/components/reports/reports-filter-dialog.tsx:190
 msgid "GNDCcc"
-msgstr "지도자 ID"
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:131
 #: src/components/reports/reports-filter-dialog.tsx:194
@@ -473,24 +473,24 @@ msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:146
 msgid "ctg3qx"
-msgstr "최대 등록 가능 인원(3명)에 도달했습니다."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:156
 msgid "ODncRd"
-msgstr "등록 중..."
+msgstr ""
 
 #: src/components/governors/claim-governor-form.tsx:156
 msgid "p5J4xw"
-msgstr "지도자 등록"
+msgstr ""
 
 #: src/components/language-selector.tsx:78
 #: src/components/language-selector.tsx:88
 msgid "eVlu1R"
-msgstr "언어 선택"
+msgstr ""
 
 #: src/components/language-selector.tsx:83
 msgid "y1Z3or"
-msgstr "언어"
+msgstr ""
 
 #: src/components/language-selector.tsx:93
 msgid "QmFCUz"
@@ -499,16 +499,16 @@ msgstr ""
 #: src/components/language-selector.tsx:110
 #: src/components/reports/reports-filter-dialog.tsx:393
 msgid "47FYwb"
-msgstr "취소"
+msgstr ""
 
 #: src/components/language-selector.tsx:112
 msgid "jvo0vs"
-msgstr "저장"
+msgstr ""
 
 #: src/components/my-pairings/loadout-armament-list.tsx:23
 #: src/components/report/report-armament-section.tsx:44
 msgid "lFZWlP"
-msgstr "군비 {id}"
+msgstr ""
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx:39
 msgid "+RhnH+"
@@ -644,7 +644,7 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
 msgid "+yzdej"
-msgstr "딜러"
+msgstr "Damagedealer"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
 msgid "nyW1oU"
@@ -657,16 +657,16 @@ msgstr ""
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
 #: src/components/olympian-arena/duel-participant-card.tsx:135
 msgid "qyJtWy"
-msgstr "간략히 보기"
+msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
 #: src/components/olympian-arena/duel-participant-card.tsx:135
 msgid "aWpBzj"
-msgstr "자세히 보기"
+msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx:43
 msgid "898qG3"
-msgstr "아카이브"
+msgstr "Ausrüstungssets"
 
 #: src/components/my-pairings/pairings-loadouts.tsx:44
 msgid "sU47wG"
@@ -691,119 +691,119 @@ msgstr ""
 #: src/components/olympian-arena/duel-commander-row.tsx:31
 #: src/components/report/report-commander-row.tsx:37
 msgid "XoCgY+"
-msgstr "Lv {level}"
+msgstr ""
 
 #: src/components/olympian-arena/duel-empty-state.tsx:10
 msgid "NT6UmB"
-msgstr "해당 결투에 대한 보고서가 없습니다."
+msgstr ""
 
 #: src/components/olympian-arena/duel-loading-state.tsx:10
 msgid "U5Mxzi"
-msgstr "결투 보고서 불러오는 중..."
+msgstr ""
 
 #: src/components/olympian-arena/duel-participant-card.tsx:102
 #: src/components/report/report-participant-card.tsx:69
 msgid "DqkPqe"
-msgstr "사령관"
+msgstr ""
 
 #: src/components/olympian-arena/duel-participant-card.tsx:104
 msgid "t2Wr8I"
-msgstr "주사령관"
+msgstr "Primär"
 
 #: src/components/olympian-arena/duel-participant-card.tsx:106
 msgid "6FQuCT"
-msgstr "부사령관"
+msgstr "Sekundär"
 
 #: src/components/olympian-arena/duel-participant-card.tsx:113
 msgid "cKnhhK"
-msgstr "부대 버프"
+msgstr "Truppenbuffs"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx:32
 msgid "CuNYjA"
-msgstr "결투 요약"
+msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx:61
 msgid "m0+hvd"
-msgstr "결투 보고서"
+msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx:63
 #: src/components/report/report-view.tsx:66
 msgid "p556q3"
-msgstr "복사 완료"
+msgstr "Kopiert"
 
 #: src/components/olympian-arena/duel-report-view.tsx:63
 #: src/components/report/report-view.tsx:66
 msgid "OKhRC6"
-msgstr "공유"
+msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx:68
 msgid "eukQnl"
-msgstr "결투 정보를 불러올 수 없습니다."
+msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx:79
 #: src/components/report/report-battle-results-chart.tsx:82
 msgid "A1ykkc"
-msgstr "유닛"
+msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx:80
 #: src/components/report/report-battle-results-chart.tsx:85
 #: src/components/report/report-overview-column.tsx:43
 msgid "NxzeNU"
-msgstr "전사"
+msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx:81
 #: src/components/report/report-battle-results-chart.tsx:86
 msgid "CtBzuU"
-msgstr "중상"
+msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx:82
 msgid "NboP8s"
-msgstr "부상자"
+msgstr "Die Verwundeten"
 
 #: src/components/olympian-arena/duel-results-chart.tsx:83
 msgid "YoPSLI"
-msgstr "치료 완료"
+msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx:85
 msgid "YXoHk0"
-msgstr "투력"
+msgstr ""
 
 #: src/components/platform-account-dropdown-menu.tsx:37
 msgid "hquG55"
-msgstr "쿠키 설정"
+msgstr ""
 
 #: src/components/platform-account-dropdown-menu.tsx:42
 msgid "xXbJso"
-msgstr "로그아웃"
+msgstr ""
 
 #: src/components/platform-layout.tsx:70
 msgid "Q7dLbA"
-msgstr "라이트 모드"
+msgstr ""
 
 #: src/components/platform-layout.tsx:70
 msgid "hMUQH5"
-msgstr "다크 모드"
+msgstr ""
 
 #: src/components/platform-layout.tsx:70
 msgid "Pe0ogR"
-msgstr "테마"
+msgstr ""
 
 #: src/components/platform-layout.tsx:99
 msgid "Lvr/gV"
-msgstr "계정 메뉴 열기"
+msgstr ""
 
 #: src/components/platform-layout.tsx:106
 #: src/components/platform-layout.tsx:213
 msgid "SQJto2"
-msgstr "로그인"
+msgstr ""
 
 #: src/components/platform-layout.tsx:128
 msgid "TwyMau"
-msgstr "계정"
+msgstr "Konto"
 
 #: src/components/platform-layout.tsx:133
 msgid "NFE4yO"
-msgstr "내 전투"
+msgstr ""
 
 #: src/components/platform-layout.tsx:151
 msgid "odeufe"
@@ -815,136 +815,136 @@ msgstr ""
 
 #: src/components/platform-layout.tsx:170
 msgid "HqRNN8"
-msgstr "고객 지원"
+msgstr ""
 
 #: src/components/platform-layout.tsx:179
 msgid "QnWNmB"
-msgstr "데스크톱 앱"
+msgstr ""
 
 #: src/components/platform-layout.tsx:181
 msgid "EQpyb8"
-msgstr "테마 변경"
+msgstr ""
 
 #: src/components/platform-layout.tsx:191
 msgid "gjBiyj"
-msgstr "로딩 중..."
+msgstr ""
 
 #: src/components/report/report-armament-section.tsx:28
 msgid "e36Xiv"
-msgstr "무기 정보"
+msgstr "Aufrüstungsinfo"
 
 #: src/components/report/report-artifact-section.tsx:20
 msgid "eW5eoW"
-msgstr "장신구"
+msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx:83
 #: src/components/report/report-overview-column.tsx:52
 msgid "ka8VLG"
-msgstr "잔여"
+msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx:84
 msgid "UAaBlE"
-msgstr "치료"
+msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx:87
 msgid "xtXDYN"
-msgstr "경상"
+msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx:88
 msgid "2p4JJc"
-msgstr "파수탑 피해"
+msgstr ""
 
 #: src/components/report/report-commander-row.tsx:27
 msgid "YeBMpE"
-msgstr "진형 {formation}"
+msgstr ""
 
 #: src/components/report/report-empty-state.tsx:10
 msgid "198xPO"
-msgstr "해당 해시값에 대한 전투를 찾을 수 없습니다."
+msgstr ""
 
 #: src/components/report/report-entry-card.tsx:27
 msgid "Naj3md"
-msgstr "기간 불명"
+msgstr ""
 
 #: src/components/report/report-entry-card.tsx:28
 msgid "BYmpT/"
-msgstr "UTC"
+msgstr ""
 
 #: src/components/report/report-entry-card.tsx:42
 msgid "eKTCWw"
-msgstr "전투 요약"
+msgstr ""
 
 #: src/components/report/report-equipment-section.tsx:21
 msgid "r80fiF"
-msgstr "장비"
+msgstr ""
 
 #: src/components/report/report-equipment-slot.tsx:18
 msgid "JqXZrY"
-msgstr "장비 {id}"
+msgstr ""
 
 #: src/components/report/report-loading-state.tsx:10
 msgid "KfYBwG"
-msgstr "보고서 불러오는 중..."
+msgstr ""
 
 #: src/components/report/report-overview-card.tsx:24
 msgid "eQhi5P"
-msgstr "데이터 요약"
+msgstr ""
 
 #: src/components/report/report-overview-column.tsx:29
 msgid "ABZ08/"
-msgstr "모든 적군"
+msgstr "Alle Gegner"
 
 #: src/components/report/report-overview-column.tsx:40
 msgid "kzHEVE"
-msgstr "병과 유닛"
+msgstr ""
 
 #: src/components/report/report-overview-column.tsx:49
 msgid "1ISgLB"
-msgstr "경상"
+msgstr "leicht verletzt"
 
 #: src/components/report/report-participant-card.tsx:61
 msgid "RJ+ZIh"
-msgstr "집결"
+msgstr ""
 
 #: src/components/report/report-view.tsx:63
 msgid "x5Tz6M"
-msgstr "보고서"
+msgstr ""
 
 #: src/components/reports/empty-state-row.tsx:11
 msgid "43CUrU"
-msgstr "보고서를 찾을 수 없습니다."
+msgstr ""
 
 #: src/components/reports/load-more-row.tsx:25
 msgid "tL4WC1"
-msgstr "더 불러오는 중..."
+msgstr ""
 
 #: src/components/reports/load-more-row.tsx:30
 msgid "00LcfG"
-msgstr "더 보기"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:104
 msgid "450Fty"
-msgstr "없음"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:107
 msgid "bUd0tj"
-msgstr "양측 모두"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:180
 msgid "zSOvI0"
-msgstr "필터"
+msgstr "Filter"
 
 #: src/components/reports/reports-filter-dialog.tsx:182
 msgid "lVxkzV"
-msgstr "메타데이터, 사령관, 전투 역할별로 보고서를 필터링합니다."
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:187
 msgid "8Q504V"
-msgstr "메타데이터"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:204
 msgid "+U6ozc"
-msgstr "유형"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:212
 #: src/components/reports/reports-filter-dialog.tsx:242
@@ -952,15 +952,15 @@ msgstr "유형"
 #: src/components/reports/reports-filter-dialog.tsx:283
 #: src/components/reports/reports-filter-dialog.tsx:301
 msgid "zQvVDJ"
-msgstr "전체"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:215
 msgid "ejEGdx"
-msgstr "본국"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:218
 msgid "8Na2J4"
-msgstr "오시리스의 함"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:221
 msgid "mJFWRb"
@@ -973,76 +973,76 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx:234
 #: src/components/reports/reports-filter-dialog.tsx:275
 msgid "rS3oIg"
-msgstr "주사령관"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:252
 #: src/components/reports/reports-filter-dialog.tsx:293
 msgid "SHldaq"
-msgstr "부사령관"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:313
 msgid "+XTzdP"
-msgstr "전투"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:316
 msgid "RZr1Nw"
-msgstr "집결 측"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:339
 msgid "PFb9jT"
-msgstr "주둔 측"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:365
 msgid "VqILpx"
-msgstr "주둔 건물"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:373
 msgid "ToO3/h"
-msgstr "전체 선택"
+msgstr "Alle"
 
 #: src/components/reports/reports-filter-dialog.tsx:376
 msgid "ptYapO"
-msgstr "연맹 깃발"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:379
 msgid "iScUrx"
-msgstr "연맹 요새"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:382
 msgid "/VnDMl"
-msgstr "기타"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:405
 msgid "jm/spn"
-msgstr "초기화"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:407
 msgid "EWw/tK"
-msgstr "적용"
+msgstr ""
 
 #: src/components/reports/skeleton-rows.tsx:20
 msgid "tQtRWX"
-msgstr "보고서 불러오는 중..."
+msgstr ""
 
 #: src/components/sidebar-governor-header.tsx:35
 msgid "Oon7nA"
-msgstr "지도자 선택"
+msgstr ""
 
 #: src/components/sidebar-governor-header.tsx:61
 msgid "tZURTn"
-msgstr "지도자 등록..."
+msgstr ""
 
 #: src/components/sidebar-governor-header.tsx:67
 msgid "7FXjCo"
-msgstr "새 그룹..."
+msgstr ""
 
 #: src/components/ui/sidebar-layout.tsx:48
 msgid "SRsuWF"
-msgstr "네비게이션 닫기"
+msgstr ""
 
 #: src/components/ui/sidebar-layout.tsx:80
 msgid "oM3yjO"
-msgstr "네비게이션 열기"
+msgstr ""
 
 #: src/hooks/use-olympian-arena-duel.ts:40
 #: src/hooks/use-olympian-arena-duel.ts:49
