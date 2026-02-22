@@ -5,7 +5,7 @@ import { AccountLootContent } from "@/components/account-loot/account-loot-conte
 import { LootErrorState } from "@/components/account-loot/loot-error-state";
 import { Heading } from "@/components/ui/heading";
 import { getGovernorLootData } from "@/data/loot/query";
-import { defaultLocale, isDatasetLocale, languageCookieName } from "@/i18n/config";
+import { defaultLocale, isLocale, languageCookieName } from "@/i18n/config";
 import { parseLootSearchParams } from "@/lib/loot/search-params";
 import { requireCurrentUserWithGovernor } from "@/lib/require-user";
 
@@ -22,7 +22,7 @@ export default async function Page({ searchParams }: PageProps<"/account/loot">)
 
   const cookieStore = await cookies();
   const localeFromCookie = cookieStore.get(languageCookieName)?.value;
-  const datasetLocale = isDatasetLocale(localeFromCookie) ? localeFromCookie : defaultLocale;
+  const datasetLocale = isLocale(localeFromCookie) ? localeFromCookie : defaultLocale;
 
   try {
     const data = await getGovernorLootData({

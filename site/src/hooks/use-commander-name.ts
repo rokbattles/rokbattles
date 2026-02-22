@@ -1,10 +1,10 @@
 "use client";
 
-import { resolveDatasetLocale } from "@/i18n/dataset-locale";
+import { resolveLocale } from "@/i18n/locale";
 import { commanderMap, getCommanderName as getCommanderNameByLocale } from "@/lib/commander";
 
 export function getCommanderName(id: number | null | undefined, locale?: string) {
-  const requestedLocale = resolveDatasetLocale(locale);
+  const requestedLocale = resolveLocale(locale);
   return getCommanderNameByLocale(id, requestedLocale);
 }
 
@@ -14,7 +14,7 @@ export type CommanderOption = {
 };
 
 export function useCommanderOptions(locale?: string) {
-  const requestedLocale = resolveDatasetLocale(locale);
+  const requestedLocale = resolveLocale(locale);
   const entries = Object.entries(commanderMap).map(([id]) => {
     const localizedName = getCommanderNameByLocale(Number(id), requestedLocale) ?? String(id);
 
