@@ -6,6 +6,9 @@ edition = "2024"
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
 mail-decoder = { path = "../mail-decoder" }
+mail-processor-alliance-aoobattleinfo = { path = "../mail-processor-alliance-aoobattleinfo" }
+mail-processor-alliance-aoobattleresults = { path = "../mail-processor-alliance-aoobattleresults" }
+mail-processor-alliance-aooindividualresults = { path = "../mail-processor-alliance-aooindividualresults" }
 mail-processor-barcanyonkillboss = { path = "../mail-processor-barcanyonkillboss" }
 mail-processor-battle = { path = "../mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }

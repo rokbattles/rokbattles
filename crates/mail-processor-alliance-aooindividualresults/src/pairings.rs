@@ -1,0 +1,184 @@
+//! Pairings extractor for AllianceAOOIndividualResults mail.
+
+use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
+use serde_json::{Map, Value, json};
+
+/// Extracts hero pairing battle stats from `body.kvs.FightReport.Stat.HerosStat`.
+#[derive(Debug, Default)]
+pub struct PairingsExtractor;
+
+impl PairingsExtractor {
+    /// Create a new pairings extractor.
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl Extractor for PairingsExtractor {
+    fn section(&self) -> &'static str {
+        "pairings"
+    }
+
+    fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
+        let root = require_object(input)?;
+        let body = require_child_object(root, "body")?;
+        let kvs = require_child_object(body, "kvs")?;
+        let fight_report = require_child_object(kvs, "FightReport")?;
+        let stat = require_child_object(fight_report, "Stat")?;
+        let heroes_stat = stat
+            .get("HerosStat")
+            .ok_or(ExtractError::MissingField { field: "HerosStat" })?;
+        let heroes_stat = indexed_array_values(heroes_stat, "HerosStat")?;
+
+        let mut pairings = Vec::with_capacity(heroes_stat.len());
+        for pairing in heroes_stat {
+            let pairing = pairing.as_object().ok_or(ExtractError::InvalidFieldType {
+                field: "HerosStat",
+                expected: "object",
+            })?;
+            let primary_id = require_u64_field(pairing, "MainHeroId")?;
+            let secondary_id = require_u64_field(pairing, "AssistHeroId")?;
+            let kill_count = require_u64_field(pairing, "KillCnt")?;
+            let battles_win = require_u64_field(pairing, "AllBattleWinCnt")?;
+            let all_battle_stat = require_child_object(pairing, "AllBattleStat")?;
+            let battles = require_u64_field(all_battle_stat, "BattleCnt")?;
+            let severely_wounded = require_u64_field(all_battle_stat, "BeKilledScore")?;
+            let kill_points = require_u64_field(all_battle_stat, "KillScore")?;
+
+            pairings.push(json!({
+                "primary_commander": { "id": primary_id },
+                "secondary_commander": { "id": secondary_id },
+                "kill_count": kill_count,
+                "battles_win": battles_win,
+                "battles": battles,
+                "severely_wounded": severely_wounded,
+                "kill_points": kill_points,
+            }));
+        }
+
+        Ok(Section::from_array(pairings))
+    }
+}
+
+fn require_child_object<'a>(
+    object: &'a Map<String, Value>,
+    field: &'static str,
+) -> Result<&'a Map<String, Value>, ExtractError> {
+    let value = object
+        .get(field)
+        .ok_or(ExtractError::MissingField { field })?;
+    value.as_object().ok_or(ExtractError::InvalidFieldType {
+        field,
+        expected: "object",
+    })
+}
+
+fn require_u64_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<u64, ExtractError> {
+    let value = object
+        .get(field)
+        .ok_or(ExtractError::MissingField { field })?;
+    value.as_u64().ok_or(ExtractError::InvalidFieldType {
+        field,
+        expected: "unsigned integer",
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mail_processor_sdk::Extractor;
+    use serde_json::{Value, json};
+    use std::fs;
+    use std::path::PathBuf;
+
+    #[test]
+    fn pairings_extractor_reads_fields() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "FightReport": {
+                        "Stat": {
+                            "HerosStat": [
+                                1,
+                                {
+                                    "MainHeroId": 540,
+                                    "AssistHeroId": 459,
+                                    "KillCnt": 376786,
+                                    "AllBattleWinCnt": 108,
+                                    "AllBattleStat": {
+                                        "BattleCnt": 252,
+                                        "BeKilledScore": 11681020,
+                                        "KillScore": 7344000
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        });
+
+        let extractor = PairingsExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+        let pairings = section.array().expect("pairings");
+
+        assert_eq!(pairings.len(), 1);
+        assert_eq!(pairings[0]["primary_commander"]["id"], json!(540));
+        assert_eq!(pairings[0]["secondary_commander"]["id"], json!(459));
+        assert_eq!(pairings[0]["kill_count"], json!(376786));
+        assert_eq!(pairings[0]["battles_win"], json!(108));
+        assert_eq!(pairings[0]["battles"], json!(252));
+        assert_eq!(pairings[0]["severely_wounded"], json!(11681020));
+        assert_eq!(pairings[0]["kill_points"], json!(7344000));
+    }
+
+    #[test]
+    fn pairings_extractor_rejects_missing_field() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "FightReport": {
+                        "Stat": {}
+                    }
+                }
+            }
+        });
+
+        let extractor = PairingsExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(
+            err,
+            ExtractError::MissingField { field: "HerosStat" }
+        ));
+    }
+
+    #[test]
+    fn roundtrip_pairings_extracts_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = PairingsExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let pairings = section.array().expect("pairings");
+
+        assert_eq!(pairings.len(), 6);
+        assert_eq!(pairings[0]["primary_commander"]["id"], json!(540));
+        assert_eq!(pairings[0]["secondary_commander"]["id"], json!(459));
+        assert_eq!(pairings[0]["kill_count"], json!(376786));
+        assert_eq!(pairings[0]["battles_win"], json!(108));
+        assert_eq!(pairings[0]["battles"], json!(252));
+        assert_eq!(pairings[0]["severely_wounded"], json!(11681020));
+        assert_eq!(pairings[0]["kill_points"], json!(7344000));
+        assert_eq!(pairings[5]["primary_commander"]["id"], json!(179));
+        assert_eq!(pairings[5]["secondary_commander"]["id"], json!(187));
+        assert_eq!(pairings[5]["kill_count"], json!(105255));
+        assert_eq!(pairings[5]["battles_win"], json!(30));
+        assert_eq!(pairings[5]["battles"], json!(77));
+        assert_eq!(pairings[5]["severely_wounded"], json!(3852540));
+        assert_eq!(pairings[5]["kill_points"], json!(2063230));
+    }
+}

@@ -1,0 +1,192 @@
+//! Overview extractor for AllianceAOOBattleResults mail.
+
+use mail_processor_sdk::{ExtractError, Extractor, Section};
+use serde_json::{Map, Value, json};
+
+use crate::content::{
+    require_body_kvs, require_child_object, require_number_field, require_string_field,
+    require_u64_field,
+};
+
+/// Extracts category overview records from `body.kvs.max*` blocks.
+#[derive(Debug, Default)]
+pub struct OverviewExtractor;
+
+impl OverviewExtractor {
+    /// Create a new overview extractor.
+    pub fn new() -> Self {
+        Self
+    }
+}
+
+impl Extractor for OverviewExtractor {
+    fn section(&self) -> &'static str {
+        "overview"
+    }
+
+    fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
+        let kvs = require_body_kvs(input)?;
+
+        let mut section = Section::new();
+        // Ark of Osiris Score
+        section.insert("flag_score", extract_category(kvs, "maxFlagScore")?);
+        // Occupation Score
+        section.insert("building_score", extract_category(kvs, "maxBuildingScore")?);
+        // Severely Wounded Units
+        section.insert("be_killed_score", extract_category(kvs, "maxBeKilled")?);
+        // Provisions Score
+        section.insert("gather_score", extract_category(kvs, "maxGatherScore")?);
+        // Units Healed
+        section.insert("healing_score", extract_category(kvs, "maxHealingScore")?);
+        // Total Kills
+        section.insert("killed_score", extract_category(kvs, "maxKilled")?);
+
+        Ok(section)
+    }
+}
+
+fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Value, ExtractError> {
+    let category = require_child_object(kvs, field)?;
+    let alliance_score = require_number_field(category, "AsScore")?;
+    let ply_score = require_child_object(category, "PlyScore")?;
+    let player_id = require_u64_field(ply_score, "PlyId")?;
+    let player_name = require_string_field(ply_score, "Name")?;
+    let score = require_number_field(ply_score, "Score")?;
+
+    Ok(json!({
+        "alliance_score": alliance_score,
+        "mvp": {
+            "player_id": player_id,
+            "player_name": player_name,
+            "score": score,
+        }
+    }))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use mail_processor_sdk::Extractor;
+    use serde_json::{Value, json};
+    use std::fs;
+    use std::path::PathBuf;
+
+    #[test]
+    fn overview_extractor_reads_fields() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "maxFlagScore": {
+                        "AsScore": 4000,
+                        "PlyScore": {
+                            "PlyId": 1,
+                            "Name": "A",
+                            "Score": 111
+                        }
+                    },
+                    "maxBuildingScore": {
+                        "AsScore": 5000,
+                        "PlyScore": {
+                            "PlyId": 2,
+                            "Name": "B",
+                            "Score": 222
+                        }
+                    },
+                    "maxBeKilled": {
+                        "AsScore": 6000,
+                        "PlyScore": {
+                            "PlyId": 3,
+                            "Name": "C",
+                            "Score": 333
+                        }
+                    },
+                    "maxGatherScore": {
+                        "AsScore": 7000,
+                        "PlyScore": {
+                            "PlyId": 4,
+                            "Name": "D",
+                            "Score": 92.34
+                        }
+                    },
+                    "maxHealingScore": {
+                        "AsScore": 8000,
+                        "PlyScore": {
+                            "PlyId": 5,
+                            "Name": "E",
+                            "Score": 0
+                        }
+                    },
+                    "maxKilled": {
+                        "AsScore": 9000,
+                        "PlyScore": {
+                            "PlyId": 6,
+                            "Name": "F",
+                            "Score": 444
+                        }
+                    }
+                }
+            }
+        });
+
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+        let fields = section.fields();
+
+        assert_eq!(fields["flag_score"]["alliance_score"], json!(4000));
+        assert_eq!(fields["flag_score"]["mvp"]["player_id"], json!(1));
+        assert_eq!(fields["building_score"]["mvp"]["player_name"], json!("B"));
+        assert_eq!(fields["be_killed_score"]["mvp"]["score"], json!(333));
+        assert_eq!(fields["gather_score"]["mvp"]["score"], json!(92.34));
+        assert_eq!(fields["healing_score"]["alliance_score"], json!(8000));
+        assert_eq!(fields["killed_score"]["mvp"]["player_id"], json!(6));
+    }
+
+    #[test]
+    fn overview_extractor_rejects_missing_field() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "maxFlagScore": {
+                        "AsScore": 4000,
+                        "PlyScore": {
+                            "PlyId": 1,
+                            "Name": "A",
+                            "Score": 111
+                        }
+                    }
+                }
+            }
+        });
+
+        let extractor = OverviewExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(
+            err,
+            ExtractError::MissingField {
+                field: "maxBuildingScore"
+            }
+        ));
+    }
+
+    #[test]
+    fn roundtrip_overview_extracts_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.102185423177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["flag_score"]["alliance_score"], json!(4000));
+        assert_eq!(fields["flag_score"]["mvp"]["player_id"], json!(47043938));
+        assert_eq!(
+            fields["building_score"]["mvp"]["player_name"],
+            json!("Hellcheppapewж")
+        );
+        assert_eq!(fields["be_killed_score"]["alliance_score"], json!(79403565));
+        assert_eq!(fields["gather_score"]["mvp"]["score"], json!(92.34));
+        assert_eq!(fields["healing_score"]["mvp"]["score"], json!(0));
+        assert_eq!(fields["killed_score"]["alliance_score"], json!(80458146));
+    }
+}

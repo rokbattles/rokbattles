@@ -83,6 +83,15 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
         MailType::SystemBarbarianFort => {
             mail_processor_system_barbarianfort::process_parallel(root)?
         }
+        MailType::AllianceAOOBattleResults => {
+            mail_processor_alliance_aoobattleresults::process_parallel(root)?
+        }
+        MailType::AllianceAOOBattleInfo => {
+            mail_processor_alliance_aoobattleinfo::process_parallel(root)?
+        }
+        MailType::AllianceAOOIndividualResults => {
+            mail_processor_alliance_aooindividualresults::process_parallel(root)?
+        }
     };
 
     let processed_doc = mongodb::bson::to_document(&processed)?;
@@ -142,6 +151,9 @@ fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
     if is_system_barbarian_fort_mail(root) {
         return Ok(MailType::SystemBarbarianFort);
     }
+    if let Some(mail_type) = detect_alliance_aoo_mail_type(root) {
+        return Ok(mail_type);
+    }
 
     let mail_type = root
         .get("type")
@@ -167,6 +179,29 @@ fn is_system_barbarian_fort_mail(root: &Value) -> bool {
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
     matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn detect_alliance_aoo_mail_type(root: &Value) -> Option<MailType> {
+    let root = root.as_object()?;
+    if !matches!(root.get("type").and_then(Value::as_str), Some("Alliance")) {
+        return None;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
+        return None;
+    }
+
+    let body_type = root
+        .get("body")
+        .and_then(Value::as_object)
+        .and_then(|body| body.get("type"))
+        .and_then(value_as_u64)?;
+
+    match body_type {
+        60 => Some(MailType::AllianceAOOBattleResults),
+        61 => Some(MailType::AllianceAOOBattleInfo),
+        62 => Some(MailType::AllianceAOOIndividualResults),
+        _ => None,
+    }
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -229,6 +264,62 @@ mod tests {
         });
         let mail_type = extract_mail_type(&value).unwrap();
         assert_eq!(mail_type, MailType::SystemBarbarianFort);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_alliance_aoo_battle_results() {
+        let value = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 60
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::AllianceAOOBattleResults);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_alliance_aoo_battle_info() {
+        let value = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 61
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::AllianceAOOBattleInfo);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_alliance_aoo_individual_results() {
+        let value = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 62
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::AllianceAOOIndividualResults);
+    }
+
+    #[test]
+    fn extract_mail_type_keeps_regular_alliance_unsupported() {
+        let value = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 99
+            }
+        });
+        let err = extract_mail_type(&value).unwrap_err();
+        assert!(matches!(
+            err,
+            ProcessorError::UnsupportedMailType(mail_type)
+                if mail_type == "Alliance"
+        ));
     }
 
     #[test]
