@@ -20,6 +20,9 @@ pub struct Storage {
     duelbattle2: Collection<Document>,
     barcanyonkillboss: Collection<Document>,
     system_barbarianfort: Collection<Document>,
+    alliance_aoobattleresults: Collection<Document>,
+    alliance_aoobattleinfo: Collection<Document>,
+    alliance_aooindividualresults: Collection<Document>,
 }
 
 impl Storage {
@@ -31,6 +34,12 @@ impl Storage {
             duelbattle2: db.collection(MailType::DuelBattle2.collection_name()),
             barcanyonkillboss: db.collection(MailType::BarCanyonKillBoss.collection_name()),
             system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
+            alliance_aoobattleresults: db
+                .collection(MailType::AllianceAOOBattleResults.collection_name()),
+            alliance_aoobattleinfo: db
+                .collection(MailType::AllianceAOOBattleInfo.collection_name()),
+            alliance_aooindividualresults: db
+                .collection(MailType::AllianceAOOIndividualResults.collection_name()),
         }
     }
 
@@ -51,6 +60,15 @@ impl Storage {
             .create_index(mail_id_index.clone())
             .await?;
         self.system_barbarianfort
+            .create_index(mail_id_index.clone())
+            .await?;
+        self.alliance_aoobattleresults
+            .create_index(mail_id_index.clone())
+            .await?;
+        self.alliance_aoobattleinfo
+            .create_index(mail_id_index.clone())
+            .await?;
+        self.alliance_aooindividualresults
             .create_index(mail_id_index)
             .await?;
 
@@ -88,6 +106,9 @@ impl Storage {
             MailType::DuelBattle2 => &self.duelbattle2,
             MailType::BarCanyonKillBoss => &self.barcanyonkillboss,
             MailType::SystemBarbarianFort => &self.system_barbarianfort,
+            MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
+            MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
+            MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
         };
 
         collection

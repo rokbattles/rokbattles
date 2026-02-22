@@ -283,7 +283,13 @@ fn is_supported_mail_type(mail_type: &str) -> bool {
 fn is_processable_mail_type(mail_type: &str) -> bool {
     matches!(
         mail_type,
-        "Battle" | "DuelBattle2" | "BarCanyonKillBoss" | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+        "Battle"
+            | "DuelBattle2"
+            | "BarCanyonKillBoss"
+            | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
+            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
+            | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
     )
 }
 
@@ -680,7 +686,7 @@ mod tests {
     }
 
     #[test]
-    fn status_mapping_marks_system_barbarian_fort_processable() {
+    fn status_mapping_marks_supported_processor_types_processable() {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
         assert_eq!(
             insert_status_for_mail_type("SystemBarbarianFort"),
@@ -693,11 +699,27 @@ mod tests {
         );
         assert_eq!(
             insert_status_for_mail_type("AllianceAOOBattleResults"),
-            STATUS_UNPROCESSABLE
+            STATUS_PENDING
         );
         assert_eq!(
             update_status_for_mail_type("AllianceAOOBattleResults"),
-            STATUS_UNPROCESSABLE
+            STATUS_REPROCESS
+        );
+        assert_eq!(
+            insert_status_for_mail_type("AllianceAOOBattleInfo"),
+            STATUS_PENDING
+        );
+        assert_eq!(
+            update_status_for_mail_type("AllianceAOOBattleInfo"),
+            STATUS_REPROCESS
+        );
+        assert_eq!(
+            insert_status_for_mail_type("AllianceAOOIndividualResults"),
+            STATUS_PENDING
+        );
+        assert_eq!(
+            update_status_for_mail_type("AllianceAOOIndividualResults"),
+            STATUS_REPROCESS
         );
     }
 

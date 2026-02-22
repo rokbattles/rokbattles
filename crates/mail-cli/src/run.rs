@@ -8,6 +8,9 @@ use crate::fs_utils::is_json_file;
 use crate::{Config, MailCliError, RunSummary};
 
 const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
+const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
+const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
+const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
 
 /// Decode every mail buffer in the input directory into JSON files.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
@@ -190,6 +193,29 @@ pub(crate) fn write_processed_json(
                 },
             )?,
         ),
+        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS) => Some(
+            mail_processor_alliance_aoobattleresults::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                },
+            )?,
+        ),
+        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO) => Some(
+            mail_processor_alliance_aoobattleinfo::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                },
+            )?,
+        ),
+        Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS) => Some(
+            mail_processor_alliance_aooindividualresults::process_parallel(processed_input)
+                .map_err(|source| MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                })?,
+        ),
         _ => None,
     };
 
@@ -220,11 +246,37 @@ fn classify_processable_mail_type(input: &Value) -> Option<&'static str> {
     if is_system_barbarian_fort_mail(input) {
         return Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT);
     }
+    if let Some(mail_type) = detect_alliance_aoo_mail_type(input) {
+        return Some(mail_type);
+    }
 
     match input.get("type").and_then(|value| value.as_str()) {
         Some("Battle") => Some("Battle"),
         Some("DuelBattle2") => Some("DuelBattle2"),
         Some("BarCanyonKillBoss") => Some("BarCanyonKillBoss"),
+        _ => None,
+    }
+}
+
+fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
+    let root = root.as_object()?;
+    if !matches!(root.get("type").and_then(Value::as_str), Some("Alliance")) {
+        return None;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
+        return None;
+    }
+
+    let body_type = root
+        .get("body")
+        .and_then(Value::as_object)
+        .and_then(|body| body.get("type"))
+        .and_then(value_as_u64)?;
+
+    match body_type {
+        60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
+        61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
+        62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
         _ => None,
     }
 }
@@ -456,5 +508,107 @@ mod tests {
         assert_eq!(parsed["metadata"]["mail_id"], json!("87938122177133895831"));
         assert_eq!(parsed["body"]["target_name"], json!("Level9"));
         assert_eq!(parsed["rewards"].as_array().unwrap().len(), 4);
+    }
+
+    #[test]
+    fn classify_processable_mail_type_detects_alliance_aoo_variants() {
+        let battle_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 60 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&battle_results),
+            Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS)
+        );
+
+        let battle_info = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 61 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&battle_info),
+            Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO)
+        );
+
+        let individual_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 62 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&individual_results),
+            Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS)
+        );
+    }
+
+    #[test]
+    fn write_processed_json_writes_alliance_aoo_battle_results_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.102185423177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(
+            parsed["metadata"]["mail_id"],
+            json!("102185423177177256731")
+        );
+        assert_eq!(
+            parsed["metadata"]["mail_receiver"],
+            json!("player_71738515")
+        );
+    }
+
+    #[test]
+    fn write_processed_json_writes_alliance_aoo_battle_info_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.102185425177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(
+            parsed["metadata"]["mail_id"],
+            json!("102185425177177256731")
+        );
+        assert_eq!(
+            parsed["metadata"]["mail_receiver"],
+            json!("player_71738515")
+        );
+    }
+
+    #[test]
+    fn write_processed_json_writes_alliance_aoo_individual_results_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(
+            parsed["metadata"]["mail_id"],
+            json!("102185429177177256731")
+        );
+        assert_eq!(
+            parsed["metadata"]["mail_receiver"],
+            json!("player_71738515")
+        );
     }
 }

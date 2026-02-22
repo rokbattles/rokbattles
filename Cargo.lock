@@ -2681,6 +2681,9 @@ version = "1.0.0-rc.4"
 dependencies = [
  "clap",
  "mail-decoder",
+ "mail-processor-alliance-aoobattleinfo",
+ "mail-processor-alliance-aoobattleresults",
+ "mail-processor-alliance-aooindividualresults",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
@@ -2694,6 +2697,30 @@ dependencies = [
 name = "mail-decoder"
 version = "1.0.0-rc.4"
 dependencies = [
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-alliance-aoobattleinfo"
+version = "1.0.0-rc.4"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-alliance-aoobattleresults"
+version = "1.0.0-rc.4"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-alliance-aooindividualresults"
+version = "1.0.0-rc.4"
+dependencies = [
+ "mail-processor-sdk",
  "serde_json",
 ]
 
@@ -4298,6 +4325,9 @@ version = "1.0.0-rc.4"
 dependencies = [
  "dotenvy",
  "futures",
+ "mail-processor-alliance-aoobattleinfo",
+ "mail-processor-alliance-aoobattleresults",
+ "mail-processor-alliance-aooindividualresults",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",

@@ -1,0 +1,153 @@
+{
+  "body": {
+    "team": 0,
+    "win": true
+  },
+  "metadata": {
+    "mail_id": "102185429177177256731",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1771772567843913,
+    "server_id": 2
+  },
+  "overview": {
+    "player_id": 71738515,
+    "player_name": "Grigvar",
+    "rank": 12,
+    "score": 123123,
+    "total_results": {
+      "battles": 1426,
+      "kill_points": 52552570,
+      "severely_wounded": 53165020
+    }
+  },
+  "pairings": [
+    {
+      "battles": 252,
+      "battles_win": 108,
+      "kill_count": 376786,
+      "kill_points": 7344000,
+      "primary_commander": {
+        "id": 540
+      },
+      "secondary_commander": {
+        "id": 459
+      },
+      "severely_wounded": 11681020
+    },
+    {
+      "battles": 274,
+      "battles_win": 106,
+      "kill_count": 533230,
+      "kill_points": 10387860,
+      "primary_commander": {
+        "id": 575
+      },
+      "secondary_commander": {
+        "id": 579
+      },
+      "severely_wounded": 8028100
+    },
+    {
+      "battles": 319,
+      "battles_win": 118,
+      "kill_count": 574040,
+      "kill_points": 11235120,
+      "primary_commander": {
+        "id": 595
+      },
+      "secondary_commander": {
+        "id": 194
+      },
+      "severely_wounded": 10277660
+    },
+    {
+      "battles": 281,
+      "battles_win": 101,
+      "kill_count": 580515,
+      "kill_points": 11291710,
+      "primary_commander": {
+        "id": 545
+      },
+      "secondary_commander": {
+        "id": 185
+      },
+      "severely_wounded": 11364400
+    },
+    {
+      "battles": 223,
+      "battles_win": 92,
+      "kill_count": 589276,
+      "kill_points": 11446370,
+      "primary_commander": {
+        "id": 509
+      },
+      "secondary_commander": {
+        "id": 6
+      },
+      "severely_wounded": 10013360
+    },
+    {
+      "battles": 77,
+      "battles_win": 30,
+      "kill_count": 105255,
+      "kill_points": 2063230,
+      "primary_commander": {
+        "id": 179
+      },
+      "secondary_commander": {
+        "id": 187
+      },
+      "severely_wounded": 3852540
+    }
+  ],
+  "results": {
+    "battles_lose": 45,
+    "battles_win": 555,
+    "building_score": 2745,
+    "flag_count": 0,
+    "flag_score": 0,
+    "gather_score": 0,
+    "healing_score": 0,
+    "kill_score": 120378,
+    "kills": 2759102,
+    "severely_wounded": 2760854,
+    "speedups": 0,
+    "structures": 2,
+    "teleports": 1,
+    "total_score": 123123,
+    "units_healed": 0,
+    "win_rate": 92
+  },
+  "rewards": [
+    {
+      "sub_type": 32,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 10005,
+      "type": 2,
+      "value": 10
+    },
+    {
+      "sub_type": 148,
+      "type": 2,
+      "value": 50
+    },
+    {
+      "sub_type": 76,
+      "type": 2,
+      "value": 50
+    },
+    {
+      "sub_type": 120,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 188,
+      "type": 2,
+      "value": 1
+    }
+  ]
+}

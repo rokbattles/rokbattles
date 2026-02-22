@@ -1,0 +1,8 @@
+[package]
+name = "mail-processor-alliance-aooindividualresults"
+version = "1.0.0-rc.4"
+edition = "2024"
+
+[dependencies]
+mail-processor-sdk = { path = "../mail-processor-sdk" }
+serde_json = { workspace = true }

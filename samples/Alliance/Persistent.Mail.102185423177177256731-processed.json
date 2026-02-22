@@ -1,0 +1,346 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": "O~60",
+        "id": 7154636,
+        "logo": "4_2_31_7_0_0",
+        "name": "3560 War Shell B"
+      },
+      "is_blue": true,
+      "members": 28,
+      "members_max": 30,
+      "power": 3545112226,
+      "score": 29659,
+      "server_id": 2560,
+      "team": 0
+    },
+    {
+      "alliance": {
+        "abbreviation": "04Z",
+        "id": 4808188,
+        "logo": "2_5_63_4_0_0",
+        "name": "魂社会 Squad Zero"
+      },
+      "is_blue": false,
+      "members": 30,
+      "members_max": 30,
+      "power": 3467872327,
+      "score": 37207,
+      "server_id": 1804,
+      "team": 0
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 4808188
+    },
+    "win": true
+  },
+  "metadata": {
+    "mail_id": "102185423177177256731",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1771772567835853,
+    "server_id": 2
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 79403565,
+      "mvp": {
+        "player_id": 34961809,
+        "player_name": "Viatina乂Fayst",
+        "score": 4368379
+      }
+    },
+    "building_score": {
+      "alliance_score": 33101,
+      "mvp": {
+        "player_id": 161065006,
+        "player_name": "Hellcheppapewж",
+        "score": 28300
+      }
+    },
+    "flag_score": {
+      "alliance_score": 4000,
+      "mvp": {
+        "player_id": 47043938,
+        "player_name": "QuackerOats",
+        "score": 4000
+      }
+    },
+    "gather_score": {
+      "alliance_score": 106,
+      "mvp": {
+        "player_id": 64610174,
+        "player_name": "ˢJuju x MadBro",
+        "score": 92.34
+      }
+    },
+    "healing_score": {
+      "alliance_score": 0,
+      "mvp": {
+        "player_id": 47043938,
+        "player_name": "QuackerOats",
+        "score": 0
+      }
+    },
+    "killed_score": {
+      "alliance_score": 80458146,
+      "mvp": {
+        "player_id": 20075558,
+        "player_name": "jën x ƒaräɀ",
+        "score": 4174626
+      }
+    }
+  },
+  "participants": [
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 188637,
+      "kill_score": 4174626,
+      "player_name": "jën x ƒaräɀ"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 186027,
+      "kill_score": 3858914,
+      "player_name": "DogWarningﾒBar"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 174937,
+      "kill_score": 4066992,
+      "player_name": "MarDem0"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 54,
+      "individual_points": 173793,
+      "kill_score": 4167234,
+      "player_name": "뜬 이 니"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 157123,
+      "kill_score": 3533884,
+      "player_name": "ˢJianLaars 命"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 155372,
+      "kill_score": 3705611,
+      "player_name": "Viatina乂Fayst"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 152544,
+      "kill_score": 3427532,
+      "player_name": "J I H"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 144855,
+      "kill_score": 3569249,
+      "player_name": "ˢAuthentiks"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 140413,
+      "kill_score": 3373259,
+      "player_name": "ˢǤãrɗı"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 133846,
+      "kill_score": 3171115,
+      "player_name": "The Core"
+    },
+    {
+      "building_score": 2785,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 129379,
+      "kill_score": 2880539,
+      "player_name": "ˢ vashido"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 123123,
+      "kill_score": 2759102,
+      "player_name": "Grigvar"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 114214,
+      "kill_score": 2646981,
+      "player_name": "ˢ Kleines"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 111787,
+      "kill_score": 2577415,
+      "player_name": "KYOSEALBOND"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 111774,
+      "kill_score": 2686110,
+      "player_name": "2lowteg"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 110013,
+      "kill_score": 2711648,
+      "player_name": "GGeoMAV"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 108901,
+      "kill_score": 2599433,
+      "player_name": "klopotek"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 107208,
+      "kill_score": 2523514,
+      "player_name": "Macronator"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 422,
+      "individual_points": 105000,
+      "kill_score": 2192047,
+      "player_name": "ˢJuju x MadBro"
+    },
+    {
+      "building_score": 2785,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 102859,
+      "kill_score": 2452762,
+      "player_name": "ˢ AzzCon"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 400,
+      "gather_score": 0,
+      "individual_points": 101152,
+      "kill_score": 2231457,
+      "player_name": "QuackerOats"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 96468,
+      "kill_score": 2227481,
+      "player_name": "๖ۣۣۜSwalsh"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 96265,
+      "kill_score": 2313492,
+      "player_name": "끼  리"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 3,
+      "individual_points": 89328,
+      "kill_score": 2013250,
+      "player_name": "⽪卡丘Daspim"
+    },
+    {
+      "building_score": 2745,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 81345,
+      "kill_score": 1922791,
+      "player_name": "ˢLaiZ"
+    },
+    {
+      "building_score": 2820,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 72805,
+      "kill_score": 1649172,
+      "player_name": "심래"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 62692,
+      "kill_score": 1484054,
+      "player_name": "Benbu 벤부"
+    },
+    {
+      "building_score": 2830,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 59258,
+      "kill_score": 1326988,
+      "player_name": "ˢMoonyPew"
+    },
+    {
+      "building_score": 2830,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 50519,
+      "kill_score": 1240952,
+      "player_name": "Hellcheppapewж"
+    },
+    {
+      "building_score": 2755,
+      "flag_score": 0,
+      "gather_score": 6,
+      "individual_points": 42757,
+      "kill_score": 970542,
+      "player_name": "BABYPENGU"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "ampheeMcQueen"
+    }
+  ]
+}

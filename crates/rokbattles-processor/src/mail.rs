@@ -9,6 +9,9 @@ pub enum MailType {
     DuelBattle2,
     BarCanyonKillBoss,
     SystemBarbarianFort,
+    AllianceAOOBattleResults,
+    AllianceAOOBattleInfo,
+    AllianceAOOIndividualResults,
 }
 
 impl MailType {
@@ -19,6 +22,9 @@ impl MailType {
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
             "SystemBarbarianFort" => Some(Self::SystemBarbarianFort),
+            "AllianceAOOBattleResults" => Some(Self::AllianceAOOBattleResults),
+            "AllianceAOOBattleInfo" => Some(Self::AllianceAOOBattleInfo),
+            "AllianceAOOIndividualResults" => Some(Self::AllianceAOOIndividualResults),
             _ => None,
         }
     }
@@ -30,6 +36,9 @@ impl MailType {
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
+            Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
+            Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
+            Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
         }
     }
 }
@@ -41,6 +50,9 @@ impl fmt::Display for MailType {
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
             Self::SystemBarbarianFort => "SystemBarbarianFort",
+            Self::AllianceAOOBattleResults => "AllianceAOOBattleResults",
+            Self::AllianceAOOBattleInfo => "AllianceAOOBattleInfo",
+            Self::AllianceAOOIndividualResults => "AllianceAOOIndividualResults",
         };
         write!(f, "{label}")
     }
@@ -65,6 +77,18 @@ mod tests {
             MailType::from_str("SystemBarbarianFort"),
             Some(MailType::SystemBarbarianFort)
         );
+        assert_eq!(
+            MailType::from_str("AllianceAOOBattleResults"),
+            Some(MailType::AllianceAOOBattleResults)
+        );
+        assert_eq!(
+            MailType::from_str("AllianceAOOBattleInfo"),
+            Some(MailType::AllianceAOOBattleInfo)
+        );
+        assert_eq!(
+            MailType::from_str("AllianceAOOIndividualResults"),
+            Some(MailType::AllianceAOOIndividualResults)
+        );
         assert_eq!(MailType::from_str("Unknown"), None);
     }
 
@@ -79,6 +103,18 @@ mod tests {
         assert_eq!(
             MailType::SystemBarbarianFort.collection_name(),
             "mails_system_barbarianfort"
+        );
+        assert_eq!(
+            MailType::AllianceAOOBattleResults.collection_name(),
+            "mails_alliance_aoobattleresults"
+        );
+        assert_eq!(
+            MailType::AllianceAOOBattleInfo.collection_name(),
+            "mails_alliance_aoobattleinfo"
+        );
+        assert_eq!(
+            MailType::AllianceAOOIndividualResults.collection_name(),
+            "mails_alliance_aooindividualresults"
         );
     }
 }

@@ -1,0 +1,49 @@
+{
+  "body": {
+    "fights": [
+      {
+        "team": 0,
+        "time": 1771768966683,
+        "win": true
+      }
+    ]
+  },
+  "metadata": {
+    "mail_id": "102185425177177256731",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1771772567839365,
+    "server_id": 2
+  },
+  "rewards": [
+    {
+      "sub_type": 30,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 44,
+      "type": 2,
+      "value": 2
+    },
+    {
+      "sub_type": 9999,
+      "type": 2,
+      "value": 10
+    },
+    {
+      "sub_type": 114,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 7006,
+      "type": 2,
+      "value": 100
+    },
+    {
+      "sub_type": 405,
+      "type": 2,
+      "value": 20
+    }
+  ]
+}
