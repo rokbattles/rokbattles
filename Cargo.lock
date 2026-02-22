@@ -358,7 +358,7 @@ checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "binidx-cli"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "anyhow",
  "binidx-decoder",
@@ -367,7 +367,7 @@ dependencies = [
 
 [[package]]
 name = "binidx-decoder"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 
 [[package]]
 name = "bitflags"
@@ -2677,7 +2677,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "clap",
  "mail-decoder",
@@ -2692,14 +2692,14 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "serde_json",
 ]
 
 [[package]]
 name = "mail-processor-barcanyonkillboss"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2707,7 +2707,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-battle"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2715,7 +2715,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2723,7 +2723,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-sdk"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "serde",
  "serde_json",
@@ -2731,7 +2731,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-system-barbarianfort"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -4249,7 +4249,7 @@ dependencies = [
 
 [[package]]
 name = "rok-game-tools-sdk"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "reqwest 0.12.28",
  "serde",
@@ -4259,7 +4259,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-bot"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "anyhow",
  "dotenvy",
@@ -4274,7 +4274,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-ingress"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "axum",
  "bytes",
@@ -4294,7 +4294,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "dotenvy",
  "futures",
@@ -4314,7 +4314,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-tauri"
-version = "1.0.0-rc.3"
+version = "1.0.0-rc.4"
 dependencies = [
  "anyhow",
  "mail-decoder",
