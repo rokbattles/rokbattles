@@ -2,6 +2,9 @@ use serde_json::{Map, Value};
 use std::path::Path;
 
 const SYSTEM_BARBARIAN_FORT_MAIL_TYPE: &str = "SystemBarbarianFort";
+const ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE: &str = "AllianceAOOBattleResults";
+const ALLIANCE_AOO_BATTLE_INFO_MAIL_TYPE: &str = "AllianceAOOBattleInfo";
+const ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE: &str = "AllianceAOOIndividualResults";
 
 /// Parse the numeric mail id from a RoK mail filename.
 pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
@@ -33,7 +36,7 @@ pub(crate) fn detect_mail_type(value: &Value) -> Option<&str> {
     root.get("type").and_then(Value::as_str)
 }
 
-/// Detect a supported mail type, including typed System variants.
+/// Detect a supported mail type, including typed System and Alliance variants.
 pub(crate) fn detect_supported_mail_type(value: &Value) -> Option<&'static str> {
     let root = normalize_mail_root(value)?;
     let mail_type = root.get("type").and_then(Value::as_str)?;
@@ -44,6 +47,11 @@ pub(crate) fn detect_supported_mail_type(value: &Value) -> Option<&'static str> 
 
     if mail_type.eq_ignore_ascii_case("System") && is_system_barbarian_fort_mail(root) {
         return Some(SYSTEM_BARBARIAN_FORT_MAIL_TYPE);
+    }
+    if mail_type.eq_ignore_ascii_case("Alliance")
+        && let Some(alliance_aoo_type) = detect_alliance_aoo_mail_type(root)
+    {
+        return Some(alliance_aoo_type);
     }
 
     None
@@ -77,6 +85,25 @@ fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
     matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<&'static str> {
+    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
+        return None;
+    }
+
+    let body_type = root
+        .get("body")
+        .and_then(Value::as_object)
+        .and_then(|body| body.get("type"))
+        .and_then(value_as_u64)?;
+
+    match body_type {
+        60 => Some(ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE),
+        61 => Some(ALLIANCE_AOO_BATTLE_INFO_MAIL_TYPE),
+        62 => Some(ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE),
+        _ => None,
+    }
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -181,6 +208,49 @@ mod tests {
     }
 
     #[test]
+    fn detect_supported_mail_type_matches_alliance_aoo_variants() {
+        let battle_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 60 }
+        });
+        assert_eq!(
+            detect_supported_mail_type(&battle_results),
+            Some("AllianceAOOBattleResults")
+        );
+
+        let battle_info = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 61 }
+        });
+        assert_eq!(
+            detect_supported_mail_type(&battle_info),
+            Some("AllianceAOOBattleInfo")
+        );
+
+        let individual_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 62 }
+        });
+        assert_eq!(
+            detect_supported_mail_type(&individual_results),
+            Some("AllianceAOOIndividualResults")
+        );
+    }
+
+    #[test]
+    fn detect_supported_mail_type_rejects_non_aoo_alliance_mail() {
+        let payload = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 99 }
+        });
+        assert_eq!(detect_supported_mail_type(&payload), None);
+    }
+
+    #[test]
     fn supported_mail_types_are_case_insensitive() {
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "Battle" })),
@@ -197,6 +267,14 @@ mod tests {
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "systembarbarianfort" })),
             Some("SystemBarbarianFort")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({
+                "type": "alliance",
+                "box": "AllianceBox",
+                "body": { "type": 60 }
+            })),
+            Some("AllianceAOOBattleResults")
         );
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "Unknown" })),

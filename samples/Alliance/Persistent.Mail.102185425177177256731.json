@@ -1,0 +1,94 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 30,
+          "Type": 2,
+          "Value": 1
+        },
+        2,
+        {
+          "SubType": 44,
+          "Type": 2,
+          "Value": 2
+        },
+        3,
+        {
+          "SubType": 9999,
+          "Type": 2,
+          "Value": 10
+        },
+        4,
+        {
+          "SubType": 114,
+          "Type": 2,
+          "Value": 1
+        },
+        5,
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 100
+        },
+        6,
+        {
+          "SubType": 405,
+          "Type": 2,
+          "Value": 20
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "AlreadyGetReward": false,
+      "IsEnroll": true,
+      "fightlist": [
+        1,
+        {
+          "AllianceId": 0,
+          "Idx": 0,
+          "Time": 1771768966683,
+          "Win": true
+        }
+      ],
+      "finalwin": true,
+      "gradeId": 0,
+      "old_grade": 1
+    },
+    "param": 1,
+    "subTitle": "Victory",
+    "title": "Ark of Osiris Battle Results",
+    "type": 61
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "102185425177177256731",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1771772567839365,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

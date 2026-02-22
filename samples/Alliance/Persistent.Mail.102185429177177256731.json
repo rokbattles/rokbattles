@@ -1,0 +1,203 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 32,
+          "Type": 2,
+          "Value": 1
+        },
+        2,
+        {
+          "SubType": 10005,
+          "Type": 2,
+          "Value": 10
+        },
+        3,
+        {
+          "SubType": 148,
+          "Type": 2,
+          "Value": 50
+        },
+        4,
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 50
+        },
+        5,
+        {
+          "SubType": 120,
+          "Type": 2,
+          "Value": 1
+        },
+        6,
+        {
+          "SubType": 188,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "FightReport": {
+        "BeKilled": 2760854,
+        "BuildingScore": 2745,
+        "DefeatFlagCnt": 0,
+        "FightLose": 45,
+        "FightWin": 555,
+        "FlagCnt": 0,
+        "FlagScore": 0,
+        "GatherScore": 0,
+        "HangUpLevel": 0,
+        "HealingCnt": 0,
+        "HealingScore": 0,
+        "KillScore": 120378,
+        "Killed": 2759102,
+        "OccupyCnt": 2,
+        "PlayerId": 71738515,
+        "RelocateCnt": 1,
+        "SpeedUpTime": 0,
+        "Stat": {
+          "AllBattleWinCnt": 555,
+          "GatherCnt": 0,
+          "HerosStat": [
+            1,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 252,
+                "BeKilledScore": 11681020,
+                "KillScore": 7344000
+              },
+              "AllBattleWinCnt": 108,
+              "AssistHeroId": 459,
+              "KillCnt": 376786,
+              "MainHeroId": 540
+            },
+            2,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 274,
+                "BeKilledScore": 8028100,
+                "KillScore": 10387860
+              },
+              "AllBattleWinCnt": 106,
+              "AssistHeroId": 579,
+              "KillCnt": 533230,
+              "MainHeroId": 575
+            },
+            3,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 319,
+                "BeKilledScore": 10277660,
+                "KillScore": 11235120
+              },
+              "AllBattleWinCnt": 118,
+              "AssistHeroId": 194,
+              "KillCnt": 574040,
+              "MainHeroId": 595
+            },
+            4,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 281,
+                "BeKilledScore": 11364400,
+                "KillScore": 11291710
+              },
+              "AllBattleWinCnt": 101,
+              "AssistHeroId": 185,
+              "KillCnt": 580515,
+              "MainHeroId": 545
+            },
+            5,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 223,
+                "BeKilledScore": 10013360,
+                "KillScore": 11446370
+              },
+              "AllBattleWinCnt": 92,
+              "AssistHeroId": 6,
+              "KillCnt": 589276,
+              "MainHeroId": 509
+            },
+            6,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 77,
+                "BeKilledScore": 3852540,
+                "KillScore": 2063230
+              },
+              "AllBattleWinCnt": 30,
+              "AssistHeroId": 187,
+              "KillCnt": 105255,
+              "MainHeroId": 179
+            }
+          ],
+          "KillScore": 53768290,
+          "SkillCastCnt": 0,
+          "WildBattleStat": {
+            "BattleCnt": 1426,
+            "BeKilledScore": 53165020,
+            "KillScore": 52552570
+          }
+        },
+        "TotalScore": 123123,
+        "WinRate": 92
+      },
+      "Idx": 0,
+      "IsWin": true,
+      "NoScore": false,
+      "TotalScoreRank": {
+        "Info": {
+          "Job": 0,
+          "Name": "Grigvar",
+          "PlyId": 71738515,
+          "Score": 123123,
+          "Slot": 0
+        },
+        "Rank": 12
+      },
+      "gradeId": 0,
+      "old_grade": 1,
+      "stage": 1
+    },
+    "param": 1,
+    "subTitle": "Individual Statistics",
+    "title": "Ark of Osiris",
+    "type": 62
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "102185429177177256731",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1771772567843913,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

@@ -20,6 +20,9 @@ const STATUS_PENDING: &str = "pending";
 const STATUS_REPROCESS: &str = "reprocess";
 const STATUS_UNPROCESSABLE: &str = "unprocessable";
 const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
+const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
+const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
+const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
 
 /// Response payload returned from the upload endpoint.
 #[derive(Debug, Serialize)]
@@ -257,6 +260,9 @@ fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
     if is_system_barbarian_fort_mail(root) {
         return Ok(MAIL_TYPE_SYSTEM_BARBARIAN_FORT.to_string());
     }
+    if let Some(alliance_aoo_type) = detect_alliance_aoo_mail_type(root) {
+        return Ok(alliance_aoo_type.to_string());
+    }
 
     Ok(mail_type)
 }
@@ -264,7 +270,13 @@ fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
 fn is_supported_mail_type(mail_type: &str) -> bool {
     matches!(
         mail_type,
-        "Battle" | "DuelBattle2" | "BarCanyonKillBoss" | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+        "Battle"
+            | "DuelBattle2"
+            | "BarCanyonKillBoss"
+            | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
+            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
+            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
+            | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
     )
 }
 
@@ -308,6 +320,29 @@ fn is_system_barbarian_fort_mail(root: &Value) -> bool {
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
     matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+}
+
+fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
+    let root = root.as_object()?;
+    if !matches!(root.get("type").and_then(Value::as_str), Some("Alliance")) {
+        return None;
+    }
+    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
+        return None;
+    }
+
+    let body_type = root
+        .get("body")
+        .and_then(Value::as_object)
+        .and_then(|body| body.get("type"))
+        .and_then(value_as_u64)?;
+
+    match body_type {
+        60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
+        61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
+        62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
+        _ => None,
+    }
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -496,6 +531,9 @@ mod tests {
         assert!(is_supported_mail_type("DuelBattle2"));
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
         assert!(is_supported_mail_type("SystemBarbarianFort"));
+        assert!(is_supported_mail_type("AllianceAOOBattleResults"));
+        assert!(is_supported_mail_type("AllianceAOOBattleInfo"));
+        assert!(is_supported_mail_type("AllianceAOOIndividualResults"));
         assert!(!is_supported_mail_type("Unknown"));
     }
 
@@ -526,6 +564,63 @@ mod tests {
             }
         });
         assert_eq!(extract_mail_type(&decoded).unwrap(), "System");
+    }
+
+    #[test]
+    fn extracts_alliance_aoo_battle_results_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 60
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "AllianceAOOBattleResults".to_string()
+        );
+    }
+
+    #[test]
+    fn extracts_alliance_aoo_battle_info_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 61
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "AllianceAOOBattleInfo".to_string()
+        );
+    }
+
+    #[test]
+    fn extracts_alliance_aoo_individual_results_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 62
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "AllianceAOOIndividualResults".to_string()
+        );
+    }
+
+    #[test]
+    fn keeps_regular_alliance_mail_type_unmodified() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 99
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "Alliance");
     }
 
     #[test]
@@ -595,6 +690,14 @@ mod tests {
         assert_eq!(
             update_status_for_mail_type("SystemBarbarianFort"),
             STATUS_REPROCESS
+        );
+        assert_eq!(
+            insert_status_for_mail_type("AllianceAOOBattleResults"),
+            STATUS_UNPROCESSABLE
+        );
+        assert_eq!(
+            update_status_for_mail_type("AllianceAOOBattleResults"),
+            STATUS_UNPROCESSABLE
         );
     }
 
