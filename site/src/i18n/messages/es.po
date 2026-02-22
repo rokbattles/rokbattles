@@ -28,7 +28,7 @@ msgstr "Mis combinaciones."
 #: src/app/(main)/account/settings/layout.tsx:11
 #: src/components/platform-account-dropdown-menu.tsx:33
 msgid "NQgbYA"
-msgstr "Configuración de cuenta."
+msgstr "Configuración de la cuenta"
 
 #: src/app/(main)/account/settings/page.tsx:13
 msgid "hJZwTS"
@@ -85,7 +85,7 @@ msgstr "Oponente"
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
 #: src/components/account/account-reports-content.tsx:43
 msgid "Y3Z7jw"
-msgstr ""
+msgstr "Conteo de muertes"
 
 #: src/app/(main)/olympian-arena/page.tsx:21
 #: src/app/(main)/page.tsx:29
@@ -99,7 +99,7 @@ msgstr "Racha de victorias"
 
 #: src/app/(main)/page.tsx:13
 msgid "xmv5Of"
-msgstr "Reporte de batallas"
+msgstr "Informes de batalla"
 
 #: src/app/(main)/page.tsx:18
 #: src/components/account/account-reports-content.tsx:33
@@ -120,7 +120,7 @@ msgstr "Duración"
 
 #: src/app/(main)/report/[id]/page.tsx:9
 msgid "1gqsiW"
-msgstr "Reporte de batallas"
+msgstr "Informe de Batalla"
 
 #: src/app/(main)/report/[id]/page.tsx:52
 msgid "irMluf"
@@ -182,7 +182,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:41
 msgid "nCGWau"
-msgstr ""
+msgstr "Batallas ganadas"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:45
 msgid "Hw0iax"
@@ -201,7 +201,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
 #: src/components/report/report-overview-column.tsx:46
 msgid "sz3C4k"
-msgstr "Herido grave"
+msgstr "Severamente Heridos"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:61
 msgid "mJwM5A"
@@ -213,7 +213,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:69
 msgid "lcP4aP"
-msgstr ""
+msgstr "Teletransportaciones"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:73
 msgid "5g03Dq"
@@ -304,7 +304,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:18
 msgid "lsSmtD"
-msgstr ""
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -644,7 +644,7 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
 msgid "+yzdej"
-msgstr ""
+msgstr "DPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
 msgid "nyW1oU"
@@ -666,7 +666,7 @@ msgstr "Mostrar más"
 
 #: src/components/my-pairings/pairings-loadouts.tsx:43
 msgid "898qG3"
-msgstr ""
+msgstr "Instrumentales"
 
 #: src/components/my-pairings/pairings-loadouts.tsx:44
 msgid "sU47wG"
@@ -716,7 +716,7 @@ msgstr "Secundario"
 
 #: src/components/olympian-arena/duel-participant-card.tsx:113
 msgid "cKnhhK"
-msgstr "Mejora de tropas"
+msgstr "Bonificaciones de las Tropas"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx:32
 msgid "CuNYjA"
@@ -758,7 +758,7 @@ msgstr "Gravemente heridos"
 
 #: src/components/olympian-arena/duel-results-chart.tsx:82
 msgid "NboP8s"
-msgstr "Herido"
+msgstr "Los Heridos"
 
 #: src/components/olympian-arena/duel-results-chart.tsx:83
 msgid "YoPSLI"
@@ -900,7 +900,7 @@ msgstr "Unidades de tropas"
 
 #: src/components/report/report-overview-column.tsx:49
 msgid "1ISgLB"
-msgstr "Herido leve"
+msgstr "Levemente Heridos"
 
 #: src/components/report/report-participant-card.tsx:61
 msgid "RJ+ZIh"
@@ -998,7 +998,7 @@ msgstr "Edificio de guarnición"
 
 #: src/components/reports/reports-filter-dialog.tsx:373
 msgid "ToO3/h"
-msgstr "Algo"
+msgstr "Cualquiera"
 
 #: src/components/reports/reports-filter-dialog.tsx:376
 msgid "ptYapO"
