@@ -22,7 +22,9 @@ export function isBarbarian(npcType: number | null, npcBType: number | null): bo
 
   const isHomeBarbarian = npcType >= 1 && npcType <= 40;
   const isKvkBarbarian = npcType >= 401 && npcType <= 415;
-  return isHomeBarbarian || isKvkBarbarian;
+  // English Soldier (Siege of Orleans KVK)
+  const isEnglishSoldierBarbarian = npcType >= 150009 && npcType <= 150023; // Need to verify range
+  return isHomeBarbarian || isKvkBarbarian || isEnglishSoldierBarbarian;
 }
 
 export function toDateKey(eventTimeMillis: number): string {
