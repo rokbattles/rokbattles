@@ -22,7 +22,7 @@ const WINDOWS_BASE_DIRS: &[&str] = &["Program Files (x86)", "Program Files"];
 #[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_BASE_CHILDREN: usize = 1024;
 #[cfg(any(test, target_os = "windows"))]
-const MAX_WINDOWS_FALLBACK_DEPTH: usize = 4;
+const MAX_WINDOWS_BASE_GRANDCHILDREN: usize = 128;
 #[cfg(any(test, target_os = "windows"))]
 const MAX_WINDOWS_FALLBACK_DIRS: usize = 3500;
 #[cfg(any(test, target_os = "windows"))]
@@ -162,13 +162,36 @@ fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
         if !file_type.is_dir() {
             continue;
         }
+        let child = entry.path();
         out.push(
-            entry
-                .path()
+            child
                 .join("Rise of Kingdoms Game")
                 .join("save")
                 .join("mailcache"),
         );
+
+        // Handle installs with a nested directory before "Rise of Kingdoms Game".
+        let Ok(nested_read_dir) = fs::read_dir(&child) else {
+            continue;
+        };
+        for nested_entry in nested_read_dir
+            .flatten()
+            .take(MAX_WINDOWS_BASE_GRANDCHILDREN)
+        {
+            let Ok(nested_type) = nested_entry.file_type() else {
+                continue;
+            };
+            if !nested_type.is_dir() {
+                continue;
+            }
+            out.push(
+                nested_entry
+                    .path()
+                    .join("Rise of Kingdoms Game")
+                    .join("save")
+                    .join("mailcache"),
+            );
+        }
     }
 }
 
@@ -181,9 +204,9 @@ fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
     let started = Instant::now();
     let mut visited = 0usize;
     let mut queue = VecDeque::new();
-    queue.push_back((root.to_path_buf(), 0usize));
+    queue.push_back(root.to_path_buf());
 
-    while let Some((dir, depth)) = queue.pop_front() {
+    while let Some(dir) = queue.pop_front() {
         if visited >= MAX_WINDOWS_FALLBACK_DIRS
             || started.elapsed() >= MAX_WINDOWS_FALLBACK_DURATION
         {
@@ -216,8 +239,8 @@ fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
                 continue;
             }
 
-            if depth < MAX_WINDOWS_FALLBACK_DEPTH && !should_skip_windows_dir(name) {
-                queue.push_back((child, depth + 1));
+            if !should_skip_windows_dir(name) {
+                queue.push_back(child);
             }
         }
     }
@@ -404,6 +427,56 @@ mod tests {
 
         let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
         assert!(found.contains(&mailcache));
+    }
+
+    #[test]
+    fn windows_discovery_finds_nested_variant_when_standard_install_exists() {
+        let temp = tempdir().expect("tempdir");
+        let standard_mailcache = temp
+            .path()
+            .join("Program Files (x86)")
+            .join("Rise of Kingdoms Game")
+            .join("save")
+            .join("mailcache");
+        let nested_kr_mailcache = temp
+            .path()
+            .join("Program Files (x86)")
+            .join("Rise of Kingdoms KR")
+            .join("Custom Folder")
+            .join("Rise of Kingdoms Game")
+            .join("save")
+            .join("mailcache");
+        fs::create_dir_all(&standard_mailcache).expect("create standard dirs");
+        fs::create_dir_all(&nested_kr_mailcache).expect("create nested kr dirs");
+        fs::write(standard_mailcache.join("Persistent.Mail.1"), b"test")
+            .expect("write standard file");
+        fs::write(nested_kr_mailcache.join("Persistent.Mail.2"), b"test")
+            .expect("write nested kr file");
+
+        let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
+        assert!(found.contains(&standard_mailcache));
+        assert!(found.contains(&nested_kr_mailcache));
+    }
+
+    #[test]
+    fn windows_fallback_finds_deeply_nested_variant() {
+        let temp = tempdir().expect("tempdir");
+        let deep_mailcache = temp
+            .path()
+            .join("Program Files")
+            .join("Layer1")
+            .join("Layer2")
+            .join("Layer3")
+            .join("Layer4")
+            .join("Layer5")
+            .join("Rise of Kingdoms Game")
+            .join("save")
+            .join("mailcache");
+        fs::create_dir_all(&deep_mailcache).expect("create deep dirs");
+        fs::write(deep_mailcache.join("Persistent.Mail.3"), b"test").expect("write deep file");
+
+        let found = discover_windows_from_roots(&[temp.path().to_path_buf()]);
+        assert!(found.contains(&deep_mailcache));
     }
 
     #[test]
