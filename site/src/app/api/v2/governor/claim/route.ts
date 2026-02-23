@@ -9,6 +9,33 @@ interface RawParticipant {
   avatar_url?: string;
 }
 
+interface RawBattleMail {
+  sender?: RawParticipant;
+  opponents?: RawParticipant[];
+}
+
+function extractParticipant(mail: RawBattleMail | null, governorId: number): RawParticipant | null {
+  if (!mail || typeof mail !== "object") {
+    return null;
+  }
+
+  if (mail.sender?.player_id === governorId) {
+    return mail.sender;
+  }
+
+  if (!Array.isArray(mail.opponents)) {
+    return null;
+  }
+
+  for (const opponent of mail.opponents) {
+    if (opponent?.player_id === governorId) {
+      return opponent;
+    }
+  }
+
+  return null;
+}
+
 export async function POST(req: NextRequest) {
   let payload: unknown;
   try {
@@ -46,41 +73,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Claim limit reached" }, { status: 409 });
   }
 
-  const latestReport = await db
-    .collection("battleReports")
+  const latestMail = await db
+    .collection<RawBattleMail>("mails_battle")
     .find(
       {
-        $or: [{ "report.self.player_id": governorId }, { "report.enemy.player_id": governorId }],
+        $or: [{ "sender.player_id": governorId }, { "opponents.player_id": governorId }],
       },
       {
         projection: {
-          "report.self.player_id": 1,
-          "report.self.player_name": 1,
-          "report.self.avatar_url": 1,
-          "report.enemy.player_id": 1,
-          "report.enemy.player_name": 1,
-          "report.enemy.avatar_url": 1,
-          "report.metadata.email_time": 1,
+          "sender.player_id": 1,
+          "sender.player_name": 1,
+          "sender.avatar_url": 1,
+          "opponents.player_id": 1,
+          "opponents.player_name": 1,
+          "opponents.avatar_url": 1,
+          "metadata.mail_time": 1,
         },
       }
     )
-    .sort({ "report.metadata.email_time": -1 })
+    .sort({ "metadata.mail_time": -1 })
     .limit(1)
     .next();
 
-  let participant: RawParticipant | null = null;
-  if (latestReport?.report && typeof latestReport.report === "object") {
-    const report = latestReport.report as {
-      self?: RawParticipant;
-      enemy?: RawParticipant;
-    };
-
-    if (report.self?.player_id === governorId) {
-      participant = report.self;
-    } else if (report.enemy?.player_id === governorId) {
-      participant = report.enemy;
-    }
-  }
+  const participant = extractParticipant(latestMail, governorId);
 
   const governorName =
     participant && typeof participant.player_name === "string" ? participant.player_name : null;
