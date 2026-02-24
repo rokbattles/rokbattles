@@ -5,7 +5,8 @@ import type {
 } from "@/providers/reports-filter-context";
 
 export type ReportsQueryParams = {
-  cursor?: string;
+  after?: string;
+  before?: string;
   playerId?: number;
   type?: ReportsFilterType;
   senderPrimaryCommanderId?: number;
@@ -18,7 +19,8 @@ export type ReportsQueryParams = {
 };
 
 export function buildReportsQueryParams({
-  cursor,
+  after,
+  before,
   playerId,
   type,
   senderPrimaryCommanderId,
@@ -31,7 +33,11 @@ export function buildReportsQueryParams({
 }: ReportsQueryParams) {
   const params = new URLSearchParams();
 
-  if (cursor) params.set("cursor", cursor);
+  if (before) {
+    params.set("before", before);
+  } else if (after) {
+    params.set("after", after);
+  }
   if (typeof playerId === "number" && Number.isFinite(playerId)) {
     params.set("pid", String(playerId));
   }

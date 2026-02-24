@@ -11,14 +11,12 @@ type Props = {
 
 const DefaultWidths = ["w-24", "w-36", "w-36", "w-16", "w-24"] as const;
 
-export default function SkeletonRows({ count = 10, widths = DefaultWidths }: Props) {
+export default function ReportsSkeletonRows({ count = 10, widths = DefaultWidths }: Props) {
   const t = useExtracted();
   return (
     <>
-      <TableRow>
-        <TableCell colSpan={widths.length} className="sr-only" role="status" aria-live="polite">
-          {t("Loading reports...")}
-        </TableCell>
+      <TableRow className="sr-only" role="status" aria-live="polite">
+        <TableCell colSpan={widths.length}>{t("Loading reports...")}</TableCell>
       </TableRow>
       {Array.from({ length: count }, (_, r) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: its okay

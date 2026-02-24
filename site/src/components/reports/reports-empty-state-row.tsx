@@ -3,7 +3,7 @@
 import { useExtracted } from "next-intl";
 import { TableCell, TableRow } from "@/components/ui/table";
 
-export default function EmptyStateRow({ colSpan }: { colSpan: number }) {
+export default function ReportsEmptyStateRow({ colSpan }: { colSpan: number }) {
   const t = useExtracted();
   return (
     <TableRow>

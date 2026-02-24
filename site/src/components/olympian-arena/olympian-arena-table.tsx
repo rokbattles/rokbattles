@@ -1,71 +1,84 @@
 "use client";
 
-import { useCallback, useRef } from "react";
-import EmptyStateRow from "@/components/reports/empty-state-row";
-import ErrorRow from "@/components/reports/error-row";
-import LoadMoreRow from "@/components/reports/load-more-row";
-import SkeletonRows from "@/components/reports/skeleton-rows";
-import { TableBody } from "@/components/ui/table";
-import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
-import type { UseOlympianArenaDuelsResult } from "@/hooks/use-olympian-arena-duels";
+import { useExtracted } from "next-intl";
+import { Button } from "@/components/ui/button";
+import { Pagination } from "@/components/ui/pagination";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useOlympianArenaDuels } from "@/hooks/use-olympian-arena-duels";
+import ReportsEmptyStateRow from "../reports/reports-empty-state-row";
+import ReportsErrorRow from "../reports/reports-error-row";
+import ReportsSkeletonRows from "../reports/reports-skeleton-rows";
 import OlympianArenaRow from "./olympian-arena-row";
 
-const SkeletonWidths = ["w-24", "w-36", "w-36", "w-28", "w-20", "w-20"] as const;
-
-type UseDuelsHook = () => UseOlympianArenaDuelsResult;
+const SkeletonWidths = ["w-24", "w-36", "w-36", "w-20", "w-20", "w-20"] as const;
 
 type OlympianArenaTableProps = {
-  useDuelsHook?: UseDuelsHook;
   skeletonCount?: number;
 };
 
-export default function OlympianArenaTable({
-  useDuelsHook = useOlympianArenaDuels,
-  skeletonCount = 10,
-}: OlympianArenaTableProps = {}) {
-  const { data, loading, error, cursor, loadMore } = useDuelsHook();
-  const loadingRef = useRef(false);
+export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArenaTableProps = {}) {
+  const t = useExtracted();
+  const { data, loading, error, nextAfter, previousBefore, loadNextPage, loadPreviousPage } =
+    useOlympianArenaDuels();
 
-  const handleLoadMore = useCallback(async () => {
-    if (loadingRef.current || loading || !cursor) {
-      return;
-    }
+  const handleNextPage = async () => {
+    await loadNextPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-    loadingRef.current = true;
-    try {
-      await loadMore();
-    } finally {
-      loadingRef.current = false;
-    }
-  }, [loading, cursor, loadMore]);
-
-  const setSentinelRef = useInfiniteScroll({
-    enabled: Boolean(cursor),
-    loading,
-    onLoadMore: handleLoadMore,
-    rootMargin: "256px 0px 0px 0px",
-    threshold: 0.01,
-  });
+  const handlePreviousPage = async () => {
+    await loadPreviousPage();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <TableBody>
-      {data.map((duel) => (
-        <OlympianArenaRow key={duel.duelId} duel={duel} />
-      ))}
-      {loading && data.length === 0 ? (
-        <SkeletonRows count={skeletonCount} widths={SkeletonWidths} />
-      ) : null}
-      {!loading && !error && data.length === 0 ? <EmptyStateRow colSpan={6} /> : null}
-      {error ? <ErrorRow colSpan={6} error={error} /> : null}
-      {cursor ? (
-        <LoadMoreRow
-          colSpan={6}
-          loading={loading}
-          onLoadMore={handleLoadMore}
-          ref={setSentinelRef}
-        />
-      ) : null}
-    </TableBody>
+    <>
+      <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
+        <TableHead>
+          <TableRow>
+            <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
+            <TableHeader>{t("Sender")}</TableHeader>
+            <TableHeader>{t("Opponent")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
+            <TableHeader className="sm:w-32">{t("Win Streak")}</TableHeader>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((duel) => (
+            <OlympianArenaRow key={duel.duelId} duel={duel} />
+          ))}
+          {loading && data.length === 0 ? (
+            <ReportsSkeletonRows count={skeletonCount} widths={SkeletonWidths} />
+          ) : null}
+          {!loading && !error && data.length === 0 ? <ReportsEmptyStateRow colSpan={6} /> : null}
+          {error ? <ReportsErrorRow colSpan={6} error={error} /> : null}
+        </TableBody>
+      </Table>
+      <Pagination className="mt-4">
+        <span className="grow basis-0">
+          <Button
+            plain
+            type="button"
+            onClick={() => void handlePreviousPage()}
+            disabled={!previousBefore || loading}
+            aria-label={t("Previous page")}
+          >
+            {t("Previous")}
+          </Button>
+        </span>
+        <span className="flex grow basis-0 justify-end">
+          <Button
+            plain
+            type="button"
+            onClick={() => void handleNextPage()}
+            disabled={!nextAfter || loading}
+            aria-label={t("Next page")}
+          >
+            {t("Next")}
+          </Button>
+        </span>
+      </Pagination>
+    </>
   );
 }

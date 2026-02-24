@@ -3,7 +3,6 @@ import { getExtracted } from "next-intl/server";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
 import { Heading, Subheading } from "@/components/ui/heading";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default async function Page() {
   const t = await getExtracted();
@@ -18,20 +17,7 @@ export default async function Page() {
           {t("Filter")}
         </ReportsFilterDialog>
       </div>
-      <Table dense grid className="mt-4 [--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
-        <TableHead>
-          <TableRow>
-            <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
-            <TableHeader>{t("Sender")}</TableHeader>
-            <TableHeader>{t("Opponent")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Battles")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Duration")}</TableHeader>
-          </TableRow>
-        </TableHead>
-        <ReportsTable />
-      </Table>
+      <ReportsTable />
     </>
   );
 }

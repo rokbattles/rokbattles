@@ -1,24 +1,16 @@
 "use client";
 
 import { useExtracted } from "next-intl";
-import { useCallback, useEffect, useState } from "react";
+import { parseAsString, useQueryState } from "nuqs";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type OlympianArenaParticipant = {
-  playerId: number | null;
-  playerName: string | null;
-  alliance: {
-    abbreviation: string;
-  };
-  duelId: number | null;
-  avatarUrl: string | null;
-  frameUrl: string | null;
   primaryCommanderId: number | null;
   secondaryCommanderId: number | null;
 };
 
 export type OlympianArenaDuelSummary = {
   duelId: number;
-  count: number;
   winStreak: number;
   mailTime: number;
   killCount: number;
@@ -31,23 +23,32 @@ export type OlympianArenaDuelSummary = {
 
 type OlympianArenaApiResponse = {
   items: OlympianArenaDuelSummary[];
-  count: number;
-  cursor?: string;
+  nextAfter: string | null;
+  previousBefore: string | null;
+};
+
+type CursorRequest = {
+  after?: string;
+  before?: string;
 };
 
 export type UseOlympianArenaDuelsResult = {
   data: OlympianArenaDuelSummary[];
   loading: boolean;
   error: string | null;
-  cursor: string | undefined;
-  loadMore: () => Promise<void>;
+  nextAfter: string | null;
+  previousBefore: string | null;
+  loadNextPage: () => Promise<void>;
+  loadPreviousPage: () => Promise<void>;
 };
 
-function buildQueryParams(cursor: string | undefined) {
+function buildQueryParams({ after, before }: CursorRequest = {}) {
   const params = new URLSearchParams();
 
-  if (cursor) {
-    params.set("cursor", cursor);
+  if (before) {
+    params.set("before", before);
+  } else if (after) {
+    params.set("after", after);
   }
 
   const query = params.toString();
@@ -56,16 +57,19 @@ function buildQueryParams(cursor: string | undefined) {
 
 export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
   const t = useExtracted();
-  const [duels, setDuels] = useState<OlympianArenaDuelSummary[]>([]);
+  const [data, setData] = useState<OlympianArenaDuelSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [nextAfter, setNextAfter] = useState<string | null>(null);
+  const [previousBefore, setPreviousBefore] = useState<string | null>(null);
+  const [afterParam, setAfterParam] = useQueryState("after", parseAsString);
+  const [beforeParam, setBeforeParam] = useQueryState("before", parseAsString);
+  const requestIdRef = useRef(0);
 
-  const fetchDuels = useCallback(
-    async (nextCursor?: string) => {
-      const query = buildQueryParams(nextCursor);
-
-      const res = await fetch(`/api/v2/olympian-arena/duels${query}`, {
+  const fetchPage = useCallback(
+    async ({ after, before }: CursorRequest = {}) => {
+      const query = buildQueryParams({ after, before });
+      const res = await fetch(`/proxy/v1/reports/duelbattle2${query}`, {
         cache: "no-store",
       });
 
@@ -80,68 +84,85 @@ export function useOlympianArenaDuels(): UseOlympianArenaDuelsResult {
 
   useEffect(() => {
     let cancelled = false;
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
 
-    setCursor(undefined);
-    setDuels([]);
-    setError(null);
     setLoading(true);
 
-    fetchDuels()
-      .then((data) => {
-        if (cancelled) {
+    fetchPage(beforeParam ? { before: beforeParam } : afterParam ? { after: afterParam } : {})
+      .then((payload) => {
+        if (cancelled || requestId !== requestIdRef.current) {
           return;
         }
-        setCursor(data.cursor ?? undefined);
-        setDuels(data.items);
+
+        setData(payload.items);
+        setNextAfter(payload.nextAfter);
+        setPreviousBefore(payload.previousBefore);
         setError(null);
       })
       .catch((err) => {
-        if (cancelled) {
+        if (cancelled || requestId !== requestIdRef.current) {
           return;
         }
+
         const message = err instanceof Error ? err.message : t("Failed to fetch data");
         setError(message);
+        setData([]);
+        setNextAfter(null);
+        setPreviousBefore(null);
       })
       .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
+        if (cancelled || requestId !== requestIdRef.current) {
+          return;
         }
+
+        setLoading(false);
       });
 
     return () => {
       cancelled = true;
     };
-  }, [fetchDuels, t]);
+  }, [afterParam, beforeParam, fetchPage, t]);
 
-  const loadMore = async () => {
-    if (loading) {
-      return;
-    }
-
-    if (!cursor) {
+  const loadNextPage = useCallback(async () => {
+    if (!nextAfter || loading) {
       return;
     }
 
     setLoading(true);
-
+    setError(null);
     try {
-      const data = await fetchDuels(cursor);
-      setCursor(data.cursor ?? undefined);
-      setDuels((prev) => [...prev, ...data.items]);
-      setError(null);
+      await Promise.all([setBeforeParam(null), setAfterParam(nextAfter)]);
     } catch (err) {
       const message = err instanceof Error ? err.message : t("Failed to fetch data");
       setError(message);
-    } finally {
       setLoading(false);
     }
-  };
+  }, [loading, nextAfter, setAfterParam, setBeforeParam, t]);
+
+  const loadPreviousPage = useCallback(async () => {
+    if (!previousBefore || loading) {
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      await Promise.all([setAfterParam(null), setBeforeParam(previousBefore)]);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : t("Failed to fetch data");
+      setError(message);
+      setLoading(false);
+    }
+  }, [loading, previousBefore, setAfterParam, setBeforeParam, t]);
 
   return {
-    data: duels,
+    data,
     loading,
     error,
-    cursor,
-    loadMore,
+    nextAfter,
+    previousBefore,
+    loadNextPage,
+    loadPreviousPage,
   };
 }
