@@ -43,80 +43,24 @@ msgstr "Su correo electrónico está sincronizado desde Discord."
 msgid "xVCzuX"
 msgstr "Explorar duelos"
 
-#: src/app/(main)/olympian-arena/page.tsx:10
+#: src/app/(main)/olympian-arena/page.tsx:9
 msgid "78PvoX"
 msgstr "Reporte de la Arena Olímpica"
 
-#: src/app/(main)/olympian-arena/page.tsx:12
-#: src/app/(main)/page.tsx:15
-#: src/components/account/account-reports-content.tsx:30
+#: src/app/(main)/olympian-arena/page.tsx:11
+#: src/app/(main)/page.tsx:14
+#: src/components/account/account-reports-content.tsx:29
 msgid "F2qQa8"
 msgstr "Feed en vivo (UTC)"
 
-#: src/app/(main)/olympian-arena/page.tsx:17
-#: src/app/(main)/page.tsx:24
-#: src/components/account-ark/ark-match-history-table.tsx:17
-#: src/components/account/account-reports-content.tsx:39
-msgid "ug01Mk"
-msgstr "Tiempo"
-
-#: src/app/(main)/olympian-arena/page.tsx:18
-#: src/app/(main)/page.tsx:25
-#: src/components/account/account-reports-content.tsx:40
-#: src/components/olympian-arena/duel-summary-tooltip.tsx:39
-#: src/components/report/report-battle-summary-tooltip.tsx:43
-#: src/components/reports/reports-filter-dialog.tsx:105
-#: src/components/reports/reports-filter-dialog.tsx:231
-msgid "nbwXXN"
-msgstr "Remitente"
-
-#: src/app/(main)/olympian-arena/page.tsx:19
-#: src/app/(main)/page.tsx:26
-#: src/components/account/account-reports-content.tsx:41
-#: src/components/olympian-arena/duel-summary-tooltip.tsx:41
-#: src/components/report/report-battle-summary-tooltip.tsx:45
-#: src/components/reports/reports-filter-dialog.tsx:106
-#: src/components/reports/reports-filter-dialog.tsx:272
-msgid "Mdj7Fr"
-msgstr "Oponente"
-
-#: src/app/(main)/olympian-arena/page.tsx:20
-#: src/app/(main)/page.tsx:28
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
-#: src/components/account/account-reports-content.tsx:43
-msgid "Y3Z7jw"
-msgstr "Conteo de muertes"
-
-#: src/app/(main)/olympian-arena/page.tsx:21
-#: src/app/(main)/page.tsx:29
-#: src/components/account/account-reports-content.tsx:44
-msgid "c+sY33"
-msgstr ""
-
-#: src/app/(main)/olympian-arena/page.tsx:22
-msgid "aXdZke"
-msgstr "Racha de victorias"
-
-#: src/app/(main)/page.tsx:13
+#: src/app/(main)/page.tsx:12
 msgid "xmv5Of"
 msgstr "Informes de batalla"
 
-#: src/app/(main)/page.tsx:18
-#: src/components/account/account-reports-content.tsx:33
+#: src/app/(main)/page.tsx:17
+#: src/components/account/account-reports-content.tsx:32
 msgid "9Obw6C"
 msgstr "Filtro"
-
-#: src/app/(main)/page.tsx:27
-#: src/components/account/account-reports-content.tsx:42
-#: src/components/my-pairings/my-pairings-content.tsx:278
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
-msgid "9bVtCz"
-msgstr "Batallas"
-
-#: src/app/(main)/page.tsx:30
-#: src/components/account/account-reports-content.tsx:45
-msgid "IuFETn"
-msgstr "Duración"
 
 #: src/app/(main)/report/[id]/page.tsx:9
 msgid "1gqsiW"
@@ -200,6 +144,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:57
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
 #: src/components/report/report-overview-column.tsx:46
+#: src/components/reports/reports-overview-summary-card.tsx:46
 msgid "sz3C4k"
 msgstr "Severamente Heridos"
 
@@ -275,12 +220,19 @@ msgstr "Combinados"
 msgid "ZtK0ZT"
 msgstr ""
 
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
+#: src/components/olympian-arena/olympian-arena-table.tsx:42
+#: src/components/reports/reports-table.tsx:51
+msgid "Y3Z7jw"
+msgstr "Conteo de muertes"
+
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
 #: src/components/my-pairings/my-pairings-content.tsx:284
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
 #: src/components/olympian-arena/duel-results-chart.tsx:84
 #: src/components/report/report-battle-results-chart.tsx:89
 #: src/components/report/report-overview-column.tsx:55
+#: src/components/reports/reports-overview-summary-card.tsx:71
 msgid "RCtKQ2"
 msgstr "Puntos de baja"
 
@@ -321,6 +273,12 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-row.tsx:34
 msgid "iVlule"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx:17
+#: src/components/olympian-arena/olympian-arena-table.tsx:39
+#: src/components/reports/reports-table.tsx:47
+msgid "ug01Mk"
+msgstr "Tiempo"
 
 #: src/components/account-ark/ark-match-history-table.tsx:20
 #: src/components/olympian-arena/duel-participant-card.tsx:88
@@ -411,7 +369,7 @@ msgstr "Reclamar a un gobernador"
 msgid "HOHINg"
 msgstr "Vincule un gobernador a su cuenta ingresando el ID del Gobernador de Rise Of Kingdoms. Puede reclamar hasta tres."
 
-#: src/components/account/account-reports-content.tsx:28
+#: src/components/account/account-reports-content.tsx:27
 msgid "2YkOMs"
 msgstr "Mi reporte de batallas."
 
@@ -521,6 +479,12 @@ msgstr ""
 #: src/components/my-pairings/my-pairings-content.tsx:241
 msgid "5OhW+B"
 msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:278
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
+#: src/components/reports/reports-table.tsx:50
+msgid "9bVtCz"
+msgstr "Batallas"
 
 #: src/components/my-pairings/my-pairings-content.tsx:280
 msgid "W2cCAf"
@@ -748,6 +712,7 @@ msgstr "Unidades"
 #: src/components/olympian-arena/duel-results-chart.tsx:80
 #: src/components/report/report-battle-results-chart.tsx:85
 #: src/components/report/report-overview-column.tsx:43
+#: src/components/reports/reports-overview-summary-card.tsx:39
 msgid "NxzeNU"
 msgstr "Muertos"
 
@@ -767,6 +732,54 @@ msgstr "Curado"
 #: src/components/olympian-arena/duel-results-chart.tsx:85
 msgid "YXoHk0"
 msgstr "Poder"
+
+#: src/components/olympian-arena/duel-summary-tooltip.tsx:39
+#: src/components/olympian-arena/olympian-arena-table.tsx:40
+#: src/components/report/report-battle-summary-tooltip.tsx:43
+#: src/components/reports/reports-filter-dialog.tsx:105
+#: src/components/reports/reports-filter-dialog.tsx:231
+#: src/components/reports/reports-overview-drawer.tsx:62
+#: src/components/reports/reports-table.tsx:48
+msgid "nbwXXN"
+msgstr "Remitente"
+
+#: src/components/olympian-arena/duel-summary-tooltip.tsx:41
+#: src/components/olympian-arena/olympian-arena-table.tsx:41
+#: src/components/report/report-battle-summary-tooltip.tsx:45
+#: src/components/reports/reports-filter-dialog.tsx:106
+#: src/components/reports/reports-filter-dialog.tsx:272
+#: src/components/reports/reports-table.tsx:49
+msgid "Mdj7Fr"
+msgstr "Oponente"
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:43
+#: src/components/reports/reports-table.tsx:52
+msgid "c+sY33"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:44
+msgid "aXdZke"
+msgstr "Racha de victorias"
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:66
+#: src/components/reports/reports-table.tsx:75
+msgid "k9hDFZ"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:68
+#: src/components/reports/reports-table.tsx:77
+msgid "JJNc3c"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:77
+#: src/components/reports/reports-table.tsx:86
+msgid "rBj9Ib"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:79
+#: src/components/reports/reports-table.tsx:88
+msgid "9+Ddtu"
+msgstr ""
 
 #: src/components/platform-account-dropdown-menu.tsx:37
 msgid "hquG55"
@@ -839,6 +852,7 @@ msgstr "Artefactos"
 
 #: src/components/report/report-battle-results-chart.tsx:83
 #: src/components/report/report-overview-column.tsx:52
+#: src/components/reports/reports-overview-summary-card.tsx:62
 msgid "ka8VLG"
 msgstr "Restantes"
 
@@ -887,18 +901,22 @@ msgid "KfYBwG"
 msgstr "Cargando reporte…."
 
 #: src/components/report/report-overview-card.tsx:24
+#: src/components/reports/reports-overview-drawer.tsx:60
 msgid "eQhi5P"
 msgstr "Resumen de datos"
 
 #: src/components/report/report-overview-column.tsx:29
+#: src/components/reports/reports-overview-drawer.tsx:65
 msgid "ABZ08/"
 msgstr "Todos los enemigos"
 
 #: src/components/report/report-overview-column.tsx:40
+#: src/components/reports/reports-overview-summary-card.tsx:32
 msgid "kzHEVE"
 msgstr "Unidades de tropas"
 
 #: src/components/report/report-overview-column.tsx:49
+#: src/components/reports/reports-overview-summary-card.tsx:54
 msgid "1ISgLB"
 msgstr "Levemente Heridos"
 
@@ -910,17 +928,9 @@ msgstr "Congregación"
 msgid "x5Tz6M"
 msgstr "Reporte"
 
-#: src/components/reports/empty-state-row.tsx:11
+#: src/components/reports/reports-empty-state-row.tsx:11
 msgid "43CUrU"
 msgstr "Reportes no encontrados"
-
-#: src/components/reports/load-more-row.tsx:25
-msgid "tL4WC1"
-msgstr "Cargando más…"
-
-#: src/components/reports/load-more-row.tsx:30
-msgid "00LcfG"
-msgstr "Cargar más"
 
 #: src/components/reports/reports-filter-dialog.tsx:104
 msgid "450Fty"
@@ -1020,9 +1030,33 @@ msgstr "Resetear"
 msgid "EWw/tK"
 msgstr "Aplicar"
 
-#: src/components/reports/skeleton-rows.tsx:20
+#: src/components/reports/reports-overview-drawer.tsx:46
+msgid "QRVQkf"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:48
+msgid "EWfXcY"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:52
+msgid "lY8J2h"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:72
+msgid "rbrahO"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:75
+msgid "bvIiB8"
+msgstr ""
+
+#: src/components/reports/reports-skeleton-rows.tsx:19
 msgid "tQtRWX"
 msgstr "Cargando reportes…"
+
+#: src/components/reports/reports-table.tsx:53
+msgid "IuFETn"
+msgstr "Duración"
 
 #: src/components/sidebar-governor-header.tsx:35
 msgid "Oon7nA"
@@ -1046,13 +1080,15 @@ msgstr "Abrir la navegación"
 
 #: src/hooks/use-olympian-arena-duel.ts:40
 #: src/hooks/use-olympian-arena-duel.ts:49
-#: src/hooks/use-olympian-arena-duels.ts:73
-#: src/hooks/use-olympian-arena-duels.ts:102
-#: src/hooks/use-olympian-arena-duels.ts:133
+#: src/hooks/use-olympian-arena-duels.ts:77
+#: src/hooks/use-olympian-arena-duels.ts:108
+#: src/hooks/use-olympian-arena-duels.ts:137
+#: src/hooks/use-olympian-arena-duels.ts:153
 #: src/hooks/use-report.ts:32
 #: src/hooks/use-report.ts:41
-#: src/hooks/use-reports.ts:96
-#: src/hooks/use-reports.ts:142
-#: src/hooks/use-reports.ts:177
+#: src/hooks/use-reports-page.ts:114
+#: src/hooks/use-reports-page.ts:178
+#: src/hooks/use-reports-page.ts:218
+#: src/hooks/use-reports-page.ts:235
 msgid "JUgfbD"
 msgstr ""
