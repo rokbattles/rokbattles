@@ -32,7 +32,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     reports_store.ensure_indexes().await?;
 
     let auth_store = Arc::new(MongoAuthStore::new(database));
-    let state = Arc::new(AppState::new(auth_store, reports_store));
+    let state = Arc::new(AppState::new(
+        auth_store,
+        reports_store,
+        config.cron_secret.clone(),
+    ));
     let app = build_router(state);
 
     info!(bind_addr = %config.bind_addr, "starting rokbattles-api");

@@ -24,7 +24,7 @@ mod types;
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
 
-/// Battle reports listing endpoint with filters and cursor pagination.
+/// Battle report list endpoint with filters and cursor pagination.
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,

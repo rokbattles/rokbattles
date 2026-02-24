@@ -4,7 +4,7 @@ use mongodb::Collection;
 use mongodb::bson::DateTime;
 use serde::Deserialize;
 
-/// Session fields used by authenticated API handlers.
+/// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct SessionRecord {
     pub session_id: String,
@@ -13,7 +13,7 @@ pub struct SessionRecord {
     pub expires_at: DateTime,
 }
 
-/// User fields used by authenticated API handlers.
+/// User data used by authenticated routes.
 #[derive(Debug, Clone)]
 pub struct UserRecord {
     pub discord_id: String,
@@ -23,14 +23,14 @@ pub struct UserRecord {
     pub avatar: Option<String>,
 }
 
-/// Storage error for session/user lookups.
+/// Error type for auth store reads and writes.
 #[derive(Debug, thiserror::Error)]
 pub enum AuthStoreError {
     #[error("database error: {0}")]
     Database(#[from] mongodb::error::Error),
 }
 
-/// Abstract auth storage so handlers can be tested without MongoDB.
+/// Auth store interface so handlers are testable without MongoDB.
 pub trait AuthRepository: Send + Sync {
     fn find_session_by_id<'a>(
         &'a self,
@@ -55,7 +55,7 @@ pub struct MongoAuthStore {
 }
 
 impl MongoAuthStore {
-    /// Create a Mongo-backed auth repository.
+    /// Build a Mongo-backed auth repository.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             sessions: db.collection::<SessionDocument>("userSessions"),

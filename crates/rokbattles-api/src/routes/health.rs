@@ -7,7 +7,7 @@ struct HealthResponse {
     status: &'static str,
 }
 
-/// Liveness endpoint.
+/// Basic health check endpoint.
 pub async fn get() -> impl IntoResponse {
     Json(HealthResponse { status: "ok" })
 }

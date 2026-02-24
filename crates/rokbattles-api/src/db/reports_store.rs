@@ -1,26 +1,28 @@
-//! MongoDB access helpers for reports listing endpoints.
+//! MongoDB collection helpers for report routes and bind refresh jobs.
 
 use mongodb::Collection;
 use mongodb::IndexModel;
 use mongodb::bson::{Document, doc};
 
-/// Typed access to the battle reports collection.
+/// Typed access to the collections this API needs.
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
     mails_duelbattle2: Collection<Document>,
+    claimed_governors: Collection<Document>,
 }
 
 impl ReportsStore {
-    /// Create reports storage helpers for the configured database.
+    /// Build the store from a Mongo database handle.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             mails_battle: db.collection("mails_battle"),
             mails_duelbattle2: db.collection("mails_duelbattle2"),
+            claimed_governors: db.collection("claimedGovernors"),
         }
     }
 
-    /// Ensure indexes used by reports-listing filters and sorting exist.
+    /// Ensure indexes used by report filters, sorting, and bind refreshes exist.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let models = vec![
             IndexModel::builder()
@@ -63,6 +65,17 @@ impl ReportsStore {
             self.mails_duelbattle2.create_index(model).await?;
         }
 
+        let claimed_governor_models = vec![
+            IndexModel::builder().keys(doc! { "governorId": 1 }).build(),
+            IndexModel::builder()
+                .keys(doc! { "discordId": 1, "governorId": 1 })
+                .build(),
+        ];
+
+        for model in claimed_governor_models {
+            self.claimed_governors.create_index(model).await?;
+        }
+
         Ok(())
     }
 
@@ -74,5 +87,10 @@ impl ReportsStore {
     /// Access the Olympian Arena duel reports collection.
     pub fn duelbattle2_collection(&self) -> &Collection<Document> {
         &self.mails_duelbattle2
+    }
+
+    /// Access claimed governor bindings.
+    pub fn claimed_governors_collection(&self) -> &Collection<Document> {
+        &self.claimed_governors
     }
 }
