@@ -4285,6 +4285,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-api"
+version = "1.0.0-rc.4"
+dependencies = [
+ "axum",
+ "dotenvy",
+ "futures",
+ "mongodb",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "rokbattles-bot"
 version = "1.0.0-rc.4"
 dependencies = [
