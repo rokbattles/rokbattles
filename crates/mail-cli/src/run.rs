@@ -442,6 +442,31 @@ mod tests {
     }
 
     #[test]
+    fn write_processed_json_preserves_negative_hurt_in_battle_sample() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Battle/Persistent.Mail.47051167177023603224.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+
+        let opponents = parsed["opponents"].as_array().expect("opponents array");
+        let entry = opponents
+            .iter()
+            .find(|opponent| opponent["attack"]["id"] == json!("560025001"))
+            .expect("edge-case attack entry");
+        assert_eq!(
+            entry["battle_results"]["sender"]["slightly_wounded"],
+            json!(-565)
+        );
+    }
+
+    #[test]
     fn write_processed_json_handles_singleton_array() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");

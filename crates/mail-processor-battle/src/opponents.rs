@@ -186,7 +186,7 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     let kill_points = optional_u64_field(overview, "KillScore")?.unwrap_or(0);
     let acclaim = optional_u64_field(overview, "Contribute")?;
     let severely_wounded = require_u64_field(overview, "BadHurt")?;
-    let slightly_wounded = require_u64_field(overview, "Hurt")?;
+    let slightly_wounded = require_i64_field(overview, "Hurt")?;
     let remaining = require_u64_field(overview, "Cnt")?;
     let dead = require_u64_field(overview, "Death")?;
     let heal = require_u64_field(overview, "Healing")?;
@@ -766,6 +766,45 @@ mod tests {
         assert_eq!(results["sender"]["skill_power"], json!(0));
         assert_eq!(results["opponent"]["attack_power"], json!(0));
         assert_eq!(results["opponent"]["skill_power"], json!(0));
+    }
+
+    #[test]
+    fn extract_battle_results_preserves_negative_wounded_counts() {
+        let attack = json!({
+            "Damage": {
+                "AddCnt": 1,
+                "RetreatCnt": 2,
+                "BadHurt": 3,
+                "Hurt": -4,
+                "Cnt": 5,
+                "Death": 6,
+                "Healing": 7,
+                "Max": 8,
+                "InitMax": 9,
+                "GtMax": 10,
+                "Gt": 11,
+                "Power": -12
+            },
+            "Kill": {
+                "AddCnt": 13,
+                "RetreatCnt": 14,
+                "BadHurt": 15,
+                "Hurt": -16,
+                "Cnt": 17,
+                "Death": 18,
+                "Healing": 19,
+                "Max": 20,
+                "InitMax": 21,
+                "GtMax": 22,
+                "Gt": 23,
+                "Power": -24
+            }
+        });
+        let results = extract_battle_results(attack.as_object().unwrap()).expect("results");
+        assert_eq!(results["sender"]["severely_wounded"], json!(3));
+        assert_eq!(results["sender"]["slightly_wounded"], json!(-4));
+        assert_eq!(results["opponent"]["severely_wounded"], json!(15));
+        assert_eq!(results["opponent"]["slightly_wounded"], json!(-16));
     }
 
     #[test]
