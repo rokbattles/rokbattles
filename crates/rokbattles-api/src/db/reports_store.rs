@@ -3,6 +3,7 @@
 use mongodb::Collection;
 use mongodb::IndexModel;
 use mongodb::bson::{Document, doc};
+use mongodb::options::IndexOptions;
 
 /// Typed access to the collections this API needs.
 #[derive(Debug, Clone)]
@@ -66,7 +67,10 @@ impl ReportsStore {
         }
 
         let claimed_governor_models = vec![
-            IndexModel::builder().keys(doc! { "governorId": 1 }).build(),
+            IndexModel::builder()
+                .keys(doc! { "governorId": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "governorId": 1 })
                 .build(),
