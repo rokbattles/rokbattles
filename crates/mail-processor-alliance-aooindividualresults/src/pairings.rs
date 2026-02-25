@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
 use serde_json::{Map, Value, json};
 
+use crate::content::optional_child_object;
+
 /// Extracts hero pairing battle stats from `body.kvs.FightReport.Stat.HerosStat`.
 #[derive(Debug, Default)]
 pub struct PairingsExtractor;
@@ -75,22 +77,6 @@ fn require_child_object<'a>(
         field,
         expected: "object",
     })
-}
-
-fn optional_child_object<'a>(
-    object: &'a Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<&'a Map<String, Value>>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_object()
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            }),
-    }
 }
 
 fn require_u64_field(

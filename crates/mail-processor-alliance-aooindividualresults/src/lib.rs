@@ -3,6 +3,7 @@
 //! Processor for AllianceAOOIndividualResults mail reports.
 
 mod body;
+mod content;
 mod metadata;
 mod overview;
 mod pairings;

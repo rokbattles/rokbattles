@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Map, Value};
 
+use crate::content::optional_child_object;
+
 /// Extracts high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
 pub struct ResultsExtractor;
@@ -132,22 +134,6 @@ fn require_child_object<'a>(
         field,
         expected: "object",
     })
-}
-
-fn optional_child_object<'a>(
-    object: &'a Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<&'a Map<String, Value>>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_object()
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            }),
-    }
 }
 
 fn require_u64_field(
