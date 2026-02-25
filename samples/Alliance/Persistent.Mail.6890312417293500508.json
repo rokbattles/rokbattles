@@ -1,0 +1,45 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "Idx": 0,
+      "IsWin": false,
+      "NoScore": true,
+      "TotalScoreRank": {
+        "Rank": 0
+      },
+      "gradeId": 0,
+      "old_grade": 1
+    },
+    "param": 1,
+    "subTitle": "Individual Statistics",
+    "title": "Ark of Osiris",
+    "type": 62
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "6890312417293500508",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_4587527",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1729350050846924,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

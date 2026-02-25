@@ -1,0 +1,39 @@
+{
+  "body": {
+    "team": 0,
+    "win": false
+  },
+  "metadata": {
+    "mail_id": "6890312417293500508",
+    "mail_receiver": "player_4587527",
+    "mail_time": 1729350050846924,
+    "server_id": 2
+  },
+  "overview": {
+    "player_id": null,
+    "player_name": null,
+    "rank": 0,
+    "score": null,
+    "total_results": null
+  },
+  "pairings": [],
+  "results": {
+    "battles_lose": null,
+    "battles_win": null,
+    "building_score": null,
+    "flag_count": null,
+    "flag_score": null,
+    "gather_score": null,
+    "healing_score": null,
+    "kill_score": null,
+    "kills": null,
+    "severely_wounded": null,
+    "speedups": null,
+    "structures": null,
+    "teleports": null,
+    "total_score": null,
+    "units_healed": null,
+    "win_rate": null
+  },
+  "rewards": []
+}
