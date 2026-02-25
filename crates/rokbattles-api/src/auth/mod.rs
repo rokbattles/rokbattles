@@ -9,7 +9,7 @@ use crate::db::{SessionRecord, UserRecord};
 use crate::error::ApiError;
 use crate::state::AppState;
 
-/// Authenticated request context built from the `sid` cookie.
+/// Request auth context loaded from the `sid` cookie.
 #[derive(Debug, Clone)]
 pub struct AuthenticatedSession {
     pub sid: String,

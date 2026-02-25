@@ -1,4 +1,4 @@
-//! Persistence helpers used by API handlers.
+//! Database helpers used by API routes.
 
 mod auth_store;
 mod reports_store;

@@ -2,19 +2,25 @@ use std::sync::Arc;
 
 use crate::db::{AuthRepository, ReportsStore};
 
-/// Shared application state for request handlers.
+/// Shared state available to route handlers.
 #[derive(Clone)]
 pub struct AppState {
     pub auth_store: Arc<dyn AuthRepository>,
     pub reports_store: ReportsStore,
+    pub cron_secret: String,
 }
 
 impl AppState {
-    /// Create a new application state value.
-    pub fn new(auth_store: Arc<dyn AuthRepository>, reports_store: ReportsStore) -> Self {
+    /// Build app state from configured stores and secrets.
+    pub fn new(
+        auth_store: Arc<dyn AuthRepository>,
+        reports_store: ReportsStore,
+        cron_secret: String,
+    ) -> Self {
         Self {
             auth_store,
             reports_store,
+            cron_secret,
         }
     }
 }

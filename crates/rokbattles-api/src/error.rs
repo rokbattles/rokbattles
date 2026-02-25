@@ -1,11 +1,11 @@
-//! API error mapping for HTTP responses.
+//! API error types and HTTP response mapping.
 
 use axum::Json;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use serde::Serialize;
 
-/// Errors returned by API handlers.
+/// Errors returned from route handlers.
 #[derive(Debug, thiserror::Error)]
 pub enum ApiError {
     #[error("{0}")]
@@ -17,17 +17,17 @@ pub enum ApiError {
 }
 
 impl ApiError {
-    /// Build a bad request error.
+    /// Create a `400 Bad Request` error.
     pub fn bad_request(message: impl Into<String>) -> Self {
         Self::BadRequest(message.into())
     }
 
-    /// Build a generic unauthorized error response.
+    /// Create a `401 Unauthorized` error.
     pub fn unauthorized() -> Self {
         Self::Unauthorized
     }
 
-    /// Build an internal server error.
+    /// Create a `500 Internal Server Error`.
     pub fn internal(message: impl Into<String>) -> Self {
         Self::Internal(message.into())
     }

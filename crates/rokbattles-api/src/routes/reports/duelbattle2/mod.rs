@@ -21,7 +21,7 @@ mod types;
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
 
-/// Olympian Arena duel reports listing endpoint with cursor pagination.
+/// Olympian Arena duel list endpoint with cursor pagination.
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
