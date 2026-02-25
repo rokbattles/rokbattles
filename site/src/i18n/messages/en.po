@@ -761,23 +761,23 @@ msgstr "Trade %"
 msgid "aXdZke"
 msgstr "Win Streak"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:66
-#: src/components/reports/reports-table.tsx:75
+#: src/components/olympian-arena/olympian-arena-table.tsx:65
+#: src/components/reports/reports-table.tsx:74
 msgid "k9hDFZ"
 msgstr "Previous page"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:68
-#: src/components/reports/reports-table.tsx:77
+#: src/components/olympian-arena/olympian-arena-table.tsx:67
+#: src/components/reports/reports-table.tsx:76
 msgid "JJNc3c"
 msgstr "Previous"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:77
-#: src/components/reports/reports-table.tsx:86
+#: src/components/olympian-arena/olympian-arena-table.tsx:76
+#: src/components/reports/reports-table.tsx:85
 msgid "rBj9Ib"
 msgstr "Next page"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:79
-#: src/components/reports/reports-table.tsx:88
+#: src/components/olympian-arena/olympian-arena-table.tsx:78
+#: src/components/reports/reports-table.tsx:87
 msgid "9+Ddtu"
 msgstr "Next"
 
