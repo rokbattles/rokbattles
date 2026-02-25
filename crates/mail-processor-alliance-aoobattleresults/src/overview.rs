@@ -48,18 +48,30 @@ impl Extractor for OverviewExtractor {
 fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Value, ExtractError> {
     let category = require_child_object(kvs, field)?;
     let alliance_score = require_number_field(category, "AsScore")?;
-    let ply_score = require_child_object(category, "PlyScore")?;
-    let player_id = require_u64_field(ply_score, "PlyId")?;
-    let player_name = require_string_field(ply_score, "Name")?;
-    let score = require_number_field(ply_score, "Score")?;
+    let mvp = match category.get("PlyScore") {
+        None => Value::Null,
+        Some(ply_score) => {
+            let ply_score = ply_score
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType {
+                    field: "PlyScore",
+                    expected: "object",
+                })?;
+            let player_id = require_u64_field(ply_score, "PlyId")?;
+            let player_name = require_string_field(ply_score, "Name")?;
+            let score = require_number_field(ply_score, "Score")?;
+
+            json!({
+                "player_id": player_id,
+                "player_name": player_name,
+                "score": score,
+            })
+        }
+    };
 
     Ok(json!({
         "alliance_score": alliance_score,
-        "mvp": {
-            "player_id": player_id,
-            "player_name": player_name,
-            "score": score,
-        }
+        "mvp": mvp
     }))
 }
 
@@ -169,6 +181,34 @@ mod tests {
     }
 
     #[test]
+    fn overview_extractor_allows_missing_ply_score() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "maxFlagScore": { "AsScore": 0 },
+                    "maxBuildingScore": { "AsScore": 0 },
+                    "maxBeKilled": { "AsScore": 0 },
+                    "maxGatherScore": { "AsScore": 0 },
+                    "maxHealingScore": { "AsScore": 0 },
+                    "maxKilled": { "AsScore": 0 }
+                }
+            }
+        });
+
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+        let fields = section.fields();
+
+        assert_eq!(fields["flag_score"]["alliance_score"], json!(0));
+        assert!(fields["flag_score"]["mvp"].is_null());
+        assert!(fields["building_score"]["mvp"].is_null());
+        assert!(fields["be_killed_score"]["mvp"].is_null());
+        assert!(fields["gather_score"]["mvp"].is_null());
+        assert!(fields["healing_score"]["mvp"].is_null());
+        assert!(fields["killed_score"]["mvp"].is_null());
+    }
+
+    #[test]
     fn roundtrip_overview_extracts_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.102185423177177256731.json");
@@ -188,5 +228,24 @@ mod tests {
         assert_eq!(fields["gather_score"]["mvp"]["score"], json!(92.34));
         assert_eq!(fields["healing_score"]["mvp"]["score"], json!(0));
         assert_eq!(fields["killed_score"]["alliance_score"], json!(80458146));
+    }
+
+    #[test]
+    fn roundtrip_overview_extracts_sample_without_mvp() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.51874049176441766435.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["flag_score"]["alliance_score"], json!(0));
+        assert!(fields["flag_score"]["mvp"].is_null());
+        assert!(fields["building_score"]["mvp"].is_null());
+        assert!(fields["be_killed_score"]["mvp"].is_null());
+        assert!(fields["gather_score"]["mvp"].is_null());
+        assert!(fields["healing_score"]["mvp"].is_null());
+        assert!(fields["killed_score"]["mvp"].is_null());
     }
 }
