@@ -33,6 +33,11 @@ function buildForwardHeaders(req: NextRequest) {
     headers.set("content-type", contentType);
   }
 
+  const cronSecret = req.headers.get("x-cron-secret");
+  if (cronSecret) {
+    headers.set("x-cron-secret", cronSecret);
+  }
+
   return headers;
 }
 
