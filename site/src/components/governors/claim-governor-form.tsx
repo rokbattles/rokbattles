@@ -70,7 +70,7 @@ export function ClaimGovernorForm({ canClaimMore, onClaimed }: ClaimGovernorForm
     setErrorMessage(null);
 
     try {
-      const response = await fetch("/api/v2/governor/claim", {
+      const response = await fetch("/proxy/v1/governor/bind", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
