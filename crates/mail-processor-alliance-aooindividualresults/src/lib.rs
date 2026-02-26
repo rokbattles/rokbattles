@@ -3,6 +3,7 @@
 //! Processor for AllianceAOOIndividualResults mail reports.
 
 mod body;
+mod content;
 mod metadata;
 mod overview;
 mod pairings;
@@ -46,6 +47,23 @@ mod tests {
     fn process_parallel_extracts_expected_sections() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        let processed = process_parallel(&value).expect("process sample");
+        let sections = processed.sections();
+        assert!(sections.contains_key("metadata"));
+        assert!(sections.contains_key("rewards"));
+        assert!(sections.contains_key("body"));
+        assert!(sections.contains_key("overview"));
+        assert!(sections.contains_key("pairings"));
+        assert!(sections.contains_key("results"));
+    }
+
+    #[test]
+    fn process_parallel_extracts_sparse_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6890312417293500508.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 

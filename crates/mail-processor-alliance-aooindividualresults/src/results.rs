@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Map, Value};
 
+use crate::content::optional_child_object;
+
 /// Extracts high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
 pub struct ResultsExtractor;
@@ -23,51 +25,100 @@ impl Extractor for ResultsExtractor {
         let root = require_object(input)?;
         let body = require_child_object(root, "body")?;
         let kvs = require_child_object(body, "kvs")?;
-        let fight_report = require_child_object(kvs, "FightReport")?;
-
-        let total_score = require_u64_field(fight_report, "TotalScore")?;
-        let win_rate = require_u64_field(fight_report, "WinRate")?;
-        let battles_win = require_u64_field(fight_report, "FightWin")?;
-        let battles_lose = require_u64_field_any(fight_report, &["FightLose", "FghtLose"])?;
-        let severely_wounded = require_u64_field(fight_report, "BeKilled")?;
-        let kills = require_u64_field(fight_report, "Killed")?;
-        let kill_score = require_u64_field(fight_report, "KillScore")?;
-        let flag_score = require_u64_field(fight_report, "FlagScore")?;
-        let building_score = require_u64_field(fight_report, "BuildingScore")?;
-        let gather_score = require_u64_field(fight_report, "GatherScore")?;
-        let healing_score = require_u64_field(fight_report, "HealingScore")?;
-        let units_healed = require_u64_field(fight_report, "HealingCnt")?;
-        let flag_count = require_u64_field(fight_report, "FlagCnt")?;
-        let teleports = require_u64_field(fight_report, "RelocateCnt")?;
-        let speedups = require_u64_field(fight_report, "SpeedUpTime")?;
-        let structures = require_u64_field(fight_report, "OccupyCnt")?;
+        let fight_report = optional_child_object(kvs, "FightReport")?;
 
         let mut section = Section::new();
+
+        let total_score = fight_report
+            .map(|value| require_u64_field(value, "TotalScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let win_rate = fight_report
+            .map(|value| require_u64_field(value, "WinRate").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let battles_win = fight_report
+            .map(|value| require_u64_field(value, "FightWin").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let battles_lose = fight_report
+            .map(|value| require_u64_field_any(value, &["FightLose", "FghtLose"]).map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let severely_wounded = fight_report
+            .map(|value| require_u64_field(value, "BeKilled").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let kills = fight_report
+            .map(|value| require_u64_field(value, "Killed").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let kill_score = fight_report
+            .map(|value| require_u64_field(value, "KillScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let flag_score = fight_report
+            .map(|value| require_u64_field(value, "FlagScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let building_score = fight_report
+            .map(|value| require_u64_field(value, "BuildingScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let gather_score = fight_report
+            .map(|value| require_u64_field(value, "GatherScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let healing_score = fight_report
+            .map(|value| require_u64_field(value, "HealingScore").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let units_healed = fight_report
+            .map(|value| require_u64_field(value, "HealingCnt").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let flag_count = fight_report
+            .map(|value| require_u64_field(value, "FlagCnt").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let teleports = fight_report
+            .map(|value| require_u64_field(value, "RelocateCnt").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let speedups = fight_report
+            .map(|value| require_u64_field(value, "SpeedUpTime").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+        let structures = fight_report
+            .map(|value| require_u64_field(value, "OccupyCnt").map(Value::from))
+            .transpose()?
+            .unwrap_or(Value::Null);
+
         // Individual Points
-        section.insert("total_score", Value::from(total_score));
+        section.insert("total_score", total_score);
         // Win Percentage
-        section.insert("win_rate", Value::from(win_rate));
-        section.insert("battles_win", Value::from(battles_win));
-        section.insert("battles_lose", Value::from(battles_lose));
-        section.insert("severely_wounded", Value::from(severely_wounded));
-        section.insert("kills", Value::from(kills));
-        section.insert("kill_score", Value::from(kill_score));
+        section.insert("win_rate", win_rate);
+        section.insert("battles_win", battles_win);
+        section.insert("battles_lose", battles_lose);
+        section.insert("severely_wounded", severely_wounded);
+        section.insert("kills", kills);
+        section.insert("kill_score", kill_score);
         // Ark of Osiris Score
-        section.insert("flag_score", Value::from(flag_score));
+        section.insert("flag_score", flag_score);
         // Occupation Score
-        section.insert("building_score", Value::from(building_score));
+        section.insert("building_score", building_score);
         // Provisions Score
-        section.insert("gather_score", Value::from(gather_score));
-        section.insert("healing_score", Value::from(healing_score));
-        section.insert("units_healed", Value::from(units_healed));
+        section.insert("gather_score", gather_score);
+        section.insert("healing_score", healing_score);
+        section.insert("units_healed", units_healed);
         // Arks Captured
-        section.insert("flag_count", Value::from(flag_count));
+        section.insert("flag_count", flag_count);
         // teleports used
-        section.insert("teleports", Value::from(teleports));
+        section.insert("teleports", teleports);
         // minutes used
-        section.insert("speedups", Value::from(speedups));
+        section.insert("speedups", speedups);
         // structures reinforced
-        section.insert("structures", Value::from(structures));
+        section.insert("structures", structures);
         Ok(section)
     }
 }
@@ -205,23 +256,34 @@ mod tests {
     }
 
     #[test]
-    fn results_extractor_rejects_missing_field() {
+    fn results_extractor_allows_missing_fight_report() {
         let input = json!({
             "body": {
                 "kvs": {
-                    "FightReport": {
-                        "TotalScore": 123123
-                    }
+                    "Idx": 0
                 }
             }
         });
 
         let extractor = ResultsExtractor::new();
-        let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField { field: "WinRate" }
-        ));
+        let section = extractor.extract(&input).unwrap();
+        let fields = section.fields();
+        assert!(fields["total_score"].is_null());
+        assert!(fields["win_rate"].is_null());
+        assert!(fields["battles_win"].is_null());
+        assert!(fields["battles_lose"].is_null());
+        assert!(fields["severely_wounded"].is_null());
+        assert!(fields["kills"].is_null());
+        assert!(fields["kill_score"].is_null());
+        assert!(fields["flag_score"].is_null());
+        assert!(fields["building_score"].is_null());
+        assert!(fields["gather_score"].is_null());
+        assert!(fields["healing_score"].is_null());
+        assert!(fields["units_healed"].is_null());
+        assert!(fields["flag_count"].is_null());
+        assert!(fields["teleports"].is_null());
+        assert!(fields["speedups"].is_null());
+        assert!(fields["structures"].is_null());
     }
 
     #[test]
@@ -250,5 +312,33 @@ mod tests {
         assert_eq!(fields["teleports"], json!(1));
         assert_eq!(fields["speedups"], json!(0));
         assert_eq!(fields["structures"], json!(2));
+    }
+
+    #[test]
+    fn roundtrip_results_extracts_sparse_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6890312417293500508.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = ResultsExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert!(fields["total_score"].is_null());
+        assert!(fields["win_rate"].is_null());
+        assert!(fields["battles_win"].is_null());
+        assert!(fields["battles_lose"].is_null());
+        assert!(fields["severely_wounded"].is_null());
+        assert!(fields["kills"].is_null());
+        assert!(fields["kill_score"].is_null());
+        assert!(fields["flag_score"].is_null());
+        assert!(fields["building_score"].is_null());
+        assert!(fields["gather_score"].is_null());
+        assert!(fields["healing_score"].is_null());
+        assert!(fields["units_healed"].is_null());
+        assert!(fields["flag_count"].is_null());
+        assert!(fields["teleports"].is_null());
+        assert!(fields["speedups"].is_null());
+        assert!(fields["structures"].is_null());
     }
 }

@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Map, Value, json};
 
+use crate::content::optional_child_object;
+
 /// Extracts the top score leaderboard entry and aggregate totals from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct OverviewExtractor;
@@ -25,30 +27,42 @@ impl Extractor for OverviewExtractor {
         let kvs = require_child_object(body, "kvs")?;
         let total_score_rank = require_child_object(kvs, "TotalScoreRank")?;
         let rank = require_u64_field(total_score_rank, "Rank")?;
-        let info = require_child_object(total_score_rank, "Info")?;
-        let player_name = require_string_field(info, "Name")?;
-        let player_id = require_u64_field(info, "PlyId")?;
-        let score = require_u64_field(info, "Score")?;
-        let fight_report = require_child_object(kvs, "FightReport")?;
-        let stat = require_child_object(fight_report, "Stat")?;
-        let wild_battle_stat = require_child_object(stat, "WildBattleStat")?;
-        let battles = require_u64_field(wild_battle_stat, "BattleCnt")?;
-        let kill_points = require_u64_field(wild_battle_stat, "KillScore")?;
-        let severely_wounded = require_u64_field(wild_battle_stat, "BeKilledScore")?;
+        let info = optional_child_object(total_score_rank, "Info")?;
+        let (player_name, player_id, score) = match info {
+            Some(info) => (
+                Value::String(require_string_field(info, "Name")?),
+                Value::from(require_u64_field(info, "PlyId")?),
+                Value::from(require_u64_field(info, "Score")?),
+            ),
+            None => (Value::Null, Value::Null, Value::Null),
+        };
+        let total_results = match optional_child_object(kvs, "FightReport")? {
+            Some(fight_report) => match optional_child_object(fight_report, "Stat")? {
+                Some(stat) => match optional_child_object(stat, "WildBattleStat")? {
+                    Some(wild_battle_stat) => {
+                        let battles = require_u64_field(wild_battle_stat, "BattleCnt")?;
+                        let kill_points = require_u64_field(wild_battle_stat, "KillScore")?;
+                        let severely_wounded =
+                            require_u64_field(wild_battle_stat, "BeKilledScore")?;
+                        json!({
+                            "battles": battles,
+                            "kill_points": kill_points,
+                            "severely_wounded": severely_wounded,
+                        })
+                    }
+                    None => Value::Null,
+                },
+                None => Value::Null,
+            },
+            None => Value::Null,
+        };
 
         let mut section = Section::new();
-        section.insert("player_name", Value::String(player_name));
-        section.insert("player_id", Value::from(player_id));
-        section.insert("score", Value::from(score));
+        section.insert("player_name", player_name);
+        section.insert("player_id", player_id);
+        section.insert("score", score);
         section.insert("rank", Value::from(rank));
-        section.insert(
-            "total_results",
-            json!({
-                "battles": battles,
-                "kill_points": kill_points,
-                "severely_wounded": severely_wounded,
-            }),
-        );
+        section.insert("total_results", total_results);
         Ok(section)
     }
 }
@@ -164,6 +178,29 @@ mod tests {
     }
 
     #[test]
+    fn overview_extractor_allows_missing_info_and_fight_report() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "TotalScoreRank": {
+                        "Rank": 0
+                    }
+                }
+            }
+        });
+
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&input).unwrap();
+        let fields = section.fields();
+
+        assert_eq!(fields["rank"], json!(0));
+        assert!(fields["player_name"].is_null());
+        assert!(fields["player_id"].is_null());
+        assert!(fields["score"].is_null());
+        assert!(fields["total_results"].is_null());
+    }
+
+    #[test]
     fn roundtrip_overview_extracts_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
@@ -180,5 +217,22 @@ mod tests {
         assert_eq!(fields["total_results"]["battles"], json!(1426));
         assert_eq!(fields["total_results"]["kill_points"], json!(52552570));
         assert_eq!(fields["total_results"]["severely_wounded"], json!(53165020));
+    }
+
+    #[test]
+    fn roundtrip_overview_extracts_sparse_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6890312417293500508.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["rank"], json!(0));
+        assert!(fields["player_name"].is_null());
+        assert!(fields["player_id"].is_null());
+        assert!(fields["score"].is_null());
+        assert!(fields["total_results"].is_null());
     }
 }

@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
 use serde_json::{Map, Value, json};
 
+use crate::content::optional_child_object;
+
 /// Extracts hero pairing battle stats from `body.kvs.FightReport.Stat.HerosStat`.
 #[derive(Debug, Default)]
 pub struct PairingsExtractor;
@@ -23,12 +25,16 @@ impl Extractor for PairingsExtractor {
         let root = require_object(input)?;
         let body = require_child_object(root, "body")?;
         let kvs = require_child_object(body, "kvs")?;
-        let fight_report = require_child_object(kvs, "FightReport")?;
-        let stat = require_child_object(fight_report, "Stat")?;
-        let heroes_stat = stat
-            .get("HerosStat")
-            .ok_or(ExtractError::MissingField { field: "HerosStat" })?;
-        let heroes_stat = indexed_array_values(heroes_stat, "HerosStat")?;
+        let heroes_stat = match optional_child_object(kvs, "FightReport")? {
+            Some(fight_report) => match optional_child_object(fight_report, "Stat")? {
+                Some(stat) => match stat.get("HerosStat") {
+                    None | Some(Value::Null) => Vec::new(),
+                    Some(value) => indexed_array_values(value, "HerosStat")?,
+                },
+                None => Vec::new(),
+            },
+            None => Vec::new(),
+        };
 
         let mut pairings = Vec::with_capacity(heroes_stat.len());
         for pairing in heroes_stat {
@@ -136,7 +142,7 @@ mod tests {
     }
 
     #[test]
-    fn pairings_extractor_rejects_missing_field() {
+    fn pairings_extractor_allows_missing_field() {
         let input = json!({
             "body": {
                 "kvs": {
@@ -148,11 +154,9 @@ mod tests {
         });
 
         let extractor = PairingsExtractor::new();
-        let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField { field: "HerosStat" }
-        ));
+        let section = extractor.extract(&input).unwrap();
+        let pairings = section.array().expect("pairings");
+        assert!(pairings.is_empty());
     }
 
     #[test]
@@ -180,5 +184,17 @@ mod tests {
         assert_eq!(pairings[5]["battles"], json!(77));
         assert_eq!(pairings[5]["severely_wounded"], json!(3852540));
         assert_eq!(pairings[5]["kill_points"], json!(2063230));
+    }
+
+    #[test]
+    fn roundtrip_pairings_extracts_sparse_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6890312417293500508.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = PairingsExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let pairings = section.array().expect("pairings");
+        assert!(pairings.is_empty());
     }
 }
