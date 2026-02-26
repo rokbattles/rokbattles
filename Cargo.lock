@@ -2687,6 +2687,7 @@ dependencies = [
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
+ "mail-processor-rss",
  "mail-processor-sdk",
  "mail-processor-system-barbarianfort",
  "serde_json",
@@ -2742,6 +2743,14 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
+version = "1.0.0-rc.5"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-rss"
 version = "1.0.0-rc.5"
 dependencies = [
  "mail-processor-sdk",
@@ -4347,6 +4356,7 @@ dependencies = [
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
+ "mail-processor-rss",
  "mail-processor-sdk",
  "mail-processor-system-barbarianfort",
  "mongodb",

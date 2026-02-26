@@ -8,6 +8,7 @@ pub enum MailType {
     Battle,
     DuelBattle2,
     BarCanyonKillBoss,
+    Rss,
     SystemBarbarianFort,
     AllianceAOOBattleResults,
     AllianceAOOBattleInfo,
@@ -21,6 +22,7 @@ impl MailType {
             "Battle" => Some(Self::Battle),
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
+            "Rss" => Some(Self::Rss),
             "SystemBarbarianFort" => Some(Self::SystemBarbarianFort),
             "AllianceAOOBattleResults" => Some(Self::AllianceAOOBattleResults),
             "AllianceAOOBattleInfo" => Some(Self::AllianceAOOBattleInfo),
@@ -35,6 +37,7 @@ impl MailType {
             Self::Battle => "mails_battle",
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
+            Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
@@ -49,6 +52,7 @@ impl fmt::Display for MailType {
             Self::Battle => "Battle",
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
+            Self::Rss => "Rss",
             Self::SystemBarbarianFort => "SystemBarbarianFort",
             Self::AllianceAOOBattleResults => "AllianceAOOBattleResults",
             Self::AllianceAOOBattleInfo => "AllianceAOOBattleInfo",
@@ -73,6 +77,7 @@ mod tests {
             MailType::from_str("BarCanyonKillBoss"),
             Some(MailType::BarCanyonKillBoss)
         );
+        assert_eq!(MailType::from_str("Rss"), Some(MailType::Rss));
         assert_eq!(
             MailType::from_str("SystemBarbarianFort"),
             Some(MailType::SystemBarbarianFort)
@@ -100,6 +105,7 @@ mod tests {
             MailType::BarCanyonKillBoss.collection_name(),
             "mails_barcanyonkillboss"
         );
+        assert_eq!(MailType::Rss.collection_name(), "mails_rss");
         assert_eq!(
             MailType::SystemBarbarianFort.collection_name(),
             "mails_system_barbarianfort"

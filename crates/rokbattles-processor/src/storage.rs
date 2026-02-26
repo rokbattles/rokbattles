@@ -19,6 +19,7 @@ pub struct Storage {
     battle: Collection<Document>,
     duelbattle2: Collection<Document>,
     barcanyonkillboss: Collection<Document>,
+    rss: Collection<Document>,
     system_barbarianfort: Collection<Document>,
     alliance_aoobattleresults: Collection<Document>,
     alliance_aoobattleinfo: Collection<Document>,
@@ -33,6 +34,7 @@ impl Storage {
             battle: db.collection(MailType::Battle.collection_name()),
             duelbattle2: db.collection(MailType::DuelBattle2.collection_name()),
             barcanyonkillboss: db.collection(MailType::BarCanyonKillBoss.collection_name()),
+            rss: db.collection(MailType::Rss.collection_name()),
             system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
             alliance_aoobattleresults: db
                 .collection(MailType::AllianceAOOBattleResults.collection_name()),
@@ -59,6 +61,7 @@ impl Storage {
         self.barcanyonkillboss
             .create_index(mail_id_index.clone())
             .await?;
+        self.rss.create_index(mail_id_index.clone()).await?;
         self.system_barbarianfort
             .create_index(mail_id_index.clone())
             .await?;
@@ -105,6 +108,7 @@ impl Storage {
             MailType::Battle => &self.battle,
             MailType::DuelBattle2 => &self.duelbattle2,
             MailType::BarCanyonKillBoss => &self.barcanyonkillboss,
+            MailType::Rss => &self.rss,
             MailType::SystemBarbarianFort => &self.system_barbarianfort,
             MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,

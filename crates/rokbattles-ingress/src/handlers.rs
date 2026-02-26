@@ -273,6 +273,7 @@ fn is_supported_mail_type(mail_type: &str) -> bool {
         "Battle"
             | "DuelBattle2"
             | "BarCanyonKillBoss"
+            | "Rss"
             | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
@@ -286,6 +287,7 @@ fn is_processable_mail_type(mail_type: &str) -> bool {
         "Battle"
             | "DuelBattle2"
             | "BarCanyonKillBoss"
+            | "Rss"
             | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
@@ -536,6 +538,7 @@ mod tests {
         assert!(is_supported_mail_type("Battle"));
         assert!(is_supported_mail_type("DuelBattle2"));
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
+        assert!(is_supported_mail_type("Rss"));
         assert!(is_supported_mail_type("SystemBarbarianFort"));
         assert!(is_supported_mail_type("AllianceAOOBattleResults"));
         assert!(is_supported_mail_type("AllianceAOOBattleInfo"));
@@ -688,11 +691,13 @@ mod tests {
     #[test]
     fn status_mapping_marks_supported_processor_types_processable() {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
+        assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
         assert_eq!(
             insert_status_for_mail_type("SystemBarbarianFort"),
             STATUS_PENDING
         );
         assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
+        assert_eq!(update_status_for_mail_type("Rss"), STATUS_REPROCESS);
         assert_eq!(
             update_status_for_mail_type("SystemBarbarianFort"),
             STATUS_REPROCESS
