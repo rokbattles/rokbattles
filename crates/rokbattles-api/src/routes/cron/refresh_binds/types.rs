@@ -18,12 +18,6 @@ pub(super) struct RefreshBindsStats {
     pub claims_updated: u64,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub(super) struct GovernorSnapshot {
-    pub governor_name: Option<String>,
-    pub governor_avatar: Option<String>,
-}
-
 impl From<RefreshBindsStats> for RefreshBindsResponse {
     fn from(value: RefreshBindsStats) -> Self {
         Self {

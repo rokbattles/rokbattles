@@ -1,11 +1,11 @@
 use mongodb::Collection;
 use mongodb::bson::{Document, doc};
-use mongodb::options::FindOneOptions;
 
 use crate::error::ApiError;
+use crate::governor_bindings::snapshot::find_latest_sender_snapshot;
 
-use super::mapper::{bson_to_i64, extract_sender_snapshot};
-use super::types::{GovernorSnapshot, RefreshBindsStats};
+use super::mapper::bson_to_i64;
+use super::types::RefreshBindsStats;
 
 /// Update all claimed governor binds with the latest sender snapshot we can find.
 pub(super) async fn refresh_claimed_governor_bindings(
@@ -28,7 +28,7 @@ pub(super) async fn refresh_claimed_governor_bindings(
     };
 
     for governor_id in &governor_ids {
-        let Some(snapshot) = find_latest_governor_snapshot(battle_reports, *governor_id).await?
+        let Some(snapshot) = find_latest_sender_snapshot(battle_reports, *governor_id).await?
         else {
             continue;
         };
@@ -54,25 +54,4 @@ pub(super) async fn refresh_claimed_governor_bindings(
     }
 
     Ok(stats)
-}
-
-async fn find_latest_governor_snapshot(
-    battle_reports: &Collection<Document>,
-    governor_id: i64,
-) -> Result<Option<GovernorSnapshot>, ApiError> {
-    let latest_mail = battle_reports
-        .find_one(doc! { "sender.player_id": governor_id })
-        .with_options(
-            FindOneOptions::builder()
-                .sort(doc! { "metadata.mail_time": -1 })
-                .projection(doc! {
-                    "sender.player_name": 1,
-                    "sender.avatar_url": 1,
-                })
-                .build(),
-        )
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    Ok(latest_mail.as_ref().and_then(extract_sender_snapshot))
 }

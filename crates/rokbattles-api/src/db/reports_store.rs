@@ -74,6 +74,15 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "governorId": 1 })
                 .build(),
+            IndexModel::builder()
+                .keys(doc! { "discordId": 1, "default": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .unique(true)
+                        .partial_filter_expression(doc! { "default": true })
+                        .build(),
+                )
+                .build(),
         ];
 
         for model in claimed_governor_models {

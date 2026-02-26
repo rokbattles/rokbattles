@@ -5,6 +5,7 @@ pub mod auth;
 pub mod config;
 pub mod db;
 pub mod error;
+mod governor_bindings;
 pub mod routes;
 pub mod state;
 

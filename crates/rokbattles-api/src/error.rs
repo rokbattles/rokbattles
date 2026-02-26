@@ -10,6 +10,10 @@ use serde::Serialize;
 pub enum ApiError {
     #[error("{0}")]
     BadRequest(String),
+    #[error("{0}")]
+    Conflict(String),
+    #[error("{0}")]
+    NotFound(String),
     #[error("unauthorized")]
     Unauthorized,
     #[error("internal error: {0}")]
@@ -20,6 +24,16 @@ impl ApiError {
     /// Create a `400 Bad Request` error.
     pub fn bad_request(message: impl Into<String>) -> Self {
         Self::BadRequest(message.into())
+    }
+
+    /// Create a `409 Conflict` error.
+    pub fn conflict(message: impl Into<String>) -> Self {
+        Self::Conflict(message.into())
+    }
+
+    /// Create a `404 Not Found` error.
+    pub fn not_found(message: impl Into<String>) -> Self {
+        Self::NotFound(message.into())
     }
 
     /// Create a `401 Unauthorized` error.
@@ -35,6 +49,8 @@ impl ApiError {
     fn status_code(&self) -> StatusCode {
         match self {
             ApiError::BadRequest(_) => StatusCode::BAD_REQUEST,
+            ApiError::Conflict(_) => StatusCode::CONFLICT,
+            ApiError::NotFound(_) => StatusCode::NOT_FOUND,
             ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
             ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
@@ -43,6 +59,12 @@ impl ApiError {
     fn body(&self) -> ErrorResponse {
         match self {
             ApiError::BadRequest(message) => ErrorResponse {
+                error: message.clone(),
+            },
+            ApiError::Conflict(message) => ErrorResponse {
+                error: message.clone(),
+            },
+            ApiError::NotFound(message) => ErrorResponse {
                 error: message.clone(),
             },
             ApiError::Unauthorized => ErrorResponse {
