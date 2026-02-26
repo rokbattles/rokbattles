@@ -2,6 +2,7 @@ export interface ClaimedGovernor {
   governorId: number;
   governorName: string | null;
   governorAvatar: string | null;
+  default: boolean;
 }
 
 export interface CurrentUser {

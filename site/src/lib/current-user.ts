@@ -14,19 +14,36 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     .collection<ClaimedGovernorDocument>("claimedGovernors")
     .find(
       { discordId: user.discordId },
-      { projection: { _id: 0, governorId: 1, governorName: 1, governorAvatar: 1, createdAt: 1 } }
+      {
+        projection: {
+          _id: 0,
+          governorId: 1,
+          governorName: 1,
+          governorAvatar: 1,
+          createdAt: 1,
+          default: 1,
+        },
+      }
     )
-    .sort({ createdAt: -1 })
     .toArray();
 
-  const claimedGovernors =
-    claimedGovernorsDocs.length > 0
-      ? claimedGovernorsDocs.map((claim) => ({
-          governorId: claim.governorId,
-          governorName: claim.governorName ?? null,
-          governorAvatar: claim.governorAvatar ?? null,
-        }))
-      : [];
+  const claimedGovernors = claimedGovernorsDocs
+    .map((claim) => ({
+      governorId: claim.governorId,
+      governorName: claim.governorName ?? null,
+      governorAvatar: claim.governorAvatar ?? null,
+      default: claim.default === true,
+      createdAtMillis: claim.createdAt instanceof Date ? claim.createdAt.getTime() : 0,
+    }))
+    .sort((a, b) => {
+      const defaultComparison = Number(b.default) - Number(a.default);
+      if (defaultComparison !== 0) {
+        return defaultComparison;
+      }
+
+      return b.createdAtMillis - a.createdAtMillis;
+    })
+    .map(({ createdAtMillis: _createdAtMillis, ...claim }) => claim);
 
   return {
     username: user.username,

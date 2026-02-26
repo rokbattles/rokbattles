@@ -289,6 +289,90 @@ msgstr "Winner"
 msgid "+a+2ug"
 msgstr "Members"
 
+#: src/components/account-binds/account-binds-content.tsx:48
+msgid "XongGf"
+msgstr "Unable to set default bind. Please try again."
+
+#: src/components/account-binds/account-binds-content.tsx:67
+msgid "1VWYm7"
+msgstr "Unable to unlink bind. Please try again."
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:33
+msgid "wL7VAE"
+msgstr "Actions"
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:43
+msgid "E2APuV"
+msgstr "Set default bind"
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:51
+msgid "7L4R8L"
+msgstr "Unlink bind"
+
+#: src/components/account-binds/bind-list-item.tsx:32
+msgid "lKv8ex"
+msgstr "Default"
+
+#: src/components/account-binds/bind-list-item.tsx:35
+#: src/components/olympian-arena/duel-participant-card.tsx:92
+#: src/components/report/report-participant-card.tsx:58
+msgid "tx/jZ/"
+msgstr "ID {id}"
+
+#: src/components/account-binds/binds-claim-form.tsx:26
+msgid "K994jQ"
+msgstr "You can only bind up to three governors."
+
+#: src/components/account-binds/binds-claim-form.tsx:32
+msgid "pf6kFc"
+msgstr "Enter a governor ID."
+
+#: src/components/account-binds/binds-claim-form.tsx:38
+msgid "I/clsA"
+msgstr "Enter a valid governor ID."
+
+#: src/components/account-binds/binds-claim-form.tsx:54
+msgid "JUJHzc"
+msgstr "Something went wrong while binding. Please try again."
+
+#: src/components/account-binds/binds-claim-form.tsx:65
+#: src/components/reports/reports-filter-dialog.tsx:190
+msgid "GNDCcc"
+msgstr "Governor ID"
+
+#: src/components/account-binds/binds-claim-form.tsx:71
+#: src/components/reports/reports-filter-dialog.tsx:194
+msgid "bNKXH5"
+msgstr "71738515"
+
+#: src/components/account-binds/binds-claim-form.tsx:85
+msgid "U9mCsP"
+msgstr "You have reached the maximum of three binds."
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "dbfVtv"
+msgstr "Binding..."
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "FRzSFh"
+msgstr "Bind governor"
+
+#: src/components/account-binds/binds-claim-section.tsx:18
+msgid "JMZWnS"
+msgstr "Bind a governor"
+
+#: src/components/account-binds/binds-claim-section.tsx:20
+msgid "HOHINg"
+msgstr "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+
+#: src/components/account-binds/binds-list.tsx:26
+msgid "QXdDDh"
+msgstr "Binds"
+
+#: src/components/account-binds/binds-list.tsx:28
+msgid "m9rp75"
+msgstr "No binds yet."
+
 #: src/components/account-loot/account-loot-content.tsx:28
 msgid "+LBFrG"
 msgstr "See loot from Barbarian, Barbarian Fort, and Baulur reports."
@@ -347,28 +431,6 @@ msgstr "Loot breakdown"
 msgid "PF57EA"
 msgstr "No loot in this date range."
 
-#: src/components/account/account-governors-content.tsx:26
-msgid "pnoYAG"
-msgstr "Claimed governors"
-
-#: src/components/account/account-governors-content.tsx:28
-msgid "DCvHgU"
-msgstr "No governors claimed yet."
-
-#: src/components/account/account-governors-content.tsx:44
-#: src/components/olympian-arena/duel-participant-card.tsx:92
-#: src/components/report/report-participant-card.tsx:58
-msgid "tx/jZ/"
-msgstr "ID {id}"
-
-#: src/components/account/account-governors-content.tsx:54
-msgid "sv0atd"
-msgstr "Claim a governor"
-
-#: src/components/account/account-governors-content.tsx:56
-msgid "HOHINg"
-msgstr "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
-
 #: src/components/account/account-reports-content.tsx:27
 msgid "2YkOMs"
 msgstr "My Battle Reports"
@@ -394,52 +456,6 @@ msgstr "Reject"
 #: src/components/cookie-consent-dialog.tsx:20
 msgid "KS0bwV"
 msgstr "Cookie settings"
-
-#: src/components/governors/claim-governor-form.tsx:53
-msgid "H8VjMg"
-msgstr "You can only claim up to three governors."
-
-#: src/components/governors/claim-governor-form.tsx:59
-msgid "pf6kFc"
-msgstr "Enter a governor ID."
-
-#: src/components/governors/claim-governor-form.tsx:65
-msgid "I/clsA"
-msgstr "Enter a valid governor ID."
-
-#: src/components/governors/claim-governor-form.tsx:95
-msgid "qEVLQY"
-msgstr "Unable to claim governor. Please try again."
-
-#: src/components/governors/claim-governor-form.tsx:105
-msgid "stW4Ga"
-msgstr "This governor is already claimed."
-
-#: src/components/governors/claim-governor-form.tsx:115
-msgid "Iehjl1"
-msgstr "Something went wrong while claiming the governor. Please try again."
-
-#: src/components/governors/claim-governor-form.tsx:125
-#: src/components/reports/reports-filter-dialog.tsx:190
-msgid "GNDCcc"
-msgstr "Governor ID"
-
-#: src/components/governors/claim-governor-form.tsx:131
-#: src/components/reports/reports-filter-dialog.tsx:194
-msgid "bNKXH5"
-msgstr "71738515"
-
-#: src/components/governors/claim-governor-form.tsx:146
-msgid "ctg3qx"
-msgstr "You have reached the maximum of three claimed governors."
-
-#: src/components/governors/claim-governor-form.tsx:156
-msgid "ODncRd"
-msgstr "Claiming..."
-
-#: src/components/governors/claim-governor-form.tsx:156
-msgid "p5J4xw"
-msgstr "Claim governor"
 
 #: src/components/language-selector.tsx:78
 #: src/components/language-selector.tsx:88

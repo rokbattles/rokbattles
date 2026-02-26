@@ -289,6 +289,90 @@ msgstr "勝者"
 msgid "+a+2ug"
 msgstr ""
 
+#: src/components/account-binds/account-binds-content.tsx:48
+msgid "XongGf"
+msgstr ""
+
+#: src/components/account-binds/account-binds-content.tsx:67
+msgid "1VWYm7"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:33
+msgid "wL7VAE"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:43
+msgid "E2APuV"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:51
+msgid "7L4R8L"
+msgstr ""
+
+#: src/components/account-binds/bind-list-item.tsx:32
+msgid "lKv8ex"
+msgstr ""
+
+#: src/components/account-binds/bind-list-item.tsx:35
+#: src/components/olympian-arena/duel-participant-card.tsx:92
+#: src/components/report/report-participant-card.tsx:58
+msgid "tx/jZ/"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:26
+msgid "K994jQ"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:32
+msgid "pf6kFc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:38
+msgid "I/clsA"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:54
+msgid "JUJHzc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:65
+#: src/components/reports/reports-filter-dialog.tsx:190
+msgid "GNDCcc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:71
+#: src/components/reports/reports-filter-dialog.tsx:194
+msgid "bNKXH5"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:85
+msgid "U9mCsP"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "dbfVtv"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "FRzSFh"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-section.tsx:18
+msgid "JMZWnS"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-section.tsx:20
+msgid "HOHINg"
+msgstr ""
+
+#: src/components/account-binds/binds-list.tsx:26
+msgid "QXdDDh"
+msgstr ""
+
+#: src/components/account-binds/binds-list.tsx:28
+msgid "m9rp75"
+msgstr ""
+
 #: src/components/account-loot/account-loot-content.tsx:28
 msgid "+LBFrG"
 msgstr ""
@@ -347,28 +431,6 @@ msgstr ""
 msgid "PF57EA"
 msgstr ""
 
-#: src/components/account/account-governors-content.tsx:26
-msgid "pnoYAG"
-msgstr ""
-
-#: src/components/account/account-governors-content.tsx:28
-msgid "DCvHgU"
-msgstr ""
-
-#: src/components/account/account-governors-content.tsx:44
-#: src/components/olympian-arena/duel-participant-card.tsx:92
-#: src/components/report/report-participant-card.tsx:58
-msgid "tx/jZ/"
-msgstr ""
-
-#: src/components/account/account-governors-content.tsx:54
-msgid "sv0atd"
-msgstr ""
-
-#: src/components/account/account-governors-content.tsx:56
-msgid "HOHINg"
-msgstr ""
-
 #: src/components/account/account-reports-content.tsx:27
 msgid "2YkOMs"
 msgstr ""
@@ -393,52 +455,6 @@ msgstr ""
 
 #: src/components/cookie-consent-dialog.tsx:20
 msgid "KS0bwV"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:53
-msgid "H8VjMg"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:59
-msgid "pf6kFc"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:65
-msgid "I/clsA"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:95
-msgid "qEVLQY"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:105
-msgid "stW4Ga"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:115
-msgid "Iehjl1"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:125
-#: src/components/reports/reports-filter-dialog.tsx:190
-msgid "GNDCcc"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:131
-#: src/components/reports/reports-filter-dialog.tsx:194
-msgid "bNKXH5"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:146
-msgid "ctg3qx"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:156
-msgid "ODncRd"
-msgstr ""
-
-#: src/components/governors/claim-governor-form.tsx:156
-msgid "p5J4xw"
 msgstr ""
 
 #: src/components/language-selector.tsx:78

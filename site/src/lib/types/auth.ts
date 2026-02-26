@@ -22,4 +22,5 @@ export interface ClaimedGovernorDocument {
   createdAt: Date;
   governorName: string | null;
   governorAvatar: string | null;
+  default?: boolean;
 }

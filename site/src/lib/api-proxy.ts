@@ -4,6 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 const DEFAULT_ROKBATTLES_API_URL = "http://127.0.0.1:8001";
 const BODYLESS_METHODS = new Set(["GET", "HEAD"]);
+const BODYLESS_RESPONSE_STATUSES = new Set([204, 205, 304]);
 
 function getApiBaseUrl() {
   const configured = process.env.ROKBATTLES_API_URL ?? DEFAULT_ROKBATTLES_API_URL;
@@ -64,9 +65,20 @@ export async function proxyApiRequest(req: NextRequest, endpointPath: string) {
       cache: "no-store",
     });
 
+    const responseHeaders = buildResponseHeaders(upstream);
+    const isBodylessResponse = method === "HEAD" || BODYLESS_RESPONSE_STATUSES.has(upstream.status);
+
+    if (isBodylessResponse) {
+      responseHeaders.delete("content-type");
+      return new NextResponse(null, {
+        status: upstream.status,
+        headers: responseHeaders,
+      });
+    }
+
     return new NextResponse(await upstream.arrayBuffer(), {
       status: upstream.status,
-      headers: buildResponseHeaders(upstream),
+      headers: responseHeaders,
     });
   } catch (error) {
     console.error("Failed to proxy request to API", error);
