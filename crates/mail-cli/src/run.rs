@@ -169,6 +169,14 @@ pub(crate) fn write_processed_json(
                 },
             )?,
         ),
+        Some("Rss") => Some(
+            mail_processor_rss::process_parallel(processed_input).map_err(|source| {
+                MailCliError::Process {
+                    source,
+                    path: input_path.to_path_buf(),
+                }
+            })?,
+        ),
         Some("Battle") => Some(
             mail_processor_battle::process_parallel(processed_input).map_err(|source| {
                 MailCliError::Process {
@@ -254,6 +262,7 @@ fn classify_processable_mail_type(input: &Value) -> Option<&'static str> {
         Some("Battle") => Some("Battle"),
         Some("DuelBattle2") => Some("DuelBattle2"),
         Some("BarCanyonKillBoss") => Some("BarCanyonKillBoss"),
+        Some("Rss") => Some("Rss"),
         _ => None,
     }
 }
@@ -536,6 +545,28 @@ mod tests {
     }
 
     #[test]
+    fn write_processed_json_writes_rss_fields() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Rss/Persistent.Mail.113164877177212776431.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(
+            parsed["metadata"]["mail_id"],
+            json!("113164877177212776431")
+        );
+        assert_eq!(parsed["rss"]["rss_type"], json!(1));
+        assert_eq!(parsed["rss"]["rss_value"], json!(4104.32));
+        assert_eq!(parsed["rss"]["rss_bonus"], json!(232));
+    }
+
+    #[test]
     fn classify_processable_mail_type_detects_alliance_aoo_variants() {
         let battle_results = json!({
             "type": "Alliance",
@@ -566,6 +597,12 @@ mod tests {
             classify_processable_mail_type(&individual_results),
             Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS)
         );
+    }
+
+    #[test]
+    fn classify_processable_mail_type_detects_rss() {
+        let input = json!({ "type": "Rss" });
+        assert_eq!(classify_processable_mail_type(&input), Some("Rss"));
     }
 
     #[test]

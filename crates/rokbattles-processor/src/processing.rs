@@ -80,6 +80,7 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
         MailType::Battle => mail_processor_battle::process_parallel(root)?,
         MailType::DuelBattle2 => mail_processor_duelbattle2::process_parallel(root)?,
         MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process_parallel(root)?,
+        MailType::Rss => mail_processor_rss::process_parallel(root)?,
         MailType::SystemBarbarianFort => {
             mail_processor_system_barbarianfort::process_parallel(root)?
         }
@@ -250,6 +251,13 @@ mod tests {
         let value = json!({ "type": "DuelBattle2" });
         let mail_type = extract_mail_type(&value).unwrap();
         assert_eq!(mail_type, MailType::DuelBattle2);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_rss() {
+        let value = json!({ "type": "Rss" });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::Rss);
     }
 
     #[test]

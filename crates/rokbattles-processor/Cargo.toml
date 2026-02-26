@@ -18,6 +18,7 @@ mail-processor-alliance-aoobattleresults = { path = "../mail-processor-alliance-
 mail-processor-alliance-aooindividualresults = { path = "../mail-processor-alliance-aooindividualresults" }
 mail-processor-battle = { path = "../mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2" }
+mail-processor-rss = { path = "../mail-processor-rss" }
 mail-processor-barcanyonkillboss = { path = "../mail-processor-barcanyonkillboss" }
 mail-processor-system-barbarianfort = { path = "../mail-processor-system-barbarianfort" }
 mail-processor-sdk = { path = "../mail-processor-sdk" }

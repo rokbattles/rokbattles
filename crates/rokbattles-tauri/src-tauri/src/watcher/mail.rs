@@ -67,6 +67,9 @@ fn canonical_supported_mail_type(mail_type: &str) -> Option<&'static str> {
     if mail_type.eq_ignore_ascii_case("BarCanyonKillBoss") {
         return Some("BarCanyonKillBoss");
     }
+    if mail_type.eq_ignore_ascii_case("Rss") {
+        return Some("Rss");
+    }
     if mail_type.eq_ignore_ascii_case(SYSTEM_BARBARIAN_FORT_MAIL_TYPE) {
         return Some(SYSTEM_BARBARIAN_FORT_MAIL_TYPE);
     }
@@ -263,6 +266,10 @@ mod tests {
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "BARCANYONKILLBOSS" })),
             Some("BarCanyonKillBoss")
+        );
+        assert_eq!(
+            detect_supported_mail_type(&json!({ "type": "rss" })),
+            Some("Rss")
         );
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "systembarbarianfort" })),
