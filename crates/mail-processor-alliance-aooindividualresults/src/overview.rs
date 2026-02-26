@@ -3,7 +3,7 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Map, Value, json};
 
-use crate::content::optional_child_object;
+use crate::content::{optional_child_object, optional_child_object_or_empty_array};
 
 /// Extracts the top score leaderboard entry and aggregate totals from `body.kvs`.
 #[derive(Debug, Default)]
@@ -37,7 +37,8 @@ impl Extractor for OverviewExtractor {
             None => (Value::Null, Value::Null, Value::Null),
         };
         let total_results = match optional_child_object(kvs, "FightReport")? {
-            Some(fight_report) => match optional_child_object(fight_report, "Stat")? {
+            Some(fight_report) => match optional_child_object_or_empty_array(fight_report, "Stat")?
+            {
                 Some(stat) => match optional_child_object(stat, "WildBattleStat")? {
                     Some(wild_battle_stat) => {
                         let battles = require_u64_field(wild_battle_stat, "BattleCnt")?;
@@ -233,6 +234,23 @@ mod tests {
         assert!(fields["player_name"].is_null());
         assert!(fields["player_id"].is_null());
         assert!(fields["score"].is_null());
+        assert!(fields["total_results"].is_null());
+    }
+
+    #[test]
+    fn roundtrip_overview_extracts_empty_stat_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.91536773174395176822.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = OverviewExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["player_name"], json!("KEMO farm 2"));
+        assert_eq!(fields["player_id"], json!(186296796));
+        assert_eq!(fields["score"], json!(2159));
+        assert_eq!(fields["rank"], json!(6));
         assert!(fields["total_results"].is_null());
     }
 }
