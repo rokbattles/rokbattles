@@ -3,9 +3,7 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
 
-use crate::content::{
-    require_child_object, require_content, require_number_field, require_number_field_alias,
-};
+use crate::content::{require_child_object, require_content, require_number_field};
 
 /// Extracts resource report fields from `body.content`.
 #[derive(Debug, Default)]
@@ -28,7 +26,7 @@ impl Extractor for RssExtractor {
         let pos = require_child_object(content, "Pos")?;
 
         let rss_type = require_number_field(content, "ResType")?;
-        let rss_value = require_number_field_alias(content, "RssValue", "ResValue")?;
+        let rss_value = require_number_field(content, "ResValue")?;
         let rss_bonus = require_number_field(content, "talentAdd")?;
         let time = require_number_field(content, "Time")?;
         let level = require_number_field(content, "Level")?;
@@ -69,7 +67,7 @@ mod tests {
             "body": {
                 "content": {
                     "ResType": 2,
-                    "RssValue": 742.5,
+                    "ResValue": 742.5,
                     "talentAdd": 148,
                     "Time": 1772127667,
                     "Level": 8,
@@ -98,31 +96,6 @@ mod tests {
     }
 
     #[test]
-    fn rss_extractor_accepts_res_value_alias() {
-        let input = json!({
-            "body": {
-                "content": {
-                    "ResType": 5,
-                    "ResValue": 2.12,
-                    "talentAdd": 0,
-                    "Time": 1772127911,
-                    "Level": 2,
-                    "ResCollectCrystal": 0,
-                    "Pos": {
-                        "X": 3879.1650390625,
-                        "Y": 3915.5361328125
-                    }
-                }
-            }
-        });
-
-        let extractor = RssExtractor::new();
-        let section = extractor.extract(&input).unwrap();
-        let fields = section.fields();
-        assert_eq!(fields["rss_value"], json!(2.12));
-    }
-
-    #[test]
     fn rss_extractor_rejects_missing_field() {
         let input = json!({
             "body": {
@@ -144,7 +117,7 @@ mod tests {
         let err = extractor.extract(&input).unwrap_err();
         assert!(matches!(
             err,
-            ExtractError::MissingField { field: "RssValue" }
+            ExtractError::MissingField { field: "ResValue" }
         ));
     }
 

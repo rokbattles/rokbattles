@@ -41,19 +41,3 @@ pub(crate) fn require_number_field(
         })
     }
 }
-
-/// Require a numeric field, accepting either canonical or legacy source key.
-pub(crate) fn require_number_field_alias(
-    object: &Map<String, Value>,
-    canonical: &'static str,
-    alias: &'static str,
-) -> Result<Value, ExtractError> {
-    match object.get(canonical).or_else(|| object.get(alias)) {
-        Some(value) if value.is_number() => Ok(value.clone()),
-        Some(_) => Err(ExtractError::InvalidFieldType {
-            field: canonical,
-            expected: "number",
-        }),
-        None => Err(ExtractError::MissingField { field: canonical }),
-    }
-}
