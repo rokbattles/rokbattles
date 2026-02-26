@@ -1,0 +1,88 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 25512314,
+          "Type": 2,
+          "Value": 150
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "FightReport": {
+        "BeKilled": 0,
+        "BuildingScore": 2159,
+        "DefeatFlagCnt": 0,
+        "FightLose": 0,
+        "FightWin": 0,
+        "FlagCnt": 0,
+        "FlagScore": 0,
+        "GatherScore": 0,
+        "HangUpLevel": 0,
+        "HealingCnt": 0,
+        "HealingScore": 0,
+        "KillScore": 0,
+        "Killed": 0,
+        "OccupyCnt": 0,
+        "PlayerId": 186296796,
+        "RelocateCnt": 1,
+        "SpeedUpTime": 0,
+        "Stat": [],
+        "TotalScore": 2159,
+        "WinRate": 0
+      },
+      "Idx": 0,
+      "IsWin": true,
+      "NoScore": false,
+      "TotalScoreRank": {
+        "Info": {
+          "Job": 0,
+          "Name": "KEMO farm 2",
+          "PlyId": 186296796,
+          "Score": 2159,
+          "Slot": 0
+        },
+        "Rank": 6
+      },
+      "gradeId": 0,
+      "old_grade": 1
+    },
+    "param": 1,
+    "subTitle": "الاحصائيات الفردية",
+    "title": "تابوت أوزوريس",
+    "type": 62
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "91536773174395176822",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_186296796",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1743951768186973,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}
