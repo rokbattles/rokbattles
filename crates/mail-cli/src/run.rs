@@ -11,7 +11,6 @@ const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
 const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
 const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
-const MAIL_TYPE_RSS: &str = "Rss";
 
 /// Decode every mail buffer in the input directory into JSON files.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
@@ -170,7 +169,7 @@ pub(crate) fn write_processed_json(
                 },
             )?,
         ),
-        Some(MAIL_TYPE_RSS) => Some(
+        Some("Rss") => Some(
             mail_processor_rss::process_parallel(processed_input).map_err(|source| {
                 MailCliError::Process {
                     source,
@@ -263,7 +262,7 @@ fn classify_processable_mail_type(input: &Value) -> Option<&'static str> {
         Some("Battle") => Some("Battle"),
         Some("DuelBattle2") => Some("DuelBattle2"),
         Some("BarCanyonKillBoss") => Some("BarCanyonKillBoss"),
-        Some(MAIL_TYPE_RSS) => Some(MAIL_TYPE_RSS),
+        Some("Rss") => Some("Rss"),
         _ => None,
     }
 }
@@ -603,7 +602,7 @@ mod tests {
     #[test]
     fn classify_processable_mail_type_detects_rss() {
         let input = json!({ "type": "Rss" });
-        assert_eq!(classify_processable_mail_type(&input), Some(MAIL_TYPE_RSS));
+        assert_eq!(classify_processable_mail_type(&input), Some("Rss"));
     }
 
     #[test]
