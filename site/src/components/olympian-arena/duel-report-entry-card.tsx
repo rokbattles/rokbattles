@@ -14,9 +14,9 @@ type DuelEntryCardProps = {
 
 export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
   const t = useExtracted();
-  const { metadata, battle_results: battleResults, sender, opponent } = entry;
+  const { metadata, battleResults, sender, opponent } = entry;
 
-  const periodLabel = formatUtcDateTime(metadata.mail_time);
+  const periodLabel = formatUtcDateTime(metadata.mailTime);
   const outcome = getOutcome(battleResults);
 
   return (

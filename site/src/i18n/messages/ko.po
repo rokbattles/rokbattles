@@ -249,14 +249,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:19
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:18
 msgid "lsSmtD"
 msgstr "이세트"
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:19
+msgid "T4H9Lz"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -1094,8 +1094,8 @@ msgstr "네비게이션 닫기"
 msgid "oM3yjO"
 msgstr "네비게이션 열기"
 
-#: src/hooks/use-olympian-arena-duel.ts:40
-#: src/hooks/use-olympian-arena-duel.ts:49
+#: src/hooks/use-olympian-arena-duel.ts:36
+#: src/hooks/use-olympian-arena-duel.ts:45
 #: src/hooks/use-olympian-arena-duels.ts:77
 #: src/hooks/use-olympian-arena-duels.ts:108
 #: src/hooks/use-olympian-arena-duels.ts:137

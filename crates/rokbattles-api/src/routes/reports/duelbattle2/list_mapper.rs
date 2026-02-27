@@ -1,11 +1,12 @@
 use mongodb::bson::{Bson, Document, doc};
 
+use super::bson_utils::{nested_document, nested_i64};
 use super::query::DuelBattle2Request;
 use super::types::{
     DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
 };
 
-pub(crate) fn build_duelbattle2_pipeline(
+pub(super) fn build_duelbattle2_pipeline(
     request: &DuelBattle2Request,
     fetch_limit: i64,
 ) -> Vec<Document> {
@@ -96,7 +97,7 @@ pub(crate) fn build_duelbattle2_pipeline(
     pipeline
 }
 
-pub(crate) fn map_duelbattle2_document(document: &Document) -> Option<DuelBattle2RowWithCursor> {
+pub(super) fn map_duelbattle2_document(document: &Document) -> Option<DuelBattle2RowWithCursor> {
     let duel_id = nested_i64(document, &["_id"])?;
     let first_mail_time = nested_i64(document, &["first_mail_time"])?;
     let latest_mail_time = nested_i64(document, &["latest_mail_time"])?;
@@ -144,45 +145,6 @@ fn compute_trade_percent(sender_kill_points: i64, opponent_kill_points: i64) -> 
     }
 
     ((sender_kill_points as f64 / opponent_kill_points as f64) * 100.0).round() as i64
-}
-
-fn nested_document<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Document> {
-    let mut current = document;
-
-    for key in path {
-        current = current.get_document(*key).ok()?;
-    }
-
-    Some(current)
-}
-
-fn nested_i64(document: &Document, path: &[&str]) -> Option<i64> {
-    if path.is_empty() {
-        return None;
-    }
-
-    let parent = if path.len() == 1 {
-        Some(document)
-    } else {
-        nested_document(document, &path[..path.len() - 1])
-    }?;
-
-    parent.get(path[path.len() - 1]).and_then(bson_to_i64)
-}
-
-fn bson_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        Bson::Double(value) => {
-            if value.is_finite() {
-                Some(*value as i64)
-            } else {
-                None
-            }
-        }
-        _ => None,
-    }
 }
 
 #[cfg(test)]

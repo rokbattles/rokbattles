@@ -2,19 +2,13 @@
 
 import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
-import type { DuelBattle2MailDocument } from "@/lib/types/duelbattle2";
+import type { DuelBattle2DetailItem, DuelBattle2DetailResponse } from "@/lib/types/duelbattle2";
 
-export type DuelReportEntry = DuelBattle2MailDocument;
-
-export type DuelReportResponse = {
-  duelId: number;
-  items: DuelReportEntry[];
-  count: number;
-};
+export type DuelReportEntry = DuelBattle2DetailItem;
 
 export function useOlympianArenaDuel(duelId: number | null | undefined) {
   const t = useExtracted();
-  const [data, setData] = useState<DuelReportResponse | null>(null);
+  const [data, setData] = useState<DuelBattle2DetailResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,13 +28,15 @@ export function useOlympianArenaDuel(duelId: number | null | undefined) {
 
     const fetchDuel = async () => {
       try {
-        const res = await fetch(`/api/v2/olympian-arena/duel/${encodeURIComponent(duelId)}`);
+        const res = await fetch(`/proxy/v1/report/duelbattle2/${encodeURIComponent(duelId)}`, {
+          cache: "no-store",
+        });
 
         if (!res.ok) {
           throw new Error(t("Failed to fetch data"));
         }
 
-        const payload = (await res.json()) as DuelReportResponse;
+        const payload = (await res.json()) as DuelBattle2DetailResponse;
         if (!cancelled) {
           setData(payload);
           setError(null);
