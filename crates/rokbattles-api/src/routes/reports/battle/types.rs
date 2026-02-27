@@ -1,3 +1,4 @@
+use mongodb::bson::Document;
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]
@@ -6,6 +7,13 @@ pub(crate) struct ReportsResponse {
     pub items: Vec<ReportListItem>,
     pub next_after: Option<String>,
     pub previous_before: Option<String>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct ReportByIdResponse {
+    pub id: String,
+    pub mail: Option<Document>,
 }
 
 #[derive(Debug, Serialize)]

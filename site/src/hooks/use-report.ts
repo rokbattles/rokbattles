@@ -26,7 +26,9 @@ export function useReport(id: string | null | undefined) {
 
     const fetchReport = async () => {
       try {
-        const res = await fetch(`/api/v2/report/${encodeURIComponent(id)}`);
+        const res = await fetch(`/proxy/v1/report/battle/${encodeURIComponent(id)}`, {
+          cache: "no-store",
+        });
 
         if (!res.ok) {
           throw new Error(t("Failed to fetch data"));
