@@ -6,12 +6,13 @@ use axum::extract::{Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 use mongodb::Collection;
-use mongodb::bson::{Bson, DateTime, Document, doc};
+use mongodb::bson::{DateTime, Document, doc};
 use mongodb::options::FindOneOptions;
 use serde::Serialize;
 use serde_json::Value;
 
 use crate::auth::AuthenticatedSession;
+use crate::bson_utils::bson_to_i64_exact;
 use crate::error::ApiError;
 use crate::governor_bindings::snapshot::find_latest_sender_snapshot;
 use crate::state::AppState;
@@ -241,30 +242,13 @@ async fn find_most_recent_governor_id(
     Ok(most_recent
         .as_ref()
         .and_then(|claim| claim.get("governorId"))
-        .and_then(bson_to_i64))
-}
-
-fn bson_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        Bson::Double(value) => {
-            if value.is_finite()
-                && value.fract() == 0.0
-                && *value >= i64::MIN as f64
-                && *value <= i64::MAX as f64
-            {
-                Some(*value as i64)
-            } else {
-                None
-            }
-        }
-        _ => None,
-    }
+        .and_then(bson_to_i64_exact))
 }
 
 #[cfg(test)]
 mod tests {
+    use mongodb::bson::Bson;
+
     use super::*;
 
     #[test]
@@ -312,10 +296,10 @@ mod tests {
 
     #[test]
     fn converts_supported_bson_number_types_to_i64() {
-        assert_eq!(bson_to_i64(&Bson::Int32(12)), Some(12));
-        assert_eq!(bson_to_i64(&Bson::Int64(34)), Some(34));
-        assert_eq!(bson_to_i64(&Bson::Double(56.0)), Some(56));
-        assert_eq!(bson_to_i64(&Bson::Double(56.1)), None);
-        assert_eq!(bson_to_i64(&Bson::Null), None);
+        assert_eq!(bson_to_i64_exact(&Bson::Int32(12)), Some(12));
+        assert_eq!(bson_to_i64_exact(&Bson::Int64(34)), Some(34));
+        assert_eq!(bson_to_i64_exact(&Bson::Double(56.0)), Some(56));
+        assert_eq!(bson_to_i64_exact(&Bson::Double(56.1)), None);
+        assert_eq!(bson_to_i64_exact(&Bson::Null), None);
     }
 }

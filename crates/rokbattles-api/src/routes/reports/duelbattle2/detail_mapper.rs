@@ -1,19 +1,19 @@
 use mongodb::bson::{Bson, Document, doc};
 
-use super::bson_utils::{
-    nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
-};
 use super::types::{
     DuelBattle2DetailAlliance, DuelBattle2DetailBattleResult, DuelBattle2DetailBattleResults,
     DuelBattle2DetailBuff, DuelBattle2DetailCommander, DuelBattle2DetailItem,
     DuelBattle2DetailMetadata, DuelBattle2DetailPlayer,
+};
+use crate::bson_utils::{
+    nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
 };
 
 pub(super) fn build_duelbattle2_detail_filter(duel_id: i64) -> Document {
     doc! { "sender.duel.team_id": duel_id }
 }
 
-pub(super) fn duelbattle2_detail_projection() -> Document {
+pub(super) fn build_duelbattle2_detail_projection() -> Document {
     let mut projection = Document::new();
     projection.insert("_id", 0);
 
@@ -187,7 +187,7 @@ mod tests {
     use mongodb::bson::{Bson, doc};
 
     use super::{
-        build_duelbattle2_detail_filter, duelbattle2_detail_projection,
+        build_duelbattle2_detail_filter, build_duelbattle2_detail_projection,
         map_duelbattle2_detail_document,
     };
 
@@ -199,7 +199,7 @@ mod tests {
 
     #[test]
     fn includes_required_fields_in_detail_projection() {
-        let projection = duelbattle2_detail_projection();
+        let projection = build_duelbattle2_detail_projection();
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("sender.primary_commander.id").ok(),

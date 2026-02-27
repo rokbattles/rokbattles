@@ -9,7 +9,7 @@ pub(super) struct RefreshBindsResponse {
     pub claims_updated: u64,
 }
 
-/// Counters produced while refreshing binds.
+/// Counters captured while refreshing binds.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub(super) struct RefreshBindsStats {
     pub governors_seen: usize,

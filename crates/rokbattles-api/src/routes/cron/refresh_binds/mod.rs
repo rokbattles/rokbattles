@@ -13,11 +13,10 @@ use self::store::refresh_claimed_governor_bindings;
 use self::types::RefreshBindsResponse;
 
 mod auth;
-mod mapper;
 mod store;
 mod types;
 
-/// Refresh claimed governor names and avatars using latest battle data.
+/// Refresh claimed governor names and avatars from the latest battle data.
 pub async fn post(
     State(state): State<Arc<AppState>>,
     headers: HeaderMap,

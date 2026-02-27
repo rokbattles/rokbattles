@@ -1,12 +1,13 @@
 use mongodb::bson::{Bson, Document, doc};
 
-use super::bson_utils::{nested_document, nested_i64};
+use crate::bson_utils::{nested_document, nested_i64};
+
 use super::query::DuelBattle2Request;
 use super::types::{
     DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
 };
 
-pub(super) fn build_duelbattle2_pipeline(
+pub(super) fn build_duelbattle2_list_pipeline(
     request: &DuelBattle2Request,
     fetch_limit: i64,
 ) -> Vec<Document> {
@@ -97,7 +98,9 @@ pub(super) fn build_duelbattle2_pipeline(
     pipeline
 }
 
-pub(super) fn map_duelbattle2_document(document: &Document) -> Option<DuelBattle2RowWithCursor> {
+pub(super) fn map_duelbattle2_list_document(
+    document: &Document,
+) -> Option<DuelBattle2RowWithCursor> {
     let duel_id = nested_i64(document, &["_id"])?;
     let first_mail_time = nested_i64(document, &["first_mail_time"])?;
     let latest_mail_time = nested_i64(document, &["latest_mail_time"])?;

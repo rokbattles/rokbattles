@@ -2,7 +2,7 @@ use axum::http::HeaderMap;
 
 const CRON_SECRET_HEADER: &str = "x-cron-secret";
 
-/// Returns true when the request includes the expected cron secret.
+/// Return `true` when the request includes the expected cron secret.
 pub(super) fn is_authorized_request(headers: &HeaderMap, expected_secret: &str) -> bool {
     headers
         .get(CRON_SECRET_HEADER)

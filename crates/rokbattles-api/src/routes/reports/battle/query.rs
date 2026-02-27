@@ -44,10 +44,6 @@ impl ReportsRequest {
     pub fn sort_direction(&self) -> i32 {
         if self.before_cursor.is_some() { 1 } else { -1 }
     }
-
-    pub fn is_initial_page(&self) -> bool {
-        self.before_cursor.is_none() && self.after_cursor.is_none()
-    }
 }
 
 pub(crate) fn parse_reports_request(

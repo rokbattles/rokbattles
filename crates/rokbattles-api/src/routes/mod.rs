@@ -10,7 +10,7 @@ mod governor;
 mod health;
 mod reports;
 
-/// Creates the top-level API router.
+/// Build the top-level API router.
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
         .route("/health", get(health::get))
