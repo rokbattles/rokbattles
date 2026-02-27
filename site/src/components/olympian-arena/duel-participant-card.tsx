@@ -42,9 +42,9 @@ export function DuelParticipantCard({
   const t = useExtracted();
   const [expanded, setExpanded] = useState(false);
   const buffsId = useId();
-  const playerName = participant.player_name.trim() || t("Unknown commander");
+  const playerName = participant.playerName.trim() || t("Unknown commander");
   const allianceTag = participant.alliance.abbreviation.trim();
-  const playerId = participant.player_id;
+  const playerId = participant.playerId;
 
   const buffs = normalizeBuffs(participant.buffs);
   const displayBuffs = buffs
@@ -65,8 +65,8 @@ export function DuelParticipantCard({
   const visibleBuffs = expanded ? displayBuffs : displayBuffs.slice(0, 10);
   const hasMore = displayBuffs.length > 10;
 
-  const primary = participant.primary_commander;
-  const secondary = participant.secondary_commander;
+  const primary = participant.primaryCommander;
+  const secondary = participant.secondaryCommander;
   const showPrimary = hasCommander(primary);
   const showSecondary = hasCommander(secondary);
 
@@ -74,8 +74,8 @@ export function DuelParticipantCard({
     <div className="flex flex-col gap-5">
       <div className="flex items-start gap-3">
         <GameAvatar
-          avatarUrl={participant.avatar_url || null}
-          frameUrl={participant.frame_url || null}
+          avatarUrl={participant.avatarUrl || null}
+          frameUrl={participant.frameUrl || null}
           alt={playerName}
           initials={getInitials(playerName)}
           className="size-12"

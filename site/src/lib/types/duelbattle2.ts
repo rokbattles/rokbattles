@@ -1,46 +1,33 @@
-export type DuelBattle2Mail = {
+export type DuelBattle2DetailResponse = {
+  items: DuelBattle2DetailItem[];
+};
+
+export type DuelBattle2DetailItem = {
   metadata: DuelBattle2Metadata;
   sender: DuelBattle2Player;
   opponent: DuelBattle2Player;
-  battle_results: DuelBattle2BattleResults;
-};
-
-export type DuelBattle2MailDocument = DuelBattle2Mail & {
-  _id?: string;
+  battleResults: DuelBattle2BattleResults;
 };
 
 export type DuelBattle2Metadata = {
-  mail_id: string;
-  mail_time: number;
-  mail_receiver: string;
-  server_id: number;
+  mailId: string;
+  mailTime: number;
 };
 
 export type DuelBattle2Player = {
-  player_id: number;
-  player_name: string;
-  avatar_url: string | null;
-  frame_url: string | null;
+  playerId: number;
+  playerName: string;
+  avatarUrl: string | null;
+  frameUrl: string | null;
   alliance: {
     abbreviation: string;
   };
-  duel: {
-    team_id: number;
-  };
-  primary_commander: DuelBattle2Commander;
-  secondary_commander: DuelBattle2Commander;
+  primaryCommander: DuelBattle2Commander;
+  secondaryCommander: DuelBattle2Commander;
   buffs: readonly DuelBattle2Buff[];
 };
 
 export type DuelBattle2Commander = {
-  id: number;
-  level: number;
-  star_level: number;
-  awakened: boolean;
-  skills: readonly DuelBattle2Skill[];
-};
-
-export type DuelBattle2Skill = {
   id: number;
   level: number;
 };
@@ -57,11 +44,11 @@ export type DuelBattle2BattleResults = {
 
 export type DuelBattle2BattleResult = {
   win: boolean;
-  kill_points: number;
+  killPoints: number;
   power: number;
   units: number;
-  slightly_wounded: number;
-  severely_wounded: number;
+  slightlyWounded: number;
+  severelyWounded: number;
   dead: number;
   heal: number;
 };

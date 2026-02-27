@@ -1,27 +1,34 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use axum::extract::{Query, State};
+use axum::extract::{Path, Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 use futures::StreamExt;
+use mongodb::bson::doc;
 use mongodb::options::AggregateOptions;
+use mongodb::options::FindOptions;
 
 use crate::error::ApiError;
 use crate::state::AppState;
 
-use self::mapper::{build_duelbattle2_pipeline, map_duelbattle2_document};
+use self::detail_mapper::{
+    build_duelbattle2_detail_filter, duelbattle2_detail_projection, map_duelbattle2_detail_document,
+};
+use self::list_mapper::{build_duelbattle2_pipeline, map_duelbattle2_document};
 use self::query::parse_duelbattle2_request;
-use self::types::{DuelBattle2Response, DuelBattle2RowWithCursor};
+use self::types::{DuelBattle2DetailResponse, DuelBattle2Response, DuelBattle2RowWithCursor};
 
-mod mapper;
+mod bson_utils;
+mod detail_mapper;
+mod list_mapper;
 mod query;
 mod types;
 
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
 
-/// Olympian Arena duel list endpoint with cursor pagination.
+/// Returns a paginated list of Olympian Arena duels.
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
@@ -98,4 +105,64 @@ pub async fn get(
         [("Cache-Control", "no-store")],
         Json(response),
     ))
+}
+
+/// Returns all report entries for one Olympian Arena duel team.
+pub async fn get_by_id(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<String>,
+) -> Result<impl IntoResponse, ApiError> {
+    let duel_id = parse_duelbattle2_id(&id)?;
+
+    let options = FindOptions::builder()
+        .sort(doc! { "metadata.mail_time": 1 })
+        .projection(duelbattle2_detail_projection())
+        .build();
+
+    let mut cursor = state
+        .reports_store
+        .duelbattle2_collection()
+        .find(build_duelbattle2_detail_filter(duel_id))
+        .with_options(options)
+        .await
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    let mut items = Vec::new();
+    while let Some(next) = cursor.next().await {
+        let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
+        if let Some(item) = map_duelbattle2_detail_document(&document) {
+            items.push(item);
+        }
+    }
+
+    let response = DuelBattle2DetailResponse { items };
+
+    Ok((
+        StatusCode::OK,
+        [("Cache-Control", "no-store")],
+        Json(response),
+    ))
+}
+
+fn parse_duelbattle2_id(raw_id: &str) -> Result<i64, ApiError> {
+    raw_id
+        .parse::<i64>()
+        .map_err(|_| ApiError::bad_request("Invalid duel id"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parse_duelbattle2_id;
+
+    #[test]
+    fn parses_numeric_duel_id() {
+        let parsed = parse_duelbattle2_id("42").expect("id should parse");
+        assert_eq!(parsed, 42);
+    }
+
+    #[test]
+    fn rejects_non_numeric_duel_id() {
+        let parsed = parse_duelbattle2_id("abc");
+        assert!(parsed.is_err());
+    }
 }

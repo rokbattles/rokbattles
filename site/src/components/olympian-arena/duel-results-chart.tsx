@@ -23,11 +23,11 @@ const DUEL_METRICS: readonly DuelMetricConfig[] = [
   { labelKey: "dead", valueKey: "dead" },
   {
     labelKey: "severelyWounded",
-    valueKey: "severely_wounded",
+    valueKey: "severelyWounded",
   },
-  { labelKey: "wounded", valueKey: "slightly_wounded" },
+  { labelKey: "wounded", valueKey: "slightlyWounded" },
   { labelKey: "healed", valueKey: "heal" },
-  { labelKey: "killPoints", valueKey: "kill_points" },
+  { labelKey: "killPoints", valueKey: "killPoints" },
   { labelKey: "power", valueKey: "power" },
 ] as const;
 

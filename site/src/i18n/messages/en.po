@@ -249,14 +249,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:19
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:18
 msgid "lsSmtD"
 msgstr "Iset"
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:19
+msgid "T4H9Lz"
+msgstr "Seth"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -1094,8 +1094,8 @@ msgstr "Close navigation"
 msgid "oM3yjO"
 msgstr "Open navigation"
 
-#: src/hooks/use-olympian-arena-duel.ts:40
-#: src/hooks/use-olympian-arena-duel.ts:49
+#: src/hooks/use-olympian-arena-duel.ts:36
+#: src/hooks/use-olympian-arena-duel.ts:45
 #: src/hooks/use-olympian-arena-duels.ts:77
 #: src/hooks/use-olympian-arena-duels.ts:108
 #: src/hooks/use-olympian-arena-duels.ts:137
