@@ -1100,8 +1100,8 @@ msgstr ""
 #: src/hooks/use-olympian-arena-duels.ts:108
 #: src/hooks/use-olympian-arena-duels.ts:137
 #: src/hooks/use-olympian-arena-duels.ts:153
-#: src/hooks/use-report.ts:32
-#: src/hooks/use-report.ts:41
+#: src/hooks/use-report.ts:34
+#: src/hooks/use-report.ts:43
 #: src/hooks/use-reports-page.ts:114
 #: src/hooks/use-reports-page.ts:178
 #: src/hooks/use-reports-page.ts:218

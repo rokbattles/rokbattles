@@ -1,21 +1,23 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use axum::extract::{Query, State};
+use axum::extract::{Path, Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 use futures::StreamExt;
 use mongodb::bson::doc;
-use mongodb::options::FindOptions;
+use mongodb::options::{FindOneOptions, FindOptions};
 
 use crate::error::ApiError;
 use crate::state::AppState;
 
+use self::detail_mapper::{build_report_detail_filter, report_detail_projection};
 use self::mapper::{map_report_document, reports_projection};
 use self::match_builder::build_reports_match;
 use self::query::parse_reports_request;
-use self::types::{ReportRowWithCursor, ReportsResponse};
+use self::types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse};
 
+mod detail_mapper;
 mod mapper;
 mod match_builder;
 mod query;
@@ -24,7 +26,7 @@ mod types;
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
 
-/// Battle report list endpoint with filters and cursor pagination.
+/// Lists battle reports with filters and cursor pagination.
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
@@ -106,4 +108,64 @@ pub async fn get(
         [("Cache-Control", "no-store")],
         Json(response),
     ))
+}
+
+/// Looks up a single battle report by mail id.
+pub async fn get_by_id(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<String>,
+) -> Result<impl IntoResponse, ApiError> {
+    let report_id = parse_report_id(&id)?;
+
+    let options = FindOneOptions::builder()
+        .projection(report_detail_projection())
+        .build();
+
+    let mail = state
+        .reports_store
+        .battle_collection()
+        .find_one(build_report_detail_filter(&report_id))
+        .with_options(options)
+        .await
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    let response = ReportByIdResponse {
+        id: report_id,
+        mail,
+    };
+
+    Ok((
+        StatusCode::OK,
+        [("Cache-Control", "no-store")],
+        Json(response),
+    ))
+}
+
+fn parse_report_id(raw_id: &str) -> Result<String, ApiError> {
+    let normalized = raw_id.trim();
+    if normalized.is_empty() {
+        return Err(ApiError::bad_request("Invalid report id"));
+    }
+
+    Ok(normalized.to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parse_report_id;
+
+    #[test]
+    fn parses_non_empty_report_id() {
+        let parsed = parse_report_id("mail-123").expect("id should parse");
+        assert_eq!(parsed, "mail-123");
+    }
+
+    #[test]
+    fn trims_and_rejects_empty_report_id() {
+        assert_eq!(
+            parse_report_id("  mail-123  ").expect("id should parse"),
+            "mail-123"
+        );
+        assert!(parse_report_id("   ").is_err());
+    }
 }

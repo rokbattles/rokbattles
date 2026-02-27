@@ -10,7 +10,7 @@ mod governor;
 mod health;
 mod reports;
 
-/// Builds the top-level API router.
+/// Creates the top-level API router.
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
         .route("/health", get(health::get))
@@ -21,6 +21,7 @@ pub fn router() -> Router<Arc<AppState>> {
 fn v1_router() -> Router<Arc<AppState>> {
     Router::new()
         .nest("/governor", governor::router())
+        .route("/report/battle/{id}", get(reports::battle::get_by_id))
         .route(
             "/report/duelbattle2/{id}",
             get(reports::duelbattle2::get_by_id),
