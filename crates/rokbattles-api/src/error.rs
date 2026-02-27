@@ -1,11 +1,11 @@
-//! API error types and HTTP response mapping.
+//! API error types and their HTTP mapping.
 
 use axum::Json;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use serde::Serialize;
 
-/// Errors returned from route handlers.
+/// Errors returned by route handlers.
 #[derive(Debug, thiserror::Error)]
 pub enum ApiError {
     #[error("{0}")]

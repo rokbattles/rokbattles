@@ -10,7 +10,7 @@ pub struct GovernorSnapshot {
     pub governor_avatar: Option<String>,
 }
 
-/// Find the latest sender snapshot for a governor in battle mails.
+/// Find the latest sender snapshot for a governor in battle mail.
 pub async fn find_latest_sender_snapshot(
     battle_reports: &Collection<Document>,
     governor_id: i64,

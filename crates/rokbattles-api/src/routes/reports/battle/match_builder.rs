@@ -4,7 +4,7 @@ use super::query::{
     ReportsFilterSide, ReportsFilterType, ReportsGarrisonBuildingType, ReportsRequest,
 };
 
-/// Build the MongoDB `$match` object for battle report listing.
+/// Build the MongoDB `$match` object for battle report list queries.
 pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     let mut match_pipeline: Vec<Document> = vec![doc! {
         "opponents": {

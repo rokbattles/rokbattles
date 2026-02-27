@@ -1,11 +1,11 @@
-//! MongoDB collection helpers for report routes and bind refresh jobs.
+//! MongoDB collection helpers for report routes and bind refresh.
 
 use mongodb::Collection;
 use mongodb::IndexModel;
 use mongodb::bson::{Document, doc};
 use mongodb::options::IndexOptions;
 
-/// Typed access to the collections this API needs.
+/// Typed access to the Mongo collections used by the API.
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
@@ -14,7 +14,7 @@ pub struct ReportsStore {
 }
 
 impl ReportsStore {
-    /// Build the store from a Mongo database handle.
+    /// Create the store from a Mongo database handle.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             mails_battle: db.collection("mails_battle"),
@@ -23,7 +23,7 @@ impl ReportsStore {
         }
     }
 
-    /// Ensure indexes used by report filters, sorting, and bind refreshes exist.
+    /// Ensure indexes for report filters, sorting, and bind refresh are in place.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let models = vec![
             IndexModel::builder()
@@ -102,7 +102,7 @@ impl ReportsStore {
         &self.mails_duelbattle2
     }
 
-    /// Access claimed governor bindings.
+    /// Access claimed governor binds.
     pub fn claimed_governors_collection(&self) -> &Collection<Document> {
         &self.claimed_governors
     }

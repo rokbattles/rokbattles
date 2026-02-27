@@ -113,24 +113,24 @@ function buildArmamentFields(player: BattlePlayer): {
 
 function mapPlayerToParticipant(
   player: BattlePlayer,
-  npc?: { type: number | null; b_type: number | null } | null
+  npc?: { type: number | null; bType: number | null } | null
 ): RawParticipantInfo {
   const armamentFields = buildArmamentFields(player);
 
   return {
-    player_id: toOptionalNumber(player.player_id),
-    app_uid: player.app_uid != null ? String(player.app_uid) : undefined,
-    player_name: player.player_name ?? undefined,
+    player_id: toOptionalNumber(player.playerId),
+    app_uid: player.appUid != null ? String(player.appUid) : undefined,
+    player_name: player.playerName ?? undefined,
     alliance_tag: player.alliance.abbreviation ?? undefined,
-    avatar_url: player.avatar_url ?? undefined,
-    frame_url: player.frame_url ?? undefined,
+    avatar_url: player.avatarUrl ?? undefined,
+    frame_url: player.frameUrl ?? undefined,
     castle_x: toOptionalNumber(player.castle.x),
     castle_y: toOptionalNumber(player.castle.y),
     is_rally: player.rally ?? undefined,
-    alliance_building: player.alliance_building_id ?? undefined,
+    alliance_building: player.allianceBuildingId ?? undefined,
     npc_type: npc?.type ?? undefined,
-    npc_btype: npc?.b_type ?? undefined,
-    tracking_key: player.tracking_key ?? undefined,
+    npc_btype: npc?.bType ?? undefined,
+    tracking_key: player.trackingKey ?? undefined,
     primary_commander: {
       id: player.commanders.primary.id ?? undefined,
       level: player.commanders.primary.level ?? undefined,
@@ -148,42 +148,42 @@ function mapPlayerToParticipant(
 }
 
 function mapBattleResultsForOpponent(opponent: BattleOpponent): RawBattleResults {
-  const sender = opponent.battle_results.sender;
-  const enemy = opponent.battle_results.opponent;
+  const sender = opponent.battleResults.sender;
+  const enemy = opponent.battleResults.opponent;
 
   return {
     power: toOptionalNumber(sender.power),
     acclaim: toOptionalNumber(sender.acclaim),
-    reinforcements_join: toOptionalNumber(sender.reinforcements_join),
-    reinforcements_retreat: toOptionalNumber(sender.reinforcements_leave),
-    skill_power: toOptionalNumber(sender.skill_power),
-    attack_power: toOptionalNumber(sender.attack_power),
-    init_max: toOptionalNumber(sender.troop_units_max),
-    max: toOptionalNumber(sender.troop_units),
+    reinforcements_join: toOptionalNumber(sender.reinforcementsJoin),
+    reinforcements_retreat: toOptionalNumber(sender.reinforcementsLeave),
+    skill_power: toOptionalNumber(sender.skillPower),
+    attack_power: toOptionalNumber(sender.attackPower),
+    init_max: toOptionalNumber(sender.troopUnitsMax),
+    max: toOptionalNumber(sender.troopUnits),
     healing: toOptionalNumber(sender.heal),
     death: toOptionalNumber(sender.dead),
-    severely_wounded: toOptionalNumber(sender.severely_wounded),
-    wounded: toOptionalNumber(sender.slightly_wounded),
+    severely_wounded: toOptionalNumber(sender.severelyWounded),
+    wounded: toOptionalNumber(sender.slightlyWounded),
     remaining: toOptionalNumber(sender.remaining),
     watchtower: toOptionalNumber(sender.watchtower),
-    watchtower_max: toOptionalNumber(sender.watchtower_max),
-    kill_score: toOptionalNumber(sender.kill_points),
+    watchtower_max: toOptionalNumber(sender.watchtowerMax),
+    kill_score: toOptionalNumber(sender.killPoints),
     enemy_power: toOptionalNumber(enemy.power),
     enemy_acclaim: toOptionalNumber(enemy.acclaim),
-    enemy_reinforcements_join: toOptionalNumber(enemy.reinforcements_join),
-    enemy_reinforcements_retreat: toOptionalNumber(enemy.reinforcements_leave),
-    enemy_skill_power: toOptionalNumber(enemy.skill_power),
-    enemy_attack_power: toOptionalNumber(enemy.attack_power),
-    enemy_init_max: toOptionalNumber(enemy.troop_units_max),
-    enemy_max: toOptionalNumber(enemy.troop_units),
+    enemy_reinforcements_join: toOptionalNumber(enemy.reinforcementsJoin),
+    enemy_reinforcements_retreat: toOptionalNumber(enemy.reinforcementsLeave),
+    enemy_skill_power: toOptionalNumber(enemy.skillPower),
+    enemy_attack_power: toOptionalNumber(enemy.attackPower),
+    enemy_init_max: toOptionalNumber(enemy.troopUnitsMax),
+    enemy_max: toOptionalNumber(enemy.troopUnits),
     enemy_healing: toOptionalNumber(enemy.heal),
     enemy_death: toOptionalNumber(enemy.dead),
-    enemy_severely_wounded: toOptionalNumber(enemy.severely_wounded),
-    enemy_wounded: toOptionalNumber(enemy.slightly_wounded),
+    enemy_severely_wounded: toOptionalNumber(enemy.severelyWounded),
+    enemy_wounded: toOptionalNumber(enemy.slightlyWounded),
     enemy_remaining: toOptionalNumber(enemy.remaining),
     enemy_watchtower: toOptionalNumber(enemy.watchtower),
-    enemy_watchtower_max: toOptionalNumber(enemy.watchtower_max),
-    enemy_kill_score: toOptionalNumber(enemy.kill_points),
+    enemy_watchtower_max: toOptionalNumber(enemy.watchtowerMax),
+    enemy_kill_score: toOptionalNumber(enemy.killPoints),
   };
 }
 
@@ -198,11 +198,11 @@ function aggregateResult(
     remainingValues: number[];
   }
 ) {
-  totals.troopUnits += toFiniteNumber(result?.troop_units);
+  totals.troopUnits += toFiniteNumber(result?.troopUnits);
   totals.death += toFiniteNumber(result?.dead);
-  totals.severelyWounded += toFiniteNumber(result?.severely_wounded);
-  totals.wounded += toFiniteNumber(result?.slightly_wounded);
-  totals.killPoints += toFiniteNumber(result?.kill_points);
+  totals.severelyWounded += toFiniteNumber(result?.severelyWounded);
+  totals.wounded += toFiniteNumber(result?.slightlyWounded);
+  totals.killPoints += toFiniteNumber(result?.killPoints);
 
   const remaining = result?.remaining;
   if (typeof remaining === "number" && Number.isFinite(remaining)) {
@@ -217,32 +217,32 @@ function computeOverview(mail: BattleMail, opponents: BattleOpponent[]): RawOver
     senderSummary &&
     opponentSummary &&
     typeof senderSummary.dead === "number" &&
-    typeof senderSummary.severely_wounded === "number" &&
-    typeof senderSummary.slightly_wounded === "number" &&
-    typeof senderSummary.kill_points === "number" &&
-    typeof senderSummary.troop_units === "number" &&
+    typeof senderSummary.severelyWounded === "number" &&
+    typeof senderSummary.slightlyWounded === "number" &&
+    typeof senderSummary.killPoints === "number" &&
+    typeof senderSummary.troopUnits === "number" &&
     typeof senderSummary.remaining === "number" &&
     typeof opponentSummary.dead === "number" &&
-    typeof opponentSummary.severely_wounded === "number" &&
-    typeof opponentSummary.slightly_wounded === "number" &&
-    typeof opponentSummary.kill_points === "number" &&
-    typeof opponentSummary.troop_units === "number" &&
+    typeof opponentSummary.severelyWounded === "number" &&
+    typeof opponentSummary.slightlyWounded === "number" &&
+    typeof opponentSummary.killPoints === "number" &&
+    typeof opponentSummary.troopUnits === "number" &&
     typeof opponentSummary.remaining === "number";
 
   if (hasSummaryMetrics) {
     return {
-      max: senderSummary.troop_units,
+      max: senderSummary.troopUnits,
       death: senderSummary.dead,
-      severely_wounded: senderSummary.severely_wounded,
-      wounded: senderSummary.slightly_wounded,
+      severely_wounded: senderSummary.severelyWounded,
+      wounded: senderSummary.slightlyWounded,
       remaining: senderSummary.remaining,
-      kill_score: senderSummary.kill_points,
-      enemy_max: opponentSummary.troop_units,
+      kill_score: senderSummary.killPoints,
+      enemy_max: opponentSummary.troopUnits,
       enemy_death: opponentSummary.dead,
-      enemy_severely_wounded: opponentSummary.severely_wounded,
-      enemy_wounded: opponentSummary.slightly_wounded,
+      enemy_severely_wounded: opponentSummary.severelyWounded,
+      enemy_wounded: opponentSummary.slightlyWounded,
       enemy_remaining: opponentSummary.remaining,
-      enemy_kill_score: opponentSummary.kill_points,
+      enemy_kill_score: opponentSummary.killPoints,
     };
   }
 
@@ -268,8 +268,8 @@ function computeOverview(mail: BattleMail, opponents: BattleOpponent[]): RawOver
   };
 
   for (const opponent of opponents) {
-    aggregateResult(opponent.battle_results.sender, selfTotals);
-    aggregateResult(opponent.battle_results.opponent, enemyTotals);
+    aggregateResult(opponent.battleResults.sender, selfTotals);
+    aggregateResult(opponent.battleResults.opponent, enemyTotals);
   }
 
   return {
@@ -291,23 +291,23 @@ function computeOverview(mail: BattleMail, opponents: BattleOpponent[]): RawOver
 
 function getValidSortedOpponents(mail: BattleMail): BattleOpponent[] {
   const filtered = mail.opponents.filter(
-    (opponent) => !INVALID_OPPONENT_PLAYER_IDS.has(opponent.player_id)
+    (opponent) => !INVALID_OPPONENT_PLAYER_IDS.has(opponent.playerId)
   );
 
   return [...filtered].sort((a, b) => {
-    const startTickDelta = toFiniteNumber(a.start_tick) - toFiniteNumber(b.start_tick);
+    const startTickDelta = toFiniteNumber(a.startTick) - toFiniteNumber(b.startTick);
     if (startTickDelta !== 0) {
       return startTickDelta;
     }
-    return toFiniteNumber(a.player_id) - toFiniteNumber(b.player_id);
+    return toFiniteNumber(a.playerId) - toFiniteNumber(b.playerId);
   });
 }
 
 function mapEntry(mail: BattleMail, opponent: BattleOpponent): ReportEntry {
-  const timelineStartTimestamp = toFiniteNumber(mail.timeline.start_timestamp);
-  const timelineStartTick = toFiniteNumber(mail.timeline.start_tick);
-  const startTick = toFiniteNumber(opponent.start_tick);
-  const endTickValue = toOptionalNumber(opponent.end_tick);
+  const timelineStartTimestamp = toFiniteNumber(mail.timeline.startTimestamp);
+  const timelineStartTick = toFiniteNumber(mail.timeline.startTick);
+  const startTick = toFiniteNumber(opponent.startTick);
+  const endTickValue = toOptionalNumber(opponent.endTick);
   const endTick = endTickValue ?? startTick;
   const startTickOffset = startTick - timelineStartTick;
   const endTickOffset = endTick - timelineStartTick;
@@ -316,9 +316,9 @@ function mapEntry(mail: BattleMail, opponent: BattleOpponent): ReportEntry {
 
   const payload: RawReportPayload = {
     metadata: {
-      email_id: mail.metadata.mail_id,
-      email_time: mail.metadata.mail_time,
-      email_role: mail.metadata.mail_role,
+      email_id: mail.metadata.mailId,
+      email_time: mail.metadata.mailTime,
+      email_role: mail.metadata.mailRole,
       is_kvk: mail.metadata.kvk ? 1 : 0,
       start_date: startDate,
       end_date: endDate,

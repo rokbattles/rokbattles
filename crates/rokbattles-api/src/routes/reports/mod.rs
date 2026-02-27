@@ -1,4 +1,5 @@
-//! Report list endpoints grouped by report type.
+//! Report list endpoints grouped by type.
 
 pub mod battle;
+pub(crate) mod common;
 pub mod duelbattle2;

@@ -1,4 +1,3 @@
-use mongodb::bson::Document;
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]
@@ -13,7 +12,7 @@ pub(crate) struct ReportsResponse {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct ReportByIdResponse {
     pub id: String,
-    pub mail: Option<Document>,
+    pub mail: Option<BattleReportDetail>,
 }
 
 #[derive(Debug, Serialize)]
@@ -75,4 +74,164 @@ pub(crate) struct TimelineSample {
 pub(crate) struct ReportRowWithCursor {
     pub mail_time: i64,
     pub item: ReportListItem,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportDetail {
+    pub metadata: BattleReportMetadata,
+    pub sender: BattleReportPlayer,
+    pub summary: BattleReportSummary,
+    pub opponents: Vec<BattleReportOpponent>,
+    pub timeline: BattleReportTimeline,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportMetadata {
+    pub mail_id: String,
+    pub mail_time: i64,
+    pub mail_role: Option<String>,
+    pub kvk: Option<bool>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportPlayer {
+    pub player_id: i64,
+    pub player_name: String,
+    pub alliance: BattleReportAlliance,
+    pub avatar_url: Option<String>,
+    pub frame_url: Option<String>,
+    pub tracking_key: Option<String>,
+    pub rally: Option<bool>,
+    pub alliance_building_id: Option<i64>,
+    pub castle: BattleReportCastle,
+    pub app_uid: Option<i64>,
+    pub commanders: BattleReportCommanderSet,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportAlliance {
+    pub abbreviation: String,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportCastle {
+    pub x: i64,
+    pub y: i64,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportCommanderSet {
+    pub primary: BattleReportCommander,
+    pub secondary: BattleReportCommander,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportCommander {
+    pub id: Option<i64>,
+    pub level: Option<i64>,
+    pub formation: Option<i64>,
+    pub equipment: Option<String>,
+    pub armaments: Vec<BattleReportArmament>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportArmament {
+    pub affix: Option<String>,
+    pub buffs: Option<String>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportSummary {
+    pub sender: BattleReportSummaryEntry,
+    pub opponent: BattleReportSummaryEntry,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportSummaryEntry {
+    pub kill_points: Option<i64>,
+    pub dead: Option<i64>,
+    pub severely_wounded: Option<i64>,
+    pub slightly_wounded: Option<i64>,
+    pub remaining: Option<i64>,
+    pub troop_units: Option<i64>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportOpponent {
+    pub player_id: i64,
+    pub player_name: String,
+    pub alliance: BattleReportAlliance,
+    pub avatar_url: Option<String>,
+    pub frame_url: Option<String>,
+    pub tracking_key: Option<String>,
+    pub rally: Option<bool>,
+    pub alliance_building_id: Option<i64>,
+    pub castle: BattleReportCastle,
+    pub app_uid: Option<i64>,
+    pub commanders: BattleReportCommanderSet,
+    pub start_tick: i64,
+    pub end_tick: i64,
+    pub attack: BattleReportAttack,
+    pub npc: BattleReportNpc,
+    pub battle_results: BattleReportBattleResults,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportAttack {
+    pub x: i64,
+    pub y: i64,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportNpc {
+    pub r#type: Option<i64>,
+    pub b_type: Option<i64>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportBattleResults {
+    pub sender: BattleReportBattleResult,
+    pub opponent: BattleReportBattleResult,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportBattleResult {
+    pub reinforcements_join: Option<i64>,
+    pub reinforcements_leave: Option<i64>,
+    pub kill_points: Option<i64>,
+    pub acclaim: Option<i64>,
+    pub severely_wounded: Option<i64>,
+    pub slightly_wounded: Option<i64>,
+    pub remaining: Option<i64>,
+    pub dead: Option<i64>,
+    pub heal: Option<i64>,
+    pub troop_units: Option<i64>,
+    pub troop_units_max: Option<i64>,
+    pub watchtower_max: Option<i64>,
+    pub watchtower: Option<i64>,
+    pub power: Option<i64>,
+    pub attack_power: Option<i64>,
+    pub skill_power: Option<i64>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportTimeline {
+    pub start_timestamp: i64,
+    pub start_tick: i64,
 }

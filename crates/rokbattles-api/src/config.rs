@@ -11,7 +11,7 @@ pub struct Config {
     pub log_filter: String,
 }
 
-/// Missing-required-config errors.
+/// Errors for missing required config.
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
     #[error("missing required env var: MONGODB_URI")]
@@ -21,7 +21,7 @@ pub enum ConfigError {
 }
 
 impl Config {
-    /// Load config from the environment (`.env` is read in `main`).
+    /// Load config from environment variables (`.env` is loaded in `main`).
     pub fn from_env() -> Result<Self, ConfigError> {
         Self::from_lookup(|key| env::var(key).ok())
     }

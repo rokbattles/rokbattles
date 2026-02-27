@@ -23,14 +23,14 @@ pub struct UserRecord {
     pub avatar: Option<String>,
 }
 
-/// Error type for auth store reads and writes.
+/// Error type for auth-store reads and writes.
 #[derive(Debug, thiserror::Error)]
 pub enum AuthStoreError {
     #[error("database error: {0}")]
     Database(#[from] mongodb::error::Error),
 }
 
-/// Auth store interface so handlers are testable without MongoDB.
+/// Auth-store interface so handlers are testable without MongoDB.
 pub trait AuthRepository: Send + Sync {
     fn find_session_by_id<'a>(
         &'a self,
@@ -55,7 +55,7 @@ pub struct MongoAuthStore {
 }
 
 impl MongoAuthStore {
-    /// Build a Mongo-backed auth repository.
+    /// Create a Mongo-backed auth repository.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             sessions: db.collection::<SessionDocument>("userSessions"),

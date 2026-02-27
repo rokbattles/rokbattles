@@ -2,6 +2,8 @@ use std::cmp::Ordering;
 
 use mongodb::bson::{Bson, Document, doc};
 
+use crate::bson_utils::{nested_document, nested_i64, nested_str};
+
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
@@ -9,7 +11,7 @@ use super::types::{
 
 const INVALID_OPPONENT_PLAYER_IDS: [i64; 2] = [-2, 0];
 
-pub(crate) fn reports_projection() -> Document {
+pub(crate) fn build_battle_list_projection() -> Document {
     doc! {
         "metadata.mail_id": 1,
         "metadata.mail_time": 1,
@@ -52,8 +54,8 @@ pub(crate) fn reports_projection() -> Document {
     }
 }
 
-pub(crate) fn map_report_document(document: &Document) -> Option<ReportRowWithCursor> {
-    let mail_id = nested_string(document, &["metadata", "mail_id"])?.to_string();
+pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowWithCursor> {
+    let mail_id = nested_str(document, &["metadata", "mail_id"])?.to_string();
     let mail_time = nested_i64(document, &["metadata", "mail_time"])?;
 
     let opponents = extract_opponents(document);
@@ -256,59 +258,6 @@ fn extract_timeline_samples(document: &Document) -> Vec<TimelineSample> {
             Some(TimelineSample { tick, count })
         })
         .collect()
-}
-
-fn nested_document<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Document> {
-    let mut current = document;
-
-    for key in path {
-        current = current.get_document(*key).ok()?;
-    }
-
-    Some(current)
-}
-
-fn nested_string<'a>(document: &'a Document, path: &[&str]) -> Option<&'a str> {
-    if path.is_empty() {
-        return None;
-    }
-
-    let parent = if path.len() == 1 {
-        Some(document)
-    } else {
-        nested_document(document, &path[..path.len() - 1])
-    }?;
-
-    parent.get_str(path[path.len() - 1]).ok()
-}
-
-fn nested_i64(document: &Document, path: &[&str]) -> Option<i64> {
-    if path.is_empty() {
-        return None;
-    }
-
-    let parent = if path.len() == 1 {
-        Some(document)
-    } else {
-        nested_document(document, &path[..path.len() - 1])
-    }?;
-
-    parent.get(path[path.len() - 1]).and_then(bson_to_i64)
-}
-
-fn bson_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        Bson::Double(value) => {
-            if value.is_finite() {
-                Some(*value as i64)
-            } else {
-                None
-            }
-        }
-        _ => None,
-    }
 }
 
 #[cfg(test)]
