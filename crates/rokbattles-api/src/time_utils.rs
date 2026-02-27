@@ -1,6 +1,7 @@
 use mongodb::bson::DateTime;
 
-/// Convert epoch-like values in seconds/millis/micros to milliseconds.
+/// Normalizes an epoch timestamp to milliseconds.
+/// Accepts values expressed in seconds, milliseconds, or microseconds.
 pub(crate) fn normalize_timestamp_millis(value: f64) -> Option<i64> {
     let abs = value.abs();
 
@@ -21,7 +22,7 @@ pub(crate) fn normalize_timestamp_millis(value: f64) -> Option<i64> {
     }
 }
 
-/// Format epoch milliseconds as `YYYY-MM-DD` in UTC.
+/// Formats UTC epoch milliseconds as a `YYYY-MM-DD` date string.
 pub(crate) fn date_key_utc(millis: i64) -> Option<String> {
     let rfc3339 = DateTime::from_millis(millis).try_to_rfc3339_string().ok()?;
     rfc3339.get(0..10).map(ToOwned::to_owned)

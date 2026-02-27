@@ -1,4 +1,4 @@
-/// Cursor paging result shared by list endpoints.
+/// Cursor paging payload used by list endpoints.
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) struct CursorPage<T> {
     pub items: Vec<T>,
@@ -6,9 +6,10 @@ pub(crate) struct CursorPage<T> {
     pub previous_before: Option<String>,
 }
 
-/// Build one page from rows fetched in query order.
+/// Builds one page from rows returned by the database query.
 ///
-/// `before_cursor` means the DB query ran ascending, so we reverse before returning.
+/// When `before_cursor` is set, the query runs in ascending order, so we reverse
+/// rows before returning to keep response order consistent.
 pub(crate) fn paginate_cursor_rows<T, F>(
     rows: Vec<T>,
     fetched_documents: usize,

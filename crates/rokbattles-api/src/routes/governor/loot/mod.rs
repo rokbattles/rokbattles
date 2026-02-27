@@ -20,7 +20,7 @@ mod query;
 mod store;
 mod types;
 
-/// Return loot summary for a claimed governor.
+/// Returns loot aggregates for a governor claimed by the current user.
 pub async fn get(
     State(state): State<Arc<AppState>>,
     Path(governor_id_raw): Path<String>,
