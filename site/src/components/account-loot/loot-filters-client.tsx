@@ -6,10 +6,8 @@ import { useEffect, useState, useTransition } from "react";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { MAX_RANGE_DAYS, ONE_DAY_MILLIS, parseDateInput, toDateInput } from "@/lib/loot/date";
-import type { LootCategoryKey } from "@/lib/types/loot";
 
 type LootFiltersClientProps = {
-  category: LootCategoryKey;
   startDate: string;
   endDate: string;
   minDate: string;
@@ -37,7 +35,6 @@ function clampEndDate(startDate: string, endDate: string): string {
 }
 
 export function LootFiltersClient({
-  category,
   startDate,
   endDate,
   minDate,
@@ -62,10 +59,8 @@ export function LootFiltersClient({
     }
 
     const params = new URLSearchParams(searchParams.toString());
-    params.set("category", category);
     params.set("start", nextStartDate);
     params.set("end", nextEndDate);
-    params.delete("year");
 
     const query = params.toString();
     const href = query ? `${pathname}?${query}` : pathname;

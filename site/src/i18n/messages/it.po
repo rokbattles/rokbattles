@@ -14,8 +14,7 @@ msgstr ""
 msgid "P2Qqmh"
 msgstr ""
 
-#: src/app/(main)/account/loot/page.tsx:37
-#: src/app/(main)/account/loot/page.tsx:50
+#: src/app/(main)/account/loot/page.tsx:24
 #: src/components/platform-layout.tsx:144
 msgid "yF/GXb"
 msgstr ""
@@ -249,14 +248,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:18
-msgid "lsSmtD"
-msgstr "Iside"
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:19
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:18
+msgid "lsSmtD"
+msgstr "Iside"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -373,61 +372,61 @@ msgstr ""
 msgid "m9rp75"
 msgstr ""
 
-#: src/components/account-loot/account-loot-content.tsx:28
+#: src/components/account-loot/account-loot-content.tsx:60
 msgid "+LBFrG"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:24
+#: src/components/account-loot/loot-breakdown-table.tsx:26
 msgid "HAlOn1"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:25
+#: src/components/account-loot/loot-breakdown-table.tsx:27
 msgid "/0TOL5"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:26
+#: src/components/account-loot/loot-breakdown-table.tsx:28
 msgid "wrpHgq"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:36
+#: src/components/account-loot/loot-category-list.tsx:27
 msgid "r3YbHp"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:37
+#: src/components/account-loot/loot-category-list.tsx:28
 msgid "Ap561B"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:38
+#: src/components/account-loot/loot-category-list.tsx:29
 msgid "T8KvU4"
 msgstr ""
 
-#: src/components/account-loot/loot-error-state.tsx:6
+#: src/components/account-loot/loot-error-state.tsx:8
 msgid "XD64/m"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx:97
+#: src/components/account-loot/loot-filters-client.tsx:92
 #: src/components/my-pairings/pairings-filters.tsx:73
 msgid "n5QvJy"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx:108
+#: src/components/account-loot/loot-filters-client.tsx:103
 #: src/components/my-pairings/pairings-filters.tsx:84
 msgid "Humfno"
 msgstr ""
 
-#: src/components/account-loot/loot-report-section.tsx:20
+#: src/components/account-loot/loot-report-section.tsx:18
 msgid "sdkaef"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:18
+#: src/components/account-loot/loot-table-section.tsx:20
 msgid "WOPo3b"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:27
+#: src/components/account-loot/loot-table-section.tsx:29
 msgid "QtM1tY"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:29
+#: src/components/account-loot/loot-table-section.tsx:31
 msgid "PF57EA"
 msgstr ""
 

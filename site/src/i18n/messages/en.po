@@ -14,8 +14,7 @@ msgstr "Ark Match"
 msgid "P2Qqmh"
 msgstr "Ark Match History"
 
-#: src/app/(main)/account/loot/page.tsx:37
-#: src/app/(main)/account/loot/page.tsx:50
+#: src/app/(main)/account/loot/page.tsx:24
 #: src/components/platform-layout.tsx:144
 msgid "yF/GXb"
 msgstr "My Loot"
@@ -249,14 +248,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:18
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/account-ark/ark-match-history-table.tsx:19
 msgid "T4H9Lz"
 msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-table.tsx:18
+msgid "lsSmtD"
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:25
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -373,61 +372,61 @@ msgstr "Binds"
 msgid "m9rp75"
 msgstr "No binds yet."
 
-#: src/components/account-loot/account-loot-content.tsx:28
+#: src/components/account-loot/account-loot-content.tsx:60
 msgid "+LBFrG"
 msgstr "See loot from Barbarian, Barbarian Fort, and Baulur reports."
 
-#: src/components/account-loot/loot-breakdown-table.tsx:24
+#: src/components/account-loot/loot-breakdown-table.tsx:26
 msgid "HAlOn1"
 msgstr "Name"
 
-#: src/components/account-loot/loot-breakdown-table.tsx:25
+#: src/components/account-loot/loot-breakdown-table.tsx:27
 msgid "/0TOL5"
 msgstr "Amount"
 
-#: src/components/account-loot/loot-breakdown-table.tsx:26
+#: src/components/account-loot/loot-breakdown-table.tsx:28
 msgid "wrpHgq"
 msgstr "Drops"
 
-#: src/components/account-loot/loot-category-list.tsx:36
+#: src/components/account-loot/loot-category-list.tsx:27
 msgid "r3YbHp"
 msgstr "Barbarians"
 
-#: src/components/account-loot/loot-category-list.tsx:37
+#: src/components/account-loot/loot-category-list.tsx:28
 msgid "Ap561B"
 msgstr "Barbarian Fort"
 
-#: src/components/account-loot/loot-category-list.tsx:38
+#: src/components/account-loot/loot-category-list.tsx:29
 msgid "T8KvU4"
 msgstr "Baulur"
 
-#: src/components/account-loot/loot-error-state.tsx:6
+#: src/components/account-loot/loot-error-state.tsx:8
 msgid "XD64/m"
 msgstr "Failed to load loot."
 
-#: src/components/account-loot/loot-filters-client.tsx:97
+#: src/components/account-loot/loot-filters-client.tsx:92
 #: src/components/my-pairings/pairings-filters.tsx:73
 msgid "n5QvJy"
 msgstr "Start date"
 
-#: src/components/account-loot/loot-filters-client.tsx:108
+#: src/components/account-loot/loot-filters-client.tsx:103
 #: src/components/my-pairings/pairings-filters.tsx:84
 msgid "Humfno"
 msgstr "End date"
 
-#: src/components/account-loot/loot-report-section.tsx:20
+#: src/components/account-loot/loot-report-section.tsx:18
 msgid "sdkaef"
 msgstr "No reports in this date range."
 
-#: src/components/account-loot/loot-table-section.tsx:18
+#: src/components/account-loot/loot-table-section.tsx:20
 msgid "WOPo3b"
 msgstr "Unknown reward {type}/{subType}"
 
-#: src/components/account-loot/loot-table-section.tsx:27
+#: src/components/account-loot/loot-table-section.tsx:29
 msgid "QtM1tY"
 msgstr "Loot breakdown"
 
-#: src/components/account-loot/loot-table-section.tsx:29
+#: src/components/account-loot/loot-table-section.tsx:31
 msgid "PF57EA"
 msgstr "No loot in this date range."
 

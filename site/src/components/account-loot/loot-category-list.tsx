@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import {
   Sidebar,
   SidebarBody,
@@ -12,26 +14,15 @@ import type { LootCategoryAggregate, LootCategoryKey } from "@/lib/types/loot";
 type LootCategoryListProps = {
   categories: Record<LootCategoryKey, LootCategoryAggregate>;
   selectedCategory: LootCategoryKey;
-  startDate: string;
-  endDate: string;
+  onSelectCategory: (category: LootCategoryKey) => void;
 };
 
-function buildCategoryHref(category: LootCategoryKey, startDate: string, endDate: string): string {
-  const params = new URLSearchParams();
-  params.set("category", category);
-  params.set("start", startDate);
-  params.set("end", endDate);
-
-  return `/account/loot?${params.toString()}`;
-}
-
-export async function LootCategoryList({
+export function LootCategoryList({
   categories,
   selectedCategory,
-  startDate,
-  endDate,
+  onSelectCategory,
 }: LootCategoryListProps) {
-  const t = await getExtracted();
+  const t = useExtracted();
   const options: Array<{ key: LootCategoryKey; label: string }> = [
     { key: "barbarian", label: t("Barbarians") },
     { key: "barbarianFort", label: t("Barbarian Fort") },
@@ -49,9 +40,9 @@ export async function LootCategoryList({
             return (
               <SidebarItem
                 key={option.key}
-                href={buildCategoryHref(option.key, startDate, endDate)}
                 current={isSelected}
                 aria-current={isSelected ? "true" : undefined}
+                onClick={() => onSelectCategory(option.key)}
               >
                 <SidebarLabel>{option.label}</SidebarLabel>
                 <span className="ml-auto text-xs tabular-nums text-zinc-500 dark:text-zinc-400">

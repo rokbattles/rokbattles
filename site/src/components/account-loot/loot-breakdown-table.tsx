@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import {
   Table,
   TableBody,
@@ -14,8 +16,8 @@ type LootBreakdownTableProps = {
   rows: LootRewardRow[];
 };
 
-export async function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
-  const t = await getExtracted();
+export function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
+  const t = useExtracted();
 
   return (
     <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">
