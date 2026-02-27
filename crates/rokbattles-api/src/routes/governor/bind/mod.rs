@@ -17,6 +17,8 @@ use crate::error::ApiError;
 use crate::governor_bindings::snapshot::find_latest_sender_snapshot;
 use crate::state::AppState;
 
+use super::common::{parse_positive_governor_id_from_json, parse_positive_governor_id_from_query};
+
 const MAX_GOVERNOR_BINDS: u64 = 3;
 
 #[derive(Debug, Serialize)]
@@ -40,7 +42,7 @@ pub async fn post(
 ) -> Result<impl IntoResponse, ApiError> {
     let payload: Value =
         serde_json::from_slice(&body).map_err(|_| ApiError::bad_request("Invalid JSON body"))?;
-    let governor_id = parse_governor_id_value(payload.get("governorId"))
+    let governor_id = parse_positive_governor_id_from_json(payload.get("governorId"))
         .ok_or_else(|| ApiError::bad_request("Invalid governorId"))?;
 
     let claims = state.reports_store.claimed_governors_collection();
@@ -107,7 +109,7 @@ pub async fn patch_default(
     session: AuthenticatedSession,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id_query(&params)
+    let governor_id = parse_positive_governor_id_from_query(&params)
         .ok_or_else(|| ApiError::bad_request("Invalid governorId"))?;
 
     let claims = state.reports_store.claimed_governors_collection();
@@ -130,7 +132,7 @@ pub async fn delete(
     session: AuthenticatedSession,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id_query(&params)
+    let governor_id = parse_positive_governor_id_from_query(&params)
         .ok_or_else(|| ApiError::bad_request("Invalid governorId"))?;
 
     let claims = state.reports_store.claimed_governors_collection();
@@ -154,46 +156,6 @@ pub async fn delete(
     }
 
     Ok((StatusCode::NO_CONTENT, [("Cache-Control", "no-store")]))
-}
-
-fn parse_governor_id_query(params: &HashMap<String, String>) -> Option<i64> {
-    let value = params.get("governorId")?;
-    parse_governor_id_str(value)
-}
-
-fn parse_governor_id_value(value: Option<&Value>) -> Option<i64> {
-    let value = value?;
-
-    let parsed = match value {
-        Value::Number(number) => {
-            if let Some(parsed) = number.as_i64() {
-                Some(parsed)
-            } else if let Some(parsed) = number.as_u64() {
-                i64::try_from(parsed).ok()
-            } else if let Some(parsed) = number.as_f64() {
-                if parsed.is_finite()
-                    && parsed.fract() == 0.0
-                    && parsed >= i64::MIN as f64
-                    && parsed <= i64::MAX as f64
-                {
-                    Some(parsed as i64)
-                } else {
-                    None
-                }
-            } else {
-                None
-            }
-        }
-        Value::String(value) => parse_governor_id_str(value),
-        _ => None,
-    };
-
-    parsed.filter(|governor_id| *governor_id > 0)
-}
-
-fn parse_governor_id_str(value: &str) -> Option<i64> {
-    let parsed = value.trim().parse::<i64>().ok()?;
-    if parsed > 0 { Some(parsed) } else { None }
 }
 
 fn claim_document_is_default(claim: &Document) -> bool {
@@ -250,41 +212,6 @@ mod tests {
     use mongodb::bson::Bson;
 
     use super::*;
-
-    #[test]
-    fn parses_governor_id_from_number_and_string() {
-        assert_eq!(
-            parse_governor_id_value(Some(&Value::Number(123.into()))),
-            Some(123)
-        );
-        assert_eq!(
-            parse_governor_id_value(Some(&Value::String("456".to_string()))),
-            Some(456)
-        );
-    }
-
-    #[test]
-    fn rejects_invalid_or_non_positive_governor_id_values() {
-        assert_eq!(parse_governor_id_value(Some(&Value::Null)), None);
-        assert_eq!(
-            parse_governor_id_value(Some(&Value::String("not-a-number".to_string()))),
-            None
-        );
-        assert_eq!(
-            parse_governor_id_value(Some(&Value::Number((-1).into()))),
-            None
-        );
-        assert_eq!(
-            parse_governor_id_value(Some(&Value::String("0".to_string()))),
-            None
-        );
-    }
-
-    #[test]
-    fn parses_governor_id_from_query_params() {
-        let params = HashMap::from([("governorId".to_string(), "789".to_string())]);
-        assert_eq!(parse_governor_id_query(&params), Some(789));
-    }
 
     #[test]
     fn reads_default_flag_from_claim_document() {

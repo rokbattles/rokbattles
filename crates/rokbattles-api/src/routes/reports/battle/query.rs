@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::error::ApiError;
+use crate::routes::reports::common::query::parse_optional_i64;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ReportsFilterType {
@@ -114,20 +115,6 @@ pub(crate) fn parse_reports_request(
         garrison_side,
         garrison_building_type,
     })
-}
-
-fn parse_optional_i64(
-    value: Option<&str>,
-    error_message: &'static str,
-) -> Result<Option<i64>, ApiError> {
-    let Some(value) = value else {
-        return Ok(None);
-    };
-
-    value
-        .parse::<i64>()
-        .map(Some)
-        .map_err(|_| ApiError::bad_request(error_message))
 }
 
 fn parse_filter_type(value: Option<&str>) -> Result<Option<ReportsFilterType>, ApiError> {
