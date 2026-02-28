@@ -68,6 +68,14 @@ const config: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/proxy/:path*",
+        destination: `${process.env.API_URL}/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {
