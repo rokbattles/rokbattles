@@ -19,7 +19,8 @@ const CHART_LEFT_LABEL_GUTTER = 18;
 const CHART_LEFT_PADDING_MAX = 176;
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 0,
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
   notation: "compact",
 });
 
@@ -48,7 +49,7 @@ export default function ReportsOverviewTimelineChart({
   const countRange = Math.max(1, maxCount - minCount);
   const xDivisor = Math.max(1, validSamples.length - 1);
   const axisMaxLabel = numberFormatter.format(maxCount);
-  const axisMidLabel = numberFormatter.format(Math.round((maxCount + minCount) / 2));
+  const axisMidLabel = numberFormatter.format((maxCount + minCount) / 2);
   const axisMinLabel = numberFormatter.format(minCount);
   const longestAxisLabelLength = Math.max(
     axisMaxLabel.length,
