@@ -1,12 +1,14 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { Text } from "@/components/ui/text";
 
-export async function ArkMatchHistoryEmptyState() {
-  const t = await getExtracted();
+export function ArkMatchHistoryEmptyState() {
+  const t = useExtracted();
 
   return (
     <section className="mt-8 space-y-2">
-      <Text>{t("No Ark match history found for this governor yet.")}</Text>
+      <Text>{t("No Ark match history found.")}</Text>
     </section>
   );
 }

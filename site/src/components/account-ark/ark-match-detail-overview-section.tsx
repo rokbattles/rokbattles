@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import {
   DescriptionDetails,
   DescriptionList,
@@ -12,10 +14,8 @@ type ArkMatchDetailOverviewSectionProps = {
   overview: ArkMatchDetailOverview;
 };
 
-export async function ArkMatchDetailOverviewSection({
-  overview,
-}: ArkMatchDetailOverviewSectionProps) {
-  const t = await getExtracted();
+export function ArkMatchDetailOverviewSection({ overview }: ArkMatchDetailOverviewSectionProps) {
+  const t = useExtracted();
   const unavailableLabel = t("N/A");
 
   return (

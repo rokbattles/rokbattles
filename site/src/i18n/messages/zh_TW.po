@@ -6,11 +6,11 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(main)/account/ark/[matchId]/page.tsx:21
+#: src/app/(main)/account/ark/[matchId]/page.tsx:19
 msgid "WDt8Y9"
 msgstr ""
 
-#: src/app/(main)/account/ark/page.tsx:20
+#: src/app/(main)/account/ark/page.tsx:18
 msgid "P2Qqmh"
 msgstr ""
 
@@ -74,7 +74,7 @@ msgstr ""
 msgid "8PEDrB"
 msgstr ""
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:20
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:19
 #: src/components/my-pairings/my-pairings-content.tsx:145
 #: src/components/my-pairings/my-pairings-content.tsx:377
 #: src/components/olympian-arena/duel-participant-card.tsx:45
@@ -83,8 +83,8 @@ msgstr ""
 msgid "5hGibV"
 msgstr ""
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:40
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:51
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:39
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:50
 #: src/components/olympian-arena/duel-commander-row.tsx:22
 #: src/components/report/report-commander-row.tsx:24
 #: src/components/reports/participant-cell.tsx:39
@@ -92,82 +92,82 @@ msgstr ""
 msgid "+sdDeh"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-error-state.tsx:9
+#: src/components/account-ark/ark-match-detail-error-state.tsx:11
 msgid "Xe3O7i"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:19
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:21
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:19
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
 #: src/components/report/report-overview-column.tsx:64
 msgid "PW+sL4"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:23
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
 msgid "gkoU0i"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:27
 msgid "FsjcN7"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:29
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:31
 msgid "JPFyHU"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:33
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:35
 msgid "g/Nwxg"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:37
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:39
 msgid "5YClsN"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:41
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:43
 msgid "nCGWau"
 msgstr "獲勝數"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:45
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:47
 msgid "Hw0iax"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:49
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:51
 msgid "BXfxPW"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:53
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:55
 #: src/components/account-loot/loot-timeline-chart-client.tsx:124
 msgid "Sl01xK"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:57
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:59
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
 #: src/components/report/report-overview-column.tsx:46
 #: src/components/reports/reports-overview-summary-card.tsx:46
 msgid "sz3C4k"
 msgstr "重傷"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:61
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:63
 msgid "mJwM5A"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:65
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:67
 msgid "itiyNN"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:69
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:71
 msgid "lcP4aP"
 msgstr "遷城次數"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:73
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:75
 msgid "5g03Dq"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-loading-state.tsx:7
+#: src/components/account-ark/ark-match-detail-loading-state.tsx:9
 msgid "ksU1u5"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-not-found-state.tsx:9
+#: src/components/account-ark/ark-match-detail-not-found-state.tsx:11
 msgid "gwll/b"
 msgstr ""
 
@@ -180,7 +180,7 @@ msgid "VP5+CR"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:29
-#: src/components/account-ark/ark-match-history-table.tsx:22
+#: src/components/account-ark/ark-match-history-table.tsx:24
 msgid "oLkLww"
 msgstr ""
 
@@ -235,56 +235,56 @@ msgstr "擊殺數量"
 msgid "RCtKQ2"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-empty-state.tsx:9
-msgid "QKXR/H"
+#: src/components/account-ark/ark-match-history-empty-state.tsx:11
+msgid "7fThOd"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-error-state.tsx:9
+#: src/components/account-ark/ark-match-history-error-state.tsx:11
 msgid "6IRh9u"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-loading-state.tsx:7
+#: src/components/account-ark/ark-match-history-loading-state.tsx:9
 msgid "raC1gL"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:19
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:18
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "伊西斯"
 
-#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
 #: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:31
+#: src/components/account-ark/ark-match-history-row.tsx:33
 msgid "lgBBrD"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:33
-#: src/components/account-ark/ark-match-history-row.tsx:34
+#: src/components/account-ark/ark-match-history-row.tsx:35
+#: src/components/account-ark/ark-match-history-row.tsx:36
 msgid "iVlule"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-table.tsx:17
+#: src/components/account-ark/ark-match-history-table.tsx:19
 #: src/components/olympian-arena/olympian-arena-table.tsx:39
 #: src/components/reports/reports-table.tsx:47
 msgid "ug01Mk"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-table.tsx:20
+#: src/components/account-ark/ark-match-history-table.tsx:22
 #: src/components/olympian-arena/duel-participant-card.tsx:88
 msgid "H+vBOj"
 msgstr "勝方"
 
-#: src/components/account-ark/ark-match-history-table.tsx:21
+#: src/components/account-ark/ark-match-history-table.tsx:23
 msgid "+a+2ug"
 msgstr ""
 
@@ -1093,6 +1093,8 @@ msgstr ""
 msgid "oM3yjO"
 msgstr ""
 
+#: src/hooks/use-ark-match-detail.ts:53
+#: src/hooks/use-ark-match-history.ts:65
 #: src/hooks/use-olympian-arena-duel.ts:36
 #: src/hooks/use-olympian-arena-duel.ts:45
 #: src/hooks/use-olympian-arena-duels.ts:77

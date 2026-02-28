@@ -1,8 +1,10 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { Text } from "@/components/ui/text";
 
-export async function ArkMatchHistoryErrorState() {
-  const t = await getExtracted();
+export function ArkMatchHistoryErrorState() {
+  const t = useExtracted();
 
   return (
     <section className="mt-8 space-y-2">

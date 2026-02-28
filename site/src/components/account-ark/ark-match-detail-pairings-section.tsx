@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { ArkCommanderPairingCell } from "@/components/account-ark/ark-commander-pairing-cell";
 import { Subheading } from "@/components/ui/heading";
 import {
@@ -17,10 +19,8 @@ type ArkMatchDetailPairingsSectionProps = {
   pairings: ArkMatchDetailPairing[];
 };
 
-export async function ArkMatchDetailPairingsSection({
-  pairings,
-}: ArkMatchDetailPairingsSectionProps) {
-  const t = await getExtracted();
+export function ArkMatchDetailPairingsSection({ pairings }: ArkMatchDetailPairingsSectionProps) {
+  const t = useExtracted();
   const unavailableLabel = t("N/A");
 
   return (

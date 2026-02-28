@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { getExtracted, getLocale } from "next-intl/server";
+import { useExtracted, useLocale } from "next-intl";
 import { getCommanderName } from "@/lib/commander";
 
 type ArkCommanderPairingCellProps = {
@@ -11,12 +13,9 @@ function isValidCommanderId(id: number | null | undefined): id is number {
   return typeof id === "number" && Number.isFinite(id) && id > 0;
 }
 
-export async function ArkCommanderPairingCell({
-  primaryId,
-  secondaryId,
-}: ArkCommanderPairingCellProps) {
-  const t = await getExtracted();
-  const locale = await getLocale();
+export function ArkCommanderPairingCell({ primaryId, secondaryId }: ArkCommanderPairingCellProps) {
+  const t = useExtracted();
+  const locale = useLocale();
   const unknownLabel = t("Unknown commander");
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId, locale) ?? String(primaryId))
