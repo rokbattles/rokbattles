@@ -10,6 +10,9 @@ use mongodb::options::IndexOptions;
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
     mails_duelbattle2: Collection<Document>,
+    mails_alliance_aoobattleresults: Collection<Document>,
+    mails_alliance_aoobattleinfo: Collection<Document>,
+    mails_alliance_aooindividualresults: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
     claimed_governors: Collection<Document>,
@@ -21,6 +24,10 @@ impl ReportsStore {
         Self {
             mails_battle: db.collection("mails_battle"),
             mails_duelbattle2: db.collection("mails_duelbattle2"),
+            mails_alliance_aoobattleresults: db.collection("mails_alliance_aoobattleresults"),
+            mails_alliance_aoobattleinfo: db.collection("mails_alliance_aoobattleinfo"),
+            mails_alliance_aooindividualresults: db
+                .collection("mails_alliance_aooindividualresults"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             claimed_governors: db.collection("claimedGovernors"),
@@ -68,6 +75,38 @@ impl ReportsStore {
 
         for model in duel_models {
             self.mails_duelbattle2.create_index(model).await?;
+        }
+
+        let ark_battle_results_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_id": 1 })
+                .build(),
+        ];
+
+        for model in ark_battle_results_models {
+            self.mails_alliance_aoobattleresults
+                .create_index(model)
+                .await?;
+        }
+
+        let ark_secondary_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
+
+        for model in ark_secondary_models.clone() {
+            self.mails_alliance_aoobattleinfo
+                .create_index(model)
+                .await?;
+        }
+        for model in ark_secondary_models {
+            self.mails_alliance_aooindividualresults
+                .create_index(model)
+                .await?;
         }
 
         let barbarian_fort_models = vec![
@@ -127,6 +166,21 @@ impl ReportsStore {
     /// Access the Olympian Arena duel reports collection.
     pub fn duelbattle2_collection(&self) -> &Collection<Document> {
         &self.mails_duelbattle2
+    }
+
+    /// Access Ark of Osiris battle results mails.
+    pub fn alliance_aoobattleresults_collection(&self) -> &Collection<Document> {
+        &self.mails_alliance_aoobattleresults
+    }
+
+    /// Access Ark of Osiris battle info mails.
+    pub fn alliance_aoobattleinfo_collection(&self) -> &Collection<Document> {
+        &self.mails_alliance_aoobattleinfo
+    }
+
+    /// Access Ark of Osiris individual results mails.
+    pub fn alliance_aooindividualresults_collection(&self) -> &Collection<Document> {
+        &self.mails_alliance_aooindividualresults
     }
 
     /// Access the system barbarian fort mail collection.

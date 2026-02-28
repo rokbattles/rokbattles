@@ -4,10 +4,10 @@ use std::sync::Arc;
 use axum::extract::{Path, Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
-use mongodb::bson::doc;
 
 use crate::auth::AuthenticatedSession;
 use crate::error::ApiError;
+use crate::routes::governor::common::ensure_governor_claim_for_user;
 use crate::state::AppState;
 
 use self::aggregate::aggregate_loot;
@@ -30,18 +30,7 @@ pub async fn get(
     let governor_id = parse_governor_id(&governor_id_raw)?;
     let request = parse_loot_request(&params)?;
 
-    let claim = state
-        .reports_store
-        .claimed_governors_collection()
-        .find_one(doc! {
-            "discordId": &session.user.discord_id,
-            "governorId": governor_id
-        })
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-    if claim.is_none() {
-        return Err(ApiError::not_found("Claim not found"));
-    }
+    ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
 
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();

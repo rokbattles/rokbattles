@@ -1,8 +1,10 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { Text } from "@/components/ui/text";
 
-export async function ArkMatchHistoryLoadingState() {
-  const t = await getExtracted();
+export function ArkMatchHistoryLoadingState() {
+  const t = useExtracted();
 
   return <Text className="mt-8">{t("Loading Ark match history...")}</Text>;
 }

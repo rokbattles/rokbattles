@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { ArkMatchHistoryRow } from "@/components/account-ark/ark-match-history-row";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { ArkMatchRecord } from "@/lib/types/ark";
@@ -7,8 +9,8 @@ type ArkMatchHistoryTableProps = {
   rows: ArkMatchRecord[];
 };
 
-export async function ArkMatchHistoryTable({ rows }: ArkMatchHistoryTableProps) {
-  const t = await getExtracted();
+export function ArkMatchHistoryTable({ rows }: ArkMatchHistoryTableProps) {
+  const t = useExtracted();
 
   return (
     <Table dense className="[--gutter:--spacing(6)] lg:[--gutter:--spacing(10)]">

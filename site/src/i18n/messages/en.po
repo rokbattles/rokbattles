@@ -6,11 +6,11 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(main)/account/ark/[matchId]/page.tsx:21
+#: src/app/(main)/account/ark/[matchId]/page.tsx:19
 msgid "WDt8Y9"
 msgstr "Ark Match"
 
-#: src/app/(main)/account/ark/page.tsx:20
+#: src/app/(main)/account/ark/page.tsx:18
 msgid "P2Qqmh"
 msgstr "Ark Match History"
 
@@ -74,7 +74,7 @@ msgstr "Back to My Reports"
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:20
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:19
 #: src/components/my-pairings/my-pairings-content.tsx:145
 #: src/components/my-pairings/my-pairings-content.tsx:377
 #: src/components/olympian-arena/duel-participant-card.tsx:45
@@ -83,8 +83,8 @@ msgstr "Explore Battles"
 msgid "5hGibV"
 msgstr "Unknown commander"
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:40
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:51
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:39
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:50
 #: src/components/olympian-arena/duel-commander-row.tsx:22
 #: src/components/report/report-commander-row.tsx:24
 #: src/components/reports/participant-cell.tsx:39
@@ -92,82 +92,82 @@ msgstr "Unknown commander"
 msgid "+sdDeh"
 msgstr "{name} icon"
 
-#: src/components/account-ark/ark-match-detail-error-state.tsx:9
+#: src/components/account-ark/ark-match-detail-error-state.tsx:11
 msgid "Xe3O7i"
 msgstr "Failed to load Ark match details."
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:19
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:21
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:19
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
 #: src/components/report/report-overview-column.tsx:64
 msgid "PW+sL4"
 msgstr "N/A"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:23
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
 msgid "gkoU0i"
 msgstr "Individual Results"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:27
 msgid "FsjcN7"
 msgstr "Ark of Osiris Score"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:29
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:31
 msgid "JPFyHU"
 msgstr "Kill Score"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:33
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:35
 msgid "g/Nwxg"
 msgstr "Occupation Score"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:37
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:39
 msgid "5YClsN"
 msgstr "Provisions Score"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:41
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:43
 msgid "nCGWau"
 msgstr "Battles Won"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:45
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:47
 msgid "Hw0iax"
 msgstr "Battles Lost"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:49
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:51
 msgid "BXfxPW"
 msgstr "Win Percentage"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:53
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:55
 #: src/components/account-loot/loot-timeline-chart-client.tsx:124
 msgid "Sl01xK"
 msgstr "Kills"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:57
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:59
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
 #: src/components/report/report-overview-column.tsx:46
 #: src/components/reports/reports-overview-summary-card.tsx:46
 msgid "sz3C4k"
 msgstr "Severely Wounded"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:61
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:63
 msgid "mJwM5A"
 msgstr "Units Healed"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:65
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:67
 msgid "itiyNN"
 msgstr "Speedups (minutes)"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:69
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:71
 msgid "lcP4aP"
 msgstr "Teleports"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:73
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:75
 msgid "5g03Dq"
 msgstr "Structures Entered"
 
-#: src/components/account-ark/ark-match-detail-loading-state.tsx:7
+#: src/components/account-ark/ark-match-detail-loading-state.tsx:9
 msgid "ksU1u5"
 msgstr "Loading Ark match details..."
 
-#: src/components/account-ark/ark-match-detail-not-found-state.tsx:9
+#: src/components/account-ark/ark-match-detail-not-found-state.tsx:11
 msgid "gwll/b"
 msgstr "Ark match not found."
 
@@ -180,7 +180,7 @@ msgid "VP5+CR"
 msgstr "Rank"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:29
-#: src/components/account-ark/ark-match-history-table.tsx:22
+#: src/components/account-ark/ark-match-history-table.tsx:24
 msgid "oLkLww"
 msgstr "Score"
 
@@ -235,56 +235,56 @@ msgstr "Kill Count"
 msgid "RCtKQ2"
 msgstr "Kill Points"
 
-#: src/components/account-ark/ark-match-history-empty-state.tsx:9
-msgid "QKXR/H"
-msgstr "No Ark match history found for this governor yet."
+#: src/components/account-ark/ark-match-history-empty-state.tsx:11
+msgid "7fThOd"
+msgstr "No Ark match history found."
 
-#: src/components/account-ark/ark-match-history-error-state.tsx:9
+#: src/components/account-ark/ark-match-history-error-state.tsx:11
 msgid "6IRh9u"
 msgstr "Failed to load Ark match history."
 
-#: src/components/account-ark/ark-match-history-loading-state.tsx:7
+#: src/components/account-ark/ark-match-history-loading-state.tsx:9
 msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
-#: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:19
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-row.tsx:25
-#: src/components/account-ark/ark-match-history-table.tsx:18
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "Iset"
 
-#: src/components/account-ark/ark-match-history-row.tsx:25
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
 #: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
 msgstr "Unknown"
 
-#: src/components/account-ark/ark-match-history-row.tsx:31
+#: src/components/account-ark/ark-match-history-row.tsx:33
 msgid "lgBBrD"
 msgstr "View Ark match details"
 
-#: src/components/account-ark/ark-match-history-row.tsx:33
-#: src/components/account-ark/ark-match-history-row.tsx:34
+#: src/components/account-ark/ark-match-history-row.tsx:35
+#: src/components/account-ark/ark-match-history-row.tsx:36
 msgid "iVlule"
 msgstr "Unknown alliance"
 
-#: src/components/account-ark/ark-match-history-table.tsx:17
+#: src/components/account-ark/ark-match-history-table.tsx:19
 #: src/components/olympian-arena/olympian-arena-table.tsx:39
 #: src/components/reports/reports-table.tsx:47
 msgid "ug01Mk"
 msgstr "Time"
 
-#: src/components/account-ark/ark-match-history-table.tsx:20
+#: src/components/account-ark/ark-match-history-table.tsx:22
 #: src/components/olympian-arena/duel-participant-card.tsx:88
 msgid "H+vBOj"
 msgstr "Winner"
 
-#: src/components/account-ark/ark-match-history-table.tsx:21
+#: src/components/account-ark/ark-match-history-table.tsx:23
 msgid "+a+2ug"
 msgstr "Members"
 
@@ -1093,6 +1093,8 @@ msgstr "Close navigation"
 msgid "oM3yjO"
 msgstr "Open navigation"
 
+#: src/hooks/use-ark-match-detail.ts:53
+#: src/hooks/use-ark-match-history.ts:65
 #: src/hooks/use-olympian-arena-duel.ts:36
 #: src/hooks/use-olympian-arena-duel.ts:45
 #: src/hooks/use-olympian-arena-duels.ts:77

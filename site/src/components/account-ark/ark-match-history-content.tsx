@@ -1,28 +1,41 @@
+"use client";
+
+import { useContext } from "react";
 import { ArkMatchHistoryEmptyState } from "@/components/account-ark/ark-match-history-empty-state";
 import { ArkMatchHistoryErrorState } from "@/components/account-ark/ark-match-history-error-state";
+import { ArkMatchHistoryLoadingState } from "@/components/account-ark/ark-match-history-loading-state";
 import { ArkMatchHistoryTable } from "@/components/account-ark/ark-match-history-table";
-import { getGovernorArkMatchHistory } from "@/data/ark/query";
+import { useArkMatchHistory } from "@/hooks/use-ark-match-history";
+import { GovernorContext } from "@/providers/governor-context";
 
 type ArkMatchHistoryContentProps = {
-  governorId: number;
   limit?: number;
 };
 
-export async function ArkMatchHistoryContent({ governorId, limit }: ArkMatchHistoryContentProps) {
-  try {
-    const data = await getGovernorArkMatchHistory({ governorId, limit });
+export function ArkMatchHistoryContent({ limit }: ArkMatchHistoryContentProps) {
+  const governorContext = useContext(GovernorContext);
+  if (!governorContext) {
+    throw new Error("Ark match history must be used within a GovernorProvider");
+  }
 
-    if (data.rows.length === 0) {
-      return <ArkMatchHistoryEmptyState />;
-    }
+  const governorId = governorContext.activeGovernor?.governorId;
+  const { data, loading, error } = useArkMatchHistory({ governorId, limit });
 
-    return (
-      <section className="mt-8 space-y-4">
-        <ArkMatchHistoryTable rows={data.rows} />
-      </section>
-    );
-  } catch (error) {
-    console.error("Failed to load ark match history", error);
+  if (loading) {
+    return <ArkMatchHistoryLoadingState />;
+  }
+
+  if (error) {
     return <ArkMatchHistoryErrorState />;
   }
+
+  if (!data || data.items.length === 0) {
+    return <ArkMatchHistoryEmptyState />;
+  }
+
+  return (
+    <section className="mt-8 space-y-4">
+      <ArkMatchHistoryTable rows={data.items} />
+    </section>
+  );
 }

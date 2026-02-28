@@ -1,9 +1,10 @@
 use std::collections::HashMap;
 
-use mongodb::bson::{DateTime, Document, doc};
+use mongodb::bson::{DateTime, Document};
 
 use crate::error::ApiError;
 use crate::routes::governor::common::parse_positive_governor_id_str;
+use crate::time_utils::build_mail_time_match;
 use crate::time_utils::date_key_utc;
 
 const DEFAULT_MAX_RANGE_DAYS: i64 = 366;
@@ -24,18 +25,7 @@ pub(crate) struct LootDateRange {
 
 impl LootDateRange {
     pub fn build_mail_time_match(&self) -> Document {
-        let start_seconds = self.start_millis / 1000;
-        let end_seconds = self.end_millis / 1000;
-        let start_micros = self.start_millis.saturating_mul(1000);
-        let end_micros = self.end_millis.saturating_mul(1000);
-
-        doc! {
-            "$or": [
-                { "metadata.mail_time": { "$gte": start_seconds, "$lt": end_seconds } },
-                { "metadata.mail_time": { "$gte": self.start_millis, "$lt": self.end_millis } },
-                { "metadata.mail_time": { "$gte": start_micros, "$lt": end_micros } },
-            ]
-        }
+        build_mail_time_match(self.start_millis, self.end_millis)
     }
 }
 

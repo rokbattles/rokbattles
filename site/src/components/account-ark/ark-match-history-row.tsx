@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import {
@@ -15,8 +17,8 @@ type ArkMatchHistoryRowProps = {
   row: ArkMatchRecord;
 };
 
-export async function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps) {
-  const t = await getExtracted();
+export function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps) {
+  const t = useExtracted();
   const detailsHref = `/account/ark/${encodeURIComponent(row.matchId)}`;
   const sethAlliance = getArkSethAlliance(row);
   const isetAlliance = getArkIsetAlliance(row);
