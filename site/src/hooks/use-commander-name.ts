@@ -8,11 +8,6 @@ export function getCommanderName(id: number | null | undefined, locale?: string)
   return getCommanderNameByLocale(id, requestedLocale);
 }
 
-export type CommanderOption = {
-  id: number;
-  name: string;
-};
-
 export function useCommanderOptions(locale?: string) {
   const requestedLocale = resolveLocale(locale);
   const entries = Object.entries(commanderMap).map(([id]) => {
