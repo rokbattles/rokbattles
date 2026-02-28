@@ -20,12 +20,6 @@ export type LootCategoryAggregate = {
   daily: LootDailyAggregate[];
 };
 
-export type LootQueryInput = {
-  governorId: number;
-  startParam?: string | null;
-  endParam?: string | null;
-};
-
 export type LootQueryResult = {
   range: {
     start: string;
