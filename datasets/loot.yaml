@@ -24,6 +24,10 @@ loot:
         zh_TW: "水晶"
 
   2:
+    25:
+      name:
+        en: "Gems"
+
     26:
       name:
         ar: "10 جواهر"
@@ -132,6 +136,10 @@ loot:
         vi: "Tăng tốc 1 phút"
         zh_CN: "1分钟加速"
         zh_TW: "1分鐘加速"
+
+    38:
+      name:
+        en: "8-Hour Speedup"
 
     44:
       name:
@@ -689,6 +697,10 @@ loot:
         vi: "Sách Kiến Thức Cấp 5"
         zh_CN: "等级5知识之书"
         zh_TW: "等級5知識之書"
+
+    155:
+      name:
+        en: "100 VIP Points"
 
     # 50 AP
     182:
