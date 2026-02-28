@@ -66,6 +66,10 @@ loot:
         zh_CN: "100 宝石"
         zh_TW: "100 寶石"
 
+    29:
+      name:
+        en: "200 Gems"
+
     30:
       name:
         ar: "500 جوهرة"
@@ -149,6 +153,10 @@ loot:
         vi: "Dịch Chuyển Có Mục Tiêu"
         zh_CN: "定点迁城"
         zh_TW: "定點遷城"
+
+    45:
+      name:
+        en: "Random Teleport"
 
     47:
       name:
@@ -488,6 +496,11 @@ loot:
         zh_CN: "初级行动力恢复"
         zh_TW: "初級行動力恢復"
 
+    # 500 AP
+    125:
+      name:
+        en: "Intermediate Action Point Recovery"
+
     128:
       name:
         ar: "مجلد المعرفة مستوى 1"
@@ -720,6 +733,10 @@ loot:
         vi: "Kho dự trữ cấp 5"
         zh_CN: "等级5 预备部队"
         zh_TW: "等級5 預備部隊"
+
+    190:
+      name:
+        en: "Crystal Key"
 
     # Unknown
     233:
