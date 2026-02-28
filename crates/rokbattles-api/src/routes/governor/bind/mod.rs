@@ -1,8 +1,6 @@
-use std::collections::HashMap;
 use std::sync::Arc;
 
-use axum::body::Bytes;
-use axum::extract::{Query, State};
+use axum::extract::{Path, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 
@@ -11,7 +9,7 @@ use crate::error::ApiError;
 use crate::routes::governor::snapshot::find_latest_sender_snapshot;
 use crate::state::AppState;
 
-use self::query::{parse_governor_id_from_bind_body, parse_governor_id_from_query_params};
+use self::query::parse_governor_id;
 use self::store::{
     claim_document_is_default, claim_exists_for_user, delete_claim_for_user,
     find_most_recent_governor_id, governor_claim_exists, insert_claim, set_bind_as_default,
@@ -28,10 +26,10 @@ const MAX_GOVERNOR_BINDS: u64 = 3;
 /// Claim a governor ID for the authenticated user.
 pub async fn post(
     State(state): State<Arc<AppState>>,
+    Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
-    body: Bytes,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id_from_bind_body(&body)?;
+    let governor_id = parse_governor_id(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
 
     if governor_claim_exists(claims, governor_id).await? {
@@ -78,10 +76,10 @@ pub async fn post(
 /// Set one of the authenticated user's binds as default.
 pub async fn patch_default(
     State(state): State<Arc<AppState>>,
+    Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
-    Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id_from_query_params(&params)?;
+    let governor_id = parse_governor_id(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
 
     if !claim_exists_for_user(claims, &session.user.discord_id, governor_id).await? {
@@ -95,10 +93,10 @@ pub async fn patch_default(
 /// Delete one claimed governor bind from the authenticated user.
 pub async fn delete(
     State(state): State<Arc<AppState>>,
+    Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
-    Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id_from_query_params(&params)?;
+    let governor_id = parse_governor_id(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
     let deleted_claim =
         delete_claim_for_user(claims, &session.user.discord_id, governor_id).await?;
