@@ -59,11 +59,7 @@ pub async fn get(
         governor_id,
         &request.range,
     );
-    let response = LootResponse::new(
-        request.range.start.clone(),
-        request.range.end.clone(),
-        categories,
-    );
+    let response = LootResponse::new(request.range.start, request.range.end, categories);
 
     Ok((
         StatusCode::OK,

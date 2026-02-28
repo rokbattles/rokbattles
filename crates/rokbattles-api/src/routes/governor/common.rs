@@ -44,7 +44,6 @@ pub(crate) fn parse_positive_governor_id_from_json(value: Option<&Value>) -> Opt
 
     parsed.filter(|governor_id| *governor_id > 0)
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
