@@ -24,6 +24,27 @@ loot:
         zh_TW: "水晶"
 
   2:
+    25:
+      name:
+        ar: "جواهر"
+        de: "Edelsteine"
+        en: "Gems"
+        es: "Gemas"
+        fr: "Gemmes"
+        id: "Gem"
+        it: "Gemme"
+        ja: "宝石"
+        ko: "보석"
+        ms: "Permata"
+        pl: "Klejnoty"
+        pt: "Gemas"
+        ru: "Самоцветы"
+        th: "อัญมณี"
+        tr: "Cevher"
+        vi: "Đá quý"
+        zh_CN: "宝石"
+        zh_TW: "寶石"
+
     26:
       name:
         ar: "10 جواهر"
@@ -65,6 +86,27 @@ loot:
         vi: "100 Đá Quý"
         zh_CN: "100 宝石"
         zh_TW: "100 寶石"
+
+    29:
+      name:
+        ar: "200 جوهرة"
+        de: "200 Edelsteine"
+        en: "200 Gems"
+        es: "200 gemas"
+        fr: "200 gemmes"
+        id: "200 Gem"
+        it: "200 gemme"
+        ja: "200 宝石"
+        ko: "보석 200개"
+        ms: "200 Permata"
+        pl: "200 klejnotów"
+        pt: "200 Gemas"
+        ru: "200 самоцветов"
+        th: "200 อัญมณี"
+        tr: "200 Cevher"
+        vi: "200 Đá Quý"
+        zh_CN: "200 宝石"
+        zh_TW: "200 寶石"
 
     30:
       name:
@@ -129,6 +171,27 @@ loot:
         zh_CN: "1分钟加速"
         zh_TW: "1分鐘加速"
 
+    38:
+      name:
+        ar: "تسريع 8 ساعات"
+        de: "8 Stunden Beschleunigung"
+        en: "8-Hour Speedup"
+        es: "8 horas de Aceleración"
+        fr: "Accélération - 8 heures"
+        id: "Speedup 8 Jam"
+        it: "Acceleratore da 8 ore"
+        ja: "8時間加速"
+        ko: "8시간 가속"
+        ms: "Percepat 8 Jam"
+        pl: "8-godz. przyspieszenie"
+        pt: "Aceleração de 8 horas"
+        ru: "8-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 8 ชั่วโมง"
+        tr: "8 Saatlik Hızlandırma"
+        vi: "Tăng tốc 8 giờ"
+        zh_CN: "8小时加速"
+        zh_TW: "8小時加速"
+
     44:
       name:
         ar: "نقل محدد"
@@ -149,6 +212,27 @@ loot:
         vi: "Dịch Chuyển Có Mục Tiêu"
         zh_CN: "定点迁城"
         zh_TW: "定點遷城"
+
+    45:
+      name:
+        ar: "نقل عشوائي"
+        de: "Zufällige Teleportierung"
+        en: "Random Teleport"
+        es: "Teletransporte Aleatorio"
+        fr: "Téléportation aléatoire"
+        id: "Teleportasi Acak"
+        it: "Teletrasporto casuale"
+        ja: "ランダム移転"
+        ko: "랜덤으로 도시 이전"
+        ms: "Teleport Rawak"
+        pl: "Losowa teleportacja"
+        pt: "Teleporte Aleatório"
+        ru: "Случайный телепорт"
+        th: "เทเลพอร์ตแบบสุ่ม"
+        tr: "Rastgele Işınlanma"
+        vi: "Dịch Chuyển Ngẫu Nhiên"
+        zh_CN: "随机迁城"
+        zh_TW: "隨機遷城"
 
     47:
       name:
@@ -488,6 +572,28 @@ loot:
         zh_CN: "初级行动力恢复"
         zh_TW: "初級行動力恢復"
 
+    # 500 AP
+    125:
+      name:
+        ar: "استعادة نقاط الحرب المتوسطة"
+        de: "Mittlere Aktionspunkteerholung:"
+        en: "Intermediate Action Point Recovery"
+        es: "Recuperación de puntos de acción intermedia"
+        fr: "Restauration intermédiaire de points d'action"
+        id: "Pemulihan Action Point Menengah"
+        it: "Recupero punti d'azione intermedio"
+        ja: "中級行動力回復"
+        ko: "중급 행동력 회복"
+        ms: "Pemulihan Mata Tindakan Sederhana"
+        pl: "Średnia regeneracja pkt akcji"
+        pt: "Recuperação Intermediária de Ponto de Ação"
+        ru: "Среднее восстановление очков действия"
+        th: "ฟื้นฟูคะแนนแอ็กชั่นระดับกลาง"
+        tr: "Orta Eylem Puanı Dolumu"
+        vi: "Khôi phục điểm hành động trung bình"
+        zh_CN: "中级行动力恢复"
+        zh_TW: "中級行動力恢復"
+
     128:
       name:
         ar: "مجلد المعرفة مستوى 1"
@@ -677,6 +783,27 @@ loot:
         zh_CN: "等级5知识之书"
         zh_TW: "等級5知識之書"
 
+    155:
+      name:
+        ar: "100 نقاط VIP"
+        de: "100 VIP-Punkte"
+        en: "100 VIP Points"
+        es: "100 Puntos de VIP"
+        fr: "100 points VIP"
+        id: "100 Point VIP"
+        it: "100 punti VIP"
+        ja: "100 VIPポイント"
+        ko: "100 VIP 포인트"
+        ms: "100 Mata VIP"
+        pl: "100 punktów VIP"
+        pt: "100 pontos VIP"
+        ru: "100 VIP-очков"
+        th: "คะแนน VIP 100 คะแนน"
+        tr: "100 VIP Puanı"
+        vi: "100 điểm VIP"
+        zh_CN: "100 VIP点数"
+        zh_TW: "100 VIP點數"
+
     # 50 AP
     182:
       name:
@@ -720,6 +847,27 @@ loot:
         vi: "Kho dự trữ cấp 5"
         zh_CN: "等级5 预备部队"
         zh_TW: "等級5 預備部隊"
+
+    190:
+      name:
+        ar: "مفتاح كريستالي"
+        de: "Kristallschlüssel"
+        en: "Crystal Key"
+        es: "Llave de cristal"
+        fr: "Clé de cristal"
+        id: "Kunci Kristal"
+        it: "Chiave di cristallo"
+        ja: "水晶の鍵"
+        ko: "수정 열쇠"
+        ms: "Kunci Kristal"
+        pl: "Kryształowy klucz"
+        pt: "Chave de Cristal"
+        ru: "Кристальный ключ"
+        th: "กุญแจคริสตัล"
+        tr: "Kristal Anahtar"
+        vi: "Chìa khóa pha lê"
+        zh_CN: "水晶钥匙"
+        zh_TW: "水晶鑰匙"
 
     # Unknown
     233:
