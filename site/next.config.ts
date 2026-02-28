@@ -72,7 +72,7 @@ const config: NextConfig = {
     return [
       {
         source: "/proxy/:path*",
-        destination: `${process.env.API_URL}/:path*`,
+        destination: `${process.env.API_URL || "http://localhost:8001"}/:path*`,
       },
     ];
   },
