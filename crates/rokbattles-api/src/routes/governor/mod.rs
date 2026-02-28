@@ -12,7 +12,7 @@ pub(crate) mod snapshot;
 
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
-        .route("/bind", post(bind::post).delete(bind::delete))
-        .route("/bind/default", patch(bind::patch_default))
+        .route("/{governor_id}/bind", post(bind::post).delete(bind::delete))
+        .route("/{governor_id}/bind/default", patch(bind::patch_default))
         .route("/{governor_id}/loot", get(loot::get))
 }
