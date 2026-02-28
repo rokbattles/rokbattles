@@ -10,6 +10,8 @@ use mongodb::options::IndexOptions;
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
     mails_duelbattle2: Collection<Document>,
+    mails_system_barbarianfort: Collection<Document>,
+    mails_barcanyonkillboss: Collection<Document>,
     claimed_governors: Collection<Document>,
 }
 
@@ -19,6 +21,8 @@ impl ReportsStore {
         Self {
             mails_battle: db.collection("mails_battle"),
             mails_duelbattle2: db.collection("mails_duelbattle2"),
+            mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
+            mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             claimed_governors: db.collection("claimedGovernors"),
         }
     }
@@ -66,6 +70,29 @@ impl ReportsStore {
             self.mails_duelbattle2.create_index(model).await?;
         }
 
+        let barbarian_fort_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
+
+        for model in barbarian_fort_models {
+            self.mails_system_barbarianfort.create_index(model).await?;
+        }
+
+        let baulur_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "participants.player_id": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
+
+        for model in baulur_models {
+            self.mails_barcanyonkillboss.create_index(model).await?;
+        }
+
         let claimed_governor_models = vec![
             IndexModel::builder()
                 .keys(doc! { "governorId": 1 })
@@ -100,6 +127,16 @@ impl ReportsStore {
     /// Access the Olympian Arena duel reports collection.
     pub fn duelbattle2_collection(&self) -> &Collection<Document> {
         &self.mails_duelbattle2
+    }
+
+    /// Access the system barbarian fort mail collection.
+    pub fn system_barbarian_fort_collection(&self) -> &Collection<Document> {
+        &self.mails_system_barbarianfort
+    }
+
+    /// Access the bar canyon kill boss mail collection.
+    pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
+        &self.mails_barcanyonkillboss
     }
 
     /// Access claimed governor binds.

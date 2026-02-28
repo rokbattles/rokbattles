@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::error::ApiError;
+use crate::routes::reports::common::query::parse_optional_i64;
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct DuelBattle2Request {
@@ -34,20 +35,6 @@ pub(crate) fn parse_duelbattle2_request(
         before_cursor,
         after_cursor,
     })
-}
-
-fn parse_optional_i64(
-    value: Option<&str>,
-    error_message: &'static str,
-) -> Result<Option<i64>, ApiError> {
-    let Some(value) = value else {
-        return Ok(None);
-    };
-
-    value
-        .parse::<i64>()
-        .map(Some)
-        .map_err(|_| ApiError::bad_request(error_message))
 }
 
 #[cfg(test)]

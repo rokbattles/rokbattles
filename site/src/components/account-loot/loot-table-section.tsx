@@ -1,4 +1,6 @@
-import { getExtracted } from "next-intl/server";
+"use client";
+
+import { useExtracted } from "next-intl";
 import { LootBreakdownTable } from "@/components/account-loot/loot-breakdown-table";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
@@ -10,8 +12,8 @@ type LootTableSectionProps = {
   datasetLocale?: string;
 };
 
-export async function LootTableSection({ category, datasetLocale }: LootTableSectionProps) {
-  const t = await getExtracted();
+export function LootTableSection({ category, datasetLocale }: LootTableSectionProps) {
+  const t = useExtracted();
   const rows = buildLootRewardRows(
     category,
     (type, subType) =>

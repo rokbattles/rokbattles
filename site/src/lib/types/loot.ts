@@ -24,11 +24,9 @@ export type LootQueryInput = {
   governorId: number;
   startParam?: string | null;
   endParam?: string | null;
-  yearParam?: string | null;
 };
 
 export type LootQueryResult = {
-  year: number;
   range: {
     start: string;
     end: string;
