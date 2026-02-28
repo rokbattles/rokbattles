@@ -8,6 +8,7 @@ use crate::state::AppState;
 pub mod bind;
 pub(crate) mod common;
 pub mod loot;
+pub(crate) mod snapshot;
 
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
