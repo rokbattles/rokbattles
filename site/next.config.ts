@@ -68,6 +68,14 @@ const config: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/proxy/:path*",
+        destination: `${process.env.API_URL || "http://localhost:8001"}/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [
       {
