@@ -1,6 +1,6 @@
 {
   "name": "@rokbattles/site",
-  "version": "1.0.0-rc.6",
+  "version": "1.0.0-rc.7",
   "private": true,
   "scripts": {
     "build": "next build --turbo",
