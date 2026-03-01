@@ -2,16 +2,14 @@ use std::collections::{BTreeSet, HashMap};
 
 use mongodb::bson::{Bson, Document};
 
-use crate::bson_utils::{
-    bson_to_f64, nested_array, nested_document, nested_f64, nested_i64, nested_str,
-};
+use crate::bson_utils::{nested_array, nested_f64, nested_i64, nested_str};
 use crate::routes::governor::date_range::GovernorDateRange;
 use crate::routes::governor::pairings::query::{LoadoutGranularity, OpponentGranularity};
 use crate::routes::governor::pairings::types::{
     EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
     PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
 };
-use crate::time_utils::normalize_timestamp_millis;
+use crate::time_utils::{normalize_bson_timestamp_millis, normalize_timestamp_millis};
 
 #[derive(Debug, Clone)]
 struct PairingEntry {
@@ -196,10 +194,7 @@ fn mail_is_in_range(mail: &Document, range: &GovernorDateRange) -> bool {
 }
 
 fn extract_event_time_millis(mail: &Document) -> Option<i64> {
-    nested_document(mail, &["metadata"])?
-        .get("mail_time")
-        .and_then(bson_to_f64)
-        .and_then(normalize_timestamp_millis)
+    normalize_bson_timestamp_millis(mail.get_document("metadata").ok()?.get("mail_time"))
 }
 
 fn flatten_pairing_entries(mail: &Document) -> Vec<PairingEntry> {

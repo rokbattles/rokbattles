@@ -1,11 +1,29 @@
+use std::collections::HashMap;
+
 use mongodb::bson::doc;
 
 use crate::error::ApiError;
+use crate::routes::governor::date_range::{GovernorDateRange, parse_governor_date_range};
 use crate::state::AppState;
 
-pub(crate) fn parse_positive_governor_id_str(value: &str) -> Option<i64> {
+const DEFAULT_MAX_RANGE_DAYS: i64 = 366;
+
+fn parse_positive_governor_id_str(value: &str) -> Option<i64> {
     let parsed = value.trim().parse::<i64>().ok()?;
     (parsed > 0).then_some(parsed)
+}
+
+/// Parse a governor id from a path parameter.
+pub(crate) fn parse_governor_id_param(raw_governor_id: &str) -> Result<i64, ApiError> {
+    parse_positive_governor_id_str(raw_governor_id)
+        .ok_or_else(|| ApiError::bad_request("Invalid governorId"))
+}
+
+/// Parse the standard `start` / `end` governor date-range query with the default cap.
+pub(crate) fn parse_default_governor_date_range(
+    params: &HashMap<String, String>,
+) -> Result<GovernorDateRange, ApiError> {
+    parse_governor_date_range(params, DEFAULT_MAX_RANGE_DAYS)
 }
 
 pub(crate) async fn ensure_governor_claim_for_user(
@@ -35,15 +53,27 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_positive_governor_id_from_string() {
-        assert_eq!(parse_positive_governor_id_str("123"), Some(123));
-        assert_eq!(parse_positive_governor_id_str(" 456 "), Some(456));
+    fn parse_governor_id_param_accepts_positive_integer() {
+        assert_eq!(parse_governor_id_param("123").expect("governor id"), 123);
+        assert_eq!(parse_governor_id_param(" 456 ").expect("governor id"), 456);
     }
 
     #[test]
-    fn rejects_non_positive_or_invalid_governor_ids() {
-        assert_eq!(parse_positive_governor_id_str("0"), None);
-        assert_eq!(parse_positive_governor_id_str("-1"), None);
-        assert_eq!(parse_positive_governor_id_str("abc"), None);
+    fn parse_governor_id_param_rejects_non_positive_or_invalid_values() {
+        assert!(parse_governor_id_param("0").is_err());
+        assert!(parse_governor_id_param("-1").is_err());
+        assert!(parse_governor_id_param("abc").is_err());
+    }
+
+    #[test]
+    fn parse_default_governor_date_range_reads_start_and_end() {
+        let range = parse_default_governor_date_range(&HashMap::from([
+            ("start".to_string(), "2025-02-03".to_string()),
+            ("end".to_string(), "2025-02-04".to_string()),
+        ]))
+        .expect("range");
+
+        assert_eq!(range.start, "2025-02-03");
+        assert_eq!(range.end, "2025-02-04");
     }
 }

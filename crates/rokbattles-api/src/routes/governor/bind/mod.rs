@@ -6,10 +6,10 @@ use axum::{Json, http::StatusCode};
 
 use crate::auth::AuthenticatedSession;
 use crate::error::ApiError;
+use crate::routes::governor::common::parse_governor_id_param;
 use crate::routes::governor::snapshot::find_latest_sender_snapshot;
 use crate::state::AppState;
 
-use self::query::parse_governor_id;
 use self::store::{
     claim_document_is_default, claim_exists_for_user, delete_claim_for_user,
     find_most_recent_governor_id, governor_claim_exists, insert_claim, set_bind_as_default,
@@ -17,7 +17,6 @@ use self::store::{
 };
 use self::types::{BindGovernorResponse, ClaimedGovernor};
 
-mod query;
 mod store;
 mod types;
 
@@ -29,7 +28,7 @@ pub async fn post(
     Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
 
     if governor_claim_exists(claims, governor_id).await? {
@@ -79,7 +78,7 @@ pub async fn patch_default(
     Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
 
     if !claim_exists_for_user(claims, &session.user.discord_id, governor_id).await? {
@@ -96,7 +95,7 @@ pub async fn delete(
     Path(governor_id_raw): Path<String>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let claims = state.reports_store.claimed_governors_collection();
     let deleted_claim =
         delete_claim_for_user(claims, &session.user.discord_id, governor_id).await?;

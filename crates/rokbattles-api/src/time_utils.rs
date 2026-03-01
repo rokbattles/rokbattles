@@ -1,5 +1,7 @@
 use mongodb::bson::DateTime;
-use mongodb::bson::{Document, doc};
+use mongodb::bson::{Bson, Document, doc};
+
+use crate::bson_utils::bson_to_f64_loose;
 
 /// Normalizes an epoch timestamp to milliseconds.
 /// Accepts values expressed in seconds, milliseconds, or microseconds.
@@ -21,6 +23,15 @@ pub(crate) fn normalize_timestamp_millis(value: f64) -> Option<i64> {
     } else {
         None
     }
+}
+
+/// Normalize a BSON timestamp field to milliseconds.
+///
+/// This accepts number-like BSON values (including numeric strings), and then
+/// normalizes seconds/milliseconds/microseconds into epoch milliseconds.
+pub(crate) fn normalize_bson_timestamp_millis(value: Option<&Bson>) -> Option<i64> {
+    let raw = bson_to_f64_loose(value?)?;
+    normalize_timestamp_millis(raw)
 }
 
 /// Formats UTC epoch milliseconds as a `YYYY-MM-DD` date string.
@@ -75,5 +86,13 @@ mod tests {
             .expect("mail_time expression");
         assert_eq!(expression.get_i64("$gte").ok(), Some(1_000_000));
         assert_eq!(expression.get_i64("$lt").ok(), Some(2_000_000));
+    }
+
+    #[test]
+    fn normalizes_bson_timestamp_millis_from_numeric_string() {
+        assert_eq!(
+            normalize_bson_timestamp_millis(Some(&Bson::String("1739960800".to_string()))),
+            Some(1_739_960_800_000)
+        );
     }
 }

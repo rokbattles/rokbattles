@@ -15,6 +15,7 @@ pub struct ReportsStore {
     mails_alliance_aooindividualresults: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
+    mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
 }
 
@@ -30,6 +31,7 @@ impl ReportsStore {
                 .collection("mails_alliance_aooindividualresults"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
+            mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
         }
     }
@@ -132,6 +134,16 @@ impl ReportsStore {
             self.mails_barcanyonkillboss.create_index(model).await?;
         }
 
+        let rss_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
+
+        for model in rss_models {
+            self.mails_rss.create_index(model).await?;
+        }
+
         let claimed_governor_models = vec![
             IndexModel::builder()
                 .keys(doc! { "governorId": 1 })
@@ -191,6 +203,11 @@ impl ReportsStore {
     /// Access the bar canyon kill boss mail collection.
     pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
         &self.mails_barcanyonkillboss
+    }
+
+    /// Access the RSS mail collection.
+    pub fn rss_collection(&self) -> &Collection<Document> {
+        &self.mails_rss
     }
 
     /// Access claimed governor binds.

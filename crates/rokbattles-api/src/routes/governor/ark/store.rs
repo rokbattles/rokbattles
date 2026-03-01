@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use futures::TryStreamExt;
 use mongodb::bson::{Document, doc};
 use mongodb::options::{FindOneOptions, FindOptions};
 
 use crate::error::ApiError;
+use crate::routes::governor::store_utils::fetch_collection_documents;
 use crate::state::AppState;
 
 pub(crate) async fn fetch_ark_battle_results_mails(
@@ -164,23 +164,6 @@ pub(crate) async fn fetch_ark_individual_results_mails(
         options,
     )
     .await
-}
-
-async fn fetch_collection_documents(
-    collection: &mongodb::Collection<Document>,
-    filter: Document,
-    options: FindOptions,
-) -> Result<Vec<Document>, ApiError> {
-    let cursor = collection
-        .find(filter)
-        .with_options(options)
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    cursor
-        .try_collect()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
 }
 
 fn ark_battle_results_history_filter(mail_receiver: &str) -> Document {

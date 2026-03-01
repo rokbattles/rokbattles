@@ -155,6 +155,14 @@ pub(crate) fn bson_to_i64_exact(value: &Bson) -> Option<i64> {
     }
 }
 
+/// Convert BSON values to `i64`, accepting numeric strings as well.
+pub(crate) fn bson_to_i64_loose(value: &Bson) -> Option<i64> {
+    bson_to_i64_exact(value).or_else(|| match value {
+        Bson::String(raw) => raw.trim().parse::<i64>().ok(),
+        _ => None,
+    })
+}
+
 /// Convert known BSON number types to `f64`.
 pub(crate) fn bson_to_f64(value: &Bson) -> Option<f64> {
     match value {
@@ -169,6 +177,18 @@ pub(crate) fn bson_to_f64(value: &Bson) -> Option<f64> {
         }
         _ => None,
     }
+}
+
+/// Convert BSON values to `f64`, accepting numeric strings as well.
+pub(crate) fn bson_to_f64_loose(value: &Bson) -> Option<f64> {
+    bson_to_f64(value).or_else(|| match value {
+        Bson::String(raw) => raw
+            .trim()
+            .parse::<f64>()
+            .ok()
+            .filter(|parsed| parsed.is_finite()),
+        _ => None,
+    })
 }
 
 #[cfg(test)]
@@ -212,5 +232,15 @@ mod tests {
         assert_eq!(bson_to_f64(&Bson::Int32(12)), Some(12.0));
         assert_eq!(bson_to_f64(&Bson::Double(56.8)), Some(56.8));
         assert_eq!(bson_to_f64(&Bson::Double(f64::NAN)), None);
+
+        assert_eq!(
+            bson_to_i64_loose(&Bson::String(" 56 ".to_string())),
+            Some(56)
+        );
+        assert_eq!(
+            bson_to_f64_loose(&Bson::String(" 56.8 ".to_string())),
+            Some(56.8)
+        );
+        assert_eq!(bson_to_f64_loose(&Bson::String("nan".to_string())), None);
     }
 }

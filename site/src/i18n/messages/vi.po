@@ -24,6 +24,11 @@ msgstr ""
 msgid "N42bBd"
 msgstr ""
 
+#: src/app/(main)/account/resources/page.tsx:24
+#: src/components/platform-layout.tsx:151
+msgid "gMtUZq"
+msgstr ""
+
 #: src/app/(main)/account/settings/layout.tsx:11
 #: src/components/platform-account-dropdown-menu.tsx:33
 msgid "NQgbYA"
@@ -409,16 +414,19 @@ msgid "XD64/m"
 msgstr ""
 
 #: src/components/account-loot/loot-filters-client.tsx:92
+#: src/components/account-resources/resources-filters-client.tsx:92
 #: src/components/my-pairings/pairings-filters.tsx:73
 msgid "n5QvJy"
 msgstr ""
 
 #: src/components/account-loot/loot-filters-client.tsx:103
+#: src/components/account-resources/resources-filters-client.tsx:103
 #: src/components/my-pairings/pairings-filters.tsx:84
 msgid "Humfno"
 msgstr ""
 
 #: src/components/account-loot/loot-report-section.tsx:18
+#: src/components/account-resources/resources-report-section.tsx:26
 msgid "sdkaef"
 msgstr ""
 
@@ -432,6 +440,39 @@ msgstr ""
 
 #: src/components/account-loot/loot-table-section.tsx:31
 msgid "PF57EA"
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx:57
+msgid "e4+7ni"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:26
+#: src/components/reports/reports-filter-dialog.tsx:204
+msgid "+U6ozc"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:27
+msgid "x9zwkN"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:28
+msgid "saDFoR"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:29
+msgid "MJ2jZQ"
+msgstr ""
+
+#: src/components/account-resources/resources-error-state.tsx:8
+msgid "QTvbTs"
+msgstr ""
+
+#: src/components/account-resources/resources-table-section.tsx:28
+msgid "F1tgWX"
+msgstr ""
+
+#: src/components/account-resources/resources-table-section.tsx:32
+msgid "9pjHcG"
 msgstr ""
 
 #: src/components/account/account-reports-content.tsx:27
@@ -825,7 +866,7 @@ msgid "Lvr/gV"
 msgstr ""
 
 #: src/components/platform-layout.tsx:106
-#: src/components/platform-layout.tsx:213
+#: src/components/platform-layout.tsx:220
 msgid "SQJto2"
 msgstr ""
 
@@ -837,27 +878,27 @@ msgstr "Tài khoản"
 msgid "NFE4yO"
 msgstr ""
 
-#: src/components/platform-layout.tsx:151
+#: src/components/platform-layout.tsx:158
 msgid "odeufe"
 msgstr ""
 
-#: src/components/platform-layout.tsx:161
+#: src/components/platform-layout.tsx:168
 msgid "7oFrM6"
 msgstr ""
 
-#: src/components/platform-layout.tsx:170
+#: src/components/platform-layout.tsx:177
 msgid "HqRNN8"
 msgstr ""
 
-#: src/components/platform-layout.tsx:179
+#: src/components/platform-layout.tsx:186
 msgid "QnWNmB"
 msgstr ""
 
-#: src/components/platform-layout.tsx:181
+#: src/components/platform-layout.tsx:188
 msgid "EQpyb8"
 msgstr ""
 
-#: src/components/platform-layout.tsx:191
+#: src/components/platform-layout.tsx:198
 msgid "gjBiyj"
 msgstr ""
 
@@ -969,10 +1010,6 @@ msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:187
 msgid "8Q504V"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx:204
-msgid "+U6ozc"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:212

@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use futures::TryStreamExt;
 use mongodb::bson::{Bson, Document, doc};
 use mongodb::options::FindOptions;
 use serde::Deserialize;
 
 use crate::error::ApiError;
+use crate::routes::governor::store_utils::fetch_collection_documents;
 use crate::state::AppState;
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -198,25 +198,4 @@ pub(crate) async fn fetch_baulur_mails(
         options,
     )
     .await
-}
-
-async fn fetch_collection_documents<T>(
-    collection: &mongodb::Collection<Document>,
-    filter: Document,
-    options: FindOptions,
-) -> Result<Vec<T>, ApiError>
-where
-    T: serde::de::DeserializeOwned + Send + Sync,
-{
-    let typed_collection = collection.clone_with_type::<T>();
-    let cursor = typed_collection
-        .find(filter)
-        .with_options(options)
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    cursor
-        .try_collect()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
 }
