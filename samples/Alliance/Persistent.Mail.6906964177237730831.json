@@ -1,0 +1,72 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "diy_egypt",
+      "FightReport": {
+        "BeKilled": 3881403,
+        "BuildingScore": 2418,
+        "DefeatFlagCnt": 1,
+        "FightLose": 57,
+        "FightWin": 605,
+        "FlagCnt": 0,
+        "FlagScore": 0,
+        "GatherScore": 0,
+        "HangUpLevel": 0,
+        "HealingCnt": 0,
+        "HealingScore": 0,
+        "KillScore": 155100,
+        "Killed": 3574137,
+        "OccupyCnt": 1,
+        "PlayerId": 71738515,
+        "RelocateCnt": 1,
+        "SpeedUpTime": 0,
+        "TotalScore": 157518,
+        "WinRate": 91
+      },
+      "IsWin": false,
+      "NoScore": false,
+      "TotalScoreRank": {
+        "Info": {
+          "Job": 0,
+          "Name": "Grigvar",
+          "PlyId": 71738515,
+          "Score": 157518,
+          "Slot": 0
+        },
+        "Rank": 6
+      },
+      "old_grade": 1,
+      "stage": 1
+    },
+    "param": 1,
+    "subTitle": "Individual Statistics",
+    "title": "Custom Ark of Osiris Match",
+    "type": 15
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "6906964177237730831",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 5,
+  "starMark": 0,
+  "time": 1772377308818213,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

@@ -31,7 +31,7 @@ pub(crate) async fn fetch_ark_battle_results_mails(
         })
         .build();
 
-    let filter = doc! { "metadata.mail_receiver": mail_receiver };
+    let filter = ark_battle_results_history_filter(mail_receiver);
     fetch_collection_documents(
         state.reports_store.alliance_aoobattleresults_collection(),
         filter,
@@ -181,4 +181,26 @@ async fn fetch_collection_documents(
         .try_collect()
         .await
         .map_err(|error| ApiError::internal(error.to_string()))
+}
+
+fn ark_battle_results_history_filter(mail_receiver: &str) -> Document {
+    doc! {
+        "metadata.mail_receiver": mail_receiver,
+        "metadata.custom": false,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ark_battle_results_history_filter_limits_to_non_custom_matches() {
+        let filter = ark_battle_results_history_filter("player_42");
+        assert_eq!(
+            filter.get_str("metadata.mail_receiver").ok(),
+            Some("player_42")
+        );
+        assert_eq!(filter.get_bool("metadata.custom").ok(), Some(false));
+    }
 }

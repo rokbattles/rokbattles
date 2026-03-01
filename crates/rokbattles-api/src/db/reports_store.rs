@@ -79,7 +79,7 @@ impl ReportsStore {
 
         let ark_battle_results_models = vec![
             IndexModel::builder()
-                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.custom": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_id": 1 })

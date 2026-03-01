@@ -1,0 +1,315 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": null,
+        "id": 1,
+        "logo": null,
+        "name": ""
+      },
+      "is_blue": true,
+      "members": 27,
+      "members_max": 30,
+      "power": null,
+      "score": 30532,
+      "server_id": null,
+      "team": null
+    },
+    {
+      "alliance": {
+        "abbreviation": null,
+        "id": 2,
+        "logo": null,
+        "name": ""
+      },
+      "is_blue": false,
+      "members": 27,
+      "members_max": 30,
+      "power": null,
+      "score": 34274,
+      "server_id": null,
+      "team": null
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 1
+    },
+    "win": false
+  },
+  "metadata": {
+    "custom": true,
+    "mail_id": "6906962177237730831",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1772377308816273,
+    "server_id": 5
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 79960330,
+      "mvp": {
+        "player_id": 33915426,
+        "player_name": "The Core",
+        "score": 4647811
+      }
+    },
+    "building_score": {
+      "alliance_score": 29671,
+      "mvp": {
+        "player_id": 124893142,
+        "player_name": "⽪卡丘Daspim",
+        "score": 25030
+      }
+    },
+    "flag_score": {
+      "alliance_score": 0,
+      "mvp": {
+        "player_id": 161065006,
+        "player_name": "Hellcheppapewж",
+        "score": 0
+      }
+    },
+    "gather_score": {
+      "alliance_score": 861,
+      "mvp": {
+        "player_id": 47043938,
+        "player_name": "QuackerOats",
+        "score": 236
+      }
+    },
+    "healing_score": {
+      "alliance_score": 0,
+      "mvp": {
+        "player_id": 161065006,
+        "player_name": "Hellcheppapewж",
+        "score": 0
+      }
+    },
+    "killed_score": {
+      "alliance_score": 78117552,
+      "mvp": {
+        "player_id": 32889977,
+        "player_name": "뜬 이 니",
+        "score": 4776601
+      }
+    }
+  },
+  "participants": [
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 6,
+      "individual_points": 202538,
+      "kill_score": 4776601,
+      "player_name": "뜬 이 니"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 197935,
+      "kill_score": 4187550,
+      "player_name": "Viatina乂Fayst"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 180899,
+      "kill_score": 4074479,
+      "player_name": "jën x ƒaräɀ"
+    },
+    {
+      "building_score": 2503,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 176192,
+      "kill_score": 4024433,
+      "player_name": "북두의권"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 176083,
+      "kill_score": 3823791,
+      "player_name": "MarDem0"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 157518,
+      "kill_score": 3574137,
+      "player_name": "Grigvar"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 153813,
+      "kill_score": 3137173,
+      "player_name": "ˢJianLaars 命"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 463,
+      "individual_points": 148806,
+      "kill_score": 3142192,
+      "player_name": "ˢ vashido"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 63,
+      "individual_points": 143809,
+      "kill_score": 3379750,
+      "player_name": "J I H"
+    },
+    {
+      "building_score": 2458,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 143584,
+      "kill_score": 3284153,
+      "player_name": "ˢ AzzCon"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 272,
+      "individual_points": 134321,
+      "kill_score": 3150064,
+      "player_name": "The Core"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 130696,
+      "kill_score": 3139238,
+      "player_name": "GGeoMAV"
+    },
+    {
+      "building_score": 2468,
+      "flag_score": 0,
+      "gather_score": 632,
+      "individual_points": 121507,
+      "kill_score": 2709428,
+      "player_name": "ˢJuju x MadBro"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 18,
+      "individual_points": 121091,
+      "kill_score": 2656630,
+      "player_name": "2lowteg"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 570,
+      "individual_points": 120724,
+      "kill_score": 2551895,
+      "player_name": "Benbu 벤부"
+    },
+    {
+      "building_score": 2468,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 118073,
+      "kill_score": 2680802,
+      "player_name": "Hellcheppapewж"
+    },
+    {
+      "building_score": 2458,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 118042,
+      "kill_score": 2667129,
+      "player_name": "メDmitry82メ"
+    },
+    {
+      "building_score": 2493,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 117945,
+      "kill_score": 2600926,
+      "player_name": "ˢ Kleines"
+    },
+    {
+      "building_score": 2503,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 117901,
+      "kill_score": 2593681,
+      "player_name": "๖ۣۣۜSwalsh"
+    },
+    {
+      "building_score": 2503,
+      "flag_score": 0,
+      "gather_score": 815,
+      "individual_points": 115604,
+      "kill_score": 2582327,
+      "player_name": "⽪卡丘Daspim"
+    },
+    {
+      "building_score": 2503,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 103098,
+      "kill_score": 2054825,
+      "player_name": "人Øgeday人"
+    },
+    {
+      "building_score": 2503,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 102548,
+      "kill_score": 2379103,
+      "player_name": "KYOSEALBOND"
+    },
+    {
+      "building_score": 2458,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 98838,
+      "kill_score": 2353333,
+      "player_name": "ampheeMcQueen"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 82321,
+      "kill_score": 1920638,
+      "player_name": "심래"
+    },
+    {
+      "building_score": 2458,
+      "flag_score": 0,
+      "gather_score": 1075,
+      "individual_points": 78721,
+      "kill_score": 1853702,
+      "player_name": "QuackerOats"
+    },
+    {
+      "building_score": 2418,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 73032,
+      "kill_score": 1687509,
+      "player_name": "끼  리"
+    },
+    {
+      "building_score": 2428,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 54152,
+      "kill_score": 1132063,
+      "player_name": "BABYPENGU"
+    }
+  ]
+}
