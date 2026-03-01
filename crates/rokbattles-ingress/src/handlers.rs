@@ -346,6 +346,10 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
         .and_then(value_as_u64)?;
 
     match body_type {
+        // custom Ark match
+        14 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
+        15 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
+        // normal Ark match
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
         62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
@@ -591,6 +595,21 @@ mod tests {
     }
 
     #[test]
+    fn extracts_alliance_custom_battle_results_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 14
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "AllianceAOOBattleResults".to_string()
+        );
+    }
+
+    #[test]
     fn extracts_alliance_aoo_battle_info_mail_type() {
         let decoded = json!({
             "type": "Alliance",
@@ -612,6 +631,21 @@ mod tests {
             "box": "AllianceBox",
             "body": {
                 "type": 62
+            }
+        });
+        assert_eq!(
+            extract_mail_type(&decoded).unwrap(),
+            "AllianceAOOIndividualResults".to_string()
+        );
+    }
+
+    #[test]
+    fn extracts_alliance_custom_individual_results_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 15
             }
         });
         assert_eq!(
