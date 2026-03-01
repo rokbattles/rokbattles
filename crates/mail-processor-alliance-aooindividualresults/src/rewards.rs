@@ -3,6 +3,8 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
+use crate::content::require_u64_field;
+
 /// Extracts reward entries from AllianceAOOIndividualResults attachments.
 #[derive(Debug, Default)]
 pub struct RewardsExtractor;
@@ -70,20 +72,6 @@ fn extract_rewards(
 
     Ok(())
 }
-
-fn require_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

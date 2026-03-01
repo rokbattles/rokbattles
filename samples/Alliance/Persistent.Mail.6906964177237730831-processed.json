@@ -1,0 +1,40 @@
+{
+  "body": {
+    "team": null,
+    "win": false
+  },
+  "metadata": {
+    "custom": true,
+    "mail_id": "6906964177237730831",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1772377308818213,
+    "server_id": 5
+  },
+  "overview": {
+    "player_id": 71738515,
+    "player_name": "Grigvar",
+    "rank": 6,
+    "score": 157518,
+    "total_results": null
+  },
+  "pairings": [],
+  "results": {
+    "battles_lose": 57,
+    "battles_win": 605,
+    "building_score": 2418,
+    "flag_count": 0,
+    "flag_score": 0,
+    "gather_score": 0,
+    "healing_score": 0,
+    "kill_score": 155100,
+    "kills": 3574137,
+    "severely_wounded": 3881403,
+    "speedups": 0,
+    "structures": 1,
+    "teleports": 1,
+    "total_score": 157518,
+    "units_healed": 0,
+    "win_rate": 91
+  },
+  "rewards": []
+}

@@ -1,9 +1,12 @@
 //! Pairings extractor for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
-use serde_json::{Map, Value, json};
+use serde_json::{Value, json};
 
-use crate::content::{optional_child_object, optional_child_object_or_empty_array};
+use crate::content::{
+    optional_child_object, optional_child_object_or_empty_array, require_child_object,
+    require_u64_field,
+};
 
 /// Extracts hero pairing battle stats from `body.kvs.FightReport.Stat.HerosStat`.
 #[derive(Debug, Default)]
@@ -65,32 +68,6 @@ impl Extractor for PairingsExtractor {
 
         Ok(Section::from_array(pairings))
     }
-}
-
-fn require_child_object<'a>(
-    object: &'a Map<String, Value>,
-    field: &'static str,
-) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "object",
-    })
-}
-
-fn require_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
 }
 
 #[cfg(test)]

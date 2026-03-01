@@ -677,6 +677,29 @@ mod tests {
     }
 
     #[test]
+    fn write_processed_json_writes_alliance_custom_battle_results_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6906962177237730831.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["metadata"]["mail_id"], json!("6906962177237730831"));
+        assert_eq!(
+            parsed["metadata"]["mail_receiver"],
+            json!("player_71738515")
+        );
+        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["alliances"][0]["alliance"]["id"], json!(1));
+        assert!(parsed["alliances"][0]["alliance"]["abbreviation"].is_null());
+    }
+
+    #[test]
     fn write_processed_json_writes_alliance_aoo_individual_results_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
@@ -698,5 +721,28 @@ mod tests {
             json!("player_71738515")
         );
         assert_eq!(parsed["metadata"]["custom"], json!(false));
+    }
+
+    #[test]
+    fn write_processed_json_writes_alliance_custom_individual_results_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.6906964177237730831.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["metadata"]["mail_id"], json!("6906964177237730831"));
+        assert_eq!(
+            parsed["metadata"]["mail_receiver"],
+            json!("player_71738515")
+        );
+        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["body"]["win"], json!(false));
+        assert!(parsed["body"]["team"].is_null());
     }
 }

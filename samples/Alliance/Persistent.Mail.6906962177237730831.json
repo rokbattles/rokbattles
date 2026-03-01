@@ -1,0 +1,453 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "diy_egypt",
+      "BossEnable": 0,
+      "FlagCnt": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 29,
+      "RelocateCnt": 27,
+      "asInfos": [
+        1,
+        {
+          "AllianceId": 1,
+          "IsBlue": true,
+          "MemberMax": 30,
+          "Members": 27,
+          "Name": "",
+          "Score": 30532,
+          "isMine": true
+        },
+        2,
+        {
+          "AllianceId": 2,
+          "IsBlue": false,
+          "MemberMax": 30,
+          "Members": 27,
+          "Name": "",
+          "Score": 34274,
+          "isWin": true
+        }
+      ],
+      "isWin": false,
+      "maxBeKilled": {
+        "AsScore": 79960330,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "The Core",
+          "PlyId": 33915426,
+          "Score": 4647811,
+          "Slot": 0
+        }
+      },
+      "maxBuildingScore": {
+        "AsScore": 29671,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "⽪卡丘Daspim",
+          "PlyId": 124893142,
+          "Score": 25030,
+          "Slot": 0
+        }
+      },
+      "maxFlagScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "Hellcheppapewж",
+          "PlyId": 161065006,
+          "Score": 0,
+          "Slot": 0
+        }
+      },
+      "maxGatherScore": {
+        "AsScore": 861,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "QuackerOats",
+          "PlyId": 47043938,
+          "Score": 236,
+          "Slot": 0
+        }
+      },
+      "maxHealingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "Hellcheppapewж",
+          "PlyId": 161065006,
+          "Score": 0,
+          "Slot": 0
+        }
+      },
+      "maxKilled": {
+        "AsScore": 78117552,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "뜬 이 니",
+          "PlyId": 32889977,
+          "Score": 4776601,
+          "Slot": 0
+        }
+      },
+      "myAsId": 1,
+      "old_grade": 1,
+      "plyRanks": [
+        1,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 6,
+          "Job": 0,
+          "KillScore": 4776601,
+          "Name": "뜬 이 니",
+          "Score": 202538,
+          "rank_index": 1
+        },
+        2,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 4187550,
+          "Name": "Viatina乂Fayst",
+          "Score": 197935,
+          "rank_index": 2
+        },
+        3,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 4074479,
+          "Name": "jën x ƒaräɀ",
+          "Score": 180899,
+          "rank_index": 3
+        },
+        4,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2503,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 4024433,
+          "Name": "북두의권",
+          "Score": 176192,
+          "rank_index": 4
+        },
+        5,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3823791,
+          "Name": "MarDem0",
+          "Score": 176083,
+          "rank_index": 5
+        },
+        6,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3574137,
+          "Name": "Grigvar",
+          "Score": 157518,
+          "rank_index": 6
+        },
+        7,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3137173,
+          "Name": "ˢJianLaars 命",
+          "Score": 153813,
+          "rank_index": 7
+        },
+        8,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 463,
+          "Job": 0,
+          "KillScore": 3142192,
+          "Name": "ˢ vashido",
+          "Score": 148806,
+          "rank_index": 8
+        },
+        9,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 63,
+          "Job": 0,
+          "KillScore": 3379750,
+          "Name": "J I H",
+          "Score": 143809,
+          "rank_index": 9
+        },
+        10,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2458,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3284153,
+          "Name": "ˢ AzzCon",
+          "Score": 143584,
+          "rank_index": 10
+        },
+        11,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 272,
+          "Job": 0,
+          "KillScore": 3150064,
+          "Name": "The Core",
+          "Score": 134321,
+          "rank_index": 11
+        },
+        12,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3139238,
+          "Name": "GGeoMAV",
+          "Score": 130696,
+          "rank_index": 12
+        },
+        13,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2468,
+          "FlagScore": 0,
+          "GatherScore": 632,
+          "Job": 0,
+          "KillScore": 2709428,
+          "Name": "ˢJuju x MadBro",
+          "Score": 121507,
+          "rank_index": 13
+        },
+        14,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 18,
+          "Job": 0,
+          "KillScore": 2656630,
+          "Name": "2lowteg",
+          "Score": 121091,
+          "rank_index": 14
+        },
+        15,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 570,
+          "Job": 0,
+          "KillScore": 2551895,
+          "Name": "Benbu 벤부",
+          "Score": 120724,
+          "rank_index": 15
+        },
+        16,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2468,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2680802,
+          "Name": "Hellcheppapewж",
+          "Score": 118073,
+          "rank_index": 16
+        },
+        17,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2458,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2667129,
+          "Name": "メDmitry82メ",
+          "Score": 118042,
+          "rank_index": 17
+        },
+        18,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2493,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2600926,
+          "Name": "ˢ Kleines",
+          "Score": 117945,
+          "rank_index": 18
+        },
+        19,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2503,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2593681,
+          "Name": "๖ۣۣۜSwalsh",
+          "Score": 117901,
+          "rank_index": 19
+        },
+        20,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2503,
+          "FlagScore": 0,
+          "GatherScore": 815,
+          "Job": 0,
+          "KillScore": 2582327,
+          "Name": "⽪卡丘Daspim",
+          "Score": 115604,
+          "rank_index": 20
+        },
+        21,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2503,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2054825,
+          "Name": "人Øgeday人",
+          "Score": 103098,
+          "rank_index": 21
+        },
+        22,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2503,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2379103,
+          "Name": "KYOSEALBOND",
+          "Score": 102548,
+          "rank_index": 22
+        },
+        23,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2458,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2353333,
+          "Name": "ampheeMcQueen",
+          "Score": 98838,
+          "rank_index": 23
+        },
+        24,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1920638,
+          "Name": "심래",
+          "Score": 82321,
+          "rank_index": 24
+        },
+        25,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2458,
+          "FlagScore": 0,
+          "GatherScore": 1075,
+          "Job": 0,
+          "KillScore": 1853702,
+          "Name": "QuackerOats",
+          "Score": 78721,
+          "rank_index": 25
+        },
+        26,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2418,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1687509,
+          "Name": "끼  리",
+          "Score": 73032,
+          "rank_index": 26
+        },
+        27,
+        {
+          "AsAbbr": "",
+          "BuildingScore": 2428,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1132063,
+          "Name": "BABYPENGU",
+          "Score": 54152,
+          "rank_index": 27
+        }
+      ]
+    },
+    "param": 1,
+    "subTitle": "Defeated",
+    "title": "Custom Ark of Osiris Match Results",
+    "type": 14
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "6906962177237730831",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 5,
+  "starMark": 0,
+  "time": 1772377308816273,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}
