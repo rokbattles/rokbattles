@@ -38,55 +38,19 @@ struct LootDailyBucket {
 
 pub(crate) fn aggregate_loot(
     barbarian_mails: Vec<BattleMailDocument>,
+    marauder_mails: Vec<BattleMailDocument>,
     barbarian_fort_mails: Vec<BarbarianFortMailDocument>,
     baulur_mails: Vec<BaulurMailDocument>,
     governor_id: i64,
     range: &GovernorDateRange,
 ) -> LootCategories {
     let mut barbarian = LootCategoryAggregate::default();
+    let mut marauder = LootCategoryAggregate::default();
     let mut barbarian_fort = LootCategoryAggregate::default();
     let mut baulur = LootCategoryAggregate::default();
 
-    for mail in barbarian_mails {
-        let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata
-                .as_ref()
-                .and_then(|meta| meta.mail_time.as_ref()),
-        ) else {
-            continue;
-        };
-        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
-            continue;
-        }
-        let Some(date_key) = date_key_utc(event_time_millis) else {
-            continue;
-        };
-
-        for opponent in mail.opponents.unwrap_or_default() {
-            let Some(opponent_id) = opponent.player_id.as_ref().and_then(parse_i64_loose) else {
-                continue;
-            };
-            if opponent_id != -2 {
-                continue;
-            }
-            let Some(npc) = opponent.npc else {
-                continue;
-            };
-
-            let npc_type = npc.npc_type.as_ref().and_then(parse_i64_loose);
-            let npc_b_type = npc.b_type.as_ref().and_then(parse_i64_loose);
-            if !is_barbarian(npc_type, npc_b_type) {
-                continue;
-            }
-
-            add_report(&mut barbarian, &date_key);
-            add_loot(
-                &mut barbarian,
-                &date_key,
-                npc.loot.as_deref().unwrap_or_default(),
-            );
-        }
-    }
+    aggregate_npc_battle_loot(barbarian_mails, range, &mut barbarian, is_barbarian);
+    aggregate_npc_battle_loot(marauder_mails, range, &mut marauder, is_marauder);
 
     for mail in barbarian_fort_mails {
         let Some(event_time_millis) = extract_event_time_millis(
@@ -150,8 +114,53 @@ pub(crate) fn aggregate_loot(
 
     LootCategories {
         barbarian: into_category_payload(barbarian),
+        marauder: into_category_payload(marauder),
         barbarian_fort: into_category_payload(barbarian_fort),
         baulur: into_category_payload(baulur),
+    }
+}
+
+fn aggregate_npc_battle_loot(
+    mails: Vec<BattleMailDocument>,
+    range: &GovernorDateRange,
+    category: &mut LootCategoryAggregate,
+    npc_matches_category: fn(Option<i64>, Option<i64>) -> bool,
+) {
+    for mail in mails {
+        let Some(event_time_millis) = extract_event_time_millis(
+            mail.metadata
+                .as_ref()
+                .and_then(|meta| meta.mail_time.as_ref()),
+        ) else {
+            continue;
+        };
+        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
+            continue;
+        }
+        let Some(date_key) = date_key_utc(event_time_millis) else {
+            continue;
+        };
+
+        for opponent in mail.opponents.unwrap_or_default() {
+            let Some(opponent_id) = opponent.player_id.as_ref().and_then(parse_i64_loose) else {
+                continue;
+            };
+            if opponent_id != -2 {
+                continue;
+            }
+            let Some(npc) = opponent.npc else {
+                continue;
+            };
+
+            let npc_type = npc.npc_type.as_ref().and_then(parse_i64_loose);
+            let npc_b_type = npc.b_type.as_ref().and_then(parse_i64_loose);
+            if !npc_matches_category(npc_type, npc_b_type) {
+                continue;
+            }
+
+            add_report(category, &date_key);
+            add_loot(category, &date_key, npc.loot.as_deref().unwrap_or_default());
+        }
     }
 }
 
@@ -187,6 +196,10 @@ fn is_barbarian(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
     let is_kvk_barbarian = (401..=415).contains(&npc_type);
     let is_english_soldier_barbarian = (150_009..=150_023).contains(&npc_type);
     is_home_barbarian || is_kvk_barbarian || is_english_soldier_barbarian
+}
+
+fn is_marauder(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
+    npc_type == Some(99) && npc_b_type == Some(15)
 }
 
 fn add_report(category: &mut LootCategoryAggregate, date_key: &str) {
@@ -288,6 +301,7 @@ fn into_category_payload(category: LootCategoryAggregate) -> LootCategoryAggrega
 mod tests {
     use mongodb::bson::Bson;
 
+    use super::super::store::{BattleNpcDocument, BattleOpponentDocument, MailMetadataDocument};
     use super::*;
 
     #[test]
@@ -313,6 +327,13 @@ mod tests {
         assert!(is_barbarian(Some(150_020), Some(1)));
         assert!(!is_barbarian(Some(500), Some(1)));
         assert!(!is_barbarian(Some(1), Some(2)));
+    }
+
+    #[test]
+    fn is_marauder_matches_expected_npc_type_and_b_type() {
+        assert!(is_marauder(Some(99), Some(15)));
+        assert!(!is_marauder(Some(99), Some(1)));
+        assert!(!is_marauder(Some(1), Some(15)));
     }
 
     #[test]
@@ -357,5 +378,60 @@ mod tests {
             extract_event_time_millis(Some(&Bson::Int64(1_739_960_800))),
             Some(1_739_960_800_000)
         );
+    }
+
+    #[test]
+    fn aggregate_loot_tracks_marauders_separately_from_barbarians() {
+        let range = GovernorDateRange {
+            start_millis: 1_735_689_600_000,
+            end_millis: 1_735_776_000_000,
+            start: "2025-01-01".to_string(),
+            end: "2025-01-01".to_string(),
+        };
+        let battle_time = 1_735_689_600_000;
+
+        let categories = aggregate_loot(
+            vec![build_npc_mail(battle_time, -2, 1, 1, 5)],
+            vec![
+                build_npc_mail(battle_time, -2, 99, 15, 7),
+                build_npc_mail(battle_time, -1, 99, 15, 11),
+            ],
+            Vec::new(),
+            Vec::new(),
+            42,
+            &range,
+        );
+
+        assert_eq!(categories.barbarian.reports, 1);
+        assert_eq!(categories.barbarian.loot_total, 5);
+        assert_eq!(categories.marauder.reports, 1);
+        assert_eq!(categories.marauder.loot_total, 7);
+        assert_eq!(categories.total_reports(), 2);
+    }
+
+    fn build_npc_mail(
+        mail_time: i64,
+        player_id: i64,
+        npc_type: i64,
+        npc_b_type: i64,
+        loot_value: i64,
+    ) -> BattleMailDocument {
+        BattleMailDocument {
+            metadata: Some(MailMetadataDocument {
+                mail_time: Some(Bson::Int64(mail_time)),
+            }),
+            opponents: Some(vec![BattleOpponentDocument {
+                player_id: Some(Bson::Int64(player_id)),
+                npc: Some(BattleNpcDocument {
+                    npc_type: Some(Bson::Int64(npc_type)),
+                    b_type: Some(Bson::Int64(npc_b_type)),
+                    loot: Some(vec![LootEntryDocument {
+                        reward_type: Some(Bson::Int64(2)),
+                        sub_type: Some(Bson::Int64(26)),
+                        value: Some(Bson::Int64(loot_value)),
+                    }]),
+                }),
+            }]),
+        }
     }
 }

@@ -93,7 +93,49 @@ pub(crate) async fn fetch_barbarian_battle_mails(
     let filter = doc! {
         "$and": [
             { "metadata.mail_receiver": mail_receiver },
-            { "opponents": { "$elemMatch": { "player_id": -2, "npc.b_type": 1 } } },
+            {
+                "opponents": {
+                    "$elemMatch": {
+                        "player_id": -2,
+                        "npc.b_type": 1,
+                    }
+                }
+            },
+            time_match.clone(),
+        ]
+    };
+
+    fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
+}
+
+pub(crate) async fn fetch_marauder_battle_mails(
+    state: &Arc<AppState>,
+    mail_receiver: &str,
+    time_match: &Document,
+) -> Result<Vec<BattleMailDocument>, ApiError> {
+    let options = FindOptions::builder()
+        .projection(doc! {
+            "_id": 0,
+            "metadata.mail_time": 1,
+            "opponents.player_id": 1,
+            "opponents.npc.type": 1,
+            "opponents.npc.b_type": 1,
+            "opponents.npc.loot": 1,
+        })
+        .build();
+
+    let filter = doc! {
+        "$and": [
+            { "metadata.mail_receiver": mail_receiver },
+            {
+                "opponents": {
+                    "$elemMatch": {
+                        "player_id": -2,
+                        "npc.type": 99,
+                        "npc.b_type": 15,
+                    }
+                }
+            },
             time_match.clone(),
         ]
     };
