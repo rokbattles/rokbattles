@@ -6,8 +6,8 @@ export interface ClaimedGovernor {
 }
 
 export interface CurrentUser {
+  discordId: string;
   username: string;
-  discriminator: string;
   globalName: string | null;
   email: string;
   avatar: string | null;

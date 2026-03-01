@@ -35,8 +35,7 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
       }
 
       try {
-        const response = await fetch("/api/auth/me");
-        const payload = (await response.json()) as CurrentUserResponse;
+        const response = await fetch("/proxy/v1/auth/me");
 
         if (!mountedRef.current) {
           return;
@@ -52,6 +51,7 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
           throw new Error("Failed to fetch data");
         }
 
+        const payload = (await response.json()) as CurrentUserResponse;
         const nextUser = payload?.user ?? null;
         setUser(nextUser);
         setGovernors(nextUser?.claimedGovernors ?? []);
@@ -74,7 +74,9 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
 
   useEffect(() => {
     mountedRef.current = true;
-    void fetchUser({ showLoading: !hasInitialUser });
+    if (!hasInitialUser) {
+      void fetchUser({ showLoading: true });
+    }
 
     return () => {
       mountedRef.current = false;
