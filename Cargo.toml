@@ -37,7 +37,7 @@ tauri-plugin-opener = "2.5.3"
 tauri-plugin-dialog = "2.6.0"
 mongodb = "3.5.1"
 zstd = "0.13.3"
-reqwest = "0.12.28"
+reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }
 base64 = "0.22.1"
 rand = "0.10.0"
 sha2 = "0.10.9"
