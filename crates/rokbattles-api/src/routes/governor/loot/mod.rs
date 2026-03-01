@@ -12,7 +12,10 @@ use crate::state::AppState;
 
 use self::aggregate::aggregate_loot;
 use self::query::{parse_governor_id, parse_loot_request};
-use self::store::{fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails};
+use self::store::{
+    fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
+    fetch_marauder_battle_mails,
+};
 use self::types::LootResponse;
 
 mod aggregate;
@@ -35,14 +38,16 @@ pub async fn get(
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
 
-    let (barbarian_mails, barbarian_fort_mails, baulur_mails) = tokio::try_join!(
+    let (barbarian_mails, marauder_mails, barbarian_fort_mails, baulur_mails) = tokio::try_join!(
         fetch_barbarian_battle_mails(&state, &mail_receiver, &time_match),
+        fetch_marauder_battle_mails(&state, &mail_receiver, &time_match),
         fetch_barbarian_fort_mails(&state, &mail_receiver, &time_match),
         fetch_baulur_mails(&state, &mail_receiver, governor_id, &time_match),
     )?;
 
     let categories = aggregate_loot(
         barbarian_mails,
+        marauder_mails,
         barbarian_fort_mails,
         baulur_mails,
         governor_id,

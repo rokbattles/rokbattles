@@ -248,14 +248,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "Izyda"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Izyda"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -373,7 +373,7 @@ msgid "m9rp75"
 msgstr ""
 
 #: src/components/account-loot/account-loot-content.tsx:60
-msgid "+LBFrG"
+msgid "iGOQJg"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx:26
@@ -398,6 +398,10 @@ msgstr ""
 
 #: src/components/account-loot/loot-category-list.tsx:29
 msgid "T8KvU4"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:30
+msgid "4pFR10"
 msgstr ""
 
 #: src/components/account-loot/loot-error-state.tsx:8

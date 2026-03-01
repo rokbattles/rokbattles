@@ -248,14 +248,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -373,8 +373,8 @@ msgid "m9rp75"
 msgstr "No binds yet."
 
 #: src/components/account-loot/account-loot-content.tsx:60
-msgid "+LBFrG"
-msgstr "See loot from Barbarian, Barbarian Fort, and Baulur reports."
+msgid "iGOQJg"
+msgstr "See loot from Barbarian, Barbarian Fort, Baulur, and Marauder reports."
 
 #: src/components/account-loot/loot-breakdown-table.tsx:26
 msgid "HAlOn1"
@@ -399,6 +399,10 @@ msgstr "Barbarian Fort"
 #: src/components/account-loot/loot-category-list.tsx:29
 msgid "T8KvU4"
 msgstr "Baulur"
+
+#: src/components/account-loot/loot-category-list.tsx:30
+msgid "4pFR10"
+msgstr "Marauders"
 
 #: src/components/account-loot/loot-error-state.tsx:8
 msgid "XD64/m"

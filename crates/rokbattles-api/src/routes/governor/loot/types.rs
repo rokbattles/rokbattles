@@ -33,13 +33,17 @@ struct LootRange {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct LootCategories {
     pub barbarian: LootCategoryAggregateResponse,
+    pub marauder: LootCategoryAggregateResponse,
     pub barbarian_fort: LootCategoryAggregateResponse,
     pub baulur: LootCategoryAggregateResponse,
 }
 
 impl LootCategories {
     pub fn total_reports(&self) -> i64 {
-        self.barbarian.reports + self.barbarian_fort.reports + self.baulur.reports
+        self.barbarian.reports
+            + self.marauder.reports
+            + self.barbarian_fort.reports
+            + self.baulur.reports
     }
 }
 

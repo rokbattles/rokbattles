@@ -57,7 +57,7 @@ export function AccountLootContent({ datasetLocale }: AccountLootContentProps) {
 
   return (
     <div className="space-y-8">
-      <Text>{t("See loot from Barbarian, Barbarian Fort, and Baulur reports.")}</Text>
+      <Text>{t("See loot from Barbarian, Barbarian Fort, Baulur, and Marauder reports.")}</Text>
       <LootFiltersClient
         startDate={data.range.start}
         endDate={data.range.end}
