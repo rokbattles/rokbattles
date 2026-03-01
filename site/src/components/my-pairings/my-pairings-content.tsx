@@ -7,15 +7,11 @@ import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-load
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
 import { Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
-import {
-  type EnemyGranularity,
-  type LoadoutGranularity,
-  type LoadoutSnapshot,
-  usePairingEnemies,
-  usePairingLoadouts,
-  usePairings,
-} from "@/hooks/use-pairings";
+import { usePairingLoadouts } from "@/hooks/use-pairing-loadouts";
+import { usePairingOpponents } from "@/hooks/use-pairing-opponents";
+import { usePairings } from "@/hooks/use-pairings";
 import { formatDurationShort } from "@/lib/datetime";
+import type { LoadoutGranularity, LoadoutSnapshot, OpponentGranularity } from "@/lib/pairings";
 import { GovernorContext } from "@/providers/governor-context";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -99,14 +95,13 @@ export function MyPairingsContent() {
     data,
     loading: pairingsLoading,
     error: pairingsError,
-    year,
   } = usePairings({
     governorId: activeGovernor?.governorId,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
   });
   const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
-  const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("normalized");
+  const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("simplified");
   const [selectedLoadoutKey, setSelectedLoadoutKey] = useState<string | null>(ALL_LOADOUT_KEY);
   const [loadoutsFetchStarted, setLoadoutsFetchStarted] = useState(false);
   const [loadoutsReady, setLoadoutsReady] = useState(false);
@@ -165,7 +160,6 @@ export function MyPairingsContent() {
     primaryCommanderId: canLoadLoadouts ? (selectedPairing?.primaryCommanderId ?? null) : null,
     secondaryCommanderId: canLoadLoadouts ? (selectedPairing?.secondaryCommanderId ?? null) : null,
     granularity: loadoutGranularity,
-    year,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
   });
@@ -338,23 +332,22 @@ export function MyPairingsContent() {
     ];
   }, [selectedLoadoutCard, t]);
 
-  const enemyGranularity: EnemyGranularity =
+  const opponentGranularity: OpponentGranularity =
     selectedLoadoutKey === ALL_LOADOUT_KEY ? "overall" : loadoutGranularity;
-  const enemyLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
-  const canLoadEnemies =
+  const opponentLoadoutKey = selectedLoadoutKey === ALL_LOADOUT_KEY ? null : selectedLoadoutKey;
+  const canLoadOpponents =
     Boolean(selectedPairing) && loadoutsReady && !pairingsLoading && !pairingsError;
 
   const {
-    data: enemies,
-    loading: enemiesLoading,
-    error: enemiesError,
-  } = usePairingEnemies({
+    data: opponents,
+    loading: opponentsLoading,
+    error: opponentsError,
+  } = usePairingOpponents({
     governorId: activeGovernor?.governorId,
-    primaryCommanderId: canLoadEnemies ? (selectedPairing?.primaryCommanderId ?? null) : null,
-    secondaryCommanderId: canLoadEnemies ? (selectedPairing?.secondaryCommanderId ?? null) : null,
-    granularity: enemyGranularity,
-    loadoutKey: enemyLoadoutKey,
-    year,
+    primaryCommanderId: canLoadOpponents ? (selectedPairing?.primaryCommanderId ?? null) : null,
+    secondaryCommanderId: canLoadOpponents ? (selectedPairing?.secondaryCommanderId ?? null) : null,
+    granularity: opponentGranularity,
+    loadoutKey: opponentLoadoutKey,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
   });
@@ -364,8 +357,8 @@ export function MyPairingsContent() {
     setShowAllOpponents(false);
   }, [opponentsResetKey]);
 
-  const hasMoreOpponents = enemies.length > 10;
-  const visibleOpponents = showAllOpponents ? enemies : enemies.slice(0, 10);
+  const hasMoreOpponents = opponents.length > 10;
+  const visibleOpponents = showAllOpponents ? opponents : opponents.slice(0, 10);
   const opponentRows = useMemo(
     () =>
       visibleOpponents.map((entry, index) => ({
@@ -424,8 +417,8 @@ export function MyPairingsContent() {
         loadoutsError={loadoutsError}
         hasSelectedLoadout={hasSelectedLoadout}
         generalStats={generalStats}
-        enemiesLoading={enemiesLoading}
-        enemiesError={enemiesError}
+        enemiesLoading={opponentsLoading}
+        enemiesError={opponentsError}
         opponentRows={opponentRows}
         hasMoreOpponents={hasMoreOpponents}
         showAllOpponents={showAllOpponents}

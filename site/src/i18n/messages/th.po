@@ -75,8 +75,8 @@ msgid "8PEDrB"
 msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:19
-#: src/components/my-pairings/my-pairings-content.tsx:145
-#: src/components/my-pairings/my-pairings-content.tsx:377
+#: src/components/my-pairings/my-pairings-content.tsx:140
+#: src/components/my-pairings/my-pairings-content.tsx:370
 #: src/components/olympian-arena/duel-participant-card.tsx:45
 #: src/components/report/report-participant-card.tsx:27
 #: src/components/reports/participant-cell.tsx:18
@@ -226,7 +226,7 @@ msgid "Y3Z7jw"
 msgstr "จำนวนการสังหาร"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
-#: src/components/my-pairings/my-pairings-content.tsx:284
+#: src/components/my-pairings/my-pairings-content.tsx:278
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
 #: src/components/olympian-arena/duel-results-chart.tsx:84
 #: src/components/report/report-battle-results-chart.tsx:89
@@ -487,86 +487,86 @@ msgstr ""
 msgid "+RhnH+"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:233
+#: src/components/my-pairings/my-pairings-content.tsx:227
 msgid "vxHX7Q"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:241
+#: src/components/my-pairings/my-pairings-content.tsx:235
 msgid "5OhW+B"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:278
+#: src/components/my-pairings/my-pairings-content.tsx:272
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 #: src/components/reports/reports-table.tsx:50
 msgid "9bVtCz"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:280
+#: src/components/my-pairings/my-pairings-content.tsx:274
 msgid "W2cCAf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:286
+#: src/components/my-pairings/my-pairings-content.tsx:280
 msgid "xh4gLq"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:290
+#: src/components/my-pairings/my-pairings-content.tsx:284
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
 msgid "nGp3S1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:292
+#: src/components/my-pairings/my-pairings-content.tsx:286
 msgid "2OWOn1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:296
+#: src/components/my-pairings/my-pairings-content.tsx:290
 msgid "04DUsx"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:298
+#: src/components/my-pairings/my-pairings-content.tsx:292
 msgid "sCYwbS"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:304
+#: src/components/my-pairings/my-pairings-content.tsx:298
 msgid "87sFXA"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:306
+#: src/components/my-pairings/my-pairings-content.tsx:300
 msgid "2oN4Ru"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:310
+#: src/components/my-pairings/my-pairings-content.tsx:304
 msgid "8RNVtf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:312
+#: src/components/my-pairings/my-pairings-content.tsx:306
 msgid "OohBEM"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:316
+#: src/components/my-pairings/my-pairings-content.tsx:310
 msgid "jVC9W/"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:320
+#: src/components/my-pairings/my-pairings-content.tsx:314
 msgid "pJCnfG"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:324
+#: src/components/my-pairings/my-pairings-content.tsx:318
 msgid "lsS3Jr"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:328
+#: src/components/my-pairings/my-pairings-content.tsx:322
 msgid "obveBp"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:332
+#: src/components/my-pairings/my-pairings-content.tsx:326
 msgid "CY224M"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:336
+#: src/components/my-pairings/my-pairings-content.tsx:330
 msgid "ZTImOV"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:395
+#: src/components/my-pairings/my-pairings-content.tsx:388
 msgid "y+cvIx"
 msgstr ""
 
@@ -576,7 +576,7 @@ msgid "StqoPN"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx:68
-msgid "KmYEy1"
+msgid "as39fN"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx:69

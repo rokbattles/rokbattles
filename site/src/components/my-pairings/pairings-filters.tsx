@@ -4,8 +4,8 @@ import { useExtracted } from "next-intl";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxOption } from "@/components/ui/listbox";
-import type { LoadoutGranularity } from "@/hooks/use-pairings";
 import { formatLocalDateInput } from "@/lib/datetime";
+import type { LoadoutGranularity } from "@/lib/pairings";
 
 type PairingOption = {
   value: string;
@@ -65,7 +65,7 @@ export function PairingsFilters({
           value={loadoutGranularity}
           onChange={onGranularityChange}
         >
-          <ListboxOption value="normalized">{t("Normalized")}</ListboxOption>
+          <ListboxOption value="simplified">{t("Simplified")}</ListboxOption>
           <ListboxOption value="exact">{t("Exact")}</ListboxOption>
         </Listbox>
       </Field>
