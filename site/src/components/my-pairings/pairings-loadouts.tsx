@@ -7,8 +7,8 @@ import { ReportInscriptionBadge } from "@/components/report/report-inscription-b
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
-import type { LoadoutAggregate } from "@/hooks/use-pairings";
 import { cn } from "@/lib/cn";
+import type { LoadoutAggregate } from "@/lib/pairings";
 
 export type LoadoutCard = LoadoutAggregate & {
   label: string;

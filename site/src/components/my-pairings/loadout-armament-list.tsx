@@ -2,7 +2,7 @@
 
 import { useExtracted } from "next-intl";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
-import type { LoadoutSnapshot } from "@/hooks/use-pairings";
+import type { LoadoutSnapshot } from "@/lib/pairings";
 
 type LoadoutArmamentListProps = {
   armaments: LoadoutSnapshot["armaments"];

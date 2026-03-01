@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useExtracted } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
-import type { LoadoutSnapshot } from "@/hooks/use-pairings";
+import type { LoadoutSnapshot } from "@/lib/pairings";
 
 type LoadoutEquipmentSlotProps = {
   token?: LoadoutSnapshot["equipment"][number];

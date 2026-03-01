@@ -2,10 +2,6 @@ use std::collections::HashMap;
 
 use mongodb::bson::Bson;
 
-use crate::bson_utils::{bson_to_f64, bson_to_i64_exact};
-use crate::time_utils::{date_key_utc, normalize_timestamp_millis};
-
-use super::query::LootDateRange;
 use super::store::{
     BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument, LootEntryDocument,
 };
@@ -13,6 +9,9 @@ use super::types::{
     LootCategories, LootCategoryAggregateResponse, LootDailyAggregateResponse,
     LootRewardAggregateResponse,
 };
+use crate::bson_utils::{bson_to_f64, bson_to_i64_exact};
+use crate::routes::governor::date_range::GovernorDateRange;
+use crate::time_utils::{date_key_utc, normalize_timestamp_millis};
 
 #[derive(Debug, Default)]
 struct LootCategoryAggregate {
@@ -42,7 +41,7 @@ pub(crate) fn aggregate_loot(
     barbarian_fort_mails: Vec<BarbarianFortMailDocument>,
     baulur_mails: Vec<BaulurMailDocument>,
     governor_id: i64,
-    range: &LootDateRange,
+    range: &GovernorDateRange,
 ) -> LootCategories {
     let mut barbarian = LootCategoryAggregate::default();
     let mut barbarian_fort = LootCategoryAggregate::default();
