@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
-use futures::TryStreamExt;
 use mongodb::bson::{Document, doc};
 use mongodb::options::FindOptions;
 
 use crate::error::ApiError;
 use crate::routes::governor::date_range::GovernorDateRange;
+use crate::routes::governor::store_utils::fetch_collection_documents;
 use crate::state::AppState;
 use crate::time_utils::build_mail_time_match;
 
@@ -53,16 +53,5 @@ pub(crate) async fn fetch_pairings_mails(
         })
         .build();
 
-    let cursor = state
-        .reports_store
-        .battle_collection()
-        .find(filter)
-        .with_options(options)
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    cursor
-        .try_collect()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
+    fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
 }

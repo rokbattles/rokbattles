@@ -7,13 +7,12 @@ use axum::{Json, http::StatusCode};
 
 use crate::auth::AuthenticatedSession;
 use crate::error::ApiError;
-use crate::routes::governor::common::ensure_governor_claim_for_user;
+use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
 use crate::state::AppState;
 
 use self::aggregate::{aggregate_loadouts, aggregate_opponents, aggregate_pairings};
 use self::query::{
-    parse_governor_id, parse_pairing_loadouts_request, parse_pairing_opponents_request,
-    parse_pairings_request,
+    parse_pairing_loadouts_request, parse_pairing_opponents_request, parse_pairings_request,
 };
 use self::store::fetch_pairings_mails;
 use self::types::{
@@ -32,7 +31,7 @@ pub async fn get(
     Query(params): Query<HashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_pairings_request(&params)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
@@ -61,7 +60,7 @@ pub async fn get_loadouts(
     Query(params): Query<HashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_pairing_loadouts_request(&params)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
@@ -102,7 +101,7 @@ pub async fn get_opponents(
     Query(params): Query<HashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_pairing_opponents_request(&params)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;

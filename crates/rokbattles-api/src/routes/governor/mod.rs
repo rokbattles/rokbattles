@@ -11,7 +11,9 @@ pub(crate) mod common;
 pub(crate) mod date_range;
 pub mod loot;
 pub mod pairings;
+pub mod resources;
 pub(crate) mod snapshot;
+pub(crate) mod store_utils;
 
 pub fn router() -> Router<Arc<AppState>> {
     Router::new()
@@ -20,6 +22,7 @@ pub fn router() -> Router<Arc<AppState>> {
         .route("/{governor_id}/ark", get(ark::get))
         .route("/{governor_id}/ark/{match_id}", get(ark::get_by_id))
         .route("/{governor_id}/loot", get(loot::get))
+        .route("/{governor_id}/resources", get(resources::get))
         .route("/{governor_id}/pairings", get(pairings::get))
         .route(
             "/{governor_id}/pairings/loadouts",

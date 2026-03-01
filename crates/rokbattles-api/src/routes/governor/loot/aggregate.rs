@@ -9,9 +9,9 @@ use super::types::{
     LootCategories, LootCategoryAggregateResponse, LootDailyAggregateResponse,
     LootRewardAggregateResponse,
 };
-use crate::bson_utils::{bson_to_f64, bson_to_i64_exact};
+use crate::bson_utils::bson_to_i64_loose;
 use crate::routes::governor::date_range::GovernorDateRange;
-use crate::time_utils::{date_key_utc, normalize_timestamp_millis};
+use crate::time_utils::{date_key_utc, normalize_bson_timestamp_millis};
 
 #[derive(Debug, Default)]
 struct LootCategoryAggregate {
@@ -165,26 +165,11 @@ fn aggregate_npc_battle_loot(
 }
 
 fn extract_event_time_millis(mail_time: Option<&Bson>) -> Option<i64> {
-    let value = bson_to_f64_loose(mail_time?)?;
-    normalize_timestamp_millis(value)
+    normalize_bson_timestamp_millis(mail_time)
 }
 
 fn parse_i64_loose(value: &Bson) -> Option<i64> {
-    bson_to_i64_exact(value).or_else(|| match value {
-        Bson::String(raw) => raw.trim().parse::<i64>().ok(),
-        _ => None,
-    })
-}
-
-fn bson_to_f64_loose(value: &Bson) -> Option<f64> {
-    bson_to_f64(value).or_else(|| match value {
-        Bson::String(raw) => raw
-            .trim()
-            .parse::<f64>()
-            .ok()
-            .filter(|parsed| parsed.is_finite()),
-        _ => None,
-    })
+    bson_to_i64_loose(value)
 }
 
 fn is_barbarian(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {

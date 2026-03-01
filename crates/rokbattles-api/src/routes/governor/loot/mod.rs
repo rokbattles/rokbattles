@@ -7,11 +7,11 @@ use axum::{Json, http::StatusCode};
 
 use crate::auth::AuthenticatedSession;
 use crate::error::ApiError;
-use crate::routes::governor::common::ensure_governor_claim_for_user;
+use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
 use crate::state::AppState;
 
 use self::aggregate::aggregate_loot;
-use self::query::{parse_governor_id, parse_loot_request};
+use self::query::parse_loot_request;
 use self::store::{
     fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
     fetch_marauder_battle_mails,
@@ -30,7 +30,7 @@ pub async fn get(
     Query(params): Query<HashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_loot_request(&params)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;

@@ -7,7 +7,7 @@ use axum::{Json, http::StatusCode};
 
 use crate::auth::AuthenticatedSession;
 use crate::error::ApiError;
-use crate::routes::governor::common::ensure_governor_claim_for_user;
+use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
 use crate::state::AppState;
 use crate::time_utils::build_mail_time_match;
 
@@ -16,7 +16,7 @@ use self::mapper::{
     map_match_record,
 };
 use self::matcher::match_ark_mails;
-use self::query::{parse_ark_list_request, parse_governor_id, parse_match_id};
+use self::query::{parse_ark_list_request, parse_match_id};
 use self::store::{
     fetch_ark_battle_info_mails, fetch_ark_battle_results_mail_by_id,
     fetch_ark_battle_results_mails, fetch_ark_individual_results_mails,
@@ -38,7 +38,7 @@ pub async fn get(
     Query(params): Query<HashMap<String, String>>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let request = parse_ark_list_request(&params)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
@@ -105,7 +105,7 @@ pub async fn get_by_id(
     Path((governor_id_raw, match_id_raw)): Path<(String, String)>,
     session: AuthenticatedSession,
 ) -> Result<impl IntoResponse, ApiError> {
-    let governor_id = parse_governor_id(&governor_id_raw)?;
+    let governor_id = parse_governor_id_param(&governor_id_raw)?;
     let match_id = parse_match_id(&match_id_raw)?;
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
