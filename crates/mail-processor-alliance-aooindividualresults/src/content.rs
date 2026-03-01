@@ -31,23 +31,6 @@ pub(crate) fn require_u64_field(
     })
 }
 
-/// Require one of several possible unsigned integer fields from a JSON map.
-pub(crate) fn require_u64_field_any(
-    object: &Map<String, Value>,
-    fields: &[&'static str],
-) -> Result<u64, ExtractError> {
-    for field in fields {
-        if let Some(value) = object.get(*field) {
-            return value.as_u64().ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            });
-        }
-    }
-
-    Err(ExtractError::MissingField { field: fields[0] })
-}
-
 /// Read an optional unsigned integer field from a JSON map.
 pub(crate) fn optional_u64_field(
     object: &Map<String, Value>,

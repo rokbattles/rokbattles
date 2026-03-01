@@ -3,9 +3,7 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
 
-use crate::content::{
-    optional_child_object, require_child_object, require_u64_field, require_u64_field_any,
-};
+use crate::content::{optional_child_object, require_child_object, require_u64_field};
 
 /// Extracts high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
@@ -44,7 +42,7 @@ impl Extractor for ResultsExtractor {
             .transpose()?
             .unwrap_or(Value::Null);
         let battles_lose = fight_report
-            .map(|value| require_u64_field_any(value, &["FightLose", "FghtLose"]).map(Value::from))
+            .map(|value| require_u64_field(value, "FightLose").map(Value::from))
             .transpose()?
             .unwrap_or(Value::Null);
         let severely_wounded = fight_report
@@ -180,39 +178,6 @@ mod tests {
         assert_eq!(fields["teleports"], json!(1));
         assert_eq!(fields["speedups"], json!(0));
         assert_eq!(fields["structures"], json!(2));
-    }
-
-    #[test]
-    fn results_extractor_accepts_fght_lose_alias() {
-        let input = json!({
-            "body": {
-                "kvs": {
-                    "FightReport": {
-                        "TotalScore": 1,
-                        "WinRate": 2,
-                        "FightWin": 3,
-                        "FghtLose": 4,
-                        "BeKilled": 5,
-                        "Killed": 6,
-                        "KillScore": 7,
-                        "FlagScore": 8,
-                        "BuildingScore": 9,
-                        "GatherScore": 10,
-                        "HealingScore": 11,
-                        "HealingCnt": 12,
-                        "FlagCnt": 13,
-                        "RelocateCnt": 14,
-                        "SpeedUpTime": 15,
-                        "OccupyCnt": 16
-                    }
-                }
-            }
-        });
-
-        let extractor = ResultsExtractor::new();
-        let section = extractor.extract(&input).unwrap();
-        let fields = section.fields();
-        assert_eq!(fields["battles_lose"], json!(4));
     }
 
     #[test]
