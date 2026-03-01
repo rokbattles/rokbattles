@@ -54,7 +54,7 @@ pub(crate) fn discover_mailcache_dirs() -> anyhow::Result<Vec<String>> {
 
     #[cfg(target_os = "macos")]
     {
-        return Ok(normalize_and_dedupe(discover_macos_mailcache_dirs()));
+        Ok(normalize_and_dedupe(discover_macos_mailcache_dirs()))
     }
 
     #[cfg(not(any(target_os = "windows", target_os = "macos")))]
