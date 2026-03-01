@@ -6,7 +6,7 @@ use mongodb::options::ClientOptions;
 use rokbattles_api::build_router;
 use rokbattles_api::config::Config;
 use rokbattles_api::db::{MongoAuthStore, ReportsStore};
-use rokbattles_api::state::AppState;
+use rokbattles_api::state::{AppState, DiscordOAuthConfig};
 use tracing::info;
 
 #[tokio::main]
@@ -32,10 +32,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     reports_store.ensure_indexes().await?;
 
     let auth_store = Arc::new(MongoAuthStore::new(database));
+    auth_store.ensure_indexes().await?;
+
+    let discord_oauth = DiscordOAuthConfig {
+        client_id: config.discord_client_id.clone(),
+        client_secret: config.discord_client_secret.clone(),
+        redirect_uri: config.discord_redirect_uri.clone(),
+    };
     let state = Arc::new(AppState::new(
         auth_store,
         reports_store,
         config.cron_secret.clone(),
+        discord_oauth,
     ));
     let app = build_router(state);
 

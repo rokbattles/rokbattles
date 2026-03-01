@@ -1,56 +1,33 @@
-import { authenticateRequest } from "@/lib/auth";
-import type { ClaimedGovernorDocument } from "@/lib/types/auth";
+import { cookies } from "next/headers";
 import type { CurrentUser } from "@/lib/types/current-user";
 
+type CurrentUserResponse = {
+  user: CurrentUser;
+};
+
 export async function getCurrentUser(): Promise<CurrentUser | null> {
-  const authResult = await authenticateRequest();
-  if (authResult.ok === false) {
+  const cookieStore = await cookies();
+  const sid = cookieStore.get("sid")?.value;
+  if (!sid) {
     return null;
   }
 
-  const { db, user } = authResult.context;
+  const response = await fetch(`${process.env.API_URL || "http://localhost:8001"}/v1/auth/me`, {
+    headers: {
+      Cookie: `sid=${sid}`,
+    },
+    cache: "no-store",
+  });
 
-  const claimedGovernorsDocs = await db
-    .collection<ClaimedGovernorDocument>("claimedGovernors")
-    .find(
-      { discordId: user.discordId },
-      {
-        projection: {
-          _id: 0,
-          governorId: 1,
-          governorName: 1,
-          governorAvatar: 1,
-          createdAt: 1,
-          default: 1,
-        },
-      }
-    )
-    .toArray();
+  if (response.status === 401) {
+    return null;
+  }
 
-  const claimedGovernors = claimedGovernorsDocs
-    .map((claim) => ({
-      governorId: claim.governorId,
-      governorName: claim.governorName ?? null,
-      governorAvatar: claim.governorAvatar ?? null,
-      default: claim.default === true,
-      createdAtMillis: claim.createdAt instanceof Date ? claim.createdAt.getTime() : 0,
-    }))
-    .sort((a, b) => {
-      const defaultComparison = Number(b.default) - Number(a.default);
-      if (defaultComparison !== 0) {
-        return defaultComparison;
-      }
+  if (!response.ok) {
+    console.error("Failed to fetch current user", response.status);
+    return null;
+  }
 
-      return b.createdAtMillis - a.createdAtMillis;
-    })
-    .map(({ createdAtMillis: _createdAtMillis, ...claim }) => claim);
-
-  return {
-    username: user.username,
-    discriminator: user.discriminator,
-    globalName: user.globalName ?? null,
-    email: user.email,
-    avatar: user.avatar ?? null,
-    claimedGovernors,
-  };
+  const payload = (await response.json()) as CurrentUserResponse;
+  return payload.user ?? null;
 }

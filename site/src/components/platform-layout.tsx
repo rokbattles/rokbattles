@@ -78,7 +78,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   }, [isDark, setTheme]);
 
   const handleLogout = useCallback(async () => {
-    const response = await fetch("/api/auth/logout", { method: "POST" });
+    const response = await fetch("/proxy/v1/auth/logout", { method: "POST" });
 
     if (response.ok) {
       await refresh();
@@ -102,7 +102,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                   <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
                 </Dropdown>
               ) : (
-                <NavbarItem href="/api/auth/discord/login">
+                <NavbarItem href="/proxy/v1/auth/discord/login">
                   <NavbarLabel>{t("Sign in")}</NavbarLabel>
                 </NavbarItem>
               ))}
@@ -209,7 +209,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <PlatformAccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
               </Dropdown>
             ) : (
-              <SidebarItem href="/api/auth/discord/login" prefetch={false}>
+              <SidebarItem href="/proxy/v1/auth/discord/login" prefetch={false}>
                 <SidebarLabel>{t("Sign in")}</SidebarLabel>
               </SidebarItem>
             )}

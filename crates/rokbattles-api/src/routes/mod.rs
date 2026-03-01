@@ -5,6 +5,7 @@ use axum::routing::get;
 
 use crate::state::AppState;
 
+mod auth;
 mod cron;
 mod governor;
 mod health;
@@ -21,6 +22,7 @@ pub fn router() -> Router<Arc<AppState>> {
 fn v1_router() -> Router<Arc<AppState>> {
     Router::new()
         .nest("/governor", governor::router())
+        .nest("/auth", auth::router())
         .route("/report/battle/{id}", get(reports::battle::get_by_id))
         .route(
             "/report/duelbattle2/{id}",
