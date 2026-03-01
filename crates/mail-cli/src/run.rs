@@ -283,6 +283,10 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
         .and_then(value_as_u64)?;
 
     match body_type {
+        // custom Ark match
+        14 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
+        15 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
+        // normal Ark match
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
         62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
@@ -568,6 +572,16 @@ mod tests {
 
     #[test]
     fn classify_processable_mail_type_detects_alliance_aoo_variants() {
+        let custom_battle_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 14 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&custom_battle_results),
+            Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS)
+        );
+
         let battle_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -586,6 +600,16 @@ mod tests {
         assert_eq!(
             classify_processable_mail_type(&battle_info),
             Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO)
+        );
+
+        let custom_individual_results = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 15 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&custom_individual_results),
+            Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS)
         );
 
         let individual_results = json!({
@@ -626,6 +650,7 @@ mod tests {
             parsed["metadata"]["mail_receiver"],
             json!("player_71738515")
         );
+        assert_eq!(parsed["metadata"]["custom"], json!(false));
     }
 
     #[test]
@@ -672,5 +697,6 @@ mod tests {
             parsed["metadata"]["mail_receiver"],
             json!("player_71738515")
         );
+        assert_eq!(parsed["metadata"]["custom"], json!(false));
     }
 }
