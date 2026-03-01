@@ -8,6 +8,9 @@ pub struct Config {
     pub bind_addr: String,
     pub mongo_uri: String,
     pub cron_secret: String,
+    pub discord_client_id: String,
+    pub discord_client_secret: String,
+    pub discord_redirect_uri: String,
     pub log_filter: String,
 }
 
@@ -18,6 +21,12 @@ pub enum ConfigError {
     MissingMongoUri,
     #[error("missing required env var: CRON_SECRET")]
     MissingCronSecret,
+    #[error("missing required env var: DISCORD_CLIENT_ID")]
+    MissingDiscordClientId,
+    #[error("missing required env var: DISCORD_CLIENT_SECRET")]
+    MissingDiscordClientSecret,
+    #[error("missing required env var: DISCORD_REDIRECT_URI")]
+    MissingDiscordRedirectUri,
 }
 
 impl Config {
@@ -33,6 +42,12 @@ impl Config {
         let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8001".to_string());
         let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::MissingMongoUri)?;
         let cron_secret = lookup("CRON_SECRET").ok_or(ConfigError::MissingCronSecret)?;
+        let discord_client_id =
+            lookup("DISCORD_CLIENT_ID").ok_or(ConfigError::MissingDiscordClientId)?;
+        let discord_client_secret =
+            lookup("DISCORD_CLIENT_SECRET").ok_or(ConfigError::MissingDiscordClientSecret)?;
+        let discord_redirect_uri =
+            lookup("DISCORD_REDIRECT_URI").ok_or(ConfigError::MissingDiscordRedirectUri)?;
         let log_filter =
             lookup("RUST_LOG").unwrap_or_else(|| "rokbattles_api=info,axum=info".to_string());
 
@@ -40,6 +55,9 @@ impl Config {
             bind_addr,
             mongo_uri,
             cron_secret,
+            discord_client_id,
+            discord_client_secret,
+            discord_redirect_uri,
             log_filter,
         })
     }
@@ -60,6 +78,12 @@ mod tests {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("CRON_SECRET", "test-secret"),
+            ("DISCORD_CLIENT_ID", "discord-client-id"),
+            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
+            (
+                "DISCORD_REDIRECT_URI",
+                "https://example.com/proxy/v1/auth/discord/callback",
+            ),
         ])))
         .expect("config");
 
@@ -67,6 +91,12 @@ mod tests {
         assert_eq!(cfg.log_filter, "rokbattles_api=info,axum=info");
         assert_eq!(cfg.mongo_uri, "mongodb://localhost:27017/rokbattles");
         assert_eq!(cfg.cron_secret, "test-secret");
+        assert_eq!(cfg.discord_client_id, "discord-client-id");
+        assert_eq!(cfg.discord_client_secret, "discord-client-secret");
+        assert_eq!(
+            cfg.discord_redirect_uri,
+            "https://example.com/proxy/v1/auth/discord/callback"
+        );
     }
 
     #[test]
@@ -83,5 +113,47 @@ mod tests {
         )])))
         .expect_err("missing cron secret");
         assert_eq!(err, ConfigError::MissingCronSecret);
+    }
+
+    #[test]
+    fn requires_discord_client_id() {
+        let err = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("CRON_SECRET", "test-secret"),
+            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
+            (
+                "DISCORD_REDIRECT_URI",
+                "https://example.com/proxy/v1/auth/discord/callback",
+            ),
+        ])))
+        .expect_err("missing discord client id");
+        assert_eq!(err, ConfigError::MissingDiscordClientId);
+    }
+
+    #[test]
+    fn requires_discord_client_secret() {
+        let err = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("CRON_SECRET", "test-secret"),
+            ("DISCORD_CLIENT_ID", "discord-client-id"),
+            (
+                "DISCORD_REDIRECT_URI",
+                "https://example.com/proxy/v1/auth/discord/callback",
+            ),
+        ])))
+        .expect_err("missing discord client secret");
+        assert_eq!(err, ConfigError::MissingDiscordClientSecret);
+    }
+
+    #[test]
+    fn requires_discord_redirect_uri() {
+        let err = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("CRON_SECRET", "test-secret"),
+            ("DISCORD_CLIENT_ID", "discord-client-id"),
+            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
+        ])))
+        .expect_err("missing discord redirect uri");
+        assert_eq!(err, ConfigError::MissingDiscordRedirectUri);
     }
 }

@@ -71,7 +71,7 @@ fn is_expired(session: &SessionRecord) -> bool {
     session.expires_at.timestamp_millis() <= mongodb::bson::DateTime::now().timestamp_millis()
 }
 
-fn extract_cookie_value(cookie_header: Option<&str>, key: &str) -> Option<String> {
+pub(crate) fn extract_cookie_value(cookie_header: Option<&str>, key: &str) -> Option<String> {
     let header = cookie_header?;
 
     for pair in header.split(';') {

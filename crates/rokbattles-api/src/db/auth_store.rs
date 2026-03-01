@@ -1,8 +1,10 @@
 use futures::FutureExt;
 use futures::future::BoxFuture;
 use mongodb::Collection;
-use mongodb::bson::DateTime;
-use serde::Deserialize;
+use mongodb::IndexModel;
+use mongodb::bson::{DateTime, doc};
+use mongodb::options::{IndexOptions, UpdateOptions};
+use serde::{Deserialize, Serialize};
 
 /// Session data used by authenticated routes.
 #[derive(Debug, Clone)]
@@ -21,6 +23,34 @@ pub struct UserRecord {
     pub global_name: Option<String>,
     pub email: String,
     pub avatar: Option<String>,
+}
+
+/// OAuth state persisted between login and callback.
+#[derive(Debug, Clone)]
+pub struct OAuthStateRecord {
+    pub state: String,
+    pub verifier: String,
+    pub created_at: DateTime,
+    pub expires_at: DateTime,
+}
+
+/// User payload written during Discord OAuth callback.
+#[derive(Debug, Clone)]
+pub struct DiscordUserUpsert {
+    pub discord_id: String,
+    pub username: String,
+    pub global_name: Option<String>,
+    pub email: String,
+    pub avatar: Option<String>,
+}
+
+/// Session payload written after successful login.
+#[derive(Debug, Clone)]
+pub struct NewSessionRecord {
+    pub session_id: String,
+    pub user_id: String,
+    pub created_at: DateTime,
+    pub expires_at: DateTime,
 }
 
 /// Error type for auth-store reads and writes.
@@ -46,12 +76,33 @@ pub trait AuthRepository: Send + Sync {
         &'a self,
         discord_id: &'a str,
     ) -> BoxFuture<'a, Result<Option<UserRecord>, AuthStoreError>>;
+
+    fn insert_oauth_state<'a>(
+        &'a self,
+        oauth_state: OAuthStateRecord,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
+
+    fn consume_oauth_state<'a>(
+        &'a self,
+        state: &'a str,
+    ) -> BoxFuture<'a, Result<Option<OAuthStateRecord>, AuthStoreError>>;
+
+    fn upsert_discord_user<'a>(
+        &'a self,
+        user: DiscordUserUpsert,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
+
+    fn insert_session<'a>(
+        &'a self,
+        session: NewSessionRecord,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>>;
 }
 
 #[derive(Debug, Clone)]
 pub struct MongoAuthStore {
     sessions: Collection<SessionDocument>,
     users: Collection<UserDocument>,
+    oauth_states: Collection<OAuthStateDocument>,
 }
 
 impl MongoAuthStore {
@@ -60,7 +111,57 @@ impl MongoAuthStore {
         Self {
             sessions: db.collection::<SessionDocument>("userSessions"),
             users: db.collection::<UserDocument>("users"),
+            oauth_states: db.collection::<OAuthStateDocument>("oauthStates"),
         }
+    }
+
+    /// Ensure indexes for auth-related collections.
+    pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
+        let session_indexes = vec![
+            IndexModel::builder()
+                .keys(doc! { "sessionId": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "expiresAt": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .expire_after(Some(std::time::Duration::ZERO))
+                        .build(),
+                )
+                .build(),
+        ];
+
+        for index in session_indexes {
+            self.sessions.create_index(index).await?;
+        }
+
+        let user_index = IndexModel::builder()
+            .keys(doc! { "discordId": 1 })
+            .options(IndexOptions::builder().unique(true).build())
+            .build();
+        self.users.create_index(user_index).await?;
+
+        let oauth_indexes = vec![
+            IndexModel::builder()
+                .keys(doc! { "state": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "expiresAt": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .expire_after(Some(std::time::Duration::ZERO))
+                        .build(),
+                )
+                .build(),
+        ];
+
+        for index in oauth_indexes {
+            self.oauth_states.create_index(index).await?;
+        }
+
+        Ok(())
     }
 }
 
@@ -105,9 +206,86 @@ impl AuthRepository for MongoAuthStore {
         }
         .boxed()
     }
+
+    fn insert_oauth_state<'a>(
+        &'a self,
+        oauth_state: OAuthStateRecord,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+        async move {
+            self.oauth_states
+                .insert_one(OAuthStateDocument::from(oauth_state))
+                .await?;
+            Ok(())
+        }
+        .boxed()
+    }
+
+    fn consume_oauth_state<'a>(
+        &'a self,
+        state: &'a str,
+    ) -> BoxFuture<'a, Result<Option<OAuthStateRecord>, AuthStoreError>> {
+        async move {
+            let doc = self
+                .oauth_states
+                .find_one_and_delete(mongodb::bson::doc! { "state": state })
+                .await?;
+            Ok(doc.map(OAuthStateRecord::from))
+        }
+        .boxed()
+    }
+
+    fn upsert_discord_user<'a>(
+        &'a self,
+        user: DiscordUserUpsert,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+        async move {
+            let DiscordUserUpsert {
+                discord_id,
+                username,
+                global_name,
+                email,
+                avatar,
+            } = user;
+            let now = DateTime::now();
+            self.users
+                .update_one(
+                    doc! { "discordId": &discord_id },
+                    doc! {
+                        "$set": {
+                            "discordId": discord_id,
+                            "username": username,
+                            "globalName": global_name,
+                            "email": email,
+                            "avatar": avatar,
+                            "updatedAt": now,
+                        },
+                        "$setOnInsert": {
+                            "createdAt": now,
+                        }
+                    },
+                )
+                .with_options(UpdateOptions::builder().upsert(true).build())
+                .await?;
+            Ok(())
+        }
+        .boxed()
+    }
+
+    fn insert_session<'a>(
+        &'a self,
+        session: NewSessionRecord,
+    ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
+        async move {
+            self.sessions
+                .insert_one(SessionDocument::from(session))
+                .await?;
+            Ok(())
+        }
+        .boxed()
+    }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 struct SessionDocument {
     #[serde(rename = "sessionId")]
     session_id: String,
@@ -121,6 +299,17 @@ struct SessionDocument {
 
 impl From<SessionDocument> for SessionRecord {
     fn from(value: SessionDocument) -> Self {
+        Self {
+            session_id: value.session_id,
+            user_id: value.user_id,
+            created_at: value.created_at,
+            expires_at: value.expires_at,
+        }
+    }
+}
+
+impl From<NewSessionRecord> for SessionDocument {
+    fn from(value: NewSessionRecord) -> Self {
         Self {
             session_id: value.session_id,
             user_id: value.user_id,
@@ -149,6 +338,38 @@ impl From<UserDocument> for UserRecord {
             global_name: value.global_name,
             email: value.email,
             avatar: value.avatar,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+struct OAuthStateDocument {
+    state: String,
+    verifier: String,
+    #[serde(rename = "createdAt")]
+    created_at: DateTime,
+    #[serde(rename = "expiresAt")]
+    expires_at: DateTime,
+}
+
+impl From<OAuthStateDocument> for OAuthStateRecord {
+    fn from(value: OAuthStateDocument) -> Self {
+        Self {
+            state: value.state,
+            verifier: value.verifier,
+            created_at: value.created_at,
+            expires_at: value.expires_at,
+        }
+    }
+}
+
+impl From<OAuthStateRecord> for OAuthStateDocument {
+    fn from(value: OAuthStateRecord) -> Self {
+        Self {
+            state: value.state,
+            verifier: value.verifier,
+            created_at: value.created_at,
+            expires_at: value.expires_at,
         }
     }
 }
