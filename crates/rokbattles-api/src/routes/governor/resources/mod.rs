@@ -43,7 +43,8 @@ pub async fn get(
             end: request.range.end,
         },
         total_reports: aggregated.total_reports,
-        breakdown: aggregated.breakdown,
+        crystals_gain: aggregated.crystals_gain,
+        resources: aggregated.resources,
         daily: aggregated.daily,
     };
 

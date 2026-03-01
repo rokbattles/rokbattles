@@ -5,7 +5,8 @@ use serde::Serialize;
 pub(crate) struct ResourcesResponse {
     pub range: ResourcesRange,
     pub total_reports: i64,
-    pub breakdown: ResourceBreakdownResponse,
+    pub crystals_gain: ResourceTotalsResponse,
+    pub resources: Vec<ResourceTotalsByTypeResponse>,
     pub daily: Vec<ResourceDailyResponse>,
 }
 
@@ -26,23 +27,26 @@ pub(crate) struct ResourceTotalsResponse {
 
 #[derive(Debug, Clone, Copy, Serialize, Default)]
 #[serde(rename_all = "camelCase")]
-pub(crate) struct ResourceBreakdownResponse {
-    pub crystals: ResourceTotalsResponse,
-    pub food: ResourceTotalsResponse,
-    pub wood: ResourceTotalsResponse,
-    pub stone: ResourceTotalsResponse,
-    pub gold: ResourceTotalsResponse,
-    pub gems: ResourceTotalsResponse,
+pub(crate) struct ResourceTotalsByTypeResponse {
+    #[serde(rename = "type")]
+    pub type_id: i64,
+    pub gain: i64,
+    pub bonus: i64,
+    pub total: i64,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct ResourceDailyValueByTypeResponse {
+    #[serde(rename = "type")]
+    pub type_id: i64,
+    pub total: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct ResourceDailyResponse {
     pub date: String,
-    pub crystals: i64,
-    pub food: i64,
-    pub wood: i64,
-    pub stone: i64,
-    pub gold: i64,
-    pub gems: i64,
+    pub crystals_gain: i64,
+    pub resources: Vec<ResourceDailyValueByTypeResponse>,
 }

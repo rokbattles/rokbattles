@@ -3,7 +3,10 @@ use std::collections::HashMap;
 use mongodb::bson::Bson;
 
 use super::store::RssMailDocument;
-use super::types::{ResourceBreakdownResponse, ResourceDailyResponse, ResourceTotalsResponse};
+use super::types::{
+    ResourceDailyResponse, ResourceDailyValueByTypeResponse, ResourceTotalsByTypeResponse,
+    ResourceTotalsResponse,
+};
 use crate::bson_utils::{bson_to_f64_loose, bson_to_i64_loose};
 use crate::routes::governor::date_range::GovernorDateRange;
 use crate::time_utils::{date_key_utc, normalize_bson_timestamp_millis};
@@ -11,7 +14,8 @@ use crate::time_utils::{date_key_utc, normalize_bson_timestamp_millis};
 #[derive(Debug, Clone)]
 pub(crate) struct AggregatedResources {
     pub total_reports: i64,
-    pub breakdown: ResourceBreakdownResponse,
+    pub crystals_gain: ResourceTotalsResponse,
+    pub resources: Vec<ResourceTotalsByTypeResponse>,
     pub daily: Vec<ResourceDailyResponse>,
 }
 
@@ -41,101 +45,53 @@ impl ResourceTotals {
             total: self.total,
         }
     }
-}
 
-#[derive(Debug, Clone, Copy)]
-enum ResourceKind {
-    Food,
-    Wood,
-    Stone,
-    Gold,
-    Gems,
-}
-
-#[derive(Debug, Clone, Copy, Default)]
-struct ResourceBreakdown {
-    crystals: ResourceTotals,
-    food: ResourceTotals,
-    wood: ResourceTotals,
-    stone: ResourceTotals,
-    gold: ResourceTotals,
-    gems: ResourceTotals,
-}
-
-impl ResourceBreakdown {
-    fn add_split(&mut self, resource: ResourceKind, split: ResourceTotals) {
-        match resource {
-            ResourceKind::Food => self.food.add(split),
-            ResourceKind::Wood => self.wood.add(split),
-            ResourceKind::Stone => self.stone.add(split),
-            ResourceKind::Gold => self.gold.add(split),
-            ResourceKind::Gems => self.gems.add(split),
-        }
-    }
-
-    fn add_crystals_total(&mut self, total: i64) {
-        self.crystals.add_total_only(total);
-    }
-
-    fn into_response(self) -> ResourceBreakdownResponse {
-        ResourceBreakdownResponse {
-            crystals: self.crystals.into_response(),
-            food: self.food.into_response(),
-            wood: self.wood.into_response(),
-            stone: self.stone.into_response(),
-            gold: self.gold.into_response(),
-            gems: self.gems.into_response(),
+    fn into_type_response(self, type_id: i64) -> ResourceTotalsByTypeResponse {
+        ResourceTotalsByTypeResponse {
+            type_id,
+            gain: self.gain,
+            bonus: self.bonus,
+            total: self.total,
         }
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 struct DailyBucket {
     date: String,
-    crystals: i64,
-    food: i64,
-    wood: i64,
-    stone: i64,
-    gold: i64,
-    gems: i64,
+    crystals_gain: i64,
+    resources: HashMap<i64, i64>,
 }
 
 impl DailyBucket {
     fn new(date: String) -> Self {
         Self {
             date,
-            crystals: 0,
-            food: 0,
-            wood: 0,
-            stone: 0,
-            gold: 0,
-            gems: 0,
+            crystals_gain: 0,
+            resources: HashMap::new(),
         }
     }
 
-    fn add_total(&mut self, resource: ResourceKind, total: i64) {
-        match resource {
-            ResourceKind::Food => self.food += total,
-            ResourceKind::Wood => self.wood += total,
-            ResourceKind::Stone => self.stone += total,
-            ResourceKind::Gold => self.gold += total,
-            ResourceKind::Gems => self.gems += total,
-        }
+    fn add_crystals_gain(&mut self, value: i64) {
+        self.crystals_gain += value;
     }
 
-    fn add_crystals_total(&mut self, total: i64) {
-        self.crystals += total;
+    fn add_resource_total(&mut self, type_id: i64, total: i64) {
+        *self.resources.entry(type_id).or_default() += total;
     }
 
     fn into_response(self) -> ResourceDailyResponse {
+        let mut resources = self
+            .resources
+            .into_iter()
+            .map(|(type_id, total)| ResourceDailyValueByTypeResponse { type_id, total })
+            .collect::<Vec<_>>();
+        resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
+
         ResourceDailyResponse {
             date: self.date,
-            crystals: self.crystals,
-            food: self.food,
-            wood: self.wood,
-            stone: self.stone,
-            gold: self.gold,
-            gems: self.gems,
+            crystals_gain: self.crystals_gain,
+            resources,
         }
     }
 }
@@ -145,7 +101,8 @@ pub(crate) fn aggregate_resources(
     range: &GovernorDateRange,
 ) -> AggregatedResources {
     let mut total_reports = 0;
-    let mut breakdown = ResourceBreakdown::default();
+    let mut crystals_gain = ResourceTotals::default();
+    let mut resources: HashMap<i64, ResourceTotals> = HashMap::new();
     let mut daily_buckets: HashMap<String, DailyBucket> = HashMap::new();
 
     for mail in mails {
@@ -171,31 +128,41 @@ pub(crate) fn aggregate_resources(
 
         total_reports += 1;
 
-        let daily_bucket = daily_buckets
+        let day = daily_buckets
             .entry(date_key.clone())
             .or_insert_with(|| DailyBucket::new(date_key));
 
-        if let Some(crystals_total) = extract_floor_non_negative_i64(rss.crystals_gain.as_ref()) {
-            breakdown.add_crystals_total(crystals_total);
-            daily_bucket.add_crystals_total(crystals_total);
+        if let Some(crystals_total) = extract_floor_non_negative_i64(rss.crystals_gain.as_ref())
+            && crystals_total > 0
+        {
+            crystals_gain.add_total_only(crystals_total);
+            day.add_crystals_gain(crystals_total);
         }
 
-        let Some(resource_kind) = rss
-            .rss_type
-            .as_ref()
-            .and_then(parse_i64_loose)
-            .and_then(resource_from_type)
-        else {
+        let Some(resource_type) = rss.rss_type.as_ref().and_then(parse_i64_loose) else {
             continue;
         };
+
+        if !is_supported_rss_resource_type(resource_type) {
+            continue;
+        }
 
         let Some(split) = split_from_values(rss.rss_value.as_ref(), rss.rss_bonus.as_ref()) else {
             continue;
         };
+        if split.total == 0 {
+            continue;
+        }
 
-        breakdown.add_split(resource_kind, split);
-        daily_bucket.add_total(resource_kind, split.total);
+        resources.entry(resource_type).or_default().add(split);
+        day.add_resource_total(resource_type, split.total);
     }
+
+    let mut resources = resources
+        .into_iter()
+        .map(|(type_id, totals)| totals.into_type_response(type_id))
+        .collect::<Vec<_>>();
+    resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
 
     let mut daily = daily_buckets
         .into_values()
@@ -205,20 +172,14 @@ pub(crate) fn aggregate_resources(
 
     AggregatedResources {
         total_reports,
-        breakdown: breakdown.into_response(),
+        crystals_gain: crystals_gain.into_response(),
+        resources,
         daily,
     }
 }
 
-fn resource_from_type(resource_type: i64) -> Option<ResourceKind> {
-    match resource_type {
-        1 => Some(ResourceKind::Food),
-        2 => Some(ResourceKind::Wood),
-        3 => Some(ResourceKind::Stone),
-        4 => Some(ResourceKind::Gold),
-        5 => Some(ResourceKind::Gems),
-        _ => None,
-    }
+fn is_supported_rss_resource_type(resource_type: i64) -> bool {
+    matches!(resource_type, 1..=5)
 }
 
 fn split_from_values(total: Option<&Bson>, bonus: Option<&Bson>) -> Option<ResourceTotals> {
@@ -297,7 +258,7 @@ mod tests {
     }
 
     #[test]
-    fn aggregate_resources_includes_crystals_and_gems() {
+    fn aggregate_resources_returns_crystals_field_and_id_resources() {
         let range = GovernorDateRange {
             start_millis: 1_735_689_600_000,
             end_millis: 1_735_862_400_000,
@@ -318,31 +279,48 @@ mod tests {
         let aggregated = aggregate_resources(mails, &range);
 
         assert_eq!(aggregated.total_reports, 4);
-        assert_eq!(aggregated.breakdown.crystals.total, 23);
-        assert_eq!(aggregated.breakdown.crystals.bonus, 0);
-        assert_eq!(aggregated.breakdown.crystals.gain, 23);
+        assert_eq!(aggregated.crystals_gain.total, 23);
+        assert_eq!(aggregated.crystals_gain.bonus, 0);
+        assert_eq!(aggregated.crystals_gain.gain, 23);
 
-        assert_eq!(aggregated.breakdown.food.total, 4104);
-        assert_eq!(aggregated.breakdown.food.bonus, 232);
-        assert_eq!(aggregated.breakdown.food.gain, 3872);
+        let type_1 = find_resource(&aggregated.resources, 1).expect("resource type 1");
+        assert_eq!(type_1.total, 4104);
+        assert_eq!(type_1.bonus, 232);
+        assert_eq!(type_1.gain, 3872);
 
-        assert_eq!(aggregated.breakdown.gems.total, 2);
-        assert_eq!(aggregated.breakdown.gems.bonus, 0);
-        assert_eq!(aggregated.breakdown.gems.gain, 2);
+        let type_5 = find_resource(&aggregated.resources, 5).expect("resource type 5");
+        assert_eq!(type_5.total, 2);
+        assert_eq!(type_5.bonus, 0);
+        assert_eq!(type_5.gain, 2);
 
-        assert_eq!(aggregated.breakdown.gold.total, 1850);
-        assert_eq!(aggregated.breakdown.gold.bonus, 255);
-        assert_eq!(aggregated.breakdown.gold.gain, 1595);
+        let type_4 = find_resource(&aggregated.resources, 4).expect("resource type 4");
+        assert_eq!(type_4.total, 1850);
+        assert_eq!(type_4.bonus, 255);
+        assert_eq!(type_4.gain, 1595);
 
         assert_eq!(aggregated.daily.len(), 2);
         assert_eq!(aggregated.daily[0].date, "2025-01-01");
-        assert_eq!(aggregated.daily[0].food, 4104);
-        assert_eq!(aggregated.daily[0].gems, 2);
-        assert_eq!(aggregated.daily[0].crystals, 20);
+        assert_eq!(aggregated.daily[0].crystals_gain, 20);
+        assert_eq!(find_daily_total(&aggregated.daily[0], 1), Some(4104));
+        assert_eq!(find_daily_total(&aggregated.daily[0], 5), Some(2));
 
         assert_eq!(aggregated.daily[1].date, "2025-01-02");
-        assert_eq!(aggregated.daily[1].gold, 1850);
-        assert_eq!(aggregated.daily[1].crystals, 3);
+        assert_eq!(aggregated.daily[1].crystals_gain, 3);
+        assert_eq!(find_daily_total(&aggregated.daily[1], 4), Some(1850));
+    }
+
+    fn find_resource(
+        resources: &[ResourceTotalsByTypeResponse],
+        type_id: i64,
+    ) -> Option<&ResourceTotalsByTypeResponse> {
+        resources.iter().find(|entry| entry.type_id == type_id)
+    }
+
+    fn find_daily_total(day: &ResourceDailyResponse, type_id: i64) -> Option<i64> {
+        day.resources
+            .iter()
+            .find(|entry| entry.type_id == type_id)
+            .map(|entry| entry.total)
     }
 
     fn build_mail(
