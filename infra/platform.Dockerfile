@@ -2,6 +2,8 @@ FROM node:24-alpine AS base
 WORKDIR /app
 
 FROM base AS builder
+ARG API_URL
+ENV API_URL=${API_URL}
 RUN apk add --no-cache libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY site ./site
