@@ -1,6 +1,6 @@
 [package]
 name = "mail-processor-alliance-aoobattleresults"
-version = "1.0.0-rc.6"
+version = "1.0.0-rc.7"
 edition = "2024"
 
 [dependencies]
