@@ -1,11 +1,13 @@
 use std::collections::HashMap;
+use std::collections::HashSet;
 use std::sync::Arc;
 
 use axum::extract::{Path, Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 use futures::StreamExt;
-use mongodb::options::{AggregateOptions, FindOneOptions};
+use mongodb::bson::doc;
+use mongodb::options::{FindOneOptions, FindOptions};
 
 use crate::error::ApiError;
 use crate::routes::reports::common::pagination::paginate_cursor_rows;
@@ -14,7 +16,7 @@ use crate::state::AppState;
 use self::detail_mapper::{
     build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
 };
-use self::list_mapper::{build_battle_list_pipeline, map_battle_list_document};
+use self::list_mapper::{build_report_dedupe_key, map_battle_list_document};
 use self::match_builder::build_reports_match;
 use self::query::parse_reports_request;
 use self::types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse};
@@ -34,31 +36,41 @@ pub async fn get(
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_reports_request(&params)?;
-    let reports_match = build_reports_match(&request);
-    let pipeline = build_battle_list_pipeline(&request, reports_match, FETCH_LIMIT);
-    let aggregate_options = AggregateOptions::builder().allow_disk_use(true).build();
+    let final_match = build_reports_match(&request);
+
+    let options = FindOptions::builder()
+        .sort(doc! { "metadata.mail_time": request.sort_direction() })
+        .projection(self::list_mapper::build_battle_list_projection())
+        .build();
 
     let mut cursor = state
         .reports_store
         .battle_collection()
-        .aggregate(pipeline)
-        .with_options(aggregate_options)
+        .find(final_match)
+        .with_options(options)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let mut fetched_documents = 0usize;
+    let mut dedupe_keys = HashSet::new();
     let mut rows: Vec<ReportRowWithCursor> = Vec::new();
     while let Some(next) = cursor.next().await {
-        fetched_documents += 1;
         let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
-        if let Some(row) = map_battle_list_document(&document) {
+        let Some(row) = map_battle_list_document(&document) else {
+            continue;
+        };
+        let dedupe_key = build_report_dedupe_key(&document)
+            .unwrap_or_else(|| format!("mail:{}", row.item.mail_id));
+        if dedupe_keys.insert(dedupe_key) {
             rows.push(row);
+            if rows.len() >= FETCH_LIMIT as usize {
+                break;
+            }
         }
     }
 
     let paged_rows = paginate_cursor_rows(
         rows,
-        fetched_documents,
+        dedupe_keys.len(),
         PAGE_SIZE,
         request.before_cursor,
         request.after_cursor,
