@@ -4,7 +4,6 @@ use mongodb::bson::{Bson, Document, doc};
 
 use crate::bson_utils::{nested_document, nested_i64, nested_str};
 
-use super::query::ReportsRequest;
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
@@ -58,86 +57,30 @@ pub(crate) fn build_battle_list_projection() -> Document {
     }
 }
 
-pub(super) fn build_battle_list_pipeline(
-    request: &ReportsRequest,
-    reports_match: Document,
-    fetch_limit: i64,
-) -> Vec<Document> {
-    let mut pipeline = vec![
-        doc! { "$match": reports_match },
-        // Sort first so Mongo can use the mail-time index before we build dedupe fields.
-        doc! { "$sort": { "metadata.mail_time": -1 } },
-        // Keep only list fields here so `$group` doesn't carry full report payloads.
-        doc! { "$project": build_battle_list_projection() },
-        doc! {
-            "$addFields": {
-                "_dedupe_key": {
-                    "attack_ids": {
-                        "$sortArray": {
-                            "input": {
-                                "$setUnion": [
-                                    {
-                                        "$map": {
-                                            "input": {
-                                                "$filter": {
-                                                    "input": { "$ifNull": ["$opponents", []] },
-                                                    "as": "opponent",
-                                                    "cond": {
-                                                        "$and": [
-                                                            {
-                                                                "$not": [
-                                                                    {
-                                                                        "$in": [
-                                                                            { "$ifNull": ["$$opponent.player_id", 0] },
-                                                                            [-2, 0]
-                                                                        ]
-                                                                    }
-                                                                ]
-                                                            },
-                                                            { "$ne": [{ "$ifNull": ["$$opponent.attack.id", ""] }, ""] }
-                                                        ]
-                                                    }
-                                                }
-                                            },
-                                            "as": "opponent",
-                                            "in": { "$ifNull": ["$$opponent.attack.id", ""] }
-                                        }
-                                    },
-                                    []
-                                ]
-                            },
-                            "sortBy": 1
-                        }
-                    },
-                    "sender_player_id": { "$ifNull": ["$sender.player_id", 0] },
-                    "server_id": { "$ifNull": ["$metadata.server_id", 0] },
-                    "start_timestamp": { "$ifNull": ["$timeline.start_timestamp", 0] },
-                    "end_timestamp": { "$ifNull": ["$timeline.end_timestamp", 0] },
-                }
-            }
-        },
-        doc! {
-            "$group": {
-                "_id": "$_dedupe_key",
-                "latest_mail_time": { "$first": "$metadata.mail_time" },
-                "document": { "$first": "$$ROOT" },
-            }
-        },
-    ];
+pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
+    let sender_player_id = nested_i64(document, &["sender", "player_id"]).unwrap_or(0);
+    let server_id = nested_i64(document, &["metadata", "server_id"]).unwrap_or(0);
+    let start_timestamp = nested_i64(document, &["timeline", "start_timestamp"]).unwrap_or(0);
+    let end_timestamp = nested_i64(document, &["timeline", "end_timestamp"]).unwrap_or(0);
 
-    if let Some(before_cursor) = request.before_cursor {
-        pipeline.push(doc! { "$match": { "latest_mail_time": { "$gt": before_cursor } } });
-    } else if let Some(after_cursor) = request.after_cursor {
-        pipeline.push(doc! { "$match": { "latest_mail_time": { "$lt": after_cursor } } });
+    let mut attack_ids = extract_opponents(document)
+        .into_iter()
+        .filter(is_valid_opponent)
+        .filter_map(extract_attack_id)
+        .filter(|value| !value.is_empty())
+        .collect::<Vec<_>>();
+    attack_ids.sort_unstable();
+    attack_ids.dedup();
+
+    if attack_ids.is_empty() {
+        return nested_str(document, &["metadata", "mail_id"])
+            .map(|mail_id| format!("mail:{mail_id}"));
     }
 
-    pipeline.extend([
-        doc! { "$sort": { "latest_mail_time": request.sort_direction() } },
-        doc! { "$limit": fetch_limit },
-        doc! { "$replaceRoot": { "newRoot": "$document" } },
-    ]);
-
-    pipeline
+    Some(format!(
+        "attacks:{}|sender:{sender_player_id}|server:{server_id}|start:{start_timestamp}|end:{end_timestamp}",
+        attack_ids.join(",")
+    ))
 }
 
 pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowWithCursor> {
@@ -220,6 +163,18 @@ fn extract_opponents(document: &Document) -> Vec<Document> {
         .filter_map(Bson::as_document)
         .cloned()
         .collect()
+}
+
+fn extract_attack_id(opponent: Document) -> Option<String> {
+    let attack = opponent.get_document("attack").ok()?;
+    let raw_id = attack.get("id")?;
+    Some(match raw_id {
+        Bson::String(value) => value.clone(),
+        Bson::Int32(value) => value.to_string(),
+        Bson::Int64(value) => value.to_string(),
+        Bson::Double(value) => value.to_string(),
+        _ => String::new(),
+    })
 }
 
 fn get_valid_sorted_opponents(opponents: &[Document]) -> Vec<Document> {
@@ -351,79 +306,39 @@ mod tests {
     use mongodb::bson::doc;
 
     use super::*;
-    use crate::routes::reports::battle::query::ReportsFilterSide;
 
-    fn empty_request() -> ReportsRequest {
-        ReportsRequest {
-            before_cursor: None,
-            after_cursor: None,
-            filter_type: None,
-            player_id: None,
-            sender_primary_commander_id: None,
-            sender_secondary_commander_id: None,
-            opponent_primary_commander_id: None,
-            opponent_secondary_commander_id: None,
-            rally_side: ReportsFilterSide::None,
-            garrison_side: ReportsFilterSide::None,
-            garrison_building_type: None,
-        }
+    #[test]
+    fn dedupe_key_sorts_and_deduplicates_attack_ids() {
+        let document = doc! {
+            "metadata": { "mail_id": "mail-1", "server_id": 1804_i64 },
+            "sender": { "player_id": 125861505_i64 },
+            "timeline": { "start_timestamp": 1772492175_i64, "end_timestamp": 1772492282_i64 },
+            "opponents": [
+                { "player_id": 56779522_i64, "attack": { "id": "640904" } },
+                { "player_id": -2_i64, "attack": { "id": "ignored" } },
+                { "player_id": 56779522_i64, "attack": { "id": "640903" } },
+                { "player_id": 56779522_i64, "attack": { "id": "640904" } },
+            ],
+        };
+
+        let key = build_report_dedupe_key(&document).expect("dedupe key");
+        assert_eq!(
+            key,
+            "attacks:640903,640904|sender:125861505|server:1804|start:1772492175|end:1772492282"
+        );
     }
 
     #[test]
-    fn battle_list_pipeline_groups_by_dedupe_key() {
-        let request = empty_request();
-        let pipeline = build_battle_list_pipeline(&request, doc! { "metadata.kvk": true }, 101);
+    fn dedupe_key_falls_back_to_mail_id_when_attack_ids_missing() {
+        let document = doc! {
+            "metadata": { "mail_id": "mail-1" },
+            "sender": { "player_id": 1_i64 },
+            "timeline": { "start_timestamp": 10_i64, "end_timestamp": 20_i64 },
+            "opponents": [{ "player_id": 100_i64, "attack": { "id": "" } }],
+        };
 
-        let stage_names = pipeline
-            .iter()
-            .filter_map(|stage| stage.keys().next().cloned())
-            .collect::<Vec<_>>();
-        assert_eq!(
-            stage_names,
-            vec![
-                "$match",
-                "$sort",
-                "$project",
-                "$addFields",
-                "$group",
-                "$sort",
-                "$limit",
-                "$replaceRoot",
-            ]
-        );
-
-        let group_stage = pipeline[4].get_document("$group").expect("$group stage");
-        assert_eq!(
-            group_stage.get_str("_id").expect("group id"),
-            "$_dedupe_key"
-        );
-
-        let add_fields_stage = pipeline[3]
-            .get_document("$addFields")
-            .expect("$addFields stage");
-        let dedupe_key = add_fields_stage
-            .get_document("_dedupe_key")
-            .expect("_dedupe_key");
-        assert!(dedupe_key.get("attack_ids").is_some());
-        assert!(dedupe_key.get("sender_player_id").is_some());
-        assert!(dedupe_key.get("server_id").is_some());
-        assert!(dedupe_key.get("start_timestamp").is_some());
-        assert!(dedupe_key.get("end_timestamp").is_some());
-    }
-
-    #[test]
-    fn battle_list_pipeline_applies_after_cursor_post_dedupe() {
-        let mut request = empty_request();
-        request.after_cursor = Some(123);
-        let pipeline = build_battle_list_pipeline(&request, doc! {}, 101);
-
-        let cursor_match = pipeline[5]
-            .get_document("$match")
-            .expect("cursor match stage");
-        let latest_mail_time = cursor_match
-            .get_document("latest_mail_time")
-            .expect("latest_mail_time match");
-        assert_eq!(latest_mail_time.get_i64("$lt").expect("$lt"), 123);
+        let key = build_report_dedupe_key(&document).expect("dedupe key");
+        assert_eq!(key, "mail:mail-1");
     }
 
     #[test]
