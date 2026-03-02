@@ -2,7 +2,6 @@
 
 import {
   ArrowDownTrayIcon,
-  ChevronUpIcon,
   FireIcon,
   FlagIcon,
   GiftIcon,
@@ -19,21 +18,13 @@ import { useTheme } from "next-themes";
 import type React from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { LanguageSelector } from "@/components/language-selector";
-import { PlatformAccountDropdownMenu } from "@/components/platform-account-dropdown-menu";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
-import { Avatar } from "@/components/ui/avatar";
-import { Dropdown, DropdownButton } from "@/components/ui/dropdown";
-import {
-  Navbar,
-  NavbarItem,
-  NavbarLabel,
-  NavbarSection,
-  NavbarSpacer,
-} from "@/components/ui/navbar";
+import { Navbar } from "@/components/ui/navbar";
 import {
   Sidebar,
   SidebarBody,
   SidebarFooter,
+  SidebarHeader,
   SidebarHeading,
   SidebarItem,
   SidebarLabel,
@@ -89,29 +80,16 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
 
   return (
     <SidebarLayout
-      navbar={
-        <Navbar>
-          <NavbarSpacer />
-          <NavbarSection>
-            {!loading &&
-              (user ? (
-                <Dropdown>
-                  <DropdownButton as={NavbarItem} aria-label={t("Open account menu")}>
-                    <Avatar src={user.avatar} square />
-                  </DropdownButton>
-                  <PlatformAccountDropdownMenu anchor="bottom end" handleLogout={handleLogout} />
-                </Dropdown>
-              ) : (
-                <NavbarItem href="/proxy/v1/auth/discord/login">
-                  <NavbarLabel>{t("Sign in")}</NavbarLabel>
-                </NavbarItem>
-              ))}
-          </NavbarSection>
-        </Navbar>
-      }
+      navbar={<Navbar />}
       sidebar={
         <Sidebar>
-          {!loading && user ? <SidebarGovernorHeader user={user} /> : null}
+          {!loading && user ? (
+            <SidebarGovernorHeader user={user} handleLogout={handleLogout} />
+          ) : (
+            <SidebarHeader>
+              <SidebarItem disabled={true}>ROK Battles</SidebarItem>
+            </SidebarHeader>
+          )}
           <SidebarBody>
             <SidebarSection>
               <SidebarItem href="/" current={pathname === "/"}>
@@ -192,35 +170,13 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               <LanguageSelector />
             </SidebarSection>
           </SidebarBody>
-          <SidebarFooter className="max-lg:hidden">
-            {loading ? (
-              <SidebarItem disabled>
-                <SidebarLabel>{t("Loading...")}</SidebarLabel>
-              </SidebarItem>
-            ) : user ? (
-              <Dropdown>
-                <DropdownButton as={SidebarItem}>
-                  <span className="flex min-w-0 items-center gap-3">
-                    <Avatar src={user.avatar} className="size-10" square />
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm/5 font-medium text-zinc-950 dark:text-white">
-                        {user.globalName ?? user.username}
-                      </span>
-                      <span className="block truncate text-xs/5 font-normal text-zinc-500 dark:text-zinc-400">
-                        {user.email}
-                      </span>
-                    </span>
-                  </span>
-                  <ChevronUpIcon />
-                </DropdownButton>
-                <PlatformAccountDropdownMenu anchor="top start" handleLogout={handleLogout} />
-              </Dropdown>
-            ) : (
+          {!user ? (
+            <SidebarFooter className="max-lg:hidden">
               <SidebarItem href="/proxy/v1/auth/discord/login" prefetch={false}>
                 <SidebarLabel>{t("Sign in")}</SidebarLabel>
               </SidebarItem>
-            )}
-          </SidebarFooter>
+            </SidebarFooter>
+          ) : null}
         </Sidebar>
       }
     >

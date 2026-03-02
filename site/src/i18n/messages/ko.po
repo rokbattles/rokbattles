@@ -15,22 +15,22 @@ msgid "P2Qqmh"
 msgstr ""
 
 #: src/app/(main)/account/loot/page.tsx:24
-#: src/components/platform-layout.tsx:144
+#: src/components/platform-layout.tsx:122
 msgid "yF/GXb"
 msgstr ""
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:140
+#: src/components/platform-layout.tsx:118
 msgid "N42bBd"
 msgstr "내 조합"
 
 #: src/app/(main)/account/resources/page.tsx:24
-#: src/components/platform-layout.tsx:151
+#: src/components/platform-layout.tsx:129
 msgid "gMtUZq"
 msgstr ""
 
 #: src/app/(main)/account/settings/layout.tsx:11
-#: src/components/platform-account-dropdown-menu.tsx:33
+#: src/components/sidebar-governor-header.tsx:80
 msgid "NQgbYA"
 msgstr "계정 설정"
 
@@ -43,7 +43,7 @@ msgid "rmEwjk"
 msgstr "이메일 주소는 디스코드와 동기화됩니다."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:123
+#: src/components/platform-layout.tsx:101
 msgid "xVCzuX"
 msgstr "결투 탐색"
 
@@ -75,7 +75,7 @@ msgid "irMluf"
 msgstr "내 보고서로 돌아가기"
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:119
+#: src/components/platform-layout.tsx:97
 msgid "8PEDrB"
 msgstr "전투 탐색"
 
@@ -253,14 +253,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:21
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "이세트"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -841,66 +841,49 @@ msgstr ""
 msgid "9+Ddtu"
 msgstr ""
 
-#: src/components/platform-account-dropdown-menu.tsx:37
-msgid "hquG55"
-msgstr "쿠키 설정"
-
-#: src/components/platform-account-dropdown-menu.tsx:42
-msgid "xXbJso"
-msgstr "로그아웃"
-
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Q7dLbA"
 msgstr "라이트 모드"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "hMUQH5"
 msgstr "다크 모드"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Pe0ogR"
 msgstr "테마"
 
-#: src/components/platform-layout.tsx:99
-msgid "Lvr/gV"
-msgstr "계정 메뉴 열기"
-
 #: src/components/platform-layout.tsx:106
-#: src/components/platform-layout.tsx:220
-msgid "SQJto2"
-msgstr "로그인"
-
-#: src/components/platform-layout.tsx:128
 msgid "TwyMau"
 msgstr "계정"
 
-#: src/components/platform-layout.tsx:133
+#: src/components/platform-layout.tsx:111
 msgid "NFE4yO"
 msgstr "내 전투"
 
-#: src/components/platform-layout.tsx:158
+#: src/components/platform-layout.tsx:136
 msgid "odeufe"
 msgstr ""
 
-#: src/components/platform-layout.tsx:168
+#: src/components/platform-layout.tsx:146
 msgid "7oFrM6"
 msgstr ""
 
-#: src/components/platform-layout.tsx:177
+#: src/components/platform-layout.tsx:155
 msgid "HqRNN8"
 msgstr "고객 지원"
 
-#: src/components/platform-layout.tsx:186
+#: src/components/platform-layout.tsx:164
 msgid "QnWNmB"
 msgstr "데스크톱 앱"
 
-#: src/components/platform-layout.tsx:188
+#: src/components/platform-layout.tsx:166
 msgid "EQpyb8"
 msgstr "테마 변경"
 
-#: src/components/platform-layout.tsx:198
-msgid "gjBiyj"
-msgstr "로딩 중..."
+#: src/components/platform-layout.tsx:176
+msgid "SQJto2"
+msgstr "로그인"
 
 #: src/components/report/report-armament-section.tsx:28
 msgid "e36Xiv"
@@ -1114,17 +1097,21 @@ msgstr "보고서 불러오는 중..."
 msgid "IuFETn"
 msgstr "지속 시간"
 
-#: src/components/sidebar-governor-header.tsx:35
-msgid "Oon7nA"
-msgstr "지도자 선택"
+#: src/components/sidebar-governor-header.tsx:44
+msgid "JoFtLa"
+msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:61
-msgid "tZURTn"
-msgstr "지도자 등록..."
+#: src/components/sidebar-governor-header.tsx:74
+msgid "p5J4xw"
+msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:67
-msgid "7FXjCo"
-msgstr "새 그룹..."
+#: src/components/sidebar-governor-header.tsx:84
+msgid "hquG55"
+msgstr "쿠키 설정"
+
+#: src/components/sidebar-governor-header.tsx:89
+msgid "xXbJso"
+msgstr "로그아웃"
 
 #: src/components/ui/sidebar-layout.tsx:48
 msgid "SRsuWF"
