@@ -46,10 +46,7 @@ async fn get_me(
     Ok(Json(AuthMeResponse {
         user: CurrentUser {
             discord_id: session.user.discord_id,
-            username: session.user.username,
-            global_name: session.user.global_name,
             email: session.user.email,
-            avatar: session.user.avatar,
             claimed_governors,
         },
     }))
@@ -153,15 +150,11 @@ async fn get_discord_callback(
         return Err(ApiError::bad_request("discord email not verified"));
     }
 
-    let avatar = oauth::build_avatar_url(&profile.id, profile.avatar.as_deref());
     state
         .auth_store
         .upsert_discord_user(DiscordUserUpsert {
             discord_id: profile.id.clone(),
-            username: profile.username,
-            global_name: profile.global_name,
             email,
-            avatar,
         })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
@@ -339,9 +332,6 @@ struct DiscordTokenResponse {
 #[derive(Debug, Deserialize)]
 struct DiscordProfileResponse {
     id: String,
-    username: String,
-    global_name: Option<String>,
-    avatar: Option<String>,
     email: Option<String>,
     verified: Option<bool>,
 }

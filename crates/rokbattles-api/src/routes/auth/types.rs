@@ -10,10 +10,7 @@ pub(super) struct AuthMeResponse {
 #[serde(rename_all = "camelCase")]
 pub(super) struct CurrentUser {
     pub discord_id: String,
-    pub username: String,
-    pub global_name: Option<String>,
     pub email: String,
-    pub avatar: Option<String>,
     pub claimed_governors: Vec<ClaimedGovernor>,
 }
 

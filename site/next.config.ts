@@ -35,7 +35,6 @@ const config: NextConfig = {
       { protocol: "https", hostname: "imv2-gl.lilithgame.com", pathname: "/**" },
       { protocol: "https", hostname: "plat-fau-global.lilithgame.com", pathname: "/**" },
       { protocol: "https", hostname: "static-gl.lilithgame.com", pathname: "/**" },
-      { protocol: "https", hostname: "cdn.discordapp.com", pathname: "/**" },
       { protocol: "https", hostname: "cdn.rokbattles.com", pathname: "/**" },
     ],
   },
