@@ -52,13 +52,31 @@ impl ReportsStore {
                 .keys(doc! { "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! { "sender.commanders.secondary.id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "opponents.commanders.primary.id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "opponents.commanders.secondary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_role": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "opponents.rally": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "sender.alliance_building_id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "opponents.alliance_building_id": 1, "metadata.mail_time": -1 })
                 .build(),
         ];
 

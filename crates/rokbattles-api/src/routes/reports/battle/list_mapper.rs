@@ -4,6 +4,7 @@ use mongodb::bson::{Bson, Document, doc};
 
 use crate::bson_utils::{nested_document, nested_i64, nested_str};
 
+use super::query::ReportsRequest;
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
@@ -15,10 +16,12 @@ pub(crate) fn build_battle_list_projection() -> Document {
     doc! {
         "metadata.mail_id": 1,
         "metadata.mail_time": 1,
+        "metadata.server_id": 1,
         "timeline.start_timestamp": 1,
         "timeline.end_timestamp": 1,
         "timeline.sampling.tick": 1,
         "timeline.sampling.count": 1,
+        "sender.player_id": 1,
         "sender.commanders.primary.id": 1,
         "sender.commanders.secondary.id": 1,
         "summary.sender.kill_points": 1,
@@ -34,6 +37,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "summary.opponent.remaining": 1,
         "summary.opponent.troop_units": 1,
         "opponents.player_id": 1,
+        "opponents.attack.id": 1,
         "opponents.start_tick": 1,
         "opponents.alliance_building_id": 1,
         "opponents.structure_id": 1,
@@ -52,6 +56,88 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "opponents.battle_results.opponent.remaining": 1,
         "opponents.battle_results.opponent.troop_units": 1,
     }
+}
+
+pub(super) fn build_battle_list_pipeline(
+    request: &ReportsRequest,
+    reports_match: Document,
+    fetch_limit: i64,
+) -> Vec<Document> {
+    let mut pipeline = vec![
+        doc! { "$match": reports_match },
+        // Sort first so Mongo can use the mail-time index before we build dedupe fields.
+        doc! { "$sort": { "metadata.mail_time": -1 } },
+        // Keep only list fields here so `$group` doesn't carry full report payloads.
+        doc! { "$project": build_battle_list_projection() },
+        doc! {
+            "$addFields": {
+                "_dedupe_key": {
+                    "attack_ids": {
+                        "$sortArray": {
+                            "input": {
+                                "$setUnion": [
+                                    {
+                                        "$map": {
+                                            "input": {
+                                                "$filter": {
+                                                    "input": { "$ifNull": ["$opponents", []] },
+                                                    "as": "opponent",
+                                                    "cond": {
+                                                        "$and": [
+                                                            {
+                                                                "$not": [
+                                                                    {
+                                                                        "$in": [
+                                                                            { "$ifNull": ["$$opponent.player_id", 0] },
+                                                                            [-2, 0]
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            { "$ne": [{ "$ifNull": ["$$opponent.attack.id", ""] }, ""] }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "as": "opponent",
+                                            "in": { "$ifNull": ["$$opponent.attack.id", ""] }
+                                        }
+                                    },
+                                    []
+                                ]
+                            },
+                            "sortBy": 1
+                        }
+                    },
+                    "sender_player_id": { "$ifNull": ["$sender.player_id", 0] },
+                    "server_id": { "$ifNull": ["$metadata.server_id", 0] },
+                    "start_timestamp": { "$ifNull": ["$timeline.start_timestamp", 0] },
+                    "end_timestamp": { "$ifNull": ["$timeline.end_timestamp", 0] },
+                }
+            }
+        },
+        doc! {
+            "$group": {
+                "_id": "$_dedupe_key",
+                "latest_mail_time": { "$first": "$metadata.mail_time" },
+                "document": { "$first": "$$ROOT" },
+            }
+        },
+    ];
+
+    if let Some(before_cursor) = request.before_cursor {
+        pipeline.push(doc! { "$match": { "latest_mail_time": { "$gt": before_cursor } } });
+    } else if let Some(after_cursor) = request.after_cursor {
+        pipeline.push(doc! { "$match": { "latest_mail_time": { "$lt": after_cursor } } });
+    }
+
+    pipeline.extend([
+        doc! { "$sort": { "latest_mail_time": request.sort_direction() } },
+        doc! { "$limit": fetch_limit },
+        doc! { "$replaceRoot": { "newRoot": "$document" } },
+    ]);
+
+    pipeline
 }
 
 pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowWithCursor> {
@@ -265,6 +351,80 @@ mod tests {
     use mongodb::bson::doc;
 
     use super::*;
+    use crate::routes::reports::battle::query::ReportsFilterSide;
+
+    fn empty_request() -> ReportsRequest {
+        ReportsRequest {
+            before_cursor: None,
+            after_cursor: None,
+            filter_type: None,
+            player_id: None,
+            sender_primary_commander_id: None,
+            sender_secondary_commander_id: None,
+            opponent_primary_commander_id: None,
+            opponent_secondary_commander_id: None,
+            rally_side: ReportsFilterSide::None,
+            garrison_side: ReportsFilterSide::None,
+            garrison_building_type: None,
+        }
+    }
+
+    #[test]
+    fn battle_list_pipeline_groups_by_dedupe_key() {
+        let request = empty_request();
+        let pipeline = build_battle_list_pipeline(&request, doc! { "metadata.kvk": true }, 101);
+
+        let stage_names = pipeline
+            .iter()
+            .filter_map(|stage| stage.keys().next().cloned())
+            .collect::<Vec<_>>();
+        assert_eq!(
+            stage_names,
+            vec![
+                "$match",
+                "$sort",
+                "$project",
+                "$addFields",
+                "$group",
+                "$sort",
+                "$limit",
+                "$replaceRoot",
+            ]
+        );
+
+        let group_stage = pipeline[4].get_document("$group").expect("$group stage");
+        assert_eq!(
+            group_stage.get_str("_id").expect("group id"),
+            "$_dedupe_key"
+        );
+
+        let add_fields_stage = pipeline[3]
+            .get_document("$addFields")
+            .expect("$addFields stage");
+        let dedupe_key = add_fields_stage
+            .get_document("_dedupe_key")
+            .expect("_dedupe_key");
+        assert!(dedupe_key.get("attack_ids").is_some());
+        assert!(dedupe_key.get("sender_player_id").is_some());
+        assert!(dedupe_key.get("server_id").is_some());
+        assert!(dedupe_key.get("start_timestamp").is_some());
+        assert!(dedupe_key.get("end_timestamp").is_some());
+    }
+
+    #[test]
+    fn battle_list_pipeline_applies_after_cursor_post_dedupe() {
+        let mut request = empty_request();
+        request.after_cursor = Some(123);
+        let pipeline = build_battle_list_pipeline(&request, doc! {}, 101);
+
+        let cursor_match = pipeline[5]
+            .get_document("$match")
+            .expect("cursor match stage");
+        let latest_mail_time = cursor_match
+            .get_document("latest_mail_time")
+            .expect("latest_mail_time match");
+        assert_eq!(latest_mail_time.get_i64("$lt").expect("$lt"), 123);
+    }
 
     #[test]
     fn computes_trade_percent() {
