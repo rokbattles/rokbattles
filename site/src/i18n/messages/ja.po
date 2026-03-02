@@ -253,14 +253,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "イシス"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "イシス"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -1111,14 +1111,6 @@ msgstr ""
 
 #: src/components/sidebar-governor-header.tsx:89
 msgid "xXbJso"
-msgstr ""
-
-#: src/components/ui/sidebar-layout.tsx:48
-msgid "SRsuWF"
-msgstr ""
-
-#: src/components/ui/sidebar-layout.tsx:80
-msgid "oM3yjO"
 msgstr ""
 
 #: src/hooks/use-ark-match-detail.ts:53

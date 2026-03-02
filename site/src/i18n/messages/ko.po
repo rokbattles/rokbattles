@@ -253,14 +253,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "이세트"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "이세트"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -1112,14 +1112,6 @@ msgstr "쿠키 설정"
 #: src/components/sidebar-governor-header.tsx:89
 msgid "xXbJso"
 msgstr "로그아웃"
-
-#: src/components/ui/sidebar-layout.tsx:48
-msgid "SRsuWF"
-msgstr "네비게이션 닫기"
-
-#: src/components/ui/sidebar-layout.tsx:80
-msgid "oM3yjO"
-msgstr "네비게이션 열기"
 
 #: src/hooks/use-ark-match-detail.ts:53
 #: src/hooks/use-ark-match-history.ts:65

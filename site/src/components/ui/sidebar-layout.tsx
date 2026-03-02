@@ -6,7 +6,6 @@ import {
   DialogBackdrop as HeadlessDialogBackdrop,
   DialogPanel as HeadlessDialogPanel,
 } from "@headlessui/react";
-import { useExtracted } from "next-intl";
 import type React from "react";
 import { useState } from "react";
 import { NavbarItem } from "@/components/ui/navbar";
@@ -32,7 +31,6 @@ function MobileSidebar({
   close,
   children,
 }: React.PropsWithChildren<{ open: boolean; close: () => void }>) {
-  const t = useExtracted();
   return (
     <HeadlessDialog open={open} onClose={close} className="lg:hidden">
       <HeadlessDialogBackdrop
@@ -45,7 +43,7 @@ function MobileSidebar({
       >
         <div className="flex h-full flex-col rounded-lg bg-white shadow-xs ring-1 ring-zinc-950/5 dark:bg-zinc-900 dark:ring-white/10">
           <div className="-mb-3 px-4 pt-3">
-            <HeadlessCloseButton as={NavbarItem} aria-label={t("Close navigation")}>
+            <HeadlessCloseButton as={NavbarItem} aria-label="Close navigation">
               <CloseMenuIcon />
             </HeadlessCloseButton>
           </div>
@@ -62,7 +60,6 @@ export function SidebarLayout({
   children,
 }: React.PropsWithChildren<{ navbar: React.ReactNode; sidebar: React.ReactNode }>) {
   const [showSidebar, setShowSidebar] = useState(false);
-  const t = useExtracted();
 
   return (
     <div className="relative isolate flex min-h-svh w-full bg-white max-lg:flex-col lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
@@ -77,7 +74,7 @@ export function SidebarLayout({
       {/* Navbar on mobile */}
       <header className="flex items-center px-4 lg:hidden">
         <div className="py-2.5">
-          <NavbarItem onClick={() => setShowSidebar(true)} aria-label={t("Open navigation")}>
+          <NavbarItem onClick={() => setShowSidebar(true)} aria-label="Open navigation">
             <OpenMenuIcon />
           </NavbarItem>
         </div>
