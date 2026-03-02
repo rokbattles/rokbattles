@@ -5,8 +5,7 @@ use axum::extract::{Path, Query, State};
 use axum::response::IntoResponse;
 use axum::{Json, http::StatusCode};
 use futures::StreamExt;
-use mongodb::bson::doc;
-use mongodb::options::{FindOneOptions, FindOptions};
+use mongodb::options::{AggregateOptions, FindOneOptions};
 
 use crate::error::ApiError;
 use crate::routes::reports::common::pagination::paginate_cursor_rows;
@@ -15,7 +14,7 @@ use crate::state::AppState;
 use self::detail_mapper::{
     build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
 };
-use self::list_mapper::{build_battle_list_projection, map_battle_list_document};
+use self::list_mapper::{build_battle_list_pipeline, map_battle_list_document};
 use self::match_builder::build_reports_match;
 use self::query::parse_reports_request;
 use self::types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse};
@@ -35,19 +34,15 @@ pub async fn get(
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
     let request = parse_reports_request(&params)?;
-    let final_match = build_reports_match(&request);
-
-    let options = FindOptions::builder()
-        .sort(doc! { "metadata.mail_time": request.sort_direction() })
-        .limit(FETCH_LIMIT)
-        .projection(build_battle_list_projection())
-        .build();
+    let reports_match = build_reports_match(&request);
+    let pipeline = build_battle_list_pipeline(&request, reports_match, FETCH_LIMIT);
+    let aggregate_options = AggregateOptions::builder().allow_disk_use(true).build();
 
     let mut cursor = state
         .reports_store
         .battle_collection()
-        .find(final_match)
-        .with_options(options)
+        .aggregate(pipeline)
+        .with_options(aggregate_options)
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 

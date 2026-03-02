@@ -12,12 +12,6 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         }
     }];
 
-    if let Some(before_cursor) = request.before_cursor {
-        match_pipeline.push(doc! { "metadata.mail_time": { "$gt": before_cursor } });
-    } else if let Some(after_cursor) = request.after_cursor {
-        match_pipeline.push(doc! { "metadata.mail_time": { "$lt": after_cursor } });
-    }
-
     if let Some(player_id) = request.player_id {
         match_pipeline.push(doc! {
             "$or": [
