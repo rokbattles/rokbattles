@@ -137,7 +137,7 @@ export default function ReportsOverviewTimelineChart({
               cx={point.x}
               cy={point.y}
               fill="#38bdf8"
-              key={`sample-${index}-${point.x}-${point.y}`}
+              key={`sample-${point.x}-${point.y}`}
               r={index === 0 || index === points.length - 1 ? 7 : 4}
               stroke="white"
               strokeWidth="2"

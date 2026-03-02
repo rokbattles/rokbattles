@@ -42,9 +42,7 @@ export function ArkMatchDetailPairingsSection({ pairings }: ArkMatchDetailPairin
           </TableHead>
           <TableBody>
             {pairings.map((pairing, index) => (
-              <TableRow
-                key={`${pairing.primaryCommanderId ?? "na"}-${pairing.secondaryCommanderId ?? "na"}-${index}`}
-              >
+              <TableRow key={`${pairing.primaryCommanderId}-${pairing.secondaryCommanderId}`}>
                 <TableCell className="w-12 tabular-nums text-zinc-500 dark:text-zinc-400">
                   {index + 1}
                 </TableCell>
