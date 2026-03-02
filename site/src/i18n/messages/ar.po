@@ -15,22 +15,22 @@ msgid "P2Qqmh"
 msgstr ""
 
 #: src/app/(main)/account/loot/page.tsx:24
-#: src/components/platform-layout.tsx:122
+#: src/components/platform-layout.tsx:123
 msgid "yF/GXb"
 msgstr ""
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:118
+#: src/components/platform-layout.tsx:119
 msgid "N42bBd"
 msgstr ""
 
 #: src/app/(main)/account/resources/page.tsx:24
-#: src/components/platform-layout.tsx:129
+#: src/components/platform-layout.tsx:130
 msgid "gMtUZq"
 msgstr ""
 
 #: src/app/(main)/account/settings/layout.tsx:11
-#: src/components/sidebar-governor-header.tsx:80
+#: src/components/sidebar-governor-header.tsx:85
 msgid "NQgbYA"
 msgstr "إعدادات الحساب"
 
@@ -43,7 +43,6 @@ msgid "rmEwjk"
 msgstr ""
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:101
 msgid "xVCzuX"
 msgstr ""
 
@@ -58,6 +57,7 @@ msgid "F2qQa8"
 msgstr ""
 
 #: src/app/(main)/page.tsx:12
+#: src/components/platform-layout.tsx:98
 msgid "xmv5Of"
 msgstr "تقارير المعارك"
 
@@ -75,7 +75,6 @@ msgid "irMluf"
 msgstr ""
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:97
 msgid "8PEDrB"
 msgstr ""
 
@@ -853,35 +852,39 @@ msgstr ""
 msgid "Pe0ogR"
 msgstr ""
 
-#: src/components/platform-layout.tsx:106
-msgid "TwyMau"
-msgstr "حساب"
+#: src/components/platform-layout.tsx:102
+msgid "sqvUg2"
+msgstr ""
 
-#: src/components/platform-layout.tsx:111
+#: src/components/platform-layout.tsx:107
+msgid "dr0ueW"
+msgstr ""
+
+#: src/components/platform-layout.tsx:112
 msgid "NFE4yO"
 msgstr ""
 
-#: src/components/platform-layout.tsx:136
+#: src/components/platform-layout.tsx:137
 msgid "odeufe"
 msgstr ""
 
-#: src/components/platform-layout.tsx:146
+#: src/components/platform-layout.tsx:147
 msgid "7oFrM6"
 msgstr ""
 
-#: src/components/platform-layout.tsx:155
+#: src/components/platform-layout.tsx:156
 msgid "HqRNN8"
 msgstr ""
 
-#: src/components/platform-layout.tsx:164
+#: src/components/platform-layout.tsx:165
 msgid "QnWNmB"
 msgstr ""
 
-#: src/components/platform-layout.tsx:166
+#: src/components/platform-layout.tsx:167
 msgid "EQpyb8"
 msgstr ""
 
-#: src/components/platform-layout.tsx:176
+#: src/components/platform-layout.tsx:177
 msgid "SQJto2"
 msgstr ""
 
@@ -1101,15 +1104,15 @@ msgstr ""
 msgid "JoFtLa"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:74
+#: src/components/sidebar-governor-header.tsx:79
 msgid "p5J4xw"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:84
+#: src/components/sidebar-governor-header.tsx:89
 msgid "hquG55"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:89
+#: src/components/sidebar-governor-header.tsx:94
 msgid "xXbJso"
 msgstr ""
 
