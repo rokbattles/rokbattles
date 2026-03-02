@@ -11,10 +11,10 @@ import { useExtracted } from "next-intl";
 import { useContext, useState } from "react";
 import { CookieConsentDialog } from "@/components/cookie-consent-dialog";
 import { Avatar } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {
   Dropdown,
   DropdownButton,
-  DropdownDescription,
   DropdownDivider,
   DropdownItem,
   DropdownLabel,
@@ -62,10 +62,15 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
                   onClick={() => selectGovernor(claim.governorId)}
                 >
                   {claim.governorAvatar && <Avatar slot="icon" src={claim.governorAvatar} square />}
-                  <DropdownLabel>{claim.governorName ?? claim.governorId.toString()}</DropdownLabel>
-                  {claim.governorName && (
-                    <DropdownDescription>{claim.governorId}</DropdownDescription>
-                  )}
+                  <DropdownLabel>
+                    {claim.governorName ? (
+                      <>
+                        {claim.governorName} <Badge className="ml-1">{claim.governorId}</Badge>
+                      </>
+                    ) : (
+                      claim.governorId.toString()
+                    )}
+                  </DropdownLabel>
                 </DropdownItem>
               ))}
             {canClaimMore ? (

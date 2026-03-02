@@ -30,7 +30,7 @@ msgid "gMtUZq"
 msgstr ""
 
 #: src/app/(main)/account/settings/layout.tsx:11
-#: src/components/sidebar-governor-header.tsx:80
+#: src/components/sidebar-governor-header.tsx:85
 msgid "NQgbYA"
 msgstr "การตั้งค่าบัญชี"
 
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "ไอเซ็ต"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "ไอเซ็ต"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -1104,15 +1104,15 @@ msgstr ""
 msgid "JoFtLa"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:74
+#: src/components/sidebar-governor-header.tsx:79
 msgid "p5J4xw"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:84
+#: src/components/sidebar-governor-header.tsx:89
 msgid "hquG55"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:89
+#: src/components/sidebar-governor-header.tsx:94
 msgid "xXbJso"
 msgstr ""
 
