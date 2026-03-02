@@ -19,10 +19,7 @@ pub struct SessionRecord {
 #[derive(Debug, Clone)]
 pub struct UserRecord {
     pub discord_id: String,
-    pub username: String,
-    pub global_name: Option<String>,
     pub email: String,
-    pub avatar: Option<String>,
 }
 
 /// OAuth state persisted between login and callback.
@@ -38,10 +35,7 @@ pub struct OAuthStateRecord {
 #[derive(Debug, Clone)]
 pub struct DiscordUserUpsert {
     pub discord_id: String,
-    pub username: String,
-    pub global_name: Option<String>,
     pub email: String,
-    pub avatar: Option<String>,
 }
 
 /// Session payload written after successful login.
@@ -239,13 +233,7 @@ impl AuthRepository for MongoAuthStore {
         user: DiscordUserUpsert,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            let DiscordUserUpsert {
-                discord_id,
-                username,
-                global_name,
-                email,
-                avatar,
-            } = user;
+            let DiscordUserUpsert { discord_id, email } = user;
             let now = DateTime::now();
             self.users
                 .update_one(
@@ -253,10 +241,7 @@ impl AuthRepository for MongoAuthStore {
                     doc! {
                         "$set": {
                             "discordId": discord_id,
-                            "username": username,
-                            "globalName": global_name,
                             "email": email,
-                            "avatar": avatar,
                             "updatedAt": now,
                         },
                         "$setOnInsert": {
@@ -323,21 +308,14 @@ impl From<NewSessionRecord> for SessionDocument {
 struct UserDocument {
     #[serde(rename = "discordId")]
     discord_id: String,
-    username: String,
-    #[serde(rename = "globalName")]
-    global_name: Option<String>,
     email: String,
-    avatar: Option<String>,
 }
 
 impl From<UserDocument> for UserRecord {
     fn from(value: UserDocument) -> Self {
         Self {
             discord_id: value.discord_id,
-            username: value.username,
-            global_name: value.global_name,
             email: value.email,
-            avatar: value.avatar,
         }
     }
 }
