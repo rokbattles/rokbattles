@@ -92,18 +92,19 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
           )}
           <SidebarBody>
             <SidebarSection>
+              <SidebarHeading>Community</SidebarHeading>
               <SidebarItem href="/" current={pathname === "/"}>
                 <FireIcon />
-                <SidebarLabel>{t("Explore Battles")}</SidebarLabel>
+                <SidebarLabel>{t("Battle Reports")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
                 <TrophyIcon />
-                <SidebarLabel>{t("Explore Duels")}</SidebarLabel>
+                <SidebarLabel>{t("Olympian Arena")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (
               <SidebarSection>
-                <SidebarHeading>{t("Account")}</SidebarHeading>
+                <SidebarHeading>{t("My Data")}</SidebarHeading>
                 {showMyReports ? (
                   <>
                     <SidebarItem href="/account/reports" current={pathname === "/account/reports"}>
