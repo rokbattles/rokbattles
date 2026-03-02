@@ -15,22 +15,22 @@ msgid "P2Qqmh"
 msgstr ""
 
 #: src/app/(main)/account/loot/page.tsx:24
-#: src/components/platform-layout.tsx:144
+#: src/components/platform-layout.tsx:122
 msgid "yF/GXb"
 msgstr ""
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:140
+#: src/components/platform-layout.tsx:118
 msgid "N42bBd"
 msgstr "Mis combinaciones."
 
 #: src/app/(main)/account/resources/page.tsx:24
-#: src/components/platform-layout.tsx:151
+#: src/components/platform-layout.tsx:129
 msgid "gMtUZq"
 msgstr ""
 
 #: src/app/(main)/account/settings/layout.tsx:11
-#: src/components/platform-account-dropdown-menu.tsx:33
+#: src/components/sidebar-governor-header.tsx:80
 msgid "NQgbYA"
 msgstr "Configuración de la cuenta"
 
@@ -43,7 +43,7 @@ msgid "rmEwjk"
 msgstr "Su correo electrónico está sincronizado desde Discord."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:123
+#: src/components/platform-layout.tsx:101
 msgid "xVCzuX"
 msgstr "Explorar duelos"
 
@@ -75,7 +75,7 @@ msgid "irMluf"
 msgstr "Volver a mis reportes"
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:119
+#: src/components/platform-layout.tsx:97
 msgid "8PEDrB"
 msgstr "Explorar batallas"
 
@@ -841,66 +841,49 @@ msgstr ""
 msgid "9+Ddtu"
 msgstr ""
 
-#: src/components/platform-account-dropdown-menu.tsx:37
-msgid "hquG55"
-msgstr "Configuración de cookies"
-
-#: src/components/platform-account-dropdown-menu.tsx:42
-msgid "xXbJso"
-msgstr "Cerrar sesión"
-
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Q7dLbA"
 msgstr "Modo claro"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "hMUQH5"
 msgstr "Modo oscuro"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Pe0ogR"
 msgstr "Tema"
 
-#: src/components/platform-layout.tsx:99
-msgid "Lvr/gV"
-msgstr "Abrir el menú de la cuenta"
-
 #: src/components/platform-layout.tsx:106
-#: src/components/platform-layout.tsx:220
-msgid "SQJto2"
-msgstr "Iniciar sesión"
-
-#: src/components/platform-layout.tsx:128
 msgid "TwyMau"
 msgstr "Cuenta"
 
-#: src/components/platform-layout.tsx:133
+#: src/components/platform-layout.tsx:111
 msgid "NFE4yO"
 msgstr "Mis batallas"
 
-#: src/components/platform-layout.tsx:158
+#: src/components/platform-layout.tsx:136
 msgid "odeufe"
 msgstr ""
 
-#: src/components/platform-layout.tsx:168
+#: src/components/platform-layout.tsx:146
 msgid "7oFrM6"
 msgstr ""
 
-#: src/components/platform-layout.tsx:177
+#: src/components/platform-layout.tsx:155
 msgid "HqRNN8"
 msgstr "Soporte"
 
-#: src/components/platform-layout.tsx:186
+#: src/components/platform-layout.tsx:164
 msgid "QnWNmB"
 msgstr "Aplicación de escritorio"
 
-#: src/components/platform-layout.tsx:188
+#: src/components/platform-layout.tsx:166
 msgid "EQpyb8"
 msgstr "Alternar el tema"
 
-#: src/components/platform-layout.tsx:198
-msgid "gjBiyj"
-msgstr "Cargando…"
+#: src/components/platform-layout.tsx:176
+msgid "SQJto2"
+msgstr "Iniciar sesión"
 
 #: src/components/report/report-armament-section.tsx:28
 msgid "e36Xiv"
@@ -1114,25 +1097,21 @@ msgstr "Cargando reportes…"
 msgid "IuFETn"
 msgstr "Duración"
 
-#: src/components/sidebar-governor-header.tsx:35
-msgid "Oon7nA"
-msgstr "Seleccionar un gobernador"
+#: src/components/sidebar-governor-header.tsx:44
+msgid "JoFtLa"
+msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:61
-msgid "tZURTn"
-msgstr "Gobernador reclamado"
+#: src/components/sidebar-governor-header.tsx:74
+msgid "p5J4xw"
+msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:67
-msgid "7FXjCo"
-msgstr "Nuevo grupo…"
+#: src/components/sidebar-governor-header.tsx:84
+msgid "hquG55"
+msgstr "Configuración de cookies"
 
-#: src/components/ui/sidebar-layout.tsx:48
-msgid "SRsuWF"
-msgstr "Cerrar la navegación"
-
-#: src/components/ui/sidebar-layout.tsx:80
-msgid "oM3yjO"
-msgstr "Abrir la navegación"
+#: src/components/sidebar-governor-header.tsx:89
+msgid "xXbJso"
+msgstr "Cerrar sesión"
 
 #: src/hooks/use-ark-match-detail.ts:53
 #: src/hooks/use-ark-match-history.ts:65

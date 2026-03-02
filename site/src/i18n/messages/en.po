@@ -15,22 +15,22 @@ msgid "P2Qqmh"
 msgstr "Ark Match History"
 
 #: src/app/(main)/account/loot/page.tsx:24
-#: src/components/platform-layout.tsx:144
+#: src/components/platform-layout.tsx:122
 msgid "yF/GXb"
 msgstr "My Loot"
 
 #: src/app/(main)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:140
+#: src/components/platform-layout.tsx:118
 msgid "N42bBd"
 msgstr "My Pairings"
 
 #: src/app/(main)/account/resources/page.tsx:24
-#: src/components/platform-layout.tsx:151
+#: src/components/platform-layout.tsx:129
 msgid "gMtUZq"
 msgstr "My Resources"
 
 #: src/app/(main)/account/settings/layout.tsx:11
-#: src/components/platform-account-dropdown-menu.tsx:33
+#: src/components/sidebar-governor-header.tsx:80
 msgid "NQgbYA"
 msgstr "Account Settings"
 
@@ -43,7 +43,7 @@ msgid "rmEwjk"
 msgstr "Your email address is synced from Discord."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
-#: src/components/platform-layout.tsx:123
+#: src/components/platform-layout.tsx:101
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
@@ -75,7 +75,7 @@ msgid "irMluf"
 msgstr "Back to My Reports"
 
 #: src/app/(main)/report/[id]/page.tsx:52
-#: src/components/platform-layout.tsx:119
+#: src/components/platform-layout.tsx:97
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
@@ -841,66 +841,49 @@ msgstr "Next page"
 msgid "9+Ddtu"
 msgstr "Next"
 
-#: src/components/platform-account-dropdown-menu.tsx:37
-msgid "hquG55"
-msgstr "Cookie Settings"
-
-#: src/components/platform-account-dropdown-menu.tsx:42
-msgid "xXbJso"
-msgstr "Sign out"
-
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Q7dLbA"
 msgstr "Light mode"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "hMUQH5"
 msgstr "Dark mode"
 
-#: src/components/platform-layout.tsx:70
+#: src/components/platform-layout.tsx:61
 msgid "Pe0ogR"
 msgstr "Theme"
 
-#: src/components/platform-layout.tsx:99
-msgid "Lvr/gV"
-msgstr "Open account menu"
-
 #: src/components/platform-layout.tsx:106
-#: src/components/platform-layout.tsx:220
-msgid "SQJto2"
-msgstr "Sign in"
-
-#: src/components/platform-layout.tsx:128
 msgid "TwyMau"
 msgstr "Account"
 
-#: src/components/platform-layout.tsx:133
+#: src/components/platform-layout.tsx:111
 msgid "NFE4yO"
 msgstr "My Battles"
 
-#: src/components/platform-layout.tsx:158
+#: src/components/platform-layout.tsx:136
 msgid "odeufe"
 msgstr "My Ark Matches"
 
-#: src/components/platform-layout.tsx:168
+#: src/components/platform-layout.tsx:146
 msgid "7oFrM6"
 msgstr "Legal"
 
-#: src/components/platform-layout.tsx:177
+#: src/components/platform-layout.tsx:155
 msgid "HqRNN8"
 msgstr "Support"
 
-#: src/components/platform-layout.tsx:186
+#: src/components/platform-layout.tsx:164
 msgid "QnWNmB"
 msgstr "Desktop App"
 
-#: src/components/platform-layout.tsx:188
+#: src/components/platform-layout.tsx:166
 msgid "EQpyb8"
 msgstr "Toggle theme"
 
-#: src/components/platform-layout.tsx:198
-msgid "gjBiyj"
-msgstr "Loading..."
+#: src/components/platform-layout.tsx:176
+msgid "SQJto2"
+msgstr "Sign in"
 
 #: src/components/report/report-armament-section.tsx:28
 msgid "e36Xiv"
@@ -1114,25 +1097,21 @@ msgstr "Loading reports..."
 msgid "IuFETn"
 msgstr "Duration"
 
-#: src/components/sidebar-governor-header.tsx:35
-msgid "Oon7nA"
-msgstr "Select a governor"
+#: src/components/sidebar-governor-header.tsx:44
+msgid "JoFtLa"
+msgstr "Select Governor"
 
-#: src/components/sidebar-governor-header.tsx:61
-msgid "tZURTn"
-msgstr "Claim governor..."
+#: src/components/sidebar-governor-header.tsx:74
+msgid "p5J4xw"
+msgstr "Claim governor"
 
-#: src/components/sidebar-governor-header.tsx:67
-msgid "7FXjCo"
-msgstr "New group..."
+#: src/components/sidebar-governor-header.tsx:84
+msgid "hquG55"
+msgstr "Cookie Settings"
 
-#: src/components/ui/sidebar-layout.tsx:48
-msgid "SRsuWF"
-msgstr "Close navigation"
-
-#: src/components/ui/sidebar-layout.tsx:80
-msgid "oM3yjO"
-msgstr "Open navigation"
+#: src/components/sidebar-governor-header.tsx:89
+msgid "xXbJso"
+msgstr "Sign out"
 
 #: src/hooks/use-ark-match-detail.ts:53
 #: src/hooks/use-ark-match-history.ts:65
