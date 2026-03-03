@@ -1,5 +1,5 @@
 import { getLootName } from "@/lib/loot-catalog";
-import { getResourceName, RESOURCE_TYPE_IDS } from "@/lib/resources/catalog";
+import { RESOURCE_TYPE_IDS } from "@/lib/resources/catalog";
 import type { ResourceTotals, ResourceTotalsByType } from "@/lib/types/resources";
 
 export type ResourceBreakdownRow = {
@@ -33,9 +33,9 @@ export function buildResourceBreakdownRows(
   ];
 
   for (const type of RESOURCE_TYPE_IDS) {
-    const resourceName = getResourceName(type, locale);
+    const resourceName = getLootName(1, type, locale);
     if (!resourceName) {
-      throw new Error(`Missing resource type ${type} in resources dataset`);
+      throw new Error(`Missing resource subtype ${type} in loot dataset type 1`);
     }
 
     const resource = resourcesByType.get(type);
