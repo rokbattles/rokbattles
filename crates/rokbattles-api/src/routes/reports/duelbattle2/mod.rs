@@ -28,6 +28,8 @@ mod types;
 
 const PAGE_SIZE: usize = 100;
 const FETCH_LIMIT: i64 = PAGE_SIZE as i64 + 1;
+// 1 month
+const REPORT_DETAIL_CACHE_CONTROL: &str = "public, max-age=2592000";
 
 /// Return a paginated list of Olympian Arena duels.
 pub async fn get(
@@ -110,7 +112,7 @@ pub async fn get_by_id(
 
     Ok((
         StatusCode::OK,
-        [("Cache-Control", "no-store")],
+        [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)],
         Json(response),
     ))
 }
