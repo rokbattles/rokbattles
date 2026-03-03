@@ -19,7 +19,7 @@ import {
   todayUtcStartMillis,
 } from "@/lib/loot/date";
 import { getLootName } from "@/lib/loot-catalog";
-import { getResourceName, RESOURCE_TYPE_IDS } from "@/lib/resources/catalog";
+import { RESOURCE_TYPE_IDS } from "@/lib/resources/catalog";
 import type { ResourcesDailyAggregate } from "@/lib/types/resources";
 
 type ChartPoint = {
@@ -107,9 +107,9 @@ export function ResourcesTimelineChartClient({
     const next: Record<string, string> = {};
 
     for (const typeId of RESOURCE_TYPE_IDS) {
-      const resourceName = getResourceName(typeId, datasetLocale);
+      const resourceName = getLootName(1, typeId, datasetLocale);
       if (!resourceName) {
-        throw new Error(`Missing resource type ${typeId} in resources dataset`);
+        throw new Error(`Missing resource subtype ${typeId} in loot dataset type 1`);
       }
 
       next[`type:${typeId}`] = resourceName;
