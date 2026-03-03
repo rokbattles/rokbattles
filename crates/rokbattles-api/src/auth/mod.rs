@@ -9,7 +9,9 @@ use crate::db::{SessionRecord, UserRecord};
 use crate::error::ApiError;
 use crate::state::AppState;
 
-/// Auth context loaded from the `sid` cookie.
+pub const SESSION_COOKIE_NAME: &str = "_rokb_session";
+
+/// Auth context loaded from the session cookie.
 #[derive(Debug, Clone)]
 pub struct AuthenticatedSession {
     pub sid: String,
@@ -31,7 +33,7 @@ where
                 .headers
                 .get(COOKIE)
                 .and_then(|header| header.to_str().ok()),
-            "sid",
+            SESSION_COOKIE_NAME,
         )
         .ok_or_else(ApiError::unauthorized)?;
 
@@ -103,16 +105,25 @@ mod tests {
     use super::*;
 
     #[test]
-    fn extracts_sid_cookie() {
-        let sid = extract_cookie_value(Some("foo=bar; sid=abc123; hello=world"), "sid");
+    fn extracts_session_cookie() {
+        let sid = extract_cookie_value(
+            Some("foo=bar; _rokb_session=abc123; hello=world"),
+            SESSION_COOKIE_NAME,
+        );
         assert_eq!(sid.as_deref(), Some("abc123"));
     }
 
     #[test]
     fn ignores_missing_or_malformed_cookie() {
-        assert_eq!(extract_cookie_value(None, "sid"), None);
-        assert_eq!(extract_cookie_value(Some("foo=bar; sid"), "sid"), None);
-        assert_eq!(extract_cookie_value(Some("foo=bar"), "sid"), None);
+        assert_eq!(extract_cookie_value(None, SESSION_COOKIE_NAME), None);
+        assert_eq!(
+            extract_cookie_value(Some("foo=bar; _rokb_session"), SESSION_COOKIE_NAME),
+            None
+        );
+        assert_eq!(
+            extract_cookie_value(Some("foo=bar"), SESSION_COOKIE_NAME),
+            None
+        );
     }
 
     #[test]

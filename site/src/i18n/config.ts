@@ -1,4 +1,4 @@
-export const languageCookieName = "platformLanguage";
+export const languageCookieName = "_rokb_language";
 
 export const defaultLocale = "en";
 

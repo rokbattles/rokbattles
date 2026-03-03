@@ -13,7 +13,7 @@ use mongodb::options::FindOptions;
 use reqwest::Url;
 use serde::Deserialize;
 
-use crate::auth::{AuthenticatedSession, extract_cookie_value};
+use crate::auth::{AuthenticatedSession, SESSION_COOKIE_NAME, extract_cookie_value};
 use crate::bson_utils::bson_to_i64_exact;
 use crate::db::{DiscordUserUpsert, NewSessionRecord, OAuthStateRecord};
 use crate::error::ApiError;
@@ -58,7 +58,7 @@ async fn post_logout(
 ) -> Result<Response, ApiError> {
     if let Some(sid) = extract_cookie_value(
         headers.get(COOKIE).and_then(|header| header.to_str().ok()),
-        "sid",
+        SESSION_COOKIE_NAME,
     ) {
         state
             .auth_store
@@ -72,6 +72,13 @@ async fn post_logout(
     response.headers_mut().append(
         SET_COOKIE,
         clear_cookie
+            .parse()
+            .map_err(|error| ApiError::internal(format!("invalid cookie header: {error}")))?,
+    );
+    let clear_active_governor_cookie = cookies::build_clear_active_governor_cookie();
+    response.headers_mut().append(
+        SET_COOKIE,
+        clear_active_governor_cookie
             .parse()
             .map_err(|error| ApiError::internal(format!("invalid cookie header: {error}")))?,
     );
@@ -159,6 +166,10 @@ async fn get_discord_callback(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
+    let user_id = profile.id;
+    let claimed_governors = load_claimed_governors(&state, &user_id).await?;
+    let active_governor_id = select_default_or_first_governor_id(&claimed_governors);
+
     let now = DateTime::now();
     let expires_at = DateTime::from_millis(now.timestamp_millis() + SESSION_TTL_MILLIS);
     let sid = oauth::generate_session_id();
@@ -166,7 +177,7 @@ async fn get_discord_callback(
         .auth_store
         .insert_session(NewSessionRecord {
             session_id: sid.clone(),
-            user_id: profile.id,
+            user_id,
             created_at: now,
             expires_at,
         })
@@ -178,6 +189,18 @@ async fn get_discord_callback(
     response.headers_mut().append(
         SET_COOKIE,
         set_cookie
+            .parse()
+            .map_err(|error| ApiError::internal(format!("invalid cookie header: {error}")))?,
+    );
+    let active_governor_cookie = match active_governor_id {
+        Some(governor_id) => {
+            cookies::build_set_active_governor_cookie(governor_id, SESSION_MAX_AGE_SECONDS)
+        }
+        None => cookies::build_clear_active_governor_cookie(),
+    };
+    response.headers_mut().append(
+        SET_COOKIE,
+        active_governor_cookie
             .parse()
             .map_err(|error| ApiError::internal(format!("invalid cookie header: {error}")))?,
     );
@@ -252,6 +275,14 @@ fn claim_created_at_millis(claim: &Document) -> i64 {
         Some(value) => bson_to_i64_exact(value).unwrap_or(0),
         None => 0,
     }
+}
+
+fn select_default_or_first_governor_id(claims: &[ClaimedGovernor]) -> Option<i64> {
+    claims
+        .iter()
+        .find(|claim| claim.default)
+        .or_else(|| claims.first())
+        .map(|claim| claim.governor_id)
 }
 
 async fn exchange_discord_token(
@@ -365,5 +396,51 @@ mod tests {
         };
 
         assert_eq!(claim_created_at_millis(&document), 1234);
+    }
+
+    #[test]
+    fn prefers_default_governor_when_present() {
+        let claims = vec![
+            ClaimedGovernor {
+                governor_id: 1001,
+                governor_name: None,
+                governor_avatar: None,
+                default: false,
+            },
+            ClaimedGovernor {
+                governor_id: 1002,
+                governor_name: None,
+                governor_avatar: None,
+                default: true,
+            },
+        ];
+
+        assert_eq!(select_default_or_first_governor_id(&claims), Some(1002));
+    }
+
+    #[test]
+    fn falls_back_to_first_governor_when_default_missing() {
+        let claims = vec![
+            ClaimedGovernor {
+                governor_id: 2001,
+                governor_name: None,
+                governor_avatar: None,
+                default: false,
+            },
+            ClaimedGovernor {
+                governor_id: 2002,
+                governor_name: None,
+                governor_avatar: None,
+                default: false,
+            },
+        ];
+
+        assert_eq!(select_default_or_first_governor_id(&claims), Some(2001));
+    }
+
+    #[test]
+    fn returns_none_when_user_has_no_claims() {
+        let claims: Vec<ClaimedGovernor> = Vec::new();
+        assert_eq!(select_default_or_first_governor_id(&claims), None);
     }
 }

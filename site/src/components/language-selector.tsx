@@ -86,7 +86,7 @@ export function LanguageSelector() {
             value={selectedLocale}
             onChange={setSelectedLocale}
             aria-label={t("Select language")}
-            name="platformLanguage"
+            name={languageCookieName}
           >
             <Fieldset>
               <Description>
