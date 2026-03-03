@@ -1,0 +1,778 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "640903": {
+          "Bts": 315491,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "AppUid": "44803534",
+            "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44803534/2025-12-31/38AD251F9CCE8A1D9B43A0FDA502CB62_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 640903,
+            "CK": "",
+            "COSId": 1804,
+            "CT": 3,
+            "CTK": "",
+            "CastleLevel": 25,
+            "CastlePos": {
+              "X": 478.82443,
+              "Y": 6088.839
+            },
+            "CtId": 0,
+            "GtLevel": 25,
+            "HAw": false,
+            "HAw2": true,
+            "HClt2": [
+              1,
+              31,
+              2,
+              1
+            ],
+            "HCte2": [
+              1,
+              {
+                "ColId": 31
+              }
+            ],
+            "HEq": "{1:20007_430:1,2:20004_376:1,3:20026_447:1,4:20010_470:1,5:20032_448:1,6:20012_469:1,7:20040_433:1,8:20037_473:1}",
+            "HEq2": "{}",
+            "HFMs": 1,
+            "HId": 177,
+            "HId2": 113,
+            "HLv": 60,
+            "HLv2": 31,
+            "HSS": [
+              1,
+              {
+                "SkillId": 241,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1519,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1520,
+                "SkillLevel": 5
+              },
+              4,
+              {
+                "SkillId": 1521,
+                "SkillLevel": 1
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 1306,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1307,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1308,
+                "SkillLevel": 1
+              },
+              4,
+              {
+                "SkillId": 155,
+                "SkillLevel": 5
+              },
+              5,
+              {
+                "SkillId": 1305,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 6,
+            "HSt2": 4,
+            "HTE": -1,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "HWBs": {
+              "1": {
+                "Affix": "103",
+                "Buffs": "3002_0.025000;4004_0.028000;10002_0.015000",
+                "Id": "75101011_19089"
+              },
+              "2": {
+                "Affix": "216;201",
+                "Buffs": "3001_0.029000;4001_0.033000;5001_0.016000",
+                "Id": "75201002_7215"
+              },
+              "3": {
+                "Affix": "317",
+                "Buffs": "3001_0.019000;4001_0.035000;5001_0.026000",
+                "Id": "75301011_10252"
+              },
+              "4": {
+                "Affix": "412",
+                "Buffs": "3001_0.016000;4002_0.022000;5002_0.020000",
+                "Id": "75401011_16053"
+              }
+            },
+            "Idt": "640903",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "PId": 56779522,
+            "PName": "Raha ツ",
+            "PkgNameNew": "com.lilithgame.roc.ios",
+            "SerSeason": "100",
+            "Titan": {
+              "BattleId": "",
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            },
+            "Udid": "772A30F9-5AEB-46C0-9600-C0D2F21CE4B4"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -433012,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 2127578,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 99766,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 172656,
+            "HurtCntEnd": 349577,
+            "InitMax": 2622983,
+            "KillScore": 15587808,
+            "Max": 2400000,
+            "Power": -612910,
+            "RetreatCnt": 0,
+            "SkillPower": -179898,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 315535,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -4824092,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 806922,
+            "Gt": 2000,
+            "GtMax": 50000,
+            "Healing": 0,
+            "Hurt": 1083556,
+            "HurtCntEnd": 1083556,
+            "InitMax": 9576164,
+            "KillScore": 1354070,
+            "Max": 1892478,
+            "Power": -7739244,
+            "RetreatCnt": 0,
+            "SkillPower": -2915152,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "-2": {
+              "Abbr": "",
+              "HId": 0,
+              "HId2": 0,
+              "HLv": 0,
+              "HLv2": 0,
+              "PId": 56779522,
+              "PName": ""
+            },
+            "0": {
+              "Abbr": "",
+              "HId": 177,
+              "HId2": 113,
+              "HLv": 60,
+              "HLv2": 31,
+              "PId": 56779522,
+              "PName": "Raha ツ"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 471.81137,
+            "Y": 6088.849
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "SelfRobRess2": {
+            "590529": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1065797
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1077563
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 542585
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 979661
+              }
+            ],
+            "590535": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 999781
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1010818
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 508976
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 918980
+              }
+            ],
+            "590536": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 720489
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 728443
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 366792
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 662260
+              }
+            ],
+            "590537": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 827264
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 836397
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 421150
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 760406
+              }
+            ],
+            "590554": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 742120
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 750312
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 377804
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 682143
+              }
+            ],
+            "590587": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 755317
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 763655
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 384523
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 694273
+              }
+            ],
+            "590616": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 1112842
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 1125127
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 566535
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 1022904
+              }
+            ],
+            "590665": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 756518
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 764869
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 385134
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 695377
+              }
+            ],
+            "590673": [
+              1,
+              {
+                "SubType": 3,
+                "Type": 1,
+                "Value": 576101
+              },
+              2,
+              {
+                "SubType": 1,
+                "Type": 1,
+                "Value": 582461
+              },
+              3,
+              {
+                "SubType": 4,
+                "Type": 1,
+                "Value": 293286
+              },
+              4,
+              {
+                "SubType": 2,
+                "Type": 1,
+                "Value": 529542
+              }
+            ]
+          },
+          "StatShowType": 1,
+          "Tick": 45,
+          "TickStart": 315491
+        }
+      },
+      "Btk": 315491,
+      "Bts": 1772492577,
+      "DataOmit": false,
+      "Ets": 1772492621,
+      "Events": [],
+      "GsId": 1804,
+      "Id": 6619333,
+      "LLScriptSchema": 320,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "588613": {
+          "Abbr": "SO4L",
+          "HId": 99,
+          "HId2": 116,
+          "HLv": 60,
+          "HLv2": 40,
+          "PId": 53517007,
+          "PName": "Quacker the 1st"
+        },
+        "588649": {
+          "Abbr": "SO4L",
+          "HId": 61,
+          "HId2": 7,
+          "HLv": 60,
+          "HLv2": 40,
+          "PId": 154831321,
+          "PName": "PatrickHN"
+        },
+        "588674": {
+          "Abbr": "SO4L",
+          "HId": 7,
+          "HId2": 459,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 126920644,
+          "PName": "ˢ AzzCon"
+        },
+        "590529": {
+          "Abbr": "SO4L",
+          "HId": 103,
+          "HId2": 539,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 20075558,
+          "PName": "jën x ƒaräɀ"
+        },
+        "590535": {
+          "Abbr": "SO4L",
+          "HId": 179,
+          "HId2": 140,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 157148751,
+          "PName": "GGeoMAV"
+        },
+        "590536": {
+          "Abbr": "SO4L",
+          "HId": 118,
+          "HId2": 99,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 20896981,
+          "PName": "Jɞห 수미"
+        },
+        "590537": {
+          "Abbr": "SO4L",
+          "HId": 99,
+          "HId2": 116,
+          "HLv": 60,
+          "HLv2": 40,
+          "PId": 6476548,
+          "PName": "Quacker Farm"
+        },
+        "590554": {
+          "Abbr": "SO4L",
+          "HId": 459,
+          "HId2": 118,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 87480302,
+          "PName": "Ｆａｒａｚ"
+        },
+        "590587": {
+          "Abbr": "SO4L",
+          "HId": 179,
+          "HId2": 196,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 128087468,
+          "PName": "Kanna"
+        },
+        "590616": {
+          "Abbr": "SO4L",
+          "HId": 14,
+          "HId2": 63,
+          "HLv": 60,
+          "HLv2": 31,
+          "PId": 129687661,
+          "PName": "ᴛᴇɢ"
+        },
+        "590665": {
+          "Abbr": "SO4L",
+          "HId": 182,
+          "HId2": 138,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 175263234,
+          "PName": "Øgevoliton"
+        },
+        "590673": {
+          "Abbr": "SO4L",
+          "HId": 138,
+          "HId2": 14,
+          "HLv": 60,
+          "HLv2": 40,
+          "PId": 125865911,
+          "PName": "ᴰᴸMiniTeg"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 2400000,
+          "T": 315491
+        },
+        2,
+        {
+          "Cnt": 2127578,
+          "T": 315535
+        }
+      ],
+      "Schema": 10,
+      "SelfChar": {
+        "AId": 4805441,
+        "AName": "魂社会SoulReapers",
+        "Abbr": "SO4L",
+        "AppUid": "18278241",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/18278241/2025-12-11/B621D6B22F5CA6EA91DF7B401CADA22C_250x250.jpg\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 73631801,
+        "CK": "",
+        "COSId": 1804,
+        "CT": 1,
+        "CTK": "20075558_1772492324_103_539_SquareRally",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 441.80566,
+          "Y": 6092.912
+        },
+        "CtId": 590529,
+        "HAw": true,
+        "HAw2": true,
+        "HClt": [
+          1,
+          24,
+          2,
+          1
+        ],
+        "HEq": "{1:20007_408:35,2:20004_474:35,3:20009_412:35,4:20028_411:35,5:20033_442:35,6:20012_430:35,7:20037_523:35,8:20040_472:35}",
+        "HEq2": "{}",
+        "HFMs": 1,
+        "HFMs2": 1,
+        "HId": 103,
+        "HId2": 539,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 1259,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1260,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1261,
+            "SkillLevel": 1
+          },
+          4,
+          {
+            "SkillId": 143,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1258,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 1734,
+            "SkillLevel": 1
+          },
+          2,
+          {
+            "SkillId": 388,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1731,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1732,
+            "SkillLevel": 5
+          },
+          5,
+          {
+            "SkillId": 1733,
+            "SkillLevel": 5
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "109;104",
+            "Buffs": "3002_0.022000;4002_0.021000;10002_0.019000",
+            "Id": "75101012_17440"
+          },
+          "2": {
+            "Affix": "1201",
+            "Buffs": "3002_0.034000;4002_0.032000;5002_0.024000",
+            "Id": "75201011_15057"
+          },
+          "3": {
+            "Affix": "1301",
+            "Buffs": "3002_0.035000;4002_0.026000;5002_0.034000",
+            "Id": "75301011_15056"
+          },
+          "4": {
+            "Affix": "1401",
+            "Buffs": "3002_0.025000;4002_0.034000;5002_0.022000",
+            "Id": "75401011_17346"
+          }
+        },
+        "Idt": "73631801",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "IsRally": true,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 20075558,
+        "PName": "jën x ƒaräɀ",
+        "PkgNameNew": "com.lilithgames.rok.pc.int",
+        "SerSeason": "100",
+        "Titan": {
+          "BattleId": "",
+          "Pioneer": false,
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "614842404862122242"
+      },
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "10200933177249262113",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_53517007",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1772492621967584,
+  "title": "",
+  "type": "Battle",
+  "unread": true
+}
