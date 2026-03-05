@@ -15,6 +15,7 @@ pub fn mailcache_command() -> Command {
         .with_options(vec![
             subcommand_option("windows", "Find your mailcache directory on Windows"),
             subcommand_option("macos", "Find your mailcache directory on macOS"),
+            subcommand_option("linux", "Find your mailcache directory on Linux"),
         ])
         .build(),
         |ctx: CommandContext| async move {
@@ -50,6 +51,7 @@ fn content_for_command_data(command_data: &CommandData) -> &'static str {
     match extract_subcommand(command_data.options.as_slice()) {
         Some("windows") => windows_content(),
         Some("macos") => macos_content(),
+        Some("linux") => linux_content(),
         _ => fallback_content(),
     }
 }
@@ -62,7 +64,7 @@ fn extract_subcommand(options: &[CommandDataOption]) -> Option<&str> {
 }
 
 fn fallback_content() -> &'static str {
-    "Please select a platform subcommand: `/mailcache windows` or `/mailcache macos`."
+    "Please select a platform subcommand: `/mailcache windows`, `/mailcache macos`, or `/mailcache linux`."
 }
 
 fn windows_content() -> &'static str {
@@ -94,6 +96,27 @@ _Tip: You may need to show hidden directories in Finder with `Cmd + Shift + .`_
 _Note: Inside of ROK Battles desktop app, it will display the App ID instead of RiseOfKingdoms._"#
 }
 
+fn linux_content() -> &'static str {
+    r#"## Mailcache Location (Linux)
+If you're running the Windows version of Rise of Kingdoms through Steam/Proton, Lutris, or another Wine-based launcher, the mailcache directory will be inside the game's Wine prefix.
+
+### Quick search
+Run this command in a terminal to look for the mailcache directories:
+
+`find ~ -type d -name mailcache 2>/dev/null`
+
+This searches your home directory, which is where Steam, Proton, Lutris, and most Wine prefixes usually store game data.
+
+### If nothing appears
+Try a broader search:
+
+`find ~ -type f -name "Persistent.Mail.*" -printf '%h\n' 2>/dev/null | sort -u`
+
+This scans your home directory for mailcache files and prints their parent directories.
+
+Once located, select the folder in the ROK Battles desktop app."#
+}
+
 #[cfg(test)]
 mod tests {
     use twilight_model::application::interaction::application_command::{
@@ -101,8 +124,8 @@ mod tests {
     };
 
     use super::{
-        content_for_command_data, fallback_content, macos_content, mailcache_command,
-        windows_content,
+        content_for_command_data, fallback_content, linux_content, macos_content,
+        mailcache_command, windows_content,
     };
 
     fn command_data_with_subcommand(
@@ -123,12 +146,13 @@ mod tests {
     }
 
     #[test]
-    fn metadata_contains_two_subcommands() {
+    fn metadata_contains_three_subcommands() {
         let command = mailcache_command();
         assert_eq!(command.metadata.name, "mailcache");
-        assert_eq!(command.metadata.options.len(), 2);
+        assert_eq!(command.metadata.options.len(), 3);
         assert_eq!(command.metadata.options[0].name, "windows");
         assert_eq!(command.metadata.options[1].name, "macos");
+        assert_eq!(command.metadata.options[2].name, "linux");
     }
 
     #[test]
@@ -144,8 +168,14 @@ mod tests {
     }
 
     #[test]
-    fn unknown_subcommand_uses_fallback_content() {
+    fn linux_subcommand_maps_to_linux_content() {
         let data = command_data_with_subcommand("linux");
+        assert_eq!(content_for_command_data(&data), linux_content());
+    }
+
+    #[test]
+    fn unknown_subcommand_uses_fallback_content() {
+        let data = command_data_with_subcommand("bsd");
         assert_eq!(content_for_command_data(&data), fallback_content());
     }
 }
