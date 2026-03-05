@@ -15,6 +15,10 @@ use tauri::{
     tray::{MouseButton, MouseButtonState, TrayIconEvent},
 };
 
+fn tray_supported() -> bool {
+    cfg!(any(target_os = "windows", target_os = "macos"))
+}
+
 fn normalize_dir_for_display(path: &str) -> String {
     let trimmed = path.trim();
     if trimmed.is_empty() {
@@ -273,6 +277,10 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .on_menu_event(|app, event| {
+            if !tray_supported() {
+                return;
+            }
+
             if event.id() == tray::TRAY_SHOW_MENU_ID {
                 tray::show_main_window(app);
                 return;
@@ -296,23 +304,31 @@ pub fn run() {
                 app.exit(0);
             }
         })
-        .on_tray_icon_event(|app, event| match event {
-            TrayIconEvent::Click {
-                button: MouseButton::Left,
-                button_state: MouseButtonState::Up,
-                ..
+        .on_tray_icon_event(|app, event| {
+            if !tray_supported() {
+                return;
             }
-            | TrayIconEvent::DoubleClick {
-                button: MouseButton::Left,
-                ..
-            } => {
-                tray::show_main_window(app);
+
+            match event {
+                TrayIconEvent::Click {
+                    button: MouseButton::Left,
+                    button_state: MouseButtonState::Up,
+                    ..
+                }
+                | TrayIconEvent::DoubleClick {
+                    button: MouseButton::Left,
+                    ..
+                } => {
+                    tray::show_main_window(app);
+                }
+                _ => {}
             }
-            _ => {}
         })
         .setup(|app| {
             let paused = app.state::<WatcherManager>().is_paused();
-            tray::setup_tray(app, paused)?;
+            if tray_supported() {
+                tray::setup_tray(app, paused)?;
+            }
 
             let handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
