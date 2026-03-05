@@ -200,6 +200,10 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
 
 #[tauri::command]
 fn get_close_behavior(app: AppHandle) -> Result<CloseBehavior, String> {
+    if !cfg!(any(target_os = "windows", target_os = "macos")) {
+        return Ok(CloseBehavior::Quit);
+    }
+
     app_config::get_close_behavior(&app).map_err(|e| e.to_string())
 }
 
