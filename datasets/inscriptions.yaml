@@ -5004,31 +5004,39 @@ inscriptions:
   19101:
     name:
       en: "Advantage Advanced"
+    rarity: special
 
   19102:
     name:
       en: "Fury"
+    rarity: rare
 
   19201:
     name:
       en: "Indomitable"
+    rarity: special
 
   19202:
     name:
       en: "Winged"
+    rarity: rare
 
   19301:
     name:
       en: "Maneuver at Ease"
+    rarity: special
 
   19302:
     name:
       en: "Ballista"
+    rarity: rare
 
   19401:
     name:
       en: "Horseback Action"
+    rarity: special
 
   19402:
     name:
       en: "Divine Staff"
+    rarity: rare
