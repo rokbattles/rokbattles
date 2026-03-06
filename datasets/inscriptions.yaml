@@ -5000,3 +5000,35 @@ inscriptions:
       zh_CN: "震斩"
       zh_TW: "震斬"
     rarity: rare
+
+  19101:
+    name:
+      en: "Advantage Advanced"
+
+  19102:
+    name:
+      en: "Fury"
+
+  19201:
+    name:
+      en: "Indomitable"
+
+  19202:
+    name:
+      en: "Winged"
+
+  19301:
+    name:
+      en: "Maneuver at Ease"
+
+  19302:
+    name:
+      en: "Ballista"
+
+  19401:
+    name:
+      en: "Horseback Action"
+
+  19402:
+    name:
+      en: "Divine Staff"
