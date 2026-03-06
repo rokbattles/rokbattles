@@ -19,7 +19,7 @@ We welcome contributions through GitHub issues and pull requests.
 
 ### Prerequisites
 
-1. [Rust](https://rust-lang.org/tools/install/) 1.92 or later
+1. [Rust](https://rust-lang.org/tools/install/) 1.94 or later
 2. [Node.js](https://nodejs.org/en/) 24.x or later
 3. [pnpm](https://pnpm.io)
 4. [MongoDB](https://www.mongodb.com/try/download/community)
