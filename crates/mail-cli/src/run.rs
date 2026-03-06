@@ -276,15 +276,13 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
         return None;
     }
 
-    let body_type = root
-        .get("body")
-        .and_then(Value::as_object)
-        .and_then(|body| body.get("type"))
-        .and_then(value_as_u64)?;
+    let body = root.get("body").and_then(Value::as_object)?;
+    let body_type = body.get("type").and_then(value_as_u64)?;
+    let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
         // custom Ark match
-        14 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
+        14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         15 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
         // normal Ark match
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
@@ -575,7 +573,7 @@ mod tests {
         let custom_battle_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
-            "body": { "type": 14 }
+            "body": { "type": 14, "param": 1 }
         });
         assert_eq!(
             classify_processable_mail_type(&custom_battle_results),
@@ -621,6 +619,16 @@ mod tests {
             classify_processable_mail_type(&individual_results),
             Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS)
         );
+    }
+
+    #[test]
+    fn classify_processable_mail_type_rejects_type_14_alliance_mail_with_other_param() {
+        let payload = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 14, "param": 2 }
+        });
+        assert_eq!(classify_processable_mail_type(&payload), None);
     }
 
     #[test]
