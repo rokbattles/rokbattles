@@ -314,7 +314,9 @@ mod tests {
             }
         });
         let err = extract_mail_type(&value).unwrap_err();
-        assert!(matches!(err, ProcessorError::UnsupportedMailType(mail_type) if mail_type == "Alliance"));
+        assert!(
+            matches!(err, ProcessorError::UnsupportedMailType(mail_type) if mail_type == "Alliance")
+        );
     }
 
     #[test]
