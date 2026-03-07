@@ -24,9 +24,9 @@ export function ResourcesBreakdownTable({ rows }: ResourcesBreakdownTableProps) 
       <TableHead>
         <TableRow>
           <TableHeader>{t("Type")}</TableHeader>
-          <TableHeader>{t("Gain")}</TableHeader>
-          <TableHeader>{t("Bonus")}</TableHeader>
-          <TableHeader>{t("Total")}</TableHeader>
+          <TableHeader className="lg:w-48">{t("Gain")}</TableHeader>
+          <TableHeader className="lg:w-48">{t("Bonus")}</TableHeader>
+          <TableHeader className="lg:w-48">{t("Total")}</TableHeader>
         </TableRow>
       </TableHead>
       <TableBody>
