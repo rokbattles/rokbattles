@@ -65,7 +65,37 @@ jobs:
         with:
           tagName: __VERSION__
           releaseName: "ROK Battles v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
+          releaseBody: |
+            See the assets to download this version and install.
+      
+            ---
+      
+            ### Which file should I download?
+            Windows
+            `ROK.Battles___VERSION___x64-setup.exe`
+      
+            macOS (Apple Silicon)
+            `ROK.Battles___VERSION___aarch64.dmg`
+      
+            macOS (Intel)
+            `ROK.Battles___VERSION___x64.dmg`
+      
+            Linux (Debian-based distributions)
+            `ROK.Battles___VERSION___amd64.deb`
+      
+            Linux (portable version for most distributions)
+            `ROK.Battles___VERSION___amd64.AppImage`
+      
+            ---
+      
+            ### ARM Builds (Advanced)
+            Most computers use x64 (amd64) processors. If you're unsure which architecture your system uses, download the x64/amd64 version.
+      
+            Only download the ARM64 version if you know your device uses an ARM processor (such as Windows on ARM devices or certain ARM-based Linux systems).
+      
+            ---
+      
+            Signature files (`.sig`) are used by the updater to verify downloads. You do not need to download them manually.
           releaseDraft: true
           prerelease: false
           projectPath: crates/rokbattles-tauri
