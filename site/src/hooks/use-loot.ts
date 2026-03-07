@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { LootQueryResult } from "@/lib/types/loot";
+import { toDateInput, todayUtcStartMillis } from "@/lib/loot/date";
 
 type LootOptions = {
   governorId: number | null | undefined;
@@ -24,7 +25,7 @@ function buildRangeParams(options: { startParam?: string | null; endParam?: stri
   const currentYear = new Date().getUTCFullYear();
   return new URLSearchParams({
     start: `${currentYear}-01-01`,
-    end: `${currentYear}-12-31`,
+    end: toDateInput(todayUtcStartMillis()),
   });
 }
 
