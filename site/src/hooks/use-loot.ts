@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import type { LootQueryResult } from "@/lib/types/loot";
 import { toDateInput, todayUtcStartMillis } from "@/lib/loot/date";
+import type { LootQueryResult } from "@/lib/types/loot";
 
 type LootOptions = {
   governorId: number | null | undefined;
