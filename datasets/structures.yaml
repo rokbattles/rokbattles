@@ -1,0 +1,22 @@
+structures:
+  alliance:
+    1:
+      name:
+        en: "Alliance Flag"
+
+    2:
+      name:
+        en: "Center Fortress"
+
+    3:
+      name:
+        en: "Alliance Fortress"
+
+    11:
+      name:
+        en: "Horse Fort"
+
+  other:
+    1:
+      name:
+        en: "Lost Temple"
