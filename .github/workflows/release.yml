@@ -46,7 +46,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache Rust build
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2.8.2
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
