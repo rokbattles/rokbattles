@@ -45,8 +45,25 @@ async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, Proc
             let processed = Arc::clone(&processed);
             async move {
                 let mail_id = doc.get_str("mail_id").ok().map(str::to_string);
+                let raw_id = doc.get_object_id("_id").ok();
                 if let Err(error) = process_document(&storage, doc).await {
-                    if let Some(mail_id) = mail_id {
+                    if should_mark_error(&error)
+                        && let Some(raw_id) = raw_id
+                    {
+                        if let Err(mark_error) = storage.mark_error(&raw_id, DateTime::now()).await
+                        {
+                            error!(
+                                error = %error,
+                                mark_error = %mark_error,
+                                mail_id = mail_id.as_deref().unwrap_or("unknown"),
+                                "processing mail failed and status update failed"
+                            );
+                        } else if let Some(mail_id) = mail_id {
+                            error!(error = %error, mail_id = %mail_id, "processing mail failed");
+                        } else {
+                            error!(error = %error, "processing mail failed");
+                        }
+                    } else if let Some(mail_id) = mail_id {
                         error!(error = %error, mail_id = %mail_id, "processing mail failed");
                     } else {
                         error!(error = %error, "processing mail failed");
@@ -105,6 +122,19 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
     debug!(mail_id = %raw.mail_id, status = %raw.status, mail_type = %mail_type, "processed mail");
 
     Ok(())
+}
+
+fn should_mark_error(error: &ProcessorError) -> bool {
+    matches!(
+        error,
+        ProcessorError::MissingField(_)
+            | ProcessorError::InvalidMailPayload(_)
+            | ProcessorError::Decode(_)
+            | ProcessorError::Decompress(_)
+            | ProcessorError::UnsupportedMailType(_)
+            | ProcessorError::Process(_)
+            | ProcessorError::BsonEncode(_)
+    )
 }
 
 fn parse_raw_mail(doc: Document) -> Result<RawMail, ProcessorError> {
@@ -414,5 +444,18 @@ mod tests {
         };
         let err = parse_raw_mail(doc).unwrap_err();
         assert!(matches!(err, ProcessorError::MissingField("mail_id")));
+    }
+
+    #[test]
+    fn should_mark_error_for_unprocessable_mail() {
+        let err = ProcessorError::UnsupportedMailType("Unknown".to_string());
+        assert!(should_mark_error(&err));
+    }
+
+    #[test]
+    fn should_not_mark_error_for_transient_storage_failures() {
+        let mongo_err = mongodb::error::Error::custom("temporary mongo write failure");
+        let err = ProcessorError::Mongo(mongo_err);
+        assert!(!should_mark_error(&err));
     }
 }
