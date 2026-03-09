@@ -11,6 +11,7 @@ use crate::mail::MailType;
 pub const STATUS_PENDING: &str = "pending";
 pub const STATUS_REPROCESS: &str = "reprocess";
 pub const STATUS_PROCESSED: &str = "processed";
+pub const STATUS_ERROR: &str = "error";
 
 /// Typed access to raw and processed mail collections.
 #[derive(Debug, Clone)]
@@ -131,6 +132,22 @@ impl Storage {
                     "$set": {
                         "status": STATUS_PROCESSED,
                         "processedAt": now,
+                        "updatedAt": now,
+                    }
+                },
+            )
+            .await?;
+        Ok(())
+    }
+
+    /// Mark a raw mail as failed to prevent indefinite retries.
+    pub async fn mark_error(&self, id: &ObjectId, now: DateTime) -> mongodb::error::Result<()> {
+        self.raw
+            .update_one(
+                doc! { "_id": id, "status": { "$in": [STATUS_PENDING, STATUS_REPROCESS] } },
+                doc! {
+                    "$set": {
+                        "status": STATUS_ERROR,
                         "updatedAt": now,
                     }
                 },
