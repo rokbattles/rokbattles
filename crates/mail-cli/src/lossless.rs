@@ -73,6 +73,10 @@ pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCl
                 }
             })?,
         };
+        validate_mail_id(&mail_id).map_err(|message| MailCliError::LosslessFormat {
+            message,
+            path: input.clone(),
+        })?;
 
         let output_path = output_dir.join(format!("Persistent.Mail.{mail_id}"));
         let encoded =
@@ -362,6 +366,16 @@ fn lossless_value_to_string(value: &LosslessValue) -> Option<String> {
     }
 }
 
+fn validate_mail_id(mail_id: &str) -> Result<(), String> {
+    if mail_id.is_empty() {
+        return Err("mail id cannot be empty".to_string());
+    }
+    if mail_id.contains(['/', '\\']) {
+        return Err("mail id cannot contain path separators".to_string());
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -460,5 +474,66 @@ mod tests {
         assert_eq!(files.len(), 2);
         assert!(files.iter().any(|path| path.ends_with("a.json")));
         assert!(files.iter().any(|path| path.ends_with("c.JSON")));
+    }
+
+    #[test]
+    fn rebuild_lossless_rejects_embedded_mail_id_with_path_separator() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input_path = temp.path().join("malicious.json");
+        let json = r#"
+{
+  "preamble_hex": "",
+  "value": {
+    "tag": "container",
+    "kind": "object",
+    "entries": [
+      {
+        "key": "id",
+        "value": {
+          "tag": "string",
+          "value": "../../outside"
+        }
+      }
+    ]
+  }
+}
+"#;
+        fs::write(&input_path, json).expect("write malicious json");
+
+        let output_dir = tempfile::tempdir().expect("output dir");
+        let config = RebuildConfig {
+            input_path,
+            output_dir: Some(output_dir.path().to_path_buf()),
+            mail_id: None,
+        };
+
+        let err = rebuild_lossless(&config).unwrap_err();
+        match err {
+            MailCliError::LosslessFormat { message, .. } => {
+                assert_eq!(message, "mail id cannot contain path separators");
+            }
+            _ => panic!("unexpected error: {err:?}"),
+        }
+    }
+
+    #[test]
+    fn rebuild_lossless_rejects_cli_mail_id_with_path_separator() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/rebuild/60719727166813248216.json");
+        let output_dir = tempfile::tempdir().expect("output dir");
+
+        let config = RebuildConfig {
+            input_path: sample_path,
+            output_dir: Some(output_dir.path().to_path_buf()),
+            mail_id: Some("../../outside".to_string()),
+        };
+
+        let err = rebuild_lossless(&config).unwrap_err();
+        match err {
+            MailCliError::LosslessFormat { message, .. } => {
+                assert_eq!(message, "mail id cannot contain path separators");
+            }
+            _ => panic!("unexpected error: {err:?}"),
+        }
     }
 }
