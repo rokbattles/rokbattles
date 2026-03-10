@@ -6,13 +6,14 @@ use crate::common::{
     DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
 };
 
+const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
+
 /// Decode a binary mail buffer into a JSON value.
 ///
 /// The decoder expects a single root value. If extra bytes remain after decoding,
 /// an error is returned. When the first parsed value is `null` and trailing bytes
-/// exist, the decoder assumes a leading preamble and retries decoding from the
-/// first offset that yields a full, trailing-free decode (the behavior used for
-/// the sample files).
+/// exist, the decoder assumes a leading preamble and retries decoding from a
+/// limited number of candidate offsets that yield a full, trailing-free decode.
 pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     if buffer.is_empty() {
         return Err(DecodeError::UnexpectedEof {
@@ -44,6 +45,9 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
 fn find_payload_value(buffer: &[u8]) -> Option<Value> {
     let mut fallback = None;
     for (offset, tag) in buffer.iter().enumerate() {
+        if offset > MAX_PREAMBLE_SCAN_BYTES {
+            break;
+        }
         if !is_known_tag(*tag) {
             continue;
         }
@@ -422,6 +426,27 @@ mod tests {
     fn decode_preamble_without_payload_is_error() {
         let err = decode(&[0x99, 0x88]).unwrap_err();
         assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_preamble_scan_is_bounded() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES + 1];
+        buffer.extend_from_slice(&encode_object(&[("ok", vec![TAG_BOOL, 1])]));
+
+        let err = decode(&buffer).unwrap_err();
+        assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_preamble_scan_includes_limit_boundary() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES];
+        buffer.extend_from_slice(&encode_object(&[("ok", vec![TAG_BOOL, 1])]));
+
+        let value = decode(&buffer).unwrap();
+
+        let mut expected = Map::new();
+        expected.insert("ok".to_string(), Value::Bool(true));
+        assert_eq!(value, Value::Object(expected));
     }
 
     #[test]
