@@ -6121,6 +6121,8 @@ commanders:
       vi: "Shahanshah"
       zh_CN: "萨珊晨辉"
       zh_TW: "薩珊晨輝"
+    prime: false
+    rarity: legendary
     skills:
       - slot: 1
         id: 359
