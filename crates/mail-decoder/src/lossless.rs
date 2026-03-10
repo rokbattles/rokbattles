@@ -6,6 +6,8 @@ use crate::common::{
     DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
 };
 
+const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
+
 /// Lossless decoded document containing any leading preamble bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct LosslessDocument {
@@ -261,6 +263,9 @@ fn hex_char(nibble: u8) -> char {
 fn find_lossless_payload(buffer: &[u8]) -> Option<(usize, LosslessValue)> {
     let mut fallback = None;
     for (offset, tag) in buffer.iter().enumerate() {
+        if offset > MAX_PREAMBLE_SCAN_BYTES {
+            break;
+        }
         if !is_known_tag(*tag) {
             continue;
         }
@@ -613,6 +618,32 @@ mod tests {
 
         let encoded = encode_lossless(&doc).unwrap();
         assert_eq!(encoded, buffer);
+    }
+
+    #[test]
+    fn decode_lossless_preamble_scan_is_bounded() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES + 1];
+        buffer.extend_from_slice(&encode_array(&[vec![TAG_BOOL, 1]]));
+
+        let err = decode_lossless(&buffer).unwrap_err();
+        assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_lossless_preamble_scan_includes_limit_boundary() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES];
+        buffer.extend_from_slice(&encode_array(&[vec![TAG_BOOL, 1]]));
+
+        let doc = decode_lossless(&buffer).unwrap();
+
+        assert_eq!(doc.preamble, vec![0x99; MAX_PREAMBLE_SCAN_BYTES]);
+        assert_eq!(
+            doc.value,
+            LosslessValue::Container(LosslessContainer::Array(LosslessArray {
+                items: vec![LosslessValue::Bool { value: 1 }],
+                terminator: Some(TAG_OBJECT_END),
+            }))
+        );
     }
 
     #[test]
