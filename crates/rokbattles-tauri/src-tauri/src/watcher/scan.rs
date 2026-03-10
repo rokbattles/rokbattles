@@ -409,6 +409,9 @@ pub(crate) fn apply_fs_event(state: &mut WatcherState, path: PathBuf, now_ms: u1
         Ok(m) => m,
         Err(_) => return,
     };
+    if !meta.is_file() {
+        return;
+    }
     let sig = match file_sig(&meta) {
         Ok(s) => s,
         Err(_) => return,
