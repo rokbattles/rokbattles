@@ -349,7 +349,7 @@ mod tests {
 
     #[test]
     fn prefers_garrison_opponent() {
-        let opponents = vec![
+        let opponents = [
             doc! {
                 "player_id": 100,
                 "start_tick": 1,
@@ -370,7 +370,7 @@ mod tests {
 
     #[test]
     fn fallback_summary_ignores_invalid_opponents() {
-        let opponents = vec![
+        let opponents = [
             doc! {
                 "player_id": -2,
                 "battle_results": {
