@@ -44,9 +44,9 @@ pub(crate) fn aggregate_pairings(
             continue;
         }
 
-        for entry in flatten_pairing_entries(mail) {
+        for_each_pairing_entry(mail, |entry| {
             if entry.self_primary_commander_id <= 0 {
-                continue;
+                return;
             }
 
             let key = (
@@ -68,7 +68,7 @@ pub(crate) fn aggregate_pairings(
                 entry.delta,
                 entry.battle_duration_millis,
             );
-        }
+        });
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
@@ -93,10 +93,13 @@ pub(crate) fn aggregate_loadouts(
         let loadout = build_loadout_snapshot(mail, granularity);
         let key = build_loadout_key(&loadout);
 
-        for entry in flatten_pairing_entries(mail).into_iter().filter(|entry| {
-            entry.self_primary_commander_id == primary_commander_id
-                && entry.self_secondary_commander_id == secondary_commander_id
-        }) {
+        for_each_pairing_entry(mail, |entry| {
+            if entry.self_primary_commander_id != primary_commander_id
+                || entry.self_secondary_commander_id != secondary_commander_id
+            {
+                return;
+            }
+
             let bucket =
                 buckets
                     .entry(key.clone())
@@ -113,7 +116,7 @@ pub(crate) fn aggregate_loadouts(
                 entry.delta,
                 entry.battle_duration_millis,
             );
-        }
+        });
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
@@ -136,17 +139,6 @@ pub(crate) fn aggregate_opponents(
             continue;
         }
 
-        let entries = flatten_pairing_entries(mail)
-            .into_iter()
-            .filter(|entry| {
-                entry.self_primary_commander_id == primary_commander_id
-                    && entry.self_secondary_commander_id == secondary_commander_id
-            })
-            .collect::<Vec<_>>();
-        if entries.is_empty() {
-            continue;
-        }
-
         if granularity != OpponentGranularity::Overall {
             let lookup_granularity = match granularity {
                 OpponentGranularity::Simplified => LoadoutGranularity::Simplified,
@@ -160,7 +152,15 @@ pub(crate) fn aggregate_opponents(
             }
         }
 
-        for entry in entries {
+        let mut found_matching_entry = false;
+        for_each_pairing_entry(mail, |entry| {
+            if entry.self_primary_commander_id != primary_commander_id
+                || entry.self_secondary_commander_id != secondary_commander_id
+            {
+                return;
+            }
+
+            found_matching_entry = true;
             let key = (
                 entry.enemy_primary_commander_id,
                 entry.enemy_secondary_commander_id,
@@ -179,6 +179,10 @@ pub(crate) fn aggregate_opponents(
                 entry.delta,
                 entry.battle_duration_millis,
             );
+        });
+
+        if !found_matching_entry {
+            continue;
         }
     }
 
@@ -197,7 +201,7 @@ fn extract_event_time_millis(mail: &Document) -> Option<i64> {
     normalize_bson_timestamp_millis(mail.get_document("metadata").ok()?.get("mail_time"))
 }
 
-fn flatten_pairing_entries(mail: &Document) -> Vec<PairingEntry> {
+fn for_each_pairing_entry(mail: &Document, mut push: impl FnMut(PairingEntry)) {
     let self_primary_commander_id =
         nested_i64(mail, &["sender", "commanders", "primary", "id"]).unwrap_or_default();
     let self_secondary_commander_id =
@@ -225,9 +229,8 @@ fn flatten_pairing_entries(mail: &Document) -> Vec<PairingEntry> {
         left_player.cmp(&right_player)
     });
 
-    opponents
-        .into_iter()
-        .map(|opponent| PairingEntry {
+    for opponent in opponents {
+        push(PairingEntry {
             self_primary_commander_id,
             self_secondary_commander_id,
             enemy_primary_commander_id: nested_i64(opponent, &["commanders", "primary", "id"])
@@ -236,8 +239,8 @@ fn flatten_pairing_entries(mail: &Document) -> Vec<PairingEntry> {
                 .unwrap_or_default(),
             battle_duration_millis: extract_battle_duration_millis(mail, opponent),
             delta: extract_battle_delta(opponent),
-        })
-        .collect::<Vec<_>>()
+        });
+    }
 }
 
 fn extract_battle_duration_millis(mail: &Document, opponent: &Document) -> i64 {

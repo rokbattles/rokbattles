@@ -190,6 +190,7 @@ async fn load_claimed_governors(
     discord_id: &str,
 ) -> Result<Vec<ClaimedGovernor>, ApiError> {
     let options = FindOptions::builder()
+        .sort(doc! { "default": -1, "createdAt": -1 })
         .projection(doc! {
             "_id": 0,
             "governorId": 1,
@@ -207,36 +208,22 @@ async fn load_claimed_governors(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let mut sortable_claims = Vec::new();
+    let mut claims = Vec::new();
     while let Some(next) = cursor.next().await {
         let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
         let Some(governor_id) = document.get("governorId").and_then(bson_to_i64_exact) else {
             continue;
         };
 
-        sortable_claims.push(SortableClaim {
-            created_at_millis: claim_created_at_millis(&document),
-            claim: ClaimedGovernor {
-                governor_id,
-                governor_name: optional_string_field(&document, "governorName"),
-                governor_avatar: optional_string_field(&document, "governorAvatar"),
-                default: document.get_bool("default").unwrap_or(false),
-            },
+        claims.push(ClaimedGovernor {
+            governor_id,
+            governor_name: optional_string_field(&document, "governorName"),
+            governor_avatar: optional_string_field(&document, "governorAvatar"),
+            default: document.get_bool("default").unwrap_or(false),
         });
     }
 
-    sortable_claims.sort_by(|left, right| {
-        right
-            .claim
-            .default
-            .cmp(&left.claim.default)
-            .then_with(|| right.created_at_millis.cmp(&left.created_at_millis))
-    });
-
-    Ok(sortable_claims
-        .into_iter()
-        .map(|entry| entry.claim)
-        .collect())
+    Ok(claims)
 }
 
 fn optional_string_field(document: &Document, key: &str) -> Option<String> {
@@ -244,14 +231,6 @@ fn optional_string_field(document: &Document, key: &str) -> Option<String> {
         .get(key)
         .and_then(Bson::as_str)
         .map(ToString::to_string)
-}
-
-fn claim_created_at_millis(claim: &Document) -> i64 {
-    match claim.get("createdAt") {
-        Some(Bson::DateTime(value)) => value.timestamp_millis(),
-        Some(value) => bson_to_i64_exact(value).unwrap_or(0),
-        None => 0,
-    }
 }
 
 async fn exchange_discord_token(
@@ -311,12 +290,6 @@ async fn fetch_discord_profile(access_token: &str) -> Result<DiscordProfileRespo
         .map_err(|error| ApiError::internal(error.to_string()))
 }
 
-#[derive(Debug)]
-struct SortableClaim {
-    created_at_millis: i64,
-    claim: ClaimedGovernor,
-}
-
 #[derive(Debug, Deserialize)]
 struct DiscordCallbackQuery {
     code: Option<String>,
@@ -338,7 +311,7 @@ struct DiscordProfileResponse {
 
 #[cfg(test)]
 mod tests {
-    use mongodb::bson::{DateTime, doc};
+    use mongodb::bson::doc;
 
     use super::*;
 
@@ -355,15 +328,5 @@ mod tests {
         );
         assert_eq!(optional_string_field(&document, "governorAvatar"), None);
         assert_eq!(optional_string_field(&document, "missing"), None);
-    }
-
-    #[test]
-    fn reads_claim_created_at_millis_from_datetime() {
-        let created_at = DateTime::from_millis(1234);
-        let document = doc! {
-            "createdAt": created_at
-        };
-
-        assert_eq!(claim_created_at_millis(&document), 1234);
     }
 }

@@ -43,7 +43,13 @@ impl ReportsStore {
                 .keys(doc! { "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "sender.player_id": 1, "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.player_id": 1, "metadata.mail_time": -1 })
@@ -85,9 +91,6 @@ impl ReportsStore {
         }
 
         let duel_models = vec![
-            IndexModel::builder()
-                .keys(doc! { "metadata.mail_time": -1 })
-                .build(),
             IndexModel::builder()
                 .keys(doc! { "sender.duel.team_id": 1, "metadata.mail_time": 1 })
                 .build(),
@@ -169,6 +172,12 @@ impl ReportsStore {
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "governorId": 1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "discordId": 1, "createdAt": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "discordId": 1, "default": -1, "createdAt": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "default": 1 })

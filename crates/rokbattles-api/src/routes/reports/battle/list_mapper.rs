@@ -65,7 +65,7 @@ pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
 
     let mut attack_ids = extract_opponents(document)
         .into_iter()
-        .filter(is_valid_opponent)
+        .filter(|opponent| is_valid_opponent(opponent))
         .filter_map(extract_attack_id)
         .filter(|value| !value.is_empty())
         .collect::<Vec<_>>();
@@ -154,18 +154,17 @@ pub(crate) fn compute_trade_percent(sender_kill_points: i64, opponent_kill_point
     ((sender_kill_points as f64 / opponent_kill_points as f64) * 100.0).round() as i64
 }
 
-fn extract_opponents(document: &Document) -> Vec<Document> {
+fn extract_opponents(document: &Document) -> Vec<&Document> {
     document
         .get_array("opponents")
         .ok()
         .into_iter()
         .flatten()
         .filter_map(Bson::as_document)
-        .cloned()
         .collect()
 }
 
-fn extract_attack_id(opponent: Document) -> Option<String> {
+fn extract_attack_id(opponent: &Document) -> Option<String> {
     let attack = opponent.get_document("attack").ok()?;
     let raw_id = attack.get("id")?;
     Some(match raw_id {
@@ -177,11 +176,11 @@ fn extract_attack_id(opponent: Document) -> Option<String> {
     })
 }
 
-fn get_valid_sorted_opponents(opponents: &[Document]) -> Vec<Document> {
+fn get_valid_sorted_opponents<'a>(opponents: &'a [&Document]) -> Vec<&'a Document> {
     let mut valid = opponents
         .iter()
+        .copied()
         .filter(|opponent| is_valid_opponent(opponent))
-        .cloned()
         .collect::<Vec<_>>();
 
     valid.sort_by(|a, b| {
@@ -205,7 +204,7 @@ fn is_valid_opponent(opponent: &Document) -> bool {
     !INVALID_OPPONENT_PLAYER_IDS.contains(&player_id)
 }
 
-fn select_preferred_opponent(opponents: &[Document]) -> Option<&Document> {
+fn select_preferred_opponent<'a>(opponents: &'a [&Document]) -> Option<&'a Document> {
     for opponent in opponents {
         if has_non_null_field(opponent, "alliance_building_id")
             || has_non_null_field(opponent, "structure_id")
@@ -214,7 +213,7 @@ fn select_preferred_opponent(opponents: &[Document]) -> Option<&Document> {
         }
     }
 
-    opponents.first()
+    opponents.first().copied()
 }
 
 fn has_non_null_field(document: &Document, key: &str) -> bool {
@@ -224,7 +223,7 @@ fn has_non_null_field(document: &Document, key: &str) -> bool {
 fn resolve_summary_entry(
     document: &Document,
     side: &str,
-    opponents: &[Document],
+    opponents: &[&Document],
 ) -> ReportSummaryEntry {
     let fallback = build_fallback_summary(side, opponents);
     let source = nested_document(document, &["summary", side]);
@@ -251,7 +250,7 @@ fn resolve_summary_entry(
     }
 }
 
-fn build_fallback_summary(side: &str, opponents: &[Document]) -> ReportSummaryEntry {
+fn build_fallback_summary(side: &str, opponents: &[&Document]) -> ReportSummaryEntry {
     let mut summary = ReportSummaryEntry {
         troop_units: 0,
         dead: 0,
@@ -364,7 +363,8 @@ mod tests {
             },
         ];
 
-        let preferred = select_preferred_opponent(&opponents).expect("preferred opponent");
+        let opponent_refs = opponents.iter().collect::<Vec<_>>();
+        let preferred = select_preferred_opponent(&opponent_refs).expect("preferred opponent");
         assert_eq!(nested_i64(preferred, &["player_id"]), Some(101));
     }
 
@@ -399,7 +399,8 @@ mod tests {
             },
         ];
 
-        let summary = build_fallback_summary("opponent", &opponents);
+        let opponent_refs = opponents.iter().collect::<Vec<_>>();
+        let summary = build_fallback_summary("opponent", &opponent_refs);
         assert_eq!(summary.troop_units, 10);
         assert_eq!(summary.dead, 20);
         assert_eq!(summary.severely_wounded, 30);
