@@ -1166,8 +1166,27 @@ loot:
         zh_CN: "乌木 (优秀)"
         zh_TW: "烏木 (優秀)"
 
-    # Unknown
+    # KVK 1 item
     577:
+      name:
+        ar: "عملة التقنية"
+        de: "Technologiemarke"
+        en: "Tech Token"
+        es: "Ficha tecnológica"
+        fr: "Jeton de technologie"
+        id: "Token Teknologi"
+        it: "Gettone di tecnologia"
+        ja: "技術コイン"
+        ko: "기술 코인"
+        ms: "Token Teknologi"
+        pl: "Żeton technologii"
+        pt: "Símbolo de Tecnologia"
+        ru: "Жетон технологии"
+        th: "โทเค็นเทคโนโลยี"
+        tr: "Tekno Jetonu"
+        vi: "Xu Công Nghệ"
+        zh_CN: "科技币"
+        zh_TW: "科技幣"
 
     7003:
       name:
