@@ -128,6 +128,27 @@ loot:
         zh_CN: "水晶"
         zh_TW: "水晶"
 
+    10:
+      name:
+        ar: "جرعة الشفاء"
+        de: "Heiltrank"
+        en: "Healing Potion"
+        es: "Poción sanadora"
+        fr: "Potion curative"
+        id: "Ramuan Penyembuhan"
+        it: "Pozione di guarigione"
+        ja: "治癒の薬"
+        ko: "치유의 포션"
+        ms: "Posyen Penyembuhan"
+        pl: "Eliksir uzdrawiający"
+        pt: "Poção de Cura"
+        ru: "Целебное зелье"
+        th: "โพชั่นรักษา"
+        tr: "Şifa Karışımı"
+        vi: "Thuốc Chữa Lành"
+        zh_CN: "治愈药剂"
+        zh_TW: "治癒藥劑"
+
   2:
     25:
       name:
