@@ -184,7 +184,7 @@ fn is_barbarian(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
 }
 
 fn is_marauder(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
-    npc_type == Some(99) && npc_b_type == Some(15)
+    matches!(npc_type, Some(99 | 100)) && npc_b_type == Some(15)
 }
 
 fn add_report(category: &mut LootCategoryAggregate, date_key: &str) {
@@ -317,6 +317,7 @@ mod tests {
     #[test]
     fn is_marauder_matches_expected_npc_type_and_b_type() {
         assert!(is_marauder(Some(99), Some(15)));
+        assert!(is_marauder(Some(100), Some(15)));
         assert!(!is_marauder(Some(99), Some(1)));
         assert!(!is_marauder(Some(1), Some(15)));
     }
@@ -379,6 +380,7 @@ mod tests {
             vec![build_npc_mail(battle_time, -2, 1, 1, 5)],
             vec![
                 build_npc_mail(battle_time, -2, 99, 15, 7),
+                build_npc_mail(battle_time, -2, 100, 15, 13),
                 build_npc_mail(battle_time, -1, 99, 15, 11),
             ],
             Vec::new(),
@@ -389,9 +391,9 @@ mod tests {
 
         assert_eq!(categories.barbarian.reports, 1);
         assert_eq!(categories.barbarian.loot_total, 5);
-        assert_eq!(categories.marauder.reports, 1);
-        assert_eq!(categories.marauder.loot_total, 7);
-        assert_eq!(categories.total_reports(), 2);
+        assert_eq!(categories.marauder.reports, 2);
+        assert_eq!(categories.marauder.loot_total, 20);
+        assert_eq!(categories.total_reports(), 3);
     }
 
     fn build_npc_mail(
