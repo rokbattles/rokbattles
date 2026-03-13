@@ -131,7 +131,7 @@ pub(crate) async fn fetch_marauder_battle_mails(
                 "opponents": {
                     "$elemMatch": {
                         "player_id": -2,
-                        "npc.type": 99,
+                        "npc.type": { "$in": [99, 100] },
                         "npc.b_type": 15,
                     }
                 }
