@@ -194,7 +194,7 @@ fn is_system_barbarian_fort_mail(root: &Value) -> bool {
     };
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
 }
 
 fn detect_alliance_aoo_mail_type(root: &Value) -> Option<MailType> {
@@ -291,6 +291,37 @@ mod tests {
         });
         let mail_type = extract_mail_type(&value).unwrap();
         assert_eq!(mail_type, MailType::SystemBarbarianFort);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_system_barbarian_fort_with_sub_param_three() {
+        let value = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 3,
+                "subType": 11
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::SystemBarbarianFort);
+    }
+
+    #[test]
+    fn extract_mail_type_rejects_system_mail_with_unsupported_sub_param() {
+        let value = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 2,
+                "subType": 11
+            }
+        });
+        let err = extract_mail_type(&value).unwrap_err();
+        assert!(matches!(
+            err,
+            ProcessorError::UnsupportedMailType(mail_type) if mail_type == "System"
+        ));
     }
 
     #[test]
