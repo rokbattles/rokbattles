@@ -28,3 +28,33 @@ fn processor() -> Processor {
         Box::new(body::BodyExtractor::new()),
     ])
 }
+
+#[cfg(test)]
+mod tests {
+    use std::{fs, path::PathBuf};
+
+    use serde_json::{Value, json};
+
+    use super::*;
+
+    #[test]
+    fn process_parallel_roundtrip_extracts_marauder_encampment_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/System/Persistent.Mail.54530305177357763431.json");
+        let raw = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&raw).expect("parse sample");
+
+        let processed = process_parallel(&value).expect("process sample");
+        let processed_json = serde_json::to_value(processed).expect("serialize processed");
+
+        assert_eq!(processed_json["metadata"]["mail_id"], json!("54530305177357763431"));
+        assert_eq!(processed_json["metadata"]["mail_receiver"], json!("player_71738515"));
+        assert_eq!(processed_json["body"]["target_name"], json!("Level11"));
+        assert_eq!(
+            processed_json["body"]["pos"],
+            json!({ "x": 7033.7001953125, "y": 1246.9722900390625 })
+        );
+        assert_eq!(processed_json["rewards"].as_array().map(Vec::len), Some(5));
+        assert_eq!(processed_json["rewards"][0], json!({"type": 2, "sub_type": 58, "value": 18}));
+    }
+}

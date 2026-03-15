@@ -88,7 +88,7 @@ fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
 
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<&'static str> {
@@ -196,6 +196,19 @@ mod tests {
     }
 
     #[test]
+    fn detect_supported_mail_type_matches_system_barbarian_fort_sub_param_three() {
+        let payload = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 3,
+                "subType": 11
+            }
+        });
+        assert_eq!(detect_supported_mail_type(&payload), Some("SystemBarbarianFort"));
+    }
+
+    #[test]
     fn detect_supported_mail_type_rejects_other_system_mail() {
         let payload = json!({
             "type": "System",
@@ -203,6 +216,19 @@ mod tests {
             "body": {
                 "subParam": 1,
                 "subType": 10
+            }
+        });
+        assert_eq!(detect_supported_mail_type(&payload), None);
+    }
+
+    #[test]
+    fn detect_supported_mail_type_rejects_unsupported_system_sub_param() {
+        let payload = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 2,
+                "subType": 11
             }
         });
         assert_eq!(detect_supported_mail_type(&payload), None);

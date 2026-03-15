@@ -254,7 +254,7 @@ fn is_system_barbarian_fort_mail(root: &Value) -> bool {
     };
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_param, Some(1)) && matches!(sub_type, Some(11))
+    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -576,6 +576,32 @@ mod tests {
     fn classify_processable_mail_type_detects_rss() {
         let input = json!({ "type": "Rss" });
         assert_eq!(classify_processable_mail_type(&input), Some("Rss"));
+    }
+
+    #[test]
+    fn classify_processable_mail_type_detects_system_barbarian_fort_sub_param_three() {
+        let input = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 3,
+                "subType": 11
+            }
+        });
+        assert_eq!(classify_processable_mail_type(&input), Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT));
+    }
+
+    #[test]
+    fn classify_processable_mail_type_rejects_system_mail_with_unsupported_sub_param() {
+        let input = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 2,
+                "subType": 11
+            }
+        });
+        assert_eq!(classify_processable_mail_type(&input), None);
     }
 
     #[test]
