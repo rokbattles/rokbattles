@@ -2,16 +2,18 @@ use std::collections::HashMap;
 
 use mongodb::bson::Bson;
 
-use super::store::{
-    BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument, LootEntryDocument,
+use super::{
+    store::{BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument, LootEntryDocument},
+    types::{
+        LootCategories, LootCategoryAggregateResponse, LootDailyAggregateResponse,
+        LootRewardAggregateResponse,
+    },
 };
-use super::types::{
-    LootCategories, LootCategoryAggregateResponse, LootDailyAggregateResponse,
-    LootRewardAggregateResponse,
+use crate::{
+    bson_utils::bson_to_i64_loose,
+    routes::governor::date_range::GovernorDateRange,
+    time_utils::{date_key_utc, normalize_bson_timestamp_millis},
 };
-use crate::bson_utils::bson_to_i64_loose;
-use crate::routes::governor::date_range::GovernorDateRange;
-use crate::time_utils::{date_key_utc, normalize_bson_timestamp_millis};
 
 #[derive(Debug, Default)]
 struct LootCategoryAggregate {
@@ -54,9 +56,7 @@ pub(crate) fn aggregate_loot(
 
     for mail in barbarian_fort_mails {
         let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata
-                .as_ref()
-                .and_then(|meta| meta.mail_time.as_ref()),
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
         ) else {
             continue;
         };
@@ -68,18 +68,12 @@ pub(crate) fn aggregate_loot(
         };
 
         add_report(&mut barbarian_fort, &date_key);
-        add_loot(
-            &mut barbarian_fort,
-            &date_key,
-            mail.rewards.as_deref().unwrap_or_default(),
-        );
+        add_loot(&mut barbarian_fort, &date_key, mail.rewards.as_deref().unwrap_or_default());
     }
 
     for mail in baulur_mails {
         let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata
-                .as_ref()
-                .and_then(|meta| meta.mail_time.as_ref()),
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
         ) else {
             continue;
         };
@@ -104,11 +98,7 @@ pub(crate) fn aggregate_loot(
                 add_report(&mut baulur, &date_key);
                 found_matching_participant = true;
             }
-            add_loot(
-                &mut baulur,
-                &date_key,
-                participant.loot.as_deref().unwrap_or_default(),
-            );
+            add_loot(&mut baulur, &date_key, participant.loot.as_deref().unwrap_or_default());
         }
     }
 
@@ -128,9 +118,7 @@ fn aggregate_npc_battle_loot(
 ) {
     for mail in mails {
         let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata
-                .as_ref()
-                .and_then(|meta| meta.mail_time.as_ref()),
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
         ) else {
             continue;
         };
@@ -189,14 +177,9 @@ fn is_marauder(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
 
 fn add_report(category: &mut LootCategoryAggregate, date_key: &str) {
     category.reports += 1;
-    let daily_bucket = category
-        .daily_buckets
-        .entry(date_key.to_string())
-        .or_insert_with(|| LootDailyBucket {
-            date: date_key.to_string(),
-            reports: 0,
-            loot_total: 0,
-        });
+    let daily_bucket = category.daily_buckets.entry(date_key.to_string()).or_insert_with(|| {
+        LootDailyBucket { date: date_key.to_string(), reports: 0, loot_total: 0 }
+    });
     daily_bucket.reports += 1;
 }
 
@@ -209,14 +192,9 @@ fn add_loot(
         return;
     }
 
-    let daily_bucket = category
-        .daily_buckets
-        .entry(date_key.to_string())
-        .or_insert_with(|| LootDailyBucket {
-            date: date_key.to_string(),
-            reports: 0,
-            loot_total: 0,
-        });
+    let daily_bucket = category.daily_buckets.entry(date_key.to_string()).or_insert_with(|| {
+        LootDailyBucket { date: date_key.to_string(), reports: 0, loot_total: 0 }
+    });
 
     for entry in loot_entries {
         let Some(reward_type) = entry.reward_type.as_ref().and_then(parse_i64_loose) else {
@@ -235,12 +213,7 @@ fn add_loot(
         let reward_bucket = category
             .reward_buckets
             .entry((reward_type, sub_type))
-            .or_insert_with(|| LootRewardBucket {
-                reward_type,
-                sub_type,
-                total: 0,
-                count: 0,
-            });
+            .or_insert_with(|| LootRewardBucket { reward_type, sub_type, total: 0, count: 0 });
         reward_bucket.total += value;
         reward_bucket.count += 1;
     }
@@ -258,9 +231,7 @@ fn into_category_payload(category: LootCategoryAggregate) -> LootCategoryAggrega
         })
         .collect::<Vec<_>>();
     rewards.sort_by(|left, right| {
-        left.reward_type
-            .cmp(&right.reward_type)
-            .then(left.sub_type.cmp(&right.sub_type))
+        left.reward_type.cmp(&right.reward_type).then(left.sub_type.cmp(&right.sub_type))
     });
 
     let mut daily = category
@@ -286,8 +257,10 @@ fn into_category_payload(category: LootCategoryAggregate) -> LootCategoryAggrega
 mod tests {
     use mongodb::bson::Bson;
 
-    use super::super::store::{BattleNpcDocument, BattleOpponentDocument, MailMetadataDocument};
-    use super::*;
+    use super::{
+        super::store::{BattleNpcDocument, BattleOpponentDocument, MailMetadataDocument},
+        *,
+    };
 
     #[test]
     fn normalize_timestamp_supports_seconds_millis_and_micros() {
@@ -404,9 +377,7 @@ mod tests {
         loot_value: i64,
     ) -> BattleMailDocument {
         BattleMailDocument {
-            metadata: Some(MailMetadataDocument {
-                mail_time: Some(Bson::Int64(mail_time)),
-            }),
+            metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
             opponents: Some(vec![BattleOpponentDocument {
                 player_id: Some(Bson::Int64(player_id)),
                 npc: Some(BattleNpcDocument {

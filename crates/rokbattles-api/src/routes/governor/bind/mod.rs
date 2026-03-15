@@ -1,21 +1,26 @@
 use std::sync::Arc;
 
-use axum::extract::{Path, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
-
-use crate::auth::AuthenticatedSession;
-use crate::error::ApiError;
-use crate::routes::governor::common::parse_governor_id_param;
-use crate::routes::governor::snapshot::find_latest_sender_snapshot;
-use crate::state::AppState;
-
-use self::store::{
-    claim_document_is_default, claim_exists_for_user, delete_claim_for_user,
-    find_most_recent_governor_id, governor_claim_exists, insert_claim, set_bind_as_default,
-    summarize_user_claims,
+use axum::{
+    Json,
+    extract::{Path, State},
+    http::StatusCode,
+    response::IntoResponse,
 };
-use self::types::{BindGovernorResponse, ClaimedGovernor};
+
+use self::{
+    store::{
+        claim_document_is_default, claim_exists_for_user, delete_claim_for_user,
+        find_most_recent_governor_id, governor_claim_exists, insert_claim, set_bind_as_default,
+        summarize_user_claims,
+    },
+    types::{BindGovernorResponse, ClaimedGovernor},
+};
+use crate::{
+    auth::AuthenticatedSession,
+    error::ApiError,
+    routes::governor::{common::parse_governor_id_param, snapshot::find_latest_sender_snapshot},
+    state::AppState,
+};
 
 mod store;
 mod types;
@@ -62,12 +67,7 @@ pub async fn post(
         StatusCode::OK,
         [("Cache-Control", "no-store")],
         Json(BindGovernorResponse {
-            claim: ClaimedGovernor {
-                governor_id,
-                governor_name,
-                governor_avatar,
-                default,
-            },
+            claim: ClaimedGovernor { governor_id, governor_name, governor_avatar, default },
         }),
     ))
 }

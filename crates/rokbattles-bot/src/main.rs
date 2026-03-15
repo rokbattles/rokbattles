@@ -28,10 +28,7 @@ impl Config {
         let discord_application_id =
             parse_id::<ApplicationMarker>("DISCORD_APPLICATION_ID", application_id.as_str())?;
 
-        Ok(Self {
-            discord_token,
-            discord_application_id,
-        })
+        Ok(Self { discord_token, discord_application_id })
     }
 }
 
@@ -49,9 +46,7 @@ async fn run() -> Result<()> {
     let http = Arc::new(HttpClient::new(config.discord_token.clone()));
     let registry = Arc::new(commands::build_registry());
 
-    registry
-        .deploy_commands(http.clone(), config.discord_application_id)
-        .await?;
+    registry.deploy_commands(http.clone(), config.discord_application_id).await?;
 
     info!("deployed global slash commands");
 
@@ -83,9 +78,8 @@ async fn run_gateway(
                 );
             }
             Event::InteractionCreate(interaction) => {
-                if let Err(source) = registry
-                    .handle_interaction(interaction.0.clone(), http.clone())
-                    .await
+                if let Err(source) =
+                    registry.handle_interaction(interaction.0.clone(), http.clone()).await
                 {
                     error!(?source, "failed to handle interaction");
                 }
@@ -104,9 +98,7 @@ fn init_tracing() {
 }
 
 fn parse_id<M>(name: &str, value: &str) -> Result<Id<M>> {
-    let parsed = value
-        .parse::<u64>()
-        .with_context(|| format!("invalid {name} value: {value}"))?;
+    let parsed = value.parse::<u64>().with_context(|| format!("invalid {name} value: {value}"))?;
 
     Ok(Id::new(parsed))
 }
@@ -123,8 +115,9 @@ fn install_rustls_crypto_provider() -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::parse_id;
     use twilight_model::id::marker::ApplicationMarker;
+
+    use super::parse_id;
 
     #[test]
     fn parse_id_accepts_u64() {
@@ -135,10 +128,6 @@ mod tests {
     #[test]
     fn parse_id_rejects_non_numeric() {
         let error = parse_id::<ApplicationMarker>("DISCORD_APPLICATION_ID", "abc").unwrap_err();
-        assert!(
-            error
-                .to_string()
-                .contains("invalid DISCORD_APPLICATION_ID value: abc")
-        );
+        assert!(error.to_string().contains("invalid DISCORD_APPLICATION_ID value: abc"));
     }
 }

@@ -1,20 +1,21 @@
-use std::io::Cursor;
-use std::sync::Arc;
+use std::{io::Cursor, sync::Arc};
 
-use axum::Json;
-use axum::extract::Multipart;
-use axum::extract::State;
-use axum::http::StatusCode;
-use axum::http::{HeaderMap, HeaderValue};
-use axum::response::IntoResponse;
+use axum::{
+    Json,
+    extract::{Multipart, State},
+    http::{HeaderMap, HeaderValue, StatusCode},
+    response::IntoResponse,
+};
 use bytes::Bytes;
 use mongodb::bson::{Binary, Bson, DateTime, doc, spec::BinarySubtype};
 use serde::Serialize;
 use serde_json::Value;
 
-use crate::clamav::{ScanStatus, scan_zstream};
-use crate::error::ApiError;
-use crate::state::AppState;
+use crate::{
+    clamav::{ScanStatus, scan_zstream},
+    error::ApiError,
+    state::AppState,
+};
 
 const STATUS_PENDING: &str = "pending";
 const STATUS_REPROCESS: &str = "reprocess";
@@ -67,9 +68,7 @@ pub async fn upload(
         match scan_zstream(&buffer, &state.config.clamav_addr, timeout).await {
             Ok(ScanStatus::Clean) => {}
             Ok(ScanStatus::Infected(reason)) => {
-                return Err(ApiError::bad_request(format!(
-                    "clamav detected malware: {reason}"
-                )));
+                return Err(ApiError::bad_request(format!("clamav detected malware: {reason}")));
             }
             Err(error) => {
                 return Err(ApiError::clamav(error.to_string()));
@@ -102,10 +101,7 @@ pub async fn upload(
         .await
         .map_err(|error| ApiError::database(error.to_string()))?;
 
-    let action = decide_action(
-        existing.as_ref().map(|entry| entry.attack_count),
-        attack_count,
-    );
+    let action = decide_action(existing.as_ref().map(|entry| entry.attack_count), attack_count);
 
     if matches!(action, UploadAction::Insert | UploadAction::Update) {
         let compressed = compress_mail_value(&decoded, state.config.zstd_level)?;
@@ -204,10 +200,8 @@ pub async fn upload(
 }
 
 async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError> {
-    while let Some(field) = multipart
-        .next_field()
-        .await
-        .map_err(|error| ApiError::bad_request(error.to_string()))?
+    while let Some(field) =
+        multipart.next_field().await.map_err(|error| ApiError::bad_request(error.to_string()))?
     {
         if field.file_name().is_some() || field.name().is_some() {
             let file_name = field
@@ -228,21 +222,15 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
                     "unsupported content encoding (must be identity)",
                 ));
             }
-            let bytes = field
-                .bytes()
-                .await
-                .map_err(|error| ApiError::bad_request(error.to_string()))?;
+            let bytes =
+                field.bytes().await.map_err(|error| ApiError::bad_request(error.to_string()))?;
             if !bytes.is_empty() {
                 if is_probably_json(&bytes) {
                     return Err(ApiError::bad_request(
                         "expected binary mail buffer, received JSON",
                     ));
                 }
-                return Ok(UploadInput {
-                    bytes,
-                    file_name,
-                    file_id,
-                });
+                return Ok(UploadInput { bytes, file_name, file_id });
             }
         }
     }
@@ -296,19 +284,11 @@ fn is_processable_mail_type(mail_type: &str) -> bool {
 }
 
 fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
-    if is_processable_mail_type(mail_type) {
-        STATUS_PENDING
-    } else {
-        STATUS_UNPROCESSABLE
-    }
+    if is_processable_mail_type(mail_type) { STATUS_PENDING } else { STATUS_UNPROCESSABLE }
 }
 
 fn update_status_for_mail_type(mail_type: &str) -> &'static str {
-    if is_processable_mail_type(mail_type) {
-        STATUS_REPROCESS
-    } else {
-        STATUS_UNPROCESSABLE
-    }
+    if is_processable_mail_type(mail_type) { STATUS_REPROCESS } else { STATUS_UNPROCESSABLE }
 }
 
 fn is_system_barbarian_fort_mail(root: &Value) -> bool {
@@ -369,9 +349,7 @@ fn extract_mail_id(decoded: &Value) -> Option<String> {
         .and_then(value_to_string)
         .or_else(|| root.get("mail_id").and_then(value_to_string))
         .or_else(|| {
-            root.get("metadata")
-                .and_then(|meta| meta.get("mail_id"))
-                .and_then(value_to_string)
+            root.get("metadata").and_then(|meta| meta.get("mail_id")).and_then(value_to_string)
         })
 }
 
@@ -410,9 +388,7 @@ fn parse_mail_id_from_filename(file_name: &str) -> Result<String, ApiError> {
         .ok_or_else(|| ApiError::bad_request("filename must start with Persistent.Mail.<ID>"))?;
     let id: String = rest.chars().take_while(|ch| ch.is_ascii_digit()).collect();
     if id.is_empty() {
-        return Err(ApiError::bad_request(
-            "filename must include numeric mail id",
-        ));
+        return Err(ApiError::bad_request("filename must include numeric mail id"));
     }
     Ok(id)
 }
@@ -425,10 +401,7 @@ fn is_allowed_content_encoding(value: Option<&HeaderValue>) -> bool {
     let Some(value) = value else {
         return true;
     };
-    value
-        .to_str()
-        .map(|value| value.eq_ignore_ascii_case("identity"))
-        .unwrap_or(false)
+    value.to_str().map(|value| value.eq_ignore_ascii_case("identity")).unwrap_or(false)
 }
 
 /// Extracts and validates the user agent header.
@@ -520,8 +493,9 @@ fn decode_lossless_doc(buffer: &[u8]) -> Result<Value, ApiError> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde_json::json;
+
+    use super::*;
 
     #[test]
     fn extracts_mail_type() {
@@ -558,10 +532,7 @@ mod tests {
                 "subType": 11
             }
         });
-        assert_eq!(
-            extract_mail_type(&decoded).unwrap(),
-            "SystemBarbarianFort".to_string()
-        );
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "SystemBarbarianFort".to_string());
     }
 
     #[test]
@@ -586,10 +557,7 @@ mod tests {
                 "type": 60
             }
         });
-        assert_eq!(
-            extract_mail_type(&decoded).unwrap(),
-            "AllianceAOOBattleResults".to_string()
-        );
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOOBattleResults".to_string());
     }
 
     #[test]
@@ -602,10 +570,7 @@ mod tests {
                 "param": 1
             }
         });
-        assert_eq!(
-            extract_mail_type(&decoded).unwrap(),
-            "AllianceAOOBattleResults".to_string()
-        );
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOOBattleResults".to_string());
     }
 
     #[test]
@@ -630,10 +595,7 @@ mod tests {
                 "type": 61
             }
         });
-        assert_eq!(
-            extract_mail_type(&decoded).unwrap(),
-            "AllianceAOOBattleInfo".to_string()
-        );
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOOBattleInfo".to_string());
     }
 
     #[test]
@@ -738,40 +700,16 @@ mod tests {
     fn status_mapping_marks_supported_processor_types_processable() {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
-        assert_eq!(
-            insert_status_for_mail_type("SystemBarbarianFort"),
-            STATUS_PENDING
-        );
+        assert_eq!(insert_status_for_mail_type("SystemBarbarianFort"), STATUS_PENDING);
         assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
         assert_eq!(update_status_for_mail_type("Rss"), STATUS_REPROCESS);
-        assert_eq!(
-            update_status_for_mail_type("SystemBarbarianFort"),
-            STATUS_REPROCESS
-        );
-        assert_eq!(
-            insert_status_for_mail_type("AllianceAOOBattleResults"),
-            STATUS_PENDING
-        );
-        assert_eq!(
-            update_status_for_mail_type("AllianceAOOBattleResults"),
-            STATUS_REPROCESS
-        );
-        assert_eq!(
-            insert_status_for_mail_type("AllianceAOOBattleInfo"),
-            STATUS_PENDING
-        );
-        assert_eq!(
-            update_status_for_mail_type("AllianceAOOBattleInfo"),
-            STATUS_REPROCESS
-        );
-        assert_eq!(
-            insert_status_for_mail_type("AllianceAOOIndividualResults"),
-            STATUS_PENDING
-        );
-        assert_eq!(
-            update_status_for_mail_type("AllianceAOOIndividualResults"),
-            STATUS_REPROCESS
-        );
+        assert_eq!(update_status_for_mail_type("SystemBarbarianFort"), STATUS_REPROCESS);
+        assert_eq!(insert_status_for_mail_type("AllianceAOOBattleResults"), STATUS_PENDING);
+        assert_eq!(update_status_for_mail_type("AllianceAOOBattleResults"), STATUS_REPROCESS);
+        assert_eq!(insert_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_PENDING);
+        assert_eq!(update_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_REPROCESS);
+        assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);
+        assert_eq!(update_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_REPROCESS);
     }
 
     #[test]
@@ -805,12 +743,8 @@ mod tests {
     #[test]
     fn validates_content_encoding() {
         assert!(is_allowed_content_encoding(None));
-        assert!(is_allowed_content_encoding(Some(
-            &HeaderValue::from_static("identity")
-        )));
-        assert!(!is_allowed_content_encoding(Some(
-            &HeaderValue::from_static("gzip")
-        )));
+        assert!(is_allowed_content_encoding(Some(&HeaderValue::from_static("identity"))));
+        assert!(!is_allowed_content_encoding(Some(&HeaderValue::from_static("gzip"))));
     }
 
     #[test]

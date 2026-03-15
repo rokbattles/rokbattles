@@ -1,22 +1,27 @@
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
-use axum::extract::{Path, Query, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
-
-use crate::auth::AuthenticatedSession;
-use crate::error::ApiError;
-use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
-use crate::state::AppState;
-
-use self::aggregate::aggregate_loot;
-use self::query::parse_loot_request;
-use self::store::{
-    fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
-    fetch_marauder_battle_mails,
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
 };
-use self::types::LootResponse;
+
+use self::{
+    aggregate::aggregate_loot,
+    query::parse_loot_request,
+    store::{
+        fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
+        fetch_marauder_battle_mails,
+    },
+    types::LootResponse,
+};
+use crate::{
+    auth::AuthenticatedSession,
+    error::ApiError,
+    routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+    state::AppState,
+};
 
 mod aggregate;
 mod query;
@@ -55,9 +60,5 @@ pub async fn get(
     );
     let response = LootResponse::new(request.range.start, request.range.end, categories);
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }

@@ -1,13 +1,16 @@
 use std::sync::Arc;
 
-use axum::extract::{FromRef, FromRequestParts};
-use axum::http::header::COOKIE;
-use axum::http::request::Parts;
+use axum::{
+    extract::{FromRef, FromRequestParts},
+    http::{header::COOKIE, request::Parts},
+};
 use tracing::warn;
 
-use crate::db::{SessionRecord, UserRecord};
-use crate::error::ApiError;
-use crate::state::AppState;
+use crate::{
+    db::{SessionRecord, UserRecord},
+    error::ApiError,
+    state::AppState,
+};
 
 /// Auth context loaded from the `sid` cookie.
 #[derive(Debug, Clone)]
@@ -27,10 +30,7 @@ where
     async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
         let app_state = Arc::<AppState>::from_ref(state);
         let sid = extract_cookie_value(
-            parts
-                .headers
-                .get(COOKIE)
-                .and_then(|header| header.to_str().ok()),
+            parts.headers.get(COOKIE).and_then(|header| header.to_str().ok()),
             "sid",
         )
         .ok_or_else(ApiError::unauthorized)?;

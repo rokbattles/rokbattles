@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
-use axum::Router;
-use axum::routing::get;
+use axum::{Router, routing::get};
 
 use crate::state::AppState;
 
@@ -24,10 +23,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
         .route("/report/battle/{id}", get(reports::battle::get_by_id))
-        .route(
-            "/report/duelbattle2/{id}",
-            get(reports::duelbattle2::get_by_id),
-        )
+        .route("/report/duelbattle2/{id}", get(reports::duelbattle2::get_by_id))
         .route("/reports/battle", get(reports::battle::get))
         .route("/reports/duelbattle2", get(reports::duelbattle2::get))
 }

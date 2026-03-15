@@ -1,5 +1,6 @@
-use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 use serde::{Deserialize, Serialize};
+
+use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 
 /// Query parameters for `GET /api/kindomMember`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]

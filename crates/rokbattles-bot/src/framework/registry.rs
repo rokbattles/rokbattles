@@ -18,9 +18,7 @@ impl CommandRegistry {
     /// Create an empty registry.
     #[must_use]
     pub fn new() -> Self {
-        Self {
-            commands: HashMap::new(),
-        }
+        Self { commands: HashMap::new() }
     }
 
     /// Register or replace a command by its lowercase command name.
@@ -34,15 +32,10 @@ impl CommandRegistry {
         http: Arc<HttpClient>,
         application_id: Id<ApplicationMarker>,
     ) -> Result<()> {
-        let discord_commands = self
-            .commands
-            .values()
-            .map(Command::to_discord_command)
-            .collect::<Vec<_>>();
+        let discord_commands =
+            self.commands.values().map(Command::to_discord_command).collect::<Vec<_>>();
 
-        http.interaction(application_id)
-            .set_global_commands(&discord_commands)
-            .await?;
+        http.interaction(application_id).set_global_commands(&discord_commands).await?;
 
         Ok(())
     }

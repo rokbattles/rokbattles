@@ -21,16 +21,12 @@ enum SectionData {
 impl Section {
     /// Create an empty section.
     pub fn new() -> Self {
-        Self {
-            data: SectionData::Object(BTreeMap::new()),
-        }
+        Self { data: SectionData::Object(BTreeMap::new()) }
     }
 
     /// Create a section backed by an array payload.
     pub fn from_array(values: Vec<Value>) -> Self {
-        Self {
-            data: SectionData::Array(values),
-        }
+        Self { data: SectionData::Array(values) }
     }
 
     /// Insert a value into the section object.
@@ -93,9 +89,7 @@ pub struct ProcessedMail {
 impl ProcessedMail {
     /// Create an empty processed mail object.
     pub fn new() -> Self {
-        Self {
-            sections: BTreeMap::new(),
-        }
+        Self { sections: BTreeMap::new() }
     }
 
     /// Insert a new section.
@@ -111,8 +105,9 @@ impl ProcessedMail {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde_json::json;
+
+    use super::*;
 
     #[test]
     fn section_serializes_as_field_map() {

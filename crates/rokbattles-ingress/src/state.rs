@@ -1,5 +1,4 @@
-use crate::config::Config;
-use crate::storage::Storage;
+use crate::{config::Config, storage::Storage};
 
 /// Shared application state for request handlers.
 #[derive(Clone)]

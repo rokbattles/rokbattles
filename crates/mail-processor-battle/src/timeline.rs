@@ -3,8 +3,10 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64};
 use serde_json::{Map, Value, json};
 
-use crate::content::{require_content, require_string_field, require_u64_field};
-use crate::player::parse_avatar;
+use crate::{
+    content::{require_content, require_string_field, require_u64_field},
+    player::parse_avatar,
+};
 
 /// Extracts timeline snapshots from Battle mail.
 #[derive(Debug, Default)]
@@ -27,9 +29,8 @@ impl Extractor for TimelineExtractor {
         let start_timestamp = require_u64_field(content, "Bts")?;
         let end_timestamp = require_u64_field(content, "Ets")?;
         let start_tick = require_u64_field(content, "Btk")?;
-        let samples_value = content
-            .get("Samples")
-            .ok_or(ExtractError::MissingField { field: "Samples" })?;
+        let samples_value =
+            content.get("Samples").ok_or(ExtractError::MissingField { field: "Samples" })?;
         let samples = indexed_array_values(samples_value, "Samples")?;
 
         let mut entries = Vec::with_capacity(samples.len());
@@ -49,10 +50,9 @@ impl Extractor for TimelineExtractor {
         };
         let mut event_entries = Vec::with_capacity(events.len());
         for event in events {
-            let event_map = event.as_object().ok_or(ExtractError::InvalidFieldType {
-                field: "Events",
-                expected: "object",
-            })?;
+            let event_map = event
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field: "Events", expected: "object" })?;
             let tick = require_u64(event, "T")?;
             let event_type = require_u64(event, "Et")?;
             let assist_units = match event_map.get("AssistUnits") {
@@ -107,9 +107,7 @@ fn require_signed_id_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<i64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     if let Some(id) = value.as_i64() {
         return Ok(id);
     }
@@ -119,10 +117,7 @@ fn require_signed_id_field(
             expected: "signed 64-bit integer",
         });
     }
-    Err(ExtractError::InvalidFieldType {
-        field,
-        expected: "integer",
-    })
+    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 /// Read an optional unsigned integer field from a JSON object.
@@ -135,20 +130,18 @@ fn optional_u64_field(
         Some(value) => value
             .as_u64()
             .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn timeline_extractor_reads_samples() {

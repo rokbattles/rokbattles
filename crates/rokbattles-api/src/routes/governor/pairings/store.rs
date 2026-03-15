@@ -1,13 +1,16 @@
 use std::sync::Arc;
 
-use mongodb::bson::{Document, doc};
-use mongodb::options::FindOptions;
+use mongodb::{
+    bson::{Document, doc},
+    options::FindOptions,
+};
 
-use crate::error::ApiError;
-use crate::routes::governor::date_range::GovernorDateRange;
-use crate::routes::governor::store_utils::fetch_collection_documents;
-use crate::state::AppState;
-use crate::time_utils::build_mail_time_match;
+use crate::{
+    error::ApiError,
+    routes::governor::{date_range::GovernorDateRange, store_utils::fetch_collection_documents},
+    state::AppState,
+    time_utils::build_mail_time_match,
+};
 
 pub(crate) async fn fetch_pairings_mails(
     state: &Arc<AppState>,

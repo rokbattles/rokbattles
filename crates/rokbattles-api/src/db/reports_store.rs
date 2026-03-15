@@ -1,9 +1,10 @@
 //! MongoDB collection helpers for report routes and bind refresh.
 
-use mongodb::Collection;
-use mongodb::IndexModel;
-use mongodb::bson::{Document, doc};
-use mongodb::options::IndexOptions;
+use mongodb::{
+    Collection, IndexModel,
+    bson::{Document, doc},
+    options::IndexOptions,
+};
 
 /// Typed access to the Mongo collections used by the API.
 #[derive(Debug, Clone)]
@@ -110,9 +111,7 @@ impl ReportsStore {
         ];
 
         for model in ark_battle_results_models {
-            self.mails_alliance_aoobattleresults
-                .create_index(model)
-                .await?;
+            self.mails_alliance_aoobattleresults.create_index(model).await?;
         }
 
         let ark_secondary_models = vec![
@@ -122,14 +121,10 @@ impl ReportsStore {
         ];
 
         for model in ark_secondary_models.clone() {
-            self.mails_alliance_aoobattleinfo
-                .create_index(model)
-                .await?;
+            self.mails_alliance_aoobattleinfo.create_index(model).await?;
         }
         for model in ark_secondary_models {
-            self.mails_alliance_aooindividualresults
-                .create_index(model)
-                .await?;
+            self.mails_alliance_aooindividualresults.create_index(model).await?;
         }
 
         let barbarian_fort_models = vec![
@@ -170,12 +165,8 @@ impl ReportsStore {
                 .keys(doc! { "governorId": 1 })
                 .options(IndexOptions::builder().unique(true).build())
                 .build(),
-            IndexModel::builder()
-                .keys(doc! { "discordId": 1, "governorId": 1 })
-                .build(),
-            IndexModel::builder()
-                .keys(doc! { "discordId": 1, "createdAt": -1 })
-                .build(),
+            IndexModel::builder().keys(doc! { "discordId": 1, "governorId": 1 }).build(),
+            IndexModel::builder().keys(doc! { "discordId": 1, "createdAt": -1 }).build(),
             IndexModel::builder()
                 .keys(doc! { "discordId": 1, "default": -1, "createdAt": -1 })
                 .build(),

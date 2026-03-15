@@ -1,6 +1,7 @@
+use std::time::Duration;
+
 use reqwest::multipart::{Form, Part};
 use serde::Deserialize;
-use std::time::Duration;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum UploadStatus {
@@ -51,16 +52,11 @@ pub(crate) async fn post_file_to_api(
         })?;
     let form = Form::new().part("file", part);
 
-    let resp = client
-        .post(api_url)
-        .multipart(form)
-        .send()
-        .await
-        .map_err(|e| UploadApiError {
-            status: None,
-            retry_after: None,
-            message: format!("failed to send mail to API: {e}"),
-        })?;
+    let resp = client.post(api_url).multipart(form).send().await.map_err(|e| UploadApiError {
+        status: None,
+        retry_after: None,
+        message: format!("failed to send mail to API: {e}"),
+    })?;
 
     let status = resp.status();
     if !status.is_success() {
@@ -131,12 +127,8 @@ mod tests {
     #[test]
     fn retryable_statuses_include_rate_limit_and_server_errors() {
         assert!(is_retryable_status(None));
-        assert!(is_retryable_status(Some(
-            reqwest::StatusCode::TOO_MANY_REQUESTS
-        )));
-        assert!(is_retryable_status(Some(
-            reqwest::StatusCode::INTERNAL_SERVER_ERROR
-        )));
+        assert!(is_retryable_status(Some(reqwest::StatusCode::TOO_MANY_REQUESTS)));
+        assert!(is_retryable_status(Some(reqwest::StatusCode::INTERNAL_SERVER_ERROR)));
         assert!(!is_retryable_status(Some(reqwest::StatusCode::BAD_REQUEST)));
     }
 }

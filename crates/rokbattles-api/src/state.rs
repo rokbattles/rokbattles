@@ -27,11 +27,6 @@ impl AppState {
         cron_secret: String,
         discord_oauth: DiscordOAuthConfig,
     ) -> Self {
-        Self {
-            auth_store,
-            reports_store,
-            cron_secret,
-            discord_oauth,
-        }
+        Self { auth_store, reports_store, cron_secret, discord_oauth }
     }
 }

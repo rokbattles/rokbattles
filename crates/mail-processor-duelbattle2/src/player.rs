@@ -1,9 +1,6 @@
 //! Shared player extraction helpers for DuelBattle2 sections.
 
-use mail_processor_sdk::ExtractError;
-use mail_processor_sdk::Section;
-use mail_processor_sdk::indexed_array_values;
-use mail_processor_sdk::require_object;
+use mail_processor_sdk::{ExtractError, Section, indexed_array_values, require_object};
 use serde_json::{Map, Value, json};
 
 /// Locate a player object under the specified parent field.
@@ -42,17 +39,14 @@ pub(crate) fn extract_player_buffs(
     player: &Map<String, Value>,
 ) -> Result<Vec<Value>, ExtractError> {
     let heroes = require_child_object(player, "Heroes")?;
-    let buffs_value = heroes
-        .get("Buffs")
-        .ok_or(ExtractError::MissingField { field: "Buffs" })?;
+    let buffs_value = heroes.get("Buffs").ok_or(ExtractError::MissingField { field: "Buffs" })?;
     let buffs = indexed_array_values(buffs_value, "Buffs")?;
 
     let mut entries = Vec::with_capacity(buffs.len());
     for buff in buffs {
-        let buff = buff.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "Buffs",
-            expected: "object",
-        })?;
+        let buff = buff
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "Buffs", expected: "object" })?;
         let buff_id = require_u64_field(buff, "BuffId")?;
         let buff_value = require_number_field(buff, "BuffValue")?;
         entries.push(json!({ "id": buff_id, "value": buff_value }));
@@ -65,67 +59,44 @@ pub(crate) fn require_child_object<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
 ) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "object",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
 }
 
 pub(crate) fn require_string_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<String, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     value
         .as_str()
         .map(str::to_owned)
-        .ok_or(ExtractError::InvalidFieldType {
-            field,
-            expected: "string",
-        })
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "string" })
 }
 
 pub(crate) fn require_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<u64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
 pub(crate) fn require_number_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<Value, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     if value.is_number() {
         Ok(value.clone())
     } else {
-        Err(ExtractError::InvalidFieldType {
-            field,
-            expected: "number",
-        })
+        Err(ExtractError::InvalidFieldType { field, expected: "number" })
     }
 }
 
 fn parse_player_avatar(object: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
-    let value = object
-        .get("PlayerAvatar")
-        .ok_or(ExtractError::MissingField {
-            field: "PlayerAvatar",
-        })?;
+    let value =
+        object.get("PlayerAvatar").ok_or(ExtractError::MissingField { field: "PlayerAvatar" })?;
 
     match value {
         Value::String(url) => match serde_json::from_str::<Value>(url) {
@@ -145,22 +116,14 @@ pub(crate) fn require_bool_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<bool, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_bool().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "boolean",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_bool().ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
 }
 
 fn extract_avatar_fields(map: &Map<String, Value>) -> (Value, Value) {
     let avatar_url = map.get("avatar").cloned().unwrap_or(Value::Null);
     let frame_url = map.get("avatarFrame").cloned().unwrap_or(Value::Null);
-    (
-        normalize_avatar_value(avatar_url),
-        normalize_avatar_value(frame_url),
-    )
+    (normalize_avatar_value(avatar_url), normalize_avatar_value(frame_url))
 }
 
 fn normalize_avatar_value(value: Value) -> Value {
@@ -172,10 +135,11 @@ fn normalize_avatar_value(value: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     fn avatar_pair(input: Value) -> (Value, Value) {
         let object = input.as_object().expect("object");
@@ -239,10 +203,7 @@ mod tests {
         let buffs = extract_player_buffs(player).unwrap();
         assert_eq!(
             buffs,
-            vec![
-                json!({ "id": 10, "value": 1.25 }),
-                json!({ "id": 11, "value": 2 })
-            ]
+            vec![json!({ "id": 10, "value": 1.25 }), json!({ "id": 11, "value": 2 })]
         );
     }
 

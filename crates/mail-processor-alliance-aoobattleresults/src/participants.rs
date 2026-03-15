@@ -23,17 +23,15 @@ impl Extractor for ParticipantsExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let kvs = require_body_kvs(input)?;
-        let ply_ranks = kvs
-            .get("plyRanks")
-            .ok_or(ExtractError::MissingField { field: "plyRanks" })?;
+        let ply_ranks =
+            kvs.get("plyRanks").ok_or(ExtractError::MissingField { field: "plyRanks" })?;
         let ply_ranks = indexed_array_values(ply_ranks, "plyRanks")?;
 
         let mut participants = Vec::with_capacity(ply_ranks.len());
         for entry in ply_ranks {
-            let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-                field: "plyRanks",
-                expected: "object",
-            })?;
+            let entry = entry
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field: "plyRanks", expected: "object" })?;
 
             let player_name = require_string_field(entry, "Name")?;
             let individual_points = require_number_field(entry, "Score")?;
@@ -58,11 +56,12 @@ impl Extractor for ParticipantsExtractor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn participants_extractor_reads_fields() {

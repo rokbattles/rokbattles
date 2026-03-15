@@ -1,5 +1,6 @@
-use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 use serde::{Deserialize, Serialize};
+
+use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 
 /// Response envelope for `GET /api/kindomInformation`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -54,10 +55,7 @@ pub struct KingdomInformationData {
     pub dt: String,
     #[serde(rename = "kvkCnt", deserialize_with = "de_u64_from_string_or_int")]
     pub kvk_cnt: u64,
-    #[serde(
-        rename = "kvkKillScore",
-        deserialize_with = "de_u64_from_string_or_int"
-    )]
+    #[serde(rename = "kvkKillScore", deserialize_with = "de_u64_from_string_or_int")]
     pub kvk_kill_score: u64,
 }
 

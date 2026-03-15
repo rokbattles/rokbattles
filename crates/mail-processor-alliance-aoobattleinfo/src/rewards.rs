@@ -23,19 +23,15 @@ impl Extractor for RewardsExtractor {
         let attachments = input
             .as_object()
             .and_then(|root| root.get("attachments"))
-            .ok_or(ExtractError::MissingField {
-                field: "attachments",
-            })?;
+            .ok_or(ExtractError::MissingField { field: "attachments" })?;
         let attachments = indexed_array_values(attachments, "attachments")?;
 
         let mut rewards = Vec::new();
         for attachment in attachments {
-            let attachment = attachment
-                .as_object()
-                .ok_or(ExtractError::InvalidFieldType {
-                    field: "attachments",
-                    expected: "object",
-                })?;
+            let attachment = attachment.as_object().ok_or(ExtractError::InvalidFieldType {
+                field: "attachments",
+                expected: "object",
+            })?;
             extract_rewards(attachment, &mut rewards)?;
         }
 
@@ -47,16 +43,13 @@ fn extract_rewards(
     attachment: &Map<String, Value>,
     rewards: &mut Vec<Value>,
 ) -> Result<(), ExtractError> {
-    let loot = attachment
-        .get("loot")
-        .ok_or(ExtractError::MissingField { field: "loot" })?;
+    let loot = attachment.get("loot").ok_or(ExtractError::MissingField { field: "loot" })?;
     let loot = indexed_array_values(loot, "loot")?;
 
     for entry in loot {
-        let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "loot",
-            expected: "object",
-        })?;
+        let entry = entry
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "loot", expected: "object" })?;
         let reward_type = require_u64_field(entry, "Type")?;
         let sub_type = require_u64_field(entry, "SubType")?;
         let value = require_u64_field(entry, "Value")?;
@@ -75,22 +68,18 @@ fn require_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<u64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn rewards_extractor_reads_fields() {
@@ -156,12 +145,7 @@ mod tests {
         let input = json!({ "id": "mail-1" });
         let extractor = RewardsExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField {
-                field: "attachments"
-            }
-        ));
+        assert!(matches!(err, ExtractError::MissingField { field: "attachments" }));
     }
 
     #[test]

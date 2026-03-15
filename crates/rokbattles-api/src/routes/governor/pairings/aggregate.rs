@@ -2,14 +2,20 @@ use std::collections::{BTreeSet, HashMap};
 
 use mongodb::bson::{Bson, Document};
 
-use crate::bson_utils::{nested_array, nested_f64, nested_i64, nested_str};
-use crate::routes::governor::date_range::GovernorDateRange;
-use crate::routes::governor::pairings::query::{LoadoutGranularity, OpponentGranularity};
-use crate::routes::governor::pairings::types::{
-    EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
-    PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
+use crate::{
+    bson_utils::{nested_array, nested_f64, nested_i64, nested_str},
+    routes::governor::{
+        date_range::GovernorDateRange,
+        pairings::{
+            query::{LoadoutGranularity, OpponentGranularity},
+            types::{
+                EquipmentToken, LoadoutArmament, LoadoutSnapshot, PairingAggregateResponse,
+                PairingLoadoutAggregateResponse, PairingOpponentAggregateResponse, PairingTotals,
+            },
+        },
+    },
+    time_utils::{normalize_bson_timestamp_millis, normalize_timestamp_millis},
 };
-use crate::time_utils::{normalize_bson_timestamp_millis, normalize_timestamp_millis};
 
 #[derive(Debug, Clone)]
 struct PairingEntry {
@@ -49,25 +55,16 @@ pub(crate) fn aggregate_pairings(
                 return;
             }
 
-            let key = (
-                entry.self_primary_commander_id,
-                entry.self_secondary_commander_id,
-            );
-            let bucket = buckets
-                .entry(key)
-                .or_insert_with(|| PairingAggregateResponse {
-                    primary_commander_id: entry.self_primary_commander_id,
-                    secondary_commander_id: entry.self_secondary_commander_id,
-                    count: 0,
-                    totals: PairingTotals::default(),
-                });
+            let key = (entry.self_primary_commander_id, entry.self_secondary_commander_id);
+            let bucket = buckets.entry(key).or_insert_with(|| PairingAggregateResponse {
+                primary_commander_id: entry.self_primary_commander_id,
+                secondary_commander_id: entry.self_secondary_commander_id,
+                count: 0,
+                totals: PairingTotals::default(),
+            });
 
             bucket.count += 1;
-            apply_battle_delta(
-                &mut bucket.totals,
-                entry.delta,
-                entry.battle_duration_millis,
-            );
+            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
         });
     }
 
@@ -101,21 +98,15 @@ pub(crate) fn aggregate_loadouts(
             }
 
             let bucket =
-                buckets
-                    .entry(key.clone())
-                    .or_insert_with(|| PairingLoadoutAggregateResponse {
-                        key: key.clone(),
-                        count: 0,
-                        totals: PairingTotals::default(),
-                        loadout: loadout.clone(),
-                    });
+                buckets.entry(key.clone()).or_insert_with(|| PairingLoadoutAggregateResponse {
+                    key: key.clone(),
+                    count: 0,
+                    totals: PairingTotals::default(),
+                    loadout: loadout.clone(),
+                });
 
             bucket.count += 1;
-            apply_battle_delta(
-                &mut bucket.totals,
-                entry.delta,
-                entry.battle_duration_millis,
-            );
+            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
         });
     }
 
@@ -161,24 +152,15 @@ pub(crate) fn aggregate_opponents(
             }
 
             found_matching_entry = true;
-            let key = (
-                entry.enemy_primary_commander_id,
-                entry.enemy_secondary_commander_id,
-            );
-            let bucket = buckets
-                .entry(key)
-                .or_insert_with(|| PairingOpponentAggregateResponse {
-                    enemy_primary_commander_id: entry.enemy_primary_commander_id,
-                    enemy_secondary_commander_id: entry.enemy_secondary_commander_id,
-                    count: 0,
-                    totals: PairingTotals::default(),
-                });
+            let key = (entry.enemy_primary_commander_id, entry.enemy_secondary_commander_id);
+            let bucket = buckets.entry(key).or_insert_with(|| PairingOpponentAggregateResponse {
+                enemy_primary_commander_id: entry.enemy_primary_commander_id,
+                enemy_secondary_commander_id: entry.enemy_secondary_commander_id,
+                count: 0,
+                totals: PairingTotals::default(),
+            });
             bucket.count += 1;
-            apply_battle_delta(
-                &mut bucket.totals,
-                entry.delta,
-                entry.battle_duration_millis,
-            );
+            apply_battle_delta(&mut bucket.totals, entry.delta, entry.battle_duration_millis);
         });
 
         if !found_matching_entry {
@@ -274,11 +256,8 @@ fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
             &["battle_results", "opponent", "severely_wounded"],
         )
         .unwrap_or_default(),
-        enemy_wounded: nested_i64(
-            opponent,
-            &["battle_results", "opponent", "slightly_wounded"],
-        )
-        .unwrap_or_default(),
+        enemy_wounded: nested_i64(opponent, &["battle_results", "opponent", "slightly_wounded"])
+            .unwrap_or_default(),
     }
 }
 
@@ -298,10 +277,8 @@ fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, batt
 }
 
 fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> LoadoutSnapshot {
-    let equipment = parse_equipment(nested_str(
-        mail,
-        &["sender", "commanders", "primary", "equipment"],
-    ));
+    let equipment =
+        parse_equipment(nested_str(mail, &["sender", "commanders", "primary", "equipment"]));
     let formation = nested_i64(mail, &["sender", "commanders", "primary", "formation"])
         .and_then(|value| (value > 0).then_some(value));
 
@@ -312,10 +289,8 @@ fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> L
         ["sender", "commanders", "primary", "armaments"],
         ["sender", "commanders", "secondary", "armaments"],
     ] {
-        let armaments = nested_array(mail, &commander_path)
-            .into_iter()
-            .flatten()
-            .filter_map(Bson::as_document);
+        let armaments =
+            nested_array(mail, &commander_path).into_iter().flatten().filter_map(Bson::as_document);
 
         for armament in armaments {
             if let Some(affix) = nested_str(armament, &["affix"]) {
@@ -350,10 +325,7 @@ fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> L
             equipment,
             armaments: armament_pairs
                 .into_iter()
-                .map(|(id, value)| LoadoutArmament {
-                    id,
-                    value: Some(value),
-                })
+                .map(|(id, value)| LoadoutArmament { id, value: Some(value) })
                 .collect::<Vec<_>>(),
             inscriptions,
             formation,
@@ -384,22 +356,13 @@ fn parse_equipment(raw: Option<&str>) -> Vec<EquipmentToken> {
             let mut parts = token.split(':');
             let slot = parts.next()?.trim().parse::<i64>().ok()?;
             let id_craft = parts.next().unwrap_or_default().trim();
-            let attr = parts
-                .next()
-                .and_then(|value| value.trim().parse::<i64>().ok());
+            let attr = parts.next().and_then(|value| value.trim().parse::<i64>().ok());
 
             let mut id_parts = id_craft.split('_');
             let id = id_parts.next()?.trim().parse::<i64>().ok()?;
-            let craft = id_parts
-                .next()
-                .and_then(|value| value.trim().parse::<i64>().ok());
+            let craft = id_parts.next().and_then(|value| value.trim().parse::<i64>().ok());
 
-            Some(EquipmentToken {
-                slot,
-                id,
-                craft,
-                attr,
-            })
+            Some(EquipmentToken { slot, id, craft, attr })
         })
         .collect::<Vec<_>>();
 
@@ -425,10 +388,7 @@ fn normalize_equipment_attr(attr: i64) -> i64 {
 }
 
 fn parse_affix_ids(raw: &str) -> Vec<i64> {
-    parse_signed_numbers(raw)
-        .into_iter()
-        .filter(|id| *id > 0)
-        .collect::<Vec<_>>()
+    parse_signed_numbers(raw).into_iter().filter(|id| *id > 0).collect::<Vec<_>>()
 }
 
 fn parse_signed_numbers(raw: &str) -> Vec<i64> {
@@ -463,10 +423,8 @@ fn parse_buff_pairs(raw: &str) -> Vec<(i64, f64)> {
         .map(str::trim)
         .filter(|token| !token.is_empty())
         .filter_map(|token| {
-            let parts = token
-                .split(|ch| ['_', ':'].contains(&ch))
-                .map(str::trim)
-                .collect::<Vec<_>>();
+            let parts =
+                token.split(|ch| ['_', ':'].contains(&ch)).map(str::trim).collect::<Vec<_>>();
             if parts.len() < 2 {
                 return None;
             }
@@ -479,16 +437,10 @@ fn parse_buff_pairs(raw: &str) -> Vec<(i64, f64)> {
 }
 
 pub(crate) fn build_loadout_key(snapshot: &LoadoutSnapshot) -> String {
-    let inscriptions = snapshot
-        .inscriptions
-        .iter()
-        .map(ToString::to_string)
-        .collect::<Vec<_>>()
-        .join("|");
-    let formation = snapshot
-        .formation
-        .map(|value| value.to_string())
-        .unwrap_or_else(|| "none".to_string());
+    let inscriptions =
+        snapshot.inscriptions.iter().map(ToString::to_string).collect::<Vec<_>>().join("|");
+    let formation =
+        snapshot.formation.map(|value| value.to_string()).unwrap_or_else(|| "none".to_string());
 
     [
         format!("eq:{}", serialize_equipment(&snapshot.equipment)),
@@ -524,10 +476,7 @@ fn serialize_armaments(armaments: &[LoadoutArmament]) -> String {
 
 fn format_armament_value(value: f64) -> String {
     let rounded = (value * 1_000_000.0).round() / 1_000_000.0;
-    format!("{rounded:.6}")
-        .trim_end_matches('0')
-        .trim_end_matches('.')
-        .to_string()
+    format!("{rounded:.6}").trim_end_matches('0').trim_end_matches('.').to_string()
 }
 
 fn sort_by_kill_score_then_count<T>(items: &mut [T], lookup: impl Fn(&T) -> (&PairingTotals, i64)) {
@@ -630,13 +579,8 @@ mod tests {
         let mail_two = build_test_mail("{1:100_2:29}", "1000_9;1001_3");
         let mails = vec![mail_one, mail_two];
 
-        let simplified = aggregate_loadouts(
-            &mails,
-            &test_range(),
-            100,
-            200,
-            LoadoutGranularity::Simplified,
-        );
+        let simplified =
+            aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Simplified);
         let exact = aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Exact);
 
         assert_eq!(simplified.len(), 1);
@@ -645,48 +589,27 @@ mod tests {
 
     #[test]
     fn aggregate_loadouts_parses_decimal_armament_buff_values() {
-        let mails = vec![build_test_mail(
-            "{1:100_2:21}",
-            "3001_0.026000;4001_0.015000;5001_0.022000",
-        )];
+        let mails =
+            vec![build_test_mail("{1:100_2:21}", "3001_0.026000;4001_0.015000;5001_0.022000")];
 
-        let simplified = aggregate_loadouts(
-            &mails,
-            &test_range(),
-            100,
-            200,
-            LoadoutGranularity::Simplified,
-        );
+        let simplified =
+            aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Simplified);
         let exact = aggregate_loadouts(&mails, &test_range(), 100, 200, LoadoutGranularity::Exact);
 
         assert_eq!(simplified.len(), 1);
         assert_eq!(exact.len(), 1);
 
         assert!(!simplified[0].loadout.armaments.is_empty());
-        assert!(
-            simplified[0]
-                .loadout
-                .armaments
-                .iter()
-                .all(|armament| armament.value.is_none())
-        );
-        assert!(
-            exact[0]
-                .loadout
-                .armaments
-                .iter()
-                .any(|armament| armament.value.is_some())
-        );
+        assert!(simplified[0].loadout.armaments.iter().all(|armament| armament.value.is_none()));
+        assert!(exact[0].loadout.armaments.iter().any(|armament| armament.value.is_some()));
     }
 
     #[test]
     fn aggregate_opponents_filters_by_loadout_key() {
         let target_mail = build_test_mail("{1:100_2:25}", "1000_2;1001_3");
         let other_mail = build_test_mail("{1:100_2:30}", "1000_2;1001_3");
-        let loadout_key = build_loadout_key(&build_loadout_snapshot(
-            &target_mail,
-            LoadoutGranularity::Exact,
-        ));
+        let loadout_key =
+            build_loadout_key(&build_loadout_snapshot(&target_mail, LoadoutGranularity::Exact));
 
         let items = aggregate_opponents(
             &[target_mail, other_mail],

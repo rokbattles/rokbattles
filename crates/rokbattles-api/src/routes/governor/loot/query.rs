@@ -1,8 +1,9 @@
 use std::collections::HashMap;
 
-use crate::error::ApiError;
-use crate::routes::governor::common::parse_default_governor_date_range;
-use crate::routes::governor::date_range::GovernorDateRange;
+use crate::{
+    error::ApiError,
+    routes::governor::{common::parse_default_governor_date_range, date_range::GovernorDateRange},
+};
 
 #[derive(Debug, Clone)]
 pub(crate) struct LootRequest {

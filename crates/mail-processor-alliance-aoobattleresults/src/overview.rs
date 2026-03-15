@@ -53,10 +53,7 @@ fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Val
         Some(ply_score) => {
             let ply_score = ply_score
                 .as_object()
-                .ok_or(ExtractError::InvalidFieldType {
-                    field: "PlyScore",
-                    expected: "object",
-                })?;
+                .ok_or(ExtractError::InvalidFieldType { field: "PlyScore", expected: "object" })?;
             let player_id = require_u64_field(ply_score, "PlyId")?;
             let player_name = require_string_field(ply_score, "Name")?;
             let score = require_number_field(ply_score, "Score")?;
@@ -77,11 +74,12 @@ fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Val
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn overview_extractor_reads_fields() {
@@ -172,12 +170,7 @@ mod tests {
 
         let extractor = OverviewExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField {
-                field: "maxBuildingScore"
-            }
-        ));
+        assert!(matches!(err, ExtractError::MissingField { field: "maxBuildingScore" }));
     }
 
     #[test]
@@ -220,10 +213,7 @@ mod tests {
 
         assert_eq!(fields["flag_score"]["alliance_score"], json!(4000));
         assert_eq!(fields["flag_score"]["mvp"]["player_id"], json!(47043938));
-        assert_eq!(
-            fields["building_score"]["mvp"]["player_name"],
-            json!("Hellcheppapewж")
-        );
+        assert_eq!(fields["building_score"]["mvp"]["player_name"], json!("Hellcheppapewж"));
         assert_eq!(fields["be_killed_score"]["alliance_score"], json!(79403565));
         assert_eq!(fields["gather_score"]["mvp"]["score"], json!(92.34));
         assert_eq!(fields["healing_score"]["mvp"]["score"], json!(0));

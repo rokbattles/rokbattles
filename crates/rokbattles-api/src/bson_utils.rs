@@ -70,12 +70,10 @@ pub(crate) fn nested_bool(document: &Document, path: &[&str]) -> Option<bool> {
         nested_document(document, &path[..path.len() - 1])
     }?;
 
-    parent
-        .get(path[path.len() - 1])
-        .and_then(|value| match value {
-            Bson::Boolean(value) => Some(*value),
-            _ => None,
-        })
+    parent.get(path[path.len() - 1]).and_then(|value| match value {
+        Bson::Boolean(value) => Some(*value),
+        _ => None,
+    })
 }
 
 /// Read a nested value as a string slice.
@@ -110,9 +108,7 @@ pub(crate) fn nested_array<'a>(document: &'a Document, path: &[&str]) -> Option<
         nested_document(document, &path[..path.len() - 1])
     }?;
 
-    parent
-        .get(path[path.len() - 1])
-        .and_then(mongodb::bson::Bson::as_array)
+    parent.get(path[path.len() - 1]).and_then(mongodb::bson::Bson::as_array)
 }
 
 /// Convert known BSON number types to `i64`.
@@ -182,11 +178,7 @@ pub(crate) fn bson_to_f64(value: &Bson) -> Option<f64> {
 /// Convert BSON values to `f64`, accepting numeric strings as well.
 pub(crate) fn bson_to_f64_loose(value: &Bson) -> Option<f64> {
     bson_to_f64(value).or_else(|| match value {
-        Bson::String(raw) => raw
-            .trim()
-            .parse::<f64>()
-            .ok()
-            .filter(|parsed| parsed.is_finite()),
+        Bson::String(raw) => raw.trim().parse::<f64>().ok().filter(|parsed| parsed.is_finite()),
         _ => None,
     })
 }
@@ -209,14 +201,8 @@ mod tests {
         };
 
         assert_eq!(nested_i64(&document, &["outer", "inner", "int"]), Some(10));
-        assert_eq!(
-            nested_i64(&document, &["outer", "inner", "float"]),
-            Some(20)
-        );
-        assert_eq!(
-            nested_i64_exact(&document, &["outer", "inner", "float"]),
-            None
-        );
+        assert_eq!(nested_i64(&document, &["outer", "inner", "float"]), Some(20));
+        assert_eq!(nested_i64_exact(&document, &["outer", "inner", "float"]), None);
     }
 
     #[test]
@@ -233,14 +219,8 @@ mod tests {
         assert_eq!(bson_to_f64(&Bson::Double(56.8)), Some(56.8));
         assert_eq!(bson_to_f64(&Bson::Double(f64::NAN)), None);
 
-        assert_eq!(
-            bson_to_i64_loose(&Bson::String(" 56 ".to_string())),
-            Some(56)
-        );
-        assert_eq!(
-            bson_to_f64_loose(&Bson::String(" 56.8 ".to_string())),
-            Some(56.8)
-        );
+        assert_eq!(bson_to_i64_loose(&Bson::String(" 56 ".to_string())), Some(56));
+        assert_eq!(bson_to_f64_loose(&Bson::String(" 56.8 ".to_string())), Some(56.8));
         assert_eq!(bson_to_f64_loose(&Bson::String("nan".to_string())), None);
     }
 }

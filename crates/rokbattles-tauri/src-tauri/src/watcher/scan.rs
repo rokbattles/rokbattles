@@ -1,5 +1,3 @@
-use anyhow::Context;
-use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
 use std::{
     collections::HashSet,
     fs,
@@ -7,12 +5,17 @@ use std::{
     path::PathBuf,
     time::{Duration, Instant},
 };
+
+use anyhow::Context;
+use notify::{RecommendedWatcher, RecursiveMode, Watcher as _};
 use tauri::AppHandle;
 
-use super::emit_log;
-use super::mail::parse_rok_mail_id;
-use super::state::WatcherState;
-use super::store::{QueuedUpload, file_sig};
+use super::{
+    emit_log,
+    mail::parse_rok_mail_id,
+    state::WatcherState,
+    store::{QueuedUpload, file_sig},
+};
 
 #[derive(Debug, Clone)]
 pub(crate) struct DirScan {
@@ -51,20 +54,13 @@ impl DirScan {
         dir_refresh_interval_idle: Duration,
         dir_refresh_interval_busy: Duration,
     ) -> bool {
-        let interval = if self.cursor == 0 {
-            dir_refresh_interval_idle
-        } else {
-            dir_refresh_interval_busy
-        };
+        let interval =
+            if self.cursor == 0 { dir_refresh_interval_idle } else { dir_refresh_interval_busy };
         self.ids.is_empty() || self.last_refresh.elapsed() >= interval
     }
 
     fn peek_next_id(&self) -> Option<u128> {
-        if self.cursor == 0 {
-            None
-        } else {
-            Some(self.ids[self.cursor - 1])
-        }
+        if self.cursor == 0 { None } else { Some(self.ids[self.cursor - 1]) }
     }
 
     fn pop_next_id(&mut self) -> Option<u128> {
@@ -105,11 +101,7 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
             next_dirs
         };
     let needs_rebuild = state.scans.len() != next_dirs.len()
-        || state
-            .scans
-            .iter()
-            .zip(next_dirs.iter())
-            .any(|(scan, dir)| &scan.dir != dir);
+        || state.scans.iter().zip(next_dirs.iter()).any(|(scan, dir)| &scan.dir != dir);
 
     if needs_rebuild {
         state.scans = next_dirs
@@ -221,16 +213,10 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
                 refresh_count += 1;
             }
             Ok(Err(e)) => {
-                emit_log(
-                    app,
-                    format!("Directory scan failed for {:?}: {}", scan.dir, e),
-                );
+                emit_log(app, format!("Directory scan failed for {:?}: {}", scan.dir, e));
             }
             Err(e) => {
-                emit_log(
-                    app,
-                    format!("Directory scan task failed for {:?}: {}", scan.dir, e),
-                );
+                emit_log(app, format!("Directory scan task failed for {:?}: {}", scan.dir, e));
             }
         }
     }
@@ -345,10 +331,7 @@ pub(crate) async fn next_file(app: &AppHandle, state: &mut WatcherState) -> Opti
                 emit_log(app, format!("Header check failed for {:?}: {}", path, e));
             }
             Err(e) => {
-                emit_log(
-                    app,
-                    format!("Header check task failed for {:?}: {}", path, e),
-                );
+                emit_log(app, format!("Header check task failed for {:?}: {}", path, e));
             }
         }
     }
@@ -369,22 +352,14 @@ pub(crate) fn sync_fs_watches(
 
     let desired: HashSet<PathBuf> = desired_dirs.iter().cloned().collect();
 
-    for dir in watched_dirs
-        .difference(&desired)
-        .cloned()
-        .collect::<Vec<_>>()
-    {
+    for dir in watched_dirs.difference(&desired).cloned().collect::<Vec<_>>() {
         if let Err(e) = watcher.unwatch(&dir) {
             emit_log(app, format!("Failed to unwatch {:?}: {}", dir, e));
         }
         watched_dirs.remove(&dir);
     }
 
-    for dir in desired
-        .difference(watched_dirs)
-        .cloned()
-        .collect::<Vec<_>>()
-    {
+    for dir in desired.difference(watched_dirs).cloned().collect::<Vec<_>>() {
         if let Err(e) = watcher.watch(&dir, RecursiveMode::NonRecursive) {
             emit_log(app, format!("Failed to watch {:?}: {}", dir, e));
             continue;

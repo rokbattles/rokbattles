@@ -6,10 +6,10 @@ use std::{
 
 use tauri::AppHandle;
 
-use super::config::WatcherConfig;
-use super::emit_log;
-use super::store::{
-    ProcessedStore, QueuedUpload, UploadQueueStore, write_processed, write_upload_queue,
+use super::{
+    config::WatcherConfig,
+    emit_log,
+    store::{ProcessedStore, QueuedUpload, UploadQueueStore, write_processed, write_upload_queue},
 };
 
 pub(crate) struct WatcherState {
@@ -99,10 +99,8 @@ impl WatcherState {
         {
             return;
         }
-        let store = UploadQueueStore {
-            version: 1,
-            items: self.upload_queue.iter().cloned().collect(),
-        };
+        let store =
+            UploadQueueStore { version: 1, items: self.upload_queue.iter().cloned().collect() };
         if let Err(e) = write_upload_queue(app, &self.config, &store) {
             emit_log(app, format!("Failed to flush upload queue: {}", e));
             return;
@@ -195,24 +193,18 @@ impl WatcherState {
         let mut removed = 0usize;
 
         let old_queue_len = self.upload_queue.len();
-        self.upload_queue
-            .retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
+        self.upload_queue.retain(|item| path_belongs_to_any_active_dir(&item.path, active_dirs));
         let queue_removed = old_queue_len.saturating_sub(self.upload_queue.len());
         if queue_removed > 0 {
             removed = removed.saturating_add(queue_removed);
-            self.upload_queued_paths = self
-                .upload_queue
-                .iter()
-                .map(|item| item.path.clone())
-                .collect::<HashSet<_>>();
-            self.upload_queue_dirty_updates = self
-                .upload_queue_dirty_updates
-                .saturating_add(queue_removed);
+            self.upload_queued_paths =
+                self.upload_queue.iter().map(|item| item.path.clone()).collect::<HashSet<_>>();
+            self.upload_queue_dirty_updates =
+                self.upload_queue_dirty_updates.saturating_add(queue_removed);
         }
 
         let old_hot_len = self.hot_paths.len();
-        self.hot_paths
-            .retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
+        self.hot_paths.retain(|path| path_belongs_to_any_active_dir(path, active_dirs));
         let hot_removed = old_hot_len.saturating_sub(self.hot_paths.len());
         if hot_removed > 0 {
             removed = removed.saturating_add(hot_removed);
@@ -263,23 +255,14 @@ fn path_belongs_to_any_active_dir(path: &str, active_dirs: &[PathBuf]) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::super::store::FileSig;
-    use super::*;
+    use super::{super::store::FileSig, *};
 
     fn make_sig() -> FileSig {
-        FileSig {
-            size: 1,
-            modified: 2,
-        }
+        FileSig { size: 1, modified: 2 }
     }
 
     fn make_item(path: &str, not_before_ms: Option<u128>) -> QueuedUpload {
-        QueuedUpload {
-            path: path.to_string(),
-            sig: make_sig(),
-            attempts: 0,
-            not_before_ms,
-        }
+        QueuedUpload { path: path.to_string(), sig: make_sig(), attempts: 0, not_before_ms }
     }
 
     #[test]
@@ -347,47 +330,18 @@ mod tests {
         let active_dir = PathBuf::from("/active/mailcache");
         state.enqueue_upload(make_item("/active/mailcache/Persistent.Mail.1", None));
         state.enqueue_upload(make_item("/removed/mailcache/Persistent.Mail.2", None));
-        state
-            .hot_paths
-            .push_back("/active/mailcache/Persistent.Mail.1".to_string());
-        state
-            .hot_paths
-            .push_back("/removed/mailcache/Persistent.Mail.2".to_string());
-        state
-            .hot_set
-            .insert("/active/mailcache/Persistent.Mail.1".to_string());
-        state
-            .hot_set
-            .insert("/removed/mailcache/Persistent.Mail.2".to_string());
+        state.hot_paths.push_back("/active/mailcache/Persistent.Mail.1".to_string());
+        state.hot_paths.push_back("/removed/mailcache/Persistent.Mail.2".to_string());
+        state.hot_set.insert("/active/mailcache/Persistent.Mail.1".to_string());
+        state.hot_set.insert("/removed/mailcache/Persistent.Mail.2".to_string());
 
         let removed = state.prune_removed_dirs_state(&[active_dir]);
         assert!(removed >= 2);
         assert_eq!(state.upload_queue.len(), 1);
-        assert!(
-            state
-                .hot_paths
-                .iter()
-                .all(|path| path == "/active/mailcache/Persistent.Mail.1")
-        );
-        assert!(
-            state
-                .upload_queued_paths
-                .contains("/active/mailcache/Persistent.Mail.1")
-        );
-        assert!(
-            state
-                .hot_set
-                .contains("/active/mailcache/Persistent.Mail.1")
-        );
-        assert!(
-            !state
-                .upload_queued_paths
-                .contains("/removed/mailcache/Persistent.Mail.2")
-        );
-        assert!(
-            !state
-                .hot_set
-                .contains("/removed/mailcache/Persistent.Mail.2")
-        );
+        assert!(state.hot_paths.iter().all(|path| path == "/active/mailcache/Persistent.Mail.1"));
+        assert!(state.upload_queued_paths.contains("/active/mailcache/Persistent.Mail.1"));
+        assert!(state.hot_set.contains("/active/mailcache/Persistent.Mail.1"));
+        assert!(!state.upload_queued_paths.contains("/removed/mailcache/Persistent.Mail.2"));
+        assert!(!state.hot_set.contains("/removed/mailcache/Persistent.Mail.2"));
     }
 }

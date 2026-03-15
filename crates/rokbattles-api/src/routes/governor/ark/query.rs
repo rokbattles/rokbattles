@@ -27,10 +27,8 @@ pub(crate) fn parse_match_id(raw_match_id: &str) -> Result<String, ApiError> {
 }
 
 fn resolve_limit(value: Option<&str>) -> i64 {
-    let parsed = value
-        .map(str::trim)
-        .filter(|raw| !raw.is_empty())
-        .and_then(|raw| raw.parse::<f64>().ok());
+    let parsed =
+        value.map(str::trim).filter(|raw| !raw.is_empty()).and_then(|raw| raw.parse::<f64>().ok());
 
     let Some(parsed) = parsed else {
         return DEFAULT_LIMIT;
@@ -73,10 +71,7 @@ mod tests {
 
     #[test]
     fn parse_match_id_trims_and_rejects_empty_values() {
-        assert_eq!(
-            parse_match_id("  mail-123  ").expect("match id"),
-            "mail-123"
-        );
+        assert_eq!(parse_match_id("  mail-123  ").expect("match id"), "mail-123");
         assert!(parse_match_id("   ").is_err());
     }
 }

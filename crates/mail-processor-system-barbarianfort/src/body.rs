@@ -46,11 +46,12 @@ fn build_position(x: Value, y: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn body_extractor_reads_fields() {
@@ -97,10 +98,7 @@ mod tests {
         let extractor = BodyExtractor::new();
         let section = extractor.extract(&value).expect("extract sample");
         let fields = section.fields();
-        assert_eq!(
-            fields["pos"],
-            json!({ "x": 3867.797119140625, "y": 4096.7294921875 })
-        );
+        assert_eq!(fields["pos"], json!({ "x": 3867.797119140625, "y": 4096.7294921875 }));
         assert_eq!(fields["target_name"], json!("Level9"));
     }
 }

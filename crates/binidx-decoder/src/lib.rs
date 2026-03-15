@@ -107,19 +107,11 @@ pub fn parse_table(decoded: &[u8]) -> Result<StringTable, DecodeError> {
             }
         };
 
-        entries.push(StringEntry {
-            index: entries.len() + 1,
-            offset: length_offset,
-            value,
-        });
+        entries.push(StringEntry { index: entries.len() + 1, offset: length_offset, value });
         offset += length;
     }
 
-    Ok(StringTable {
-        header,
-        entries,
-        trailer: decoded[offset..].to_vec(),
-    })
+    Ok(StringTable { header, entries, trailer: decoded[offset..].to_vec() })
 }
 
 /// Build a key/value catalog by pairing decoded index/value tables by position.

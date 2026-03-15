@@ -1,6 +1,9 @@
-use serde::Deserializer;
-use serde::de::{self, Unexpected, Visitor};
 use std::fmt;
+
+use serde::{
+    Deserializer,
+    de::{self, Unexpected, Visitor},
+};
 
 pub(crate) fn de_u32_from_string_or_int<'de, D>(deserializer: D) -> Result<u32, D::Error>
 where
@@ -87,9 +90,7 @@ where
         where
             E: de::Error,
         {
-            value
-                .parse::<u64>()
-                .map_err(|_| E::invalid_value(Unexpected::Str(value), &self))
+            value.parse::<u64>().map_err(|_| E::invalid_value(Unexpected::Str(value), &self))
         }
 
         fn visit_string<E>(self, value: String) -> Result<Self::Value, E>

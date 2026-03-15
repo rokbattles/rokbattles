@@ -3,8 +3,10 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
 
-use crate::commander::extract_player_commanders;
-use crate::player::{extract_player_buffs, extract_player_section_from_map, locate_player};
+use crate::{
+    commander::extract_player_commanders,
+    player::{extract_player_buffs, extract_player_section_from_map, locate_player},
+};
 
 /// Extracts sender details from the attacking player data.
 #[derive(Debug, Default)]
@@ -36,11 +38,12 @@ impl Extractor for SenderExtractor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn sender_extractor_handles_string_avatar() {
@@ -85,10 +88,7 @@ mod tests {
         let fields = section.fields();
         assert_eq!(fields["player_id"], json!(100));
         assert_eq!(fields["player_name"], json!("Attacker"));
-        assert_eq!(
-            fields["avatar_url"],
-            json!("https://example.com/avatar.png")
-        );
+        assert_eq!(fields["avatar_url"], json!("https://example.com/avatar.png"));
         assert_eq!(fields["frame_url"], json!(null));
         assert_eq!(fields["alliance"], json!({ "abbreviation": "ATK" }));
         assert_eq!(fields["duel"], json!({ "team_id": 501 }));

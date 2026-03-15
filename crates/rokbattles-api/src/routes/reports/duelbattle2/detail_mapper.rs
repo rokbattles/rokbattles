@@ -201,16 +201,8 @@ mod tests {
     fn includes_required_fields_in_detail_projection() {
         let projection = build_duelbattle2_detail_projection();
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
-        assert_eq!(
-            projection.get_i32("sender.primary_commander.id").ok(),
-            Some(1)
-        );
-        assert_eq!(
-            projection
-                .get_i32("battle_results.opponent.kill_points")
-                .ok(),
-            Some(1)
-        );
+        assert_eq!(projection.get_i32("sender.primary_commander.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("battle_results.opponent.kill_points").ok(), Some(1));
     }
 
     #[test]

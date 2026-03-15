@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
-use crate::error::ApiError;
-use crate::routes::reports::common::query::parse_optional_i64;
+use crate::{error::ApiError, routes::reports::common::query::parse_optional_i64};
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct DuelBattle2Request {
@@ -18,23 +17,15 @@ impl DuelBattle2Request {
 pub(crate) fn parse_duelbattle2_request(
     params: &HashMap<String, String>,
 ) -> Result<DuelBattle2Request, ApiError> {
-    let before_cursor = parse_optional_i64(
-        params.get("before").map(String::as_str),
-        "Invalid before cursor",
-    )?;
+    let before_cursor =
+        parse_optional_i64(params.get("before").map(String::as_str), "Invalid before cursor")?;
     let after_cursor = if before_cursor.is_some() {
         None
     } else {
-        parse_optional_i64(
-            params.get("after").map(String::as_str),
-            "Invalid after cursor",
-        )?
+        parse_optional_i64(params.get("after").map(String::as_str), "Invalid after cursor")?
     };
 
-    Ok(DuelBattle2Request {
-        before_cursor,
-        after_cursor,
-    })
+    Ok(DuelBattle2Request { before_cursor, after_cursor })
 }
 
 #[cfg(test)]

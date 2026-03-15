@@ -54,11 +54,12 @@ fn value_as_u64(value: &Value) -> Option<u64> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn metadata_extractor_reads_fields() {

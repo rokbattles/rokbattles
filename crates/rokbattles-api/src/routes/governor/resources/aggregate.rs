@@ -2,14 +2,18 @@ use std::collections::HashMap;
 
 use mongodb::bson::Bson;
 
-use super::store::RssMailDocument;
-use super::types::{
-    ResourceDailyResponse, ResourceDailyValueByTypeResponse, ResourceTotalsByTypeResponse,
-    ResourceTotalsResponse,
+use super::{
+    store::RssMailDocument,
+    types::{
+        ResourceDailyResponse, ResourceDailyValueByTypeResponse, ResourceTotalsByTypeResponse,
+        ResourceTotalsResponse,
+    },
 };
-use crate::bson_utils::{bson_to_f64_loose, bson_to_i64_loose};
-use crate::routes::governor::date_range::GovernorDateRange;
-use crate::time_utils::{date_key_utc, normalize_bson_timestamp_millis};
+use crate::{
+    bson_utils::{bson_to_f64_loose, bson_to_i64_loose},
+    routes::governor::date_range::GovernorDateRange,
+    time_utils::{date_key_utc, normalize_bson_timestamp_millis},
+};
 
 #[derive(Debug, Clone)]
 pub(crate) struct AggregatedResources {
@@ -39,11 +43,7 @@ impl ResourceTotals {
     }
 
     fn into_response(self) -> ResourceTotalsResponse {
-        ResourceTotalsResponse {
-            gain: self.gain,
-            bonus: self.bonus,
-            total: self.total,
-        }
+        ResourceTotalsResponse { gain: self.gain, bonus: self.bonus, total: self.total }
     }
 
     fn into_type_response(self, type_id: i64) -> ResourceTotalsByTypeResponse {
@@ -65,11 +65,7 @@ struct DailyBucket {
 
 impl DailyBucket {
     fn new(date: String) -> Self {
-        Self {
-            date,
-            crystals_gain: 0,
-            resources: HashMap::new(),
-        }
+        Self { date, crystals_gain: 0, resources: HashMap::new() }
     }
 
     fn add_crystals_gain(&mut self, value: i64) {
@@ -86,13 +82,9 @@ impl DailyBucket {
             .into_iter()
             .map(|(type_id, total)| ResourceDailyValueByTypeResponse { type_id, total })
             .collect::<Vec<_>>();
-        resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
+        resources.sort_by_key(|left| left.type_id);
 
-        ResourceDailyResponse {
-            date: self.date,
-            crystals_gain: self.crystals_gain,
-            resources,
-        }
+        ResourceDailyResponse { date: self.date, crystals_gain: self.crystals_gain, resources }
     }
 }
 
@@ -107,9 +99,7 @@ pub(crate) fn aggregate_resources(
 
     for mail in mails {
         let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata
-                .as_ref()
-                .and_then(|metadata| metadata.mail_time.as_ref()),
+            mail.metadata.as_ref().and_then(|metadata| metadata.mail_time.as_ref()),
         ) else {
             continue;
         };
@@ -128,9 +118,8 @@ pub(crate) fn aggregate_resources(
 
         total_reports += 1;
 
-        let day = daily_buckets
-            .entry(date_key.clone())
-            .or_insert_with(|| DailyBucket::new(date_key));
+        let day =
+            daily_buckets.entry(date_key.clone()).or_insert_with(|| DailyBucket::new(date_key));
 
         if let Some(crystals_total) = extract_floor_non_negative_i64(rss.crystals_gain.as_ref())
             && crystals_total > 0
@@ -162,12 +151,9 @@ pub(crate) fn aggregate_resources(
         .into_iter()
         .map(|(type_id, totals)| totals.into_type_response(type_id))
         .collect::<Vec<_>>();
-    resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
+    resources.sort_by_key(|left| left.type_id);
 
-    let mut daily = daily_buckets
-        .into_values()
-        .map(DailyBucket::into_response)
-        .collect::<Vec<_>>();
+    let mut daily = daily_buckets.into_values().map(DailyBucket::into_response).collect::<Vec<_>>();
     daily.sort_by(|left, right| left.date.cmp(&right.date));
 
     AggregatedResources {
@@ -187,11 +173,7 @@ fn split_from_values(total: Option<&Bson>, bonus: Option<&Bson>) -> Option<Resou
     let raw_bonus = extract_floor_non_negative_i64(bonus).unwrap_or(0);
     let capped_bonus = raw_bonus.min(total);
 
-    Some(ResourceTotals {
-        gain: total.saturating_sub(capped_bonus),
-        bonus: capped_bonus,
-        total,
-    })
+    Some(ResourceTotals { gain: total.saturating_sub(capped_bonus), bonus: capped_bonus, total })
 }
 
 fn extract_floor_non_negative_i64(value: Option<&Bson>) -> Option<i64> {
@@ -218,8 +200,10 @@ fn parse_i64_loose(value: &Bson) -> Option<i64> {
 
 #[cfg(test)]
 mod tests {
-    use super::super::store::{MailMetadataDocument, RssSectionDocument};
-    use super::*;
+    use super::{
+        super::store::{MailMetadataDocument, RssSectionDocument},
+        *,
+    };
 
     #[test]
     fn split_from_values_floors_total_and_bonus_then_subtracts() {
@@ -317,10 +301,7 @@ mod tests {
     }
 
     fn find_daily_total(day: &ResourceDailyResponse, type_id: i64) -> Option<i64> {
-        day.resources
-            .iter()
-            .find(|entry| entry.type_id == type_id)
-            .map(|entry| entry.total)
+        day.resources.iter().find(|entry| entry.type_id == type_id).map(|entry| entry.total)
     }
 
     fn build_mail(
@@ -331,9 +312,7 @@ mod tests {
         crystals_gain: f64,
     ) -> RssMailDocument {
         RssMailDocument {
-            metadata: Some(MailMetadataDocument {
-                mail_time: Some(Bson::Int64(mail_time)),
-            }),
+            metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
             rss: Some(RssSectionDocument {
                 rss_type: Some(Bson::Int64(rss_type)),
                 rss_value: Some(Bson::Double(rss_value)),

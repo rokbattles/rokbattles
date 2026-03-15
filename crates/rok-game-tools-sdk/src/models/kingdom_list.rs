@@ -1,5 +1,6 @@
-use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 use serde::{Deserialize, Serialize};
+
+use crate::models::de::{de_u32_from_string_or_int, de_u64_from_string_or_int};
 
 /// Supported sorting keys for kingdom ranking queries.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
@@ -22,12 +23,7 @@ pub struct KingdomListRequest {
 
 impl Default for KingdomListRequest {
     fn default() -> Self {
-        Self {
-            page: 1,
-            size: 12,
-            server_id: None,
-            order_by: KingdomOrderBy::Power,
-        }
+        Self { page: 1, size: 12, server_id: None, order_by: KingdomOrderBy::Power }
     }
 }
 

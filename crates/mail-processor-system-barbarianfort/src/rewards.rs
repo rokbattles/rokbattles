@@ -25,19 +25,15 @@ impl Extractor for RewardsExtractor {
         let attachments = input
             .as_object()
             .and_then(|root| root.get("attachments"))
-            .ok_or(ExtractError::MissingField {
-                field: "attachments",
-            })?;
+            .ok_or(ExtractError::MissingField { field: "attachments" })?;
         let attachments = indexed_array_values(attachments, "attachments")?;
 
         let mut rewards = Vec::new();
         for attachment in attachments {
-            let attachment = attachment
-                .as_object()
-                .ok_or(ExtractError::InvalidFieldType {
-                    field: "attachments",
-                    expected: "object",
-                })?;
+            let attachment = attachment.as_object().ok_or(ExtractError::InvalidFieldType {
+                field: "attachments",
+                expected: "object",
+            })?;
             extract_rewards(attachment, &mut rewards)?;
         }
 
@@ -49,16 +45,13 @@ fn extract_rewards(
     attachment: &Map<String, Value>,
     rewards: &mut Vec<Value>,
 ) -> Result<(), ExtractError> {
-    let loot = attachment
-        .get("loot")
-        .ok_or(ExtractError::MissingField { field: "loot" })?;
+    let loot = attachment.get("loot").ok_or(ExtractError::MissingField { field: "loot" })?;
     let loot = indexed_array_values(loot, "loot")?;
 
     for entry in loot {
-        let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "loot",
-            expected: "object",
-        })?;
+        let entry = entry
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "loot", expected: "object" })?;
         let reward_type = require_u64_field(entry, "Type")?;
         let sub_type = require_u64_field(entry, "SubType")?;
         let value = require_u64_field(entry, "Value")?;
@@ -75,11 +68,12 @@ fn extract_rewards(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn rewards_extractor_reads_fields() {
@@ -166,10 +160,7 @@ mod tests {
         let rewards = section.array().expect("rewards");
 
         assert_eq!(rewards.len(), 4);
-        assert_eq!(
-            rewards[0],
-            json!({"type": 2, "sub_type": 7006, "value": 64})
-        );
+        assert_eq!(rewards[0], json!({"type": 2, "sub_type": 7006, "value": 64}));
         assert_eq!(rewards[1], json!({"type": 2, "sub_type": 130, "value": 55}));
         assert_eq!(rewards[2], json!({"type": 2, "sub_type": 92, "value": 9}));
         assert_eq!(rewards[3], json!({"type": 2, "sub_type": 182, "value": 1}));

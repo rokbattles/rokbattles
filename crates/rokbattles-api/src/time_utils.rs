@@ -1,5 +1,4 @@
-use mongodb::bson::DateTime;
-use mongodb::bson::{Bson, Document, doc};
+use mongodb::bson::{Bson, DateTime, Document, doc};
 
 use crate::bson_utils::bson_to_f64_loose;
 
@@ -56,34 +55,20 @@ mod tests {
 
     #[test]
     fn normalizes_seconds_millis_and_micros() {
-        assert_eq!(
-            normalize_timestamp_millis(1_739_960_800.0),
-            Some(1_739_960_800_000)
-        );
-        assert_eq!(
-            normalize_timestamp_millis(1_739_960_800_000.0),
-            Some(1_739_960_800_000)
-        );
-        assert_eq!(
-            normalize_timestamp_millis(1_739_960_800_000_000.0),
-            Some(1_739_960_800_000)
-        );
+        assert_eq!(normalize_timestamp_millis(1_739_960_800.0), Some(1_739_960_800_000));
+        assert_eq!(normalize_timestamp_millis(1_739_960_800_000.0), Some(1_739_960_800_000));
+        assert_eq!(normalize_timestamp_millis(1_739_960_800_000_000.0), Some(1_739_960_800_000));
     }
 
     #[test]
     fn builds_date_key() {
-        assert_eq!(
-            date_key_utc(1_735_689_600_000),
-            Some("2025-01-01".to_string())
-        );
+        assert_eq!(date_key_utc(1_735_689_600_000), Some("2025-01-01".to_string()));
     }
 
     #[test]
     fn builds_mail_time_match_in_microseconds() {
         let filter = build_mail_time_match(1_000, 2_000);
-        let expression = filter
-            .get_document("metadata.mail_time")
-            .expect("mail_time expression");
+        let expression = filter.get_document("metadata.mail_time").expect("mail_time expression");
         assert_eq!(expression.get_i64("$gte").ok(), Some(1_000_000));
         assert_eq!(expression.get_i64("$lt").ok(), Some(2_000_000));
     }

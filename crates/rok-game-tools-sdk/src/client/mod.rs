@@ -1,20 +1,25 @@
 mod response;
 mod validation;
 
-use crate::config::RokGtConfig;
-use crate::error::RokGtError;
-use crate::models::{
-    KingdomInformationResponse, KingdomListRequest, KingdomListResponse, KingdomMemberRequest,
-    KingdomMemberResponse, LatestServerIdsResponse,
+use reqwest::{
+    Client, Request, Url,
+    header::{ACCEPT, HeaderMap, HeaderName, HeaderValue},
 };
-use reqwest::header::{ACCEPT, HeaderMap, HeaderName, HeaderValue};
-use reqwest::{Client, Request, Url};
-use serde::Serialize;
-use serde::de::DeserializeOwned;
+use serde::{Serialize, de::DeserializeOwned};
 
-use self::response::{ApiEnvelope, parse_api_response};
-use self::validation::{
-    normalize_kingdom_member_request, validate_kingdom_list_request, validate_server_id,
+use self::{
+    response::{ApiEnvelope, parse_api_response},
+    validation::{
+        normalize_kingdom_member_request, validate_kingdom_list_request, validate_server_id,
+    },
+};
+use crate::{
+    config::RokGtConfig,
+    error::RokGtError,
+    models::{
+        KingdomInformationResponse, KingdomListRequest, KingdomListResponse, KingdomMemberRequest,
+        KingdomMemberResponse, LatestServerIdsResponse,
+    },
 };
 
 const KINDOM_LIST_PATH: &str = "/api/kindomList";
@@ -46,11 +51,9 @@ impl RokGtClient {
             });
         }
 
-        let base_url =
-            Url::parse(config.base_url.trim()).map_err(|_| RokGtError::InvalidConfig {
-                field: "base_url",
-                reason: "must be a valid absolute URL",
-            })?;
+        let base_url = Url::parse(config.base_url.trim()).map_err(|_| {
+            RokGtError::InvalidConfig { field: "base_url", reason: "must be a valid absolute URL" }
+        })?;
         let platform_base_url =
             Url::parse(config.platform_base_url.trim()).map_err(|_| RokGtError::InvalidConfig {
                 field: "platform_base_url",
@@ -64,11 +67,7 @@ impl RokGtClient {
             .build()
             .map_err(RokGtError::ClientBuild)?;
 
-        Ok(Self {
-            http,
-            base_url,
-            platform_base_url,
-        })
+        Ok(Self { http, base_url, platform_base_url })
     }
 
     /// List kingdom leaderboard entries from `/api/kindomList`.
@@ -108,11 +107,7 @@ impl RokGtClient {
     where
         T: DeserializeOwned + ApiEnvelope,
     {
-        let response = self
-            .http
-            .execute(request)
-            .await
-            .map_err(RokGtError::Request)?;
+        let response = self.http.execute(request).await.map_err(RokGtError::Request)?;
         let status = response.status();
         let bytes = response.bytes().await.map_err(RokGtError::Request)?;
         parse_api_response(status, &bytes)
@@ -147,11 +142,7 @@ impl RokGtClient {
             reason: "failed to compose endpoint URL",
         })?;
 
-        self.http
-            .get(url)
-            .query(query)
-            .build()
-            .map_err(RokGtError::Request)
+        self.http.get(url).query(query).build().map_err(RokGtError::Request)
     }
 
     fn build_kingdom_list_http_request(
@@ -169,11 +160,7 @@ impl RokGtClient {
             order_by: crate::models::KingdomOrderBy,
         }
 
-        let server_id = request
-            .server_id
-            .as_deref()
-            .map(validate_server_id)
-            .transpose()?;
+        let server_id = request.server_id.as_deref().map(validate_server_id).transpose()?;
 
         self.build_get_request_with_query(
             &self.base_url,
@@ -189,11 +176,7 @@ impl RokGtClient {
     }
 
     fn build_latest_server_ids_http_request(&self) -> Result<Request, RokGtError> {
-        self.build_get_request(
-            &self.platform_base_url,
-            "platform_base_url",
-            LATEST_SERVER_IDS_PATH,
-        )
+        self.build_get_request(&self.platform_base_url, "platform_base_url", LATEST_SERVER_IDS_PATH)
     }
 
     fn build_kingdom_information_http_request(
@@ -234,12 +217,8 @@ fn build_default_headers(config: &RokGtConfig) -> Result<HeaderMap, RokGtError> 
     headers.insert(ACCEPT, HeaderValue::from_static("application/json"));
     headers.insert(
         HeaderName::from_static(HEADER_LANG_NAME),
-        HeaderValue::from_str(config.lang.trim()).map_err(|source| {
-            RokGtError::InvalidHeaderValue {
-                header: "Lang",
-                source,
-            }
-        })?,
+        HeaderValue::from_str(config.lang.trim())
+            .map_err(|source| RokGtError::InvalidHeaderValue { header: "Lang", source })?,
     );
     headers.insert(
         HeaderName::from_static(HEADER_PAUTH_NAME),
@@ -254,10 +233,7 @@ fn build_default_headers(config: &RokGtConfig) -> Result<HeaderMap, RokGtError> 
 
 fn validate_non_empty(field: &'static str, value: &str) -> Result<(), RokGtError> {
     if value.trim().is_empty() {
-        return Err(RokGtError::InvalidConfig {
-            field,
-            reason: "must not be empty",
-        });
+        return Err(RokGtError::InvalidConfig { field, reason: "must not be empty" });
     }
     Ok(())
 }
@@ -296,10 +272,7 @@ mod tests {
         let config = RokGtConfig::new("p-token", "b-token");
         let headers = build_default_headers(&config).expect("headers");
 
-        assert_eq!(
-            headers.get("lang").and_then(|v| v.to_str().ok()),
-            Some("en_US")
-        );
+        assert_eq!(headers.get("lang").and_then(|v| v.to_str().ok()), Some("en_US"));
         assert_eq!(
             headers.get("pauthorization").and_then(|v| v.to_str().ok()),
             Some("Bearer p-token")
@@ -308,10 +281,7 @@ mod tests {
             headers.get("bauthorization").and_then(|v| v.to_str().ok()),
             Some("Bearer b-token")
         );
-        assert_eq!(
-            headers.get("accept").and_then(|v| v.to_str().ok()),
-            Some("application/json")
-        );
+        assert_eq!(headers.get("accept").and_then(|v| v.to_str().ok()), Some("application/json"));
     }
 
     #[test]
@@ -363,13 +333,8 @@ mod tests {
     #[test]
     fn build_latest_server_ids_request_uses_platform_host_and_path() {
         let client = test_client();
-        let request = client
-            .build_latest_server_ids_http_request()
-            .expect("build request");
-        assert_eq!(
-            request.url().host_str(),
-            Some("plat-rok-gametools-global-api.lilithgames.com")
-        );
+        let request = client.build_latest_server_ids_http_request().expect("build request");
+        assert_eq!(request.url().host_str(), Some("plat-rok-gametools-global-api.lilithgames.com"));
         assert_eq!(request.url().path(), "/api/latestServerIds");
         assert!(request.url().query().is_none());
     }
@@ -377,13 +342,8 @@ mod tests {
     #[test]
     fn build_kingdom_information_request_uses_platform_host_path_and_query() {
         let client = test_client();
-        let request = client
-            .build_kingdom_information_http_request("2804")
-            .expect("build request");
-        assert_eq!(
-            request.url().host_str(),
-            Some("plat-rok-gametools-global-api.lilithgames.com")
-        );
+        let request = client.build_kingdom_information_http_request("2804").expect("build request");
+        assert_eq!(request.url().host_str(), Some("plat-rok-gametools-global-api.lilithgames.com"));
         assert_eq!(request.url().path(), "/api/kindomInformation");
         assert_eq!(request.url().query(), Some("server_id=2804"));
     }
@@ -398,10 +358,7 @@ mod tests {
                 "2804",
             ))
             .expect("build request");
-        assert_eq!(
-            request.url().host_str(),
-            Some("plat-rok-gametools-global-api.lilithgames.com")
-        );
+        assert_eq!(request.url().host_str(), Some("plat-rok-gametools-global-api.lilithgames.com"));
         assert_eq!(request.url().path(), "/api/kindomMember");
         let query = request.url().query().expect("query");
         assert!(query.contains("start=2026-02-17"));
@@ -443,12 +400,6 @@ mod tests {
     fn new_rejects_empty_tokens() {
         let err = RokGtClient::new(RokGtConfig::new("", "b-token"))
             .expect_err("empty p token should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidConfig {
-                field: "p_authorization_token",
-                ..
-            }
-        ));
+        assert!(matches!(err, RokGtError::InvalidConfig { field: "p_authorization_token", .. }));
     }
 }

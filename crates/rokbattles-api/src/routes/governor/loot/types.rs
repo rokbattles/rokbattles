@@ -12,14 +12,7 @@ impl LootResponse {
     pub fn new(range_start: String, range_end: String, categories: LootCategories) -> Self {
         let total_reports = categories.total_reports();
 
-        Self {
-            range: LootRange {
-                start: range_start,
-                end: range_end,
-            },
-            total_reports,
-            categories,
-        }
+        Self { range: LootRange { start: range_start, end: range_end }, total_reports, categories }
     }
 }
 

@@ -1,11 +1,14 @@
 use futures::StreamExt;
-use mongodb::Collection;
-use mongodb::bson::{Document, doc};
-
-use crate::bson_utils::{bson_to_i64_exact, nested_i64_exact, nested_string};
-use crate::error::ApiError;
+use mongodb::{
+    Collection,
+    bson::{Document, doc},
+};
 
 use super::types::RefreshBindsStats;
+use crate::{
+    bson_utils::{bson_to_i64_exact, nested_i64_exact, nested_string},
+    error::ApiError,
+};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct LatestGovernorSnapshot {
@@ -24,15 +27,10 @@ pub(super) async fn refresh_claimed_governor_bindings(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    let governor_ids = distinct_ids
-        .iter()
-        .filter_map(bson_to_i64_exact)
-        .collect::<Vec<_>>();
+    let governor_ids = distinct_ids.iter().filter_map(bson_to_i64_exact).collect::<Vec<_>>();
 
-    let mut stats = RefreshBindsStats {
-        governors_seen: governor_ids.len(),
-        ..RefreshBindsStats::default()
-    };
+    let mut stats =
+        RefreshBindsStats { governors_seen: governor_ids.len(), ..RefreshBindsStats::default() };
 
     if governor_ids.is_empty() {
         return Ok(stats);

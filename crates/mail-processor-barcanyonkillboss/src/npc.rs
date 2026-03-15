@@ -53,11 +53,12 @@ fn build_location(x: Value, y: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn npc_extractor_reads_fields() {
@@ -105,9 +106,6 @@ mod tests {
         let fields = section.fields();
         assert_eq!(fields["type"], json!(102000055));
         assert_eq!(fields["level"], json!(25));
-        assert_eq!(
-            fields["location"],
-            json!({ "x": 4788.31689453125, "y": 4418.36669921875 })
-        );
+        assert_eq!(fields["location"], json!({ "x": 4788.31689453125, "y": 4418.36669921875 }));
     }
 }

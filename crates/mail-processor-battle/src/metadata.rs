@@ -3,8 +3,10 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_string, require_u64};
 use serde_json::{Map, Value};
 
-use crate::content::{require_child_object, require_content, require_string_field};
-use crate::player::extract_kingdom_id;
+use crate::{
+    content::{require_child_object, require_content, require_string_field},
+    player::extract_kingdom_id,
+};
 
 /// Extracts top-level metadata fields from a Battle mail.
 #[derive(Debug, Default)]
@@ -75,21 +77,19 @@ fn optional_bool_field(
         None | Some(Value::Null) => Ok(None),
         Some(value) => value
             .as_bool()
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "boolean",
-            })
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
             .map(Some),
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn metadata_extractor_reads_fields() {

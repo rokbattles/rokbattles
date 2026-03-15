@@ -2,9 +2,11 @@ use std::collections::HashMap;
 
 use mongodb::bson::doc;
 
-use crate::error::ApiError;
-use crate::routes::governor::date_range::{GovernorDateRange, parse_governor_date_range};
-use crate::state::AppState;
+use crate::{
+    error::ApiError,
+    routes::governor::date_range::{GovernorDateRange, parse_governor_date_range},
+    state::AppState,
+};
 
 const DEFAULT_MAX_RANGE_DAYS: i64 = 366;
 

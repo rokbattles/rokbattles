@@ -11,10 +11,7 @@ mod storage;
 use mongodb::options::ClientOptions;
 use tracing::debug;
 
-use crate::config::Config;
-use crate::error::ProcessorError;
-use crate::processing::process_loop;
-use crate::storage::Storage;
+use crate::{config::Config, error::ProcessorError, processing::process_loop, storage::Storage};
 
 #[tokio::main]
 async fn main() -> Result<(), ProcessorError> {
@@ -26,10 +23,7 @@ async fn main() -> Result<(), ProcessorError> {
     tracing_subscriber::fmt().with_env_filter(filter).init();
 
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
-    let db_name = client_options
-        .default_database
-        .clone()
-        .ok_or(ProcessorError::MissingDatabase)?;
+    let db_name = client_options.default_database.clone().ok_or(ProcessorError::MissingDatabase)?;
     let client = mongodb::Client::with_options(client_options)?;
     let db = client.database(&db_name);
     debug!(database = %db.name(), "connected to MongoDB");

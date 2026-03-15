@@ -1,23 +1,30 @@
 use std::sync::Arc;
 
-use axum::Json;
-use axum::Router;
-use axum::extract::{Query, State};
-use axum::http::HeaderMap;
-use axum::http::header::{COOKIE, SET_COOKIE};
-use axum::response::{IntoResponse, Redirect, Response};
-use axum::routing::{get, post};
+use axum::{
+    Json, Router,
+    extract::{Query, State},
+    http::{
+        HeaderMap,
+        header::{COOKIE, SET_COOKIE},
+    },
+    response::{IntoResponse, Redirect, Response},
+    routing::{get, post},
+};
 use futures::StreamExt;
-use mongodb::bson::{Bson, DateTime, Document, doc};
-use mongodb::options::FindOptions;
+use mongodb::{
+    bson::{Bson, DateTime, Document, doc},
+    options::FindOptions,
+};
 use reqwest::Url;
 use serde::Deserialize;
 
-use crate::auth::{AuthenticatedSession, extract_cookie_value};
-use crate::bson_utils::bson_to_i64_exact;
-use crate::db::{DiscordUserUpsert, NewSessionRecord, OAuthStateRecord};
-use crate::error::ApiError;
-use crate::state::{AppState, DiscordOAuthConfig};
+use crate::{
+    auth::{AuthenticatedSession, extract_cookie_value},
+    bson_utils::bson_to_i64_exact,
+    db::{DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
+    error::ApiError,
+    state::{AppState, DiscordOAuthConfig},
+};
 
 mod cookies;
 mod oauth;
@@ -56,10 +63,9 @@ async fn post_logout(
     State(state): State<Arc<AppState>>,
     headers: HeaderMap,
 ) -> Result<Response, ApiError> {
-    if let Some(sid) = extract_cookie_value(
-        headers.get(COOKIE).and_then(|header| header.to_str().ok()),
-        "sid",
-    ) {
+    if let Some(sid) =
+        extract_cookie_value(headers.get(COOKIE).and_then(|header| header.to_str().ok()), "sid")
+    {
         state
             .auth_store
             .delete_session_by_id(&sid)
@@ -152,10 +158,7 @@ async fn get_discord_callback(
 
     state
         .auth_store
-        .upsert_discord_user(DiscordUserUpsert {
-            discord_id: profile.id.clone(),
-            email,
-        })
+        .upsert_discord_user(DiscordUserUpsert { discord_id: profile.id.clone(), email })
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
@@ -227,10 +230,7 @@ async fn load_claimed_governors(
 }
 
 fn optional_string_field(document: &Document, key: &str) -> Option<String> {
-    document
-        .get(key)
-        .and_then(Bson::as_str)
-        .map(ToString::to_string)
+    document.get(key).and_then(Bson::as_str).map(ToString::to_string)
 }
 
 async fn exchange_discord_token(
@@ -254,10 +254,7 @@ async fn exchange_discord_token(
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
     if !response.status().is_success() {
-        let reason = response
-            .text()
-            .await
-            .unwrap_or_else(|_| "token exchange failed".to_string());
+        let reason = response.text().await.unwrap_or_else(|_| "token exchange failed".to_string());
         return Err(ApiError::bad_request(reason));
     }
 
@@ -277,10 +274,8 @@ async fn fetch_discord_profile(access_token: &str) -> Result<DiscordProfileRespo
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
     if !response.status().is_success() {
-        let reason = response
-            .text()
-            .await
-            .unwrap_or_else(|_| "failed to fetch profile".to_string());
+        let reason =
+            response.text().await.unwrap_or_else(|_| "failed to fetch profile".to_string());
         return Err(ApiError::bad_request(reason));
     }
 
@@ -322,10 +317,7 @@ mod tests {
             "governorAvatar": mongodb::bson::Bson::Null
         };
 
-        assert_eq!(
-            optional_string_field(&document, "governorName"),
-            Some("test".to_string())
-        );
+        assert_eq!(optional_string_field(&document, "governorName"), Some("test".to_string()));
         assert_eq!(optional_string_field(&document, "governorAvatar"), None);
         assert_eq!(optional_string_field(&document, "missing"), None);
     }

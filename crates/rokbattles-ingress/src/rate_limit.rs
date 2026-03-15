@@ -3,8 +3,10 @@
 use std::net::IpAddr;
 
 use axum::http::{HeaderMap, Request};
-use tower_governor::GovernorError;
-use tower_governor::key_extractor::{KeyExtractor, PeerIpKeyExtractor};
+use tower_governor::{
+    GovernorError,
+    key_extractor::{KeyExtractor, PeerIpKeyExtractor},
+};
 
 use crate::config::RateLimitKey;
 
@@ -45,16 +47,14 @@ fn cf_connecting_ip(headers: &HeaderMap) -> Option<IpAddr> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use axum::http::HeaderValue;
+
+    use super::*;
 
     #[test]
     fn parses_cf_connecting_ip() {
         let mut headers = HeaderMap::new();
         headers.insert("cf-connecting-ip", HeaderValue::from_static("203.0.113.10"));
-        assert_eq!(
-            cf_connecting_ip(&headers),
-            Some("203.0.113.10".parse().unwrap())
-        );
+        assert_eq!(cf_connecting_ip(&headers), Some("203.0.113.10".parse().unwrap()));
     }
 }

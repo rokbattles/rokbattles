@@ -15,13 +15,8 @@ pub(crate) fn require_child_object<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
 ) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "object",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
 }
 
 /// Require a numeric field from a JSON map, preserving its numeric representation.
@@ -29,15 +24,10 @@ pub(crate) fn require_number_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<Value, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     if value.is_number() {
         Ok(value.clone())
     } else {
-        Err(ExtractError::InvalidFieldType {
-            field,
-            expected: "number",
-        })
+        Err(ExtractError::InvalidFieldType { field, expected: "number" })
     }
 }

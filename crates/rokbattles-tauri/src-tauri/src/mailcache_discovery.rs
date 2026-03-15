@@ -1,7 +1,4 @@
-#![cfg_attr(
-    not(any(test, target_os = "windows", target_os = "macos")),
-    allow(dead_code)
-)]
+#![cfg_attr(not(any(test, target_os = "windows", target_os = "macos")), allow(dead_code))]
 
 use std::{
     collections::BTreeSet,
@@ -130,9 +127,7 @@ fn discover_windows_from_roots(roots: &[PathBuf]) -> Vec<PathBuf> {
             collect_windows_candidates_fallback(root, &mut fallback_candidates);
         }
         valid.extend(
-            fallback_candidates
-                .into_iter()
-                .filter(|path| is_valid_windows_mailcache_dir(path)),
+            fallback_candidates.into_iter().filter(|path| is_valid_windows_mailcache_dir(path)),
         );
     }
 
@@ -145,11 +140,7 @@ fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
         return;
     }
 
-    out.push(
-        base.join("Rise of Kingdoms Game")
-            .join("save")
-            .join("mailcache"),
-    );
+    out.push(base.join("Rise of Kingdoms Game").join("save").join("mailcache"));
 
     let Ok(read_dir) = fs::read_dir(base) else {
         return;
@@ -163,21 +154,13 @@ fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
             continue;
         }
         let child = entry.path();
-        out.push(
-            child
-                .join("Rise of Kingdoms Game")
-                .join("save")
-                .join("mailcache"),
-        );
+        out.push(child.join("Rise of Kingdoms Game").join("save").join("mailcache"));
 
         // Handle installs with a nested directory before "Rise of Kingdoms Game".
         let Ok(nested_read_dir) = fs::read_dir(&child) else {
             continue;
         };
-        for nested_entry in nested_read_dir
-            .flatten()
-            .take(MAX_WINDOWS_BASE_GRANDCHILDREN)
-        {
+        for nested_entry in nested_read_dir.flatten().take(MAX_WINDOWS_BASE_GRANDCHILDREN) {
             let Ok(nested_type) = nested_entry.file_type() else {
                 continue;
             };
@@ -185,11 +168,7 @@ fn collect_windows_candidates_from_base(base: &Path, out: &mut Vec<PathBuf>) {
                 continue;
             }
             out.push(
-                nested_entry
-                    .path()
-                    .join("Rise of Kingdoms Game")
-                    .join("save")
-                    .join("mailcache"),
+                nested_entry.path().join("Rise of Kingdoms Game").join("save").join("mailcache"),
             );
         }
     }
@@ -218,10 +197,7 @@ fn collect_windows_candidates_fallback(root: &Path, out: &mut Vec<PathBuf>) {
             continue;
         };
 
-        for entry in read_dir
-            .flatten()
-            .take(MAX_WINDOWS_FALLBACK_CHILDREN_PER_DIR)
-        {
+        for entry in read_dir.flatten().take(MAX_WINDOWS_FALLBACK_CHILDREN_PER_DIR) {
             let Ok(file_type) = entry.file_type() else {
                 continue;
             };
@@ -271,10 +247,7 @@ fn is_valid_windows_mailcache_dir(path: &Path) -> bool {
 
 #[cfg(any(test, target_os = "windows"))]
 fn path_matches_windows_mailcache_suffix(path: &Path) -> bool {
-    let normalized = path
-        .to_string_lossy()
-        .replace('/', "\\")
-        .to_ascii_lowercase();
+    let normalized = path.to_string_lossy().replace('/', "\\").to_ascii_lowercase();
     normalized.ends_with(WINDOWS_MAILCACHE_SUFFIX_LOWER)
 }
 
@@ -298,11 +271,7 @@ fn discover_macos_in_bases(bases: &[PathBuf]) -> Vec<PathBuf> {
                 continue;
             }
 
-            let candidate = entry
-                .path()
-                .join("Data")
-                .join("Documents")
-                .join("mailcache");
+            let candidate = entry.path().join("Data").join("Documents").join("mailcache");
             if is_valid_macos_mailcache_dir(&candidate) {
                 candidates.push(candidate);
             }
@@ -371,12 +340,14 @@ fn windows_drive_roots() -> Vec<PathBuf> {
 
 #[cfg(test)]
 mod tests {
+    use std::{fs, path::PathBuf};
+
+    use tempfile::tempdir;
+
     use super::{
         discover_macos_in_bases, discover_windows_from_roots, is_persistent_mail_filename,
         normalize_windows_path_for_display, path_matches_windows_mailcache_suffix,
     };
-    use std::{fs, path::PathBuf};
-    use tempfile::tempdir;
 
     #[test]
     fn persistent_mail_filename_requires_numeric_suffix() {
@@ -499,11 +470,8 @@ mod tests {
     fn macos_discovery_rejects_non_mailcache_content() {
         let temp = tempdir().expect("tempdir");
         let containers = temp.path().join("Library").join("Containers");
-        let mailcache = containers
-            .join("com.lilithgame.rok")
-            .join("Data")
-            .join("Documents")
-            .join("mailcache");
+        let mailcache =
+            containers.join("com.lilithgame.rok").join("Data").join("Documents").join("mailcache");
         fs::create_dir_all(&mailcache).expect("create dirs");
         fs::write(mailcache.join("README.txt"), b"test").expect("write file");
 

@@ -58,9 +58,8 @@ impl Processor {
             }
 
             for (section, handle) in handles {
-                let result = handle
-                    .join()
-                    .map_err(|_| ProcessError::ExtractorPanicked { section })?;
+                let result =
+                    handle.join().map_err(|_| ProcessError::ExtractorPanicked { section })?;
                 results.push((section, result));
             }
 
@@ -93,9 +92,10 @@ impl Processor {
 
 #[cfg(test)]
 mod tests {
+    use serde_json::json;
+
     use super::*;
     use crate::{ExtractError, Section};
-    use serde_json::json;
 
     #[derive(Debug)]
     struct TestExtractor {
@@ -109,10 +109,8 @@ mod tests {
 
         fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
             let mut section = Section::new();
-            let value = input
-                .get("value")
-                .cloned()
-                .ok_or(ExtractError::MissingField { field: "value" })?;
+            let value =
+                input.get("value").cloned().ok_or(ExtractError::MissingField { field: "value" })?;
             section.insert("value", value);
             Ok(section)
         }
@@ -120,9 +118,7 @@ mod tests {
 
     #[test]
     fn process_sequential_collects_sections() {
-        let processor = Processor::new(vec![Box::new(TestExtractor {
-            section_name: "one",
-        })]);
+        let processor = Processor::new(vec![Box::new(TestExtractor { section_name: "one" })]);
         let input = json!({"value": 10});
         let processed = processor.process_sequential(&input).unwrap();
         let section = processed.sections().get("one").unwrap();
@@ -131,9 +127,7 @@ mod tests {
 
     #[test]
     fn process_parallel_collects_sections() {
-        let processor = Processor::new(vec![Box::new(TestExtractor {
-            section_name: "one",
-        })]);
+        let processor = Processor::new(vec![Box::new(TestExtractor { section_name: "one" })]);
         let input = json!({"value": 20});
         let processed = processor.process_parallel(&input).unwrap();
         let section = processed.sections().get("one").unwrap();
@@ -143,12 +137,8 @@ mod tests {
     #[test]
     fn process_rejects_duplicate_sections() {
         let processor = Processor::new(vec![
-            Box::new(TestExtractor {
-                section_name: "dup",
-            }),
-            Box::new(TestExtractor {
-                section_name: "dup",
-            }),
+            Box::new(TestExtractor { section_name: "dup" }),
+            Box::new(TestExtractor { section_name: "dup" }),
         ]);
         let input = json!({"value": 30});
         let err = processor.process_sequential(&input).unwrap_err();

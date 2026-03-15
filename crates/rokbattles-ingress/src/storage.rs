@@ -1,9 +1,10 @@
 //! MongoDB persistence helpers for raw and lossless mail storage.
 
-use mongodb::Collection;
-use mongodb::IndexModel;
-use mongodb::bson::{Bson, Document, doc};
-use mongodb::options::IndexOptions;
+use mongodb::{
+    Collection, IndexModel,
+    bson::{Bson, Document, doc},
+    options::IndexOptions,
+};
 
 /// Typed access to the mail collections.
 #[derive(Debug, Clone)]
@@ -21,10 +22,7 @@ pub struct ExistingMail {
 impl Storage {
     /// Create storage helpers for the configured database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self {
-            raw: db.collection("mails_raw"),
-            raw_lossless: db.collection("mails_raw_lossless"),
-        }
+        Self { raw: db.collection("mails_raw"), raw_lossless: db.collection("mails_raw_lossless") }
     }
 
     /// Ensure required indexes exist.
@@ -61,9 +59,7 @@ impl Storage {
 
     /// Update an existing raw mail document.
     pub async fn update_raw(&self, mail_id: &str, update: Document) -> mongodb::error::Result<()> {
-        self.raw
-            .update_one(doc! { "mail_id": mail_id }, doc! { "$set": update })
-            .await?;
+        self.raw.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
         Ok(())
     }
 
@@ -79,18 +75,13 @@ impl Storage {
         mail_id: &str,
         update: Document,
     ) -> mongodb::error::Result<()> {
-        self.raw_lossless
-            .update_one(doc! { "mail_id": mail_id }, doc! { "$set": update })
-            .await?;
+        self.raw_lossless.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
         Ok(())
     }
 }
 
 fn parse_existing(doc: Document) -> Option<ExistingMail> {
-    let attack_count = doc
-        .get("mail_attack_count")
-        .and_then(bson_to_i64)
-        .unwrap_or(0);
+    let attack_count = doc.get("mail_attack_count").and_then(bson_to_i64).unwrap_or(0);
     Some(ExistingMail { attack_count })
 }
 

@@ -16,18 +16,12 @@ mod tests {
     #[test]
     fn builds_set_cookie_header_value() {
         let cookie = build_set_session_cookie("abc123", 60);
-        assert_eq!(
-            cookie,
-            "sid=abc123; Max-Age=60; Path=/; HttpOnly; Secure; SameSite=Lax"
-        );
+        assert_eq!(cookie, "sid=abc123; Max-Age=60; Path=/; HttpOnly; Secure; SameSite=Lax");
     }
 
     #[test]
     fn builds_clear_cookie_header_value() {
         let cookie = build_clear_session_cookie();
-        assert_eq!(
-            cookie,
-            "sid=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax"
-        );
+        assert_eq!(cookie, "sid=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax");
     }
 }

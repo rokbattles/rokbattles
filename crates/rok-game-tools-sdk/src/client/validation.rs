@@ -1,15 +1,15 @@
-use crate::error::RokGtError;
-use crate::models::{KingdomListRequest, KingdomMemberRequest};
 use serde::Serialize;
+
+use crate::{
+    error::RokGtError,
+    models::{KingdomListRequest, KingdomMemberRequest},
+};
 
 pub(super) fn validate_kingdom_list_request(
     request: &KingdomListRequest,
 ) -> Result<(), RokGtError> {
     if request.page == 0 {
-        return Err(RokGtError::InvalidRequest {
-            field: "page",
-            reason: "must be >= 1",
-        });
+        return Err(RokGtError::InvalidRequest { field: "page", reason: "must be >= 1" });
     }
     if request.size == 0 || request.size > 20 {
         return Err(RokGtError::InvalidRequest {
@@ -31,10 +31,7 @@ pub(super) fn validate_kingdom_list_request(
 pub(super) fn validate_server_id(server_id: &str) -> Result<&str, RokGtError> {
     let trimmed = server_id.trim();
     if trimmed.is_empty() {
-        return Err(RokGtError::InvalidRequest {
-            field: "server_id",
-            reason: "must not be blank",
-        });
+        return Err(RokGtError::InvalidRequest { field: "server_id", reason: "must not be blank" });
     }
     Ok(trimmed)
 }
@@ -55,12 +52,7 @@ pub(super) fn normalize_kingdom_member_request<'a>(
     let server_id = validate_server_id(&request.server_id)?;
     let search = request.search.trim();
 
-    Ok(KingdomMemberQuery {
-        start,
-        end,
-        search,
-        server_id,
-    })
+    Ok(KingdomMemberQuery { start, end, search, server_id })
 }
 
 fn validate_date_yyyy_mm_dd<'a>(
@@ -69,10 +61,7 @@ fn validate_date_yyyy_mm_dd<'a>(
 ) -> Result<&'a str, RokGtError> {
     let trimmed = value.trim();
     if trimmed.len() != 10 {
-        return Err(RokGtError::InvalidRequest {
-            field,
-            reason: "must be YYYY-MM-DD",
-        });
+        return Err(RokGtError::InvalidRequest { field, reason: "must be YYYY-MM-DD" });
     }
 
     let bytes = trimmed.as_bytes();
@@ -83,10 +72,7 @@ fn validate_date_yyyy_mm_dd<'a>(
         && bytes[8..10].iter().all(u8::is_ascii_digit);
 
     if !is_valid {
-        return Err(RokGtError::InvalidRequest {
-            field,
-            reason: "must be YYYY-MM-DD",
-        });
+        return Err(RokGtError::InvalidRequest { field, reason: "must be YYYY-MM-DD" });
     }
 
     Ok(trimmed)
@@ -106,40 +92,22 @@ mod tests {
 
     #[test]
     fn request_validation_rejects_invalid_pagination() {
-        let req = KingdomListRequest {
-            page: 0,
-            ..Default::default()
-        };
+        let req = KingdomListRequest { page: 0, ..Default::default() };
         let err = validate_kingdom_list_request(&req).expect_err("page validation should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "page", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "page", .. }));
     }
 
     #[test]
     fn request_validation_rejects_size_above_max() {
-        let req = KingdomListRequest {
-            size: 21,
-            ..Default::default()
-        };
+        let req = KingdomListRequest { size: 21, ..Default::default() };
         let err = validate_kingdom_list_request(&req).expect_err("size validation should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "size", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "size", .. }));
     }
 
     #[test]
     fn kingdom_information_request_rejects_blank_server_id() {
         let err = validate_server_id("   ").expect_err("server id validation should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest {
-                field: "server_id",
-                ..
-            }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "server_id", .. }));
     }
 
     #[test]
@@ -147,18 +115,12 @@ mod tests {
         let err =
             validate_kingdom_member_request(&KingdomMemberRequest::new(" ", "2026-02-17", "2804"))
                 .expect_err("start validation should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "start", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "start", .. }));
 
         let err =
             validate_kingdom_member_request(&KingdomMemberRequest::new("2026-02-17", "", "2804"))
                 .expect_err("end validation should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "end", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "end", .. }));
     }
 
     #[test]
@@ -169,10 +131,7 @@ mod tests {
             "2804",
         ))
         .expect_err("start date format should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "start", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "start", .. }));
 
         let err = validate_kingdom_member_request(&KingdomMemberRequest::new(
             "2026-02-17",
@@ -180,9 +139,6 @@ mod tests {
             "2804",
         ))
         .expect_err("end date format should fail");
-        assert!(matches!(
-            err,
-            RokGtError::InvalidRequest { field: "end", .. }
-        ));
+        assert!(matches!(err, RokGtError::InvalidRequest { field: "end", .. }));
     }
 }

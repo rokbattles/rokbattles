@@ -69,19 +69,10 @@ mod tests {
     #[test]
     fn mail_type_from_str_parses_known_values() {
         assert_eq!(MailType::from_str("Battle"), Some(MailType::Battle));
-        assert_eq!(
-            MailType::from_str("DuelBattle2"),
-            Some(MailType::DuelBattle2)
-        );
-        assert_eq!(
-            MailType::from_str("BarCanyonKillBoss"),
-            Some(MailType::BarCanyonKillBoss)
-        );
+        assert_eq!(MailType::from_str("DuelBattle2"), Some(MailType::DuelBattle2));
+        assert_eq!(MailType::from_str("BarCanyonKillBoss"), Some(MailType::BarCanyonKillBoss));
         assert_eq!(MailType::from_str("Rss"), Some(MailType::Rss));
-        assert_eq!(
-            MailType::from_str("SystemBarbarianFort"),
-            Some(MailType::SystemBarbarianFort)
-        );
+        assert_eq!(MailType::from_str("SystemBarbarianFort"), Some(MailType::SystemBarbarianFort));
         assert_eq!(
             MailType::from_str("AllianceAOOBattleResults"),
             Some(MailType::AllianceAOOBattleResults)
@@ -101,15 +92,9 @@ mod tests {
     fn collection_name_matches_expected() {
         assert_eq!(MailType::Battle.collection_name(), "mails_battle");
         assert_eq!(MailType::DuelBattle2.collection_name(), "mails_duelbattle2");
-        assert_eq!(
-            MailType::BarCanyonKillBoss.collection_name(),
-            "mails_barcanyonkillboss"
-        );
+        assert_eq!(MailType::BarCanyonKillBoss.collection_name(), "mails_barcanyonkillboss");
         assert_eq!(MailType::Rss.collection_name(), "mails_rss");
-        assert_eq!(
-            MailType::SystemBarbarianFort.collection_name(),
-            "mails_system_barbarianfort"
-        );
+        assert_eq!(MailType::SystemBarbarianFort.collection_name(), "mails_system_barbarianfort");
         assert_eq!(
             MailType::AllianceAOOBattleResults.collection_name(),
             "mails_alliance_aoobattleresults"
