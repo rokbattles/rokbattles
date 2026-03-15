@@ -5,6 +5,7 @@ use serde_json::{Map, Value};
 
 use crate::content::{
     require_body, require_child_object, require_number_field, require_string_field,
+    require_u64_field,
 };
 
 /// Extracts position and target details from SystemBarbarianFort mail body.
@@ -29,10 +30,14 @@ impl Extractor for BodyExtractor {
         let pos_x = require_number_field(position, "X")?;
         let pos_y = require_number_field(position, "Y")?;
         let target_name = require_string_field(body, "targetName")?;
+        let sub_type = require_u64_field(body, "subType")?;
+        let sub_param = require_u64_field(body, "subParam")?;
 
         let mut section = Section::new();
         section.insert("pos", build_position(pos_x, pos_y));
         section.insert("target_name", Value::String(target_name));
+        section.insert("sub_type", Value::from(sub_type));
+        section.insert("sub_param", Value::from(sub_param));
         Ok(section)
     }
 }
@@ -62,6 +67,8 @@ mod tests {
                     "Y": 2.75,
                     "Z": 0
                 },
+                "subParam": 1,
+                "subType": 11,
                 "targetName": "Level9"
             }
         });
@@ -71,6 +78,8 @@ mod tests {
         let fields = section.fields();
         assert_eq!(fields["pos"], json!({ "x": 1.25, "y": 2.75 }));
         assert_eq!(fields["target_name"], json!("Level9"));
+        assert_eq!(fields["sub_type"], json!(11));
+        assert_eq!(fields["sub_param"], json!(1));
     }
 
     #[test]
@@ -90,6 +99,25 @@ mod tests {
     }
 
     #[test]
+    fn body_extractor_rejects_missing_sub_type() {
+        let input = json!({
+            "body": {
+                "position": {
+                    "X": 1.25,
+                    "Y": 2.75,
+                    "Z": 0
+                },
+                "subParam": 1,
+                "targetName": "Level9"
+            }
+        });
+
+        let extractor = BodyExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(err, ExtractError::MissingField { field: "subType" }));
+    }
+
+    #[test]
     fn roundtrip_body_extracts_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/System/Persistent.Mail.87938122177133895831.json");
@@ -100,5 +128,7 @@ mod tests {
         let fields = section.fields();
         assert_eq!(fields["pos"], json!({ "x": 3867.797119140625, "y": 4096.7294921875 }));
         assert_eq!(fields["target_name"], json!("Level9"));
+        assert_eq!(fields["sub_type"], json!(11));
+        assert_eq!(fields["sub_param"], json!(1));
     }
 }

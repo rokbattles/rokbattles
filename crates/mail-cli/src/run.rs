@@ -487,6 +487,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("87938122177133895831"));
         assert_eq!(parsed["body"]["target_name"], json!("Level9"));
+        assert_eq!(parsed["body"]["sub_type"], json!(11));
+        assert_eq!(parsed["body"]["sub_param"], json!(1));
         assert_eq!(parsed["rewards"].as_array().unwrap().len(), 4);
     }
 
