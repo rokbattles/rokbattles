@@ -12,28 +12,18 @@ pub fn require_object(value: &Value) -> Result<&Map<String, Value>, ExtractError
 /// Require a string field on a decoded mail object.
 pub fn require_string(input: &Value, field: &'static str) -> Result<String, ExtractError> {
     let object = require_object(input)?;
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     value
         .as_str()
         .map(str::to_owned)
-        .ok_or(ExtractError::InvalidFieldType {
-            field,
-            expected: "string",
-        })
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "string" })
 }
 
 /// Require an unsigned integer field on a decoded mail object.
 pub fn require_u64(input: &Value, field: &'static str) -> Result<u64, ExtractError> {
     let object = require_object(input)?;
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
 /// Read array values, skipping index markers if the array is index/value pairs.
@@ -41,10 +31,8 @@ pub fn indexed_array_values<'a>(
     value: &'a Value,
     field: &'static str,
 ) -> Result<Vec<&'a Value>, ExtractError> {
-    let array = value.as_array().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "array",
-    })?;
+    let array =
+        value.as_array().ok_or(ExtractError::InvalidFieldType { field, expected: "array" })?;
 
     if is_indexed_array(array) {
         Ok(array.iter().skip(1).step_by(2).collect())
@@ -79,9 +67,10 @@ fn is_indexed_array(array: &[Value]) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use serde_json::{Value, json};
+
     use super::*;
     use crate::ExtractError;
-    use serde_json::{Value, json};
 
     #[test]
     fn require_string_reads_value() {

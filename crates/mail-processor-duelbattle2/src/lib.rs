@@ -9,10 +9,9 @@ mod opponent;
 mod player;
 mod sender;
 
+pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
-
-pub use mail_processor_sdk::{ExtractError, Section};
 
 /// Process a decoded DuelBattle2 mail with parallel extractors.
 pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {

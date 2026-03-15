@@ -1,5 +1,6 @@
-use serde_json::{Map, Value};
 use std::path::Path;
+
+use serde_json::{Map, Value};
 
 const SYSTEM_BARBARIAN_FORT_MAIL_TYPE: &str = "SystemBarbarianFort";
 const ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE: &str = "AllianceAOOBattleResults";
@@ -151,16 +152,14 @@ pub(crate) fn has_rok_mail_header(buf: &[u8]) -> bool {
 
 /// Extract a non-empty file name for API uploads.
 pub(crate) fn file_name_for_upload(path: &Path) -> Option<String> {
-    path.file_name()
-        .and_then(|s| s.to_str())
-        .filter(|name| !name.is_empty())
-        .map(str::to_string)
+    path.file_name().and_then(|s| s.to_str()).filter(|name| !name.is_empty()).map(str::to_string)
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde_json::json;
+
+    use super::*;
 
     #[test]
     fn normalize_mail_root_accepts_object_and_singleton_array() {
@@ -193,10 +192,7 @@ mod tests {
                 "subType": 11
             }
         });
-        assert_eq!(
-            detect_supported_mail_type(&payload),
-            Some("SystemBarbarianFort")
-        );
+        assert_eq!(detect_supported_mail_type(&payload), Some("SystemBarbarianFort"));
     }
 
     #[test]
@@ -229,20 +225,14 @@ mod tests {
             "box": "AllianceBox",
             "body": { "type": 60 }
         });
-        assert_eq!(
-            detect_supported_mail_type(&battle_results),
-            Some("AllianceAOOBattleResults")
-        );
+        assert_eq!(detect_supported_mail_type(&battle_results), Some("AllianceAOOBattleResults"));
 
         let battle_info = json!({
             "type": "Alliance",
             "box": "AllianceBox",
             "body": { "type": 61 }
         });
-        assert_eq!(
-            detect_supported_mail_type(&battle_info),
-            Some("AllianceAOOBattleInfo")
-        );
+        assert_eq!(detect_supported_mail_type(&battle_info), Some("AllianceAOOBattleInfo"));
 
         let custom_individual_results = json!({
             "type": "Alliance",
@@ -287,10 +277,7 @@ mod tests {
 
     #[test]
     fn supported_mail_types_are_case_insensitive() {
-        assert_eq!(
-            detect_supported_mail_type(&json!({ "type": "Battle" })),
-            Some("Battle")
-        );
+        assert_eq!(detect_supported_mail_type(&json!({ "type": "Battle" })), Some("Battle"));
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "duelbattle2" })),
             Some("DuelBattle2")
@@ -299,10 +286,7 @@ mod tests {
             detect_supported_mail_type(&json!({ "type": "BARCANYONKILLBOSS" })),
             Some("BarCanyonKillBoss")
         );
-        assert_eq!(
-            detect_supported_mail_type(&json!({ "type": "rss" })),
-            Some("Rss")
-        );
+        assert_eq!(detect_supported_mail_type(&json!({ "type": "rss" })), Some("Rss"));
         assert_eq!(
             detect_supported_mail_type(&json!({ "type": "systembarbarianfort" })),
             Some("SystemBarbarianFort")
@@ -315,10 +299,7 @@ mod tests {
             })),
             Some("AllianceAOOBattleResults")
         );
-        assert_eq!(
-            detect_supported_mail_type(&json!({ "type": "Unknown" })),
-            None
-        );
+        assert_eq!(detect_supported_mail_type(&json!({ "type": "Unknown" })), None);
     }
 
     #[test]

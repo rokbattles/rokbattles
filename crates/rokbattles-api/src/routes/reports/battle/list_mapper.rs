@@ -2,12 +2,11 @@ use std::cmp::Ordering;
 
 use mongodb::bson::{Bson, Document, doc};
 
-use crate::bson_utils::{nested_document, nested_i64, nested_str};
-
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
 };
+use crate::bson_utils::{nested_document, nested_i64, nested_str};
 
 const INVALID_OPPONENT_PLAYER_IDS: [i64; 2] = [-2, 0];
 
@@ -127,10 +126,7 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
         battles,
         kill_count,
         trade_percent,
-        summary: ReportSummary {
-            sender: sender_summary,
-            opponent: opponent_summary,
-        },
+        summary: ReportSummary { sender: sender_summary, opponent: opponent_summary },
         timeline: ReportTimeline {
             start_timestamp: nested_i64(document, &["timeline", "start_timestamp"])
                 .unwrap_or(time_start),
@@ -232,9 +228,7 @@ fn resolve_summary_entry(
         troop_units: source
             .and_then(|value| nested_i64(value, &["troop_units"]))
             .unwrap_or(fallback.troop_units),
-        dead: source
-            .and_then(|value| nested_i64(value, &["dead"]))
-            .unwrap_or(fallback.dead),
+        dead: source.and_then(|value| nested_i64(value, &["dead"])).unwrap_or(fallback.dead),
         severely_wounded: source
             .and_then(|value| nested_i64(value, &["severely_wounded"]))
             .unwrap_or(fallback.severely_wounded),
@@ -260,10 +254,7 @@ fn build_fallback_summary(side: &str, opponents: &[&Document]) -> ReportSummaryE
         kill_points: 0,
     };
 
-    for opponent in opponents
-        .iter()
-        .filter(|opponent| is_valid_opponent(opponent))
-    {
+    for opponent in opponents.iter().filter(|opponent| is_valid_opponent(opponent)) {
         summary.troop_units +=
             nested_i64(opponent, &["battle_results", side, "troop_units"]).unwrap_or(0);
         summary.dead += nested_i64(opponent, &["battle_results", side, "dead"]).unwrap_or(0);

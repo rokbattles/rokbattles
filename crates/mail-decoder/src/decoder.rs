@@ -16,10 +16,7 @@ const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
 /// limited number of candidate offsets that yield a full, trailing-free decode.
 pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     if buffer.is_empty() {
-        return Err(DecodeError::UnexpectedEof {
-            needed: 1,
-            remaining: 0,
-        });
+        return Err(DecodeError::UnexpectedEof { needed: 1, remaining: 0 });
     }
 
     let mut decoder = Decoder::new(buffer);
@@ -29,9 +26,7 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     }
 
     if !matches!(value, Value::Null) {
-        return Err(DecodeError::TrailingBytes {
-            remaining: decoder.remaining(),
-        });
+        return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
 
     let remaining = decoder.remaining();
@@ -76,19 +71,11 @@ struct Decoder<'a> {
 
 impl<'a> Decoder<'a> {
     fn new(buffer: &'a [u8]) -> Self {
-        Self {
-            buffer,
-            pos: 0,
-            depth: 0,
-        }
+        Self { buffer, pos: 0, depth: 0 }
     }
 
     fn with_offset(buffer: &'a [u8], pos: usize) -> Self {
-        Self {
-            buffer,
-            pos,
-            depth: 0,
-        }
+        Self { buffer, pos, depth: 0 }
     }
 
     fn remaining(&self) -> usize {
@@ -190,9 +177,7 @@ impl<'a> Decoder<'a> {
 
     fn read_u32_le(&mut self) -> Result<u32, DecodeError> {
         let raw = self.read_exact(4)?;
-        Ok(u32::from_le_bytes(
-            raw.try_into().expect("slice length checked"),
-        ))
+        Ok(u32::from_le_bytes(raw.try_into().expect("slice length checked")))
     }
 
     fn read_u8(&mut self) -> Result<u8, DecodeError> {
@@ -200,10 +185,7 @@ impl<'a> Decoder<'a> {
             .buffer
             .get(self.pos)
             .copied()
-            .ok_or(DecodeError::UnexpectedEof {
-                needed: 1,
-                remaining: 0,
-            })?;
+            .ok_or(DecodeError::UnexpectedEof { needed: 1, remaining: 0 })?;
         self.pos += 1;
         Ok(byte)
     }
@@ -211,10 +193,7 @@ impl<'a> Decoder<'a> {
     fn read_exact(&mut self, len: usize) -> Result<&'a [u8], DecodeError> {
         let end = self.pos.saturating_add(len);
         if end > self.buffer.len() {
-            return Err(DecodeError::UnexpectedEof {
-                needed: len,
-                remaining: self.remaining(),
-            });
+            return Err(DecodeError::UnexpectedEof { needed: len, remaining: self.remaining() });
         }
 
         let start = self.pos;
@@ -259,11 +238,7 @@ fn to_u64_exact(value: f64) -> Option<u64> {
         return None;
     }
     let int = value as u64;
-    if (int as f64) == value {
-        Some(int)
-    } else {
-        None
-    }
+    if (int as f64) == value { Some(int) } else { None }
 }
 
 fn to_i64_exact(value: f64) -> Option<i64> {
@@ -271,11 +246,7 @@ fn to_i64_exact(value: f64) -> Option<i64> {
         return None;
     }
     let int = value as i64;
-    if (int as f64) == value {
-        Some(int)
-    } else {
-        None
-    }
+    if (int as f64) == value { Some(int) } else { None }
 }
 
 #[cfg(test)]
@@ -392,10 +363,7 @@ mod tests {
     fn decode_array_values() {
         let buffer = encode_array(&[vec![TAG_BOOL, 1], encode_string("ok")]);
         let value = decode(&buffer).unwrap();
-        assert_eq!(
-            value,
-            Value::Array(vec![Value::Bool(true), Value::String("ok".to_string())])
-        );
+        assert_eq!(value, Value::Array(vec![Value::Bool(true), Value::String("ok".to_string())]));
     }
 
     #[test]

@@ -1,8 +1,10 @@
 //! API error types and their HTTP mapping.
 
-use axum::Json;
-use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use axum::{
+    Json,
+    http::StatusCode,
+    response::{IntoResponse, Response},
+};
 use serde::Serialize;
 
 /// Errors returned by route handlers.
@@ -58,21 +60,11 @@ impl ApiError {
 
     fn body(&self) -> ErrorResponse {
         match self {
-            ApiError::BadRequest(message) => ErrorResponse {
-                error: message.clone(),
-            },
-            ApiError::Conflict(message) => ErrorResponse {
-                error: message.clone(),
-            },
-            ApiError::NotFound(message) => ErrorResponse {
-                error: message.clone(),
-            },
-            ApiError::Unauthorized => ErrorResponse {
-                error: "unauthorized".to_string(),
-            },
-            ApiError::Internal(_) => ErrorResponse {
-                error: "internal-server-error".to_string(),
-            },
+            ApiError::BadRequest(message) => ErrorResponse { error: message.clone() },
+            ApiError::Conflict(message) => ErrorResponse { error: message.clone() },
+            ApiError::NotFound(message) => ErrorResponse { error: message.clone() },
+            ApiError::Unauthorized => ErrorResponse { error: "unauthorized".to_string() },
+            ApiError::Internal(_) => ErrorResponse { error: "internal-server-error".to_string() },
         }
     }
 }

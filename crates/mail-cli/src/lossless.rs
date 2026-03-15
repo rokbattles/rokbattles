@@ -1,5 +1,7 @@
-use std::fs;
-use std::path::{Path, PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use mail_decoder::{
     LosslessArray, LosslessContainer, LosslessDocument, LosslessEntry, LosslessObject,
@@ -7,8 +9,7 @@ use mail_decoder::{
 };
 use serde_json::Value;
 
-use crate::fs_utils::is_json_file;
-use crate::{MailCliError, RebuildConfig, RebuildSummary};
+use crate::{MailCliError, RebuildConfig, RebuildSummary, fs_utils::is_json_file};
 
 /// Rebuild lossless JSON files into raw mail buffers.
 pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCliError> {
@@ -27,10 +28,8 @@ pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCl
     let output_dir = match &config.output_dir {
         Some(dir) => dir.clone(),
         None => {
-            let metadata = fs::metadata(&config.input_path).map_err(|source| MailCliError::Io {
-                source,
-                path: config.input_path.clone(),
-            })?;
+            let metadata = fs::metadata(&config.input_path)
+                .map_err(|source| MailCliError::Io { source, path: config.input_path.clone() })?;
             if metadata.is_file() {
                 config
                     .input_path
@@ -43,27 +42,17 @@ pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCl
         }
     };
 
-    fs::create_dir_all(&output_dir).map_err(|source| MailCliError::Io {
-        source,
-        path: output_dir.clone(),
-    })?;
+    fs::create_dir_all(&output_dir)
+        .map_err(|source| MailCliError::Io { source, path: output_dir.clone() })?;
 
     let mut rebuilt_files = 0;
     for input in input_files {
-        let buffer = fs::read(&input).map_err(|source| MailCliError::Io {
-            source,
-            path: input.clone(),
-        })?;
-        let value: Value =
-            serde_json::from_slice(&buffer).map_err(|source| MailCliError::LosslessJson {
-                source,
-                path: input.clone(),
-            })?;
-        let document =
-            parse_lossless_document(&value).map_err(|message| MailCliError::LosslessFormat {
-                message,
-                path: input.clone(),
-            })?;
+        let buffer =
+            fs::read(&input).map_err(|source| MailCliError::Io { source, path: input.clone() })?;
+        let value: Value = serde_json::from_slice(&buffer)
+            .map_err(|source| MailCliError::LosslessJson { source, path: input.clone() })?;
+        let document = parse_lossless_document(&value)
+            .map_err(|message| MailCliError::LosslessFormat { message, path: input.clone() })?;
         let mail_id = match &config.mail_id {
             Some(id) => id.clone(),
             None => extract_lossless_mail_id(&document.value).ok_or_else(|| {
@@ -73,21 +62,14 @@ pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCl
                 }
             })?,
         };
-        validate_mail_id(&mail_id).map_err(|message| MailCliError::LosslessFormat {
-            message,
-            path: input.clone(),
-        })?;
+        validate_mail_id(&mail_id)
+            .map_err(|message| MailCliError::LosslessFormat { message, path: input.clone() })?;
 
         let output_path = output_dir.join(format!("Persistent.Mail.{mail_id}"));
-        let encoded =
-            encode_lossless(&document).map_err(|source| MailCliError::LosslessEncode {
-                source,
-                path: input.clone(),
-            })?;
-        fs::write(&output_path, encoded).map_err(|source| MailCliError::Io {
-            source,
-            path: output_path,
-        })?;
+        let encoded = encode_lossless(&document)
+            .map_err(|source| MailCliError::LosslessEncode { source, path: input.clone() })?;
+        fs::write(&output_path, encoded)
+            .map_err(|source| MailCliError::Io { source, path: output_path })?;
         rebuilt_files += 1;
     }
 
@@ -95,28 +77,21 @@ pub fn rebuild_lossless(config: &RebuildConfig) -> Result<RebuildSummary, MailCl
 }
 
 fn collect_lossless_json_files(path: &Path) -> Result<Vec<PathBuf>, MailCliError> {
-    let metadata = fs::metadata(path).map_err(|source| MailCliError::Io {
-        source,
-        path: path.to_path_buf(),
-    })?;
+    let metadata = fs::metadata(path)
+        .map_err(|source| MailCliError::Io { source, path: path.to_path_buf() })?;
     if metadata.is_file() {
         return Ok(vec![path.to_path_buf()]);
     }
     if !metadata.is_dir() {
-        return Err(MailCliError::InvalidInputPath {
-            path: path.to_path_buf(),
-        });
+        return Err(MailCliError::InvalidInputPath { path: path.to_path_buf() });
     }
 
     let mut files = Vec::new();
-    for entry in fs::read_dir(path).map_err(|source| MailCliError::Io {
-        source,
-        path: path.to_path_buf(),
-    })? {
-        let entry = entry.map_err(|source| MailCliError::Io {
-            source,
-            path: path.to_path_buf(),
-        })?;
+    for entry in fs::read_dir(path)
+        .map_err(|source| MailCliError::Io { source, path: path.to_path_buf() })?
+    {
+        let entry =
+            entry.map_err(|source| MailCliError::Io { source, path: path.to_path_buf() })?;
         let entry_path = entry.path();
         if entry_path.is_file() && is_json_file(&entry_path) {
             files.push(entry_path);
@@ -128,28 +103,20 @@ fn collect_lossless_json_files(path: &Path) -> Result<Vec<PathBuf>, MailCliError
 }
 
 fn parse_lossless_document(value: &Value) -> Result<LosslessDocument, String> {
-    let obj = value
-        .as_object()
-        .ok_or_else(|| "lossless JSON root must be an object".to_string())?;
+    let obj =
+        value.as_object().ok_or_else(|| "lossless JSON root must be an object".to_string())?;
     let preamble_hex = obj
         .get("preamble_hex")
         .and_then(Value::as_str)
         .ok_or_else(|| "lossless JSON missing preamble_hex".to_string())?;
     let preamble = decode_hex(preamble_hex)?;
-    let value = obj
-        .get("value")
-        .ok_or_else(|| "lossless JSON missing value".to_string())?;
+    let value = obj.get("value").ok_or_else(|| "lossless JSON missing value".to_string())?;
     let lossless_value = parse_lossless_value(value)?;
-    Ok(LosslessDocument {
-        preamble,
-        value: lossless_value,
-    })
+    Ok(LosslessDocument { preamble, value: lossless_value })
 }
 
 fn parse_lossless_value(value: &Value) -> Result<LosslessValue, String> {
-    let obj = value
-        .as_object()
-        .ok_or_else(|| "lossless value must be an object".to_string())?;
+    let obj = value.as_object().ok_or_else(|| "lossless value must be an object".to_string())?;
     let tag = obj
         .get("tag")
         .and_then(Value::as_str)
@@ -202,9 +169,7 @@ fn parse_lossless_value(value: &Value) -> Result<LosslessValue, String> {
                 .get("value")
                 .and_then(Value::as_str)
                 .ok_or_else(|| "lossless string missing value".to_string())?;
-            Ok(LosslessValue::String {
-                value: value.to_string(),
-            })
+            Ok(LosslessValue::String { value: value.to_string() })
         }
         "unknown" => {
             let raw = obj
@@ -239,10 +204,7 @@ fn parse_lossless_value(value: &Value) -> Result<LosslessValue, String> {
                             .get("value")
                             .ok_or_else(|| "lossless object entry missing value".to_string())?;
                         let value = parse_lossless_value(value)?;
-                        parsed_entries.push(LosslessEntry {
-                            key: key.to_string(),
-                            value,
-                        });
+                        parsed_entries.push(LosslessEntry { key: key.to_string(), value });
                     }
                     let terminator = obj
                         .get("terminator")
@@ -253,12 +215,10 @@ fn parse_lossless_value(value: &Value) -> Result<LosslessValue, String> {
                             })
                         })
                         .transpose()?;
-                    Ok(LosslessValue::Container(LosslessContainer::Object(
-                        LosslessObject {
-                            entries: parsed_entries,
-                            terminator,
-                        },
-                    )))
+                    Ok(LosslessValue::Container(LosslessContainer::Object(LosslessObject {
+                        entries: parsed_entries,
+                        terminator,
+                    })))
                 }
                 "array" => {
                     let items = obj
@@ -278,12 +238,10 @@ fn parse_lossless_value(value: &Value) -> Result<LosslessValue, String> {
                             })
                         })
                         .transpose()?;
-                    Ok(LosslessValue::Container(LosslessContainer::Array(
-                        LosslessArray {
-                            items: parsed_items,
-                            terminator,
-                        },
-                    )))
+                    Ok(LosslessValue::Container(LosslessContainer::Array(LosslessArray {
+                        items: parsed_items,
+                        terminator,
+                    })))
                 }
                 _ => Err(format!("lossless container has unknown kind {kind}")),
             }
@@ -313,10 +271,7 @@ fn hex_nibble(byte: u8) -> Result<u8, String> {
         b'0'..=b'9' => Ok(byte - b'0'),
         b'a'..=b'f' => Ok(byte - b'a' + 10),
         b'A'..=b'F' => Ok(byte - b'A' + 10),
-        _ => Err(format!(
-            "hex string contains invalid character {}",
-            byte as char
-        )),
+        _ => Err(format!("hex string contains invalid character {}", byte as char)),
     }
 }
 
@@ -378,8 +333,9 @@ fn validate_mail_id(mail_id: &str) -> Result<(), String> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use mail_decoder::{decode_lossless, lossless_to_json};
+
+    use super::*;
 
     #[test]
     fn rebuild_lossless_roundtrip_sample() {
@@ -395,9 +351,7 @@ mod tests {
         let summary = rebuild_lossless(&config).expect("rebuild lossless");
         assert_eq!(summary.rebuilt_files, 1);
 
-        let rebuilt_path = output_dir
-            .path()
-            .join("Persistent.Mail.60719727166813248216");
+        let rebuilt_path = output_dir.path().join("Persistent.Mail.60719727166813248216");
         let rebuilt_bytes = fs::read(rebuilt_path).expect("read rebuilt bytes");
         let decoded = decode_lossless(&rebuilt_bytes).expect("decode rebuilt bytes");
         let roundtrip = lossless_to_json(&decoded);
@@ -453,10 +407,7 @@ mod tests {
         let err = rebuild_lossless(&config).unwrap_err();
         match err {
             MailCliError::LosslessFormat { message, .. } => {
-                assert_eq!(
-                    message,
-                    "missing mail id in lossless JSON; supply --mail-id"
-                );
+                assert_eq!(message, "missing mail id in lossless JSON; supply --mail-id");
             }
             _ => panic!("unexpected error: {err:?}"),
         }

@@ -37,11 +37,12 @@ impl Extractor for BodyExtractor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn body_extractor_reads_fields() {

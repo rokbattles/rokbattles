@@ -1,16 +1,17 @@
 use std::sync::Arc;
 
-use axum::extract::State;
-use axum::http::HeaderMap;
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
+use axum::{
+    Json,
+    extract::State,
+    http::{HeaderMap, StatusCode},
+    response::IntoResponse,
+};
 
-use crate::error::ApiError;
-use crate::state::AppState;
-
-use self::auth::is_authorized_request;
-use self::store::refresh_claimed_governor_bindings;
-use self::types::RefreshBindsResponse;
+use self::{
+    auth::is_authorized_request, store::refresh_claimed_governor_bindings,
+    types::RefreshBindsResponse,
+};
+use crate::{error::ApiError, state::AppState};
 
 mod auth;
 mod store;
@@ -39,9 +40,5 @@ async fn refresh_binds(
     .await?;
 
     let response = RefreshBindsResponse::from(stats);
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }

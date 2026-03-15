@@ -1,5 +1,4 @@
-use axum::Json;
-use axum::response::IntoResponse;
+use axum::{Json, response::IntoResponse};
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]

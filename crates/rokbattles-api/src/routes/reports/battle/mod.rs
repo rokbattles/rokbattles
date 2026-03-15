@@ -1,25 +1,32 @@
-use std::collections::HashMap;
-use std::collections::HashSet;
-use std::sync::Arc;
-
-use axum::extract::{Path, Query, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
-use futures::StreamExt;
-use mongodb::bson::doc;
-use mongodb::options::{FindOneOptions, FindOptions};
-
-use crate::error::ApiError;
-use crate::routes::reports::common::pagination::paginate_cursor_rows;
-use crate::state::AppState;
-
-use self::detail_mapper::{
-    build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
+use std::{
+    collections::{HashMap, HashSet},
+    sync::Arc,
 };
-use self::list_mapper::{build_report_dedupe_key, map_battle_list_document};
-use self::match_builder::build_reports_match;
-use self::query::parse_reports_request;
-use self::types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse};
+
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
+};
+use futures::StreamExt;
+use mongodb::{
+    bson::doc,
+    options::{FindOneOptions, FindOptions},
+};
+
+use self::{
+    detail_mapper::{
+        build_battle_detail_filter, build_battle_detail_projection, map_battle_detail_document,
+    },
+    list_mapper::{build_report_dedupe_key, map_battle_list_document},
+    match_builder::build_reports_match,
+    query::parse_reports_request,
+    types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse},
+};
+use crate::{
+    error::ApiError, routes::reports::common::pagination::paginate_cursor_rows, state::AppState,
+};
 
 mod detail_mapper;
 mod list_mapper;
@@ -85,11 +92,7 @@ pub async fn get(
         previous_before: paged_rows.previous_before,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }
 
 /// Look up a single battle report by mail ID.
@@ -99,9 +102,7 @@ pub async fn get_by_id(
 ) -> Result<impl IntoResponse, ApiError> {
     let report_id = parse_report_id(&id)?;
 
-    let options = FindOneOptions::builder()
-        .projection(build_battle_detail_projection())
-        .build();
+    let options = FindOneOptions::builder().projection(build_battle_detail_projection()).build();
 
     let mail = state
         .reports_store
@@ -116,11 +117,7 @@ pub async fn get_by_id(
         mail: mail.as_ref().and_then(map_battle_detail_document),
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)], Json(response)))
 }
 
 fn parse_report_id(raw_id: &str) -> Result<String, ApiError> {
@@ -144,10 +141,7 @@ mod tests {
 
     #[test]
     fn trims_and_rejects_empty_report_id() {
-        assert_eq!(
-            parse_report_id("  mail-123  ").expect("id should parse"),
-            "mail-123"
-        );
+        assert_eq!(parse_report_id("  mail-123  ").expect("id should parse"), "mail-123");
         assert!(parse_report_id("   ").is_err());
     }
 }

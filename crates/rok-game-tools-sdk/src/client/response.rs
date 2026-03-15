@@ -1,10 +1,13 @@
-use crate::error::RokGtError;
-use crate::models::{
-    KingdomInformationResponse, KingdomListResponse, KingdomMemberResponse, LatestServerIdsResponse,
-};
 use reqwest::StatusCode;
-use serde::Deserialize;
-use serde::de::DeserializeOwned;
+use serde::{Deserialize, de::DeserializeOwned};
+
+use crate::{
+    error::RokGtError,
+    models::{
+        KingdomInformationResponse, KingdomListResponse, KingdomMemberResponse,
+        LatestServerIdsResponse,
+    },
+};
 
 pub(super) trait ApiEnvelope {
     fn code(&self) -> u32;
@@ -95,19 +98,13 @@ fn parse_non_success_response(status: StatusCode, bytes: &[u8]) -> RokGtError {
             });
         if let Some(message) = message {
             return RokGtError::Api {
-                code: payload
-                    .status_code
-                    .map(u32::from)
-                    .unwrap_or(status.as_u16().into()),
+                code: payload.status_code.map(u32::from).unwrap_or(status.as_u16().into()),
                 message,
             };
         }
     }
 
-    RokGtError::HttpStatus {
-        status,
-        body: body_preview(bytes),
-    }
+    RokGtError::HttpStatus { status, body: body_preview(bytes) }
 }
 
 fn body_preview(body: &[u8]) -> String {
@@ -115,17 +112,14 @@ fn body_preview(body: &[u8]) -> String {
     let decoded = String::from_utf8_lossy(body);
     let mut chars = decoded.chars();
     let preview: String = chars.by_ref().take(MAX_CHARS).collect();
-    if chars.next().is_some() {
-        format!("{preview}...")
-    } else {
-        preview
-    }
+    if chars.next().is_some() { format!("{preview}...") } else { preview }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde_json::json;
+
+    use super::*;
 
     #[test]
     fn parse_maps_non_success_http_status() {
@@ -134,13 +128,7 @@ mod tests {
             b"upstream unavailable",
         )
         .expect_err("status should fail");
-        assert!(matches!(
-            err,
-            RokGtError::HttpStatus {
-                status: StatusCode::BAD_GATEWAY,
-                ..
-            }
-        ));
+        assert!(matches!(err, RokGtError::HttpStatus { status: StatusCode::BAD_GATEWAY, .. }));
     }
 
     #[test]

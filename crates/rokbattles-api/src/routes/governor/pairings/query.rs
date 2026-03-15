@@ -1,8 +1,9 @@
 use std::collections::HashMap;
 
-use crate::error::ApiError;
-use crate::routes::governor::common::parse_default_governor_date_range;
-use crate::routes::governor::date_range::GovernorDateRange;
+use crate::{
+    error::ApiError,
+    routes::governor::{common::parse_default_governor_date_range, date_range::GovernorDateRange},
+};
 
 #[derive(Debug, Clone)]
 pub(crate) struct PairingsRequest {
@@ -55,12 +56,7 @@ pub(crate) fn parse_pairing_loadouts_request(
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
     let granularity = parse_loadout_granularity(params.get("granularity").map(String::as_str))?;
 
-    Ok(PairingLoadoutsRequest {
-        range,
-        primary_commander_id,
-        secondary_commander_id,
-        granularity,
-    })
+    Ok(PairingLoadoutsRequest { range, primary_commander_id, secondary_commander_id, granularity })
 }
 
 pub(crate) fn parse_pairing_opponents_request(

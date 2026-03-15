@@ -1,7 +1,6 @@
 //! Environment-driven configuration for the ingress service.
 
-use std::env;
-use std::num::NonZeroU32;
+use std::{env, num::NonZeroU32};
 
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, Clone)]
@@ -34,17 +33,11 @@ impl Config {
         let mongo_uri = required_env("MONGODB_URI")?;
         let clamav_enabled = parse_bool(env::var("CLAMAV_ENABLED").ok(), false)?;
         let clamav_addr = env::var("CLAMAV_ADDR").unwrap_or_else(|_| "127.0.0.1:3310".to_string());
-        let clamav_timeout_ms = parse_u64(
-            "CLAMAV_TIMEOUT_MS",
-            env::var("CLAMAV_TIMEOUT_MS").ok(),
-            15_000,
-        )?;
+        let clamav_timeout_ms =
+            parse_u64("CLAMAV_TIMEOUT_MS", env::var("CLAMAV_TIMEOUT_MS").ok(), 15_000)?;
         let zstd_level = parse_i32("ZSTD_LEVEL", env::var("ZSTD_LEVEL").ok(), 3)?;
-        let max_upload_bytes = parse_usize(
-            "MAX_UPLOAD_BYTES",
-            env::var("MAX_UPLOAD_BYTES").ok(),
-            25 * 1024 * 1024,
-        )?;
+        let max_upload_bytes =
+            parse_usize("MAX_UPLOAD_BYTES", env::var("MAX_UPLOAD_BYTES").ok(), 25 * 1024 * 1024)?;
         let rate_limit_per_minute = parse_nonzero_u32(
             "RATE_LIMIT_PER_MINUTE",
             env::var("RATE_LIMIT_PER_MINUTE").ok(),
@@ -90,10 +83,7 @@ fn parse_bool(value: Option<String>, default: bool) -> Result<bool, ConfigError>
     match value.to_ascii_lowercase().as_str() {
         "true" | "1" | "yes" | "on" => Ok(true),
         "false" | "0" | "no" | "off" => Ok(false),
-        _ => Err(ConfigError::Invalid {
-            key: "CLAMAV_ENABLED",
-            value,
-        }),
+        _ => Err(ConfigError::Invalid { key: "CLAMAV_ENABLED", value }),
     }
 }
 
@@ -101,18 +91,14 @@ fn parse_u64(key: &'static str, value: Option<String>, default: u64) -> Result<u
     let Some(value) = value else {
         return Ok(default);
     };
-    value
-        .parse::<u64>()
-        .map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<u64>().map_err(|_| ConfigError::Invalid { key, value })
 }
 
 fn parse_i32(key: &'static str, value: Option<String>, default: i32) -> Result<i32, ConfigError> {
     let Some(value) = value else {
         return Ok(default);
     };
-    value
-        .parse::<i32>()
-        .map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<i32>().map_err(|_| ConfigError::Invalid { key, value })
 }
 
 fn parse_usize(
@@ -123,9 +109,7 @@ fn parse_usize(
     let Some(value) = value else {
         return Ok(default);
     };
-    value
-        .parse::<usize>()
-        .map_err(|_| ConfigError::Invalid { key, value })
+    value.parse::<usize>().map_err(|_| ConfigError::Invalid { key, value })
 }
 
 fn parse_nonzero_u32(
@@ -134,15 +118,10 @@ fn parse_nonzero_u32(
     default: u32,
 ) -> Result<NonZeroU32, ConfigError> {
     let parsed = match value {
-        Some(value) => value
-            .parse::<u32>()
-            .map_err(|_| ConfigError::Invalid { key, value })?,
+        Some(value) => value.parse::<u32>().map_err(|_| ConfigError::Invalid { key, value })?,
         None => default,
     };
-    NonZeroU32::new(parsed).ok_or_else(|| ConfigError::Invalid {
-        key,
-        value: parsed.to_string(),
-    })
+    NonZeroU32::new(parsed).ok_or_else(|| ConfigError::Invalid { key, value: parsed.to_string() })
 }
 
 fn parse_rate_limit_key(
@@ -155,10 +134,7 @@ fn parse_rate_limit_key(
     match value.to_ascii_lowercase().as_str() {
         "peer" => Ok(RateLimitKey::Peer),
         "cloudflare" | "cf" => Ok(RateLimitKey::Cloudflare),
-        _ => Err(ConfigError::Invalid {
-            key: "RATE_LIMIT_KEY",
-            value,
-        }),
+        _ => Err(ConfigError::Invalid { key: "RATE_LIMIT_KEY", value }),
     }
 }
 

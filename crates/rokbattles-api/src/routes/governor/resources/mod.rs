@@ -1,19 +1,24 @@
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
-use axum::extract::{Path, Query, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
+};
 
-use crate::auth::AuthenticatedSession;
-use crate::error::ApiError;
-use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
-use crate::state::AppState;
-
-use self::aggregate::aggregate_resources;
-use self::query::parse_resources_request;
-use self::store::fetch_resources_mails;
-use self::types::{ResourcesRange, ResourcesResponse};
+use self::{
+    aggregate::aggregate_resources,
+    query::parse_resources_request,
+    store::fetch_resources_mails,
+    types::{ResourcesRange, ResourcesResponse},
+};
+use crate::{
+    auth::AuthenticatedSession,
+    error::ApiError,
+    routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+    state::AppState,
+};
 
 mod aggregate;
 mod query;
@@ -38,19 +43,12 @@ pub async fn get(
 
     let aggregated = aggregate_resources(mails, &request.range);
     let response = ResourcesResponse {
-        range: ResourcesRange {
-            start: request.range.start,
-            end: request.range.end,
-        },
+        range: ResourcesRange { start: request.range.start, end: request.range.end },
         total_reports: aggregated.total_reports,
         crystals_gain: aggregated.crystals_gain,
         resources: aggregated.resources,
         daily: aggregated.daily,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }

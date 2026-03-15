@@ -2,8 +2,7 @@
 
 //! Command-line interface for decoding mail buffers into JSON.
 
-use std::error::Error;
-use std::path::PathBuf;
+use std::{error::Error, path::PathBuf};
 
 use clap::{ArgAction, Parser};
 use mail_cli::{Config, MailCliError, RebuildConfig};
@@ -49,10 +48,7 @@ fn main() {
             std::process::exit(1);
         }
     } else {
-        let output_dir = cli
-            .output_dir
-            .clone()
-            .unwrap_or_else(|| cli.input_dir.clone());
+        let output_dir = cli.output_dir.clone().unwrap_or_else(|| cli.input_dir.clone());
 
         let config = Config {
             input_dir: cli.input_dir,

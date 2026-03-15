@@ -1,7 +1,9 @@
 #![forbid(unsafe_code)]
 
-use std::io::{self, Write};
-use std::path::PathBuf;
+use std::{
+    io::{self, Write},
+    path::PathBuf,
+};
 
 use anyhow::Context;
 use binidx_decoder::{CatalogEntry, decode_catalog_from_encoded_tables};
@@ -24,12 +26,7 @@ pub struct Cli {
     pub bin: PathBuf,
 
     /// Path to the index table (`*.idx`).
-    #[arg(
-        long = "index",
-        visible_alias = "idx",
-        short = 'i',
-        value_name = "PATH"
-    )]
+    #[arg(long = "index", visible_alias = "idx", short = 'i', value_name = "PATH")]
     pub index: PathBuf,
 
     /// XOR key as decimal or hex (for example `50` or `0x32`).
@@ -56,11 +53,7 @@ pub fn run(cli: Cli) -> anyhow::Result<()> {
         .with_context(|| format!("failed to read value table {}", cli.bin.display()))?;
 
     let catalog = decode_catalog_from_encoded_tables(&idx, &bin, cli.xor).with_context(|| {
-        format!(
-            "failed to decode {} + {}",
-            cli.index.display(),
-            cli.bin.display()
-        )
+        format!("failed to decode {} + {}", cli.index.display(), cli.bin.display())
     })?;
 
     let rows = select_rows(
@@ -76,10 +69,7 @@ pub fn run(cli: Cli) -> anyhow::Result<()> {
 }
 
 fn parse_u8(input: &str) -> Result<u8, String> {
-    if let Some(hex) = input
-        .strip_prefix("0x")
-        .or_else(|| input.strip_prefix("0X"))
-    {
+    if let Some(hex) = input.strip_prefix("0x").or_else(|| input.strip_prefix("0X")) {
         return u8::from_str_radix(hex, 16).map_err(|error| error.to_string());
     }
 
@@ -98,9 +88,8 @@ fn select_rows<'a>(
                 return true;
             }
 
-            let key_match = search_key
-                .map(|query| contains_case_insensitive(&row.key, query))
-                .unwrap_or(false);
+            let key_match =
+                search_key.map(|query| contains_case_insensitive(&row.key, query)).unwrap_or(false);
             let value_match = search_value
                 .map(|query| contains_case_insensitive(&row.value, query))
                 .unwrap_or(false);
@@ -149,16 +138,13 @@ fn sanitize_tsv_field(value: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{Cli, contains_case_insensitive, select_rows, write_rows_tsv};
     use binidx_decoder::CatalogEntry;
     use clap::Parser;
 
+    use super::{Cli, contains_case_insensitive, select_rows, write_rows_tsv};
+
     fn row(index: usize, key: &str, value: &str) -> CatalogEntry {
-        CatalogEntry {
-            index,
-            key: key.to_owned(),
-            value: value.to_owned(),
-        }
+        CatalogEntry { index, key: key.to_owned(), value: value.to_owned() }
     }
 
     fn sample_rows() -> Vec<CatalogEntry> {
@@ -204,10 +190,7 @@ mod tests {
         ])
         .expect_err("must fail");
 
-        assert_eq!(
-            error.kind(),
-            clap::error::ErrorKind::MissingRequiredArgument
-        );
+        assert_eq!(error.kind(), clap::error::ErrorKind::MissingRequiredArgument);
     }
 
     #[test]
@@ -246,9 +229,6 @@ mod tests {
 
         write_rows_tsv(&mut output, &refs).expect("write tsv");
 
-        assert_eq!(
-            String::from_utf8(output).expect("utf8"),
-            "1\tN\\t1\tline1\\nline2\n"
-        );
+        assert_eq!(String::from_utf8(output).expect("utf8"), "1\tN\\t1\tline1\\nline2\n");
     }
 }

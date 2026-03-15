@@ -5,14 +5,18 @@ mod updater;
 mod watcher;
 mod watcher_manager;
 
-use crate::watcher::{delete_processed, delete_upload_queue};
-use crate::watcher_manager::WatcherManager;
+use std::{collections::BTreeSet, path::Path};
+
 use app_config::CloseBehavior;
 use serde::Serialize;
-use std::{collections::BTreeSet, path::Path};
 use tauri::{
     AppHandle, Manager, RunEvent,
     tray::{MouseButton, MouseButtonState, TrayIconEvent},
+};
+
+use crate::{
+    watcher::{delete_processed, delete_upload_queue},
+    watcher_manager::WatcherManager,
 };
 
 fn tray_supported() -> bool {
@@ -115,10 +119,8 @@ fn add_dir(app: AppHandle, paths: Vec<String>) -> Result<Vec<String>, String> {
 fn remove_dir(app: AppHandle, path: String) -> Result<Vec<String>, String> {
     let current = read_dirs(&app).map_err(|e| e.to_string())?;
     let target_key = dir_identity_key(&path);
-    let mut next = current
-        .into_iter()
-        .filter(|dir| dir_identity_key(dir) != target_key)
-        .collect::<Vec<_>>();
+    let mut next =
+        current.into_iter().filter(|dir| dir_identity_key(dir) != target_key).collect::<Vec<_>>();
     next.sort();
     app_config::write_dirs(&app, &next).map_err(|e| e.to_string())?;
     Ok(dirs_for_ui(&next))
@@ -195,11 +197,7 @@ fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, St
         )
     };
 
-    Ok(DiscoverMailcacheResult {
-        added_dirs,
-        already_watched_dirs,
-        message,
-    })
+    Ok(DiscoverMailcacheResult { added_dirs, already_watched_dirs, message })
 }
 
 #[tauri::command]
@@ -315,10 +313,7 @@ pub fn run() {
                     button_state: MouseButtonState::Up,
                     ..
                 }
-                | TrayIconEvent::DoubleClick {
-                    button: MouseButton::Left,
-                    ..
-                } => {
+                | TrayIconEvent::DoubleClick { button: MouseButton::Left, .. } => {
                     tray::show_main_window(app);
                 }
                 _ => {}

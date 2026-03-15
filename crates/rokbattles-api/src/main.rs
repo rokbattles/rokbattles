@@ -3,10 +3,12 @@
 use std::sync::Arc;
 
 use mongodb::options::ClientOptions;
-use rokbattles_api::build_router;
-use rokbattles_api::config::Config;
-use rokbattles_api::db::{MongoAuthStore, ReportsStore};
-use rokbattles_api::state::{AppState, DiscordOAuthConfig};
+use rokbattles_api::{
+    build_router,
+    config::Config,
+    db::{MongoAuthStore, ReportsStore},
+    state::{AppState, DiscordOAuthConfig},
+};
 use tracing::info;
 
 #[tokio::main]
@@ -14,9 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
     let config = Config::from_env()?;
-    tracing_subscriber::fmt()
-        .with_env_filter(config.log_filter.clone())
-        .init();
+    tracing_subscriber::fmt().with_env_filter(config.log_filter.clone()).init();
 
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let database_name = client_options.default_database.clone().ok_or_else(|| {

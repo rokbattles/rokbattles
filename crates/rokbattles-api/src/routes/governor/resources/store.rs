@@ -1,12 +1,14 @@
 use std::sync::Arc;
 
-use mongodb::bson::{Bson, Document, doc};
-use mongodb::options::FindOptions;
+use mongodb::{
+    bson::{Bson, Document, doc},
+    options::FindOptions,
+};
 use serde::Deserialize;
 
-use crate::error::ApiError;
-use crate::routes::governor::store_utils::fetch_collection_documents;
-use crate::state::AppState;
+use crate::{
+    error::ApiError, routes::governor::store_utils::fetch_collection_documents, state::AppState,
+};
 
 #[derive(Debug, Clone, Default, Deserialize)]
 pub(crate) struct MailMetadataDocument {

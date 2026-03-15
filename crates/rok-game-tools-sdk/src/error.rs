@@ -5,15 +5,9 @@ use thiserror::Error;
 #[derive(Debug, Error)]
 pub enum RokGtError {
     #[error("invalid configuration for {field}: {reason}")]
-    InvalidConfig {
-        field: &'static str,
-        reason: &'static str,
-    },
+    InvalidConfig { field: &'static str, reason: &'static str },
     #[error("invalid request value for {field}: {reason}")]
-    InvalidRequest {
-        field: &'static str,
-        reason: &'static str,
-    },
+    InvalidRequest { field: &'static str, reason: &'static str },
     #[error("invalid header value for {header}")]
     InvalidHeaderValue {
         header: &'static str,

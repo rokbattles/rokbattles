@@ -1,6 +1,7 @@
+use std::{fs, path::PathBuf};
+
 use anyhow::{Context, anyhow};
 use serde::{Deserialize, Serialize};
-use std::{fs, path::PathBuf};
 use tauri::{AppHandle, Manager};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
@@ -37,10 +38,7 @@ fn default_auto_update() -> bool {
 }
 
 fn config_file(app: &AppHandle) -> anyhow::Result<PathBuf> {
-    let dir = app
-        .path()
-        .app_config_dir()
-        .context("Could not resolve app config directory")?;
+    let dir = app.path().app_config_dir().context("Could not resolve app config directory")?;
     fs::create_dir_all(&dir).context("Failed to create app config directory")?;
     Ok(dir.join("config.json"))
 }
@@ -56,10 +54,7 @@ fn parse_config_bytes(data: &[u8]) -> anyhow::Result<AppConfig> {
 
     // Older builds stored only a list of watched directories.
     if let Ok(legacy_dirs) = serde_json::from_slice::<Vec<String>>(data) {
-        return Ok(AppConfig {
-            dirs: legacy_dirs,
-            ..AppConfig::default()
-        });
+        return Ok(AppConfig { dirs: legacy_dirs, ..AppConfig::default() });
     }
 
     Err(anyhow!("Invalid JSON"))

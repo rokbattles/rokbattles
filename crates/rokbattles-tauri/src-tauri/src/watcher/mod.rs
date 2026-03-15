@@ -5,13 +5,6 @@ mod state;
 mod store;
 mod upload;
 
-use self::config::WatcherConfig;
-use self::mail::{detect_mail_type, detect_supported_mail_type, file_name_for_upload};
-use self::scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches};
-use self::state::WatcherState;
-use self::store::{file_sig, read_processed, read_upload_queue};
-use self::upload::{is_retryable_status, post_file_to_api, upload_backoff};
-use serde::Serialize;
 use std::{
     collections::HashSet,
     fs,
@@ -19,8 +12,19 @@ use std::{
     sync::OnceLock,
     time::{Duration, SystemTime},
 };
+
+use serde::Serialize;
 use tauri::{AppHandle, Emitter};
 use tokio::sync::{mpsc, watch};
+
+use self::{
+    config::WatcherConfig,
+    mail::{detect_mail_type, detect_supported_mail_type, file_name_for_upload},
+    scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
+    state::WatcherState,
+    store::{file_sig, read_processed, read_upload_queue},
+    upload::{is_retryable_status, post_file_to_api, upload_backoff},
+};
 
 static HTTP_CLIENT: OnceLock<reqwest::Client> = OnceLock::new();
 
@@ -56,19 +60,11 @@ fn http_client() -> &'static reqwest::Client {
 }
 
 fn emit_log(app: &AppHandle, message: impl Into<String>) {
-    let _ = app.emit(
-        "rokbattles",
-        LogPayload {
-            message: message.into(),
-        },
-    );
+    let _ = app.emit("rokbattles", LogPayload { message: message.into() });
 }
 
 fn now_epoch_ms() -> u128 {
-    SystemTime::now()
-        .duration_since(SystemTime::UNIX_EPOCH)
-        .unwrap_or(Duration::ZERO)
-        .as_millis()
+    SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis()
 }
 
 pub fn delete_processed(app: &AppHandle) -> anyhow::Result<()> {
@@ -138,10 +134,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
         }) {
             Ok(w) => Some(w),
             Err(e) => {
-                emit_log(
-                    &app,
-                    format!("Failed to initialize filesystem watcher: {}", e),
-                );
+                emit_log(&app, format!("Failed to initialize filesystem watcher: {}", e));
                 None
             }
         };
@@ -329,9 +322,5 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
         }
     });
 
-    WatcherTask {
-        shutdown: shutdown_tx,
-        handle,
-        shutdown_timeout,
-    }
+    WatcherTask { shutdown: shutdown_tx, handle, shutdown_timeout }
 }

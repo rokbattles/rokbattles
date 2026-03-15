@@ -18,10 +18,7 @@ pub(crate) fn extract_participants(
         Value::Object(participants) => participants,
         Value::Array(items) if items.is_empty() => return Ok(Value::Array(Vec::new())),
         _ => {
-            return Err(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            });
+            return Err(ExtractError::InvalidFieldType { field, expected: "object" });
         }
     };
 
@@ -29,10 +26,7 @@ pub(crate) fn extract_participants(
     for (participant_id, participant) in participants {
         let participant = participant
             .as_object()
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            })?;
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "object" })?;
         let participant_id = parse_participant_id(participant_id, field)?;
         let player_id = require_signed_id_field(participant, "PId")?;
         let player_name = require_string_field(participant, "PName")?;
@@ -61,19 +55,14 @@ pub(crate) fn extract_participants(
 fn parse_participant_id(participant_id: &str, field: &'static str) -> Result<i64, ExtractError> {
     participant_id
         .parse::<i64>()
-        .map_err(|_| ExtractError::InvalidFieldType {
-            field,
-            expected: "numeric object key",
-        })
+        .map_err(|_| ExtractError::InvalidFieldType { field, expected: "numeric object key" })
 }
 
 fn require_signed_id_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<i64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     if let Some(id) = value.as_i64() {
         return Ok(id);
     }
@@ -83,10 +72,7 @@ fn require_signed_id_field(
             expected: "signed 64-bit integer",
         });
     }
-    Err(ExtractError::InvalidFieldType {
-        field,
-        expected: "integer",
-    })
+    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 fn optional_string_field(
@@ -96,10 +82,7 @@ fn optional_string_field(
     match object.get(field) {
         None | Some(Value::Null) => Ok(None),
         Some(Value::String(text)) => Ok(Some(text.clone())),
-        _ => Err(ExtractError::InvalidFieldType {
-            field,
-            expected: "string",
-        }),
+        _ => Err(ExtractError::InvalidFieldType { field, expected: "string" }),
     }
 }
 
@@ -112,17 +95,15 @@ fn optional_u64_field(
         Some(value) => value
             .as_u64()
             .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use serde_json::json;
+
+    use super::*;
 
     #[test]
     fn extract_participants_reads_entries() {

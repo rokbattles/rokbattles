@@ -8,10 +8,7 @@ pub(crate) fn parse_optional_i64(
         return Ok(None);
     };
 
-    value
-        .parse::<i64>()
-        .map(Some)
-        .map_err(|_| ApiError::bad_request(error_message))
+    value.parse::<i64>().map(Some).map_err(|_| ApiError::bad_request(error_message))
 }
 
 #[cfg(test)]
@@ -20,14 +17,8 @@ mod tests {
 
     #[test]
     fn parses_i64_and_none() {
-        assert_eq!(
-            parse_optional_i64(Some("42"), "bad value").expect("should parse"),
-            Some(42)
-        );
-        assert_eq!(
-            parse_optional_i64(None, "bad value").expect("should parse"),
-            None
-        );
+        assert_eq!(parse_optional_i64(Some("42"), "bad value").expect("should parse"), Some(42));
+        assert_eq!(parse_optional_i64(None, "bad value").expect("should parse"), None);
     }
 
     #[test]

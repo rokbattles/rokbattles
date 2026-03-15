@@ -42,10 +42,9 @@ impl Extractor for PairingsExtractor {
 
         let mut pairings = Vec::with_capacity(heroes_stat.len());
         for pairing in heroes_stat {
-            let pairing = pairing.as_object().ok_or(ExtractError::InvalidFieldType {
-                field: "HerosStat",
-                expected: "object",
-            })?;
+            let pairing = pairing
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field: "HerosStat", expected: "object" })?;
             let primary_id = require_u64_field(pairing, "MainHeroId")?;
             let secondary_id = require_u64_field(pairing, "AssistHeroId")?;
             let kill_count = require_u64_field(pairing, "KillCnt")?;
@@ -72,11 +71,12 @@ impl Extractor for PairingsExtractor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn pairings_extractor_reads_fields() {

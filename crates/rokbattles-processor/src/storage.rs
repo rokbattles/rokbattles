@@ -1,10 +1,10 @@
 //! MongoDB access helpers for processor operations.
 
-use mongodb::Collection;
-use mongodb::Cursor;
-use mongodb::IndexModel;
-use mongodb::bson::{DateTime, Document, doc, oid::ObjectId};
-use mongodb::options::{FindOptions, IndexOptions};
+use mongodb::{
+    Collection, Cursor, IndexModel,
+    bson::{DateTime, Document, doc, oid::ObjectId},
+    options::{FindOptions, IndexOptions},
+};
 
 use crate::mail::MailType;
 
@@ -48,9 +48,7 @@ impl Storage {
 
     /// Ensure required indexes exist.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
-        let status_index = IndexModel::builder()
-            .keys(doc! { "status": 1, "updatedAt": 1 })
-            .build();
+        let status_index = IndexModel::builder().keys(doc! { "status": 1, "updatedAt": 1 }).build();
         self.raw.create_index(status_index).await?;
 
         let mail_id_index = IndexModel::builder()
@@ -59,22 +57,12 @@ impl Storage {
             .build();
         self.battle.create_index(mail_id_index.clone()).await?;
         self.duelbattle2.create_index(mail_id_index.clone()).await?;
-        self.barcanyonkillboss
-            .create_index(mail_id_index.clone())
-            .await?;
+        self.barcanyonkillboss.create_index(mail_id_index.clone()).await?;
         self.rss.create_index(mail_id_index.clone()).await?;
-        self.system_barbarianfort
-            .create_index(mail_id_index.clone())
-            .await?;
-        self.alliance_aoobattleresults
-            .create_index(mail_id_index.clone())
-            .await?;
-        self.alliance_aoobattleinfo
-            .create_index(mail_id_index.clone())
-            .await?;
-        self.alliance_aooindividualresults
-            .create_index(mail_id_index)
-            .await?;
+        self.system_barbarianfort.create_index(mail_id_index.clone()).await?;
+        self.alliance_aoobattleresults.create_index(mail_id_index.clone()).await?;
+        self.alliance_aoobattleinfo.create_index(mail_id_index.clone()).await?;
+        self.alliance_aooindividualresults.create_index(mail_id_index).await?;
 
         Ok(())
     }
@@ -116,10 +104,7 @@ impl Storage {
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
         };
 
-        collection
-            .replace_one(doc! { "metadata.mail_id": mail_id }, doc)
-            .upsert(true)
-            .await?;
+        collection.replace_one(doc! { "metadata.mail_id": mail_id }, doc).upsert(true).await?;
         Ok(())
     }
 

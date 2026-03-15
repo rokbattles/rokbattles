@@ -9,10 +9,9 @@ mod metadata;
 mod overview;
 mod participants;
 
+pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
-
-pub use mail_processor_sdk::{ExtractError, Section};
 
 /// Process a decoded AllianceAOOBattleResults mail with parallel extractors.
 pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
@@ -36,10 +35,11 @@ fn processor() -> Processor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use serde_json::Value;
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn process_parallel_extracts_expected_sections() {

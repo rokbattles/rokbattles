@@ -1,15 +1,14 @@
 use mongodb::bson::{Bson, Document, doc};
 
-use crate::bson_utils::{
-    nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
-    nested_string,
-};
-
 use super::types::{
     BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,
     BattleReportBattleResults, BattleReportCastle, BattleReportCommander, BattleReportCommanderSet,
     BattleReportDetail, BattleReportMetadata, BattleReportNpc, BattleReportOpponent,
     BattleReportPlayer, BattleReportSummary, BattleReportSummaryEntry, BattleReportTimeline,
+};
+use crate::bson_utils::{
+    nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
+    nested_string,
 };
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
@@ -240,11 +239,7 @@ fn map_detail_opponents(document: &Document) -> Vec<BattleReportOpponent> {
         return Vec::new();
     };
 
-    opponents
-        .iter()
-        .filter_map(Bson::as_document)
-        .map(map_detail_opponent)
-        .collect()
+    opponents.iter().filter_map(Bson::as_document).map(map_detail_opponent).collect()
 }
 
 fn map_detail_opponent(document: &Document) -> BattleReportOpponent {
@@ -343,14 +338,9 @@ mod tests {
         let projection = build_battle_detail_projection();
 
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.commanders.primary.id").ok(), Some(1));
         assert_eq!(
-            projection.get_i32("sender.commanders.primary.id").ok(),
-            Some(1)
-        );
-        assert_eq!(
-            projection
-                .get_i32("opponents.battle_results.opponent.kill_points")
-                .ok(),
+            projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
         );
     }

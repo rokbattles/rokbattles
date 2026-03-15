@@ -1,6 +1,8 @@
-use mongodb::Collection;
-use mongodb::bson::{Document, doc};
-use mongodb::options::FindOneOptions;
+use mongodb::{
+    Collection,
+    bson::{Document, doc},
+    options::FindOneOptions,
+};
 
 use crate::error::ApiError;
 
@@ -39,14 +41,8 @@ fn extract_sender_snapshot(mail: &Document) -> Option<GovernorSnapshot> {
 
 fn snapshot_from_participant(participant: &Document) -> GovernorSnapshot {
     GovernorSnapshot {
-        governor_name: participant
-            .get_str("player_name")
-            .ok()
-            .map(ToString::to_string),
-        governor_avatar: participant
-            .get_str("avatar_url")
-            .ok()
-            .map(ToString::to_string),
+        governor_name: participant.get_str("player_name").ok().map(ToString::to_string),
+        governor_avatar: participant.get_str("avatar_url").ok().map(ToString::to_string),
     }
 }
 

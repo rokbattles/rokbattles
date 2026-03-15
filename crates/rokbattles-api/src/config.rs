@@ -80,10 +80,7 @@ mod tests {
             ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
-            (
-                "DISCORD_REDIRECT_URI",
-                "https://example.com/proxy/v1/auth/discord/callback",
-            ),
+            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
         .expect("config");
 
@@ -93,10 +90,7 @@ mod tests {
         assert_eq!(cfg.cron_secret, "test-secret");
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
-        assert_eq!(
-            cfg.discord_redirect_uri,
-            "https://example.com/proxy/v1/auth/discord/callback"
-        );
+        assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
     }
 
     #[test]
@@ -121,10 +115,7 @@ mod tests {
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
-            (
-                "DISCORD_REDIRECT_URI",
-                "https://example.com/proxy/v1/auth/discord/callback",
-            ),
+            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
         .expect_err("missing discord client id");
         assert_eq!(err, ConfigError::MissingDiscordClientId);
@@ -136,10 +127,7 @@ mod tests {
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
-            (
-                "DISCORD_REDIRECT_URI",
-                "https://example.com/proxy/v1/auth/discord/callback",
-            ),
+            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
         .expect_err("missing discord client secret");
         assert_eq!(err, ConfigError::MissingDiscordClientSecret);

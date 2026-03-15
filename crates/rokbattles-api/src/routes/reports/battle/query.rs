@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
-use crate::error::ApiError;
-use crate::routes::reports::common::query::parse_optional_i64;
+use crate::{error::ApiError, routes::reports::common::query::parse_optional_i64};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ReportsFilterType {
@@ -50,17 +49,12 @@ impl ReportsRequest {
 pub(crate) fn parse_reports_request(
     params: &HashMap<String, String>,
 ) -> Result<ReportsRequest, ApiError> {
-    let before_cursor = parse_optional_i64(
-        params.get("before").map(String::as_str),
-        "Invalid before cursor",
-    )?;
+    let before_cursor =
+        parse_optional_i64(params.get("before").map(String::as_str), "Invalid before cursor")?;
     let after_cursor = if before_cursor.is_some() {
         None
     } else {
-        parse_optional_i64(
-            params.get("after").map(String::as_str),
-            "Invalid after cursor",
-        )?
+        parse_optional_i64(params.get("after").map(String::as_str), "Invalid after cursor")?
     };
 
     let filter_type = parse_filter_type(params.get("type").map(String::as_str))?;
@@ -85,16 +79,12 @@ pub(crate) fn parse_reports_request(
 
     let rally_side = parse_filter_side(params.get("rs").map(String::as_str), "Invalid rally side")?
         .unwrap_or(ReportsFilterSide::None);
-    let garrison_side = parse_filter_side(
-        params.get("gs").map(String::as_str),
-        "Invalid garrison side",
-    )?
-    .unwrap_or(ReportsFilterSide::None);
+    let garrison_side =
+        parse_filter_side(params.get("gs").map(String::as_str), "Invalid garrison side")?
+            .unwrap_or(ReportsFilterSide::None);
 
     if sides_overlap(rally_side, garrison_side) {
-        return Err(ApiError::bad_request(
-            "Rally and garrison cannot overlap on the same side",
-        ));
+        return Err(ApiError::bad_request("Rally and garrison cannot overlap on the same side"));
     }
 
     let garrison_building_type = parse_garrison_building_type(

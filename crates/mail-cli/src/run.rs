@@ -1,11 +1,12 @@
-use std::fs;
-use std::path::{Path, PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use mail_decoder::lossless_to_json;
 use serde_json::Value;
 
-use crate::fs_utils::is_json_file;
-use crate::{Config, MailCliError, RunSummary};
+use crate::{Config, MailCliError, RunSummary, fs_utils::is_json_file};
 
 const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
@@ -14,21 +15,15 @@ const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualRe
 
 /// Decode every mail buffer in the input directory into JSON files.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
-    let metadata = fs::metadata(&config.input_dir).map_err(|source| MailCliError::Io {
-        source,
-        path: config.input_dir.clone(),
-    })?;
+    let metadata = fs::metadata(&config.input_dir)
+        .map_err(|source| MailCliError::Io { source, path: config.input_dir.clone() })?;
 
     if !metadata.is_dir() {
-        return Err(MailCliError::InvalidInputDir {
-            path: config.input_dir.clone(),
-        });
+        return Err(MailCliError::InvalidInputDir { path: config.input_dir.clone() });
     }
 
-    fs::create_dir_all(&config.output_dir).map_err(|source| MailCliError::Io {
-        source,
-        path: config.output_dir.clone(),
-    })?;
+    fs::create_dir_all(&config.output_dir)
+        .map_err(|source| MailCliError::Io { source, path: config.output_dir.clone() })?;
 
     let input_files = collect_input_files(&config.input_dir)?;
     let mut decoded_files = 0;
@@ -43,14 +38,10 @@ pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
 
 pub(crate) fn collect_input_files(dir: &Path) -> Result<Vec<PathBuf>, MailCliError> {
     let mut files = Vec::new();
-    for entry in fs::read_dir(dir).map_err(|source| MailCliError::Io {
-        source,
-        path: dir.to_path_buf(),
-    })? {
-        let entry = entry.map_err(|source| MailCliError::Io {
-            source,
-            path: dir.to_path_buf(),
-        })?;
+    for entry in
+        fs::read_dir(dir).map_err(|source| MailCliError::Io { source, path: dir.to_path_buf() })?
+    {
+        let entry = entry.map_err(|source| MailCliError::Io { source, path: dir.to_path_buf() })?;
         let path = entry.path();
         if path.is_file() && !is_json_file(&path) {
             files.push(path);
@@ -67,25 +58,18 @@ fn decode_file(
     pretty: bool,
     lossless: bool,
 ) -> Result<(), MailCliError> {
-    let buffer = fs::read(input).map_err(|source| MailCliError::Io {
-        source,
-        path: input.to_path_buf(),
-    })?;
+    let buffer =
+        fs::read(input).map_err(|source| MailCliError::Io { source, path: input.to_path_buf() })?;
     if lossless {
-        let document =
-            mail_decoder::decode_lossless(&buffer).map_err(|source| MailCliError::Decode {
-                source,
-                path: input.to_path_buf(),
-            })?;
+        let document = mail_decoder::decode_lossless(&buffer)
+            .map_err(|source| MailCliError::Decode { source, path: input.to_path_buf() })?;
         let value = lossless_to_json(&document);
         write_json(output_dir, input, &value, pretty)?;
         return Ok(());
     }
 
-    let value = mail_decoder::decode(&buffer).map_err(|source| MailCliError::Decode {
-        source,
-        path: input.to_path_buf(),
-    })?;
+    let value = mail_decoder::decode(&buffer)
+        .map_err(|source| MailCliError::Decode { source, path: input.to_path_buf() })?;
     write_json(output_dir, input, &value, pretty)?;
     write_processed_json(output_dir, input, &value, pretty)?;
     Ok(())
@@ -98,20 +82,12 @@ fn write_json(
     pretty: bool,
 ) -> Result<(), MailCliError> {
     let output_path = output_path(output_dir, input_path)?;
-    let json = if pretty {
-        serde_json::to_string_pretty(value)
-    } else {
-        serde_json::to_string(value)
-    }
-    .map_err(|source| MailCliError::Json {
-        source,
-        path: output_path.clone(),
-    })?;
+    let json =
+        if pretty { serde_json::to_string_pretty(value) } else { serde_json::to_string(value) }
+            .map_err(|source| MailCliError::Json { source, path: output_path.clone() })?;
 
-    fs::write(&output_path, json).map_err(|source| MailCliError::Io {
-        source,
-        path: output_path,
-    })?;
+    fs::write(&output_path, json)
+        .map_err(|source| MailCliError::Io { source, path: output_path })?;
     Ok(())
 }
 
@@ -119,9 +95,7 @@ pub(crate) fn output_path(output_dir: &Path, input_path: &Path) -> Result<PathBu
     let file_name = input_path
         .file_name()
         .and_then(|name| name.to_str())
-        .ok_or_else(|| MailCliError::MissingFileName {
-            path: input_path.to_path_buf(),
-        })?;
+        .ok_or_else(|| MailCliError::MissingFileName { path: input_path.to_path_buf() })?;
     Ok(output_dir.join(format!("{file_name}.json")))
 }
 
@@ -133,9 +107,7 @@ pub(crate) fn processed_output_path(
     let file_name = input_path
         .file_name()
         .and_then(|name| name.to_str())
-        .ok_or_else(|| MailCliError::MissingFileName {
-            path: input_path.to_path_buf(),
-        })?;
+        .ok_or_else(|| MailCliError::MissingFileName { path: input_path.to_path_buf() })?;
     Ok(output_dir.join(format!("{file_name}-processed.json")))
 }
 
@@ -161,62 +133,41 @@ pub(crate) fn write_processed_json(
     // Only emit processed output for mail types with dedicated processors.
     let mail_type = classify_processable_mail_type(processed_input);
     let processed = match mail_type {
-        Some("BarCanyonKillBoss") => Some(
-            mail_processor_barcanyonkillboss::process_parallel(processed_input).map_err(
-                |source| MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                },
-            )?,
-        ),
-        Some("Rss") => Some(
-            mail_processor_rss::process_parallel(processed_input).map_err(|source| {
-                MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                }
-            })?,
-        ),
-        Some("Battle") => Some(
-            mail_processor_battle::process_parallel(processed_input).map_err(|source| {
-                MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                }
-            })?,
-        ),
-        Some("DuelBattle2") => Some(
-            mail_processor_duelbattle2::process_parallel(processed_input).map_err(|source| {
-                MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                }
-            })?,
-        ),
-        Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT) => Some(
-            mail_processor_system_barbarianfort::process_parallel(processed_input).map_err(
-                |source| MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                },
-            )?,
-        ),
+        Some("BarCanyonKillBoss") => {
+            Some(mail_processor_barcanyonkillboss::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process { source, path: input_path.to_path_buf() },
+            )?)
+        }
+        Some("Rss") => {
+            Some(mail_processor_rss::process_parallel(processed_input).map_err(|source| {
+                MailCliError::Process { source, path: input_path.to_path_buf() }
+            })?)
+        }
+        Some("Battle") => {
+            Some(mail_processor_battle::process_parallel(processed_input).map_err(|source| {
+                MailCliError::Process { source, path: input_path.to_path_buf() }
+            })?)
+        }
+        Some("DuelBattle2") => {
+            Some(mail_processor_duelbattle2::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process { source, path: input_path.to_path_buf() },
+            )?)
+        }
+        Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT) => {
+            Some(mail_processor_system_barbarianfort::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process { source, path: input_path.to_path_buf() },
+            )?)
+        }
         Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS) => Some(
             mail_processor_alliance_aoobattleresults::process_parallel(processed_input).map_err(
-                |source| MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                },
+                |source| MailCliError::Process { source, path: input_path.to_path_buf() },
             )?,
         ),
-        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO) => Some(
-            mail_processor_alliance_aoobattleinfo::process_parallel(processed_input).map_err(
-                |source| MailCliError::Process {
-                    source,
-                    path: input_path.to_path_buf(),
-                },
-            )?,
-        ),
+        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO) => {
+            Some(mail_processor_alliance_aoobattleinfo::process_parallel(processed_input).map_err(
+                |source| MailCliError::Process { source, path: input_path.to_path_buf() },
+            )?)
+        }
         Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS) => Some(
             mail_processor_alliance_aooindividualresults::process_parallel(processed_input)
                 .map_err(|source| MailCliError::Process {
@@ -238,15 +189,10 @@ pub(crate) fn write_processed_json(
     } else {
         serde_json::to_string(&processed)
     }
-    .map_err(|source| MailCliError::Json {
-        source,
-        path: output_path.clone(),
-    })?;
+    .map_err(|source| MailCliError::Json { source, path: output_path.clone() })?;
 
-    fs::write(&output_path, json).map_err(|source| MailCliError::Io {
-        source,
-        path: output_path,
-    })?;
+    fs::write(&output_path, json)
+        .map_err(|source| MailCliError::Io { source, path: output_path })?;
     Ok(())
 }
 
@@ -321,10 +267,11 @@ fn value_as_u64(value: &Value) -> Option<u64> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs::File, io::Write};
+
     use serde_json::json;
-    use std::fs::File;
-    use std::io::Write;
+
+    use super::*;
 
     fn write_bytes(path: &Path, bytes: &[u8]) {
         let mut file = File::create(path).expect("create file");
@@ -471,10 +418,7 @@ mod tests {
             .iter()
             .find(|opponent| opponent["attack"]["id"] == json!("560025001"))
             .expect("edge-case attack entry");
-        assert_eq!(
-            entry["battle_results"]["sender"]["slightly_wounded"],
-            json!(-565)
-        );
+        assert_eq!(entry["battle_results"]["sender"]["slightly_wounded"], json!(-565));
     }
 
     #[test]
@@ -559,10 +503,7 @@ mod tests {
         let output = processed_output_path(temp.path(), &input).unwrap();
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
-        assert_eq!(
-            parsed["metadata"]["mail_id"],
-            json!("113164877177212776431")
-        );
+        assert_eq!(parsed["metadata"]["mail_id"], json!("113164877177212776431"));
         assert_eq!(parsed["rss"]["rss_type"], json!(1));
         assert_eq!(parsed["rss"]["rss_value"], json!(4104.32));
         assert_eq!(parsed["rss"]["rss_bonus"], json!(232));
@@ -650,14 +591,8 @@ mod tests {
         let output = processed_output_path(temp.path(), &input).unwrap();
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
-        assert_eq!(
-            parsed["metadata"]["mail_id"],
-            json!("102185423177177256731")
-        );
-        assert_eq!(
-            parsed["metadata"]["mail_receiver"],
-            json!("player_71738515")
-        );
+        assert_eq!(parsed["metadata"]["mail_id"], json!("102185423177177256731"));
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["metadata"]["custom"], json!(false));
     }
 
@@ -674,14 +609,8 @@ mod tests {
         let output = processed_output_path(temp.path(), &input).unwrap();
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
-        assert_eq!(
-            parsed["metadata"]["mail_id"],
-            json!("102185425177177256731")
-        );
-        assert_eq!(
-            parsed["metadata"]["mail_receiver"],
-            json!("player_71738515")
-        );
+        assert_eq!(parsed["metadata"]["mail_id"], json!("102185425177177256731"));
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
     }
 
     #[test]
@@ -698,10 +627,7 @@ mod tests {
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906962177237730831"));
-        assert_eq!(
-            parsed["metadata"]["mail_receiver"],
-            json!("player_71738515")
-        );
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["metadata"]["custom"], json!(true));
         assert_eq!(parsed["alliances"][0]["alliance"]["id"], json!(1));
         assert!(parsed["alliances"][0]["alliance"]["abbreviation"].is_null());
@@ -720,14 +646,8 @@ mod tests {
         let output = processed_output_path(temp.path(), &input).unwrap();
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
-        assert_eq!(
-            parsed["metadata"]["mail_id"],
-            json!("102185429177177256731")
-        );
-        assert_eq!(
-            parsed["metadata"]["mail_receiver"],
-            json!("player_71738515")
-        );
+        assert_eq!(parsed["metadata"]["mail_id"], json!("102185429177177256731"));
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["metadata"]["custom"], json!(false));
     }
 
@@ -745,10 +665,7 @@ mod tests {
         let output_json = fs::read_to_string(output).expect("read processed");
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906964177237730831"));
-        assert_eq!(
-            parsed["metadata"]["mail_receiver"],
-            json!("player_71738515")
-        );
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["metadata"]["custom"], json!(true));
         assert_eq!(parsed["body"]["win"], json!(false));
         assert!(parsed["body"]["team"].is_null());

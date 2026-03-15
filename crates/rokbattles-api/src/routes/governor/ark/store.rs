@@ -1,11 +1,13 @@
 use std::sync::Arc;
 
-use mongodb::bson::{Document, doc};
-use mongodb::options::{FindOneOptions, FindOptions};
+use mongodb::{
+    bson::{Document, doc},
+    options::{FindOneOptions, FindOptions},
+};
 
-use crate::error::ApiError;
-use crate::routes::governor::store_utils::fetch_collection_documents;
-use crate::state::AppState;
+use crate::{
+    error::ApiError, routes::governor::store_utils::fetch_collection_documents, state::AppState,
+};
 
 pub(crate) async fn fetch_ark_battle_results_mails(
     state: &Arc<AppState>,
@@ -157,9 +159,7 @@ pub(crate) async fn fetch_ark_individual_results_mails(
     };
 
     fetch_collection_documents(
-        state
-            .reports_store
-            .alliance_aooindividualresults_collection(),
+        state.reports_store.alliance_aooindividualresults_collection(),
         filter,
         options,
     )
@@ -180,10 +180,7 @@ mod tests {
     #[test]
     fn ark_battle_results_history_filter_limits_to_non_custom_matches() {
         let filter = ark_battle_results_history_filter("player_42");
-        assert_eq!(
-            filter.get_str("metadata.mail_receiver").ok(),
-            Some("player_42")
-        );
+        assert_eq!(filter.get_str("metadata.mail_receiver").ok(), Some("player_42"));
         assert_eq!(filter.get_bool("metadata.custom").ok(), Some(false));
     }
 }

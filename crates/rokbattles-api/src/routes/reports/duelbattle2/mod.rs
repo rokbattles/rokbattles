@@ -1,25 +1,29 @@
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
-use axum::extract::{Path, Query, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
-use futures::StreamExt;
-use mongodb::bson::doc;
-use mongodb::options::AggregateOptions;
-use mongodb::options::FindOptions;
-
-use crate::error::ApiError;
-use crate::routes::reports::common::pagination::paginate_cursor_rows;
-use crate::state::AppState;
-
-use self::detail_mapper::{
-    build_duelbattle2_detail_filter, build_duelbattle2_detail_projection,
-    map_duelbattle2_detail_document,
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
 };
-use self::list_mapper::{build_duelbattle2_list_pipeline, map_duelbattle2_list_document};
-use self::query::parse_duelbattle2_request;
-use self::types::{DuelBattle2DetailResponse, DuelBattle2Response, DuelBattle2RowWithCursor};
+use futures::StreamExt;
+use mongodb::{
+    bson::doc,
+    options::{AggregateOptions, FindOptions},
+};
+
+use self::{
+    detail_mapper::{
+        build_duelbattle2_detail_filter, build_duelbattle2_detail_projection,
+        map_duelbattle2_detail_document,
+    },
+    list_mapper::{build_duelbattle2_list_pipeline, map_duelbattle2_list_document},
+    query::parse_duelbattle2_request,
+    types::{DuelBattle2DetailResponse, DuelBattle2Response, DuelBattle2RowWithCursor},
+};
+use crate::{
+    error::ApiError, routes::reports::common::pagination::paginate_cursor_rows, state::AppState,
+};
 
 mod detail_mapper;
 mod list_mapper;
@@ -73,11 +77,7 @@ pub async fn get(
         previous_before: paged_rows.previous_before,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }
 
 /// Return all report entries for one Olympian Arena duel team.
@@ -110,18 +110,11 @@ pub async fn get_by_id(
 
     let response = DuelBattle2DetailResponse { items };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", REPORT_DETAIL_CACHE_CONTROL)], Json(response)))
 }
 
 fn parse_duelbattle2_id(raw_id: &str) -> Result<i64, ApiError> {
-    raw_id
-        .trim()
-        .parse::<i64>()
-        .map_err(|_| ApiError::bad_request("Invalid duel id"))
+    raw_id.trim().parse::<i64>().map_err(|_| ApiError::bad_request("Invalid duel id"))
 }
 
 #[cfg(test)]

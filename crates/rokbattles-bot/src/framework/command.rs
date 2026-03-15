@@ -29,10 +29,7 @@ impl CommandContext {
 
     /// Respond to the interaction with message content.
     pub async fn reply(&self, content: impl Into<String>) -> Result<()> {
-        let data = InteractionResponseData {
-            content: Some(content.into()),
-            ..Default::default()
-        };
+        let data = InteractionResponseData { content: Some(content.into()), ..Default::default() };
 
         self.http
             .interaction(self.interaction.application_id)
@@ -124,11 +121,7 @@ impl Command {
     where
         H: CommandHandler,
     {
-        Self {
-            name: name.into(),
-            metadata,
-            handler: Box::new(handler),
-        }
+        Self { name: name.into(), metadata, handler: Box::new(handler) }
     }
 
     /// Clone metadata for Discord command deployment.

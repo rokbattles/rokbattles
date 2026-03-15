@@ -85,42 +85,22 @@ impl std::fmt::Display for MailCliError {
                 write!(f, "decode failed for {}: {source}", path.display())
             }
             MailCliError::Json { source, path } => {
-                write!(
-                    f,
-                    "JSON serialization failed for {}: {source}",
-                    path.display()
-                )
+                write!(f, "JSON serialization failed for {}: {source}", path.display())
             }
             MailCliError::Process { source, path } => {
                 write!(f, "processing failed for {}: {source}", path.display())
             }
             MailCliError::LosslessJson { source, path } => {
-                write!(
-                    f,
-                    "lossless JSON parse failed for {}: {source}",
-                    path.display()
-                )
+                write!(f, "lossless JSON parse failed for {}: {source}", path.display())
             }
             MailCliError::LosslessFormat { message, path } => {
-                write!(
-                    f,
-                    "lossless JSON format error for {}: {message}",
-                    path.display()
-                )
+                write!(f, "lossless JSON format error for {}: {message}", path.display())
             }
             MailCliError::LosslessEncode { source, path } => {
-                write!(
-                    f,
-                    "lossless JSON encode failed for {}: {source}",
-                    path.display()
-                )
+                write!(f, "lossless JSON encode failed for {}: {source}", path.display())
             }
             MailCliError::InvalidInputPath { path } => {
-                write!(
-                    f,
-                    "input path is not a file or directory: {}",
-                    path.display()
-                )
+                write!(f, "input path is not a file or directory: {}", path.display())
             }
             MailCliError::MissingFileName { path } => {
                 write!(f, "missing file name for path: {}", path.display())

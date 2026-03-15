@@ -23,17 +23,14 @@ impl Extractor for AlliancesExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let kvs = require_body_kvs(input)?;
-        let as_infos = kvs
-            .get("asInfos")
-            .ok_or(ExtractError::MissingField { field: "asInfos" })?;
+        let as_infos = kvs.get("asInfos").ok_or(ExtractError::MissingField { field: "asInfos" })?;
         let as_infos = indexed_array_values(as_infos, "asInfos")?;
 
         let mut alliances = Vec::with_capacity(as_infos.len());
         for entry in as_infos {
-            let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-                field: "asInfos",
-                expected: "object",
-            })?;
+            let entry = entry
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field: "asInfos", expected: "object" })?;
 
             let abbreviation = optional_string_field(entry, "Abbr")?;
             let id = require_u64_field(entry, "AllianceId")?;
@@ -77,10 +74,7 @@ fn optional_string_field(
         Some(value) => value
             .as_str()
             .map(|text| Value::String(text.to_string()))
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "string",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "string" }),
     }
 }
 
@@ -93,20 +87,18 @@ fn optional_u64_field(
         Some(value) => value
             .as_u64()
             .map(Value::from)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn alliances_extractor_reads_fields() {
@@ -160,10 +152,7 @@ mod tests {
         });
         let extractor = AlliancesExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField { field: "asInfos" }
-        ));
+        assert!(matches!(err, ExtractError::MissingField { field: "asInfos" }));
     }
 
     #[test]

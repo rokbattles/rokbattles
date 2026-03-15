@@ -11,11 +11,7 @@ pub(crate) const TRAY_TOGGLE_WATCHER_MENU_ID: &str = "tray_toggle_watcher";
 pub(crate) const TRAY_QUIT_MENU_ID: &str = "tray_quit";
 
 fn tray_toggle_label(paused: bool) -> &'static str {
-    if paused {
-        "Resume watcher"
-    } else {
-        "Pause watcher"
-    }
+    if paused { "Resume watcher" } else { "Pause watcher" }
 }
 
 fn build_tray_menu(app: &AppHandle, paused: bool) -> tauri::Result<Menu<tauri::Wry>> {

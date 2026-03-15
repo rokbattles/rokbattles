@@ -1,12 +1,13 @@
 //! Minimal ClamAV zINSTREAM scanner client.
 
-use std::io::Write;
-use std::time::Duration;
+use std::{io::Write, time::Duration};
 
 use flate2::{Compression, write::ZlibEncoder};
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio::net::TcpStream;
-use tokio::time::timeout;
+use tokio::{
+    io::{AsyncReadExt, AsyncWriteExt},
+    net::TcpStream,
+    time::timeout,
+};
 
 #[derive(Debug)]
 pub enum ScanStatus {
@@ -61,20 +62,12 @@ pub async fn scan_zstream(
 
 fn compress_zlib(payload: &[u8]) -> Result<Vec<u8>, ScanError> {
     let mut encoder = ZlibEncoder::new(Vec::new(), Compression::fast());
-    encoder
-        .write_all(payload)
-        .map_err(|error| ScanError::Compression(error.to_string()))?;
-    encoder
-        .finish()
-        .map_err(|error| ScanError::Compression(error.to_string()))
+    encoder.write_all(payload).map_err(|error| ScanError::Compression(error.to_string()))?;
+    encoder.finish().map_err(|error| ScanError::Compression(error.to_string()))
 }
 
 fn parse_response(response: &[u8]) -> Result<ScanStatus, ScanError> {
-    let trimmed = response
-        .iter()
-        .copied()
-        .take_while(|byte| *byte != 0)
-        .collect::<Vec<u8>>();
+    let trimmed = response.iter().copied().take_while(|byte| *byte != 0).collect::<Vec<u8>>();
     let response_str = String::from_utf8_lossy(&trimmed);
     let response_str = response_str.trim();
 
@@ -98,10 +91,7 @@ mod tests {
     #[test]
     fn parses_clean_response() {
         let response = b"stream: OK\0";
-        assert!(matches!(
-            parse_response(response).unwrap(),
-            ScanStatus::Clean
-        ));
+        assert!(matches!(parse_response(response).unwrap(), ScanStatus::Clean));
     }
 
     #[test]
@@ -118,9 +108,6 @@ mod tests {
     #[test]
     fn parses_error_response() {
         let response = b"stream: ERROR\0";
-        assert!(matches!(
-            parse_response(response),
-            Err(ScanError::UnexpectedResponse(_))
-        ));
+        assert!(matches!(parse_response(response), Err(ScanError::UnexpectedResponse(_))));
     }
 }

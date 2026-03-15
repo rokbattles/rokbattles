@@ -8,21 +8,18 @@ mod rate_limit;
 mod state;
 mod storage;
 
-use std::net::SocketAddr;
-use std::sync::Arc;
+use std::{net::SocketAddr, sync::Arc};
 
-use axum::Router;
-use axum::extract::DefaultBodyLimit;
-use axum::routing::{get, post};
+use axum::{
+    Router,
+    extract::DefaultBodyLimit,
+    routing::{get, post},
+};
 use mongodb::options::ClientOptions;
-use tower_governor::GovernorLayer;
-use tower_governor::governor::GovernorConfigBuilder;
+use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
 use tracing::info;
 
-use crate::config::Config;
-use crate::rate_limit::RateLimitKeyExtractor;
-use crate::state::AppState;
-use crate::storage::Storage;
+use crate::{config::Config, rate_limit::RateLimitKeyExtractor, state::AppState, storage::Storage};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -58,10 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         builder.per_millisecond(period_ms).burst_size(burst_size);
         let mut builder = builder.use_headers();
         let governor_config = builder.finish().ok_or_else(|| {
-            std::io::Error::new(
-                std::io::ErrorKind::InvalidInput,
-                "invalid rate limit config",
-            )
+            std::io::Error::new(std::io::ErrorKind::InvalidInput, "invalid rate limit config")
         })?;
         GovernorLayer::new(governor_config)
     };
@@ -74,11 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     info!("listening on {}", state.config.bind_addr);
     let listener = tokio::net::TcpListener::bind(&state.config.bind_addr).await?;
-    axum::serve(
-        listener,
-        app.into_make_service_with_connect_info::<SocketAddr>(),
-    )
-    .await?;
+    axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await?;
 
     Ok(())
 }

@@ -1,10 +1,11 @@
 use futures::StreamExt;
-use mongodb::Collection;
-use mongodb::bson::{DateTime, Document, doc};
-use mongodb::options::{FindOneOptions, FindOptions};
+use mongodb::{
+    Collection,
+    bson::{DateTime, Document, doc},
+    options::{FindOneOptions, FindOptions},
+};
 
-use crate::bson_utils::bson_to_i64_exact;
-use crate::error::ApiError;
+use crate::{bson_utils::bson_to_i64_exact, error::ApiError};
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub(super) struct UserClaimSummary {
@@ -147,9 +148,7 @@ pub(super) async fn find_most_recent_governor_id(
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    Ok(most_recent
-        .as_ref()
-        .and_then(extract_governor_id_from_claim))
+    Ok(most_recent.as_ref().and_then(extract_governor_id_from_claim))
 }
 
 fn extract_governor_id_from_claim(claim: &Document) -> Option<i64> {
@@ -189,9 +188,6 @@ mod tests {
             extract_governor_id_from_claim(&doc! { "governorId": Bson::Double(56.1) }),
             None
         );
-        assert_eq!(
-            extract_governor_id_from_claim(&doc! { "governorId": Bson::Null }),
-            None
-        );
+        assert_eq!(extract_governor_id_from_claim(&doc! { "governorId": Bson::Null }), None);
     }
 }

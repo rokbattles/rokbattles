@@ -41,10 +41,9 @@ fn extract_overview_optional(
     match value {
         None | Some(Value::Null) => Ok(null_overview()),
         Some(value) => {
-            let overview = value.as_object().ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            })?;
+            let overview = value
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field, expected: "object" })?;
             extract_overview(overview)
         }
     }
@@ -83,11 +82,12 @@ fn null_overview() -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn summary_extractor_reads_overviews() {

@@ -1,12 +1,15 @@
 use mongodb::bson::{Bson, Document};
 
-use crate::bson_utils::{bson_to_f64, bson_to_i64, nested_array, nested_document};
-use crate::time_utils::normalize_timestamp_millis;
-
-use super::matcher::MatchedArkMailSet;
-use super::types::{
-    ArkMatchAlliance, ArkMatchDetail, ArkMatchDetailIndividualResults, ArkMatchDetailOverview,
-    ArkMatchDetailPairing, ArkMatchSummary,
+use super::{
+    matcher::MatchedArkMailSet,
+    types::{
+        ArkMatchAlliance, ArkMatchDetail, ArkMatchDetailIndividualResults, ArkMatchDetailOverview,
+        ArkMatchDetailPairing, ArkMatchSummary,
+    },
+};
+use crate::{
+    bson_utils::{bson_to_f64, bson_to_i64, nested_array, nested_document},
+    time_utils::normalize_timestamp_millis,
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -20,10 +23,7 @@ pub(crate) fn extract_mail_time_millis(document: &Document) -> Option<i64> {
 }
 
 pub(crate) fn extract_mail_times(documents: &[Document]) -> Vec<i64> {
-    documents
-        .iter()
-        .filter_map(extract_mail_time_millis)
-        .collect()
+    documents.iter().filter_map(extract_mail_time_millis).collect()
 }
 
 pub(crate) fn build_secondary_window(
@@ -59,24 +59,16 @@ pub(crate) fn map_match_record(
         .map(map_alliance)
         .collect::<Vec<_>>();
 
-    let self_alliance_id = parse_i64(nested_value(
-        &entry.battle_results,
-        &["body", "alliance", "id"],
-    ));
+    let self_alliance_id =
+        parse_i64(nested_value(&entry.battle_results, &["body", "alliance", "id"]));
     let did_win = parse_bool(nested_value(&entry.battle_results, &["body", "win"]));
     let winner_alliance_id = derive_winner_alliance_id(&alliances, self_alliance_id, did_win);
 
-    let fallback_mail_id = format!(
-        "{}-{}",
-        entry.battle_results_time_millis,
-        fallback_index.saturating_add(1)
-    );
+    let fallback_mail_id =
+        format!("{}-{}", entry.battle_results_time_millis, fallback_index.saturating_add(1));
 
     ArkMatchSummary {
-        match_id: entry
-            .battle_results_mail_id
-            .clone()
-            .unwrap_or(fallback_mail_id),
+        match_id: entry.battle_results_mail_id.clone().unwrap_or(fallback_mail_id),
         mail_time_millis: entry.battle_results_time_millis,
         battle_results_mail_id: entry.battle_results_mail_id.clone(),
         battle_info_mail_id: entry.battle_info_mail_id.clone(),
@@ -139,16 +131,10 @@ fn map_match_overview(individual_results: Option<&Document>) -> ArkMatchDetailOv
             parse_i64(nested_value(doc, &["overview", "total_results", "battles"]))
         }),
         kill_points_gain: individual_results.and_then(|doc| {
-            parse_i64(nested_value(
-                doc,
-                &["overview", "total_results", "kill_points"],
-            ))
+            parse_i64(nested_value(doc, &["overview", "total_results", "kill_points"]))
         }),
         kill_points_loss: individual_results.and_then(|doc| {
-            parse_i64(nested_value(
-                doc,
-                &["overview", "total_results", "severely_wounded"],
-            ))
+            parse_i64(nested_value(doc, &["overview", "total_results", "severely_wounded"]))
         }),
     }
 }
@@ -229,11 +215,9 @@ fn nested_value<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
 fn parse_timestamp_millis(value: &Bson) -> Option<i64> {
     match value {
         Bson::DateTime(value) => Some(value.timestamp_millis()),
-        Bson::String(value) => value
-            .trim()
-            .parse::<f64>()
-            .ok()
-            .and_then(normalize_timestamp_millis),
+        Bson::String(value) => {
+            value.trim().parse::<f64>().ok().and_then(normalize_timestamp_millis)
+        }
         other => bson_to_f64(other).and_then(normalize_timestamp_millis),
     }
 }
@@ -242,13 +226,11 @@ fn parse_i64(value: Option<&Bson>) -> Option<i64> {
     let value = value?;
 
     match value {
-        Bson::String(value) => value.trim().parse::<f64>().ok().and_then(|value| {
-            if value.is_finite() {
-                Some(value as i64)
-            } else {
-                None
-            }
-        }),
+        Bson::String(value) => value
+            .trim()
+            .parse::<f64>()
+            .ok()
+            .and_then(|value| if value.is_finite() { Some(value as i64) } else { None }),
         other => bson_to_i64(other),
     }
 }

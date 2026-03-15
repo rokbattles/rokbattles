@@ -1,17 +1,16 @@
 //! Processing loop and mail handling logic.
 
-use std::sync::Arc;
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::{
+    Arc,
+    atomic::{AtomicUsize, Ordering},
+};
 
 use futures::stream::TryStreamExt;
 use mongodb::bson::{Bson, DateTime, Document, oid::ObjectId};
 use serde_json::Value;
 use tracing::{debug, error, info};
 
-use crate::config::Config;
-use crate::error::ProcessorError;
-use crate::mail::MailType;
-use crate::storage::Storage;
+use crate::{config::Config, error::ProcessorError, mail::MailType, storage::Storage};
 
 #[derive(Debug)]
 struct RawMail {
@@ -113,9 +112,7 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
     };
 
     let processed_doc = mongodb::bson::to_document(&processed)?;
-    storage
-        .upsert_processed(mail_type, &raw.mail_id, processed_doc)
-        .await?;
+    storage.upsert_processed(mail_type, &raw.mail_id, processed_doc).await?;
 
     let now = DateTime::now();
     storage.mark_processed(&raw.id, now).await?;
@@ -138,28 +135,16 @@ fn should_mark_error(error: &ProcessorError) -> bool {
 }
 
 fn parse_raw_mail(doc: Document) -> Result<RawMail, ProcessorError> {
-    let id = doc
-        .get_object_id("_id")
-        .map_err(|_| ProcessorError::MissingField("_id"))?;
-    let mail_id = doc
-        .get_str("mail_id")
-        .map_err(|_| ProcessorError::MissingField("mail_id"))?
-        .to_string();
-    let status = doc
-        .get_str("status")
-        .unwrap_or(crate::storage::STATUS_PENDING)
-        .to_string();
+    let id = doc.get_object_id("_id").map_err(|_| ProcessorError::MissingField("_id"))?;
+    let mail_id =
+        doc.get_str("mail_id").map_err(|_| ProcessorError::MissingField("mail_id"))?.to_string();
+    let status = doc.get_str("status").unwrap_or(crate::storage::STATUS_PENDING).to_string();
     let mail_value = match doc.get("mail_value") {
         Some(Bson::Binary(binary)) => binary.bytes.clone(),
         _ => return Err(ProcessorError::MissingField("mail_value")),
     };
 
-    Ok(RawMail {
-        id,
-        mail_id,
-        status,
-        mail_value,
-    })
+    Ok(RawMail { id, mail_id, status, mail_value })
 }
 
 fn decode_mail_value(bytes: &[u8]) -> Result<Value, ProcessorError> {
@@ -255,10 +240,12 @@ fn value_to_string(value: &Value) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::io::Cursor;
+
     use mongodb::bson::{Binary, doc, oid::ObjectId, spec::BinarySubtype};
     use serde_json::json;
-    use std::io::Cursor;
+
+    use super::*;
 
     #[test]
     fn normalize_root_accepts_object() {

@@ -1,10 +1,8 @@
-use std::cmp::Ordering;
-use std::collections::BTreeMap;
+use std::{cmp::Ordering, collections::BTreeMap};
 
 use mongodb::bson::{Bson, Document};
 
-use crate::bson_utils::bson_to_f64;
-use crate::time_utils::normalize_timestamp_millis;
+use crate::{bson_utils::bson_to_f64, time_utils::normalize_timestamp_millis};
 
 const DEFAULT_MATCH_DELTA_MILLIS: i64 = 60_000;
 
@@ -48,11 +46,8 @@ pub(crate) fn match_ark_mails(
     individual_results: Vec<Document>,
     max_delta_millis: i64,
 ) -> Vec<MatchedArkMailSet> {
-    let safe_max_delta_millis = if max_delta_millis > 0 {
-        max_delta_millis
-    } else {
-        DEFAULT_MATCH_DELTA_MILLIS
-    };
+    let safe_max_delta_millis =
+        if max_delta_millis > 0 { max_delta_millis } else { DEFAULT_MATCH_DELTA_MILLIS };
 
     let mut battle_info_pool = build_pool(battle_info);
     let mut individual_results_pool = build_pool(individual_results);
@@ -123,10 +118,7 @@ fn consume_best_candidate(
     let best_key = choose_best_candidate_key(pool, primary_time_millis, max_delta_millis)?;
     let candidate = pool.remove(&best_key)?;
 
-    Some(MatchedSecondary {
-        mail_id: candidate.mail_id,
-        doc: candidate.doc,
-    })
+    Some(MatchedSecondary { mail_id: candidate.mail_id, doc: candidate.doc })
 }
 
 fn choose_best_candidate_key(
@@ -138,20 +130,11 @@ fn choose_best_candidate_key(
         return None;
     }
 
-    let probe = MatchKey {
-        time_millis: primary_time_millis,
-        mail_id_key: String::new(),
-        sequence: 0,
-    };
+    let probe =
+        MatchKey { time_millis: primary_time_millis, mail_id_key: String::new(), sequence: 0 };
 
-    let previous_key = pool
-        .range(..=probe.clone())
-        .next_back()
-        .map(|(key, _)| key.clone());
-    let next_key = pool
-        .range(probe.clone()..)
-        .next()
-        .map(|(key, _)| key.clone());
+    let previous_key = pool.range(..=probe.clone()).next_back().map(|(key, _)| key.clone());
+    let next_key = pool.range(probe.clone()..).next().map(|(key, _)| key.clone());
 
     let mut candidate_keys = Vec::with_capacity(2);
     if let Some(previous) = previous_key {
@@ -200,10 +183,7 @@ fn is_better_candidate(
     let current_delta = absolute_delta(current_best.mail_time_millis, primary_time_millis);
 
     match candidate_delta.cmp(&current_delta) {
-        Ordering::Equal => match current_best
-            .mail_time_millis
-            .cmp(&candidate.mail_time_millis)
-        {
+        Ordering::Equal => match current_best.mail_time_millis.cmp(&candidate.mail_time_millis) {
             Ordering::Equal => {
                 let candidate_id = candidate.mail_id.as_deref().unwrap_or("");
                 let current_id = current_best.mail_id.as_deref().unwrap_or("");
@@ -226,11 +206,7 @@ fn to_candidate(document: Document, sequence: u32) -> Option<MatchCandidate> {
     let mail_id_key = mail_id.clone().unwrap_or_default();
 
     Some(MatchCandidate {
-        key: MatchKey {
-            time_millis: mail_time_millis,
-            mail_id_key,
-            sequence,
-        },
+        key: MatchKey { time_millis: mail_time_millis, mail_id_key, sequence },
         mail_id,
         mail_time_millis,
         doc: document,
@@ -240,11 +216,9 @@ fn to_candidate(document: Document, sequence: u32) -> Option<MatchCandidate> {
 fn extract_mail_time_millis(value: &Bson) -> Option<i64> {
     match value {
         Bson::DateTime(value) => Some(value.timestamp_millis()),
-        Bson::String(value) => value
-            .trim()
-            .parse::<f64>()
-            .ok()
-            .and_then(normalize_timestamp_millis),
+        Bson::String(value) => {
+            value.trim().parse::<f64>().ok().and_then(normalize_timestamp_millis)
+        }
         other => bson_to_f64(other).and_then(normalize_timestamp_millis),
     }
 }

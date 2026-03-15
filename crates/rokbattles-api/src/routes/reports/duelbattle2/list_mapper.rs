@@ -1,11 +1,12 @@
 use mongodb::bson::{Bson, Document, doc};
 
-use crate::bson_utils::{nested_document, nested_i64};
-
-use super::query::DuelBattle2Request;
-use super::types::{
-    DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
+use super::{
+    query::DuelBattle2Request,
+    types::{
+        DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
+    },
 };
+use crate::bson_utils::{nested_document, nested_i64};
 
 pub(super) fn build_duelbattle2_list_pipeline(
     request: &DuelBattle2Request,

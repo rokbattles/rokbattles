@@ -1,7 +1,9 @@
 use std::sync::Arc;
 
-use axum::Router;
-use axum::routing::{get, patch, post};
+use axum::{
+    Router,
+    routing::{get, patch, post},
+};
 
 use crate::state::AppState;
 
@@ -24,12 +26,6 @@ pub fn router() -> Router<Arc<AppState>> {
         .route("/{governor_id}/loot", get(loot::get))
         .route("/{governor_id}/resources", get(resources::get))
         .route("/{governor_id}/pairings", get(pairings::get))
-        .route(
-            "/{governor_id}/pairings/loadouts",
-            get(pairings::get_loadouts),
-        )
-        .route(
-            "/{governor_id}/pairings/opponents",
-            get(pairings::get_opponents),
-        )
+        .route("/{governor_id}/pairings/loadouts", get(pairings::get_loadouts))
+        .route("/{governor_id}/pairings/opponents", get(pairings::get_opponents))
 }

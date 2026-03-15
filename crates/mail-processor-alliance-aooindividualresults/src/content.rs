@@ -8,13 +8,8 @@ pub(crate) fn require_child_object<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
 ) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "object",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
 }
 
 /// Require an unsigned integer field from a JSON map.
@@ -22,13 +17,8 @@ pub(crate) fn require_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<u64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "unsigned integer",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
 /// Read an optional unsigned integer field from a JSON map.
@@ -41,10 +31,7 @@ pub(crate) fn optional_u64_field(
         Some(value) => value
             .as_u64()
             .map(Value::from)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 
@@ -53,13 +40,8 @@ pub(crate) fn require_bool_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<bool, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    value.as_bool().ok_or(ExtractError::InvalidFieldType {
-        field,
-        expected: "boolean",
-    })
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value.as_bool().ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
 }
 
 /// Require a string field from a JSON map.
@@ -67,16 +49,11 @@ pub(crate) fn require_string_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<String, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     value
         .as_str()
         .map(str::to_owned)
-        .ok_or(ExtractError::InvalidFieldType {
-            field,
-            expected: "string",
-        })
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "string" })
 }
 
 /// Read an optional object field from a JSON map.
@@ -89,10 +66,7 @@ pub(crate) fn optional_child_object<'a>(
         Some(value) => value
             .as_object()
             .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "object" }),
     }
 }
 
@@ -109,9 +83,6 @@ pub(crate) fn optional_child_object_or_empty_array<'a>(
         Some(value) => value
             .as_object()
             .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "object" }),
     }
 }

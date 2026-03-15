@@ -1,6 +1,8 @@
-use crate::watcher::{WatcherTask, spawn_watcher};
 use std::sync::atomic::{AtomicBool, Ordering};
+
 use tauri::AppHandle;
+
+use crate::watcher::{WatcherTask, spawn_watcher};
 
 pub(crate) struct WatcherManager {
     task: tokio::sync::Mutex<Option<WatcherTask>>,

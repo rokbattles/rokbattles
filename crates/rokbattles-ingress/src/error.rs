@@ -1,8 +1,10 @@
 //! API error mapping for HTTP responses.
 
-use axum::Json;
-use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use axum::{
+    Json,
+    http::StatusCode,
+    response::{IntoResponse, Response},
+};
 use serde::Serialize;
 
 /// Errors returned by API handlers.
@@ -66,9 +68,7 @@ struct ErrorResponse {
 impl IntoResponse for ApiError {
     fn into_response(self) -> Response {
         let status = self.status_code();
-        let body = Json(ErrorResponse {
-            error: self.to_string(),
-        });
+        let body = Json(ErrorResponse { error: self.to_string() });
         (status, body).into_response()
     }
 }

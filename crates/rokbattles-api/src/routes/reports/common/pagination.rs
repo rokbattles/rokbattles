@@ -60,11 +60,7 @@ where
         None
     };
 
-    CursorPage {
-        items: ordered_rows,
-        next_after,
-        previous_before,
-    }
+    CursorPage { items: ordered_rows, next_after, previous_before }
 }
 
 #[cfg(test)]
@@ -79,11 +75,7 @@ mod tests {
 
         assert_eq!(
             page,
-            CursorPage {
-                items: vec![10, 9, 8],
-                next_after: None,
-                previous_before: None,
-            }
+            CursorPage { items: vec![10, 9, 8], next_after: None, previous_before: None }
         );
     }
 
@@ -123,13 +115,6 @@ mod tests {
     fn paginates_empty_result_without_tokens() {
         let page = paginate_cursor_rows(Vec::<i64>::new(), 0, 3, None, Some(10), |value| *value);
 
-        assert_eq!(
-            page,
-            CursorPage {
-                items: Vec::new(),
-                next_after: None,
-                previous_before: None,
-            }
-        );
+        assert_eq!(page, CursorPage { items: Vec::new(), next_after: None, previous_before: None });
     }
 }

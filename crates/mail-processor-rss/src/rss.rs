@@ -55,11 +55,12 @@ fn build_position(x: Value, y: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn rss_extractor_reads_fields() {
@@ -88,10 +89,7 @@ mod tests {
         assert_eq!(fields["rss_bonus"], json!(148));
         assert_eq!(fields["time"], json!(1772127667));
         assert_eq!(fields["level"], json!(8));
-        assert_eq!(
-            fields["pos"],
-            json!({ "x": 3784.925537109375, "y": 3969.92431640625 })
-        );
+        assert_eq!(fields["pos"], json!({ "x": 3784.925537109375, "y": 3969.92431640625 }));
         assert_eq!(fields["crystals_gain"], json!(0));
     }
 
@@ -115,10 +113,7 @@ mod tests {
 
         let extractor = RssExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
-        assert!(matches!(
-            err,
-            ExtractError::MissingField { field: "ResValue" }
-        ));
+        assert!(matches!(err, ExtractError::MissingField { field: "ResValue" }));
     }
 
     #[test]
@@ -135,10 +130,7 @@ mod tests {
         assert_eq!(fields["rss_bonus"], json!(232));
         assert_eq!(fields["time"], json!(1772127764));
         assert_eq!(fields["level"], json!(6));
-        assert_eq!(
-            fields["pos"],
-            json!({ "x": 3804.365966796875, "y": 3906.101318359375 })
-        );
+        assert_eq!(fields["pos"], json!({ "x": 3804.365966796875, "y": 3906.101318359375 }));
         assert_eq!(fields["crystals_gain"], json!(0));
     }
 }

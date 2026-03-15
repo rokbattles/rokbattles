@@ -1,22 +1,25 @@
-use std::collections::HashMap;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 
-use axum::extract::{Path, Query, State};
-use axum::response::IntoResponse;
-use axum::{Json, http::StatusCode};
-
-use crate::auth::AuthenticatedSession;
-use crate::error::ApiError;
-use crate::routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param};
-use crate::state::AppState;
-
-use self::aggregate::{aggregate_loadouts, aggregate_opponents, aggregate_pairings};
-use self::query::{
-    parse_pairing_loadouts_request, parse_pairing_opponents_request, parse_pairings_request,
+use axum::{
+    Json,
+    extract::{Path, Query, State},
+    http::StatusCode,
+    response::IntoResponse,
 };
-use self::store::fetch_pairings_mails;
-use self::types::{
-    PairingLoadoutsResponse, PairingOpponentsResponse, PairingsRange, PairingsResponse,
+
+use self::{
+    aggregate::{aggregate_loadouts, aggregate_opponents, aggregate_pairings},
+    query::{
+        parse_pairing_loadouts_request, parse_pairing_opponents_request, parse_pairings_request,
+    },
+    store::fetch_pairings_mails,
+    types::{PairingLoadoutsResponse, PairingOpponentsResponse, PairingsRange, PairingsResponse},
+};
+use crate::{
+    auth::AuthenticatedSession,
+    error::ApiError,
+    routes::governor::common::{ensure_governor_claim_for_user, parse_governor_id_param},
+    state::AppState,
 };
 
 mod aggregate;
@@ -39,18 +42,11 @@ pub async fn get(
     let mails = fetch_pairings_mails(&state, governor_id, &request.range, None).await?;
     let items = aggregate_pairings(&mails, &request.range);
     let response = PairingsResponse {
-        range: PairingsRange {
-            start: request.range.start,
-            end: request.range.end,
-        },
+        range: PairingsRange { start: request.range.start, end: request.range.end },
         items,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }
 
 /// Get loadout-level aggregates for one selected commander pairing.
@@ -80,18 +76,11 @@ pub async fn get_loadouts(
         request.granularity,
     );
     let response = PairingLoadoutsResponse {
-        range: PairingsRange {
-            start: request.range.start,
-            end: request.range.end,
-        },
+        range: PairingsRange { start: request.range.start, end: request.range.end },
         items,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }
 
 /// Get opponent aggregates for a selected pairing, optionally scoped to one loadout.
@@ -122,16 +111,9 @@ pub async fn get_opponents(
         request.loadout_key.as_deref(),
     );
     let response = PairingOpponentsResponse {
-        range: PairingsRange {
-            start: request.range.start,
-            end: request.range.end,
-        },
+        range: PairingsRange { start: request.range.start, end: request.range.end },
         items,
     };
 
-    Ok((
-        StatusCode::OK,
-        [("Cache-Control", "no-store")],
-        Json(response),
-    ))
+    Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }

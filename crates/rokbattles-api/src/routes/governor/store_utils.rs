@@ -1,7 +1,5 @@
 use futures::TryStreamExt;
-use mongodb::Collection;
-use mongodb::bson::Document;
-use mongodb::options::FindOptions;
+use mongodb::{Collection, bson::Document, options::FindOptions};
 
 use crate::error::ApiError;
 
@@ -21,8 +19,5 @@ where
         .await
         .map_err(|error| ApiError::internal(error.to_string()))?;
 
-    cursor
-        .try_collect()
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))
+    cursor.try_collect().await.map_err(|error| ApiError::internal(error.to_string()))
 }

@@ -91,17 +91,11 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     }
 
     let mut rally_conditions: Vec<Document> = Vec::new();
-    if matches!(
-        request.rally_side,
-        ReportsFilterSide::Sender | ReportsFilterSide::Both
-    ) {
+    if matches!(request.rally_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
         rally_conditions
             .push(doc! { "sender.rally": { "$in": [Bson::Int32(1), Bson::Boolean(true)] } });
     }
-    if matches!(
-        request.rally_side,
-        ReportsFilterSide::Opponent | ReportsFilterSide::Both
-    ) {
+    if matches!(request.rally_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
         rally_conditions.push(doc! {
             "opponents": {
                 "$elemMatch": {
@@ -114,22 +108,14 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     append_compound_condition(&mut match_pipeline, rally_conditions);
 
     let mut garrison_conditions: Vec<Document> = Vec::new();
-    if matches!(
-        request.garrison_side,
-        ReportsFilterSide::Sender | ReportsFilterSide::Both
-    ) {
+    if matches!(request.garrison_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
         garrison_conditions.push(build_garrison_field_condition(
             "sender.alliance_building_id",
             request.garrison_building_type,
         ));
     }
-    if matches!(
-        request.garrison_side,
-        ReportsFilterSide::Opponent | ReportsFilterSide::Both
-    ) {
-        garrison_conditions.push(build_opponent_garrison_condition(
-            request.garrison_building_type,
-        ));
+    if matches!(request.garrison_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
+        garrison_conditions.push(build_opponent_garrison_condition(request.garrison_building_type));
     }
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 

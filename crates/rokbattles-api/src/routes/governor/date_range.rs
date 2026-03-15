@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
-use mongodb::bson::DateTime;
-use mongodb::bson::Document;
+use mongodb::bson::{DateTime, Document};
 
-use crate::error::ApiError;
-use crate::time_utils::build_mail_time_match;
-use crate::time_utils::date_key_utc;
+use crate::{
+    error::ApiError,
+    time_utils::{build_mail_time_match, date_key_utc},
+};
 
 const ONE_DAY_MILLIS: i64 = 24 * 60 * 60 * 1000;
 
@@ -73,12 +73,7 @@ fn resolve_date_range(
     let end =
         date_key_utc(final_end_millis - 1).ok_or_else(|| ApiError::bad_request("Invalid end"))?;
 
-    Ok(GovernorDateRange {
-        start_millis,
-        end_millis: final_end_millis,
-        start,
-        end,
-    })
+    Ok(GovernorDateRange { start_millis, end_millis: final_end_millis, start, end })
 }
 
 fn parse_date_start_millis(value: &str) -> Option<i64> {
@@ -88,9 +83,7 @@ fn parse_date_start_millis(value: &str) -> Option<i64> {
     }
 
     let rfc3339 = format!("{value}T00:00:00Z");
-    DateTime::parse_rfc3339_str(rfc3339)
-        .ok()
-        .map(DateTime::timestamp_millis)
+    DateTime::parse_rfc3339_str(rfc3339).ok().map(DateTime::timestamp_millis)
 }
 
 fn parse_date_end_inclusive_millis(value: &str) -> Option<i64> {
@@ -100,9 +93,7 @@ fn parse_date_end_inclusive_millis(value: &str) -> Option<i64> {
     }
 
     let rfc3339 = format!("{value}T23:59:59.999Z");
-    DateTime::parse_rfc3339_str(rfc3339)
-        .ok()
-        .map(DateTime::timestamp_millis)
+    DateTime::parse_rfc3339_str(rfc3339).ok().map(DateTime::timestamp_millis)
 }
 
 #[cfg(test)]

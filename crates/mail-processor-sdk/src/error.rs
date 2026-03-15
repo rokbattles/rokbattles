@@ -1,7 +1,6 @@
 //! Error types for extraction and processing.
 
-use std::error::Error;
-use std::fmt;
+use std::{error::Error, fmt};
 
 /// Errors raised when an extractor cannot read the expected data.
 #[derive(Debug, Clone, PartialEq, Eq)]

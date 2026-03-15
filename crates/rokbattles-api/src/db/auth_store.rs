@@ -1,9 +1,9 @@
-use futures::FutureExt;
-use futures::future::BoxFuture;
-use mongodb::Collection;
-use mongodb::IndexModel;
-use mongodb::bson::{DateTime, doc};
-use mongodb::options::{IndexOptions, UpdateOptions};
+use futures::{FutureExt, future::BoxFuture};
+use mongodb::{
+    Collection, IndexModel,
+    bson::{DateTime, doc},
+    options::{IndexOptions, UpdateOptions},
+};
 use serde::{Deserialize, Serialize};
 
 /// Session data used by authenticated routes.
@@ -119,9 +119,7 @@ impl MongoAuthStore {
             IndexModel::builder()
                 .keys(doc! { "expiresAt": 1 })
                 .options(
-                    IndexOptions::builder()
-                        .expire_after(Some(std::time::Duration::ZERO))
-                        .build(),
+                    IndexOptions::builder().expire_after(Some(std::time::Duration::ZERO)).build(),
                 )
                 .build(),
         ];
@@ -144,9 +142,7 @@ impl MongoAuthStore {
             IndexModel::builder()
                 .keys(doc! { "expiresAt": 1 })
                 .options(
-                    IndexOptions::builder()
-                        .expire_after(Some(std::time::Duration::ZERO))
-                        .build(),
+                    IndexOptions::builder().expire_after(Some(std::time::Duration::ZERO)).build(),
                 )
                 .build(),
         ];
@@ -165,10 +161,7 @@ impl AuthRepository for MongoAuthStore {
         sid: &'a str,
     ) -> BoxFuture<'a, Result<Option<SessionRecord>, AuthStoreError>> {
         async move {
-            let doc = self
-                .sessions
-                .find_one(mongodb::bson::doc! { "sessionId": sid })
-                .await?;
+            let doc = self.sessions.find_one(mongodb::bson::doc! { "sessionId": sid }).await?;
             Ok(doc.map(SessionRecord::from))
         }
         .boxed()
@@ -179,9 +172,7 @@ impl AuthRepository for MongoAuthStore {
         sid: &'a str,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            self.sessions
-                .delete_one(mongodb::bson::doc! { "sessionId": sid })
-                .await?;
+            self.sessions.delete_one(mongodb::bson::doc! { "sessionId": sid }).await?;
             Ok(())
         }
         .boxed()
@@ -192,10 +183,7 @@ impl AuthRepository for MongoAuthStore {
         discord_id: &'a str,
     ) -> BoxFuture<'a, Result<Option<UserRecord>, AuthStoreError>> {
         async move {
-            let doc = self
-                .users
-                .find_one(mongodb::bson::doc! { "discordId": discord_id })
-                .await?;
+            let doc = self.users.find_one(mongodb::bson::doc! { "discordId": discord_id }).await?;
             Ok(doc.map(UserRecord::from))
         }
         .boxed()
@@ -206,9 +194,7 @@ impl AuthRepository for MongoAuthStore {
         oauth_state: OAuthStateRecord,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            self.oauth_states
-                .insert_one(OAuthStateDocument::from(oauth_state))
-                .await?;
+            self.oauth_states.insert_one(OAuthStateDocument::from(oauth_state)).await?;
             Ok(())
         }
         .boxed()
@@ -261,9 +247,7 @@ impl AuthRepository for MongoAuthStore {
         session: NewSessionRecord,
     ) -> BoxFuture<'a, Result<(), AuthStoreError>> {
         async move {
-            self.sessions
-                .insert_one(SessionDocument::from(session))
-                .await?;
+            self.sessions.insert_one(SessionDocument::from(session)).await?;
             Ok(())
         }
         .boxed()
@@ -313,10 +297,7 @@ struct UserDocument {
 
 impl From<UserDocument> for UserRecord {
     fn from(value: UserDocument) -> Self {
-        Self {
-            discord_id: value.discord_id,
-            email: value.email,
-        }
+        Self { discord_id: value.discord_id, email: value.email }
     }
 }
 

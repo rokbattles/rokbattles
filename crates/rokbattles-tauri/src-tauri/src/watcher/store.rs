@@ -1,5 +1,3 @@
-use anyhow::Context;
-use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
     fs, io,
@@ -7,6 +5,9 @@ use std::{
     path::{Path, PathBuf},
     time::{Duration, SystemTime},
 };
+
+use anyhow::Context;
+use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 
 use super::config::WatcherConfig;
@@ -56,10 +57,8 @@ pub(crate) fn delete_upload_queue(app: &AppHandle, config: &WatcherConfig) -> an
 pub(crate) fn file_sig(meta: &fs::Metadata) -> anyhow::Result<FileSig> {
     let size = meta.len();
     let modified_time = meta.modified().unwrap_or(SystemTime::UNIX_EPOCH);
-    let modified = modified_time
-        .duration_since(SystemTime::UNIX_EPOCH)
-        .unwrap_or(Duration::ZERO)
-        .as_millis();
+    let modified =
+        modified_time.duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis();
     Ok(FileSig { size, modified })
 }
 
@@ -120,19 +119,13 @@ pub(crate) fn write_upload_queue(
 }
 
 fn processed_file(app: &AppHandle, config: &WatcherConfig) -> anyhow::Result<PathBuf> {
-    let dir = app
-        .path()
-        .app_config_dir()
-        .context("Could not resolve app config directory")?;
+    let dir = app.path().app_config_dir().context("Could not resolve app config directory")?;
     fs::create_dir_all(&dir).context("Failed to create app config directory")?;
     Ok(dir.join(config.processed_file_name))
 }
 
 fn upload_queue_file(app: &AppHandle, config: &WatcherConfig) -> anyhow::Result<PathBuf> {
-    let dir = app
-        .path()
-        .app_config_dir()
-        .context("Could not resolve app config directory")?;
+    let dir = app.path().app_config_dir().context("Could not resolve app config directory")?;
     fs::create_dir_all(&dir).context("Failed to create app config directory")?;
     Ok(dir.join(config.upload_queue_file_name))
 }
@@ -141,8 +134,7 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> anyhow::Result<()> {
     let tmp_path = path.with_extension("tmp");
     let mut file = fs::File::create(&tmp_path)
         .with_context(|| format!("Failed creating temp file {:?}", tmp_path))?;
-    file.write_all(bytes)
-        .with_context(|| format!("Failed writing temp file {:?}", tmp_path))?;
+    file.write_all(bytes).with_context(|| format!("Failed writing temp file {:?}", tmp_path))?;
 
     if let Err(e) = fs::rename(&tmp_path, path) {
         // Best-effort fallback for Windows rename semantics.
