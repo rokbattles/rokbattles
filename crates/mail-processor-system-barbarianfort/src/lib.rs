@@ -50,6 +50,8 @@ mod tests {
         assert_eq!(processed_json["metadata"]["mail_id"], json!("54530305177357763431"));
         assert_eq!(processed_json["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(processed_json["body"]["target_name"], json!("Level11"));
+        assert_eq!(processed_json["body"]["sub_type"], json!(11));
+        assert_eq!(processed_json["body"]["sub_param"], json!(3));
         assert_eq!(
             processed_json["body"]["pos"],
             json!({ "x": 7033.7001953125, "y": 1246.9722900390625 })
