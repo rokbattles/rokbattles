@@ -46,12 +46,12 @@ fn is_indexed_array(array: &[Value]) -> bool {
         return false;
     }
 
-    let mut expected = match array.first().and_then(Value::as_u64) {
+    for (expected, value) in (match array.first().and_then(Value::as_u64) {
         Some(value) if value == 0 || value == 1 => value,
         _ => return false,
-    };
-
-    for value in array.iter().step_by(2) {
+    }..)
+        .zip(array.iter().step_by(2))
+    {
         let index = match value.as_u64() {
             Some(index) => index,
             None => return false,
@@ -59,7 +59,6 @@ fn is_indexed_array(array: &[Value]) -> bool {
         if index != expected {
             return false;
         }
-        expected += 1;
     }
 
     true

@@ -82,7 +82,7 @@ impl DailyBucket {
             .into_iter()
             .map(|(type_id, total)| ResourceDailyValueByTypeResponse { type_id, total })
             .collect::<Vec<_>>();
-        resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
+        resources.sort_by_key(|left| left.type_id);
 
         ResourceDailyResponse { date: self.date, crystals_gain: self.crystals_gain, resources }
     }
@@ -151,7 +151,7 @@ pub(crate) fn aggregate_resources(
         .into_iter()
         .map(|(type_id, totals)| totals.into_type_response(type_id))
         .collect::<Vec<_>>();
-    resources.sort_by(|left, right| left.type_id.cmp(&right.type_id));
+    resources.sort_by_key(|left| left.type_id);
 
     let mut daily = daily_buckets.into_values().map(DailyBucket::into_response).collect::<Vec<_>>();
     daily.sort_by(|left, right| left.date.cmp(&right.date));
