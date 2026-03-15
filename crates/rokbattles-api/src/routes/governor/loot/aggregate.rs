@@ -42,6 +42,7 @@ pub(crate) fn aggregate_loot(
     barbarian_mails: Vec<BattleMailDocument>,
     marauder_mails: Vec<BattleMailDocument>,
     barbarian_fort_mails: Vec<BarbarianFortMailDocument>,
+    marauder_encampment_mails: Vec<BarbarianFortMailDocument>,
     baulur_mails: Vec<BaulurMailDocument>,
     governor_id: i64,
     range: &GovernorDateRange,
@@ -49,27 +50,17 @@ pub(crate) fn aggregate_loot(
     let mut barbarian = LootCategoryAggregate::default();
     let mut marauder = LootCategoryAggregate::default();
     let mut barbarian_fort = LootCategoryAggregate::default();
+    let mut marauder_encampment = LootCategoryAggregate::default();
     let mut baulur = LootCategoryAggregate::default();
 
     aggregate_npc_battle_loot(barbarian_mails, range, &mut barbarian, is_barbarian);
     aggregate_npc_battle_loot(marauder_mails, range, &mut marauder, is_marauder);
-
-    for mail in barbarian_fort_mails {
-        let Some(event_time_millis) = extract_event_time_millis(
-            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
-        ) else {
-            continue;
-        };
-        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
-            continue;
-        }
-        let Some(date_key) = date_key_utc(event_time_millis) else {
-            continue;
-        };
-
-        add_report(&mut barbarian_fort, &date_key);
-        add_loot(&mut barbarian_fort, &date_key, mail.rewards.as_deref().unwrap_or_default());
-    }
+    aggregate_system_barbarian_fort_loot(barbarian_fort_mails, range, &mut barbarian_fort);
+    aggregate_system_barbarian_fort_loot(
+        marauder_encampment_mails,
+        range,
+        &mut marauder_encampment,
+    );
 
     for mail in baulur_mails {
         let Some(event_time_millis) = extract_event_time_millis(
@@ -106,7 +97,31 @@ pub(crate) fn aggregate_loot(
         barbarian: into_category_payload(barbarian),
         marauder: into_category_payload(marauder),
         barbarian_fort: into_category_payload(barbarian_fort),
+        marauder_encampment: into_category_payload(marauder_encampment),
         baulur: into_category_payload(baulur),
+    }
+}
+
+fn aggregate_system_barbarian_fort_loot(
+    mails: Vec<BarbarianFortMailDocument>,
+    range: &GovernorDateRange,
+    category: &mut LootCategoryAggregate,
+) {
+    for mail in mails {
+        let Some(event_time_millis) = extract_event_time_millis(
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
+        ) else {
+            continue;
+        };
+        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
+            continue;
+        }
+        let Some(date_key) = date_key_utc(event_time_millis) else {
+            continue;
+        };
+
+        add_report(category, &date_key);
+        add_loot(category, &date_key, mail.rewards.as_deref().unwrap_or_default());
     }
 }
 
@@ -258,7 +273,10 @@ mod tests {
     use mongodb::bson::Bson;
 
     use super::{
-        super::store::{BattleNpcDocument, BattleOpponentDocument, MailMetadataDocument},
+        super::store::{
+            BarbarianFortMailDocument, BattleNpcDocument, BattleOpponentDocument,
+            MailMetadataDocument,
+        },
         *,
     };
 
@@ -358,6 +376,7 @@ mod tests {
             ],
             Vec::new(),
             Vec::new(),
+            Vec::new(),
             42,
             &range,
         );
@@ -367,6 +386,33 @@ mod tests {
         assert_eq!(categories.marauder.reports, 2);
         assert_eq!(categories.marauder.loot_total, 20);
         assert_eq!(categories.total_reports(), 3);
+    }
+
+    #[test]
+    fn aggregate_loot_tracks_marauder_encampments_separately_from_barbarian_forts() {
+        let range = GovernorDateRange {
+            start_millis: 1_735_689_600_000,
+            end_millis: 1_735_776_000_000,
+            start: "2025-01-01".to_string(),
+            end: "2025-01-01".to_string(),
+        };
+        let mail_time = 1_735_689_600_000;
+
+        let categories = aggregate_loot(
+            Vec::new(),
+            Vec::new(),
+            vec![build_system_barbarian_fort_mail(mail_time, 11)],
+            vec![build_system_barbarian_fort_mail(mail_time, 17)],
+            Vec::new(),
+            42,
+            &range,
+        );
+
+        assert_eq!(categories.barbarian_fort.reports, 1);
+        assert_eq!(categories.barbarian_fort.loot_total, 11);
+        assert_eq!(categories.marauder_encampment.reports, 1);
+        assert_eq!(categories.marauder_encampment.loot_total, 17);
+        assert_eq!(categories.total_reports(), 2);
     }
 
     fn build_npc_mail(
@@ -389,6 +435,20 @@ mod tests {
                         value: Some(Bson::Int64(loot_value)),
                     }]),
                 }),
+            }]),
+        }
+    }
+
+    fn build_system_barbarian_fort_mail(
+        mail_time: i64,
+        loot_value: i64,
+    ) -> BarbarianFortMailDocument {
+        BarbarianFortMailDocument {
+            metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
+            rewards: Some(vec![LootEntryDocument {
+                reward_type: Some(Bson::Int64(2)),
+                sub_type: Some(Bson::Int64(26)),
+                value: Some(Bson::Int64(loot_value)),
             }]),
         }
     }

@@ -1,4 +1,9 @@
-export type LootCategoryKey = "barbarian" | "marauder" | "barbarianFort" | "baulur";
+export type LootCategoryKey =
+  | "barbarian"
+  | "marauder"
+  | "marauderEncampment"
+  | "barbarianFort"
+  | "baulur";
 
 export type LootRewardAggregate = {
   type: number;

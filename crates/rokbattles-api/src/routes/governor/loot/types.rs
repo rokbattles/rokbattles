@@ -28,6 +28,7 @@ pub(crate) struct LootCategories {
     pub barbarian: LootCategoryAggregateResponse,
     pub marauder: LootCategoryAggregateResponse,
     pub barbarian_fort: LootCategoryAggregateResponse,
+    pub marauder_encampment: LootCategoryAggregateResponse,
     pub baulur: LootCategoryAggregateResponse,
 }
 
@@ -36,6 +37,7 @@ impl LootCategories {
         self.barbarian.reports
             + self.marauder.reports
             + self.barbarian_fort.reports
+            + self.marauder_encampment.reports
             + self.baulur.reports
     }
 }

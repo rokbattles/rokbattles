@@ -12,7 +12,7 @@ use self::{
     query::parse_loot_request,
     store::{
         fetch_barbarian_battle_mails, fetch_barbarian_fort_mails, fetch_baulur_mails,
-        fetch_marauder_battle_mails,
+        fetch_marauder_battle_mails, fetch_marauder_encampment_mails,
     },
     types::LootResponse,
 };
@@ -43,10 +43,17 @@ pub async fn get(
     let mail_receiver = format!("player_{governor_id}");
     let time_match = request.range.build_mail_time_match();
 
-    let (barbarian_mails, marauder_mails, barbarian_fort_mails, baulur_mails) = tokio::try_join!(
+    let (
+        barbarian_mails,
+        marauder_mails,
+        barbarian_fort_mails,
+        marauder_encampment_mails,
+        baulur_mails,
+    ) = tokio::try_join!(
         fetch_barbarian_battle_mails(&state, &mail_receiver, &time_match),
         fetch_marauder_battle_mails(&state, &mail_receiver, &time_match),
         fetch_barbarian_fort_mails(&state, &mail_receiver, &time_match),
+        fetch_marauder_encampment_mails(&state, &mail_receiver, &time_match),
         fetch_baulur_mails(&state, &mail_receiver, governor_id, &time_match),
     )?;
 
@@ -54,6 +61,7 @@ pub async fn get(
         barbarian_mails,
         marauder_mails,
         barbarian_fort_mails,
+        marauder_encampment_mails,
         baulur_mails,
         governor_id,
         &request.range,
