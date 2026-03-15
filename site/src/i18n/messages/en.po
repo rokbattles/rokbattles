@@ -376,9 +376,9 @@ msgstr "Binds"
 msgid "m9rp75"
 msgstr "No binds yet."
 
-#: src/components/account-loot/account-loot-content.tsx:60
-msgid "iGOQJg"
-msgstr "See loot from Barbarian, Barbarian Fort, Baulur, and Marauder reports."
+#: src/components/account-loot/account-loot-content.tsx:61
+msgid "fGwfGZ"
+msgstr "See loot from Barbarian, Barbarian Fort, Baulur, Marauder, and Marauder Encampment reports."
 
 #: src/components/account-loot/loot-breakdown-table.tsx:26
 msgid "HAlOn1"
@@ -407,6 +407,10 @@ msgstr "Baulur"
 #: src/components/account-loot/loot-category-list.tsx:30
 msgid "4pFR10"
 msgstr "Marauders"
+
+#: src/components/account-loot/loot-category-list.tsx:31
+msgid "R4HO71"
+msgstr "Marauder Encampments"
 
 #: src/components/account-loot/loot-error-state.tsx:8
 msgid "XD64/m"

@@ -28,6 +28,7 @@ export function LootCategoryList({
     { key: "barbarianFort", label: t("Barbarian Fort") },
     { key: "baulur", label: t("Baulur") },
     { key: "marauder", label: t("Marauders") },
+    { key: "marauderEncampment", label: t("Marauder Encampments") },
   ];
 
   return (
