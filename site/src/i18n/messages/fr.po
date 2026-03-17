@@ -1,10 +1,19 @@
 msgid ""
 msgstr ""
 "Language: fr\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: rokbattles\n"
+"X-Crowdin-Project-ID: 858302\n"
+"X-Crowdin-Language: fr\n"
+"X-Crowdin-File: en.po\n"
+"X-Crowdin-File-ID: 344\n"
+"Project-Id-Version: rokbattles\n"
+"Language-Team: French\n"
+"PO-Revision-Date: 2026-03-16 21:46\n"
 
 #: src/app/(main)/account/ark/[matchId]/page.tsx:19
 msgid "WDt8Y9"
@@ -17,7 +26,7 @@ msgstr ""
 #: src/app/(main)/account/loot/page.tsx:24
 #: src/components/platform-layout.tsx:123
 msgid "yF/GXb"
-msgstr ""
+msgstr "Mon Butin"
 
 #: src/app/(main)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:119
@@ -36,11 +45,11 @@ msgstr "Réglages du compte"
 
 #: src/app/(main)/account/settings/page.tsx:13
 msgid "hJZwTS"
-msgstr ""
+msgstr "Adresse email"
 
 #: src/app/(main)/account/settings/page.tsx:15
 msgid "rmEwjk"
-msgstr ""
+msgstr "Votre adresse e-mail est synchronisée à partir de Discord."
 
 #: src/app/(main)/olympian-arena/[id]/page.tsx:18
 msgid "xVCzuX"
@@ -48,7 +57,7 @@ msgstr ""
 
 #: src/app/(main)/olympian-arena/page.tsx:9
 msgid "78PvoX"
-msgstr ""
+msgstr "Rapports Champion de l'Olympe"
 
 #: src/app/(main)/olympian-arena/page.tsx:11
 #: src/app/(main)/page.tsx:14
@@ -64,7 +73,7 @@ msgstr "Rapports de bataille"
 #: src/app/(main)/page.tsx:17
 #: src/components/account/account-reports-content.tsx:32
 msgid "9Obw6C"
-msgstr ""
+msgstr "Filtrer"
 
 #: src/app/(main)/report/[id]/page.tsx:9
 msgid "1gqsiW"
@@ -72,11 +81,11 @@ msgstr "Rapport de bataille"
 
 #: src/app/(main)/report/[id]/page.tsx:52
 msgid "irMluf"
-msgstr ""
+msgstr "Retour à Mes Rapports"
 
 #: src/app/(main)/report/[id]/page.tsx:52
 msgid "8PEDrB"
-msgstr ""
+msgstr "Explorer les Batailles"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:19
 #: src/components/my-pairings/my-pairings-content.tsx:140
@@ -85,7 +94,7 @@ msgstr ""
 #: src/components/report/report-participant-card.tsx:27
 #: src/components/reports/participant-cell.tsx:18
 msgid "5hGibV"
-msgstr ""
+msgstr "Commandant inconnu"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:39
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:50
@@ -98,7 +107,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx:11
 msgid "Xe3O7i"
-msgstr ""
+msgstr "Impossible de charger l'historique des matchs Ark."
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:21
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:19
@@ -109,7 +118,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
 msgid "gkoU0i"
-msgstr ""
+msgstr "Résultats individuels"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:27
 msgid "FsjcN7"
@@ -121,11 +130,11 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:35
 msgid "g/Nwxg"
-msgstr ""
+msgstr "Score d'occupation"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:39
 msgid "5YClsN"
-msgstr ""
+msgstr "Score des provisions"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:43
 msgid "nCGWau"
@@ -137,12 +146,12 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:51
 msgid "BXfxPW"
-msgstr ""
+msgstr "Pourcentage de victoire"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:55
 #: src/components/account-loot/loot-timeline-chart-client.tsx:124
 msgid "Sl01xK"
-msgstr ""
+msgstr "Éliminations"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:59
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
@@ -153,11 +162,11 @@ msgstr "Blessés graves"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:63
 msgid "mJwM5A"
-msgstr ""
+msgstr "Troupes Soignées"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:67
 msgid "itiyNN"
-msgstr ""
+msgstr "Accélérations (minutes)"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx:71
 msgid "lcP4aP"
@@ -169,15 +178,15 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-loading-state.tsx:9
 msgid "ksU1u5"
-msgstr ""
+msgstr "Voir les détails du match Ark..."
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx:11
 msgid "gwll/b"
-msgstr ""
+msgstr "Match Ark introuvable"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:23
 msgid "9uOFF3"
-msgstr ""
+msgstr "Aperçu"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:25
 msgid "VP5+CR"
@@ -186,7 +195,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:29
 #: src/components/account-ark/ark-match-history-table.tsx:24
 msgid "oLkLww"
-msgstr ""
+msgstr "Score"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx:33
 msgid "b5C+CG"
@@ -211,7 +220,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:35
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
 msgid "02koas"
-msgstr ""
+msgstr "#"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:36
 #: src/components/my-pairings/pairings-filters.tsx:47
@@ -221,7 +230,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:37
 msgid "ZtK0ZT"
-msgstr ""
+msgstr "Batailles (victoire/total)"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
 #: src/components/olympian-arena/olympian-arena-table.tsx:42
@@ -245,16 +254,16 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-history-error-state.tsx:11
 msgid "6IRh9u"
-msgstr ""
+msgstr "Impossible de charger l'historique des matchs Ark."
 
 #: src/components/account-ark/ark-match-history-loading-state.tsx:9
 msgid "raC1gL"
-msgstr ""
+msgstr "Chargement de l'historique des matchs Ark..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
-msgstr ""
+msgstr "Seth"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:20
@@ -266,16 +275,16 @@ msgstr "Iset"
 #: src/components/report/report-commander-row.tsx:22
 #: src/components/report/report-overview-column.tsx:29
 msgid "5jeq8P"
-msgstr ""
+msgstr "Inconnu"
 
 #: src/components/account-ark/ark-match-history-row.tsx:33
 msgid "lgBBrD"
-msgstr ""
+msgstr "Voir les détails du match Ark"
 
 #: src/components/account-ark/ark-match-history-row.tsx:35
 #: src/components/account-ark/ark-match-history-row.tsx:36
 msgid "iVlule"
-msgstr ""
+msgstr "Alliance inconnue"
 
 #: src/components/account-ark/ark-match-history-table.tsx:19
 #: src/components/olympian-arena/olympian-arena-table.tsx:39
@@ -290,7 +299,7 @@ msgstr "Gagnant"
 
 #: src/components/account-ark/ark-match-history-table.tsx:23
 msgid "+a+2ug"
-msgstr ""
+msgstr "Membres"
 
 #: src/components/account-binds/account-binds-content.tsx:48
 msgid "XongGf"
@@ -302,7 +311,7 @@ msgstr ""
 
 #: src/components/account-binds/bind-actions-dropdown.tsx:33
 msgid "wL7VAE"
-msgstr ""
+msgstr "Actions"
 
 #: src/components/account-binds/bind-actions-dropdown.tsx:43
 msgid "E2APuV"
@@ -314,25 +323,25 @@ msgstr ""
 
 #: src/components/account-binds/bind-list-item.tsx:32
 msgid "lKv8ex"
-msgstr ""
+msgstr "Défaut"
 
 #: src/components/account-binds/bind-list-item.tsx:35
 #: src/components/olympian-arena/duel-participant-card.tsx:92
 #: src/components/report/report-participant-card.tsx:58
 msgid "tx/jZ/"
-msgstr ""
+msgstr "ID {id}"
 
 #: src/components/account-binds/binds-claim-form.tsx:26
 msgid "K994jQ"
-msgstr ""
+msgstr "Vous ne pouvez lier qu'un maximum de trois gouverneurs."
 
 #: src/components/account-binds/binds-claim-form.tsx:32
 msgid "pf6kFc"
-msgstr ""
+msgstr "Entrez un ID de gouverneur."
 
 #: src/components/account-binds/binds-claim-form.tsx:38
 msgid "I/clsA"
-msgstr ""
+msgstr "Entrez un ID de gouverneur valide."
 
 #: src/components/account-binds/binds-claim-form.tsx:54
 msgid "JUJHzc"
@@ -341,7 +350,7 @@ msgstr ""
 #: src/components/account-binds/binds-claim-form.tsx:65
 #: src/components/reports/reports-filter-dialog.tsx:190
 msgid "GNDCcc"
-msgstr ""
+msgstr "Gouverneur ID"
 
 #: src/components/account-binds/binds-claim-form.tsx:71
 #: src/components/reports/reports-filter-dialog.tsx:194
@@ -354,15 +363,15 @@ msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx:94
 msgid "dbfVtv"
-msgstr ""
+msgstr "Lier..."
 
 #: src/components/account-binds/binds-claim-form.tsx:94
 msgid "FRzSFh"
-msgstr ""
+msgstr "Lier le gouverneur"
 
 #: src/components/account-binds/binds-claim-section.tsx:18
 msgid "JMZWnS"
-msgstr ""
+msgstr "Lier un gouverneur"
 
 #: src/components/account-binds/binds-claim-section.tsx:20
 msgid "HOHINg"
@@ -382,11 +391,11 @@ msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx:26
 msgid "HAlOn1"
-msgstr ""
+msgstr "Nom"
 
 #: src/components/account-loot/loot-breakdown-table.tsx:27
 msgid "/0TOL5"
-msgstr ""
+msgstr "Montant"
 
 #: src/components/account-loot/loot-breakdown-table.tsx:28
 msgid "wrpHgq"
@@ -394,15 +403,15 @@ msgstr ""
 
 #: src/components/account-loot/loot-category-list.tsx:27
 msgid "r3YbHp"
-msgstr ""
+msgstr "Barbare"
 
 #: src/components/account-loot/loot-category-list.tsx:28
 msgid "Ap561B"
-msgstr ""
+msgstr "Fort Barbare"
 
 #: src/components/account-loot/loot-category-list.tsx:29
 msgid "T8KvU4"
-msgstr ""
+msgstr "Baulur"
 
 #: src/components/account-loot/loot-category-list.tsx:30
 msgid "4pFR10"
@@ -420,22 +429,22 @@ msgstr ""
 #: src/components/account-resources/resources-filters-client.tsx:92
 #: src/components/my-pairings/pairings-filters.tsx:73
 msgid "n5QvJy"
-msgstr ""
+msgstr "Date de début"
 
 #: src/components/account-loot/loot-filters-client.tsx:103
 #: src/components/account-resources/resources-filters-client.tsx:103
 #: src/components/my-pairings/pairings-filters.tsx:84
 msgid "Humfno"
-msgstr ""
+msgstr "Date de fin"
 
 #: src/components/account-loot/loot-report-section.tsx:18
 #: src/components/account-resources/resources-report-section.tsx:26
 msgid "sdkaef"
-msgstr ""
+msgstr "Aucun rapport dans cette plage de dates."
 
 #: src/components/account-loot/loot-table-section.tsx:20
 msgid "WOPo3b"
-msgstr ""
+msgstr "Récompense inconnue {type}/{subType}"
 
 #: src/components/account-loot/loot-table-section.tsx:29
 msgid "QtM1tY"
@@ -480,7 +489,7 @@ msgstr ""
 
 #: src/components/account/account-reports-content.tsx:27
 msgid "2YkOMs"
-msgstr ""
+msgstr "Mes rapports de bataille"
 
 #: src/components/account/account-settings-nav.tsx:13
 msgid "1iEPTM"
@@ -488,52 +497,52 @@ msgstr ""
 
 #: src/components/account/account-settings-nav.tsx:18
 msgid "q5TmbN"
-msgstr ""
+msgstr "Gouverneurs"
 
 #: src/components/cookie-consent-banner.tsx:38
 #: src/components/cookie-consent-dialog.tsx:42
 msgid "sjzLbX"
-msgstr ""
+msgstr "Accepter"
 
 #: src/components/cookie-consent-banner.tsx:46
 #: src/components/cookie-consent-dialog.tsx:33
 msgid "VzIOKf"
-msgstr ""
+msgstr "Rejeter"
 
 #: src/components/cookie-consent-dialog.tsx:20
 msgid "KS0bwV"
-msgstr ""
+msgstr "Paramètres des cookies"
 
 #: src/components/language-selector.tsx:78
 #: src/components/language-selector.tsx:88
 msgid "eVlu1R"
-msgstr ""
+msgstr "Sélectionner la langue"
 
 #: src/components/language-selector.tsx:83
 msgid "y1Z3or"
-msgstr ""
+msgstr "Langue"
 
 #: src/components/language-selector.tsx:93
 msgid "QmFCUz"
-msgstr ""
+msgstr "Les langues autres que l’anglais peuvent être incomplètes. Les textes non traduit sera écrit en Anglais."
 
 #: src/components/language-selector.tsx:110
 #: src/components/reports/reports-filter-dialog.tsx:393
 msgid "47FYwb"
-msgstr ""
+msgstr "Annuler"
 
 #: src/components/language-selector.tsx:112
 msgid "jvo0vs"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: src/components/my-pairings/loadout-armament-list.tsx:23
 #: src/components/report/report-armament-section.tsx:44
 msgid "lFZWlP"
-msgstr ""
+msgstr "Attirail {id}"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx:39
 msgid "+RhnH+"
-msgstr ""
+msgstr "Vide"
 
 #: src/components/my-pairings/my-pairings-content.tsx:227
 msgid "vxHX7Q"
@@ -547,7 +556,7 @@ msgstr ""
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 #: src/components/reports/reports-table.tsx:50
 msgid "9bVtCz"
-msgstr ""
+msgstr "Batailles"
 
 #: src/components/my-pairings/my-pairings-content.tsx:274
 msgid "W2cCAf"
@@ -671,7 +680,7 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
 msgid "+yzdej"
-msgstr "DPS"
+msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
 msgid "nyW1oU"
@@ -866,7 +875,7 @@ msgstr ""
 
 #: src/components/platform-layout.tsx:112
 msgid "NFE4yO"
-msgstr ""
+msgstr "Mes batailles"
 
 #: src/components/platform-layout.tsx:137
 msgid "odeufe"
