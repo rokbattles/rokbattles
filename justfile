@@ -13,6 +13,7 @@ check:
   just fmt
   just test
   just lint
+  just i18n
 
 fmt:
   cargo shear --fix
@@ -24,3 +25,6 @@ test:
 
 lint:
   cargo clippy --workspace --all-targets --all-features -- --deny warnings
+
+i18n:
+  pnpm --dir site generate:messages
