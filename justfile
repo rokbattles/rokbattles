@@ -9,10 +9,8 @@ _default:
 init:
   cargo bininstall cargo-shear@1.11.1 -y
 
-ready:
-  git diff --exit-code --quiet
+check:
   just fmt
-  just check
   just test
   just lint
 
@@ -20,9 +18,6 @@ fmt:
   cargo shear --fix
   cargo fmt --all
   pnpm run format
-
-check:
-  cargo check --workspace --all-features --all-targets --locked
 
 test:
   cargo test
