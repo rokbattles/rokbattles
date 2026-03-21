@@ -2,8 +2,8 @@ use mongodb::bson::{Bson, Document, doc};
 
 use super::types::{
     DuelBattle2DetailAlliance, DuelBattle2DetailBattleResult, DuelBattle2DetailBattleResults,
-    DuelBattle2DetailBuff, DuelBattle2DetailCommander, DuelBattle2DetailItem,
-    DuelBattle2DetailMetadata, DuelBattle2DetailPlayer,
+    DuelBattle2DetailBuff, DuelBattle2DetailCommander, DuelBattle2DetailCommanderSkill,
+    DuelBattle2DetailItem, DuelBattle2DetailMetadata, DuelBattle2DetailPlayer,
 };
 use crate::bson_utils::{
     nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
@@ -27,8 +27,12 @@ pub(super) fn build_duelbattle2_detail_projection() -> Document {
         "sender.alliance.abbreviation",
         "sender.primary_commander.id",
         "sender.primary_commander.level",
+        "sender.primary_commander.skills.id",
+        "sender.primary_commander.skills.level",
         "sender.secondary_commander.id",
         "sender.secondary_commander.level",
+        "sender.secondary_commander.skills.id",
+        "sender.secondary_commander.skills.level",
         "sender.buffs.id",
         "sender.buffs.value",
         "opponent.player_id",
@@ -38,8 +42,12 @@ pub(super) fn build_duelbattle2_detail_projection() -> Document {
         "opponent.alliance.abbreviation",
         "opponent.primary_commander.id",
         "opponent.primary_commander.level",
+        "opponent.primary_commander.skills.id",
+        "opponent.primary_commander.skills.level",
         "opponent.secondary_commander.id",
         "opponent.secondary_commander.level",
+        "opponent.secondary_commander.skills.id",
+        "opponent.secondary_commander.skills.level",
         "opponent.buffs.id",
         "opponent.buffs.value",
         "battle_results.sender.win",
@@ -109,13 +117,29 @@ fn map_detail_player(document: &Document) -> DuelBattle2DetailPlayer {
 
 fn map_detail_commander(document: Option<&Document>) -> DuelBattle2DetailCommander {
     let Some(document) = document else {
-        return DuelBattle2DetailCommander { id: 0, level: 0 };
+        return DuelBattle2DetailCommander { id: 0, level: 0, skills: Vec::new() };
     };
 
     DuelBattle2DetailCommander {
         id: nested_i64(document, &["id"]).unwrap_or(0),
         level: nested_i64(document, &["level"]).unwrap_or(0),
+        skills: map_detail_skills(document),
     }
+}
+
+fn map_detail_skills(document: &Document) -> Vec<DuelBattle2DetailCommanderSkill> {
+    let Some(skills) = nested_array(document, &["skills"]) else {
+        return Vec::new();
+    };
+
+    skills
+        .iter()
+        .filter_map(Bson::as_document)
+        .map(|skill| DuelBattle2DetailCommanderSkill {
+            id: nested_i64(skill, &["id"]).unwrap_or(0),
+            level: nested_i64(skill, &["level"]).unwrap_or(0),
+        })
+        .collect()
 }
 
 fn map_detail_buffs(document: &Document) -> Vec<DuelBattle2DetailBuff> {
@@ -202,6 +226,7 @@ mod tests {
         let projection = build_duelbattle2_detail_projection();
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.primary_commander.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.primary_commander.skills.id").ok(), Some(1));
         assert_eq!(projection.get_i32("battle_results.opponent.kill_points").ok(), Some(1));
     }
 
@@ -223,10 +248,16 @@ mod tests {
                 "primary_commander": {
                     "id": 10_i64,
                     "level": 60_i64,
+                    "skills": [
+                        { "id": 101_i64, "level": 5_i64 },
+                    ],
                 },
                 "secondary_commander": {
                     "id": 11_i64,
                     "level": 50_i64,
+                    "skills": [
+                        { "id": 201_i64, "level": 4_i64 },
+                    ],
                 },
                 "buffs": [
                     { "id": 2001_i64, "value": 1.25 },
@@ -242,6 +273,9 @@ mod tests {
                 "primary_commander": {
                     "id": 12_i64,
                     "level": 60_i64,
+                    "skills": [
+                        { "id": 301_i64, "level": 5_i64 },
+                    ],
                 },
                 "buffs": [],
             },
@@ -275,6 +309,7 @@ mod tests {
         assert_eq!(mapped.sender.player_name, "Alpha");
         assert_eq!(mapped.sender.frame_url, None);
         assert_eq!(mapped.sender.primary_commander.id, 10);
+        assert_eq!(mapped.sender.primary_commander.skills[0].id, 101);
         assert_eq!(mapped.sender.buffs.len(), 2);
         assert_eq!(mapped.opponent.secondary_commander.id, 0);
         assert!(mapped.battle_results.sender.win);

@@ -85,6 +85,14 @@ pub(crate) struct DuelBattle2DetailAlliance {
 pub(crate) struct DuelBattle2DetailCommander {
     pub id: i64,
     pub level: i64,
+    pub skills: Vec<DuelBattle2DetailCommanderSkill>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct DuelBattle2DetailCommanderSkill {
+    pub id: i64,
+    pub level: i64,
 }
 
 #[derive(Debug, Serialize)]
