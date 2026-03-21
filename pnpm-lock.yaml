@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  next-themes:
+    hash: c6e1cdf8ae32660a76059aaadfaeecc67053ef3711ba731202d9040fb73ac911
+    path: patches/next-themes.patch
+
 importers:
 
   .:
@@ -80,7 +85,7 @@ importers:
         version: 4.8.3(@swc/helpers@0.5.19)(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       next-themes:
         specifier: ^0.4.6
-        version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        version: 0.4.6(patch_hash=c6e1cdf8ae32660a76059aaadfaeecc67053ef3711ba731202d9040fb73ac911)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       nuqs:
         specifier: ^2.8.9
         version: 2.8.9(next@16.2.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -3306,7 +3311,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  next-themes@0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+  next-themes@0.4.6(patch_hash=c6e1cdf8ae32660a76059aaadfaeecc67053ef3711ba731202d9040fb73ac911)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
     dependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
