@@ -30,8 +30,8 @@ const BATTLE_METRICS: readonly BattleMetricConfig[] = [
     enemyKey: "enemy_severely_wounded",
   },
   { labelKey: "slightlyWounded", selfKey: "wounded", enemyKey: "enemy_wounded" },
-  { labelKey: "watchtowerDamage", selfKey: "watchtower", enemyKey: "enemy_watchtower" },
   { labelKey: "killPoints", selfKey: "kill_score", enemyKey: "enemy_kill_score" },
+  { labelKey: "acclaim", selfKey: "acclaim", enemyKey: "enemy_acclaim" },
 ] as const;
 
 type BattleSummaryDatum = {
@@ -85,8 +85,8 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
     dead: t("Dead"),
     severelyWounded: t("Severely wounded"),
     slightlyWounded: t("Slightly wounded"),
-    watchtowerDamage: t("Watchtower Damage"),
     killPoints: t("Kill Points"),
+    acclaim: t("Acclaim"),
   };
   const chartData = buildChartData(results, chartLabels);
 

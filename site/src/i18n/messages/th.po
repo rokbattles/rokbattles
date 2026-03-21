@@ -233,7 +233,7 @@ msgstr "จำนวนการสังหาร"
 #: src/components/my-pairings/my-pairings-content.tsx:278
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
 #: src/components/olympian-arena/duel-results-chart.tsx:84
-#: src/components/report/report-battle-results-chart.tsx:89
+#: src/components/report/report-battle-results-chart.tsx:88
 #: src/components/report/report-overview-column.tsx:55
 #: src/components/reports/reports-overview-summary-card.tsx:71
 msgid "RCtKQ2"
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:21
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "ไอเซ็ต"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -914,8 +914,8 @@ msgstr ""
 msgid "xtXDYN"
 msgstr ""
 
-#: src/components/report/report-battle-results-chart.tsx:88
-msgid "2p4JJc"
+#: src/components/report/report-battle-results-chart.tsx:89
+msgid "sTixnc"
 msgstr ""
 
 #: src/components/report/report-commander-row.tsx:27

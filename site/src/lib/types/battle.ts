@@ -97,8 +97,6 @@ export type BattleDetailedResult = {
   heal: number | null;
   troopUnits: number | null;
   troopUnitsMax: number | null;
-  watchtowerMax: number | null;
-  watchtower: number | null;
   power: number | null;
   attackPower: number | null;
   skillPower: number | null;

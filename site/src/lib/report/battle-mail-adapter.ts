@@ -165,8 +165,6 @@ function mapBattleResultsForOpponent(opponent: BattleOpponent): RawBattleResults
     severely_wounded: toOptionalNumber(sender.severelyWounded),
     wounded: toOptionalNumber(sender.slightlyWounded),
     remaining: toOptionalNumber(sender.remaining),
-    watchtower: toOptionalNumber(sender.watchtower),
-    watchtower_max: toOptionalNumber(sender.watchtowerMax),
     kill_score: toOptionalNumber(sender.killPoints),
     enemy_power: toOptionalNumber(enemy.power),
     enemy_acclaim: toOptionalNumber(enemy.acclaim),
@@ -181,8 +179,6 @@ function mapBattleResultsForOpponent(opponent: BattleOpponent): RawBattleResults
     enemy_severely_wounded: toOptionalNumber(enemy.severelyWounded),
     enemy_wounded: toOptionalNumber(enemy.slightlyWounded),
     enemy_remaining: toOptionalNumber(enemy.remaining),
-    enemy_watchtower: toOptionalNumber(enemy.watchtower),
-    enemy_watchtower_max: toOptionalNumber(enemy.watchtowerMax),
     enemy_kill_score: toOptionalNumber(enemy.killPoints),
   };
 }
