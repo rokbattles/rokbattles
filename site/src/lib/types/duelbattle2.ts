@@ -30,6 +30,12 @@ export type DuelBattle2Player = {
 export type DuelBattle2Commander = {
   id: number;
   level: number;
+  skills: readonly DuelBattle2CommanderSkill[];
+};
+
+export type DuelBattle2CommanderSkill = {
+  id: number;
+  level: number;
 };
 
 export type DuelBattle2Buff = {

@@ -3,8 +3,9 @@ use mongodb::bson::{Bson, Document, doc};
 use super::types::{
     BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,
     BattleReportBattleResults, BattleReportCastle, BattleReportCommander, BattleReportCommanderSet,
-    BattleReportDetail, BattleReportMetadata, BattleReportNpc, BattleReportOpponent,
-    BattleReportPlayer, BattleReportSummary, BattleReportSummaryEntry, BattleReportTimeline,
+    BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata, BattleReportNpc,
+    BattleReportOpponent, BattleReportPlayer, BattleReportSummary, BattleReportSummaryEntry,
+    BattleReportTimeline,
 };
 use crate::bson_utils::{
     nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
@@ -39,10 +40,14 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.primary.level",
         "sender.commanders.primary.formation",
         "sender.commanders.primary.equipment",
+        "sender.commanders.primary.skills.id",
+        "sender.commanders.primary.skills.level",
         "sender.commanders.primary.armaments.affix",
         "sender.commanders.primary.armaments.buffs",
         "sender.commanders.secondary.id",
         "sender.commanders.secondary.level",
+        "sender.commanders.secondary.skills.id",
+        "sender.commanders.secondary.skills.level",
         "sender.commanders.secondary.equipment",
         "sender.commanders.secondary.armaments.affix",
         "sender.commanders.secondary.armaments.buffs",
@@ -81,10 +86,14 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.primary.level",
         "opponents.commanders.primary.formation",
         "opponents.commanders.primary.equipment",
+        "opponents.commanders.primary.skills.id",
+        "opponents.commanders.primary.skills.level",
         "opponents.commanders.primary.armaments.affix",
         "opponents.commanders.primary.armaments.buffs",
         "opponents.commanders.secondary.id",
         "opponents.commanders.secondary.level",
+        "opponents.commanders.secondary.skills.id",
+        "opponents.commanders.secondary.skills.level",
         "opponents.commanders.secondary.equipment",
         "opponents.commanders.secondary.armaments.affix",
         "opponents.commanders.secondary.armaments.buffs",
@@ -189,8 +198,24 @@ fn map_detail_commander(document: Option<&Document>) -> BattleReportCommander {
         level: nested_i64_exact(document, &["level"]),
         formation: nested_i64_exact(document, &["formation"]),
         equipment: nested_string(document, &["equipment"]),
+        skills: map_detail_skills(document),
         armaments: map_detail_armaments(document),
     }
+}
+
+fn map_detail_skills(document: &Document) -> Vec<BattleReportCommanderSkill> {
+    let Some(skills) = nested_array(document, &["skills"]) else {
+        return Vec::new();
+    };
+
+    skills
+        .iter()
+        .filter_map(Bson::as_document)
+        .map(|skill| BattleReportCommanderSkill {
+            id: nested_i64_exact(skill, &["id"]).unwrap_or_default(),
+            level: nested_i64_exact(skill, &["level"]).unwrap_or_default(),
+        })
+        .collect()
 }
 
 fn map_detail_armaments(document: &Document) -> Vec<BattleReportArmament> {
@@ -339,6 +364,7 @@ mod tests {
 
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.commanders.primary.skills.id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
@@ -371,6 +397,9 @@ mod tests {
                         "level": 60_i64,
                         "formation": 3_i64,
                         "equipment": "{1:100}",
+                        "skills": [
+                            { "id": 101_i64, "level": 5_i64 },
+                        ],
                         "armaments": [
                             { "affix": "1_2", "buffs": "100_3" },
                         ],
@@ -378,6 +407,9 @@ mod tests {
                     "secondary": {
                         "id": 11_i64,
                         "level": 50_i64,
+                        "skills": [
+                            { "id": 201_i64, "level": 4_i64 },
+                        ],
                     },
                 },
             },
@@ -421,6 +453,8 @@ mod tests {
         assert_eq!(mapped.metadata.mail_time, 123);
         assert_eq!(mapped.sender.player_name, "Alpha");
         assert_eq!(mapped.sender.commanders.primary.id, Some(10));
+        assert_eq!(mapped.sender.commanders.primary.skills.len(), 1);
+        assert_eq!(mapped.sender.commanders.primary.skills[0].id, 101);
         assert_eq!(mapped.sender.commanders.primary.armaments.len(), 1);
         assert_eq!(mapped.summary.sender.kill_points, Some(100));
         assert_eq!(mapped.opponents.len(), 1);

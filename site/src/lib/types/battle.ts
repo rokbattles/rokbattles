@@ -56,7 +56,13 @@ export type BattleCommander = {
   level: number | null;
   formation: number | null;
   equipment: string | null;
+  skills: readonly BattleCommanderSkill[];
   armaments: readonly BattleCommanderArmament[];
+};
+
+export type BattleCommanderSkill = {
+  id: number;
+  level: number;
 };
 
 export type BattleCommanderArmament = {
