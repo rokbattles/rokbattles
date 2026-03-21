@@ -230,8 +230,6 @@ pub(crate) struct BattleReportBattleResult {
     pub heal: Option<i64>,
     pub troop_units: Option<i64>,
     pub troop_units_max: Option<i64>,
-    pub watchtower_max: Option<i64>,
-    pub watchtower: Option<i64>,
     pub power: Option<i64>,
     pub attack_power: Option<i64>,
     pub skill_power: Option<i64>,

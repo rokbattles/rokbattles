@@ -79,8 +79,6 @@ export interface RawBattleResults {
   severely_wounded?: number;
   wounded?: number;
   remaining?: number;
-  watchtower?: number;
-  watchtower_max?: number;
   kill_score?: number;
   enemy_power?: number;
   enemy_acclaim?: number;
@@ -95,8 +93,6 @@ export interface RawBattleResults {
   enemy_severely_wounded?: number;
   enemy_wounded?: number;
   enemy_remaining?: number;
-  enemy_watchtower?: number;
-  enemy_watchtower_max?: number;
   enemy_kill_score?: number;
 }
 
