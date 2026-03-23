@@ -11,7 +11,12 @@ import { usePairingLoadouts } from "@/hooks/use-pairing-loadouts";
 import { usePairingOpponents } from "@/hooks/use-pairing-opponents";
 import { usePairings } from "@/hooks/use-pairings";
 import { formatDurationShort } from "@/lib/datetime";
-import type { LoadoutGranularity, LoadoutSnapshot, OpponentGranularity } from "@/lib/pairings";
+import type {
+  LoadoutGranularity,
+  LoadoutSnapshot,
+  OpponentGranularity,
+  PairingsReportType,
+} from "@/lib/pairings";
 import { GovernorContext } from "@/providers/governor-context";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -88,6 +93,7 @@ export function MyPairingsContent() {
 
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
+  const [excludedReportTypes, setExcludedReportTypes] = useState<PairingsReportType[]>([]);
   const hasCustomRange = Boolean(startDate && endDate);
   const rangeStartDate = hasCustomRange ? startDate : undefined;
   const rangeEndDate = hasCustomRange ? endDate : undefined;
@@ -99,6 +105,7 @@ export function MyPairingsContent() {
     governorId: activeGovernor?.governorId,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
+    excludeTypes: excludedReportTypes,
   });
   const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
   const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("simplified");
@@ -162,6 +169,7 @@ export function MyPairingsContent() {
     granularity: loadoutGranularity,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
+    excludeTypes: excludedReportTypes,
   });
   const loadoutsResetKey = useMemo(
     () =>
@@ -171,6 +179,7 @@ export function MyPairingsContent() {
         loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
+        excludedReportTypes.join(",") || "none",
         canLoadLoadouts ? "ready" : "idle",
       ].join("|"),
     [
@@ -179,6 +188,7 @@ export function MyPairingsContent() {
       loadoutGranularity,
       rangeStartDate,
       rangeEndDate,
+      excludedReportTypes,
       canLoadLoadouts,
     ]
   );
@@ -190,8 +200,16 @@ export function MyPairingsContent() {
         loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
+        excludedReportTypes.join(",") || "none",
       ].join("|"),
-    [selectedPairingKey, selectedLoadoutKey, loadoutGranularity, rangeStartDate, rangeEndDate]
+    [
+      selectedPairingKey,
+      selectedLoadoutKey,
+      loadoutGranularity,
+      rangeStartDate,
+      rangeEndDate,
+      excludedReportTypes,
+    ]
   );
 
   useEffect(() => {
@@ -350,6 +368,7 @@ export function MyPairingsContent() {
     loadoutKey: opponentLoadoutKey,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
+    excludeTypes: excludedReportTypes,
   });
 
   useEffect(() => {
@@ -397,6 +416,8 @@ export function MyPairingsContent() {
         endDate={endDate}
         onStartDateChange={setStartDate}
         onEndDateChange={setEndDate}
+        excludedReportTypes={excludedReportTypes}
+        onExcludedReportTypesChange={setExcludedReportTypes}
       />
       <PairingsLoadouts
         pairingsLoading={pairingsLoading}

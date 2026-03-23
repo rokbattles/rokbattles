@@ -6,6 +6,7 @@ import type {
   LoadoutGranularity,
   PairingLoadoutsResponse,
   PairingLoadoutsResult,
+  PairingsReportType,
 } from "@/lib/pairings";
 import { buildPairingsRangeParams, PAIRINGS_GENERIC_ERROR } from "@/lib/pairings";
 
@@ -16,9 +17,17 @@ export function usePairingLoadouts(options: {
   granularity: LoadoutGranularity;
   startDate?: string;
   endDate?: string;
+  excludeTypes?: PairingsReportType[];
 }): PairingLoadoutsResult {
-  const { governorId, primaryCommanderId, secondaryCommanderId, granularity, startDate, endDate } =
-    options;
+  const {
+    governorId,
+    primaryCommanderId,
+    secondaryCommanderId,
+    granularity,
+    startDate,
+    endDate,
+    excludeTypes,
+  } = options;
   const [data, setData] = useState<LoadoutAggregate[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +49,7 @@ export function usePairingLoadouts(options: {
     setLoading(true);
     setError(null);
 
-    const params = buildPairingsRangeParams({ startDate, endDate });
+    const params = buildPairingsRangeParams({ startDate, endDate, excludeTypes });
     params.set("primary", String(primaryCommanderId));
     params.set("secondary", String(secondaryCommanderId));
     params.set("granularity", granularity);
@@ -64,7 +73,15 @@ export function usePairingLoadouts(options: {
     } finally {
       setLoading(false);
     }
-  }, [governorId, primaryCommanderId, secondaryCommanderId, granularity, startDate, endDate]);
+  }, [
+    governorId,
+    primaryCommanderId,
+    secondaryCommanderId,
+    granularity,
+    startDate,
+    endDate,
+    excludeTypes,
+  ]);
 
   useEffect(() => {
     setData([]);

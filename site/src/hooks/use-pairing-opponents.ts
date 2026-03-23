@@ -6,6 +6,7 @@ import type {
   OpponentGranularity,
   PairingOpponentsResponse,
   PairingOpponentsResult,
+  PairingsReportType,
 } from "@/lib/pairings";
 import { buildPairingsRangeParams, PAIRINGS_GENERIC_ERROR } from "@/lib/pairings";
 
@@ -17,6 +18,7 @@ export function usePairingOpponents(options: {
   loadoutKey?: string | null;
   startDate?: string;
   endDate?: string;
+  excludeTypes?: PairingsReportType[];
 }): PairingOpponentsResult {
   const {
     governorId,
@@ -26,6 +28,7 @@ export function usePairingOpponents(options: {
     loadoutKey,
     startDate,
     endDate,
+    excludeTypes,
   } = options;
   const [data, setData] = useState<OpponentAggregate[]>([]);
   const [loading, setLoading] = useState(false);
@@ -55,7 +58,7 @@ export function usePairingOpponents(options: {
     setLoading(true);
     setError(null);
 
-    const params = buildPairingsRangeParams({ startDate, endDate });
+    const params = buildPairingsRangeParams({ startDate, endDate, excludeTypes });
     params.set("primary", String(primaryCommanderId));
     params.set("secondary", String(secondaryCommanderId));
     params.set("granularity", granularity);
@@ -90,6 +93,7 @@ export function usePairingOpponents(options: {
     loadoutKey,
     startDate,
     endDate,
+    excludeTypes,
   ]);
 
   useEffect(() => {

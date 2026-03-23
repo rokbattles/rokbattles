@@ -79,8 +79,8 @@ msgid "8PEDrB"
 msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:19
-#: src/components/my-pairings/my-pairings-content.tsx:140
-#: src/components/my-pairings/my-pairings-content.tsx:370
+#: src/components/my-pairings/my-pairings-content.tsx:147
+#: src/components/my-pairings/my-pairings-content.tsx:389
 #: src/components/olympian-arena/duel-participant-card.tsx:45
 #: src/components/report/report-participant-card.tsx:27
 #: src/components/reports/participant-cell.tsx:18
@@ -214,8 +214,8 @@ msgid "02koas"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:36
-#: src/components/my-pairings/pairings-filters.tsx:47
-#: src/components/my-pairings/pairings-filters.tsx:49
+#: src/components/my-pairings/pairings-filters.tsx:65
+#: src/components/my-pairings/pairings-filters.tsx:67
 msgid "goGXET"
 msgstr ""
 
@@ -230,7 +230,7 @@ msgid "Y3Z7jw"
 msgstr "Kill-Anzahl"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
-#: src/components/my-pairings/my-pairings-content.tsx:278
+#: src/components/my-pairings/my-pairings-content.tsx:296
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
 #: src/components/olympian-arena/duel-results-chart.tsx:84
 #: src/components/report/report-battle-results-chart.tsx:88
@@ -418,13 +418,13 @@ msgstr ""
 
 #: src/components/account-loot/loot-filters-client.tsx:92
 #: src/components/account-resources/resources-filters-client.tsx:92
-#: src/components/my-pairings/pairings-filters.tsx:73
+#: src/components/my-pairings/pairings-filters.tsx:80
 msgid "n5QvJy"
 msgstr ""
 
 #: src/components/account-loot/loot-filters-client.tsx:103
 #: src/components/account-resources/resources-filters-client.tsx:103
-#: src/components/my-pairings/pairings-filters.tsx:84
+#: src/components/my-pairings/pairings-filters.tsx:91
 msgid "Humfno"
 msgstr ""
 
@@ -535,100 +535,135 @@ msgstr ""
 msgid "+RhnH+"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:227
+#: src/components/my-pairings/my-pairings-content.tsx:245
 msgid "vxHX7Q"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:235
+#: src/components/my-pairings/my-pairings-content.tsx:253
 msgid "5OhW+B"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:272
+#: src/components/my-pairings/my-pairings-content.tsx:290
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
 #: src/components/reports/reports-table.tsx:50
 msgid "9bVtCz"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:274
+#: src/components/my-pairings/my-pairings-content.tsx:292
 msgid "W2cCAf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:280
+#: src/components/my-pairings/my-pairings-content.tsx:298
 msgid "xh4gLq"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:284
+#: src/components/my-pairings/my-pairings-content.tsx:302
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
 msgid "nGp3S1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:286
+#: src/components/my-pairings/my-pairings-content.tsx:304
 msgid "2OWOn1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:290
+#: src/components/my-pairings/my-pairings-content.tsx:308
 msgid "04DUsx"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:292
+#: src/components/my-pairings/my-pairings-content.tsx:310
 msgid "sCYwbS"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:298
+#: src/components/my-pairings/my-pairings-content.tsx:316
 msgid "87sFXA"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:300
+#: src/components/my-pairings/my-pairings-content.tsx:318
 msgid "2oN4Ru"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:304
+#: src/components/my-pairings/my-pairings-content.tsx:322
 msgid "8RNVtf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:306
+#: src/components/my-pairings/my-pairings-content.tsx:324
 msgid "OohBEM"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:310
+#: src/components/my-pairings/my-pairings-content.tsx:328
 msgid "jVC9W/"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:314
+#: src/components/my-pairings/my-pairings-content.tsx:332
 msgid "pJCnfG"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:318
+#: src/components/my-pairings/my-pairings-content.tsx:336
 msgid "lsS3Jr"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:322
+#: src/components/my-pairings/my-pairings-content.tsx:340
 msgid "obveBp"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:326
+#: src/components/my-pairings/my-pairings-content.tsx:344
 msgid "CY224M"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:330
+#: src/components/my-pairings/my-pairings-content.tsx:348
 msgid "ZTImOV"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:388
+#: src/components/my-pairings/my-pairings-content.tsx:407
 msgid "y+cvIx"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:62
-#: src/components/my-pairings/pairings-filters.tsx:64
+#: src/components/my-pairings/pairings-filters.tsx:52
+#: src/components/my-pairings/pairings-filters.tsx:129
+#: src/components/reports/reports-filter-dialog.tsx:218
+msgid "8Na2J4"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:53
+#: src/components/my-pairings/pairings-filters.tsx:138
+#: src/components/reports/reports-filter-dialog.tsx:215
+msgid "ejEGdx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:54
+#: src/components/my-pairings/pairings-filters.tsx:132
+#: src/components/reports/reports-filter-dialog.tsx:221
+msgid "mJFWRb"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:55
+#: src/components/my-pairings/pairings-filters.tsx:135
+#: src/components/reports/reports-filter-dialog.tsx:224
+msgid "Mro8Zx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:102
+#: src/components/my-pairings/pairings-filters.tsx:104
 msgid "StqoPN"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:68
+#: src/components/my-pairings/pairings-filters.tsx:108
 msgid "as39fN"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:69
+#: src/components/my-pairings/pairings-filters.tsx:109
 msgid "244wra"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:113
+#: src/components/my-pairings/pairings-filters.tsx:115
+msgid "XuzWOu"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:119
+#: src/components/my-pairings/pairings-filters.tsx:124
+#: src/components/reports/reports-filter-dialog.tsx:104
+msgid "450Fty"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx:74
@@ -982,10 +1017,6 @@ msgstr ""
 msgid "43CUrU"
 msgstr ""
 
-#: src/components/reports/reports-filter-dialog.tsx:104
-msgid "450Fty"
-msgstr ""
-
 #: src/components/reports/reports-filter-dialog.tsx:107
 msgid "bUd0tj"
 msgstr ""
@@ -1008,22 +1039,6 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx:283
 #: src/components/reports/reports-filter-dialog.tsx:301
 msgid "zQvVDJ"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx:215
-msgid "ejEGdx"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx:218
-msgid "8Na2J4"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx:221
-msgid "mJFWRb"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx:224
-msgid "Mro8Zx"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx:234

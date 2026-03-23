@@ -7,7 +7,11 @@ use mongodb::{
 
 use crate::{
     error::ApiError,
-    routes::governor::{date_range::GovernorDateRange, store_utils::fetch_collection_documents},
+    routes::governor::{
+        date_range::GovernorDateRange,
+        pairings::query::{PairingsReportType, build_excluded_report_type_conditions},
+        store_utils::fetch_collection_documents,
+    },
     state::AppState,
     time_utils::build_mail_time_match,
 };
@@ -17,6 +21,7 @@ pub(crate) async fn fetch_pairings_mails(
     governor_id: i64,
     range: &GovernorDateRange,
     primary_commander_id: Option<i64>,
+    exclude_types: &[PairingsReportType],
 ) -> Result<Vec<Document>, ApiError> {
     let mut and_filters = vec![
         doc! { "sender.player_id": governor_id },
@@ -26,6 +31,11 @@ pub(crate) async fn fetch_pairings_mails(
 
     if let Some(primary_commander_id) = primary_commander_id {
         and_filters.push(doc! { "sender.commanders.primary.id": primary_commander_id });
+    }
+
+    let excluded_conditions = build_excluded_report_type_conditions(exclude_types);
+    if !excluded_conditions.is_empty() {
+        and_filters.push(doc! { "$nor": excluded_conditions });
     }
 
     let filter = doc! { "$and": and_filters };
