@@ -13,22 +13,44 @@ import type React from "react";
 import { Fragment } from "react";
 import { cn } from "@/lib/cn";
 
+type BaseListboxProps<T> = {
+  className?: string;
+  placeholder?: React.ReactNode;
+  autoFocus?: boolean;
+  "aria-label"?: string;
+  renderValue?: (value: T | T[] | null | undefined) => React.ReactNode;
+  children?: React.ReactNode;
+} & Omit<HeadlessListboxProps<typeof Fragment, T>, "as" | "multiple" | "value" | "onChange">;
+
+type SingleListboxProps<T> = BaseListboxProps<T> & {
+  multiple?: false;
+  value?: T | null;
+  onChange?: (value: T) => void;
+};
+
+type MultiListboxProps<T> = BaseListboxProps<T> & {
+  multiple: true;
+  value?: T[];
+  onChange?: (value: T[]) => void;
+};
+
 export function Listbox<T>({
   className,
   placeholder,
   autoFocus,
   "aria-label": ariaLabel,
+  multiple = false,
+  renderValue,
+  value,
   children: options,
   ...props
-}: {
-  className?: string;
-  placeholder?: React.ReactNode;
-  autoFocus?: boolean;
-  "aria-label"?: string;
-  children?: React.ReactNode;
-} & Omit<HeadlessListboxProps<typeof Fragment, T>, "as" | "multiple">) {
+}: SingleListboxProps<T> | MultiListboxProps<T>) {
   return (
-    <HeadlessListbox {...props} multiple={false}>
+    <HeadlessListbox
+      {...(props as Omit<HeadlessListboxProps<typeof Fragment, T>, "as">)}
+      value={value as HeadlessListboxProps<typeof Fragment, T>["value"]}
+      multiple={multiple}
+    >
       <HeadlessListboxButton
         aria-label={ariaLabel}
         autoFocus={autoFocus}
@@ -49,8 +71,7 @@ export function Listbox<T>({
         ])}
         data-slot="control"
       >
-        <HeadlessListboxSelectedOption
-          as="span"
+        <span
           className={cn([
             // Basic layout
             "relative block w-full appearance-none rounded-lg py-[calc(--spacing(2.5)-1px)] sm:py-[calc(--spacing(1.5)-1px)]",
@@ -69,11 +90,19 @@ export function Listbox<T>({
             // Disabled state
             "group-data-disabled:border-zinc-950/20 group-data-disabled:opacity-100 dark:group-data-disabled:border-white/15 dark:group-data-disabled:bg-white/2.5 dark:group-data-disabled:data-hover:border-white/15",
           ])}
-          options={options}
-          placeholder={
-            placeholder && <span className="block truncate text-zinc-500">{placeholder}</span>
-          }
-        />
+        >
+          {renderValue ? (
+            renderValue(value)
+          ) : (
+            <HeadlessListboxSelectedOption
+              as="span"
+              options={options}
+              placeholder={
+                placeholder && <span className="block truncate text-zinc-500">{placeholder}</span>
+              }
+            />
+          )}
+        </span>
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <svg
             aria-hidden="true"

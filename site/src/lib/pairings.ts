@@ -2,17 +2,38 @@ import type { EquipmentToken } from "@/lib/report/parsers";
 
 export const PAIRINGS_GENERIC_ERROR = "Failed to load pairings.";
 
-export function buildPairingsRangeParams(options: { startDate?: string; endDate?: string }) {
-  const { startDate, endDate } = options;
-  if (startDate && endDate) {
-    return new URLSearchParams({ start: startDate, end: endDate });
+export type PairingsReportType = "ark" | "home" | "kvk" | "strife";
+
+export function buildPairingsRangeParams(options: {
+  startDate?: string;
+  endDate?: string;
+  excludeTypes?: PairingsReportType[];
+}) {
+  const { startDate, endDate, excludeTypes } = options;
+  const params =
+    startDate && endDate
+      ? new URLSearchParams({ start: startDate, end: endDate })
+      : new URLSearchParams({
+          start: `${new Date().getUTCFullYear()}-01-01`,
+          end: `${new Date().getUTCFullYear()}-12-31`,
+        });
+
+  if (excludeTypes && excludeTypes.length > 0) {
+    params.set("excludeTypes", excludeTypes.join(","));
   }
 
-  const currentYear = new Date().getUTCFullYear();
-  return new URLSearchParams({
-    start: `${currentYear}-01-01`,
-    end: `${currentYear}-12-31`,
-  });
+  return params;
+}
+
+export function formatExcludedPairingsReportTypes(
+  excludeTypes: PairingsReportType[],
+  options: Record<PairingsReportType, string>
+) {
+  if (excludeTypes.length === 0) {
+    return null;
+  }
+
+  return excludeTypes.map((type) => options[type]).join(", ");
 }
 
 export type PairingTotals = {

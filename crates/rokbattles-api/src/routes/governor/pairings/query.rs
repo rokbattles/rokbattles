@@ -1,18 +1,30 @@
 use std::collections::HashMap;
 
+use mongodb::bson::{Bson, Document, doc};
+
 use crate::{
     error::ApiError,
     routes::governor::{common::parse_default_governor_date_range, date_range::GovernorDateRange},
 };
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum PairingsReportType {
+    Home,
+    Ark,
+    Kvk,
+    Strife,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct PairingsRequest {
     pub range: GovernorDateRange,
+    pub exclude_types: Vec<PairingsReportType>,
 }
 
 #[derive(Debug, Clone)]
 pub(crate) struct PairingLoadoutsRequest {
     pub range: GovernorDateRange,
+    pub exclude_types: Vec<PairingsReportType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
     pub granularity: LoadoutGranularity,
@@ -21,6 +33,7 @@ pub(crate) struct PairingLoadoutsRequest {
 #[derive(Debug, Clone)]
 pub(crate) struct PairingOpponentsRequest {
     pub range: GovernorDateRange,
+    pub exclude_types: Vec<PairingsReportType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
     pub granularity: OpponentGranularity,
@@ -44,25 +57,34 @@ pub(crate) fn parse_pairings_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
-    Ok(PairingsRequest { range })
+    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
+    Ok(PairingsRequest { range, exclude_types })
 }
 
 pub(crate) fn parse_pairing_loadouts_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingLoadoutsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
+    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
     let granularity = parse_loadout_granularity(params.get("granularity").map(String::as_str))?;
 
-    Ok(PairingLoadoutsRequest { range, primary_commander_id, secondary_commander_id, granularity })
+    Ok(PairingLoadoutsRequest {
+        range,
+        exclude_types,
+        primary_commander_id,
+        secondary_commander_id,
+        granularity,
+    })
 }
 
 pub(crate) fn parse_pairing_opponents_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingOpponentsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
+    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
@@ -78,11 +100,67 @@ pub(crate) fn parse_pairing_opponents_request(
 
     Ok(PairingOpponentsRequest {
         range,
+        exclude_types,
         primary_commander_id,
         secondary_commander_id,
         granularity,
         loadout_key,
     })
+}
+
+pub(crate) fn build_excluded_report_type_conditions(
+    exclude_types: &[PairingsReportType],
+) -> Vec<Document> {
+    exclude_types
+        .iter()
+        .copied()
+        .map(|filter_type| match filter_type {
+            PairingsReportType::Kvk => doc! { "metadata.kvk": true },
+            PairingsReportType::Ark => doc! { "metadata.mail_role": "dungeon" },
+            PairingsReportType::Home => doc! {
+                "$and": [
+                    { "metadata.kvk": { "$ne": true } },
+                    { "metadata.mail_role": { "$ne": "dungeon" } },
+                    {
+                        "$or": [
+                            { "sender.supreme_strife.battle_id": { "$in": [Bson::Null, Bson::String(String::new())] } },
+                            { "sender.supreme_strife.team_id": { "$in": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
+                        ]
+                    }
+                ]
+            },
+            PairingsReportType::Strife => doc! {
+                "$and": [
+                    { "sender.supreme_strife.battle_id": { "$exists": true, "$nin": [Bson::Null, Bson::String(String::new())] } },
+                    { "sender.supreme_strife.team_id": { "$exists": true, "$nin": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
+                ]
+            },
+        })
+        .collect()
+}
+
+fn parse_exclude_types(raw: Option<&str>) -> Result<Vec<PairingsReportType>, ApiError> {
+    let Some(raw) = raw.map(str::trim).filter(|value| !value.is_empty()) else {
+        return Ok(Vec::new());
+    };
+
+    let mut exclude_types = Vec::new();
+
+    for value in raw.split(',').map(str::trim).filter(|value| !value.is_empty()) {
+        let parsed = match value {
+            "home" => PairingsReportType::Home,
+            "ark" => PairingsReportType::Ark,
+            "kvk" => PairingsReportType::Kvk,
+            "strife" => PairingsReportType::Strife,
+            _ => return Err(ApiError::bad_request("Invalid excludeTypes")),
+        };
+
+        if !exclude_types.contains(&parsed) {
+            exclude_types.push(parsed);
+        }
+    }
+
+    Ok(exclude_types)
 }
 
 fn parse_loadout_granularity(raw: Option<&str>) -> Result<LoadoutGranularity, ApiError> {
@@ -167,5 +245,24 @@ mod tests {
         .expect("request");
         assert_eq!(request.range.start, "2025-02-03");
         assert_eq!(request.range.end, "2025-02-04");
+    }
+
+    #[test]
+    fn parse_pairings_request_parses_exclude_types() {
+        let request = parse_pairings_request(&HashMap::from([(
+            "excludeTypes".to_string(),
+            "ark,kvk,ark".to_string(),
+        )]))
+        .expect("request");
+        assert_eq!(request.exclude_types, vec![PairingsReportType::Ark, PairingsReportType::Kvk]);
+    }
+
+    #[test]
+    fn parse_pairings_request_rejects_invalid_exclude_type() {
+        let request = parse_pairings_request(&HashMap::from([(
+            "excludeTypes".to_string(),
+            "unknown".to_string(),
+        )]));
+        assert!(request.is_err());
     }
 }
