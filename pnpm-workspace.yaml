@@ -1,7 +1,7 @@
 packages:
   - crates/*
   - site
-
+  - nxt
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@swc/core'
