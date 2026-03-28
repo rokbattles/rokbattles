@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::RangeInclusive};
 
 use mongodb::bson::Bson;
 
@@ -175,15 +175,29 @@ fn parse_i64_loose(value: &Bson) -> Option<i64> {
     bson_to_i64_loose(value)
 }
 
+const BARBARIAN_GAME_IDS: &[RangeInclusive<i64>] = &[
+    1..=40,
+    // kvk barbarian
+    401..=415,
+    // home kingdom barbarian (new variants)
+    701..=740,
+    801..=840,
+    901..=940,
+    // english soldier
+    150_009..=150_023,
+];
+
 fn is_barbarian(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
-    if npc_type.is_none() || npc_b_type != Some(1) {
+    if npc_b_type != Some(1) {
         return false;
     }
-    let npc_type = npc_type.unwrap_or_default();
-    let is_home_barbarian = (1..=40).contains(&npc_type);
-    let is_kvk_barbarian = (401..=415).contains(&npc_type);
-    let is_english_soldier_barbarian = (150_009..=150_023).contains(&npc_type);
-    is_home_barbarian || is_kvk_barbarian || is_english_soldier_barbarian
+
+    let npc_type = match npc_type {
+        Some(v) => v,
+        None => return false,
+    };
+
+    BARBARIAN_GAME_IDS.iter().any(|range| range.contains(&npc_type))
 }
 
 fn is_marauder(npc_type: Option<i64>, npc_b_type: Option<i64>) -> bool {
