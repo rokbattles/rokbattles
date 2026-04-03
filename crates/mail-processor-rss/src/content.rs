@@ -31,3 +31,15 @@ pub(crate) fn require_number_field(
         Err(ExtractError::InvalidFieldType { field, expected: "number" })
     }
 }
+
+/// Read a numeric field from a JSON map, defaulting to zero when absent.
+pub(crate) fn optional_number_field_or_zero(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Value, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(Value::from(0)),
+        Some(value) if value.is_number() => Ok(value.clone()),
+        Some(_) => Err(ExtractError::InvalidFieldType { field, expected: "number" }),
+    }
+}

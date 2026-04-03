@@ -47,4 +47,18 @@ mod tests {
         assert!(sections.contains_key("metadata"));
         assert!(sections.contains_key("rss"));
     }
+
+    #[test]
+    fn process_parallel_extracts_sample_without_crystals_gain() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Rss/Persistent.Mail.118801516499340535.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        let processed = process_parallel(&value).expect("process sample");
+        let sections = processed.sections();
+        assert!(sections.contains_key("metadata"));
+        assert!(sections.contains_key("rss"));
+        assert_eq!(sections["rss"].fields()["crystals_gain"], serde_json::json!(0));
+    }
 }
