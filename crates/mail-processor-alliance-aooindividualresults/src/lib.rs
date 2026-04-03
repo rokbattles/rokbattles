@@ -93,4 +93,22 @@ mod tests {
         assert!(sections.contains_key("pairings"));
         assert!(sections.contains_key("results"));
     }
+
+    #[test]
+    fn process_parallel_extracts_sample_without_healing_score() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.71266849169063933424.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        let processed = process_parallel(&value).expect("process sample");
+        let sections = processed.sections();
+        assert!(sections.contains_key("metadata"));
+        assert!(sections.contains_key("rewards"));
+        assert!(sections.contains_key("body"));
+        assert!(sections.contains_key("overview"));
+        assert!(sections.contains_key("pairings"));
+        assert!(sections.contains_key("results"));
+        assert_eq!(sections["results"].fields()["healing_score"], serde_json::json!(0));
+    }
 }
