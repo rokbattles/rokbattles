@@ -1,0 +1,131 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 10
+        },
+        2,
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 5
+        },
+        3,
+        {
+          "SubType": 47,
+          "Type": 2,
+          "Value": 2
+        },
+        4,
+        {
+          "SubType": 8135,
+          "Type": 2,
+          "Value": 150
+        },
+        5,
+        {
+          "SubType": 32,
+          "Type": 2,
+          "Value": 1
+        },
+        6,
+        {
+          "SubType": 10005,
+          "Type": 2,
+          "Value": 10
+        },
+        7,
+        {
+          "SubType": 148,
+          "Type": 2,
+          "Value": 50
+        },
+        8,
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 50
+        },
+        9,
+        {
+          "SubType": 120,
+          "Type": 2,
+          "Value": 1
+        },
+        10,
+        {
+          "SubType": 188,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "FightReport": {
+        "BeKilled": 1136986,
+        "BuildingScore": 4829,
+        "DefeatFlagCnt": 0,
+        "FightLose": 12,
+        "FightWin": 31,
+        "FlagCnt": 0,
+        "FlagScore": 0,
+        "GatherScore": 0,
+        "HealingCnt": 0,
+        "KillScore": 77511,
+        "Killed": 1471225,
+        "OccupyCnt": 8,
+        "PlayerId": 8401528,
+        "RelocateCnt": 2,
+        "SpeedUpTime": 0,
+        "TotalScore": 82340,
+        "WinRate": 72
+      },
+      "IsWin": true,
+      "NoScore": false,
+      "TotalScoreRank": {
+        "Info": {
+          "Name": "DCHAWK",
+          "PlyId": 8401528,
+          "Score": 82340
+        },
+        "Rank": 2
+      },
+      "gradeId": 0,
+      "old_grade": 1
+    },
+    "param": 1,
+    "subTitle": "Individual Statistics",
+    "title": "Ark of Osiris",
+    "type": 15
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "id": "71266849169063933424",
+  "mailScene": 0,
+  "receiver": "player_8401528",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "serverId": 2,
+  "time": 1690639334096003,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

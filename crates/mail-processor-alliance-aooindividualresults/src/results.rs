@@ -3,7 +3,9 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
 
-use crate::content::{optional_child_object, require_child_object, require_u64_field};
+use crate::content::{
+    optional_child_object, optional_u64_field_or_zero, require_child_object, require_u64_field,
+};
 
 /// Extracts high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
@@ -70,7 +72,7 @@ impl Extractor for ResultsExtractor {
             .transpose()?
             .unwrap_or(Value::Null);
         let healing_score = fight_report
-            .map(|value| require_u64_field(value, "HealingScore").map(Value::from))
+            .map(|value| optional_u64_field_or_zero(value, "HealingScore"))
             .transpose()?
             .unwrap_or(Value::Null);
         let units_healed = fight_report
@@ -266,5 +268,66 @@ mod tests {
         assert!(fields["teleports"].is_null());
         assert!(fields["speedups"].is_null());
         assert!(fields["structures"].is_null());
+    }
+
+    #[test]
+    fn results_extractor_defaults_missing_healing_score_to_zero() {
+        let input = json!({
+            "body": {
+                "kvs": {
+                    "FightReport": {
+                        "TotalScore": 123123,
+                        "WinRate": 92,
+                        "FightWin": 555,
+                        "FightLose": 45,
+                        "BeKilled": 2760854,
+                        "Killed": 2759102,
+                        "KillScore": 120378,
+                        "FlagScore": 0,
+                        "BuildingScore": 2745,
+                        "GatherScore": 0,
+                        "HealingCnt": 0,
+                        "FlagCnt": 0,
+                        "RelocateCnt": 1,
+                        "SpeedUpTime": 0,
+                        "OccupyCnt": 2
+                    }
+                }
+            }
+        });
+
+        let extractor = ResultsExtractor::new();
+        let section = extractor.extract(&input).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["healing_score"], json!(0));
+    }
+
+    #[test]
+    fn roundtrip_results_extracts_sample_without_healing_score() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.71266849169063933424.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = ResultsExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["total_score"], json!(82340));
+        assert_eq!(fields["win_rate"], json!(72));
+        assert_eq!(fields["battles_win"], json!(31));
+        assert_eq!(fields["battles_lose"], json!(12));
+        assert_eq!(fields["severely_wounded"], json!(1136986));
+        assert_eq!(fields["kills"], json!(1471225));
+        assert_eq!(fields["kill_score"], json!(77511));
+        assert_eq!(fields["flag_score"], json!(0));
+        assert_eq!(fields["building_score"], json!(4829));
+        assert_eq!(fields["gather_score"], json!(0));
+        assert_eq!(fields["healing_score"], json!(0));
+        assert_eq!(fields["units_healed"], json!(0));
+        assert_eq!(fields["flag_count"], json!(0));
+        assert_eq!(fields["teleports"], json!(2));
+        assert_eq!(fields["speedups"], json!(0));
+        assert_eq!(fields["structures"], json!(8));
     }
 }

@@ -35,6 +35,20 @@ pub(crate) fn optional_u64_field(
     }
 }
 
+/// Read an optional unsigned integer field, defaulting to zero when absent.
+pub(crate) fn optional_u64_field_or_zero(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Value, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(Value::from(0_u64)),
+        Some(value) => value
+            .as_u64()
+            .map(Value::from)
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
+    }
+}
+
 /// Require a boolean field from a JSON map.
 pub(crate) fn require_bool_field(
     object: &Map<String, Value>,
