@@ -4350,16 +4350,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rok-game-tools-sdk"
-version = "1.0.2"
-dependencies = [
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
 name = "rokbattles-api"
 version = "1.0.2"
 dependencies = [

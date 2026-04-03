@@ -13,7 +13,6 @@ members = [
     "crates/mail-processor-rss",
     "crates/mail-processor-sdk",
     "crates/mail-processor-system-barbarianfort",
-    "crates/rok-game-tools-sdk",
     "crates/rokbattles-bot",
     "crates/rokbattles-ingress",
     "crates/rokbattles-api",
