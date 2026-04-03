@@ -6,7 +6,6 @@ ARG API_URL
 ENV API_URL=${API_URL}
 RUN apk add --no-cache libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY patches ./patches
 COPY site ./site
 COPY legal ./site/legal
 COPY datasets ./datasets
