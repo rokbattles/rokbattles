@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! Command-line interface for decoding mail buffers into JSON.
+//! Command-line entrypoint for decoding mail buffers into JSON.
 
 use std::{error::Error, path::PathBuf};
 
@@ -10,51 +10,46 @@ use mail_cli::{Config, MailCliError, RebuildConfig};
 #[derive(Parser, Debug)]
 #[command(name = "mail-cli", version, about = "Decode mail buffers into JSON")]
 struct Cli {
-    /// Directory containing mail binary files.
+    /// Directory that contains the mail binary files.
     #[arg(value_name = "INPUT_DIR")]
     input_dir: PathBuf,
 
-    /// Directory where JSON output files will be written. Defaults to INPUT_DIR.
+    /// Directory where JSON output files should be written. Defaults to INPUT_DIR.
     #[arg(long, value_name = "OUTPUT_DIR")]
     output_dir: Option<PathBuf>,
 
-    /// Whether to pretty-print JSON output.
+    /// Whether to pretty-print the JSON output.
     #[arg(long, default_value_t = true, action = ArgAction::Set, value_name = "BOOL")]
     pretty: bool,
 
-    /// Whether to emit the lossless JSON representation.
+    /// Whether to emit lossless JSON instead of the standard decoded form.
     #[arg(long, default_value_t = false)]
     lossless: bool,
 
-    /// Rebuild lossless JSON documents into raw mail buffers.
-    #[arg(long, default_value_t = false)]
-    rebuild_lossless: bool,
+    /// Rebuild lossless JSON documents back into raw mail buffers.
+    #[arg(long = "rebuild", default_value_t = false)]
+    rebuild: bool,
 
-    /// Mail id override for rebuilding a single lossless JSON document.
+    /// Mail ID override when rebuilding a single lossless JSON document.
     #[arg(long, value_name = "MAIL_ID")]
     mail_id: Option<String>,
 }
 
 fn main() {
-    let cli = Cli::parse();
-    if cli.rebuild_lossless {
-        let config = RebuildConfig {
-            input_path: cli.input_dir,
-            output_dir: cli.output_dir,
-            mail_id: cli.mail_id,
-        };
+    let Cli { input_dir, output_dir, pretty, lossless, rebuild, mail_id } = Cli::parse();
+
+    if rebuild {
+        let config = RebuildConfig { input_path: input_dir, output_dir, mail_id };
         if let Err(error) = mail_cli::rebuild_lossless(&config) {
             report_error(&error);
             std::process::exit(1);
         }
     } else {
-        let output_dir = cli.output_dir.clone().unwrap_or_else(|| cli.input_dir.clone());
-
         let config = Config {
-            input_dir: cli.input_dir,
-            output_dir,
-            pretty: cli.pretty,
-            lossless: cli.lossless,
+            output_dir: output_dir.unwrap_or_else(|| input_dir.clone()),
+            input_dir,
+            pretty,
+            lossless,
         };
 
         if let Err(error) = mail_cli::run(&config) {
