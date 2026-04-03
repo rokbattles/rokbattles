@@ -3,7 +3,9 @@
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
 
-use crate::content::{require_child_object, require_content, require_number_field};
+use crate::content::{
+    optional_number_field_or_zero, require_child_object, require_content, require_number_field,
+};
 
 /// Extracts resource report fields from `body.content`.
 #[derive(Debug, Default)]
@@ -30,7 +32,7 @@ impl Extractor for RssExtractor {
         let rss_bonus = require_number_field(content, "talentAdd")?;
         let time = require_number_field(content, "Time")?;
         let level = require_number_field(content, "Level")?;
-        let crystals_gain = require_number_field(content, "ResCollectCrystal")?;
+        let crystals_gain = optional_number_field_or_zero(content, "ResCollectCrystal")?;
         let pos_x = require_number_field(pos, "X")?;
         let pos_y = require_number_field(pos, "Y")?;
 
@@ -131,6 +133,50 @@ mod tests {
         assert_eq!(fields["time"], json!(1772127764));
         assert_eq!(fields["level"], json!(6));
         assert_eq!(fields["pos"], json!({ "x": 3804.365966796875, "y": 3906.101318359375 }));
+        assert_eq!(fields["crystals_gain"], json!(0));
+    }
+
+    #[test]
+    fn rss_extractor_defaults_missing_crystals_gain_to_zero() {
+        let input = json!({
+            "body": {
+                "content": {
+                    "ResType": 3,
+                    "ResValue": 260,
+                    "talentAdd": 0,
+                    "Time": 1649934053,
+                    "Level": 4,
+                    "Pos": {
+                        "X": 3215.610107421875,
+                        "Y": 4566.96923828125
+                    }
+                }
+            }
+        });
+
+        let extractor = RssExtractor::new();
+        let section = extractor.extract(&input).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["crystals_gain"], json!(0));
+    }
+
+    #[test]
+    fn roundtrip_rss_extracts_sample_without_crystals_gain() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Rss/Persistent.Mail.118801516499340535.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = RssExtractor::new();
+        let section = extractor.extract(&value).expect("extract sample");
+        let fields = section.fields();
+
+        assert_eq!(fields["rss_type"], json!(3));
+        assert_eq!(fields["rss_value"], json!(260));
+        assert_eq!(fields["rss_bonus"], json!(0));
+        assert_eq!(fields["time"], json!(1649934053));
+        assert_eq!(fields["level"], json!(4));
+        assert_eq!(fields["pos"], json!({ "x": 3215.610107421875, "y": 4566.96923828125 }));
         assert_eq!(fields["crystals_gain"], json!(0));
     }
 }
