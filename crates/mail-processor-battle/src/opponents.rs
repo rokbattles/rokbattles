@@ -1,6 +1,8 @@
-//! Opponent extractor for Battle mail.
+//! Opponent parser for Battle mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, require_number_field,
+};
 use serde_json::{Map, Value, json};
 
 use crate::{
@@ -9,12 +11,12 @@ use crate::{
     player::extract_player_fields,
 };
 
-/// Extracts opponent details from each attack entry.
+/// Pulls opponent details out of each attack entry.
 #[derive(Debug, Default)]
 pub struct OpponentsExtractor;
 
 impl OpponentsExtractor {
-    /// Create a new opponents extractor.
+    /// Creates an opponents extractor.
     pub fn new() -> Self {
         Self
     }
@@ -57,13 +59,13 @@ impl Extractor for OpponentsExtractor {
     }
 }
 
-/// Read the attacks map from the content object.
+/// Returns the attacks map from the content object.
 fn require_attacks(content: &Map<String, Value>) -> Result<&Map<String, Value>, ExtractError> {
     let value = content.get("Attacks").ok_or(ExtractError::MissingField { field: "Attacks" })?;
     value.as_object().ok_or(ExtractError::InvalidFieldType { field: "Attacks", expected: "object" })
 }
 
-/// Parse the attack identifier from the attack map key.
+/// Parses the attack id from the attack map key.
 fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
     let end = attack_id
         .char_indices()
@@ -82,20 +84,7 @@ fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
     })
 }
 
-/// Require a numeric field and return the raw JSON value.
-fn require_number_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if value.is_number() {
-        Ok(value.clone())
-    } else {
-        Err(ExtractError::InvalidFieldType { field, expected: "number" })
-    }
-}
-
-/// Extract a single opponent entry from an attack payload.
+/// Builds one opponent entry from an attack payload.
 fn extract_attack_entry(
     attack_key: String,
     attack: &Value,
@@ -125,17 +114,16 @@ fn extract_attack_entry(
     Ok((attack_id, attack_key, Value::Object(fields)))
 }
 
-/// Extract attack-level boundary ticks from `Bts` and `Ets`.
+/// Reads the attack start and end ticks from `Bts` and `Ets`.
 ///
-/// We expose these values on each opponent as `start_tick` and `end_tick`
-/// to keep per-opponent timing boundaries co-located with attack details.
+/// They stay on each opponent entry so the timing stays next to the attack data.
 fn extract_attack_tick_bounds(attack: &Map<String, Value>) -> Result<(u64, u64), ExtractError> {
     let start_tick = require_u64_field(attack, "Bts")?;
     let end_tick = require_u64_field(attack, "Ets")?;
     Ok((start_tick, end_tick))
 }
 
-/// Extract NPC-related metadata from the attack entry and opponent payload.
+/// Pulls NPC-related data from the attack entry and opponent payload.
 fn extract_npc(
     attack: &Map<String, Value>,
     opponent: &Map<String, Value>,
@@ -156,18 +144,18 @@ fn extract_npc(
     }))
 }
 
-/// Extract battle results from the attack payload.
+/// Pulls battle results from the attack payload.
 fn extract_battle_results(attack: &Map<String, Value>) -> Result<Value, ExtractError> {
     let sender = extract_battle_result_optional(attack.get("Damage"), "Damage")?;
     let opponent = extract_battle_result_optional(attack.get("Kill"), "Kill")?;
     Ok(json!({ "sender": sender, "opponent": opponent }))
 }
 
-/// Extract a single battle result entry into the output schema.
+/// Normalizes one battle result entry into the output schema.
 fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, ExtractError> {
     let reinforcements_join = require_u64_field(overview, "AddCnt")?;
     let reinforcements_leave = require_u64_field(overview, "RetreatCnt")?;
-    // Older battle reports omit KillScore; default to 0 instead of failing.
+    // Older reports sometimes omit `KillScore`; default it to 0.
     let kill_points = optional_u64_field(overview, "KillScore")?.unwrap_or(0);
     let acclaim = optional_u64_field(overview, "Contribute")?;
     let severely_wounded = require_u64_field(overview, "BadHurt")?;
@@ -180,10 +168,10 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     let watchtower_max = require_u64_field(overview, "GtMax")?;
     let watchtower = require_u64_field(overview, "Gt")?;
     let power = require_i64_field(overview, "Power")?;
-    // Some battle reports omit attack or skill power; default to 0 instead of failing.
+    // Some reports leave out attack or skill power; default both to 0.
     let attack_power = optional_i64_field(overview, "AtkPower")?.unwrap_or(0);
     let skill_power = optional_i64_field(overview, "SkillPower")?.unwrap_or(0);
-    // Some battle reports omit merits and reduction counters.
+    // Merits and reduction counters are also optional in some reports.
     let merits = optional_u64_field(overview, "WarExploits")?;
     let death_reduction = optional_u64_field(overview, "DeadReduceCnt")?;
     let severe_wound_reduction = optional_u64_field(overview, "BadReduceCnt")?;
@@ -211,7 +199,7 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     }))
 }
 
-/// Read a battle result object when present, or return a null-filled entry.
+/// Reads a battle result object when present, or returns an all-null entry.
 fn extract_battle_result_optional(
     value: Option<&Value>,
     field: &'static str,
@@ -227,7 +215,7 @@ fn extract_battle_result_optional(
     }
 }
 
-/// Build a null-filled battle result entry when the payload is missing.
+/// Builds an all-null battle result entry when the payload is missing.
 fn null_battle_result() -> Value {
     json!({
         "reinforcements_join": Value::Null,
@@ -252,7 +240,7 @@ fn null_battle_result() -> Value {
     })
 }
 
-/// Extract NPC loot drops when present on the attack payload.
+/// Reads NPC loot drops when they are present on the attack payload.
 fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, ExtractError> {
     let value = match attack.get("NpcKillLoot") {
         None | Some(Value::Null) => return Ok(None),
@@ -278,7 +266,7 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
     Ok(Some(loot))
 }
 
-/// Read an optional unsigned integer field from a JSON map.
+/// Reads an optional unsigned integer field from a JSON map.
 fn optional_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -292,7 +280,7 @@ fn optional_u64_field(
     }
 }
 
-/// Read an optional signed integer field from a JSON map.
+/// Reads an optional signed integer field from a JSON map.
 fn optional_i64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -313,7 +301,7 @@ fn optional_i64_field(
     }
 }
 
-/// Require a signed integer field from a JSON map.
+/// Reads a required signed integer field from a JSON map.
 fn require_i64_field(
     object: &Map<String, Value>,
     field: &'static str,

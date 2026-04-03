@@ -1,4 +1,4 @@
-//! Results extractor for AllianceAOOIndividualResults mail.
+//! Results parser for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
@@ -7,12 +7,12 @@ use crate::content::{
     optional_child_object, optional_u64_field_or_zero, require_child_object, require_u64_field,
 };
 
-/// Extracts high-level individual match results from `body.kvs.FightReport`.
+/// Pulls high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
 pub struct ResultsExtractor;
 
 impl ResultsExtractor {
-    /// Create a new results extractor.
+    /// Creates a results extractor.
     pub fn new() -> Self {
         Self
     }
@@ -96,30 +96,30 @@ impl Extractor for ResultsExtractor {
             .transpose()?
             .unwrap_or(Value::Null);
 
-        // Individual Points
+        // Individual points
         section.insert("total_score", total_score);
-        // Win Percentage
+        // Win percentage
         section.insert("win_rate", win_rate);
         section.insert("battles_win", battles_win);
         section.insert("battles_lose", battles_lose);
         section.insert("severely_wounded", severely_wounded);
         section.insert("kills", kills);
         section.insert("kill_score", kill_score);
-        // Ark of Osiris Score
+        // Ark of Osiris score
         section.insert("flag_score", flag_score);
-        // Occupation Score
+        // Occupation score
         section.insert("building_score", building_score);
-        // Provisions Score
+        // Provisions score
         section.insert("gather_score", gather_score);
         section.insert("healing_score", healing_score);
         section.insert("units_healed", units_healed);
-        // Arks Captured
+        // Arks captured
         section.insert("flag_count", flag_count);
-        // teleports used
+        // Teleports used
         section.insert("teleports", teleports);
-        // minutes used
+        // Minutes used
         section.insert("speedups", speedups);
-        // structures reinforced
+        // Structures reinforced
         section.insert("structures", structures);
         Ok(section)
     }

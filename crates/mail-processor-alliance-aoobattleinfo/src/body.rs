@@ -1,14 +1,14 @@
-//! Body extractor for AllianceAOOBattleInfo mail.
+//! Body parser for AllianceAOOBattleInfo mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
-/// Extracts fight schedule rows from AllianceAOOBattleInfo body.kvs.fightlist.
+/// Pulls fight schedule rows from `body.kvs.fightlist`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 
 impl BodyExtractor {
-    /// Create a new body extractor.
+    /// Creates a body extractor.
     pub fn new() -> Self {
         Self
     }

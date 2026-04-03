@@ -1,4 +1,4 @@
-//! Opponent extractor for DuelBattle2 mail.
+//! Opponent parser for DuelBattle2 mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -8,12 +8,12 @@ use crate::{
     player::{extract_player_buffs, extract_player_section_from_map, locate_player},
 };
 
-/// Extracts opponent details from the defending player data.
+/// Pulls opponent details from the defending player data.
 #[derive(Debug, Default)]
 pub struct OpponentExtractor;
 
 impl OpponentExtractor {
-    /// Create a new opponent extractor.
+    /// Creates an opponent extractor.
     pub fn new() -> Self {
         Self
     }

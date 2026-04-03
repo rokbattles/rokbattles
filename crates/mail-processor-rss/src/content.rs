@@ -1,45 +1,14 @@
-//! Shared helpers for navigating Rss mail content.
+//! Helpers for walking RSS mail content.
 
-use mail_processor_sdk::{ExtractError, require_object};
+pub(crate) use mail_processor_sdk::{
+    ExtractError, optional_number_field_or_zero, require_child_object, require_number_field,
+    require_object,
+};
 use serde_json::{Map, Value};
 
-/// Require the nested `body.content` object from an Rss mail payload.
+/// Returns the nested `body.content` object from an RSS mail payload.
 pub(crate) fn require_content(input: &Value) -> Result<&Map<String, Value>, ExtractError> {
     let root = require_object(input)?;
     let body = require_child_object(root, "body")?;
     require_child_object(body, "content")
-}
-
-/// Require an object field from a JSON map.
-pub(crate) fn require_child_object<'a>(
-    object: &'a Map<String, Value>,
-    field: &'static str,
-) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
-}
-
-/// Require a numeric field from a JSON map, preserving its numeric representation.
-pub(crate) fn require_number_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if value.is_number() {
-        Ok(value.clone())
-    } else {
-        Err(ExtractError::InvalidFieldType { field, expected: "number" })
-    }
-}
-
-/// Read a numeric field from a JSON map, defaulting to zero when absent.
-pub(crate) fn optional_number_field_or_zero(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(Value::from(0)),
-        Some(value) if value.is_number() => Ok(value.clone()),
-        Some(_) => Err(ExtractError::InvalidFieldType { field, expected: "number" }),
-    }
 }

@@ -1,4 +1,4 @@
-//! Overview extractor for AllianceAOOIndividualResults mail.
+//! Overview parser for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Value, json};
@@ -8,12 +8,12 @@ use crate::content::{
     require_string_field, require_u64_field,
 };
 
-/// Extracts the top score leaderboard entry and aggregate totals from `body.kvs`.
+/// Pulls the top score entry and aggregate totals from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct OverviewExtractor;
 
 impl OverviewExtractor {
-    /// Create a new overview extractor.
+    /// Creates an overview extractor.
     pub fn new() -> Self {
         Self
     }

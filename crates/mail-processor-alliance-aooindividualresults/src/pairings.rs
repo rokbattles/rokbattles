@@ -1,4 +1,4 @@
-//! Pairings extractor for AllianceAOOIndividualResults mail.
+//! Pairings parser for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
 use serde_json::{Value, json};
@@ -8,12 +8,12 @@ use crate::content::{
     require_u64_field,
 };
 
-/// Extracts hero pairing battle stats from `body.kvs.FightReport.Stat.HerosStat`.
+/// Pulls hero pairing stats from `body.kvs.FightReport.Stat.HerosStat`.
 #[derive(Debug, Default)]
 pub struct PairingsExtractor;
 
 impl PairingsExtractor {
-    /// Create a new pairings extractor.
+    /// Creates a pairings extractor.
     pub fn new() -> Self {
         Self
     }

@@ -1,4 +1,4 @@
-//! Sender extractor for Battle mail.
+//! Sender parser for Battle mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -9,12 +9,12 @@ use crate::{
     player::extract_player_fields,
 };
 
-/// Extracts sender details from the SelfChar payload.
+/// Pulls sender details out of the `SelfChar` payload.
 #[derive(Debug, Default)]
 pub struct SenderExtractor;
 
 impl SenderExtractor {
-    /// Create a new sender extractor.
+    /// Creates a sender extractor.
     pub fn new() -> Self {
         Self
     }

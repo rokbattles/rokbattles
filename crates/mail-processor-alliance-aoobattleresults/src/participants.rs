@@ -1,16 +1,16 @@
-//! Participants extractor for AllianceAOOBattleResults mail.
+//! Participants parser for AllianceAOOBattleResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_number_field, require_string_field};
 
-/// Extracts individual score lines from `body.kvs.plyRanks`.
+/// Pulls individual score lines from `body.kvs.plyRanks`.
 #[derive(Debug, Default)]
 pub struct ParticipantsExtractor;
 
 impl ParticipantsExtractor {
-    /// Create a new participants extractor.
+    /// Creates a participants extractor.
     pub fn new() -> Self {
         Self
     }

@@ -1,16 +1,16 @@
-//! Rewards extractor for AllianceAOOIndividualResults mail.
+//! Rewards parser for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
 use crate::content::require_u64_field;
 
-/// Extracts reward entries from AllianceAOOIndividualResults attachments.
+/// Pulls reward entries out of AllianceAOOIndividualResults attachments.
 #[derive(Debug, Default)]
 pub struct RewardsExtractor;
 
 impl RewardsExtractor {
-    /// Create a new rewards extractor.
+    /// Creates a rewards extractor.
     pub fn new() -> Self {
         Self
     }

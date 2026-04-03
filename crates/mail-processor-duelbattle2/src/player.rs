@@ -1,9 +1,12 @@
-//! Shared player extraction helpers for DuelBattle2 sections.
+//! Shared player helpers for DuelBattle2 sections.
 
-use mail_processor_sdk::{ExtractError, Section, indexed_array_values, require_object};
+pub(crate) use mail_processor_sdk::{
+    ExtractError, Section, indexed_array_values, require_bool_field, require_child_object,
+    require_number_field, require_object, require_string_field, require_u64_field,
+};
 use serde_json::{Map, Value, json};
 
-/// Locate a player object under the specified parent field.
+/// Finds a player object under the requested parent field.
 pub(crate) fn locate_player<'a>(
     input: &'a Value,
     parent: &'static str,
@@ -14,7 +17,7 @@ pub(crate) fn locate_player<'a>(
     require_child_object(detail, parent)
 }
 
-/// Extract the common player fields from a player object.
+/// Pulls the common player fields out of a player object.
 pub(crate) fn extract_player_section_from_map(
     player: &Map<String, Value>,
 ) -> Result<Section, ExtractError> {
@@ -34,7 +37,7 @@ pub(crate) fn extract_player_section_from_map(
     Ok(section)
 }
 
-/// Extract the buff list from a player object.
+/// Pulls the buff list out of a player object.
 pub(crate) fn extract_player_buffs(
     player: &Map<String, Value>,
 ) -> Result<Vec<Value>, ExtractError> {
@@ -55,45 +58,6 @@ pub(crate) fn extract_player_buffs(
     Ok(entries)
 }
 
-pub(crate) fn require_child_object<'a>(
-    object: &'a Map<String, Value>,
-    field: &'static str,
-) -> Result<&'a Map<String, Value>, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
-}
-
-pub(crate) fn require_string_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<String, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value
-        .as_str()
-        .map(str::to_owned)
-        .ok_or(ExtractError::InvalidFieldType { field, expected: "string" })
-}
-
-pub(crate) fn require_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
-}
-
-pub(crate) fn require_number_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if value.is_number() {
-        Ok(value.clone())
-    } else {
-        Err(ExtractError::InvalidFieldType { field, expected: "number" })
-    }
-}
-
 fn parse_player_avatar(object: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let value =
         object.get("PlayerAvatar").ok_or(ExtractError::MissingField { field: "PlayerAvatar" })?;
@@ -110,14 +74,6 @@ fn parse_player_avatar(object: &Map<String, Value>) -> Result<(Value, Value), Ex
             expected: "string or object",
         }),
     }
-}
-
-pub(crate) fn require_bool_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<bool, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_bool().ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
 }
 
 fn extract_avatar_fields(map: &Map<String, Value>) -> (Value, Value) {

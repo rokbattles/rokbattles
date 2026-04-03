@@ -1,4 +1,4 @@
-//! Body extractor for SystemBarbarianFort mail.
+//! Body parser for SystemBarbarianFort mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
@@ -8,12 +8,12 @@ use crate::content::{
     require_u64_field,
 };
 
-/// Extracts position and target details from SystemBarbarianFort mail body.
+/// Pulls position and target details out of the SystemBarbarianFort body.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 
 impl BodyExtractor {
-    /// Create a new body extractor.
+    /// Creates a body extractor.
     pub fn new() -> Self {
         Self
     }

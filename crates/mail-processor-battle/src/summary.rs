@@ -1,16 +1,16 @@
-//! Summary extractor for Battle mail.
+//! Summary parser for Battle mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_u64_field};
 
-/// Extracts the sender and opponent battle summaries.
+/// Pulls the sender and opponent battle summaries.
 #[derive(Debug, Default)]
 pub struct SummaryExtractor;
 
 impl SummaryExtractor {
-    /// Create a new summary extractor.
+    /// Creates a summary extractor.
     pub fn new() -> Self {
         Self
     }
@@ -33,7 +33,7 @@ impl Extractor for SummaryExtractor {
     }
 }
 
-/// Read an optional summary payload into the output schema.
+/// Reads an optional summary payload into the output schema.
 fn extract_overview_optional(
     value: Option<&Value>,
     field: &'static str,
@@ -49,7 +49,7 @@ fn extract_overview_optional(
     }
 }
 
-/// Normalize a summary overview entry into the output schema.
+/// Normalizes a summary overview entry into the output schema.
 fn extract_overview(overview: &Map<String, Value>) -> Result<Value, ExtractError> {
     let kill_points = require_u64_field(overview, "KillScore")?;
     let dead = require_u64_field(overview, "Dead")?;
@@ -68,7 +68,7 @@ fn extract_overview(overview: &Map<String, Value>) -> Result<Value, ExtractError
     }))
 }
 
-/// Build a null-filled overview when the payload is missing.
+/// Builds an all-null overview when the payload is missing.
 fn null_overview() -> Value {
     json!({
         "kill_points": Value::Null,

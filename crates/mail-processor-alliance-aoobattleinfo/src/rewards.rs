@@ -1,14 +1,14 @@
-//! Rewards extractor for AllianceAOOBattleInfo mail.
+//! Rewards parser for AllianceAOOBattleInfo mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
-/// Extracts reward entries from AllianceAOOBattleInfo attachments.
+/// Pulls reward entries out of AllianceAOOBattleInfo attachments.
 #[derive(Debug, Default)]
 pub struct RewardsExtractor;
 
 impl RewardsExtractor {
-    /// Create a new rewards extractor.
+    /// Creates a rewards extractor.
     pub fn new() -> Self {
         Self
     }
