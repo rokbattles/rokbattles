@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@wrksz/themes/next";
 import { PlatformLayout } from "@/components/platform-layout";
 import PlatformProviders from "@/components/platform-providers";
 import { getCurrentUser } from "@/lib/current-user";
@@ -8,11 +9,13 @@ export default async function Layout({ children }: LayoutProps<"/">) {
   const initialActiveGovernorId = initialGovernors[0]?.governorId;
 
   return (
-    <PlatformProviders
-      initialGovernors={initialGovernors}
-      initialActiveGovernorId={initialActiveGovernorId}
-    >
-      <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-    </PlatformProviders>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <PlatformProviders
+        initialGovernors={initialGovernors}
+        initialActiveGovernorId={initialActiveGovernorId}
+      >
+        <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+      </PlatformProviders>
+    </ThemeProvider>
   );
 }

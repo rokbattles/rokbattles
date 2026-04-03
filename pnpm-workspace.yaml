@@ -8,5 +8,3 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
   - sharp
-patchedDependencies:
-  next-themes: patches/next-themes.patch

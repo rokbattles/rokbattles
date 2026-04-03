@@ -12,9 +12,9 @@ import {
   SunIcon,
   TrophyIcon,
 } from "@heroicons/react/16/solid";
+import { useTheme } from "@wrksz/themes/client";
 import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
-import { useTheme } from "next-themes";
 import type React from "react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { LanguageSelector } from "@/components/language-selector";
