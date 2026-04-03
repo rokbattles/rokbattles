@@ -1,11 +1,11 @@
-//! Participant extraction helpers for Battle mail.
+//! Participant helpers for Battle mail.
 
-use mail_processor_sdk::ExtractError;
+use mail_processor_sdk::{ExtractError, optional_string_field, optional_u64_field};
 use serde_json::{Map, Value, json};
 
 use crate::content::require_string_field;
 
-/// Extract participant objects from the specified field.
+/// Reads participant objects from the requested field.
 pub(crate) fn extract_participants(
     container: &Map<String, Value>,
     field: &'static str,
@@ -30,7 +30,8 @@ pub(crate) fn extract_participants(
         let participant_id = parse_participant_id(participant_id, field)?;
         let player_id = require_signed_id_field(participant, "PId")?;
         let player_name = require_string_field(participant, "PName")?;
-        // Some reports omit alliance abbreviations for participants; default to empty.
+        // Some reports leave out alliance abbreviations for participants.
+        // Use an empty string in that case.
         let alliance_abbr = optional_string_field(participant, "Abbr")?.unwrap_or_default();
         let primary_id = optional_u64_field(participant, "HId")?;
         let primary_level = optional_u64_field(participant, "HLv")?;
@@ -73,30 +74,6 @@ fn require_signed_id_field(
         });
     }
     Err(ExtractError::InvalidFieldType { field, expected: "integer" })
-}
-
-fn optional_string_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<String>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(Value::String(text)) => Ok(Some(text.clone())),
-        _ => Err(ExtractError::InvalidFieldType { field, expected: "string" }),
-    }
-}
-
-fn optional_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<u64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_u64()
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
-    }
 }
 
 #[cfg(test)]

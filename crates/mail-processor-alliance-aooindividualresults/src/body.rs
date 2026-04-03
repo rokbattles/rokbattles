@@ -1,16 +1,16 @@
-//! Body extractor for AllianceAOOIndividualResults mail.
+//! Body parser for AllianceAOOIndividualResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
 
 use crate::content::{optional_u64_field, require_bool_field, require_child_object};
 
-/// Extracts match-level flags from `body.kvs`.
+/// Pulls match-level flags from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 
 impl BodyExtractor {
-    /// Create a new body extractor.
+    /// Creates a body extractor.
     pub fn new() -> Self {
         Self
     }

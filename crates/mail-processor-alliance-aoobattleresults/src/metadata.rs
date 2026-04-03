@@ -1,14 +1,14 @@
-//! Metadata extractor for AllianceAOOBattleResults mail.
+//! Metadata parser for AllianceAOOBattleResults mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, require_string, require_u64};
+use mail_processor_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
 use serde_json::Value;
 
-/// Extracts top-level metadata fields from an AllianceAOOBattleResults mail.
+/// Pulls top-level metadata out of an AllianceAOOBattleResults mail.
 #[derive(Debug, Default)]
 pub struct MetadataExtractor;
 
 impl MetadataExtractor {
-    /// Create a new metadata extractor.
+    /// Creates a metadata extractor.
     pub fn new() -> Self {
         Self
     }
@@ -20,17 +20,10 @@ impl Extractor for MetadataExtractor {
     }
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
-        let mail_id = require_string(input, "id")?;
-        let mail_time = require_u64(input, "time")?;
-        let mail_receiver = require_string(input, "receiver")?;
-        let server_id = require_u64(input, "serverId")?;
+        let metadata = extract_base_metadata(input)?;
         let custom = matches!(extract_body_type(input), Some(14 | 15));
 
-        let mut section = Section::new();
-        section.insert("mail_id", Value::String(mail_id));
-        section.insert("mail_time", Value::from(mail_time));
-        section.insert("mail_receiver", Value::String(mail_receiver));
-        section.insert("server_id", Value::from(server_id));
+        let mut section = metadata.into_section();
         section.insert("custom", Value::Bool(custom));
         Ok(section)
     }

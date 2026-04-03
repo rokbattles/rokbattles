@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! Processor for Rss mail reports.
+//! Parses RSS mail reports.
 
 mod content;
 mod metadata;
@@ -10,12 +10,12 @@ pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Process a decoded Rss mail with parallel extractors.
+/// Runs the RSS parser with extractors in parallel.
 pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_parallel(input)
 }
 
-/// Process a decoded Rss mail in extractor order.
+/// Runs the RSS parser in extractor order.
 pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_sequential(input)
 }

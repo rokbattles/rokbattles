@@ -1,4 +1,4 @@
-//! Overview extractor for AllianceAOOBattleResults mail.
+//! Overview parser for AllianceAOOBattleResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
@@ -8,12 +8,12 @@ use crate::content::{
     require_u64_field,
 };
 
-/// Extracts category overview records from `body.kvs.max*` blocks.
+/// Pulls category overview records from the `body.kvs.max*` blocks.
 #[derive(Debug, Default)]
 pub struct OverviewExtractor;
 
 impl OverviewExtractor {
-    /// Create a new overview extractor.
+    /// Creates an overview extractor.
     pub fn new() -> Self {
         Self
     }
@@ -28,17 +28,17 @@ impl Extractor for OverviewExtractor {
         let kvs = require_body_kvs(input)?;
 
         let mut section = Section::new();
-        // Ark of Osiris Score
+        // Ark of Osiris score
         section.insert("flag_score", extract_category(kvs, "maxFlagScore")?);
-        // Occupation Score
+        // Occupation score
         section.insert("building_score", extract_category(kvs, "maxBuildingScore")?);
-        // Severely Wounded Units
+        // Severely wounded units
         section.insert("be_killed_score", extract_category(kvs, "maxBeKilled")?);
-        // Provisions Score
+        // Provisions score
         section.insert("gather_score", extract_category(kvs, "maxGatherScore")?);
-        // Units Healed
+        // Units healed
         section.insert("healing_score", extract_category(kvs, "maxHealingScore")?);
-        // Total Kills
+        // Total kills
         section.insert("killed_score", extract_category(kvs, "maxKilled")?);
 
         Ok(section)

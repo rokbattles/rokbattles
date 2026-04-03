@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! Processor for SystemBarbarianFort mail reports.
+//! Parses SystemBarbarianFort mail reports.
 
 mod body;
 mod content;
@@ -11,12 +11,12 @@ pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Process a decoded SystemBarbarianFort mail with parallel extractors.
+/// Runs the SystemBarbarianFort parser with extractors in parallel.
 pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_parallel(input)
 }
 
-/// Process a decoded SystemBarbarianFort mail in extractor order.
+/// Runs the SystemBarbarianFort parser in extractor order.
 pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_sequential(input)
 }

@@ -1,4 +1,4 @@
-//! Extractor trait and processor orchestration.
+//! Extractor traits and processor runtime.
 
 use std::collections::HashSet;
 
@@ -6,27 +6,27 @@ use serde_json::Value;
 
 use crate::{ExtractError, ProcessError, ProcessedMail, Section};
 
-/// Extracts a section of processed data from a decoded mail JSON object.
+/// Pulls one section out of a decoded mail JSON payload.
 pub trait Extractor: Send + Sync {
-    /// The section name used in the processed output.
+    /// Name of the section in the processed output.
     fn section(&self) -> &'static str;
-    /// Extract the section from the decoded mail JSON.
+    /// Pulls this section out of decoded mail JSON.
     fn extract(&self, input: &Value) -> Result<Section, ExtractError>;
 }
 
-/// Runs one or more extractors over decoded mail JSON.
+/// Runs one or more extractors against decoded mail JSON.
 #[derive(Default)]
 pub struct Processor {
     extractors: Vec<Box<dyn Extractor>>,
 }
 
 impl Processor {
-    /// Create a processor with the provided extractors.
+    /// Builds a processor from the given extractors.
     pub fn new(extractors: Vec<Box<dyn Extractor>>) -> Self {
         Self { extractors }
     }
 
-    /// Run extractors sequentially in the order provided.
+    /// Runs extractors one at a time in the order they were added.
     pub fn process_sequential(&self, input: &Value) -> Result<ProcessedMail, ProcessError> {
         self.ensure_unique_sections()?;
         let mut processed = ProcessedMail::new();
@@ -42,9 +42,12 @@ impl Processor {
         Ok(processed)
     }
 
-    /// Run extractors in parallel without assuming dependencies between them.
+    /// Runs extractors in parallel when they do not depend on each other.
     pub fn process_parallel(&self, input: &Value) -> Result<ProcessedMail, ProcessError> {
         self.ensure_unique_sections()?;
+        if self.extractors.len() <= 1 {
+            return self.process_sequential(input);
+        }
         let mut results = Vec::with_capacity(self.extractors.len());
 
         std::thread::scope(|scope| {
@@ -52,7 +55,7 @@ impl Processor {
             for extractor in &self.extractors {
                 let extractor = extractor.as_ref();
                 let section = extractor.section();
-                // Spawn each extractor so independent sections can run concurrently.
+                // Independent sections can run at the same time.
                 let handle = scope.spawn(move || extractor.extract(input));
                 handles.push((section, handle));
             }
@@ -143,5 +146,50 @@ mod tests {
         let input = json!({"value": 30});
         let err = processor.process_sequential(&input).unwrap_err();
         assert!(matches!(err, ProcessError::DuplicateSection { .. }));
+    }
+
+    #[derive(Debug)]
+    struct ErrorExtractor;
+
+    impl Extractor for ErrorExtractor {
+        fn section(&self) -> &'static str {
+            "error"
+        }
+
+        fn extract(&self, _input: &Value) -> Result<Section, ExtractError> {
+            Err(ExtractError::MissingField { field: "value" })
+        }
+    }
+
+    #[derive(Debug)]
+    struct PanicExtractor;
+
+    impl Extractor for PanicExtractor {
+        fn section(&self) -> &'static str {
+            "panic"
+        }
+
+        fn extract(&self, _input: &Value) -> Result<Section, ExtractError> {
+            panic!("boom");
+        }
+    }
+
+    #[test]
+    fn process_parallel_propagates_extractor_errors() {
+        let processor = Processor::new(vec![Box::new(ErrorExtractor)]);
+        let input = json!({"value": 10});
+        let err = processor.process_parallel(&input).unwrap_err();
+        assert!(matches!(err, ProcessError::ExtractorFailed { section: "error", .. }));
+    }
+
+    #[test]
+    fn process_parallel_reports_panics() {
+        let processor = Processor::new(vec![
+            Box::new(TestExtractor { section_name: "one" }),
+            Box::new(PanicExtractor),
+        ]);
+        let input = json!({"value": 10});
+        let err = processor.process_parallel(&input).unwrap_err();
+        assert!(matches!(err, ProcessError::ExtractorPanicked { section: "panic" }));
     }
 }

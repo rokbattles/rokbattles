@@ -1,16 +1,16 @@
-//! Body extractor for AllianceAOOBattleResults mail.
+//! Body parser for AllianceAOOBattleResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_bool_field, require_u64_field};
 
-/// Extracts top-level battle result flags from `body.kvs`.
+/// Pulls top-level battle result flags from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 
 impl BodyExtractor {
-    /// Create a new body extractor.
+    /// Creates a body extractor.
     pub fn new() -> Self {
         Self
     }

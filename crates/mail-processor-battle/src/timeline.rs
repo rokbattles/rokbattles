@@ -1,4 +1,4 @@
-//! Timeline extractor for Battle mail.
+//! Timeline parser for Battle mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64};
 use serde_json::{Map, Value, json};
@@ -8,12 +8,12 @@ use crate::{
     player::parse_avatar,
 };
 
-/// Extracts timeline snapshots from Battle mail.
+/// Pulls timeline snapshots from Battle mail.
 #[derive(Debug, Default)]
 pub struct TimelineExtractor;
 
 impl TimelineExtractor {
-    /// Create a new timeline extractor.
+    /// Creates a timeline extractor.
     pub fn new() -> Self {
         Self
     }
@@ -40,9 +40,9 @@ impl Extractor for TimelineExtractor {
             entries.push(json!({ "tick": tick, "count": count }));
         }
 
-        // Event type (Et) mappings:
+        // Event type (`Et`) mappings:
         // - 18: reinforcements join
-        // - 26: reinforcements leave (Cnt may be omitted when march count hits 0)
+        // - 26: reinforcements leave (`Cnt` may be missing when march count hits 0)
         // Some reports omit events entirely; treat missing or null as empty.
         let events = match content.get("Events") {
             None | Some(Value::Null) => Vec::new(),
@@ -102,7 +102,7 @@ impl Extractor for TimelineExtractor {
     }
 }
 
-/// Require a numeric identifier that can be either signed or unsigned.
+/// Reads an identifier that may be signed or unsigned.
 fn require_signed_id_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -120,7 +120,7 @@ fn require_signed_id_field(
     Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
-/// Read an optional unsigned integer field from a JSON object.
+/// Reads an optional unsigned integer field from a JSON object.
 fn optional_u64_field(
     object: &Map<String, Value>,
     field: &'static str,

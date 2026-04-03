@@ -1,16 +1,16 @@
-//! Battle results extractor for DuelBattle2 mail.
+//! Battle results parser for DuelBattle2 mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::player::{locate_player, require_bool_field, require_u64_field};
 
-/// Extracts sender and opponent battle results from player payloads.
+/// Pulls sender and opponent battle results from the player payloads.
 #[derive(Debug, Default)]
 pub struct BattleResultsExtractor;
 
 impl BattleResultsExtractor {
-    /// Create a new battle results extractor.
+    /// Creates a battle results extractor.
     pub fn new() -> Self {
         Self
     }

@@ -1,19 +1,22 @@
-//! Metadata extractor for Battle mail.
+//! Metadata parser for Battle mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, require_string, require_u64};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, extract_base_metadata, optional_bool_field,
+    require_string_field,
+};
 use serde_json::{Map, Value};
 
 use crate::{
-    content::{require_child_object, require_content, require_string_field},
+    content::{require_child_object, require_content},
     player::extract_kingdom_id,
 };
 
-/// Extracts top-level metadata fields from a Battle mail.
+/// Pulls top-level metadata out of a Battle mail.
 #[derive(Debug, Default)]
 pub struct MetadataExtractor;
 
 impl MetadataExtractor {
-    /// Create a new metadata extractor.
+    /// Creates a metadata extractor.
     pub fn new() -> Self {
         Self
     }
@@ -25,28 +28,21 @@ impl Extractor for MetadataExtractor {
     }
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
-        let mail_id = require_string(input, "id")?;
-        let mail_time = require_u64(input, "time")?;
-        let mail_receiver = require_string(input, "receiver")?;
-        let server_id = require_u64(input, "serverId")?;
+        let metadata = extract_base_metadata(input)?;
         let content = require_content(input)?;
         let mail_role = require_string_field(content, "Role")?;
-        let kvk = resolve_kvk(&mail_role, content, server_id)?;
+        let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
 
-        let mut section = Section::new();
-        section.insert("mail_id", Value::String(mail_id));
-        section.insert("mail_time", Value::from(mail_time));
-        section.insert("mail_receiver", Value::String(mail_receiver));
-        section.insert("server_id", Value::from(server_id));
+        let mut section = metadata.into_section();
         section.insert("mail_role", Value::String(mail_role));
         section.insert("kvk", Value::Bool(kvk));
         Ok(section)
     }
 }
 
-/// Resolve whether the report is from KvK.
+/// Figures out whether the report came from KvK.
 ///
-/// Resolution order:
+/// Checked in this order:
 /// 1. `Role == "dungeon"` always returns `false`.
 /// 2. `content.isConquerSeason` when present.
 /// 3. `serverId != sender kingdom id` (`COSId`).
@@ -67,19 +63,6 @@ fn resolve_kvk(
 
     let kingdom_id = extract_kingdom_id(sender)?;
     Ok(kingdom_id.is_some_and(|id| id != server_id))
-}
-
-fn optional_bool_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<bool>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_bool()
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
-            .map(Some),
-    }
 }
 
 #[cfg(test)]

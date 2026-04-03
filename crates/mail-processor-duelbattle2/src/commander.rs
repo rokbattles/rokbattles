@@ -5,7 +5,7 @@ use serde_json::{Map, Value, json};
 
 use crate::player::{require_bool_field, require_child_object, require_u64_field};
 
-/// Extract the primary and secondary commander data from a player object.
+/// Pulls the primary and secondary commander data from a player object.
 pub(crate) fn extract_player_commanders(
     player: &Map<String, Value>,
 ) -> Result<(Value, Value), ExtractError> {

@@ -1,16 +1,16 @@
-//! Alliances extractor for AllianceAOOBattleResults mail.
+//! Alliance parser for AllianceAOOBattleResults mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_bool_field, require_u64_field};
 
-/// Extracts alliance-level match stats from `body.kvs.asInfos`.
+/// Pulls alliance-level match stats from `body.kvs.asInfos`.
 #[derive(Debug, Default)]
 pub struct AlliancesExtractor;
 
 impl AlliancesExtractor {
-    /// Create a new alliances extractor.
+    /// Creates an alliances extractor.
     pub fn new() -> Self {
         Self
     }

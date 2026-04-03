@@ -1,14 +1,14 @@
-//! Data types used by processor outputs.
+//! Output types shared by the processors.
 
 use std::collections::BTreeMap;
 
 use serde::Serialize;
-use serde_json::Value;
+use serde_json::{Map, Value};
 
-/// A collection of extracted fields for a processor section.
+/// Data for one processed section.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Section {
-    /// The underlying section data, either object fields or an array payload.
+    /// Backing data for the section, either fields or an array payload.
     data: SectionData,
 }
 
@@ -19,17 +19,25 @@ enum SectionData {
 }
 
 impl Section {
-    /// Create an empty section.
+    /// Creates an empty object-backed section.
+    #[must_use]
     pub fn new() -> Self {
         Self { data: SectionData::Object(BTreeMap::new()) }
     }
 
-    /// Create a section backed by an array payload.
+    /// Creates a section backed by an array payload.
+    #[must_use]
     pub fn from_array(values: Vec<Value>) -> Self {
         Self { data: SectionData::Array(values) }
     }
 
-    /// Insert a value into the section object.
+    /// Creates an object-backed section from existing fields.
+    #[must_use]
+    pub fn from_fields(fields: Map<String, Value>) -> Self {
+        Self { data: SectionData::Object(fields.into_iter().collect()) }
+    }
+
+    /// Inserts a value into an object-backed section.
     ///
     /// # Panics
     /// Panics if the section is backed by an array.
@@ -40,18 +48,26 @@ impl Section {
         }
     }
 
-    /// Read the extracted fields for an object-backed section.
-    ///
-    /// # Panics
-    /// Panics if the section is backed by an array.
-    pub fn fields(&self) -> &BTreeMap<String, Value> {
+    /// Returns the fields when the section is object-backed.
+    #[must_use]
+    pub fn try_fields(&self) -> Option<&BTreeMap<String, Value>> {
         match &self.data {
-            SectionData::Object(fields) => fields,
-            SectionData::Array(_) => panic!("attempted to read fields from an array section"),
+            SectionData::Object(fields) => Some(fields),
+            SectionData::Array(_) => None,
         }
     }
 
-    /// Read the array payload for an array-backed section.
+    /// Returns the fields for an object-backed section.
+    ///
+    /// # Panics
+    /// Panics if the section is backed by an array.
+    #[must_use]
+    pub fn fields(&self) -> &BTreeMap<String, Value> {
+        self.try_fields().expect("attempted to read fields from an array section")
+    }
+
+    /// Returns the array payload for an array-backed section.
+    #[must_use]
     pub fn array(&self) -> Option<&[Value]> {
         match &self.data {
             SectionData::Array(values) => Some(values.as_slice()),
@@ -78,26 +94,28 @@ impl Serialize for Section {
     }
 }
 
-/// The full processed output containing all sections.
+/// The full processed mail, keyed by section name.
 #[derive(Debug, Clone, PartialEq, Serialize, Default)]
 #[serde(transparent)]
 pub struct ProcessedMail {
-    /// Sections keyed by their extractor name.
+    /// Sections keyed by extractor name.
     sections: BTreeMap<String, Section>,
 }
 
 impl ProcessedMail {
-    /// Create an empty processed mail object.
+    /// Creates an empty processed mail object.
+    #[must_use]
     pub fn new() -> Self {
         Self { sections: BTreeMap::new() }
     }
 
-    /// Insert a new section.
+    /// Inserts a section.
     pub fn insert(&mut self, key: impl Into<String>, section: Section) -> Option<Section> {
         self.sections.insert(key.into(), section)
     }
 
-    /// Read the processed sections.
+    /// Returns the processed sections.
+    #[must_use]
     pub fn sections(&self) -> &BTreeMap<String, Section> {
         &self.sections
     }
@@ -141,5 +159,11 @@ mod tests {
         processed.insert("opponents", section);
         let encoded = serde_json::to_value(processed).expect("serialize processed");
         assert_eq!(encoded, json!({ "opponents": [{ "player_id": 1 }] }));
+    }
+
+    #[test]
+    fn section_try_fields_returns_none_for_array_sections() {
+        let section = Section::from_array(vec![json!(1)]);
+        assert!(section.try_fields().is_none());
     }
 }

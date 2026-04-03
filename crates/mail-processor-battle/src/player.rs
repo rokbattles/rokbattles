@@ -1,11 +1,14 @@
-//! Shared player extraction helpers for Battle mail.
+//! Shared player helpers for Battle mail.
 
-use mail_processor_sdk::{ExtractError, indexed_array_values};
+use mail_processor_sdk::{
+    ExtractError, indexed_array_values, optional_bool_field, optional_string_field,
+    optional_u64_field, require_number_field,
+};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_child_object, require_string_field, require_u64_field};
 
-// AppUid app_id prefixes:
+// Known `AppUid` prefixes:
 // - 2104267: international client
 // - 3724753: chinese client
 // - 6626468: vietnamese client (gamota)
@@ -15,7 +18,7 @@ use crate::content::{require_child_object, require_string_field, require_u64_fie
 // - 9602340: chinese client (tw)
 const APP_ID_INTERNATIONAL: u64 = 2_104_267;
 
-/// Extract the common player fields from a Battle character object.
+/// Pulls the common player fields from a Battle character object.
 pub(crate) fn extract_player_fields(
     player: &Map<String, Value>,
 ) -> Result<Map<String, Value>, ExtractError> {
@@ -31,11 +34,11 @@ pub(crate) fn extract_player_fields(
     // - 11: horse fort (troy kvk)
     let alliance_building_id = optional_u64_field(player, "AbT")?;
     let castle_pos = require_child_object(player, "CastlePos")?;
-    let castle_x = require_number_value(castle_pos, "X")?;
-    let castle_y = require_number_value(castle_pos, "Y")?;
+    let castle_x = require_number_field(castle_pos, "X")?;
+    let castle_y = require_number_field(castle_pos, "Y")?;
     let castle_level = require_u64_field(player, "CastleLevel")?;
     let watchtower = optional_u64_field(player, "GtLevel")?;
-    // Older battle reports omit CTK entirely; treat it as an empty tracking key.
+    // Older reports sometimes omit `CTK`; treat that as an empty tracking key.
     let tracking_key = optional_string_field(player, "CTK")?.unwrap_or_default();
     let camp_id = optional_u64_field(player, "SideId")?;
     let rally = optional_bool_field(player, "IsRally")?;
@@ -92,12 +95,12 @@ pub(crate) fn extract_player_fields(
     Ok(fields)
 }
 
-/// Extract kingdom id from `COSId`.
+/// Reads the kingdom id from `COSId`.
 pub(crate) fn extract_kingdom_id(player: &Map<String, Value>) -> Result<Option<u64>, ExtractError> {
     optional_u64_field(player, "COSId")
 }
 
-/// Require a numeric identifier that can be either signed or unsigned.
+/// Reads an identifier that may be signed or unsigned.
 fn require_signed_id_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -115,32 +118,7 @@ fn require_signed_id_field(
     Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
-fn require_number_value(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if value.is_number() {
-        Ok(value.clone())
-    } else {
-        Err(ExtractError::InvalidFieldType { field, expected: "number" })
-    }
-}
-
-fn optional_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<u64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_u64()
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
-            .map(Some),
-    }
-}
-
-/// Extract the app_id and app_uid values from the AppUid field.
+/// Splits `AppUid` into `app_id` and `app_uid`.
 fn extract_app_identity(
     player: &Map<String, Value>,
 ) -> Result<(Option<u64>, Option<u64>), ExtractError> {
@@ -164,7 +142,7 @@ fn parse_app_uid_number(value: &str, expected: &'static str) -> Result<u64, Extr
     value.parse::<u64>().map_err(|_| ExtractError::InvalidFieldType { field: "AppUid", expected })
 }
 
-/// Read the AppUid as a string when present.
+/// Reads `AppUid` as a string when it is present.
 fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractError> {
     match player.get("AppUid") {
         None | Some(Value::Null) => Ok(None),
@@ -188,31 +166,7 @@ fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractEr
     }
 }
 
-fn optional_bool_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<bool>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_bool()
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
-            .map(Some),
-    }
-}
-
-fn optional_string_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<String>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(Value::String(text)) => Ok(Some(text.clone())),
-        _ => Err(ExtractError::InvalidFieldType { field, expected: "string" }),
-    }
-}
-
-/// Extract Supreme Strife (Titan) details for the player.
+/// Pulls Supreme Strife (`Titan`) details for the player.
 fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractError> {
     let value = match player.get("Titan") {
         None | Some(Value::Null) => return Ok(null_supreme_strife()),
@@ -232,7 +186,7 @@ fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractE
     }))
 }
 
-/// Build a null-filled Supreme Strife entry when data is missing.
+/// Builds an all-null Supreme Strife value when the data is missing.
 fn null_supreme_strife() -> Value {
     json!({
         "battle_id": Value::Null,
@@ -348,8 +302,8 @@ fn optional_relics_field(
 
     let values = indexed_array_values(value, field)?;
     if values.len() % 2 != 0 {
-        // Some older reports include a single relic id without a level (unlocked but not leveled).
-        // Drop the relic list instead of failing or guessing a level.
+        // Some older reports include a relic id with no level. Drop the list
+        // instead of failing or guessing what the level should be.
         return Ok(Value::Null);
     }
 
@@ -396,7 +350,7 @@ fn optional_armaments_field(
     Ok(Value::Array(entries))
 }
 
-/// Parse the avatar field into avatar and frame URLs.
+/// Parses the avatar field into avatar and frame URLs.
 pub(crate) fn parse_avatar(player: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let value = player.get("Avatar").ok_or(ExtractError::MissingField { field: "Avatar" })?;
 
@@ -416,14 +370,14 @@ pub(crate) fn parse_avatar(player: &Map<String, Value>) -> Result<(Value, Value)
     }
 }
 
-/// Normalize the avatar object payload into avatar and frame values.
+/// Normalizes the avatar object into avatar and frame values.
 fn extract_avatar_fields(map: &Map<String, Value>) -> (Value, Value) {
     let avatar_url = map.get("avatar").cloned().unwrap_or(Value::Null);
     let frame_url = map.get("avatarFrame").cloned().unwrap_or(Value::Null);
     (normalize_avatar_value(avatar_url), normalize_avatar_value(frame_url))
 }
 
-/// Convert explicit string null markers into JSON null values.
+/// Converts literal `"null"` strings into JSON nulls.
 fn normalize_avatar_value(value: Value) -> Value {
     match value {
         Value::String(text) if text == "null" => Value::Null,

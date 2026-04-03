@@ -1,4 +1,4 @@
-//! Rss extractor for Rss mail content.
+//! RSS parser for RSS mail content.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
@@ -7,12 +7,12 @@ use crate::content::{
     optional_number_field_or_zero, require_child_object, require_content, require_number_field,
 };
 
-/// Extracts resource report fields from `body.content`.
+/// Pulls resource report fields from `body.content`.
 #[derive(Debug, Default)]
 pub struct RssExtractor;
 
 impl RssExtractor {
-    /// Create a new rss extractor.
+    /// Creates an RSS extractor.
     pub fn new() -> Self {
         Self
     }
