@@ -2,123 +2,89 @@ use std::path::PathBuf;
 
 use mail_decoder::{DecodeError, LosslessEncodeError};
 use mail_processor_sdk::ProcessError;
+use thiserror::Error;
 
-/// Errors that can occur while decoding a directory.
-#[derive(Debug)]
+/// Errors returned by the `mail-cli` library.
+#[derive(Debug, Error)]
 pub enum MailCliError {
-    /// The input path was not a directory.
+    /// The input path was expected to be a directory.
+    #[error("input path is not a directory: {}", path.display())]
     InvalidInputDir {
-        /// The offending path.
+        /// Path that failed validation.
         path: PathBuf,
     },
-    /// Failed to read or write from the filesystem.
+    /// A filesystem read or write failed.
+    #[error("I/O error for {}: {source}", path.display())]
     Io {
-        /// The underlying I/O error.
+        /// Underlying I/O error.
+        #[source]
         source: std::io::Error,
-        /// Path associated with the I/O failure.
+        /// Path involved in the failure.
         path: PathBuf,
     },
-    /// Failed to decode a mail buffer.
+    /// Decoding a mail buffer failed.
+    #[error("decode failed for {}: {source}", path.display())]
     Decode {
-        /// The decoder error.
+        /// Underlying decoder error.
+        #[source]
         source: DecodeError,
-        /// Path to the buffer being decoded.
+        /// Path to the buffer that was being decoded.
         path: PathBuf,
     },
-    /// Failed to serialize the decoded JSON value.
+    /// Serializing decoded JSON failed.
+    #[error("JSON serialization failed for {}: {source}", path.display())]
     Json {
-        /// The serializer error.
+        /// Underlying serializer error.
+        #[source]
         source: serde_json::Error,
-        /// Path associated with the output.
+        /// Output path tied to the failure.
         path: PathBuf,
     },
-    /// Failed to process decoded mail JSON.
+    /// Processing decoded mail JSON failed.
+    #[error("processing failed for {}: {source}", path.display())]
     Process {
-        /// The processor error.
+        /// Underlying processor error.
+        #[source]
         source: ProcessError,
-        /// Path associated with the processing failure.
+        /// Path tied to the processing failure.
         path: PathBuf,
     },
-    /// Failed to parse lossless JSON input.
+    /// Parsing lossless JSON input failed.
+    #[error("lossless JSON parse failed for {}: {source}", path.display())]
     LosslessJson {
-        /// The serializer error.
+        /// Underlying JSON parse error.
+        #[source]
         source: serde_json::Error,
-        /// Path associated with the lossless input.
+        /// Path to the lossless JSON input.
         path: PathBuf,
     },
-    /// Lossless JSON payload did not match the expected schema.
+    /// Lossless JSON did not match the expected shape.
+    #[error("lossless JSON format error for {}: {message}", path.display())]
     LosslessFormat {
-        /// The format error.
+        /// Description of the format problem.
         message: String,
-        /// Path associated with the lossless input.
+        /// Path to the lossless JSON input.
         path: PathBuf,
     },
-    /// Failed to encode a lossless document back into bytes.
+    /// Encoding a lossless document back into bytes failed.
+    #[error("lossless JSON encode failed for {}: {source}", path.display())]
     LosslessEncode {
-        /// The encoder error.
+        /// Underlying encoder error.
+        #[source]
         source: LosslessEncodeError,
-        /// Path associated with the lossless input.
+        /// Path to the lossless JSON input.
         path: PathBuf,
     },
-    /// The input path was not a file or directory.
+    /// The input path was neither a file nor a directory.
+    #[error("input path is not a file or directory: {}", path.display())]
     InvalidInputPath {
-        /// The offending path.
+        /// Path that failed validation.
         path: PathBuf,
     },
-    /// The input file did not have a usable file name.
+    /// The input path did not include a usable file name.
+    #[error("missing file name for path: {}", path.display())]
     MissingFileName {
-        /// The offending path.
+        /// Path that failed validation.
         path: PathBuf,
     },
-}
-
-impl std::fmt::Display for MailCliError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            MailCliError::InvalidInputDir { path } => {
-                write!(f, "input path is not a directory: {}", path.display())
-            }
-            MailCliError::Io { source, path } => {
-                write!(f, "I/O error for {}: {source}", path.display())
-            }
-            MailCliError::Decode { source, path } => {
-                write!(f, "decode failed for {}: {source}", path.display())
-            }
-            MailCliError::Json { source, path } => {
-                write!(f, "JSON serialization failed for {}: {source}", path.display())
-            }
-            MailCliError::Process { source, path } => {
-                write!(f, "processing failed for {}: {source}", path.display())
-            }
-            MailCliError::LosslessJson { source, path } => {
-                write!(f, "lossless JSON parse failed for {}: {source}", path.display())
-            }
-            MailCliError::LosslessFormat { message, path } => {
-                write!(f, "lossless JSON format error for {}: {message}", path.display())
-            }
-            MailCliError::LosslessEncode { source, path } => {
-                write!(f, "lossless JSON encode failed for {}: {source}", path.display())
-            }
-            MailCliError::InvalidInputPath { path } => {
-                write!(f, "input path is not a file or directory: {}", path.display())
-            }
-            MailCliError::MissingFileName { path } => {
-                write!(f, "missing file name for path: {}", path.display())
-            }
-        }
-    }
-}
-
-impl std::error::Error for MailCliError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            MailCliError::Io { source, .. } => Some(source),
-            MailCliError::Decode { source, .. } => Some(source),
-            MailCliError::Json { source, .. } => Some(source),
-            MailCliError::Process { source, .. } => Some(source),
-            MailCliError::LosslessJson { source, .. } => Some(source),
-            MailCliError::LosslessEncode { source, .. } => Some(source),
-            _ => None,
-        }
-    }
 }

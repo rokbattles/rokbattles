@@ -2753,8 +2753,10 @@ dependencies = [
  "mail-processor-rss",
  "mail-processor-sdk",
  "mail-processor-system-barbarianfort",
+ "serde",
  "serde_json",
  "tempfile",
+ "thiserror 2.0.18",
 ]
 
 [[package]]

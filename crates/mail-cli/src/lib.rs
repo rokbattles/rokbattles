@@ -1,10 +1,10 @@
 #![forbid(unsafe_code)]
 
-//! Library helpers for the `mail-cli` binary.
+//! Support code for the `mail-cli` binary.
 //!
-//! The CLI scans an input directory for mail binary buffers, decodes each buffer
-//! into JSON using the `mail-decoder` crate, and writes JSON files alongside the
-//! input data (or to a specified output directory).
+//! The CLI reads mail buffers from an input directory, decodes them with
+//! `mail-decoder`, and writes the resulting JSON next to the source files or
+//! into a separate output directory.
 
 mod config;
 mod error;
