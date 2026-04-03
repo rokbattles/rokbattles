@@ -1,0 +1,91 @@
+{
+  "body": {
+    "team": null,
+    "win": true
+  },
+  "metadata": {
+    "custom": true,
+    "mail_id": "71266849169063933424",
+    "mail_receiver": "player_8401528",
+    "mail_time": 1690639334096003,
+    "server_id": 2
+  },
+  "overview": {
+    "player_id": 8401528,
+    "player_name": "DCHAWK",
+    "rank": 2,
+    "score": 82340,
+    "total_results": null
+  },
+  "pairings": [],
+  "results": {
+    "battles_lose": 12,
+    "battles_win": 31,
+    "building_score": 4829,
+    "flag_count": 0,
+    "flag_score": 0,
+    "gather_score": 0,
+    "healing_score": 0,
+    "kill_score": 77511,
+    "kills": 1471225,
+    "severely_wounded": 1136986,
+    "speedups": 0,
+    "structures": 8,
+    "teleports": 2,
+    "total_score": 82340,
+    "units_healed": 0,
+    "win_rate": 72
+  },
+  "rewards": [
+    {
+      "sub_type": 7006,
+      "type": 2,
+      "value": 10
+    },
+    {
+      "sub_type": 76,
+      "type": 2,
+      "value": 5
+    },
+    {
+      "sub_type": 47,
+      "type": 2,
+      "value": 2
+    },
+    {
+      "sub_type": 8135,
+      "type": 2,
+      "value": 150
+    },
+    {
+      "sub_type": 32,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 10005,
+      "type": 2,
+      "value": 10
+    },
+    {
+      "sub_type": 148,
+      "type": 2,
+      "value": 50
+    },
+    {
+      "sub_type": 76,
+      "type": 2,
+      "value": 50
+    },
+    {
+      "sub_type": 120,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 188,
+      "type": 2,
+      "value": 1
+    }
+  ]
+}
