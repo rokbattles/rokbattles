@@ -18,6 +18,7 @@
     "framer-motion": "^12.38.0",
     "fumadocs-core": "^16.7.10",
     "fumadocs-mdx": "^14.2.11",
+    "fumadocs-ui": "^16.7.10",
     "next": "^16.2.2",
     "next-intl": "^4.9.0",
     "nuqs": "^2.8.9",

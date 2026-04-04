@@ -6,75 +6,75 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(main)/account/ark/[matchId]/page.tsx:19
+#: src/app/(legacy)/account/ark/[matchId]/page.tsx:19
 msgid "WDt8Y9"
 msgstr "Ark Match"
 
-#: src/app/(main)/account/ark/page.tsx:18
+#: src/app/(legacy)/account/ark/page.tsx:18
 msgid "P2Qqmh"
 msgstr "Ark Match History"
 
-#: src/app/(main)/account/loot/page.tsx:24
+#: src/app/(legacy)/account/loot/page.tsx:24
 #: src/components/platform-layout.tsx:123
 msgid "yF/GXb"
 msgstr "My Loot"
 
-#: src/app/(main)/account/pairings/page.tsx:11
+#: src/app/(legacy)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:119
 msgid "N42bBd"
 msgstr "My Pairings"
 
-#: src/app/(main)/account/resources/page.tsx:24
+#: src/app/(legacy)/account/resources/page.tsx:24
 #: src/components/platform-layout.tsx:130
 msgid "gMtUZq"
 msgstr "My Resources"
 
-#: src/app/(main)/account/settings/layout.tsx:11
+#: src/app/(legacy)/account/settings/layout.tsx:11
 #: src/components/sidebar-governor-header.tsx:85
 msgid "NQgbYA"
 msgstr "Account Settings"
 
-#: src/app/(main)/account/settings/page.tsx:13
+#: src/app/(legacy)/account/settings/page.tsx:13
 msgid "hJZwTS"
 msgstr "Email address"
 
-#: src/app/(main)/account/settings/page.tsx:15
+#: src/app/(legacy)/account/settings/page.tsx:15
 msgid "rmEwjk"
 msgstr "Your email address is synced from Discord."
 
-#: src/app/(main)/olympian-arena/[id]/page.tsx:18
+#: src/app/(legacy)/olympian-arena/[id]/page.tsx:18
 msgid "xVCzuX"
 msgstr "Explore Duels"
 
-#: src/app/(main)/olympian-arena/page.tsx:9
+#: src/app/(legacy)/olympian-arena/page.tsx:9
 msgid "78PvoX"
 msgstr "Olympian Arena Reports"
 
-#: src/app/(main)/olympian-arena/page.tsx:11
-#: src/app/(main)/page.tsx:14
+#: src/app/(legacy)/olympian-arena/page.tsx:11
+#: src/app/(legacy)/page.tsx:14
 #: src/components/account/account-reports-content.tsx:29
 msgid "F2qQa8"
 msgstr "Live feed (UTC)"
 
-#: src/app/(main)/page.tsx:12
+#: src/app/(legacy)/page.tsx:12
 #: src/components/platform-layout.tsx:98
 msgid "xmv5Of"
 msgstr "Battle Reports"
 
-#: src/app/(main)/page.tsx:17
+#: src/app/(legacy)/page.tsx:17
 #: src/components/account/account-reports-content.tsx:32
 msgid "9Obw6C"
 msgstr "Filter"
 
-#: src/app/(main)/report/[id]/page.tsx:9
+#: src/app/(legacy)/report/[id]/page.tsx:9
 msgid "1gqsiW"
 msgstr "Battle Report"
 
-#: src/app/(main)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx:52
 msgid "irMluf"
 msgstr "Back to My Reports"
 
-#: src/app/(main)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx:52
 msgid "8PEDrB"
 msgstr "Explore Battles"
 
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20

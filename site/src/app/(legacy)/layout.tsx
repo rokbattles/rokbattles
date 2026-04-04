@@ -1,6 +1,10 @@
-import "./globals.css";
+import { ThemeProvider } from "@wrksz/themes/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { PlatformLayout } from "@/components/platform-layout";
+import PlatformProviders from "@/components/platform-providers";
+import { getCurrentUser } from "@/lib/current-user";
+import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
@@ -39,6 +43,10 @@ export default async function Layout({ children }: LayoutProps<"/">) {
   const locale = await getLocale();
   const messages = await getMessages();
 
+  const user = await getCurrentUser();
+  const initialGovernors = user?.claimedGovernors ?? [];
+  const initialActiveGovernorId = initialGovernors[0]?.governorId;
+
   return (
     <html
       lang={locale}
@@ -49,7 +57,7 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        <link rel="preconnect" href="https://plat-fau-global.lilithgame.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://plat-fau-global.lilithgame.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://imimg.lilithcdn.com" />
         <link rel="dns-prefetch" href="https://imv2-gl.lilithgame.com" />
         <link rel="dns-prefetch" href="https://static-gl.lilithgame.com" />
@@ -58,7 +66,14 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <CookieConsentProvider>
-            {children}
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <PlatformProviders
+                initialGovernors={initialGovernors}
+                initialActiveGovernorId={initialActiveGovernorId}
+              >
+                <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+              </PlatformProviders>
+            </ThemeProvider>
             <CookieConsentBanner />
           </CookieConsentProvider>
         </NextIntlClientProvider>
