@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://platform.rokbattles.com"),
+  metadataBase: new URL("https://rokbattles.com"),
   title: {
     default: "ROK Battles",
     template: "%s - ROK Battles",

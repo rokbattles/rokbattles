@@ -43,7 +43,7 @@ export default function DuelReportView({ duelId }: DuelReportViewProps) {
       return;
     }
 
-    copy(`https://platform.rokbattles.com/olympian-arena/${duelIdValue}`)
+    copy(`https://rokbattles.com/olympian-arena/${duelIdValue}`)
       .then(() => console.log("Duel report copied to clipboard", copiedText))
       .then(() => {
         setIsCopied(true);

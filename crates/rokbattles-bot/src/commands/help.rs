@@ -14,9 +14,9 @@ fn help_content() -> &'static str {
 A community-driven platform for sharing, exploring, and analyzing battle reports and viewing trends in Rise of Kingdoms.
 
 ### Relevant Links
-* Platform: <https://platform.rokbattles.com>
-* Desktop app: <https://platform.rokbattles.com/desktop-app>
-* Support: <https://platform.rokbattles.com/discord>"#
+* Platform: <https://rokbattles.com>
+* Desktop app: <https://rokbattles.com/desktop-app>
+* Support: <https://rokbattles.com/discord>"#
 }
 
 #[cfg(test)]
