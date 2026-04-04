@@ -3,18 +3,21 @@
   "version": "1.0.2",
   "private": true,
   "scripts": {
-    "build": "next build --turbo",
     "dev": "next -H 0.0.0.0",
+    "build": "next build",
+    "typecheck": "next typegen && tsc --noEmit",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
-    "generate:messages": "node ./scripts/generate-messages.mjs",
-    "typecheck": "next typegen && tsc --noEmit"
+    "generate:messages": "node ./scripts/generate-messages.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
+    "@types/mdx": "^2.0.13",
     "@wrksz/themes": "^0.7.9",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
+    "fumadocs-core": "^16.7.10",
+    "fumadocs-mdx": "^14.2.11",
     "next": "^16.2.2",
     "next-intl": "^4.9.0",
     "nuqs": "^2.8.9",
@@ -22,7 +25,8 @@
     "react-dom": "^19.2.4",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.2",
