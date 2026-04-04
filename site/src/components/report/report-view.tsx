@@ -45,7 +45,7 @@ export function ReportView({ id }: ReportViewProps) {
   const enemyParticipant = mappedReport?.enemyParticipant;
 
   function handleShare() {
-    copy(`https://platform.rokbattles.com/report/${encodeURIComponent(normalizedId)}`)
+    copy(`https://rokbattles.com/report/${encodeURIComponent(normalizedId)}`)
       .then(() => console.log("Battle report copied to clipboard", copiedText))
       .then(() => {
         setIsCopied(true);
