@@ -2,7 +2,7 @@
 
 use mail_processor_sdk::{
     ExtractError, Extractor, Section, extract_base_metadata, optional_bool_field,
-    require_string_field,
+    require_string_field, require_u64_field,
 };
 use serde_json::{Map, Value};
 
@@ -30,10 +30,12 @@ impl Extractor for MetadataExtractor {
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let metadata = extract_base_metadata(input)?;
         let content = require_content(input)?;
+        let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
         let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
 
         let mut section = metadata.into_section();
+        section.insert("report_id", Value::from(report_id));
         section.insert("mail_role", Value::String(mail_role));
         section.insert("kvk", Value::Bool(kvk));
         Ok(section)
@@ -83,6 +85,7 @@ mod tests {
             "serverId": 55,
             "body": {
                 "content": {
+                    "Id": 18930744,
                     "Role": "gsmp",
                     "isConquerSeason": true,
                     "SelfChar": {
@@ -99,6 +102,7 @@ mod tests {
         assert_eq!(fields["mail_time"], json!(1234));
         assert_eq!(fields["mail_receiver"], json!("player-1"));
         assert_eq!(fields["server_id"], json!(55));
+        assert_eq!(fields["report_id"], json!(18930744));
         assert_eq!(fields["mail_role"], json!("gsmp"));
         assert_eq!(fields["kvk"], json!(true));
     }
@@ -124,8 +128,30 @@ mod tests {
         assert_eq!(fields["mail_receiver"], json!("player_110176153"));
         assert_eq!(fields["server_id"], json!(1804));
         assert_eq!(fields["mail_time"], json!(1755294123041275u64));
+        assert_eq!(fields["report_id"], json!(5391170));
         assert_eq!(fields["mail_role"], json!("gsmp"));
         assert_eq!(fields["kvk"], json!(false));
+    }
+
+    #[test]
+    fn metadata_extractor_rejects_missing_report_id() {
+        let input = json!({
+            "id": "mail-1",
+            "time": 1234,
+            "receiver": "player-1",
+            "serverId": 55,
+            "body": {
+                "content": {
+                    "Role": "gsmp",
+                    "SelfChar": {
+                        "COSId": 999
+                    }
+                }
+            }
+        });
+        let extractor = MetadataExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(err, ExtractError::MissingField { field: "Id" }));
     }
 
     #[test]
@@ -137,6 +163,7 @@ mod tests {
             "serverId": 55,
             "body": {
                 "content": {
+                    "Id": 18930744,
                     "Role": "gsmp",
                     "isConquerSeason": false,
                     "SelfChar": {
@@ -160,6 +187,7 @@ mod tests {
             "serverId": 55,
             "body": {
                 "content": {
+                    "Id": 18930744,
                     "Role": "gsmp",
                     "SelfChar": {
                         "COSId": 999
@@ -182,6 +210,7 @@ mod tests {
             "serverId": 55,
             "body": {
                 "content": {
+                    "Id": 18930744,
                     "Role": "gsmp",
                     "SelfChar": {
                         "COSId": 55
@@ -204,6 +233,7 @@ mod tests {
             "serverId": 55,
             "body": {
                 "content": {
+                    "Id": 18930744,
                     "Role": "dungeon",
                     "isConquerSeason": true,
                     "SelfChar": {
