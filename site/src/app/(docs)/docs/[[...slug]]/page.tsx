@@ -1,3 +1,5 @@
+import { findSiblings } from "fumadocs-core/page-tree";
+import { Card, Cards } from "fumadocs-ui/components/card";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/layouts/docs/page";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
@@ -19,12 +21,35 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
       <DocsBody>
         <MDX
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
+            DocsCategory: ({ url }) => {
+              return <DocsCategory url={url ?? page.url} />;
+            },
           })}
         />
+        {page.data.index ? <DocsCategory url={page.url} /> : null}
       </DocsBody>
     </DocsPage>
+  );
+}
+
+function DocsCategory({ url }: { url: string }) {
+  return (
+    <Cards>
+      {findSiblings(source.getPageTree(), url).map((item) => {
+        if (item.type === "separator") return null;
+        if (item.type === "folder") {
+          if (!item.index) return null;
+          item = item.index;
+        }
+
+        return (
+          <Card key={item.url} title={item.name} href={item.url}>
+            {item.description}
+          </Card>
+        );
+      })}
+    </Cards>
   );
 }
 
