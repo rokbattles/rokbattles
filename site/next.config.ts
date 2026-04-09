@@ -56,6 +56,11 @@ const config: NextConfig = {
         destination: "https://github.com/rokbattles/rokbattles/releases",
         permanent: false,
       },
+      {
+        source: "/docs",
+        destination: "/docs/installation",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
