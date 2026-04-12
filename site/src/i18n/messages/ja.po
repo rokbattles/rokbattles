@@ -6,75 +6,75 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(main)/account/ark/[matchId]/page.tsx:19
+#: src/app/(legacy)/account/ark/[matchId]/page.tsx:19
 msgid "WDt8Y9"
 msgstr ""
 
-#: src/app/(main)/account/ark/page.tsx:18
+#: src/app/(legacy)/account/ark/page.tsx:18
 msgid "P2Qqmh"
 msgstr ""
 
-#: src/app/(main)/account/loot/page.tsx:24
+#: src/app/(legacy)/account/loot/page.tsx:24
 #: src/components/platform-layout.tsx:123
 msgid "yF/GXb"
 msgstr ""
 
-#: src/app/(main)/account/pairings/page.tsx:11
+#: src/app/(legacy)/account/pairings/page.tsx:11
 #: src/components/platform-layout.tsx:119
 msgid "N42bBd"
 msgstr ""
 
-#: src/app/(main)/account/resources/page.tsx:24
+#: src/app/(legacy)/account/resources/page.tsx:24
 #: src/components/platform-layout.tsx:130
 msgid "gMtUZq"
 msgstr ""
 
-#: src/app/(main)/account/settings/layout.tsx:11
+#: src/app/(legacy)/account/settings/layout.tsx:11
 #: src/components/sidebar-governor-header.tsx:85
 msgid "NQgbYA"
 msgstr "アカウント設定"
 
-#: src/app/(main)/account/settings/page.tsx:13
+#: src/app/(legacy)/account/settings/page.tsx:13
 msgid "hJZwTS"
 msgstr ""
 
-#: src/app/(main)/account/settings/page.tsx:15
+#: src/app/(legacy)/account/settings/page.tsx:15
 msgid "rmEwjk"
 msgstr ""
 
-#: src/app/(main)/olympian-arena/[id]/page.tsx:18
+#: src/app/(legacy)/olympian-arena/[id]/page.tsx:18
 msgid "xVCzuX"
 msgstr ""
 
-#: src/app/(main)/olympian-arena/page.tsx:9
+#: src/app/(legacy)/olympian-arena/page.tsx:9
 msgid "78PvoX"
 msgstr ""
 
-#: src/app/(main)/olympian-arena/page.tsx:11
-#: src/app/(main)/page.tsx:14
+#: src/app/(legacy)/olympian-arena/page.tsx:11
+#: src/app/(legacy)/page.tsx:14
 #: src/components/account/account-reports-content.tsx:29
 msgid "F2qQa8"
 msgstr ""
 
-#: src/app/(main)/page.tsx:12
+#: src/app/(legacy)/page.tsx:12
 #: src/components/platform-layout.tsx:98
 msgid "xmv5Of"
 msgstr "戦報"
 
-#: src/app/(main)/page.tsx:17
+#: src/app/(legacy)/page.tsx:17
 #: src/components/account/account-reports-content.tsx:32
 msgid "9Obw6C"
 msgstr ""
 
-#: src/app/(main)/report/[id]/page.tsx:9
+#: src/app/(legacy)/report/[id]/page.tsx:9
 msgid "1gqsiW"
 msgstr "戦闘報告"
 
-#: src/app/(main)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx:52
 msgid "irMluf"
 msgstr ""
 
-#: src/app/(main)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx:52
 msgid "8PEDrB"
 msgstr ""
 
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "イシス"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "イシス"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
