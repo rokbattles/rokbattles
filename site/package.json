@@ -16,10 +16,10 @@
     "@wrksz/themes": "^0.7.9",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
-    "fumadocs-core": "^16.7.14",
-    "fumadocs-mdx": "^14.2.13",
-    "fumadocs-ui": "^16.7.14",
-    "next": "^16.2.3",
+    "fumadocs-core": "^16.7.16",
+    "fumadocs-mdx": "^14.3.0",
+    "fumadocs-ui": "^16.7.16",
+    "next": "^16.2.4",
     "next-intl": "^4.9.1",
     "nuqs": "^2.8.9",
     "react": "^19.2.5",
@@ -36,7 +36,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "yaml": "^2.8.3"
   }
 }
