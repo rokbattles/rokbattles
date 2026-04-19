@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:21
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "Iset"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr "Seth"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -531,9 +531,14 @@ msgstr "Save"
 msgid "lFZWlP"
 msgstr "Armament {id}"
 
-#: src/components/my-pairings/loadout-equipment-slot.tsx:39
+#: src/components/my-pairings/loadout-equipment-slot.tsx:22
 msgid "+RhnH+"
 msgstr "Empty"
+
+#: src/components/my-pairings/loadout-equipment-slot.tsx:53
+#: src/components/report/report-equipment-slot.tsx:54
+msgid "f8EGjq"
+msgstr "Special talent {troopType}"
 
 #: src/components/my-pairings/my-pairings-content.tsx:245
 msgid "vxHX7Q"
@@ -977,7 +982,7 @@ msgstr "Battle summary"
 msgid "r80fiF"
 msgstr "Equipment"
 
-#: src/components/report/report-equipment-slot.tsx:18
+#: src/components/report/report-equipment-slot.tsx:23
 msgid "JqXZrY"
 msgstr "Equipment {id}"
 

@@ -3,6 +3,11 @@
 import Image from "next/image";
 import { useExtracted } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
+import {
+  getEquipmentTierInfo,
+  getEquipmentTroopTypeIconSrc,
+  toRomanNumeral,
+} from "@/lib/equipment";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
 type ReportEquipmentSlotProps = {
@@ -11,11 +16,12 @@ type ReportEquipmentSlotProps = {
 
 export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
   const t = useExtracted();
-  const { tier, isSpecialTalent } = getTierInfo(token?.attr);
+  const { tier, isSpecialTalent, troopType } = getEquipmentTierInfo(token?.attr);
   const tierLabel = tier != null ? toRomanNumeral(tier) : null;
   const label = token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : undefined;
   const equipmentAlt =
     token?.id != null ? t("Equipment {id}", { id: token.id.toString() }) : undefined;
+  const troopTypeIconSrc = getEquipmentTroopTypeIconSrc(troopType);
 
   return (
     <div
@@ -36,37 +42,23 @@ export function ReportEquipmentSlot({ token }: ReportEquipmentSlotProps) {
         </div>
       )}
       {tierLabel ? (
-        <span className="absolute bottom-1 left-1 rounded bg-black/70 px-1 text-[0.625rem] font-semibold text-white">
+        <span className="absolute bottom-1 left-1 rounded bg-black/70 px-1 text-xs font-semibold text-white">
           {tierLabel}
         </span>
       ) : null}
       {isSpecialTalent ? (
-        <span className="absolute bottom-1 right-1 rounded bg-amber-500 px-1 text-[0.625rem] font-semibold text-white">
-          ST
+        <span className="absolute right-0.5 bottom-0.5 flex h-5 w-5 items-center justify-center">
+          {troopTypeIconSrc ? (
+            <Image
+              src={troopTypeIconSrc}
+              alt={t("Special talent {troopType}", { troopType })}
+              width={20}
+              height={20}
+              className="h-5 w-5 object-contain"
+            />
+          ) : null}
         </span>
       ) : null}
     </div>
   );
-}
-
-function getTierInfo(attr?: number) {
-  if (typeof attr !== "number" || !Number.isFinite(attr)) {
-    return { tier: undefined, isSpecialTalent: false };
-  }
-
-  const numeric = Number(attr);
-  const isSpecialTalent = numeric >= 10;
-  const base = isSpecialTalent ? numeric % 10 : numeric;
-  const tier = Number.isFinite(base) ? base : undefined;
-
-  return { tier, isSpecialTalent };
-}
-
-function toRomanNumeral(value: number | undefined) {
-  if (typeof value !== "number") {
-    return null;
-  }
-
-  const numerals = ["", "I", "II", "III", "IV", "V"];
-  return numerals[value] ?? null;
 }
