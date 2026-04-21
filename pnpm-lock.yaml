@@ -12,7 +12,7 @@ importers:
         specifier: ^2.4.12
         version: 2.4.12
 
-  crates/rokbattles-tauri:
+  apps/rokbattles-tauri:
     dependencies:
       '@tauri-apps/api':
         specifier: ^2.10.1

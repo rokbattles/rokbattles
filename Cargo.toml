@@ -1,8 +1,13 @@
 [workspace]
 members = [
-    "crates/binidx-cli",
+    "apps/binidx-cli",
+    "apps/mail-cli",
+    "apps/rokbattles-api",
+    "apps/rokbattles-bot",
+    "apps/rokbattles-ingress",
+    "apps/rokbattles-processor",
+    "apps/rokbattles-tauri/src-tauri",
     "crates/binidx-decoder",
-    "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-processor-alliance-aoobattleinfo",
     "crates/mail-processor-alliance-aoobattleresults",
@@ -13,11 +18,6 @@ members = [
     "crates/mail-processor-rss",
     "crates/mail-processor-sdk",
     "crates/mail-processor-system-barbarianfort",
-    "crates/rokbattles-bot",
-    "crates/rokbattles-ingress",
-    "crates/rokbattles-api",
-    "crates/rokbattles-processor",
-    "crates/rokbattles-tauri/src-tauri",
 ]
 resolver = "3"
 

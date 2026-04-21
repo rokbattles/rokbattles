@@ -1,0 +1,24 @@
+[package]
+name = "rokbattles-processor"
+version = "1.0.2"
+edition = "2024"
+
+[dependencies]
+tokio = { workspace = true }
+mongodb = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+futures = { workspace = true }
+zstd = { workspace = true }
+dotenvy = { workspace = true }
+mail-processor-alliance-aoobattleinfo = { path = "../../crates/mail-processor-alliance-aoobattleinfo" }
+mail-processor-alliance-aoobattleresults = { path = "../../crates/mail-processor-alliance-aoobattleresults" }
+mail-processor-alliance-aooindividualresults = { path = "../../crates/mail-processor-alliance-aooindividualresults" }
+mail-processor-battle = { path = "../../crates/mail-processor-battle" }
+mail-processor-duelbattle2 = { path = "../../crates/mail-processor-duelbattle2" }
+mail-processor-rss = { path = "../../crates/mail-processor-rss" }
+mail-processor-barcanyonkillboss = { path = "../../crates/mail-processor-barcanyonkillboss" }
+mail-processor-system-barbarianfort = { path = "../../crates/mail-processor-system-barbarianfort" }
+mail-processor-sdk = { path = "../../crates/mail-processor-sdk" }
