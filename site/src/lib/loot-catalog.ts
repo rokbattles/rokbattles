@@ -3,6 +3,7 @@ import { defaultLocale, isLocale } from "@/i18n/config";
 
 type LootCatalogEntry = {
   name: Record<string, string | undefined>;
+  sprite?: string | string[];
 };
 
 type LootCatalog = Record<string, Record<string, LootCatalogEntry>>;
@@ -62,4 +63,33 @@ export function getLootOrder(
   }
 
   return lootOrder.get(`${typeId}:${subTypeId}`);
+}
+
+export function getLootSprites(
+  typeId: number | null | undefined,
+  subTypeId: number | null | undefined
+): string[] | undefined {
+  if (typeof typeId !== "number" || !Number.isFinite(typeId)) {
+    return undefined;
+  }
+
+  if (typeof subTypeId !== "number" || !Number.isFinite(subTypeId)) {
+    return undefined;
+  }
+
+  const typeEntry = lootCatalog[String(typeId)];
+  if (!typeEntry) {
+    return undefined;
+  }
+
+  const lootEntry = typeEntry[String(subTypeId)];
+  if (!lootEntry?.sprite) {
+    return undefined;
+  }
+
+  const sprites = Array.isArray(lootEntry.sprite) ? lootEntry.sprite : [lootEntry.sprite];
+
+  return sprites
+    .filter((sprite): sprite is string => typeof sprite === "string" && sprite.length > 0)
+    .map((sprite) => `https://cdn.rokbattles.com/game/sprites/${sprite}`);
 }
