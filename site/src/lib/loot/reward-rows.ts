@@ -1,10 +1,11 @@
-import { getLootName, getLootOrder } from "@/lib/loot-catalog";
+import { getLootName, getLootOrder, getLootSprites } from "@/lib/loot-catalog";
 import type { LootCategoryAggregate } from "@/lib/types/loot";
 
 export type LootRewardRow = {
   key: string;
   order: number;
   name: string;
+  spriteUrls?: string[];
   total: number;
   count: number;
 };
@@ -22,6 +23,7 @@ export function buildLootRewardRows(
       key: `${reward.type}:${reward.subType}`,
       order: getLootOrder(reward.type, reward.subType) ?? Number.POSITIVE_INFINITY,
       name,
+      spriteUrls: getLootSprites(reward.type, reward.subType),
       total: reward.total,
       count: reward.count,
     };

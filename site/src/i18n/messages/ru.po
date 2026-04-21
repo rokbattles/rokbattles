@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "Исида"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Исида"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -380,15 +380,15 @@ msgstr ""
 msgid "fGwfGZ"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:26
+#: src/components/account-loot/loot-breakdown-table.tsx:27
 msgid "HAlOn1"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:27
+#: src/components/account-loot/loot-breakdown-table.tsx:28
 msgid "/0TOL5"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:28
+#: src/components/account-loot/loot-breakdown-table.tsx:29
 msgid "wrpHgq"
 msgstr ""
 
