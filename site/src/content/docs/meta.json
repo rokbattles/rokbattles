@@ -1,4 +1,4 @@
 {
   "root": true,
-  "pages": ["installation"]
+  "pages": ["installation", "quick-start"]
 }
