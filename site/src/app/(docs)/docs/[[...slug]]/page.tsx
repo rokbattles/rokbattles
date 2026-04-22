@@ -3,6 +3,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DocsCategory } from "@/components/(docs)/DocsCategory";
+import { DownloadVersion } from "@/components/(docs)/DownloadVersion";
 import { getMDXComponents } from "@/components/(docs)/mdx";
 import { source } from "@/lib/source";
 
@@ -23,6 +24,9 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
             a: createRelativeLink(source, page),
             DocsCategory: ({ url }) => {
               return <DocsCategory url={url ?? page.url} />;
+            },
+            DownloadVersion: ({ type, children }) => {
+              return <DownloadVersion type={type}>{children}</DownloadVersion>;
             },
           })}
         />

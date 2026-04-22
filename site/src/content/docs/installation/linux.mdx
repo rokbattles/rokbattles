@@ -2,4 +2,47 @@
 title: Linux
 ---
 
-Linux installation here
+ROK Battles is available for Linux in both `AppImage` and `deb` formats.
+
+## Choose a version
+
+### x86_64
+
+* <DownloadVersion type="linux-x86_64">Linux x86_64 AppImage</DownloadVersion> - Recommended for most desktop Linux systems
+* <DownloadVersion type="linux-x86_64-deb">Linux x86_64 .deb</DownloadVersion> - For Debian, Ubuntu, and other Debian-based distributions
+
+### ARM64
+
+* <DownloadVersion type="linux-aarch64">Linux ARM64 AppImage</DownloadVersion> - For ARM64 Linux devices
+* <DownloadVersion type="linux-aarch64-deb">Linux ARM64 .deb</DownloadVersion> - For Debian-based ARM64 systems
+
+## Install
+
+### AppImage
+
+1. Download the correct AppImage for your architecture.
+2. Make it executable:
+
+```bash
+chmod +x ROK.Battles_*.AppImage
+```
+
+3. Run it:
+
+```bash
+./ROK.Battles_*.AppImage
+```
+
+### Debian package
+
+1. Download the matching `.deb` package.
+2. Install it with your package manager:
+
+```bash
+sudo apt install ./ROK.Battles_*.deb
+```
+
+## Notes
+
+* Use the `AppImage` build if you want a portable option that works on many distributions.
+* Use the `.deb` package if you are on Ubuntu, Debian, or another Debian-based distro and want a standard package install.

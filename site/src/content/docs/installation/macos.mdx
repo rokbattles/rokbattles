@@ -2,4 +2,32 @@
 title: macOS
 ---
 
-macOS installation here
+ROK Battles is available for both Apple Silicon and Intel Macs.
+
+## Choose a version
+
+* <DownloadVersion type="darwin-aarch64">macOS Apple Silicon</DownloadVersion> - Recommended for M1, M2, M3, and newer Macs
+* <DownloadVersion type="darwin-x86_64">macOS Intel</DownloadVersion> - For older Intel-based Macs
+
+## Install
+
+1. Download the archive for your Mac.
+2. Open the downloaded `.tar.gz` file to extract the app.
+3. Drag `ROK Battles.app` into your `Applications` folder.
+4. Open the app from `Applications`.
+
+## Notes
+
+* If you are unsure which version to download, Apple Silicon covers the newer M-series Macs, while Intel is for older hardware.
+
+## "App is damaged" warning
+
+The current macOS build is not yet code signed or notarized. Because of that, Apple Gatekeeper may block the app after it is downloaded and show a message saying the app is damaged.
+
+If you see that warning after moving the app into `Applications`, run this command once:
+
+```sh
+xattr -d com.apple.quarantine /Applications/ROK\ Battles.app
+```
+
+After that, open the app again and it should launch normally.
