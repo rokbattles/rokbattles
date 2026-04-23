@@ -8,7 +8,7 @@ mod rate_limit;
 mod state;
 mod storage;
 
-use std::{net::SocketAddr, sync::Arc};
+use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 
 use axum::{
     Router,
@@ -23,7 +23,8 @@ use crate::{config::Config, rate_limit::RateLimitKeyExtractor, state::AppState, 
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    dotenvy::dotenv().ok();
+    let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+    dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
     let filter = tracing_subscriber::EnvFilter::try_from_default_env()
