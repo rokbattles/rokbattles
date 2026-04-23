@@ -22,3 +22,4 @@ mail-processor-rss = { path = "../../crates/mail-processor-rss" }
 mail-processor-barcanyonkillboss = { path = "../../crates/mail-processor-barcanyonkillboss" }
 mail-processor-system-barbarianfort = { path = "../../crates/mail-processor-system-barbarianfort" }
 mail-processor-sdk = { path = "../../crates/mail-processor-sdk" }
+sentry = { workspace = true }

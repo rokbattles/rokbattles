@@ -7,6 +7,7 @@ use std::{env, num::NonZeroU32};
 pub struct Config {
     pub bind_addr: String,
     pub mongo_uri: String,
+    pub sentry_dsn: Option<String>,
     pub clamav_enabled: bool,
     pub clamav_addr: String,
     pub clamav_timeout_ms: u64,
@@ -31,6 +32,7 @@ impl Config {
     pub fn from_env() -> Result<Self, ConfigError> {
         let bind_addr = env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8000".to_string());
         let mongo_uri = required_env("MONGODB_URI")?;
+        let sentry_dsn = env::var("SENTRY_DSN").ok().filter(|value| !value.is_empty());
         let clamav_enabled = parse_bool(env::var("CLAMAV_ENABLED").ok(), false)?;
         let clamav_addr = env::var("CLAMAV_ADDR").unwrap_or_else(|_| "127.0.0.1:3310".to_string());
         let clamav_timeout_ms =
@@ -51,6 +53,7 @@ impl Config {
         Ok(Self {
             bind_addr,
             mongo_uri,
+            sentry_dsn,
             clamav_enabled,
             clamav_addr,
             clamav_timeout_ms,

@@ -53,6 +53,7 @@ twilight-gateway = "0.17.1"
 twilight-http = "0.17.1"
 twilight-model = "0.17.1"
 rustls = { version = "0.23.38", default-features = false }
+sentry = "0.47.0"
 
 [profile.release]
 opt-level = "z"
