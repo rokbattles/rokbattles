@@ -36,7 +36,8 @@ pub(crate) fn extract_player_fields(
     let castle_pos = require_child_object(player, "CastlePos")?;
     let castle_x = require_number_field(castle_pos, "X")?;
     let castle_y = require_number_field(castle_pos, "Y")?;
-    let castle_level = require_u64_field(player, "CastleLevel")?;
+    // Older reports sometimes omit `CastleLevel`; use 0 for unknown level.
+    let castle_level = optional_u64_field(player, "CastleLevel")?.unwrap_or(0);
     let watchtower = optional_u64_field(player, "GtLevel")?;
     // Older reports sometimes omit `CTK`; treat that as an empty tracking key.
     let tracking_key = optional_string_field(player, "CTK")?.unwrap_or_default();
@@ -537,6 +538,14 @@ mod tests {
         assert_eq!(fields.get("camp_id"), Some(&json!(3)));
         assert_eq!(fields.get("rally"), Some(&json!(true)));
         assert_eq!(fields.get("structure_id"), Some(&json!(109)));
+    }
+
+    #[test]
+    fn extract_player_fields_defaults_missing_castle_level() {
+        let mut player = base_player();
+        player.remove("CastleLevel");
+        let fields = extract_player_fields(&player).unwrap();
+        assert_eq!(fields["castle"]["level"], json!(0));
     }
 
     #[test]

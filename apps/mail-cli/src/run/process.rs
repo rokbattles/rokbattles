@@ -169,6 +169,22 @@ mod tests {
     }
 
     #[test]
+    fn write_processed_json_defaults_missing_battle_castle_level() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Battle/Persistent.Mail.30346123155694137715.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["sender"]["castle"]["level"], json!(0));
+    }
+
+    #[test]
     fn write_processed_json_preserves_negative_hurt_in_battle_sample() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
