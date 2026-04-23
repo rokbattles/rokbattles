@@ -6,6 +6,7 @@ use std::{env, time::Duration};
 #[derive(Debug, Clone)]
 pub struct Config {
     pub mongo_uri: String,
+    pub sentry_dsn: Option<String>,
     pub batch_size: i64,
     pub concurrency: usize,
     pub idle_sleep: Duration,
@@ -24,6 +25,7 @@ impl Config {
     /// Load configuration from the environment (and `.env` if present).
     pub fn from_env() -> Result<Self, ConfigError> {
         let mongo_uri = required_env("MONGODB_URI")?;
+        let sentry_dsn = env::var("SENTRY_DSN").ok().filter(|value| !value.is_empty());
         let batch_size =
             parse_i64("PROCESSOR_BATCH_SIZE", env::var("PROCESSOR_BATCH_SIZE").ok(), 500)?;
         let concurrency =
@@ -34,7 +36,7 @@ impl Config {
             15,
         )?;
 
-        Ok(Self { mongo_uri, batch_size, concurrency, idle_sleep })
+        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, idle_sleep })
     }
 }
 

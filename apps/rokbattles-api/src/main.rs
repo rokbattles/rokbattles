@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use mongodb::options::ClientOptions;
 use rokbattles_api::{
@@ -13,10 +13,22 @@ use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    dotenvy::dotenv().ok();
+    let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+    dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
     tracing_subscriber::fmt().with_env_filter(config.log_filter.clone()).init();
+
+    let _sentry_guard = config.sentry_dsn.as_deref().map(|dsn| {
+        sentry::init((
+            dsn,
+            sentry::ClientOptions {
+                release: sentry::release_name!(),
+                send_default_pii: false,
+                ..Default::default()
+            },
+        ))
+    });
 
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let database_name = client_options.default_database.clone().ok_or_else(|| {

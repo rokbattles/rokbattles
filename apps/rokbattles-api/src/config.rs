@@ -12,6 +12,7 @@ pub struct Config {
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
     pub log_filter: String,
+    pub sentry_dsn: Option<String>,
 }
 
 /// Errors for missing required config.
@@ -50,6 +51,7 @@ impl Config {
             lookup("DISCORD_REDIRECT_URI").ok_or(ConfigError::MissingDiscordRedirectUri)?;
         let log_filter =
             lookup("RUST_LOG").unwrap_or_else(|| "rokbattles_api=info,axum=info".to_string());
+        let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
 
         Ok(Self {
             bind_addr,
@@ -59,6 +61,7 @@ impl Config {
             discord_client_secret,
             discord_redirect_uri,
             log_filter,
+            sentry_dsn,
         })
     }
 }
@@ -91,6 +94,22 @@ mod tests {
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
+        assert_eq!(cfg.sentry_dsn, None);
+    }
+
+    #[test]
+    fn loads_optional_sentry_dsn() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("CRON_SECRET", "test-secret"),
+            ("DISCORD_CLIENT_ID", "discord-client-id"),
+            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
+            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
+            ("SENTRY_DSN", "https://example@sentry.io/123"),
+        ])))
+        .expect("config");
+
+        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
     }
 
     #[test]

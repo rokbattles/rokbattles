@@ -8,7 +8,7 @@ mod rate_limit;
 mod state;
 mod storage;
 
-use std::{net::SocketAddr, sync::Arc};
+use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 
 use axum::{
     Router,
@@ -23,12 +23,24 @@ use crate::{config::Config, rate_limit::RateLimitKeyExtractor, state::AppState, 
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    dotenvy::dotenv().ok();
+    let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+    dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
     let filter = tracing_subscriber::EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| "rokbattles_ingress=info,axum=info".into());
     tracing_subscriber::fmt().with_env_filter(filter).init();
+
+    let _sentry_guard = config.sentry_dsn.as_deref().map(|dsn| {
+        sentry::init((
+            dsn,
+            sentry::ClientOptions {
+                release: sentry::release_name!(),
+                send_default_pii: false,
+                ..Default::default()
+            },
+        ))
+    });
 
     let client_options = ClientOptions::parse(&config.mongo_uri).await?;
     let db_name = client_options.default_database.clone().ok_or_else(|| {
