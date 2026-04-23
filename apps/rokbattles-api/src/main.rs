@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-use std::sync::Arc;
+use std::{path::PathBuf, sync::Arc};
 
 use mongodb::options::ClientOptions;
 use rokbattles_api::{
@@ -13,7 +13,8 @@ use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    dotenvy::dotenv().ok();
+    let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+    dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
     tracing_subscriber::fmt().with_env_filter(config.log_filter.clone()).init();

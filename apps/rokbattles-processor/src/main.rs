@@ -8,6 +8,8 @@ mod mail;
 mod processing;
 mod storage;
 
+use std::path::PathBuf;
+
 use mongodb::options::ClientOptions;
 use tracing::debug;
 
@@ -15,7 +17,8 @@ use crate::{config::Config, error::ProcessorError, processing::process_loop, sto
 
 #[tokio::main]
 async fn main() -> Result<(), ProcessorError> {
-    dotenvy::dotenv().ok();
+    let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+    dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
     let filter = tracing_subscriber::EnvFilter::try_from_default_env()
