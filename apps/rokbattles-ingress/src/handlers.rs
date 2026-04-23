@@ -326,7 +326,7 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
     match body_type {
         // custom Ark match
         14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
-        15 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
+        15 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
         // normal Ark match
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
@@ -645,13 +645,27 @@ mod tests {
             "type": "Alliance",
             "box": "AllianceBox",
             "body": {
-                "type": 15
+                "type": 15,
+                "param": 1
             }
         });
         assert_eq!(
             extract_mail_type(&decoded).unwrap(),
             "AllianceAOOIndividualResults".to_string()
         );
+    }
+
+    #[test]
+    fn keeps_type_15_alliance_mail_when_param_is_not_one() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 15,
+                "param": 3
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "Alliance".to_string());
     }
 
     #[test]

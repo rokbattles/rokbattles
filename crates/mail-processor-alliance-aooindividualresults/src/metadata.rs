@@ -105,7 +105,7 @@ mod tests {
             "time": 1234,
             "receiver": "player-1",
             "serverId": 55,
-            "body": { "type": 15 }
+            "body": { "type": 15, "param": 1 }
         });
         let extractor = MetadataExtractor::new();
         let section = extractor.extract(&input).unwrap();

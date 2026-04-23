@@ -37,7 +37,7 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
 
     match body_type {
         14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
-        15 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
+        15 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
         62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
@@ -113,7 +113,7 @@ mod tests {
         let custom_individual_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
-            "body": { "type": 15 }
+            "body": { "type": 15, "param": 1 }
         });
         assert_eq!(
             classify_processable_mail_type(&custom_individual_results),
@@ -137,6 +137,16 @@ mod tests {
             "type": "Alliance",
             "box": "AllianceBox",
             "body": { "type": 14, "param": 2 }
+        });
+        assert_eq!(classify_processable_mail_type(&payload), None);
+    }
+
+    #[test]
+    fn classify_processable_mail_type_rejects_type_15_alliance_mail_with_other_param() {
+        let payload = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 15, "param": 3 }
         });
         assert_eq!(classify_processable_mail_type(&payload), None);
     }

@@ -103,7 +103,7 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<&'static s
     match body_type {
         // custom Ark match
         14 if matches!(body_param, Some(1)) => Some(ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE),
-        15 => Some(ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE),
+        15 if matches!(body_param, Some(1)) => Some(ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE),
         // normal Ark match
         60 => Some(ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE),
         61 => Some(ALLIANCE_AOO_BATTLE_INFO_MAIL_TYPE),
@@ -263,7 +263,7 @@ mod tests {
         let custom_individual_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
-            "body": { "type": 15 }
+            "body": { "type": 15, "param": 1 }
         });
         assert_eq!(
             detect_supported_mail_type(&custom_individual_results),
@@ -287,6 +287,16 @@ mod tests {
             "type": "Alliance",
             "box": "AllianceBox",
             "body": { "type": 14, "param": 2 }
+        });
+        assert_eq!(detect_supported_mail_type(&payload), None);
+    }
+
+    #[test]
+    fn detect_supported_mail_type_rejects_type_15_alliance_mail_with_other_param() {
+        let payload = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 15, "param": 3 }
         });
         assert_eq!(detect_supported_mail_type(&payload), None);
     }
