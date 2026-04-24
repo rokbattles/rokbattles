@@ -28,6 +28,14 @@ impl Extractor for NpcExtractor {
         // Known NPC ids:
         // - 102000063: Miser Khaolak
         // - 102000055: Ironhand Baulur
+        // - 102000155: Bloodfist Bargha
+        // - 102000235: Swindler Dhalruk
+        // The ones below are from KVK
+        // - 102000057: Ironhand Baulur
+        // - 102000058: Ironhand Baulur
+        // - 401000087: Bloodfist Bargha
+        // - 401000089: Bloodfist Bargha
+        // - 401000093: Bloodfist Bargha
         let npc_type = require_u64_field(content, "npcType")?;
         let npc_level = require_u64_field(content, "npcLevel")?;
         let pos = require_child_object(content, "pos")?;

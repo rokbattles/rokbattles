@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "mail_id": "91262099177145537517",
+    "mail_receiver": "player_126921671",
+    "mail_time": 1771455375665491,
+    "server_id": 1804
+  },
+  "npc": {
+    "level": 25,
+    "location": {
+      "x": 3341.414794921875,
+      "y": 3463.9365234375
+    },
+    "type": 102000155
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2026-02-03/298FB0DAB5FFF4967D3C24B9F13D18EF_250x250.jpg",
+      "damage_rate": 100,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 96,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7052,
+          "type": 2,
+          "value": 14
+        }
+      ],
+      "player_id": 126921671,
+      "player_name": "ˢlil"
+    }
+  ]
+}

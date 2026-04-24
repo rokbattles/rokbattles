@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "mail_id": "22572826177514434813",
+    "mail_receiver": "player_2754617",
+    "mail_time": 1775144348829784,
+    "server_id": 15908
+  },
+  "npc": {
+    "level": 35,
+    "location": {
+      "x": 1517.0513916015625,
+      "y": 6927.49755859375
+    },
+    "type": 102000057
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2598606/2026-02-21/C1757A23D0F88C035FD831E272EA84C5_250x250.jpg",
+      "damage_rate": 100,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 85,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 48,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 2754617,
+      "player_name": "ɢᴠᴏ  Macro"
+    }
+  ]
+}

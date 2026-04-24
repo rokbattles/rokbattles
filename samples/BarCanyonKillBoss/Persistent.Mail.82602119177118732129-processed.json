@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "mail_id": "82602119177118732129",
+    "mail_receiver": "player_129213098",
+    "mail_time": 1771187321676016,
+    "server_id": 1804
+  },
+  "npc": {
+    "level": 25,
+    "location": {
+      "x": 4214.61328125,
+      "y": 3549.314453125
+    },
+    "type": 102000235
+  },
+  "participants": [
+    {
+      "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129213098/23/03/30/2582725d78551b68_385x385.jpg",
+      "damage_rate": 14.719000816345215,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 96,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 129213098,
+      "player_name": "ˢ vashido"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100199074/2026-01-15/0BE76063C3E00AFFE3FCA9606DCA2E0E_250x250.jpg",
+      "damage_rate": 85.281005859375,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 96,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 124893142,
+      "player_name": "⽪卡丘Daspim"
+    }
+  ]
+}
