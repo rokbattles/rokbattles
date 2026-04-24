@@ -85,5 +85,5 @@ export function ReportParticipantCard({
 
 function hasCommander(commander?: RawCommanderInfo) {
   const id = commander?.id;
-  return typeof id === "number" && Number.isFinite(id);
+  return typeof id === "number" && Number.isFinite(id) && id > 0;
 }
