@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "mail_id": "90884549177705861731",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1777058617831400,
+    "server_id": 15908
+  },
+  "npc": {
+    "level": 35,
+    "location": {
+      "x": 6616.20947265625,
+      "y": 4237.1845703125
+    },
+    "type": 401000093
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg",
+      "damage_rate": 100,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 4
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 48,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7054,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 71738515,
+      "player_name": "Grigvar"
+    }
+  ]
+}

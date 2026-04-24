@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "mail_id": "83062859177409782917",
+    "mail_receiver": "player_131747926",
+    "mail_time": 1774097829540216,
+    "server_id": 15908
+  },
+  "npc": {
+    "level": 29,
+    "location": {
+      "x": 5121.05810546875,
+      "y": 848.373779296875
+    },
+    "type": 401000087
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1597246/2025-12-30/995861C2522A98D049FEBBF01B5864CF_250x250.jpg",
+      "damage_rate": 100,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+      "loot": [],
+      "player_id": 131747926,
+      "player_name": "D i e t e r"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "mail_id": "21948972177512622428",
+    "mail_receiver": "player_83629727",
+    "mail_time": 1775126224588906,
+    "server_id": 15908
+  },
+  "npc": {
+    "level": 40,
+    "location": {
+      "x": 6915.99951171875,
+      "y": 1346.4320068359375
+    },
+    "type": 102000058
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-12-10/3AD94B798E2B1801AB381AAE774B9F1B_250x250.jpg",
+      "damage_rate": 100,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_221.png",
+      "loot": [
+        {
+          "sub_type": 26,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 85,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 7052,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 83629727,
+      "player_name": "Atomicbunny"
+    }
+  ]
+}

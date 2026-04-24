@@ -1,0 +1,83 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Bloodfist Bargha",
+      "infos": [
+        1,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg\"}",
+          "damageRate": 100,
+          "idx": 1,
+          "loots": [
+            1,
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 36,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 48,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 7054,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Grigvar",
+          "order": 2,
+          "playerId": 71738515
+        }
+      ],
+      "npcLevel": 35,
+      "npcType": 401000093,
+      "pos": {
+        "x": 6616.20947265625,
+        "y": 4237.1845703125
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "90884549177705861731",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1777058617831400,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": true
+}

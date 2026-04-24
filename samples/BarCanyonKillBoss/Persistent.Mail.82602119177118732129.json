@@ -1,0 +1,105 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Swindler Dhalruk",
+      "infos": [
+        1,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/129213098/23/03/30/2582725d78551b68_385x385.jpg\"}",
+          "damageRate": 14.719000816345215,
+          "idx": 2,
+          "loots": [
+            1,
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 96,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "ˢ vashido",
+          "order": 2,
+          "playerId": 129213098
+        },
+        2,
+        {
+          "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100199074/2026-01-15/0BE76063C3E00AFFE3FCA9606DCA2E0E_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png\"}",
+          "damageRate": 85.281005859375,
+          "idx": 1,
+          "loots": [
+            1,
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 2
+            },
+            3,
+            {
+              "SubType": 96,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "⽪卡丘Daspim",
+          "order": 2,
+          "playerId": 124893142
+        }
+      ],
+      "npcLevel": 25,
+      "npcType": 102000235,
+      "pos": {
+        "x": 4214.61328125,
+        "y": 3549.314453125
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "82602119177118732129",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_129213098",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1771187321676016,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": false
+}
