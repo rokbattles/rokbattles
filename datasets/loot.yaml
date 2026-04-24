@@ -195,6 +195,30 @@ loot:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
 
+    27:
+      name:
+        ar: "50 جوهرة"
+        de: "50 Edelsteine"
+        en: "50 Gems"
+        es: "50 gemas"
+        fr: "50 gemmes"
+        id: "50 Gem"
+        it: "50 gemme"
+        ja: "50 宝石"
+        ko: "보석 50개"
+        ms: "50 Permata"
+        pl: "50 klejnotów"
+        pt: "50 Gemas"
+        ru: "50 самоцветов"
+        th: "50 อัญมณี"
+        tr: "50 Cevher"
+        vi: "50 Đá Quý"
+        zh_CN: "50 宝石"
+        zh_TW: "50 寶石"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+
     28:
       name:
         ar: "100 جوهرة"
@@ -313,6 +337,30 @@ loot:
         zh_TW: "1分鐘加速"
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    36:
+      name:
+        ar: "تسريع 60 دقيقة"
+        de: "60 Minuten Beschleunigung"
+        en: "60-Minute Speedup"
+        es: "60 minuto de Aceleración"
+        fr: "Accélération - 60 minutes"
+        id: "Speedup 60 Menit"
+        it: "Acceleratore da 60 minuti"
+        ja: "60分加速"
+        ko: "60분 가속"
+        ms: "Percepat 60 Minit"
+        pl: "60-min przyspieszenie"
+        pt: "Aceleração de 60 Minutos"
+        ru: "60-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 60 นาที"
+        tr: "60 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 60 phút"
+        zh_CN: "60分钟加速"
+        zh_TW: "60分鐘加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
 
     38:
@@ -990,6 +1038,30 @@ loot:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_2.Sprite.7520113341742508351__83947536e15e.png
 
+    147:
+      name:
+        ar: "مجلد المعرفة مستوى 4"
+        de: "Lv.-4-Wissenskompendium"
+        en: "Lvl 4 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 4"
+        fr: "Tome du savoir niv. 4"
+        id: "Tome of Knowledge Lvl. 4"
+        it: "Tomo della conoscenza liv 4"
+        ja: "知識の書 Lv.4"
+        ko: "4레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 4"
+        pl: "Księga wiedzy poz. 4"
+        pt: "Tomo do Conhecimento nv. 4"
+        ru: "Фолиант знания ур. 4"
+        th: "ตำราแห่งความรู้ เลเวล 4"
+        tr: "4. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 4"
+        zh_CN: "等级4知识之书"
+        zh_TW: "等級4知識之書"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+
     148:
       name:
         ar: "مجلد المعرفة مستوى 5"
@@ -1522,6 +1594,31 @@ loot:
         zh_TW: "裝備材料箱"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+
+    # Epic
+    7054:
+      name:
+        ar: "صندوق مواد المعدة"
+        de: "Ausrüstungsmaterialtruhe"
+        en: "Equipment Materials Chest"
+        es: "Cofre de materiales de equipamiento"
+        fr: "Coffre de matériaux d'équipement"
+        id: "Peti Material Perlengkapan"
+        it: "Forziere del materiale per l'equipaggiamento"
+        ja: "装備素材箱"
+        ko: "장비 재료상자"
+        ms: "Peti Bahan Peralatan"
+        pl: "Skrzynia materiałów na epicki ekwipunek"
+        pt: "Baú de materiais de equipamentos"
+        ru: "Сундук с материалами для снаряжения"
+        th: "หีบวัสดุสำหรับอุปกรณ์"
+        tr: "Ekipman Malzemeleri Sandığı"
+        vi: "Rương Vật Liệu Trang Bị"
+        zh_CN: "装备材料箱"
+        zh_TW: "裝備材料箱"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
 
     # Advanced
