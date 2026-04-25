@@ -50,6 +50,8 @@ commanders:
         id: 1006
       - slot: 4
         id: 1007
+    sprite:
+      - img_icon_HeroProfile_1.Sprite.4325699312120154287__761dc0832b38
 
   3:
     name:
@@ -103,6 +105,8 @@ commanders:
         id: 1045
       - slot: 5
         id: 30
+    sprite:
+      - img_icon_HeroProfile_3.Sprite.-6731364240742519931__686b2de0bd47
 
   4:
     name:
@@ -155,6 +159,8 @@ commanders:
         id: 1075
       - slot: 4
         id: 1067
+    sprite:
+      - img_icon_HeroProfile_4.Sprite.-2685367383300028727__a924f0712bd1
 
   5:
     name:
@@ -208,6 +214,8 @@ commanders:
         id: 1140
       - slot: 5
         id: 1148
+    sprite:
+      - img_icon_HeroProfile_5.Sprite.6159878357274610523__55f389a77f32
 
   6:
     name:
@@ -260,6 +268,8 @@ commanders:
         id: 1010
       - slot: 4
         id: 1011
+    sprite:
+      - img_icon_HeroProfile_151.Sprite.6934640033356453997__d2356a3945c6
 
   7:
     name:
@@ -313,6 +323,8 @@ commanders:
         id: 1042
       - slot: 5
         id: 1103
+    sprite:
+      - img_icon_HeroProfile_150.Sprite.725310862665169925__595ae645ed7f
 
   8:
     name:
@@ -366,6 +378,8 @@ commanders:
         id: 1014
       - slot: 5
         id: 1104
+    sprite:
+      - img_icon_HeroProfile_152.Sprite.-5821735678434450207__b1c4b8addd54
 
   9:
     name:
@@ -418,6 +432,8 @@ commanders:
         id: 1012
       - slot: 4
         id: 1016
+    sprite:
+      - img_icon_HeroProfile_153.Sprite.-6451402943324876314__1521c388d688
 
   10:
     name:
@@ -470,6 +486,8 @@ commanders:
         id: 1018
       - slot: 4
         id: 1019
+    sprite:
+      - img_icon_HeroProfile_10.Sprite.1108328121220019279__a9ea1298d1d9
 
   11:
     name:
@@ -523,6 +541,8 @@ commanders:
         id: 1044
       - slot: 5
         id: 1105
+    sprite:
+      - img_icon_HeroProfile_11.Sprite.-5760799028763590430__8ebb8384affc
 
   12:
     name:
@@ -575,6 +595,8 @@ commanders:
         id: 1025
       - slot: 4
         id: 1046
+    sprite:
+      - img_icon_HeroProfile_12.Sprite.8565912213344819399__f23330dae413
 
   13:
     name:
@@ -627,6 +649,8 @@ commanders:
         expertId: 1109
       - slot: 4
         id: 1048
+    sprite:
+      - img_icon_HeroProfile_13.Sprite.8244696597825716236__a9cc0d385f24
 
   14:
     name:
@@ -679,6 +703,8 @@ commanders:
         id: 1028
       - slot: 4
         id: 1029
+    sprite:
+      - img_icon_HeroProfile_14.Sprite.945717068855572139__5e099f5de84a
 
   15:
     name:
@@ -731,6 +757,8 @@ commanders:
         id: 1031
       - slot: 4
         id: 1047
+    sprite:
+      - img_icon_HeroProfile_154.Sprite.4146490982917636719__2423b4307309
 
   16:
     name:
@@ -783,6 +811,8 @@ commanders:
         expertId: 1108
       - slot: 4
         id: 1033
+    sprite:
+      - img_icon_HeroProfile_84.Sprite.-29040416268128558__4d7b77aa8b01
 
   17:
     name:
@@ -835,6 +865,8 @@ commanders:
         id: 1035
       - slot: 4
         id: 1051
+    sprite:
+      - img_icon_HeroProfile_17.Sprite.-7402459477768011180__cfc8aeba87a5
 
   18:
     name:
@@ -887,6 +919,8 @@ commanders:
         id: 1037
       - slot: 4
         id: 1050
+    sprite:
+      - img_icon_HeroProfile_18.Sprite.-14053902983044736__bf1b800be46d
 
   22:
     name:
@@ -938,6 +972,8 @@ commanders:
         id: 1058
       - slot: 4
         id: 1059
+    sprite:
+      - img_icon_HeroProfile_22.Sprite.7492887512070014263__d7251294a2ca
 
   23:
     name:
@@ -989,6 +1025,8 @@ commanders:
         id: 1061
       - slot: 4
         id: 1062
+    sprite:
+      - img_icon_HeroProfile_23.Sprite.2427037212943678549__d69c8c73ac5b
 
   24:
     name:
@@ -1040,6 +1078,8 @@ commanders:
         id: 1055
       - slot: 4
         id: 1056
+    sprite:
+      - img_icon_HeroProfile_24.Sprite.1578773174875125337__2707fcb8e72b
 
   25:
     name:
@@ -1091,6 +1131,8 @@ commanders:
         id: 1064
       - slot: 4
         id: 1065
+    sprite:
+      - img_icon_HeroProfile_25.Sprite.-6516866116427906050__10e8fd275249
 
   30:
     name:
@@ -1143,6 +1185,8 @@ commanders:
         id: 1072
       - slot: 4
         id: 1073
+    sprite:
+      - img_icon_HeroProfile_30.Sprite.5531305915679764357__8ba961152072
 
   32:
     name:
@@ -1196,6 +1240,8 @@ commanders:
         id: 1078
       - slot: 5
         id: 1106
+    sprite:
+      - img_icon_HeroProfile_32.Sprite.2487865311568525150__9c0eede9d732
 
   33:
     name:
@@ -1247,6 +1293,8 @@ commanders:
         id: 1080
       - slot: 4
         id: 1081
+    sprite:
+      - img_icon_HeroProfile_33.Sprite.8531894071698644468__18b6b6c4a271
 
   34:
     name:
@@ -1298,6 +1346,8 @@ commanders:
         id: 1083
       - slot: 4
         id: 1084
+    sprite:
+      - img_icon_HeroProfile_34.Sprite.-1987062724584660836__c07ebfc265cb
 
   35:
     name:
@@ -1349,6 +1399,8 @@ commanders:
         id: 1086
       - slot: 4
         id: 1087
+    sprite:
+      - img_icon_HeroProfile_35.Sprite.-9068369190999468486__884e0c97e38e
 
   36:
     name:
@@ -1400,6 +1452,8 @@ commanders:
         id: 1089
       - slot: 4
         id: 1090
+    sprite:
+      - img_icon_HeroProfile_36.Sprite.-2482890022623045255__4977de731c0f
 
   37:
     name:
@@ -1452,6 +1506,8 @@ commanders:
       - slot: 4
         id: 1093
         expertId: 1111
+    sprite:
+      - img_icon_HeroProfile_26.Sprite.-5854039389499000682__3f2ef94751b4
 
   38:
     name:
@@ -1503,6 +1559,8 @@ commanders:
         id: 1095
       - slot: 4
         id: 1096
+    sprite:
+      - img_icon_HeroProfile_38.Sprite.-722386165215705489__3818b7f8527c
 
   61:
     name:
@@ -1555,6 +1613,8 @@ commanders:
         expertId: 1147
       - slot: 4
         id: 1131
+    sprite:
+      - img_icon_HeroProfile_61.Sprite.-5269542001918318081__7cbad89eeace
 
   62:
     name:
@@ -1607,6 +1667,8 @@ commanders:
         id: 1133
       - slot: 4
         id: 1134
+    sprite:
+      - img_icon_HeroProfile_62.Sprite.-1463075925038259002__ea37d30097fd
 
   63:
     name:
@@ -1659,6 +1721,8 @@ commanders:
         id: 1136
       - slot: 4
         id: 1137
+    sprite:
+      - img_icon_HeroProfile_63.Sprite.5309170576184853768__5e977de4a03e
 
   64:
     name:
@@ -1711,6 +1775,8 @@ commanders:
         id: 1143
       - slot: 4
         id: 1142
+    sprite:
+      - img_icon_HeroProfile_64.Sprite.-3099869834192237730__c3bb05241a81
 
   65:
     name:
@@ -1763,6 +1829,8 @@ commanders:
         id: 1145
       - slot: 4
         id: 1146
+    sprite:
+      - img_icon_HeroProfile_65.Sprite.-8793916774795423678__19636fd0e93a
 
   66:
     name:
@@ -1815,6 +1883,8 @@ commanders:
         id: 1196
       - slot: 4
         id: 1197
+    sprite:
+      - img_icon_HeroProfile_73.Sprite.-7167238486660170708__2ce188287d0e
 
   95:
     name:
@@ -1868,6 +1938,8 @@ commanders:
         id: 1256
       - slot: 5
         id: 1257
+    sprite:
+      - img_icon_HeroProfile_74.Sprite.392097698426028521__3f4ba03d9dbb
 
   96:
     name:
@@ -1921,6 +1993,8 @@ commanders:
         id: 1193
       - slot: 5
         id: 1194
+    sprite:
+      - img_icon_HeroProfile_66.Sprite.1794613929477111847__9a21dbda9547
 
   97:
     name:
@@ -1974,6 +2048,8 @@ commanders:
         id: 1224
       - slot: 5
         id: 1226
+    sprite:
+      - img_icon_HeroProfile_69.Sprite.-7840761328474879653__06dce5a7a736
 
   98:
     name:
@@ -2026,6 +2102,8 @@ commanders:
         id: 1200
       - slot: 4
         id: 1201
+    sprite:
+      - img_icon_HeroProfile_156.Sprite.6640505878615279874__08303e491543
 
   99:
     name:
@@ -2079,6 +2157,8 @@ commanders:
         id: 1219
       - slot: 5
         id: 1220
+    sprite:
+      - img_icon_HeroProfile_157.Sprite.-2297370189176684457__d688ac6c7f74
 
   100:
     name:
@@ -2132,6 +2212,8 @@ commanders:
         id: 1240
       - slot: 5
         id: 1244
+    sprite:
+      - img_icon_HeroProfile_71.Sprite.-7052103678747206400__400bd01a9d3b
 
   101:
     name:
@@ -2185,6 +2267,8 @@ commanders:
         id: 1243
       - slot: 5
         id: 1245
+    sprite:
+      - img_icon_HeroProfile_70.Sprite.4114537494491002633__fa76336bd348
 
   102:
     name:
@@ -2238,6 +2322,8 @@ commanders:
         id: 1251
       - slot: 5
         id: 1252
+    sprite:
+      - img_icon_HeroProfile_72.Sprite.-3034630517385416717__10ef571015e0
 
   103:
     name:
@@ -2291,6 +2377,8 @@ commanders:
         id: 1260
       - slot: 5
         id: 1261
+    sprite:
+      - img_icon_HeroProfile_76.Sprite.-750916570884363881__083916cb4508
 
   104:
     name:
@@ -2344,6 +2432,8 @@ commanders:
         id: 1264
       - slot: 5
         id: 1265
+    sprite:
+      - img_icon_HeroProfile_75.Sprite.5488909208887118879__f997b50d7633
 
   105:
     name:
@@ -2397,6 +2487,8 @@ commanders:
         id: 1268
       - slot: 5
         id: 1269
+    sprite:
+      - img_icon_HeroProfile_78.Sprite.7223646413187296050__5268fb6efaeb
 
   106:
     name:
@@ -2449,6 +2541,8 @@ commanders:
         id: 1271
       - slot: 4
         id: 1272
+    sprite:
+      - img_icon_HeroProfile_82.Sprite.-4125424161866721865__8ed65b44c036
 
   108:
     name:
@@ -2502,6 +2596,8 @@ commanders:
         id: 1275
       - slot: 5
         id: 1276
+    sprite:
+      - img_icon_HeroProfile_77.Sprite.-6122677656360202643__4cd517c3e8db
 
   109:
     name:
@@ -2555,6 +2651,8 @@ commanders:
         id: 1279
       - slot: 5
         id: 1280
+    sprite:
+      - img_icon_HeroProfile_79.Sprite.-492478590065788537__01940d6b4cc2
 
   110:
     name:
@@ -2607,6 +2705,8 @@ commanders:
         id: 1285
       - slot: 4
         id: 1286
+    sprite:
+      - img_icon_HeroProfile_81.Sprite.-6792138238360940001__a9023bd0a711
 
   111:
     name:
@@ -2660,6 +2760,8 @@ commanders:
         id: 1290
       - slot: 5
         id: 1289
+    sprite:
+      - img_icon_HeroProfile_80.Sprite.3206730514304147267__4403e72920d4
 
   112:
     name:
@@ -2712,6 +2814,8 @@ commanders:
         id: 1303
       - slot: 4
         id: 1304
+    sprite:
+      - img_icon_HeroProfile_83.Sprite.6418836191512948363__45ffe1a27c28
 
   113:
     name:
@@ -2765,6 +2869,8 @@ commanders:
         id: 1307
       - slot: 5
         id: 1308
+    sprite:
+      - img_icon_HeroProfile_85.Sprite.-545255757256668327__83462765299d
 
   114:
     name:
@@ -2819,6 +2925,8 @@ commanders:
         id: 1311
       - slot: 5
         id: 1312
+    sprite:
+      - img_icon_HeroProfile_87.Sprite.-4407465732672861293__1a885e6065c3
 
   115:
     name:
@@ -2871,6 +2979,8 @@ commanders:
         expertId: 1316
       - slot: 4
         id: 1315
+    sprite:
+      - img_icon_HeroProfile_86.Sprite.-912230235638972857__3b26acc2910f
 
   116:
     name:
@@ -2924,6 +3034,8 @@ commanders:
         id: 1320
       - slot: 5
         id: 1321
+    sprite:
+      - img_icon_HeroProfile_88.Sprite.3596469233015009039__dff8a6de82a0
 
   117:
     name:
@@ -2977,6 +3089,8 @@ commanders:
         id: 1324
       - slot: 5
         id: 1328
+    sprite:
+      - img_icon_HeroProfile_89.Sprite.-6320876292015069609__404a38b3705e
 
   118:
     name:
@@ -3029,6 +3143,8 @@ commanders:
         id: 1325
       - slot: 4
         id: 1327
+    sprite:
+      - img_icon_HeroProfile_90.Sprite.4986069020807318976__2084af9e5041
 
   119:
     name:
@@ -3081,6 +3197,8 @@ commanders:
         id: 1330
       - slot: 4
         id: 1331
+    sprite:
+      - img_icon_HeroProfile_92.Sprite.6160299936258606948__1f4ce109cae5
 
   120:
     name:
@@ -3133,6 +3251,8 @@ commanders:
         id: 1333
       - slot: 4
         id: 1334
+    sprite:
+      - img_icon_HeroProfile_91.Sprite.-8030316108993523122__d74945e5eebe
 
   121:
     name:
@@ -3186,6 +3306,8 @@ commanders:
         id: 1337
       - slot: 5
         id: 1338
+    sprite:
+      - img_icon_HeroProfile_94.Sprite.4476928526179383081__9f588d4040b6
 
   122:
     name:
@@ -3238,6 +3360,8 @@ commanders:
         id: 1341
       - slot: 4
         id: 1340
+    sprite:
+      - img_icon_HeroProfile_93.Sprite.2265929938033313079__1265a97b0d9d
 
   124:
     name:
@@ -3290,6 +3414,8 @@ commanders:
       - slot: 4
         id: 1344
         expertId: 1345
+    sprite:
+      - img_icon_HeroProfile_96.Sprite.-7835942942328893127__d67670ed5add
 
   125:
     name:
@@ -3342,6 +3468,8 @@ commanders:
         id: 1347
       - slot: 4
         id: 1348
+    sprite:
+      - img_icon_HeroProfile_95.Sprite.-4590709880436092385__fb979f9a4d38
 
   126:
     name:
@@ -3395,6 +3523,8 @@ commanders:
         id: 1351
       - slot: 5
         id: 1352
+    sprite:
+      - img_icon_HeroProfile_98.Sprite.7333113668678247894__f4da121834c6
 
   127:
     name:
@@ -3448,6 +3578,8 @@ commanders:
         id: 1355
       - slot: 5
         id: 1356
+    sprite:
+      - img_icon_HeroProfile_97.Sprite.-7109648834628848399__939fd8427a28
 
   128:
     name:
@@ -3500,6 +3632,8 @@ commanders:
         id: 1358
       - slot: 4
         id: 1359
+    sprite:
+      - img_icon_HeroProfile_99.Sprite.-1329206451247296729__709777b500a0
 
   129:
     name:
@@ -3552,6 +3686,8 @@ commanders:
         id: 1361
       - slot: 4
         id: 1362
+    sprite:
+      - img_icon_HeroProfile_100.Sprite.-4042429112346231892__21dbdcac807e
 
   130:
     name:
@@ -3604,6 +3740,8 @@ commanders:
         expertId: 1366
       - slot: 4
         id: 1365
+    sprite:
+      - img_icon_HeroProfile_102.Sprite.-172678584063749646__3ad26b7d6a07
 
   131:
     name:
@@ -3657,6 +3795,8 @@ commanders:
         id: 1369
       - slot: 5
         id: 1370
+    sprite:
+      - img_icon_HeroProfile_101.Sprite.-7832904973111305537__b450ff807a23
 
   132:
     name:
@@ -3709,6 +3849,8 @@ commanders:
       - slot: 4
         id: 1373
         expertId: 1374
+    sprite:
+      - img_icon_HeroProfile_103.Sprite.8224624270683338116__649a8c0b78a3
 
   133:
     name:
@@ -3762,6 +3904,8 @@ commanders:
         id: 1377
       - slot: 5
         id: 1378
+    sprite:
+      - img_icon_HeroProfile_104.Sprite.-323326864379918872__62f2d3948cf6
 
   134:
     name:
@@ -3814,6 +3958,8 @@ commanders:
         id: 1380
       - slot: 4
         id: 1381
+    sprite:
+      - img_icon_HeroProfile_105.Sprite.-2323055625454042337__5b2a2f2571a5
 
   135:
     name:
@@ -3867,6 +4013,8 @@ commanders:
         id: 1383
       - slot: 5
         id: 1385
+    sprite:
+      - img_icon_HeroProfile_108.Sprite.5618222841733068480__78e9103701e9
 
   136:
     name:
@@ -3920,6 +4068,8 @@ commanders:
         id: 1388
       - slot: 5
         id: 1389
+    sprite:
+      - img_icon_HeroProfile_107.Sprite.5949187460992264314__cc5079f1e8cd
 
   137:
     name:
@@ -3973,6 +4123,8 @@ commanders:
         id: 1393
       - slot: 5
         id: 1394
+    sprite:
+      - img_icon_HeroProfile_110.Sprite.-3178727508397528061__d2d29c0effd6
 
   138:
     name:
@@ -4026,6 +4178,8 @@ commanders:
         id: 1397
       - slot: 5
         id: 1398
+    sprite:
+      - img_icon_HeroProfile_109.Sprite.202865829189998640__b25402ffd242
 
   139:
     name:
@@ -4079,6 +4233,8 @@ commanders:
         id: 1402
       - slot: 5
         id: 1403
+    sprite:
+      - img_icon_HeroProfile_112.Sprite.5625934658113885551__84401363a55b
 
   140:
     name:
@@ -4132,6 +4288,8 @@ commanders:
         id: 1406
       - slot: 5
         id: 1407
+    sprite:
+      - img_icon_HeroProfile_111.Sprite.9030452592271161638__bdc48d382f56
 
   141:
     name:
@@ -4185,6 +4343,8 @@ commanders:
         id: 1422
       - slot: 5
         id: 1423
+    sprite:
+      - img_icon_HeroProfile_115.Sprite.5503565787681636386__0ebefe45d1d9
 
   142:
     name:
@@ -4237,6 +4397,8 @@ commanders:
         id: 1418
       - slot: 4
         id: 1419
+    sprite:
+      - img_icon_HeroProfile_114.Sprite.-2530733019867403702__cd11f47e55ba
 
   145:
     name:
@@ -4290,6 +4452,8 @@ commanders:
         id: 1426
       - slot: 5
         id: 1427
+    sprite:
+      - img_icon_HeroProfile_117.Sprite.-2174469355729274010__9068fd830df8
 
   146:
     name:
@@ -4343,6 +4507,8 @@ commanders:
         id: 1430
       - slot: 5
         id: 1431
+    sprite:
+      - img_icon_HeroProfile_116.Sprite.5891318420352850755__092275a81787
 
   147:
     name:
@@ -4395,6 +4561,8 @@ commanders:
         id: 1433
       - slot: 4
         id: 1434
+    sprite:
+      - img_icon_HeroProfile_119.Sprite.-4909324027377503688__8488e4d5792e
 
   148:
     name:
@@ -4448,6 +4616,8 @@ commanders:
         id: 1436
       - slot: 5
         id: 1465
+    sprite:
+      - img_icon_HeroProfile_118.Sprite.1150543764666873653__15f4ca9590f4
 
   161:
     name:
@@ -4500,6 +4670,8 @@ commanders:
         id: 1467
       - slot: 4
         id: 1468
+    sprite:
+      - img_icon_HeroProfile_121.Sprite.3458326575873350378__610e55cadc37
 
   162:
     name:
@@ -4553,6 +4725,8 @@ commanders:
         id: 1471
       - slot: 5
         id: 1472
+    sprite:
+      - img_icon_HeroProfile_120.Sprite.-6611291709941930865__c00f6e8675fb
 
   175:
     name:
@@ -4606,6 +4780,8 @@ commanders:
         id: 1513
       - slot: 5
         id: 1514
+    sprite:
+      - img_icon_HeroProfile_122.Sprite.6909696829132837253__a7161add8698
 
   176:
     name:
@@ -4659,6 +4835,8 @@ commanders:
         id: 1517
       - slot: 5
         id: 1518
+    sprite:
+      - img_icon_HeroProfile_123.Sprite.-3926344291593452624__aff6f32179da
 
   177:
     name:
@@ -4712,6 +4890,8 @@ commanders:
         id: 1521
       - slot: 5
         id: 1522
+    sprite:
+      - img_icon_HeroProfile_124.Sprite.7657552652939700299__9a7a1e3f0b48
 
   178:
     name:
@@ -4764,6 +4944,8 @@ commanders:
         expertId: 1526
       - slot: 4
         id: 1525
+    sprite:
+      - img_icon_HeroProfile_125.Sprite.7985377828601220448__1b0134b612ae
 
   179:
     name:
@@ -4817,6 +4999,8 @@ commanders:
         id: 1530
       - slot: 5
         id: 1531
+    sprite:
+      - img_icon_HeroProfile_126.Sprite.7838868998781448983__720254e0b199
 
   180:
     name:
@@ -4870,6 +5054,8 @@ commanders:
         id: 1509
       - slot: 5
         id: 1510
+    sprite:
+      - img_icon_HeroProfile_127.Sprite.6874947864207201410__cb7c8c0a10da
 
   181:
     name:
@@ -4922,6 +5108,8 @@ commanders:
         id: 1505
       - slot: 4
         id: 1506
+    sprite:
+      - img_icon_HeroProfile_128.Sprite.-1674039156194077477__9dba01e33509
 
   182:
     name:
@@ -4974,6 +5162,8 @@ commanders:
       - slot: 4
         id: 1535
         expertId: 1536
+    sprite:
+      - img_icon_HeroProfile_129.Sprite.4600713385287750540__ecbe5501c3af
 
   183:
     name:
@@ -5026,6 +5216,8 @@ commanders:
       - slot: 4
         id: 1539
         expertId: 1540
+    sprite:
+      - img_icon_HeroProfile_130.Sprite.-4712928735360444327__efe77df9b753
 
   184:
     name:
@@ -5079,6 +5271,8 @@ commanders:
         id: 1550
       - slot: 5
         id: 1551
+    sprite:
+      - img_icon_HeroProfile_133.Sprite.-974761223090666322__515155e5c6b2
 
   185:
     name:
@@ -5132,6 +5326,8 @@ commanders:
         id: 1546
       - slot: 5
         id: 1547
+    sprite:
+      - img_icon_HeroProfile_132.Sprite.-1972661440959604360__db0770d49dce
 
   186:
     name:
@@ -5185,6 +5381,8 @@ commanders:
         id: 1584
       - slot: 5
         id: 1585
+    sprite:
+      - img_icon_HeroProfile_134.Sprite.-5145268814410928304__61edcf8420d3
 
   187:
     name:
@@ -5238,6 +5436,8 @@ commanders:
         id: 1566
       - slot: 5
         id: 1567
+    sprite:
+      - img_icon_HeroProfile_135.Sprite.-6530924166975037051__e713332d34e7
 
   188:
     name:
@@ -5290,6 +5490,8 @@ commanders:
         id: 1587
       - slot: 4
         id: 1588
+    sprite:
+      - img_icon_HeroProfile_138.Sprite.-3826408844576811416__567643028231
 
   189:
     name:
@@ -5343,6 +5545,8 @@ commanders:
         id: 1595
       - slot: 5
         id: 1596
+    sprite:
+      - img_icon_HeroProfile_136.Sprite.-6954091346646921977__e230211627cf
 
   190:
     name:
@@ -5395,6 +5599,8 @@ commanders:
         expertId: 1592
       - slot: 4
         id: 1591
+    sprite:
+      - img_icon_HeroProfile_137.Sprite.4125510557225504612__60d1c28e935e
 
   191:
     name:
@@ -5448,6 +5654,8 @@ commanders:
         id: 1603
       - slot: 5
         id: 1604
+    sprite:
+      - img_icon_HeroProfile_139.Sprite.-8571282989148711505__99ab76bb9bca
 
   192:
     name:
@@ -5501,6 +5709,8 @@ commanders:
         id: 1599
       - slot: 5
         id: 1600
+    sprite:
+      - img_icon_HeroProfile_140.Sprite.4335897316356336908__f56623255961
 
   194:
     name:
@@ -5554,6 +5764,8 @@ commanders:
         id: 1562
       - slot: 5
         id: 1563
+    sprite:
+      - img_icon_HeroProfile_141.Sprite.4169077930358537375__08690606e0fb
 
   195:
     name:
@@ -5607,6 +5819,8 @@ commanders:
         id: 1690
       - slot: 5
         id: 1692
+    sprite:
+      - img_icon_HeroProfile_144.Sprite.3216700518268376544__4c7925b5e0eb
 
   196:
     name:
@@ -5660,6 +5874,8 @@ commanders:
         id: 1687
       - slot: 5
         id: 1688
+    sprite:
+      - img_icon_HeroProfile_143.Sprite.7423258470420354522__7da14daa1617
 
   197:
     name:
@@ -5713,6 +5929,8 @@ commanders:
         id: 1554
       - slot: 5
         id: 1555
+    sprite:
+      - img_icon_HeroProfile_142.Sprite.-8958975470561770682__0ab7ca7e602e
 
   198:
     name:
@@ -5765,6 +5983,8 @@ commanders:
         id: 1700
       - slot: 4
         id: 1701
+    sprite:
+      - img_icon_HeroProfile_149.Sprite.1462372830931384803__723cf6692705
 
   459:
     name:
@@ -5818,6 +6038,8 @@ commanders:
         id: 1704
       - slot: 5
         id: 1705
+    sprite:
+      - img_icon_HeroProfile_161.Sprite.6506636423161167063__1ad0e0ede446
 
   460:
     name:
@@ -5871,6 +6093,8 @@ commanders:
         id: 1708
       - slot: 5
         id: 1709
+    sprite:
+      - img_icon_HeroProfile_159.Sprite.5937608357912037801__d811ed1f7713
 
   461:
     name:
@@ -5923,6 +6147,8 @@ commanders:
         expertId: 1713
       - slot: 4
         id: 1712
+    sprite:
+      - img_icon_HeroProfile_160.Sprite.5094846899445916998__ab94043c95a3
 
   462:
     name:
@@ -5976,6 +6202,8 @@ commanders:
         id: 1725
       - slot: 5
         id: 1726
+    sprite:
+      - img_icon_HeroProfile_165.Sprite.4694926450471858754__e20a36af9c21
 
   463:
     name:
@@ -6028,6 +6256,8 @@ commanders:
         expertId: 1730
       - slot: 4
         id: 1729
+    sprite:
+      - img_icon_HeroProfile_164.Sprite.7214785431389481569__b6c98bb448f8
 
   503:
     name:
@@ -6081,6 +6311,8 @@ commanders:
         id: 1651
       - slot: 5
         id: 1652
+    sprite:
+      - img_icon_HeroProfile_168.Sprite.8504467463724917419__dac2edf10a50
 
   506:
     name:
@@ -6134,6 +6366,8 @@ commanders:
         id: 1663
       - slot: 5
         id: 1664
+    sprite:
+      - img_icon_HeroProfile_171.Sprite.-3676732526951235702__bee7d5202ab6
 
   509:
     name:
@@ -6186,6 +6420,8 @@ commanders:
         expertId: 1676
       - slot: 4
         id: 1675
+    sprite:
+      - img_icon_HeroProfile_170.Sprite.-4234812052500975965__2f446249369f
 
   510:
     name:
@@ -6238,6 +6474,8 @@ commanders:
       - slot: 4
         id: 1679
         expertId: 1680
+    sprite:
+      - img_icon_HeroProfile_175.Sprite.7179691317143534951__79fe01767e07
 
   536:
     name:
@@ -6290,6 +6528,8 @@ commanders:
         expertId: 1718
       - slot: 4
         id: 1716
+    sprite:
+      - img_icon_HeroProfile_162.Sprite.-2764551077397415550__bf1a231d3bf6
 
   537:
     name:
@@ -6343,6 +6583,8 @@ commanders:
         id: 1721
       - slot: 5
         id: 1722
+    sprite:
+      - img_icon_HeroProfile_163.Sprite.2816679566788498257__8ade81872a2d
 
   539:
     name:
@@ -6396,6 +6638,8 @@ commanders:
         id: 1733
       - slot: 5
         id: 1734
+    sprite:
+      - img_icon_HeroProfile_166.Sprite.8394957644510512806__4f5b699f7b53
 
   540:
     name:
@@ -6449,6 +6693,8 @@ commanders:
         id: 1737
       - slot: 5
         id: 1738
+    sprite:
+      - img_icon_HeroProfile_167.Sprite.-4538319288108934858__567ff39bf28d
 
   545:
     name:
@@ -6502,6 +6748,8 @@ commanders:
         id: 1753
       - slot: 5
         id: 1754
+    sprite:
+      - img_icon_HeroProfile_169.Sprite.4552719083442359377__cf1106d8ad5e
 
   546:
     name:
@@ -6554,6 +6802,8 @@ commanders:
       - slot: 4
         id: 1765
         expertId: 1766
+    sprite:
+      - img_icon_HeroProfile_174.Sprite.1823040801784964673__d256c2274e2b
 
   564:
     name:
@@ -6607,6 +6857,8 @@ commanders:
         id: 1757
       - slot: 5
         id: 1758
+    sprite:
+      - img_icon_HeroProfile_173.Sprite.-3926380455288639206__55b3769c67c0
 
   565:
     name:
@@ -6659,6 +6911,8 @@ commanders:
         expertId: 1762
       - slot: 4
         id: 1761
+    sprite:
+      - img_icon_HeroProfile_172.Sprite.-8480560777307279792__09e138acd905
 
   572:
     name:
@@ -6712,6 +6966,8 @@ commanders:
         id: 1769
       - slot: 5
         id: 1786
+    sprite:
+      - img_icon_HeroProfile_177.Sprite.1793994997206385960__64d2c7672390
 
   573:
     name:
@@ -6765,6 +7021,8 @@ commanders:
         id: 1785
       - slot: 5
         id: 1770
+    sprite:
+      - img_icon_HeroProfile_176.Sprite.-7444375688116233538__60d36ba70f1a
 
   575:
     name:
@@ -6817,6 +7075,8 @@ commanders:
         expertId: 1790
       - slot: 4
         id: 1789
+    sprite:
+      - img_icon_HeroProfile_178.Sprite.4122607144405982219__9779bb5ec260
 
   576:
     name:
@@ -6870,6 +7130,8 @@ commanders:
         id: 1793
       - slot: 5
         id: 1794
+    sprite:
+      - img_icon_HeroProfile_179.Sprite.1496376916956002520__db7f13a86e9f
 
   578:
     name:
@@ -6923,6 +7185,8 @@ commanders:
         id: 1797
       - slot: 5
         id: 1798
+    sprite:
+      - img_icon_HeroProfile_180.Sprite.-6941265800573826982__5dd2fd899431
 
   579:
     name:
@@ -6975,6 +7239,8 @@ commanders:
         id: 1800
       - slot: 4
         id: 1801
+    sprite:
+      - img_icon_HeroProfile_181.Sprite.-629447238018141729__3f1d5f2256ff
 
   595:
     name:
@@ -7027,6 +7293,8 @@ commanders:
         id: 1803
       - slot: 4
         id: 1804
+    sprite:
+      - img_icon_HeroProfile_182.Sprite.8292075088507486072__1065e7c2c252
 
   596:
     name:
@@ -7080,3 +7348,5 @@ commanders:
         id: 1807
       - slot: 5
         id: 1808
+    sprite:
+      - img_icon_HeroProfile_183.Sprite.-2856214798457162728__c590439a5dae
