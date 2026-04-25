@@ -87,12 +87,12 @@ msgstr ""
 msgid "5hGibV"
 msgstr ""
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:39
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:50
-#: src/components/olympian-arena/duel-commander-row.tsx:22
-#: src/components/report/report-commander-row.tsx:24
-#: src/components/reports/participant-cell.tsx:39
-#: src/components/reports/participant-cell.tsx:50
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:33
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:42
+#: src/components/olympian-arena/duel-commander-row.tsx:21
+#: src/components/report/report-commander-row.tsx:23
+#: src/components/reports/participant-cell.tsx:33
+#: src/components/reports/participant-cell.tsx:42
 msgid "+sdDeh"
 msgstr ""
 
@@ -755,8 +755,8 @@ msgstr ""
 msgid "g+gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx:31
-#: src/components/report/report-commander-row.tsx:37
+#: src/components/olympian-arena/duel-commander-row.tsx:35
+#: src/components/report/report-commander-row.tsx:41
 msgid "XoCgY+"
 msgstr ""
 
@@ -958,7 +958,7 @@ msgstr ""
 msgid "sTixnc"
 msgstr ""
 
-#: src/components/report/report-commander-row.tsx:27
+#: src/components/report/report-commander-row.tsx:26
 msgid "YeBMpE"
 msgstr ""
 

@@ -87,12 +87,12 @@ msgstr "전투 탐색"
 msgid "5hGibV"
 msgstr "알 수 없는 사령관"
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:39
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:50
-#: src/components/olympian-arena/duel-commander-row.tsx:22
-#: src/components/report/report-commander-row.tsx:24
-#: src/components/reports/participant-cell.tsx:39
-#: src/components/reports/participant-cell.tsx:50
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:33
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:42
+#: src/components/olympian-arena/duel-commander-row.tsx:21
+#: src/components/report/report-commander-row.tsx:23
+#: src/components/reports/participant-cell.tsx:33
+#: src/components/reports/participant-cell.tsx:42
 msgid "+sdDeh"
 msgstr "{name} 아이콘"
 
@@ -755,8 +755,8 @@ msgstr ""
 msgid "g+gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx:31
-#: src/components/report/report-commander-row.tsx:37
+#: src/components/olympian-arena/duel-commander-row.tsx:35
+#: src/components/report/report-commander-row.tsx:41
 msgid "XoCgY+"
 msgstr "Lv {level}"
 
@@ -958,7 +958,7 @@ msgstr "경상"
 msgid "sTixnc"
 msgstr ""
 
-#: src/components/report/report-commander-row.tsx:27
+#: src/components/report/report-commander-row.tsx:26
 msgid "YeBMpE"
 msgstr "진형 {formation}"
 

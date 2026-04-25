@@ -1,7 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
-import { Avatar } from "@/components/ui/avatar";
+import { CommanderIcon } from "@/components/commander-icon";
 import { Badge } from "@/components/ui/badge";
 import { Strong, Text } from "@/components/ui/text";
 import { getCommanderName } from "@/hooks/use-commander-name";
@@ -20,7 +20,6 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   const formationName = getFormationName(formation ?? null);
   const level = typeof commander?.level === "number" ? commander.level : null;
   const commanderLabel = commanderName ?? commanderId ?? t("Unknown");
-  const commanderIconSrc = `https://cdn.rokbattles.com/game/commander/${commanderId}.png`;
   const commanderAlt = t("{name} icon", { name: commanderLabel.toString() });
   const formationLabel =
     typeof formation === "number"
@@ -30,7 +29,12 @@ export function ReportCommanderRow({ commander, formation }: ReportCommanderRowP
   return (
     <Text className="flex flex-wrap items-center gap-2 text-sm">
       <span className="inline-flex items-center gap-1">
-        <Avatar src={commanderIconSrc} alt={commanderAlt} className="size-12 outline-0!" />
+        <CommanderIcon
+          alt={commanderAlt}
+          className="size-12 outline-0!"
+          id={commanderId}
+          sizes="48px"
+        />
         <Strong>{commanderLabel}</Strong>
       </span>
       {formationLabel ? <Badge>{formationLabel}</Badge> : null}
