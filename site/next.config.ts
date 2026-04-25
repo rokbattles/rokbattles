@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs";
 import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
@@ -19,7 +20,14 @@ const withNextIntl = createNextIntlPlugin({
 
 const withMDX = createMDX({});
 
-const plugins = [withNextIntl, withMDX];
+const withSentry = (nextConfig?: NextConfig) =>
+  withSentryConfig(nextConfig, {
+    org: "rokbattles",
+    project: "rokbattles-site",
+    silent: !process.env.CI,
+  });
+
+const plugins = [withNextIntl, withMDX, withSentry];
 const isProdEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {
