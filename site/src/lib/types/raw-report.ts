@@ -16,6 +16,7 @@ export interface RawReportMetadata {
 
 export interface RawCommanderInfo {
   id?: number;
+  awakened?: boolean | null;
   level?: number;
   skills?: string;
 }

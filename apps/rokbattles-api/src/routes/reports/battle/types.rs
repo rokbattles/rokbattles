@@ -34,7 +34,9 @@ pub(crate) struct ReportListItem {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct ReportListParticipant {
     pub primary_commander_id: i64,
+    pub primary_commander_awakened: Option<bool>,
     pub secondary_commander_id: i64,
+    pub secondary_commander_awakened: Option<bool>,
 }
 
 #[derive(Debug, Serialize)]
@@ -135,6 +137,7 @@ pub(crate) struct BattleReportCommanderSet {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct BattleReportCommander {
     pub id: Option<i64>,
+    pub awakened: Option<bool>,
     pub level: Option<i64>,
     pub formation: Option<i64>,
     pub equipment: Option<String>,

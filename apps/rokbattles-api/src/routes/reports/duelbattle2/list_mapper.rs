@@ -6,7 +6,7 @@ use super::{
         DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
     },
 };
-use crate::bson_utils::{nested_document, nested_i64};
+use crate::bson_utils::{nested_bool, nested_document, nested_i64};
 
 pub(super) fn build_duelbattle2_list_pipeline(
     request: &DuelBattle2Request,
@@ -80,11 +80,15 @@ pub(super) fn build_duelbattle2_list_pipeline(
                         "$project": {
                             "sender": {
                                 "primary_commander_id": "$sender.primary_commander.id",
+                                "primary_commander_awakened": "$sender.primary_commander.awakened",
                                 "secondary_commander_id": "$sender.secondary_commander.id",
+                                "secondary_commander_awakened": "$sender.secondary_commander.awakened",
                             },
                             "opponent": {
                                 "primary_commander_id": "$opponent.primary_commander.id",
+                                "primary_commander_awakened": "$opponent.primary_commander.awakened",
                                 "secondary_commander_id": "$opponent.secondary_commander.id",
+                                "secondary_commander_awakened": "$opponent.secondary_commander.awakened",
                             },
                         }
                     },
@@ -133,9 +137,13 @@ fn map_participant(document: &Document, key: &str) -> DuelBattle2Participant {
         primary_commander_id: source
             .and_then(|value| nested_i64(value, &["primary_commander_id"]))
             .unwrap_or(0),
+        primary_commander_awakened: source
+            .and_then(|value| nested_bool(value, &["primary_commander_awakened"])),
         secondary_commander_id: source
             .and_then(|value| nested_i64(value, &["secondary_commander_id"]))
             .unwrap_or(0),
+        secondary_commander_awakened: source
+            .and_then(|value| nested_bool(value, &["secondary_commander_awakened"])),
     }
 }
 

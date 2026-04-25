@@ -53,6 +53,7 @@ export type BattleCommanderSet = {
 
 export type BattleCommander = {
   id: number | null;
+  awakened: boolean | null;
   level: number | null;
   formation: number | null;
   equipment: string | null;

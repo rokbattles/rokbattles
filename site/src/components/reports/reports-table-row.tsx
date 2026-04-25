@@ -61,13 +61,17 @@ export default function ReportsTableRow({ report, onOpenOverview }: ReportsTable
       </TableCell>
       <TableCell>
         <ParticipantCell
+          primaryAwakened={report.sender.primaryCommanderAwakened}
           primaryId={report.sender.primaryCommanderId}
+          secondaryAwakened={report.sender.secondaryCommanderAwakened}
           secondaryId={report.sender.secondaryCommanderId}
         />
       </TableCell>
       <TableCell>
         <ParticipantCell
+          primaryAwakened={report.opponent.primaryCommanderAwakened}
           primaryId={report.opponent.primaryCommanderId}
+          secondaryAwakened={report.opponent.secondaryCommanderAwakened}
           secondaryId={report.opponent.secondaryCommanderId}
         />
       </TableCell>

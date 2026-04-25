@@ -83,7 +83,7 @@ msgstr "Explore Battles"
 #: src/components/my-pairings/my-pairings-content.tsx:389
 #: src/components/olympian-arena/duel-participant-card.tsx:45
 #: src/components/report/report-participant-card.tsx:27
-#: src/components/reports/participant-cell.tsx:18
+#: src/components/reports/participant-cell.tsx:25
 msgid "5hGibV"
 msgstr "Unknown commander"
 
@@ -91,8 +91,8 @@ msgstr "Unknown commander"
 #: src/components/account-ark/ark-commander-pairing-cell.tsx:42
 #: src/components/olympian-arena/duel-commander-row.tsx:21
 #: src/components/report/report-commander-row.tsx:23
-#: src/components/reports/participant-cell.tsx:33
-#: src/components/reports/participant-cell.tsx:42
+#: src/components/reports/participant-cell.tsx:40
+#: src/components/reports/participant-cell.tsx:50
 msgid "+sdDeh"
 msgstr "{name} icon"
 
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:21
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:20
 msgid "lsSmtD"
 msgstr "Iset"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr "Seth"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -755,8 +755,8 @@ msgstr "Inscriptions"
 msgid "g+gbNs"
 msgstr "Armament buffs"
 
-#: src/components/olympian-arena/duel-commander-row.tsx:35
-#: src/components/report/report-commander-row.tsx:41
+#: src/components/olympian-arena/duel-commander-row.tsx:36
+#: src/components/report/report-commander-row.tsx:42
 msgid "XoCgY+"
 msgstr "Lvl {level}"
 
@@ -1144,10 +1144,10 @@ msgstr "Sign out"
 #: src/hooks/use-ark-match-history.ts:65
 #: src/hooks/use-olympian-arena-duel.ts:36
 #: src/hooks/use-olympian-arena-duel.ts:45
-#: src/hooks/use-olympian-arena-duels.ts:77
-#: src/hooks/use-olympian-arena-duels.ts:108
-#: src/hooks/use-olympian-arena-duels.ts:137
-#: src/hooks/use-olympian-arena-duels.ts:153
+#: src/hooks/use-olympian-arena-duels.ts:79
+#: src/hooks/use-olympian-arena-duels.ts:110
+#: src/hooks/use-olympian-arena-duels.ts:139
+#: src/hooks/use-olympian-arena-duels.ts:155
 #: src/hooks/use-report.ts:34
 #: src/hooks/use-report.ts:43
 #: src/hooks/use-reports-page.ts:114

@@ -29,6 +29,7 @@ export type DuelBattle2Player = {
 
 export type DuelBattle2Commander = {
   id: number;
+  awakened: boolean | null;
   level: number;
   skills: readonly DuelBattle2CommanderSkill[];
 };

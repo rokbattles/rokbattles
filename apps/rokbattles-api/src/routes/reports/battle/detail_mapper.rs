@@ -37,6 +37,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.castle.y",
         "sender.app_uid",
         "sender.commanders.primary.id",
+        "sender.commanders.primary.awakened",
         "sender.commanders.primary.level",
         "sender.commanders.primary.formation",
         "sender.commanders.primary.equipment",
@@ -45,6 +46,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.primary.armaments.affix",
         "sender.commanders.primary.armaments.buffs",
         "sender.commanders.secondary.id",
+        "sender.commanders.secondary.awakened",
         "sender.commanders.secondary.level",
         "sender.commanders.secondary.skills.id",
         "sender.commanders.secondary.skills.level",
@@ -83,6 +85,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.app_uid",
         "opponents.tracking_key",
         "opponents.commanders.primary.id",
+        "opponents.commanders.primary.awakened",
         "opponents.commanders.primary.level",
         "opponents.commanders.primary.formation",
         "opponents.commanders.primary.equipment",
@@ -91,6 +94,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.primary.armaments.affix",
         "opponents.commanders.primary.armaments.buffs",
         "opponents.commanders.secondary.id",
+        "opponents.commanders.secondary.awakened",
         "opponents.commanders.secondary.level",
         "opponents.commanders.secondary.skills.id",
         "opponents.commanders.secondary.skills.level",
@@ -191,6 +195,7 @@ fn map_detail_commander(document: Option<&Document>) -> BattleReportCommander {
 
     BattleReportCommander {
         id: nested_i64_exact(document, &["id"]),
+        awakened: nested_bool(document, &["awakened"]),
         level: nested_i64_exact(document, &["level"]),
         formation: nested_i64_exact(document, &["formation"]),
         equipment: nested_string(document, &["equipment"]),
@@ -358,6 +363,7 @@ mod tests {
 
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.commanders.primary.awakened").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.skills.id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
@@ -388,6 +394,7 @@ mod tests {
                 "commanders": {
                     "primary": {
                         "id": 10_i64,
+                        "awakened": true,
                         "level": 60_i64,
                         "formation": 3_i64,
                         "equipment": "{1:100}",
@@ -447,6 +454,7 @@ mod tests {
         assert_eq!(mapped.metadata.mail_time, 123);
         assert_eq!(mapped.sender.player_name, "Alpha");
         assert_eq!(mapped.sender.commanders.primary.id, Some(10));
+        assert_eq!(mapped.sender.commanders.primary.awakened, Some(true));
         assert_eq!(mapped.sender.commanders.primary.skills.len(), 1);
         assert_eq!(mapped.sender.commanders.primary.skills[0].id, 101);
         assert_eq!(mapped.sender.commanders.primary.armaments.len(), 1);

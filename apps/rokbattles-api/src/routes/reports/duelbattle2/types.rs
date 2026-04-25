@@ -30,7 +30,9 @@ pub(crate) struct DuelBattle2Entry {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct DuelBattle2Participant {
     pub primary_commander_id: i64,
+    pub primary_commander_awakened: Option<bool>,
     pub secondary_commander_id: i64,
+    pub secondary_commander_awakened: Option<bool>,
 }
 
 #[derive(Debug)]
@@ -84,6 +86,7 @@ pub(crate) struct DuelBattle2DetailAlliance {
 #[serde(rename_all = "camelCase")]
 pub(crate) struct DuelBattle2DetailCommander {
     pub id: i64,
+    pub awakened: Option<bool>,
     pub level: i64,
     pub skills: Vec<DuelBattle2DetailCommanderSkill>,
 }

@@ -6,14 +6,21 @@ import { getCommanderName } from "@/hooks/use-commander-name";
 
 type Props = {
   primaryId: number | null | undefined;
+  primaryAwakened?: boolean | null;
   secondaryId: number | null | undefined;
+  secondaryAwakened?: boolean | null;
 };
 
 function isValidCommanderId(id: number | null | undefined): id is number {
   return typeof id === "number" && Number.isFinite(id) && id > 0;
 }
 
-export default function ParticipantCell({ primaryId, secondaryId }: Props) {
+export default function ParticipantCell({
+  primaryId,
+  primaryAwakened,
+  secondaryId,
+  secondaryAwakened,
+}: Props) {
   const t = useExtracted();
   const unknownLabel = t("Unknown commander");
 
@@ -31,6 +38,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
       <span className="inline-flex items-center gap-2">
         <CommanderIcon
           alt={t("{name} icon", { name: primaryName })}
+          awakened={primaryAwakened}
           className="size-8 rounded-full"
           id={primaryId}
         />
@@ -40,6 +48,7 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
         <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
           <CommanderIcon
             alt={t("{name} icon", { name: secondaryName })}
+            awakened={secondaryAwakened}
             className="size-8 rounded-full"
             fallback={false}
             id={secondaryId}

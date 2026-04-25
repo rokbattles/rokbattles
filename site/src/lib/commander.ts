@@ -32,7 +32,10 @@ export function getCommanderName(id: number | null | undefined, locale?: string)
   );
 }
 
-export function getCommanderSprites(id: number | null | undefined): string[] | undefined {
+export function getCommanderSprites(
+  id: number | null | undefined,
+  awakened = false
+): string[] | undefined {
   if (typeof id !== "number" || !Number.isFinite(id)) {
     return undefined;
   }
@@ -46,5 +49,20 @@ export function getCommanderSprites(id: number | null | undefined): string[] | u
 
   return sprites
     .filter((sprite): sprite is string => typeof sprite === "string" && sprite.length > 0)
+    .map((sprite, index) => {
+      if (!awakened || index !== 0) {
+        return sprite;
+      }
+
+      if (commander.rarity === "epic") {
+        return "img_icon_HeroProfile_BGMask_pink.Sprite.9180639604154885073__6cb43f8a16a8.png";
+      }
+
+      if (commander.rarity === "legendary") {
+        return "img_icon_HeroProfile_BGMask_Orange.Sprite.-714417562748847876__d57eaef45df4.png";
+      }
+
+      return sprite;
+    })
     .map((sprite) => `https://cdn.rokbattles.com/game/sprites/${sprite}`);
 }

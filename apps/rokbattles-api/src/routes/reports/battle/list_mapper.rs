@@ -1,59 +1,69 @@
 use std::cmp::Ordering;
 
-use mongodb::bson::{Bson, Document, doc};
+use mongodb::bson::{Bson, Document};
 
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
 };
-use crate::bson_utils::{nested_document, nested_i64, nested_str};
+use crate::bson_utils::{nested_bool, nested_document, nested_i64, nested_str};
 
 const INVALID_OPPONENT_PLAYER_IDS: [i64; 2] = [-2, 0];
 
 pub(crate) fn build_battle_list_projection() -> Document {
-    doc! {
-        "metadata.mail_id": 1,
-        "metadata.mail_time": 1,
-        "metadata.server_id": 1,
-        "timeline.start_timestamp": 1,
-        "timeline.end_timestamp": 1,
-        "timeline.sampling.tick": 1,
-        "timeline.sampling.count": 1,
-        "sender.player_id": 1,
-        "sender.commanders.primary.id": 1,
-        "sender.commanders.secondary.id": 1,
-        "summary.sender.kill_points": 1,
-        "summary.sender.dead": 1,
-        "summary.sender.severely_wounded": 1,
-        "summary.sender.slightly_wounded": 1,
-        "summary.sender.remaining": 1,
-        "summary.sender.troop_units": 1,
-        "summary.opponent.kill_points": 1,
-        "summary.opponent.dead": 1,
-        "summary.opponent.severely_wounded": 1,
-        "summary.opponent.slightly_wounded": 1,
-        "summary.opponent.remaining": 1,
-        "summary.opponent.troop_units": 1,
-        "opponents.player_id": 1,
-        "opponents.attack.id": 1,
-        "opponents.start_tick": 1,
-        "opponents.alliance_building_id": 1,
-        "opponents.structure_id": 1,
-        "opponents.commanders.primary.id": 1,
-        "opponents.commanders.secondary.id": 1,
-        "opponents.battle_results.sender.kill_points": 1,
-        "opponents.battle_results.sender.dead": 1,
-        "opponents.battle_results.sender.severely_wounded": 1,
-        "opponents.battle_results.sender.slightly_wounded": 1,
-        "opponents.battle_results.sender.remaining": 1,
-        "opponents.battle_results.sender.troop_units": 1,
-        "opponents.battle_results.opponent.kill_points": 1,
-        "opponents.battle_results.opponent.dead": 1,
-        "opponents.battle_results.opponent.severely_wounded": 1,
-        "opponents.battle_results.opponent.slightly_wounded": 1,
-        "opponents.battle_results.opponent.remaining": 1,
-        "opponents.battle_results.opponent.troop_units": 1,
+    let mut projection = Document::new();
+
+    for field in [
+        "metadata.mail_id",
+        "metadata.mail_time",
+        "metadata.server_id",
+        "timeline.start_timestamp",
+        "timeline.end_timestamp",
+        "timeline.sampling.tick",
+        "timeline.sampling.count",
+        "sender.player_id",
+        "sender.commanders.primary.id",
+        "sender.commanders.primary.awakened",
+        "sender.commanders.secondary.id",
+        "sender.commanders.secondary.awakened",
+        "summary.sender.kill_points",
+        "summary.sender.dead",
+        "summary.sender.severely_wounded",
+        "summary.sender.slightly_wounded",
+        "summary.sender.remaining",
+        "summary.sender.troop_units",
+        "summary.opponent.kill_points",
+        "summary.opponent.dead",
+        "summary.opponent.severely_wounded",
+        "summary.opponent.slightly_wounded",
+        "summary.opponent.remaining",
+        "summary.opponent.troop_units",
+        "opponents.player_id",
+        "opponents.attack.id",
+        "opponents.start_tick",
+        "opponents.alliance_building_id",
+        "opponents.structure_id",
+        "opponents.commanders.primary.id",
+        "opponents.commanders.primary.awakened",
+        "opponents.commanders.secondary.id",
+        "opponents.commanders.secondary.awakened",
+        "opponents.battle_results.sender.kill_points",
+        "opponents.battle_results.sender.dead",
+        "opponents.battle_results.sender.severely_wounded",
+        "opponents.battle_results.sender.slightly_wounded",
+        "opponents.battle_results.sender.remaining",
+        "opponents.battle_results.sender.troop_units",
+        "opponents.battle_results.opponent.kill_points",
+        "opponents.battle_results.opponent.dead",
+        "opponents.battle_results.opponent.severely_wounded",
+        "opponents.battle_results.opponent.slightly_wounded",
+        "opponents.battle_results.opponent.remaining",
+        "opponents.battle_results.opponent.troop_units",
+    ] {
+        projection.insert(field, 1);
     }
+
+    projection
 }
 
 pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
@@ -108,20 +118,36 @@ pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowW
         sender: ReportListParticipant {
             primary_commander_id: nested_i64(document, &["sender", "commanders", "primary", "id"])
                 .unwrap_or(0),
+            primary_commander_awakened: nested_bool(
+                document,
+                &["sender", "commanders", "primary", "awakened"],
+            ),
             secondary_commander_id: nested_i64(
                 document,
                 &["sender", "commanders", "secondary", "id"],
             )
             .unwrap_or(0),
+            secondary_commander_awakened: nested_bool(
+                document,
+                &["sender", "commanders", "secondary", "awakened"],
+            ),
         },
         opponent: ReportListParticipant {
             primary_commander_id: nested_i64(preferred_opponent, &["commanders", "primary", "id"])
                 .unwrap_or(0),
+            primary_commander_awakened: nested_bool(
+                preferred_opponent,
+                &["commanders", "primary", "awakened"],
+            ),
             secondary_commander_id: nested_i64(
                 preferred_opponent,
                 &["commanders", "secondary", "id"],
             )
             .unwrap_or(0),
+            secondary_commander_awakened: nested_bool(
+                preferred_opponent,
+                &["commanders", "secondary", "awakened"],
+            ),
         },
         battles,
         kill_count,

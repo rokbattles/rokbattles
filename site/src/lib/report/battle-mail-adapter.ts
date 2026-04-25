@@ -133,10 +133,12 @@ function mapPlayerToParticipant(
     tracking_key: player.trackingKey ?? undefined,
     primary_commander: {
       id: player.commanders.primary.id ?? undefined,
+      awakened: player.commanders.primary.awakened ?? undefined,
       level: player.commanders.primary.level ?? undefined,
     },
     secondary_commander: {
       id: player.commanders.secondary.id ?? undefined,
+      awakened: player.commanders.secondary.awakened ?? undefined,
       level: player.commanders.secondary.level ?? undefined,
     },
     formation: player.commanders.primary.formation ?? undefined,
