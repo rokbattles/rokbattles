@@ -39,4 +39,4 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 
 ---
 
-[![Sentry](./.github/sentry-wordmark-dark-400x119.svg)](https://sentry.io/welcome/)
+[![Sentry](./.github/assets/sentry-wordmark-dark-400x119.svg)](https://sentry.io/welcome/)
