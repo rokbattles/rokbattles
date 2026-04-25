@@ -25,6 +25,7 @@ export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
       <span className="inline-flex items-center gap-1">
         <CommanderIcon
           alt={commanderAlt}
+          awakened={commander.awakened}
           className="size-12 outline-0!"
           id={commanderId}
           sizes="48px"

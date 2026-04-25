@@ -6,7 +6,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export type OlympianArenaParticipant = {
   primaryCommanderId: number | null;
+  primaryCommanderAwakened: boolean | null;
   secondaryCommanderId: number | null;
+  secondaryCommanderAwakened: boolean | null;
 };
 
 export type OlympianArenaDuelSummary = {

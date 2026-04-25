@@ -7,6 +7,7 @@ const UNKNOWN_COMMANDER_ICON = "https://cdn.rokbattles.com/game/ui/commander_unk
 type CommanderIconProps = {
   id: number | null | undefined;
   alt: string;
+  awakened?: boolean | null;
   className?: string;
   fallback?: boolean;
   sizes?: string;
@@ -15,11 +16,12 @@ type CommanderIconProps = {
 export function CommanderIcon({
   id,
   alt,
+  awakened = false,
   className,
   fallback = true,
   sizes = "32px",
 }: CommanderIconProps) {
-  const spriteUrls = getCommanderSprites(id);
+  const spriteUrls = getCommanderSprites(id, awakened === true);
   const fallbackUrl = fallback ? UNKNOWN_COMMANDER_ICON : null;
 
   if (!spriteUrls?.length && !fallbackUrl) {

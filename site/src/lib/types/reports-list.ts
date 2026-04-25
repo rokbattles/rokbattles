@@ -1,6 +1,8 @@
 export type ReportsListParticipant = {
   primaryCommanderId: number;
+  primaryCommanderAwakened: boolean | null;
   secondaryCommanderId: number;
+  secondaryCommanderAwakened: boolean | null;
 };
 
 export type ReportsSummaryEntry = {

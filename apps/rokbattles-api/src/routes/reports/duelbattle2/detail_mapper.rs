@@ -26,10 +26,12 @@ pub(super) fn build_duelbattle2_detail_projection() -> Document {
         "sender.frame_url",
         "sender.alliance.abbreviation",
         "sender.primary_commander.id",
+        "sender.primary_commander.awakened",
         "sender.primary_commander.level",
         "sender.primary_commander.skills.id",
         "sender.primary_commander.skills.level",
         "sender.secondary_commander.id",
+        "sender.secondary_commander.awakened",
         "sender.secondary_commander.level",
         "sender.secondary_commander.skills.id",
         "sender.secondary_commander.skills.level",
@@ -41,10 +43,12 @@ pub(super) fn build_duelbattle2_detail_projection() -> Document {
         "opponent.frame_url",
         "opponent.alliance.abbreviation",
         "opponent.primary_commander.id",
+        "opponent.primary_commander.awakened",
         "opponent.primary_commander.level",
         "opponent.primary_commander.skills.id",
         "opponent.primary_commander.skills.level",
         "opponent.secondary_commander.id",
+        "opponent.secondary_commander.awakened",
         "opponent.secondary_commander.level",
         "opponent.secondary_commander.skills.id",
         "opponent.secondary_commander.skills.level",
@@ -117,11 +121,12 @@ fn map_detail_player(document: &Document) -> DuelBattle2DetailPlayer {
 
 fn map_detail_commander(document: Option<&Document>) -> DuelBattle2DetailCommander {
     let Some(document) = document else {
-        return DuelBattle2DetailCommander { id: 0, level: 0, skills: Vec::new() };
+        return DuelBattle2DetailCommander { id: 0, awakened: None, level: 0, skills: Vec::new() };
     };
 
     DuelBattle2DetailCommander {
         id: nested_i64(document, &["id"]).unwrap_or(0),
+        awakened: nested_bool(document, &["awakened"]),
         level: nested_i64(document, &["level"]).unwrap_or(0),
         skills: map_detail_skills(document),
     }
@@ -226,6 +231,7 @@ mod tests {
         let projection = build_duelbattle2_detail_projection();
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.primary_commander.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.primary_commander.awakened").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.primary_commander.skills.id").ok(), Some(1));
         assert_eq!(projection.get_i32("battle_results.opponent.kill_points").ok(), Some(1));
     }
@@ -247,6 +253,7 @@ mod tests {
                 },
                 "primary_commander": {
                     "id": 10_i64,
+                    "awakened": true,
                     "level": 60_i64,
                     "skills": [
                         { "id": 101_i64, "level": 5_i64 },
@@ -309,6 +316,7 @@ mod tests {
         assert_eq!(mapped.sender.player_name, "Alpha");
         assert_eq!(mapped.sender.frame_url, None);
         assert_eq!(mapped.sender.primary_commander.id, 10);
+        assert_eq!(mapped.sender.primary_commander.awakened, Some(true));
         assert_eq!(mapped.sender.primary_commander.skills[0].id, 101);
         assert_eq!(mapped.sender.buffs.len(), 2);
         assert_eq!(mapped.opponent.secondary_commander.id, 0);

@@ -35,13 +35,17 @@ export default function OlympianArenaRow({ duel }: { duel: OlympianArenaDuelSumm
       </TableCell>
       <TableCell>
         <ParticipantCell
+          primaryAwakened={duel.entry.sender.primaryCommanderAwakened}
           primaryId={duel.entry.sender.primaryCommanderId}
+          secondaryAwakened={duel.entry.sender.secondaryCommanderAwakened}
           secondaryId={duel.entry.sender.secondaryCommanderId}
         />
       </TableCell>
       <TableCell>
         <ParticipantCell
+          primaryAwakened={duel.entry.opponent.primaryCommanderAwakened}
           primaryId={duel.entry.opponent.primaryCommanderId}
+          secondaryAwakened={duel.entry.opponent.secondaryCommanderAwakened}
           secondaryId={duel.entry.opponent.secondaryCommanderId}
         />
       </TableCell>
