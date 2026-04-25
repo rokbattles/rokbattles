@@ -31,3 +31,20 @@ export function getCommanderName(id: number | null | undefined, locale?: string)
     commander.name[defaultLocale as CommanderLocale]
   );
 }
+
+export function getCommanderSprites(id: number | null | undefined): string[] | undefined {
+  if (typeof id !== "number" || !Number.isFinite(id)) {
+    return undefined;
+  }
+
+  const commander = commanderMap[String(id) as CommanderIdKey];
+  if (!commander?.sprite) {
+    return undefined;
+  }
+
+  const sprites = Array.isArray(commander.sprite) ? commander.sprite : [commander.sprite];
+
+  return sprites
+    .filter((sprite): sprite is string => typeof sprite === "string" && sprite.length > 0)
+    .map((sprite) => `https://cdn.rokbattles.com/game/sprites/${sprite}`);
+}

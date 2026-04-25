@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useExtracted } from "next-intl";
+import { CommanderIcon } from "@/components/commander-icon";
 import { getCommanderName } from "@/hooks/use-commander-name";
 
 type Props = {
@@ -20,38 +20,29 @@ export default function ParticipantCell({ primaryId, secondaryId }: Props) {
   const primaryName = isValidCommanderId(primaryId)
     ? (getCommanderName(primaryId) ?? String(primaryId))
     : unknownLabel;
-  const primarySrc = isValidCommanderId(primaryId)
-    ? `https://cdn.rokbattles.com/game/commander/${primaryId}.png`
-    : "https://cdn.rokbattles.com/game/ui/commander_unknown.png";
 
   const hasSecondary = isValidCommanderId(secondaryId);
   const secondaryName = hasSecondary
     ? (getCommanderName(secondaryId) ?? String(secondaryId))
     : null;
-  const secondarySrc = hasSecondary
-    ? `https://cdn.rokbattles.com/game/commander/${secondaryId}.png`
-    : null;
 
   return (
     <div className="flex flex-col">
       <span className="inline-flex items-center gap-2">
-        <Image
+        <CommanderIcon
           alt={t("{name} icon", { name: primaryName })}
-          className="size-8 rounded-full object-cover"
-          height={32}
-          src={primarySrc}
-          width={32}
+          className="size-8 rounded-full"
+          id={primaryId}
         />
         <span>{primaryName}</span>
       </span>
-      {secondarySrc ? (
+      {hasSecondary ? (
         <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-          <Image
+          <CommanderIcon
             alt={t("{name} icon", { name: secondaryName })}
-            className="size-8 rounded-full object-cover"
-            height={32}
-            src={secondarySrc}
-            width={32}
+            className="size-8 rounded-full"
+            fallback={false}
+            id={secondaryId}
           />
           <span>{secondaryName}</span>
         </span>
