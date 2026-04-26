@@ -1464,6 +1464,9 @@ loot:
     567:
       name:
         en: "Sovereign Key"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_2086.Sprite.-4769084898354904771__ab183b9d65a5.png
 
     # KVK 1 item
     577:
@@ -1712,14 +1715,23 @@ loot:
     8002:
       name:
         en: 'Level 2 "Pick One" Resource Chest'
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
     8003:
       name:
         en: 'Level 3 "Pick One" Resource Chest'
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
     8004:
       name:
         en: 'Level 4 "Pick One" Resource Chest'
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
     # Advanced
     9996:
