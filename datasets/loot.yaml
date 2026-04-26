@@ -381,7 +381,24 @@ loot:
 
     37:
       name:
+        ar: "تسريع 3 ساعات"
+        de: "3 Stunden Beschleunigung"
         en: "3-Hour Speedup"
+        es: "3 horas de Aceleración"
+        fr: "Accélération - 3 heures"
+        id: "Speedup 3 Jam"
+        it: "Acceleratore da 3 ore"
+        ja: "3時間加速"
+        ko: "3시간 가속"
+        ms: "Percepat 3 Jam"
+        pl: "3-godz. przyspieszenie"
+        pt: "Aceleração de 3 horas"
+        ru: "3-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 3 ชั่วโมง"
+        tr: "3 Saatlik Hızlandırma"
+        vi: "Tăng tốc 3 giờ"
+        zh_CN: "3小时加速"
+        zh_TW: "3小時加速"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
@@ -628,7 +645,24 @@ loot:
 
     74:
       name:
+        ar: "تسريع التدريب لمدة 15 دقيقة"
+        de: "15 Minuten Ausbildungsbeschleunigung"
         en: "15-Minute Training Speedup"
+        es: "15 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 15 minutes"
+        id: "Speedup Melatih 15 Menit"
+        it: "Acceleratore addestramento da 15 minuti"
+        ja: "15分訓練加速"
+        ko: "15분 훈련 가속"
+        ms: "Percepat Latihan 15 Minit"
+        pl: "15-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 15 Minutos"
+        ru: "15-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 15 นาที"
+        tr: "15 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 15 phút"
+        zh_CN: "15分钟训练加速"
+        zh_TW: "15分鐘訓練加速"
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
@@ -659,7 +693,24 @@ loot:
 
     77:
       name:
+        ar: "تسريع التدريب لمدة 3 ساعات"
+        de: "3 Stunden Ausbildungsbeschleunigung"
         en: "3-Hour Training Speedup"
+        es: "3 horas de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 3 heures"
+        id: "Speedup Melatih 3 Jam"
+        it: "Acceleratore addestramento da 3 ore"
+        ja: "3時間訓練加速"
+        ko: "3시간 훈련 가속"
+        ms: "Percepat Latihan 3 Jam"
+        pl: "3-godz. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 3 Horas"
+        ru: "3-часовое ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 3 ชั่วโมง"
+        tr: "3 Saatlik Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 3 giờ"
+        zh_CN: "3小时训练加速"
+        zh_TW: "3小時訓練加速"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
@@ -810,7 +861,24 @@ loot:
 
     116:
       name:
+        ar: "24 ساعة دفاع معزز"
+        de: "24-Stunden verbesserte Verteidigung"
         en: "24-Hour Enhanced Defense"
+        es: "24 horas de Mejora de Defensa"
+        fr: "Amélioration de défense - 24 heures"
+        id: "Enhanced Defense 24 Jam"
+        it: "Difesa potenziata per 24 ore"
+        ja: "24時間防御強化"
+        ko: "24시간 방어력 강화"
+        ms: "Pertahanan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniona obrona"
+        pt: "Defesa Aprimorada de 24 horas"
+        ru: "Усиление защиты на 24 часа"
+        th: "เสริมพลังป้องกัน 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Savunma"
+        vi: "Tăng cường phòng thủ 24 giờ"
+        zh_CN: "24小时防御强化"
+        zh_TW: "24小時防禦強化"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
@@ -1132,7 +1200,24 @@ loot:
 
     151:
       name:
+        ar: "5 نقاط VIP"
+        de: "5 VIP-Punkte"
         en: "5 VIP Points"
+        es: "5 Puntos de VIP"
+        fr: "5 points VIP"
+        id: "5 Point VIP"
+        it: "5 punti VIP"
+        ja: "5 VIPポイント"
+        ko: "5 VIP 포인트"
+        ms: "5 Mata VIP"
+        pl: "5 punktów VIP"
+        pt: "5 pontos VIP"
+        ru: "5 VIP-очков"
+        th: "คะแนน VIP 5 คะแนน"
+        tr: "5 VIP Puanı"
+        vi: "5 điểm VIP"
+        zh_CN: "5 VIP点数"
+        zh_TW: "5 VIP點數"
       sprite:
         - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
         - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
@@ -1213,7 +1298,24 @@ loot:
 
     189:
       name:
+        ar: "احتياطي مستوى 6"
+        de: "Level-6-Reserven"
         en: "Level 6 Reserves"
+        es: "Reservas de Nivel 6"
+        fr: "Réserve Niveau 6"
+        id: "Reserves Level 6"
+        it: "Riserve Livello 6"
+        ja: "予備部隊 Lv.6"
+        ko: "6레벨 준비 부대"
+        ms: "Rizab Tahap 6"
+        pl: "Rezerwa poz. 6"
+        pt: "Reservas Nível 6"
+        ru: "Запас, ур. 6"
+        th: "ทรัพยากรเลเวล 6"
+        tr: "6. Seviye Rezervleri"
+        vi: "Kho dự trữ cấp 6"
+        zh_CN: "等级6 预备部队"
+        zh_TW: "等級6 預備部隊"
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
@@ -1463,7 +1565,24 @@ loot:
 
     567:
       name:
+        ar: "مفتاح السيادة"
+        de: "Herrscherschlüssel"
         en: "Sovereign Key"
+        es: "Llave de soberano"
+        fr: "Clé de souverain"
+        id: "Kunci Sovereign"
+        it: "Chiave sovrana"
+        ja: "君王の鍵"
+        ko: "제왕의 열쇠"
+        ms: "Kunci Kedaulatan"
+        pl: "Klucz suwerena"
+        pt: "Chave do Soberano"
+        ru: "Ключ власти"
+        th: "กุญแจอำนาจปกครอง"
+        tr: "Hükümdar Anahtarı"
+        vi: "Chìa Khóa Thần Hiệu"
+        zh_CN: "君王之匙"
+        zh_TW: "君王之匙"
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_2086.Sprite.-4769084898354904771__ab183b9d65a5.png
@@ -1494,27 +1613,129 @@ loot:
 
     4304:
       name:
+        ar: "شهادة التَدفُّق 3"
+        de: "Schimmernder Wertschein III"
         en: "Flux Scrip III"
+        es: "Boleto reluciente III"
+        fr: "Billet chatoyant III"
+        id: "Naskah Alir III"
+        it: "Biglietto scintillante III"
+        ja: "流光宝くじ Ⅲ"
+        ko: "컬러 쿠폰 Ⅲ"
+        ms: "Skrip Fluks III"
+        pl: "Połyskujący kwit III"
+        pt: "Certificado de Fluxo III"
+        ru: "Мерцающая расписка III"
+        th: "ใบตราสารฟลักซ์ 3"
+        tr: "Akı Makbuzu III"
+        vi: "Vé Số Lung Linh III"
+        zh_CN: "流光彩券 Ⅲ"
+        zh_TW: "流光彩券 Ⅲ"
 
     4305:
       name:
+        ar: "شهادة التَدفُّق 4"
+        de: "Schimmernder Wertschein IV"
         en: "Flux Scrip IV"
+        es: "Boleto reluciente IV"
+        fr: "Billet chatoyant IV"
+        id: "Naskah Alir IV"
+        it: "Biglietto scintillante IV"
+        ja: "流光宝くじ Ⅳ"
+        ko: "컬러 쿠폰 Ⅳ"
+        ms: "Skrip Fluks IV"
+        pl: "Połyskujący kwit IV"
+        pt: "Certificado de Fluxo IV"
+        ru: "Мерцающая расписка IV"
+        th: "ใบตราสารฟลักซ์ 4"
+        tr: "Akı Makbuzu IV"
+        vi: "Vé Số Lung Linh IV"
+        zh_CN: "流光彩券 Ⅳ"
+        zh_TW: "流光彩券 Ⅳ"
 
     4306:
       name:
+        ar: "شهادة التَدفُّق 5"
+        de: "Schimmernder Wertschein V"
         en: "Flux Scrip V"
+        es: "Boleto reluciente V"
+        fr: "Billet chatoyant V"
+        id: "Naskah Alir V"
+        it: "Biglietto scintillante V"
+        ja: "流光宝くじ Ⅴ"
+        ko: "컬러 쿠폰 Ⅴ"
+        ms: "Skrip Fluks V"
+        pl: "Połyskujący kwit V"
+        pt: "Certificado de Fluxo V"
+        ru: "Мерцающая расписка V"
+        th: "ใบตราสารฟลักซ์ 5"
+        tr: "Akı Makbuzu V"
+        vi: "Vé Số Lung Linh V"
+        zh_CN: "流光彩券 Ⅴ"
+        zh_TW: "流光彩券 Ⅴ"
 
     4307:
       name:
+        ar: "شهادة التَدفُّق 6"
+        de: "Schimmernder Wertschein VI"
         en: "Flux Scrip VI"
+        es: "Boleto reluciente VI"
+        fr: "Billet chatoyant VI"
+        id: "Naskah Alir VI"
+        it: "Biglietto scintillante VI"
+        ja: "流光宝くじ Ⅵ"
+        ko: "컬러 쿠폰 Ⅵ"
+        ms: "Skrip Fluks VI"
+        pl: "Połyskujący kwit VI"
+        pt: "Certificado de Fluxo VI"
+        ru: "Мерцающая расписка VI"
+        th: "ใบตราสารฟลักซ์ 6"
+        tr: "Akı Makbuzu VI"
+        vi: "Vé Số Lung Linh VI"
+        zh_CN: "流光彩券 Ⅵ"
+        zh_TW: "流光彩券 Ⅵ"
 
     4308:
       name:
+        ar: "شهادة التَدفُّق 7"
+        de: "Schimmernder Wertschein VII"
         en: "Flux Scrip VII"
+        es: "Boleto reluciente VII"
+        fr: "Billet chatoyant VII"
+        id: "Naskah Alir VII"
+        it: "Biglietto scintillante VII"
+        ja: "流光宝くじ Ⅶ"
+        ko: "컬러 쿠폰 Ⅶ"
+        ms: "Skrip Fluks VII"
+        pl: "Połyskujący kwit VII"
+        pt: "Certificado de Fluxo VII"
+        ru: "Мерцающая расписка VII"
+        th: "ใบตราสารฟลักซ์ 7"
+        tr: "Akı Makbuzu VII"
+        vi: "Vé Số Lung Linh VII"
+        zh_CN: "流光彩券 Ⅶ"
+        zh_TW: "流光彩券 Ⅶ"
 
     4350:
       name:
+        ar: "عملة التَدفُّق"
+        de: "Wertmünze"
         en: "Flux Coin"
+        es: "Moneda reluciente"
+        fr: "Pièce chatoyante"
+        id: "Koin Alir"
+        it: "Moneta scintillante"
+        ja: "流光コイン"
+        ko: "컬러 코인"
+        ms: "Syiling Fluks"
+        pl: "Połyskująca moneta"
+        pt: "Moeda de Fluxo"
+        ru: "Мерцающая монета"
+        th: "เหรียญฟลักซ์"
+        tr: "Akı Sikkesi"
+        vi: "Xu Lung Linh"
+        zh_CN: "流光币"
+        zh_TW: "流光幣"
 
     7003:
       name:
@@ -1714,21 +1935,72 @@ loot:
 
     8002:
       name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 2'
+        de: 'Level 2 „Freie Auswahl"-Ressourcentruhe'
         en: 'Level 2 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 2 "Elige Uno"'
+        fr: "Niveau 2 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 2'
+        it: 'Baule delle risorse di Livello 2 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.2"
+        ko: "2레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 2'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 2"
+        pt: 'Baú de Recurso Nível 2 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 2"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 2'
+        tr: '2. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 2'
+        zh_CN: "等级2自选资源宝箱"
+        zh_TW: "等級2自選資源寶箱"
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
     8003:
       name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 3'
+        de: 'Level 3 „Freie Auswahl"-Ressourcentruhe'
         en: 'Level 3 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 3 "Elige Uno"'
+        fr: "Niveau 3 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 3'
+        it: 'Baule delle risorse di Livello 3 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.3"
+        ko: "3레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 3'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 3"
+        pt: 'Baú de Recurso Nível 3 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 3"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 3'
+        tr: '3. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 3'
+        zh_CN: "等级3自选资源宝箱"
+        zh_TW: "等級3自選資源寶箱"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
     8004:
       name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 4'
+        de: 'Level 4 „Freie Auswahl"-Ressourcentruhe'
         en: 'Level 4 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 4 "Elige Uno"'
+        fr: "Niveau 4 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 4'
+        it: 'Baule delle risorse di Livello 4 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.4"
+        ko: "4레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 4'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 4"
+        pt: 'Baú de Recurso Nível 4 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 4"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 4'
+        tr: '4. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 4'
+        zh_CN: "等级4自选资源宝箱"
+        zh_TW: "等級4自選資源寶箱"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
@@ -1860,20 +2132,105 @@ loot:
   4:
     2:
       name:
+        ar: "صندوق تحالف حجري"
+        de: "Bündnis-Steintruhe"
         en: "Alliance Stone Chest"
+        es: "Cofre de piedra de la alianza"
+        fr: "Coffre de pierre d'alliance"
+        id: "Stone Chest Aliansi"
+        it: "Forziere di pietra dell'alleanza"
+        ja: "石製の宝箱（同盟）"
+        ko: "석재 보물상자 (연맹)"
+        ms: "Peti Batu Perikatan"
+        pl: "Kamienna skrzynia sojuszu"
+        pt: "Baú de Pedra da Aliança"
+        ru: "Каменный сундук альянса"
+        th: "หีบก้อนหินสมาพันธ์"
+        tr: "Birlik Taş Sandığı"
+        vi: "Rương Đá Liên Minh"
+        zh_CN: "联盟石质宝箱"
+        zh_TW: "聯盟石質寶箱"
 
     3:
       name:
+        ar: "صندوق تحالف فولاذي"
+        de: "Bündnis-Bronzetruhe"
         en: "Alliance Iron Chest"
+        es: "Cofre de bronce de la alianza"
+        fr: "Coffre de bronze d'alliance"
+        id: "Peti Besi Aliansi"
+        it: "Forziere di bronzo dell'alleanza"
+        ja: "黒鉄の宝箱（同盟）"
+        ko: "청동 보물상자 (연맹)"
+        ms: "Peti Besi Perikatan"
+        pl: "Żelazna skrzynia sojuszu"
+        pt: "Baú de Bronze da Aliança"
+        ru: "Железный сундук альянса"
+        th: "หีบเหล็กสมาพันธ์"
+        tr: "Birlik Demir Sandığı"
+        vi: "Rương Đồng Liên Minh"
+        zh_CN: "联盟黑铁宝箱"
+        zh_TW: "聯盟黑鐵寶箱"
 
     4:
       name:
+        ar: "صندوق تحالف برونزي"
+        de: "Bündnis-Eisentruhe"
         en: "Alliance Bronze Chest"
+        es: "Cofre de hierro de la alianza"
+        fr: "Coffre de fer d'alliance"
+        id: "Peti Perunggu Aliansi"
+        it: "Forziere di ferro dell'alleanza"
+        ja: "青銅の宝箱（同盟）"
+        ko: "강철 보물상자 (연맹)"
+        ms: "Peti Gangsa Perikatan"
+        pl: "Brązowa skrzynia sojuszu"
+        pt: "Baú de Ferro da Aliança"
+        ru: "Бронзовый сундук альянса"
+        th: "หีบทองสัมฤทธิ์สมาพันธ์"
+        tr: "Birlik Tunç Sandığı"
+        vi: "Rương Sắt Liên Minh"
+        zh_CN: "联盟青铜宝箱"
+        zh_TW: "聯盟青銅寶箱"
 
     5:
       name:
+        ar: "صندوق تحالف فضي"
+        de: "Bündnis-Silbertruhe"
         en: "Alliance Silver Chest"
+        es: "Cofre plateado de la alianza"
+        fr: "Coffre d'argent d'alliance"
+        id: "Peti Perak Aliansi"
+        it: "Forziere d'argento dell'alleanza"
+        ja: "白銀の宝箱（同盟）"
+        ko: "백은 보물상자 (연맹)"
+        ms: "Peti Perak Perikatan"
+        pl: "Srebrna skrzynia sojuszu"
+        pt: "Baú de Prata da Aliança"
+        ru: "Серебряный сундук альянса"
+        th: "หีบเงินสมาพันธ์"
+        tr: "Birlik Gümüş Sandığı"
+        vi: "Rương Bạc Liên Minh"
+        zh_CN: "联盟白银宝箱"
+        zh_TW: "聯盟白銀寶箱"
 
     6:
       name:
-        en: "Alliance Gold Chest"
+        ar: "صندوق تحالف ذهبي"
+        de: "Bündnis-Goldtruhe"
+        en: "Alliance Golden Chest"
+        es: "Cofre dorado de la alianza"
+        fr: "Coffre d'or d'alliance"
+        id: "Peti Emas Aliansi"
+        it: "Forziere d'oro dell'alleanza"
+        ja: "黄金の宝箱（同盟）"
+        ko: "황금 보물상자 (연맹)"
+        ms: "Peti Emas Perikatan"
+        pl: "Złota skrzynia sojuszu"
+        pt: "Baú de Ouro da Aliança"
+        ru: "Золотой сундук альянса"
+        th: "หีบทองคำสมาพันธ์"
+        tr: "Birlik Altın Sandığı"
+        vi: "Rương Vàng Liên Minh"
+        zh_CN: "联盟黄金宝箱"
+        zh_TW: "聯盟黃金寶箱"
