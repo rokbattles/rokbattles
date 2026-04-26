@@ -60,11 +60,6 @@ const config: NextConfig = {
         permanent: false,
       },
       {
-        source: "/desktop-app",
-        destination: "https://github.com/rokbattles/rokbattles/releases",
-        permanent: false,
-      },
-      {
         source: "/docs",
         destination: "/docs/installation",
         permanent: false,

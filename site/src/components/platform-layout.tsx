@@ -156,7 +156,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <SidebarLabel>{t("Support")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
-                href="/desktop-app"
+                href="/docs/installation"
                 target="_blank"
                 rel="noopener noreferrer"
                 prefetch={false}
