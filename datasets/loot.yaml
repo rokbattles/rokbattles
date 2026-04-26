@@ -163,7 +163,6 @@ loot:
       sprite:
         - img_icon_item_2225.Sprite.-397372876200005593__08262787ffb1.png
 
-  2:
     25:
       name:
         ar: "جواهر"
@@ -184,7 +183,10 @@ loot:
         vi: "Đá quý"
         zh_CN: "宝石"
         zh_TW: "寶石"
+      sprite:
+        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
+  2:
     26:
       name:
         ar: "10 جواهر"
@@ -373,6 +375,13 @@ loot:
         vi: "Tăng tốc 60 phút"
         zh_CN: "60分钟加速"
         zh_TW: "60分鐘加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    37:
+      name:
+        en: "3-Hour Speedup"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
@@ -617,6 +626,13 @@ loot:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
 
+    74:
+      name:
+        en: "15-Minute Training Speedup"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+
     76:
       name:
         ar: "تسريع التدريب لمدة 60 دقيقة"
@@ -637,6 +653,13 @@ loot:
         vi: "Tăng tốc huấn luyện 60 phút"
         zh_CN: "60分钟训练加速"
         zh_TW: "60分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+
+    77:
+      name:
+        en: "3-Hour Training Speedup"
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
@@ -783,6 +806,13 @@ loot:
         zh_TW: "12小時防禦強化"
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
+
+    116:
+      name:
+        en: "24-Hour Enhanced Defense"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
 
     # 25%
@@ -1100,6 +1130,13 @@ loot:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
+    151:
+      name:
+        en: "5 VIP Points"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+
     155:
       name:
         ar: "100 نقاط VIP"
@@ -1170,6 +1207,13 @@ loot:
         vi: "Kho dự trữ cấp 5"
         zh_CN: "等级5 预备部队"
         zh_TW: "等級5 預備部隊"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
+
+    189:
+      name:
+        en: "Level 6 Reserves"
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
@@ -1417,6 +1461,10 @@ loot:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_mat_14.Sprite.-5110219989689072000__dd94af144b3b.png
 
+    567:
+      name:
+        en: "Sovereign Key"
+
     # KVK 1 item
     577:
       name:
@@ -1440,6 +1488,30 @@ loot:
         zh_TW: "科技幣"
       sprite:
         - img_KVK_Coin2big.Sprite.-5192556106934865557__c5674f5d4b24.png
+
+    4304:
+      name:
+        en: "Flux Scrip III"
+
+    4305:
+      name:
+        en: "Flux Scrip IV"
+
+    4306:
+      name:
+        en: "Flux Scrip V"
+
+    4307:
+      name:
+        en: "Flux Scrip VI"
+
+    4308:
+      name:
+        en: "Flux Scrip VII"
+
+    4350:
+      name:
+        en: "Flux Coin"
 
     7003:
       name:
@@ -1637,6 +1709,18 @@ loot:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
 
+    8002:
+      name:
+        en: 'Level 2 "Pick One" Resource Chest'
+
+    8003:
+      name:
+        en: 'Level 3 "Pick One" Resource Chest'
+
+    8004:
+      name:
+        en: 'Level 4 "Pick One" Resource Chest'
+
     # Advanced
     9996:
       name:
@@ -1760,3 +1844,24 @@ loot:
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_HeroCarving_Universal5.Sprite.-7718458993068816883__7f227c4f54fb.png
+
+  4:
+    2:
+      name:
+        en: "Alliance Stone Chest"
+
+    3:
+      name:
+        en: "Alliance Iron Chest"
+
+    4:
+      name:
+        en: "Alliance Bronze Chest"
+
+    5:
+      name:
+        en: "Alliance Silver Chest"
+
+    6:
+      name:
+        en: "Alliance Gold Chest"
