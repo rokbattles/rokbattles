@@ -22,6 +22,8 @@ loot:
         vi: "Thực phẩm"
         zh_CN: "食物"
         zh_TW: "食物"
+      sprite:
+        - img_food.Sprite.5736306850957416576__7a9375b082f2.png
 
     2:
       name:
@@ -43,6 +45,8 @@ loot:
         vi: "Gỗ"
         zh_CN: "木材"
         zh_TW: "木材"
+      sprite:
+        - img_wood.Sprite.2006013139117308715__2f42aad707b9.png
 
     3:
       name:
@@ -64,6 +68,8 @@ loot:
         vi: "Đá"
         zh_CN: "石料"
         zh_TW: "石料"
+      sprite:
+        - img_stone.Sprite.-3023278319593103630__ba519b16748e.png
 
     4:
       name:
@@ -85,6 +91,8 @@ loot:
         vi: "Vàng"
         zh_CN: "金币"
         zh_TW: "金幣"
+      sprite:
+        - img_gold.Sprite.-1045916506475499754__81dbc789cb6d.png
 
     5:
       name:
@@ -106,6 +114,8 @@ loot:
         vi: "Đá quý"
         zh_CN: "宝石"
         zh_TW: "寶石"
+      sprite:
+        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
     9:
       name:
@@ -127,6 +137,8 @@ loot:
         vi: "Pha Lê"
         zh_CN: "水晶"
         zh_TW: "水晶"
+      sprite:
+        - img_Crystal.Sprite.-6185304765529872521__292ba8e3c82a.png
 
     10:
       name:
@@ -148,6 +160,8 @@ loot:
         vi: "Thuốc Chữa Lành"
         zh_CN: "治愈药剂"
         zh_TW: "治癒藥劑"
+      sprite:
+        - img_icon_item_2225.Sprite.-397372876200005593__08262787ffb1.png
 
   2:
     25:
@@ -1424,6 +1438,8 @@ loot:
         vi: "Xu Công Nghệ"
         zh_CN: "科技币"
         zh_TW: "科技幣"
+      sprite:
+        - img_KVK_Coin2big.Sprite.-5192556106934865557__c5674f5d4b24.png
 
     7003:
       name:
