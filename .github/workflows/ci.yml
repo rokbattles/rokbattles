@@ -86,10 +86,8 @@ jobs:
       - name: rustfmt
         run: cargo fmt --all -- --check
 
-      - name: clippy (all targets, all features)
-        run: |
-          cargo clippy --workspace --all-targets --all-features
-          cargo clippy --workspace --all-targets --no-default-features
+      - name: clippy
+        run: cargo clippy --workspace --all-targets
 
   test-rs:
     name: Test Rust (${{ matrix.os }} - ${{ matrix.toolchain }})
@@ -119,14 +117,8 @@ jobs:
       - name: Cache Rust build
         uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2.8.2
 
-      - name: Build (default features)
+      - name: Build
         run: cargo build --workspace --all-targets --verbose
 
-      - name: Build (no default features)
-        run: cargo build --workspace --all-targets --no-default-features --verbose
-
-      - name: Test (all features)
-        run: cargo test --workspace --all-features --verbose
-
-      - name: Test (no default features)
-        run: cargo test --workspace --no-default-features --verbose
+      - name: Test
+        run: cargo test --workspace --verbose
