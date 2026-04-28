@@ -187,6 +187,30 @@ loot:
         - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
   2:
+    3:
+      name:
+        en: "150,000 Food"
+
+    4:
+      name:
+        en: "500,000 Food"
+
+    5:
+      name:
+        en: "1,500,000 Food"
+
+    9:
+      name:
+        en: "150,000 Wood"
+
+    10:
+      name:
+        en: "500,000 Wood"
+
+    11:
+      name:
+        en: "1,500,000 Wood"
+
     26:
       name:
         ar: "10 جواهر"
@@ -426,6 +450,14 @@ loot:
       sprite:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    39:
+      name:
+        en: "15-Hour Speedup"
+
+    40:
+      name:
+        en: "24-Hour Speedup"
 
     44:
       name:
@@ -1198,6 +1230,10 @@ loot:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
+    150:
+      name:
+        en: "Lvl 7 Tome of Knowledge"
+
     151:
       name:
         ar: "5 نقاط VIP"
@@ -1933,6 +1969,10 @@ loot:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
 
+    8001:
+      name:
+        en: 'Level 1 "Pick One" Resource Chest'
+
     8002:
       name:
         ar: '"اختر واحد" صندوق الموارد مستوى 2'
@@ -2004,6 +2044,15 @@ loot:
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+
+    8062:
+      name:
+        en: 'Level 5 "Pick One" Resource Chest'
+
+    # Legendary
+    9989:
+      name:
+        en: "Bundle of Dazzling Starlight Sculptures"
 
     # Advanced
     9996:
@@ -2104,6 +2153,10 @@ loot:
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_HeroCarving_Star5.Sprite.-7792003900206484865__4152c2fec8d1.png
+
+    10004:
+      name:
+        en: "Epic Commander Sculpture"
 
     10005:
       name:
