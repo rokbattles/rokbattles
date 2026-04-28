@@ -1,360 +1,2236 @@
 loot:
   # type
   # sub type
-
   1:
+    1:
+      name:
+        ar: "طعام"
+        de: "Proviant"
+        en: "Food"
+        es: "Alimentos"
+        fr: "Nourriture"
+        id: "Food"
+        it: "Cibo"
+        ja: "食料"
+        ko: "식량"
+        ms: "Makanan"
+        pl: "Żywność"
+        pt: "Comida"
+        ru: "Пища"
+        th: "อาหาร"
+        tr: "Gıda"
+        vi: "Thực phẩm"
+        zh_CN: "食物"
+        zh_TW: "食物"
+      sprite:
+        - img_food.Sprite.5736306850957416576__7a9375b082f2.png
+
+    2:
+      name:
+        ar: "خشب"
+        de: "Holz"
+        en: "Wood"
+        es: "Madera"
+        fr: "Bois"
+        id: "Kayu"
+        it: "Legname"
+        ja: "木材"
+        ko: "목재"
+        ms: "Kayu"
+        pl: "Drewno"
+        pt: "Madeira"
+        ru: "Дерево"
+        th: "ไม้"
+        tr: "Odun"
+        vi: "Gỗ"
+        zh_CN: "木材"
+        zh_TW: "木材"
+      sprite:
+        - img_wood.Sprite.2006013139117308715__2f42aad707b9.png
+
+    3:
+      name:
+        ar: "حجر"
+        de: "Stein"
+        en: "Stone"
+        es: "Piedra"
+        fr: "Pierre"
+        id: "Stone"
+        it: "Pietra"
+        ja: "石材"
+        ko: "석재"
+        ms: "Batu"
+        pl: "Kamień"
+        pt: "Pedra"
+        ru: "Камень"
+        th: "หิน"
+        tr: "Taş"
+        vi: "Đá"
+        zh_CN: "石料"
+        zh_TW: "石料"
+      sprite:
+        - img_stone.Sprite.-3023278319593103630__ba519b16748e.png
+
+    4:
+      name:
+        ar: "ذهب"
+        de: "Gold"
+        en: "Gold"
+        es: "Oro"
+        fr: "Or"
+        id: "Emas"
+        it: "Oro"
+        ja: "金貨"
+        ko: "금화"
+        ms: "Emas"
+        pl: "Złoto"
+        pt: "Ouro"
+        ru: "Золото"
+        th: "ทอง"
+        tr: "Altın"
+        vi: "Vàng"
+        zh_CN: "金币"
+        zh_TW: "金幣"
+      sprite:
+        - img_gold.Sprite.-1045916506475499754__81dbc789cb6d.png
+
+    5:
+      name:
+        ar: "جواهر"
+        de: "Edelsteine"
+        en: "Gems"
+        es: "Gemas"
+        fr: "Gemmes"
+        id: "Gem"
+        it: "Gemme"
+        ja: "宝石"
+        ko: "보석"
+        ms: "Permata"
+        pl: "Klejnoty"
+        pt: "Gemas"
+        ru: "Самоцветы"
+        th: "อัญมณี"
+        tr: "Cevher"
+        vi: "Đá quý"
+        zh_CN: "宝石"
+        zh_TW: "寶石"
+      sprite:
+        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
+
     9:
       name:
+        ar: "الكريستال"
         de: "Kristalle"
         en: "Crystals"
         es: "Cristales"
         fr: "Cristaux"
+        id: "Kristal"
+        it: "Cristalli"
+        ja: "水晶"
         ko: "수정"
+        ms: "Kristal"
         pl: "Kryształy"
+        pt: "Cristais"
+        ru: "Кристаллы"
+        th: "คริสตัล"
+        tr: "Kristaller"
+        vi: "Pha Lê"
         zh_CN: "水晶"
+        zh_TW: "水晶"
+      sprite:
+        - img_Crystal.Sprite.-6185304765529872521__292ba8e3c82a.png
+
+    10:
+      name:
+        ar: "جرعة الشفاء"
+        de: "Heiltrank"
+        en: "Healing Potion"
+        es: "Poción sanadora"
+        fr: "Potion curative"
+        id: "Ramuan Penyembuhan"
+        it: "Pozione di guarigione"
+        ja: "治癒の薬"
+        ko: "치유의 포션"
+        ms: "Posyen Penyembuhan"
+        pl: "Eliksir uzdrawiający"
+        pt: "Poção de Cura"
+        ru: "Целебное зелье"
+        th: "โพชั่นรักษา"
+        tr: "Şifa Karışımı"
+        vi: "Thuốc Chữa Lành"
+        zh_CN: "治愈药剂"
+        zh_TW: "治癒藥劑"
+      sprite:
+        - img_icon_item_2225.Sprite.-397372876200005593__08262787ffb1.png
+
+    25:
+      name:
+        ar: "جواهر"
+        de: "Edelsteine"
+        en: "Gems"
+        es: "Gemas"
+        fr: "Gemmes"
+        id: "Gem"
+        it: "Gemme"
+        ja: "宝石"
+        ko: "보석"
+        ms: "Permata"
+        pl: "Klejnoty"
+        pt: "Gemas"
+        ru: "Самоцветы"
+        th: "อัญมณี"
+        tr: "Cevher"
+        vi: "Đá quý"
+        zh_CN: "宝石"
+        zh_TW: "寶石"
+      sprite:
+        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
   2:
     26:
       name:
+        ar: "10 جواهر"
         de: "10 Edelsteine"
         en: "10 Gems"
         es: "10 gemas"
         fr: "10 gemmes"
+        id: "10 Gem"
+        it: "10 gemme"
+        ja: "10 宝石"
         ko: "보석 10개"
+        ms: "10 Permata"
         pl: "10 klejnotów"
+        pt: "10 Gemas"
+        ru: "10 самоцветов"
+        th: "10 อัญมณี"
+        tr: "10 Cevher"
+        vi: "10 Đá Quý"
         zh_CN: "10 宝石"
+        zh_TW: "10 寶石"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+
+    27:
+      name:
+        ar: "50 جوهرة"
+        de: "50 Edelsteine"
+        en: "50 Gems"
+        es: "50 gemas"
+        fr: "50 gemmes"
+        id: "50 Gem"
+        it: "50 gemme"
+        ja: "50 宝石"
+        ko: "보석 50개"
+        ms: "50 Permata"
+        pl: "50 klejnotów"
+        pt: "50 Gemas"
+        ru: "50 самоцветов"
+        th: "50 อัญมณี"
+        tr: "50 Cevher"
+        vi: "50 Đá Quý"
+        zh_CN: "50 宝石"
+        zh_TW: "50 寶石"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
 
     28:
       name:
+        ar: "100 جوهرة"
         de: "100 Edelsteine"
         en: "100 Gems"
         es: "100 gemas"
         fr: "100 gemmes"
+        id: "100 Gem"
+        it: "100 gemme"
+        ja: "100 宝石"
         ko: "보석 100개"
+        ms: "100 Permata"
         pl: "100 klejnotów"
+        pt: "100 Gemas"
+        ru: "100 самоцветов"
+        th: "100 อัญมณี"
+        tr: "100 Cevher"
+        vi: "100 Đá Quý"
         zh_CN: "100 宝石"
+        zh_TW: "100 寶石"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+
+    29:
+      name:
+        ar: "200 جوهرة"
+        de: "200 Edelsteine"
+        en: "200 Gems"
+        es: "200 gemas"
+        fr: "200 gemmes"
+        id: "200 Gem"
+        it: "200 gemme"
+        ja: "200 宝石"
+        ko: "보석 200개"
+        ms: "200 Permata"
+        pl: "200 klejnotów"
+        pt: "200 Gemas"
+        ru: "200 самоцветов"
+        th: "200 อัญมณี"
+        tr: "200 Cevher"
+        vi: "200 Đá Quý"
+        zh_CN: "200 宝石"
+        zh_TW: "200 寶石"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+
+    30:
+      name:
+        ar: "500 جوهرة"
+        de: "500 Edelsteine"
+        en: "500 Gems"
+        es: "500 gemas"
+        fr: "500 gemmes"
+        id: "500 Gem"
+        it: "500 gemme"
+        ja: "500 宝石"
+        ko: "보석 500개"
+        ms: "500 Permata"
+        pl: "500 klejnotów"
+        pt: "500 Gemas"
+        ru: "500 самоцветов"
+        th: "500 อัญมณี"
+        tr: "500 Cevher"
+        vi: "500 Đá Quý"
+        zh_CN: "500 宝石"
+        zh_TW: "500 寶石"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+
+    32:
+      name:
+        ar: "2000 جوهرة"
+        de: "2.000 Edelsteine"
+        en: "2,000 Gems"
+        es: "2000 gemas"
+        fr: "2 000 gemmes"
+        id: "2.000 Gem"
+        it: "2.000 gemme"
+        ja: "2,000 宝石"
+        ko: "보석 2,000개"
+        ms: "2,000 Permata"
+        pl: "2000 klejnotów"
+        pt: "2.000 Gemas"
+        ru: "2000 самоцветов"
+        th: "2,000 อัญมณี"
+        tr: "2.000 Cevher"
+        vi: "2.000 Đá Quý"
+        zh_CN: "2,000 宝石"
+        zh_TW: "2,000 寶石"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
 
     34:
       name:
+        ar: "تسريع دقيقة"
         de: "1 Minute Beschleunigung"
         en: "1-Minute Speedup"
         es: "1 minuto de Aceleración"
         fr: "Accélération - 1 minute"
+        id: "Speedup 1 Menit"
+        it: "Acceleratore da 1 minuto"
+        ja: "1分加速"
         ko: "1분 가속"
+        ms: "Percepat 1 Minit"
         pl: "1-min przyspieszenie"
+        pt: "Aceleração de 1 minuto"
+        ru: "1-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 1 นาที"
+        tr: "1 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 1 phút"
         zh_CN: "1分钟加速"
+        zh_TW: "1分鐘加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    36:
+      name:
+        ar: "تسريع 60 دقيقة"
+        de: "60 Minuten Beschleunigung"
+        en: "60-Minute Speedup"
+        es: "60 minuto de Aceleración"
+        fr: "Accélération - 60 minutes"
+        id: "Speedup 60 Menit"
+        it: "Acceleratore da 60 minuti"
+        ja: "60分加速"
+        ko: "60분 가속"
+        ms: "Percepat 60 Minit"
+        pl: "60-min przyspieszenie"
+        pt: "Aceleração de 60 Minutos"
+        ru: "60-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 60 นาที"
+        tr: "60 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 60 phút"
+        zh_CN: "60分钟加速"
+        zh_TW: "60分鐘加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    37:
+      name:
+        ar: "تسريع 3 ساعات"
+        de: "3 Stunden Beschleunigung"
+        en: "3-Hour Speedup"
+        es: "3 horas de Aceleración"
+        fr: "Accélération - 3 heures"
+        id: "Speedup 3 Jam"
+        it: "Acceleratore da 3 ore"
+        ja: "3時間加速"
+        ko: "3시간 가속"
+        ms: "Percepat 3 Jam"
+        pl: "3-godz. przyspieszenie"
+        pt: "Aceleração de 3 horas"
+        ru: "3-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 3 ชั่วโมง"
+        tr: "3 Saatlik Hızlandırma"
+        vi: "Tăng tốc 3 giờ"
+        zh_CN: "3小时加速"
+        zh_TW: "3小時加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    38:
+      name:
+        ar: "تسريع 8 ساعات"
+        de: "8 Stunden Beschleunigung"
+        en: "8-Hour Speedup"
+        es: "8 horas de Aceleración"
+        fr: "Accélération - 8 heures"
+        id: "Speedup 8 Jam"
+        it: "Acceleratore da 8 ore"
+        ja: "8時間加速"
+        ko: "8시간 가속"
+        ms: "Percepat 8 Jam"
+        pl: "8-godz. przyspieszenie"
+        pt: "Aceleração de 8 horas"
+        ru: "8-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 8 ชั่วโมง"
+        tr: "8 Saatlik Hızlandırma"
+        vi: "Tăng tốc 8 giờ"
+        zh_CN: "8小时加速"
+        zh_TW: "8小時加速"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+
+    44:
+      name:
+        ar: "نقل محدد"
+        de: "Gezielte Teleportierung"
+        en: "Targeted Teleport"
+        es: "Teletransporte Dirigido"
+        fr: "Téléportation ciblée"
+        id: "Teleportasi Ditargetkan"
+        it: "Teletrasporto mirato"
+        ja: "指定移転"
+        ko: "지정 도시 이전"
+        ms: "Teleport Disasarkan"
+        pl: "Teleportacja do celu"
+        pt: "Teleporte Direcionado"
+        ru: "Телепорт к цели"
+        th: "เทเลพอร์ตแบบกำหนดเป้าหมาย"
+        tr: "Hedefe Işınlanma"
+        vi: "Dịch Chuyển Có Mục Tiêu"
+        zh_CN: "定点迁城"
+        zh_TW: "定點遷城"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_29.Sprite.4816277751739750476__29d959f2f444.png
+
+    45:
+      name:
+        ar: "نقل عشوائي"
+        de: "Zufällige Teleportierung"
+        en: "Random Teleport"
+        es: "Teletransporte Aleatorio"
+        fr: "Téléportation aléatoire"
+        id: "Teleportasi Acak"
+        it: "Teletrasporto casuale"
+        ja: "ランダム移転"
+        ko: "랜덤으로 도시 이전"
+        ms: "Teleport Rawak"
+        pl: "Losowa teleportacja"
+        pt: "Teleporte Aleatório"
+        ru: "Случайный телепорт"
+        th: "เทเลพอร์ตแบบสุ่ม"
+        tr: "Rastgele Işınlanma"
+        vi: "Dịch Chuyển Ngẫu Nhiên"
+        zh_CN: "随机迁城"
+        zh_TW: "隨機遷城"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_31.Sprite.-6480655314507567596__3bdd29222afa.png
 
     47:
       name:
+        ar: "مفتاح فضي"
         de: "Silberschlüssel"
         en: "Silver Key"
         es: "Llave de Plata"
         fr: "Clé en argent"
+        id: "Kunci Perak"
+        it: "Chiave d'argento"
+        ja: "銀の鍵"
         ko: "백은 열쇠"
+        ms: "Kunci Perak"
         pl: "Srebrny klucz"
+        pt: "Chave de prata"
+        ru: "Серебряный ключ"
+        th: "กุญแจเงิน"
+        tr: "Gümüş Anahtar"
+        vi: "Chìa khóa bạc"
         zh_CN: "白银钥匙"
+        zh_TW: "白銀鑰匙"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_45.Sprite.-5650331185120659780__5f65b060d00f.png
 
     48:
       name:
+        ar: "مفتاح ذهبي"
         de: "Goldschlüssel"
         en: "Golden Key"
         es: "Llave de Oro"
         fr: "Clé en or"
+        id: "Kunci Emas"
+        it: "Chiave d'oro"
+        ja: "金の鍵"
         ko: "황금 열쇠"
+        ms: "Kunci Emas"
         pl: "Złoty klucz"
+        pt: "Chave de Ouro"
+        ru: "Золотой ключ"
+        th: "กุญแจทองคำ"
+        tr: "Altın Anahtar"
+        vi: "Chìa khóa vàng"
         zh_CN: "黄金钥匙"
+        zh_TW: "黃金鑰匙"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_46.Sprite.8443992211845787653__7c8e4d94f592.png
+
+    58:
+      name:
+        ar: "تسريع 5 دقائق"
+        de: "5 Minuten Beschleunigung"
+        en: "5-Minute Speedup"
+        es: "5 minuto de Aceleración"
+        fr: "Accélération - 5 minutes"
+        id: "Speedup 5 Menit"
+        it: "Acceleratore da 5 minuti"
+        ja: "5分加速"
+        ko: "5분 가속"
+        ms: "Percepat 5 Minit"
+        pl: "5-min przyspieszenie"
+        pt: "Aceleração de 5 minutos"
+        ru: "5-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 5 นาที"
+        tr: "5 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 5 phút"
+        zh_CN: "5分钟加速"
+        zh_TW: "5分鐘加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
 
     60:
       name:
+        ar: "تسريع 30 دقيقة"
         de: "30 Minuten Beschleunigung"
         en: "30-Minute Speedup"
         es: "30 minuto de Aceleración"
         fr: "Accélération - 30 minutes"
+        id: "Speedup 30 Menit"
+        it: "Acceleratore da 30 minuti"
+        ja: "30分加速"
         ko: "30분 가속"
-        pl: "30-min. przyspieszenie"
+        ms: "Percepat 30 Minit"
+        pl: "30-min przyspieszenie"
+        pt: "Aceleração de 30 Minutos"
+        ru: "30-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 30 นาที"
+        tr: "30 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 30 phút"
         zh_CN: "30分钟加速"
+        zh_TW: "30分鐘加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
 
     65:
       name:
+        ar: "تسريع البناء لمدة 30 دقيقة"
         de: "30 Minuten Bau-Beschleunigung"
         en: "30-Minute Building Speedup"
         es: "30 minutos de Aceleración de Construcción"
         fr: "Accélération de construction - 30 minutes"
+        id: "Speedup Membangun 30 Menit"
+        it: "Acceleratore costruzione da 30 minuti"
+        ja: "30分建設加速"
         ko: "30분 건설 가속"
+        ms: "Percepat Pembinaan 30 Minit"
         pl: "30-min. przyspieszenie budowy"
+        pt: "Aceleração de construção de 30 minutos"
+        ru: "30-минутное ускорение строительства"
+        th: "ตัวเร่งความเร็วการสร้าง 30 นาที"
+        tr: "30 Dakikalık İnşa Hızlandırması"
+        vi: "Tăng tốc xây dựng 30 phút"
         zh_CN: "30分钟建造加速"
+        zh_TW: "30分鐘建造加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_10.Sprite.5318239789615846731__1c97f7e541a1.png
 
     71:
       name:
+        ar: "تسريع التدريب لمدة دقيقة"
         de: "1 Minute Ausbildungsbeschleunigung"
         en: "1-Minute Training Speedup"
         es: "1 minutos de Aceleración de Entrenamiento"
         fr: "Accélération d'entraînement - 1 minute"
+        id: "Speedup Melatih 1 Menit"
+        it: "Acceleratore addestramento da 1 minuto"
+        ja: "1分訓練加速"
         ko: "1분 훈련 가속"
+        ms: "Percepat Latihan 1 Minit"
         pl: "1-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 1 Minuto"
+        ru: "1-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 1 นาที"
+        tr: "1 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 1 phút"
         zh_CN: "1分钟训练加速"
+        zh_TW: "1分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
 
     72:
       name:
+        ar: "تسريع التدريب لمدة 5 دقائق"
         de: "5 Minuten Ausbildungsbeschleunigung"
         en: "5-Minute Training Speedup"
         es: "5 minutos de Aceleración de Entrenamiento"
         fr: "Accélération d'entraînement - 5 minutes"
+        id: "Speedup Melatih 5 Menit"
+        it: "Acceleratore addestramento da 5 minuti"
+        ja: "5分訓練加速"
         ko: "5분 훈련 가속"
+        ms: "Percepat Latihan 5 Minit"
         pl: "5-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 5 Minutos"
+        ru: "5-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 5 นาที"
+        tr: "5 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 5 phút"
         zh_CN: "5分钟训练加速"
+        zh_TW: "5分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+
+    74:
+      name:
+        ar: "تسريع التدريب لمدة 15 دقيقة"
+        de: "15 Minuten Ausbildungsbeschleunigung"
+        en: "15-Minute Training Speedup"
+        es: "15 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 15 minutes"
+        id: "Speedup Melatih 15 Menit"
+        it: "Acceleratore addestramento da 15 minuti"
+        ja: "15分訓練加速"
+        ko: "15분 훈련 가속"
+        ms: "Percepat Latihan 15 Minit"
+        pl: "15-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 15 Minutos"
+        ru: "15-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 15 นาที"
+        tr: "15 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 15 phút"
+        zh_CN: "15分钟训练加速"
+        zh_TW: "15分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+
+    76:
+      name:
+        ar: "تسريع التدريب لمدة 60 دقيقة"
+        de: "60 Minuten Ausbildungsbeschleunigung"
+        en: "60-Minute Training Speedup"
+        es: "60 minutos de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 60 minutes"
+        id: "Speedup Melatih 60 Menit"
+        it: "Acceleratore addestramento da 60 minuti"
+        ja: "60分訓練加速"
+        ko: "60분 훈련 가속"
+        ms: "Percepat Latihan 60 Minit"
+        pl: "60-min. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 60 Minutos"
+        ru: "60-минутное ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 60 นาที"
+        tr: "60 Dakikalık Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 60 phút"
+        zh_CN: "60分钟训练加速"
+        zh_TW: "60分鐘訓練加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+
+    77:
+      name:
+        ar: "تسريع التدريب لمدة 3 ساعات"
+        de: "3 Stunden Ausbildungsbeschleunigung"
+        en: "3-Hour Training Speedup"
+        es: "3 horas de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 3 heures"
+        id: "Speedup Melatih 3 Jam"
+        it: "Acceleratore addestramento da 3 ore"
+        ja: "3時間訓練加速"
+        ko: "3시간 훈련 가속"
+        ms: "Percepat Latihan 3 Jam"
+        pl: "3-godz. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 3 Horas"
+        ru: "3-часовое ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 3 ชั่วโมง"
+        tr: "3 Saatlik Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 3 giờ"
+        zh_CN: "3小时训练加速"
+        zh_TW: "3小時訓練加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
 
     85:
       name:
+        ar: "تسريع البحث لمدة 30 دقيقة"
         de: "30 Minuten Forschungsbeschleunigung"
         en: "30-Minute Research Speedup"
         es: "30 minutos de Aceleración de Investigación"
         fr: "Accélération de recherche - 30 minutes"
+        id: "Speedup Riset 30 Menit"
+        it: "Acceleratore ricerca da 30 minuti"
+        ja: "30分研究加速"
         ko: "30분 연구 가속"
+        ms: "Percepat Penyelidikan 30 Minit"
         pl: "30-min. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 30 minutos"
+        ru: "30-минутное ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 30 นาที"
+        tr: "30 Dakikalık Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 30 phút"
         zh_CN: "30分钟研究加速"
+        zh_TW: "30分鐘研究加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_13.Sprite.-784960241557596364__04deea8c7788.png
 
     92:
       name:
+        ar: "تسريع العلاج لمدة 5 دقائق"
         de: "5 Minuten Heilungsbeschleunigung"
         en: "5-Minute Healing Speedup"
         es: "5 minutos de Aceleración de Sanación"
         fr: "Accélération de soin - 5 minutes"
+        id: "Speedup Penyembuhan 5 Menit"
+        it: "Acceleratore guarigione da 5 minuti"
+        ja: "5分治療加速"
         ko: "5분 치료 가속"
+        ms: "Percepat Penyembuhan 5 Minit"
         pl: "5-min. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 5 Minutos"
+        ru: "5-минутное ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 5 นาที"
+        tr: "5 Dakikalık İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 5 phút"
         zh_CN: "5分钟治疗加速"
+        zh_TW: "5分鐘治療加速"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
+
+    109:
+      name:
+        ar: "كتاب العهد"
+        de: "Buch der Verpflichtungen"
+        en: "Book of Covenant"
+        es: "Libro de Convenio"
+        fr: "Livre d'alliance"
+        id: "Book of Covenant"
+        it: "Libro dell'alleanza"
+        ja: "誓いの書"
+        ko: "계약의 서"
+        ms: "Buku Perjanjian"
+        pl: "Księga Przymierza"
+        pt: "Livro da Aliança"
+        ru: "Книга соглашений"
+        th: "หนังสือสัญญา"
+        tr: "Sözleşme Kitabı"
+        vi: "Sách giao ước"
+        zh_CN: "誓盟之书"
+        zh_TW: "誓盟之書"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_24.Sprite.1000810112558960902__6d0f3ed615ff.png
 
     113:
       name:
+        ar: "12 ساعة هجوم معزز"
         de: "12-Stunden verbesserter Angriff"
         en: "12-Hour Enhanced Attack"
         es: "12 horas de Mejora de Ataque"
         fr: "Amélioration d'attaque - 12 heures"
+        id: "Enhanced Attack 12 Jam"
+        it: "Attacco potenziato per 12 ore"
+        ja: "12時間攻撃強化"
         ko: "12시간 공격력 강화"
+        ms: "Serangan Dipertingkat 12 Jam"
         pl: "12-godz. wzmocniony atak"
+        pt: "Ataque Aprimorado de 12 Horas"
+        ru: "Усиление атаки на 12 часов"
+        th: "เสริมพลังโจมตี 12 ชั่วโมง"
+        tr: "12 Saatlik Pekiştirilmiş Saldırı"
+        vi: "Tăng cường tấn công 12 giờ"
         zh_CN: "12小时攻击强化"
+        zh_TW: "12小時攻擊強化"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_26.Sprite.-5920047115381027567__7504b7b6239f.png
+
+    114:
+      name:
+        ar: "24 ساعة هجوم معزز"
+        de: "24-Stunden verbesserter Angriff"
+        en: "24-Hour Enhanced Attack"
+        es: "24 horas de Mejora de Ataque"
+        fr: "Amélioration d'attaque - 24 heures"
+        id: "Enhanced Attack 24 Jam"
+        it: "Attacco potenziato per 24 ore"
+        ja: "24時間攻撃強化"
+        ko: "24시간 공격력 강화"
+        ms: "Serangan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniony atak"
+        pt: "Ataque Aprimorado de 24 Horas"
+        ru: "Усиление атаки на 24 часа"
+        th: "เสริมพลังโจมตี 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Saldırı"
+        vi: "Tăng cường tấn công 24 giờ"
+        zh_CN: "24小时攻击强化"
+        zh_TW: "24小時攻擊強化"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_26.Sprite.-5920047115381027567__7504b7b6239f.png
 
     115:
       name:
+        ar: "12 ساعة دفاع معزز"
         de: "12-Stunden verbesserte Verteidigung"
         en: "12-Hour Enhanced Defense"
         es: "12 horas de Mejora de Defensa"
         fr: "Amélioration de défense - 12 heures"
+        id: "Enhanced Defense 12 Jam"
+        it: "Difesa potenziata per 12 ore"
+        ja: "12時間防御強化"
         ko: "12시간 방어력 강화"
+        ms: "Pertahanan Dipertingkat 12 Jam"
         pl: "12-godz. wzmocniona obrona"
+        pt: "Defesa Aprimorada de 12 horas"
+        ru: "Усиление защиты на 12 часов"
+        th: "เสริมพลังป้องกัน 12 ชั่วโมง"
+        tr: "12 Saatlik Pekiştirilmiş Savunma"
+        vi: "Tăng cường phòng thủ 12 giờ"
         zh_CN: "12小时防御强化"
+        zh_TW: "12小時防禦強化"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
 
-    # 100
+    116:
+      name:
+        ar: "24 ساعة دفاع معزز"
+        de: "24-Stunden verbesserte Verteidigung"
+        en: "24-Hour Enhanced Defense"
+        es: "24 horas de Mejora de Defensa"
+        fr: "Amélioration de défense - 24 heures"
+        id: "Enhanced Defense 24 Jam"
+        it: "Difesa potenziata per 24 ore"
+        ja: "24時間防御強化"
+        ko: "24시간 방어력 강화"
+        ms: "Pertahanan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniona obrona"
+        pt: "Defesa Aprimorada de 24 horas"
+        ru: "Усиление защиты на 24 часа"
+        th: "เสริมพลังป้องกัน 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Savunma"
+        vi: "Tăng cường phòng thủ 24 giờ"
+        zh_CN: "24小时防御强化"
+        zh_TW: "24小時防禦強化"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
+
+    # 25%
+    120:
+      name:
+        ar: "توسعة الجيش الأساسي"
+        de: "Grundlegende Armeeerweiterung"
+        en: "Basic Army Expansion"
+        es: "Expansión de tropas básica"
+        fr: "Expansion basique d'armée"
+        id: "Basic Army Expansion"
+        it: "Espansione di base dell'esercito"
+        ja: "初級部隊編成拡大"
+        ko: "초급 부대 확장"
+        ms: "Pertambahan Tentera Asas"
+        pl: "Podst. powiększenie armii"
+        pt: "Expansão Básica do Exército"
+        ru: "Базовое расширение армии"
+        th: "ขยายกองทัพพื้นฐาน"
+        tr: "Temel Ordu Genişletmesi"
+        vi: "Mở rộng quân đội cơ bản"
+        zh_CN: "初级军队扩编"
+        zh_TW: "初級軍隊擴編"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_35.Sprite.-6022566310603116478__be68d7d44757.png
+
+    # 100 AP
     124:
       name:
-        de: "Grundlegende Aktionspunkterholung"
+        ar: "استعادة نقاط الحرب الأساسية"
+        de: "Grundlegende Aktionspunkteerholung:"
         en: "Basic Action Point Recovery"
         es: "Recuperación de puntos de acción básica"
         fr: "Restauration basique de points d'action"
+        id: "Pemulihan Action Point Dasar"
+        it: "Recupero punti d'azione di base"
+        ja: "初級行動力回復"
         ko: "초급 행동력 회복"
+        ms: "Pemulihan Mata Tindakan Asas"
         pl: "Zwykła regeneracja pkt akcji"
+        pt: "Recuperação Básica de Pontos de Ação"
+        ru: "Базовое восстановление очков действия"
+        th: "ฟื้นฟูคะแนนแอ็กชั่นพื้นฐาน"
+        tr: "Temel Eylem Puanı Dolumu"
+        vi: "Khôi phục điểm hành động cơ bản"
         zh_CN: "初级行动力恢复"
+        zh_TW: "初級行動力恢復"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
+
+    # 500 AP
+    125:
+      name:
+        ar: "استعادة نقاط الحرب المتوسطة"
+        de: "Mittlere Aktionspunkteerholung:"
+        en: "Intermediate Action Point Recovery"
+        es: "Recuperación de puntos de acción intermedia"
+        fr: "Restauration intermédiaire de points d'action"
+        id: "Pemulihan Action Point Menengah"
+        it: "Recupero punti d'azione intermedio"
+        ja: "中級行動力回復"
+        ko: "중급 행동력 회복"
+        ms: "Pemulihan Mata Tindakan Sederhana"
+        pl: "Średnia regeneracja pkt akcji"
+        pt: "Recuperação Intermediária de Ponto de Ação"
+        ru: "Среднее восстановление очков действия"
+        th: "ฟื้นฟูคะแนนแอ็กชั่นระดับกลาง"
+        tr: "Orta Eylem Puanı Dolumu"
+        vi: "Khôi phục điểm hành động trung bình"
+        zh_CN: "中级行动力恢复"
+        zh_TW: "中級行動力恢復"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
 
     128:
       name:
+        ar: "مجلد المعرفة مستوى 1"
         de: "Lv.-1-Wissenskompendium"
         en: "Lvl 1 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 1"
         fr: "Tome du savoir niv. 1"
-        ko: "1레벨 지직의 서"
+        id: "Tome of Knowledge Lvl. 1"
+        it: "Tomo della conoscenza liv 1"
+        ja: "知識の書 Lv.1"
+        ko: "1레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 1"
         pl: "Księga wiedzy poz. 1"
+        pt: "Tomo do Conhecimento nv. 1"
+        ru: "Фолиант знания ур. 1"
+        th: "ตำราแห่งความรู้ เลเวล 1"
+        tr: "1. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 1"
         zh_CN: "等级1知识之书"
+        zh_TW: "等級1知識之書"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
     129:
       name:
-        de: "Lv.-1-Wissenskompendium"
+        ar: "مجلد المعرفة مستوى 2"
+        de: "Lv.-2-Wissenskompendium"
         en: "Lvl 2 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 2"
         fr: "Tome du savoir niv. 2"
-        ko: "2레벨 지직의 서"
+        id: "Tome of Knowledge Lvl. 2"
+        it: "Tomo della conoscenza liv 2"
+        ja: "知識の書 Lv.2"
+        ko: "2레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 2"
         pl: "Księga wiedzy poz. 2"
+        pt: "Tomo do Conhecimento nv. 2"
+        ru: "Фолиант знания ур. 2"
+        th: "ตำราแห่งความรู้ เลเวล 2"
+        tr: "2. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 2"
         zh_CN: "等级2知识之书"
+        zh_TW: "等級2知識之書"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
     130:
       name:
+        ar: "مجلد المعرفة مستوى 3"
         de: "Lv.-3-Wissenskompendium"
         en: "Lvl 3 Tome of Knowledge"
         es: "Tomo de conocimiento de nv. 3"
         fr: "Tome du savoir niv. 3"
-        ko: "3레벨 지직의 서"
+        id: "Tome of Knowledge Lvl. 3"
+        it: "Tomo della conoscenza liv 3"
+        ja: "知識の書 Lv.3"
+        ko: "3레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 3"
         pl: "Księga wiedzy poz. 3"
+        pt: "Tomo do Conhecimento nv. 3"
+        ru: "Фолиант знания ур. 3"
+        th: "ตำราแห่งความรู้ เลเวล 3"
+        tr: "3. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 3"
         zh_CN: "等级3知识之书"
+        zh_TW: "等級3知識之書"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
     141:
       name:
+        ar: "1000 طعام"
         de: "1.000 Proviant"
         en: "1,000 Food"
         es: "1 000 de Alimento"
         fr: "1 000 unités de nourriture"
+        id: "1.000 Food"
+        it: "1.000 unità di cibo"
+        ja: "1,000 食料"
         ko: "식량 1,000개"
+        ms: "1,000 Makanan"
         pl: "1 000 żywności"
+        pt: "1.000 de alimento"
+        ru: "1000 пищи"
+        th: "อาหาร 1,000 หน่วย"
+        tr: "1.000 Gıda"
+        vi: "1.000 thực phẩm"
         zh_CN: "1,000 食物"
+        zh_TW: "1,000 食物"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_23.Sprite.4308188145616510587__b87d268b0bcd.png
 
     142:
       name:
+        ar: "1,000 من الخشب."
         de: "1.000 Holz"
         en: "1,000 Wood"
         es: "1 000 de Madera"
         fr: "1 000 unités de bois"
+        id: "1.000 Kayu"
+        it: "1.000 unità di legname"
+        ja: "1,000 木材"
         ko: "목재 1,000개"
+        ms: "1,000 Kayu"
         pl: "1 000 drewna"
+        pt: "1.000 de madeira"
+        ru: "1000 дерева"
+        th: "ไม้ 1,000 หน่วย"
+        tr: "1.000 Odun"
+        vi: "1.000 khối gỗ"
         zh_CN: "1,000 木材"
+        zh_TW: "1,000 木材"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_22.Sprite.-6378098794990140693__be6145533d65.png
 
     143:
       name:
+        ar: "750 من الأحجار."
         de: "750 Steine"
         en: "750 Stone"
         es: "750 de Piedra"
         fr: "750 pierres"
+        id: "750 Stone"
+        it: "750 unità di pietra"
+        ja: "750 石材"
         ko: "석재 750개"
+        ms: "750 Batu"
         pl: "750 kamienia"
+        pt: "750 de pedra"
+        ru: "750 камня"
+        th: "หิน 750 หน่วย"
+        tr: "750 Taş"
+        vi: "750 khối đá"
         zh_CN: "750 石料"
+        zh_TW: "750 石料"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_21.Sprite.-3109613293361830943__0cb90cdd4336.png
 
     144:
       name:
+        ar: "500 من الذهب."
         de: "500 Gold"
         en: "500 Gold"
         es: "500 de Oro"
         fr: "500 unités d'or"
+        id: "500 Emas"
+        it: "500 Oro"
+        ja: "500 金貨"
         ko: "금화 500개"
+        ms: "500 Emas"
         pl: "500 złota"
+        pt: "500 de ouro"
+        ru: "500 золота"
+        th: "ทอง 500 หน่วย"
+        tr: "500 Altın"
+        vi: "500 đồng vàng"
         zh_CN: "500 金币"
+        zh_TW: "500 金幣"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_20.Sprite.-3854421189056980114__3f71cbb3e85a.png
+
+    145:
+      name:
+        ar: "سهام المقاومة"
+        de: "Pfeil des Widerstandes"
+        en: "Arrow of Resistance"
+        es: "Flecha de Resistencia"
+        fr: "Flèche de résistance"
+        id: "Arrow of Resistance"
+        it: "Freccia della resistenza"
+        ja: "抵抗の一矢"
+        ko: "저항의 화살"
+        ms: "Anak Panah Rintangan"
+        pl: "Strzała oporu"
+        pt: "Flecha da Resistência"
+        ru: "Стрела сопротивления"
+        th: "ลูกธนูกันภัย"
+        tr: "Direnç Oku"
+        vi: "Mũi tên chống trả"
+        zh_CN: "抵抗之箭"
+        zh_TW: "抵抗之箭"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_2.Sprite.7520113341742508351__83947536e15e.png
+
+    147:
+      name:
+        ar: "مجلد المعرفة مستوى 4"
+        de: "Lv.-4-Wissenskompendium"
+        en: "Lvl 4 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 4"
+        fr: "Tome du savoir niv. 4"
+        id: "Tome of Knowledge Lvl. 4"
+        it: "Tomo della conoscenza liv 4"
+        ja: "知識の書 Lv.4"
+        ko: "4레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 4"
+        pl: "Księga wiedzy poz. 4"
+        pt: "Tomo do Conhecimento nv. 4"
+        ru: "Фолиант знания ур. 4"
+        th: "ตำราแห่งความรู้ เลเวล 4"
+        tr: "4. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 4"
+        zh_CN: "等级4知识之书"
+        zh_TW: "等級4知識之書"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+
+    148:
+      name:
+        ar: "مجلد المعرفة مستوى 5"
+        de: "Lv.-5-Wissenskompendium"
+        en: "Lvl 5 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 5"
+        fr: "Tome du savoir niv. 5"
+        id: "Tome of Knowledge Lvl. 5"
+        it: "Tomo della conoscenza liv 5"
+        ja: "知識の書 Lv.5"
+        ko: "5레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 5"
+        pl: "Księga wiedzy poz. 5"
+        pt: "Tomo do Conhecimento nv. 5"
+        ru: "Фолиант знания ур. 5"
+        th: "ตำราแห่งความรู้ เลเวล 5"
+        tr: "5. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 5"
+        zh_CN: "等级5知识之书"
+        zh_TW: "等級5知識之書"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+
+    151:
+      name:
+        ar: "5 نقاط VIP"
+        de: "5 VIP-Punkte"
+        en: "5 VIP Points"
+        es: "5 Puntos de VIP"
+        fr: "5 points VIP"
+        id: "5 Point VIP"
+        it: "5 punti VIP"
+        ja: "5 VIPポイント"
+        ko: "5 VIP 포인트"
+        ms: "5 Mata VIP"
+        pl: "5 punktów VIP"
+        pt: "5 pontos VIP"
+        ru: "5 VIP-очков"
+        th: "คะแนน VIP 5 คะแนน"
+        tr: "5 VIP Puanı"
+        vi: "5 điểm VIP"
+        zh_CN: "5 VIP点数"
+        zh_TW: "5 VIP點數"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+
+    155:
+      name:
+        ar: "100 نقاط VIP"
+        de: "100 VIP-Punkte"
+        en: "100 VIP Points"
+        es: "100 Puntos de VIP"
+        fr: "100 points VIP"
+        id: "100 Point VIP"
+        it: "100 punti VIP"
+        ja: "100 VIPポイント"
+        ko: "100 VIP 포인트"
+        ms: "100 Mata VIP"
+        pl: "100 punktów VIP"
+        pt: "100 pontos VIP"
+        ru: "100 VIP-очков"
+        th: "คะแนน VIP 100 คะแนน"
+        tr: "100 VIP Puanı"
+        vi: "100 điểm VIP"
+        zh_CN: "100 VIP点数"
+        zh_TW: "100 VIP點數"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+
+    # 50 AP
+    182:
+      name:
+        ar: "استعادة نقاط الحرب الطارئة"
+        de: "Notfall-Aktionspunkteerholung"
+        en: "Emergency Action Point Recovery"
+        es: "Recuperación de punto de acción urgente"
+        fr: "Récupération de points d'action urgente"
+        id: "Pemulihan Action Point Darurat"
+        it: "Recupero dei punti d'azione di emergenza"
+        ja: "緊急行動力回復"
+        ko: "긴급 행동력 회복"
+        ms: "Pemulihan Mata Tindakan Kecemasan"
+        pl: "Pilna regeneracja pkt akcji"
+        pt: "Recuperação de Ponto de Ação de Emergência"
+        ru: "Срочное восстановление очков действия"
+        th: "การฟื้นฟูคะแนนแอ็กชั่นเร่งด่วน"
+        tr: "Acil Durum Eylem Puanı Dolumu"
+        vi: "Khôi phục nhanh điểm hành động"
+        zh_CN: "紧急行动力恢复"
+        zh_TW: "緊急行動力恢復"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
+
+    # 20,000
+    188:
+      name:
+        ar: "احتياطي مستوى 5"
+        de: "Level-5-Reserven"
+        en: "Level 5 Reserves"
+        es: "Reservas de Nivel 5"
+        fr: "Réserve Niveau 5"
+        id: "Reserves Level 5"
+        it: "Riserve Livello 5"
+        ja: "予備部隊 Lv.5"
+        ko: "5레벨 준비 부대"
+        ms: "Rizab Tahap 5"
+        pl: "Rezerwa poz. 5"
+        pt: "Reservas Nível 5"
+        ru: "Запас, ур. 5"
+        th: "ทรัพยากรเลเวล 5"
+        tr: "5. Seviye Rezervleri"
+        vi: "Kho dự trữ cấp 5"
+        zh_CN: "等级5 预备部队"
+        zh_TW: "等級5 預備部隊"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
+
+    189:
+      name:
+        ar: "احتياطي مستوى 6"
+        de: "Level-6-Reserven"
+        en: "Level 6 Reserves"
+        es: "Reservas de Nivel 6"
+        fr: "Réserve Niveau 6"
+        id: "Reserves Level 6"
+        it: "Riserve Livello 6"
+        ja: "予備部隊 Lv.6"
+        ko: "6레벨 준비 부대"
+        ms: "Rizab Tahap 6"
+        pl: "Rezerwa poz. 6"
+        pt: "Reservas Nível 6"
+        ru: "Запас, ур. 6"
+        th: "ทรัพยากรเลเวล 6"
+        tr: "6. Seviye Rezervleri"
+        vi: "Kho dự trữ cấp 6"
+        zh_CN: "等级6 预备部队"
+        zh_TW: "等級6 預備部隊"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
+
+    190:
+      name:
+        ar: "مفتاح كريستالي"
+        de: "Kristallschlüssel"
+        en: "Crystal Key"
+        es: "Llave de cristal"
+        fr: "Clé de cristal"
+        id: "Kunci Kristal"
+        it: "Chiave di cristallo"
+        ja: "水晶の鍵"
+        ko: "수정 열쇠"
+        ms: "Kunci Kristal"
+        pl: "Kryształowy klucz"
+        pt: "Chave de Cristal"
+        ru: "Кристальный ключ"
+        th: "กุญแจคริสตัล"
+        tr: "Kristal Anahtar"
+        vi: "Chìa khóa pha lê"
+        zh_CN: "水晶钥匙"
+        zh_TW: "水晶鑰匙"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_2040.Sprite.-8896877877587276634__64515ff99b43.png
+
+    # Unknown
+    233:
+
+    405:
+      name:
+        ar: "5,000 رصيد فردي"
+        de: "5.000 Persönliche Credits"
+        en: "5,000 Individual Credits"
+        es: "5 000 Créditos Individuales"
+        fr: "5 000 points individuels"
+        id: "5.000 Credit Perorangan"
+        it: "5.000 Crediti individuali"
+        ja: "5,000 個人ポイント"
+        ko: "5,000 개인 포인트"
+        ms: "5,000 Kredit Individu"
+        pl: "5 000 pkt osobistych"
+        pt: "5.000 créditos individuais"
+        ru: "Личные кредиты: 5000"
+        th: "เครดิตส่วนบุคคล 5,000 เครดิต"
+        tr: "5.000 Bireysel Kredi"
+        vi: "5.000 Tín dụng cá nhân"
+        zh_CN: "5,000 个人积分"
+        zh_TW: "5,000 個人積分"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_89.Sprite.110773705421280046__b4e556566dd5.png
 
     412:
       name:
+        ar: "جلد (عادي)"
         de: "Leder (NORMAL)"
         en: "Leather (NORMAL)"
         es: "Cuero (NORMAL)"
         fr: "Cuir (NORMAL)"
+        id: "Kulit (NORMAL)"
+        it: "Cuoio (NORMALE)"
+        ja: "皮革 (ノーマル)"
         ko: "가죽 (일반)"
+        ms: "Kulit (BIASA)"
         pl: "Skóra (Zwykły)"
-        zh_CN: "皮革（普通）"
+        pt: "Couro (NORMAL)"
+        ru: "Кожа (ОБЫЧН)"
+        th: "หนังสัตว์ (ปกติ)"
+        tr: "Deri (NORMAL)"
+        vi: "Da (BÌNH THƯỜNG)"
+        zh_CN: "皮革 (普通)"
+        zh_TW: "皮革 (普通)"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_mat_30.Sprite.-899277241050317236__cf2ee768258a.png
 
     413:
       name:
+        ar: "خام الحديد (عادي)"
         de: "Eisenerz (NORMAL)"
         en: "Iron Ore (NORMAL)"
         es: "Mineral de hierro (NORMAL)"
         fr: "Minerai de fer (NORMAL)"
+        id: "Bijih Besi (NORMAL)"
+        it: "Minerale di ferro (NORMALE)"
+        ja: "鉄鉱石 (ノーマル)"
         ko: "철광석 (일반)"
+        ms: "Bijih Besi (BIASA)"
         pl: "Ruda żelaza (Zwykły)"
-        zh_CN: "铁矿石（普通）"
+        pt: "Minério de ferro (NORMAL)"
+        ru: "Железная руда (ОБЫЧН)"
+        th: "แร่เหล็ก (ปกติ)"
+        tr: "Demir Cevheri (NORMAL)"
+        vi: "Quặng sắt (BÌNH THƯỜNG)"
+        zh_CN: "铁矿石 (普通)"
+        zh_TW: "鐵礦石 (普通)"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_mat_25.Sprite.7654793971896976380__7752a4f64d41.png
 
     414:
       name:
+        ar: "عظم حيوان (عادي)"
         de: "Tierknochen (NORMAL)"
         en: "Animal Bone (NORMAL)"
         es: "Hueso animal (NORMAL)"
         fr: "Os d'animal (NORMAL)"
+        id: "Tulang Binatang (NORMAL)"
+        it: "Osso d'animale (NORMALE)"
+        ja: "獣骨 (ノーマル)"
         ko: "짐승뼈 (일반)"
+        ms: "Tulang Haiwan (BIASA)"
         pl: "Kość zwierzęca (Zwykły)"
-        zh_CN: "兽骨（普通）"
+        pt: "Osso animal (NORMAL)"
+        ru: "Кость животного (ОБЫЧН)"
+        th: "กระดูกสัตว์ (ปกติ)"
+        tr: "Hayvan Kemiği (NORMAL)"
+        vi: "Xương động vật (BÌNH THƯỜNG)"
+        zh_CN: "兽骨 (普通)"
+        zh_TW: "獸骨 (普通)"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_mat_35.Sprite.251869861137381082__5ea61eca5d75.png
 
     417:
       name:
+        ar: "أبنوس (عادي)"
         de: "Ebenholz (NORMAL)"
         en: "Ebony (NORMAL)"
         es: "Ébano (NORMAL)"
         fr: "Ébène (NORMAL)"
+        id: "Kayu Ebony (NORMAL)"
+        it: "Ebano (NORMALE)"
+        ja: "黒檀 (ノーマル)"
         ko: "흑단 (일반)"
+        ms: "Ebony (BIASA)"
         pl: "Heban (Zwykły)"
-        zh_CN: "乌木（普通）"
+        pt: "Ébano (NORMAL)"
+        ru: "Черное дерево (ОБЫЧН)"
+        th: "ไม้มะเกลือ (ปกติ)"
+        tr: "Abanoz (NORMAL)"
+        vi: "Gỗ mun (BÌNH THƯỜNG)"
+        zh_CN: "乌木 (普通)"
+        zh_TW: "烏木 (普通)"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_mat_15.Sprite.-2538357489674707961__280f4fb457ea.png
 
     419:
       name:
+        ar: "جلد (متقدم)"
         de: "Leder (FORTGESCHRITTEN)"
         en: "Leather (ADVANCED)"
         es: "Cuero (AVANZADO)"
         fr: "Cuir (AVANCÉ)"
+        id: "Kulit (TINGKAT LANJUT)"
+        it: "Cuoio (AVANZATO)"
+        ja: "皮革 (レア)"
         ko: "가죽 (우수)"
+        ms: "Kulit (LANJUTAN)"
         pl: "Skóra (Zaawansowana)"
-        zh_CN: "皮革（优秀）"
+        pt: "Couro (AVANÇADO)"
+        ru: "Кожа (ПРОДВИНУТ.)"
+        th: "หนังสัตว์ (ขั้นสูง)"
+        tr: "Deri (ÜST DÜZEY)"
+        vi: "Da (NÂNG CAO)"
+        zh_CN: "皮革 (优秀)"
+        zh_TW: "皮革 (優秀)"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_mat_29.Sprite.5478883628409344043__25eb66d51fb6.png
 
     420:
       name:
+        ar: "خام الحديد (متقدم)"
         de: "Eisenerz (FORTGESCHRITTEN)"
         en: "Iron Ore (ADVANCED)"
         es: "Mineral de hierro (AVANZADO)"
         fr: "Minerai de fer (AVANCÉ)"
+        id: "Bijih Besi (TINGKAT LANJUT)"
+        it: "Minerale di ferro (AVANZATO)"
+        ja: "鉄鉱石 (レア)"
         ko: "철광석 (우수)"
+        ms: "Bijih Besi (LANJUTAN)"
         pl: "Ruda żelaza (Zaawansowana)"
-        zh_CN: "铁矿石（优秀）"
+        pt: "Minério de ferro (AVANÇADO)"
+        ru: "Железная руда (ПРОДВИНУТ.)"
+        th: "แร่เหล็ก (ขั้นสูง)"
+        tr: "Demir Cevheri (ÜST DÜZEY)"
+        vi: "Quặng sắt (NÂNG CAO)"
+        zh_CN: "铁矿石 (优秀)"
+        zh_TW: "鐵礦石 (優秀)"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_mat_24.Sprite.8072268966102571235__95df03b13440.png
 
     421:
       name:
+        ar: "عظم حيوان (متقدم)"
         de: "Tierknochen (FORTGESCHRITTEN)"
         en: "Animal Bone (ADVANCED)"
         es: "Hueso animal (AVANZADO)"
         fr: "Os d'animal (AVANCÉ)"
+        id: "Tulang Binatang (TINGKAT LANJUT)"
+        it: "Osso d'animale (AVANZATO)"
+        ja: "獣骨 (レア)"
         ko: "짐승뼈 (우수)"
+        ms: "Tulang Haiwan (LANJUTAN)"
         pl: "Kość zwierzęca (Zaawansowana)"
-        zh_CN: "兽骨（优秀）"
+        pt: "Osso animal (AVANÇADO)"
+        ru: "Кость животного (ПРОДВИНУТ.)"
+        th: "กระดูกสัตว์ (ขั้นสูง)"
+        tr: "Hayvan Kemiği (ÜST DÜZEY)"
+        vi: "Xương động vật (NÂNG CAO)"
+        zh_CN: "兽骨 (优秀)"
+        zh_TW: "獸骨 (優秀)"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_mat_34.Sprite.8991267780146024171__b2fcd9e91577.png
 
     424:
       name:
+        ar: "أبنوس (متقدم)"
         de: "Ebenholz (FORTGESCHRITTEN)"
         en: "Ebony (ADVANCED)"
         es: "Ébano (AVANZADO)"
         fr: "Ébène (AVANCÉ)"
+        id: "Kayu Ebony (TINGKAT LANJUT)"
+        it: "Ebano (AVANZATO)"
+        ja: "黒檀 (レア)"
         ko: "흑단 (우수)"
+        ms: "Ebony (LANJUTAN)"
         pl: "Heban (Zaawansowana)"
-        zh_CN: "乌木（优秀）"
+        pt: "Ébano (AVANÇADO)"
+        ru: "Черное дерево (ПРОДВИНУТ.)"
+        th: "ไม้มะเกลือ (ขั้นสูง)"
+        tr: "Abanoz (ÜST DÜZEY)"
+        vi: "Gỗ mun (NÂNG CAO)"
+        zh_CN: "乌木 (优秀)"
+        zh_TW: "烏木 (優秀)"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_mat_14.Sprite.-5110219989689072000__dd94af144b3b.png
+
+    567:
+      name:
+        ar: "مفتاح السيادة"
+        de: "Herrscherschlüssel"
+        en: "Sovereign Key"
+        es: "Llave de soberano"
+        fr: "Clé de souverain"
+        id: "Kunci Sovereign"
+        it: "Chiave sovrana"
+        ja: "君王の鍵"
+        ko: "제왕의 열쇠"
+        ms: "Kunci Kedaulatan"
+        pl: "Klucz suwerena"
+        pt: "Chave do Soberano"
+        ru: "Ключ власти"
+        th: "กุญแจอำนาจปกครอง"
+        tr: "Hükümdar Anahtarı"
+        vi: "Chìa Khóa Thần Hiệu"
+        zh_CN: "君王之匙"
+        zh_TW: "君王之匙"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_2086.Sprite.-4769084898354904771__ab183b9d65a5.png
+
+    # KVK 1 item
+    577:
+      name:
+        ar: "عملة التقنية"
+        de: "Technologiemarke"
+        en: "Tech Token"
+        es: "Ficha tecnológica"
+        fr: "Jeton de technologie"
+        id: "Token Teknologi"
+        it: "Gettone di tecnologia"
+        ja: "技術コイン"
+        ko: "기술 코인"
+        ms: "Token Teknologi"
+        pl: "Żeton technologii"
+        pt: "Símbolo de Tecnologia"
+        ru: "Жетон технологии"
+        th: "โทเค็นเทคโนโลยี"
+        tr: "Tekno Jetonu"
+        vi: "Xu Công Nghệ"
+        zh_CN: "科技币"
+        zh_TW: "科技幣"
+      sprite:
+        - img_KVK_Coin2big.Sprite.-5192556106934865557__c5674f5d4b24.png
+
+    4304:
+      name:
+        ar: "شهادة التَدفُّق 3"
+        de: "Schimmernder Wertschein III"
+        en: "Flux Scrip III"
+        es: "Boleto reluciente III"
+        fr: "Billet chatoyant III"
+        id: "Naskah Alir III"
+        it: "Biglietto scintillante III"
+        ja: "流光宝くじ Ⅲ"
+        ko: "컬러 쿠폰 Ⅲ"
+        ms: "Skrip Fluks III"
+        pl: "Połyskujący kwit III"
+        pt: "Certificado de Fluxo III"
+        ru: "Мерцающая расписка III"
+        th: "ใบตราสารฟลักซ์ 3"
+        tr: "Akı Makbuzu III"
+        vi: "Vé Số Lung Linh III"
+        zh_CN: "流光彩券 Ⅲ"
+        zh_TW: "流光彩券 Ⅲ"
+
+    4305:
+      name:
+        ar: "شهادة التَدفُّق 4"
+        de: "Schimmernder Wertschein IV"
+        en: "Flux Scrip IV"
+        es: "Boleto reluciente IV"
+        fr: "Billet chatoyant IV"
+        id: "Naskah Alir IV"
+        it: "Biglietto scintillante IV"
+        ja: "流光宝くじ Ⅳ"
+        ko: "컬러 쿠폰 Ⅳ"
+        ms: "Skrip Fluks IV"
+        pl: "Połyskujący kwit IV"
+        pt: "Certificado de Fluxo IV"
+        ru: "Мерцающая расписка IV"
+        th: "ใบตราสารฟลักซ์ 4"
+        tr: "Akı Makbuzu IV"
+        vi: "Vé Số Lung Linh IV"
+        zh_CN: "流光彩券 Ⅳ"
+        zh_TW: "流光彩券 Ⅳ"
+
+    4306:
+      name:
+        ar: "شهادة التَدفُّق 5"
+        de: "Schimmernder Wertschein V"
+        en: "Flux Scrip V"
+        es: "Boleto reluciente V"
+        fr: "Billet chatoyant V"
+        id: "Naskah Alir V"
+        it: "Biglietto scintillante V"
+        ja: "流光宝くじ Ⅴ"
+        ko: "컬러 쿠폰 Ⅴ"
+        ms: "Skrip Fluks V"
+        pl: "Połyskujący kwit V"
+        pt: "Certificado de Fluxo V"
+        ru: "Мерцающая расписка V"
+        th: "ใบตราสารฟลักซ์ 5"
+        tr: "Akı Makbuzu V"
+        vi: "Vé Số Lung Linh V"
+        zh_CN: "流光彩券 Ⅴ"
+        zh_TW: "流光彩券 Ⅴ"
+
+    4307:
+      name:
+        ar: "شهادة التَدفُّق 6"
+        de: "Schimmernder Wertschein VI"
+        en: "Flux Scrip VI"
+        es: "Boleto reluciente VI"
+        fr: "Billet chatoyant VI"
+        id: "Naskah Alir VI"
+        it: "Biglietto scintillante VI"
+        ja: "流光宝くじ Ⅵ"
+        ko: "컬러 쿠폰 Ⅵ"
+        ms: "Skrip Fluks VI"
+        pl: "Połyskujący kwit VI"
+        pt: "Certificado de Fluxo VI"
+        ru: "Мерцающая расписка VI"
+        th: "ใบตราสารฟลักซ์ 6"
+        tr: "Akı Makbuzu VI"
+        vi: "Vé Số Lung Linh VI"
+        zh_CN: "流光彩券 Ⅵ"
+        zh_TW: "流光彩券 Ⅵ"
+
+    4308:
+      name:
+        ar: "شهادة التَدفُّق 7"
+        de: "Schimmernder Wertschein VII"
+        en: "Flux Scrip VII"
+        es: "Boleto reluciente VII"
+        fr: "Billet chatoyant VII"
+        id: "Naskah Alir VII"
+        it: "Biglietto scintillante VII"
+        ja: "流光宝くじ Ⅶ"
+        ko: "컬러 쿠폰 Ⅶ"
+        ms: "Skrip Fluks VII"
+        pl: "Połyskujący kwit VII"
+        pt: "Certificado de Fluxo VII"
+        ru: "Мерцающая расписка VII"
+        th: "ใบตราสารฟลักซ์ 7"
+        tr: "Akı Makbuzu VII"
+        vi: "Vé Số Lung Linh VII"
+        zh_CN: "流光彩券 Ⅶ"
+        zh_TW: "流光彩券 Ⅶ"
+
+    4350:
+      name:
+        ar: "عملة التَدفُّق"
+        de: "Wertmünze"
+        en: "Flux Coin"
+        es: "Moneda reluciente"
+        fr: "Pièce chatoyante"
+        id: "Koin Alir"
+        it: "Moneta scintillante"
+        ja: "流光コイン"
+        ko: "컬러 코인"
+        ms: "Syiling Fluks"
+        pl: "Połyskująca moneta"
+        pt: "Moeda de Fluxo"
+        ru: "Мерцающая монета"
+        th: "เหรียญฟลักซ์"
+        tr: "Akı Sikkesi"
+        vi: "Xu Lung Linh"
+        zh_CN: "流光币"
+        zh_TW: "流光幣"
+
+    7003:
+      name:
+        ar: "حزمة الموارد A مستوى 1"
+        de: "Lv.-1-Ressourcenpack A"
+        en: "Lvl 1 Resource Pack A"
+        es: "Paquete de recursos A de nv. 1"
+        fr: "Pack de ressources A niv. 1"
+        id: "Resource Pack A Lvl. 1"
+        it: "Pacco risorse A liv 1"
+        ja: "初級資源パックA"
+        ko: "초급 자원 포켓 A"
+        ms: "Pek Sumber A Thp 1"
+        pl: "Paczka surowców (A) poz. 1"
+        pt: "Pacote de Recursos A nv. 1"
+        ru: "Набор ресурсов А ур. 1"
+        th: "แพ็คทรัพยากร A เลเวล 1"
+        tr: "1. Sv. Kaynak Paketi A"
+        vi: "Gói Tài Nguyên A Cấp 1"
+        zh_CN: "初级资源包A"
+        zh_TW: "初級資源包A"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+
+    7004:
+      name:
+        ar: "حزمة الموارد B مستوى 1"
+        de: "Lv.-1-Ressourcenpack B"
+        en: "Lvl 1 Resource Pack B"
+        es: "Paquete de recursos B de nv. 1"
+        fr: "Pack de ressources B niv. 1"
+        id: "Resource Pack B Lvl. 1"
+        it: "Pacco risorse B liv 1"
+        ja: "初級資源パックB"
+        ko: "초급 자원 포켓 B"
+        ms: "Pek Sumber B Thp 1"
+        pl: "Paczka surowców (B) poz. 1"
+        pt: "Pacote de Recursos B nv. 1"
+        ru: "Набор ресурсов В ур. 1"
+        th: "แพ็คทรัพยากร B เลเวล 1"
+        tr: "1. Sv. Kaynak Paketi B"
+        vi: "Gói Tài Nguyên B Cấp 1"
+        zh_CN: "初级资源包B"
+        zh_TW: "初級資源包B"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
 
     7005:
       name:
+        ar: "حزمة الموارد C مستوى 1"
         de: "Lv.-1-Ressourcenpack C"
         en: "Lvl 1 Resource Pack C"
         es: "Paquete de recursos C de nv. 1"
         fr: "Pack de ressources C niv. 1"
+        id: "Resource Pack C Lvl. 1"
+        it: "Pacco risorse C liv 1"
+        ja: "初級資源パックC"
         ko: "초급 자원 포켓 C"
+        ms: "Pek Sumber C Thp 1"
         pl: "Paczka surowców (C) poz. 1"
+        pt: "Pacote de Recursos C nv. 1"
+        ru: "Набор ресурсов С ур. 1"
+        th: "แพ็คทรัพยากร C เลเวล 1"
+        tr: "1. Sv. Kaynak Paketi C"
+        vi: "Gói Tài Nguyên C Cấp 1"
         zh_CN: "初级资源包C"
+        zh_TW: "初級資源包C"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+
+    7006:
+      name:
+        ar: "حزمة الموارد مستوى 2"
+        de: "Lv.-2-Ressourcenpack"
+        en: "Lvl 2 Resource Pack"
+        es: "Paquete de recursos de nv. 2"
+        fr: "Pack de ressources niv. 2"
+        id: "Resource Pack Lvl. 2"
+        it: "Pacco risorse liv 2"
+        ja: "中級資源パック"
+        ko: "중급 자원 포켓"
+        ms: "Pek Sumber Thp 2"
+        pl: "Paczka surowców poz. 2"
+        pt: "Pacote de Recursos nv. 2"
+        ru: "Набор ресурсов ур. 2"
+        th: "แพ็คทรัพยากร เลเวล 2"
+        tr: "2. Sv. Kaynak Paketi"
+        vi: "Gói Tài Nguyên Cấp 2"
+        zh_CN: "中级资源包"
+        zh_TW: "中級資源包"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
 
     # Normal
     7051:
       name:
+        ar: "صندوق مواد المعدة"
         de: "Ausrüstungsmaterialtruhe"
         en: "Equipment Materials Chest"
         es: "Cofre de materiales de equipamiento"
         fr: "Coffre de matériaux d'équipement"
+        id: "Peti Material Perlengkapan"
+        it: "Forziere del materiale per l'equipaggiamento"
+        ja: "装備素材箱"
         ko: "장비 재료상자"
+        ms: "Peti Bahan Peralatan"
         pl: "Skrzynia materiałów na zwykły ekwipunek"
+        pt: "Baú de materiais de equipamentos"
+        ru: "Сундук с материалами для снаряжения"
+        th: "หีบวัสดุสำหรับอุปกรณ์"
+        tr: "Ekipman Malzemeleri Sandığı"
+        vi: "Rương Vật Liệu Trang Bị"
         zh_CN: "装备材料箱"
+        zh_TW: "裝備材料箱"
+      sprite:
+        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
+        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
 
     # Advanced
     7052:
       name:
+        ar: "صندوق مواد المعدة"
         de: "Ausrüstungsmaterialtruhe"
         en: "Equipment Materials Chest"
         es: "Cofre de materiales de equipamiento"
         fr: "Coffre de matériaux d'équipement"
+        id: "Peti Material Perlengkapan"
+        it: "Forziere del materiale per l'equipaggiamento"
+        ja: "装備素材箱"
         ko: "장비 재료상자"
+        ms: "Peti Bahan Peralatan"
         pl: "Skrzynia materiałów na zaawansowany ekwipunek"
+        pt: "Baú de materiais de equipamentos"
+        ru: "Сундук с материалами для снаряжения"
+        th: "หีบวัสดุสำหรับอุปกรณ์"
+        tr: "Ekipman Malzemeleri Sandığı"
+        vi: "Rương Vật Liệu Trang Bị"
         zh_CN: "装备材料箱"
+        zh_TW: "裝備材料箱"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
 
     # Elite
     7053:
       name:
+        ar: "صندوق مواد المعدة"
         de: "Ausrüstungsmaterialtruhe"
         en: "Equipment Materials Chest"
         es: "Cofre de materiales de equipamiento"
         fr: "Coffre de matériaux d'équipement"
+        id: "Peti Material Perlengkapan"
+        it: "Forziere del materiale per l'equipaggiamento"
+        ja: "装備素材箱"
         ko: "장비 재료상자"
+        ms: "Peti Bahan Peralatan"
         pl: "Skrzynia materiałów na elitarny ekwipunek"
+        pt: "Baú de materiais de equipamentos"
+        ru: "Сундук с материалами для снаряжения"
+        th: "หีบวัสดุสำหรับอุปกรณ์"
+        tr: "Ekipman Malzemeleri Sandığı"
+        vi: "Rương Vật Liệu Trang Bị"
         zh_CN: "装备材料箱"
+        zh_TW: "裝備材料箱"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+
+    # Epic
+    7054:
+      name:
+        ar: "صندوق مواد المعدة"
+        de: "Ausrüstungsmaterialtruhe"
+        en: "Equipment Materials Chest"
+        es: "Cofre de materiales de equipamiento"
+        fr: "Coffre de matériaux d'équipement"
+        id: "Peti Material Perlengkapan"
+        it: "Forziere del materiale per l'equipaggiamento"
+        ja: "装備素材箱"
+        ko: "장비 재료상자"
+        ms: "Peti Bahan Peralatan"
+        pl: "Skrzynia materiałów na epicki ekwipunek"
+        pt: "Baú de materiais de equipamentos"
+        ru: "Сундук с материалами для снаряжения"
+        th: "หีบวัสดุสำหรับอุปกรณ์"
+        tr: "Ekipman Malzemeleri Sandığı"
+        vi: "Rương Vật Liệu Trang Bị"
+        zh_CN: "装备材料箱"
+        zh_TW: "裝備材料箱"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+
+    8002:
+      name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 2'
+        de: 'Level 2 „Freie Auswahl"-Ressourcentruhe'
+        en: 'Level 2 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 2 "Elige Uno"'
+        fr: "Niveau 2 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 2'
+        it: 'Baule delle risorse di Livello 2 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.2"
+        ko: "2레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 2'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 2"
+        pt: 'Baú de Recurso Nível 2 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 2"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 2'
+        tr: '2. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 2'
+        zh_CN: "等级2自选资源宝箱"
+        zh_TW: "等級2自選資源寶箱"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+
+    8003:
+      name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 3'
+        de: 'Level 3 „Freie Auswahl"-Ressourcentruhe'
+        en: 'Level 3 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 3 "Elige Uno"'
+        fr: "Niveau 3 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 3'
+        it: 'Baule delle risorse di Livello 3 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.3"
+        ko: "3레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 3'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 3"
+        pt: 'Baú de Recurso Nível 3 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 3"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 3'
+        tr: '3. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 3'
+        zh_CN: "等级3自选资源宝箱"
+        zh_TW: "等級3自選資源寶箱"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+
+    8004:
+      name:
+        ar: '"اختر واحد" صندوق الموارد مستوى 4'
+        de: 'Level 4 „Freie Auswahl"-Ressourcentruhe'
+        en: 'Level 4 "Pick One" Resource Chest'
+        es: 'Cofre de Recursos de nivel 4 "Elige Uno"'
+        fr: "Niveau 4 « Choisissez un » Coffre de Ressources"
+        id: 'Peti SDA "Pick One" Level 4'
+        it: 'Baule delle risorse di Livello 4 "Scegline Uno"'
+        ja: "指定資源宝箱 Lv.4"
+        ko: "4레벨 자원 선택 보물상자"
+        ms: 'Peti Sumber "Pilih Satu" Tahap 4'
+        pl: "Skrzynia surowców typu „wybierz jedno” poz. 4"
+        pt: 'Baú de Recurso Nível 4 "Escolha um"'
+        ru: "Сундук ресурсов «Что-то одно», ур. 4"
+        th: 'หีบทรัพยากรแบบ "เลือกหนึ่งชิ้น" เลเวล 4'
+        tr: '4. Seviye "Bir Tane Al" Kaynak Sandığı'
+        vi: 'Rương Tài Nguyên "Chọn Một" cấp 4'
+        zh_CN: "等级4自选资源宝箱"
+        zh_TW: "等級4自選資源寶箱"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+
+    # Advanced
+    9996:
+      name:
+        ar: "تمثال النجم العتيق"
+        de: "Veraltete Sternenlicht-Skulptur"
+        en: "Obsolete Starlight Sculpture"
+        es: "Escultura de Starlight Obsoleta"
+        fr: "Sculpture de lumière d'étoile obsolète"
+        id: "Patung Cahaya Bintang yang Usang"
+        it: "Scultura di luce stellare obsoleta"
+        ja: "古びた星の勲章"
+        ko: "낡은 별빛 조각상"
+        ms: "Arca Cahaya Bintang Usang"
+        pl: "Stara rzeźba gwiezdna"
+        pt: "Escultura Luz estelar obsoleta"
+        ru: "Устаревшая скульптура лунного света"
+        th: "รูปปั้นแสงดาวเก่าเก็บ"
+        tr: "Eskimiş Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao cũ"
+        zh_CN: "陈旧的星光雕像"
+        zh_TW: "陳舊的星光雕像"
+      sprite:
+        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
+        - img_icon_item_HeroCarving_Star2.Sprite.-4896788261184388954__d7758add4f0e.png
+
+    # Elite
+    9997:
+      name:
+        ar: "تمثال النجم العادي"
+        de: "Einfache Sternenlicht-Skulptur"
+        en: "Ordinary Starlight Sculpture"
+        es: "Escultura de Starlight Ordinaria"
+        fr: "Sculpture de lumière d'étoile ordinaire"
+        id: "Patung Cahaya Bintang yang Biasa"
+        it: "Scultura di luce stellare ordinaria"
+        ja: "平凡な星の勲章"
+        ko: "일반 별빛 조각상"
+        ms: "Arca Cahaya Bintang Biasa"
+        pl: "Zwykła rzeźba gwiezdna"
+        pt: "Escultura Luz estelar ordinária"
+        ru: "Обычная скульптура лунного света"
+        th: "รูปปั้นแสงดาวทั่วไป"
+        tr: "Sıradan Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao bình thường"
+        zh_CN: "普通的星光雕像"
+        zh_TW: "普通的星光雕像"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_HeroCarving_Star3.Sprite.-9010997127951978096__f15e2082c509.png
 
     # Epic
     9998:
       name:
+        ar: "تمثال النجم الجديد"
         de: "Brandneue Sternenlicht-Skulptur"
         en: "Brand-new Starlight Sculpture"
         es: "Escultura de Starlight Nueva"
         fr: "Sculpture de lumière d'étoile neuve"
+        id: "Patung Cahaya Bintang yang Baru"
+        it: "Scultura di luce stellare nuova di zecca"
+        ja: "新しい星の勲章"
         ko: "새로운 별빛 조각상"
+        ms: "Arca Cahaya Bintang Serba Baharu"
         pl: "Nowiutka rzeźba gwiezdna"
-        zh_CN: "新的星光雕像"
+        pt: "Escultura Luz estelar nova"
+        ru: "Новая скульптура лунного света"
+        th: "รูปปั้นแสงดาวใหม่เอี่ยม"
+        tr: "Yepyeni Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao mới"
+        zh_CN: "崭新的星光雕像"
+        zh_TW: "嶄新的星光雕像"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_HeroCarving_Star4.Sprite.-5367206491932855599__02b85af8f8f5.png
+
+    # Legendary
+    9999:
+      name:
+        ar: "تمثال النجم الباهر"
+        de: "Glanzvolle Sternenlicht-Skulptur"
+        en: "Dazzling Starlight Sculpture"
+        es: "Escultura de Starlight Resplandeciente"
+        fr: "Sculpture de lumière d'étoile éblouissante"
+        id: "Patung Cahaya Bintang yang Berkilau"
+        it: "Scultura di luce stellare abbacinante"
+        ja: "輝ける星の勲章"
+        ko: "찬란한 별빛 조각상"
+        ms: "Arca Cahaya Bintang Berkilauan"
+        pl: "Olśniewająca rzeźba gwiezdna"
+        pt: "Escultura Luz estelar Deslumbrante"
+        ru: "Ослепительная скульптура лунного света"
+        th: "รูปปั้นแสงดาวเปล่งประกาย"
+        tr: "Göz Kamaştırıcı Yıldız Işığı Heykeli"
+        vi: "Tượng đèn sao rực rỡ"
+        zh_CN: "璀璨的星光雕像"
+        zh_TW: "璀璨的星光雕像"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_HeroCarving_Star5.Sprite.-7792003900206484865__4152c2fec8d1.png
+
+    10005:
+      name:
+        ar: "تمثال قائد أسطوري"
+        de: "Legendäre-Kommandanten-Skulptur"
+        en: "Legendary Commander Sculpture"
+        es: "Escultura de comandante legendario"
+        fr: "Sculpture de commandant légendaire"
+        id: "Patung Komandan Legendaris"
+        it: "Scultura del comandante leggendaria"
+        ja: "レジェンド英雄像"
+        ko: "전설 사령관 조각상"
+        ms: "Arca Komander Legenda"
+        pl: "Rzeźba legendarnego dowódcy"
+        pt: "Escultura Comandante Lendário"
+        ru: "Скульптура легендарного командира"
+        th: "รูปปั้นผู้บัญชาการระดับตำนาน"
+        tr: "Efsanevi Komutan Heykeli"
+        vi: "Tượng chỉ huy huyền thoại"
+        zh_CN: "传说统帅雕像"
+        zh_TW: "傳說統帥雕像"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_HeroCarving_Universal5.Sprite.-7718458993068816883__7f227c4f54fb.png
+
+  4:
+    2:
+      name:
+        ar: "صندوق تحالف حجري"
+        de: "Bündnis-Steintruhe"
+        en: "Alliance Stone Chest"
+        es: "Cofre de piedra de la alianza"
+        fr: "Coffre de pierre d'alliance"
+        id: "Stone Chest Aliansi"
+        it: "Forziere di pietra dell'alleanza"
+        ja: "石製の宝箱（同盟）"
+        ko: "석재 보물상자 (연맹)"
+        ms: "Peti Batu Perikatan"
+        pl: "Kamienna skrzynia sojuszu"
+        pt: "Baú de Pedra da Aliança"
+        ru: "Каменный сундук альянса"
+        th: "หีบก้อนหินสมาพันธ์"
+        tr: "Birlik Taş Sandığı"
+        vi: "Rương Đá Liên Minh"
+        zh_CN: "联盟石质宝箱"
+        zh_TW: "聯盟石質寶箱"
+
+    3:
+      name:
+        ar: "صندوق تحالف فولاذي"
+        de: "Bündnis-Bronzetruhe"
+        en: "Alliance Iron Chest"
+        es: "Cofre de bronce de la alianza"
+        fr: "Coffre de bronze d'alliance"
+        id: "Peti Besi Aliansi"
+        it: "Forziere di bronzo dell'alleanza"
+        ja: "黒鉄の宝箱（同盟）"
+        ko: "청동 보물상자 (연맹)"
+        ms: "Peti Besi Perikatan"
+        pl: "Żelazna skrzynia sojuszu"
+        pt: "Baú de Bronze da Aliança"
+        ru: "Железный сундук альянса"
+        th: "หีบเหล็กสมาพันธ์"
+        tr: "Birlik Demir Sandığı"
+        vi: "Rương Đồng Liên Minh"
+        zh_CN: "联盟黑铁宝箱"
+        zh_TW: "聯盟黑鐵寶箱"
+
+    4:
+      name:
+        ar: "صندوق تحالف برونزي"
+        de: "Bündnis-Eisentruhe"
+        en: "Alliance Bronze Chest"
+        es: "Cofre de hierro de la alianza"
+        fr: "Coffre de fer d'alliance"
+        id: "Peti Perunggu Aliansi"
+        it: "Forziere di ferro dell'alleanza"
+        ja: "青銅の宝箱（同盟）"
+        ko: "강철 보물상자 (연맹)"
+        ms: "Peti Gangsa Perikatan"
+        pl: "Brązowa skrzynia sojuszu"
+        pt: "Baú de Ferro da Aliança"
+        ru: "Бронзовый сундук альянса"
+        th: "หีบทองสัมฤทธิ์สมาพันธ์"
+        tr: "Birlik Tunç Sandığı"
+        vi: "Rương Sắt Liên Minh"
+        zh_CN: "联盟青铜宝箱"
+        zh_TW: "聯盟青銅寶箱"
+
+    5:
+      name:
+        ar: "صندوق تحالف فضي"
+        de: "Bündnis-Silbertruhe"
+        en: "Alliance Silver Chest"
+        es: "Cofre plateado de la alianza"
+        fr: "Coffre d'argent d'alliance"
+        id: "Peti Perak Aliansi"
+        it: "Forziere d'argento dell'alleanza"
+        ja: "白銀の宝箱（同盟）"
+        ko: "백은 보물상자 (연맹)"
+        ms: "Peti Perak Perikatan"
+        pl: "Srebrna skrzynia sojuszu"
+        pt: "Baú de Prata da Aliança"
+        ru: "Серебряный сундук альянса"
+        th: "หีบเงินสมาพันธ์"
+        tr: "Birlik Gümüş Sandığı"
+        vi: "Rương Bạc Liên Minh"
+        zh_CN: "联盟白银宝箱"
+        zh_TW: "聯盟白銀寶箱"
+
+    6:
+      name:
+        ar: "صندوق تحالف ذهبي"
+        de: "Bündnis-Goldtruhe"
+        en: "Alliance Golden Chest"
+        es: "Cofre dorado de la alianza"
+        fr: "Coffre d'or d'alliance"
+        id: "Peti Emas Aliansi"
+        it: "Forziere d'oro dell'alleanza"
+        ja: "黄金の宝箱（同盟）"
+        ko: "황금 보물상자 (연맹)"
+        ms: "Peti Emas Perikatan"
+        pl: "Złota skrzynia sojuszu"
+        pt: "Baú de Ouro da Aliança"
+        ru: "Золотой сундук альянса"
+        th: "หีบทองคำสมาพันธ์"
+        tr: "Birlik Altın Sandığı"
+        vi: "Rương Vàng Liên Minh"
+        zh_CN: "联盟黄金宝箱"
+        zh_TW: "聯盟黃金寶箱"

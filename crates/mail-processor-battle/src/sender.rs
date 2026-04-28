@@ -1,18 +1,20 @@
-//! Sender extractor for Battle mail.
+//! Sender parser for Battle mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
 
-use crate::content::{require_child_object, require_content};
-use crate::participants::extract_participants;
-use crate::player::extract_player_fields;
+use crate::{
+    content::{require_child_object, require_content},
+    participants::extract_participants,
+    player::extract_player_fields,
+};
 
-/// Extracts sender details from the SelfChar payload.
+/// Pulls sender details out of the `SelfChar` payload.
 #[derive(Debug, Default)]
 pub struct SenderExtractor;
 
 impl SenderExtractor {
-    /// Create a new sender extractor.
+    /// Creates a sender extractor.
     pub fn new() -> Self {
         Self
     }
@@ -40,11 +42,12 @@ impl Extractor for SenderExtractor {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     fn load_sample() -> Value {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -118,14 +121,9 @@ mod tests {
         assert!(fields["commanders"]["primary"]["armaments"].is_null());
         assert_eq!(fields["app_id"], json!(8518744));
         assert_eq!(fields["app_uid"], json!(123));
-        assert_eq!(
-            fields["avatar_url"],
-            json!("https://example.com/avatar.png")
-        );
+        assert_eq!(fields["avatar_url"], json!("https://example.com/avatar.png"));
         assert_eq!(fields["frame_url"], json!(null));
-        let participants = fields["participants"]
-            .as_array()
-            .expect("participants array");
+        let participants = fields["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 1);
         assert_eq!(
             participants[0],
@@ -201,17 +199,12 @@ mod tests {
         assert_eq!(fields["camp_id"], json!(null));
         assert!(fields["rally"].is_null());
         assert!(fields["structure_id"].is_null());
-        let participants = fields["participants"]
-            .as_array()
-            .expect("participants array");
+        let participants = fields["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 1);
         assert_eq!(participants[0]["participant_id"], json!(575753));
         assert_eq!(participants[0]["player_id"], json!(110176153));
         assert_eq!(participants[0]["player_name"], json!("F7yst"));
-        assert_eq!(
-            participants[0]["alliance"],
-            json!({ "abbreviation": "SO4L" })
-        );
+        assert_eq!(participants[0]["alliance"], json!({ "abbreviation": "SO4L" }));
     }
 
     #[test]
@@ -227,9 +220,8 @@ mod tests {
         assert_eq!(fields["commanders"]["primary"]["relics"], json!(null));
         assert_eq!(fields["commanders"]["secondary"]["relics"], json!(null));
         assert_eq!(fields["commanders"]["secondary"]["armaments"], json!(null));
-        let armaments = fields["commanders"]["primary"]["armaments"]
-            .as_array()
-            .expect("armaments array");
+        let armaments =
+            fields["commanders"]["primary"]["armaments"].as_array().expect("armaments array");
         assert_eq!(armaments.len(), 4);
         assert_eq!(armaments[0]["id"], json!(1));
         assert_eq!(fields["commanders"]["secondary"]["id"], json!(15));

@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": false,
     "mail_id": "10163399175529366525",
     "mail_receiver": "player_129397124",
     "mail_role": "gsmp",
     "mail_time": 1755293665540670,
+    "report_id": 5391066,
     "server_id": 1804
   },
   "opponents": [
@@ -107,6 +109,7 @@
           "star_level": 1
         }
       },
+      "end_tick": 312015,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -156,6 +159,7 @@
       "player_id": 181252461,
       "player_name": "F4 Benbu",
       "rally": null,
+      "start_tick": 312015,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "mail_id": "826980817746319211",
+    "mail_receiver": "player_29862805",
+    "mail_time": 1774631921085847,
+    "server_id": 15908
+  },
+  "npc": {
+    "level": 31,
+    "location": {
+      "x": 5536.3125,
+      "y": 1714.2457275390625
+    },
+    "type": 401000089
+  },
+  "participants": [
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2026-03-12/1972B8C167CC93BE8736173311EAE63E_250x250.jpg",
+      "damage_rate": 21.56357192993164,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 130,
+          "type": 2,
+          "value": 14
+        },
+        {
+          "sub_type": 76,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7054,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 29862805,
+      "player_name": "Dr Benbu 벤부"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/13415516/2026-03-12/450927531050D5DE0F478FF4B9DAB5AD_250x250.jpg",
+      "damage_rate": 62.799407958984375,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 130,
+          "type": 2,
+          "value": 14
+        },
+        {
+          "sub_type": 96,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 47,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7054,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 121971933,
+      "player_name": "Kono x Voices"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1507184/2025-12-18/DE3DAFDAB4EC3293B184C349B641B9D6_250x250.jpg",
+      "damage_rate": 15.63702392578125,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
+      "loot": [
+        {
+          "sub_type": 27,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 48,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 7054,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 36388430,
+      "player_name": "북두의권"
+    }
+  ]
+}

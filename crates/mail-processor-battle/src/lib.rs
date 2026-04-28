@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-//! Processor for Battle mail reports.
+//! Parses Battle mail reports.
 
 mod content;
 mod metadata;
@@ -11,17 +11,16 @@ mod sender;
 mod summary;
 mod timeline;
 
+pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-pub use mail_processor_sdk::{ExtractError, Section};
-
-/// Process a decoded Battle mail with parallel extractors.
+/// Runs the Battle parser with extractors in parallel.
 pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_parallel(input)
 }
 
-/// Process a decoded Battle mail in extractor order.
+/// Runs the Battle parser in extractor order.
 pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process_sequential(input)
 }

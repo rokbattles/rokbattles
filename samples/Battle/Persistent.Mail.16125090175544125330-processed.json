@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": true,
     "mail_id": "16125090175544125330",
     "mail_receiver": "player_34961809",
     "mail_role": "gsmp",
     "mail_time": 1755441253685821,
+    "report_id": 6773952,
     "server_id": 15597
   },
   "opponents": [
@@ -160,6 +162,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 458701,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
       "kingdom_id": 2174,
       "npc": {
@@ -191,6 +194,7 @@
       "player_id": 33171104,
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
+      "start_tick": 458684,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -349,6 +353,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 458701,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
       "kingdom_id": 2174,
       "npc": {
@@ -380,6 +385,7 @@
       "player_id": 33171104,
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
+      "start_tick": 458683,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -541,6 +547,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 458701,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
       "kingdom_id": 2174,
       "npc": {
@@ -572,6 +579,7 @@
       "player_id": 33171104,
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
+      "start_tick": 458697,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -733,6 +741,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 458701,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
       "kingdom_id": 2174,
       "npc": {
@@ -764,6 +773,7 @@
       "player_id": 33171104,
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
+      "start_tick": 458696,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",
@@ -921,6 +931,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 458701,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
       "kingdom_id": 2174,
       "npc": {
@@ -952,6 +963,7 @@
       "player_id": 33171104,
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
+      "start_tick": 458696,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

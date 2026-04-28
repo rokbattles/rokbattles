@@ -1,58 +1,57 @@
 [workspace]
 members = [
-    "crates/mail-cli",
-    "crates/mail-cli-legacy",
+    "apps/binidx-cli",
+    "apps/mail-cli",
+    "apps/rokbattles-api",
+    "apps/rokbattles-ingress",
+    "apps/rokbattles-processor",
+    "apps/rokbattles-tauri/src-tauri",
+    "crates/binidx-decoder",
     "crates/mail-decoder",
-    "crates/mail-decoder-legacy",
-    "crates/mail-helper-legacy",
+    "crates/mail-processor-alliance-aoobattleinfo",
+    "crates/mail-processor-alliance-aoobattleresults",
+    "crates/mail-processor-alliance-aooindividualresults",
     "crates/mail-processor-barcanyonkillboss",
     "crates/mail-processor-battle",
-    "crates/mail-processor-battle-legacy",
     "crates/mail-processor-duelbattle2",
-    "crates/mail-processor-duelbattle2-legacy",
+    "crates/mail-processor-rss",
     "crates/mail-processor-sdk",
-    "crates/mail-processor-sdk-legacy",
-    "crates/rokbattles-ingress",
-    "crates/rokbattles-ingress-legacy",
-    "crates/rokbattles-processor",
-    "crates/rokbattles-processor-legacy",
-    "crates/rokbattles-tauri/src-tauri",
+    "crates/mail-processor-system-barbarianfort",
 ]
 resolver = "3"
 
 [workspace.dependencies]
-anyhow = "1.0.100"
-serde = { version = "1.0.228", features = ["derive"] }
+anyhow = "1.0.102"
+serde = "1.0.228"
 serde_json = "1.0.149"
-clap = { version = "4.5.56", features = ["derive"] }
-itoa = "1.0.17"
-axum = "0.8.8"
-tokio = { version = "1.49.0", features = ["full"] }
-tower-http = { version = "0.6.8", features = ["fs", "trace", "limit", "timeout"] }
+clap = "4.6.1"
+axum = "0.8.9"
+tokio = "1.52.1"
 tracing = "0.1.44"
-tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
-tikv-jemallocator = "0.6.1"
-tauri-build = { version = "2.5.4", features = [] }
-tauri = { version = "2.10.1", features = [] }
+tracing-subscriber = "0.3.23"
+tauri-build = "2.5.6"
+tauri = { version = "2.10.3", features = ["tray-icon"] }
 tauri-plugin-opener = "2.5.3"
-tauri-plugin-dialog = "2.6.0"
-futures-util = "0.3.31"
-mongodb = "3.5.0"
+tauri-plugin-dialog = "2.7.0"
+mongodb = "3.6.0"
 zstd = "0.13.3"
-blake3 = "1.8.3"
-reqwest = "0.12.28"
-futures = "0.3.31"
-tauri-plugin-updater = "2.9.0"
-memchr = "2.7.6"
+reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }
+base64 = "0.22.1"
+rand = "0.10.1"
+sha2 = "0.10.9"
+futures = "0.3.32"
+tauri-plugin-updater = "2.10.1"
 notify = "8.2.0"
-tempfile = "3.24.0"
-bytes = "1.11.0"
+tempfile = "3.27.0"
+bytes = "1.11.1"
 dotenvy = "0.15.7"
-flate2 = { version = "1.1.8", default-features = false }
+flate2 = { version = "1.1.9", default-features = false }
 thiserror = "2.0.18"
 tower_governor = { version = "0.8.0", default-features = false }
+sentry = { version = "0.47.0", default-features = false, features = ["rustls", "backtrace", "contexts", "debug-images", "panic", "reqwest"] }
 
 [profile.release]
+opt-level = "z"
 lto = "thin"
 codegen-units = 1
 panic = "abort"

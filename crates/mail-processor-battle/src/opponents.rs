@@ -1,18 +1,22 @@
-//! Opponent extractor for Battle mail.
+//! Opponent parser for Battle mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, require_number_field,
+};
 use serde_json::{Map, Value, json};
 
-use crate::content::{require_child_object, require_content, require_u64_field};
-use crate::participants::extract_participants;
-use crate::player::extract_player_fields;
+use crate::{
+    content::{require_child_object, require_content, require_u64_field},
+    participants::extract_participants,
+    player::extract_player_fields,
+};
 
-/// Extracts opponent details from each attack entry.
+/// Pulls opponent details out of each attack entry.
 #[derive(Debug, Default)]
 pub struct OpponentsExtractor;
 
 impl OpponentsExtractor {
-    /// Create a new opponents extractor.
+    /// Creates an opponents extractor.
     pub fn new() -> Self {
         Self
     }
@@ -46,31 +50,22 @@ impl Extractor for OpponentsExtractor {
             Ok::<(), ExtractError>(())
         })?;
 
-        results.sort_by(
-            |(attack_id_a, attack_key_a, _), (attack_id_b, attack_key_b, _)| {
-                attack_id_a
-                    .cmp(attack_id_b)
-                    .then_with(|| attack_key_a.cmp(attack_key_b))
-            },
-        );
+        results.sort_by(|(attack_id_a, attack_key_a, _), (attack_id_b, attack_key_b, _)| {
+            attack_id_a.cmp(attack_id_b).then_with(|| attack_key_a.cmp(attack_key_b))
+        });
         let entries = results.into_iter().map(|(_, _, value)| value).collect();
 
         Ok(Section::from_array(entries))
     }
 }
 
-/// Read the attacks map from the content object.
+/// Returns the attacks map from the content object.
 fn require_attacks(content: &Map<String, Value>) -> Result<&Map<String, Value>, ExtractError> {
-    let value = content
-        .get("Attacks")
-        .ok_or(ExtractError::MissingField { field: "Attacks" })?;
-    value.as_object().ok_or(ExtractError::InvalidFieldType {
-        field: "Attacks",
-        expected: "object",
-    })
+    let value = content.get("Attacks").ok_or(ExtractError::MissingField { field: "Attacks" })?;
+    value.as_object().ok_or(ExtractError::InvalidFieldType { field: "Attacks", expected: "object" })
 }
 
-/// Parse the attack identifier from the attack map key.
+/// Parses the attack id from the attack map key.
 fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
     let end = attack_id
         .char_indices()
@@ -83,51 +78,33 @@ fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
             expected: "numeric object key",
         });
     }
-    attack_id[..end]
-        .parse::<u64>()
-        .map_err(|_| ExtractError::InvalidFieldType {
-            field: "Attacks",
-            expected: "numeric object key",
-        })
+    attack_id[..end].parse::<u64>().map_err(|_| ExtractError::InvalidFieldType {
+        field: "Attacks",
+        expected: "numeric object key",
+    })
 }
 
-/// Require a numeric field and return the raw JSON value.
-fn require_number_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
-    if value.is_number() {
-        Ok(value.clone())
-    } else {
-        Err(ExtractError::InvalidFieldType {
-            field,
-            expected: "number",
-        })
-    }
-}
-
-/// Extract a single opponent entry from an attack payload.
+/// Builds one opponent entry from an attack payload.
 fn extract_attack_entry(
     attack_key: String,
     attack: &Value,
 ) -> Result<(u64, String, Value), ExtractError> {
-    let attack = attack.as_object().ok_or(ExtractError::InvalidFieldType {
-        field: "Attacks",
-        expected: "object",
-    })?;
+    let attack = attack
+        .as_object()
+        .ok_or(ExtractError::InvalidFieldType { field: "Attacks", expected: "object" })?;
     let opponent = require_child_object(attack, "CIdt")?;
     let mut fields = extract_player_fields(opponent)?;
     let attack_id = parse_attack_id(&attack_key)?;
     let position = require_child_object(attack, "Pos")?;
     let attack_x = require_number_field(position, "X")?;
     let attack_y = require_number_field(position, "Y")?;
+    let (start_tick, end_tick) = extract_attack_tick_bounds(attack)?;
     fields.insert(
         "attack".to_string(),
         json!({ "id": attack_key.clone(), "x": attack_x, "y": attack_y }),
     );
+    fields.insert("start_tick".to_string(), Value::from(start_tick));
+    fields.insert("end_tick".to_string(), Value::from(end_tick));
     let participants = extract_participants(attack, "OTs")?;
     fields.insert("participants".to_string(), participants);
     let npc = extract_npc(attack, opponent)?;
@@ -137,7 +114,16 @@ fn extract_attack_entry(
     Ok((attack_id, attack_key, Value::Object(fields)))
 }
 
-/// Extract NPC-related metadata from the attack entry and opponent payload.
+/// Reads the attack start and end ticks from `Bts` and `Ets`.
+///
+/// They stay on each opponent entry so the timing stays next to the attack data.
+fn extract_attack_tick_bounds(attack: &Map<String, Value>) -> Result<(u64, u64), ExtractError> {
+    let start_tick = require_u64_field(attack, "Bts")?;
+    let end_tick = require_u64_field(attack, "Ets")?;
+    Ok((start_tick, end_tick))
+}
+
+/// Pulls NPC-related data from the attack entry and opponent payload.
 fn extract_npc(
     attack: &Map<String, Value>,
     opponent: &Map<String, Value>,
@@ -158,22 +144,22 @@ fn extract_npc(
     }))
 }
 
-/// Extract battle results from the attack payload.
+/// Pulls battle results from the attack payload.
 fn extract_battle_results(attack: &Map<String, Value>) -> Result<Value, ExtractError> {
     let sender = extract_battle_result_optional(attack.get("Damage"), "Damage")?;
     let opponent = extract_battle_result_optional(attack.get("Kill"), "Kill")?;
     Ok(json!({ "sender": sender, "opponent": opponent }))
 }
 
-/// Extract a single battle result entry into the output schema.
+/// Normalizes one battle result entry into the output schema.
 fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, ExtractError> {
     let reinforcements_join = require_u64_field(overview, "AddCnt")?;
     let reinforcements_leave = require_u64_field(overview, "RetreatCnt")?;
-    // Older battle reports omit KillScore; default to 0 instead of failing.
+    // Older reports sometimes omit `KillScore`; default it to 0.
     let kill_points = optional_u64_field(overview, "KillScore")?.unwrap_or(0);
     let acclaim = optional_u64_field(overview, "Contribute")?;
     let severely_wounded = require_u64_field(overview, "BadHurt")?;
-    let slightly_wounded = require_u64_field(overview, "Hurt")?;
+    let slightly_wounded = require_i64_field(overview, "Hurt")?;
     let remaining = require_u64_field(overview, "Cnt")?;
     let dead = require_u64_field(overview, "Death")?;
     let heal = require_u64_field(overview, "Healing")?;
@@ -182,10 +168,10 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     let watchtower_max = require_u64_field(overview, "GtMax")?;
     let watchtower = require_u64_field(overview, "Gt")?;
     let power = require_i64_field(overview, "Power")?;
-    // Some battle reports omit attack or skill power; default to 0 instead of failing.
+    // Some reports leave out attack or skill power; default both to 0.
     let attack_power = optional_i64_field(overview, "AtkPower")?.unwrap_or(0);
     let skill_power = optional_i64_field(overview, "SkillPower")?.unwrap_or(0);
-    // Some battle reports omit merits and reduction counters.
+    // Merits and reduction counters are also optional in some reports.
     let merits = optional_u64_field(overview, "WarExploits")?;
     let death_reduction = optional_u64_field(overview, "DeadReduceCnt")?;
     let severe_wound_reduction = optional_u64_field(overview, "BadReduceCnt")?;
@@ -213,7 +199,7 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     }))
 }
 
-/// Read a battle result object when present, or return a null-filled entry.
+/// Reads a battle result object when present, or returns an all-null entry.
 fn extract_battle_result_optional(
     value: Option<&Value>,
     field: &'static str,
@@ -221,16 +207,15 @@ fn extract_battle_result_optional(
     match value {
         None | Some(Value::Null) => Ok(null_battle_result()),
         Some(value) => {
-            let overview = value.as_object().ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "object",
-            })?;
+            let overview = value
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field, expected: "object" })?;
             extract_battle_result(overview)
         }
     }
 }
 
-/// Build a null-filled battle result entry when the payload is missing.
+/// Builds an all-null battle result entry when the payload is missing.
 fn null_battle_result() -> Value {
     json!({
         "reinforcements_join": Value::Null,
@@ -255,7 +240,7 @@ fn null_battle_result() -> Value {
     })
 }
 
-/// Extract NPC loot drops when present on the attack payload.
+/// Reads NPC loot drops when they are present on the attack payload.
 fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, ExtractError> {
     let value = match attack.get("NpcKillLoot") {
         None | Some(Value::Null) => return Ok(None),
@@ -265,10 +250,9 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
     let values = indexed_array_values(value, "NpcKillLoot")?;
     let mut loot = Vec::with_capacity(values.len());
     for entry in values {
-        let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "NpcKillLoot",
-            expected: "object",
-        })?;
+        let entry = entry
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "NpcKillLoot", expected: "object" })?;
         let loot_type = require_u64_field(entry, "Type")?;
         let sub_type = require_u64_field(entry, "SubType")?;
         let value = require_u64_field(entry, "Value")?;
@@ -282,7 +266,7 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
     Ok(Some(loot))
 }
 
-/// Read an optional unsigned integer field from a JSON map.
+/// Reads an optional unsigned integer field from a JSON map.
 fn optional_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -292,14 +276,11 @@ fn optional_u64_field(
         Some(value) => value
             .as_u64()
             .map(Some)
-            .ok_or(ExtractError::InvalidFieldType {
-                field,
-                expected: "unsigned integer",
-            }),
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 
-/// Read an optional signed integer field from a JSON map.
+/// Reads an optional signed integer field from a JSON map.
 fn optional_i64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -312,28 +293,20 @@ fn optional_i64_field(
             }
             if let Some(value) = value.as_u64() {
                 return i64::try_from(value).map(Some).map_err(|_| {
-                    ExtractError::InvalidFieldType {
-                        field,
-                        expected: "signed 64-bit integer",
-                    }
+                    ExtractError::InvalidFieldType { field, expected: "signed 64-bit integer" }
                 });
             }
-            Err(ExtractError::InvalidFieldType {
-                field,
-                expected: "integer",
-            })
+            Err(ExtractError::InvalidFieldType { field, expected: "integer" })
         }
     }
 }
 
-/// Require a signed integer field from a JSON map.
+/// Reads a required signed integer field from a JSON map.
 fn require_i64_field(
     object: &Map<String, Value>,
     field: &'static str,
 ) -> Result<i64, ExtractError> {
-    let value = object
-        .get(field)
-        .ok_or(ExtractError::MissingField { field })?;
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
     if let Some(value) = value.as_i64() {
         return Ok(value);
     }
@@ -343,19 +316,17 @@ fn require_i64_field(
             expected: "signed 64-bit integer",
         });
     }
-    Err(ExtractError::InvalidFieldType {
-        field,
-        expected: "integer",
-    })
+    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn opponents_extractor_reads_attacks() {
@@ -364,6 +335,8 @@ mod tests {
                 "content": {
                     "Attacks": {
                         "10": {
+                            "Bts": 110,
+                            "Ets": 120,
                             "Pos": { "X": 12.5, "Y": 34.75 },
                             "OTs": {
                                 "5": {
@@ -395,6 +368,8 @@ mod tests {
                             }
                         },
                         "20": {
+                            "Bts": 210,
+                            "Ets": 220,
                             "Pos": { "X": 98, "Y": 76 },
                             "OTs": {
                                 "-2": {
@@ -435,6 +410,8 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 2);
         assert_eq!(opponents[0]["attack"]["id"], json!("10"));
+        assert_eq!(opponents[0]["start_tick"], json!(110));
+        assert_eq!(opponents[0]["end_tick"], json!(120));
         assert_eq!(opponents[0]["attack"]["x"], json!(12.5));
         assert_eq!(opponents[0]["attack"]["y"], json!(34.75));
         assert_eq!(opponents[0]["player_id"], json!(1));
@@ -462,9 +439,7 @@ mod tests {
         assert!(opponents[0]["commanders"]["secondary"]["id"].is_null());
         assert_eq!(opponents[0]["app_id"], json!(2104267));
         assert_eq!(opponents[0]["app_uid"], json!(103134073));
-        let participants = opponents[0]["participants"]
-            .as_array()
-            .expect("participants array");
+        let participants = opponents[0]["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 1);
         assert_eq!(
             participants[0],
@@ -480,6 +455,8 @@ mod tests {
             })
         );
         assert_eq!(opponents[1]["attack"]["id"], json!("20"));
+        assert_eq!(opponents[1]["start_tick"], json!(210));
+        assert_eq!(opponents[1]["end_tick"], json!(220));
         assert_eq!(opponents[1]["attack"]["x"], json!(98));
         assert_eq!(opponents[1]["attack"]["y"], json!(76));
         assert_eq!(opponents[1]["player_id"], json!(2));
@@ -505,13 +482,8 @@ mod tests {
         assert!(opponents[1]["commanders"]["secondary"]["id"].is_null());
         assert_eq!(opponents[1]["app_id"], json!(8518744));
         assert_eq!(opponents[1]["app_uid"], json!(399975));
-        assert_eq!(
-            opponents[1]["frame_url"],
-            json!("https://example.com/frame.png")
-        );
-        let participants = opponents[1]["participants"]
-            .as_array()
-            .expect("participants array");
+        assert_eq!(opponents[1]["frame_url"], json!("https://example.com/frame.png"));
+        let participants = opponents[1]["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 1);
         assert_eq!(
             participants[0],
@@ -534,6 +506,39 @@ mod tests {
         let extractor = OpponentsExtractor::new();
         let err = extractor.extract(&input).unwrap_err();
         assert!(matches!(err, ExtractError::MissingField { .. }));
+    }
+
+    #[test]
+    fn opponents_extractor_rejects_missing_attack_tick_bounds() {
+        let input = json!({
+            "body": {
+                "content": {
+                    "Attacks": {
+                        "10": {
+                            "Ets": 120,
+                            "Pos": { "X": 12.5, "Y": 34.75 },
+                            "OTs": {},
+                            "CIdt": {
+                                "PId": 1,
+                                "PName": "EnemyOne",
+                                "COSId": 101,
+                                "AId": 1,
+                                "AName": "AllianceOne",
+                                "Abbr": "ONE",
+                                "AbT": 3,
+                                "CastlePos": { "X": 50, "Y": 60 },
+                                "CastleLevel": 20,
+                                "CTK": "",
+                                "Avatar": "https://example.com/one.png"
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        let extractor = OpponentsExtractor::new();
+        let err = extractor.extract(&input).unwrap_err();
+        assert!(matches!(err, ExtractError::MissingField { field: "Bts" }));
     }
 
     #[test]
@@ -715,6 +720,45 @@ mod tests {
     }
 
     #[test]
+    fn extract_battle_results_preserves_negative_wounded_counts() {
+        let attack = json!({
+            "Damage": {
+                "AddCnt": 1,
+                "RetreatCnt": 2,
+                "BadHurt": 3,
+                "Hurt": -4,
+                "Cnt": 5,
+                "Death": 6,
+                "Healing": 7,
+                "Max": 8,
+                "InitMax": 9,
+                "GtMax": 10,
+                "Gt": 11,
+                "Power": -12
+            },
+            "Kill": {
+                "AddCnt": 13,
+                "RetreatCnt": 14,
+                "BadHurt": 15,
+                "Hurt": -16,
+                "Cnt": 17,
+                "Death": 18,
+                "Healing": 19,
+                "Max": 20,
+                "InitMax": 21,
+                "GtMax": 22,
+                "Gt": 23,
+                "Power": -24
+            }
+        });
+        let results = extract_battle_results(attack.as_object().unwrap()).expect("results");
+        assert_eq!(results["sender"]["severely_wounded"], json!(3));
+        assert_eq!(results["sender"]["slightly_wounded"], json!(-4));
+        assert_eq!(results["opponent"]["severely_wounded"], json!(15));
+        assert_eq!(results["opponent"]["slightly_wounded"], json!(-16));
+    }
+
+    #[test]
     fn roundtrip_opponents_extract_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Battle/Persistent.Mail.1002579517552941234.json");
@@ -725,14 +769,13 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 1);
         assert_eq!(opponents[0]["attack"]["id"], json!("603103"));
+        assert_eq!(opponents[0]["start_tick"], json!(312472));
+        assert_eq!(opponents[0]["end_tick"], json!(312472));
         assert_eq!(opponents[0]["attack"]["x"], json!(2200.1484));
         assert_eq!(opponents[0]["attack"]["y"], json!(6296.3677));
         assert_eq!(opponents[0]["player_id"], json!(130014943));
         assert_eq!(opponents[0]["player_name"], json!("xAvarice"));
-        assert_eq!(
-            opponents[0]["alliance"],
-            json!({ "id": 0, "name": "", "abbreviation": "" })
-        );
+        assert_eq!(opponents[0]["alliance"], json!({ "id": 0, "name": "", "abbreviation": "" }));
         assert!(opponents[0]["alliance_building_id"].is_null());
         assert_eq!(opponents[0]["tracking_key"], json!(""));
         assert_eq!(
@@ -748,43 +791,20 @@ mod tests {
         assert!(opponents[0]["rally"].is_null());
         assert!(opponents[0]["structure_id"].is_null());
         assert_eq!(opponents[0]["commanders"]["primary"]["id"], json!(9));
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["awakened"],
-            json!(false)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["star_level"],
-            json!(5)
-        );
+        assert_eq!(opponents[0]["commanders"]["primary"]["awakened"], json!(false));
+        assert_eq!(opponents[0]["commanders"]["primary"]["star_level"], json!(5));
         assert_eq!(opponents[0]["commanders"]["primary"]["relics"], json!(null));
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["armaments"],
-            json!(null)
-        );
+        assert_eq!(opponents[0]["commanders"]["primary"]["armaments"], json!(null));
         assert_eq!(opponents[0]["commanders"]["secondary"]["id"], json!(7));
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["awakened"],
-            json!(false)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["star_level"],
-            json!(5)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["relics"],
-            json!(null)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["armaments"],
-            json!(null)
-        );
+        assert_eq!(opponents[0]["commanders"]["secondary"]["awakened"], json!(false));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["star_level"], json!(5));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["relics"], json!(null));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["armaments"], json!(null));
         assert_eq!(opponents[0]["npc"]["type"], json!(null));
         assert_eq!(opponents[0]["npc"]["b_type"], json!(null));
         assert_eq!(opponents[0]["npc"]["experience"], json!(0));
         assert_eq!(opponents[0]["npc"]["loot"], json!(null));
-        let participants = opponents[0]["participants"]
-            .as_array()
-            .expect("participants array");
+        let participants = opponents[0]["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 2);
         assert_eq!(participants[0]["participant_id"], json!(-2));
         assert_eq!(participants[0]["player_id"], json!(130014943));
@@ -802,13 +822,12 @@ mod tests {
         let opponents = section.array().expect("opponents array");
         assert_eq!(opponents.len(), 1);
         assert_eq!(opponents[0]["attack"]["id"], json!("10852801"));
+        assert_eq!(opponents[0]["start_tick"], json!(35058));
+        assert_eq!(opponents[0]["end_tick"], json!(35068));
         assert_eq!(opponents[0]["attack"]["x"], json!(3804.8684));
         assert_eq!(opponents[0]["attack"]["y"], json!(3974.8313));
         assert_eq!(opponents[0]["player_id"], json!(-2));
-        assert_eq!(
-            opponents[0]["alliance"],
-            json!({ "id": 0, "name": "", "abbreviation": "" })
-        );
+        assert_eq!(opponents[0]["alliance"], json!({ "id": 0, "name": "", "abbreviation": "" }));
         assert!(opponents[0]["alliance_building_id"].is_null());
         assert_eq!(opponents[0]["tracking_key"], json!("-2_1768917586_86"));
         assert_eq!(
@@ -824,42 +843,19 @@ mod tests {
         assert!(opponents[0]["rally"].is_null());
         assert!(opponents[0]["structure_id"].is_null());
         assert_eq!(opponents[0]["commanders"]["primary"]["id"], json!(86));
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["awakened"],
-            json!(false)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["star_level"],
-            json!(5)
-        );
+        assert_eq!(opponents[0]["commanders"]["primary"]["awakened"], json!(false));
+        assert_eq!(opponents[0]["commanders"]["primary"]["star_level"], json!(5));
         assert_eq!(opponents[0]["commanders"]["primary"]["relics"], json!(null));
-        assert_eq!(
-            opponents[0]["commanders"]["primary"]["armaments"],
-            json!(null)
-        );
+        assert_eq!(opponents[0]["commanders"]["primary"]["armaments"], json!(null));
         assert_eq!(opponents[0]["commanders"]["secondary"]["id"], json!(0));
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["awakened"],
-            json!(false)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["star_level"],
-            json!(0)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["relics"],
-            json!(null)
-        );
-        assert_eq!(
-            opponents[0]["commanders"]["secondary"]["armaments"],
-            json!(null)
-        );
+        assert_eq!(opponents[0]["commanders"]["secondary"]["awakened"], json!(false));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["star_level"], json!(0));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["relics"], json!(null));
+        assert_eq!(opponents[0]["commanders"]["secondary"]["armaments"], json!(null));
         assert_eq!(opponents[0]["npc"]["type"], json!(38));
         assert_eq!(opponents[0]["npc"]["b_type"], json!(1));
         assert_eq!(opponents[0]["npc"]["experience"], json!(6650));
-        let loot = opponents[0]["npc"]["loot"]
-            .as_array()
-            .expect("npc loot array");
+        let loot = opponents[0]["npc"]["loot"].as_array().expect("npc loot array");
         assert_eq!(loot.len(), 3);
         assert_eq!(loot[0], json!({ "type": 2, "sub_type": 7005, "value": 66 }));
         assert_eq!(
@@ -910,9 +906,7 @@ mod tests {
                 "severe_wound_reduction": 0
             })
         );
-        let participants = opponents[0]["participants"]
-            .as_array()
-            .expect("participants array");
+        let participants = opponents[0]["participants"].as_array().expect("participants array");
         assert_eq!(participants.len(), 1);
         assert_eq!(participants[0]["participant_id"], json!(54797));
     }

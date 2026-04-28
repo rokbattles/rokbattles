@@ -1,0 +1,187 @@
+"use client";
+
+import { useExtracted } from "next-intl";
+import { Fragment, useId, useState } from "react";
+import { DuelCommanderRow } from "@/components/olympian-arena/duel-commander-row";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  DescriptionDetails,
+  DescriptionList,
+  DescriptionTerm,
+} from "@/components/ui/description-list";
+import { Subheading } from "@/components/ui/heading";
+import { GameAvatar } from "@/components/v1/game-avatar";
+import { getArmamentInfo } from "@/hooks/use-armament-name";
+import { getInitials } from "@/lib/avatar";
+import type {
+  DuelBattle2Buff,
+  DuelBattle2Commander,
+  DuelBattle2Player,
+} from "@/lib/types/duelbattle2";
+
+type NormalizedBuff = {
+  id: number;
+  value: number;
+};
+
+type TroopBuffDisplay = {
+  id: number;
+  value: number;
+  name: string;
+  percent: boolean;
+};
+
+export function DuelParticipantCard({
+  participant,
+  isWinner,
+}: {
+  participant: DuelBattle2Player;
+  isWinner?: boolean;
+}) {
+  const t = useExtracted();
+  const [expanded, setExpanded] = useState(false);
+  const buffsId = useId();
+  const playerName = participant.playerName.trim() || t("Unknown commander");
+  const allianceTag = participant.alliance.abbreviation.trim();
+  const playerId = participant.playerId;
+
+  const buffs = normalizeBuffs(participant.buffs);
+  const displayBuffs = buffs
+    .map((buff) => {
+      const info = getArmamentInfo(buff.id);
+      if (!info?.name) {
+        return null;
+      }
+
+      return {
+        id: buff.id,
+        value: buff.value,
+        name: info.name,
+        percent: info.percent,
+      };
+    })
+    .filter((buff): buff is TroopBuffDisplay => buff != null);
+  const visibleBuffs = expanded ? displayBuffs : displayBuffs.slice(0, 10);
+  const hasMore = displayBuffs.length > 10;
+
+  const primary = participant.primaryCommander;
+  const secondary = participant.secondaryCommander;
+  const showPrimary = hasCommander(primary);
+  const showSecondary = hasCommander(secondary);
+
+  return (
+    <div className="flex flex-col gap-5">
+      <div className="flex items-start gap-3">
+        <GameAvatar
+          avatarUrl={participant.avatarUrl || null}
+          frameUrl={participant.frameUrl || null}
+          alt={playerName}
+          initials={getInitials(playerName)}
+          className="size-12"
+        />
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <div className="text-base font-semibold text-zinc-900 dark:text-white">
+              {playerName}
+            </div>
+            {isWinner ? <Badge color="emerald">{t("Winner")}</Badge> : null}
+          </div>
+          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+            {typeof playerId === "number" && Number.isFinite(playerId) ? (
+              <Badge>{t("ID {id}", { id: playerId.toString() })}</Badge>
+            ) : null}
+            {allianceTag ? <Badge>{allianceTag}</Badge> : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {showPrimary || showSecondary ? (
+          <div className="space-y-2">
+            <Subheading>{t("Commanders")}</Subheading>
+            <div className="space-y-2">
+              {showPrimary ? <DuelCommanderRow commander={primary} label={t("Primary")} /> : null}
+              {showSecondary ? (
+                <DuelCommanderRow commander={secondary} label={t("Secondary")} />
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+        {displayBuffs.length > 0 ? (
+          <div className="space-y-2">
+            <Subheading>{t("Troop Buffs")}</Subheading>
+            <DescriptionList id={buffsId}>
+              {visibleBuffs.map((buff) => (
+                <Fragment key={buff.id}>
+                  <DescriptionTerm className="pt-1! pb-1! border-none!">
+                    {buff.name}
+                  </DescriptionTerm>
+                  <DescriptionDetails className="pb-1! pt-1! border-none! sm:text-right tabular-nums">
+                    {formatBuffValue(buff.value, buff.percent)}
+                  </DescriptionDetails>
+                </Fragment>
+              ))}
+            </DescriptionList>
+            {hasMore ? (
+              <Button
+                plain
+                type="button"
+                onClick={() => setExpanded((prev) => !prev)}
+                aria-expanded={expanded}
+                aria-controls={buffsId}
+                className="text-sm"
+              >
+                {expanded ? t("Show less") : t("Show more")}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function hasCommander(commander: DuelBattle2Commander) {
+  return Number.isFinite(commander.id);
+}
+
+function formatBuffValue(value: number, isPercent: boolean) {
+  if (!Number.isFinite(value)) {
+    return isPercent ? "0%" : "+0";
+  }
+
+  if (!isPercent) {
+    return formatSignedNumber(value);
+  }
+
+  const percentValue = Math.abs(value) <= 1 ? value * 100 : value;
+  return `${percentValue.toFixed(2)}%`;
+}
+
+function formatSignedNumber(value: number) {
+  const normalized = Math.round(value * 100) / 100;
+  const sign = normalized >= 0 ? "+" : "";
+  const formatted = Number.isInteger(normalized)
+    ? String(normalized)
+    : normalized.toFixed(2).replace(/\.?0+$/, "");
+  return `${sign}${formatted}`;
+}
+
+function normalizeBuffs(rawBuffs: readonly DuelBattle2Buff[]): NormalizedBuff[] {
+  const aggregate = new Map<number, number>();
+
+  for (const buff of rawBuffs) {
+    const id = Number.isFinite(buff.id) ? buff.id : null;
+    if (id == null) {
+      continue;
+    }
+
+    const value = Number.isFinite(buff.value) ? buff.value : 0;
+    aggregate.set(id, (aggregate.get(id) ?? 0) + value);
+  }
+
+  return Array.from(aggregate.entries())
+    .map(([id, value]) => ({ id, value }))
+    .sort((a, b) => a.id - b.id);
+}

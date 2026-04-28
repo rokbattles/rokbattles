@@ -6,19 +6,17 @@ use crate::common::{
     DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
 };
 
+const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
+
 /// Decode a binary mail buffer into a JSON value.
 ///
 /// The decoder expects a single root value. If extra bytes remain after decoding,
 /// an error is returned. When the first parsed value is `null` and trailing bytes
-/// exist, the decoder assumes a leading preamble and retries decoding from the
-/// first offset that yields a full, trailing-free decode (the behavior used for
-/// the sample files).
+/// exist, the decoder assumes a leading preamble and retries decoding from a
+/// limited number of candidate offsets that yield a full, trailing-free decode.
 pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     if buffer.is_empty() {
-        return Err(DecodeError::UnexpectedEof {
-            needed: 1,
-            remaining: 0,
-        });
+        return Err(DecodeError::UnexpectedEof { needed: 1, remaining: 0 });
     }
 
     let mut decoder = Decoder::new(buffer);
@@ -28,9 +26,7 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     }
 
     if !matches!(value, Value::Null) {
-        return Err(DecodeError::TrailingBytes {
-            remaining: decoder.remaining(),
-        });
+        return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
 
     let remaining = decoder.remaining();
@@ -44,6 +40,9 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
 fn find_payload_value(buffer: &[u8]) -> Option<Value> {
     let mut fallback = None;
     for (offset, tag) in buffer.iter().enumerate() {
+        if offset > MAX_PREAMBLE_SCAN_BYTES {
+            break;
+        }
         if !is_known_tag(*tag) {
             continue;
         }
@@ -72,19 +71,11 @@ struct Decoder<'a> {
 
 impl<'a> Decoder<'a> {
     fn new(buffer: &'a [u8]) -> Self {
-        Self {
-            buffer,
-            pos: 0,
-            depth: 0,
-        }
+        Self { buffer, pos: 0, depth: 0 }
     }
 
     fn with_offset(buffer: &'a [u8], pos: usize) -> Self {
-        Self {
-            buffer,
-            pos,
-            depth: 0,
-        }
+        Self { buffer, pos, depth: 0 }
     }
 
     fn remaining(&self) -> usize {
@@ -186,9 +177,7 @@ impl<'a> Decoder<'a> {
 
     fn read_u32_le(&mut self) -> Result<u32, DecodeError> {
         let raw = self.read_exact(4)?;
-        Ok(u32::from_le_bytes(
-            raw.try_into().expect("slice length checked"),
-        ))
+        Ok(u32::from_le_bytes(raw.try_into().expect("slice length checked")))
     }
 
     fn read_u8(&mut self) -> Result<u8, DecodeError> {
@@ -196,10 +185,7 @@ impl<'a> Decoder<'a> {
             .buffer
             .get(self.pos)
             .copied()
-            .ok_or(DecodeError::UnexpectedEof {
-                needed: 1,
-                remaining: 0,
-            })?;
+            .ok_or(DecodeError::UnexpectedEof { needed: 1, remaining: 0 })?;
         self.pos += 1;
         Ok(byte)
     }
@@ -207,10 +193,7 @@ impl<'a> Decoder<'a> {
     fn read_exact(&mut self, len: usize) -> Result<&'a [u8], DecodeError> {
         let end = self.pos.saturating_add(len);
         if end > self.buffer.len() {
-            return Err(DecodeError::UnexpectedEof {
-                needed: len,
-                remaining: self.remaining(),
-            });
+            return Err(DecodeError::UnexpectedEof { needed: len, remaining: self.remaining() });
         }
 
         let start = self.pos;
@@ -255,11 +238,7 @@ fn to_u64_exact(value: f64) -> Option<u64> {
         return None;
     }
     let int = value as u64;
-    if (int as f64) == value {
-        Some(int)
-    } else {
-        None
-    }
+    if (int as f64) == value { Some(int) } else { None }
 }
 
 fn to_i64_exact(value: f64) -> Option<i64> {
@@ -267,11 +246,7 @@ fn to_i64_exact(value: f64) -> Option<i64> {
         return None;
     }
     let int = value as i64;
-    if (int as f64) == value {
-        Some(int)
-    } else {
-        None
-    }
+    if (int as f64) == value { Some(int) } else { None }
 }
 
 #[cfg(test)]
@@ -388,10 +363,7 @@ mod tests {
     fn decode_array_values() {
         let buffer = encode_array(&[vec![TAG_BOOL, 1], encode_string("ok")]);
         let value = decode(&buffer).unwrap();
-        assert_eq!(
-            value,
-            Value::Array(vec![Value::Bool(true), Value::String("ok".to_string())])
-        );
+        assert_eq!(value, Value::Array(vec![Value::Bool(true), Value::String("ok".to_string())]));
     }
 
     #[test]
@@ -422,6 +394,27 @@ mod tests {
     fn decode_preamble_without_payload_is_error() {
         let err = decode(&[0x99, 0x88]).unwrap_err();
         assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_preamble_scan_is_bounded() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES + 1];
+        buffer.extend_from_slice(&encode_object(&[("ok", vec![TAG_BOOL, 1])]));
+
+        let err = decode(&buffer).unwrap_err();
+        assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_preamble_scan_includes_limit_boundary() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES];
+        buffer.extend_from_slice(&encode_object(&[("ok", vec![TAG_BOOL, 1])]));
+
+        let value = decode(&buffer).unwrap();
+
+        let mut expected = Map::new();
+        expected.insert("ok".to_string(), Value::Bool(true));
+        assert_eq!(value, Value::Object(expected));
     }
 
     #[test]

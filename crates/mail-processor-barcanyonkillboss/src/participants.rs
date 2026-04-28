@@ -1,4 +1,4 @@
-//! Participants extractor for BarCanyonKillBoss mail.
+//! Participants parser for BarCanyonKillBoss mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
@@ -7,12 +7,12 @@ use crate::content::{
     require_content, require_number_field, require_string_field, require_u64_field,
 };
 
-/// Extracts participant details from BarCanyonKillBoss mail content.
+/// Pulls participant details out of BarCanyonKillBoss mail content.
 #[derive(Debug, Default)]
 pub struct ParticipantsExtractor;
 
 impl ParticipantsExtractor {
-    /// Create a new participants extractor.
+    /// Creates a participants extractor.
     pub fn new() -> Self {
         Self
     }
@@ -25,17 +25,15 @@ impl Extractor for ParticipantsExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let content = require_content(input)?;
-        let infos_value = content
-            .get("infos")
-            .ok_or(ExtractError::MissingField { field: "infos" })?;
+        let infos_value =
+            content.get("infos").ok_or(ExtractError::MissingField { field: "infos" })?;
         let infos = indexed_array_values(infos_value, "infos")?;
 
         let mut participants = Vec::with_capacity(infos.len());
         for info in infos {
-            let info = info.as_object().ok_or(ExtractError::InvalidFieldType {
-                field: "infos",
-                expected: "object",
-            })?;
+            let info = info
+                .as_object()
+                .ok_or(ExtractError::InvalidFieldType { field: "infos", expected: "object" })?;
             participants.push(extract_participant(info)?);
         }
 
@@ -61,16 +59,13 @@ fn extract_participant(info: &Map<String, Value>) -> Result<Value, ExtractError>
 }
 
 fn extract_loot(info: &Map<String, Value>) -> Result<Value, ExtractError> {
-    let value = info
-        .get("loots")
-        .ok_or(ExtractError::MissingField { field: "loots" })?;
+    let value = info.get("loots").ok_or(ExtractError::MissingField { field: "loots" })?;
     let values = indexed_array_values(value, "loots")?;
     let mut loot = Vec::with_capacity(values.len());
     for entry in values {
-        let entry = entry.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "loots",
-            expected: "object",
-        })?;
+        let entry = entry
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "loots", expected: "object" })?;
         let loot_type = require_u64_field(entry, "Type")?;
         let sub_type = require_u64_field(entry, "SubType")?;
         let value = require_u64_field(entry, "Value")?;
@@ -85,9 +80,7 @@ fn extract_loot(info: &Map<String, Value>) -> Result<Value, ExtractError> {
 }
 
 fn parse_avatar(info: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
-    let value = info
-        .get("avatar")
-        .ok_or(ExtractError::MissingField { field: "avatar" })?;
+    let value = info.get("avatar").ok_or(ExtractError::MissingField { field: "avatar" })?;
 
     match value {
         Value::String(text) => {
@@ -101,20 +94,14 @@ fn parse_avatar(info: &Map<String, Value>) -> Result<(Value, Value), ExtractErro
         }
         Value::Object(map) => Ok(extract_avatar_fields(map)),
         Value::Null => Ok((Value::Null, Value::Null)),
-        _ => Err(ExtractError::InvalidFieldType {
-            field: "avatar",
-            expected: "string or object",
-        }),
+        _ => Err(ExtractError::InvalidFieldType { field: "avatar", expected: "string or object" }),
     }
 }
 
 fn extract_avatar_fields(map: &Map<String, Value>) -> (Value, Value) {
     let avatar_url = map.get("avatar").cloned().unwrap_or(Value::Null);
     let frame_url = map.get("avatarFrame").cloned().unwrap_or(Value::Null);
-    (
-        normalize_avatar_value(avatar_url),
-        normalize_avatar_value(frame_url),
-    )
+    (normalize_avatar_value(avatar_url), normalize_avatar_value(frame_url))
 }
 
 fn normalize_avatar_value(value: Value) -> Value {
@@ -126,11 +113,12 @@ fn normalize_avatar_value(value: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn participants_extractor_reads_fields() {
@@ -163,10 +151,7 @@ mod tests {
         let participant = &participants[0];
         assert_eq!(participant["player_id"], json!(42));
         assert_eq!(participant["player_name"], json!("Tester"));
-        assert_eq!(
-            participant["avatar_url"],
-            json!("https://example.com/a.png")
-        );
+        assert_eq!(participant["avatar_url"], json!("https://example.com/a.png"));
         assert_eq!(participant["frame_url"], json!("https://example.com/f.png"));
         assert_eq!(participant["damage_rate"], json!(12.5));
         assert_eq!(participant["loot"].as_array().unwrap().len(), 2);
@@ -202,10 +187,7 @@ mod tests {
         let section = extractor.extract(&input).unwrap();
         let participants = section.array().expect("participants");
         let participant = &participants[0];
-        assert_eq!(
-            participant["avatar_url"],
-            json!("https://example.com/a.png")
-        );
+        assert_eq!(participant["avatar_url"], json!("https://example.com/a.png"));
         assert_eq!(participant["frame_url"], Value::Null);
     }
 

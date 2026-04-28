@@ -1,84 +1,49 @@
-//! Error types for extraction and processing.
+//! Errors shared by extraction and processor execution.
 
-use std::error::Error;
-use std::fmt;
-
-/// Errors raised when an extractor cannot read the expected data.
-#[derive(Debug, Clone, PartialEq, Eq)]
+/// Errors returned when an extractor cannot read the input it expected.
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum ExtractError {
-    /// The input JSON is not an object.
+    /// The input JSON was not an object.
+    #[error("expected a JSON object")]
     NotObject,
     /// A required field was missing.
+    #[error("missing required field: {field}")]
     MissingField {
-        /// The missing field name.
+        /// Name of the missing field.
         field: &'static str,
     },
-    /// A field existed but had an unexpected type.
+    /// A field was present, but its type did not match.
+    #[error("invalid type for {field}; expected {expected}")]
     InvalidFieldType {
-        /// The field name.
+        /// Name of the field.
         field: &'static str,
-        /// The expected JSON type.
+        /// Expected JSON type.
         expected: &'static str,
     },
 }
 
-impl fmt::Display for ExtractError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ExtractError::NotObject => write!(f, "expected a JSON object"),
-            ExtractError::MissingField { field } => write!(f, "missing required field: {field}"),
-            ExtractError::InvalidFieldType { field, expected } => {
-                write!(f, "invalid type for {field}; expected {expected}")
-            }
-        }
-    }
-}
-
-impl Error for ExtractError {}
-
-/// Errors raised when running a processor across multiple extractors.
-#[derive(Debug)]
+/// Errors returned while a processor is running extractors.
+#[derive(Debug, thiserror::Error)]
 pub enum ProcessError {
-    /// Two extractors attempted to write to the same section.
+    /// Two extractors tried to write the same section.
+    #[error("duplicate processor section: {section}")]
     DuplicateSection {
-        /// The duplicated section name.
+        /// Name of the duplicated section.
         section: &'static str,
     },
-    /// An extractor failed while processing its section.
+    /// An extractor returned an error for its section.
+    #[error("extractor for {section} failed: {source}")]
     ExtractorFailed {
-        /// The section name.
+        /// Name of the section.
         section: &'static str,
-        /// The underlying extractor error.
+        /// The extractor error that bubbled up.
+        #[source]
         source: ExtractError,
     },
     /// An extractor panicked while running in parallel.
+    #[error("extractor for {section} panicked")]
     ExtractorPanicked {
-        /// The section name.
+        /// Name of the section.
         section: &'static str,
     },
-}
-
-impl fmt::Display for ProcessError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ProcessError::DuplicateSection { section } => {
-                write!(f, "duplicate processor section: {section}")
-            }
-            ProcessError::ExtractorFailed { section, source } => {
-                write!(f, "extractor for {section} failed: {source}")
-            }
-            ProcessError::ExtractorPanicked { section } => {
-                write!(f, "extractor for {section} panicked")
-            }
-        }
-    }
-}
-
-impl Error for ProcessError {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match self {
-            ProcessError::ExtractorFailed { source, .. } => Some(source),
-            _ => None,
-        }
-    }
 }

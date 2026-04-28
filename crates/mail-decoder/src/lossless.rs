@@ -6,6 +6,8 @@ use crate::common::{
     DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
 };
 
+const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
+
 /// Lossless decoded document containing any leading preamble bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct LosslessDocument {
@@ -128,33 +130,22 @@ impl std::error::Error for LosslessEncodeError {}
 /// the function reports trailing bytes as an error.
 pub fn decode_lossless(buffer: &[u8]) -> Result<LosslessDocument, DecodeError> {
     if buffer.is_empty() {
-        return Err(DecodeError::UnexpectedEof {
-            needed: 1,
-            remaining: 0,
-        });
+        return Err(DecodeError::UnexpectedEof { needed: 1, remaining: 0 });
     }
 
     let mut decoder = LosslessDecoder::new(buffer);
     let value = decoder.read_value()?;
     if decoder.remaining() == 0 {
-        return Ok(LosslessDocument {
-            preamble: Vec::new(),
-            value,
-        });
+        return Ok(LosslessDocument { preamble: Vec::new(), value });
     }
 
     if !matches!(value, LosslessValue::Unknown { .. }) {
-        return Err(DecodeError::TrailingBytes {
-            remaining: decoder.remaining(),
-        });
+        return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
 
     let remaining = decoder.remaining();
     if let Some((offset, value)) = find_lossless_payload(buffer) {
-        return Ok(LosslessDocument {
-            preamble: buffer[..offset].to_vec(),
-            value,
-        });
+        return Ok(LosslessDocument { preamble: buffer[..offset].to_vec(), value });
     }
 
     Err(DecodeError::TrailingBytes { remaining })
@@ -171,10 +162,7 @@ pub fn encode_lossless(document: &LosslessDocument) -> Result<Vec<u8>, LosslessE
 /// Convert a lossless document into JSON for storage or inspection.
 pub fn lossless_to_json(document: &LosslessDocument) -> Value {
     let mut root = Map::new();
-    root.insert(
-        "preamble_hex".to_string(),
-        Value::String(hex_encode(&document.preamble)),
-    );
+    root.insert("preamble_hex".to_string(), Value::String(hex_encode(&document.preamble)));
     root.insert("value".to_string(), lossless_value_to_json(&document.value));
     Value::Object(root)
 }
@@ -221,11 +209,7 @@ fn lossless_value_to_json(value: &LosslessValue) -> Value {
                 }
                 LosslessContainer::Array(array) => {
                     object.insert("kind".to_string(), Value::String("array".to_string()));
-                    let items = array
-                        .items
-                        .iter()
-                        .map(lossless_value_to_json)
-                        .collect::<Vec<_>>();
+                    let items = array.items.iter().map(lossless_value_to_json).collect::<Vec<_>>();
                     object.insert("items".to_string(), Value::Array(items));
                     if let Some(tag) = array.terminator {
                         object.insert("terminator".to_string(), Value::from(tag));
@@ -261,6 +245,9 @@ fn hex_char(nibble: u8) -> char {
 fn find_lossless_payload(buffer: &[u8]) -> Option<(usize, LosslessValue)> {
     let mut fallback = None;
     for (offset, tag) in buffer.iter().enumerate() {
+        if offset > MAX_PREAMBLE_SCAN_BYTES {
+            break;
+        }
         if !is_known_tag(*tag) {
             continue;
         }
@@ -289,19 +276,11 @@ struct LosslessDecoder<'a> {
 
 impl<'a> LosslessDecoder<'a> {
     fn new(buffer: &'a [u8]) -> Self {
-        Self {
-            buffer,
-            pos: 0,
-            depth: 0,
-        }
+        Self { buffer, pos: 0, depth: 0 }
     }
 
     fn with_offset(buffer: &'a [u8], pos: usize) -> Self {
-        Self {
-            buffer,
-            pos,
-            depth: 0,
-        }
+        Self { buffer, pos, depth: 0 }
     }
 
     fn remaining(&self) -> usize {
@@ -311,20 +290,14 @@ impl<'a> LosslessDecoder<'a> {
     fn read_value(&mut self) -> Result<LosslessValue, DecodeError> {
         let tag = self.read_u8()?;
         match tag {
-            TAG_BOOL => Ok(LosslessValue::Bool {
-                value: self.read_u8()?,
-            }),
+            TAG_BOOL => Ok(LosslessValue::Bool { value: self.read_u8()? }),
             TAG_F32 => {
                 let raw = self.read_exact(4)?;
-                Ok(LosslessValue::F32 {
-                    raw: raw.try_into().expect("slice length checked"),
-                })
+                Ok(LosslessValue::F32 { raw: raw.try_into().expect("slice length checked") })
             }
             TAG_F64 => {
                 let raw = self.read_exact(8)?;
-                Ok(LosslessValue::F64 {
-                    raw: raw.try_into().expect("slice length checked"),
-                })
+                Ok(LosslessValue::F64 { raw: raw.try_into().expect("slice length checked") })
             }
             TAG_STRING => {
                 let value = self.read_string()?;
@@ -344,10 +317,9 @@ impl<'a> LosslessDecoder<'a> {
         let container = match self.peek_u8() {
             Some(TAG_STRING) => LosslessContainer::Object(self.read_object_entries()?),
             Some(_) => LosslessContainer::Array(self.read_array_entries()?),
-            None => LosslessContainer::Object(LosslessObject {
-                entries: Vec::new(),
-                terminator: None,
-            }),
+            None => {
+                LosslessContainer::Object(LosslessObject { entries: Vec::new(), terminator: None })
+            }
         };
         self.depth -= 1;
 
@@ -373,10 +345,7 @@ impl<'a> LosslessDecoder<'a> {
             break;
         }
 
-        Ok(LosslessObject {
-            entries,
-            terminator,
-        })
+        Ok(LosslessObject { entries, terminator })
     }
 
     fn read_array_entries(&mut self) -> Result<LosslessArray, DecodeError> {
@@ -412,9 +381,7 @@ impl<'a> LosslessDecoder<'a> {
 
     fn read_u32_le(&mut self) -> Result<u32, DecodeError> {
         let raw = self.read_exact(4)?;
-        Ok(u32::from_le_bytes(
-            raw.try_into().expect("slice length checked"),
-        ))
+        Ok(u32::from_le_bytes(raw.try_into().expect("slice length checked")))
     }
 
     fn read_u8(&mut self) -> Result<u8, DecodeError> {
@@ -422,10 +389,7 @@ impl<'a> LosslessDecoder<'a> {
             .buffer
             .get(self.pos)
             .copied()
-            .ok_or(DecodeError::UnexpectedEof {
-                needed: 1,
-                remaining: 0,
-            })?;
+            .ok_or(DecodeError::UnexpectedEof { needed: 1, remaining: 0 })?;
         self.pos += 1;
         Ok(byte)
     }
@@ -433,10 +397,7 @@ impl<'a> LosslessDecoder<'a> {
     fn read_exact(&mut self, len: usize) -> Result<&'a [u8], DecodeError> {
         let end = self.pos.saturating_add(len);
         if end > self.buffer.len() {
-            return Err(DecodeError::UnexpectedEof {
-                needed: len,
-                remaining: self.remaining(),
-            });
+            return Err(DecodeError::UnexpectedEof { needed: len, remaining: self.remaining() });
         }
 
         let start = self.pos;
@@ -505,9 +466,8 @@ fn write_string_tagged(value: &str, buffer: &mut Vec<u8>) -> Result<(), Lossless
 }
 
 fn write_string_bytes(bytes: &[u8], buffer: &mut Vec<u8>) -> Result<(), LosslessEncodeError> {
-    let length = u32::try_from(bytes.len()).map_err(|_| LosslessEncodeError::StringTooLong {
-        length: bytes.len(),
-    })?;
+    let length = u32::try_from(bytes.len())
+        .map_err(|_| LosslessEncodeError::StringTooLong { length: bytes.len() })?;
     buffer.extend_from_slice(&length.to_le_bytes());
     buffer.extend_from_slice(bytes);
     Ok(())
@@ -565,12 +525,7 @@ mod tests {
         assert_eq!(object.entries[0].key, "a");
         assert_eq!(object.entries[0].value, LosslessValue::Bool { value: 1 });
         assert_eq!(object.entries[1].key, "b");
-        assert_eq!(
-            object.entries[1].value,
-            LosslessValue::String {
-                value: "ok".to_string()
-            }
-        );
+        assert_eq!(object.entries[1].value, LosslessValue::String { value: "ok".to_string() });
         assert_eq!(object.terminator, Some(TAG_OBJECT_END));
     }
 
@@ -584,12 +539,7 @@ mod tests {
 
         assert_eq!(array.items.len(), 2);
         assert_eq!(array.items[0], LosslessValue::Bool { value: 1 });
-        assert_eq!(
-            array.items[1],
-            LosslessValue::String {
-                value: "ok".to_string()
-            }
-        );
+        assert_eq!(array.items[1], LosslessValue::String { value: "ok".to_string() });
         assert_eq!(array.terminator, Some(TAG_OBJECT_END));
     }
 
@@ -613,6 +563,32 @@ mod tests {
 
         let encoded = encode_lossless(&doc).unwrap();
         assert_eq!(encoded, buffer);
+    }
+
+    #[test]
+    fn decode_lossless_preamble_scan_is_bounded() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES + 1];
+        buffer.extend_from_slice(&encode_array(&[vec![TAG_BOOL, 1]]));
+
+        let err = decode_lossless(&buffer).unwrap_err();
+        assert!(matches!(err, DecodeError::TrailingBytes { .. }));
+    }
+
+    #[test]
+    fn decode_lossless_preamble_scan_includes_limit_boundary() {
+        let mut buffer = vec![0x99; MAX_PREAMBLE_SCAN_BYTES];
+        buffer.extend_from_slice(&encode_array(&[vec![TAG_BOOL, 1]]));
+
+        let doc = decode_lossless(&buffer).unwrap();
+
+        assert_eq!(doc.preamble, vec![0x99; MAX_PREAMBLE_SCAN_BYTES]);
+        assert_eq!(
+            doc.value,
+            LosslessValue::Container(LosslessContainer::Array(LosslessArray {
+                items: vec![LosslessValue::Bool { value: 1 }],
+                terminator: Some(TAG_OBJECT_END),
+            }))
+        );
     }
 
     #[test]

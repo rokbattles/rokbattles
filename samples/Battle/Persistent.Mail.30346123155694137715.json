@@ -1,0 +1,444 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "Attacks": {
+        "1706186": {
+          "Bts": 421258,
+          "CIdt": {
+            "AId": 462764,
+            "AName": "From the Flames",
+            "Abbr": "F/F",
+            "AppUid": "9545421",
+            "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/13451284/19/04/21/24def4db6d2825ea_200x200.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+            "CId": 1706186,
+            "CT": 1,
+            "CastlePos": {
+              "X": 2042.6797,
+              "Y": 4888.6157
+            },
+            "CtId": 1061220,
+            "HAw": false,
+            "HAw2": false,
+            "HId": 24,
+            "HId2": 15,
+            "HLv": 29,
+            "HLv2": 20,
+            "HSS": [
+              1,
+              {
+                "SkillId": 41,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1054,
+                "SkillLevel": 5
+              },
+              3,
+              {
+                "SkillId": 1055,
+                "SkillLevel": 5
+              }
+            ],
+            "HSS2": [
+              1,
+              {
+                "SkillId": 34,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 1030,
+                "SkillLevel": 2
+              },
+              3,
+              {
+                "SkillId": 1031,
+                "SkillLevel": 1
+              }
+            ],
+            "HSt": 3,
+            "HSt2": 3,
+            "Idt": "1706186",
+            "PId": 13451284,
+            "PName": "hasan pilay",
+            "Udid": "E65F25990CA9D64A7AA429644CE4DDEB"
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "BadHurt": 3361,
+            "Cnt": 160919,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 3412,
+            "HurtCntEnd": 27443,
+            "InitMax": 198012,
+            "Max": 167692,
+            "Power": -13444,
+            "RetreatCnt": 0
+          },
+          "Def": 2,
+          "Ets": 421298,
+          "Kill": {
+            "AddCnt": 0,
+            "BadHurt": 57550,
+            "Cnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 69450,
+            "HurtCntEnd": 69450,
+            "InitMax": 127000,
+            "Max": 127000,
+            "Power": -151443,
+            "RetreatCnt": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1061220": {
+              "HId": 24,
+              "HId2": 15,
+              "HLv": 29,
+              "HLv2": 20,
+              "PId": 13451284,
+              "PName": "hasan pilay"
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Pos": {
+            "X": 1760.1536,
+            "Y": 4863.0415
+          },
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "Tick": 41,
+          "TickStart": 421258
+        }
+      },
+      "Btk": 421258,
+      "Bts": 1556941336,
+      "Ets": 1556941377,
+      "Events": [],
+      "GsId": 227,
+      "Id": 11255691,
+      "Role": "gs",
+      "STs": {
+        "1160966": {
+          "HId": 9,
+          "HId2": 7,
+          "HLv": 50,
+          "HLv2": 30,
+          "PId": 14022209,
+          "PName": "Resir"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 167692,
+          "T": 421258
+        },
+        2,
+        {
+          "Cnt": 167418,
+          "T": 421259
+        },
+        3,
+        {
+          "Cnt": 167146,
+          "T": 421260
+        },
+        4,
+        {
+          "Cnt": 166877,
+          "T": 421261
+        },
+        5,
+        {
+          "Cnt": 166611,
+          "T": 421262
+        },
+        6,
+        {
+          "Cnt": 166347,
+          "T": 421263
+        },
+        7,
+        {
+          "Cnt": 166085,
+          "T": 421264
+        },
+        8,
+        {
+          "Cnt": 165826,
+          "T": 421265
+        },
+        9,
+        {
+          "Cnt": 165569,
+          "T": 421266
+        },
+        10,
+        {
+          "Cnt": 165314,
+          "T": 421267
+        },
+        11,
+        {
+          "Cnt": 164810,
+          "T": 421268
+        },
+        12,
+        {
+          "Cnt": 164810,
+          "T": 421269
+        },
+        13,
+        {
+          "Cnt": 164342,
+          "T": 421270
+        },
+        14,
+        {
+          "Cnt": 164342,
+          "T": 421271
+        },
+        15,
+        {
+          "Cnt": 164191,
+          "T": 421272
+        },
+        16,
+        {
+          "Cnt": 164042,
+          "T": 421273
+        },
+        17,
+        {
+          "Cnt": 163926,
+          "T": 421274
+        },
+        18,
+        {
+          "Cnt": 163749,
+          "T": 421275
+        },
+        19,
+        {
+          "Cnt": 163542,
+          "T": 421276
+        },
+        20,
+        {
+          "Cnt": 163337,
+          "T": 421277
+        },
+        21,
+        {
+          "Cnt": 162933,
+          "T": 421278
+        },
+        22,
+        {
+          "Cnt": 162749,
+          "T": 421279
+        },
+        23,
+        {
+          "Cnt": 162574,
+          "T": 421280
+        },
+        24,
+        {
+          "Cnt": 162574,
+          "T": 421281
+        },
+        25,
+        {
+          "Cnt": 162471,
+          "T": 421282
+        },
+        26,
+        {
+          "Cnt": 162369,
+          "T": 421283
+        },
+        27,
+        {
+          "Cnt": 162269,
+          "T": 421284
+        },
+        28,
+        {
+          "Cnt": 162128,
+          "T": 421285
+        },
+        29,
+        {
+          "Cnt": 161989,
+          "T": 421286
+        },
+        30,
+        {
+          "Cnt": 161853,
+          "T": 421287
+        },
+        31,
+        {
+          "Cnt": 161588,
+          "T": 421288
+        },
+        32,
+        {
+          "Cnt": 161588,
+          "T": 421289
+        },
+        33,
+        {
+          "Cnt": 161366,
+          "T": 421290
+        },
+        34,
+        {
+          "Cnt": 161366,
+          "T": 421291
+        },
+        35,
+        {
+          "Cnt": 161306,
+          "T": 421292
+        },
+        36,
+        {
+          "Cnt": 161249,
+          "T": 421293
+        },
+        37,
+        {
+          "Cnt": 161194,
+          "T": 421294
+        },
+        38,
+        {
+          "Cnt": 161120,
+          "T": 421295
+        },
+        39,
+        {
+          "Cnt": 161050,
+          "T": 421296
+        },
+        40,
+        {
+          "Cnt": 160982,
+          "T": 421297
+        },
+        41,
+        {
+          "Cnt": 160919,
+          "T": 421299
+        }
+      ],
+      "SelfChar": {
+        "AId": 463177,
+        "AName": "Second Storm Knights",
+        "Abbr": "TSSK",
+        "AppUid": "12688519",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_6.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/14022209/19/03/21/525554b7bd86e09f_200x200.jpg\"}",
+        "CId": 1709762,
+        "CT": 1,
+        "CastlePos": {
+          "X": 2391.8281,
+          "Y": 2856.5615
+        },
+        "CtId": 1160966,
+        "HAw": true,
+        "HAw2": false,
+        "HId": 9,
+        "HId2": 7,
+        "HLv": 50,
+        "HLv2": 30,
+        "HSS": [
+          1,
+          {
+            "SkillId": 64,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1015,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1012,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1016,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 25,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1101,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1013,
+            "SkillLevel": 2
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 3,
+        "Idt": "1709762",
+        "PId": 14022209,
+        "PName": "Resir",
+        "Udid": "D72E6EF8-D4F1-4B0A-8144-CB1D8074AE1D"
+      },
+      "isConquerSeason": false
+    }
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "30346123155694137715",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_14022209",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 166,
+  "starMark": 0,
+  "time": 1556941377294066,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

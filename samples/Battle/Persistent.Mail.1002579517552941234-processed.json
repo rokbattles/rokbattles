@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": false,
     "mail_id": "1002579517552941234",
     "mail_receiver": "player_110176153",
     "mail_role": "gsmp",
     "mail_time": 1755294123041275,
+    "report_id": 5391170,
     "server_id": 1804
   },
   "opponents": [
@@ -131,6 +133,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 312472,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
       "kingdom_id": 1804,
       "npc": {
@@ -180,6 +183,7 @@
       "player_id": 130014943,
       "player_name": "xAvarice",
       "rally": null,
+      "start_tick": 312472,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

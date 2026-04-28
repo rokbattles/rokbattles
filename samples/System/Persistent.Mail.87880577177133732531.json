@@ -1,0 +1,85 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "PIC": "img_icon_item_48",
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 72
+        },
+        2,
+        {
+          "PIC": "img_icon_item_4",
+          "SubType": 130,
+          "Type": 2,
+          "Value": 65
+        },
+        3,
+        {
+          "PIC": "img_icon_item_11",
+          "SubType": 92,
+          "Type": 2,
+          "Value": 11
+        },
+        4,
+        {
+          "PIC": "img_icon_item_19",
+          "SubType": 26,
+          "Type": 2,
+          "Value": 1
+        },
+        5,
+        {
+          "PIC": "img_icon_item_3",
+          "SubType": 182,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Congratulations! The Level 10 barbarian fort at X:629 Y:670 has been destroyed by your mighty onslaught.\n\nYou dealt 65% of the total damage and as a result have received the following <color=#00980e>Tier 7</color> trophies:",
+    "position": {
+      "X": 3773.742919921875,
+      "Y": 4018.699951171875,
+      "Z": 0
+    },
+    "subParam": 1,
+    "subTitle": "You Destroyed a Barbarian Fort",
+    "subType": 11,
+    "targetName": "Level10",
+    "title": "Barbarian Fort Successfully Destroyed"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "87880577177133732531",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1771337325847987,
+  "title": "",
+  "type": "System",
+  "unread": false
+}

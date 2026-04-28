@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": false,
     "mail_id": "31709368176977161019",
     "mail_receiver": "player_47043938",
     "mail_role": "gsmp",
     "mail_time": 1769771610619469,
+    "report_id": 6297322,
     "server_id": 1804
   },
   "opponents": [
@@ -102,6 +104,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 875256,
       "frame_url": null,
       "kingdom_id": 0,
       "npc": {
@@ -133,6 +136,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "start_tick": 875164,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

@@ -1,0 +1,85 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "PIC": "img_icon_item_9",
+          "SubType": 58,
+          "Type": 2,
+          "Value": 18
+        },
+        2,
+        {
+          "PIC": "img_Crystal",
+          "SubType": 9,
+          "Type": 1,
+          "Value": 3188
+        },
+        3,
+        {
+          "PIC": "img_icon_item_3",
+          "SubType": 182,
+          "Type": 2,
+          "Value": 1
+        },
+        4,
+        {
+          "PIC": "img_icon_item_48",
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 126
+        },
+        5,
+        {
+          "PIC": "img_icon_item_4",
+          "SubType": 130,
+          "Type": 2,
+          "Value": 98
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Congratulations! The Marauder Encampment at X:1172 Y:208 has been destroyed by your mighty onslaught. You dealt 15% of the total damage and as a result have received the following <color=#00980e>Tier 3</color> trophies:",
+    "position": {
+      "X": 7033.7001953125,
+      "Y": 1246.9722900390625,
+      "Z": 0
+    },
+    "subParam": 3,
+    "subTitle": "You defeated a Marauder Encampment",
+    "subType": 11,
+    "targetName": "Level11",
+    "title": "Defeat a Marauder Encampment"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "54530305177357763431",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1773577634542825,
+  "title": "",
+  "type": "System",
+  "unread": false
+}

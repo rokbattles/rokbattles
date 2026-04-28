@@ -1,8 +1,11 @@
 [package]
 name = "mail-processor-barcanyonkillboss"
-version = "1.0.0"
+version = "1.0.2"
 edition = "2024"
 
 [dependencies]
 mail-processor-sdk = { path = "../mail-processor-sdk" }
 serde_json = { workspace = true }
+
+[lib]
+doctest = false

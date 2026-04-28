@@ -1,4 +1,4 @@
-//! NPC extractor for BarCanyonKillBoss mail.
+//! NPC parser for BarCanyonKillBoss mail.
 
 use mail_processor_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
@@ -7,12 +7,12 @@ use crate::content::{
     require_child_object, require_content, require_number_field, require_u64_field,
 };
 
-/// Extracts NPC details from BarCanyonKillBoss mail content.
+/// Pulls NPC details out of BarCanyonKillBoss mail content.
 #[derive(Debug, Default)]
 pub struct NpcExtractor;
 
 impl NpcExtractor {
-    /// Create a new NPC extractor.
+    /// Creates an NPC extractor.
     pub fn new() -> Self {
         Self
     }
@@ -25,9 +25,17 @@ impl Extractor for NpcExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let content = require_content(input)?;
-        // mappings
+        // Known NPC ids:
         // - 102000063: Miser Khaolak
         // - 102000055: Ironhand Baulur
+        // - 102000155: Bloodfist Bargha
+        // - 102000235: Swindler Dhalruk
+        // The ones below are from KVK
+        // - 102000057: Ironhand Baulur
+        // - 102000058: Ironhand Baulur
+        // - 401000087: Bloodfist Bargha
+        // - 401000089: Bloodfist Bargha
+        // - 401000093: Bloodfist Bargha
         let npc_type = require_u64_field(content, "npcType")?;
         let npc_level = require_u64_field(content, "npcLevel")?;
         let pos = require_child_object(content, "pos")?;
@@ -53,11 +61,12 @@ fn build_location(x: Value, y: Value) -> Value {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::{fs, path::PathBuf};
+
     use mail_processor_sdk::Extractor;
     use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
+
+    use super::*;
 
     #[test]
     fn npc_extractor_reads_fields() {
@@ -105,9 +114,6 @@ mod tests {
         let fields = section.fields();
         assert_eq!(fields["type"], json!(102000055));
         assert_eq!(fields["level"], json!(25));
-        assert_eq!(
-            fields["location"],
-            json!({ "x": 4788.31689453125, "y": 4418.36669921875 })
-        );
+        assert_eq!(fields["location"], json!({ "x": 4788.31689453125, "y": 4418.36669921875 }));
     }
 }

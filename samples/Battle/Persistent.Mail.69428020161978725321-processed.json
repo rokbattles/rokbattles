@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": true,
     "mail_id": "69428020161978725321",
     "mail_receiver": "player_4361125",
     "mail_role": "gs",
     "mail_time": 1619787253187050,
+    "report_id": 20490591,
     "server_id": 15373
   },
   "opponents": [
@@ -135,6 +137,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 1470659,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
       "kingdom_id": null,
       "npc": {
@@ -166,6 +169,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "start_tick": 1470644,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -298,6 +302,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1470659,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
       "kingdom_id": null,
       "npc": {
@@ -329,6 +334,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "start_tick": 1470642,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -461,6 +467,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1470659,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
       "kingdom_id": null,
       "npc": {
@@ -492,6 +499,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "start_tick": 1470649,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -628,6 +636,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1470657,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
       "kingdom_id": null,
       "npc": {
@@ -659,6 +668,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "start_tick": 1470644,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -795,6 +805,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 1470658,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_25.png",
       "kingdom_id": null,
       "npc": {
@@ -826,6 +837,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "start_tick": 1470634,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,

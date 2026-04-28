@@ -1,0 +1,642 @@
+{
+  "addition": "",
+  "attachments": [],
+  "ba_result": {
+    "level": 43,
+    "result": 2
+  },
+  "body": {
+    "content": {
+      "Attacks": {
+        "149769101": {
+          "Bts": 375269,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "Avatar": "",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 149769101,
+            "CK": "",
+            "COSId": 0,
+            "CT": 1,
+            "CTK": "-2_1773532692_94",
+            "CastleLevel": 0,
+            "CastlePos": {
+              "X": 7033.7,
+              "Y": 1246.9723
+            },
+            "CtId": 1320870,
+            "DisappearTick": 415155,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HId": 94,
+            "HId2": 0,
+            "HLv": 50,
+            "HLv2": 0,
+            "HSS": [
+              1,
+              {
+                "SkillId": 119,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 5,
+            "HSt2": 1,
+            "HTE": 0,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "Idt": "149769101",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "NpcBType": 16,
+            "NpcType": 200,
+            "PId": -2,
+            "PName": "",
+            "SerSeason": "",
+            "Titan": {
+              "BattleId": "",
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            }
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -14656,
+            "BadHurt": 1995,
+            "BadReduceCnt": 0,
+            "Cnt": 1845208,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 151925,
+            "HurtCntEnd": 243966,
+            "InitMax": 2092456,
+            "KillScore": 0,
+            "Max": 2000000,
+            "Power": -17436,
+            "RetreatCnt": 0,
+            "SkillPower": -2780,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 375311,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -3038228,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 2000000,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 2000000,
+            "KillScore": 0,
+            "Max": 2000000,
+            "Power": -8000000,
+            "RetreatCnt": 0,
+            "SkillPower": -4961772,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 0,
+          "OTs": {
+            "1320870": {
+              "Abbr": "",
+              "HId": 94,
+              "HId2": 0,
+              "HLv": 50,
+              "HLv2": 0,
+              "PId": -2,
+              "PName": ""
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 7029.74,
+            "Y": 1250.9321
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 43,
+          "TickStart": 375269,
+          "attack_idt_key": "149769101"
+        },
+        "168005901": {
+          "Bts": 375279,
+          "CIdt": {
+            "AId": 0,
+            "AName": "",
+            "Abbr": "",
+            "Avatar": "",
+            "CAHAH": [],
+            "CASS": {
+              "Ban": false,
+              "ENABLE": false
+            },
+            "CId": 168005901,
+            "CK": "",
+            "COSId": 0,
+            "CT": 1,
+            "CTK": "-2_1773573643_273",
+            "CastleLevel": 0,
+            "CastlePos": {
+              "X": 7038.3457,
+              "Y": 1250.2986
+            },
+            "CtId": 1457429,
+            "DisappearTick": 392235,
+            "HAw": false,
+            "HAw2": false,
+            "HEq": "{}",
+            "HId": 273,
+            "HId2": 0,
+            "HLv": 43,
+            "HLv2": 0,
+            "HSS": [
+              1,
+              {
+                "SkillId": 13,
+                "SkillLevel": 5
+              },
+              2,
+              {
+                "SkillId": 11003,
+                "SkillLevel": 5
+              }
+            ],
+            "HSt": 5,
+            "HSt2": 1,
+            "HTE": 0,
+            "HTJ": 0,
+            "HTJ2": 0,
+            "Idt": "168005901",
+            "IfAI": 0,
+            "IsAuto": 0,
+            "KVKMorale": {
+              "CampX": 0,
+              "CampY": 0,
+              "Distance": 0,
+              "Morale": 0
+            },
+            "NpcBType": 1,
+            "NpcType": 403,
+            "PId": -2,
+            "PName": "",
+            "SerSeason": "",
+            "Titan": {
+              "BattleId": "",
+              "Pioneer": false,
+              "Round": 0,
+              "TeamId": 0
+            }
+          },
+          "Damage": {
+            "AddCnt": 0,
+            "AtkPower": -612,
+            "BadHurt": 72,
+            "BadReduceCnt": 0,
+            "Cnt": 1910727,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 0,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 800,
+            "HurtCntEnd": 179349,
+            "InitMax": 2092456,
+            "KillScore": 0,
+            "Max": 1963450,
+            "Power": -612,
+            "RetreatCnt": 0,
+            "SkillPower": 0,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "Def": 2,
+          "Ets": 375289,
+          "Kill": {
+            "AddCnt": 0,
+            "AtkPower": -135960,
+            "BadHurt": 0,
+            "BadReduceCnt": 0,
+            "Cnt": 0,
+            "Contribute": 0,
+            "DeadReduceCnt": 0,
+            "Death": 170000,
+            "Gt": 0,
+            "GtMax": 0,
+            "Healing": 0,
+            "Hurt": 0,
+            "HurtCntEnd": 0,
+            "InitMax": 170000,
+            "KillScore": 0,
+            "Max": 170000,
+            "Power": -680000,
+            "RetreatCnt": 0,
+            "SkillPower": -544040,
+            "UnitStifleBadHurtReduceCnt": 0,
+            "WarExploits": 0
+          },
+          "NpcAtkExp": 12470,
+          "NpcKillLoot": [
+            1,
+            {
+              "SubType": 9,
+              "Type": 1,
+              "Value": 500
+            },
+            2,
+            {
+              "SubType": 10,
+              "Type": 1,
+              "Value": 22000
+            },
+            3,
+            {
+              "SubType": 144,
+              "Type": 2,
+              "Value": 152
+            },
+            4,
+            {
+              "SubType": 34,
+              "Type": 2,
+              "Value": 20
+            },
+            5,
+            {
+              "SubType": 130,
+              "Type": 2,
+              "Value": 10
+            }
+          ],
+          "OTs": {
+            "1457429": {
+              "Abbr": "",
+              "HId": 273,
+              "HId2": 0,
+              "HLv": 43,
+              "HLv2": 0,
+              "PId": -2,
+              "PName": ""
+            }
+          },
+          "OppositeDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "OpsKvkModBuffIds": [],
+          "Pos": {
+            "X": 7029.74,
+            "Y": 1250.9321
+          },
+          "ReportShowType": 0,
+          "RewardLimited": false,
+          "SelfDu": {
+            "DuCnt": 0,
+            "DuMax": 0
+          },
+          "SelfKvkModBuffIds": [],
+          "StatShowType": 1,
+          "Tick": 7,
+          "TickStart": 375279,
+          "attack_idt_key": "168005901"
+        }
+      },
+      "Btk": 375269,
+      "Bts": 1773577593,
+      "DataOmit": false,
+      "Ets": 1773577634,
+      "Events": [],
+      "GsId": 15908,
+      "Id": 2156764,
+      "LLScriptSchema": 814,
+      "LoadSource": "oss",
+      "Role": "gsmp",
+      "RoomId": 0,
+      "STs": {
+        "1464449": {
+          "Abbr": "SO4L",
+          "HId": 9,
+          "HId2": 0,
+          "HLv": 60,
+          "HLv2": 0,
+          "PId": 5169190,
+          "PName": "ヅ Sergius ヅ"
+        },
+        "1469375": {
+          "Abbr": "SO4L",
+          "HId": 37,
+          "HId2": 596,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 34961809,
+          "PName": "ViatinaXOgeXFay"
+        },
+        "1472095": {
+          "Abbr": "SO4L",
+          "HId": 579,
+          "HId2": 575,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 151739835,
+          "PName": "Pro100WRyj ツ"
+        },
+        "1472116": {
+          "Abbr": "SO4L",
+          "HId": 61,
+          "HId2": 0,
+          "HLv": 60,
+          "HLv2": 0,
+          "PId": 13189302,
+          "PName": "宝宝哈士奇"
+        },
+        "1472123": {
+          "Abbr": "SO4L",
+          "HId": 99,
+          "HId2": 0,
+          "HLv": 60,
+          "HLv2": 0,
+          "PId": 97043814,
+          "PName": "PREDATОR"
+        },
+        "1472154": {
+          "Abbr": "SO4L",
+          "HId": 112,
+          "HId2": 509,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 110166119,
+          "PName": "Anael"
+        },
+        "1472168": {
+          "Abbr": "SO4L",
+          "HId": 37,
+          "HId2": 177,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 119214115,
+          "PName": "ᴵˢzzAKzz"
+        },
+        "1472169": {
+          "Abbr": "SO4L",
+          "HId": 37,
+          "HId2": 189,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 128017148,
+          "PName": "klopotek F01"
+        },
+        "1472224": {
+          "Abbr": "SO4L",
+          "HId": 138,
+          "HId2": 540,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 125012192,
+          "PName": "ᴾᴸDarkAngel"
+        },
+        "1472401": {
+          "Abbr": "SO4L",
+          "HId": 66,
+          "HId2": 99,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 71738515,
+          "PName": "Grigvar"
+        },
+        "1472459": {
+          "Abbr": "SO4L",
+          "HId": 120,
+          "HId2": 579,
+          "HLv": 60,
+          "HLv2": 60,
+          "PId": 20075558,
+          "PName": "jën x ƒaräɀ"
+        },
+        "1472530": {
+          "Abbr": "1861",
+          "HId": 61,
+          "HId2": 62,
+          "HLv": 60,
+          "HLv2": 50,
+          "PId": 101341163,
+          "PName": "남두유성권"
+        }
+      },
+      "Samples": [
+        1,
+        {
+          "Cnt": 2000000,
+          "T": 375269,
+          "Time": 1773577593
+        },
+        2,
+        {
+          "Cnt": 1963450,
+          "T": 375279,
+          "Time": 1773577603
+        },
+        3,
+        {
+          "Cnt": 1910727,
+          "T": 375289,
+          "Time": 1773577613
+        },
+        4,
+        {
+          "Cnt": 1845208,
+          "T": 375311,
+          "Time": 1773577635
+        }
+      ],
+      "Schema": 814,
+      "SelfChar": {
+        "AId": 4805441,
+        "AName": "魂社会SoulReapers",
+        "Abbr": "SO4L",
+        "AppUid": "208815994",
+        "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/208815994/2025-07-11/5D1DBD9F5ED6359851627D2AD23B67D6_250x250.jpg\"}",
+        "CAHAH": [],
+        "CASS": {
+          "Ban": false,
+          "ENABLE": false
+        },
+        "CId": 170099101,
+        "CK": "",
+        "COSId": 1804,
+        "CT": 1,
+        "CTK": "151739835_1773577071_579_575_SquareRally",
+        "CastleLevel": 25,
+        "CastlePos": {
+          "X": 6551.8564,
+          "Y": 1421.3213
+        },
+        "CtId": 1472095,
+        "HAw": true,
+        "HAw2": false,
+        "HEq": "{1:20001_46:1,2:20008_34:31,3:20009_36:1,4:20028_38:1,5:20033_37:2,6:20012_35:1,7:20040_83:1,8:20075_48:0}",
+        "HEq2": "{}",
+        "HFMs": 13,
+        "HFMs2": 13,
+        "HId": 579,
+        "HId2": 575,
+        "HLv": 60,
+        "HLv2": 60,
+        "HSS": [
+          1,
+          {
+            "SkillId": 417,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1799,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1800,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1801,
+            "SkillLevel": 5
+          }
+        ],
+        "HSS2": [
+          1,
+          {
+            "SkillId": 411,
+            "SkillLevel": 5
+          },
+          2,
+          {
+            "SkillId": 1787,
+            "SkillLevel": 5
+          },
+          3,
+          {
+            "SkillId": 1788,
+            "SkillLevel": 5
+          },
+          4,
+          {
+            "SkillId": 1789,
+            "SkillLevel": 1
+          }
+        ],
+        "HSt": 6,
+        "HSt2": 6,
+        "HTE": -1,
+        "HTJ": 0,
+        "HTJ2": 0,
+        "HWBs": {
+          "1": {
+            "Affix": "13101",
+            "Buffs": "3002_0.016000;4002_0.016000;5002_0.031000",
+            "Id": "75113011_19630"
+          },
+          "2": {
+            "Affix": "13202",
+            "Buffs": "3002_0.018000;4002_0.019000;5002_0.029000",
+            "Id": "75213011_19631"
+          },
+          "3": {
+            "Affix": "317",
+            "Buffs": "6002_0.016000;4002_0.017000;5002_0.030000",
+            "Id": "75313011_19632"
+          },
+          "4": {
+            "Affix": "13402",
+            "Buffs": "6002_0.033000;4002_0.025000;5002_0.015000",
+            "Id": "75413010_16230"
+          }
+        },
+        "Idt": "170099101",
+        "IfAI": 0,
+        "IsAuto": 0,
+        "IsRally": true,
+        "KVKMorale": {
+          "CampX": 0,
+          "CampY": 0,
+          "Distance": 0,
+          "Morale": 0
+        },
+        "PId": 151739835,
+        "PName": "Pro100WRyj ツ",
+        "PkgNameNew": "com.lilithgame.roc.ios",
+        "SerSeason": "100",
+        "SideId": 3,
+        "Titan": {
+          "BattleId": "",
+          "Pioneer": false,
+          "Round": 0,
+          "TeamId": 0
+        },
+        "Udid": "2F55ACFA-03CA-4009-ABE2-D12B2ACADA41"
+      },
+      "TickSkip": 100
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "54530308177357763431",
+  "isMergeChild": false,
+  "mailScene": 0,
+  "parentId": "151739835_1773577071_579_575_SquareRallypve",
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1773577634548774,
+  "title": "",
+  "type": "Battle",
+  "unread": false
+}

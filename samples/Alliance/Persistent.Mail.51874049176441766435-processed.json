@@ -1,0 +1,195 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": "55~r",
+        "id": 6495037,
+        "logo": "2_16_12_5_0_0",
+        "name": "Red Lobster"
+      },
+      "is_blue": true,
+      "members": 0,
+      "members_max": 30,
+      "power": 85710957,
+      "score": 0,
+      "server_id": 2355,
+      "team": 0
+    },
+    {
+      "alliance": {
+        "abbreviation": "07/L",
+        "id": 6675910,
+        "logo": "11_14_33_5_0_0",
+        "name": "Legion Of Order"
+      },
+      "is_blue": false,
+      "members": 0,
+      "members_max": 30,
+      "power": 138914379,
+      "score": 0,
+      "server_id": 2407,
+      "team": 0
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 6675910
+    },
+    "win": false
+  },
+  "metadata": {
+    "custom": false,
+    "mail_id": "51874049176441766435",
+    "mail_receiver": "player_179021919",
+    "mail_time": 1764417664137834,
+    "server_id": 2
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "building_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "flag_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "gather_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "healing_score": {
+      "alliance_score": 0,
+      "mvp": null
+    },
+    "killed_score": {
+      "alliance_score": 0,
+      "mvp": null
+    }
+  },
+  "participants": [
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "lillilMAYZEfarm"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Youth Farm 7"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Youth Farm 9"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "StriborF6"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "StriborF5"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Celine Slave"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Sishᴬ3"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "FedoteX"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "The Emperor M"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "JackF2"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "StriborF4"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "RayZ 3"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Правитель174323111"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "JackF3"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Hugo2cold"
+    }
+  ]
+}

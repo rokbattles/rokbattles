@@ -1,0 +1,1158 @@
+msgid ""
+msgstr ""
+"Language: ms\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: next-intl\n"
+"X-Crowdin-SourceKey: msgstr\n"
+
+#: src/app/(legacy)/account/ark/[matchId]/page.tsx:19
+msgid "WDt8Y9"
+msgstr ""
+
+#: src/app/(legacy)/account/ark/page.tsx:18
+msgid "P2Qqmh"
+msgstr ""
+
+#: src/app/(legacy)/account/loot/page.tsx:24
+#: src/components/platform-layout.tsx:123
+msgid "yF/GXb"
+msgstr ""
+
+#: src/app/(legacy)/account/pairings/page.tsx:11
+#: src/components/platform-layout.tsx:119
+msgid "N42bBd"
+msgstr ""
+
+#: src/app/(legacy)/account/resources/page.tsx:24
+#: src/components/platform-layout.tsx:130
+msgid "gMtUZq"
+msgstr ""
+
+#: src/app/(legacy)/account/settings/layout.tsx:11
+#: src/components/sidebar-governor-header.tsx:85
+msgid "NQgbYA"
+msgstr "Tetapan Akaun"
+
+#: src/app/(legacy)/account/settings/page.tsx:13
+msgid "hJZwTS"
+msgstr ""
+
+#: src/app/(legacy)/account/settings/page.tsx:15
+msgid "rmEwjk"
+msgstr ""
+
+#: src/app/(legacy)/olympian-arena/[id]/page.tsx:18
+msgid "xVCzuX"
+msgstr ""
+
+#: src/app/(legacy)/olympian-arena/page.tsx:9
+msgid "78PvoX"
+msgstr ""
+
+#: src/app/(legacy)/olympian-arena/page.tsx:11
+#: src/app/(legacy)/page.tsx:14
+#: src/components/account/account-reports-content.tsx:29
+msgid "F2qQa8"
+msgstr ""
+
+#: src/app/(legacy)/page.tsx:12
+#: src/components/platform-layout.tsx:98
+msgid "xmv5Of"
+msgstr "Laporan Pertempuran"
+
+#: src/app/(legacy)/page.tsx:17
+#: src/components/account/account-reports-content.tsx:32
+msgid "9Obw6C"
+msgstr ""
+
+#: src/app/(legacy)/report/[id]/page.tsx:9
+msgid "1gqsiW"
+msgstr "Laporan Pertempuran"
+
+#: src/app/(legacy)/report/[id]/page.tsx:52
+msgid "irMluf"
+msgstr ""
+
+#: src/app/(legacy)/report/[id]/page.tsx:52
+msgid "8PEDrB"
+msgstr ""
+
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:19
+#: src/components/my-pairings/my-pairings-content.tsx:147
+#: src/components/my-pairings/my-pairings-content.tsx:389
+#: src/components/olympian-arena/duel-participant-card.tsx:45
+#: src/components/report/report-participant-card.tsx:27
+#: src/components/reports/participant-cell.tsx:25
+msgid "5hGibV"
+msgstr ""
+
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:33
+#: src/components/account-ark/ark-commander-pairing-cell.tsx:42
+#: src/components/olympian-arena/duel-commander-row.tsx:21
+#: src/components/report/report-commander-row.tsx:23
+#: src/components/reports/participant-cell.tsx:40
+#: src/components/reports/participant-cell.tsx:50
+msgid "+sdDeh"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-error-state.tsx:11
+msgid "Xe3O7i"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:21
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:19
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
+#: src/components/report/report-overview-column.tsx:64
+msgid "PW+sL4"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
+msgid "gkoU0i"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:27
+msgid "FsjcN7"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:31
+msgid "JPFyHU"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:35
+msgid "g/Nwxg"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:39
+msgid "5YClsN"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:43
+msgid "nCGWau"
+msgstr "Pertempuran Dimenangi"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:47
+msgid "Hw0iax"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:51
+msgid "BXfxPW"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:55
+#: src/components/account-loot/loot-timeline-chart-client.tsx:124
+msgid "Sl01xK"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:59
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
+#: src/components/report/report-overview-column.tsx:46
+#: src/components/reports/reports-overview-summary-card.tsx:46
+msgid "sz3C4k"
+msgstr "Tercedera Teruk"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:63
+msgid "mJwM5A"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:67
+msgid "itiyNN"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:71
+msgid "lcP4aP"
+msgstr "Teleport"
+
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:75
+msgid "5g03Dq"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-loading-state.tsx:9
+msgid "ksU1u5"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-not-found-state.tsx:11
+msgid "gwll/b"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:23
+msgid "9uOFF3"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:25
+msgid "VP5+CR"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:29
+#: src/components/account-ark/ark-match-history-table.tsx:24
+msgid "oLkLww"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:33
+msgid "b5C+CG"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:37
+msgid "GY2gN9"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-overview-section.tsx:41
+msgid "9otZoU"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:28
+msgid "fq2V8a"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:30
+msgid "Tm8lLF"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:35
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
+msgid "02koas"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:36
+#: src/components/my-pairings/pairings-filters.tsx:65
+#: src/components/my-pairings/pairings-filters.tsx:67
+msgid "goGXET"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:37
+msgid "ZtK0ZT"
+msgstr ""
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
+#: src/components/olympian-arena/olympian-arena-table.tsx:42
+#: src/components/reports/reports-table.tsx:51
+msgid "Y3Z7jw"
+msgstr "Kiraan Bunuh"
+
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
+#: src/components/my-pairings/my-pairings-content.tsx:296
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
+#: src/components/olympian-arena/duel-results-chart.tsx:84
+#: src/components/report/report-battle-results-chart.tsx:88
+#: src/components/report/report-overview-column.tsx:55
+#: src/components/reports/reports-overview-summary-card.tsx:71
+msgid "RCtKQ2"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-empty-state.tsx:11
+msgid "7fThOd"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-error-state.tsx:11
+msgid "6IRh9u"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-loading-state.tsx:9
+msgid "raC1gL"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Iset"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:21
+msgid "T4H9Lz"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/olympian-arena/duel-commander-row.tsx:20
+#: src/components/report/report-commander-row.tsx:22
+#: src/components/report/report-overview-column.tsx:29
+msgid "5jeq8P"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:33
+msgid "lgBBrD"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:35
+#: src/components/account-ark/ark-match-history-row.tsx:36
+msgid "iVlule"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx:19
+#: src/components/olympian-arena/olympian-arena-table.tsx:39
+#: src/components/reports/reports-table.tsx:47
+msgid "ug01Mk"
+msgstr ""
+
+#: src/components/account-ark/ark-match-history-table.tsx:22
+#: src/components/olympian-arena/duel-participant-card.tsx:88
+msgid "H+vBOj"
+msgstr "Pemenang"
+
+#: src/components/account-ark/ark-match-history-table.tsx:23
+msgid "+a+2ug"
+msgstr ""
+
+#: src/components/account-binds/account-binds-content.tsx:48
+msgid "XongGf"
+msgstr ""
+
+#: src/components/account-binds/account-binds-content.tsx:67
+msgid "1VWYm7"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:33
+msgid "wL7VAE"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:43
+msgid "E2APuV"
+msgstr ""
+
+#: src/components/account-binds/bind-actions-dropdown.tsx:51
+msgid "7L4R8L"
+msgstr ""
+
+#: src/components/account-binds/bind-list-item.tsx:32
+msgid "lKv8ex"
+msgstr ""
+
+#: src/components/account-binds/bind-list-item.tsx:35
+#: src/components/olympian-arena/duel-participant-card.tsx:92
+#: src/components/report/report-participant-card.tsx:58
+msgid "tx/jZ/"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:26
+msgid "K994jQ"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:32
+msgid "pf6kFc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:38
+msgid "I/clsA"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:54
+msgid "JUJHzc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:65
+#: src/components/reports/reports-filter-dialog.tsx:190
+msgid "GNDCcc"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:71
+#: src/components/reports/reports-filter-dialog.tsx:194
+msgid "bNKXH5"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:85
+msgid "U9mCsP"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "dbfVtv"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-form.tsx:94
+msgid "FRzSFh"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-section.tsx:18
+msgid "JMZWnS"
+msgstr ""
+
+#: src/components/account-binds/binds-claim-section.tsx:20
+msgid "HOHINg"
+msgstr ""
+
+#: src/components/account-binds/binds-list.tsx:26
+msgid "QXdDDh"
+msgstr ""
+
+#: src/components/account-binds/binds-list.tsx:28
+msgid "m9rp75"
+msgstr ""
+
+#: src/components/account-loot/account-loot-content.tsx:61
+msgid "fGwfGZ"
+msgstr ""
+
+#: src/components/account-loot/loot-breakdown-table.tsx:27
+msgid "HAlOn1"
+msgstr ""
+
+#: src/components/account-loot/loot-breakdown-table.tsx:28
+msgid "/0TOL5"
+msgstr ""
+
+#: src/components/account-loot/loot-breakdown-table.tsx:29
+msgid "wrpHgq"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:27
+msgid "r3YbHp"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:28
+msgid "Ap561B"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:29
+msgid "T8KvU4"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:30
+msgid "4pFR10"
+msgstr ""
+
+#: src/components/account-loot/loot-category-list.tsx:31
+msgid "R4HO71"
+msgstr ""
+
+#: src/components/account-loot/loot-error-state.tsx:8
+msgid "XD64/m"
+msgstr ""
+
+#: src/components/account-loot/loot-filters-client.tsx:92
+#: src/components/account-resources/resources-filters-client.tsx:92
+#: src/components/my-pairings/pairings-filters.tsx:80
+msgid "n5QvJy"
+msgstr ""
+
+#: src/components/account-loot/loot-filters-client.tsx:103
+#: src/components/account-resources/resources-filters-client.tsx:103
+#: src/components/my-pairings/pairings-filters.tsx:91
+msgid "Humfno"
+msgstr ""
+
+#: src/components/account-loot/loot-report-section.tsx:18
+#: src/components/account-resources/resources-report-section.tsx:26
+msgid "sdkaef"
+msgstr ""
+
+#: src/components/account-loot/loot-table-section.tsx:20
+msgid "WOPo3b"
+msgstr ""
+
+#: src/components/account-loot/loot-table-section.tsx:29
+msgid "QtM1tY"
+msgstr ""
+
+#: src/components/account-loot/loot-table-section.tsx:31
+msgid "PF57EA"
+msgstr ""
+
+#: src/components/account-resources/account-resources-content.tsx:57
+msgid "e4+7ni"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:26
+#: src/components/reports/reports-filter-dialog.tsx:204
+msgid "+U6ozc"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:27
+msgid "x9zwkN"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:28
+msgid "saDFoR"
+msgstr ""
+
+#: src/components/account-resources/resources-breakdown-table.tsx:29
+msgid "MJ2jZQ"
+msgstr ""
+
+#: src/components/account-resources/resources-error-state.tsx:8
+msgid "QTvbTs"
+msgstr ""
+
+#: src/components/account-resources/resources-table-section.tsx:28
+msgid "F1tgWX"
+msgstr ""
+
+#: src/components/account-resources/resources-table-section.tsx:32
+msgid "9pjHcG"
+msgstr ""
+
+#: src/components/account/account-reports-content.tsx:27
+msgid "2YkOMs"
+msgstr ""
+
+#: src/components/account/account-settings-nav.tsx:13
+msgid "1iEPTM"
+msgstr ""
+
+#: src/components/account/account-settings-nav.tsx:18
+msgid "q5TmbN"
+msgstr ""
+
+#: src/components/cookie-consent-banner.tsx:38
+#: src/components/cookie-consent-dialog.tsx:42
+msgid "sjzLbX"
+msgstr ""
+
+#: src/components/cookie-consent-banner.tsx:46
+#: src/components/cookie-consent-dialog.tsx:33
+msgid "VzIOKf"
+msgstr ""
+
+#: src/components/cookie-consent-dialog.tsx:20
+msgid "KS0bwV"
+msgstr ""
+
+#: src/components/language-selector.tsx:78
+#: src/components/language-selector.tsx:88
+msgid "eVlu1R"
+msgstr ""
+
+#: src/components/language-selector.tsx:83
+msgid "y1Z3or"
+msgstr ""
+
+#: src/components/language-selector.tsx:93
+msgid "QmFCUz"
+msgstr ""
+
+#: src/components/language-selector.tsx:110
+#: src/components/reports/reports-filter-dialog.tsx:393
+msgid "47FYwb"
+msgstr ""
+
+#: src/components/language-selector.tsx:112
+msgid "jvo0vs"
+msgstr ""
+
+#: src/components/my-pairings/loadout-armament-list.tsx:23
+#: src/components/report/report-armament-section.tsx:44
+msgid "lFZWlP"
+msgstr ""
+
+#: src/components/my-pairings/loadout-equipment-slot.tsx:22
+msgid "+RhnH+"
+msgstr ""
+
+#: src/components/my-pairings/loadout-equipment-slot.tsx:53
+#: src/components/report/report-equipment-slot.tsx:54
+msgid "f8EGjq"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:245
+msgid "vxHX7Q"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:253
+msgid "5OhW+B"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:290
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
+#: src/components/reports/reports-table.tsx:50
+msgid "9bVtCz"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:292
+msgid "W2cCAf"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:298
+msgid "xh4gLq"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:302
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
+msgid "nGp3S1"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:304
+msgid "2OWOn1"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:308
+msgid "04DUsx"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:310
+msgid "sCYwbS"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:316
+msgid "87sFXA"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:318
+msgid "2oN4Ru"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:322
+msgid "8RNVtf"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:324
+msgid "OohBEM"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:328
+msgid "jVC9W/"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:332
+msgid "pJCnfG"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:336
+msgid "lsS3Jr"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:340
+msgid "obveBp"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:344
+msgid "CY224M"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:348
+msgid "ZTImOV"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx:407
+msgid "y+cvIx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:52
+#: src/components/my-pairings/pairings-filters.tsx:129
+#: src/components/reports/reports-filter-dialog.tsx:218
+msgid "8Na2J4"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:53
+#: src/components/my-pairings/pairings-filters.tsx:138
+#: src/components/reports/reports-filter-dialog.tsx:215
+msgid "ejEGdx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:54
+#: src/components/my-pairings/pairings-filters.tsx:132
+#: src/components/reports/reports-filter-dialog.tsx:221
+msgid "mJFWRb"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:55
+#: src/components/my-pairings/pairings-filters.tsx:135
+#: src/components/reports/reports-filter-dialog.tsx:224
+msgid "Mro8Zx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:102
+#: src/components/my-pairings/pairings-filters.tsx:104
+msgid "StqoPN"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:108
+msgid "as39fN"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:109
+msgid "244wra"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:113
+#: src/components/my-pairings/pairings-filters.tsx:115
+msgid "XuzWOu"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx:119
+#: src/components/my-pairings/pairings-filters.tsx:124
+#: src/components/reports/reports-filter-dialog.tsx:104
+msgid "450Fty"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:74
+msgid "ouEHpA"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:76
+#: src/components/my-pairings/pairings-loadouts.tsx:47
+msgid "dshKLk"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:80
+#: src/components/my-pairings/pairings-loadouts.tsx:51
+msgid "DCzVxS"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:82
+msgid "mNV3qS"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:86
+msgid "yiwezx"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:113
+msgid "HPFDiG"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:117
+msgid "OBAkIS"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:121
+msgid "bey2Db"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:128
+msgid "cSiC2v"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
+msgid "+yzdej"
+msgstr "DPS"
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
+msgid "nyW1oU"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:134
+msgid "hZ3HBi"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
+#: src/components/olympian-arena/duel-participant-card.tsx:135
+msgid "qyJtWy"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
+#: src/components/olympian-arena/duel-participant-card.tsx:135
+msgid "aWpBzj"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadouts.tsx:43
+msgid "898qG3"
+msgstr "Pemuatan"
+
+#: src/components/my-pairings/pairings-loadouts.tsx:44
+msgid "sU47wG"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadouts.tsx:53
+msgid "Jt86J1"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadouts.tsx:83
+msgid "byP6IC"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadouts.tsx:92
+msgid "MqtNsY"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadouts.tsx:103
+msgid "g+gbNs"
+msgstr ""
+
+#: src/components/olympian-arena/duel-commander-row.tsx:36
+#: src/components/report/report-commander-row.tsx:42
+msgid "XoCgY+"
+msgstr ""
+
+#: src/components/olympian-arena/duel-empty-state.tsx:10
+msgid "NT6UmB"
+msgstr ""
+
+#: src/components/olympian-arena/duel-loading-state.tsx:10
+msgid "U5Mxzi"
+msgstr ""
+
+#: src/components/olympian-arena/duel-participant-card.tsx:102
+#: src/components/report/report-participant-card.tsx:69
+msgid "DqkPqe"
+msgstr ""
+
+#: src/components/olympian-arena/duel-participant-card.tsx:104
+msgid "t2Wr8I"
+msgstr "Primer"
+
+#: src/components/olympian-arena/duel-participant-card.tsx:106
+msgid "6FQuCT"
+msgstr "Sekunder"
+
+#: src/components/olympian-arena/duel-participant-card.tsx:113
+msgid "cKnhhK"
+msgstr "Buf Askar"
+
+#: src/components/olympian-arena/duel-report-entry-card.tsx:32
+msgid "CuNYjA"
+msgstr ""
+
+#: src/components/olympian-arena/duel-report-view.tsx:61
+msgid "m0+hvd"
+msgstr ""
+
+#: src/components/olympian-arena/duel-report-view.tsx:63
+#: src/components/report/report-view.tsx:66
+msgid "p556q3"
+msgstr "Disalin"
+
+#: src/components/olympian-arena/duel-report-view.tsx:63
+#: src/components/report/report-view.tsx:66
+msgid "OKhRC6"
+msgstr ""
+
+#: src/components/olympian-arena/duel-report-view.tsx:68
+msgid "eukQnl"
+msgstr ""
+
+#: src/components/olympian-arena/duel-results-chart.tsx:79
+#: src/components/report/report-battle-results-chart.tsx:82
+msgid "A1ykkc"
+msgstr ""
+
+#: src/components/olympian-arena/duel-results-chart.tsx:80
+#: src/components/report/report-battle-results-chart.tsx:85
+#: src/components/report/report-overview-column.tsx:43
+#: src/components/reports/reports-overview-summary-card.tsx:39
+msgid "NxzeNU"
+msgstr ""
+
+#: src/components/olympian-arena/duel-results-chart.tsx:81
+#: src/components/report/report-battle-results-chart.tsx:86
+msgid "CtBzuU"
+msgstr ""
+
+#: src/components/olympian-arena/duel-results-chart.tsx:82
+msgid "NboP8s"
+msgstr "Tercedera"
+
+#: src/components/olympian-arena/duel-results-chart.tsx:83
+msgid "YoPSLI"
+msgstr ""
+
+#: src/components/olympian-arena/duel-results-chart.tsx:85
+msgid "YXoHk0"
+msgstr ""
+
+#: src/components/olympian-arena/duel-summary-tooltip.tsx:39
+#: src/components/olympian-arena/olympian-arena-table.tsx:40
+#: src/components/report/report-battle-summary-tooltip.tsx:43
+#: src/components/reports/reports-filter-dialog.tsx:105
+#: src/components/reports/reports-filter-dialog.tsx:231
+#: src/components/reports/reports-overview-drawer.tsx:62
+#: src/components/reports/reports-table.tsx:48
+msgid "nbwXXN"
+msgstr ""
+
+#: src/components/olympian-arena/duel-summary-tooltip.tsx:41
+#: src/components/olympian-arena/olympian-arena-table.tsx:41
+#: src/components/report/report-battle-summary-tooltip.tsx:45
+#: src/components/reports/reports-filter-dialog.tsx:106
+#: src/components/reports/reports-filter-dialog.tsx:272
+#: src/components/reports/reports-table.tsx:49
+msgid "Mdj7Fr"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:43
+#: src/components/reports/reports-table.tsx:52
+msgid "c+sY33"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:44
+msgid "aXdZke"
+msgstr "Kemenangan Berturut-turut"
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:65
+#: src/components/reports/reports-table.tsx:74
+msgid "k9hDFZ"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:67
+#: src/components/reports/reports-table.tsx:76
+msgid "JJNc3c"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:76
+#: src/components/reports/reports-table.tsx:85
+msgid "rBj9Ib"
+msgstr ""
+
+#: src/components/olympian-arena/olympian-arena-table.tsx:78
+#: src/components/reports/reports-table.tsx:87
+msgid "9+Ddtu"
+msgstr ""
+
+#: src/components/platform-layout.tsx:61
+msgid "Q7dLbA"
+msgstr ""
+
+#: src/components/platform-layout.tsx:61
+msgid "hMUQH5"
+msgstr ""
+
+#: src/components/platform-layout.tsx:61
+msgid "Pe0ogR"
+msgstr ""
+
+#: src/components/platform-layout.tsx:102
+msgid "sqvUg2"
+msgstr ""
+
+#: src/components/platform-layout.tsx:107
+msgid "dr0ueW"
+msgstr ""
+
+#: src/components/platform-layout.tsx:112
+msgid "NFE4yO"
+msgstr ""
+
+#: src/components/platform-layout.tsx:137
+msgid "odeufe"
+msgstr ""
+
+#: src/components/platform-layout.tsx:147
+msgid "7oFrM6"
+msgstr ""
+
+#: src/components/platform-layout.tsx:156
+msgid "HqRNN8"
+msgstr ""
+
+#: src/components/platform-layout.tsx:165
+msgid "QnWNmB"
+msgstr ""
+
+#: src/components/platform-layout.tsx:167
+msgid "EQpyb8"
+msgstr ""
+
+#: src/components/platform-layout.tsx:177
+msgid "SQJto2"
+msgstr ""
+
+#: src/components/report/report-armament-section.tsx:28
+msgid "e36Xiv"
+msgstr "Maklumat Persenjataan"
+
+#: src/components/report/report-artifact-section.tsx:20
+msgid "eW5eoW"
+msgstr ""
+
+#: src/components/report/report-battle-results-chart.tsx:83
+#: src/components/report/report-overview-column.tsx:52
+#: src/components/reports/reports-overview-summary-card.tsx:62
+msgid "ka8VLG"
+msgstr ""
+
+#: src/components/report/report-battle-results-chart.tsx:84
+msgid "UAaBlE"
+msgstr ""
+
+#: src/components/report/report-battle-results-chart.tsx:87
+msgid "xtXDYN"
+msgstr ""
+
+#: src/components/report/report-battle-results-chart.tsx:89
+msgid "sTixnc"
+msgstr ""
+
+#: src/components/report/report-commander-row.tsx:26
+msgid "YeBMpE"
+msgstr ""
+
+#: src/components/report/report-empty-state.tsx:10
+msgid "198xPO"
+msgstr ""
+
+#: src/components/report/report-entry-card.tsx:27
+msgid "Naj3md"
+msgstr ""
+
+#: src/components/report/report-entry-card.tsx:28
+msgid "BYmpT/"
+msgstr ""
+
+#: src/components/report/report-entry-card.tsx:42
+msgid "eKTCWw"
+msgstr ""
+
+#: src/components/report/report-equipment-section.tsx:21
+msgid "r80fiF"
+msgstr ""
+
+#: src/components/report/report-equipment-slot.tsx:23
+msgid "JqXZrY"
+msgstr ""
+
+#: src/components/report/report-loading-state.tsx:10
+msgid "KfYBwG"
+msgstr ""
+
+#: src/components/report/report-overview-card.tsx:24
+#: src/components/reports/reports-overview-drawer.tsx:60
+msgid "eQhi5P"
+msgstr ""
+
+#: src/components/report/report-overview-column.tsx:29
+#: src/components/reports/reports-overview-drawer.tsx:65
+msgid "ABZ08/"
+msgstr "Semua Musuh"
+
+#: src/components/report/report-overview-column.tsx:40
+#: src/components/reports/reports-overview-summary-card.tsx:32
+msgid "kzHEVE"
+msgstr ""
+
+#: src/components/report/report-overview-column.tsx:49
+#: src/components/reports/reports-overview-summary-card.tsx:54
+msgid "1ISgLB"
+msgstr "Tercedera Ringan"
+
+#: src/components/report/report-participant-card.tsx:61
+msgid "RJ+ZIh"
+msgstr ""
+
+#: src/components/report/report-view.tsx:63
+msgid "x5Tz6M"
+msgstr ""
+
+#: src/components/reports/reports-empty-state-row.tsx:11
+msgid "43CUrU"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:107
+msgid "bUd0tj"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:180
+msgid "zSOvI0"
+msgstr "Penapis"
+
+#: src/components/reports/reports-filter-dialog.tsx:182
+msgid "lVxkzV"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:187
+msgid "8Q504V"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:212
+#: src/components/reports/reports-filter-dialog.tsx:242
+#: src/components/reports/reports-filter-dialog.tsx:260
+#: src/components/reports/reports-filter-dialog.tsx:283
+#: src/components/reports/reports-filter-dialog.tsx:301
+msgid "zQvVDJ"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:234
+#: src/components/reports/reports-filter-dialog.tsx:275
+msgid "rS3oIg"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:252
+#: src/components/reports/reports-filter-dialog.tsx:293
+msgid "SHldaq"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:313
+msgid "+XTzdP"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:316
+msgid "RZr1Nw"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:339
+msgid "PFb9jT"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:365
+msgid "VqILpx"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:373
+msgid "ToO3/h"
+msgstr "Mana-mana"
+
+#: src/components/reports/reports-filter-dialog.tsx:376
+msgid "ptYapO"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:379
+msgid "iScUrx"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:382
+msgid "/VnDMl"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:405
+msgid "jm/spn"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx:407
+msgid "EWw/tK"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:46
+msgid "QRVQkf"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:48
+msgid "EWfXcY"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:52
+msgid "lY8J2h"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:72
+msgid "rbrahO"
+msgstr ""
+
+#: src/components/reports/reports-overview-drawer.tsx:75
+msgid "bvIiB8"
+msgstr ""
+
+#: src/components/reports/reports-skeleton-rows.tsx:19
+msgid "tQtRWX"
+msgstr ""
+
+#: src/components/reports/reports-table.tsx:53
+msgid "IuFETn"
+msgstr ""
+
+#: src/components/sidebar-governor-header.tsx:44
+msgid "JoFtLa"
+msgstr ""
+
+#: src/components/sidebar-governor-header.tsx:79
+msgid "p5J4xw"
+msgstr ""
+
+#: src/components/sidebar-governor-header.tsx:89
+msgid "hquG55"
+msgstr ""
+
+#: src/components/sidebar-governor-header.tsx:94
+msgid "xXbJso"
+msgstr ""
+
+#: src/hooks/use-ark-match-detail.ts:53
+#: src/hooks/use-ark-match-history.ts:65
+#: src/hooks/use-olympian-arena-duel.ts:36
+#: src/hooks/use-olympian-arena-duel.ts:45
+#: src/hooks/use-olympian-arena-duels.ts:79
+#: src/hooks/use-olympian-arena-duels.ts:110
+#: src/hooks/use-olympian-arena-duels.ts:139
+#: src/hooks/use-olympian-arena-duels.ts:155
+#: src/hooks/use-report.ts:34
+#: src/hooks/use-report.ts:43
+#: src/hooks/use-reports-page.ts:114
+#: src/hooks/use-reports-page.ts:178
+#: src/hooks/use-reports-page.ts:218
+#: src/hooks/use-reports-page.ts:235
+msgid "JUgfbD"
+msgstr ""

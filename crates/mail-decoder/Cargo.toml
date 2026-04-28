@@ -1,7 +1,10 @@
 [package]
 name = "mail-decoder"
-version = "1.0.0"
+version = "1.0.2"
 edition = "2024"
 
 [dependencies]
 serde_json = { workspace = true }
+
+[lib]
+doctest = false

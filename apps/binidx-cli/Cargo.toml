@@ -1,0 +1,12 @@
+[package]
+name = "binidx-cli"
+version = "1.0.2"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+binidx-decoder = { path = "../../crates/binidx-decoder" }
+
+[lib]
+doctest = false

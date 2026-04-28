@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": false,
     "mail_id": "16210617176935008431",
     "mail_receiver": "player_71738515",
     "mail_role": "dungeon",
     "mail_time": 1769350084903754,
+    "report_id": 16195249,
     "server_id": 1804
   },
   "opponents": [
@@ -160,6 +162,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 484,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 113,
       "npc": {
@@ -263,6 +266,7 @@
       "player_id": 116551956,
       "player_name": "TEDDY916",
       "rally": true,
+      "start_tick": 444,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": "",

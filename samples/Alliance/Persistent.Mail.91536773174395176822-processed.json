@@ -1,0 +1,46 @@
+{
+  "body": {
+    "team": 0,
+    "win": true
+  },
+  "metadata": {
+    "custom": false,
+    "mail_id": "91536773174395176822",
+    "mail_receiver": "player_186296796",
+    "mail_time": 1743951768186973,
+    "server_id": 2
+  },
+  "overview": {
+    "player_id": 186296796,
+    "player_name": "KEMO farm 2",
+    "rank": 6,
+    "score": 2159,
+    "total_results": null
+  },
+  "pairings": [],
+  "results": {
+    "battles_lose": 0,
+    "battles_win": 0,
+    "building_score": 2159,
+    "flag_count": 0,
+    "flag_score": 0,
+    "gather_score": 0,
+    "healing_score": 0,
+    "kill_score": 0,
+    "kills": 0,
+    "severely_wounded": 0,
+    "speedups": 0,
+    "structures": 0,
+    "teleports": 1,
+    "total_score": 2159,
+    "units_healed": 0,
+    "win_rate": 0
+  },
+  "rewards": [
+    {
+      "sub_type": 25512314,
+      "type": 2,
+      "value": 150
+    }
+  ]
+}

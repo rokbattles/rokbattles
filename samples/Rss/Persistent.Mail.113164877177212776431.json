@@ -1,0 +1,50 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "FactionTechPoint": 0,
+      "KingdomTechPoint": 0,
+      "LegionTechPoint": 0,
+      "Level": 6,
+      "Pos": {
+        "X": 3804.365966796875,
+        "Y": 3906.101318359375
+      },
+      "ResCollectCrystal": 0,
+      "ResCollectGlory": 0,
+      "ResCollectWarShopRes": 0,
+      "ResType": 1,
+      "ResValue": 4104.32,
+      "Time": 1772127764,
+      "talentAdd": 232
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "113164877177212776431",
+  "isMergeChild": false,
+  "isNew": false,
+  "is_new": false,
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1772127764841567,
+  "title": "",
+  "type": "Rss",
+  "unread": false
+}

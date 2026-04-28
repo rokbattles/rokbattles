@@ -5,7 +5,7 @@ use serde_json::{Map, Value, json};
 
 use crate::player::{require_bool_field, require_child_object, require_u64_field};
 
-/// Extract the primary and secondary commander data from a player object.
+/// Pulls the primary and secondary commander data from a player object.
 pub(crate) fn extract_player_commanders(
     player: &Map<String, Value>,
 ) -> Result<(Value, Value), ExtractError> {
@@ -33,17 +33,14 @@ fn extract_commander(hero: &Map<String, Value>) -> Result<Value, ExtractError> {
 }
 
 fn extract_skills(hero: &Map<String, Value>) -> Result<Vec<Value>, ExtractError> {
-    let skills_value = hero
-        .get("Skills")
-        .ok_or(ExtractError::MissingField { field: "Skills" })?;
+    let skills_value = hero.get("Skills").ok_or(ExtractError::MissingField { field: "Skills" })?;
     let skills = indexed_array_values(skills_value, "Skills")?;
 
     let mut entries = Vec::with_capacity(skills.len());
     for skill in skills {
-        let skill = skill.as_object().ok_or(ExtractError::InvalidFieldType {
-            field: "Skills",
-            expected: "object",
-        })?;
+        let skill = skill
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "Skills", expected: "object" })?;
         let skill_id = require_u64_field(skill, "SkillId")?;
         let level = require_u64_field(skill, "Level")?;
         entries.push(json!({ "id": skill_id, "level": level }));
@@ -54,11 +51,12 @@ fn extract_skills(hero: &Map<String, Value>) -> Result<Vec<Value>, ExtractError>
 
 #[cfg(test)]
 mod tests {
+    use std::{fs, path::PathBuf};
+
+    use serde_json::{Value, json};
+
     use super::*;
     use crate::player::locate_player;
-    use serde_json::{Value, json};
-    use std::fs;
-    use std::path::PathBuf;
 
     #[test]
     fn extract_player_commanders_reads_fields() {

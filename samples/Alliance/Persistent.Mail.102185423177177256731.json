@@ -1,0 +1,480 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "BossEnable": 0,
+      "FlagCnt": 1,
+      "Idx": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 33,
+      "RelocateCnt": 30,
+      "asInfos": [
+        1,
+        {
+          "Abbr": "O~60",
+          "AllianceId": 7154636,
+          "Idx": 0,
+          "IsBlue": true,
+          "Logo": "4_2_31_7_0_0",
+          "MemberMax": 30,
+          "Members": 28,
+          "Name": "3560 War Shell B",
+          "Power": 3545112226,
+          "Score": 29659,
+          "ServerId": 2560
+        },
+        2,
+        {
+          "Abbr": "04Z",
+          "AllianceId": 4808188,
+          "Idx": 0,
+          "IsBlue": false,
+          "Logo": "2_5_63_4_0_0",
+          "MemberMax": 30,
+          "Members": 30,
+          "Name": "魂社会 Squad Zero",
+          "Power": 3467872327,
+          "Score": 37207,
+          "ServerId": 1804
+        }
+      ],
+      "gradeId": 0,
+      "isWin": true,
+      "maxBeKilled": {
+        "AsScore": 79403565,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "Viatina乂Fayst",
+          "PlyId": 34961809,
+          "Score": 4368379,
+          "Slot": 0
+        }
+      },
+      "maxBuildingScore": {
+        "AsScore": 33101,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "Hellcheppapewж",
+          "PlyId": 161065006,
+          "Score": 28300,
+          "Slot": 0
+        }
+      },
+      "maxFlagScore": {
+        "AsScore": 4000,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "QuackerOats",
+          "PlyId": 47043938,
+          "Score": 4000,
+          "Slot": 0
+        }
+      },
+      "maxGatherScore": {
+        "AsScore": 106,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "ˢJuju x MadBro",
+          "PlyId": 64610174,
+          "Score": 92.34,
+          "Slot": 0
+        }
+      },
+      "maxHealingScore": {
+        "AsScore": 0,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "QuackerOats",
+          "PlyId": 47043938,
+          "Score": 0,
+          "Slot": 0
+        }
+      },
+      "maxKilled": {
+        "AsScore": 80458146,
+        "PlyScore": {
+          "Job": 0,
+          "Name": "jën x ƒaräɀ",
+          "PlyId": 20075558,
+          "Score": 4174626,
+          "Slot": 0
+        }
+      },
+      "myAsId": 4808188,
+      "old_grade": 1,
+      "plyRanks": [
+        1,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 4174626,
+          "Name": "jën x ƒaräɀ",
+          "Score": 188637
+        },
+        2,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3858914,
+          "Name": "DogWarningﾒBar",
+          "Score": 186027
+        },
+        3,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 4066992,
+          "Name": "MarDem0",
+          "Score": 174937
+        },
+        4,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 54,
+          "Job": 0,
+          "KillScore": 4167234,
+          "Name": "뜬 이 니",
+          "Score": 173793
+        },
+        5,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3533884,
+          "Name": "ˢJianLaars 命",
+          "Score": 157123
+        },
+        6,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3705611,
+          "Name": "Viatina乂Fayst",
+          "Score": 155372
+        },
+        7,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3427532,
+          "Name": "J I H",
+          "Score": 152544
+        },
+        8,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3569249,
+          "Name": "ˢAuthentiks",
+          "Score": 144855
+        },
+        9,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3373259,
+          "Name": "ˢǤãrɗı",
+          "Score": 140413
+        },
+        10,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 3171115,
+          "Name": "The Core",
+          "Score": 133846
+        },
+        11,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2785,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2880539,
+          "Name": "ˢ vashido",
+          "Score": 129379
+        },
+        12,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2759102,
+          "Name": "Grigvar",
+          "Score": 123123
+        },
+        13,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2646981,
+          "Name": "ˢ Kleines",
+          "Score": 114214
+        },
+        14,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2577415,
+          "Name": "KYOSEALBOND",
+          "Score": 111787
+        },
+        15,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2686110,
+          "Name": "2lowteg",
+          "Score": 111774
+        },
+        16,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2711648,
+          "Name": "GGeoMAV",
+          "Score": 110013
+        },
+        17,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2599433,
+          "Name": "klopotek",
+          "Score": 108901
+        },
+        18,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2523514,
+          "Name": "Macronator",
+          "Score": 107208
+        },
+        19,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 422,
+          "Job": 0,
+          "KillScore": 2192047,
+          "Name": "ˢJuju x MadBro",
+          "Score": 105000
+        },
+        20,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2785,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2452762,
+          "Name": "ˢ AzzCon",
+          "Score": 102859
+        },
+        21,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 400,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2231457,
+          "Name": "QuackerOats",
+          "Score": 101152
+        },
+        22,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2227481,
+          "Name": "๖ۣۣۜSwalsh",
+          "Score": 96468
+        },
+        23,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2313492,
+          "Name": "끼  리",
+          "Score": 96265
+        },
+        24,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 3,
+          "Job": 0,
+          "KillScore": 2013250,
+          "Name": "⽪卡丘Daspim",
+          "Score": 89328
+        },
+        25,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2745,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1922791,
+          "Name": "ˢLaiZ",
+          "Score": 81345
+        },
+        26,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2820,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1649172,
+          "Name": "심래",
+          "Score": 72805
+        },
+        27,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1484054,
+          "Name": "Benbu 벤부",
+          "Score": 62692
+        },
+        28,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2830,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1326988,
+          "Name": "ˢMoonyPew",
+          "Score": 59258
+        },
+        29,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2830,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1240952,
+          "Name": "Hellcheppapewж",
+          "Score": 50519
+        },
+        30,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 2755,
+          "FlagScore": 0,
+          "GatherScore": 6,
+          "Job": 0,
+          "KillScore": 970542,
+          "Name": "BABYPENGU",
+          "Score": 42757
+        },
+        31,
+        {
+          "AsAbbr": "04Z",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "ampheeMcQueen",
+          "Score": -1
+        }
+      ]
+    },
+    "param": 1,
+    "subTitle": "Victory",
+    "title": "Ark of Osiris Battle Results",
+    "type": 60
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "102185423177177256731",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1771772567835853,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

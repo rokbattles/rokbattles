@@ -1,9 +1,11 @@
 {
   "metadata": {
+    "kvk": true,
     "mail_id": "8421200117137313126",
     "mail_receiver": "player_46387535",
     "mail_role": "gsmp",
     "mail_time": 1713731312680953,
+    "report_id": 30641419,
     "server_id": 1804
   },
   "opponents": [
@@ -161,6 +163,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2378845,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_89.png",
       "kingdom_id": 1804,
       "npc": {
@@ -192,6 +195,7 @@
       "player_id": 126319007,
       "player_name": "ˢˣ火TDouche",
       "rally": null,
+      "start_tick": 2378833,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -353,6 +357,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378480,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_28.png",
       "kingdom_id": 17,
       "npc": {
@@ -384,6 +389,7 @@
       "player_id": 31532594,
       "player_name": "АLex",
       "rally": null,
+      "start_tick": 2378472,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -545,6 +551,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378835,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
       "kingdom_id": 17,
       "npc": {
@@ -576,6 +583,7 @@
       "player_id": 9791113,
       "player_name": "oldpirate loopy",
       "rally": null,
+      "start_tick": 2377960,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -738,6 +746,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377582,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
       "kingdom_id": 17,
       "npc": {
@@ -769,6 +778,7 @@
       "player_id": 9791113,
       "player_name": "oldpirate loopy",
       "rally": null,
+      "start_tick": 2377558,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -926,6 +936,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2378842,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
       "kingdom_id": 17,
       "npc": {
@@ -957,6 +968,7 @@
       "player_id": 9791113,
       "player_name": "oldpirate loopy",
       "rally": null,
+      "start_tick": 2378832,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1118,6 +1130,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377988,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
       "kingdom_id": 17,
       "npc": {
@@ -1149,6 +1162,7 @@
       "player_id": 937280,
       "player_name": "magut",
       "rally": null,
+      "start_tick": 2377880,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1290,6 +1304,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378003,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -1321,6 +1336,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2377995,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1482,6 +1498,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378351,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -1513,6 +1530,7 @@
       "player_id": 933460,
       "player_name": "Julius Cesar II",
       "rally": null,
+      "start_tick": 2378182,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1674,6 +1692,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378168,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -1705,6 +1724,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2378160,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -1858,6 +1878,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377398,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -1889,6 +1910,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2377390,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2042,6 +2064,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377773,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -2073,6 +2096,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2377765,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2234,6 +2258,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377955,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -2265,6 +2290,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2377777,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2405,6 +2431,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379493,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -2436,6 +2463,7 @@
       "player_id": 4678951,
       "player_name": "Ğrumpy Čhris",
       "rally": null,
+      "start_tick": 2378538,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2597,6 +2625,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378648,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -2628,6 +2657,7 @@
       "player_id": 11607682,
       "player_name": "Tribun Ludwig",
       "rally": null,
+      "start_tick": 2378003,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2790,6 +2820,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377961,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_106.png",
       "kingdom_id": 17,
       "npc": {
@@ -2821,6 +2852,7 @@
       "player_id": 29428027,
       "player_name": "MercilessNoob",
       "rally": null,
+      "start_tick": 2377953,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -2982,6 +3014,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378973,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -3013,6 +3046,7 @@
       "player_id": 922890,
       "player_name": "BadBunnyBernie",
       "rally": null,
+      "start_tick": 2378675,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3175,6 +3209,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378440,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -3206,6 +3241,7 @@
       "player_id": 922890,
       "player_name": "BadBunnyBernie",
       "rally": null,
+      "start_tick": 2378347,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3359,6 +3395,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377516,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -3390,6 +3427,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2377508,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3551,6 +3589,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377516,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -3582,6 +3621,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2377508,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3739,6 +3779,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377783,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -3770,6 +3811,7 @@
       "player_id": 924548,
       "player_name": "m212",
       "rally": null,
+      "start_tick": 2377764,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -3931,6 +3973,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377417,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -3962,6 +4005,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2377409,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4123,6 +4167,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377417,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -4154,6 +4199,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2377389,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4315,6 +4361,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377398,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -4346,6 +4393,7 @@
       "player_id": 49547547,
       "player_name": "ToxıcRıck",
       "rally": null,
+      "start_tick": 2377390,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4507,6 +4555,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377398,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -4538,6 +4587,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2377384,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4691,6 +4741,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377366,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -4722,6 +4773,7 @@
       "player_id": 84984958,
       "player_name": "Mystique",
       "rally": null,
+      "start_tick": 2377315,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -4883,6 +4935,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377920,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_150.png",
       "kingdom_id": 17,
       "npc": {
@@ -4914,6 +4967,7 @@
       "player_id": 6078409,
       "player_name": "anfis",
       "rally": null,
+      "start_tick": 2377352,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5067,6 +5121,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377988,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_150.png",
       "kingdom_id": 17,
       "npc": {
@@ -5098,6 +5153,7 @@
       "player_id": 6078409,
       "player_name": "anfis",
       "rally": null,
+      "start_tick": 2377370,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5259,6 +5315,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377811,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_150.png",
       "kingdom_id": 17,
       "npc": {
@@ -5290,6 +5347,7 @@
       "player_id": 6078409,
       "player_name": "anfis",
       "rally": null,
+      "start_tick": 2377370,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5451,6 +5509,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378160,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -5482,6 +5541,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2377384,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5644,6 +5704,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378509,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -5675,6 +5736,7 @@
       "player_id": 34488395,
       "player_name": "Zwiebelritter79",
       "rally": null,
+      "start_tick": 2378501,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -5836,6 +5898,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377386,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -5867,6 +5930,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2377378,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6024,6 +6088,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379191,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -6055,6 +6120,7 @@
       "player_id": 123803055,
       "player_name": "B4ngB4ng",
       "rally": null,
+      "start_tick": 2379179,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6216,6 +6282,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377586,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -6247,6 +6314,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2377433,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6409,6 +6477,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377541,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -6440,6 +6509,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2377433,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6601,6 +6671,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377779,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -6632,6 +6703,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2377426,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6793,6 +6865,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377507,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -6824,6 +6897,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2377419,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -6985,6 +7059,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2378654,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -7016,6 +7091,7 @@
       "player_id": 20118027,
       "player_name": "x Twitty x",
       "rally": null,
+      "start_tick": 2378646,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7174,6 +7250,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378008,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 1804,
       "npc": {
@@ -7205,6 +7282,7 @@
       "player_id": 125470745,
       "player_name": "武士道Hercs",
       "rally": null,
+      "start_tick": 2378000,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7366,6 +7444,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377766,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -7397,6 +7476,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2377758,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7559,6 +7639,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377788,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 1804,
       "npc": {
@@ -7590,6 +7671,7 @@
       "player_id": 128123718,
       "player_name": "ˢAuthentiks",
       "rally": null,
+      "start_tick": 2377778,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7747,6 +7829,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377811,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 1804,
       "npc": {
@@ -7778,6 +7861,7 @@
       "player_id": 128123718,
       "player_name": "ˢAuthentiks",
       "rally": null,
+      "start_tick": 2377761,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -7931,6 +8015,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378648,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
       "kingdom_id": 1804,
       "npc": {
@@ -7962,6 +8047,7 @@
       "player_id": 111776448,
       "player_name": "Thorin lonestar",
       "rally": null,
+      "start_tick": 2378636,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -8123,6 +8209,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377403,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -8154,6 +8241,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2377395,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -8315,6 +8403,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378005,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_135.png",
       "kingdom_id": 17,
       "npc": {
@@ -8346,6 +8435,7 @@
       "player_id": 84168837,
       "player_name": "Paul Atreidês",
       "rally": null,
+      "start_tick": 2377769,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -8483,6 +8573,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378653,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_105.png",
       "kingdom_id": 1804,
       "npc": {
@@ -8514,6 +8605,7 @@
       "player_id": 111776448,
       "player_name": "Thorin lonestar",
       "rally": null,
+      "start_tick": 2378640,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -8671,6 +8763,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377417,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -8702,6 +8795,7 @@
       "player_id": 100987803,
       "player_name": "poisоn",
       "rally": null,
+      "start_tick": 2377401,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -8860,6 +8954,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377592,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -8891,6 +8986,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2377377,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -9052,6 +9148,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377397,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -9083,6 +9180,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2377378,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -9241,6 +9339,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377592,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -9272,6 +9371,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2377395,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -9433,6 +9533,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377586,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -9464,6 +9565,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2377401,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -9621,6 +9723,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377592,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -9652,6 +9755,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2377377,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -9814,6 +9918,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377733,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -9845,6 +9950,7 @@
       "player_id": 6082697,
       "player_name": "Helly Jelly",
       "rally": null,
+      "start_tick": 2377400,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10006,6 +10112,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378021,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_135.png",
       "kingdom_id": 17,
       "npc": {
@@ -10037,6 +10144,7 @@
       "player_id": 84168837,
       "player_name": "Paul Atreidês",
       "rally": null,
+      "start_tick": 2377828,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10199,6 +10307,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377507,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -10230,6 +10339,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2377415,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10391,6 +10501,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377398,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -10422,6 +10533,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377357,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10584,6 +10696,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377379,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -10615,6 +10728,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377315,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10777,6 +10891,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377909,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -10808,6 +10923,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2377530,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -10969,6 +11085,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378454,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -11000,6 +11117,7 @@
       "player_id": 126613785,
       "player_name": "霊ˢ Kleines",
       "rally": null,
+      "start_tick": 2378443,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -11161,6 +11279,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377543,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -11192,6 +11311,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377352,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -11354,6 +11474,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377538,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -11385,6 +11506,7 @@
       "player_id": 90173172,
       "player_name": "BABA YAGA 亗",
       "rally": null,
+      "start_tick": 2377419,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -11546,6 +11668,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378379,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -11577,6 +11700,7 @@
       "player_id": 90173172,
       "player_name": "BABA YAGA 亗",
       "rally": null,
+      "start_tick": 2377315,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -11738,6 +11862,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377386,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -11769,6 +11894,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377352,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -11930,6 +12056,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377538,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -11961,6 +12088,7 @@
       "player_id": 90173172,
       "player_name": "BABA YAGA 亗",
       "rally": null,
+      "start_tick": 2377517,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -12122,6 +12250,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377355,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -12153,6 +12282,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2377346,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -12314,6 +12444,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377572,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -12345,6 +12476,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2377409,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -12506,6 +12638,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377533,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -12537,6 +12670,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2377515,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -12699,6 +12833,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377472,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -12730,6 +12865,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2377426,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -12887,6 +13023,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378041,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -12918,6 +13055,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2377508,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -13080,6 +13218,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377472,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -13111,6 +13250,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2377384,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -13272,6 +13412,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378045,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -13303,6 +13444,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2377515,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -13464,6 +13606,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377786,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -13495,6 +13638,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2377515,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -13636,6 +13780,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377579,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -13667,6 +13812,7 @@
       "player_id": 933460,
       "player_name": "Julius Cesar II",
       "rally": null,
+      "start_tick": 2377571,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -13828,6 +13974,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377909,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -13859,6 +14006,7 @@
       "player_id": 45962268,
       "player_name": "lLii",
       "rally": null,
+      "start_tick": 2377784,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14016,6 +14164,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377403,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
       "kingdom_id": 17,
       "npc": {
@@ -14047,6 +14196,7 @@
       "player_id": 18916855,
       "player_name": "ツ Governor ツ",
       "rally": null,
+      "start_tick": 2377395,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14208,6 +14358,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377530,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -14239,6 +14390,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2377522,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14401,6 +14553,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377579,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -14432,6 +14585,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2377571,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14593,6 +14747,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378005,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -14624,6 +14779,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2377960,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14786,6 +14942,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377779,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -14817,6 +14974,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2377389,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -14978,6 +15136,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379191,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -15009,6 +15168,7 @@
       "player_id": 80986677,
       "player_name": "KittySoftPaws",
       "rally": null,
+      "start_tick": 2377771,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -15162,6 +15322,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379191,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -15193,6 +15354,7 @@
       "player_id": 80986677,
       "player_name": "KittySoftPaws",
       "rally": null,
+      "start_tick": 2377764,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -15346,6 +15508,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378326,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -15377,6 +15540,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378318,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -15538,6 +15702,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377777,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -15569,6 +15734,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2377758,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -15722,6 +15888,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377773,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -15753,6 +15920,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2377426,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -15910,6 +16078,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377586,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -15941,6 +16110,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2377572,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -16098,6 +16268,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2379864,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -30799,6 +30970,7 @@
       "player_id": 4678951,
       "player_name": "Ğrumpy Čhris",
       "rally": true,
+      "start_tick": 2377305,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -30960,6 +31132,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377394,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -31495,6 +31668,7 @@
       "player_id": 41377732,
       "player_name": "箭ˢJian",
       "rally": true,
+      "start_tick": 2377313,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -31656,6 +31830,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377988,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -31687,6 +31862,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2377508,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -31849,6 +32025,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377586,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -31880,6 +32057,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2377572,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32041,6 +32219,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377533,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -32072,6 +32251,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377415,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32233,6 +32413,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377592,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -32264,6 +32445,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2377584,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32421,6 +32603,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377550,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -32452,6 +32635,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377401,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32614,6 +32798,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378578,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -32645,6 +32830,7 @@
       "player_id": 6098505,
       "player_name": "Y A M A",
       "rally": null,
+      "start_tick": 2378537,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32802,6 +32988,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377988,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -32833,6 +33020,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2377508,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -32990,6 +33178,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377579,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -33021,6 +33210,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377571,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -33182,6 +33372,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379180,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -33213,6 +33404,7 @@
       "player_id": 6098505,
       "player_name": "Y A M A",
       "rally": null,
+      "start_tick": 2378533,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -33366,6 +33558,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378574,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -33397,6 +33590,7 @@
       "player_id": 6098505,
       "player_name": "Y A M A",
       "rally": null,
+      "start_tick": 2378155,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -33558,6 +33752,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378045,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_129.png",
       "kingdom_id": 17,
       "npc": {
@@ -33589,6 +33784,7 @@
       "player_id": 20155879,
       "player_name": "뚜뚜 DduDdu",
       "rally": null,
+      "start_tick": 2378037,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -33734,6 +33930,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2377453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -33765,6 +33962,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2377453,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -33931,6 +34129,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377468,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_71.png",
       "kingdom_id": 17,
       "npc": {
@@ -33962,6 +34161,7 @@
       "player_id": 959750,
       "player_name": "Moor Fuerst",
       "rally": null,
+      "start_tick": 2377467,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -34086,6 +34286,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2377474,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -34117,6 +34318,7 @@
       "player_id": 27102046,
       "player_name": "Captmimi",
       "rally": null,
+      "start_tick": 2377473,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -34280,6 +34482,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377733,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_88.png",
       "kingdom_id": 17,
       "npc": {
@@ -34311,6 +34514,7 @@
       "player_id": 50471265,
       "player_name": "四Ocho 四",
       "rally": null,
+      "start_tick": 2377715,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -34472,6 +34676,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377961,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -34503,6 +34708,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2377789,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -34661,6 +34867,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377802,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -34692,6 +34899,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2377771,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -34853,6 +35061,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377948,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -34884,6 +35093,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2377789,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35037,6 +35247,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377551,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
       "kingdom_id": 17,
       "npc": {
@@ -35068,6 +35279,7 @@
       "player_id": 35777523,
       "player_name": "Listige Hummel",
       "rally": null,
+      "start_tick": 2377551,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35231,6 +35443,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377558,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -35262,6 +35475,7 @@
       "player_id": 971357,
       "player_name": "KastielX",
       "rally": null,
+      "start_tick": 2377558,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35423,6 +35637,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377773,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -35454,6 +35669,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377765,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35615,6 +35831,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377773,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -35646,6 +35863,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2377765,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35807,6 +36025,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377590,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -35838,6 +36057,7 @@
       "player_id": 27931335,
       "player_name": "Sylvia 00",
       "rally": null,
+      "start_tick": 2377590,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -35995,6 +36215,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378029,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -36026,6 +36247,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2377769,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -36179,6 +36401,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377833,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -36210,6 +36433,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2377769,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -36367,6 +36591,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377648,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -36398,6 +36623,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2377648,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -36559,6 +36785,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377961,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -36590,6 +36817,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2377797,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -36743,6 +36971,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377811,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -36774,6 +37003,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2377797,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -36931,6 +37161,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378054,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -36962,6 +37193,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2378012,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -37129,6 +37361,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377662,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -37160,6 +37393,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2377662,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -37321,6 +37555,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377995,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -37352,6 +37587,7 @@
       "player_id": 11974910,
       "player_name": "Caesar2019",
       "rally": null,
+      "start_tick": 2377987,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -37505,6 +37741,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378168,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -37536,6 +37773,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378145,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -37697,6 +37935,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377679,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -37728,6 +37967,7 @@
       "player_id": 31387633,
       "player_name": "Nostrum33",
       "rally": null,
+      "start_tick": 2377678,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -37881,6 +38121,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377679,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -37912,6 +38153,7 @@
       "player_id": 27102046,
       "player_name": "Captmimi",
       "rally": null,
+      "start_tick": 2377678,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38049,6 +38291,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377686,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -38080,6 +38323,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2377678,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38233,6 +38477,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378642,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -38264,6 +38509,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2378634,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38425,6 +38671,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378045,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -38456,6 +38703,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377778,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38617,6 +38865,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378045,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -38648,6 +38897,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377953,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38809,6 +39059,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378654,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -38840,6 +39091,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2378638,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -38981,6 +39233,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2377686,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -39012,6 +39265,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2377685,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -39169,6 +39423,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378041,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -39200,6 +39455,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377784,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -39357,6 +39613,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378045,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -39388,6 +39645,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2377784,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -39549,6 +39807,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377948,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 1804,
       "npc": {
@@ -39580,6 +39839,7 @@
       "player_id": 129152631,
       "player_name": "Klimson3",
       "rally": null,
+      "start_tick": 2377935,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -39737,6 +39997,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377948,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -39768,6 +40029,7 @@
       "player_id": 100987803,
       "player_name": "poisоn",
       "rally": null,
+      "start_tick": 2377940,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -39929,6 +40191,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378033,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -39960,6 +40223,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2378016,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -40127,6 +40391,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377745,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_71.png",
       "kingdom_id": 17,
       "npc": {
@@ -40158,6 +40423,7 @@
       "player_id": 959750,
       "player_name": "Moor Fuerst",
       "rally": null,
+      "start_tick": 2377737,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -40298,6 +40564,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2377743,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -40329,6 +40596,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2377743,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -40490,6 +40758,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378654,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -40521,6 +40790,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2378013,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -40678,6 +40948,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378030,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_86.png",
       "kingdom_id": 17,
       "npc": {
@@ -40709,6 +40980,7 @@
       "player_id": 35720589,
       "player_name": "Fiese Hornisse",
       "rally": null,
+      "start_tick": 2378019,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -40866,6 +41138,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378011,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -40897,6 +41170,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2377987,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -41055,6 +41329,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378005,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -41086,6 +41361,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2377980,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -41248,6 +41524,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378011,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -41279,6 +41556,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2378003,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -41440,6 +41718,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377777,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
       "kingdom_id": 17,
       "npc": {
@@ -41471,6 +41750,7 @@
       "player_id": 35777523,
       "player_name": "Listige Hummel",
       "rally": null,
+      "start_tick": 2377777,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -41632,6 +41912,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377777,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -41663,6 +41944,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2377777,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -41826,6 +42108,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2377790,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_74.png",
       "kingdom_id": 17,
       "npc": {
@@ -41857,6 +42140,7 @@
       "player_id": 226410,
       "player_name": "Mangeer",
       "rally": null,
+      "start_tick": 2377789,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -42018,6 +42302,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379806,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -42049,6 +42334,7 @@
       "player_id": 962861,
       "player_name": "EDM LORD",
       "rally": null,
+      "start_tick": 2379630,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -42210,6 +42496,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377951,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -42817,6 +43104,7 @@
       "player_id": 41377732,
       "player_name": "箭ˢJian",
       "rally": true,
+      "start_tick": 2377835,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -42978,6 +43266,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377817,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -43009,6 +43298,7 @@
       "player_id": 1422587,
       "player_name": "RandyyRandom",
       "rally": null,
+      "start_tick": 2377817,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -43171,6 +43461,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378574,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -43202,6 +43493,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2378522,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -43355,6 +43647,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377859,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -43386,6 +43679,7 @@
       "player_id": 84984958,
       "player_name": "Mystique",
       "rally": null,
+      "start_tick": 2377858,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -43548,6 +43842,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377874,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -43579,6 +43874,7 @@
       "player_id": 6082697,
       "player_name": "Helly Jelly",
       "rally": null,
+      "start_tick": 2377865,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -43740,6 +44036,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377879,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -43771,6 +44068,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2377871,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -43933,6 +44231,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2377872,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -43964,6 +44263,7 @@
       "player_id": 7547259,
       "player_name": "xX亗Snake亗Xx",
       "rally": null,
+      "start_tick": 2377871,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -44125,6 +44425,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378474,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -44156,6 +44457,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2378009,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -44309,6 +44611,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378467,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -44340,6 +44643,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2378140,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -44501,6 +44805,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378474,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -44532,6 +44837,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2378009,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -44689,6 +44995,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378333,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -44720,6 +45027,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2378016,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -44883,6 +45191,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2377896,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -44914,6 +45223,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2377894,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -45067,6 +45377,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378163,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -45098,6 +45409,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378145,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -45260,6 +45572,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378835,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -45291,6 +45604,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2378296,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -45448,6 +45762,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378454,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 1804,
       "npc": {
@@ -45479,6 +45794,7 @@
       "player_id": 124513829,
       "player_name": "メDmitry82メ",
       "rally": null,
+      "start_tick": 2378443,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -45640,6 +45956,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378442,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -45671,6 +45988,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2378434,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -45832,6 +46150,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378326,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -45863,6 +46182,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2378152,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46020,6 +46340,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378037,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
       "kingdom_id": 1804,
       "npc": {
@@ -46051,6 +46372,7 @@
       "player_id": 94732875,
       "player_name": "Ada ㋛",
       "rally": null,
+      "start_tick": 2378024,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46212,6 +46534,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378477,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -46243,6 +46566,7 @@
       "player_id": 45962268,
       "player_name": "lLii",
       "rally": null,
+      "start_tick": 2378160,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46400,6 +46724,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378168,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -46431,6 +46756,7 @@
       "player_id": 17060031,
       "player_name": "义 IIIVMINATI",
       "rally": null,
+      "start_tick": 2378160,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46592,6 +46918,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378211,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -46623,6 +46950,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2378207,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46780,6 +47108,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379338,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -46811,6 +47140,7 @@
       "player_id": 17060031,
       "player_name": "义 IIIVMINATI",
       "rally": null,
+      "start_tick": 2378478,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -46973,6 +47303,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378953,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -47004,6 +47335,7 @@
       "player_id": 123880685,
       "player_name": "運命ˢToxic",
       "rally": null,
+      "start_tick": 2378873,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -47149,6 +47481,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378052,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -47180,6 +47513,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2378051,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -47337,6 +47671,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378057,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_71.png",
       "kingdom_id": 17,
       "npc": {
@@ -47368,6 +47703,7 @@
       "player_id": 959750,
       "player_name": "Moor Fuerst",
       "rally": null,
+      "start_tick": 2378057,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -47529,6 +47865,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378064,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -47560,6 +47897,7 @@
       "player_id": 941710,
       "player_name": "SAH4RCOREJZ",
       "rally": null,
+      "start_tick": 2378063,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -47717,6 +48055,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378071,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -47748,6 +48087,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2378063,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -47901,6 +48241,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378474,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -47932,6 +48273,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2378438,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -48094,6 +48436,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378326,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -48125,6 +48468,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -48287,6 +48631,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378088,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -48318,6 +48663,7 @@
       "player_id": 27931335,
       "player_name": "Sylvia 00",
       "rally": null,
+      "start_tick": 2378080,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -48458,6 +48804,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378080,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_3.png",
       "kingdom_id": 17,
       "npc": {
@@ -48489,6 +48836,7 @@
       "player_id": 53674767,
       "player_name": "Krawler12000",
       "rally": null,
+      "start_tick": 2378080,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -48650,6 +48998,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378332,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -48681,6 +49030,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2378316,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -48821,6 +49171,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378093,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -48852,6 +49203,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2378092,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49013,6 +49365,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378332,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -49044,6 +49397,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2378316,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49201,6 +49555,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378107,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -49232,6 +49587,7 @@
       "player_id": 91774997,
       "player_name": "Sir Skyrr Duck",
       "rally": null,
+      "start_tick": 2378107,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49393,6 +49749,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378332,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -49424,6 +49781,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378316,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49585,6 +49943,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378831,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -49616,6 +49975,7 @@
       "player_id": 11974910,
       "player_name": "Caesar2019",
       "rally": null,
+      "start_tick": 2378441,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49777,6 +50137,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378662,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -49808,6 +50169,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2378334,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -49965,6 +50327,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378671,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -49996,6 +50359,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2378334,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -50157,6 +50521,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378480,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -50188,6 +50553,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2378472,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -50349,6 +50715,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378367,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -50380,6 +50747,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2378296,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -50541,6 +50909,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378338,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -50572,6 +50941,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -50733,6 +51103,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378338,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -50764,6 +51135,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -50921,6 +51293,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378338,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -50952,6 +51325,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -51093,6 +51467,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378142,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -51124,6 +51499,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2378133,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -51281,6 +51657,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378338,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -51312,6 +51689,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -51469,6 +51847,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378467,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -51500,6 +51879,7 @@
       "player_id": 100987803,
       "player_name": "poisоn",
       "rally": null,
+      "start_tick": 2378428,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -51661,6 +52041,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378999,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_135.png",
       "kingdom_id": 17,
       "npc": {
@@ -51692,6 +52073,7 @@
       "player_id": 84168837,
       "player_name": "Paul Atreidês",
       "rally": null,
+      "start_tick": 2378432,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -51853,6 +52235,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378480,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -51884,6 +52267,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2378464,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52042,6 +52426,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378168,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -52073,6 +52458,7 @@
       "player_id": 11974910,
       "player_name": "Caesar2019",
       "rally": null,
+      "start_tick": 2378168,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52235,6 +52621,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378487,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -52266,6 +52653,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2378478,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52428,6 +52816,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378180,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
       "kingdom_id": 17,
       "npc": {
@@ -52459,6 +52848,7 @@
       "player_id": 18916855,
       "player_name": "ツ Governor ツ",
       "rally": null,
+      "start_tick": 2378180,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52616,6 +53006,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378574,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -52647,6 +53038,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2378501,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52808,6 +53200,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378442,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -52839,6 +53232,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2378434,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -52981,6 +53375,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378194,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -53012,6 +53407,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2378194,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -53165,6 +53561,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378200,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -53196,6 +53593,7 @@
       "player_id": 1422587,
       "player_name": "RandyyRandom",
       "rally": null,
+      "start_tick": 2378200,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -53353,6 +53751,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378578,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -53384,6 +53783,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2378464,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -53547,6 +53947,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378207,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -53578,6 +53979,7 @@
       "player_id": 6098505,
       "player_name": "Y A M A",
       "rally": null,
+      "start_tick": 2378207,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -53739,6 +54141,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378213,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -53770,6 +54173,7 @@
       "player_id": 11987186,
       "player_name": "I Dare",
       "rally": null,
+      "start_tick": 2378213,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -53931,6 +54335,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378213,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -53962,6 +54367,7 @@
       "player_id": 89959030,
       "player_name": "xxRONxx",
       "rally": null,
+      "start_tick": 2378213,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -54124,6 +54530,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379260,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -54155,6 +54562,7 @@
       "player_id": 27931335,
       "player_name": "Sylvia 00",
       "rally": null,
+      "start_tick": 2379177,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -54316,6 +54724,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378486,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -54347,6 +54756,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2378453,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -54505,6 +54915,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378247,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
       "kingdom_id": 17,
       "npc": {
@@ -54536,6 +54947,7 @@
       "player_id": 89972565,
       "player_name": "Swiphz",
       "rally": null,
+      "start_tick": 2378247,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -54697,6 +55109,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378467,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -54728,6 +55141,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2378441,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -54891,6 +55305,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379199,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 1804,
       "npc": {
@@ -54922,6 +55337,7 @@
       "player_id": 123803055,
       "player_name": "B4ngB4ng",
       "rally": null,
+      "start_tick": 2379183,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -55079,6 +55495,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378270,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -55110,6 +55527,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2378269,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -55263,6 +55681,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378449,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -55294,6 +55713,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378441,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -55455,6 +55875,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378278,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -55486,6 +55907,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2378278,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -55647,6 +56069,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378449,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -55678,6 +56101,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2378441,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -55840,6 +56264,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378654,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -55871,6 +56296,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2378638,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56024,6 +56450,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378493,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -56055,6 +56482,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378479,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56213,6 +56641,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378294,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png",
       "kingdom_id": 17,
       "npc": {
@@ -56244,6 +56673,7 @@
       "player_id": 4981264,
       "player_name": "㋡Flickツ",
       "rally": null,
+      "start_tick": 2378294,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56405,6 +56835,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378294,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -56436,6 +56867,7 @@
       "player_id": 971357,
       "player_name": "KastielX",
       "rally": null,
+      "start_tick": 2378294,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56597,6 +57029,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378820,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -56628,6 +57061,7 @@
       "player_id": 27102046,
       "player_name": "Captmimi",
       "rally": null,
+      "start_tick": 2378492,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56765,6 +57199,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378318,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -56796,6 +57231,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2378310,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -56958,6 +57394,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378480,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -56989,6 +57426,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2378464,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -57150,6 +57588,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378567,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -57181,6 +57620,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2378538,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -57342,6 +57782,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378578,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -57373,6 +57814,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2378545,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -57509,6 +57951,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378336,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -57540,6 +57983,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2378336,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -57701,6 +58145,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378454,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -58434,6 +58879,7 @@
       "player_id": 7462352,
       "player_name": "駆逐艦ˢBrHe",
       "rally": true,
+      "start_tick": 2378374,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -58595,6 +59041,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378836,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -58626,6 +59073,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2378828,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -58767,6 +59215,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378359,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -58798,6 +59247,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378359,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -58959,6 +59409,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378987,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
       "kingdom_id": 17,
       "npc": {
@@ -58990,6 +59441,7 @@
       "player_id": 937280,
       "player_name": "magut",
       "rally": null,
+      "start_tick": 2378828,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -59147,6 +59599,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378393,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -59178,6 +59631,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2378385,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -59339,6 +59793,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378392,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -59370,6 +59825,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2378391,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -59527,6 +59983,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378835,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -59558,6 +60015,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2378537,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -59711,6 +60169,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378513,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -59742,6 +60201,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2378485,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -59903,6 +60363,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378513,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -59934,6 +60395,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378466,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -60096,6 +60558,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378402,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_75.png",
       "kingdom_id": 17,
       "npc": {
@@ -60127,6 +60590,7 @@
       "player_id": 1019269,
       "player_name": "Aachen 7",
       "rally": null,
+      "start_tick": 2378402,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -60285,6 +60749,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378402,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -60316,6 +60781,7 @@
       "player_id": 11974910,
       "player_name": "Caesar2019",
       "rally": null,
+      "start_tick": 2378402,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -60473,6 +60939,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378500,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -60504,6 +60971,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378492,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -60666,6 +61134,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378415,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -60697,6 +61166,7 @@
       "player_id": 7547259,
       "player_name": "xX亗Snake亗Xx",
       "rally": null,
+      "start_tick": 2378415,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -60850,6 +61320,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378642,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -60881,6 +61352,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378634,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61038,6 +61510,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378442,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
       "kingdom_id": 17,
       "npc": {
@@ -61069,6 +61542,7 @@
       "player_id": 89972565,
       "player_name": "Swiphz",
       "rally": null,
+      "start_tick": 2378434,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61230,6 +61704,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378648,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -61261,6 +61736,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378640,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61422,6 +61898,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378648,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -61453,6 +61930,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378640,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61611,6 +62089,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378642,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -61642,6 +62121,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378634,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61803,6 +62283,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378459,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -61834,6 +62315,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2378459,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -61995,6 +62477,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379867,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -62026,6 +62509,7 @@
       "player_id": 11413340,
       "player_name": "DuckTheDuckTeen",
       "rally": null,
+      "start_tick": 2379704,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -62179,6 +62663,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379867,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -62210,6 +62695,7 @@
       "player_id": 11413340,
       "player_name": "DuckTheDuckTeen",
       "rally": null,
+      "start_tick": 2379859,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -62367,6 +62853,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378479,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -62398,6 +62885,7 @@
       "player_id": 49547547,
       "player_name": "ToxıcRıck",
       "rally": null,
+      "start_tick": 2378478,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -62559,6 +63047,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378486,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_6.png",
       "kingdom_id": 17,
       "npc": {
@@ -62590,6 +63079,7 @@
       "player_id": 4713658,
       "player_name": "Zuckachu ヅ",
       "rally": null,
+      "start_tick": 2378485,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -62751,6 +63241,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378825,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -62782,6 +63273,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2378645,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -62944,6 +63436,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378883,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -62975,6 +63468,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2378841,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -63133,6 +63627,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378499,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -63164,6 +63659,7 @@
       "player_id": 34200656,
       "player_name": "Lässige Biene",
       "rally": null,
+      "start_tick": 2378499,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -63325,6 +63821,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378675,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -63356,6 +63853,7 @@
       "player_id": 21178360,
       "player_name": "FreeRun",
       "rally": null,
+      "start_tick": 2378662,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -63519,6 +64017,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378532,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -63550,6 +64049,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378531,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -63711,6 +64211,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378545,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -63742,6 +64243,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378545,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -63903,6 +64405,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378750,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -63934,6 +64437,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2378738,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -64091,6 +64595,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379178,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -64122,6 +64627,7 @@
       "player_id": 100987803,
       "player_name": "poisоn",
       "rally": null,
+      "start_tick": 2379170,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -64283,6 +64789,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379332,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -64314,6 +64821,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2379324,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -64475,6 +64983,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378580,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -64506,6 +65015,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2378580,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -64667,6 +65177,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379087,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -64698,6 +65209,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2378998,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -64851,6 +65363,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379584,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -64882,6 +65395,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2379331,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65043,6 +65557,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379860,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -65074,6 +65589,7 @@
       "player_id": 45962268,
       "player_name": "lLii",
       "rally": null,
+      "start_tick": 2379605,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65227,6 +65743,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379478,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -65258,6 +65775,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2378957,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65419,6 +65937,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378595,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -65450,6 +65969,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2378587,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65611,6 +66131,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379006,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -65642,6 +66163,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378663,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65803,6 +66325,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379006,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -65834,6 +66357,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378982,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -65995,6 +66519,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378793,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -66026,6 +66551,7 @@
       "player_id": 9618231,
       "player_name": "Fürst Wilhelm",
       "rally": null,
+      "start_tick": 2378790,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -66187,6 +66713,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379471,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_131.png",
       "kingdom_id": 17,
       "npc": {
@@ -66218,6 +66745,7 @@
       "player_id": 79718328,
       "player_name": "Vabrök",
       "rally": null,
+      "start_tick": 2379005,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -66379,6 +66907,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378594,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -66410,6 +66939,7 @@
       "player_id": 1422587,
       "player_name": "RandyyRandom",
       "rally": null,
+      "start_tick": 2378593,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -66567,6 +67097,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378976,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -66598,6 +67129,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378654,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -66759,6 +67291,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378842,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -66790,6 +67323,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2378834,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -66947,6 +67481,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378965,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -66978,6 +67513,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2378654,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -67135,6 +67671,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378982,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -67166,6 +67703,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2378812,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -67327,6 +67865,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378982,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -67358,6 +67897,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2378817,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -67520,6 +68060,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379172,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -67551,6 +68092,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2379164,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -67712,6 +68254,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378626,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -67743,6 +68286,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378626,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -67904,6 +68448,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378626,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -67935,6 +68480,7 @@
       "player_id": 2483323,
       "player_name": "Starr77",
       "rally": null,
+      "start_tick": 2378626,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -68088,6 +68634,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378835,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 17,
       "npc": {
@@ -68119,6 +68666,7 @@
       "player_id": 60880084,
       "player_name": "Bobby Wobbler",
       "rally": null,
+      "start_tick": 2378823,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -68281,6 +68829,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378847,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -68312,6 +68861,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2378828,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -68473,6 +69023,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379599,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -68504,6 +69055,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2379331,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -68667,6 +69219,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378635,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -68698,6 +69251,7 @@
       "player_id": 971357,
       "player_name": "KastielX",
       "rally": null,
+      "start_tick": 2378634,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -68859,6 +69413,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379013,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -68890,6 +69445,7 @@
       "player_id": 38676937,
       "player_name": "VodkaTitten 亗",
       "rally": null,
+      "start_tick": 2378982,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -69057,6 +69613,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379060,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 1804,
       "npc": {
@@ -69088,6 +69645,7 @@
       "player_id": 125013933,
       "player_name": "sucior420",
       "rally": null,
+      "start_tick": 2379050,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -69249,6 +69807,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378970,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -69280,6 +69839,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2378896,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -69442,6 +70002,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379025,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -69473,6 +70034,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2378968,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -69634,6 +70196,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378964,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -69665,6 +70228,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2378956,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -69826,6 +70390,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378993,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -69857,6 +70422,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2378968,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70019,6 +70585,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378878,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -70050,6 +70617,7 @@
       "player_id": 922890,
       "player_name": "BadBunnyBernie",
       "rally": null,
+      "start_tick": 2378862,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70187,6 +70755,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378710,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -70218,6 +70787,7 @@
       "player_id": 13661342,
       "player_name": "ᵛⁿSabu",
       "rally": null,
+      "start_tick": 2378709,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70375,6 +70945,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378722,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -70406,6 +70977,7 @@
       "player_id": 34200656,
       "player_name": "Lässige Biene",
       "rally": null,
+      "start_tick": 2378722,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70567,6 +71139,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378722,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -70598,6 +71171,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2378722,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70759,6 +71333,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379313,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -70790,6 +71365,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2378818,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -70951,6 +71527,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378971,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -70982,6 +71559,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2378951,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -71139,6 +71717,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378736,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -71170,6 +71749,7 @@
       "player_id": 91774997,
       "player_name": "Sir Skyrr Duck",
       "rally": null,
+      "start_tick": 2378736,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -71332,6 +71912,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378736,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -71363,6 +71944,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2378736,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -71499,6 +72081,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378736,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -71530,6 +72113,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2378736,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -71687,6 +72271,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379013,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -71718,6 +72303,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2378990,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -71875,6 +72461,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379185,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -71906,6 +72493,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2378822,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -72067,6 +72655,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378964,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -72098,6 +72687,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2378956,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -72256,6 +72846,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378748,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_74.png",
       "kingdom_id": 17,
       "npc": {
@@ -72287,6 +72878,7 @@
       "player_id": 226410,
       "player_name": "Mangeer",
       "rally": null,
+      "start_tick": 2378748,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -72449,6 +73041,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378987,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -72480,6 +73073,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2378962,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -72637,6 +73231,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378756,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
       "kingdom_id": 17,
       "npc": {
@@ -72668,6 +73263,7 @@
       "player_id": 89972565,
       "player_name": "Swiphz",
       "rally": null,
+      "start_tick": 2378756,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -72829,6 +73425,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379471,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -72860,6 +73457,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2379463,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73017,6 +73615,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378762,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_71.png",
       "kingdom_id": 17,
       "npc": {
@@ -73048,6 +73647,7 @@
       "player_id": 959750,
       "player_name": "Moor Fuerst",
       "rally": null,
+      "start_tick": 2378762,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73209,6 +73809,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379006,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -73240,6 +73841,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378990,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73402,6 +74004,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379470,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -73433,6 +74036,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2379311,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73591,6 +74195,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378999,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -73622,6 +74227,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2378951,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73775,6 +74381,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378976,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -73806,6 +74413,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378968,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -73967,6 +74575,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379699,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -73998,6 +74607,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2379318,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -74159,6 +74769,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379185,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -74190,6 +74801,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2379177,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -74351,6 +74963,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379178,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -74382,6 +74995,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2378957,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -74524,6 +75138,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2378797,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -74555,6 +75170,7 @@
       "player_id": 924548,
       "player_name": "m212",
       "rally": null,
+      "start_tick": 2378797,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -74696,6 +75312,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379332,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -74727,6 +75344,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2379324,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -74888,6 +75506,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378957,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -75477,6 +76096,7 @@
       "player_id": 41377732,
       "player_name": "箭ˢJian",
       "rally": true,
+      "start_tick": 2378862,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -75628,6 +76248,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378834,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -75659,6 +76280,7 @@
       "player_id": 49547547,
       "player_name": "ToxıcRıck",
       "rally": null,
+      "start_tick": 2378834,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -75816,6 +76438,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378841,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -75847,6 +76470,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2378841,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76000,6 +76624,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379706,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -76031,6 +76656,7 @@
       "player_id": 924548,
       "player_name": "m212",
       "rally": null,
+      "start_tick": 2379698,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76192,6 +76818,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379178,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -76223,6 +76850,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2379170,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76338,6 +76966,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378870,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -76369,6 +76998,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2378862,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76514,6 +77144,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378862,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -76545,6 +77176,7 @@
       "player_id": 11607682,
       "player_name": "Tribun Ludwig",
       "rally": null,
+      "start_tick": 2378862,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76698,6 +77330,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2379057,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -76729,6 +77362,7 @@
       "player_id": 149256003,
       "player_name": "Sir Bambam",
       "rally": null,
+      "start_tick": 2379052,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -76890,6 +77524,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379172,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png",
       "kingdom_id": 17,
       "npc": {
@@ -76921,6 +77556,7 @@
       "player_id": 952310,
       "player_name": "MaGittis",
       "rally": null,
+      "start_tick": 2379164,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77079,6 +77715,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378869,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -77110,6 +77747,7 @@
       "player_id": 11974910,
       "player_name": "Caesar2019",
       "rally": null,
+      "start_tick": 2378869,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77271,6 +77909,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378875,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -77302,6 +77941,7 @@
       "player_id": 2483323,
       "player_name": "Starr77",
       "rally": null,
+      "start_tick": 2378875,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77439,6 +78079,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378881,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -77470,6 +78111,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2378880,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77627,6 +78269,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378999,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -77658,6 +78301,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2378951,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77794,6 +78438,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2378913,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -77825,6 +78470,7 @@
       "player_id": 45962268,
       "player_name": "lLii",
       "rally": null,
+      "start_tick": 2378913,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -77987,6 +78633,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379147,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -78018,6 +78665,7 @@
       "player_id": 6082697,
       "player_name": "Helly Jelly",
       "rally": null,
+      "start_tick": 2379134,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -78179,6 +78827,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2378946,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -78210,6 +78859,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2378938,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -78367,6 +79017,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2379484,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
       "kingdom_id": 17,
       "npc": {
@@ -78398,6 +79049,7 @@
       "player_id": 9791113,
       "player_name": "oldpirate loopy",
       "rally": null,
+      "start_tick": 2379476,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -78559,6 +79211,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379172,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -78590,6 +79243,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2379158,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -78752,6 +79406,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379172,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -78783,6 +79438,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2379164,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -78924,6 +79580,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379012,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -78955,6 +79612,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2379012,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -79116,6 +79774,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379019,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -79147,6 +79806,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2379019,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -79300,6 +79960,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2379019,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_2.png",
       "kingdom_id": 17,
       "npc": {
@@ -79331,6 +79992,7 @@
       "player_id": 35777523,
       "player_name": "Listige Hummel",
       "rally": null,
+      "start_tick": 2379019,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -79471,6 +80133,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379027,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -79502,6 +80165,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2379026,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -79669,6 +80333,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379027,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -79700,6 +80365,7 @@
       "player_id": 129169775,
       "player_name": "Aydinn",
       "rally": null,
+      "start_tick": 2379026,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -79861,6 +80527,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379471,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -79892,6 +80559,7 @@
       "player_id": 41377732,
       "player_name": "箭ˢJian",
       "rally": null,
+      "start_tick": 2379459,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80053,6 +80721,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379053,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -80084,6 +80753,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2379052,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80224,6 +80894,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379053,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -80255,6 +80926,7 @@
       "player_id": 11607682,
       "player_name": "Tribun Ludwig",
       "rally": null,
+      "start_tick": 2379052,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80412,6 +81084,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379059,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -80443,6 +81116,7 @@
       "player_id": 962861,
       "player_name": "EDM LORD",
       "rally": null,
+      "start_tick": 2379059,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80600,6 +81274,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379313,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -80631,6 +81306,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2379167,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80777,6 +81453,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379078,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -80808,6 +81485,7 @@
       "player_id": 34488395,
       "player_name": "Zwiebelritter79",
       "rally": null,
+      "start_tick": 2379078,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -80969,6 +81647,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379178,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -81000,6 +81679,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2379170,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -81157,6 +81837,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379366,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -81188,6 +81869,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2379311,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -81349,6 +82031,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379319,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -81380,6 +82063,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2379311,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -81542,6 +82226,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379112,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -81573,6 +82258,7 @@
       "player_id": 924548,
       "player_name": "m212",
       "rally": null,
+      "start_tick": 2379112,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -81726,6 +82412,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379313,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -81757,6 +82444,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2379278,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -81915,6 +82603,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379326,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -81946,6 +82635,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2379311,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -82107,6 +82797,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379372,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -82138,6 +82829,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2379324,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -82270,6 +82962,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379510,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png",
       "kingdom_id": 1804,
       "npc": {
@@ -82301,6 +82994,7 @@
       "player_id": 129258203,
       "player_name": "BLK92",
       "rally": null,
+      "start_tick": 2379500,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -82462,6 +83156,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379562,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_123.png",
       "kingdom_id": 17,
       "npc": {
@@ -82493,6 +83188,7 @@
       "player_id": 937280,
       "player_name": "magut",
       "rally": null,
+      "start_tick": 2379554,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -82650,6 +83346,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379720,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -82681,6 +83378,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2379710,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -82842,6 +83540,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379366,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -82873,6 +83572,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2379331,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83034,6 +83734,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379562,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -83065,6 +83766,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2379554,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83226,6 +83928,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379183,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_170.png",
       "kingdom_id": 17,
       "npc": {
@@ -83257,6 +83960,7 @@
       "player_id": 62376,
       "player_name": "Bloodypickle",
       "rally": null,
+      "start_tick": 2379183,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83419,6 +84123,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379183,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -83450,6 +84155,7 @@
       "player_id": 63949879,
       "player_name": "Bexissᴮᴿ",
       "rally": null,
+      "start_tick": 2379183,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83570,6 +84276,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379191,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -83601,6 +84308,7 @@
       "player_id": 11607682,
       "player_name": "Tribun Ludwig",
       "rally": null,
+      "start_tick": 2379190,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83738,6 +84446,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379205,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -83769,6 +84478,7 @@
       "player_id": 13661342,
       "player_name": "ᵛⁿSabu",
       "rally": null,
+      "start_tick": 2379202,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -83926,6 +84636,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379205,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -83957,6 +84668,7 @@
       "player_id": 49547547,
       "player_name": "ToxıcRıck",
       "rally": null,
+      "start_tick": 2379202,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84098,6 +84810,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379205,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -84129,6 +84842,7 @@
       "player_id": 933460,
       "player_name": "Julius Cesar II",
       "rally": null,
+      "start_tick": 2379204,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84287,6 +85001,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379219,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -84318,6 +85033,7 @@
       "player_id": 34200656,
       "player_name": "Lässige Biene",
       "rally": null,
+      "start_tick": 2379211,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84480,6 +85196,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379528,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -84511,6 +85228,7 @@
       "player_id": 922890,
       "player_name": "BadBunnyBernie",
       "rally": null,
+      "start_tick": 2379371,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84647,6 +85365,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379217,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -84678,6 +85397,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2379217,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84820,6 +85540,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379217,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -84851,6 +85572,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2379217,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -84971,6 +85693,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379225,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -85002,6 +85725,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2379224,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -85138,6 +85862,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379243,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -85169,6 +85894,7 @@
       "player_id": 45962268,
       "player_name": "lLii",
       "rally": null,
+      "start_tick": 2379243,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -85331,6 +86057,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379478,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -85362,6 +86089,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2379470,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -85525,6 +86253,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379255,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -85556,6 +86285,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2379255,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -85714,6 +86444,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379262,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -85745,6 +86476,7 @@
       "player_id": 31387633,
       "player_name": "Nostrum33",
       "rally": null,
+      "start_tick": 2379262,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -85902,6 +86634,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379570,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -85933,6 +86666,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2379562,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -86090,6 +86824,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379606,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -86121,6 +86856,7 @@
       "player_id": 11395407,
       "player_name": "Trehl",
       "rally": null,
+      "start_tick": 2379562,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -86278,6 +87014,7 @@
           "star_level": 5
         }
       },
+      "end_tick": 2379285,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_3.png",
       "kingdom_id": 17,
       "npc": {
@@ -86309,6 +87046,7 @@
       "player_id": 949733,
       "player_name": "Greiserich",
       "rally": null,
+      "start_tick": 2379284,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -86467,6 +87205,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379476,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png",
       "kingdom_id": 1804,
       "npc": {
@@ -86498,6 +87237,7 @@
       "player_id": 124893142,
       "player_name": "ˢˣ乄Daspim",
       "rally": null,
+      "start_tick": 2379456,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -86659,6 +87399,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379313,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png",
       "kingdom_id": 17,
       "npc": {
@@ -86690,6 +87431,7 @@
       "player_id": 4981264,
       "player_name": "㋡Flickツ",
       "rally": null,
+      "start_tick": 2379305,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -86851,6 +87593,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379484,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -86882,6 +87625,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2379476,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87044,6 +87788,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379484,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -87075,6 +87820,7 @@
       "player_id": 958858,
       "player_name": "Sir Relington",
       "rally": null,
+      "start_tick": 2379476,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87237,6 +87983,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379345,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_106.png",
       "kingdom_id": 17,
       "npc": {
@@ -87268,6 +88015,7 @@
       "player_id": 36152860,
       "player_name": "Aldérik",
       "rally": null,
+      "start_tick": 2379345,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87383,6 +88131,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379353,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -87414,6 +88163,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2379353,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87575,6 +88325,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379353,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -87606,6 +88357,7 @@
       "player_id": 953606,
       "player_name": "iKoSenSei",
       "rally": null,
+      "start_tick": 2379353,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87759,6 +88511,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379360,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -87790,6 +88543,7 @@
       "player_id": 11413340,
       "player_name": "DuckTheDuckTeen",
       "rally": null,
+      "start_tick": 2379360,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -87930,6 +88684,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379360,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_3.png",
       "kingdom_id": 17,
       "npc": {
@@ -87961,6 +88716,7 @@
       "player_id": 53674767,
       "player_name": "Krawler12000",
       "rally": null,
+      "start_tick": 2379360,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -88123,6 +88879,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379360,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -88154,6 +88911,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2379360,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -88315,6 +89073,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379367,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_6.png",
       "kingdom_id": 17,
       "npc": {
@@ -88346,6 +89105,7 @@
       "player_id": 4713658,
       "player_name": "Zuckachu ヅ",
       "rally": null,
+      "start_tick": 2379367,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -88508,6 +89268,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379367,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -88539,6 +89300,7 @@
       "player_id": 80986677,
       "player_name": "KittySoftPaws",
       "rally": null,
+      "start_tick": 2379367,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -88696,6 +89458,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379467,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -88727,6 +89490,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2379458,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -88888,6 +89652,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379376,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -88919,6 +89684,7 @@
       "player_id": 31387633,
       "player_name": "Nostrum33",
       "rally": null,
+      "start_tick": 2379375,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89080,6 +89846,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379686,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -89111,6 +89878,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2379485,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89268,6 +90036,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379713,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_112.png",
       "kingdom_id": 17,
       "npc": {
@@ -89299,6 +90068,7 @@
       "player_id": 96907886,
       "player_name": "Joey22587",
       "rally": null,
+      "start_tick": 2379469,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89414,6 +90184,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379383,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -89445,6 +90216,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2379382,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89585,6 +90357,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379391,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_46.png",
       "kingdom_id": 17,
       "npc": {
@@ -89616,6 +90389,7 @@
       "player_id": 10955557,
       "player_name": "YourLuck",
       "rally": null,
+      "start_tick": 2379390,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89774,6 +90548,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379421,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_120.png",
       "kingdom_id": 17,
       "npc": {
@@ -89805,6 +90580,7 @@
       "player_id": 114763768,
       "player_name": "Basstma",
       "rally": null,
+      "start_tick": 2379420,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -89962,6 +90738,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379427,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -89993,6 +90770,7 @@
       "player_id": 80443266,
       "player_name": "Banna93",
       "rally": null,
+      "start_tick": 2379427,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -90154,6 +90932,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379442,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -90185,6 +90964,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2379434,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -90347,6 +91127,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379692,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -90378,6 +91159,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2379684,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -90535,6 +91317,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379434,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_75.png",
       "kingdom_id": 17,
       "npc": {
@@ -90566,6 +91349,7 @@
       "player_id": 952217,
       "player_name": "Stop war ua",
       "rally": null,
+      "start_tick": 2379434,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -90727,6 +91511,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379443,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -90758,6 +91543,7 @@
       "player_id": 45291241,
       "player_name": "ᵛᶯPaz Visla",
       "rally": null,
+      "start_tick": 2379442,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -90919,6 +91705,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379699,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -90950,6 +91737,7 @@
       "player_id": 80986677,
       "player_name": "KittySoftPaws",
       "rally": null,
+      "start_tick": 2379684,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -91108,6 +91896,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379692,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -91139,6 +91928,7 @@
       "player_id": 7162257,
       "player_name": "6sG 7oker",
       "rally": null,
+      "start_tick": 2379684,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -91296,6 +92086,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379557,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 1804,
       "npc": {
@@ -91849,6 +92640,7 @@
       "player_id": 41377732,
       "player_name": "箭ˢJian",
       "rally": true,
+      "start_tick": 2379485,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92002,6 +92794,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379458,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -92033,6 +92826,7 @@
       "player_id": 953606,
       "player_name": "iKoSenSei",
       "rally": null,
+      "start_tick": 2379458,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92170,6 +92964,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379476,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -92201,6 +92996,7 @@
       "player_id": 971357,
       "player_name": "KastielX",
       "rally": null,
+      "start_tick": 2379476,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92358,6 +93154,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379726,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -92389,6 +93186,7 @@
       "player_id": 17060031,
       "player_name": "义 IIIVMINATI",
       "rally": null,
+      "start_tick": 2379704,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92547,6 +93345,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379491,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_155.png",
       "kingdom_id": 17,
       "npc": {
@@ -92578,6 +93377,7 @@
       "player_id": 922968,
       "player_name": "MaveK",
       "rally": null,
+      "start_tick": 2379483,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92740,6 +93540,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379489,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_75.png",
       "kingdom_id": 17,
       "npc": {
@@ -92771,6 +93572,7 @@
       "player_id": 1019269,
       "player_name": "Aachen 7",
       "rally": null,
+      "start_tick": 2379489,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -92932,6 +93734,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379489,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -92963,6 +93766,7 @@
       "player_id": 2483323,
       "player_name": "Starr77",
       "rally": null,
+      "start_tick": 2379489,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -93116,6 +93920,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379496,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -93147,6 +93952,7 @@
       "player_id": 38611314,
       "player_name": "Shazb0t",
       "rally": null,
+      "start_tick": 2379495,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -93262,6 +94068,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379496,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_56.png",
       "kingdom_id": 17,
       "npc": {
@@ -93293,6 +94100,7 @@
       "player_id": 12909379,
       "player_name": "Murphatlar",
       "rally": null,
+      "start_tick": 2379495,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -93451,6 +94259,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379502,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -93482,6 +94291,7 @@
       "player_id": 941710,
       "player_name": "SAH4RCOREJZ",
       "rally": null,
+      "start_tick": 2379501,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -93649,6 +94459,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379502,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -93680,6 +94491,7 @@
       "player_id": 20186294,
       "player_name": "Babel 03",
       "rally": null,
+      "start_tick": 2379501,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -93842,6 +94654,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379732,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -93873,6 +94686,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2379710,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94034,6 +94848,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379730,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -94065,6 +94880,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2379716,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94218,6 +95034,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379513,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -94249,6 +95066,7 @@
       "player_id": 13661342,
       "player_name": "ᵛⁿSabu",
       "rally": null,
+      "start_tick": 2379513,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94410,6 +95228,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379730,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -94441,6 +95260,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2379691,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94603,6 +95423,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379515,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -94634,6 +95455,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2379507,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94791,6 +95613,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379738,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
       "kingdom_id": 17,
       "npc": {
@@ -94822,6 +95645,7 @@
       "player_id": 80356744,
       "player_name": "SLIMEY KRAK869",
       "rally": null,
+      "start_tick": 2379722,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -94958,6 +95782,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379519,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png",
       "kingdom_id": 17,
       "npc": {
@@ -94989,6 +95814,7 @@
       "player_id": 29156197,
       "player_name": "Judge Jonzement",
       "rally": null,
+      "start_tick": 2379519,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -95150,6 +95976,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379706,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
       "kingdom_id": 17,
       "npc": {
@@ -95181,6 +96008,7 @@
       "player_id": 10734164,
       "player_name": "King Elma",
       "rally": null,
+      "start_tick": 2379691,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -95342,6 +96170,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379706,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -95373,6 +96202,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2379684,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -95530,6 +96360,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379720,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -95561,6 +96392,7 @@
       "player_id": 20323893,
       "player_name": "٠Helmchen٠",
       "rally": null,
+      "start_tick": 2379710,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -95723,6 +96555,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379548,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -95754,6 +96587,7 @@
       "player_id": 14479430,
       "player_name": "Allesauf0",
       "rally": null,
+      "start_tick": 2379548,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -95915,6 +96749,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379599,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -95946,6 +96781,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2379598,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -96107,6 +96943,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379605,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -96138,6 +96975,7 @@
       "player_id": 10052322,
       "player_name": "Sɪʀ Zucks",
       "rally": null,
+      "start_tick": 2379605,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -96295,6 +97133,7 @@
           "star_level": 4
         }
       },
+      "end_tick": 2379637,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -96326,6 +97165,7 @@
       "player_id": 953606,
       "player_name": "iKoSenSei",
       "rally": null,
+      "start_tick": 2379637,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -96467,6 +97307,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379645,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png",
       "kingdom_id": 17,
       "npc": {
@@ -96498,6 +97339,7 @@
       "player_id": 11607682,
       "player_name": "Tribun Ludwig",
       "rally": null,
+      "start_tick": 2379645,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -96659,6 +97501,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379652,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -96690,6 +97533,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2379651,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -96852,6 +97696,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379666,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_125.png",
       "kingdom_id": 17,
       "npc": {
@@ -96883,6 +97728,7 @@
       "player_id": 4981264,
       "player_name": "㋡Flickツ",
       "rally": null,
+      "start_tick": 2379658,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97040,6 +97886,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379667,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -97071,6 +97918,7 @@
       "player_id": 88422443,
       "player_name": "Henry Targaryen",
       "rally": null,
+      "start_tick": 2379666,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97232,6 +98080,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379679,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_11.png",
       "kingdom_id": 17,
       "npc": {
@@ -97263,6 +98112,7 @@
       "player_id": 15894174,
       "player_name": "F4TF4LK",
       "rally": null,
+      "start_tick": 2379670,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97399,6 +98249,7 @@
           "star_level": 0
         }
       },
+      "end_tick": 2379678,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -97430,6 +98281,7 @@
       "player_id": 60805,
       "player_name": "Rummeltrupp",
       "rally": null,
+      "start_tick": 2379678,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97570,6 +98422,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379705,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -97601,6 +98454,7 @@
       "player_id": 7547259,
       "player_name": "xX亗Snake亗Xx",
       "rally": null,
+      "start_tick": 2379704,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97762,6 +98616,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379717,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_63.png",
       "kingdom_id": 17,
       "npc": {
@@ -97793,6 +98648,7 @@
       "player_id": 6133598,
       "player_name": "Arck0",
       "rally": null,
+      "start_tick": 2379716,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -97954,6 +98810,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379753,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -97985,6 +98842,7 @@
       "player_id": 11987186,
       "player_name": "I Dare",
       "rally": null,
+      "start_tick": 2379752,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -98133,6 +98991,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379753,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -98164,6 +99023,7 @@
       "player_id": 86610794,
       "player_name": "ᵛⁿmoneybo",
       "rally": null,
+      "start_tick": 2379753,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -98317,6 +99177,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379774,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -98348,6 +99209,7 @@
       "player_id": 13661342,
       "player_name": "ᵛⁿSabu",
       "rally": null,
+      "start_tick": 2379774,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -98509,6 +99371,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379766,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -98540,6 +99403,7 @@
       "player_id": 74455288,
       "player_name": "ᵀˢᵀEliza",
       "rally": null,
+      "start_tick": 2379766,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -98701,6 +99565,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379766,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
       "kingdom_id": 17,
       "npc": {
@@ -98732,6 +99597,7 @@
       "player_id": 31387633,
       "player_name": "Nostrum33",
       "rally": null,
+      "start_tick": 2379766,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -98885,6 +99751,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379774,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
       "kingdom_id": 17,
       "npc": {
@@ -98916,6 +99783,7 @@
       "player_id": 6193256,
       "player_name": "cpt pelle",
       "rally": null,
+      "start_tick": 2379774,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -99058,6 +99926,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379774,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png",
       "kingdom_id": 17,
       "npc": {
@@ -99089,6 +99958,7 @@
       "player_id": 11305942,
       "player_name": "S0fieFlames",
       "rally": null,
+      "start_tick": 2379774,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -99251,6 +100121,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379860,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
       "kingdom_id": 17,
       "npc": {
@@ -99282,6 +100153,7 @@
       "player_id": 26016592,
       "player_name": "Sancho0o",
       "rally": null,
+      "start_tick": 2379852,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -99443,6 +100315,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379779,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
       "kingdom_id": 17,
       "npc": {
@@ -99474,6 +100347,7 @@
       "player_id": 6098505,
       "player_name": "Y A M A",
       "rally": null,
+      "start_tick": 2379779,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -99635,6 +100509,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379787,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_52.png",
       "kingdom_id": 17,
       "npc": {
@@ -99666,6 +100541,7 @@
       "player_id": 27013114,
       "player_name": "hangry",
       "rally": null,
+      "start_tick": 2379779,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -99832,6 +100708,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379785,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_74.png",
       "kingdom_id": 17,
       "npc": {
@@ -99863,6 +100740,7 @@
       "player_id": 226410,
       "player_name": "Mangeer",
       "rally": null,
+      "start_tick": 2379785,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -100021,6 +100899,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379806,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_62.png",
       "kingdom_id": 17,
       "npc": {
@@ -100052,6 +100931,7 @@
       "player_id": 962861,
       "player_name": "EDM LORD",
       "rally": null,
+      "start_tick": 2379806,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -100210,6 +101090,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379821,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
       "kingdom_id": 17,
       "npc": {
@@ -100241,6 +101122,7 @@
       "player_id": 936551,
       "player_name": "Nordsee 300",
       "rally": null,
+      "start_tick": 2379820,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,
@@ -100403,6 +101285,7 @@
           "star_level": 6
         }
       },
+      "end_tick": 2379845,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
       "kingdom_id": 17,
       "npc": {
@@ -100434,6 +101317,7 @@
       "player_id": 6082697,
       "player_name": "Helly Jelly",
       "rally": null,
+      "start_tick": 2379845,
       "structure_id": null,
       "supreme_strife": {
         "battle_id": null,

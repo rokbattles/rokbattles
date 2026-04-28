@@ -1,0 +1,11 @@
+[package]
+name = "mail-processor-alliance-aoobattleresults"
+version = "1.0.2"
+edition = "2024"
+
+[dependencies]
+mail-processor-sdk = { path = "../mail-processor-sdk" }
+serde_json = { workspace = true }
+
+[lib]
+doctest = false

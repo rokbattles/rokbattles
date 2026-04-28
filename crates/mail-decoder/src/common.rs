@@ -57,10 +57,7 @@ impl std::fmt::Display for DecodeError {
                 write!(f, "invalid UTF-8 starting at offset {offset}")
             }
             DecodeError::LengthOutOfBounds { length, remaining } => {
-                write!(
-                    f,
-                    "string length {length} exceeds remaining {remaining} bytes"
-                )
+                write!(f, "string length {length} exceeds remaining {remaining} bytes")
             }
             DecodeError::TrailingBytes { remaining } => {
                 write!(f, "trailing bytes after decode ({remaining} bytes)")

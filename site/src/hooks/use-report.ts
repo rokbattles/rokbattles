@@ -1,0 +1,67 @@
+"use client";
+
+import { useExtracted } from "next-intl";
+import { useEffect, useState } from "react";
+import type { ReportByIdResponse } from "@/lib/types/report";
+
+export function useReport(id: string | null | undefined) {
+  const t = useExtracted();
+  const [data, setData] = useState<ReportByIdResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!id) {
+      setData(null);
+      setError(null);
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    setData(null);
+    setLoading(true);
+    setError(null);
+
+    const fetchReport = async () => {
+      try {
+        const res = await fetch(`/proxy/v1/report/battle/${encodeURIComponent(id)}`, {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error(t("Failed to fetch data"));
+        }
+
+        const payload = (await res.json()) as ReportByIdResponse;
+        if (!cancelled) {
+          setData(payload);
+          setError(null);
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : t("Failed to fetch data");
+        if (!cancelled) {
+          setError(message);
+          setData(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchReport();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id, t]);
+
+  return {
+    data,
+    loading,
+    error,
+  };
+}

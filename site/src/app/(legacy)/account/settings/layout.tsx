@@ -1,0 +1,17 @@
+import { getExtracted } from "next-intl/server";
+import type React from "react";
+import { AccountSettingsNav } from "@/components/account/account-settings-nav";
+import { Heading } from "@/components/ui/heading";
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const t = await getExtracted();
+  return (
+    <div className="space-y-4">
+      <div>
+        <Heading>{t("Account Settings")}</Heading>
+      </div>
+      <AccountSettingsNav />
+      {children}
+    </div>
+  );
+}
