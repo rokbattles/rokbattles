@@ -6,20 +6,177 @@ relics:
   # Level 2 -> 100XX
   # Level 3 -> 200XX
 
+  # Missing: Charlemagne, Wu Zetian, Ramesses II, Siyaj K'ak', Chandragupta, Maurya, Archimedes, Mary I, Cyrus the Great
+
+  # Cao Cao (lvl 1)
+  1:
+    name:
+      en: "The Collected Works of Cao Cao"
+
+  # Minamoto (lvl 1)
+  2:
+    name:
+      en: "The Bamboo Flute of Shizuka Gozen"
+
+  # Aethelflaed (lvl 1)
+  3:
+    name:
+      en: "Sutton Hoo Helmet"
+
+  # Hannibal Barca (lvl 1)
+  4:
+    name:
+      en: "Carthaginian Coinage"
+
+  # Richard I (lvl 1)
+  5:
+    name:
+      en: "Three Lions Escutcheon"
+
+  # Charles Martel (lvl 1)
+  6:
+    name:
+      en: "Merovingian Ring"
+
   # El Cid (lvl 1)
   7:
     name:
       en: "El Cid's Tizona"
+
+  # Yi Seong-Gye (lvl 1)
+  8:
+    name:
+      en: "Twin Dragons Inscription"
+
+  # Mulan (lvl 1)
+  9:
+    name:
+      en: "Dragon and Phoenix Jade Ornament"
+
+  # Ragnar Lodbrok (lvl 1)
+  10:
+    name:
+      en: "Viking Drinking Horn"
+
+  # Mehmed II (lvl 1)
+  11:
+    name:
+      en: "Yatagan"
+
+  # Frederick I (lvl 1)
+  12:
+    name:
+      en: "Imperial Crown of the Holy Roman Empire"
+
+  # Julius Caesar (lvl 1)
+  13:
+    name:
+      en: "Bellum Gallicum"
+
+  # Thutmose III (lvl 1)
+  15:
+    name:
+      en: "Men Kheper Re Scarab"
+
+  # Genghis Khan (lvl 1)
+  16:
+    name:
+      en: "The Nine White Banners"
+
+  # Saladin (lvl 1)
+  17:
+    name:
+      en: "Ayyubid Armor"
+
+  # Constantine I (lvl 1)
+  18:
+    name:
+      en: "Edict of Milan"
 
   # Alexander the Great (lvl 1)
   19:
     name:
       en: "Macedonian Sarissa"
 
+  # Tomyris (lvl 1)
+  20:
+    name:
+      en: "Gold Armband"
+
+  # Edward of Woodstock (lvl 1)
+  21:
+    name:
+      en: "Garter Star"
+
+  # Pyrrhus (lvl 1)
+  23:
+    name:
+      en: "Panathenaic Amphora"
+
   # Attila (lvl 1)
   24:
     name:
       en: "Hun Bow"
+
+  # Takeda Shingen (lvl 1)
+  25:
+    name:
+      en: "Kōshū Hatto no Shidai"
+
+  # Guan Yu (lvl 1)
+  26:
+    name:
+      en: "Seal of the Hanshou Tinghou"
+
+  # Leonidas I (lvl 1)
+  27:
+    name:
+      en: "Greek Aspis"
+
+  # Artemisia I (lvl 1)
+  29:
+    name:
+      en: "Jar of Xerxes I"
+
+  # Theodora (lvl 1)
+  30:
+    name:
+      en: "Eastern Roman Bottle"
+
+  # Yi Sun-sin
+  31:
+    name:
+      en: "Turtle Ship Model"
+
+  # William I (lvl 1)
+  34:
+    name:
+      en: "Bayeux Tapestry"
+
+  # Harald Sigurdsson (lvl 1)
+  35:
+    name:
+      en: "Runestone"
+
+  # Zenobia (lvl 1)
+  36:
+    name:
+      en: "Palmyrene Vase"
+
+  # Nebuchadnezzar II (lvl 1)
+  39:
+    name:
+      en: "Babylonian Polychrome Glazed Bricks"
+
+  # Moctezuma I (lvl 1)
+  41:
+    name:
+      en: "Sun Stone"
+
+  # Trajan (lvl 1)
+  42:
+    name:
+      en: "Imperial Eagle"
 
   # Cao Cao (lvl 2)
   10001:
@@ -36,10 +193,85 @@ relics:
     name:
       en: "Sutton Hoo Helmet"
 
+  # Hannibal Barca (lvl 2)
+  10004:
+    name:
+      en: "Carthaginian Coinage"
+
+  # Richard I (lvl 2)
+  10005:
+    name:
+      en: "Three Lions Escutcheon"
+
+  # Charles Martel (lvl 2)
+  10006:
+    name:
+      en: "Merovingian Ring"
+
+  # El Cid (lvl 2)
+  10007:
+    name:
+      en: "El Cid's Tizona"
+
+  # Yi Seong-Gye (lvl 2)
+  10008:
+    name:
+      en: "Twin Dragons Inscription"
+
+  # Mulan (lvl 2)
+  10009:
+    name:
+      en: "Dragon and Phoenix Jade Ornament"
+
+  # Ragnar Lodbrok (lvl 2)
+  10010:
+    name:
+      en: "Viking Drinking Horn"
+
+  # Mehmed II (lvl 2)
+  10011:
+    name:
+      en: "Yatagan"
+
+  # Frederick I (lvl 2)
+  10012:
+    name:
+      en: "Imperial Crown of the Holy Roman Empire"
+
+  # Julius Caesar (lvl 2)
+  10013:
+    name:
+      en: "Bellum Gallicum"
+
+  # Thutmose III (lvl 2)
+  10015:
+    name:
+      en: "Men Kheper Re Scarab"
+
   # Constantine I (lvl 2)
   10018:
     name:
       en: "Edict of Milan"
+
+  # Alexander the Great (lvl 2)
+  10019:
+    name:
+      en: "Macedonian Sarissa"
+
+  # Tomyris (lvl 2)
+  10020:
+    name:
+      en: "Gold Armband"
+
+  # Edward of Woodstock (lvl 2)
+  10021:
+    name:
+      en: "Garter Star"
+
+  # Pyrrhus (lvl 2)
+  10023:
+    name:
+      en: "Panathenaic Amphora"
 
   # Richard I (lvl 3)
   20005:
@@ -51,6 +283,11 @@ relics:
     name:
       en: "Merovingian Ring"
 
+  # El Cid (lvl 3)
+  20007:
+    name:
+      en: "El Cid's Tizona"
+
   # Yi Seong-Gye (lvl 3)
   20008:
     name:
@@ -61,6 +298,11 @@ relics:
     name:
       en: "Dragon and Phoenix Jade Ornament"
 
+  # Ragnar Lodbrok (lvl 3)
+  20010:
+    name:
+      en: "Viking Drinking Horn"
+
   # Mehmed II (lvl 3)
   20011:
     name:
@@ -70,3 +312,8 @@ relics:
   20013:
     name:
       en: "Bellum Gallicum"
+
+  # Thutmose III (lvl 3)
+  20015:
+    name:
+      en: "Men Kheper Re Scarab"
