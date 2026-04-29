@@ -22,6 +22,7 @@ export function ReportRelicSection({ relics }: ReportRelicSectionProps) {
       <Subheading>{t("Relics")}</Subheading>
       <div className="flex flex-wrap gap-2">
         {visibleRelics.map((relic, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: ignore
           <div key={`${relic.id}-${index}`}>
             <ReportRelicSlot relic={relic} />
           </div>
