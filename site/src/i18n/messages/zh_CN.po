@@ -82,7 +82,7 @@ msgstr ""
 #: src/components/my-pairings/my-pairings-content.tsx:147
 #: src/components/my-pairings/my-pairings-content.tsx:389
 #: src/components/olympian-arena/duel-participant-card.tsx:45
-#: src/components/report/report-participant-card.tsx:27
+#: src/components/report/report-participant-card.tsx:28
 #: src/components/reports/participant-cell.tsx:25
 msgid "5hGibV"
 msgstr ""
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "伊西斯"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr ""
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "伊西斯"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -318,7 +318,7 @@ msgstr ""
 
 #: src/components/account-binds/bind-list-item.tsx:35
 #: src/components/olympian-arena/duel-participant-card.tsx:92
-#: src/components/report/report-participant-card.tsx:58
+#: src/components/report/report-participant-card.tsx:63
 msgid "tx/jZ/"
 msgstr ""
 
@@ -769,7 +769,7 @@ msgid "U5Mxzi"
 msgstr ""
 
 #: src/components/olympian-arena/duel-participant-card.tsx:102
-#: src/components/report/report-participant-card.tsx:69
+#: src/components/report/report-participant-card.tsx:74
 msgid "DqkPqe"
 msgstr ""
 
@@ -1010,8 +1010,16 @@ msgstr ""
 msgid "1ISgLB"
 msgstr "轻伤"
 
-#: src/components/report/report-participant-card.tsx:61
+#: src/components/report/report-participant-card.tsx:66
 msgid "RJ+ZIh"
+msgstr ""
+
+#: src/components/report/report-relic-section.tsx:22
+msgid "Ft8yjo"
+msgstr ""
+
+#: src/components/report/report-relic-slot.tsx:30
+msgid "ZW4lge"
 msgstr ""
 
 #: src/components/report/report-view.tsx:63

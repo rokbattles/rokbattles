@@ -19,6 +19,11 @@ export interface RawCommanderInfo {
   awakened?: boolean | null;
   level?: number;
   skills?: string;
+  relics?: RawRelicInfo[] | null;
+}
+
+export interface RawRelicInfo {
+  id?: number;
 }
 
 export interface RawNpcReward {

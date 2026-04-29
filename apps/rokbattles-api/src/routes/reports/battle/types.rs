@@ -141,8 +141,15 @@ pub(crate) struct BattleReportCommander {
     pub level: Option<i64>,
     pub formation: Option<i64>,
     pub equipment: Option<String>,
+    pub relics: Vec<BattleReportRelic>,
     pub skills: Vec<BattleReportCommanderSkill>,
     pub armaments: Vec<BattleReportArmament>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportRelic {
+    pub id: i64,
 }
 
 #[derive(Debug, Serialize, Default)]

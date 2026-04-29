@@ -82,7 +82,7 @@ msgstr "Explore Battles"
 #: src/components/my-pairings/my-pairings-content.tsx:147
 #: src/components/my-pairings/my-pairings-content.tsx:389
 #: src/components/olympian-arena/duel-participant-card.tsx:45
-#: src/components/report/report-participant-card.tsx:27
+#: src/components/report/report-participant-card.tsx:28
 #: src/components/reports/participant-cell.tsx:25
 msgid "5hGibV"
 msgstr "Unknown commander"
@@ -252,14 +252,14 @@ msgid "raC1gL"
 msgstr "Loading Ark match history..."
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
-msgid "lsSmtD"
-msgstr "Iset"
-
-#: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/account-ark/ark-match-history-table.tsx:21
 msgid "T4H9Lz"
 msgstr "Seth"
+
+#: src/components/account-ark/ark-match-history-row.tsx:27
+#: src/components/account-ark/ark-match-history-table.tsx:20
+msgid "lsSmtD"
+msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx:27
 #: src/components/olympian-arena/duel-commander-row.tsx:20
@@ -318,7 +318,7 @@ msgstr "Default"
 
 #: src/components/account-binds/bind-list-item.tsx:35
 #: src/components/olympian-arena/duel-participant-card.tsx:92
-#: src/components/report/report-participant-card.tsx:58
+#: src/components/report/report-participant-card.tsx:63
 msgid "tx/jZ/"
 msgstr "ID {id}"
 
@@ -769,7 +769,7 @@ msgid "U5Mxzi"
 msgstr "Loading duel report..."
 
 #: src/components/olympian-arena/duel-participant-card.tsx:102
-#: src/components/report/report-participant-card.tsx:69
+#: src/components/report/report-participant-card.tsx:74
 msgid "DqkPqe"
 msgstr "Commanders"
 
@@ -1010,9 +1010,17 @@ msgstr "Troop Units"
 msgid "1ISgLB"
 msgstr "Slightly Wounded"
 
-#: src/components/report/report-participant-card.tsx:61
+#: src/components/report/report-participant-card.tsx:66
 msgid "RJ+ZIh"
 msgstr "Rally"
+
+#: src/components/report/report-relic-section.tsx:22
+msgid "Ft8yjo"
+msgstr "Relics"
+
+#: src/components/report/report-relic-slot.tsx:30
+msgid "ZW4lge"
+msgstr "Relic {id}"
 
 #: src/components/report/report-view.tsx:63
 msgid "x5Tz6M"

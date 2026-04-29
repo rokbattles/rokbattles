@@ -5,6 +5,7 @@ import { ReportArmamentSection } from "@/components/report/report-armament-secti
 import { ReportArtifactSection } from "@/components/report/report-artifact-section";
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
 import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
+import { ReportRelicSection } from "@/components/report/report-relic-section";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
@@ -32,6 +33,10 @@ export function ReportParticipantCard({
   const artifactTokens = showArtifacts
     ? parseEquipment(participant?.equipment_2 ?? null).filter((token) => ARTIFACT_IDS.has(token.id))
     : [];
+  const relics = [
+    ...(participant?.primary_commander?.relics ?? []),
+    ...(participant?.secondary_commander?.relics ?? []),
+  ];
   const inscriptionIds = parseSemicolonNumberList(participant?.inscriptions ?? null);
   const armamentBuffs = parseArmamentBuffs(participant?.armament_buffs ?? null);
 
@@ -77,6 +82,7 @@ export function ReportParticipantCard({
         ) : null}
         <ReportEquipmentSection tokens={equipmentTokens} />
         {showArtifacts ? <ReportArtifactSection tokens={artifactTokens} /> : null}
+        <ReportRelicSection relics={relics} />
         <ReportArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
       </div>
     </div>
