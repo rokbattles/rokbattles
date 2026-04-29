@@ -1,7 +1,4 @@
 relics:
-  # Predicting the 2nd item in the array is actually the max level, not the level
-  # of the relic itself (at the time which means we dont need to extract it).
-  # Likely follows this pattern, but need confirmation:
   # Level 1 -> XX
   # Level 2 -> 100XX
   # Level 3 -> 200XX
