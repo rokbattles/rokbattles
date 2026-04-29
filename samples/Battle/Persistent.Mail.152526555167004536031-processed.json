@@ -111,7 +111,11 @@
           "formation": null,
           "id": 10,
           "level": 55,
-          "relics": null,
+          "relics": [
+            {
+              "id": 6
+            }
+          ],
           "skills": [
             {
               "id": 28,
@@ -246,7 +250,11 @@
         "formation": null,
         "id": 10,
         "level": 60,
-        "relics": null,
+        "relics": [
+          {
+            "id": 6
+          }
+        ],
         "skills": [
           {
             "id": 28,

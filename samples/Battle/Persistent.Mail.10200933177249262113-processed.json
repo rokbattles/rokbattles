@@ -134,8 +134,7 @@
           "level": 31,
           "relics": [
             {
-              "id": 31,
-              "level": 1
+              "id": 31
             }
           ],
           "skills": [
@@ -271,8 +270,7 @@
         "level": 60,
         "relics": [
           {
-            "id": 24,
-            "level": 1
+            "id": 24
           }
         ],
         "skills": [

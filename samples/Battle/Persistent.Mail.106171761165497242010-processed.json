@@ -1170,7 +1170,11 @@
           "formation": null,
           "id": 1,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 13
+            }
+          ],
           "skills": [
             {
               "id": 1007,
@@ -1198,7 +1202,11 @@
           "formation": null,
           "id": 65,
           "level": 48,
-          "relics": null,
+          "relics": [
+            {
+              "id": 11
+            }
+          ],
           "skills": [
             {
               "id": 87,
@@ -3209,7 +3217,11 @@
           "formation": null,
           "id": 7,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 1
+            }
+          ],
           "skills": [
             {
               "id": 1101,
@@ -3692,7 +3704,11 @@
           "formation": null,
           "id": 99,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 3
+            }
+          ],
           "skills": [
             {
               "id": 1217,
@@ -3724,7 +3740,11 @@
           "formation": null,
           "id": 10,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 6
+            }
+          ],
           "skills": [
             {
               "id": 1102,
@@ -3889,7 +3909,11 @@
           "formation": null,
           "id": 6,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 8
+            }
+          ],
           "skills": [
             {
               "id": 1011,
@@ -4223,7 +4247,11 @@
           "formation": null,
           "id": 99,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 3
+            }
+          ],
           "skills": [
             {
               "id": 1217,
@@ -4730,7 +4758,11 @@
           "formation": null,
           "id": 6,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 8
+            }
+          ],
           "skills": [
             {
               "id": 63,
@@ -5402,7 +5434,11 @@
           "formation": null,
           "id": 6,
           "level": 60,
-          "relics": null,
+          "relics": [
+            {
+              "id": 8
+            }
+          ],
           "skills": [
             {
               "id": 63,
