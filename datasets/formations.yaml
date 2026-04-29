@@ -295,6 +295,8 @@ formations:
       zh_CN: "偃月阵"
       zh_TW: "偃月陣"
 
+  # Deprecated as of 2026-04-29 at 11:00 UTC
+  # Will be kept in our dataset for historical purposes
   19:
     name:
       ar: "تشكيل الوتد Ⅱ"
