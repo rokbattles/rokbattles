@@ -2182,6 +2182,10 @@ loot:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_HeroCarving_Universal5.Sprite.-7718458993068816883__7f227c4f54fb.png
 
+    64050:
+      name:
+        en: "Conversion Stone"
+
   4:
     2:
       name:
