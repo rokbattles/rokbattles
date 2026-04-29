@@ -4,8 +4,8 @@ use super::types::{
     BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,
     BattleReportBattleResults, BattleReportCastle, BattleReportCommander, BattleReportCommanderSet,
     BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata, BattleReportNpc,
-    BattleReportOpponent, BattleReportPlayer, BattleReportSummary, BattleReportSummaryEntry,
-    BattleReportTimeline,
+    BattleReportOpponent, BattleReportPlayer, BattleReportRelic, BattleReportSummary,
+    BattleReportSummaryEntry, BattleReportTimeline,
 };
 use crate::bson_utils::{
     nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
@@ -41,6 +41,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.primary.level",
         "sender.commanders.primary.formation",
         "sender.commanders.primary.equipment",
+        "sender.commanders.primary.relics.id",
         "sender.commanders.primary.skills.id",
         "sender.commanders.primary.skills.level",
         "sender.commanders.primary.armaments.affix",
@@ -51,6 +52,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.commanders.secondary.skills.id",
         "sender.commanders.secondary.skills.level",
         "sender.commanders.secondary.equipment",
+        "sender.commanders.secondary.relics.id",
         "sender.commanders.secondary.armaments.affix",
         "sender.commanders.secondary.armaments.buffs",
         "summary.sender.kill_points",
@@ -89,6 +91,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.primary.level",
         "opponents.commanders.primary.formation",
         "opponents.commanders.primary.equipment",
+        "opponents.commanders.primary.relics.id",
         "opponents.commanders.primary.skills.id",
         "opponents.commanders.primary.skills.level",
         "opponents.commanders.primary.armaments.affix",
@@ -99,6 +102,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.commanders.secondary.skills.id",
         "opponents.commanders.secondary.skills.level",
         "opponents.commanders.secondary.equipment",
+        "opponents.commanders.secondary.relics.id",
         "opponents.commanders.secondary.armaments.affix",
         "opponents.commanders.secondary.armaments.buffs",
         "opponents.battle_results.sender.reinforcements_join",
@@ -199,9 +203,22 @@ fn map_detail_commander(document: Option<&Document>) -> BattleReportCommander {
         level: nested_i64_exact(document, &["level"]),
         formation: nested_i64_exact(document, &["formation"]),
         equipment: nested_string(document, &["equipment"]),
+        relics: map_detail_relics(document),
         skills: map_detail_skills(document),
         armaments: map_detail_armaments(document),
     }
+}
+
+fn map_detail_relics(document: &Document) -> Vec<BattleReportRelic> {
+    let Some(relics) = nested_array(document, &["relics"]) else {
+        return Vec::new();
+    };
+
+    relics
+        .iter()
+        .filter_map(Bson::as_document)
+        .filter_map(|relic| nested_i64_exact(relic, &["id"]).map(|id| BattleReportRelic { id }))
+        .collect()
 }
 
 fn map_detail_skills(document: &Document) -> Vec<BattleReportCommanderSkill> {
@@ -364,6 +381,7 @@ mod tests {
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.awakened").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.commanders.primary.relics.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.skills.id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
@@ -398,6 +416,9 @@ mod tests {
                         "level": 60_i64,
                         "formation": 3_i64,
                         "equipment": "{1:100}",
+                        "relics": [
+                            { "id": 10001_i64, "level": 2_i64 },
+                        ],
                         "skills": [
                             { "id": 101_i64, "level": 5_i64 },
                         ],
@@ -455,6 +476,8 @@ mod tests {
         assert_eq!(mapped.sender.player_name, "Alpha");
         assert_eq!(mapped.sender.commanders.primary.id, Some(10));
         assert_eq!(mapped.sender.commanders.primary.awakened, Some(true));
+        assert_eq!(mapped.sender.commanders.primary.relics.len(), 1);
+        assert_eq!(mapped.sender.commanders.primary.relics[0].id, 10001);
         assert_eq!(mapped.sender.commanders.primary.skills.len(), 1);
         assert_eq!(mapped.sender.commanders.primary.skills[0].id, 101);
         assert_eq!(mapped.sender.commanders.primary.armaments.len(), 1);

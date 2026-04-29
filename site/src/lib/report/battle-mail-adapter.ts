@@ -135,11 +135,13 @@ function mapPlayerToParticipant(
       id: player.commanders.primary.id ?? undefined,
       awakened: player.commanders.primary.awakened ?? undefined,
       level: player.commanders.primary.level ?? undefined,
+      relics: [...(player.commanders.primary.relics ?? [])],
     },
     secondary_commander: {
       id: player.commanders.secondary.id ?? undefined,
       awakened: player.commanders.secondary.awakened ?? undefined,
       level: player.commanders.secondary.level ?? undefined,
+      relics: [...(player.commanders.secondary.relics ?? [])],
     },
     formation: player.commanders.primary.formation ?? undefined,
     equipment: player.commanders.primary.equipment ?? undefined,
