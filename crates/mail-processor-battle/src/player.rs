@@ -302,24 +302,14 @@ fn optional_relics_field(
     };
 
     let values = indexed_array_values(value, field)?;
-    if values.len() % 2 != 0 {
-        // Some older reports include a relic id with no level. Drop the list
-        // instead of failing or guessing what the level should be.
-        return Ok(Value::Null);
-    }
+    let Some(id) = values.first() else {
+        return Ok(Value::Array(Vec::new()));
+    };
+    let id = id
+        .as_u64()
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })?;
 
-    let mut relics = Vec::with_capacity(values.len() / 2);
-    for chunk in values.chunks(2) {
-        let id = chunk[0]
-            .as_u64()
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })?;
-        let level = chunk[1]
-            .as_u64()
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })?;
-        relics.push(json!({ "id": id, "level": level }));
-    }
-
-    Ok(Value::Array(relics))
+    Ok(json!([{ "id": id }]))
 }
 
 fn optional_armaments_field(
@@ -565,19 +555,19 @@ mod tests {
     }
 
     #[test]
-    fn extract_player_fields_ignores_incomplete_secondary_relics() {
+    fn extract_player_fields_reads_secondary_relic_id() {
         let mut player = base_player();
         player.insert("HClt2".to_string(), json!([1, 6]));
         let fields = extract_player_fields(&player).unwrap();
-        assert_eq!(fields["commanders"]["secondary"]["relics"], json!(null));
+        assert_eq!(fields["commanders"]["secondary"]["relics"], json!([{ "id": 6 }]));
     }
 
     #[test]
-    fn extract_player_fields_ignores_incomplete_primary_relics() {
+    fn extract_player_fields_reads_primary_relic_id_from_plain_array() {
         let mut player = base_player();
         player.insert("HClt".to_string(), json!([10001]));
         let fields = extract_player_fields(&player).unwrap();
-        assert_eq!(fields["commanders"]["primary"]["relics"], json!(null));
+        assert_eq!(fields["commanders"]["primary"]["relics"], json!([{ "id": 10001 }]));
     }
 
     #[test]
@@ -615,7 +605,7 @@ mod tests {
                     "star_level": 4,
                     "equipment": "{1:200}",
                     "skills": [{ "id": 111, "level": 3 }],
-                    "relics": [{ "id": 10001, "level": 2 }],
+                    "relics": [{ "id": 10001 }],
                     "armaments": [{ "id": 1, "affix": "-1", "buffs": "buffs-1" }]
                 },
                 "secondary": {
@@ -626,7 +616,7 @@ mod tests {
                     "star_level": 5,
                     "equipment": "{2:201}",
                     "skills": [{ "id": 222, "level": 5 }],
-                    "relics": [{ "id": 20001, "level": 5 }],
+                    "relics": [{ "id": 20001 }],
                     "armaments": null
                 }
             }))
