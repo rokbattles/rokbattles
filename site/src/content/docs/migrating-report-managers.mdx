@@ -1,0 +1,27 @@
+---
+title: Migrating Report Managers
+---
+
+If you already have reports saved by another report manager, you may be able to import them into ROK Battles by adding the folder to the desktop app.
+
+## CubasMike's report manager
+
+1. Locate the folder where CubasMike's report manager saved your reports.
+2. Right-click the folder, click `Copy`, then paste it somewhere safe. Your Desktop is fine.
+3. Open the copied folder.
+4. Right-click anywhere inside the folder and select `Open in Terminal`.
+5. Run this PowerShell command:
+
+```text
+Get-ChildItem -Recurse -File | ForEach-Object {
+    Move-Item $_.FullName -Destination $PWD -Force
+}
+```
+
+This moves all mail files from subfolders into the main copied folder.
+
+After the command finishes, add the copied folder to the ROK Battles desktop app.
+
+## Using something different?
+
+Reach out and we will see what we can do.
