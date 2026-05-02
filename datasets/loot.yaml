@@ -211,6 +211,10 @@ loot:
       name:
         en: "1,500,000 Wood"
 
+    16:
+      name:
+        en: "375,000 Stone"
+
     26:
       name:
         ar: "10 جواهر"
@@ -747,6 +751,10 @@ loot:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
 
+    78:
+      name:
+        en: "8-Hour Training Speedup"
+
     85:
       name:
         ar: "تسريع البحث لمدة 30 دقيقة"
@@ -771,6 +779,10 @@ loot:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_13.Sprite.-784960241557596364__04deea8c7788.png
 
+    86:
+      name:
+        en: "60-Minute Research Speedup"
+
     92:
       name:
         ar: "تسريع العلاج لمدة 5 دقائق"
@@ -794,6 +806,10 @@ loot:
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
+
+    98:
+      name:
+        en: "8-Hour Healing Speedup"
 
     109:
       name:
@@ -1230,6 +1246,10 @@ loot:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
 
+    149:
+      name:
+        en: "Lvl 6 Tome of Knowledge"
+
     150:
       name:
         en: "Lvl 7 Tome of Knowledge"
@@ -1281,6 +1301,10 @@ loot:
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+
+    180:
+      name:
+        en: "5,000 Alliance Credits"
 
     # 50 AP
     182:
@@ -2045,9 +2069,18 @@ loot:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
 
+    # Epic
+    8014:
+      name:
+        en: "Equipment Material Choice Chest"
+
     8062:
       name:
         en: 'Level 5 "Pick One" Resource Chest'
+
+    8175:
+      name:
+        en: "Autarch Pass"
 
     # Legendary
     9989:
@@ -2181,6 +2214,15 @@ loot:
       sprite:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_HeroCarving_Universal5.Sprite.-7718458993068816883__7f227c4f54fb.png
+
+    60028:
+      name:
+        en: "Autarch Testimony"
+
+    # Legendary
+    62042:
+      name:
+        en: "Formation Choice Chest"
 
     64050:
       name:
