@@ -13,14 +13,9 @@ pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Runs the DuelBattle2 parser with extractors in parallel.
-pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process_parallel(input)
-}
-
-/// Runs the DuelBattle2 parser in extractor order.
-pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process_sequential(input)
+/// Runs the DuelBattle2 parser.
+pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
+    processor().process(input)
 }
 
 fn processor() -> Processor {

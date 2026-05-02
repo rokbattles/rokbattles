@@ -26,28 +26,9 @@ impl Processor {
         Self { extractors }
     }
 
-    /// Runs extractors one at a time in the order they were added.
-    pub fn process_sequential(&self, input: &Value) -> Result<ProcessedMail, ProcessError> {
-        self.ensure_unique_sections()?;
-        let mut processed = ProcessedMail::new();
-        for extractor in &self.extractors {
-            let section = extractor.section();
-            let data = extractor
-                .extract(input)
-                .map_err(|source| ProcessError::ExtractorFailed { section, source })?;
-            if processed.insert(section.to_string(), data).is_some() {
-                return Err(ProcessError::DuplicateSection { section });
-            }
-        }
-        Ok(processed)
-    }
-
     /// Runs extractors in parallel when they do not depend on each other.
-    pub fn process_parallel(&self, input: &Value) -> Result<ProcessedMail, ProcessError> {
+    pub fn process(&self, input: &Value) -> Result<ProcessedMail, ProcessError> {
         self.ensure_unique_sections()?;
-        if self.extractors.len() <= 1 {
-            return self.process_sequential(input);
-        }
         let mut results = Vec::with_capacity(self.extractors.len());
 
         std::thread::scope(|scope| {
@@ -120,21 +101,12 @@ mod tests {
     }
 
     #[test]
-    fn process_sequential_collects_sections() {
+    fn process_collects_sections() {
         let processor = Processor::new(vec![Box::new(TestExtractor { section_name: "one" })]);
         let input = json!({"value": 10});
-        let processed = processor.process_sequential(&input).unwrap();
+        let processed = processor.process(&input).unwrap();
         let section = processed.sections().get("one").unwrap();
         assert_eq!(section.fields().get("value").unwrap(), &json!(10));
-    }
-
-    #[test]
-    fn process_parallel_collects_sections() {
-        let processor = Processor::new(vec![Box::new(TestExtractor { section_name: "one" })]);
-        let input = json!({"value": 20});
-        let processed = processor.process_parallel(&input).unwrap();
-        let section = processed.sections().get("one").unwrap();
-        assert_eq!(section.fields().get("value").unwrap(), &json!(20));
     }
 
     #[test]
@@ -144,7 +116,7 @@ mod tests {
             Box::new(TestExtractor { section_name: "dup" }),
         ]);
         let input = json!({"value": 30});
-        let err = processor.process_sequential(&input).unwrap_err();
+        let err = processor.process(&input).unwrap_err();
         assert!(matches!(err, ProcessError::DuplicateSection { .. }));
     }
 
@@ -175,21 +147,21 @@ mod tests {
     }
 
     #[test]
-    fn process_parallel_propagates_extractor_errors() {
+    fn process_propagates_extractor_errors() {
         let processor = Processor::new(vec![Box::new(ErrorExtractor)]);
         let input = json!({"value": 10});
-        let err = processor.process_parallel(&input).unwrap_err();
+        let err = processor.process(&input).unwrap_err();
         assert!(matches!(err, ProcessError::ExtractorFailed { section: "error", .. }));
     }
 
     #[test]
-    fn process_parallel_reports_panics() {
+    fn process_reports_panics() {
         let processor = Processor::new(vec![
             Box::new(TestExtractor { section_name: "one" }),
             Box::new(PanicExtractor),
         ]);
         let input = json!({"value": 10});
-        let err = processor.process_parallel(&input).unwrap_err();
+        let err = processor.process(&input).unwrap_err();
         assert!(matches!(err, ProcessError::ExtractorPanicked { section: "panic" }));
     }
 }
