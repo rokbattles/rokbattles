@@ -2878,9 +2878,9 @@ version = "1.0.3"
 dependencies = [
  "clap",
  "mail-decoder",
- "mail-processor-alliance-aoobattleinfo",
- "mail-processor-alliance-aoobattleresults",
- "mail-processor-alliance-aooindividualresults",
+ "mail-processor-alliance-aoo-battle-info",
+ "mail-processor-alliance-aoo-battle-results",
+ "mail-processor-alliance-aoo-individual-results",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
@@ -2901,7 +2901,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-processor-alliance-aoobattleinfo"
+name = "mail-processor-alliance-aoo-battle-info"
 version = "1.0.3"
 dependencies = [
  "mail-processor-sdk",
@@ -2909,7 +2909,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-processor-alliance-aoobattleresults"
+name = "mail-processor-alliance-aoo-battle-results"
 version = "1.0.3"
 dependencies = [
  "mail-processor-sdk",
@@ -2917,7 +2917,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-processor-alliance-aooindividualresults"
+name = "mail-processor-alliance-aoo-individual-results"
 version = "1.0.3"
 dependencies = [
  "mail-processor-sdk",
@@ -4631,9 +4631,9 @@ version = "1.0.3"
 dependencies = [
  "dotenvy",
  "futures",
- "mail-processor-alliance-aoobattleinfo",
- "mail-processor-alliance-aoobattleresults",
- "mail-processor-alliance-aooindividualresults",
+ "mail-processor-alliance-aoo-battle-info",
+ "mail-processor-alliance-aoo-battle-results",
+ "mail-processor-alliance-aoo-individual-results",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",

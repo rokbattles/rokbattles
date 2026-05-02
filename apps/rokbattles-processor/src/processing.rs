@@ -101,13 +101,13 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
             mail_processor_system_barbarianfort::process_parallel(root)?
         }
         MailType::AllianceAOOBattleResults => {
-            mail_processor_alliance_aoobattleresults::process_parallel(root)?
+            mail_processor_alliance_aoo_battle_results::process_parallel(root)?
         }
         MailType::AllianceAOOBattleInfo => {
-            mail_processor_alliance_aoobattleinfo::process_parallel(root)?
+            mail_processor_alliance_aoo_battle_info::process_parallel(root)?
         }
         MailType::AllianceAOOIndividualResults => {
-            mail_processor_alliance_aooindividualresults::process_parallel(root)?
+            mail_processor_alliance_aoo_individual_results::process_parallel(root)?
         }
     };
 

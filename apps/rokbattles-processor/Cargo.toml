@@ -13,9 +13,9 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 futures = { workspace = true }
 zstd = { workspace = true }
 dotenvy = { workspace = true }
-mail-processor-alliance-aoobattleinfo = { path = "../../crates/mail-processor-alliance-aoobattleinfo" }
-mail-processor-alliance-aoobattleresults = { path = "../../crates/mail-processor-alliance-aoobattleresults" }
-mail-processor-alliance-aooindividualresults = { path = "../../crates/mail-processor-alliance-aooindividualresults" }
+mail-processor-alliance-aoo-battle-info = { path = "../../crates/mail-processor-alliance-aoo-battle-info" }
+mail-processor-alliance-aoo-battle-results = { path = "../../crates/mail-processor-alliance-aoo-battle-results" }
+mail-processor-alliance-aoo-individual-results = { path = "../../crates/mail-processor-alliance-aoo-individual-results" }
 mail-processor-battle = { path = "../../crates/mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../../crates/mail-processor-duelbattle2" }
 mail-processor-rss = { path = "../../crates/mail-processor-rss" }
