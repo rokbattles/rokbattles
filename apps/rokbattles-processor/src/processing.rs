@@ -93,21 +93,17 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
     })?;
     let mail_type = extract_mail_type(root)?;
     let processed = match mail_type {
-        MailType::Battle => mail_processor_battle::process_parallel(root)?,
-        MailType::DuelBattle2 => mail_processor_duelbattle2::process_parallel(root)?,
-        MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process_parallel(root)?,
-        MailType::Rss => mail_processor_rss::process_parallel(root)?,
-        MailType::SystemBarbarianFort => {
-            mail_processor_system_barbarianfort::process_parallel(root)?
-        }
+        MailType::Battle => mail_processor_battle::process(root)?,
+        MailType::DuelBattle2 => mail_processor_duelbattle2::process(root)?,
+        MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process(root)?,
+        MailType::Rss => mail_processor_rss::process(root)?,
+        MailType::SystemBarbarianFort => mail_processor_system_barbarianfort::process(root)?,
         MailType::AllianceAOOBattleResults => {
-            mail_processor_alliance_aoo_battle_results::process_parallel(root)?
+            mail_processor_alliance_aoo_battle_results::process(root)?
         }
-        MailType::AllianceAOOBattleInfo => {
-            mail_processor_alliance_aoo_battle_info::process_parallel(root)?
-        }
+        MailType::AllianceAOOBattleInfo => mail_processor_alliance_aoo_battle_info::process(root)?,
         MailType::AllianceAOOIndividualResults => {
-            mail_processor_alliance_aoo_individual_results::process_parallel(root)?
+            mail_processor_alliance_aoo_individual_results::process(root)?
         }
     };
 

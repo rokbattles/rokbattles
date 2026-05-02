@@ -14,14 +14,9 @@ pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Runs the AllianceAOOIndividualResults parser with extractors in parallel.
-pub fn process_parallel(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process_parallel(input)
-}
-
-/// Runs the AllianceAOOIndividualResults parser in extractor order.
-pub fn process_sequential(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process_sequential(input)
+/// Runs the AllianceAOOIndividualResults parser.
+pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
+    processor().process(input)
 }
 
 fn processor() -> Processor {
@@ -44,13 +39,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn process_parallel_extracts_expected_sections() {
+    fn process_extracts_expected_sections() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
-        let processed = process_parallel(&value).expect("process sample");
+        let processed = process(&value).expect("process sample");
         let sections = processed.sections();
         assert!(sections.contains_key("metadata"));
         assert!(sections.contains_key("rewards"));
@@ -61,13 +56,13 @@ mod tests {
     }
 
     #[test]
-    fn process_parallel_extracts_sparse_sample() {
+    fn process_extracts_sparse_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.6890312417293500508.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
-        let processed = process_parallel(&value).expect("process sample");
+        let processed = process(&value).expect("process sample");
         let sections = processed.sections();
         assert!(sections.contains_key("metadata"));
         assert!(sections.contains_key("rewards"));
@@ -78,13 +73,13 @@ mod tests {
     }
 
     #[test]
-    fn process_parallel_extracts_empty_stat_sample() {
+    fn process_extracts_empty_stat_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.91536773174395176822.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
-        let processed = process_parallel(&value).expect("process sample");
+        let processed = process(&value).expect("process sample");
         let sections = processed.sections();
         assert!(sections.contains_key("metadata"));
         assert!(sections.contains_key("rewards"));
@@ -95,13 +90,13 @@ mod tests {
     }
 
     #[test]
-    fn process_parallel_extracts_sample_without_healing_score() {
+    fn process_extracts_sample_without_healing_score() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.71266849169063933424.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
-        let processed = process_parallel(&value).expect("process sample");
+        let processed = process(&value).expect("process sample");
         let sections = processed.sections();
         assert!(sections.contains_key("metadata"));
         assert!(sections.contains_key("rewards"));
