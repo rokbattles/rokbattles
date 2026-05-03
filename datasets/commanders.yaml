@@ -7620,3 +7620,27 @@ commanders:
       - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
       - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
       - img_icon_HeroProfile_183.Sprite.-2856214798457162728__c590439a5dae.png
+
+  611:
+    name:
+      en: "Alp Arslan"
+    nickname:
+      en: "Sultan of Seljuk"
+    prime: false
+    rarity: legendary
+    skills:
+    sprite:
+      - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
+      - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
+
+  612:
+    name:
+      en: "Hayam Wuruk"
+    nickname:
+      en: "The Thalassocrat"
+    prime: false
+    rarity: legendary
+    skills:
+    sprite:
+      - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
+      - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.pn
