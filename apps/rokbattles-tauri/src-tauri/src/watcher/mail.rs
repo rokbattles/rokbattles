@@ -236,13 +236,13 @@ mod tests {
 
     #[test]
     fn detect_supported_mail_type_matches_alliance_aoo_variants() {
-        let custom_battle_results = json!({
+        let type_14_battle_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
             "body": { "type": 14, "param": 1 }
         });
         assert_eq!(
-            detect_supported_mail_type(&custom_battle_results),
+            detect_supported_mail_type(&type_14_battle_results),
             Some("AllianceAOOBattleResults")
         );
 
@@ -260,13 +260,13 @@ mod tests {
         });
         assert_eq!(detect_supported_mail_type(&battle_info), Some("AllianceAOOBattleInfo"));
 
-        let custom_individual_results = json!({
+        let type_15_individual_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",
             "body": { "type": 15, "param": 1 }
         });
         assert_eq!(
-            detect_supported_mail_type(&custom_individual_results),
+            detect_supported_mail_type(&type_15_individual_results),
             Some("AllianceAOOIndividualResults")
         );
 

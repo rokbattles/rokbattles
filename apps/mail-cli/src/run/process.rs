@@ -311,7 +311,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("102185423177177256731"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(false));
+        assert_eq!(parsed["body"]["type"], json!(60));
+        assert_eq!(parsed["body"]["param"], json!(1));
     }
 
     #[test]
@@ -332,7 +333,7 @@ mod tests {
     }
 
     #[test]
-    fn write_processed_json_writes_alliance_custom_battle_results_metadata() {
+    fn write_processed_json_writes_alliance_type_14_battle_results_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -346,7 +347,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906962177237730831"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["body"]["type"], json!(14));
+        assert_eq!(parsed["body"]["param"], json!(1));
         assert_eq!(parsed["alliances"][0]["alliance"]["id"], json!(1));
         assert!(parsed["alliances"][0]["alliance"]["abbreviation"].is_null());
     }
@@ -366,11 +368,12 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("102185429177177256731"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(false));
+        assert_eq!(parsed["body"]["type"], json!(62));
+        assert_eq!(parsed["body"]["param"], json!(1));
     }
 
     #[test]
-    fn write_processed_json_writes_alliance_custom_individual_results_metadata() {
+    fn write_processed_json_writes_alliance_type_15_individual_results_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -384,7 +387,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906964177237730831"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["body"]["type"], json!(15));
+        assert_eq!(parsed["body"]["param"], json!(1));
         assert_eq!(parsed["body"]["win"], json!(false));
         assert!(parsed["body"]["team"].is_null());
     }

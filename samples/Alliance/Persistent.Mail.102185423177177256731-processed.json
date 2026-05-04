@@ -35,10 +35,11 @@
     "alliance": {
       "id": 4808188
     },
+    "param": 1,
+    "type": 60,
     "win": true
   },
   "metadata": {
-    "custom": false,
     "mail_id": "102185423177177256731",
     "mail_receiver": "player_71738515",
     "mail_time": 1771772567835853,

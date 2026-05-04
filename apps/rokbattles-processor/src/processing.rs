@@ -334,7 +334,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_parses_alliance_custom_battle_results() {
+    fn extract_mail_type_parses_alliance_type_14_battle_results() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -348,7 +348,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_rejects_alliance_custom_battle_results_with_other_param() {
+    fn extract_mail_type_rejects_alliance_type_14_battle_results_with_other_param() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -390,7 +390,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_parses_alliance_custom_individual_results() {
+    fn extract_mail_type_parses_alliance_type_15_individual_results() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -404,7 +404,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_rejects_alliance_custom_individual_results_with_other_param() {
+    fn extract_mail_type_rejects_alliance_type_15_individual_results_with_other_param() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",

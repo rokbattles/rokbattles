@@ -587,7 +587,7 @@ mod tests {
     }
 
     #[test]
-    fn extracts_alliance_custom_battle_results_mail_type() {
+    fn extracts_alliance_type_14_battle_results_mail_type() {
         let decoded = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -640,7 +640,7 @@ mod tests {
     }
 
     #[test]
-    fn extracts_alliance_custom_individual_results_mail_type() {
+    fn extracts_alliance_type_15_individual_results_mail_type() {
         let decoded = json!({
             "type": "Alliance",
             "box": "AllianceBox",

@@ -21,27 +21,8 @@ impl Extractor for MetadataExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let metadata = extract_base_metadata(input)?;
-        let custom = matches!(extract_body_type(input), Some(14 | 15));
 
-        let mut section = metadata.into_section();
-        section.insert("custom", Value::Bool(custom));
-        Ok(section)
-    }
-}
-
-fn extract_body_type(input: &Value) -> Option<u64> {
-    input
-        .get("body")
-        .and_then(Value::as_object)
-        .and_then(|body| body.get("type"))
-        .and_then(value_as_u64)
-}
-
-fn value_as_u64(value: &Value) -> Option<u64> {
-    match value {
-        Value::Number(number) => number.as_u64(),
-        Value::String(text) => text.parse::<u64>().ok(),
-        _ => None,
+        Ok(metadata.into_section())
     }
 }
 
@@ -71,7 +52,6 @@ mod tests {
         assert_eq!(fields["mail_time"], json!(1234));
         assert_eq!(fields["mail_receiver"], json!("player-1"));
         assert_eq!(fields["server_id"], json!(55));
-        assert_eq!(fields["custom"], json!(false));
     }
 
     #[test]
@@ -95,21 +75,5 @@ mod tests {
         assert_eq!(fields["mail_receiver"], json!("player_71738515"));
         assert_eq!(fields["server_id"], json!(2));
         assert_eq!(fields["mail_time"], json!(1771772567835853u64));
-        assert_eq!(fields["custom"], json!(false));
-    }
-
-    #[test]
-    fn metadata_extractor_sets_custom_true_for_custom_type() {
-        let input = json!({
-            "id": "mail-1",
-            "time": 1234,
-            "receiver": "player-1",
-            "serverId": 55,
-            "body": { "type": 14 }
-        });
-        let extractor = MetadataExtractor::new();
-        let section = extractor.extract(&input).unwrap();
-        let fields = section.fields();
-        assert_eq!(fields["custom"], json!(true));
     }
 }
