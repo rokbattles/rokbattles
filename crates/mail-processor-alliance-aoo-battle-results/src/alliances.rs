@@ -173,7 +173,7 @@ mod tests {
     }
 
     #[test]
-    fn roundtrip_alliances_extracts_custom_sparse_sample() {
+    fn roundtrip_alliances_extracts_type_14_sparse_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../samples/Alliance/Persistent.Mail.6906962177237730831.json");
         let json = fs::read_to_string(sample_path).expect("read sample");

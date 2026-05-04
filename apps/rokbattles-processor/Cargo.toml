@@ -13,14 +13,6 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 futures = { workspace = true }
 zstd = { workspace = true }
 dotenvy = { workspace = true }
-mail-processor-alliance-aoo-battle-info = { path = "../../crates/mail-processor-alliance-aoo-battle-info" }
-mail-processor-alliance-aoo-battle-results = { path = "../../crates/mail-processor-alliance-aoo-battle-results" }
-mail-processor-alliance-aoo-individual-results = { path = "../../crates/mail-processor-alliance-aoo-individual-results" }
-mail-processor-alliance-aoo-registration = { path = "../../crates/mail-processor-alliance-aoo-registration" }
-mail-processor-battle = { path = "../../crates/mail-processor-battle" }
-mail-processor-duelbattle2 = { path = "../../crates/mail-processor-duelbattle2" }
-mail-processor-rss = { path = "../../crates/mail-processor-rss" }
-mail-processor-barcanyonkillboss = { path = "../../crates/mail-processor-barcanyonkillboss" }
-mail-processor-system-barbarianfort = { path = "../../crates/mail-processor-system-barbarianfort" }
+mail-registry = { path = "../../crates/mail-registry", features = ["processors"] }
 mail-processor-sdk = { path = "../../crates/mail-processor-sdk" }
 sentry = { workspace = true }

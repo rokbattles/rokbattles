@@ -12,7 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
-    "@sentry/nextjs": "^10.50.0",
+    "@sentry/nextjs": "^10.51.0",
     "@types/mdx": "^2.0.13",
     "@wrksz/themes": "^0.7.9",
     "clsx": "^2.1.1",
@@ -28,7 +28,7 @@
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
     "tailwind-merge": "^3.5.0",
-    "zod": "^4.3.6"
+    "zod": "^4.4.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.4",
@@ -38,6 +38,6 @@
     "@types/react-dom": "^19.2.3",
     "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3",
-    "yaml": "^2.8.3"
+    "yaml": "^2.8.4"
   }
 }

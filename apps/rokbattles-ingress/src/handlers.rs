@@ -7,6 +7,7 @@ use axum::{
     response::IntoResponse,
 };
 use bytes::Bytes;
+use mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use mongodb::bson::{Binary, Bson, DateTime, doc, spec::BinarySubtype};
 use serde::Serialize;
 use serde_json::Value;
@@ -20,11 +21,6 @@ use crate::{
 const STATUS_PENDING: &str = "pending";
 const STATUS_REPROCESS: &str = "reprocess";
 const STATUS_UNPROCESSABLE: &str = "unprocessable";
-const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
-const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
-const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
-const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
-const MAIL_TYPE_ALLIANCE_AOO_REGISTRATION: &str = "AllianceAOORegistration";
 
 /// Response payload returned from the upload endpoint.
 #[derive(Debug, Serialize)]
@@ -240,50 +236,11 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
 }
 
 fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
-    let root = normalize_root(decoded).ok_or_else(|| ApiError::bad_request("missing mail type"))?;
-    let mail_type = root
-        .get("type")
-        .and_then(value_to_string)
-        .ok_or_else(|| ApiError::bad_request("missing mail type"))?;
-
-    if is_system_barbarian_fort_mail(root) {
-        return Ok(MAIL_TYPE_SYSTEM_BARBARIAN_FORT.to_string());
+    if let Some(mail_type) = mail_registry::detect_mail_type(decoded) {
+        return Ok(mail_type.to_string());
     }
-    if let Some(alliance_aoo_type) = detect_alliance_aoo_mail_type(root) {
-        return Ok(alliance_aoo_type.to_string());
-    }
-
-    Ok(mail_type)
-}
-
-fn is_supported_mail_type(mail_type: &str) -> bool {
-    matches!(
-        mail_type,
-        "Battle"
-            | "DuelBattle2"
-            | "BarCanyonKillBoss"
-            | "Rss"
-            | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
-            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
-            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
-            | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
-            | MAIL_TYPE_ALLIANCE_AOO_REGISTRATION
-    )
-}
-
-fn is_processable_mail_type(mail_type: &str) -> bool {
-    matches!(
-        mail_type,
-        "Battle"
-            | "DuelBattle2"
-            | "BarCanyonKillBoss"
-            | "Rss"
-            | MAIL_TYPE_SYSTEM_BARBARIAN_FORT
-            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
-            | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
-            | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
-            | MAIL_TYPE_ALLIANCE_AOO_REGISTRATION
-    )
+    mail_registry::raw_mail_type_string(decoded)
+        .ok_or_else(|| ApiError::bad_request("missing mail type"))
 }
 
 fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
@@ -292,59 +249,6 @@ fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
 
 fn update_status_for_mail_type(mail_type: &str) -> &'static str {
     if is_processable_mail_type(mail_type) { STATUS_REPROCESS } else { STATUS_UNPROCESSABLE }
-}
-
-fn is_system_barbarian_fort_mail(root: &Value) -> bool {
-    let Some(root) = root.as_object() else {
-        return false;
-    };
-    if !matches!(root.get("type").and_then(Value::as_str), Some("System")) {
-        return false;
-    }
-    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
-        return false;
-    }
-
-    let Some(body) = root.get("body").and_then(Value::as_object) else {
-        return false;
-    };
-    let sub_param = body.get("subParam").and_then(value_as_u64);
-    let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
-}
-
-fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
-    let root = root.as_object()?;
-    if !matches!(root.get("type").and_then(Value::as_str), Some("Alliance")) {
-        return None;
-    }
-    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
-        return None;
-    }
-
-    let body = root.get("body").and_then(Value::as_object)?;
-    let body_type = body.get("type").and_then(value_as_u64)?;
-    let body_param = body.get("param").and_then(value_as_u64);
-
-    match body_type {
-        57 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION),
-        // custom Ark match
-        14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
-        15 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
-        // normal Ark match
-        60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
-        61 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO),
-        62 => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
-        _ => None,
-    }
-}
-
-fn value_as_u64(value: &Value) -> Option<u64> {
-    match value {
-        Value::Number(number) => number.as_u64(),
-        Value::String(text) => text.parse::<u64>().ok(),
-        _ => None,
-    }
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
@@ -523,7 +427,6 @@ mod tests {
         assert!(is_supported_mail_type("AllianceAOOBattleResults"));
         assert!(is_supported_mail_type("AllianceAOOBattleInfo"));
         assert!(is_supported_mail_type("AllianceAOOIndividualResults"));
-        assert!(is_supported_mail_type("AllianceAOORegistration"));
         assert!(!is_supported_mail_type("Unknown"));
     }
 
@@ -592,20 +495,7 @@ mod tests {
     }
 
     #[test]
-    fn extracts_alliance_aoo_registration_mail_type() {
-        let decoded = json!({
-            "type": "Alliance",
-            "box": "AllianceBox",
-            "body": {
-                "type": 57,
-                "param": 1
-            }
-        });
-        assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOORegistration".to_string());
-    }
-
-    #[test]
-    fn extracts_alliance_custom_battle_results_mail_type() {
+    fn extracts_alliance_type_14_battle_results_mail_type() {
         let decoded = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -658,7 +548,7 @@ mod tests {
     }
 
     #[test]
-    fn extracts_alliance_custom_individual_results_mail_type() {
+    fn extracts_alliance_type_15_individual_results_mail_type() {
         let decoded = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -768,8 +658,6 @@ mod tests {
         assert_eq!(update_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);
         assert_eq!(update_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_REPROCESS);
-        assert_eq!(insert_status_for_mail_type("AllianceAOORegistration"), STATUS_PENDING);
-        assert_eq!(update_status_for_mail_type("AllianceAOORegistration"), STATUS_REPROCESS);
     }
 
     #[test]

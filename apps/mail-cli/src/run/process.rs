@@ -1,17 +1,9 @@
 use std::path::Path;
 
-use mail_processor_sdk::ProcessError;
-use serde::Serialize;
+use mail_registry::{detect_mail_type, process_mail};
 use serde_json::Value;
 
-use super::{
-    classify::{
-        MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO, MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
-        MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS, MAIL_TYPE_ALLIANCE_AOO_REGISTRATION,
-        MAIL_TYPE_SYSTEM_BARBARIAN_FORT, classify_processable_mail_type,
-    },
-    paths::processed_output_path,
-};
+use super::paths::processed_output_path;
 use crate::{MailCliError, fs_utils::write_json_file};
 
 pub(super) fn write_processed_json(
@@ -32,86 +24,11 @@ pub(super) fn write_processed_json(
         return Ok(());
     };
 
-    match classify_processable_mail_type(processed_input) {
-        Some("BarCanyonKillBoss") => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_barcanyonkillboss::process,
-        ),
-        Some("Rss") => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_rss::process,
-        ),
-        Some("Battle") => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_battle::process,
-        ),
-        Some("DuelBattle2") => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_duelbattle2::process,
-        ),
-        Some(MAIL_TYPE_SYSTEM_BARBARIAN_FORT) => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_system_barbarianfort::process,
-        ),
-        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS) => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_alliance_aoo_battle_results::process,
-        ),
-        Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO) => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_alliance_aoo_battle_info::process,
-        ),
-        Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS) => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_alliance_aoo_individual_results::process,
-        ),
-        Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION) => process_and_write_output(
-            output_dir,
-            input_path,
-            processed_input,
-            pretty,
-            mail_processor_alliance_aoo_registration::process,
-        ),
-        _ => Ok(()),
-    }
-}
+    let Some(mail_type) = detect_mail_type(processed_input) else {
+        return Ok(());
+    };
 
-fn process_and_write_output<T, F>(
-    output_dir: &Path,
-    input_path: &Path,
-    processed_input: &Value,
-    pretty: bool,
-    processor: F,
-) -> Result<(), MailCliError>
-where
-    T: Serialize,
-    F: FnOnce(&Value) -> Result<T, ProcessError>,
-{
-    let processed = processor(processed_input)
+    let processed = process_mail(mail_type, processed_input)
         .map_err(|source| MailCliError::Process { source, path: input_path.to_path_buf() })?;
     let output_path = processed_output_path(output_dir, input_path)?;
     write_json_file(&output_path, &processed, pretty)
@@ -318,24 +235,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("102185423177177256731"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(false));
-    }
-
-    #[test]
-    fn write_processed_json_writes_alliance_aoo_registration_metadata() {
-        let temp = tempfile::tempdir().expect("temp dir");
-        let input = temp.path().join("sample.mail");
-        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.1087260861777680.json");
-        let json = fs::read_to_string(sample_path).expect("read sample");
-        let value: Value = serde_json::from_str(&json).expect("parse sample");
-
-        write_processed_json(temp.path(), &input, &value, true).unwrap();
-        let output = processed_output_path(temp.path(), &input).unwrap();
-        let output_json = fs::read_to_string(output).expect("read processed");
-        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
-        assert_eq!(parsed["metadata"]["mail_id"], json!("108726086177768046031"));
-        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
+        assert_eq!(parsed["body"]["type"], json!(60));
+        assert_eq!(parsed["body"]["param"], json!(1));
     }
 
     #[test]
@@ -356,7 +257,7 @@ mod tests {
     }
 
     #[test]
-    fn write_processed_json_writes_alliance_custom_battle_results_metadata() {
+    fn write_processed_json_writes_alliance_type_14_battle_results_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -370,7 +271,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906962177237730831"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["body"]["type"], json!(14));
+        assert_eq!(parsed["body"]["param"], json!(1));
         assert_eq!(parsed["alliances"][0]["alliance"]["id"], json!(1));
         assert!(parsed["alliances"][0]["alliance"]["abbreviation"].is_null());
     }
@@ -390,11 +292,12 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("102185429177177256731"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(false));
+        assert_eq!(parsed["body"]["type"], json!(62));
+        assert_eq!(parsed["body"]["param"], json!(1));
     }
 
     #[test]
-    fn write_processed_json_writes_alliance_custom_individual_results_metadata() {
+    fn write_processed_json_writes_alliance_type_15_individual_results_metadata() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -408,7 +311,8 @@ mod tests {
         let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
         assert_eq!(parsed["metadata"]["mail_id"], json!("6906964177237730831"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
-        assert_eq!(parsed["metadata"]["custom"], json!(true));
+        assert_eq!(parsed["body"]["type"], json!(15));
+        assert_eq!(parsed["body"]["param"], json!(1));
         assert_eq!(parsed["body"]["win"], json!(false));
         assert!(parsed["body"]["team"].is_null());
     }

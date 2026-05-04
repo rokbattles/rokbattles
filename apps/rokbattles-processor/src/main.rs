@@ -4,7 +4,6 @@
 
 mod config;
 mod error;
-mod mail;
 mod processing;
 mod storage;
 

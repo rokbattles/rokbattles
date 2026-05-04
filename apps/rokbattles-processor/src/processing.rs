@@ -6,11 +6,12 @@ use std::sync::{
 };
 
 use futures::stream::TryStreamExt;
+use mail_registry::{MailType, process_mail};
 use mongodb::bson::{Bson, DateTime, Document, oid::ObjectId};
 use serde_json::Value;
 use tracing::{debug, error, info};
 
-use crate::{config::Config, error::ProcessorError, mail::MailType, storage::Storage};
+use crate::{config::Config, error::ProcessorError, storage::Storage};
 
 #[derive(Debug)]
 struct RawMail {
@@ -92,23 +93,7 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
         ProcessorError::InvalidMailPayload("mail payload must be an object".to_string())
     })?;
     let mail_type = extract_mail_type(root)?;
-    let processed = match mail_type {
-        MailType::Battle => mail_processor_battle::process(root)?,
-        MailType::DuelBattle2 => mail_processor_duelbattle2::process(root)?,
-        MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process(root)?,
-        MailType::Rss => mail_processor_rss::process(root)?,
-        MailType::SystemBarbarianFort => mail_processor_system_barbarianfort::process(root)?,
-        MailType::AllianceAOOBattleResults => {
-            mail_processor_alliance_aoo_battle_results::process(root)?
-        }
-        MailType::AllianceAOOBattleInfo => mail_processor_alliance_aoo_battle_info::process(root)?,
-        MailType::AllianceAOOIndividualResults => {
-            mail_processor_alliance_aoo_individual_results::process(root)?
-        }
-        MailType::AllianceAOORegistration => {
-            mail_processor_alliance_aoo_registration::process(root)?
-        }
-    };
+    let processed = process_mail(mail_type, root)?;
 
     let processed_doc = mongodb::bson::to_document(&processed)?;
     storage.upsert_processed(mail_type, &raw.mail_id, processed_doc).await?;
@@ -163,79 +148,13 @@ fn normalize_root(value: &Value) -> Option<&Value> {
 }
 
 fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
-    if is_system_barbarian_fort_mail(root) {
-        return Ok(MailType::SystemBarbarianFort);
-    }
-    if let Some(mail_type) = detect_alliance_aoo_mail_type(root) {
+    if let Some(mail_type) = mail_registry::detect_mail_type(root) {
         return Ok(mail_type);
     }
 
-    let mail_type = root
-        .get("type")
-        .and_then(value_to_string)
+    let mail_type = mail_registry::raw_mail_type_string(root)
         .ok_or_else(|| ProcessorError::InvalidMailPayload("missing mail type".to_string()))?;
-    MailType::from_str(&mail_type).ok_or_else(|| ProcessorError::UnsupportedMailType(mail_type))
-}
-
-fn is_system_barbarian_fort_mail(root: &Value) -> bool {
-    let Some(root) = root.as_object() else {
-        return false;
-    };
-    if !matches!(root.get("type").and_then(Value::as_str), Some("System")) {
-        return false;
-    }
-    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
-        return false;
-    }
-
-    let Some(body) = root.get("body").and_then(Value::as_object) else {
-        return false;
-    };
-    let sub_param = body.get("subParam").and_then(value_as_u64);
-    let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
-}
-
-fn detect_alliance_aoo_mail_type(root: &Value) -> Option<MailType> {
-    let root = root.as_object()?;
-    if !matches!(root.get("type").and_then(Value::as_str), Some("Alliance")) {
-        return None;
-    }
-    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
-        return None;
-    }
-
-    let body = root.get("body").and_then(Value::as_object)?;
-    let body_type = body.get("type").and_then(value_as_u64)?;
-    let body_param = body.get("param").and_then(value_as_u64);
-
-    match body_type {
-        57 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOORegistration),
-        // custom Ark match
-        14 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOBattleResults),
-        15 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOIndividualResults),
-        // normal Ark match
-        60 => Some(MailType::AllianceAOOBattleResults),
-        61 => Some(MailType::AllianceAOOBattleInfo),
-        62 => Some(MailType::AllianceAOOIndividualResults),
-        _ => None,
-    }
-}
-
-fn value_as_u64(value: &Value) -> Option<u64> {
-    match value {
-        Value::Number(number) => number.as_u64(),
-        Value::String(text) => text.parse::<u64>().ok(),
-        _ => None,
-    }
-}
-
-fn value_to_string(value: &Value) -> Option<String> {
-    match value {
-        Value::String(value) => Some(value.clone()),
-        Value::Number(value) => Some(value.to_string()),
-        _ => None,
-    }
+    Err(ProcessorError::UnsupportedMailType(mail_type))
 }
 
 #[cfg(test)]
@@ -338,21 +257,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_parses_alliance_aoo_registration() {
-        let value = json!({
-            "type": "Alliance",
-            "box": "AllianceBox",
-            "body": {
-                "type": 57,
-                "param": 1
-            }
-        });
-        let mail_type = extract_mail_type(&value).unwrap();
-        assert_eq!(mail_type, MailType::AllianceAOORegistration);
-    }
-
-    #[test]
-    fn extract_mail_type_parses_alliance_custom_battle_results() {
+    fn extract_mail_type_parses_alliance_type_14_battle_results() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -366,7 +271,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_rejects_alliance_custom_battle_results_with_other_param() {
+    fn extract_mail_type_rejects_alliance_type_14_battle_results_with_other_param() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -408,7 +313,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_parses_alliance_custom_individual_results() {
+    fn extract_mail_type_parses_alliance_type_15_individual_results() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",
@@ -422,7 +327,7 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_rejects_alliance_custom_individual_results_with_other_param() {
+    fn extract_mail_type_rejects_alliance_type_15_individual_results_with_other_param() {
         let value = json!({
             "type": "Alliance",
             "box": "AllianceBox",

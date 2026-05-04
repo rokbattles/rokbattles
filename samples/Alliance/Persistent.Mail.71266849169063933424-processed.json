@@ -1,10 +1,11 @@
 {
   "body": {
+    "param": 1,
     "team": null,
+    "type": 15,
     "win": true
   },
   "metadata": {
-    "custom": true,
     "mail_id": "71266849169063933424",
     "mail_receiver": "player_8401528",
     "mail_time": 1690639334096003,
