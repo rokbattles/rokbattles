@@ -8,6 +8,7 @@ members = [
     "apps/rokbattles-tauri/src-tauri",
     "crates/binidx-decoder",
     "crates/mail-decoder",
+    "crates/mail-registry",
     "crates/mail-processor-alliance-aoo-battle-info",
     "crates/mail-processor-alliance-aoo-battle-results",
     "crates/mail-processor-alliance-aoo-individual-results",

@@ -19,7 +19,7 @@ use tokio::sync::{mpsc, watch};
 
 use self::{
     config::WatcherConfig,
-    mail::{detect_mail_type, detect_supported_mail_type, file_name_for_upload},
+    mail::file_name_for_upload,
     scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
     state::WatcherState,
     store::{file_sig, read_processed, read_upload_queue},
@@ -245,8 +245,8 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     }
                 };
 
-                let raw_type = detect_mail_type(&decoded);
-                let supported_type = detect_supported_mail_type(&decoded);
+                let raw_type = mail_registry::raw_mail_type(&decoded);
+                let supported_type = mail_registry::detect_mail_type(&decoded);
                 if supported_type.is_none() {
                     emit_log(
                         &app,

@@ -2,7 +2,6 @@ use std::fs;
 
 use crate::{Config, MailCliError, RunSummary};
 
-mod classify;
 mod decode;
 mod paths;
 mod process;
