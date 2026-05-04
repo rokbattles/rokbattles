@@ -169,7 +169,7 @@ pub(crate) async fn fetch_ark_individual_results_mails(
 fn ark_battle_results_history_filter(mail_receiver: &str) -> Document {
     doc! {
         "metadata.mail_receiver": mail_receiver,
-        "metadata.custom": false,
+        "body.type": { "$ne": 14 },
     }
 }
 
@@ -178,9 +178,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn ark_battle_results_history_filter_limits_to_non_custom_matches() {
+    fn ark_battle_results_history_filter_excludes_type_14_matches() {
         let filter = ark_battle_results_history_filter("player_42");
         assert_eq!(filter.get_str("metadata.mail_receiver").ok(), Some("player_42"));
-        assert_eq!(filter.get_bool("metadata.custom").ok(), Some(false));
+        let type_filter = filter.get_document("body.type").expect("body.type filter");
+        assert_eq!(type_filter.get_i32("$ne").ok(), Some(14));
     }
 }
