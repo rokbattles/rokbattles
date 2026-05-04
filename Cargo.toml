@@ -11,6 +11,7 @@ members = [
     "crates/mail-processor-alliance-aoo-battle-info",
     "crates/mail-processor-alliance-aoo-battle-results",
     "crates/mail-processor-alliance-aoo-individual-results",
+    "crates/mail-processor-alliance-aoo-registration",
     "crates/mail-processor-barcanyonkillboss",
     "crates/mail-processor-battle",
     "crates/mail-processor-duelbattle2",

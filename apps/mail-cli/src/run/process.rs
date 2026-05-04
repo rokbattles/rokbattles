@@ -7,8 +7,8 @@ use serde_json::Value;
 use super::{
     classify::{
         MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO, MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
-        MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS, MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
-        classify_processable_mail_type,
+        MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS, MAIL_TYPE_ALLIANCE_AOO_REGISTRATION,
+        MAIL_TYPE_SYSTEM_BARBARIAN_FORT, classify_processable_mail_type,
     },
     paths::processed_output_path,
 };
@@ -88,6 +88,13 @@ pub(super) fn write_processed_json(
             processed_input,
             pretty,
             mail_processor_alliance_aoo_individual_results::process,
+        ),
+        Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION) => process_and_write_output(
+            output_dir,
+            input_path,
+            processed_input,
+            pretty,
+            mail_processor_alliance_aoo_registration::process,
         ),
         _ => Ok(()),
     }
@@ -312,6 +319,23 @@ mod tests {
         assert_eq!(parsed["metadata"]["mail_id"], json!("102185423177177256731"));
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["metadata"]["custom"], json!(false));
+    }
+
+    #[test]
+    fn write_processed_json_writes_alliance_aoo_registration_metadata() {
+        let temp = tempfile::tempdir().expect("temp dir");
+        let input = temp.path().join("sample.mail");
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Alliance/Persistent.Mail.1087260861777680.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+        write_processed_json(temp.path(), &input, &value, true).unwrap();
+        let output = processed_output_path(temp.path(), &input).unwrap();
+        let output_json = fs::read_to_string(output).expect("read processed");
+        let parsed: Value = serde_json::from_str(&output_json).expect("parse processed");
+        assert_eq!(parsed["metadata"]["mail_id"], json!("108726086177768046031"));
+        assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
     }
 
     #[test]

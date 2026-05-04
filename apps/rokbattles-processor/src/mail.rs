@@ -13,6 +13,7 @@ pub enum MailType {
     AllianceAOOBattleResults,
     AllianceAOOBattleInfo,
     AllianceAOOIndividualResults,
+    AllianceAOORegistration,
 }
 
 impl MailType {
@@ -27,6 +28,7 @@ impl MailType {
             "AllianceAOOBattleResults" => Some(Self::AllianceAOOBattleResults),
             "AllianceAOOBattleInfo" => Some(Self::AllianceAOOBattleInfo),
             "AllianceAOOIndividualResults" => Some(Self::AllianceAOOIndividualResults),
+            "AllianceAOORegistration" => Some(Self::AllianceAOORegistration),
             _ => None,
         }
     }
@@ -42,6 +44,7 @@ impl MailType {
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
             Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
+            Self::AllianceAOORegistration => "mails_alliance_aooregistration",
         }
     }
 }
@@ -57,6 +60,7 @@ impl fmt::Display for MailType {
             Self::AllianceAOOBattleResults => "AllianceAOOBattleResults",
             Self::AllianceAOOBattleInfo => "AllianceAOOBattleInfo",
             Self::AllianceAOOIndividualResults => "AllianceAOOIndividualResults",
+            Self::AllianceAOORegistration => "AllianceAOORegistration",
         };
         write!(f, "{label}")
     }
@@ -85,6 +89,10 @@ mod tests {
             MailType::from_str("AllianceAOOIndividualResults"),
             Some(MailType::AllianceAOOIndividualResults)
         );
+        assert_eq!(
+            MailType::from_str("AllianceAOORegistration"),
+            Some(MailType::AllianceAOORegistration)
+        );
         assert_eq!(MailType::from_str("Unknown"), None);
     }
 
@@ -106,6 +114,10 @@ mod tests {
         assert_eq!(
             MailType::AllianceAOOIndividualResults.collection_name(),
             "mails_alliance_aooindividualresults"
+        );
+        assert_eq!(
+            MailType::AllianceAOORegistration.collection_name(),
+            "mails_alliance_aooregistration"
         );
     }
 }

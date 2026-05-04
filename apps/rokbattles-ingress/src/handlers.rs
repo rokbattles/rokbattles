@@ -24,6 +24,7 @@ const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
 const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
 const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
+const MAIL_TYPE_ALLIANCE_AOO_REGISTRATION: &str = "AllianceAOORegistration";
 
 /// Response payload returned from the upload endpoint.
 #[derive(Debug, Serialize)]
@@ -266,6 +267,7 @@ fn is_supported_mail_type(mail_type: &str) -> bool {
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
             | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
+            | MAIL_TYPE_ALLIANCE_AOO_REGISTRATION
     )
 }
 
@@ -280,6 +282,7 @@ fn is_processable_mail_type(mail_type: &str) -> bool {
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS
             | MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO
             | MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS
+            | MAIL_TYPE_ALLIANCE_AOO_REGISTRATION
     )
 }
 
@@ -324,6 +327,7 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
     let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
+        57 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION),
         // custom Ark match
         14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         15 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
@@ -519,6 +523,7 @@ mod tests {
         assert!(is_supported_mail_type("AllianceAOOBattleResults"));
         assert!(is_supported_mail_type("AllianceAOOBattleInfo"));
         assert!(is_supported_mail_type("AllianceAOOIndividualResults"));
+        assert!(is_supported_mail_type("AllianceAOORegistration"));
         assert!(!is_supported_mail_type("Unknown"));
     }
 
@@ -584,6 +589,19 @@ mod tests {
             }
         });
         assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOOBattleResults".to_string());
+    }
+
+    #[test]
+    fn extracts_alliance_aoo_registration_mail_type() {
+        let decoded = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 57,
+                "param": 1
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "AllianceAOORegistration".to_string());
     }
 
     #[test]
@@ -750,6 +768,8 @@ mod tests {
         assert_eq!(update_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_PENDING);
         assert_eq!(update_status_for_mail_type("AllianceAOOIndividualResults"), STATUS_REPROCESS);
+        assert_eq!(insert_status_for_mail_type("AllianceAOORegistration"), STATUS_PENDING);
+        assert_eq!(update_status_for_mail_type("AllianceAOORegistration"), STATUS_REPROCESS);
     }
 
     #[test]

@@ -6,6 +6,7 @@ const SYSTEM_BARBARIAN_FORT_MAIL_TYPE: &str = "SystemBarbarianFort";
 const ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE: &str = "AllianceAOOBattleResults";
 const ALLIANCE_AOO_BATTLE_INFO_MAIL_TYPE: &str = "AllianceAOOBattleInfo";
 const ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE: &str = "AllianceAOOIndividualResults";
+const ALLIANCE_AOO_REGISTRATION_MAIL_TYPE: &str = "AllianceAOORegistration";
 
 /// Parse the numeric mail id from a RoK mail filename.
 pub(crate) fn parse_rok_mail_id(filename: &str) -> Option<u128> {
@@ -101,6 +102,7 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<&'static s
     let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
+        57 if matches!(body_param, Some(1)) => Some(ALLIANCE_AOO_REGISTRATION_MAIL_TYPE),
         // custom Ark match
         14 if matches!(body_param, Some(1)) => Some(ALLIANCE_AOO_BATTLE_RESULTS_MAIL_TYPE),
         15 if matches!(body_param, Some(1)) => Some(ALLIANCE_AOO_INDIVIDUAL_RESULTS_MAIL_TYPE),
@@ -236,6 +238,13 @@ mod tests {
 
     #[test]
     fn detect_supported_mail_type_matches_alliance_aoo_variants() {
+        let registration = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 57, "param": 1 }
+        });
+        assert_eq!(detect_supported_mail_type(&registration), Some("AllianceAOORegistration"));
+
         let custom_battle_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",

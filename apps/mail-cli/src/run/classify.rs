@@ -4,6 +4,7 @@ pub(super) const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
 pub(super) const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
 pub(super) const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
 pub(super) const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
+pub(super) const MAIL_TYPE_ALLIANCE_AOO_REGISTRATION: &str = "AllianceAOORegistration";
 
 pub(super) fn classify_processable_mail_type(input: &Value) -> Option<&'static str> {
     if is_system_barbarian_fort_mail(input) {
@@ -36,6 +37,7 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<&'static str> {
     let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
+        57 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION),
         14 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
         15 if matches!(body_param, Some(1)) => Some(MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS),
         60 => Some(MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS),
@@ -80,6 +82,16 @@ mod tests {
 
     #[test]
     fn classify_processable_mail_type_detects_alliance_aoo_variants() {
+        let registration = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": { "type": 57, "param": 1 }
+        });
+        assert_eq!(
+            classify_processable_mail_type(&registration),
+            Some(MAIL_TYPE_ALLIANCE_AOO_REGISTRATION)
+        );
+
         let custom_battle_results = json!({
             "type": "Alliance",
             "box": "AllianceBox",

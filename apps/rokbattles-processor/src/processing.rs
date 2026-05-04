@@ -105,6 +105,9 @@ async fn process_document(storage: &Storage, doc: Document) -> Result<(), Proces
         MailType::AllianceAOOIndividualResults => {
             mail_processor_alliance_aoo_individual_results::process(root)?
         }
+        MailType::AllianceAOORegistration => {
+            mail_processor_alliance_aoo_registration::process(root)?
+        }
     };
 
     let processed_doc = mongodb::bson::to_document(&processed)?;
@@ -207,6 +210,7 @@ fn detect_alliance_aoo_mail_type(root: &Value) -> Option<MailType> {
     let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
+        57 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOORegistration),
         // custom Ark match
         14 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOBattleResults),
         15 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOIndividualResults),
@@ -331,6 +335,20 @@ mod tests {
         });
         let mail_type = extract_mail_type(&value).unwrap();
         assert_eq!(mail_type, MailType::AllianceAOOBattleResults);
+    }
+
+    #[test]
+    fn extract_mail_type_parses_alliance_aoo_registration() {
+        let value = json!({
+            "type": "Alliance",
+            "box": "AllianceBox",
+            "body": {
+                "type": 57,
+                "param": 1
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::AllianceAOORegistration);
     }
 
     #[test]

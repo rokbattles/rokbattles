@@ -2881,6 +2881,7 @@ dependencies = [
  "mail-processor-alliance-aoo-battle-info",
  "mail-processor-alliance-aoo-battle-results",
  "mail-processor-alliance-aoo-individual-results",
+ "mail-processor-alliance-aoo-registration",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",
@@ -2918,6 +2919,14 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-individual-results"
+version = "1.0.3"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-processor-alliance-aoo-registration"
 version = "1.0.3"
 dependencies = [
  "mail-processor-sdk",
@@ -4634,6 +4643,7 @@ dependencies = [
  "mail-processor-alliance-aoo-battle-info",
  "mail-processor-alliance-aoo-battle-results",
  "mail-processor-alliance-aoo-individual-results",
+ "mail-processor-alliance-aoo-registration",
  "mail-processor-barcanyonkillboss",
  "mail-processor-battle",
  "mail-processor-duelbattle2",

@@ -9,6 +9,7 @@ mail-decoder = { path = "../../crates/mail-decoder" }
 mail-processor-alliance-aoo-battle-info = { path = "../../crates/mail-processor-alliance-aoo-battle-info" }
 mail-processor-alliance-aoo-battle-results = { path = "../../crates/mail-processor-alliance-aoo-battle-results" }
 mail-processor-alliance-aoo-individual-results = { path = "../../crates/mail-processor-alliance-aoo-individual-results" }
+mail-processor-alliance-aoo-registration = { path = "../../crates/mail-processor-alliance-aoo-registration" }
 mail-processor-barcanyonkillboss = { path = "../../crates/mail-processor-barcanyonkillboss" }
 mail-processor-battle = { path = "../../crates/mail-processor-battle" }
 mail-processor-duelbattle2 = { path = "../../crates/mail-processor-duelbattle2" }
