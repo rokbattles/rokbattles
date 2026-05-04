@@ -2823,15 +2823,8 @@ version = "1.0.3"
 dependencies = [
  "clap",
  "mail-decoder",
- "mail-processor-alliance-aoo-battle-info",
- "mail-processor-alliance-aoo-battle-results",
- "mail-processor-alliance-aoo-individual-results",
- "mail-processor-barcanyonkillboss",
- "mail-processor-battle",
- "mail-processor-duelbattle2",
- "mail-processor-rss",
  "mail-processor-sdk",
- "mail-processor-system-barbarianfort",
+ "mail-registry",
  "serde",
  "serde_json",
  "tempfile",
@@ -2915,6 +2908,22 @@ name = "mail-processor-system-barbarianfort"
 version = "1.0.3"
 dependencies = [
  "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "mail-registry"
+version = "1.0.3"
+dependencies = [
+ "mail-processor-alliance-aoo-battle-info",
+ "mail-processor-alliance-aoo-battle-results",
+ "mail-processor-alliance-aoo-individual-results",
+ "mail-processor-barcanyonkillboss",
+ "mail-processor-battle",
+ "mail-processor-duelbattle2",
+ "mail-processor-rss",
+ "mail-processor-sdk",
+ "mail-processor-system-barbarianfort",
  "serde_json",
 ]
 
@@ -4364,6 +4373,7 @@ dependencies = [
  "dotenvy",
  "flate2",
  "mail-decoder",
+ "mail-registry",
  "mongodb",
  "sentry",
  "serde",
@@ -4382,15 +4392,8 @@ version = "1.0.3"
 dependencies = [
  "dotenvy",
  "futures",
- "mail-processor-alliance-aoo-battle-info",
- "mail-processor-alliance-aoo-battle-results",
- "mail-processor-alliance-aoo-individual-results",
- "mail-processor-barcanyonkillboss",
- "mail-processor-battle",
- "mail-processor-duelbattle2",
- "mail-processor-rss",
  "mail-processor-sdk",
- "mail-processor-system-barbarianfort",
+ "mail-registry",
  "mongodb",
  "sentry",
  "serde_json",
@@ -4407,6 +4410,7 @@ version = "1.0.3"
 dependencies = [
  "anyhow",
  "mail-decoder",
+ "mail-registry",
  "notify",
  "reqwest 0.12.28",
  "serde",
