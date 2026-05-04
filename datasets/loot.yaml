@@ -186,6 +186,10 @@ loot:
       sprite:
         - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
+    27:
+      name:
+        en: "Ceroli Coin"
+
   2:
     3:
       name:
@@ -214,6 +218,10 @@ loot:
     16:
       name:
         en: "375,000 Stone"
+
+    22:
+      name:
+        en: "200,000 Gold"
 
     26:
       name:
@@ -755,6 +763,10 @@ loot:
       name:
         en: "8-Hour Training Speedup"
 
+    79:
+      name:
+        en: "15-Hour Training Speedup"
+
     85:
       name:
         ar: "تسريع البحث لمدة 30 دقيقة"
@@ -810,6 +822,10 @@ loot:
     98:
       name:
         en: "8-Hour Healing Speedup"
+
+    99:
+      name:
+        en: "15-Hour Healing Speedup"
 
     109:
       name:
@@ -2082,10 +2098,19 @@ loot:
       name:
         en: "Autarch Pass"
 
+    8283:
+      name:
+        en: "Conquest Mystique Chest"
+
     # Legendary
     9989:
       name:
         en: "Bundle of Dazzling Starlight Sculptures"
+
+    # Legendary
+    9994:
+      name:
+        en: "Blessed Dazzling Starlight Sculpture"
 
     # Advanced
     9996:
@@ -2223,6 +2248,21 @@ loot:
     62042:
       name:
         en: "Formation Choice Chest"
+
+    # Elite
+    62053:
+      name:
+        en: "Random Armament Chest"
+
+    # Epic
+    62054:
+      name:
+        en: "Random Armament Chest"
+
+    # Legendary
+    62055:
+      name:
+        en: "Random Armament Chest"
 
     64050:
       name:
