@@ -2,12 +2,12 @@ packages:
   - apps/*
   - site
 
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - '@sentry/cli'
-  - '@swc/core'
-  - '@tailwindcss/oxide'
-  - esbuild
-  - sharp
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  '@swc/core': true
+  '@tailwindcss/oxide': true
+  esbuild: true
+  sharp: true
 
 shellEmulator: true
