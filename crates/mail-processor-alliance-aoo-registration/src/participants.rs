@@ -116,12 +116,12 @@ mod tests {
         let participants = section.array().expect("participants");
 
         assert_eq!(participants.len(), 3);
-        assert_eq!(participants[0]["player_name"], json!("Reserve"));
-        assert_eq!(participants[0]["player_id"], json!(10));
-        assert_eq!(participants[0]["power"], json!(1000));
-        assert_eq!(participants[0]["role"], json!(2));
-        assert_eq!(participants[1]["player_name"], json!("Commander"));
-        assert_eq!(participants[2]["player_name"], json!("Allowed"));
+        assert_eq!(participants[0]["player_name"], json!("Allowed"));
+        assert_eq!(participants[0]["player_id"], json!(30));
+        assert_eq!(participants[0]["power"], json!(3000));
+        assert_eq!(participants[0]["role"], json!(1));
+        assert_eq!(participants[1]["player_name"], json!("Reserve"));
+        assert_eq!(participants[2]["player_name"], json!("Commander"));
     }
 
     #[test]
@@ -159,9 +159,9 @@ mod tests {
         let participants = section.array().expect("participants");
 
         assert_eq!(participants.len(), 3);
-        assert_eq!(participants[0]["role"], json!(2));
-        assert_eq!(participants[1]["role"], json!(3));
-        assert_eq!(participants[2]["role"], json!(1));
+        assert_eq!(participants[0]["role"], json!(1));
+        assert_eq!(participants[1]["role"], json!(2));
+        assert_eq!(participants[2]["role"], json!(3));
     }
 
     #[test]
@@ -202,12 +202,12 @@ mod tests {
         let participants = section.array().expect("participants");
 
         assert_eq!(participants.len(), 30);
-        assert_eq!(participants[0]["player_name"], json!("ˢJianLaars 命"));
-        assert_eq!(participants[0]["player_id"], json!(41377732));
-        assert_eq!(participants[0]["power"], json!(104670909));
-        assert_eq!(participants[0]["role"], json!(3));
-        assert_eq!(participants[5]["player_name"], json!("人Øgeday人"));
-        assert_eq!(participants[29]["player_name"], json!("ᅠᅠ     ᅠ Swalsh"));
+        assert_eq!(participants[0]["player_name"], json!("人Øgeday人"));
+        assert_eq!(participants[0]["player_id"], json!(40693070));
+        assert_eq!(participants[0]["power"], json!(84784300));
+        assert_eq!(participants[0]["role"], json!(1));
+        assert_eq!(participants[24]["player_name"], json!("ᅠᅠ     ᅠ Swalsh"));
+        assert_eq!(participants[25]["player_name"], json!("ˢJianLaars 命"));
     }
 
     #[test]
@@ -221,10 +221,10 @@ mod tests {
         let participants = section.array().expect("participants");
 
         assert_eq!(participants.len(), 14);
-        assert_eq!(participants[0]["player_name"], json!("Abdul F16"));
-        assert_eq!(participants[0]["role"], json!(3));
-        assert_eq!(participants[1]["player_name"], json!("PAC MAN F9"));
-        assert_eq!(participants[1]["role"], json!(1));
+        assert_eq!(participants[0]["player_name"], json!("PAC MAN F9"));
+        assert_eq!(participants[0]["role"], json!(1));
+        assert_eq!(participants[13]["player_name"], json!("Abdul F16"));
+        assert_eq!(participants[13]["role"], json!(3));
     }
 
     #[test]
