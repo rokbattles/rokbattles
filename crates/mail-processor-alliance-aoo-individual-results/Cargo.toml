@@ -1,6 +1,6 @@
 [package]
 name = "mail-processor-alliance-aoo-individual-results"
-version = "1.0.3"
+version = "1.0.4"
 edition = "2024"
 
 [dependencies]
