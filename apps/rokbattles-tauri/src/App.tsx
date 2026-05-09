@@ -1,3 +1,4 @@
+import { getVersion } from "@tauri-apps/api/app";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
@@ -43,6 +44,7 @@ function App() {
   const [showClosePrompt, setShowClosePrompt] = useState(false);
   const [rememberCloseChoice, setRememberCloseChoice] = useState(false);
   const [isApplyingCloseChoice, setIsApplyingCloseChoice] = useState(false);
+  const [appVersion, setAppVersion] = useState<string | null>(null);
 
   const allowCloseRef = useRef(false);
   const handlingCloseIntentRef = useRef(false);
@@ -130,6 +132,24 @@ function App() {
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getVersion()
+      .then((version) => {
+        if (isMounted) {
+          setAppVersion(version);
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load app version", error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -279,6 +299,9 @@ function App() {
         ) : null}
         <WatchedDirectories dirs={dirs} isLoading={isLoading} onRemove={handleRemove} />
         <Logs logs={logs} />
+        {appVersion ? (
+          <footer className="pt-4 text-center text-xs text-zinc-700">Version {appVersion}</footer>
+        ) : null}
       </div>
       <ClosePrompt
         isOpen={showClosePrompt}
