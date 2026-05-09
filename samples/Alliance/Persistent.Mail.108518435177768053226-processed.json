@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "mail_id": "108518435177768053226",
+    "mail_receiver": "player_79029500",
+    "mail_time": 1777680532632152,
+    "server_id": 2
+  },
+  "overview": {
+    "start_time": 1777730400000
+  },
+  "participants": [
+    {
+      "player_id": 194304962,
+      "player_name": "Abdul F16",
+      "power": 11736221,
+      "role": 3
+    },
+    {
+      "player_id": 211747565,
+      "player_name": "PAC MAN F9",
+      "power": 2376082,
+      "role": 1
+    },
+    {
+      "player_id": 208722389,
+      "player_name": "Abdul F18",
+      "power": 1474666,
+      "role": 1
+    },
+    {
+      "player_id": 178893621,
+      "player_name": "NFL26x2",
+      "power": 4353922,
+      "role": 1
+    },
+    {
+      "player_id": 154550697,
+      "player_name": "93primefarmm3",
+      "power": 3610151,
+      "role": 1
+    },
+    {
+      "player_id": 208725700,
+      "player_name": "Abdul F23",
+      "power": 1415732,
+      "role": 1
+    },
+    {
+      "player_id": 79029500,
+      "player_name": "TenchuX",
+      "power": 3514111,
+      "role": 1
+    },
+    {
+      "player_id": 178034663,
+      "player_name": "Cinnamon Farm3",
+      "power": 3738021,
+      "role": 1
+    },
+    {
+      "player_id": 208722849,
+      "player_name": "Abdul F20",
+      "power": 1606738,
+      "role": 1
+    },
+    {
+      "player_id": 208761972,
+      "player_name": "Abdul F25",
+      "power": 1487958,
+      "role": 1
+    },
+    {
+      "player_id": 208673628,
+      "player_name": "Abdul F19",
+      "power": 1521143,
+      "role": 1
+    },
+    {
+      "player_id": 158760240,
+      "player_name": "93prmefarm7",
+      "power": 2889702,
+      "role": 1
+    },
+    {
+      "player_id": 189334994,
+      "player_name": "TenchuZ",
+      "power": 15682711,
+      "role": 1
+    },
+    {
+      "player_id": 133997916,
+      "player_name": "CH24FloydyGold4",
+      "power": 7004853,
+      "role": 1
+    }
+  ]
+}
