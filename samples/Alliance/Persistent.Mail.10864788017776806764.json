@@ -1,0 +1,122 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "Idx": 0,
+      "allowPly": [
+        1,
+        {
+          "AsGrade": 1,
+          "Name": "ᶠᵖPrettyCat",
+          "PlyId": 181618824,
+          "Power": 1341840
+        },
+        2,
+        {
+          "AsGrade": 1,
+          "Name": "Arselfarm3",
+          "PlyId": 129889734,
+          "Power": 1110045
+        },
+        3,
+        {
+          "AsGrade": 1,
+          "Name": "MeepMeep",
+          "PlyId": 211787348,
+          "Power": 1094147
+        },
+        4,
+        {
+          "AsGrade": 1,
+          "Name": "MadDawg Farm",
+          "PlyId": 182748239,
+          "Power": 1207028
+        },
+        5,
+        {
+          "AsGrade": 1,
+          "Name": "MXAZ",
+          "PlyId": 171884501,
+          "Power": 1260450
+        },
+        6,
+        {
+          "AsGrade": 1,
+          "Name": "Cute cake",
+          "PlyId": 212158881,
+          "Power": 1579796
+        },
+        7,
+        {
+          "AsGrade": 3,
+          "Name": "ᶠᵖ MXA F9",
+          "PlyId": 176884975,
+          "Power": 2210072
+        },
+        8,
+        {
+          "AsGrade": 1,
+          "Name": "Alfeta ツF",
+          "PlyId": 174078742,
+          "Power": 2442527
+        },
+        9,
+        {
+          "AsGrade": 1,
+          "Name": "Governor168723157",
+          "PlyId": 168723157,
+          "Power": 4464504
+        },
+        10,
+        {
+          "AsGrade": 3,
+          "Name": "MXA F9",
+          "PlyId": 167488792,
+          "Power": 2923164
+        },
+        11,
+        {
+          "AsGrade": 3,
+          "Name": "MXA 10",
+          "PlyId": 184610966,
+          "Power": 593080
+        }
+      ],
+      "commanderPly": [],
+      "gradeId": 0,
+      "old_grade": 1,
+      "resevePly": [],
+      "startTime": 1777719600000
+    },
+    "param": 1,
+    "subTitle": "Combatants Confirmed",
+    "title": "Registration Has Closed",
+    "type": 57
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "10864788017776806764",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_102501913",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1777680676620264,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

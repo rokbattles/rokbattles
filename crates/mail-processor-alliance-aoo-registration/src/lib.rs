@@ -45,4 +45,21 @@ mod tests {
         assert!(sections.contains_key("overview"));
         assert!(sections.contains_key("participants"));
     }
+
+    #[test]
+    fn process_infers_missing_participant_member_types() {
+        for file_name in [
+            "Persistent.Mail.108518435177768053226.json",
+            "Persistent.Mail.10864788017776806764.json",
+        ] {
+            let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("../../samples/Alliance")
+                .join(file_name);
+            let json = fs::read_to_string(sample_path).expect("read sample");
+            let value: Value = serde_json::from_str(&json).expect("parse sample");
+
+            let processed = process(&value).expect("process sample");
+            assert!(processed.sections().contains_key("participants"));
+        }
+    }
 }

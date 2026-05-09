@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "mail_id": "10864788017776806764",
+    "mail_receiver": "player_102501913",
+    "mail_time": 1777680676620264,
+    "server_id": 2
+  },
+  "overview": {
+    "start_time": 1777719600000
+  },
+  "participants": [
+    {
+      "player_id": 181618824,
+      "player_name": "ᶠᵖPrettyCat",
+      "power": 1341840,
+      "role": 1
+    },
+    {
+      "player_id": 129889734,
+      "player_name": "Arselfarm3",
+      "power": 1110045,
+      "role": 1
+    },
+    {
+      "player_id": 211787348,
+      "player_name": "MeepMeep",
+      "power": 1094147,
+      "role": 1
+    },
+    {
+      "player_id": 182748239,
+      "player_name": "MadDawg Farm",
+      "power": 1207028,
+      "role": 1
+    },
+    {
+      "player_id": 171884501,
+      "player_name": "MXAZ",
+      "power": 1260450,
+      "role": 1
+    },
+    {
+      "player_id": 212158881,
+      "player_name": "Cute cake",
+      "power": 1579796,
+      "role": 1
+    },
+    {
+      "player_id": 176884975,
+      "player_name": "ᶠᵖ MXA F9",
+      "power": 2210072,
+      "role": 1
+    },
+    {
+      "player_id": 174078742,
+      "player_name": "Alfeta ツF",
+      "power": 2442527,
+      "role": 1
+    },
+    {
+      "player_id": 168723157,
+      "player_name": "Governor168723157",
+      "power": 4464504,
+      "role": 1
+    },
+    {
+      "player_id": 167488792,
+      "player_name": "MXA F9",
+      "power": 2923164,
+      "role": 1
+    },
+    {
+      "player_id": 184610966,
+      "player_name": "MXA 10",
+      "power": 593080,
+      "role": 1
+    }
+  ]
+}
