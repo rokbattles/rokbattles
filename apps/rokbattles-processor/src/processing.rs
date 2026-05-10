@@ -199,6 +199,13 @@ mod tests {
     }
 
     #[test]
+    fn extract_mail_type_parses_scoutreport() {
+        let value = json!({ "type": "ScoutReport" });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::ScoutReport);
+    }
+
+    #[test]
     fn extract_mail_type_parses_system_barbarian_fort() {
         let value = json!({
             "type": "System",
