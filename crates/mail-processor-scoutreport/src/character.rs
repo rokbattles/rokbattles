@@ -26,9 +26,14 @@ impl Extractor for CharacterExtractor {
 
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let content = require_content(input)?;
+        // 1 - alliance flag
+        // 3 - alliance fortress
         let alliance_building_type = require_u64_field(content, "allianceBuildingType")?;
         let character = require_child_object(content, "char")?;
         let alliance = require_child_object(character, "alliance")?;
+        // 3 - city
+        // 6 - resource point (food)
+        // 7 - alliance building
         let scout_type = require_u64_field(character, "type")?;
         let position = require_child_object(character, "pos")?;
         let position_x = require_number_field(position, "x")?;
