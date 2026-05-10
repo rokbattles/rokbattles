@@ -1,15 +1,39 @@
 troops:
+  1:
+    name:
+      en: "Warrior"
+
   2:
     name:
       en: "Horseman"
+
+  3:
+    name:
+      en: "Slinger"
 
   4:
     name:
       en: "Battering Ram"
 
+  5:
+    name:
+      en: "Swordsman"
+
   6:
     name:
       en: "Light Cavalry"
+
+  7:
+    name:
+      en: "Bowman"
+
+  8:
+    name:
+      en: "Arcuballista"
+
+  9:
+    name:
+      en: "Spearman"
 
   13:
     name:
