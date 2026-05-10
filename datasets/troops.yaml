@@ -35,6 +35,10 @@ troops:
     name:
       en: "Spearman"
 
+  10:
+    name:
+      en: "Heavy Cavalry"
+
   13:
     name:
       en: "Long Swordsman"
