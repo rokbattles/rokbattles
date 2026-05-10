@@ -1,0 +1,28 @@
+troops:
+  2:
+    name:
+      en: "Horseman"
+
+  4:
+    name:
+      en: "Battering Ram"
+
+  6:
+    name:
+      en: "Light Cavalry"
+
+  13:
+    name:
+      en: "Long Swordsman"
+
+  15:
+    name:
+      en: "Crossbowman"
+
+  16:
+    name:
+      en: "Ballista"
+
+  107:
+    name:
+      en: "Teutonic Knight"
