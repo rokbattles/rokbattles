@@ -39,6 +39,10 @@ troops:
     name:
       en: "Long Swordsman"
 
+  14:
+    name:
+      en: "Knight"
+
   15:
     name:
       en: "Crossbowman"
@@ -50,3 +54,7 @@ troops:
   107:
     name:
       en: "Teutonic Knight"
+
+  113:
+    name:
+      en: "Samurai"
