@@ -1,0 +1,392 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "FlagCnt": 4,
+      "Idx": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 38,
+      "RelocateCnt": 51,
+      "asInfos": [
+        1,
+        {
+          "Abbr": "SO4L",
+          "AllianceId": 4805441,
+          "Idx": 0,
+          "IsBlue": true,
+          "Logo": "4_3_63_1_0_1",
+          "MemberMax": 30,
+          "Members": 23,
+          "Name": "魂社会SoulReapers",
+          "Power": 2004461197,
+          "Score": 67405,
+          "ServerId": 1804
+        },
+        2,
+        {
+          "Abbr": "WP80",
+          "AllianceId": 5565521,
+          "Idx": 0,
+          "IsBlue": false,
+          "Logo": "4_16_38_4_0_4",
+          "MemberMax": 30,
+          "Members": 21,
+          "Name": "WellPlayedMe",
+          "Power": 1722910921,
+          "Score": 9114,
+          "ServerId": 2080
+        }
+      ],
+      "gradeId": 0,
+      "isWin": true,
+      "maxBeKilled": {
+        "AsScore": 37128775,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "agent G",
+          "PlyId": 71738515,
+          "Score": 3701392,
+          "Slot": 3
+        }
+      },
+      "maxBuildingScore": {
+        "AsScore": 51875,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "EbiSu",
+          "PlyId": 129390265,
+          "Score": 46610,
+          "Slot": 3
+        }
+      },
+      "maxFlagScore": {
+        "AsScore": 15000,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "klopotek",
+          "PlyId": 124546784,
+          "Score": 7000,
+          "Slot": 3
+        }
+      },
+      "maxGatherScore": {
+        "AsScore": 530,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "kev92",
+          "PlyId": 41844185,
+          "Score": 350.62,
+          "Slot": 1
+        }
+      },
+      "maxHealingScore": {
+        "AsScore": 497388,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "乄Twᴇᴇᴛy",
+          "PlyId": 124906793,
+          "Score": 497388,
+          "Slot": 3
+        }
+      },
+      "maxKilled": {
+        "AsScore": 46162583,
+        "PlyScore": {
+          "Job": 3,
+          "Name": "agent G",
+          "PlyId": 71738515,
+          "Score": 6513378,
+          "Slot": 3
+        }
+      },
+      "myAsId": 4805441,
+      "old_grade": 1,
+      "plyRanks": [
+        1,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4536,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 6513378,
+          "Name": "agent G",
+          "Score": 323807
+        },
+        2,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4586,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 2,
+          "KillScore": 3840660,
+          "Name": "2lowteg",
+          "Score": 173685
+        },
+        3,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4536,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 3492900,
+          "Name": "农民ˢChino",
+          "Score": 160599
+        },
+        4,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4536,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 3128896,
+          "Name": "ˢAzzCon",
+          "Score": 149990
+        },
+        5,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 2730909,
+          "Name": "Klimson3",
+          "Score": 135182
+        },
+        6,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4536,
+          "FlagScore": 0,
+          "GatherScore": 3,
+          "Job": 3,
+          "KillScore": 2910877,
+          "Name": "Area 51 ツ",
+          "Score": 133018
+        },
+        7,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4651,
+          "FlagScore": 350,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 2710241,
+          "Name": "CamelAmphee69",
+          "Score": 121389
+        },
+        8,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4586,
+          "FlagScore": 0,
+          "GatherScore": 258,
+          "Job": 0,
+          "KillScore": 1859422,
+          "Name": "Peachy Top",
+          "Score": 90870
+        },
+        9,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4611,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1786187,
+          "Name": "纽带MYSTIC",
+          "Score": 90736
+        },
+        10,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4611,
+          "FlagScore": 0,
+          "GatherScore": 1596,
+          "Job": 3,
+          "KillScore": 1552062,
+          "Name": "kev92",
+          "Score": 79253
+        },
+        11,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 700,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 1378822,
+          "Name": "klopotek",
+          "Score": 79248
+        },
+        12,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 1374082,
+          "Name": "乄Twᴇᴇᴛy",
+          "Score": 77680
+        },
+        13,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4611,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 2,
+          "KillScore": 1700394,
+          "Name": "Benbu",
+          "Score": 72107
+        },
+        14,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4611,
+          "FlagScore": 0,
+          "GatherScore": 6,
+          "Job": 3,
+          "KillScore": 1644360,
+          "Name": "Szpaczuh",
+          "Score": 70726
+        },
+        15,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4544,
+          "FlagScore": 450,
+          "GatherScore": 543,
+          "Job": 3,
+          "KillScore": 1180007,
+          "Name": "The Damager ツ",
+          "Score": 66451
+        },
+        16,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 1329579,
+          "Name": "⽪卡丘Daspim",
+          "Score": 65886
+        },
+        17,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 3,
+          "Job": 0,
+          "KillScore": 1182723,
+          "Name": "Pro100WRyj ツ",
+          "Score": 63356
+        },
+        18,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 1245109,
+          "Name": "ˢˣ乄Sinner",
+          "Score": 59832
+        },
+        19,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4661,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 1285670,
+          "Name": "EbiSu",
+          "Score": 58577
+        },
+        20,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4611,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 1199049,
+          "Name": "メDmitry82メ",
+          "Score": 51754
+        },
+        21,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4621,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 898084,
+          "Name": "ˡᵃᶻʸMac",
+          "Score": 40769
+        },
+        22,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4536,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 3,
+          "KillScore": 732355,
+          "Name": "lmmortaL",
+          "Score": 40545
+        },
+        23,
+        {
+          "AsAbbr": "SO4L",
+          "BuildingScore": 4546,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 486817,
+          "Name": "ˢFarmer Fayzen",
+          "Score": 27383
+        }
+      ]
+    },
+    "param": 1,
+    "subTitle": "Victory",
+    "title": "Ark of Osiris Battle Results",
+    "type": 60
+  },
+  "box": "Archive",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "58428681175123098731",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "AllianceBox",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1751230987482239,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}
