@@ -4,8 +4,11 @@
 
 mod character;
 mod content;
+mod durability;
 mod metadata;
 mod resources;
+mod tower;
+mod units;
 
 pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
@@ -21,6 +24,9 @@ fn processor() -> Processor {
         Box::new(metadata::MetadataExtractor::new()),
         Box::new(character::CharacterExtractor::new()),
         Box::new(resources::ResourcesExtractor::new()),
+        Box::new(durability::DurabilityExtractor::new()),
+        Box::new(tower::TowerExtractor::new()),
+        Box::new(units::UnitsExtractor::new()),
     ])
 }
 
@@ -80,6 +86,36 @@ mod tests {
                 { "type": 4, "value": 48852948 },
             ])
         );
-        assert_eq!(processed_json.as_object().map(serde_json::Map::len), Some(3));
+        assert_eq!(
+            processed_json["durability"],
+            json!({
+                "interval": 2000,
+                "max": 40000,
+                "next_update_time": 9223372036854775808u64,
+                "num": 40000,
+                "speed": 0,
+                "state": 1,
+                "state_end_time": 0,
+            })
+        );
+        assert_eq!(
+            processed_json["tower"],
+            json!({
+                "hp": 50000,
+                "hp_speed": 500,
+                "interval": 60000,
+                "level": 25,
+                "next_update_time": 0,
+            })
+        );
+        assert_eq!(
+            processed_json["units"][0],
+            json!({ "id": 4, "count": 68704, "max_count": 173294 })
+        );
+        assert_eq!(
+            processed_json["units"][6],
+            json!({ "id": 16, "count": 666526, "max_count": 666526 })
+        );
+        assert_eq!(processed_json.as_object().map(serde_json::Map::len), Some(6));
     }
 }

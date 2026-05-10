@@ -17,6 +17,15 @@
     },
     "scout_type": 3
   },
+  "durability": {
+    "interval": 2000,
+    "max": 31000,
+    "next_update_time": 9223372036854775808,
+    "num": 26974,
+    "speed": 0,
+    "state": 1,
+    "state_end_time": 9223372036854775808
+  },
   "metadata": {
     "mail_id": "137024509177843958431",
     "mail_receiver": "player_71738515",
@@ -39,6 +48,20 @@
     {
       "type": 4,
       "value": 273660290
+    }
+  ],
+  "tower": {
+    "hp": 5000,
+    "hp_speed": 50,
+    "interval": 60000,
+    "level": 6,
+    "next_update_time": 0
+  },
+  "units": [
+    {
+      "count": 50270,
+      "id": 9,
+      "max_count": 695105
     }
   ]
 }

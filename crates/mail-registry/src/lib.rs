@@ -512,16 +512,36 @@ mod tests {
                         "pos": { "x": 12.5, "y": 25 },
                         "type": 7
                     },
+                    "durability": {
+                        "interval": 2000,
+                        "max": 40000,
+                        "nextUpdateTime": 1234,
+                        "num": 30000,
+                        "speed": 10,
+                        "state": 2,
+                        "stateEndTime": 5678
+                    },
                     "ress": [
                         1,
                         { "type": 1, "value": 10 },
                         2,
                         { "type": 2, "value": 20 }
                     ],
+                    "tower": {
+                        "hp": 50000,
+                        "hpSpeed": 500,
+                        "interval": 60000,
+                        "level": 25,
+                        "nextUpdateTime": 0
+                    },
                     "troop": {
                         "playerAvatar": "{\"avatarFrame\":\"https://example.com/frame.png\",\"avatar\":\"https://example.com/avatar.png\"}",
                         "playerId": 100,
-                        "playerName": "Player One"
+                        "playerName": "Player One",
+                        "units": [
+                            1,
+                            { "unitId": 4, "unitCount": 10, "maxCount": 20 }
+                        ]
                     }
                 }
             }
@@ -531,13 +551,22 @@ mod tests {
             process_mail(MailType::ScoutReport, &payload).expect("process scout report");
         let metadata = processed.sections().get("metadata").expect("metadata section");
         let character = processed.sections().get("character").expect("character section");
+        let durability = processed.sections().get("durability").expect("durability section");
         let resources = processed.sections().get("resources").expect("resources section");
+        let tower = processed.sections().get("tower").expect("tower section");
+        let units = processed.sections().get("units").expect("units section");
 
         assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
         assert_eq!(character.fields()["player_id"], json!(100));
+        assert_eq!(durability.fields()["state_end_time"], json!(5678));
         assert_eq!(
             resources.array().expect("resources array"),
             [json!({ "type": 1, "value": 10 }), json!({ "type": 2, "value": 20 })]
+        );
+        assert_eq!(tower.fields()["hp_speed"], json!(500));
+        assert_eq!(
+            units.array().expect("units array"),
+            [json!({ "id": 4, "count": 10, "max_count": 20 })]
         );
     }
 }

@@ -17,11 +17,34 @@
     },
     "scout_type": 6
   },
+  "durability": {
+    "interval": 0,
+    "max": 0,
+    "next_update_time": 0,
+    "num": 0,
+    "speed": 0,
+    "state": 0,
+    "state_end_time": 0
+  },
   "metadata": {
     "mail_id": "137493532177845367131",
     "mail_receiver": "player_71738515",
     "mail_time": 1778453671341064,
     "server_id": 1804
   },
-  "resources": []
+  "resources": [],
+  "tower": {
+    "hp": 0,
+    "hp_speed": 0,
+    "interval": 0,
+    "level": 0,
+    "next_update_time": 0
+  },
+  "units": [
+    {
+      "count": 52587,
+      "id": 8,
+      "max_count": 52587
+    }
+  ]
 }
