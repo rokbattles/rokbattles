@@ -14,6 +14,7 @@ processors = [
     "dep:mail-processor-battle",
     "dep:mail-processor-duelbattle2",
     "dep:mail-processor-rss",
+    "dep:mail-processor-scoutreport",
     "dep:mail-processor-sdk",
     "dep:mail-processor-system-barbarianfort",
 ]
@@ -28,6 +29,7 @@ mail-processor-barcanyonkillboss = { path = "../mail-processor-barcanyonkillboss
 mail-processor-battle = { path = "../mail-processor-battle", optional = true }
 mail-processor-duelbattle2 = { path = "../mail-processor-duelbattle2", optional = true }
 mail-processor-rss = { path = "../mail-processor-rss", optional = true }
+mail-processor-scoutreport = { path = "../mail-processor-scoutreport", optional = true }
 mail-processor-sdk = { path = "../mail-processor-sdk", optional = true }
 mail-processor-system-barbarianfort = { path = "../mail-processor-system-barbarianfort", optional = true }
 

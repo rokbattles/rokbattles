@@ -2893,6 +2893,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "mail-processor-scoutreport"
+version = "1.0.4"
+dependencies = [
+ "mail-processor-sdk",
+ "serde_json",
+]
+
+[[package]]
 name = "mail-processor-sdk"
 version = "1.0.4"
 dependencies = [
@@ -2921,6 +2929,7 @@ dependencies = [
  "mail-processor-battle",
  "mail-processor-duelbattle2",
  "mail-processor-rss",
+ "mail-processor-scoutreport",
  "mail-processor-sdk",
  "mail-processor-system-barbarianfort",
  "serde_json",

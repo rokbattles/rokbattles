@@ -36,11 +36,13 @@ pub enum MailType {
     AllianceAOOIndividualResults,
     /// Ark of Osiris registration.
     AllianceAOORegistration,
+    /// Scout reports.
+    ScoutReport,
 }
 
 impl MailType {
     /// All processable mail types.
-    pub const ALL: [Self; 9] = [
+    pub const ALL: [Self; 10] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
@@ -50,6 +52,7 @@ impl MailType {
         Self::AllianceAOOBattleInfo,
         Self::AllianceAOOIndividualResults,
         Self::AllianceAOORegistration,
+        Self::ScoutReport,
     ];
 
     /// Parse a mail type label.
@@ -65,6 +68,7 @@ impl MailType {
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO => Some(Self::AllianceAOOBattleInfo),
             MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS => Some(Self::AllianceAOOIndividualResults),
             MAIL_TYPE_ALLIANCE_AOO_REGISTRATION => Some(Self::AllianceAOORegistration),
+            "ScoutReport" => Some(Self::ScoutReport),
             _ => None,
         }
     }
@@ -88,6 +92,7 @@ impl MailType {
             Self::AllianceAOOBattleInfo => MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO,
             Self::AllianceAOOIndividualResults => MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS,
             Self::AllianceAOORegistration => MAIL_TYPE_ALLIANCE_AOO_REGISTRATION,
+            Self::ScoutReport => "ScoutReport",
         }
     }
 
@@ -104,6 +109,7 @@ impl MailType {
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
             Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
             Self::AllianceAOORegistration => "mails_alliance_aooregistration",
+            Self::ScoutReport => "mails_scoutreport",
         }
     }
 }
@@ -255,6 +261,7 @@ pub fn process_mail(
         MailType::AllianceAOORegistration => {
             mail_processor_alliance_aoo_registration::process(input)
         }
+        MailType::ScoutReport => mail_processor_scoutreport::process(input),
     }
 }
 
@@ -288,6 +295,10 @@ mod tests {
             Some(MailType::BarCanyonKillBoss)
         );
         assert_eq!(detect_mail_type(&json!({ "type": "rss" })), Some(MailType::Rss));
+        assert_eq!(
+            detect_mail_type(&json!({ "type": "scoutreport" })),
+            Some(MailType::ScoutReport)
+        );
     }
 
     #[test]
@@ -476,5 +487,24 @@ mod tests {
             MailType::AllianceAOORegistration.collection_name(),
             "mails_alliance_aooregistration"
         );
+        assert_eq!(MailType::ScoutReport.collection_name(), "mails_scoutreport");
+    }
+
+    #[cfg(feature = "processors")]
+    #[test]
+    fn process_mail_dispatches_scoutreport() {
+        let payload = json!({
+            "type": "ScoutReport",
+            "id": "mail-1",
+            "time": 1234,
+            "receiver": "player-1",
+            "serverId": 55
+        });
+
+        let processed =
+            process_mail(MailType::ScoutReport, &payload).expect("process scout report");
+        let metadata = processed.sections().get("metadata").expect("metadata section");
+
+        assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
     }
 }
