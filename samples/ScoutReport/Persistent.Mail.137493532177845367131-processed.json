@@ -1,8 +1,27 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "logo": "4_3_15_1_0_3",
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_type": 0,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+    "player_id": 165627655,
+    "player_name": "GメBaron 5",
+    "position": {
+      "x": 3842.01708984375,
+      "y": 4024.416259765625
+    },
+    "scout_type": 6
+  },
   "metadata": {
     "mail_id": "137493532177845367131",
     "mail_receiver": "player_71738515",
     "mail_time": 1778453671341064,
     "server_id": 1804
-  }
+  },
+  "resources": []
 }

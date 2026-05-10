@@ -1,8 +1,27 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "logo": "4_3_15_1_0_3",
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_type": 1,
+    "avatar_url": "",
+    "frame_url": null,
+    "player_id": 0,
+    "player_name": "",
+    "position": {
+      "x": 3783.43994140625,
+      "y": 3942.5400390625
+    },
+    "scout_type": 7
+  },
   "metadata": {
     "mail_id": "137499376177845387331",
     "mail_receiver": "player_71738515",
     "mail_time": 1778453873345581,
     "server_id": 1804
-  }
+  },
+  "resources": []
 }

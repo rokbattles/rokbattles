@@ -1,8 +1,27 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "logo": "4_3_15_1_0_3",
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_type": 3,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head11.png",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+    "player_id": 126381343,
+    "player_name": "Daspim F2",
+    "position": {
+      "x": 3617.169921875,
+      "y": 3529.550048828125
+    },
+    "scout_type": 7
+  },
   "metadata": {
     "mail_id": "137503071177845399031",
     "mail_receiver": "player_71738515",
     "mail_time": 1778453990372163,
     "server_id": 1804
-  }
+  },
+  "resources": []
 }

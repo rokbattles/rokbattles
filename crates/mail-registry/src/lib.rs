@@ -498,13 +498,46 @@ mod tests {
             "id": "mail-1",
             "time": 1234,
             "receiver": "player-1",
-            "serverId": 55
+            "serverId": 55,
+            "body": {
+                "content": {
+                    "allianceBuildingType": 1,
+                    "char": {
+                        "alliance": {
+                            "abbr": "ABCD",
+                            "id": 42,
+                            "logo": "1_2_3",
+                            "name": "Alliance Name"
+                        },
+                        "pos": { "x": 12.5, "y": 25 },
+                        "type": 7
+                    },
+                    "ress": [
+                        1,
+                        { "type": 1, "value": 10 },
+                        2,
+                        { "type": 2, "value": 20 }
+                    ],
+                    "troop": {
+                        "playerAvatar": "{\"avatarFrame\":\"https://example.com/frame.png\",\"avatar\":\"https://example.com/avatar.png\"}",
+                        "playerId": 100,
+                        "playerName": "Player One"
+                    }
+                }
+            }
         });
 
         let processed =
             process_mail(MailType::ScoutReport, &payload).expect("process scout report");
         let metadata = processed.sections().get("metadata").expect("metadata section");
+        let character = processed.sections().get("character").expect("character section");
+        let resources = processed.sections().get("resources").expect("resources section");
 
         assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
+        assert_eq!(character.fields()["player_id"], json!(100));
+        assert_eq!(
+            resources.array().expect("resources array"),
+            [json!({ "type": 1, "value": 10 }), json!({ "type": 2, "value": 20 })]
+        );
     }
 }

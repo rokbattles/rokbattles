@@ -1,8 +1,44 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "04Z",
+      "id": 4808188,
+      "logo": "2_5_63_4_0_1",
+      "name": "魂社会 Squad Zero"
+    },
+    "alliance_building_type": 0,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head11.png",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+    "player_id": 153776235,
+    "player_name": "Grigvar 14",
+    "position": {
+      "x": 3788.0390625,
+      "y": 4127.734375
+    },
+    "scout_type": 3
+  },
   "metadata": {
     "mail_id": "137024509177843958431",
     "mail_receiver": "player_71738515",
     "mail_time": 1778439584345563,
     "server_id": 1804
-  }
+  },
+  "resources": [
+    {
+      "type": 1,
+      "value": 148832956
+    },
+    {
+      "type": 2,
+      "value": 148622364
+    },
+    {
+      "type": 3,
+      "value": 167215929
+    },
+    {
+      "type": 4,
+      "value": 273660290
+    }
+  ]
 }

@@ -1,8 +1,44 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "logo": "4_3_15_1_0_3",
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_type": 0,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+    "player_id": 37556801,
+    "player_name": "Benbu",
+    "position": {
+      "x": 3829.63671875,
+      "y": 3963.79296875
+    },
+    "scout_type": 3
+  },
   "metadata": {
     "mail_id": "136953280177843782931",
     "mail_receiver": "player_71738515",
     "mail_time": 1778437829182528,
     "server_id": 1804
-  }
+  },
+  "resources": [
+    {
+      "type": 1,
+      "value": 97898017
+    },
+    {
+      "type": 2,
+      "value": 97678576
+    },
+    {
+      "type": 3,
+      "value": 96266730
+    },
+    {
+      "type": 4,
+      "value": 48852948
+    }
+  ]
 }

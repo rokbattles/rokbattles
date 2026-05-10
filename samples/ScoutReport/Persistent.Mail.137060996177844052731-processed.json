@@ -1,8 +1,44 @@
 {
+  "character": {
+    "alliance": {
+      "abbreviation": "SO4L",
+      "id": 4805441,
+      "logo": "4_3_15_1_0_3",
+      "name": "魂社会SoulReapers"
+    },
+    "alliance_building_type": 0,
+    "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/46387535/230222/C483914BF87CDDDFDB17C0627925C470_250x250.jpg",
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+    "player_id": 46387535,
+    "player_name": "F1 벤부",
+    "position": {
+      "x": 3741.349609375,
+      "y": 4161.5078125
+    },
+    "scout_type": 3
+  },
   "metadata": {
     "mail_id": "137060996177844052731",
     "mail_receiver": "player_71738515",
     "mail_time": 1778440527351699,
     "server_id": 1804
-  }
+  },
+  "resources": [
+    {
+      "type": 1,
+      "value": 74717739
+    },
+    {
+      "type": 2,
+      "value": 76658866
+    },
+    {
+      "type": 3,
+      "value": 74344238
+    },
+    {
+      "type": 4,
+      "value": 40302581
+    }
+  ]
 }
