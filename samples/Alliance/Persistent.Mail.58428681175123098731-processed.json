@@ -1,0 +1,284 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": "SO4L",
+        "id": 4805441,
+        "logo": "4_3_63_1_0_1",
+        "name": "魂社会SoulReapers"
+      },
+      "is_blue": true,
+      "members": 23,
+      "members_max": 30,
+      "power": 2004461197,
+      "score": 67405,
+      "server_id": 1804,
+      "team": 0
+    },
+    {
+      "alliance": {
+        "abbreviation": "WP80",
+        "id": 5565521,
+        "logo": "4_16_38_4_0_4",
+        "name": "WellPlayedMe"
+      },
+      "is_blue": false,
+      "members": 21,
+      "members_max": 30,
+      "power": 1722910921,
+      "score": 9114,
+      "server_id": 2080,
+      "team": 0
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 4805441
+    },
+    "param": 1,
+    "type": 60,
+    "win": true
+  },
+  "metadata": {
+    "mail_id": "58428681175123098731",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1751230987482239,
+    "server_id": 2
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 37128775,
+      "mvp": {
+        "player_id": 71738515,
+        "player_name": "agent G",
+        "score": 3701392
+      }
+    },
+    "building_score": {
+      "alliance_score": 51875,
+      "mvp": {
+        "player_id": 129390265,
+        "player_name": "EbiSu",
+        "score": 46610
+      }
+    },
+    "flag_score": {
+      "alliance_score": 15000,
+      "mvp": {
+        "player_id": 124546784,
+        "player_name": "klopotek",
+        "score": 7000
+      }
+    },
+    "gather_score": {
+      "alliance_score": 530,
+      "mvp": {
+        "player_id": 41844185,
+        "player_name": "kev92",
+        "score": 350.62
+      }
+    },
+    "healing_score": {
+      "alliance_score": 497388,
+      "mvp": {
+        "player_id": 124906793,
+        "player_name": "乄Twᴇᴇᴛy",
+        "score": 497388
+      }
+    },
+    "killed_score": {
+      "alliance_score": 46162583,
+      "mvp": {
+        "player_id": 71738515,
+        "player_name": "agent G",
+        "score": 6513378
+      }
+    }
+  },
+  "participants": [
+    {
+      "building_score": 4536,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 323807,
+      "kill_score": 6513378,
+      "player_name": "agent G"
+    },
+    {
+      "building_score": 4586,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 173685,
+      "kill_score": 3840660,
+      "player_name": "2lowteg"
+    },
+    {
+      "building_score": 4536,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 160599,
+      "kill_score": 3492900,
+      "player_name": "农民ˢChino"
+    },
+    {
+      "building_score": 4536,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 149990,
+      "kill_score": 3128896,
+      "player_name": "ˢAzzCon"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 135182,
+      "kill_score": 2730909,
+      "player_name": "Klimson3"
+    },
+    {
+      "building_score": 4536,
+      "flag_score": 0,
+      "gather_score": 3,
+      "individual_points": 133018,
+      "kill_score": 2910877,
+      "player_name": "Area 51 ツ"
+    },
+    {
+      "building_score": 4651,
+      "flag_score": 350,
+      "gather_score": 0,
+      "individual_points": 121389,
+      "kill_score": 2710241,
+      "player_name": "CamelAmphee69"
+    },
+    {
+      "building_score": 4586,
+      "flag_score": 0,
+      "gather_score": 258,
+      "individual_points": 90870,
+      "kill_score": 1859422,
+      "player_name": "Peachy Top"
+    },
+    {
+      "building_score": 4611,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 90736,
+      "kill_score": 1786187,
+      "player_name": "纽带MYSTIC"
+    },
+    {
+      "building_score": 4611,
+      "flag_score": 0,
+      "gather_score": 1596,
+      "individual_points": 79253,
+      "kill_score": 1552062,
+      "player_name": "kev92"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 700,
+      "gather_score": 0,
+      "individual_points": 79248,
+      "kill_score": 1378822,
+      "player_name": "klopotek"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 77680,
+      "kill_score": 1374082,
+      "player_name": "乄Twᴇᴇᴛy"
+    },
+    {
+      "building_score": 4611,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 72107,
+      "kill_score": 1700394,
+      "player_name": "Benbu"
+    },
+    {
+      "building_score": 4611,
+      "flag_score": 0,
+      "gather_score": 6,
+      "individual_points": 70726,
+      "kill_score": 1644360,
+      "player_name": "Szpaczuh"
+    },
+    {
+      "building_score": 4544,
+      "flag_score": 450,
+      "gather_score": 543,
+      "individual_points": 66451,
+      "kill_score": 1180007,
+      "player_name": "The Damager ツ"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 65886,
+      "kill_score": 1329579,
+      "player_name": "⽪卡丘Daspim"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 3,
+      "individual_points": 63356,
+      "kill_score": 1182723,
+      "player_name": "Pro100WRyj ツ"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 59832,
+      "kill_score": 1245109,
+      "player_name": "ˢˣ乄Sinner"
+    },
+    {
+      "building_score": 4661,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 58577,
+      "kill_score": 1285670,
+      "player_name": "EbiSu"
+    },
+    {
+      "building_score": 4611,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 51754,
+      "kill_score": 1199049,
+      "player_name": "メDmitry82メ"
+    },
+    {
+      "building_score": 4621,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 40769,
+      "kill_score": 898084,
+      "player_name": "ˡᵃᶻʸMac"
+    },
+    {
+      "building_score": 4536,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 40545,
+      "kill_score": 732355,
+      "player_name": "lmmortaL"
+    },
+    {
+      "building_score": 4546,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 27383,
+      "kill_score": 486817,
+      "player_name": "ˢFarmer Fayzen"
+    }
+  ]
+}

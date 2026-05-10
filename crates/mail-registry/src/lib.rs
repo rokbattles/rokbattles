@@ -178,7 +178,7 @@ pub fn is_supported_mail_type(mail_type: &str) -> bool {
 }
 
 fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
-    if !matches!(root.get("box").and_then(Value::as_str), Some("Report")) {
+    if !mail_has_box(root, "Report") {
         return false;
     }
 
@@ -192,7 +192,7 @@ fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> {
-    if !matches!(root.get("box").and_then(Value::as_str), Some("AllianceBox")) {
+    if !mail_has_box(root, "AllianceBox") {
         return None;
     }
 
@@ -209,6 +209,12 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> 
         62 => Some(MailType::AllianceAOOIndividualResults),
         _ => None,
     }
+}
+
+fn mail_has_box(root: &Map<String, Value>, box_name: &str) -> bool {
+    ["box", "prevBox"].into_iter().any(
+        |field| matches!(root.get(field).and_then(Value::as_str), Some(value) if value == box_name),
+    )
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -299,6 +305,21 @@ mod tests {
     }
 
     #[test]
+    fn detect_mail_type_matches_archived_system_barbarian_fort() {
+        let payload = json!({
+            "type": "System",
+            "box": "Archive",
+            "prevBox": "Report",
+            "body": {
+                "subParam": 1,
+                "subType": 11
+            }
+        });
+
+        assert_eq!(detect_mail_type(&payload), Some(MailType::SystemBarbarianFort));
+    }
+
+    #[test]
     fn detect_mail_type_rejects_unsupported_system_mail() {
         let payload = json!({
             "type": "System",
@@ -347,6 +368,18 @@ mod tests {
             detect_mail_type(&individual_results),
             Some(MailType::AllianceAOOIndividualResults)
         );
+    }
+
+    #[test]
+    fn detect_mail_type_matches_archived_alliance_aoo_mail() {
+        let battle_results = json!({
+            "type": "Alliance",
+            "box": "Archive",
+            "prevBox": "AllianceBox",
+            "body": { "type": 60, "param": 1 }
+        });
+
+        assert_eq!(detect_mail_type(&battle_results), Some(MailType::AllianceAOOBattleResults));
     }
 
     #[test]
