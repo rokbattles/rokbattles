@@ -12,32 +12,32 @@
   "dependencies": {
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
-    "@sentry/nextjs": "^10.51.0",
+    "@sentry/nextjs": "^10.52.0",
     "@types/mdx": "^2.0.13",
     "@wrksz/themes": "^0.7.9",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
-    "fumadocs-core": "^16.8.7",
+    "fumadocs-core": "^16.8.10",
     "fumadocs-mdx": "^14.3.2",
-    "fumadocs-ui": "^16.8.7",
-    "next": "^16.2.5",
-    "next-intl": "^4.11.0",
+    "fumadocs-ui": "^16.8.10",
+    "next": "^16.2.6",
+    "next-intl": "^4.11.2",
     "nuqs": "^2.8.9",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
-    "tailwind-merge": "^3.5.0",
+    "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.2.4",
+    "@tailwindcss/postcss": "^4.3.0",
     "@tailwindcss/typography": "^0.5.19",
-    "@types/node": "^24.12.2",
+    "@types/node": "^24.12.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "tailwindcss": "^4.2.4",
+    "tailwindcss": "^4.3.0",
     "typescript": "^6.0.3",
-    "yaml": "^2.8.4"
+    "yaml": "^2.9.0"
   }
 }
