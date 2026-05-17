@@ -117,6 +117,10 @@ loot:
       sprite:
         - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
 
+    8:
+      name:
+        en: "Caravan"
+
     9:
       name:
         ar: "الكريستال"
