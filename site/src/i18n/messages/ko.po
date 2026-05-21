@@ -6,1161 +6,1132 @@ msgstr ""
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
 
-#: src/app/(legacy)/account/ark/[matchId]/page.tsx:19
+#: src/app/(legacy)/account/ark/[matchId]/page.tsx
 msgid "WDt8Y9"
 msgstr ""
 
-#: src/app/(legacy)/account/ark/page.tsx:18
+#: src/app/(legacy)/account/ark/page.tsx
 msgid "P2Qqmh"
 msgstr ""
 
-#: src/app/(legacy)/account/loot/page.tsx:24
-#: src/components/platform-layout.tsx:123
+#: src/app/(legacy)/account/loot/page.tsx
+#: src/components/platform-layout.tsx
 msgid "yF/GXb"
 msgstr ""
 
-#: src/app/(legacy)/account/pairings/page.tsx:11
-#: src/components/platform-layout.tsx:119
+#: src/app/(legacy)/account/pairings/page.tsx
+#: src/components/platform-layout.tsx
 msgid "N42bBd"
 msgstr "내 조합"
 
-#: src/app/(legacy)/account/resources/page.tsx:24
-#: src/components/platform-layout.tsx:130
+#: src/app/(legacy)/account/resources/page.tsx
+#: src/components/platform-layout.tsx
 msgid "gMtUZq"
 msgstr ""
 
-#: src/app/(legacy)/account/settings/layout.tsx:11
-#: src/components/sidebar-governor-header.tsx:85
+#: src/app/(legacy)/account/settings/layout.tsx
+#: src/components/sidebar-governor-header.tsx
 msgid "NQgbYA"
 msgstr "계정 설정"
 
-#: src/app/(legacy)/account/settings/page.tsx:13
+#: src/app/(legacy)/account/settings/page.tsx
 msgid "hJZwTS"
 msgstr "이메일 주소"
 
-#: src/app/(legacy)/account/settings/page.tsx:15
+#: src/app/(legacy)/account/settings/page.tsx
 msgid "rmEwjk"
 msgstr "이메일 주소는 디스코드와 동기화됩니다."
 
-#: src/app/(legacy)/olympian-arena/[id]/page.tsx:18
+#: src/app/(legacy)/olympian-arena/[id]/page.tsx
 msgid "xVCzuX"
 msgstr "결투 탐색"
 
-#: src/app/(legacy)/olympian-arena/page.tsx:9
+#: src/app/(legacy)/olympian-arena/page.tsx
 msgid "78PvoX"
 msgstr "올림피아 요새 보고서"
 
-#: src/app/(legacy)/olympian-arena/page.tsx:11
-#: src/app/(legacy)/page.tsx:14
-#: src/components/account/account-reports-content.tsx:29
+#: src/app/(legacy)/olympian-arena/page.tsx
+#: src/app/(legacy)/page.tsx
+#: src/components/account/account-reports-content.tsx
 msgid "F2qQa8"
 msgstr "실시간 피드 (UTC)"
 
-#: src/app/(legacy)/page.tsx:12
-#: src/components/platform-layout.tsx:98
+#: src/app/(legacy)/page.tsx
+#: src/components/platform-layout.tsx
 msgid "xmv5Of"
 msgstr "전투 보고"
 
-#: src/app/(legacy)/page.tsx:17
-#: src/components/account/account-reports-content.tsx:32
+#: src/app/(legacy)/page.tsx
+#: src/components/account/account-reports-content.tsx
 msgid "9Obw6C"
 msgstr "필터"
 
-#: src/app/(legacy)/report/[id]/page.tsx:9
+#: src/app/(legacy)/report/[id]/page.tsx
 msgid "1gqsiW"
 msgstr "전투 보고"
 
-#: src/app/(legacy)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx
 msgid "irMluf"
 msgstr "내 보고서로 돌아가기"
 
-#: src/app/(legacy)/report/[id]/page.tsx:52
+#: src/app/(legacy)/report/[id]/page.tsx
 msgid "8PEDrB"
 msgstr "전투 탐색"
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:19
-#: src/components/my-pairings/my-pairings-content.tsx:147
-#: src/components/my-pairings/my-pairings-content.tsx:389
-#: src/components/olympian-arena/duel-participant-card.tsx:45
-#: src/components/report/report-participant-card.tsx:28
-#: src/components/reports/participant-cell.tsx:25
+#: src/components/account-ark/ark-commander-pairing-cell.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/olympian-arena/duel-participant-card.tsx
+#: src/components/report/report-participant-card.tsx
+#: src/components/reports/participant-cell.tsx
 msgid "5hGibV"
 msgstr "알 수 없는 사령관"
 
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:33
-#: src/components/account-ark/ark-commander-pairing-cell.tsx:42
-#: src/components/olympian-arena/duel-commander-row.tsx:21
-#: src/components/report/report-commander-row.tsx:23
-#: src/components/reports/participant-cell.tsx:40
-#: src/components/reports/participant-cell.tsx:50
+#: src/components/account-ark/ark-commander-pairing-cell.tsx
+#: src/components/olympian-arena/duel-commander-row.tsx
+#: src/components/report/report-commander-row.tsx
+#: src/components/reports/participant-cell.tsx
 msgid "+sdDeh"
 msgstr "{name} 아이콘"
 
-#: src/components/account-ark/ark-match-detail-error-state.tsx:11
+#: src/components/account-ark/ark-match-detail-error-state.tsx
 msgid "Xe3O7i"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:21
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:19
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:24
-#: src/components/report/report-overview-column.tsx:64
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/report/report-overview-column.tsx
 msgid "PW+sL4"
 msgstr "해당 없음"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:25
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "gkoU0i"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:27
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "FsjcN7"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:31
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "JPFyHU"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:35
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "g/Nwxg"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:39
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5YClsN"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:43
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "nCGWau"
 msgstr "승리 횟수"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:47
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Hw0iax"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:51
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "BXfxPW"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:55
-#: src/components/account-loot/loot-timeline-chart-client.tsx:124
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-loot/loot-timeline-chart-client.tsx
 msgid "Sl01xK"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:59
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:40
-#: src/components/report/report-overview-column.tsx:46
-#: src/components/reports/reports-overview-summary-card.tsx:46
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "sz3C4k"
 msgstr "중상"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:63
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "mJwM5A"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:67
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "itiyNN"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:71
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "lcP4aP"
 msgstr "이전"
 
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx:75
+#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5g03Dq"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-loading-state.tsx:9
+#: src/components/account-ark/ark-match-detail-loading-state.tsx
 msgid "ksU1u5"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-not-found-state.tsx:11
+#: src/components/account-ark/ark-match-detail-not-found-state.tsx
 msgid "gwll/b"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:23
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "9uOFF3"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:25
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "VP5+CR"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:29
-#: src/components/account-ark/ark-match-history-table.tsx:24
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
+#: src/components/account-ark/ark-match-history-table.tsx
 msgid "oLkLww"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:33
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "b5C+CG"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:37
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "GY2gN9"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-overview-section.tsx:41
+#: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "9otZoU"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:28
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "fq2V8a"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:30
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "Tm8lLF"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:35
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:127
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "02koas"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:36
-#: src/components/my-pairings/pairings-filters.tsx:65
-#: src/components/my-pairings/pairings-filters.tsx:67
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "goGXET"
 msgstr "조합"
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:37
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "ZtK0ZT"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:38
-#: src/components/olympian-arena/olympian-arena-table.tsx:42
-#: src/components/reports/reports-table.tsx:51
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "Y3Z7jw"
 msgstr "처치 수"
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx:39
-#: src/components/my-pairings/my-pairings-content.tsx:296
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:130
-#: src/components/olympian-arena/duel-results-chart.tsx:84
-#: src/components/report/report-battle-results-chart.tsx:88
-#: src/components/report/report-overview-column.tsx:55
-#: src/components/reports/reports-overview-summary-card.tsx:71
+#: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "RCtKQ2"
 msgstr "처치 점수"
 
-#: src/components/account-ark/ark-match-history-empty-state.tsx:11
+#: src/components/account-ark/ark-match-history-empty-state.tsx
 msgid "7fThOd"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-error-state.tsx:11
+#: src/components/account-ark/ark-match-history-error-state.tsx
 msgid "6IRh9u"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-loading-state.tsx:9
+#: src/components/account-ark/ark-match-history-loading-state.tsx
 msgid "raC1gL"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:21
+#: src/components/account-ark/ark-match-history-row.tsx
+#: src/components/account-ark/ark-match-history-table.tsx
 msgid "T4H9Lz"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/account-ark/ark-match-history-table.tsx:20
+#: src/components/account-ark/ark-match-history-row.tsx
+#: src/components/account-ark/ark-match-history-table.tsx
 msgid "lsSmtD"
 msgstr "이세트"
 
-#: src/components/account-ark/ark-match-history-row.tsx:27
-#: src/components/olympian-arena/duel-commander-row.tsx:20
-#: src/components/report/report-commander-row.tsx:22
-#: src/components/report/report-overview-column.tsx:29
+#: src/components/account-ark/ark-match-history-row.tsx
+#: src/components/olympian-arena/duel-commander-row.tsx
+#: src/components/report/report-commander-row.tsx
+#: src/components/report/report-overview-column.tsx
 msgid "5jeq8P"
 msgstr "알 수 없음"
 
-#: src/components/account-ark/ark-match-history-row.tsx:33
+#: src/components/account-ark/ark-match-history-row.tsx
 msgid "lgBBrD"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-row.tsx:35
-#: src/components/account-ark/ark-match-history-row.tsx:36
+#: src/components/account-ark/ark-match-history-row.tsx
 msgid "iVlule"
 msgstr ""
 
-#: src/components/account-ark/ark-match-history-table.tsx:19
-#: src/components/olympian-arena/olympian-arena-table.tsx:39
-#: src/components/reports/reports-table.tsx:47
+#: src/components/account-ark/ark-match-history-table.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "ug01Mk"
 msgstr "시간"
 
-#: src/components/account-ark/ark-match-history-table.tsx:22
-#: src/components/olympian-arena/duel-participant-card.tsx:88
+#: src/components/account-ark/ark-match-history-table.tsx
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "H+vBOj"
 msgstr "승리측"
 
-#: src/components/account-ark/ark-match-history-table.tsx:23
+#: src/components/account-ark/ark-match-history-table.tsx
 msgid "+a+2ug"
 msgstr ""
 
-#: src/components/account-binds/account-binds-content.tsx:48
+#: src/components/account-binds/account-binds-content.tsx
 msgid "XongGf"
 msgstr ""
 
-#: src/components/account-binds/account-binds-content.tsx:67
+#: src/components/account-binds/account-binds-content.tsx
 msgid "1VWYm7"
 msgstr ""
 
-#: src/components/account-binds/bind-actions-dropdown.tsx:33
+#: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "wL7VAE"
 msgstr ""
 
-#: src/components/account-binds/bind-actions-dropdown.tsx:43
+#: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "E2APuV"
 msgstr ""
 
-#: src/components/account-binds/bind-actions-dropdown.tsx:51
+#: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "7L4R8L"
 msgstr ""
 
-#: src/components/account-binds/bind-list-item.tsx:32
+#: src/components/account-binds/bind-list-item.tsx
 msgid "lKv8ex"
 msgstr ""
 
-#: src/components/account-binds/bind-list-item.tsx:35
-#: src/components/olympian-arena/duel-participant-card.tsx:92
-#: src/components/report/report-participant-card.tsx:63
+#: src/components/account-binds/bind-list-item.tsx
+#: src/components/olympian-arena/duel-participant-card.tsx
+#: src/components/report/report-participant-card.tsx
 msgid "tx/jZ/"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:26
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:32
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "pf6kFc"
 msgstr "지도자 ID를 입력하세요."
 
-#: src/components/account-binds/binds-claim-form.tsx:38
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "I/clsA"
 msgstr "올바른 지도자 ID를 입력하세요."
 
-#: src/components/account-binds/binds-claim-form.tsx:54
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "JUJHzc"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:65
-#: src/components/reports/reports-filter-dialog.tsx:190
+#: src/components/account-binds/binds-claim-form.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "GNDCcc"
 msgstr "지도자 ID"
 
-#: src/components/account-binds/binds-claim-form.tsx:71
-#: src/components/reports/reports-filter-dialog.tsx:194
+#: src/components/account-binds/binds-claim-form.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "bNKXH5"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:85
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "U9mCsP"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:94
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "dbfVtv"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-form.tsx:94
+#: src/components/account-binds/binds-claim-form.tsx
 msgid "FRzSFh"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-section.tsx:18
+#: src/components/account-binds/binds-claim-section.tsx
 msgid "JMZWnS"
 msgstr ""
 
-#: src/components/account-binds/binds-claim-section.tsx:20
+#: src/components/account-binds/binds-claim-section.tsx
 msgid "HOHINg"
 msgstr "라이즈 오브 킹덤즈의 지도자 ID를 입력하여 계정에 연결하세요. 최대 3명까지 등록할 수 있습니다."
 
-#: src/components/account-binds/binds-list.tsx:26
+#: src/components/account-binds/binds-list.tsx
 msgid "QXdDDh"
 msgstr ""
 
-#: src/components/account-binds/binds-list.tsx:28
+#: src/components/account-binds/binds-list.tsx
 msgid "m9rp75"
 msgstr ""
 
-#: src/components/account-loot/account-loot-content.tsx:61
+#: src/components/account-loot/account-loot-content.tsx
 msgid "fGwfGZ"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:27
+#: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:28
+#: src/components/account-loot/loot-breakdown-table.tsx
 msgid "/0TOL5"
 msgstr ""
 
-#: src/components/account-loot/loot-breakdown-table.tsx:29
+#: src/components/account-loot/loot-breakdown-table.tsx
 msgid "wrpHgq"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:27
+#: src/components/account-loot/loot-category-list.tsx
 msgid "r3YbHp"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:28
+#: src/components/account-loot/loot-category-list.tsx
 msgid "Ap561B"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:29
+#: src/components/account-loot/loot-category-list.tsx
 msgid "T8KvU4"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:30
+#: src/components/account-loot/loot-category-list.tsx
 msgid "4pFR10"
 msgstr ""
 
-#: src/components/account-loot/loot-category-list.tsx:31
+#: src/components/account-loot/loot-category-list.tsx
 msgid "R4HO71"
 msgstr ""
 
-#: src/components/account-loot/loot-error-state.tsx:8
+#: src/components/account-loot/loot-error-state.tsx
 msgid "XD64/m"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx:92
-#: src/components/account-resources/resources-filters-client.tsx:92
-#: src/components/my-pairings/pairings-filters.tsx:80
+#: src/components/account-loot/loot-filters-client.tsx
+#: src/components/account-resources/resources-filters-client.tsx
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "n5QvJy"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx:103
-#: src/components/account-resources/resources-filters-client.tsx:103
-#: src/components/my-pairings/pairings-filters.tsx:91
+#: src/components/account-loot/loot-filters-client.tsx
+#: src/components/account-resources/resources-filters-client.tsx
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "Humfno"
 msgstr ""
 
-#: src/components/account-loot/loot-report-section.tsx:18
-#: src/components/account-resources/resources-report-section.tsx:26
+#: src/components/account-loot/loot-report-section.tsx
+#: src/components/account-resources/resources-report-section.tsx
 msgid "sdkaef"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:20
+#: src/components/account-loot/loot-table-section.tsx
 msgid "WOPo3b"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:29
+#: src/components/account-loot/loot-table-section.tsx
 msgid "QtM1tY"
 msgstr ""
 
-#: src/components/account-loot/loot-table-section.tsx:31
+#: src/components/account-loot/loot-table-section.tsx
 msgid "PF57EA"
 msgstr ""
 
-#: src/components/account-resources/account-resources-content.tsx:57
+#: src/components/account-resources/account-resources-content.tsx
 msgid "e4+7ni"
 msgstr ""
 
-#: src/components/account-resources/resources-breakdown-table.tsx:26
-#: src/components/reports/reports-filter-dialog.tsx:204
+#: src/components/account-resources/resources-breakdown-table.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "+U6ozc"
 msgstr "유형"
 
-#: src/components/account-resources/resources-breakdown-table.tsx:27
+#: src/components/account-resources/resources-breakdown-table.tsx
 msgid "x9zwkN"
 msgstr ""
 
-#: src/components/account-resources/resources-breakdown-table.tsx:28
+#: src/components/account-resources/resources-breakdown-table.tsx
 msgid "saDFoR"
 msgstr ""
 
-#: src/components/account-resources/resources-breakdown-table.tsx:29
+#: src/components/account-resources/resources-breakdown-table.tsx
 msgid "MJ2jZQ"
 msgstr ""
 
-#: src/components/account-resources/resources-error-state.tsx:8
+#: src/components/account-resources/resources-error-state.tsx
 msgid "QTvbTs"
 msgstr ""
 
-#: src/components/account-resources/resources-table-section.tsx:28
+#: src/components/account-resources/resources-table-section.tsx
 msgid "F1tgWX"
 msgstr ""
 
-#: src/components/account-resources/resources-table-section.tsx:32
+#: src/components/account-resources/resources-table-section.tsx
 msgid "9pjHcG"
 msgstr ""
 
-#: src/components/account/account-reports-content.tsx:27
+#: src/components/account/account-reports-content.tsx
 msgid "2YkOMs"
 msgstr "내 전투 보고서"
 
-#: src/components/account/account-settings-nav.tsx:13
+#: src/components/account/account-settings-nav.tsx
 msgid "1iEPTM"
 msgstr "일반"
 
-#: src/components/account/account-settings-nav.tsx:18
+#: src/components/account/account-settings-nav.tsx
 msgid "q5TmbN"
 msgstr "지도자"
 
-#: src/components/cookie-consent-banner.tsx:38
-#: src/components/cookie-consent-dialog.tsx:42
+#: src/components/cookie-consent-banner.tsx
+#: src/components/cookie-consent-dialog.tsx
 msgid "sjzLbX"
 msgstr "동의"
 
-#: src/components/cookie-consent-banner.tsx:46
-#: src/components/cookie-consent-dialog.tsx:33
+#: src/components/cookie-consent-banner.tsx
+#: src/components/cookie-consent-dialog.tsx
 msgid "VzIOKf"
 msgstr "거부"
 
-#: src/components/cookie-consent-dialog.tsx:20
+#: src/components/cookie-consent-dialog.tsx
 msgid "KS0bwV"
 msgstr "쿠키 설정"
 
-#: src/components/language-selector.tsx:78
-#: src/components/language-selector.tsx:88
+#: src/components/language-selector.tsx
 msgid "eVlu1R"
 msgstr "언어 선택"
 
-#: src/components/language-selector.tsx:83
+#: src/components/language-selector.tsx
 msgid "y1Z3or"
 msgstr "언어"
 
-#: src/components/language-selector.tsx:93
+#: src/components/language-selector.tsx
 msgid "QmFCUz"
 msgstr ""
 
-#: src/components/language-selector.tsx:110
-#: src/components/reports/reports-filter-dialog.tsx:393
+#: src/components/language-selector.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "47FYwb"
 msgstr "취소"
 
-#: src/components/language-selector.tsx:112
+#: src/components/language-selector.tsx
 msgid "jvo0vs"
 msgstr "저장"
 
-#: src/components/my-pairings/loadout-armament-list.tsx:23
-#: src/components/report/report-armament-section.tsx:44
+#: src/components/my-pairings/loadout-armament-list.tsx
+#: src/components/report/report-armament-section.tsx
 msgid "lFZWlP"
 msgstr "군비 {id}"
 
-#: src/components/my-pairings/loadout-equipment-slot.tsx:22
+#: src/components/my-pairings/loadout-equipment-slot.tsx
 msgid "+RhnH+"
 msgstr ""
 
-#: src/components/my-pairings/loadout-equipment-slot.tsx:53
-#: src/components/report/report-equipment-slot.tsx:54
+#: src/components/my-pairings/loadout-equipment-slot.tsx
+#: src/components/report/report-equipment-slot.tsx
 msgid "f8EGjq"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:245
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "vxHX7Q"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:253
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "5OhW+B"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:290
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:129
-#: src/components/reports/reports-table.tsx:50
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/reports/reports-table.tsx
 msgid "9bVtCz"
 msgstr "전투"
 
-#: src/components/my-pairings/my-pairings-content.tsx:292
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "W2cCAf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:298
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "xh4gLq"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:302
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:131
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nGp3S1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:304
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "2OWOn1"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:308
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "04DUsx"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:310
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "sCYwbS"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:316
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "87sFXA"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:318
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "2oN4Ru"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:322
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "8RNVtf"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:324
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "OohBEM"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:328
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "jVC9W/"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:332
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "pJCnfG"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:336
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "lsS3Jr"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:340
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "obveBp"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:344
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "CY224M"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:348
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "ZTImOV"
 msgstr ""
 
-#: src/components/my-pairings/my-pairings-content.tsx:407
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "y+cvIx"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:52
-#: src/components/my-pairings/pairings-filters.tsx:129
-#: src/components/reports/reports-filter-dialog.tsx:218
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "8Na2J4"
 msgstr "오시리스의 함"
 
-#: src/components/my-pairings/pairings-filters.tsx:53
-#: src/components/my-pairings/pairings-filters.tsx:138
-#: src/components/reports/reports-filter-dialog.tsx:215
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "ejEGdx"
 msgstr "본국"
 
-#: src/components/my-pairings/pairings-filters.tsx:54
-#: src/components/my-pairings/pairings-filters.tsx:132
-#: src/components/reports/reports-filter-dialog.tsx:221
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "mJFWRb"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:55
-#: src/components/my-pairings/pairings-filters.tsx:135
-#: src/components/reports/reports-filter-dialog.tsx:224
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "Mro8Zx"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:102
-#: src/components/my-pairings/pairings-filters.tsx:104
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:108
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "as39fN"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:109
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "244wra"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:113
-#: src/components/my-pairings/pairings-filters.tsx:115
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "XuzWOu"
 msgstr ""
 
-#: src/components/my-pairings/pairings-filters.tsx:119
-#: src/components/my-pairings/pairings-filters.tsx:124
-#: src/components/reports/reports-filter-dialog.tsx:104
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "450Fty"
 msgstr "없음"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:74
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "ouEHpA"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:76
-#: src/components/my-pairings/pairings-loadouts.tsx:47
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "dshKLk"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:80
-#: src/components/my-pairings/pairings-loadouts.tsx:51
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "DCzVxS"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:82
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "mNV3qS"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:86
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "yiwezx"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:113
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "HPFDiG"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:117
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "OBAkIS"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:121
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "bey2Db"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:128
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "cSiC2v"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:132
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "+yzdej"
 msgstr "딜러"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:133
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nyW1oU"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:134
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "hZ3HBi"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
-#: src/components/olympian-arena/duel-participant-card.tsx:135
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "qyJtWy"
 msgstr "간략히 보기"
 
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx:165
-#: src/components/olympian-arena/duel-participant-card.tsx:135
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "aWpBzj"
 msgstr "자세히 보기"
 
-#: src/components/my-pairings/pairings-loadouts.tsx:43
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "898qG3"
 msgstr "아카이브"
 
-#: src/components/my-pairings/pairings-loadouts.tsx:44
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "sU47wG"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadouts.tsx:53
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "Jt86J1"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadouts.tsx:83
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "byP6IC"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadouts.tsx:92
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "MqtNsY"
 msgstr ""
 
-#: src/components/my-pairings/pairings-loadouts.tsx:103
+#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g+gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx:36
-#: src/components/report/report-commander-row.tsx:42
+#: src/components/olympian-arena/duel-commander-row.tsx
+#: src/components/report/report-commander-row.tsx
 msgid "XoCgY+"
 msgstr "Lv {level}"
 
-#: src/components/olympian-arena/duel-empty-state.tsx:10
+#: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
 msgstr "해당 결투에 대한 보고서가 없습니다."
 
-#: src/components/olympian-arena/duel-loading-state.tsx:10
+#: src/components/olympian-arena/duel-loading-state.tsx
 msgid "U5Mxzi"
 msgstr "결투 보고서 불러오는 중..."
 
-#: src/components/olympian-arena/duel-participant-card.tsx:102
-#: src/components/report/report-participant-card.tsx:74
+#: src/components/olympian-arena/duel-participant-card.tsx
+#: src/components/report/report-participant-card.tsx
 msgid "DqkPqe"
 msgstr "사령관"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:104
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "t2Wr8I"
 msgstr "주사령관"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:106
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "6FQuCT"
 msgstr "부사령관"
 
-#: src/components/olympian-arena/duel-participant-card.tsx:113
+#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "cKnhhK"
 msgstr "부대 버프"
 
-#: src/components/olympian-arena/duel-report-entry-card.tsx:32
+#: src/components/olympian-arena/duel-report-entry-card.tsx
 msgid "CuNYjA"
 msgstr "결투 요약"
 
-#: src/components/olympian-arena/duel-report-view.tsx:61
+#: src/components/olympian-arena/duel-report-view.tsx
 msgid "m0+hvd"
 msgstr "결투 보고서"
 
-#: src/components/olympian-arena/duel-report-view.tsx:63
-#: src/components/report/report-view.tsx:66
+#: src/components/olympian-arena/duel-report-view.tsx
+#: src/components/report/report-view.tsx
 msgid "p556q3"
 msgstr "복사 완료"
 
-#: src/components/olympian-arena/duel-report-view.tsx:63
-#: src/components/report/report-view.tsx:66
+#: src/components/olympian-arena/duel-report-view.tsx
+#: src/components/report/report-view.tsx
 msgid "OKhRC6"
 msgstr "공유"
 
-#: src/components/olympian-arena/duel-report-view.tsx:68
+#: src/components/olympian-arena/duel-report-view.tsx
 msgid "eukQnl"
 msgstr "결투 정보를 불러올 수 없습니다."
 
-#: src/components/olympian-arena/duel-results-chart.tsx:79
-#: src/components/report/report-battle-results-chart.tsx:82
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
 msgid "A1ykkc"
 msgstr "유닛"
 
-#: src/components/olympian-arena/duel-results-chart.tsx:80
-#: src/components/report/report-battle-results-chart.tsx:85
-#: src/components/report/report-overview-column.tsx:43
-#: src/components/reports/reports-overview-summary-card.tsx:39
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "NxzeNU"
 msgstr "전사"
 
-#: src/components/olympian-arena/duel-results-chart.tsx:81
-#: src/components/report/report-battle-results-chart.tsx:86
+#: src/components/olympian-arena/duel-results-chart.tsx
+#: src/components/report/report-battle-results-chart.tsx
 msgid "CtBzuU"
 msgstr "중상"
 
-#: src/components/olympian-arena/duel-results-chart.tsx:82
+#: src/components/olympian-arena/duel-results-chart.tsx
 msgid "NboP8s"
 msgstr "부상자"
 
-#: src/components/olympian-arena/duel-results-chart.tsx:83
+#: src/components/olympian-arena/duel-results-chart.tsx
 msgid "YoPSLI"
 msgstr "치료 완료"
 
-#: src/components/olympian-arena/duel-results-chart.tsx:85
+#: src/components/olympian-arena/duel-results-chart.tsx
 msgid "YXoHk0"
 msgstr "투력"
 
-#: src/components/olympian-arena/duel-summary-tooltip.tsx:39
-#: src/components/olympian-arena/olympian-arena-table.tsx:40
-#: src/components/report/report-battle-summary-tooltip.tsx:43
-#: src/components/reports/reports-filter-dialog.tsx:105
-#: src/components/reports/reports-filter-dialog.tsx:231
-#: src/components/reports/reports-overview-drawer.tsx:62
-#: src/components/reports/reports-table.tsx:48
+#: src/components/olympian-arena/duel-summary-tooltip.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/report/report-battle-summary-tooltip.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-overview-drawer.tsx
+#: src/components/reports/reports-table.tsx
 msgid "nbwXXN"
 msgstr "발신인"
 
-#: src/components/olympian-arena/duel-summary-tooltip.tsx:41
-#: src/components/olympian-arena/olympian-arena-table.tsx:41
-#: src/components/report/report-battle-summary-tooltip.tsx:45
-#: src/components/reports/reports-filter-dialog.tsx:106
-#: src/components/reports/reports-filter-dialog.tsx:272
-#: src/components/reports/reports-table.tsx:49
+#: src/components/olympian-arena/duel-summary-tooltip.tsx
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/report/report-battle-summary-tooltip.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+#: src/components/reports/reports-table.tsx
 msgid "Mdj7Fr"
 msgstr "상대방"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:43
-#: src/components/reports/reports-table.tsx:52
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "c+sY33"
 msgstr ""
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:44
+#: src/components/olympian-arena/olympian-arena-table.tsx
 msgid "aXdZke"
 msgstr "연승 랭킹"
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:65
-#: src/components/reports/reports-table.tsx:74
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "k9hDFZ"
 msgstr ""
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:67
-#: src/components/reports/reports-table.tsx:76
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "JJNc3c"
 msgstr ""
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:76
-#: src/components/reports/reports-table.tsx:85
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "rBj9Ib"
 msgstr ""
 
-#: src/components/olympian-arena/olympian-arena-table.tsx:78
-#: src/components/reports/reports-table.tsx:87
+#: src/components/olympian-arena/olympian-arena-table.tsx
+#: src/components/reports/reports-table.tsx
 msgid "9+Ddtu"
 msgstr ""
 
-#: src/components/platform-layout.tsx:61
+#: src/components/platform-layout.tsx
 msgid "Q7dLbA"
 msgstr "라이트 모드"
 
-#: src/components/platform-layout.tsx:61
+#: src/components/platform-layout.tsx
 msgid "hMUQH5"
 msgstr "다크 모드"
 
-#: src/components/platform-layout.tsx:61
+#: src/components/platform-layout.tsx
 msgid "Pe0ogR"
 msgstr "테마"
 
-#: src/components/platform-layout.tsx:102
+#: src/components/platform-layout.tsx
 msgid "sqvUg2"
 msgstr ""
 
-#: src/components/platform-layout.tsx:107
+#: src/components/platform-layout.tsx
 msgid "dr0ueW"
 msgstr ""
 
-#: src/components/platform-layout.tsx:112
+#: src/components/platform-layout.tsx
 msgid "NFE4yO"
 msgstr "내 전투"
 
-#: src/components/platform-layout.tsx:137
+#: src/components/platform-layout.tsx
 msgid "odeufe"
 msgstr ""
 
-#: src/components/platform-layout.tsx:147
+#: src/components/platform-layout.tsx
 msgid "7oFrM6"
 msgstr ""
 
-#: src/components/platform-layout.tsx:156
+#: src/components/platform-layout.tsx
 msgid "HqRNN8"
 msgstr "고객 지원"
 
-#: src/components/platform-layout.tsx:165
+#: src/components/platform-layout.tsx
 msgid "QnWNmB"
 msgstr "데스크톱 앱"
 
-#: src/components/platform-layout.tsx:167
+#: src/components/platform-layout.tsx
 msgid "EQpyb8"
 msgstr "테마 변경"
 
-#: src/components/platform-layout.tsx:177
+#: src/components/platform-layout.tsx
 msgid "SQJto2"
 msgstr "로그인"
 
-#: src/components/report/report-armament-section.tsx:28
+#: src/components/report/report-armament-section.tsx
 msgid "e36Xiv"
 msgstr "무기 정보"
 
-#: src/components/report/report-artifact-section.tsx:20
+#: src/components/report/report-artifact-section.tsx
 msgid "eW5eoW"
 msgstr "장신구"
 
-#: src/components/report/report-battle-results-chart.tsx:83
-#: src/components/report/report-overview-column.tsx:52
-#: src/components/reports/reports-overview-summary-card.tsx:62
+#: src/components/report/report-battle-results-chart.tsx
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "ka8VLG"
 msgstr "잔여"
 
-#: src/components/report/report-battle-results-chart.tsx:84
+#: src/components/report/report-battle-results-chart.tsx
 msgid "UAaBlE"
 msgstr "치료"
 
-#: src/components/report/report-battle-results-chart.tsx:87
+#: src/components/report/report-battle-results-chart.tsx
 msgid "xtXDYN"
 msgstr "경상"
 
-#: src/components/report/report-battle-results-chart.tsx:89
+#: src/components/report/report-battle-results-chart.tsx
 msgid "sTixnc"
 msgstr ""
 
-#: src/components/report/report-commander-row.tsx:26
+#: src/components/report/report-commander-row.tsx
 msgid "YeBMpE"
 msgstr "진형 {formation}"
 
-#: src/components/report/report-empty-state.tsx:10
+#: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr "해당 해시값에 대한 전투를 찾을 수 없습니다."
 
-#: src/components/report/report-entry-card.tsx:27
+#: src/components/report/report-entry-card.tsx
 msgid "Naj3md"
 msgstr "기간 불명"
 
-#: src/components/report/report-entry-card.tsx:28
+#: src/components/report/report-entry-card.tsx
 msgid "BYmpT/"
 msgstr "UTC"
 
-#: src/components/report/report-entry-card.tsx:42
+#: src/components/report/report-entry-card.tsx
 msgid "eKTCWw"
 msgstr "전투 요약"
 
-#: src/components/report/report-equipment-section.tsx:21
+#: src/components/report/report-equipment-section.tsx
 msgid "r80fiF"
 msgstr "장비"
 
-#: src/components/report/report-equipment-slot.tsx:23
+#: src/components/report/report-equipment-slot.tsx
 msgid "JqXZrY"
 msgstr "장비 {id}"
 
-#: src/components/report/report-loading-state.tsx:10
+#: src/components/report/report-loading-state.tsx
 msgid "KfYBwG"
 msgstr "보고서 불러오는 중..."
 
-#: src/components/report/report-overview-card.tsx:24
-#: src/components/reports/reports-overview-drawer.tsx:60
+#: src/components/report/report-overview-card.tsx
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "eQhi5P"
 msgstr "데이터 요약"
 
-#: src/components/report/report-overview-column.tsx:29
-#: src/components/reports/reports-overview-drawer.tsx:65
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "ABZ08/"
 msgstr "모든 적군"
 
-#: src/components/report/report-overview-column.tsx:40
-#: src/components/reports/reports-overview-summary-card.tsx:32
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "kzHEVE"
 msgstr "병과 유닛"
 
-#: src/components/report/report-overview-column.tsx:49
-#: src/components/reports/reports-overview-summary-card.tsx:54
+#: src/components/report/report-overview-column.tsx
+#: src/components/reports/reports-overview-summary-card.tsx
 msgid "1ISgLB"
 msgstr "경상"
 
-#: src/components/report/report-participant-card.tsx:66
+#: src/components/report/report-participant-card.tsx
 msgid "RJ+ZIh"
 msgstr "집결"
 
-#: src/components/report/report-relic-section.tsx:22
+#: src/components/report/report-relic-section.tsx
 msgid "Ft8yjo"
 msgstr ""
 
-#: src/components/report/report-relic-slot.tsx:30
+#: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
 msgstr ""
 
-#: src/components/report/report-view.tsx:63
+#: src/components/report/report-view.tsx
 msgid "x5Tz6M"
 msgstr "보고서"
 
-#: src/components/reports/reports-empty-state-row.tsx:11
+#: src/components/reports/reports-empty-state-row.tsx
 msgid "43CUrU"
 msgstr "보고서를 찾을 수 없습니다."
 
-#: src/components/reports/reports-filter-dialog.tsx:107
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "bUd0tj"
 msgstr "양측 모두"
 
-#: src/components/reports/reports-filter-dialog.tsx:180
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "zSOvI0"
 msgstr "필터"
 
-#: src/components/reports/reports-filter-dialog.tsx:182
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "lVxkzV"
 msgstr "메타데이터, 사령관, 전투 역할별로 보고서를 필터링합니다."
 
-#: src/components/reports/reports-filter-dialog.tsx:187
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "8Q504V"
 msgstr "메타데이터"
 
-#: src/components/reports/reports-filter-dialog.tsx:212
-#: src/components/reports/reports-filter-dialog.tsx:242
-#: src/components/reports/reports-filter-dialog.tsx:260
-#: src/components/reports/reports-filter-dialog.tsx:283
-#: src/components/reports/reports-filter-dialog.tsx:301
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "zQvVDJ"
 msgstr "전체"
 
-#: src/components/reports/reports-filter-dialog.tsx:234
-#: src/components/reports/reports-filter-dialog.tsx:275
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
 msgstr "주사령관"
 
-#: src/components/reports/reports-filter-dialog.tsx:252
-#: src/components/reports/reports-filter-dialog.tsx:293
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "SHldaq"
 msgstr "부사령관"
 
-#: src/components/reports/reports-filter-dialog.tsx:313
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "+XTzdP"
 msgstr "전투"
 
-#: src/components/reports/reports-filter-dialog.tsx:316
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "RZr1Nw"
 msgstr "집결 측"
 
-#: src/components/reports/reports-filter-dialog.tsx:339
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "PFb9jT"
 msgstr "주둔 측"
 
-#: src/components/reports/reports-filter-dialog.tsx:365
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
 msgstr "주둔 건물"
 
-#: src/components/reports/reports-filter-dialog.tsx:373
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3/h"
 msgstr "전체 선택"
 
-#: src/components/reports/reports-filter-dialog.tsx:376
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "ptYapO"
 msgstr "연맹 깃발"
 
-#: src/components/reports/reports-filter-dialog.tsx:379
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "iScUrx"
 msgstr "연맹 요새"
 
-#: src/components/reports/reports-filter-dialog.tsx:382
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "/VnDMl"
 msgstr "기타"
 
-#: src/components/reports/reports-filter-dialog.tsx:405
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "jm/spn"
 msgstr "초기화"
 
-#: src/components/reports/reports-filter-dialog.tsx:407
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "EWw/tK"
 msgstr "적용"
 
-#: src/components/reports/reports-overview-drawer.tsx:46
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "QRVQkf"
 msgstr ""
 
-#: src/components/reports/reports-overview-drawer.tsx:48
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "EWfXcY"
 msgstr ""
 
-#: src/components/reports/reports-overview-drawer.tsx:52
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "lY8J2h"
 msgstr ""
 
-#: src/components/reports/reports-overview-drawer.tsx:72
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "rbrahO"
 msgstr ""
 
-#: src/components/reports/reports-overview-drawer.tsx:75
+#: src/components/reports/reports-overview-drawer.tsx
 msgid "bvIiB8"
 msgstr ""
 
-#: src/components/reports/reports-skeleton-rows.tsx:19
+#: src/components/reports/reports-skeleton-rows.tsx
 msgid "tQtRWX"
 msgstr "보고서 불러오는 중..."
 
-#: src/components/reports/reports-table.tsx:53
+#: src/components/reports/reports-table.tsx
 msgid "IuFETn"
 msgstr "지속 시간"
 
-#: src/components/sidebar-governor-header.tsx:44
+#: src/components/sidebar-governor-header.tsx
 msgid "JoFtLa"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:79
+#: src/components/sidebar-governor-header.tsx
 msgid "p5J4xw"
 msgstr ""
 
-#: src/components/sidebar-governor-header.tsx:89
+#: src/components/sidebar-governor-header.tsx
 msgid "hquG55"
 msgstr "쿠키 설정"
 
-#: src/components/sidebar-governor-header.tsx:94
+#: src/components/sidebar-governor-header.tsx
 msgid "xXbJso"
 msgstr "로그아웃"
 
-#: src/hooks/use-ark-match-detail.ts:53
-#: src/hooks/use-ark-match-history.ts:65
-#: src/hooks/use-olympian-arena-duel.ts:36
-#: src/hooks/use-olympian-arena-duel.ts:45
-#: src/hooks/use-olympian-arena-duels.ts:79
-#: src/hooks/use-olympian-arena-duels.ts:110
-#: src/hooks/use-olympian-arena-duels.ts:139
-#: src/hooks/use-olympian-arena-duels.ts:155
-#: src/hooks/use-report.ts:34
-#: src/hooks/use-report.ts:43
-#: src/hooks/use-reports-page.ts:114
-#: src/hooks/use-reports-page.ts:178
-#: src/hooks/use-reports-page.ts:218
-#: src/hooks/use-reports-page.ts:235
+#: src/hooks/use-ark-match-detail.ts
+#: src/hooks/use-ark-match-history.ts
+#: src/hooks/use-olympian-arena-duel.ts
+#: src/hooks/use-olympian-arena-duels.ts
+#: src/hooks/use-report.ts
+#: src/hooks/use-reports-page.ts
 msgid "JUgfbD"
 msgstr ""

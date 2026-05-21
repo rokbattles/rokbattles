@@ -6,13 +6,12 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin({
   experimental: {
     srcPath: "./src",
-    extract: {
-      sourceLocale: "en",
-    },
+    extract: true,
     messages: {
       path: "./src/i18n/messages",
       format: "po",
       locales: "infer",
+      sourceLocale: "en",
       precompile: true,
     },
   },
