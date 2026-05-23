@@ -7,7 +7,7 @@ pub fn runtime_hint() -> &'static str {
     } else if cfg!(target_os = "linux") {
         "Linux runtime prerequisite: run with packet-capture permissions, for example cap_net_raw and cap_net_admin on the app binary."
     } else if cfg!(target_os = "macos") {
-        "macOS runtime prerequisite: allow packet capture for this app, or run it with an approved packet-capture entitlement."
+        "macOS runtime prerequisite: grant access to /dev/bpf* capture devices."
     } else {
         "Runtime prerequisite: install libpcap/Npcap for this platform and grant packet-capture permissions."
     }
