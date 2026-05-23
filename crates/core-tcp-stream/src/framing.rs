@@ -1,7 +1,10 @@
-//! Reader for two-byte length-prefixed stream frames.
+//! Reader for length-prefixed stream frames.
 
-/// Largest body length that fits in the two-byte prefix.
-pub const MAX_FRAME_BODY_LEN: usize = u16::MAX as usize;
+/// Prefix marker used when a body length does not fit in two bytes.
+const EXTENDED_PREFIX: u16 = u16::MAX;
+
+/// Largest body length accepted by the stream reader.
+pub const MAX_FRAME_BODY_LEN: usize = 4 * 1024 * 1024;
 
 /// Errors from the frame reader.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
@@ -42,17 +45,16 @@ impl FrameReader {
 
         let mut frames = Vec::new();
         loop {
-            if self.buffer.len() < 2 {
+            let Some(prefix) = frame_prefix(&self.buffer) else {
                 return Ok(frames);
-            }
-
-            let length = usize::from(u16::from_be_bytes([self.buffer[0], self.buffer[1]]));
+            };
+            let FramePrefix { length, prefix_len } = prefix;
             if length > MAX_FRAME_BODY_LEN {
                 self.buffer.clear();
                 return Err(FrameReadError::BodyTooLarge { length, max: MAX_FRAME_BODY_LEN });
             }
 
-            let Some(end) = 2usize.checked_add(length) else {
+            let Some(end) = prefix_len.checked_add(length) else {
                 self.buffer.clear();
                 return Err(FrameReadError::BodyTooLarge { length, max: MAX_FRAME_BODY_LEN });
             };
@@ -60,13 +62,35 @@ impl FrameReader {
                 return Ok(frames);
             }
 
-            // Drop the two-byte transport prefix before handing the body to
-            // callers. Draining also leaves the buffer ready for the next frame.
-            let body = self.buffer[2..end].to_vec();
+            let body = self.buffer[prefix_len..end].to_vec();
             self.buffer.drain(..end);
             frames.push(body);
         }
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct FramePrefix {
+    length: usize,
+    prefix_len: usize,
+}
+
+fn frame_prefix(buffer: &[u8]) -> Option<FramePrefix> {
+    if buffer.len() < 2 {
+        return None;
+    }
+
+    let short = u16::from_be_bytes([buffer[0], buffer[1]]);
+    if short != EXTENDED_PREFIX {
+        return Some(FramePrefix { length: usize::from(short), prefix_len: 2 });
+    }
+
+    if buffer.len() < 6 {
+        return None;
+    }
+
+    let extended = u32::from_be_bytes([buffer[2], buffer[3], buffer[4], buffer[5]]);
+    Some(FramePrefix { length: extended as usize, prefix_len: 6 })
 }
 
 #[cfg(test)]
@@ -101,5 +125,16 @@ mod tests {
             .expect("coalesced frames should parse");
 
         assert_eq!(frames, vec![vec![0xaa], vec![0xbb, 0xcc]]);
+    }
+
+    #[test]
+    fn push_should_read_extended_length_prefix() {
+        let mut reader = FrameReader::new();
+
+        let frames = reader
+            .push(&[0xff, 0xff, 0x00, 0x00, 0x00, 0x03, 0xaa, 0xbb, 0xcc])
+            .expect("extended frame should parse");
+
+        assert_eq!(frames, vec![vec![0xaa, 0xbb, 0xcc]]);
     }
 }

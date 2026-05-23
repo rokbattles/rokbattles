@@ -1,4 +1,4 @@
-//! TCP stream tracking and server-frame extraction.
+//! TCP stream tracking and accepted-fragment extraction.
 
 use std::collections::HashMap;
 
@@ -11,13 +11,15 @@ use crate::{
     types::{Direction, StreamId},
 };
 
-/// A server-to-client frame from a stream we can process.
+/// A TCP payload fragment from a stream we can process.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct ServerFrame {
-    /// Zero-based frame number among server-to-client frames.
+pub struct StreamFragment {
+    /// Zero-based fragment number among accepted stream payloads.
     pub index: u64,
-    /// Raw frame body with the two-byte length prefix removed.
-    pub body: Vec<u8>,
+    /// Direction of the TCP payload bytes.
+    pub direction: Direction,
+    /// Raw TCP payload bytes, including any frame length prefixes.
+    pub payload: Vec<u8>,
 }
 
 /// Events emitted by [`StreamTracker`].
@@ -30,12 +32,12 @@ pub enum TrackerEvent {
         /// Keys parsed from the handshake.
         handshake: Handshake,
     },
-    /// A server-to-client frame from a processable stream.
-    ServerFrame {
+    /// A TCP payload fragment from a processable stream.
+    StreamFragment {
         /// TCP connection tuple.
         stream: StreamId,
-        /// Captured server frame.
-        frame: ServerFrame,
+        /// Captured TCP payload bytes.
+        fragment: StreamFragment,
     },
     /// A stream was rejected before we could process it.
     StreamIgnored {
@@ -99,9 +101,9 @@ impl StreamTracker {
 
     /// Push one TCP payload into the tracker.
     ///
-    /// Client-to-server bytes are only used to detect captures that started too
-    /// late. The output is server-to-client only because that is all ingress
-    /// stores.
+    /// Client-to-server bytes reject captures that started too late before the
+    /// server handshake. After a stream is accepted, both directions are emitted
+    /// as fragments so downstream processing can keep the stream cipher in sync.
     pub fn push_packet(&mut self, packet: TcpPayload) -> Vec<TrackerEvent> {
         let Some((stream, direction)) = self.stream_for_packet(&packet) else {
             return Vec::new();
@@ -157,7 +159,8 @@ struct CandidateStream {
     id: StreamId,
     state: CandidateState,
     server_reader: FrameReader,
-    server_frames: u64,
+    fragments: u64,
+    pending_server_payload: Vec<u8>,
 }
 
 impl CandidateStream {
@@ -166,7 +169,8 @@ impl CandidateStream {
             id,
             state: CandidateState::Waiting,
             server_reader: FrameReader::new(),
-            server_frames: 0,
+            fragments: 0,
+            pending_server_payload: Vec::new(),
         }
     }
 
@@ -187,47 +191,67 @@ impl CandidateStream {
         }
 
         if direction == Direction::ClientToServer {
-            return Vec::new();
+            return self.accepted_fragment(direction, payload).into_iter().collect();
         }
 
-        let frames = match self.server_reader.push(payload) {
-            Ok(frames) => frames,
-            Err(FrameReadError::BodyTooLarge { length, max }) => {
-                self.state = CandidateState::Ignored;
-                return vec![TrackerEvent::StreamIgnored {
-                    stream: self.id.clone(),
-                    reason: IgnoreReason::InvalidFrameLength { length, max },
-                }];
-            }
-        };
+        if matches!(self.state, CandidateState::Waiting) {
+            self.pending_server_payload.extend_from_slice(payload);
+        }
 
         let mut events = Vec::new();
-        for body in frames {
-            if matches!(self.state, CandidateState::Waiting) {
-                let Some(handshake) = parse_handshake(&body) else {
+        if matches!(self.state, CandidateState::Waiting) {
+            let frames = match self.server_reader.push(payload) {
+                Ok(frames) => frames,
+                Err(FrameReadError::BodyTooLarge { length, max }) => {
                     self.state = CandidateState::Ignored;
-                    events.push(TrackerEvent::StreamIgnored {
+                    self.pending_server_payload.clear();
+                    return vec![TrackerEvent::StreamIgnored {
                         stream: self.id.clone(),
-                        reason: IgnoreReason::FirstServerFrameWasNotHandshake,
-                    });
-                    break;
-                };
+                        reason: IgnoreReason::InvalidFrameLength { length, max },
+                    }];
+                }
+            };
 
-                self.state = CandidateState::Accepted;
-                events.push(TrackerEvent::StreamAccepted { stream: self.id.clone(), handshake });
-            }
-
-            if matches!(self.state, CandidateState::Accepted) {
-                let index = self.server_frames;
-                self.server_frames += 1;
-                events.push(TrackerEvent::ServerFrame {
+            let Some(first_body) = frames.first() else {
+                return events;
+            };
+            let Some(handshake) = parse_handshake(first_body) else {
+                self.state = CandidateState::Ignored;
+                self.pending_server_payload.clear();
+                events.push(TrackerEvent::StreamIgnored {
                     stream: self.id.clone(),
-                    frame: ServerFrame { index, body },
+                    reason: IgnoreReason::FirstServerFrameWasNotHandshake,
                 });
+                return events;
+            };
+
+            self.state = CandidateState::Accepted;
+            events.push(TrackerEvent::StreamAccepted { stream: self.id.clone(), handshake });
+            if !self.pending_server_payload.is_empty() {
+                let payload = std::mem::take(&mut self.pending_server_payload);
+                events.push(self.fragment_event(Direction::ServerToClient, payload));
             }
+        } else if let Some(fragment) = self.accepted_fragment(direction, payload) {
+            events.push(fragment);
         }
 
         events
+    }
+
+    fn accepted_fragment(&mut self, direction: Direction, payload: &[u8]) -> Option<TrackerEvent> {
+        if payload.is_empty() || !matches!(self.state, CandidateState::Accepted) {
+            return None;
+        }
+        Some(self.fragment_event(direction, payload.to_vec()))
+    }
+
+    fn fragment_event(&mut self, direction: Direction, payload: Vec<u8>) -> TrackerEvent {
+        let index = self.fragments;
+        self.fragments += 1;
+        TrackerEvent::StreamFragment {
+            stream: self.id.clone(),
+            fragment: StreamFragment { index, direction, payload },
+        }
     }
 }
 
@@ -261,13 +285,36 @@ mod tests {
     }
 
     #[test]
-    fn stream_tracker_should_emit_only_server_frames_after_acceptance() {
+    fn stream_tracker_should_emit_only_fragments_after_acceptance() {
         let mut tracker = StreamTracker::new(CLIENT_PORT);
         let _ = tracker.push_packet(packet(CLIENT_PORT, 56_380, prefixed(HANDSHAKE_BODY)));
 
         let events = tracker.push_packet(packet(56_380, CLIENT_PORT, prefixed(&[0xaa])));
 
-        assert!(events.is_empty());
+        assert!(matches!(events.first(), Some(TrackerEvent::StreamFragment { .. })));
+    }
+
+    #[test]
+    fn stream_tracker_should_emit_accepted_fragments_in_both_directions() {
+        let mut tracker = StreamTracker::new(CLIENT_PORT);
+
+        let accepted = tracker.push_packet(packet(CLIENT_PORT, 56_380, prefixed(HANDSHAKE_BODY)));
+        let client = tracker.push_packet(packet(56_380, CLIENT_PORT, prefixed(&[0xaa])));
+
+        assert!(matches!(
+            accepted.get(1),
+            Some(TrackerEvent::StreamFragment {
+                fragment: StreamFragment { index: 0, direction: Direction::ServerToClient, .. },
+                ..
+            })
+        ));
+        assert!(matches!(
+            client.first(),
+            Some(TrackerEvent::StreamFragment {
+                fragment: StreamFragment { index: 1, direction: Direction::ClientToServer, .. },
+                ..
+            })
+        ));
     }
 
     #[test]

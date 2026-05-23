@@ -27,9 +27,9 @@ pub use capture::{
 };
 pub use handshake::{HANDSHAKE_API_ID, Handshake, parse_handshake};
 pub use ingest::{
-    FrameBodyError, TcpStreamBatch, TcpStreamBatchValidation, TcpStreamFrameUpload,
-    ValidatedTcpStreamBatch, ValidatedTcpStreamFrame,
+    FragmentPayloadError, TcpStreamBatch, TcpStreamBatchValidation, TcpStreamFragmentUpload,
+    ValidatedTcpStreamBatch, ValidatedTcpStreamFragment,
 };
 pub use packet::{TcpPayload, parse_tcp_packet};
-pub use tracker::{IgnoreReason, StreamTracker, TrackerEvent};
+pub use tracker::{IgnoreReason, StreamFragment, StreamTracker, TrackerEvent};
 pub use types::{CLIENT_PORT, Direction, StreamId};
