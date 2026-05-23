@@ -52,8 +52,12 @@ impl Storage {
                 IndexOptions::builder().expire_after(Duration::from_secs(60 * 60 * 24 * 7)).build(),
             )
             .build();
+        let tcp_processor_index = IndexModel::builder()
+            .keys(doc! { "status": 1, "stream_ended": 1, "updatedAt": 1 })
+            .build();
         self.tcp_streams_raw.create_index(tcp_batch_index).await?;
         self.tcp_streams_raw.create_index(tcp_created_index).await?;
+        self.tcp_streams_raw.create_index(tcp_processor_index).await?;
         Ok(())
     }
 

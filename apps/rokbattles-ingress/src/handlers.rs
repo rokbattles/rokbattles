@@ -37,7 +37,7 @@ pub struct UploadResponse {
 pub struct TcpStreamUploadResponse {
     status: String,
     capture_id: String,
-    frame_count: usize,
+    fragment_count: usize,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -205,7 +205,7 @@ pub async fn upload(
     Ok((status, Json(response)))
 }
 
-/// Store one server-to-client TCP stream batch for later processing.
+/// Store one TCP stream fragment batch for later processing.
 pub async fn upload_tcp_stream(
     State(state): State<Arc<AppState>>,
     headers: HeaderMap,
@@ -213,7 +213,7 @@ pub async fn upload_tcp_stream(
 ) -> Result<impl IntoResponse, ApiError> {
     let user_agent = extract_user_agent(&headers)?;
     let validated = batch.validate().map_err(|error| ApiError::bad_request(error.to_string()))?;
-    let frame_count = validated.frames.len();
+    let fragment_count = validated.fragments.len();
     let capture_id = validated.capture_id.clone();
 
     let doc = tcp_stream_doc(&validated, &user_agent, DateTime::now())?;
@@ -228,7 +228,7 @@ pub async fn upload_tcp_stream(
 
     Ok((
         StatusCode::CREATED,
-        Json(TcpStreamUploadResponse { status: "stored".to_string(), capture_id, frame_count }),
+        Json(TcpStreamUploadResponse { status: "stored".to_string(), capture_id, fragment_count }),
     ))
 }
 
@@ -440,20 +440,19 @@ fn tcp_stream_doc(
     user_agent: &str,
     now: DateTime,
 ) -> Result<mongodb::bson::Document, ApiError> {
-    let first_frame_index =
-        batch.frames.first().ok_or_else(|| ApiError::bad_request("missing tcp frames"))?.index;
-    let last_frame_index =
-        batch.frames.last().ok_or_else(|| ApiError::bad_request("missing tcp frames"))?.index;
-
-    let frames = batch
-        .frames
+    let fragments = batch
+        .fragments
         .iter()
-        .map(|frame| {
+        .map(|fragment| {
             Ok(Bson::Document(doc! {
-                "index": u64_to_i64(frame.index, "frame index")?,
-                "body": Bson::Binary(Binary {
+                "index": u64_to_i64(fragment.index, "fragment index")?,
+                "direction": match fragment.direction {
+                    core_tcp_stream::Direction::ClientToServer => "client_to_server",
+                    core_tcp_stream::Direction::ServerToClient => "server_to_client",
+                },
+                "payload": Bson::Binary(Binary {
                     subtype: BinarySubtype::Generic,
-                    bytes: frame.body.clone(),
+                    bytes: fragment.payload.clone(),
                 }),
             }))
         })
@@ -462,6 +461,7 @@ fn tcp_stream_doc(
     Ok(doc! {
         "capture_id": &batch.capture_id,
         "batch_index": u64_to_i64(batch.batch_index, "batch index")?,
+        "stream_ended": batch.stream_ended,
         "status": STATUS_PENDING,
         "user_agent": user_agent,
         "stream": {
@@ -475,11 +475,9 @@ fn tcp_stream_doc(
             "key1": u64_to_i64(batch.handshake.key1, "handshake key1")?,
             "key2": u64_to_i64(batch.handshake.key2, "handshake key2")?,
         },
-        "first_frame_index": u64_to_i64(first_frame_index, "first frame index")?,
-        "last_frame_index": u64_to_i64(last_frame_index, "last frame index")?,
-        "frame_count": i32::try_from(batch.frames.len())
-            .map_err(|_| ApiError::bad_request("too many tcp frames"))?,
-        "frames": Bson::Array(frames),
+        "fragment_count": i32::try_from(batch.fragments.len())
+            .map_err(|_| ApiError::bad_request("too many tcp fragments"))?,
+        "fragments": Bson::Array(fragments),
         "createdAt": now,
         "updatedAt": now,
     })
@@ -493,7 +491,7 @@ fn u64_to_i64(value: u64, label: &str) -> Result<i64, ApiError> {
 mod tests {
     use std::net::{IpAddr, Ipv4Addr};
 
-    use core_tcp_stream::{CLIENT_PORT, Handshake, StreamId, TcpStreamFrameUpload};
+    use core_tcp_stream::{CLIENT_PORT, Direction, Handshake, StreamId, TcpStreamFragmentUpload};
     use serde_json::json;
 
     use super::*;
@@ -837,10 +835,11 @@ mod tests {
     }
 
     #[test]
-    fn tcp_stream_doc_stores_frame_bodies_as_binary() {
+    fn tcp_stream_doc_stores_fragment_payloads_as_binary() {
         let batch = TcpStreamBatch {
             capture_id: "capture-1".to_string(),
             batch_index: 0,
+            stream_ended: false,
             stream: StreamId {
                 client_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 1)),
                 client_port: 56_380,
@@ -848,13 +847,17 @@ mod tests {
                 server_port: CLIENT_PORT,
             },
             handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
-            frames: vec![TcpStreamFrameUpload::from_body(0, &[0xaa, 0xbb])],
+            fragments: vec![TcpStreamFragmentUpload::from_payload(
+                0,
+                Direction::ServerToClient,
+                &[0x00, 0x02, 0xaa, 0xbb],
+            )],
         };
         let validated = batch.validate().expect("batch should validate");
 
         let doc = tcp_stream_doc(&validated, "ROKBattles/1.0.0", DateTime::now())
             .expect("doc should build");
 
-        assert_eq!(doc.get_i32("frame_count"), Ok(1));
+        assert_eq!(doc.get_i32("fragment_count"), Ok(1));
     }
 }
