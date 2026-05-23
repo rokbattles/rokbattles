@@ -17,8 +17,8 @@ use serde::Serialize;
 use tauri::{AppHandle, Emitter};
 use tokio::sync::{mpsc, watch};
 
+pub(crate) use self::config::WatcherConfig;
 use self::{
-    config::WatcherConfig,
     mail::file_name_for_upload,
     scan::{apply_fs_event, next_file, refresh_scans_if_needed, sync_fs_watches},
     state::WatcherState,

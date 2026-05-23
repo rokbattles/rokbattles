@@ -53,6 +53,8 @@ pub(crate) struct WatcherConfig {
     pub(crate) config_refresh_interval: Duration,
     /// Ingress upload endpoint.
     pub(crate) api_ingress_url: &'static str,
+    /// Ingress TCP stream endpoint.
+    pub(crate) api_tcp_stream_url: &'static str,
 }
 
 impl Default for WatcherConfig {
@@ -83,6 +85,7 @@ impl Default for WatcherConfig {
             fs_event_queue_capacity: 4096,
             config_refresh_interval: Duration::from_secs(2),
             api_ingress_url: "https://ingress.rokbattles.com/v2/upload",
+            api_tcp_stream_url: "https://ingress.rokbattles.com/v2/tcp-stream",
         }
     }
 }

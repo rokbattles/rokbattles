@@ -8,6 +8,18 @@ export type DiscoverMailcacheResult = {
   message: string;
 };
 
+export type NetworkClientState =
+  | "disabled"
+  | "waiting"
+  | "connected"
+  | "disconnected"
+  | "error";
+
+export type NetworkStatus = {
+  state: NetworkClientState;
+  message?: string | null;
+};
+
 export function listDirs() {
   return invoke<string[]>("list_dirs");
 }
@@ -42,6 +54,14 @@ export function getCloseBehavior() {
 
 export function setCloseBehavior(behavior: CloseChoice) {
   return invoke("set_close_behavior", { behavior });
+}
+
+export function getExperimentalNetworkIntrospection() {
+  return invoke<boolean>("get_experimental_network_introspection");
+}
+
+export function getNetworkIntrospectionStatus() {
+  return invoke<NetworkStatus>("get_network_introspection_status");
 }
 
 export function minimizeToTray() {
