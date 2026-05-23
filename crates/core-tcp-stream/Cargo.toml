@@ -1,0 +1,17 @@
+[package]
+name = "core-tcp-stream"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = []
+pcap-capture = ["dep:pcap"]
+
+[dependencies]
+base64 = { workspace = true }
+pcap = { workspace = true, optional = true }
+serde = { workspace = true, features = ["derive"] }
+thiserror = { workspace = true }
+
+[lib]
+doctest = false
