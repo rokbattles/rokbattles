@@ -72,9 +72,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         GovernorLayer::new(governor_config)
     };
 
+    let protected_routes = Router::new()
+        .route("/v2/upload", post(handlers::upload))
+        .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
+        .layer(rate_limit_layer);
+
     let app = Router::new()
         .route("/health", get(handlers::health))
-        .route("/v2/upload", post(handlers::upload).layer(rate_limit_layer))
+        .merge(protected_routes)
         .with_state(state.clone())
         .layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
 

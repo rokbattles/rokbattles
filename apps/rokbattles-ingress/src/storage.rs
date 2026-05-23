@@ -1,4 +1,6 @@
-//! MongoDB persistence helpers for raw and lossless mail storage.
+//! MongoDB access for raw mail and temporary TCP stream batches.
+
+use std::time::Duration;
 
 use mongodb::{
     Collection, IndexModel,
@@ -6,26 +8,31 @@ use mongodb::{
     options::IndexOptions,
 };
 
-/// Typed access to the mail collections.
+/// Ingress collections used by upload handlers.
 #[derive(Debug, Clone)]
 pub struct Storage {
     raw: Collection<Document>,
     raw_lossless: Collection<Document>,
+    tcp_streams_raw: Collection<Document>,
 }
 
-/// Snapshot of the existing mail metadata.
+/// Mail metadata needed to decide whether an upload is newer.
 #[derive(Debug, Clone, Copy)]
 pub struct ExistingMail {
     pub attack_count: i64,
 }
 
 impl Storage {
-    /// Create storage helpers for the configured database.
+    /// Bind storage helpers to the configured database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self { raw: db.collection("mails_raw"), raw_lossless: db.collection("mails_raw_lossless") }
+        Self {
+            raw: db.collection("mails_raw"),
+            raw_lossless: db.collection("mails_raw_lossless"),
+            tcp_streams_raw: db.collection("tcp_streams_raw"),
+        }
     }
 
-    /// Ensure required indexes exist.
+    /// Create indexes used by the upload paths.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         let mail_id_index = IndexModel::builder()
             .keys(doc! { "mail_id": 1 })
@@ -34,10 +41,23 @@ impl Storage {
 
         self.raw.create_index(mail_id_index.clone()).await?;
         self.raw_lossless.create_index(mail_id_index).await?;
+
+        let tcp_batch_index = IndexModel::builder()
+            .keys(doc! { "capture_id": 1, "batch_index": 1 })
+            .options(IndexOptions::builder().unique(true).build())
+            .build();
+        let tcp_created_index = IndexModel::builder()
+            .keys(doc! { "createdAt": 1 })
+            .options(
+                IndexOptions::builder().expire_after(Duration::from_secs(60 * 60 * 24 * 7)).build(),
+            )
+            .build();
+        self.tcp_streams_raw.create_index(tcp_batch_index).await?;
+        self.tcp_streams_raw.create_index(tcp_created_index).await?;
         Ok(())
     }
 
-    /// Load the existing mail metadata if present.
+    /// Load existing mail metadata, if this mail was already uploaded.
     pub async fn find_existing(
         &self,
         mail_id: &str,
@@ -76,6 +96,26 @@ impl Storage {
         update: Document,
     ) -> mongodb::error::Result<()> {
         self.raw_lossless.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
+        Ok(())
+    }
+
+    /// Store one raw TCP stream batch. Duplicate retries count as success.
+    pub async fn upsert_tcp_stream_raw(
+        &self,
+        capture_id: &str,
+        batch_index: i64,
+        doc: Document,
+    ) -> mongodb::error::Result<()> {
+        self.tcp_streams_raw
+            .update_one(
+                doc! {
+                    "capture_id": capture_id,
+                    "batch_index": batch_index,
+                },
+                doc! { "$setOnInsert": doc },
+            )
+            .upsert(true)
+            .await?;
         Ok(())
     }
 }
