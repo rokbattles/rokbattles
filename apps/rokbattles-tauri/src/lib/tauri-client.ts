@@ -8,12 +8,7 @@ export type DiscoverMailcacheResult = {
   message: string;
 };
 
-export type NetworkClientState =
-  | "disabled"
-  | "waiting"
-  | "connected"
-  | "disconnected"
-  | "error";
+export type NetworkClientState = "disabled" | "waiting" | "connected" | "disconnected" | "error";
 
 export type NetworkStatus = {
   state: NetworkClientState;
