@@ -9,7 +9,7 @@ use std::{
 
 use core_tcp_stream::{
     CLIENT_PORT, CaptureConfig, CaptureError, CaptureEvent, CaptureSource, Handshake, StreamId,
-    TcpStreamBatch, TcpStreamFrameUpload, TrackerEvent, run_capture_until,
+    TcpStreamBatch, TcpStreamFragmentUpload, TrackerEvent, run_capture_until,
 };
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
@@ -18,7 +18,7 @@ use tokio::sync::mpsc;
 use crate::watcher::WatcherConfig;
 
 const BATCH_FLUSH_INTERVAL: Duration = Duration::from_secs(75);
-const BATCH_FRAME_TARGET: usize = 4096;
+const BATCH_FRAGMENT_TARGET: usize = 4096;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -181,7 +181,7 @@ struct UploadState {
     batch_index: u64,
     stream: StreamId,
     handshake: Handshake,
-    frames: Vec<TcpStreamFrameUpload>,
+    fragments: Vec<TcpStreamFragmentUpload>,
 }
 
 async fn upload_loop(
@@ -201,13 +201,13 @@ async fn upload_loop(
                         handle_tracker_event(&app, &api_url, &client, &mut streams, event).await;
                     }
                     None => {
-                        flush_all(&app, &api_url, &client, &mut streams).await;
+                        flush_all(&app, &api_url, &client, &mut streams, true).await;
                         break;
                     }
                 }
             }
             _ = flush_interval.tick() => {
-                flush_all(&app, &api_url, &client, &mut streams).await;
+                flush_all(&app, &api_url, &client, &mut streams, false).await;
             }
         }
     }
@@ -229,22 +229,26 @@ async fn handle_tracker_event(
                     batch_index: 0,
                     stream,
                     handshake,
-                    frames: Vec::new(),
+                    fragments: Vec::new(),
                 },
             );
         }
-        TrackerEvent::ServerFrame { stream, frame } => {
+        TrackerEvent::StreamFragment { stream, fragment } => {
             let Some(state) = streams.get_mut(&stream) else {
                 return;
             };
-            state.frames.push(TcpStreamFrameUpload::from_body(frame.index, &frame.body));
-            if state.frames.len() >= BATCH_FRAME_TARGET {
-                let _ = flush_stream(app, api_url, client, state).await;
+            state.fragments.push(TcpStreamFragmentUpload::from_payload(
+                fragment.index,
+                fragment.direction,
+                &fragment.payload,
+            ));
+            if state.fragments.len() >= BATCH_FRAGMENT_TARGET {
+                let _ = flush_stream(app, api_url, client, state, false).await;
             }
         }
         TrackerEvent::StreamEnded { stream } => {
             if let Some(mut state) = streams.remove(&stream)
-                && !flush_stream(app, api_url, client, &mut state).await
+                && !flush_stream(app, api_url, client, &mut state, true).await
             {
                 streams.insert(stream, state);
             }
@@ -258,9 +262,10 @@ async fn flush_all(
     api_url: &str,
     client: &reqwest::Client,
     streams: &mut HashMap<StreamId, UploadState>,
+    stream_ended: bool,
 ) {
     for state in streams.values_mut() {
-        let _ = flush_stream(app, api_url, client, state).await;
+        let _ = flush_stream(app, api_url, client, state, stream_ended).await;
     }
 }
 
@@ -269,44 +274,48 @@ async fn flush_stream(
     api_url: &str,
     client: &reqwest::Client,
     state: &mut UploadState,
+    stream_ended: bool,
 ) -> bool {
-    if state.frames.is_empty() {
+    if state.fragments.is_empty() && !stream_ended {
         return true;
     }
 
-    let frames = std::mem::take(&mut state.frames);
-    let frame_count = frames.len();
+    let fragments = std::mem::take(&mut state.fragments);
+    let fragment_count = fragments.len();
     let batch = TcpStreamBatch {
         capture_id: state.capture_id.clone(),
         batch_index: state.batch_index,
+        stream_ended,
         stream: state.stream.clone(),
         handshake: state.handshake,
-        frames,
+        fragments,
     };
 
     match post_tcp_stream_batch(client, api_url, &batch).await {
         Ok(()) => {
-            emit_log(app, format!("Uploaded {} network frames", frame_count));
+            emit_log(app, format!("Uploaded {} network fragments", fragment_count));
             state.batch_index = state.batch_index.saturating_add(1);
             true
         }
         Err(message) => {
-            restore_failed_frames(state, batch.frames);
-            emit_log(app, format!("Failed to upload network frames: {message}"));
+            restore_failed_fragments(state, batch.fragments);
+            emit_log(app, format!("Failed to upload network fragments: {message}"));
             false
         }
     }
 }
 
-fn restore_failed_frames(state: &mut UploadState, failed_frames: Vec<TcpStreamFrameUpload>) {
-    if state.frames.is_empty() {
-        state.frames = failed_frames;
-        return;
+fn restore_failed_fragments(
+    state: &mut UploadState,
+    failed_fragments: Vec<TcpStreamFragmentUpload>,
+) {
+    if state.fragments.is_empty() {
+        state.fragments = failed_fragments;
+    } else {
+        let mut restored = failed_fragments;
+        restored.append(&mut state.fragments);
+        state.fragments = restored;
     }
-
-    let mut restored = failed_frames;
-    restored.append(&mut state.frames);
-    state.frames = restored;
 }
 
 async fn post_tcp_stream_batch(
@@ -399,7 +408,7 @@ impl CaptureStatusTracker {
                     None
                 }
             }
-            TrackerEvent::ServerFrame { .. } => None,
+            TrackerEvent::StreamFragment { .. } => None,
         }
     }
 }
