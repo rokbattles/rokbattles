@@ -85,7 +85,7 @@ mod tests {
 
         let artifact = RuntimeArtifact::load(&path).expect("artifact should load");
         let decoded = artifact.descriptors.decode("Test", &[0x0a, 0x03, b'b', b'o', b'b']);
-        let _ = fs::remove_file(path);
+        fs::remove_file(path).expect("artifact fixture should clean up");
 
         assert_eq!(artifact.api_map.get(14).map(ApiMapping::schema), Some("Test"));
         assert_eq!(decoded.get("Name").and_then(serde_json::Value::as_str), Some("bob"));
@@ -103,7 +103,7 @@ mod tests {
         );
 
         let error = RuntimeArtifact::load(&path).expect_err("version should fail");
-        let _ = fs::remove_file(path);
+        fs::remove_file(path).expect("artifact fixture should clean up");
 
         assert_eq!(error.to_string(), "invalid field: schema_version");
     }
