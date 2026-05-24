@@ -874,7 +874,7 @@ dependencies = [
 
 [[package]]
 name = "core-tcp-processor"
-version = "0.1.0"
+version = "1.0.5"
 dependencies = [
  "core-tcp-stream",
  "dotenvy",
@@ -891,7 +891,7 @@ dependencies = [
 
 [[package]]
 name = "core-tcp-stream"
-version = "0.1.0"
+version = "1.0.5"
 dependencies = [
  "base64 0.22.1",
  "pcap",
