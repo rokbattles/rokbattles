@@ -1,15 +1,15 @@
 use std::{
-    collections::{HashMap, HashSet},
+    collections::HashMap,
     sync::{
         Arc, Mutex,
         atomic::{AtomicBool, Ordering},
     },
-    time::{Duration, SystemTime},
+    time::{Duration, Instant, SystemTime},
 };
 
 use core_tcp_stream::{
     CLIENT_PORT, CaptureConfig, CaptureError, CaptureEvent, CaptureSource, Handshake, StreamId,
-    TcpStreamBatch, TcpStreamFragmentUpload, TrackerEvent, run_capture_until,
+    TcpStreamBatch, TcpStreamFragmentUpload, TrackerEvent, parse_handshake, run_capture_until,
 };
 use serde::Serialize;
 use tauri::{AppHandle, Emitter};
@@ -19,6 +19,8 @@ use crate::watcher::WatcherConfig;
 
 const BATCH_FLUSH_INTERVAL: Duration = Duration::from_secs(75);
 const BATCH_FRAGMENT_TARGET: usize = 4096;
+const HANDSHAKE_ONLY_IDLE_TIMEOUT: Duration = Duration::from_secs(90);
+const ACTIVE_STREAM_IDLE_TIMEOUT: Duration = Duration::from_secs(90);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -182,6 +184,7 @@ struct UploadState {
     stream: StreamId,
     handshake: Handshake,
     fragments: Vec<TcpStreamFragmentUpload>,
+    last_fragment_at: Instant,
 }
 
 async fn upload_loop(
@@ -230,6 +233,7 @@ async fn handle_tracker_event(
                     stream,
                     handshake,
                     fragments: Vec::new(),
+                    last_fragment_at: Instant::now(),
                 },
             );
         }
@@ -242,6 +246,7 @@ async fn handle_tracker_event(
                 fragment.direction,
                 &fragment.payload,
             ));
+            state.last_fragment_at = Instant::now();
             if state.fragments.len() >= BATCH_FRAGMENT_TARGET {
                 let _ = flush_stream(app, api_url, client, state, false).await;
             }
@@ -264,9 +269,62 @@ async fn flush_all(
     streams: &mut HashMap<StreamId, UploadState>,
     stream_ended: bool,
 ) {
-    for state in streams.values_mut() {
+    let stream_ids = streams.keys().cloned().collect::<Vec<_>>();
+    for stream in stream_ids {
+        let Some(state) = streams.get_mut(&stream) else {
+            continue;
+        };
+        if should_hold_handshake_only_stream(state, stream_ended) {
+            continue;
+        }
+        if should_drop_handshake_only_stream(state, stream_ended) {
+            emit_log(app, "Dropped idle handshake-only network stream");
+            streams.remove(&stream);
+            continue;
+        }
         let _ = flush_stream(app, api_url, client, state, stream_ended).await;
     }
+}
+
+fn should_hold_handshake_only_stream(state: &UploadState, stream_ended: bool) -> bool {
+    is_handshake_only_stream(state)
+        && !stream_ended
+        && state.last_fragment_at.elapsed() < HANDSHAKE_ONLY_IDLE_TIMEOUT
+}
+
+fn should_drop_handshake_only_stream(state: &UploadState, stream_ended: bool) -> bool {
+    is_handshake_only_stream(state)
+        && (stream_ended || state.last_fragment_at.elapsed() >= HANDSHAKE_ONLY_IDLE_TIMEOUT)
+}
+
+fn is_handshake_only_stream(state: &UploadState) -> bool {
+    if state.batch_index != 0 || state.fragments.len() != 1 {
+        return false;
+    }
+    let Some(fragment) = state.fragments.first() else {
+        return false;
+    };
+    if fragment.direction != core_tcp_stream::Direction::ServerToClient {
+        return false;
+    }
+    let Ok(payload) = fragment.payload() else {
+        return false;
+    };
+    let Some((frame_body, consumed)) = first_frame(&payload) else {
+        return false;
+    };
+    consumed == payload.len() && parse_handshake(frame_body).is_some()
+}
+
+fn first_frame(payload: &[u8]) -> Option<(&[u8], usize)> {
+    let short = u16::from_be_bytes(payload.get(0..2)?.try_into().ok()?);
+    let (length, body_start): (usize, usize) = if short == u16::MAX {
+        (usize::try_from(u32::from_be_bytes(payload.get(2..6)?.try_into().ok()?)).ok()?, 6)
+    } else {
+        (usize::from(short), 2)
+    };
+    let body_end = body_start.checked_add(length)?;
+    Some((payload.get(body_start..body_end)?, body_end))
 }
 
 async fn flush_stream(
@@ -366,11 +424,12 @@ fn handle_capture_event(
 
 #[derive(Debug, Default)]
 struct CaptureStatusTracker {
-    active_streams: HashSet<StreamId>,
+    active_streams: HashMap<StreamId, Instant>,
 }
 
 impl CaptureStatusTracker {
-    fn waiting_status(&self) -> Option<NetworkStatus> {
+    fn waiting_status(&mut self) -> Option<NetworkStatus> {
+        self.expire_idle_streams();
         if self.active_streams.is_empty() {
             Some(NetworkStatus {
                 state: NetworkClientState::Waiting,
@@ -384,8 +443,12 @@ impl CaptureStatusTracker {
     fn tracker_status(&mut self, event: &TrackerEvent) -> Option<NetworkStatus> {
         match event {
             TrackerEvent::StreamAccepted { stream, .. } => {
-                self.active_streams.insert(stream.clone());
+                self.active_streams.insert(stream.clone(), Instant::now());
                 Some(NetworkStatus { state: NetworkClientState::Connected, message: None })
+            }
+            TrackerEvent::StreamFragment { stream, .. } => {
+                self.active_streams.insert(stream.clone(), Instant::now());
+                None
             }
             TrackerEvent::StreamEnded { stream } => {
                 self.active_streams.remove(stream);
@@ -408,8 +471,12 @@ impl CaptureStatusTracker {
                     None
                 }
             }
-            TrackerEvent::StreamFragment { .. } => None,
         }
+    }
+
+    fn expire_idle_streams(&mut self) {
+        self.active_streams
+            .retain(|_stream, last_seen| last_seen.elapsed() < ACTIVE_STREAM_IDLE_TIMEOUT);
     }
 }
 
@@ -477,9 +544,14 @@ fn error_message(error: &CaptureError) -> String {
 mod tests {
     use std::net::{IpAddr, Ipv4Addr};
 
-    use core_tcp_stream::{IgnoreReason, TrackerEvent};
+    use core_tcp_stream::{Direction, IgnoreReason, TrackerEvent};
 
     use super::*;
+
+    const HANDSHAKE_BODY: &[u8] = &[
+        0x08, 0xf2, 0x42, 0x12, 0x0c, 0x08, 0x97, 0xd9, 0xd0, 0xaa, 0x02, 0x10, 0xd8, 0xb3, 0x98,
+        0xf1, 0x03,
+    ];
 
     #[test]
     fn capture_status_should_not_wait_while_stream_is_active() {
@@ -532,6 +604,57 @@ mod tests {
         assert!(ignored.is_none());
     }
 
+    #[test]
+    fn capture_status_should_expire_idle_streams() {
+        let mut tracker = CaptureStatusTracker::default();
+        let stream = stream_id();
+        tracker
+            .active_streams
+            .insert(stream, Instant::now() - ACTIVE_STREAM_IDLE_TIMEOUT - Duration::from_secs(1));
+
+        let waiting = tracker.waiting_status().expect("idle active stream should be expired");
+
+        assert_eq!(waiting.state, NetworkClientState::Waiting);
+    }
+
+    #[test]
+    fn handshake_only_stream_should_wait_before_uploading() {
+        let state = upload_state(vec![TcpStreamFragmentUpload::from_payload(
+            0,
+            Direction::ServerToClient,
+            &prefixed(HANDSHAKE_BODY),
+        )]);
+
+        assert!(should_hold_handshake_only_stream(&state, false));
+        assert!(!should_drop_handshake_only_stream(&state, false));
+    }
+
+    #[test]
+    fn handshake_only_stream_should_drop_on_final_flush() {
+        let state = upload_state(vec![TcpStreamFragmentUpload::from_payload(
+            0,
+            Direction::ServerToClient,
+            &prefixed(HANDSHAKE_BODY),
+        )]);
+
+        assert!(!should_hold_handshake_only_stream(&state, true));
+        assert!(should_drop_handshake_only_stream(&state, true));
+    }
+
+    #[test]
+    fn multi_frame_first_fragment_should_upload_normally() {
+        let mut payload = prefixed(HANDSHAKE_BODY);
+        payload.extend_from_slice(&prefixed(&[0xaa]));
+        let state = upload_state(vec![TcpStreamFragmentUpload::from_payload(
+            0,
+            Direction::ServerToClient,
+            &payload,
+        )]);
+
+        assert!(!should_hold_handshake_only_stream(&state, false));
+        assert!(!should_drop_handshake_only_stream(&state, false));
+    }
+
     fn stream_id() -> StreamId {
         StreamId {
             client_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 1)),
@@ -539,5 +662,22 @@ mod tests {
             server_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 2)),
             server_port: CLIENT_PORT,
         }
+    }
+
+    fn upload_state(fragments: Vec<TcpStreamFragmentUpload>) -> UploadState {
+        UploadState {
+            capture_id: "capture-1".to_string(),
+            batch_index: 0,
+            stream: stream_id(),
+            handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
+            fragments,
+            last_fragment_at: Instant::now(),
+        }
+    }
+
+    fn prefixed(body: &[u8]) -> Vec<u8> {
+        let mut payload = Vec::from(u16::try_from(body.len()).unwrap().to_be_bytes());
+        payload.extend_from_slice(body);
+        payload
     }
 }
