@@ -6,8 +6,9 @@ members = [
     "apps/rokbattles-ingress",
     "apps/rokbattles-processor",
     "apps/rokbattles-tauri/src-tauri",
+    "core/core-tcp-processor",
+    "core/core-tcp-stream",
     "crates/binidx-decoder",
-    "crates/core-tcp-stream",
     "crates/mail-decoder",
     "crates/mail-registry",
     "crates/mail-processor-alliance-aoo-battle-info",
@@ -39,6 +40,7 @@ tauri-plugin-opener = "2.5.4"
 tauri-plugin-dialog = "2.7.1"
 mongodb = "3.7.0"
 zstd = "0.13.3"
+zip = "4.6.1"
 reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }
 base64 = "0.22.1"
 rand = "0.10.1"
