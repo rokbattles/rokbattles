@@ -27,6 +27,7 @@ tauri-plugin-dialog = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["multipart", "json"] }
+core-tcp-stream = { path = "../../../core/core-tcp-stream", features = ["pcap-capture"] }
 mail-decoder = { path = "../../../crates/mail-decoder" }
 mail-registry = { path = "../../../crates/mail-registry" }
 tauri-plugin-updater = { workspace = true }

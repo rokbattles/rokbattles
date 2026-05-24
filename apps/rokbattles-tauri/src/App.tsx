@@ -2,19 +2,24 @@ import { getVersion } from "@tauri-apps/api/app";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { open } from "@tauri-apps/plugin-dialog";
+import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppHeader } from "./components/AppHeader";
 import { ClosePrompt } from "./components/ClosePrompt";
 import { Logs } from "./components/Logs.tsx";
+import { NetworkIntrospection } from "./components/NetworkIntrospection.tsx";
 import { WatchedDirectories } from "./components/WatchedDirectories.tsx";
 import { type CloseChoice, parseCloseBehavior } from "./lib/close-behavior";
 import {
   addDirs,
   discoverMailcacheDirs,
   getCloseBehavior,
+  getExperimentalNetworkIntrospection,
+  getNetworkIntrospectionStatus,
   listDirs,
   minimizeToTray,
+  type NetworkStatus,
   pauseWatcher,
   removeDir,
   reprocessAll,
@@ -33,18 +38,26 @@ const bannerClasses: Record<BannerType, string> = {
   error: "border-rose-700 bg-rose-950/70 text-rose-200",
 };
 
+const disabledNetworkStatus: NetworkStatus = {
+  state: "disabled",
+  message: "Network introspection is disabled.",
+};
+
 function App() {
   const [dirs, setDirs] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [isReprocessing, setIsReprocessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [logs, setLogs] = useState<string[]>([]);
+  const [watcherLogs, setWatcherLogs] = useState<string[]>([]);
+  const [networkLogs, setNetworkLogs] = useState<string[]>([]);
   const [banner, setBanner] = useState<{ type: BannerType; message: string } | null>(null);
   const [showClosePrompt, setShowClosePrompt] = useState(false);
   const [rememberCloseChoice, setRememberCloseChoice] = useState(false);
   const [isApplyingCloseChoice, setIsApplyingCloseChoice] = useState(false);
   const [appVersion, setAppVersion] = useState<string | null>(null);
+  const [networkEnabled, setNetworkEnabled] = useState(false);
+  const [networkStatus, setNetworkStatus] = useState<NetworkStatus>(disabledNetworkStatus);
 
   const allowCloseRef = useRef(false);
   const handlingCloseIntentRef = useRef(false);
@@ -136,6 +149,26 @@ function App() {
   useEffect(() => {
     let isMounted = true;
 
+    Promise.all([getExperimentalNetworkIntrospection(), getNetworkIntrospectionStatus()])
+      .then(([enabled, status]) => {
+        if (!isMounted) {
+          return;
+        }
+        setNetworkEnabled(Boolean(enabled));
+        setNetworkStatus(enabled ? status : disabledNetworkStatus);
+      })
+      .catch((error) => {
+        console.error("Failed to load network introspection status", error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
     getVersion()
       .then((version) => {
         if (isMounted) {
@@ -163,20 +196,44 @@ function App() {
     let isMounted = true;
 
     const unlisten = listen<{ message: string }>("rokbattles", (event) => {
-      const payload = event.payload;
-      const msg =
-        payload && typeof payload === "object" && "message" in payload
-          ? String(payload.message)
-          : String(payload);
-
       if (!isMounted) {
         return;
       }
 
-      setLogs((prev) => {
-        const next = [...prev, msg];
-        return next.length > 100 ? next.slice(next.length - 100) : next;
-      });
+      appendLog(setWatcherLogs, logMessage(event.payload));
+    });
+
+    return () => {
+      isMounted = false;
+      unlisten.then((fn) => fn()).catch(() => {});
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const unlisten = listen<{ message: string }>("network-introspection-log", (event) => {
+      if (!isMounted) {
+        return;
+      }
+
+      appendLog(setNetworkLogs, logMessage(event.payload));
+    });
+
+    return () => {
+      isMounted = false;
+      unlisten.then((fn) => fn()).catch(() => {});
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const unlisten = listen<NetworkStatus>("network-introspection", (event) => {
+      if (!isMounted) {
+        return;
+      }
+      setNetworkStatus(event.payload);
     });
 
     return () => {
@@ -298,7 +355,8 @@ function App() {
           </div>
         ) : null}
         <WatchedDirectories dirs={dirs} isLoading={isLoading} onRemove={handleRemove} />
-        <Logs logs={logs} />
+        {networkEnabled ? <NetworkIntrospection status={networkStatus} /> : null}
+        <Logs watcherLogs={watcherLogs} networkLogs={networkLogs} />
         {appVersion ? (
           <footer className="pt-4 text-center text-xs text-zinc-700">Version {appVersion}</footer>
         ) : null}
@@ -313,6 +371,19 @@ function App() {
       />
     </main>
   );
+}
+
+function logMessage(payload: unknown): string {
+  return payload && typeof payload === "object" && "message" in payload
+    ? String(payload.message)
+    : String(payload);
+}
+
+function appendLog(setLogs: Dispatch<SetStateAction<string[]>>, message: string) {
+  setLogs((prev) => {
+    const next = [...prev, message];
+    return next.length > 100 ? next.slice(next.length - 100) : next;
+  });
 }
 
 export default App;
