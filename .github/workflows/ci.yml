@@ -116,7 +116,6 @@ jobs:
           Invoke-WebRequest "https://npcap.com/dist/npcap-sdk-$env:NPCAP_SDK_VERSION.zip" -OutFile $archive
           Expand-Archive $archive -DestinationPath $sdkDir
           "LIB=$sdkDir\Lib\x64;$env:LIB" | Out-File -FilePath $env:GITHUB_ENV -Append
-          "INCLUDE=$sdkDir\Include;$env:INCLUDE" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable

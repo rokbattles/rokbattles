@@ -70,7 +70,6 @@ jobs:
           Expand-Archive $archive -DestinationPath $sdkDir
           $libArch = if ("${{ matrix.platform }}" -eq "windows-11-arm") { "ARM64" } else { "x64" }
           "LIB=$sdkDir\Lib\$libArch;$env:LIB" | Out-File -FilePath $env:GITHUB_ENV -Append
-          "INCLUDE=$sdkDir\Include;$env:INCLUDE" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Import Apple signing certificate
         if: matrix.platform == 'macos-latest' || matrix.platform == 'macos-15-intel'
