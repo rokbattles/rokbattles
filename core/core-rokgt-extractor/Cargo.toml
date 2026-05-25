@@ -4,20 +4,13 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-anyhow = { workspace = true }
 chrono = { workspace = true }
-clap = { workspace = true, features = ["derive"] }
 hex = { workspace = true }
 md5 = { workspace = true }
 reqwest = { workspace = true, features = ["json"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
-tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
 
 [lib]
 doctest = false
-
-[[bin]]
-name = "rokgt-extractor-cli"
-path = "src/bin/rokgt-extractor-cli.rs"
