@@ -71,6 +71,15 @@ impl NetworkIntrospectionManager {
             return;
         }
 
+        if let Err(message) = check_capture_runtime_prerequisite() {
+            self.set_status(
+                app,
+                NetworkStatus { state: NetworkClientState::Error, message: Some(message) },
+            )
+            .await;
+            return;
+        }
+
         self.set_status(
             app,
             NetworkStatus {
@@ -538,6 +547,22 @@ fn error_message(error: &CaptureError) -> String {
         return format!("{error}. {hint}");
     }
     error.to_string()
+}
+
+#[cfg(target_os = "windows")]
+fn check_capture_runtime_prerequisite() -> Result<(), String> {
+    // This checks the Npcap/WinPcap DLL before any delay-loaded pcap import
+    // is called, so missing runtimes become a recoverable status error.
+    unsafe { libloading::Library::new("wpcap.dll") }.map(drop).map_err(|error| {
+        format!(
+            "Network introspection requires Npcap with WinPcap API-compatible mode enabled. Install Npcap, restart ROK Battles, then try again. Details: {error}"
+        )
+    })
+}
+
+#[cfg(not(target_os = "windows"))]
+fn check_capture_runtime_prerequisite() -> Result<(), String> {
+    Ok(())
 }
 
 #[cfg(test)]
