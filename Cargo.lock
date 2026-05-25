@@ -404,7 +404,7 @@ checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "binidx-cli"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "binidx-decoder",
@@ -413,7 +413,7 @@ dependencies = [
 
 [[package]]
 name = "binidx-decoder"
-version = "1.1.0"
+version = "1.1.1"
 
 [[package]]
 name = "bit-set"
@@ -874,7 +874,7 @@ dependencies = [
 
 [[package]]
 name = "core-tcp-processor"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "core-tcp-stream",
  "dotenvy",
@@ -891,7 +891,7 @@ dependencies = [
 
 [[package]]
 name = "core-tcp-stream"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "base64 0.22.1",
  "pcap",
@@ -2904,7 +2904,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "clap",
  "mail-decoder",
@@ -2918,14 +2918,14 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "serde_json",
 ]
 
 [[package]]
 name = "mail-processor-alliance-aoo-battle-info"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2933,7 +2933,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-battle-results"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2941,7 +2941,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-individual-results"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2949,7 +2949,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-registration"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2957,7 +2957,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-barcanyonkillboss"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2965,7 +2965,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-battle"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2973,7 +2973,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2981,7 +2981,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-rss"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2989,7 +2989,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-scoutreport"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -2997,7 +2997,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-sdk"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -3006,7 +3006,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-system-barbarianfort"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-sdk",
  "serde_json",
@@ -3014,7 +3014,7 @@ dependencies = [
 
 [[package]]
 name = "mail-registry"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "mail-processor-alliance-aoo-battle-info",
  "mail-processor-alliance-aoo-battle-results",
@@ -4409,7 +4409,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-api"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "axum",
  "base64 0.22.1",
@@ -4429,7 +4429,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-ingress"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "axum",
  "bytes",
@@ -4452,7 +4452,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "dotenvy",
  "futures",
@@ -4470,7 +4470,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-tauri"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "core-tcp-stream",
