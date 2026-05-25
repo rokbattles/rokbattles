@@ -48,7 +48,7 @@ chrono = { version = "0.4.44", default-features = false, features = ["clock"] }
 rand = "0.10.1"
 sha2 = "0.10.9"
 hex = "0.4.3"
-md5 = { package = "md-5", version = "0.10.6" }
+md-5 = { version = "0.10.6" }
 futures = "0.3.32"
 tauri-plugin-updater = "2.10.1"
 notify = "8.2.0"
