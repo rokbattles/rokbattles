@@ -6,6 +6,7 @@ members = [
     "apps/rokbattles-ingress",
     "apps/rokbattles-processor",
     "apps/rokbattles-tauri/src-tauri",
+    "core/core-rokgt-extractor",
     "core/core-tcp-processor",
     "core/core-tcp-stream",
     "crates/binidx-decoder",
@@ -43,8 +44,11 @@ zstd = "0.13.3"
 zip = "4.6.1"
 reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }
 base64 = "0.22.1"
+chrono = { version = "0.4.44", default-features = false, features = ["clock"] }
 rand = "0.10.1"
 sha2 = "0.10.9"
+hex = "0.4.3"
+md-5 = { version = "0.10.6" }
 futures = "0.3.32"
 tauri-plugin-updater = "2.10.1"
 notify = "8.2.0"
