@@ -11,3 +11,4 @@ allowBuilds:
   sharp: true
 
 shellEmulator: true
+minimumReleaseAge: 2880 # 48 hours
