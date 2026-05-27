@@ -1,4 +1,4 @@
-FROM rust:1.94-alpine AS builder
+FROM rust:1.95-alpine AS builder
 ENV CARGO_INCREMENTAL=0
 WORKDIR /app
 RUN apk add --no-cache \
@@ -9,7 +9,7 @@ RUN rustup target add x86_64-unknown-linux-musl
 COPY . .
 RUN cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-api
 
-FROM alpine:3.20 AS files
+FROM alpine:3.22 AS files
 RUN apk add --no-cache ca-certificates tzdata
 RUN addgroup --system --gid 10001 rokb && \
     adduser  --system --uid 10001 --ingroup rokb --home /nonexistent --shell /sbin/nologin rokb
