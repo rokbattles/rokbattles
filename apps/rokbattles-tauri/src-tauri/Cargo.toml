@@ -34,5 +34,8 @@ mail-registry = { path = "../../../crates/mail-registry" }
 tauri-plugin-updater = { workspace = true }
 notify = { workspace = true }
 
+[target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]
+tauri-plugin-autostart = { workspace = true }
+
 [dev-dependencies]
 tempfile = { workspace = true }

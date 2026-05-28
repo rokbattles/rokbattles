@@ -39,6 +39,7 @@ tauri-build = "2.6.2"
 tauri = { version = "2.11.2", features = ["tray-icon"] }
 tauri-plugin-opener = "2.5.4"
 tauri-plugin-dialog = "2.7.1"
+tauri-plugin-autostart = "2.5.1"
 mongodb = "3.7.0"
 zstd = "0.13.3"
 reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }

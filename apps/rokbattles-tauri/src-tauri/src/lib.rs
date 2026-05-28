@@ -25,6 +25,31 @@ fn tray_supported() -> bool {
     cfg!(any(target_os = "windows", target_os = "macos"))
 }
 
+#[cfg(desktop)]
+fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
+    use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
+
+    let handle = app.handle();
+    handle.plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))?;
+
+    if app_config::get_autostart_initialized(handle).unwrap_or(false) {
+        return Ok(());
+    }
+
+    match handle.autolaunch().enable() {
+        Ok(()) => {
+            if let Err(error) = app_config::set_autostart_initialized(handle, true) {
+                eprintln!("Failed to record autostart initialization: {error}");
+            }
+        }
+        Err(error) => {
+            eprintln!("Failed to enable autostart: {error}");
+        }
+    }
+
+    Ok(())
+}
+
 fn normalize_dir_for_display(path: &str) -> String {
     let trimmed = path.trim();
     if trimmed.is_empty() {
@@ -335,6 +360,9 @@ pub fn run() {
             }
         })
         .setup(|app| {
+            #[cfg(desktop)]
+            setup_autostart(app)?;
+
             let paused = app.state::<WatcherManager>().is_paused();
             if tray_supported() {
                 tray::setup_tray(app, paused)?;

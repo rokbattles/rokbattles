@@ -22,6 +22,8 @@ pub(crate) struct AppConfig {
     #[serde(default = "default_auto_update")]
     pub(crate) auto_update: bool,
     #[serde(default)]
+    pub(crate) autostart_initialized: bool,
+    #[serde(default)]
     pub(crate) experimental_network_introspection: bool,
 }
 
@@ -31,6 +33,7 @@ impl Default for AppConfig {
             dirs: Vec::new(),
             close_behavior: CloseBehavior::Ask,
             auto_update: default_auto_update(),
+            autostart_initialized: false,
             experimental_network_introspection: false,
         }
     }
@@ -110,6 +113,16 @@ pub(crate) fn set_auto_update(app: &AppHandle, enabled: bool) -> anyhow::Result<
     write_config(app, &config)
 }
 
+pub(crate) fn get_autostart_initialized(app: &AppHandle) -> anyhow::Result<bool> {
+    Ok(read_config(app)?.autostart_initialized)
+}
+
+pub(crate) fn set_autostart_initialized(app: &AppHandle, initialized: bool) -> anyhow::Result<()> {
+    let mut config = read_config(app)?;
+    config.autostart_initialized = initialized;
+    write_config(app, &config)
+}
+
 pub(crate) fn get_experimental_network_introspection(app: &AppHandle) -> anyhow::Result<bool> {
     Ok(read_config(app)?.experimental_network_introspection)
 }
@@ -122,28 +135,31 @@ mod tests {
     fn defaults_to_auto_update_true() {
         let config = parse_config_bytes(&[]).expect("default config should parse");
         assert!(config.auto_update);
+        assert!(!config.autostart_initialized);
         assert!(!config.experimental_network_introspection);
         assert_eq!(config.close_behavior, CloseBehavior::Ask);
         assert!(config.dirs.is_empty());
     }
 
     #[test]
-    fn reads_new_auto_update_key() {
-        let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"quit","auto_update":false,"experimental_network_introspection":true}"#;
+    fn reads_new_settings_keys() {
+        let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"quit","auto_update":false,"autostart_initialized":true,"experimental_network_introspection":true}"#;
         let config = parse_config_bytes(raw).expect("new config should parse");
 
         assert_eq!(config.dirs, vec!["/tmp/mail"]);
         assert_eq!(config.close_behavior, CloseBehavior::Quit);
         assert!(!config.auto_update);
+        assert!(config.autostart_initialized);
         assert!(config.experimental_network_introspection);
     }
 
     #[test]
-    fn missing_auto_update_stays_enabled() {
+    fn missing_recent_settings_keep_defaults() {
         let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"ask"}"#;
         let config = parse_config_bytes(raw).expect("config without auto_update should parse");
 
         assert!(config.auto_update);
+        assert!(!config.autostart_initialized);
     }
 
     #[test]
@@ -154,6 +170,7 @@ mod tests {
         assert_eq!(config.dirs, vec!["/tmp/one", "/tmp/two"]);
         assert_eq!(config.close_behavior, CloseBehavior::Ask);
         assert!(config.auto_update);
+        assert!(!config.autostart_initialized);
     }
 
     #[test]
