@@ -50,6 +50,13 @@ fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
     Ok(())
 }
 
+#[cfg(desktop)]
+fn single_instance_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    tauri_plugin_single_instance::init(|app, _args, _cwd| {
+        tray::show_main_window(app);
+    })
+}
+
 fn normalize_dir_for_display(path: &str) -> String {
     let trimmed = path.trim();
     if trimmed.is_empty() {
@@ -308,9 +315,14 @@ async fn resume_watcher(
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let app = tauri::Builder::default()
+    let builder = tauri::Builder::default()
         .manage(WatcherManager::default())
-        .manage(NetworkIntrospectionManager::default())
+        .manage(NetworkIntrospectionManager::default());
+
+    #[cfg(desktop)]
+    let builder = builder.plugin(single_instance_plugin());
+
+    let app = builder
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
