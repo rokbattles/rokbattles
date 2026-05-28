@@ -14,9 +14,6 @@ services:
     environment:
       NODE_ENV: production
       MONGO_URI: mongodb://mongo:27017/rokbattles
-      ROKB_LEGAL_PATH: /app/legal
-    volumes:
-      - ./legal:/app/legal:ro
     networks:
       - rokbattles
   site-ingress:

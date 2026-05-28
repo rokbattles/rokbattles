@@ -6,6 +6,7 @@
     "dev": "next -H 0.0.0.0",
     "build": "next build",
     "typecheck": "next typegen && tsc --noEmit",
+    "sync:legal": "bash ./scripts/sync-legal-docs.sh",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
     "generate:messages": "node ./scripts/generate-messages.mjs"
   },
