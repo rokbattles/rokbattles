@@ -4,13 +4,13 @@ WORKDIR /app
 FROM base AS builder
 ARG API_URL
 ENV API_URL=${API_URL}
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache git libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY site ./site
-COPY legal ./site/legal
 COPY datasets ./datasets
 RUN corepack enable pnpm
 RUN pnpm install --frozen-lockfile
+RUN pnpm --filter=@rokbattles/site... run sync:legal
 RUN pnpm --filter=@rokbattles/site... run generate:datasets
 RUN pnpm --filter=@rokbattles/site... build
 
@@ -21,8 +21,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/site/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/site/.next/static ./site/.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/site/legal ./site/legal
+WORKDIR /app/site
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "site/server.js"]
+CMD ["node", "server.js"]

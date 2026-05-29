@@ -1,6 +1,5 @@
-import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 
 export type LegalDocument = {
   slug: string;
@@ -27,30 +26,7 @@ const LEGAL_DOCUMENTS: LegalDocument[] = [
 ];
 
 const documentsBySlug = new Map(LEGAL_DOCUMENTS.map((doc) => [doc.slug, doc]));
-
-function resolveLegalBasePath(): string {
-  const envPath = process.env.ROKB_LEGAL_PATH;
-  if (envPath && envPath.trim().length > 0) {
-    return resolve(envPath);
-  }
-
-  const cwd = process.cwd();
-  const files = [
-    resolve(cwd, "legal"),
-    resolve(cwd, "..", "legal"),
-    resolve(cwd, "..", "..", "legal"),
-  ];
-
-  for (const file of files) {
-    try {
-      if (existsSync(file)) {
-        return file;
-      }
-    } catch {}
-  }
-
-  return files[0];
-}
+const legalBasePath = join(process.cwd(), "legal");
 
 export function getLegalDocuments(): readonly LegalDocument[] {
   return LEGAL_DOCUMENTS;
@@ -66,8 +42,7 @@ export async function loadLegalDocument(
   const doc = getLegalDocument(slug);
   if (!doc) return undefined;
 
-  const basePath = resolveLegalBasePath();
-  const filePath = join(basePath, doc.filename);
+  const filePath = join(legalBasePath, doc.filename);
 
   try {
     const content = await readFile(filePath, "utf-8");
