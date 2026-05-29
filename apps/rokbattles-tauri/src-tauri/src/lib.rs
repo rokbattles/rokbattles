@@ -57,6 +57,26 @@ fn single_instance_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
     })
 }
 
+#[cfg(desktop)]
+fn setup_deep_links(app: &tauri::App<tauri::Wry>) -> Result<(), tauri_plugin_deep_link::Error> {
+    use tauri_plugin_deep_link::DeepLinkExt;
+
+    // Runtime registration is not supported on macOS. Test rokbattles:// there
+    // with a bundled app installed in /Applications.
+    #[cfg(any(target_os = "linux", all(debug_assertions, windows)))]
+    app.deep_link().register_all()?;
+
+    if let Some(urls) = app.deep_link().get_current()? {
+        eprintln!("Opened with deep link URLs: {urls:?}");
+    }
+
+    app.deep_link().on_open_url(|event| {
+        eprintln!("Opened with deep link URLs: {:?}", event.urls());
+    });
+
+    Ok(())
+}
+
 fn normalize_dir_for_display(path: &str) -> String {
     let trimmed = path.trim();
     if trimmed.is_empty() {
@@ -323,6 +343,7 @@ pub fn run() {
     let builder = builder.plugin(single_instance_plugin());
 
     let app = builder
+        .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
@@ -374,6 +395,9 @@ pub fn run() {
         .setup(|app| {
             #[cfg(desktop)]
             setup_autostart(app)?;
+
+            #[cfg(desktop)]
+            setup_deep_links(app)?;
 
             let paused = app.state::<WatcherManager>().is_paused();
             if tray_supported() {
