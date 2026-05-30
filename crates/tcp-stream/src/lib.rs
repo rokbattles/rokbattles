@@ -13,7 +13,6 @@ pub mod framing;
 pub mod handshake;
 pub mod ingest;
 pub mod packet;
-pub mod platform;
 pub mod tracker;
 pub mod types;
 

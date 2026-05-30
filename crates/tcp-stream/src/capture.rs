@@ -9,7 +9,6 @@ use pcap::{Active, Capture, Device};
 
 use crate::{
     packet::parse_tcp_packet,
-    platform,
     tracker::{StreamTracker, TrackerEvent},
 };
 
@@ -100,21 +99,6 @@ pub enum CaptureError {
 }
 
 impl CaptureError {
-    /// Short platform-specific hint for the UI.
-    pub fn user_hint(&self) -> Option<&'static str> {
-        match self {
-            Self::DeviceList { .. }
-            | Self::DeviceOpen { .. }
-            | Self::NoUsableDevice { .. }
-            | Self::LiveCapture { .. } => Some(platform::runtime_hint()),
-            Self::Stopped => None,
-            Self::DeviceNotFound { .. } => {
-                Some("Select a capture device visible to pcap, or use automatic detection.")
-            }
-            Self::FilterInstall { .. } => None,
-        }
-    }
-
     /// Per-device failures from auto-probing.
     pub fn details(&self) -> &[DeviceOpenFailure] {
         match self {
