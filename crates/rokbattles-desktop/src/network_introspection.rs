@@ -543,9 +543,6 @@ fn emit_log(app: &AppHandle, message: impl Into<String>) {
 }
 
 fn error_message(error: &CaptureError) -> String {
-    if let Some(hint) = error.user_hint() {
-        return format!("{error}. {hint}");
-    }
     error.to_string()
 }
 
