@@ -22,7 +22,7 @@ COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/core-tcp-processor /bin/core-tcp-processor
-COPY --from=builder /app/core/core-tcp-processor/artifacts/tcp-processor-artifact.json /app/core/core-tcp-processor/artifacts/tcp-processor-artifact.json
+COPY --from=builder /app/crates/core-tcp-processor/artifacts/tcp-processor-artifact.json /app/crates/core-tcp-processor/artifacts/tcp-processor-artifact.json
 USER rokb:rokb
 WORKDIR /app
 ENTRYPOINT ["/bin/core-tcp-processor"]

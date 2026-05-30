@@ -6,11 +6,11 @@ edition = "2024"
 [dependencies]
 axum = { workspace = true, features = ["multipart"] }
 bytes = { workspace = true }
-core-tcp-stream = { path = "../../core/core-tcp-stream" }
+core-tcp-stream = { path = "../core-tcp-stream" }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, default-features = false, features = ["zlib"] }
-mail-decoder = { path = "../../crates/mail-decoder" }
-mail-registry = { path = "../../crates/mail-registry" }
+mail-decoder = { path = "../mail-decoder" }
+mail-registry = { path = "../mail-registry" }
 mongodb = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

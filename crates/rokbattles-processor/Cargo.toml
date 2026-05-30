@@ -13,6 +13,6 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 futures = { workspace = true }
 zstd = { workspace = true }
 dotenvy = { workspace = true }
-mail-registry = { path = "../../crates/mail-registry", features = ["processors"] }
-mail-processor-sdk = { path = "../../crates/mail-processor-sdk" }
+mail-registry = { path = "../mail-registry", features = ["processors"] }
+mail-processor-sdk = { path = "../mail-processor-sdk" }
 sentry = { workspace = true }

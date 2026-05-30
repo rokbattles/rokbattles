@@ -138,5 +138,5 @@ jobs:
             Signature files (`.sig`) are used by the updater to verify downloads. You do not need to download them manually.
           releaseDraft: true
           prerelease: false
-          projectPath: apps/rokbattles-tauri
+          projectPath: crates/rokbattles-tauri
           args: ${{ matrix.args }}
