@@ -7,11 +7,11 @@ use axum::{
     response::IntoResponse,
 };
 use bytes::Bytes;
-use core_tcp_stream::{TcpStreamBatch, ValidatedTcpStreamBatch};
 use mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use mongodb::bson::{Binary, Bson, DateTime, doc, spec::BinarySubtype};
 use serde::Serialize;
 use serde_json::Value;
+use tcp_stream::{TcpStreamBatch, ValidatedTcpStreamBatch};
 
 use crate::{
     clamav::{ScanStatus, scan_zstream},
@@ -447,8 +447,8 @@ fn tcp_stream_doc(
             Ok(Bson::Document(doc! {
                 "index": u64_to_i64(fragment.index, "fragment index")?,
                 "direction": match fragment.direction {
-                    core_tcp_stream::Direction::ClientToServer => "client_to_server",
-                    core_tcp_stream::Direction::ServerToClient => "server_to_client",
+                    tcp_stream::Direction::ClientToServer => "client_to_server",
+                    tcp_stream::Direction::ServerToClient => "server_to_client",
                 },
                 "payload": Bson::Binary(Binary {
                     subtype: BinarySubtype::Generic,
@@ -491,8 +491,8 @@ fn u64_to_i64(value: u64, label: &str) -> Result<i64, ApiError> {
 mod tests {
     use std::net::{IpAddr, Ipv4Addr};
 
-    use core_tcp_stream::{CLIENT_PORT, Direction, Handshake, StreamId, TcpStreamFragmentUpload};
     use serde_json::json;
+    use tcp_stream::{CLIENT_PORT, Direction, Handshake, StreamId, TcpStreamFragmentUpload};
 
     use super::*;
 

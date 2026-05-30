@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 axum = { workspace = true, features = ["multipart"] }
 bytes = { workspace = true }
-core-tcp-stream = { path = "../core-tcp-stream" }
+tcp-stream = { path = "../tcp-stream" }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, default-features = false, features = ["zlib"] }
 mail-decoder = { path = "../mail-decoder" }

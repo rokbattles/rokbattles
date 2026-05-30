@@ -2,9 +2,6 @@
 members = [
     "crates/binidx-cli",
     "crates/binidx-decoder",
-    "crates/core-rokgt-extractor",
-    "crates/core-tcp-processor",
-    "crates/core-tcp-stream",
     "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-registry",
@@ -19,10 +16,13 @@ members = [
     "crates/mail-processor-scoutreport",
     "crates/mail-processor-sdk",
     "crates/mail-processor-system-barbarianfort",
+    "crates/rokbattles-tcp-processor",
     "crates/rokbattles-api",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
     "crates/rokbattles-tauri/src-tauri",
+    "crates/rokgt-extractor",
+    "crates/tcp-stream",
 ]
 resolver = "3"
 

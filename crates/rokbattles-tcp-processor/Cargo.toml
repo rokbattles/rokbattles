@@ -1,10 +1,10 @@
 [package]
-name = "core-tcp-processor"
+name = "rokbattles-tcp-processor"
 version = "1.2.0"
 edition = "2024"
 
 [dependencies]
-core-tcp-stream = { path = "../core-tcp-stream" }
+tcp-stream = { path = "../tcp-stream" }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, features = ["zlib-rs"] }
 futures = { workspace = true }

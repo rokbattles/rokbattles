@@ -7,12 +7,12 @@ use std::{
     time::{Duration, Instant, SystemTime},
 };
 
-use core_tcp_stream::{
+use serde::Serialize;
+use tauri::{AppHandle, Emitter};
+use tcp_stream::{
     CLIENT_PORT, CaptureConfig, CaptureError, CaptureEvent, CaptureSource, Handshake, StreamId,
     TcpStreamBatch, TcpStreamFragmentUpload, TrackerEvent, parse_handshake, run_capture_until,
 };
-use serde::Serialize;
-use tauri::{AppHandle, Emitter};
 use tokio::sync::mpsc;
 
 use crate::watcher::WatcherConfig;
@@ -313,7 +313,7 @@ fn is_handshake_only_stream(state: &UploadState) -> bool {
     let Some(fragment) = state.fragments.first() else {
         return false;
     };
-    if fragment.direction != core_tcp_stream::Direction::ServerToClient {
+    if fragment.direction != tcp_stream::Direction::ServerToClient {
         return false;
     }
     let Ok(payload) = fragment.payload() else {
@@ -569,7 +569,7 @@ fn check_capture_runtime_prerequisite() -> Result<(), String> {
 mod tests {
     use std::net::{IpAddr, Ipv4Addr};
 
-    use core_tcp_stream::{Direction, IgnoreReason, TrackerEvent};
+    use tcp_stream::{Direction, IgnoreReason, TrackerEvent};
 
     use super::*;
 
