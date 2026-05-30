@@ -4526,6 +4526,31 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-desktop"
+version = "1.2.0"
+dependencies = [
+ "anyhow",
+ "libloading 0.9.0",
+ "mail-decoder",
+ "mail-registry",
+ "notify",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-autostart",
+ "tauri-plugin-deep-link",
+ "tauri-plugin-dialog",
+ "tauri-plugin-opener",
+ "tauri-plugin-single-instance",
+ "tauri-plugin-updater",
+ "tcp-stream",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
 name = "rokbattles-ingress"
 version = "1.2.0"
 dependencies = [
@@ -4564,31 +4589,6 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "zstd",
-]
-
-[[package]]
-name = "rokbattles-tauri"
-version = "1.2.0"
-dependencies = [
- "anyhow",
- "libloading 0.9.0",
- "mail-decoder",
- "mail-registry",
- "notify",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-autostart",
- "tauri-plugin-deep-link",
- "tauri-plugin-dialog",
- "tauri-plugin-opener",
- "tauri-plugin-single-instance",
- "tauri-plugin-updater",
- "tcp-stream",
- "tempfile",
- "tokio",
 ]
 
 [[package]]

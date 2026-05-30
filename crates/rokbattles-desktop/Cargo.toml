@@ -1,5 +1,5 @@
 [package]
-name = "rokbattles-tauri"
+name = "rokbattles-desktop"
 version = "1.2.0"
 description = "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms."
 authors = ["Sylke Technologies, LLC"]
@@ -11,7 +11,7 @@ edition = "2024"
 # The `_lib` suffix may seem redundant but it is necessary
 # to make the lib name unique and wouldn't conflict with the bin name.
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "rokbattles_tauri_lib"
+name = "rokbattles_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 doctest = false
 
@@ -28,10 +28,10 @@ tauri-plugin-deep-link = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["multipart", "json"] }
-tcp-stream = { path = "../../tcp-stream", features = ["pcap-capture"] }
+tcp-stream = { path = "../tcp-stream", features = ["pcap-capture"] }
 libloading = { workspace = true }
-mail-decoder = { path = "../../mail-decoder" }
-mail-registry = { path = "../../mail-registry" }
+mail-decoder = { path = "../mail-decoder" }
+mail-registry = { path = "../mail-registry" }
 tauri-plugin-updater = { workspace = true }
 notify = { workspace = true }
 

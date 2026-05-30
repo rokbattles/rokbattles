@@ -1,5 +1,5 @@
 {
-  "name": "@rokbattles/tauri",
+  "name": "@rokbattles/desktop-client",
   "private": true,
   "version": "1.2.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "cd ../../crates/rokbattles-desktop && ../../packages/desktop-client/node_modules/.bin/tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.0",

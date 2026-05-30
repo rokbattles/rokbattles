@@ -20,7 +20,7 @@ members = [
     "crates/rokbattles-api",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
-    "crates/rokbattles-tauri/src-tauri",
+    "crates/rokbattles-desktop",
     "crates/rokgt-extractor",
     "crates/tcp-stream",
 ]
