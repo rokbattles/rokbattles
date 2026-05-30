@@ -4,10 +4,16 @@
   "version": "1.2.0",
   "identifier": "com.rokbattles.tauri",
   "build": {
-    "beforeDevCommand": "pnpm dev",
+    "beforeDevCommand": {
+      "script": "pnpm dev",
+      "cwd": "../../packages/desktop-client"
+    },
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm build",
-    "frontendDist": "../dist"
+    "beforeBuildCommand": {
+      "script": "pnpm build",
+      "cwd": "../../packages/desktop-client"
+    },
+    "frontendDist": "../../packages/desktop-client/dist"
   },
   "app": {
     "windows": [
