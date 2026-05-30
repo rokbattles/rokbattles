@@ -7663,6 +7663,16 @@ commanders:
     prime: false
     rarity: legendary
     skills:
+      - slot: 1
+        id: 426
+      - slot: 2
+        id: 1809
+      - slot: 3
+        id: 1810
+      - slot: 4
+        id: 1811
+      - slot: 5
+        id: 1812
     sprite:
       - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
       - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
@@ -7710,6 +7720,16 @@ commanders:
     prime: false
     rarity: legendary
     skills:
+      - slot: 1
+        id: 427
+      - slot: 2
+        id: 1813
+      - slot: 3
+        id: 1814
+      - slot: 4
+        id: 1815
+      - slot: 5
+        id: 1816
     sprite:
       - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
       - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
