@@ -1,6 +1,6 @@
 //! Stream decryption and length-prefixed frame reconstruction.
 
-pub use core_tcp_stream::Direction;
+pub use tcp_stream::Direction;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RawFragment {

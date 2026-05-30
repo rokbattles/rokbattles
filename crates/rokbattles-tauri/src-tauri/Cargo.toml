@@ -28,7 +28,7 @@ tauri-plugin-deep-link = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["multipart", "json"] }
-core-tcp-stream = { path = "../../core-tcp-stream", features = ["pcap-capture"] }
+tcp-stream = { path = "../../tcp-stream", features = ["pcap-capture"] }
 libloading = { workspace = true }
 mail-decoder = { path = "../../mail-decoder" }
 mail-registry = { path = "../../mail-registry" }

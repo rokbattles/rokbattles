@@ -899,46 +899,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "core-rokgt-extractor"
-version = "1.2.0"
-dependencies = [
- "chrono",
- "hex",
- "md-5 0.11.0",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "core-tcp-processor"
-version = "1.2.0"
-dependencies = [
- "core-tcp-stream",
- "dotenvy",
- "flate2",
- "futures",
- "mongodb",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "core-tcp-stream"
-version = "1.2.0"
-dependencies = [
- "base64 0.22.1",
- "pcap",
- "serde",
- "thiserror 2.0.18",
-]
-
-[[package]]
 name = "cpufeatures"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4571,7 +4531,6 @@ version = "1.2.0"
 dependencies = [
  "axum",
  "bytes",
- "core-tcp-stream",
  "dotenvy",
  "flate2",
  "mail-decoder",
@@ -4580,6 +4539,7 @@ dependencies = [
  "sentry",
  "serde",
  "serde_json",
+ "tcp-stream",
  "thiserror 2.0.18",
  "tokio",
  "tower_governor",
@@ -4611,7 +4571,6 @@ name = "rokbattles-tauri"
 version = "1.2.0"
 dependencies = [
  "anyhow",
- "core-tcp-stream",
  "libloading 0.9.0",
  "mail-decoder",
  "mail-registry",
@@ -4627,8 +4586,39 @@ dependencies = [
  "tauri-plugin-opener",
  "tauri-plugin-single-instance",
  "tauri-plugin-updater",
+ "tcp-stream",
  "tempfile",
  "tokio",
+]
+
+[[package]]
+name = "rokbattles-tcp-processor"
+version = "1.2.0"
+dependencies = [
+ "dotenvy",
+ "flate2",
+ "futures",
+ "mongodb",
+ "serde",
+ "serde_json",
+ "tcp-stream",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "rokgt-extractor"
+version = "1.2.0"
+dependencies = [
+ "chrono",
+ "hex",
+ "md-5 0.11.0",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -5961,6 +5951,16 @@ dependencies = [
  "dunce",
  "embed-resource",
  "toml 1.1.2+spec-1.1.0",
+]
+
+[[package]]
+name = "tcp-stream"
+version = "1.2.0"
+dependencies = [
+ "base64 0.22.1",
+ "pcap",
+ "serde",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
