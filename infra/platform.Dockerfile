@@ -6,7 +6,7 @@ ARG API_URL
 ENV API_URL=${API_URL}
 RUN apk add --no-cache git libc6-compat
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-COPY site ./site
+COPY packages/site ./packages/site
 COPY datasets ./datasets
 RUN corepack enable pnpm
 RUN pnpm install --frozen-lockfile
@@ -18,10 +18,10 @@ FROM base AS runner
 ENV NODE_ENV=production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-COPY --from=builder --chown=nextjs:nodejs /app/site/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/site/.next/static ./site/.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/site/legal ./site/legal
-WORKDIR /app/site
+COPY --from=builder --chown=nextjs:nodejs /app/packages/site/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/packages/site/.next/static ./packages/site/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/packages/site/legal ./packages/site/legal
+WORKDIR /app/packages/site
 USER nextjs
 EXPOSE 3000
 ENV PORT=3000

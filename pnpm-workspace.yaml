@@ -1,6 +1,5 @@
 packages:
-  - packages/desktop-client
-  - site
+  - packages/*
 
 allowBuilds:
   '@parcel/watcher': true
