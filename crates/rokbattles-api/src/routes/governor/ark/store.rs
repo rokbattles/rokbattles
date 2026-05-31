@@ -169,7 +169,10 @@ pub(crate) async fn fetch_ark_individual_results_mails(
 fn ark_battle_results_history_filter(mail_receiver: &str) -> Document {
     doc! {
         "metadata.mail_receiver": mail_receiver,
-        "body.type": { "$ne": 14 },
+        "$or": [
+            { "body.type": { "$ne": 14 } },
+            { "body.battle_type": { "$in": ["Egype", "EgyptLeague"] } },
+        ],
     }
 }
 
@@ -178,10 +181,29 @@ mod tests {
     use super::*;
 
     #[test]
-    fn ark_battle_results_history_filter_excludes_type_14_matches() {
+    fn ark_battle_results_history_filter_includes_non_type_14_matches() {
         let filter = ark_battle_results_history_filter("player_42");
         assert_eq!(filter.get_str("metadata.mail_receiver").ok(), Some("player_42"));
-        let type_filter = filter.get_document("body.type").expect("body.type filter");
+
+        let clauses = filter.get_array("$or").expect("$or filter");
+        let non_type_14_clause = clauses[0].as_document().expect("non-type-14 clause");
+        let type_filter = non_type_14_clause.get_document("body.type").expect("body.type filter");
+
         assert_eq!(type_filter.get_i32("$ne").ok(), Some(14));
+    }
+
+    #[test]
+    fn ark_battle_results_history_filter_includes_type_14_egypt_variants() {
+        let filter = ark_battle_results_history_filter("player_42");
+        assert_eq!(
+            filter,
+            doc! {
+                "metadata.mail_receiver": "player_42",
+                "$or": [
+                    { "body.type": { "$ne": 14 } },
+                    { "body.battle_type": { "$in": ["Egype", "EgyptLeague"] } },
+                ],
+            }
+        );
     }
 }
