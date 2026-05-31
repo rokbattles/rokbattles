@@ -1,0 +1,461 @@
+{
+  "alliances": [
+    {
+      "alliance": {
+        "abbreviation": "SO4L",
+        "id": 4805441,
+        "logo": "4_3_15_1_0_3",
+        "name": "魂社会SoulReapers"
+      },
+      "is_blue": true,
+      "members": 37,
+      "members_max": 30,
+      "power": 3621236029,
+      "score": 83133,
+      "server_id": 1804,
+      "team": null
+    },
+    {
+      "alliance": {
+        "abbreviation": "DK62",
+        "id": 1025248,
+        "logo": "9_16_54_5_0_3",
+        "name": "1462 Devil's Kingdom"
+      },
+      "is_blue": false,
+      "members": 22,
+      "members_max": 30,
+      "power": 2429449991,
+      "score": 4567,
+      "server_id": 462,
+      "team": null
+    }
+  ],
+  "body": {
+    "alliance": {
+      "id": 4805441
+    },
+    "battle_type": "EgyptLeague",
+    "param": 1,
+    "type": 14,
+    "win": true
+  },
+  "metadata": {
+    "mail_id": "47482462178023613231",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1780236132403810,
+    "server_id": 3
+  },
+  "overview": {
+    "be_killed_score": {
+      "alliance_score": 33153199,
+      "mvp": {
+        "player_id": 35480831,
+        "player_name": "ˢNeroメDriesˢ",
+        "score": 2868876
+      }
+    },
+    "building_score": {
+      "alliance_score": 68916,
+      "mvp": {
+        "player_id": 33915426,
+        "player_name": "코 어",
+        "score": 162380
+      }
+    },
+    "flag_score": {
+      "alliance_score": 12500,
+      "mvp": {
+        "player_id": 124546784,
+        "player_name": "L E G E N Ð",
+        "score": 4500
+      }
+    },
+    "gather_score": {
+      "alliance_score": 1717,
+      "mvp": {
+        "player_id": 26113850,
+        "player_name": "카이저 Kaizer乂",
+        "score": 2046.82
+      }
+    },
+    "healing_score": {
+      "alliance_score": 486173,
+      "mvp": {
+        "player_id": 41617405,
+        "player_name": "amphee",
+        "score": 476172
+      }
+    },
+    "killed_score": {
+      "alliance_score": 43521462,
+      "mvp": {
+        "player_id": 35480831,
+        "player_name": "ˢNeroメDriesˢ",
+        "score": 3774785
+      }
+    }
+  },
+  "participants": [
+    {
+      "building_score": 16198,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 185795,
+      "kill_score": 3774785,
+      "player_name": "ˢNeroメDriesˢ"
+    },
+    {
+      "building_score": 16163,
+      "flag_score": 0,
+      "gather_score": 9306,
+      "individual_points": 139458,
+      "kill_score": 2397755,
+      "player_name": "카이저 Kaizer乂"
+    },
+    {
+      "building_score": 16173,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 128092,
+      "kill_score": 2489251,
+      "player_name": "ˢJianLaars 命"
+    },
+    {
+      "building_score": 16163,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 122304,
+      "kill_score": 2292288,
+      "player_name": "ˢAzzCon"
+    },
+    {
+      "building_score": 16139,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 121877,
+      "kill_score": 2522852,
+      "player_name": "amphee"
+    },
+    {
+      "building_score": 562,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 116957,
+      "kill_score": 1721812,
+      "player_name": "뜬 이 니"
+    },
+    {
+      "building_score": 15446,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 113873,
+      "kill_score": 1650254,
+      "player_name": "ˢ Chìno"
+    },
+    {
+      "building_score": 16163,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 109349,
+      "kill_score": 1691870,
+      "player_name": "ˢˢsnowleopard"
+    },
+    {
+      "building_score": 922,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 96751,
+      "kill_score": 1413792,
+      "player_name": "DogWarningﾒBar"
+    },
+    {
+      "building_score": 16123,
+      "flag_score": 400,
+      "gather_score": 0,
+      "individual_points": 96017,
+      "kill_score": 1685684,
+      "player_name": "2lowteg"
+    },
+    {
+      "building_score": 16123,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 95120,
+      "kill_score": 1608118,
+      "player_name": "Grigvar x Dimi"
+    },
+    {
+      "building_score": 16163,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 93336,
+      "kill_score": 1395743,
+      "player_name": "jën x ƒaräɀ"
+    },
+    {
+      "building_score": 8194,
+      "flag_score": 0,
+      "gather_score": 1927,
+      "individual_points": 91968,
+      "kill_score": 1435400,
+      "player_name": "ˢPewPeachPie"
+    },
+    {
+      "building_score": 16198,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 89267,
+      "kill_score": 1847935,
+      "player_name": "KhøSXAwer"
+    },
+    {
+      "building_score": 16123,
+      "flag_score": 450,
+      "gather_score": 0,
+      "individual_points": 76181,
+      "kill_score": 2228359,
+      "player_name": "L E G E N Ð"
+    },
+    {
+      "building_score": 676,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 68078,
+      "kill_score": 1083906,
+      "player_name": "북두의권"
+    },
+    {
+      "building_score": 15024,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 66867,
+      "kill_score": 1146484,
+      "player_name": "HennyPrime Baka"
+    },
+    {
+      "building_score": 15381,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 65319,
+      "kill_score": 1053674,
+      "player_name": "Benbu x Nina"
+    },
+    {
+      "building_score": 15699,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 61133,
+      "kill_score": 724079,
+      "player_name": "ˢMadBro x Juju"
+    },
+    {
+      "building_score": 16238,
+      "flag_score": 0,
+      "gather_score": 9139,
+      "individual_points": 59448,
+      "kill_score": 639044,
+      "player_name": "⽪卡丘Daspim"
+    },
+    {
+      "building_score": 16208,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 56858,
+      "kill_score": 952324,
+      "player_name": "ˢ Kleines"
+    },
+    {
+      "building_score": 16238,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 52805,
+      "kill_score": 663409,
+      "player_name": "코 어"
+    },
+    {
+      "building_score": 16123,
+      "flag_score": 0,
+      "gather_score": 867,
+      "individual_points": 52085,
+      "kill_score": 765884,
+      "player_name": "Quacker x Dimi"
+    },
+    {
+      "building_score": 15800,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 40968,
+      "kill_score": 659948,
+      "player_name": "Crimp 엽추"
+    },
+    {
+      "building_score": 16198,
+      "flag_score": 0,
+      "gather_score": 354,
+      "individual_points": 39542,
+      "kill_score": 528700,
+      "player_name": "Thorin lonestar"
+    },
+    {
+      "building_score": 13680,
+      "flag_score": 300,
+      "gather_score": 0,
+      "individual_points": 30549,
+      "kill_score": 357028,
+      "player_name": "J I H"
+    },
+    {
+      "building_score": 827,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 29583,
+      "kill_score": 742743,
+      "player_name": "ˢAuthentiks"
+    },
+    {
+      "building_score": 154,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 26874,
+      "kill_score": 464051,
+      "player_name": "MarKang0"
+    },
+    {
+      "building_score": 981,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 24246,
+      "kill_score": 584875,
+      "player_name": "개듣보"
+    },
+    {
+      "building_score": 266,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 22833,
+      "kill_score": 634351,
+      "player_name": "ˢǤãrɗı"
+    },
+    {
+      "building_score": 653,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 22289,
+      "kill_score": 437101,
+      "player_name": "ᅠᅠ     ᅠ Swalsh"
+    },
+    {
+      "building_score": 153,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 18786,
+      "kill_score": 278572,
+      "player_name": "심래"
+    },
+    {
+      "building_score": 509,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 17933,
+      "kill_score": 330178,
+      "player_name": "Savageツ"
+    },
+    {
+      "building_score": 311,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 16118,
+      "kill_score": 345803,
+      "player_name": "ˢMoonyPew"
+    },
+    {
+      "building_score": 368,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 14504,
+      "kill_score": 304803,
+      "player_name": "人Øgeday人"
+    },
+    {
+      "building_score": 376,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 12970,
+      "kill_score": 276765,
+      "player_name": "Hellcheppapewж"
+    },
+    {
+      "building_score": 428,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": 11496,
+      "kill_score": 391842,
+      "player_name": "x҉Kyo"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "ˢBrHe"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "Klimson3"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "DARK EÏVØRA"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "十ˢTidus"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "hot kormax"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "メDmitry82メ"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "끼  리"
+    },
+    {
+      "building_score": 0,
+      "flag_score": 0,
+      "gather_score": 0,
+      "individual_points": -1,
+      "kill_score": 0,
+      "player_name": "GGeoMAV"
+    }
+  ]
+}

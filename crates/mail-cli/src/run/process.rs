@@ -237,6 +237,7 @@ mod tests {
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["body"]["type"], json!(60));
         assert_eq!(parsed["body"]["param"], json!(1));
+        assert_eq!(parsed["body"]["battle_type"], json!("Egypt"));
     }
 
     #[test]
@@ -273,6 +274,7 @@ mod tests {
         assert_eq!(parsed["metadata"]["mail_receiver"], json!("player_71738515"));
         assert_eq!(parsed["body"]["type"], json!(14));
         assert_eq!(parsed["body"]["param"], json!(1));
+        assert_eq!(parsed["body"]["battle_type"], json!("diy_egypt"));
         assert_eq!(parsed["alliances"][0]["alliance"]["id"], json!(1));
         assert!(parsed["alliances"][0]["alliance"]["abbreviation"].is_null());
     }

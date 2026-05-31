@@ -1,0 +1,216 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 20
+        },
+        2,
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 10
+        },
+        3,
+        {
+          "SubType": 48,
+          "Type": 2,
+          "Value": 2
+        },
+        4,
+        {
+          "SubType": 25601294,
+          "Type": 2,
+          "Value": 300
+        },
+        5,
+        {
+          "SubType": 32,
+          "Type": 2,
+          "Value": 1
+        },
+        6,
+        {
+          "SubType": 10005,
+          "Type": 2,
+          "Value": 10
+        },
+        7,
+        {
+          "SubType": 148,
+          "Type": 2,
+          "Value": 50
+        },
+        8,
+        {
+          "SubType": 76,
+          "Type": 2,
+          "Value": 50
+        },
+        9,
+        {
+          "SubType": 120,
+          "Type": 2,
+          "Value": 1
+        },
+        10,
+        {
+          "SubType": 188,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "kvs": {
+      "BattleType": "EgyptLeague",
+      "DivisionId": 1,
+      "FalseMatch": false,
+      "FightReport": {
+        "BeKilled": 529017,
+        "BuildingScore": 16123,
+        "DefeatFlagCnt": 0,
+        "FightLose": 6,
+        "FightWin": 315,
+        "FlagCnt": 0,
+        "FlagScore": 0,
+        "GatherScore": 0,
+        "HangUpLevel": 0,
+        "HealingCnt": 0,
+        "HealingScore": 0,
+        "KillScore": 78997,
+        "Killed": 1608118,
+        "OccupyCnt": 0,
+        "PlayerId": 71738515,
+        "RelocateCnt": 1,
+        "SpeedUpTime": 0,
+        "Stat": {
+          "AllBattleWinCnt": 222,
+          "GatherCnt": 0,
+          "HerosStat": [
+            1,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 64,
+                "BeKilledScore": 1855220,
+                "KillScore": 7059366
+              },
+              "AllBattleWinCnt": 43,
+              "AssistHeroId": 6,
+              "KillCnt": 428372,
+              "MainHeroId": 509
+            },
+            2,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 75,
+                "BeKilledScore": 2011280,
+                "KillScore": 8831953
+              },
+              "AllBattleWinCnt": 52,
+              "AssistHeroId": 575,
+              "KillCnt": 457614,
+              "MainHeroId": 579
+            },
+            3,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 58,
+                "BeKilledScore": 2522020,
+                "KillScore": 3285581
+              },
+              "AllBattleWinCnt": 40,
+              "AssistHeroId": 459,
+              "KillCnt": 163954,
+              "MainHeroId": 540
+            },
+            4,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 63,
+                "BeKilledScore": 2265940,
+                "KillScore": 4896361
+              },
+              "AllBattleWinCnt": 47,
+              "AssistHeroId": 194,
+              "KillCnt": 301683,
+              "MainHeroId": 595
+            },
+            5,
+            {
+              "AllBattleStat": {
+                "BattleCnt": 63,
+                "BeKilledScore": 1925880,
+                "KillScore": 4481378
+              },
+              "AllBattleWinCnt": 40,
+              "AssistHeroId": 185,
+              "KillCnt": 256495,
+              "MainHeroId": 545
+            }
+          ],
+          "KillScore": 28554641,
+          "SkillCastCnt": 0,
+          "WildBattleStat": {
+            "BattleCnt": 303,
+            "BeKilledScore": 5586260,
+            "KillScore": 16726060
+          }
+        },
+        "TotalScore": 95120,
+        "WinRate": 98
+      },
+      "IsWin": true,
+      "NoScore": false,
+      "TotalScoreRank": {
+        "Info": {
+          "Job": 0,
+          "Name": "Grigvar x Dimi",
+          "PlyId": 71738515,
+          "Score": 95120,
+          "Slot": 0
+        },
+        "Rank": 11
+      },
+      "old_grade": 1,
+      "stage": 1
+    },
+    "param": 1,
+    "subTitle": "Individual Statistics",
+    "title": "Osiris League (Realm of Horus)",
+    "type": 15
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "47482460178023613231",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 3,
+  "starMark": 0,
+  "time": 1780236132401000,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

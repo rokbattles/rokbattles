@@ -10,36 +10,6 @@
   },
   "participants": [
     {
-      "player_id": 41377732,
-      "player_name": "ˢJianLaars 命",
-      "power": 104670909,
-      "role": 3
-    },
-    {
-      "player_id": 125861505,
-      "player_name": "2lowteg",
-      "power": 100533234,
-      "role": 3
-    },
-    {
-      "player_id": 129213098,
-      "player_name": "ˢVashLaars 命",
-      "power": 105964806,
-      "role": 3
-    },
-    {
-      "player_id": 124893142,
-      "player_name": "⽪卡丘Daspim",
-      "power": 95778859,
-      "role": 3
-    },
-    {
-      "player_id": 31688439,
-      "player_name": "J I H",
-      "power": 121290639,
-      "role": 3
-    },
-    {
       "player_id": 40693070,
       "player_name": "人Øgeday人",
       "power": 84784300,
@@ -188,6 +158,36 @@
       "player_name": "ᅠᅠ     ᅠ Swalsh",
       "power": 81609904,
       "role": 1
+    },
+    {
+      "player_id": 41377732,
+      "player_name": "ˢJianLaars 命",
+      "power": 104670909,
+      "role": 3
+    },
+    {
+      "player_id": 125861505,
+      "player_name": "2lowteg",
+      "power": 100533234,
+      "role": 3
+    },
+    {
+      "player_id": 129213098,
+      "player_name": "ˢVashLaars 命",
+      "power": 105964806,
+      "role": 3
+    },
+    {
+      "player_id": 124893142,
+      "player_name": "⽪卡丘Daspim",
+      "power": 95778859,
+      "role": 3
+    },
+    {
+      "player_id": 31688439,
+      "player_name": "J I H",
+      "power": 121290639,
+      "role": 3
     }
   ]
 }
