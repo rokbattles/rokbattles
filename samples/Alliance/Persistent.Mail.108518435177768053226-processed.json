@@ -10,12 +10,6 @@
   },
   "participants": [
     {
-      "player_id": 194304962,
-      "player_name": "Abdul F16",
-      "power": 11736221,
-      "role": 3
-    },
-    {
       "player_id": 211747565,
       "player_name": "PAC MAN F9",
       "power": 2376082,
@@ -92,6 +86,12 @@
       "player_name": "CH24FloydyGold4",
       "power": 7004853,
       "role": 1
+    },
+    {
+      "player_id": 194304962,
+      "player_name": "Abdul F16",
+      "power": 11736221,
+      "role": 3
     }
   ]
 }

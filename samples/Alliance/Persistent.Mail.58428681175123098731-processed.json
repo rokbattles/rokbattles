@@ -35,6 +35,7 @@
     "alliance": {
       "id": 4805441
     },
+    "battle_type": "Egypt",
     "param": 1,
     "type": 60,
     "win": true
