@@ -1,6 +1,6 @@
 {
   "name": "@rokbattles/site",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "next -H 0.0.0.0",
