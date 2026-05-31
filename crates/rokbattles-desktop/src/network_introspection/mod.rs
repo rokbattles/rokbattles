@@ -17,41 +17,20 @@ use tokio::sync::mpsc;
 
 use crate::watcher::WatcherConfig;
 
+mod queue;
+mod status;
+
+pub(crate) use self::status::NetworkStatus;
+use self::{
+    queue::{TcpStreamUploadQueue, read_tcp_stream_upload_queue, write_tcp_stream_upload_queue},
+    status::{CaptureStatusTracker, NetworkClientState},
+};
+
 const BATCH_FLUSH_INTERVAL: Duration = Duration::from_secs(75);
 const BATCH_FRAGMENT_TARGET: usize = 4096;
 const HANDSHAKE_ONLY_IDLE_TIMEOUT: Duration = Duration::from_secs(90);
-const ACTIVE_STREAM_IDLE_TIMEOUT: Duration = Duration::from_secs(90);
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
-#[serde(rename_all = "snake_case")]
-pub(crate) enum NetworkClientState {
-    Disabled,
-    Waiting,
-    Connected,
-    Disconnected,
-    Error,
-}
-
-#[derive(Debug, Clone, Serialize)]
-pub(crate) struct NetworkStatus {
-    state: NetworkClientState,
-    message: Option<String>,
-}
-
-impl NetworkStatus {
-    fn disabled() -> Self {
-        Self {
-            state: NetworkClientState::Disabled,
-            message: Some("Network introspection is disabled.".to_string()),
-        }
-    }
-}
-
-impl Default for NetworkStatus {
-    fn default() -> Self {
-        Self::disabled()
-    }
-}
+const QUEUED_BATCH_RETRY_INTERVAL: Duration = Duration::from_secs(5);
+const QUEUED_BATCH_REPLAY_BUDGET: usize = 1;
 
 #[derive(Default)]
 pub(crate) struct NetworkIntrospectionManager {
@@ -194,6 +173,7 @@ struct UploadState {
     handshake: Handshake,
     fragments: Vec<TcpStreamFragmentUpload>,
     last_fragment_at: Instant,
+    stream_ended_pending: bool,
 }
 
 async fn upload_loop(
@@ -202,24 +182,44 @@ async fn upload_loop(
     api_url: String,
     client: reqwest::Client,
 ) {
+    let mut queue = match read_tcp_stream_upload_queue(&app) {
+        Ok(store) => TcpStreamUploadQueue::new(store),
+        Err(error) => {
+            emit_log(&app, format!("Could not read saved network uploads: {error}"));
+            TcpStreamUploadQueue::default()
+        }
+    };
     let mut streams: HashMap<StreamId, UploadState> = HashMap::new();
     let mut flush_interval = tokio::time::interval(BATCH_FLUSH_INTERVAL);
+    let mut retry_interval = tokio::time::interval(QUEUED_BATCH_RETRY_INTERVAL);
 
     loop {
         tokio::select! {
+            biased;
+
             event = rx.recv() => {
                 match event {
                     Some(event) => {
-                        handle_tracker_event(&app, &api_url, &client, &mut streams, event).await;
+                        handle_tracker_event(
+                            &app,
+                            &api_url,
+                            &client,
+                            &mut queue,
+                            &mut streams,
+                            event,
+                        ).await;
                     }
                     None => {
-                        flush_all(&app, &api_url, &client, &mut streams, true).await;
+                        flush_all(&app, &api_url, &client, &mut queue, &mut streams, true).await;
                         break;
                     }
                 }
             }
             _ = flush_interval.tick() => {
-                flush_all(&app, &api_url, &client, &mut streams, false).await;
+                flush_all(&app, &api_url, &client, &mut queue, &mut streams, false).await;
+            }
+            _ = retry_interval.tick() => {
+                replay_queued_batches(&app, &api_url, &client, &mut queue).await;
             }
         }
     }
@@ -229,6 +229,7 @@ async fn handle_tracker_event(
     app: &AppHandle,
     api_url: &str,
     client: &reqwest::Client,
+    queue: &mut TcpStreamUploadQueue,
     streams: &mut HashMap<StreamId, UploadState>,
     event: TrackerEvent,
 ) {
@@ -243,6 +244,7 @@ async fn handle_tracker_event(
                     handshake,
                     fragments: Vec::new(),
                     last_fragment_at: Instant::now(),
+                    stream_ended_pending: false,
                 },
             );
         }
@@ -257,13 +259,14 @@ async fn handle_tracker_event(
             ));
             state.last_fragment_at = Instant::now();
             if state.fragments.len() >= BATCH_FRAGMENT_TARGET {
-                let _ = flush_stream(app, api_url, client, state, false).await;
+                let _ = flush_stream(app, api_url, client, queue, state, false).await;
             }
         }
         TrackerEvent::StreamEnded { stream } => {
             if let Some(mut state) = streams.remove(&stream)
-                && !flush_stream(app, api_url, client, &mut state, true).await
+                && !flush_stream(app, api_url, client, queue, &mut state, true).await
             {
+                state.stream_ended_pending = true;
                 streams.insert(stream, state);
             }
         }
@@ -275,6 +278,7 @@ async fn flush_all(
     app: &AppHandle,
     api_url: &str,
     client: &reqwest::Client,
+    queue: &mut TcpStreamUploadQueue,
     streams: &mut HashMap<StreamId, UploadState>,
     stream_ended: bool,
 ) {
@@ -283,15 +287,16 @@ async fn flush_all(
         let Some(state) = streams.get_mut(&stream) else {
             continue;
         };
-        if should_hold_handshake_only_stream(state, stream_ended) {
+        let flush_as_ended = stream_ended || state.stream_ended_pending;
+        if should_hold_handshake_only_stream(state, flush_as_ended) {
             continue;
         }
-        if should_drop_handshake_only_stream(state, stream_ended) {
-            emit_log(app, "Dropped idle handshake-only network stream");
+        if should_drop_handshake_only_stream(state, flush_as_ended) {
+            emit_log(app, "Ignored idle network connection with no data");
             streams.remove(&stream);
             continue;
         }
-        let _ = flush_stream(app, api_url, client, state, stream_ended).await;
+        let _ = flush_stream(app, api_url, client, queue, state, flush_as_ended).await;
     }
 }
 
@@ -340,6 +345,7 @@ async fn flush_stream(
     app: &AppHandle,
     api_url: &str,
     client: &reqwest::Client,
+    queue: &mut TcpStreamUploadQueue,
     state: &mut UploadState,
     stream_ended: bool,
 ) -> bool {
@@ -358,10 +364,77 @@ async fn flush_stream(
         fragments,
     };
 
+    let has_earlier_queued_batch = queue.has_capture(&batch.capture_id);
+    queue.enqueue_batch(batch.clone());
+    if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+        emit_log(app, format!("Could not save network upload for retry: {error}"));
+        queue.remove_batch(&batch);
+        if has_earlier_queued_batch {
+            // Do not send later batches ahead of an earlier saved batch for this capture.
+            restore_failed_fragments(state, batch.fragments);
+            return false;
+        }
+
+        return flush_stream_without_saved_retry(
+            app,
+            api_url,
+            client,
+            state,
+            batch,
+            fragment_count,
+        )
+        .await;
+    }
+
+    if has_earlier_queued_batch {
+        emit_log(
+            app,
+            format!("Queued {} network fragments until earlier uploads finish", fragment_count),
+        );
+        mark_batch_handed_off(state);
+        return true;
+    }
+
+    match post_tcp_stream_batch(client, api_url, &batch).await {
+        Ok(()) => {
+            queue.remove_batch(&batch);
+            if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+                emit_log(app, format!("Could not update saved network uploads: {error}"));
+            }
+            emit_log(app, format!("Uploaded {} network fragments", fragment_count));
+            mark_batch_handed_off(state);
+            true
+        }
+        Err(message) => {
+            queue.mark_failed(&batch, now_epoch_ms());
+            if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+                emit_log(app, format!("Could not update saved network uploads: {error}"));
+            }
+            emit_log(
+                app,
+                format!(
+                    "Network upload failed; saved {} fragments to retry: {message}",
+                    fragment_count
+                ),
+            );
+            mark_batch_handed_off(state);
+            true
+        }
+    }
+}
+
+async fn flush_stream_without_saved_retry(
+    app: &AppHandle,
+    api_url: &str,
+    client: &reqwest::Client,
+    state: &mut UploadState,
+    batch: TcpStreamBatch,
+    fragment_count: usize,
+) -> bool {
     match post_tcp_stream_batch(client, api_url, &batch).await {
         Ok(()) => {
             emit_log(app, format!("Uploaded {} network fragments", fragment_count));
-            state.batch_index = state.batch_index.saturating_add(1);
+            mark_batch_handed_off(state);
             true
         }
         Err(message) => {
@@ -370,6 +443,11 @@ async fn flush_stream(
             false
         }
     }
+}
+
+fn mark_batch_handed_off(state: &mut UploadState) {
+    state.batch_index = state.batch_index.saturating_add(1);
+    state.stream_ended_pending = false;
 }
 
 fn restore_failed_fragments(
@@ -382,6 +460,40 @@ fn restore_failed_fragments(
         let mut restored = failed_fragments;
         restored.append(&mut state.fragments);
         state.fragments = restored;
+    }
+}
+
+async fn replay_queued_batches(
+    app: &AppHandle,
+    api_url: &str,
+    client: &reqwest::Client,
+    queue: &mut TcpStreamUploadQueue,
+) {
+    for _ in 0..QUEUED_BATCH_REPLAY_BUDGET {
+        let Some(item) = queue.next_ready(now_epoch_ms()) else {
+            break;
+        };
+
+        match post_tcp_stream_batch(client, api_url, &item.batch).await {
+            Ok(()) => {
+                queue.remove_batch(&item.batch);
+                if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+                    emit_log(app, format!("Could not update saved network uploads: {error}"));
+                }
+                emit_log(app, "Uploaded saved network data");
+            }
+            Err(message) => {
+                queue.mark_failed(&item.batch, now_epoch_ms());
+                if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+                    emit_log(app, format!("Could not update saved network uploads: {error}"));
+                }
+                emit_log(
+                    app,
+                    format!("Failed to upload saved network data; will retry: {message}"),
+                );
+                break;
+            }
+        }
     }
 }
 
@@ -406,6 +518,10 @@ async fn post_tcp_stream_batch(
     Err(format!("API rejected tcp stream batch: {status} {body}"))
 }
 
+fn now_epoch_ms() -> u128 {
+    SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap_or(Duration::ZERO).as_millis()
+}
+
 fn handle_capture_event(
     app: &AppHandle,
     status: &Arc<Mutex<NetworkStatus>>,
@@ -428,64 +544,6 @@ fn handle_capture_event(
             }
             let _ = tx.send(event);
         }
-    }
-}
-
-#[derive(Debug, Default)]
-struct CaptureStatusTracker {
-    active_streams: HashMap<StreamId, Instant>,
-}
-
-impl CaptureStatusTracker {
-    fn waiting_status(&mut self) -> Option<NetworkStatus> {
-        self.expire_idle_streams();
-        if self.active_streams.is_empty() {
-            Some(NetworkStatus {
-                state: NetworkClientState::Waiting,
-                message: Some("Waiting for client. If it is already open, restart it.".into()),
-            })
-        } else {
-            None
-        }
-    }
-
-    fn tracker_status(&mut self, event: &TrackerEvent) -> Option<NetworkStatus> {
-        match event {
-            TrackerEvent::StreamAccepted { stream, .. } => {
-                self.active_streams.insert(stream.clone(), Instant::now());
-                Some(NetworkStatus { state: NetworkClientState::Connected, message: None })
-            }
-            TrackerEvent::StreamFragment { stream, .. } => {
-                self.active_streams.insert(stream.clone(), Instant::now());
-                None
-            }
-            TrackerEvent::StreamEnded { stream } => {
-                self.active_streams.remove(stream);
-                if self.active_streams.is_empty() {
-                    Some(NetworkStatus {
-                        state: NetworkClientState::Disconnected,
-                        message: Some("Disconnected. Waiting for reconnect.".to_string()),
-                    })
-                } else {
-                    None
-                }
-            }
-            TrackerEvent::StreamIgnored { reason, .. } => {
-                if self.active_streams.is_empty() {
-                    Some(NetworkStatus {
-                        state: NetworkClientState::Waiting,
-                        message: Some(format!("{reason}. Restart the client.")),
-                    })
-                } else {
-                    None
-                }
-            }
-        }
-    }
-
-    fn expire_idle_streams(&mut self) {
-        self.active_streams
-            .retain(|_stream, last_seen| last_seen.elapsed() < ACTIVE_STREAM_IDLE_TIMEOUT);
     }
 }
 
@@ -566,7 +624,7 @@ fn check_capture_runtime_prerequisite() -> Result<(), String> {
 mod tests {
     use std::net::{IpAddr, Ipv4Addr};
 
-    use tcp_stream::{Direction, IgnoreReason, TrackerEvent};
+    use tcp_stream::Direction;
 
     use super::*;
 
@@ -574,70 +632,6 @@ mod tests {
         0x08, 0xf2, 0x42, 0x12, 0x0c, 0x08, 0x97, 0xd9, 0xd0, 0xaa, 0x02, 0x10, 0xd8, 0xb3, 0x98,
         0xf1, 0x03,
     ];
-
-    #[test]
-    fn capture_status_should_not_wait_while_stream_is_active() {
-        let mut tracker = CaptureStatusTracker::default();
-        let stream = stream_id();
-
-        let connected = tracker
-            .tracker_status(&TrackerEvent::StreamAccepted {
-                stream: stream.clone(),
-                handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
-            })
-            .expect("accepted stream should emit connected status");
-
-        assert_eq!(connected.state, NetworkClientState::Connected);
-        assert!(tracker.waiting_status().is_none());
-    }
-
-    #[test]
-    fn capture_status_should_wait_after_last_stream_ends() {
-        let mut tracker = CaptureStatusTracker::default();
-        let stream = stream_id();
-        let _ = tracker.tracker_status(&TrackerEvent::StreamAccepted {
-            stream: stream.clone(),
-            handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
-        });
-
-        let disconnected = tracker
-            .tracker_status(&TrackerEvent::StreamEnded { stream })
-            .expect("ending the last stream should emit disconnected status");
-        let waiting = tracker.waiting_status().expect("no active streams should allow waiting");
-
-        assert_eq!(disconnected.state, NetworkClientState::Disconnected);
-        assert_eq!(waiting.state, NetworkClientState::Waiting);
-    }
-
-    #[test]
-    fn capture_status_should_ignore_rejected_candidates_while_connected() {
-        let mut tracker = CaptureStatusTracker::default();
-        let stream = stream_id();
-        let _ = tracker.tracker_status(&TrackerEvent::StreamAccepted {
-            stream: stream.clone(),
-            handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
-        });
-
-        let ignored = tracker.tracker_status(&TrackerEvent::StreamIgnored {
-            stream,
-            reason: IgnoreReason::CaptureStartedMidStream,
-        });
-
-        assert!(ignored.is_none());
-    }
-
-    #[test]
-    fn capture_status_should_expire_idle_streams() {
-        let mut tracker = CaptureStatusTracker::default();
-        let stream = stream_id();
-        tracker
-            .active_streams
-            .insert(stream, Instant::now() - ACTIVE_STREAM_IDLE_TIMEOUT - Duration::from_secs(1));
-
-        let waiting = tracker.waiting_status().expect("idle active stream should be expired");
-
-        assert_eq!(waiting.state, NetworkClientState::Waiting);
-    }
 
     #[test]
     fn handshake_only_stream_should_wait_before_uploading() {
@@ -677,6 +671,25 @@ mod tests {
         assert!(!should_drop_handshake_only_stream(&state, false));
     }
 
+    #[test]
+    fn handed_off_batch_should_advance_live_batch_index() {
+        let mut state = upload_state(Vec::new());
+
+        mark_batch_handed_off(&mut state);
+
+        assert_eq!(state.batch_index, 1);
+    }
+
+    #[test]
+    fn handed_off_batch_should_clear_pending_stream_end() {
+        let mut state = upload_state(Vec::new());
+        state.stream_ended_pending = true;
+
+        mark_batch_handed_off(&mut state);
+
+        assert!(!state.stream_ended_pending);
+    }
+
     fn stream_id() -> StreamId {
         StreamId {
             client_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 1)),
@@ -694,6 +707,7 @@ mod tests {
             handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
             fragments,
             last_fragment_at: Instant::now(),
+            stream_ended_pending: false,
         }
     }
 
