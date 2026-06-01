@@ -380,10 +380,7 @@ pub struct DescriptorArtifact {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{
-        api_map::{ApiMap, ApiMapping},
-        artifact::RuntimeArtifact,
-    };
+    use crate::api_map::{ApiMap, ApiMapping};
 
     #[test]
     fn decode_message_reads_named_fields() {
@@ -788,27 +785,90 @@ mod tests {
     }
 
     #[test]
-    fn default_artifact_decodes_sample_item_ext_ack_without_byte_summary() {
-        let artifact = RuntimeArtifact::load_default().expect("runtime artifact should load");
+    fn decode_message_decodes_sample_item_ext_ack_without_byte_summary() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "ItemExtAck".to_string(),
+                full_name: "ItemExtAck".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
 
-        let value = artifact.descriptors.decode(
-            "ItemExtAck",
-            &[0x0a, 0x02, b'{', b'}'],
-            Some(&artifact.api_map),
-        );
+        let value = descriptors.decode("ItemExtAck", &[0x0a, 0x02, b'{', b'}'], None);
 
         assert_eq!(value, json!({ "Data": {} }));
     }
 
     #[test]
-    fn default_artifact_decodes_sample_guest_ntf_without_byte_summary() {
-        let artifact = RuntimeArtifact::load_default().expect("runtime artifact should load");
+    fn decode_message_decodes_sample_guest_ntf_without_byte_summary() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![
+                Message {
+                    name: "GuestNtf".to_string(),
+                    full_name: "GuestNtf".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "ServerId".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Data".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_BYTES),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "GuestLoginNtf".to_string(),
+                    full_name: "GuestLoginNtf".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Schema".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "ServerId".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "TerritoryGridRadius".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+            ],
+        });
+        let api_map = ApiMap::from_artifact(std::collections::BTreeMap::from([(
+            "187".to_string(),
+            ApiMapping {
+                schema: "GuestLoginNtf".to_string(),
+                descriptor: "GuestLoginNtf".to_string(),
+            },
+        )]))
+        .expect("api map should load");
         let payload = [
             0x08, 0xcb, 0x7c, 0x12, 0x0d, 0x08, 0xbb, 0x01, 0x12, 0x08, 0x08, 0xb3, 0x06, 0x10,
             0xcb, 0x7c, 0x18, 0x0b,
         ];
 
-        let value = artifact.descriptors.decode("GuestNtf", &payload, Some(&artifact.api_map));
+        let value = descriptors.decode("GuestNtf", &payload, Some(&api_map));
 
         assert_eq!(
             value,
