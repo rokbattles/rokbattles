@@ -37,45 +37,22 @@ fn zlib_offset(bytes: &[u8]) -> Option<usize> {
     })
 }
 
-pub(super) fn generic_protobuf_value(bytes: &[u8], depth: usize) -> Option<Value> {
+pub(super) fn protobuf_text_value(bytes: &[u8]) -> Option<Value> {
     let fields = parse_fields(bytes)?;
-
-    let values = fields
-        .into_iter()
-        .filter_map(|field| {
-            let value = generic_raw_value(field.value, depth)?;
-            Some(json!({
-                "Field": field.number,
-                "Wire": field.wire,
-                "Value": value,
-            }))
-        })
-        .collect();
-
-    Some(Value::Array(values))
+    single_field_text_value(&fields)
 }
 
-fn generic_raw_value(raw: RawValue, depth: usize) -> Option<Value> {
-    let value = match raw {
-        RawValue::Varint(value) => json!(value),
-        RawValue::Fixed32(bytes) => json!(u32::from_le_bytes(bytes)),
-        RawValue::Fixed64(bytes) => json!(u64::from_le_bytes(bytes)),
-        RawValue::LengthDelimited(bytes) => {
-            if let Some(value) = text_or_json_value(&bytes) {
-                return Some(value);
-            }
-            if depth > 0
-                && let Some(value) = generic_protobuf_value(&bytes, depth - 1)
-            {
-                return Some(value);
-            }
-            if let Some(value) = compact_bitset_value(&bytes) {
-                return Some(value);
-            }
-            return None;
-        }
+fn single_field_text_value(fields: &[crate::proto::RawField]) -> Option<Value> {
+    let [field] = fields else {
+        return None;
     };
-    Some(value)
+    if field.number != 1 {
+        return None;
+    }
+    let RawValue::LengthDelimited(bytes) = &field.value else {
+        return None;
+    };
+    text_or_json_value(bytes)
 }
 
 pub(super) fn compact_bitset_value(bytes: &[u8]) -> Option<Value> {

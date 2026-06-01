@@ -112,14 +112,25 @@ fn process_frame(
     if frame.direction != Direction::ServerToClient {
         return Ok(None);
     }
+    let Some(packet) = decode_server_frame_body(&frame.body, api_map, descriptors)? else {
+        return Ok(None);
+    };
+    if !config.api_filter.accepts(packet.api_id) {
+        return Ok(None);
+    }
+    Ok(Some(packet))
+}
 
-    let unwrapped = unwrap_effective_payload(&frame.body).map_err(ProcessorError::Decode)?;
+/// Decode one already-decrypted server frame body into a processed packet.
+pub fn decode_server_frame_body(
+    body: &[u8],
+    api_map: &ApiMap,
+    descriptors: &DescriptorSet,
+) -> Result<Option<ProcessedPacket>, ProcessorError> {
+    let unwrapped = unwrap_effective_payload(body).map_err(ProcessorError::Decode)?;
     let Some(api_id) = unwrapped.api_id else {
         return Ok(None);
     };
-    if !config.api_filter.accepts(api_id) {
-        return Ok(None);
-    }
     let Some(mapping) = api_map.get(api_id) else {
         return Ok(None);
     };

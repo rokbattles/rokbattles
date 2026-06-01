@@ -50,6 +50,11 @@ impl ApiMap {
     pub fn get(&self, api_id: u32) -> Option<&ApiMapping> {
         self.entries.get(&api_id)
     }
+
+    /// Return every descriptor name registered in the extracted API table.
+    pub fn descriptor_names(&self) -> impl Iterator<Item = &str> {
+        self.entries.values().map(ApiMapping::descriptor)
+    }
 }
 
 #[cfg(test)]
