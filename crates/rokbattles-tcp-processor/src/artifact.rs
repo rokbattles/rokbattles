@@ -84,7 +84,11 @@ mod tests {
         );
 
         let artifact = RuntimeArtifact::load(&path).expect("artifact should load");
-        let decoded = artifact.descriptors.decode("Test", &[0x0a, 0x03, b'b', b'o', b'b']);
+        let decoded = artifact.descriptors.decode(
+            "Test",
+            &[0x0a, 0x03, b'b', b'o', b'b'],
+            Some(&artifact.api_map),
+        );
         fs::remove_file(path).expect("artifact fixture should clean up");
 
         assert_eq!(artifact.api_map.get(14).map(ApiMapping::schema), Some("Test"));
