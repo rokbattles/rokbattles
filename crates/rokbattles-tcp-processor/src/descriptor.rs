@@ -1,7 +1,8 @@
 //! Minimal protobuf descriptor decoder used by the TCP processor artifact.
 
-use std::{collections::HashMap, fmt::Write as _};
+use std::{collections::HashMap, fmt::Write as _, io::Read as _};
 
+use flate2::read::ZlibDecoder;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
 
@@ -151,6 +152,14 @@ impl DescriptorSet {
         depth: usize,
         api_map: Option<&ApiMap>,
     ) -> Option<Value> {
+        if fog_unlocked_bytes_field(message, field) {
+            return Some(bitmask_bytes_value(bytes));
+        }
+
+        if get_value_bytes_field(message, field) {
+            return Some(get_value_bytes_value(bytes));
+        }
+
         if json_bytes_field(message, field)
             && let Some(value) = text_or_json_value(bytes)
         {
@@ -248,6 +257,14 @@ fn json_bytes_field(message: &Message, field: &Field) -> bool {
     )
 }
 
+fn get_value_bytes_field(message: &Message, field: &Field) -> bool {
+    matches!((message.full_name.as_str(), field.name.as_str()), ("GetValue2Ack", "Value"))
+}
+
+fn fog_unlocked_bytes_field(message: &Message, field: &Field) -> bool {
+    matches!((message.full_name.as_str(), field.name.as_str()), ("FogInfoNewNtf", "Unlocked"))
+}
+
 fn embedded_msg_bytes_field(message: &Message, field: &Field) -> bool {
     matches!(
         (message.full_name.as_str(), field.name.as_str()),
@@ -260,7 +277,10 @@ fn protobuf_bytes_field(message: &Message, field: &Field) -> bool {
 }
 
 fn resolved_bytes_field(message: &Message, field: &Field) -> bool {
-    json_bytes_field(message, field) || protobuf_bytes_field(message, field)
+    json_bytes_field(message, field)
+        || get_value_bytes_field(message, field)
+        || fog_unlocked_bytes_field(message, field)
+        || protobuf_bytes_field(message, field)
 }
 
 fn is_error_object(value: &Value) -> bool {
@@ -292,6 +312,62 @@ fn text_or_json_value(bytes: &[u8]) -> Option<Value> {
         return Some(Value::String(text.to_string()));
     }
     None
+}
+
+fn get_value_bytes_value(bytes: &[u8]) -> Value {
+    if let Some(value) = text_or_json_value(bytes) {
+        return value;
+    }
+
+    if let Some(value) = zlib_text_or_json_value(bytes) {
+        return value;
+    }
+
+    raw_bytes_fallback(bytes)
+}
+
+fn zlib_text_or_json_value(bytes: &[u8]) -> Option<Value> {
+    let offset = zlib_offset(bytes)?;
+    let compressed = bytes.get(offset..)?;
+    let mut decoder = ZlibDecoder::new(compressed);
+    let mut inflated = Vec::new();
+    decoder.read_to_end(&mut inflated).ok()?;
+    let data = text_or_json_value(&inflated)?;
+
+    if offset == 0 {
+        return Some(data);
+    }
+
+    let mut out = Map::new();
+    let prefix = bytes.get(..offset)?;
+    out.insert("PrefixHex".to_string(), Value::String(bytes_to_hex(prefix)));
+    if prefix.len() > 1
+        && let Some(prefix_text) = prefix.get(1..)
+        && let Some(Value::String(text)) = text_or_json_value(prefix_text)
+    {
+        out.insert("PrefixText".to_string(), Value::String(text));
+    }
+    out.insert("Data".to_string(), data);
+    Some(Value::Object(out))
+}
+
+fn zlib_offset(bytes: &[u8]) -> Option<usize> {
+    bytes.windows(2).position(|window| {
+        let &[cmf, flg] = window else {
+            return false;
+        };
+        cmf & 0x0f == 8 && u16::from_be_bytes([cmf, flg]) % 31 == 0
+    })
+}
+
+fn bitmask_bytes_value(bytes: &[u8]) -> Value {
+    let set_bits: u64 = bytes.iter().map(|byte| u64::from(byte.count_ones())).sum();
+    let total_bits = bytes.len() as u64 * 8;
+    json!({
+        "ByteCount": bytes.len(),
+        "SetBits": set_bits,
+        "ClearBits": total_bits.saturating_sub(set_bits),
+    })
 }
 
 fn generic_protobuf_value(bytes: &[u8], depth: usize) -> Value {
@@ -651,6 +727,225 @@ mod tests {
         let value = descriptors.decode("ItemExtAck", &[0x0a, 0x03, 0xff, 0x00, 0x10], None);
 
         assert_eq!(value, json!({ "Data": { "RawHex": "ff0010" } }));
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_parses_get_value2_ack_text_value() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "GetValue2Ack".to_string(),
+                full_name: "GetValue2Ack".to_string(),
+                fields: vec![
+                    Field {
+                        name: "Code".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_ENUM),
+                        type_name: Some(".ErrorCode".to_string()),
+                    },
+                    Field {
+                        name: "Id".to_string(),
+                        number: Some(2),
+                        r#type: Some(TYPE_INT64),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Key".to_string(),
+                        number: Some(3),
+                        r#type: Some(TYPE_STRING),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Value".to_string(),
+                        number: Some(4),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    },
+                ],
+                nested: Vec::new(),
+            }],
+        });
+        let payload = [
+            0x08, 0x01, 0x10, 0x2a, 0x1a, 0x1b, b'Q', b'u', b'e', b'u', b'e', b'M', b'g', b'm',
+            b't', b'_', b'F', b'i', b'l', b't', b'e', b'r', b'S', b'e', b't', b't', b'i', b'n',
+            b'g', b's', b'_', b'v', b'1', 0x22, 0x07, b'7', b':', b'1', b',', b'1', b':', b'1',
+        ];
+
+        let value = descriptors.decode("GetValue2Ack", &payload, None);
+
+        assert_eq!(
+            value,
+            json!({
+                "Code": 1,
+                "Id": 42,
+                "Key": "QueueMgmt_FilterSettings_v1",
+                "Value": "7:1,1:1",
+            })
+        );
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_inflates_get_value2_ack_zlib_json_value() {
+        use std::io::Write as _;
+
+        use flate2::{Compression, write::ZlibEncoder};
+
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "GetValue2Ack".to_string(),
+                full_name: "GetValue2Ack".to_string(),
+                fields: vec![
+                    Field {
+                        name: "Code".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_ENUM),
+                        type_name: Some(".ErrorCode".to_string()),
+                    },
+                    Field {
+                        name: "Id".to_string(),
+                        number: Some(2),
+                        r#type: Some(TYPE_INT64),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Key".to_string(),
+                        number: Some(3),
+                        r#type: Some(TYPE_STRING),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Value".to_string(),
+                        number: Some(4),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    },
+                ],
+                nested: Vec::new(),
+            }],
+        });
+
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(br#"{"Layouts":[]}"#).expect("test fixture should compress");
+        let compressed = encoder.finish().expect("test fixture should finish");
+
+        let mut city_layout = vec![0x01];
+        city_layout.extend_from_slice(b"088510");
+        city_layout.extend_from_slice(&compressed);
+
+        let mut payload = vec![
+            0x08,
+            0x01,
+            0x10,
+            0x2a,
+            0x1a,
+            0x12,
+            b'C',
+            b'i',
+            b't',
+            b'y',
+            b'E',
+            b'd',
+            b'i',
+            b't',
+            b'L',
+            b'a',
+            b'y',
+            b'o',
+            b'u',
+            b't',
+            b'D',
+            b'a',
+            b't',
+            b'a',
+            0x22,
+            city_layout.len() as u8,
+        ];
+        payload.extend_from_slice(&city_layout);
+
+        let value = descriptors.decode("GetValue2Ack", &payload, None);
+
+        assert_eq!(
+            value,
+            json!({
+                "Code": 1,
+                "Id": 42,
+                "Key": "CityEditLayoutData",
+                "Value": {
+                    "PrefixHex": "01303838353130",
+                    "PrefixText": "088510",
+                    "Data": { "Layouts": [] },
+                },
+            })
+        );
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_summarizes_fog_info_new_ntf_unlocked_bitmask() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "FogInfoNewNtf".to_string(),
+                full_name: "FogInfoNewNtf".to_string(),
+                fields: vec![
+                    Field {
+                        name: "FogTileSize".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_INT32),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Unlocked".to_string(),
+                        number: Some(2),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "ServerId".to_string(),
+                        number: Some(3),
+                        r#type: Some(TYPE_INT32),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Width".to_string(),
+                        number: Some(4),
+                        r#type: Some(TYPE_INT32),
+                        type_name: None,
+                    },
+                    Field {
+                        name: "Height".to_string(),
+                        number: Some(5),
+                        r#type: Some(TYPE_INT32),
+                        type_name: None,
+                    },
+                ],
+                nested: Vec::new(),
+            }],
+        });
+        let payload = [
+            0x08, 0x12, 0x12, 0x02, 0xaa, 0xff, 0x18, 0x8c, 0x0e, 0x20, 0xa0, 0x38, 0x28, 0xa0,
+            0x38,
+        ];
+
+        let value = descriptors.decode("FogInfoNewNtf", &payload, None);
+
+        assert_eq!(
+            value,
+            json!({
+                "FogTileSize": 18,
+                "Unlocked": {
+                    "ByteCount": 2,
+                    "SetBits": 12,
+                    "ClearBits": 4,
+                },
+                "ServerId": 1804,
+                "Width": 7200,
+                "Height": 7200,
+            })
+        );
         assert!(!contains_key(&value, "head_hex"));
         assert!(!contains_key(&value, "len"));
     }
