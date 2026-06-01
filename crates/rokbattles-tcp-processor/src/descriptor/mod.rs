@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
 
 use self::bytes::{
-    compact_bitset_value, generic_protobuf_value, text_or_json_value, zlib_text_or_json_value,
+    compact_bitset_value, protobuf_text_value, text_or_json_value, zlib_text_or_json_value,
 };
 use crate::{
     api_map::ApiMap,
@@ -91,21 +91,13 @@ impl DescriptorSet {
         };
 
         let mut out = Map::new();
-        let mut unknown = Vec::new();
         for raw in raw_fields {
             let Some(field) = fields_by_number.get(&raw.number) else {
-                if let Some(value) = unknown_value(raw.number, raw.wire, raw.value, depth) {
-                    unknown.push(value);
-                }
                 continue;
             };
             if let Some(value) = self.decode_field(message, field, raw.value, depth, api_map) {
                 append_value(&mut out, &field.name, value);
             }
-        }
-
-        if !unknown.is_empty() {
-            out.insert("_unknown".to_string(), Value::Array(unknown));
         }
 
         Value::Object(out)
@@ -159,20 +151,167 @@ impl DescriptorSet {
                 let decoded = self.decode(mapping.descriptor(), &wrapper.payload, api_map);
                 out.insert("Data".to_string(), decoded);
             } else {
-                let value = generic_protobuf_value(&wrapper.payload, depth - 1)?;
+                let value = protobuf_text_value(&wrapper.payload)?;
                 out.insert("Data".to_string(), value);
             }
 
             return Some(Value::Object(out));
         }
 
+        if depth > 0 {
+            if api_map.is_some()
+                && let Some(value) = self.infer_api_message_value(bytes, depth - 1, api_map)
+            {
+                return Some(value);
+            }
+
+            if api_map.is_none()
+                && let Some(value) = self.infer_any_message_value(bytes, depth - 1, api_map)
+            {
+                return Some(value);
+            }
+        }
+
         if depth > 0
-            && let Some(value) = generic_protobuf_value(bytes, depth - 1)
+            && let Some(value) = protobuf_text_value(bytes)
         {
             return Some(value);
         }
 
         compact_bitset_value(bytes)
+    }
+
+    fn infer_api_message_value(
+        &self,
+        bytes: &[u8],
+        depth: usize,
+        api_map: Option<&ApiMap>,
+    ) -> Option<Value> {
+        let api_map = api_map?;
+        let raw_fields = parse_fields(bytes)?;
+        if raw_fields.len() < 3 {
+            return None;
+        }
+        self.infer_message_value(
+            bytes,
+            &raw_fields,
+            depth,
+            api_map.descriptor_names().filter_map(|name| self.messages.get(normalize_name(name))),
+            Some(api_map),
+        )
+    }
+
+    fn infer_any_message_value(
+        &self,
+        bytes: &[u8],
+        depth: usize,
+        api_map: Option<&ApiMap>,
+    ) -> Option<Value> {
+        let raw_fields = parse_fields(bytes)?;
+        if raw_fields.len() < 3 {
+            return None;
+        }
+        self.infer_message_value(bytes, &raw_fields, depth, self.messages.values(), api_map)
+    }
+
+    fn infer_message_value<'a>(
+        &self,
+        bytes: &[u8],
+        raw_fields: &[crate::proto::RawField],
+        depth: usize,
+        candidates: impl Iterator<Item = &'a Message>,
+        api_map: Option<&ApiMap>,
+    ) -> Option<Value> {
+        let mut best: Option<(&Message, usize)> = None;
+        let mut ambiguous = false;
+        for message in candidates {
+            let Some(matched) = self.message_match_score(message, raw_fields, depth) else {
+                continue;
+            };
+
+            let candidate = (message, matched);
+            match best {
+                None => {
+                    best = Some(candidate);
+                    ambiguous = false;
+                }
+                Some((_best_message, best_matched)) if matched > best_matched => {
+                    best = Some(candidate);
+                    ambiguous = false;
+                }
+                Some((best_message, best_matched))
+                    if matched == best_matched
+                        && message.fields.len() < best_message.fields.len() =>
+                {
+                    best = Some(candidate);
+                    ambiguous = false;
+                }
+                Some((best_message, best_matched))
+                    if matched == best_matched
+                        && message.fields.len() == best_message.fields.len()
+                        && message.full_name != best_message.full_name =>
+                {
+                    ambiguous = true;
+                }
+                Some(_) => {}
+            }
+        }
+
+        if ambiguous {
+            return None;
+        }
+
+        let (message, _) = best?;
+        Some(self.decode_message(bytes, message, depth, api_map))
+    }
+
+    fn message_match_score(
+        &self,
+        message: &Message,
+        raw_fields: &[crate::proto::RawField],
+        depth: usize,
+    ) -> Option<usize> {
+        let fields_by_number: HashMap<u32, &Field> = message
+            .fields
+            .iter()
+            .filter_map(|field| field.number.map(|number| (number, field)))
+            .collect();
+        if fields_by_number.is_empty() {
+            return None;
+        }
+
+        let mut score = 0usize;
+        for raw in raw_fields {
+            let field = fields_by_number.get(&raw.number)?;
+            score = score.saturating_add(self.field_match_score(&raw.value, field, depth)?);
+        }
+        Some(score.saturating_add(raw_fields.len()))
+    }
+
+    fn field_match_score(&self, raw: &RawValue, field: &Field, depth: usize) -> Option<usize> {
+        match (field.r#type.unwrap_or(0), raw) {
+            (TYPE_DOUBLE | TYPE_FIXED64 | TYPE_SFIXED64, RawValue::Fixed64(_)) => Some(8),
+            (TYPE_FLOAT | TYPE_FIXED32 | TYPE_SFIXED32, RawValue::Fixed32(_)) => Some(8),
+            (TYPE_BOOL, RawValue::Varint(value)) if *value <= 1 => Some(10),
+            (TYPE_INT32 | TYPE_UINT32 | TYPE_ENUM | TYPE_SINT32, RawValue::Varint(value))
+                if u32::try_from(*value).is_ok() =>
+            {
+                Some(9)
+            }
+            (TYPE_INT64 | TYPE_UINT64 | TYPE_SINT64, RawValue::Varint(_)) => Some(7),
+            (TYPE_STRING, RawValue::LengthDelimited(bytes)) => {
+                text_or_json_value(bytes).map(|_| 12)
+            }
+            (TYPE_MESSAGE, RawValue::LengthDelimited(bytes)) if depth > 0 => {
+                let raw_fields = parse_fields(bytes)?;
+                let type_name = field.type_name.as_deref()?;
+                let message = self.messages.get(normalize_name(type_name))?;
+                self.message_match_score(message, &raw_fields, depth - 1)
+                    .map(|score| score.saturating_add(20))
+            }
+            (TYPE_BYTES, RawValue::LengthDelimited(_bytes)) => Some(1),
+            _ => None,
+        }
     }
 
     fn decode_scalar(&self, field: &Field, raw: RawValue) -> Option<Value> {
@@ -203,26 +342,6 @@ impl DescriptorSet {
         };
         Some(value)
     }
-}
-
-fn unknown_value(number: u32, wire: u8, raw: RawValue, depth: usize) -> Option<Value> {
-    let value = match raw {
-        RawValue::Varint(value) => json!(value),
-        RawValue::LengthDelimited(bytes) => {
-            if let Some(value) = text_or_json_value(&bytes) {
-                value
-            } else if let Some(value) = zlib_text_or_json_value(&bytes) {
-                value
-            } else if depth > 0 {
-                generic_protobuf_value(&bytes, depth - 1)?
-            } else {
-                return None;
-            }
-        }
-        RawValue::Fixed32(_bytes) => return None,
-        RawValue::Fixed64(_bytes) => return None,
-    };
-    Some(json!({ "field": number, "wire": wire, "value": value }))
 }
 
 fn insert_message(messages: &mut HashMap<String, Message>, message: Message) {
@@ -370,7 +489,7 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_parses_embedded_protobuf_bytes_generically() {
+    fn decode_message_infers_embedded_protobuf_bytes_by_shape() {
         let mut messages = HashMap::new();
         messages.insert(
             "BytesContainer".to_string(),
@@ -427,15 +546,187 @@ mod tests {
         assert_eq!(
             value,
             json!({
-                "Body": [
-                    { "Field": 1, "Wire": 0, "Value": 340 },
-                    { "Field": 2, "Wire": 0, "Value": 1 },
-                    { "Field": 3, "Wire": 2, "Value": { "ItemId": 121 } },
-                ]
+                "Body": {
+                    "Type": 340,
+                    "Param": 1,
+                    "Kvs": { "ItemId": 121 },
+                }
             })
         );
         assert!(!contains_key(&value, "head_hex"));
         assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_omits_embedded_shape_when_ambiguous() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![
+                Message {
+                    name: "BytesContainer".to_string(),
+                    full_name: "BytesContainer".to_string(),
+                    fields: vec![Field {
+                        name: "Body".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    }],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "FirstMatch".to_string(),
+                    full_name: "FirstMatch".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Type".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Param".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Data".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "SecondMatch".to_string(),
+                    full_name: "SecondMatch".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Code".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Kind".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Text".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+            ],
+        });
+        let body = [
+            0x08, 0xd4, 0x02, 0x10, 0x01, 0x1a, 0x0e, b'{', b'"', b'I', b't', b'e', b'm', b'I',
+            b'd', b'"', b':', b'1', b'2', b'1', b'}',
+        ];
+        let mut payload = vec![0x0a, body.len() as u8];
+        payload.extend_from_slice(&body);
+
+        let value = descriptors.decode("BytesContainer", &payload, None);
+
+        assert_eq!(value, json!({}));
+    }
+
+    #[test]
+    fn decode_message_uses_api_registry_to_resolve_embedded_shape() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![
+                Message {
+                    name: "BytesContainer".to_string(),
+                    full_name: "BytesContainer".to_string(),
+                    fields: vec![Field {
+                        name: "Body".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    }],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "RegisteredPayload".to_string(),
+                    full_name: "RegisteredPayload".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Kind".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Count".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Label".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "UnregisteredPayload".to_string(),
+                    full_name: "UnregisteredPayload".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Type".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Amount".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Text".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+            ],
+        });
+        let api_map = ApiMap::from_artifact(std::collections::BTreeMap::from([(
+            "99".to_string(),
+            ApiMapping {
+                schema: "RegisteredPayload".to_string(),
+                descriptor: "RegisteredPayload".to_string(),
+            },
+        )]))
+        .expect("api fixture should parse");
+        let body = [0x08, 0x02, 0x10, 0x03, 0x1a, 0x05, b'a', b'l', b'p', b'h', b'a'];
+        let mut payload = vec![0x0a, body.len() as u8];
+        payload.extend_from_slice(&body);
+
+        let value = descriptors.decode("BytesContainer", &payload, Some(&api_map));
+
+        assert_eq!(
+            value,
+            json!({
+                "Body": {
+                    "Kind": 2,
+                    "Count": 3,
+                    "Label": "alpha",
+                },
+            })
+        );
     }
 
     #[test]
@@ -517,7 +808,7 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_parses_unmapped_embedded_protobuf_bytes() {
+    fn decode_message_omits_unmapped_embedded_protobuf_bytes() {
         let mut messages = HashMap::new();
         messages.insert(
             "Test".to_string(),
@@ -543,18 +834,35 @@ mod tests {
 
         let value = descriptors.decode("Test", &payload, None);
 
-        assert_eq!(
-            value,
-            json!({
-                "Data": [
-                    { "Field": 1, "Wire": 0, "Value": 340 },
-                    { "Field": 2, "Wire": 0, "Value": 1 },
-                    { "Field": 3, "Wire": 2, "Value": { "ItemId": 121 } },
-                ]
-            })
-        );
+        assert_eq!(value, json!({}));
         assert!(!contains_key(&value, "head_hex"));
         assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_unwraps_single_field_text_bytes() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "TextBodyRecord".to_string(),
+                full_name: "TextBodyRecord".to_string(),
+                fields: vec![Field {
+                    name: "Body".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+        let body = b"hello from wrapped text";
+        let mut wrapped = vec![0x0a, body.len() as u8];
+        wrapped.extend_from_slice(body);
+        let mut payload = vec![0x0a, wrapped.len() as u8];
+        payload.extend_from_slice(&wrapped);
+
+        let value = descriptors.decode("TextBodyRecord", &payload, None);
+
+        assert_eq!(value, json!({ "Body": "hello from wrapped text" }));
     }
 
     #[test]
@@ -769,6 +1077,129 @@ mod tests {
     }
 
     #[test]
+    fn decode_message_infers_embedded_bytes_message_from_descriptor_shape() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![
+                Message {
+                    name: "ListItem".to_string(),
+                    full_name: "ListItem".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Id".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Rank".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Score".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Value".to_string(),
+                            number: Some(4),
+                            r#type: Some(TYPE_BYTES),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "PreviousPosition".to_string(),
+                            number: Some(5),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "EmbeddedDetails".to_string(),
+                    full_name: "EmbeddedDetails".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Name".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Tag".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Image".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "MemberId".to_string(),
+                            number: Some(4),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "MemberName".to_string(),
+                            number: Some(5),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "ShardId".to_string(),
+                            number: Some(11),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "AreaCount".to_string(),
+                            number: Some(26),
+                            r#type: Some(TYPE_INT64),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+            ],
+        });
+        let value_bytes = [
+            0x0a, 0x05, b'G', b'r', b'o', b'u', b'p', 0x12, 0x03, b'T', b'A', b'G', 0x1a, 0x04,
+            b'i', b'm', b'a', b'g', 0x20, 0x2a, 0x2a, 0x05, b'A', b'l', b'i', b'c', b'e', 0x58,
+            0x0c, 0xd0, 0x01, 0x07,
+        ];
+        let mut payload = vec![0x08, 0x01, 0x10, 0x01, 0x18, 0x64, 0x22, value_bytes.len() as u8];
+        payload.extend_from_slice(&value_bytes);
+        payload.extend_from_slice(&[0x28, 0x01]);
+
+        let value = descriptors.decode("ListItem", &payload, None);
+
+        assert_eq!(
+            value,
+            json!({
+                "Id": 1,
+                "Rank": 1,
+                "Score": 100,
+                "Value": {
+                    "Name": "Group",
+                    "Tag": "TAG",
+                    "Image": "imag",
+                    "MemberId": 42,
+                    "MemberName": "Alice",
+                    "ShardId": 12,
+                    "AreaCount": 7,
+                },
+                "PreviousPosition": 1,
+            })
+        );
+    }
+
+    #[test]
     fn decode_message_parses_compact_bitmap_bytes() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
@@ -862,7 +1293,7 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_parses_flexible_bytes_as_generic_protobuf() {
+    fn decode_message_omits_flexible_bytes_without_descriptor_match() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
                 name: "FlexibleBytesRecord".to_string(),
@@ -880,14 +1311,7 @@ mod tests {
 
         let value = descriptors.decode("FlexibleBytesRecord", &payload, None);
 
-        assert_eq!(
-            value,
-            json!({
-                "Data": [
-                    { "Field": 1, "Wire": 0, "Value": 123 }
-                ]
-            })
-        );
+        assert_eq!(value, json!({}));
         assert!(!contains_key(&value, "head_hex"));
         assert!(!contains_key(&value, "len"));
     }
