@@ -1,11 +1,15 @@
 //! Minimal protobuf descriptor decoder used by the TCP processor artifact.
 
-use std::{collections::HashMap, fmt::Write as _, io::Read as _};
+mod bytes;
 
-use flate2::read::ZlibDecoder;
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value, json};
 
+use self::bytes::{
+    compact_bitset_value, generic_protobuf_value, text_or_json_value, zlib_text_or_json_value,
+};
 use crate::{
     api_map::ApiMap,
     proto::{RawValue, parse_fields, parse_msg_wrapper, zigzag},
@@ -90,11 +94,14 @@ impl DescriptorSet {
         let mut unknown = Vec::new();
         for raw in raw_fields {
             let Some(field) = fields_by_number.get(&raw.number) else {
-                unknown.push(unknown_value(raw.number, raw.wire, raw.value));
+                if let Some(value) = unknown_value(raw.number, raw.wire, raw.value, depth) {
+                    unknown.push(value);
+                }
                 continue;
             };
-            let value = self.decode_field(message, field, raw.value, depth, api_map);
-            append_value(&mut out, &field.name, value);
+            if let Some(value) = self.decode_field(message, field, raw.value, depth, api_map) {
+                append_value(&mut out, &field.name, value);
+            }
         }
 
         if !unknown.is_empty() {
@@ -106,12 +113,12 @@ impl DescriptorSet {
 
     fn decode_field(
         &self,
-        message: &Message,
+        _message: &Message,
         field: &Field,
         raw: RawValue,
         depth: usize,
         api_map: Option<&ApiMap>,
-    ) -> Value {
+    ) -> Option<Value> {
         let field_type = field.r#type.unwrap_or(0);
         if field_type == TYPE_MESSAGE
             && let RawValue::LengthDelimited(ref bytes) = raw
@@ -119,55 +126,29 @@ impl DescriptorSet {
             && let Some(type_name) = field.type_name.as_deref()
             && let Some(message) = self.messages.get(normalize_name(type_name))
         {
-            return self.decode_message(bytes, message, depth - 1, api_map);
+            return Some(self.decode_message(bytes, message, depth - 1, api_map));
         }
 
         if field_type == TYPE_BYTES
             && let RawValue::LengthDelimited(ref bytes) = raw
-            && depth > 0
-            && let Some(type_name) = inferred_bytes_type_name(message, field)
-            && let Some(message) = self.messages.get(type_name)
-        {
-            let decoded = self.decode_message(bytes, message, depth - 1, api_map);
-            if !is_error_object(&decoded) {
-                return decoded;
-            }
-        }
-
-        if field_type == TYPE_BYTES
-            && let RawValue::LengthDelimited(ref bytes) = raw
-            && let Some(value) = self.decode_bytes_hint(message, field, bytes, depth, api_map)
-        {
-            return value;
-        }
-
-        self.decode_scalar(message, field, raw)
-    }
-
-    fn decode_bytes_hint(
-        &self,
-        message: &Message,
-        field: &Field,
-        bytes: &[u8],
-        depth: usize,
-        api_map: Option<&ApiMap>,
-    ) -> Option<Value> {
-        if fog_unlocked_bytes_field(message, field) {
-            return Some(bitmask_bytes_value(bytes));
-        }
-
-        if get_value_bytes_field(message, field) {
-            return Some(get_value_bytes_value(bytes));
-        }
-
-        if json_bytes_field(message, field)
-            && let Some(value) = text_or_json_value(bytes)
+            && let Some(value) = self.decode_bytes(bytes, depth, api_map)
         {
             return Some(value);
         }
 
-        if embedded_msg_bytes_field(message, field)
-            && depth > 0
+        self.decode_scalar(field, raw)
+    }
+
+    fn decode_bytes(&self, bytes: &[u8], depth: usize, api_map: Option<&ApiMap>) -> Option<Value> {
+        if let Some(value) = text_or_json_value(bytes) {
+            return Some(value);
+        }
+
+        if let Some(value) = zlib_text_or_json_value(bytes) {
+            return Some(value);
+        }
+
+        if depth > 0
             && let Some(wrapper) = parse_msg_wrapper(bytes)
         {
             let mut out = Map::new();
@@ -178,29 +159,25 @@ impl DescriptorSet {
                 let decoded = self.decode(mapping.descriptor(), &wrapper.payload, api_map);
                 out.insert("Data".to_string(), decoded);
             } else {
-                out.insert("Data".to_string(), generic_protobuf_value(&wrapper.payload, depth - 1));
+                let value = generic_protobuf_value(&wrapper.payload, depth - 1)?;
+                out.insert("Data".to_string(), value);
             }
 
             return Some(Value::Object(out));
         }
 
-        if protobuf_bytes_field(message, field) && depth > 0 {
-            let value = generic_protobuf_value(bytes, depth - 1);
-            if !is_bytes_summary(&value) {
-                return Some(value);
-            }
+        if depth > 0
+            && let Some(value) = generic_protobuf_value(bytes, depth - 1)
+        {
+            return Some(value);
         }
 
-        if resolved_bytes_field(message, field) {
-            return Some(raw_bytes_fallback(bytes));
-        }
-
-        None
+        compact_bitset_value(bytes)
     }
 
-    fn decode_scalar(&self, message: &Message, field: &Field, raw: RawValue) -> Value {
+    fn decode_scalar(&self, field: &Field, raw: RawValue) -> Option<Value> {
         let field_type = field.r#type.unwrap_or(0);
-        match (field_type, raw) {
+        let value = match (field_type, raw) {
             (TYPE_BOOL, RawValue::Varint(value)) => Value::Bool(value != 0),
             (TYPE_INT32, RawValue::Varint(value)) => json!((value as u32) as i32),
             (TYPE_INT64, RawValue::Varint(value)) => json!(value as i64),
@@ -210,15 +187,9 @@ impl DescriptorSet {
             (TYPE_SINT32 | TYPE_SINT64, RawValue::Varint(value)) => json!(zigzag(value)),
             (TYPE_STRING, RawValue::LengthDelimited(bytes)) => {
                 let value = String::from_utf8_lossy(&bytes).into_owned();
-                if message.full_name == "MailSys"
-                    && field.name == "Kvs"
-                    && let Some(decoded) = text_or_json_value(value.as_bytes())
-                {
-                    return decoded;
-                }
-                Value::String(value)
+                text_or_json_value(value.as_bytes()).unwrap_or(Value::String(value))
             }
-            (TYPE_BYTES, RawValue::LengthDelimited(bytes)) => bytes_value(&bytes),
+            (TYPE_BYTES, RawValue::LengthDelimited(_bytes)) => return None,
             (TYPE_FLOAT, RawValue::Fixed32(bytes)) => json!(f32::from_le_bytes(bytes)),
             (TYPE_DOUBLE, RawValue::Fixed64(bytes)) => json!(f64::from_le_bytes(bytes)),
             (TYPE_FIXED32, RawValue::Fixed32(bytes)) => json!(u32::from_le_bytes(bytes)),
@@ -226,65 +197,32 @@ impl DescriptorSet {
             (TYPE_FIXED64, RawValue::Fixed64(bytes)) => json!(u64::from_le_bytes(bytes)),
             (TYPE_SFIXED64, RawValue::Fixed64(bytes)) => json!(i64::from_le_bytes(bytes)),
             (_, RawValue::Varint(value)) => json!(value),
-            (_, RawValue::LengthDelimited(bytes)) => bytes_value(&bytes),
-            (_, RawValue::Fixed32(bytes)) => bytes_value(&bytes),
-            (_, RawValue::Fixed64(bytes)) => bytes_value(&bytes),
-        }
+            (_, RawValue::LengthDelimited(_bytes)) => return None,
+            (_, RawValue::Fixed32(_bytes)) => return None,
+            (_, RawValue::Fixed64(_bytes)) => return None,
+        };
+        Some(value)
     }
 }
 
-fn unknown_value(number: u32, wire: u8, raw: RawValue) -> Value {
+fn unknown_value(number: u32, wire: u8, raw: RawValue, depth: usize) -> Option<Value> {
     let value = match raw {
         RawValue::Varint(value) => json!(value),
-        RawValue::LengthDelimited(bytes) => bytes_value(&bytes),
-        RawValue::Fixed32(bytes) => bytes_value(&bytes),
-        RawValue::Fixed64(bytes) => bytes_value(&bytes),
+        RawValue::LengthDelimited(bytes) => {
+            if let Some(value) = text_or_json_value(&bytes) {
+                value
+            } else if let Some(value) = zlib_text_or_json_value(&bytes) {
+                value
+            } else if depth > 0 {
+                generic_protobuf_value(&bytes, depth - 1)?
+            } else {
+                return None;
+            }
+        }
+        RawValue::Fixed32(_bytes) => return None,
+        RawValue::Fixed64(_bytes) => return None,
     };
-    json!({ "field": number, "wire": wire, "value": value })
-}
-
-fn inferred_bytes_type_name(message: &Message, field: &Field) -> Option<&'static str> {
-    match (message.full_name.as_str(), field.name.as_str()) {
-        ("MailEntity", "Body") => Some("MailSys"),
-        _ => None,
-    }
-}
-
-fn json_bytes_field(message: &Message, field: &Field) -> bool {
-    matches!(
-        (message.full_name.as_str(), field.name.as_str()),
-        ("ReportAck" | "ItemExtAck" | "DungeonMapNtf", "Data")
-    )
-}
-
-fn get_value_bytes_field(message: &Message, field: &Field) -> bool {
-    matches!((message.full_name.as_str(), field.name.as_str()), ("GetValue2Ack", "Value"))
-}
-
-fn fog_unlocked_bytes_field(message: &Message, field: &Field) -> bool {
-    matches!((message.full_name.as_str(), field.name.as_str()), ("FogInfoNewNtf", "Unlocked"))
-}
-
-fn embedded_msg_bytes_field(message: &Message, field: &Field) -> bool {
-    matches!(
-        (message.full_name.as_str(), field.name.as_str()),
-        ("GuestNtf" | "DungeonMapNtf", "Data")
-    )
-}
-
-fn protobuf_bytes_field(message: &Message, field: &Field) -> bool {
-    embedded_msg_bytes_field(message, field)
-}
-
-fn resolved_bytes_field(message: &Message, field: &Field) -> bool {
-    json_bytes_field(message, field)
-        || get_value_bytes_field(message, field)
-        || fog_unlocked_bytes_field(message, field)
-        || protobuf_bytes_field(message, field)
-}
-
-fn is_error_object(value: &Value) -> bool {
-    matches!(value, Value::Object(object) if object.contains_key("error"))
+    Some(json!({ "field": number, "wire": wire, "value": value }))
 }
 
 fn insert_message(messages: &mut HashMap<String, Message>, message: Message) {
@@ -299,124 +237,6 @@ fn normalize_name(name: &str) -> &str {
     name.strip_prefix('.').unwrap_or(name)
 }
 
-fn text_or_json_value(bytes: &[u8]) -> Option<Value> {
-    if let Ok(text) = std::str::from_utf8(bytes)
-        && text.chars().all(|ch| ch == '\n' || ch == '\r' || ch == '\t' || !ch.is_control())
-    {
-        let trimmed = text.trim();
-        if matches!(trimmed.as_bytes().first(), Some(b'{' | b'['))
-            && let Ok(value) = serde_json::from_str::<Value>(trimmed)
-        {
-            return Some(value);
-        }
-        return Some(Value::String(text.to_string()));
-    }
-    None
-}
-
-fn get_value_bytes_value(bytes: &[u8]) -> Value {
-    if let Some(value) = text_or_json_value(bytes) {
-        return value;
-    }
-
-    if let Some(value) = zlib_text_or_json_value(bytes) {
-        return value;
-    }
-
-    raw_bytes_fallback(bytes)
-}
-
-fn zlib_text_or_json_value(bytes: &[u8]) -> Option<Value> {
-    let offset = zlib_offset(bytes)?;
-    let compressed = bytes.get(offset..)?;
-    let mut decoder = ZlibDecoder::new(compressed);
-    let mut inflated = Vec::new();
-    decoder.read_to_end(&mut inflated).ok()?;
-    let data = text_or_json_value(&inflated)?;
-
-    if offset == 0 {
-        return Some(data);
-    }
-
-    let mut out = Map::new();
-    let prefix = bytes.get(..offset)?;
-    out.insert("PrefixHex".to_string(), Value::String(bytes_to_hex(prefix)));
-    if prefix.len() > 1
-        && let Some(prefix_text) = prefix.get(1..)
-        && let Some(Value::String(text)) = text_or_json_value(prefix_text)
-    {
-        out.insert("PrefixText".to_string(), Value::String(text));
-    }
-    out.insert("Data".to_string(), data);
-    Some(Value::Object(out))
-}
-
-fn zlib_offset(bytes: &[u8]) -> Option<usize> {
-    bytes.windows(2).position(|window| {
-        let &[cmf, flg] = window else {
-            return false;
-        };
-        cmf & 0x0f == 8 && u16::from_be_bytes([cmf, flg]) % 31 == 0
-    })
-}
-
-fn bitmask_bytes_value(bytes: &[u8]) -> Value {
-    let set_bits: u64 = bytes.iter().map(|byte| u64::from(byte.count_ones())).sum();
-    let total_bits = bytes.len() as u64 * 8;
-    json!({
-        "ByteCount": bytes.len(),
-        "SetBits": set_bits,
-        "ClearBits": total_bits.saturating_sub(set_bits),
-    })
-}
-
-fn generic_protobuf_value(bytes: &[u8], depth: usize) -> Value {
-    let Some(fields) = parse_fields(bytes) else {
-        return bytes_value(bytes);
-    };
-
-    let values = fields
-        .into_iter()
-        .map(|field| {
-            json!({
-                "Field": field.number,
-                "Wire": field.wire,
-                "Value": generic_raw_value(field.value, depth),
-            })
-        })
-        .collect();
-
-    Value::Array(values)
-}
-
-fn generic_raw_value(raw: RawValue, depth: usize) -> Value {
-    match raw {
-        RawValue::Varint(value) => json!(value),
-        RawValue::Fixed32(bytes) => json!(u32::from_le_bytes(bytes)),
-        RawValue::Fixed64(bytes) => json!(u64::from_le_bytes(bytes)),
-        RawValue::LengthDelimited(bytes) => {
-            if let Some(value) = text_or_json_value(&bytes) {
-                return value;
-            }
-            if depth > 0 {
-                let value = generic_protobuf_value(&bytes, depth - 1);
-                if !is_bytes_summary(&value) {
-                    return value;
-                }
-            }
-            bytes_value(&bytes)
-        }
-    }
-}
-
-fn is_bytes_summary(value: &Value) -> bool {
-    matches!(value, Value::Object(object) if object.contains_key("head_hex"))
-}
-
-fn raw_bytes_fallback(bytes: &[u8]) -> Value {
-    text_or_json_value(bytes).unwrap_or_else(|| json!({ "RawHex": bytes_to_hex(bytes) }))
-}
-
 fn append_value(out: &mut Map<String, Value>, name: &str, value: Value) {
     match out.get_mut(name) {
         Some(Value::Array(values)) => values.push(value),
@@ -428,24 +248,6 @@ fn append_value(out: &mut Map<String, Value>, name: &str, value: Value) {
             out.insert(name.to_string(), value);
         }
     }
-}
-
-fn bytes_value(bytes: &[u8]) -> Value {
-    json!({ "len": bytes.len(), "head_hex": bytes_to_hex(prefix_bytes(bytes, 64)) })
-}
-
-fn bytes_to_hex(bytes: &[u8]) -> String {
-    let mut out = String::with_capacity(bytes.len() * 2);
-    for byte in bytes {
-        if write!(&mut out, "{byte:02x}").is_err() {
-            return out;
-        }
-    }
-    out
-}
-
-fn prefix_bytes(bytes: &[u8], max: usize) -> &[u8] {
-    bytes.get(..bytes.len().min(max)).unwrap_or(bytes)
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -511,7 +313,7 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_summarizes_unmapped_json_bytes() {
+    fn decode_message_parses_unmapped_json_bytes() {
         let mut messages = HashMap::new();
         messages.insert(
             "Test".to_string(),
@@ -535,30 +337,15 @@ mod tests {
         assert_eq!(
             value,
             json!({
-                "Data": {
-                    "len": 25,
-                    "head_hex": bytes_to_hex(br#"{"Result":[{"Tick":975}]}"#)
-                }
+                "Data": { "Result": [{ "Tick": 975 }] }
             })
         );
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
     }
 
     #[test]
-    fn decode_message_summarizes_large_text_bytes() {
-        let text = "a".repeat(4097);
-        let value = bytes_value(text.as_bytes());
-
-        assert_eq!(
-            value,
-            json!({
-                "len": 4097,
-                "head_hex": bytes_to_hex(prefix_bytes(text.as_bytes(), 64))
-            })
-        );
-    }
-
-    #[test]
-    fn decode_message_summarizes_opaque_bytes() {
+    fn decode_message_omits_opaque_bytes() {
         let mut messages = HashMap::new();
         messages.insert(
             "Test".to_string(),
@@ -579,17 +366,17 @@ mod tests {
 
         let value = descriptors.decode("Test", &payload, None);
 
-        assert_eq!(value, json!({ "Data": { "len": 3, "head_hex": "ff0010" } }));
+        assert_eq!(value, json!({}));
     }
 
     #[test]
-    fn decode_message_infers_mail_entity_body_as_mail_sys() {
+    fn decode_message_parses_embedded_protobuf_bytes_generically() {
         let mut messages = HashMap::new();
         messages.insert(
-            "MailEntity".to_string(),
+            "BytesContainer".to_string(),
             Message {
-                name: "MailEntity".to_string(),
-                full_name: "MailEntity".to_string(),
+                name: "BytesContainer".to_string(),
+                full_name: "BytesContainer".to_string(),
                 fields: vec![Field {
                     name: "Body".to_string(),
                     number: Some(1),
@@ -600,10 +387,10 @@ mod tests {
             },
         );
         messages.insert(
-            "MailSys".to_string(),
+            "EmbeddedRecord".to_string(),
             Message {
-                name: "MailSys".to_string(),
-                full_name: "MailSys".to_string(),
+                name: "EmbeddedRecord".to_string(),
+                full_name: "EmbeddedRecord".to_string(),
                 fields: vec![
                     Field {
                         name: "Type".to_string(),
@@ -635,22 +422,102 @@ mod tests {
         let mut payload = vec![0x0a, body.len() as u8];
         payload.extend_from_slice(&body);
 
-        let value = descriptors.decode("MailEntity", &payload, None);
+        let value = descriptors.decode("BytesContainer", &payload, None);
 
         assert_eq!(
             value,
             json!({
-                "Body": {
-                    "Type": 340,
-                    "Param": 1,
-                    "Kvs": { "ItemId": 121 }
-                }
+                "Body": [
+                    { "Field": 1, "Wire": 0, "Value": 340 },
+                    { "Field": 2, "Wire": 0, "Value": 1 },
+                    { "Field": 3, "Wire": 2, "Value": { "ItemId": 121 } },
+                ]
             })
         );
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
     }
 
     #[test]
-    fn decode_message_summarizes_unmapped_embedded_protobuf_bytes() {
+    fn decode_message_parses_nested_json_bytes_after_protobuf_attempt() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![
+                Message {
+                    name: "OuterRecord".to_string(),
+                    full_name: "OuterRecord".to_string(),
+                    fields: vec![Field {
+                        name: "record".to_string(),
+                        number: Some(1),
+                        r#type: Some(TYPE_MESSAGE),
+                        type_name: Some(".BytesContainer".to_string()),
+                    }],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "BytesContainer".to_string(),
+                    full_name: "BytesContainer".to_string(),
+                    fields: vec![Field {
+                        name: "Body".to_string(),
+                        number: Some(6),
+                        r#type: Some(TYPE_BYTES),
+                        type_name: None,
+                    }],
+                    nested: Vec::new(),
+                },
+                Message {
+                    name: "EmbeddedRecord".to_string(),
+                    full_name: "EmbeddedRecord".to_string(),
+                    fields: vec![
+                        Field {
+                            name: "Type".to_string(),
+                            number: Some(1),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Param".to_string(),
+                            number: Some(2),
+                            r#type: Some(TYPE_INT32),
+                            type_name: None,
+                        },
+                        Field {
+                            name: "Kvs".to_string(),
+                            number: Some(3),
+                            r#type: Some(TYPE_STRING),
+                            type_name: None,
+                        },
+                    ],
+                    nested: Vec::new(),
+                },
+            ],
+        });
+        let body = br#"{"Title":{"Key":"LC_EVENT_SERVER_GACHA_TITLE","List":[]}}"#;
+        let mut record = vec![0x32, body.len() as u8];
+        record.extend_from_slice(body);
+        let mut payload = vec![0x0a, record.len() as u8];
+        payload.extend_from_slice(&record);
+
+        let value = descriptors.decode("OuterRecord", &payload, None);
+
+        assert_eq!(
+            value,
+            json!({
+                    "record": {
+                    "Body": {
+                        "Title": {
+                            "Key": "LC_EVENT_SERVER_GACHA_TITLE",
+                            "List": [],
+                        },
+                    },
+                },
+            })
+        );
+        assert!(!contains_key(&value, "head_hex"));
+        assert!(!contains_key(&value, "len"));
+    }
+
+    #[test]
+    fn decode_message_parses_unmapped_embedded_protobuf_bytes() {
         let mut messages = HashMap::new();
         messages.insert(
             "Test".to_string(),
@@ -679,64 +546,65 @@ mod tests {
         assert_eq!(
             value,
             json!({
-                "Data": {
-                    "len": 21,
-                    "head_hex": bytes_to_hex(&data)
-                }
+                "Data": [
+                    { "Field": 1, "Wire": 0, "Value": 340 },
+                    { "Field": 2, "Wire": 0, "Value": 1 },
+                    { "Field": 3, "Wire": 2, "Value": { "ItemId": 121 } },
+                ]
             })
         );
-    }
-
-    #[test]
-    fn decode_message_parses_item_ext_ack_data_as_json() {
-        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
-            messages: vec![Message {
-                name: "ItemExtAck".to_string(),
-                full_name: "ItemExtAck".to_string(),
-                fields: vec![Field {
-                    name: "Data".to_string(),
-                    number: Some(1),
-                    r#type: Some(TYPE_BYTES),
-                    type_name: None,
-                }],
-                nested: Vec::new(),
-            }],
-        });
-
-        let value = descriptors.decode("ItemExtAck", &[0x0a, 0x02, b'{', b'}'], None);
-
-        assert_eq!(value, json!({ "Data": {} }));
-    }
-
-    #[test]
-    fn decode_message_does_not_summarize_target_bytes_when_payload_is_opaque() {
-        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
-            messages: vec![Message {
-                name: "ItemExtAck".to_string(),
-                full_name: "ItemExtAck".to_string(),
-                fields: vec![Field {
-                    name: "Data".to_string(),
-                    number: Some(1),
-                    r#type: Some(TYPE_BYTES),
-                    type_name: None,
-                }],
-                nested: Vec::new(),
-            }],
-        });
-
-        let value = descriptors.decode("ItemExtAck", &[0x0a, 0x03, 0xff, 0x00, 0x10], None);
-
-        assert_eq!(value, json!({ "Data": { "RawHex": "ff0010" } }));
         assert!(!contains_key(&value, "head_hex"));
         assert!(!contains_key(&value, "len"));
     }
 
     #[test]
-    fn decode_message_parses_get_value2_ack_text_value() {
+    fn decode_message_parses_named_json_bytes() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "GetValue2Ack".to_string(),
-                full_name: "GetValue2Ack".to_string(),
+                name: "JsonBytesRecord".to_string(),
+                full_name: "JsonBytesRecord".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+
+        let value = descriptors.decode("JsonBytesRecord", &[0x0a, 0x02, b'{', b'}'], None);
+
+        assert_eq!(value, json!({ "Data": {} }));
+    }
+
+    #[test]
+    fn decode_message_omits_named_opaque_bytes() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "JsonBytesRecord".to_string(),
+                full_name: "JsonBytesRecord".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+
+        let value = descriptors.decode("JsonBytesRecord", &[0x0a, 0x03, 0xff, 0x00, 0x10], None);
+
+        assert_eq!(value, json!({}));
+    }
+
+    #[test]
+    fn decode_message_parses_key_value_text_bytes() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "KeyValueRecord".to_string(),
+                full_name: "KeyValueRecord".to_string(),
                 fields: vec![
                     Field {
                         name: "Code".to_string(),
@@ -767,19 +635,18 @@ mod tests {
             }],
         });
         let payload = [
-            0x08, 0x01, 0x10, 0x2a, 0x1a, 0x1b, b'Q', b'u', b'e', b'u', b'e', b'M', b'g', b'm',
-            b't', b'_', b'F', b'i', b'l', b't', b'e', b'r', b'S', b'e', b't', b't', b'i', b'n',
-            b'g', b's', b'_', b'v', b'1', 0x22, 0x07, b'7', b':', b'1', b',', b'1', b':', b'1',
+            0x08, 0x01, 0x10, 0x2a, 0x1a, 0x0b, b'S', b'e', b't', b't', b'i', b'n', b'g', b's',
+            b'K', b'e', b'y', 0x22, 0x07, b'7', b':', b'1', b',', b'1', b':', b'1',
         ];
 
-        let value = descriptors.decode("GetValue2Ack", &payload, None);
+        let value = descriptors.decode("KeyValueRecord", &payload, None);
 
         assert_eq!(
             value,
             json!({
                 "Code": 1,
                 "Id": 42,
-                "Key": "QueueMgmt_FilterSettings_v1",
+                "Key": "SettingsKey",
                 "Value": "7:1,1:1",
             })
         );
@@ -788,15 +655,15 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_inflates_get_value2_ack_zlib_json_value() {
+    fn decode_message_inflates_key_value_zlib_json_bytes() {
         use std::io::Write as _;
 
         use flate2::{Compression, write::ZlibEncoder};
 
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "GetValue2Ack".to_string(),
-                full_name: "GetValue2Ack".to_string(),
+                name: "KeyValueRecord".to_string(),
+                full_name: "KeyValueRecord".to_string(),
                 fields: vec![
                     Field {
                         name: "Code".to_string(),
@@ -831,25 +698,13 @@ mod tests {
         encoder.write_all(br#"{"Layouts":[]}"#).expect("test fixture should compress");
         let compressed = encoder.finish().expect("test fixture should finish");
 
-        let mut city_layout = vec![0x01];
-        city_layout.extend_from_slice(b"088510");
-        city_layout.extend_from_slice(&compressed);
-
         let mut payload = vec![
             0x08,
             0x01,
             0x10,
             0x2a,
             0x1a,
-            0x12,
-            b'C',
-            b'i',
-            b't',
-            b'y',
-            b'E',
-            b'd',
-            b'i',
-            b't',
+            0x0a,
             b'L',
             b'a',
             b'y',
@@ -861,23 +716,19 @@ mod tests {
             b't',
             b'a',
             0x22,
-            city_layout.len() as u8,
+            compressed.len() as u8,
         ];
-        payload.extend_from_slice(&city_layout);
+        payload.extend_from_slice(&compressed);
 
-        let value = descriptors.decode("GetValue2Ack", &payload, None);
+        let value = descriptors.decode("KeyValueRecord", &payload, None);
 
         assert_eq!(
             value,
             json!({
                 "Code": 1,
                 "Id": 42,
-                "Key": "CityEditLayoutData",
-                "Value": {
-                    "PrefixHex": "01303838353130",
-                    "PrefixText": "088510",
-                    "Data": { "Layouts": [] },
-                },
+                "Key": "LayoutData",
+                "Value": { "Layouts": [] },
             })
         );
         assert!(!contains_key(&value, "head_hex"));
@@ -885,11 +736,44 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_summarizes_fog_info_new_ntf_unlocked_bitmask() {
+    fn decode_message_parses_prefixed_zlib_bytes() {
+        use std::io::Write as _;
+
+        use flate2::{Compression, write::ZlibEncoder};
+
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "FogInfoNewNtf".to_string(),
-                full_name: "FogInfoNewNtf".to_string(),
+                name: "Test".to_string(),
+                full_name: "Test".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(br#"{"Layouts":[]}"#).expect("test fixture should compress");
+        let compressed = encoder.finish().expect("test fixture should finish");
+        let mut data = vec![0x01];
+        data.extend_from_slice(b"088510");
+        data.extend_from_slice(&compressed);
+        let mut payload = vec![0x0a, data.len() as u8];
+        payload.extend_from_slice(&data);
+
+        let value = descriptors.decode("Test", &payload, None);
+
+        assert_eq!(value, json!({ "Data": { "Layouts": [] } }));
+    }
+
+    #[test]
+    fn decode_message_parses_compact_bitmap_bytes() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "BitmapRecord".to_string(),
+                full_name: "BitmapRecord".to_string(),
                 fields: vec![
                     Field {
                         name: "FogTileSize".to_string(),
@@ -898,7 +782,7 @@ mod tests {
                         type_name: None,
                     },
                     Field {
-                        name: "Unlocked".to_string(),
+                        name: "Bitmap".to_string(),
                         number: Some(2),
                         r#type: Some(TYPE_BYTES),
                         type_name: None,
@@ -925,37 +809,31 @@ mod tests {
                 nested: Vec::new(),
             }],
         });
-        let payload = [
-            0x08, 0x12, 0x12, 0x02, 0xaa, 0xff, 0x18, 0x8c, 0x0e, 0x20, 0xa0, 0x38, 0x28, 0xa0,
-            0x38,
-        ];
+        let unlocked = vec![0xff; 128];
+        let mut payload = vec![0x08, 0x12, 0x12, 0x80, 0x01];
+        payload.extend_from_slice(&unlocked);
+        payload.extend_from_slice(&[0x18, 0x8c, 0x0e, 0x20, 0xa0, 0x38, 0x28, 0xa0, 0x38]);
 
-        let value = descriptors.decode("FogInfoNewNtf", &payload, None);
+        let value = descriptors.decode("BitmapRecord", &payload, None);
 
         assert_eq!(
             value,
             json!({
                 "FogTileSize": 18,
-                "Unlocked": {
-                    "ByteCount": 2,
-                    "SetBits": 12,
-                    "ClearBits": 4,
-                },
+                "Bitmap": [[0, 1023]],
                 "ServerId": 1804,
                 "Width": 7200,
                 "Height": 7200,
             })
         );
-        assert!(!contains_key(&value, "head_hex"));
-        assert!(!contains_key(&value, "len"));
     }
 
     #[test]
-    fn decode_message_parses_dungeon_map_ntf_data_as_json() {
+    fn decode_message_parses_flexible_bytes_as_json() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "DungeonMapNtf".to_string(),
-                full_name: "DungeonMapNtf".to_string(),
+                name: "FlexibleBytesRecord".to_string(),
+                full_name: "FlexibleBytesRecord".to_string(),
                 fields: vec![
                     Field {
                         name: "Session".to_string(),
@@ -978,17 +856,17 @@ mod tests {
             b'"', b':', b'1', b'2', b'3', b'}',
         ];
 
-        let value = descriptors.decode("DungeonMapNtf", &payload, None);
+        let value = descriptors.decode("FlexibleBytesRecord", &payload, None);
 
         assert_eq!(value, json!({ "Session": "abc", "Data": { "Floor": 123 } }));
     }
 
     #[test]
-    fn decode_message_parses_dungeon_map_ntf_data_as_generic_protobuf() {
+    fn decode_message_parses_flexible_bytes_as_generic_protobuf() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "DungeonMapNtf".to_string(),
-                full_name: "DungeonMapNtf".to_string(),
+                name: "FlexibleBytesRecord".to_string(),
+                full_name: "FlexibleBytesRecord".to_string(),
                 fields: vec![Field {
                     name: "Data".to_string(),
                     number: Some(3),
@@ -1000,7 +878,7 @@ mod tests {
         });
         let payload = [0x1a, 0x02, 0x08, 0x7b];
 
-        let value = descriptors.decode("DungeonMapNtf", &payload, None);
+        let value = descriptors.decode("FlexibleBytesRecord", &payload, None);
 
         assert_eq!(
             value,
@@ -1015,12 +893,12 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_parses_guest_ntf_data_as_inner_msg() {
+    fn decode_message_parses_wrapped_bytes_as_inner_message() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![
                 Message {
-                    name: "GuestNtf".to_string(),
-                    full_name: "GuestNtf".to_string(),
+                    name: "WrappedRecord".to_string(),
+                    full_name: "WrappedRecord".to_string(),
                     fields: vec![
                         Field {
                             name: "ServerId".to_string(),
@@ -1038,8 +916,8 @@ mod tests {
                     nested: Vec::new(),
                 },
                 Message {
-                    name: "LostLandInfoNtf".to_string(),
-                    full_name: "LostLandInfoNtf".to_string(),
+                    name: "InnerRecord".to_string(),
+                    full_name: "InnerRecord".to_string(),
                     fields: vec![Field {
                         name: "Name".to_string(),
                         number: Some(1),
@@ -1052,19 +930,16 @@ mod tests {
         });
         let api_map = ApiMap::from_artifact(std::collections::BTreeMap::from([(
             "3300".to_string(),
-            ApiMapping {
-                schema: "LostLandInfoNtf".to_string(),
-                descriptor: "LostLandInfoNtf".to_string(),
-            },
+            ApiMapping { schema: "InnerRecord".to_string(), descriptor: "InnerRecord".to_string() },
         )]))
         .expect("api map should load");
         let inner_payload = [0x0a, 0x03, b'k', b'v', b'k'];
-        let mut guest_data = vec![0x08, 0xe4, 0x19, 0x12, inner_payload.len() as u8];
-        guest_data.extend_from_slice(&inner_payload);
-        let mut payload = vec![0x08, 0xcb, 0x7c, 0x12, guest_data.len() as u8];
-        payload.extend_from_slice(&guest_data);
+        let mut wrapped_data = vec![0x08, 0xe4, 0x19, 0x12, inner_payload.len() as u8];
+        wrapped_data.extend_from_slice(&inner_payload);
+        let mut payload = vec![0x08, 0xcb, 0x7c, 0x12, wrapped_data.len() as u8];
+        payload.extend_from_slice(&wrapped_data);
 
-        let value = descriptors.decode("GuestNtf", &payload, Some(&api_map));
+        let value = descriptors.decode("WrappedRecord", &payload, Some(&api_map));
 
         assert_eq!(
             value,
@@ -1072,7 +947,7 @@ mod tests {
                 "ServerId": 15947,
                 "Data": {
                     "Api": 3300,
-                    "Schema": "LostLandInfoNtf",
+                    "Schema": "InnerRecord",
                     "Data": { "Name": "kvk" }
                 }
             })
@@ -1080,11 +955,11 @@ mod tests {
     }
 
     #[test]
-    fn decode_message_decodes_sample_item_ext_ack_without_byte_summary() {
+    fn decode_message_decodes_inline_json_bytes_without_byte_summary() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
-                name: "ItemExtAck".to_string(),
-                full_name: "ItemExtAck".to_string(),
+                name: "JsonBytesRecord".to_string(),
+                full_name: "JsonBytesRecord".to_string(),
                 fields: vec![Field {
                     name: "Data".to_string(),
                     number: Some(1),
@@ -1095,18 +970,18 @@ mod tests {
             }],
         });
 
-        let value = descriptors.decode("ItemExtAck", &[0x0a, 0x02, b'{', b'}'], None);
+        let value = descriptors.decode("JsonBytesRecord", &[0x0a, 0x02, b'{', b'}'], None);
 
         assert_eq!(value, json!({ "Data": {} }));
     }
 
     #[test]
-    fn decode_message_decodes_sample_guest_ntf_without_byte_summary() {
+    fn decode_message_decodes_inline_wrapped_bytes_without_byte_summary() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![
                 Message {
-                    name: "GuestNtf".to_string(),
-                    full_name: "GuestNtf".to_string(),
+                    name: "WrappedRecord".to_string(),
+                    full_name: "WrappedRecord".to_string(),
                     fields: vec![
                         Field {
                             name: "ServerId".to_string(),
@@ -1124,8 +999,8 @@ mod tests {
                     nested: Vec::new(),
                 },
                 Message {
-                    name: "GuestLoginNtf".to_string(),
-                    full_name: "GuestLoginNtf".to_string(),
+                    name: "LoginRecord".to_string(),
+                    full_name: "LoginRecord".to_string(),
                     fields: vec![
                         Field {
                             name: "Schema".to_string(),
@@ -1152,10 +1027,7 @@ mod tests {
         });
         let api_map = ApiMap::from_artifact(std::collections::BTreeMap::from([(
             "187".to_string(),
-            ApiMapping {
-                schema: "GuestLoginNtf".to_string(),
-                descriptor: "GuestLoginNtf".to_string(),
-            },
+            ApiMapping { schema: "LoginRecord".to_string(), descriptor: "LoginRecord".to_string() },
         )]))
         .expect("api map should load");
         let payload = [
@@ -1163,7 +1035,7 @@ mod tests {
             0xcb, 0x7c, 0x18, 0x0b,
         ];
 
-        let value = descriptors.decode("GuestNtf", &payload, Some(&api_map));
+        let value = descriptors.decode("WrappedRecord", &payload, Some(&api_map));
 
         assert_eq!(
             value,
@@ -1171,7 +1043,7 @@ mod tests {
                 "ServerId": 15947,
                 "Data": {
                     "Api": 187,
-                    "Schema": "GuestLoginNtf",
+                    "Schema": "LoginRecord",
                     "Data": {
                         "Schema": 819,
                         "ServerId": 15947,
