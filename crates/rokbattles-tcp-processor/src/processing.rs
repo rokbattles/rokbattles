@@ -124,7 +124,7 @@ fn process_frame(
         return Ok(None);
     };
 
-    let decoded = descriptors.decode(mapping.descriptor(), &unwrapped.payload);
+    let decoded = descriptors.decode(mapping.descriptor(), &unwrapped.payload, Some(api_map));
     Ok(Some(ProcessedPacket { api_id, schema: mapping.schema().to_string(), value: decoded }))
 }
 
