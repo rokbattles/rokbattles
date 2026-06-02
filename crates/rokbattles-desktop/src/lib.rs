@@ -57,13 +57,21 @@ fn single_instance_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
     })
 }
 
+// Runtime registration is not supported on macOS. Test rokbattles:// there
+// with a bundled app installed in /Applications.
 #[cfg(desktop)]
 fn setup_deep_links(app: &tauri::App<tauri::Wry>) -> Result<(), tauri_plugin_deep_link::Error> {
     use tauri_plugin_deep_link::DeepLinkExt;
 
-    // Runtime registration is not supported on macOS. Test rokbattles:// there
-    // with a bundled app installed in /Applications.
-    #[cfg(any(target_os = "linux", all(debug_assertions, windows)))]
+    // Linux runtime registration depends on freedesktop helpers:
+    // `desktop-file-utils` for update-desktop-database and `xdg-utils` for
+    // xdg-mime. Minimal installs may lack them, so keep app startup working.
+    #[cfg(target_os = "linux")]
+    if let Err(error) = app.deep_link().register_all() {
+        eprintln!("[rokbattles] failed to register deep links: {error}");
+    }
+
+    #[cfg(all(debug_assertions, windows))]
     app.deep_link().register_all()?;
 
     if let Some(urls) = app.deep_link().get_current()? {
