@@ -194,7 +194,7 @@ fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
 
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3))
+    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3 | 4))
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> {
@@ -308,6 +308,20 @@ mod tests {
             "box": "Report",
             "body": {
                 "subParam": 3,
+                "subType": 11
+            }
+        });
+
+        assert_eq!(detect_mail_type(&payload), Some(MailType::SystemBarbarianFort));
+    }
+
+    #[test]
+    fn detect_mail_type_matches_system_motte() {
+        let payload = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 4,
                 "subType": 11
             }
         });
