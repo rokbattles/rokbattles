@@ -234,6 +234,20 @@ mod tests {
     }
 
     #[test]
+    fn extract_mail_type_parses_system_motte() {
+        let value = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 4,
+                "subType": 11
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::SystemBarbarianFort);
+    }
+
+    #[test]
     fn extract_mail_type_rejects_system_mail_with_unsupported_sub_param() {
         let value = json!({
             "type": "System",

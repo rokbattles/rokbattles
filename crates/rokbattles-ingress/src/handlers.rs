@@ -548,6 +548,19 @@ mod tests {
     }
 
     #[test]
+    fn extracts_system_motte_mail_type() {
+        let decoded = json!({
+            "type": "System",
+            "box": "Report",
+            "body": {
+                "subParam": 4,
+                "subType": 11
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "SystemBarbarianFort".to_string());
+    }
+
+    #[test]
     fn keeps_regular_system_mail_type_unmodified() {
         let decoded = json!({
             "type": "System",
