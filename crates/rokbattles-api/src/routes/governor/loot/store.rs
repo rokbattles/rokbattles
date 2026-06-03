@@ -11,8 +11,8 @@ use crate::{
 };
 
 const SYSTEM_BARBARIAN_FORT_SUB_TYPE: i32 = 11;
-const BARBARIAN_FORT_SUB_PARAM: i32 = 1;
-const MARAUDER_ENCAMPMENT_SUB_PARAM: i32 = 3;
+const BARBARIAN_FORT_SUB_PARAMS: [i32; 2] = [1, 4];
+const MARAUDER_ENCAMPMENT_SUB_PARAMS: [i32; 1] = [3];
 
 #[derive(Debug, Clone, Default, Deserialize)]
 pub(crate) struct MailMetadataDocument {
@@ -154,7 +154,7 @@ pub(crate) async fn fetch_barbarian_fort_mails(
     mail_receiver: &str,
     time_match: &Document,
 ) -> Result<Vec<BarbarianFortMailDocument>, ApiError> {
-    fetch_system_barbarian_fort_mails(state, mail_receiver, time_match, BARBARIAN_FORT_SUB_PARAM)
+    fetch_system_barbarian_fort_mails(state, mail_receiver, time_match, &BARBARIAN_FORT_SUB_PARAMS)
         .await
 }
 
@@ -167,7 +167,7 @@ pub(crate) async fn fetch_marauder_encampment_mails(
         state,
         mail_receiver,
         time_match,
-        MARAUDER_ENCAMPMENT_SUB_PARAM,
+        &MARAUDER_ENCAMPMENT_SUB_PARAMS,
     )
     .await
 }
@@ -176,10 +176,10 @@ async fn fetch_system_barbarian_fort_mails(
     state: &Arc<AppState>,
     mail_receiver: &str,
     time_match: &Document,
-    sub_param: i32,
+    sub_params: &[i32],
 ) -> Result<Vec<BarbarianFortMailDocument>, ApiError> {
     let options = system_barbarian_fort_find_options();
-    let filter = build_system_barbarian_fort_filter(mail_receiver, time_match, sub_param);
+    let filter = build_system_barbarian_fort_filter(mail_receiver, time_match, sub_params);
 
     fetch_collection_documents(
         state.reports_store.system_barbarian_fort_collection(),
@@ -228,13 +228,13 @@ fn system_barbarian_fort_find_options() -> FindOptions {
 fn build_system_barbarian_fort_filter(
     mail_receiver: &str,
     time_match: &Document,
-    sub_param: i32,
+    sub_params: &[i32],
 ) -> Document {
     doc! {
         "$and": [
             { "metadata.mail_receiver": mail_receiver },
             { "body.sub_type": SYSTEM_BARBARIAN_FORT_SUB_TYPE },
-            { "body.sub_param": sub_param },
+            { "body.sub_param": { "$in": sub_params } },
             time_match.clone(),
         ]
     }
@@ -247,11 +247,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn barbarian_fort_filter_uses_sub_type_11_and_sub_param_1() {
+    fn barbarian_fort_filter_uses_sub_type_11_and_fort_sub_params() {
         let time_match = Document::new();
 
-        let filter =
-            build_system_barbarian_fort_filter("player_42", &time_match, BARBARIAN_FORT_SUB_PARAM);
+        let filter = build_system_barbarian_fort_filter(
+            "player_42",
+            &time_match,
+            &BARBARIAN_FORT_SUB_PARAMS,
+        );
 
         assert_eq!(
             filter,
@@ -259,7 +262,7 @@ mod tests {
                 "$and": [
                     { "metadata.mail_receiver": "player_42" },
                     { "body.sub_type": 11 },
-                    { "body.sub_param": 1 },
+                    { "body.sub_param": { "$in": [1, 4] } },
                     {},
                 ]
             }
@@ -273,7 +276,7 @@ mod tests {
         let filter = build_system_barbarian_fort_filter(
             "player_42",
             &time_match,
-            MARAUDER_ENCAMPMENT_SUB_PARAM,
+            &MARAUDER_ENCAMPMENT_SUB_PARAMS,
         );
 
         assert_eq!(
@@ -282,7 +285,7 @@ mod tests {
                 "$and": [
                     { "metadata.mail_receiver": "player_42" },
                     { "body.sub_type": 11 },
-                    { "body.sub_param": 3 },
+                    { "body.sub_param": { "$in": [3] } },
                     {},
                 ]
             }
