@@ -157,7 +157,16 @@ fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
 }
 
 fn parse_damage_percentage(value: &str) -> Option<Number> {
-    let trimmed = value.trim().trim_end_matches('%').trim();
+    let mut trimmed = value.trim();
+    if let Some(value) = trimmed.strip_prefix('%') {
+        trimmed = value.trim_start();
+    }
+    if let Some(value) = trimmed.strip_suffix('%') {
+        trimmed = value.trim_end();
+    }
+    if trimmed.contains('%') {
+        return None;
+    }
     let parsed = trimmed.parse::<f64>().ok()?;
     if !parsed.is_finite() {
         return None;
@@ -326,6 +335,21 @@ mod tests {
             ContentParams {
                 percentage: Number::from_f64(52.0).expect("valid percentage"),
                 tier: 6
+            }
+        );
+    }
+
+    #[test]
+    fn localized_template_matcher_extracts_turkish_prefix_percentage() {
+        let content = "Tebrikler! X:580 Y:552 konumundaki 7. Seviye barbar kalesi şiddetli saldırın sayesinde yok edildi.\n\nToplam hasarın %16 kısmını verdiğin için aşağıdaki <color=#00980e>Katman 3</color> ödüllerini aldın:";
+
+        let params = extract_content_params(content).expect("params");
+
+        assert_eq!(
+            params,
+            ContentParams {
+                percentage: Number::from_f64(16.0).expect("valid percentage"),
+                tier: 3
             }
         );
     }
