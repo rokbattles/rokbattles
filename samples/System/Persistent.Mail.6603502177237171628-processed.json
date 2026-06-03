@@ -1,0 +1,43 @@
+{
+  "body": {
+    "content": {
+      "percentage": 16.0,
+      "tier": 3
+    },
+    "pos": {
+      "x": 3482.60009765625,
+      "y": 3310.24853515625
+    },
+    "sub_param": 1,
+    "sub_type": 11,
+    "target_name": "Seviye7"
+  },
+  "metadata": {
+    "mail_id": "6603502177237171628",
+    "mail_receiver": "player_35603462",
+    "mail_time": 1772371716966355,
+    "server_id": 1356
+  },
+  "rewards": [
+    {
+      "sub_type": 7006,
+      "type": 2,
+      "value": 50
+    },
+    {
+      "sub_type": 130,
+      "type": 2,
+      "value": 39
+    },
+    {
+      "sub_type": 58,
+      "type": 2,
+      "value": 6
+    },
+    {
+      "sub_type": 182,
+      "type": 2,
+      "value": 1
+    }
+  ]
+}

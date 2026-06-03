@@ -1,0 +1,73 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 50
+        },
+        2,
+        {
+          "SubType": 130,
+          "Type": 2,
+          "Value": 39
+        },
+        3,
+        {
+          "SubType": 58,
+          "Type": 2,
+          "Value": 6
+        },
+        4,
+        {
+          "SubType": 182,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Tebrikler! X:580 Y:552 konumundaki 7. Seviye barbar kalesi şiddetli saldırın sayesinde yok edildi.\n\nToplam hasarın %16 kısmını verdiğin için aşağıdaki <color=#00980e>Katman 3</color> ödüllerini aldın:",
+    "position": {
+      "X": 3482.60009765625,
+      "Y": 3310.24853515625,
+      "Z": 0
+    },
+    "subParam": 1,
+    "subTitle": "Bir Barbar Kalesini Yok Ettiniz",
+    "subType": 11,
+    "targetName": "Seviye7",
+    "title": "Barbar Kalesi Başarıyla Yok Edildi"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "6603502177237171628",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_35603462",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1356,
+  "starMark": 0,
+  "time": 1772371716966355,
+  "title": "",
+  "type": "System",
+  "unread": true
+}
