@@ -6,6 +6,7 @@ mod body;
 mod content;
 mod metadata;
 mod rewards;
+mod templates;
 
 pub use mail_processor_sdk::{ExtractError, Section};
 use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
