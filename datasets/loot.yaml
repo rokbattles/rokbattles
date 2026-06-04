@@ -763,6 +763,30 @@ loot:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
 
+    96:
+      name:
+        ar: "تسريع العلاج لمدة 60 دقيقة"
+        de: "60 Minuten Heilungsbeschleunigung"
+        en: "60-Minute Healing Speedup"
+        es: "60 minutos de Aceleración de Sanación"
+        fr: "Accélération de soin - 60 minutes"
+        id: "Speedup Penyembuhan 60 Menit"
+        it: "Acceleratore guarigione da 60 minuti"
+        ja: "60分治療加速"
+        ko: "60분 치료 가속"
+        ms: "Percepat Penyembuhan 60 Minit"
+        pl: "60-min. przyspieszenie leczenia"
+        pt: "Aceleração de Cura de 60 Minutos"
+        ru: "60-минутное ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 60 นาที"
+        tr: "60 Dakikalık İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 60 phút"
+        zh_CN: "60分钟治疗加速"
+        zh_TW: "60分鐘治療加速"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
+
     109:
       name:
         ar: "كتاب العهد"
@@ -1029,6 +1053,30 @@ loot:
       sprite:
         - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
         - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+
+    131:
+      name:
+        ar: "إعادة تعيين موهبة القائد."
+        de: "Talent-Rücksetzung"
+        en: "Talent Reset"
+        es: "Restablecimiento de Talento"
+        fr: "Réinitialisation de talent"
+        id: "Talent Reset"
+        it: "Reset dei talenti"
+        ja: "天賦リセット"
+        ko: "특성 초기화"
+        ms: "Penetapan Semula Bakat"
+        pl: "Reset talentów"
+        pt: "Resetar Talentos"
+        ru: "Сброс талантов"
+        th: "รีเซ็ตพรสวรรค์"
+        tr: "Yetenek Sıfırlama"
+        vi: "Cài lại tài năng"
+        zh_CN: "天赋重置"
+        zh_TW: "天賦重置"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_2209.Sprite.-2902419969041532675__e72199fad192.png
 
     141:
       name:
@@ -1344,8 +1392,28 @@ loot:
         - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
         - img_icon_item_2040.Sprite.-8896877877587276634__64515ff99b43.png
 
-    # Unknown
     233:
+      name:
+        ar: "عملة سولونا"
+        de: "Soluna-Münze"
+        en: "Soluna Coin"
+        es: "Moneda de Soluna"
+        fr: "Pièce de Soluna"
+        id: "Koin Soluna"
+        it: "Moneta del Campo"
+        ja: "陣営コイン"
+        ko: "진영 주화"
+        ms: "Syiling Soluna"
+        pl: "Soluńska moneta"
+        pt: "Moeda Soluna"
+        ru: "Солунная монета"
+        th: "เหรียญโซลูนา"
+        tr: "Soluna Sikkesi"
+        vi: "Đồng Soluna"
+        zh_CN: "阵营币"
+        zh_TW: "陣營幣"
+      sprite:
+        - img_icon_item_274.Sprite.2922146106772651713__7718e0b3bd48.png
 
     405:
       name:
@@ -1562,6 +1630,54 @@ loot:
       sprite:
         - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
         - img_icon_item_mat_14.Sprite.-5110219989689072000__dd94af144b3b.png
+
+    428:
+      name:
+        ar: "عظم حيوان (نخبة)"
+        de: "Tierknochen (ELITE)"
+        en: "Animal Bone (ELITE)"
+        es: "Hueso animal (ÉLITE)"
+        fr: "Os d'animal (ÉLITE)"
+        id: "Tulang Binatang (ELITE)"
+        it: "Osso d'animale (ÉLITE)"
+        ja: "獣骨 （エリート）"
+        ko: "짐승뼈 (엘리트)"
+        ms: "Tulang Haiwan (ELIT)"
+        pl: "Kość zwierzęca (Elitarna)"
+        pt: "Osso animal (ELITE)"
+        ru: "Кость животного (ЭЛИТН.)"
+        th: "กระดูกสัตว์ (ยอดฝีมือ)"
+        tr: "Hayvan Kemiği (SEÇKİN)"
+        vi: "Xương động vật (TINH NHUỆ)"
+        zh_CN: "兽骨（精英）"
+        zh_TW: "獸骨（精英）"
+      sprite:
+        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
+        - img_icon_item_mat_33.Sprite.8784510727875336245__686f013d670e.png
+
+    435:
+      name:
+        ar: "عظم حيوان (ملحمي)"
+        de: "Tierknochen (EPISCH)"
+        en: "Animal Bone (EPIC)"
+        es: "Hueso animal (ÉPICO)"
+        fr: "Os d'animal (ÉPIQUE)"
+        id: "Tulang Binatang (EPIK)"
+        it: "Osso d'animale (EPICO)"
+        ja: "獣骨 （エピック）"
+        ko: "짐승뼈 (영웅)"
+        ms: "Tulang Haiwan (EPIK)"
+        pl: "Kość zwierzęca (Epicka)"
+        pt: "Osso animal (ÉPICO)"
+        ru: "Кость животного (ЭПИЧЕСК.)"
+        th: "กระดูกสัตว์ (ชั้นเลิศ)"
+        tr: "Hayvan Kemiği (DESTANSI)"
+        vi: "Xương động vật (SỬ THI)"
+        zh_CN: "兽骨（史诗）"
+        zh_TW: "獸骨（史詩）"
+      sprite:
+        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
+        - img_icon_item_mat_32.Sprite.3314737087164798687__f3df80ed5682.png
 
     567:
       name:
@@ -2004,6 +2120,30 @@ loot:
       sprite:
         - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
         - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+
+    9989:
+      name:
+        ar: "مجموعة  تماثيل ضوء النجم الباهر"
+        de: "Bündel glanzvoller Sternenlicht-Skulpturen"
+        en: "Bundle of Dazzling Starlight Sculptures"
+        es: "Paquete de esculturas de Starlight resplandecientes"
+        fr: "Lot de sculptures de lumière d'étoile éblouissantes"
+        id: "Bundle Patung Cahaya Bintang yang Berkilau"
+        it: "Un Pacco di Sculture di luce stellare abbacinante"
+        ja: "1束の輝ける星の勲章"
+        ko: "찬란한 별빛 조각상 패키지"
+        ms: "Berkas Arca Cahaya Bintang Berkilauan"
+        pl: "Pakiet olśniewających rzeźb gwiezdnych"
+        pt: "Pacote de esculturas deslumbrantes de luz estrelada"
+        ru: "Набор ослепительных скульптур звездного света"
+        th: "บันเดิลรูปปั้นแสงดาวแวววาว"
+        tr: "Göz Kamaştırıcı Yıldız Işığı Heykelleri Demeti"
+        vi: "Gói Tượng Ánh Sao Rực Rỡ"
+        zh_CN: "一捆璀璨的星光雕像"
+        zh_TW: "一捆璀璨的星光雕像"
+      sprite:
+        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
+        - img_icon_item_HeroCarving_Stars04.Sprite.7542696492950506173__25670aa98ffd.png
 
     # Advanced
     9996:
