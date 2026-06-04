@@ -35,8 +35,10 @@ impl Extractor for BodyExtractor {
         let target_name = require_string_field(body, "targetName")?;
         let sub_type = require_u64_field(body, "subType")?;
         let sub_param = require_u64_field(body, "subParam")?;
-        let content_params =
-            body.get("content").and_then(Value::as_str).and_then(extract_content_params);
+        let content_params = body
+            .get("content")
+            .and_then(Value::as_str)
+            .and_then(|content| extract_content_params(content, sub_param, &target_name));
 
         let mut section = Section::new();
         section.insert("pos", build_position(pos_x, pos_y));
@@ -44,7 +46,7 @@ impl Extractor for BodyExtractor {
         section.insert("sub_type", Value::from(sub_type));
         section.insert("sub_param", Value::from(sub_param));
         if let Some(params) = content_params {
-            section.insert("content", build_content(params.percentage, params.tier));
+            section.insert("content", build_content(params.percentage, params.tier, params.level));
         }
         Ok(section)
     }
@@ -54,6 +56,7 @@ impl Extractor for BodyExtractor {
 struct ContentParams {
     percentage: Number,
     tier: u64,
+    level: u64,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -69,22 +72,35 @@ fn build_position(x: Value, y: Value) -> Value {
     Value::Object(position)
 }
 
-fn build_content(percentage: Number, tier: u64) -> Value {
+fn build_content(percentage: Number, tier: u64, level: u64) -> Value {
     let mut content = Map::new();
     content.insert("percentage".to_string(), Value::Number(percentage));
     content.insert("tier".to_string(), Value::from(tier));
+    content.insert("level".to_string(), Value::from(level));
     Value::Object(content)
 }
 
-fn extract_content_params(content: &str) -> Option<ContentParams> {
-    BODY_TEMPLATES.iter().find_map(|template| match_template(template.trim(), content.trim()))
+fn extract_content_params(
+    content: &str,
+    sub_param: u64,
+    target_name: &str,
+) -> Option<ContentParams> {
+    BODY_TEMPLATES.iter().find_map(|template| {
+        match_template(template.trim(), content.trim(), sub_param, target_name)
+    })
 }
 
-fn match_template(template: &str, content: &str) -> Option<ContentParams> {
+fn match_template(
+    template: &str,
+    content: &str,
+    sub_param: u64,
+    target_name: &str,
+) -> Option<ContentParams> {
     let tokens = tokenize_template(template);
     let mut remaining = content;
     let mut percentage = None;
     let mut tier = None;
+    let mut level = None;
 
     for (index, token) in tokens.iter().enumerate() {
         match token {
@@ -114,6 +130,7 @@ fn match_template(template: &str, content: &str) -> Option<ContentParams> {
                 };
 
                 match *name {
+                    "p2" => level = parse_level(capture.trim()),
                     "p3" => percentage = parse_damage_percentage(capture.trim()),
                     "p4" => tier = capture.trim().parse::<u64>().ok(),
                     _ => {}
@@ -126,7 +143,10 @@ fn match_template(template: &str, content: &str) -> Option<ContentParams> {
         return None;
     }
 
-    Some(ContentParams { percentage: percentage?, tier: tier? })
+    let level =
+        level.or_else(|| parse_level(target_name)).or_else(|| (sub_param == 3).then_some(11))?;
+
+    Some(ContentParams { percentage: percentage?, tier: tier?, level })
 }
 
 fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
@@ -172,6 +192,18 @@ fn parse_damage_percentage(value: &str) -> Option<Number> {
         return None;
     }
     Number::from_f64(parsed)
+}
+
+fn parse_level(value: &str) -> Option<u64> {
+    let trimmed = value.trim();
+    if let Ok(level) = trimmed.parse::<u64>() {
+        return Some(level);
+    }
+
+    let start = trimmed.find(|character: char| character.is_ascii_digit())?;
+    let digits = &trimmed[start..];
+    let end = digits.find(|character: char| !character.is_ascii_digit()).unwrap_or(digits.len());
+    digits[..end].parse::<u64>().ok()
 }
 
 #[cfg(test)]
@@ -226,7 +258,7 @@ mod tests {
         let extractor = BodyExtractor::new();
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
-        assert_eq!(fields["content"], json!({ "percentage": 52.0, "tier": 6 }));
+        assert_eq!(fields["content"], json!({ "percentage": 52.0, "tier": 6, "level": 7 }));
     }
 
     #[test]
@@ -248,7 +280,7 @@ mod tests {
         let extractor = BodyExtractor::new();
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
-        assert_eq!(fields["content"], json!({ "percentage": 15.0, "tier": 3 }));
+        assert_eq!(fields["content"], json!({ "percentage": 15.0, "tier": 3, "level": 11 }));
     }
 
     #[test]
@@ -270,7 +302,7 @@ mod tests {
         let extractor = BodyExtractor::new();
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
-        assert_eq!(fields["content"], json!({ "percentage": 15.0, "tier": 3 }));
+        assert_eq!(fields["content"], json!({ "percentage": 15.0, "tier": 3, "level": 11 }));
     }
 
     #[test]
@@ -321,20 +353,21 @@ mod tests {
         assert_eq!(fields["target_name"], json!("Level9"));
         assert_eq!(fields["sub_type"], json!(11));
         assert_eq!(fields["sub_param"], json!(1));
-        assert_eq!(fields["content"], json!({ "percentage": 52.0, "tier": 6 }));
+        assert_eq!(fields["content"], json!({ "percentage": 52.0, "tier": 6, "level": 9 }));
     }
 
     #[test]
     fn localized_template_matcher_extracts_content_params() {
         let content = "执政官！位于X:582 Y:629的等级7野蛮人城寨在您的猛攻之下已经被摧毁，您在这次战役中总共造成了52%的伤害，因此获得了<color=#00980e>6阶</color>的战利品：";
 
-        let params = extract_content_params(content).expect("params");
+        let params = extract_content_params(content, 1, "Level7").expect("params");
 
         assert_eq!(
             params,
             ContentParams {
                 percentage: Number::from_f64(52.0).expect("valid percentage"),
-                tier: 6
+                tier: 6,
+                level: 7
             }
         );
     }
@@ -343,13 +376,30 @@ mod tests {
     fn localized_template_matcher_extracts_turkish_prefix_percentage() {
         let content = "Tebrikler! X:580 Y:552 konumundaki 7. Seviye barbar kalesi şiddetli saldırın sayesinde yok edildi.\n\nToplam hasarın %16 kısmını verdiğin için aşağıdaki <color=#00980e>Katman 3</color> ödüllerini aldın:";
 
-        let params = extract_content_params(content).expect("params");
+        let params = extract_content_params(content, 1, "Seviye7").expect("params");
 
         assert_eq!(
             params,
             ContentParams {
                 percentage: Number::from_f64(16.0).expect("valid percentage"),
-                tier: 3
+                tier: 3,
+                level: 7
+            }
+        );
+    }
+
+    #[test]
+    fn localized_template_matcher_defaults_marauder_level() {
+        let content = "Congratulations! The Marauder Encampment at X:1172 Y:208 has been destroyed by your mighty onslaught. You dealt 15% of the total damage and as a result have received the following <color=#00980e>Tier 3</color> trophies:";
+
+        let params = extract_content_params(content, 3, "Marauder Encampment").expect("params");
+
+        assert_eq!(
+            params,
+            ContentParams {
+                percentage: Number::from_f64(15.0).expect("valid percentage"),
+                tier: 3,
+                level: 11
             }
         );
     }
