@@ -198,7 +198,7 @@ mod tests {
         assert_eq!(parsed["body"]["target_name"], json!("Level9"));
         assert_eq!(parsed["body"]["sub_type"], json!(11));
         assert_eq!(parsed["body"]["sub_param"], json!(1));
-        assert_eq!(parsed["body"]["content"], json!({ "percentage": 52.0, "tier": 6 }));
+        assert_eq!(parsed["body"]["content"], json!({ "percentage": 52.0, "tier": 6, "level": 9 }));
         assert_eq!(parsed["rewards"].as_array().unwrap().len(), 4);
     }
 

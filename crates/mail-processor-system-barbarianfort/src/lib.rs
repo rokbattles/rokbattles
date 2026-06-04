@@ -49,6 +49,10 @@ mod tests {
         assert_eq!(processed_json["body"]["sub_type"], json!(11));
         assert_eq!(processed_json["body"]["sub_param"], json!(3));
         assert_eq!(
+            processed_json["body"]["content"],
+            json!({ "percentage": 15.0, "tier": 3, "level": 11 })
+        );
+        assert_eq!(
             processed_json["body"]["pos"],
             json!({ "x": 7033.7001953125, "y": 1246.9722900390625 })
         );
