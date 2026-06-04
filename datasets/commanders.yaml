@@ -7734,3 +7734,47 @@ commanders:
       - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
       - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
       - img_icon_HeroProfile_194.Sprite.169351736758200320__266713e66dcf.png
+
+  616:
+    name:
+      en: "Vercingetorix"
+    nickname:
+      en: "King of Gaul"
+    prime: false
+    rarity: legendary
+    skills:
+      - slot: 1
+        id: 429
+      - slot: 2
+        id: 1817
+      - slot: 3
+        id: 1818
+      - slot: 4
+        id: 1819
+      - slot: 5
+        id: 1820
+    sprite:
+      - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
+      - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
+
+  617:
+    name:
+      en: "Elizabeth I"
+    nickname:
+      en: "Queen Gloriana"
+    prime: false
+    rarity: legendary
+    skills:
+      - slot: 1
+        id: 432
+      - slot: 2
+        id: 1821
+      - slot: 3
+        id: 1822
+      - slot: 4
+        id: 1823
+      - slot: 5
+        id: 1824
+    sprite:
+      - img_icon_HeroProfile_BGMask.Sprite.-6238774629324512419__9c6acb1c2ed4.png
+      - img_icon_HeroProfile_BGOrange.Sprite.1289259611914445463__b90c2d1cd52e.png
