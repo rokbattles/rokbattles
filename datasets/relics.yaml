@@ -3,9 +3,6 @@ relics:
   # Level 2 -> 100XX
   # Level 3 -> 200XX
 
-  # Missing: Charlemagne, Wu Zetian, Ramesses II, Siyaj K'ak', Chandragupta, Maurya, Archimedes, Mary I, Cyrus the Great
-
-  # Cao Cao (lvl 1)
   1:
     name:
       ar: "الأعمال المُجمّعة لتساو تساو"
@@ -27,9 +24,8 @@ relics:
       zh_CN: "魏武帝集"
       zh_TW: "魏武帝集"
     sprite:
-      - img_HeroMuseumItem_01.Sprite.5497904044943097419__313eab66e95e.png
+      - img_HeroMuseumItem_01.png
 
-  # Minamoto (lvl 1)
   2:
     name:
       ar: "مزمار الخيزران لشيزوكا غوزين"
@@ -51,9 +47,8 @@ relics:
       zh_CN: "七孔篠笛"
       zh_TW: "七孔篠笛"
     sprite:
-      - img_HeroMuseumItem_08.Sprite.-4790359420281795705__4a07f6cd3451.png
+      - img_HeroMuseumItem_08.png
 
-  # Aethelflaed (lvl 1)
   3:
     name:
       ar: "خوذة ساتون هوو"
@@ -75,9 +70,8 @@ relics:
       zh_CN: "萨顿胡头盔"
       zh_TW: "薩頓胡頭盔"
     sprite:
-      - img_HeroMuseumItem_09.Sprite.6798304952493961350__18f1e50b9f98.png
+      - img_HeroMuseumItem_09.png
 
-  # Hannibal Barca (lvl 1)
   4:
     name:
       ar: "العملة القرطاجية"
@@ -99,9 +93,8 @@ relics:
       zh_CN: "迦太基钱币"
       zh_TW: "迦太基錢幣"
     sprite:
-      - img_HeroMuseumItem_05.Sprite.902683059473368628__5c73291037b4.png
+      - img_HeroMuseumItem_05.png
 
-  # Richard I (lvl 1)
   5:
     name:
       ar: "شعار الثلاثة أسود"
@@ -123,9 +116,8 @@ relics:
       zh_CN: "三狮长盾"
       zh_TW: "三獅長盾"
     sprite:
-      - img_HeroMuseumItem_10.Sprite.7548017237407491421__91fd29f6c4fc.png
+      - img_HeroMuseumItem_10.png
 
-  # Charles Martel (lvl 1)
   6:
     name:
       ar: "الخاتم الميروفنجي"
@@ -147,9 +139,8 @@ relics:
       zh_CN: "墨洛温王朝珐琅金质戒指"
       zh_TW: "墨洛溫王朝琺瑯金質戒指"
     sprite:
-      - img_HeroMuseumItem_06.Sprite.-6710651370289058079__4b6b98e9850b.png
+      - img_HeroMuseumItem_06.png
 
-  # El Cid (lvl 1)
   7:
     name:
       ar: "سيف السیِّد تيزونا"
@@ -171,9 +162,8 @@ relics:
       zh_CN: "熙德佩剑蒂佐纳"
       zh_TW: "熙德佩劍蒂佐納"
     sprite:
-      - img_HeroMuseumItem_13.Sprite.-3288397073620785727__4d1bb0d1cba2.png
+      - img_HeroMuseumItem_13.png
 
-  # Yi Seong-Gye (lvl 1)
   8:
     name:
       ar: "نقش التنين التوأم"
@@ -195,9 +185,8 @@ relics:
       zh_CN: "双龙刻宝盖"
       zh_TW: "雙龍刻寶蓋"
     sprite:
-      - img_HeroMuseumItem_03.Sprite.470058155234638549__fcedd2f259f9.png
+      - img_HeroMuseumItem_03.png
 
-  # Mulan (lvl 1)
   9:
     name:
       ar: "حلية التنين والعنقاء اليشمية"
@@ -219,9 +208,8 @@ relics:
       zh_CN: "龙凤形玉器"
       zh_TW: "龍鳳形玉器"
     sprite:
-      - img_HeroMuseumItem_07.Sprite.6692043133602402356__f0a748d40f2e.png
+      - img_HeroMuseumItem_07.png
 
-  # Ragnar Lodbrok (lvl 1)
   10:
     name:
       ar: "قرن شراب الفايكنج"
@@ -243,9 +231,8 @@ relics:
       zh_CN: "维京牛角杯"
       zh_TW: "維京牛角杯"
     sprite:
-      - img_HeroMuseumItem_12.Sprite.-155454291402510045__e9fed626a9cd.png
+      - img_HeroMuseumItem_12.png
 
-  # Mehmed II (lvl 1)
   11:
     name:
       ar: "ياتاغان"
@@ -267,9 +254,8 @@ relics:
       zh_CN: "亚特坎"
       zh_TW: "亞特坎"
     sprite:
-      - img_HeroMuseumItem_14.Sprite.-9188920668785891645__bc44bced76e1.png
+      - img_HeroMuseumItem_14.png
 
-  # Frederick I (lvl 1)
   12:
     name:
       ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
@@ -291,9 +277,8 @@ relics:
       zh_CN: "神圣罗马帝国皇冠"
       zh_TW: "神聖羅馬帝國皇冠"
     sprite:
-      - img_HeroMuseumItem_11.Sprite.5707150692102942080__799d0eff9df7.png
+      - img_HeroMuseumItem_11.png
 
-  # Julius Caesar (lvl 1)
   13:
     name:
       ar: "تعليقات على الحرب الغالية"
@@ -315,9 +300,31 @@ relics:
       zh_CN: "高卢战记"
       zh_TW: "高盧戰記"
     sprite:
-      - img_HeroMuseumItem_04.Sprite.7903776769872823612__77c603d6697d.png
+      - img_HeroMuseumItem_04.png
 
-  # Thutmose III (lvl 1)
+  14:
+    name:
+      ar: "تميمة شارلمان"
+      de: "Talisman Karls des Großen"
+      en: "Talisman of Charlemagne"
+      es: "Talismán de Carlomagno"
+      fr: "Talisman de Charlemagne"
+      id: "Jimat Charlemagne"
+      it: "Talismano di Carlo Magno"
+      ja: "シャルルマーニュの護符"
+      ko: "탈리스만"
+      ms: "Azimat Charlemagne"
+      pl: "Talizman Karola Wielkiego"
+      pt: "Talismã de Carlos Magno"
+      ru: "Талисман Карла Великого"
+      th: "เครื่องรางแห่งชาร์เลอมาญ"
+      tr: "Şarlman'ın Tılsımı"
+      vi: "Bùa Charlemagne"
+      zh_CN: "塔利斯曼"
+      zh_TW: "塔利斯曼"
+    sprite:
+      - img_HeroMuseumItem_02.png
+
   15:
     name:
       ar: "جعران من خبر رع"
@@ -339,9 +346,8 @@ relics:
       zh_CN: "门赫佩尔圣甲虫"
       zh_TW: "門赫佩爾聖甲蟲"
     sprite:
-      - img_HeroMuseumItem_15.Sprite.2972705767729287372__a2e2d04cadc0.png
+      - img_HeroMuseumItem_15.png
 
-  # Genghis Khan (lvl 1)
   16:
     name:
       ar: "الرايات التسع البيضاء"
@@ -363,9 +369,8 @@ relics:
       zh_CN: "九斿白纛"
       zh_TW: "九斿白纛"
     sprite:
-      - img_HeroMuseumItem_20.Sprite.-6208276947674724898__487317c75ad3.png
+      - img_HeroMuseumItem_20.png
 
-  # Saladin (lvl 1)
   17:
     name:
       ar: "الدرع الأيوبي"
@@ -387,9 +392,8 @@ relics:
       zh_CN: "伊斯兰铠甲"
       zh_TW: "伊斯蘭鎧甲"
     sprite:
-      - img_HeroMuseumItem_16.Sprite.504199329018398614__3aa6f9a91fd1.png
+      - img_HeroMuseumItem_16.png
 
-  # Constantine I (lvl 1)
   18:
     name:
       ar: "مرسوم ميلان"
@@ -411,9 +415,8 @@ relics:
       zh_CN: "米兰诏书"
       zh_TW: "米蘭敕令"
     sprite:
-      - img_HeroMuseumItem_18.Sprite.4984457864574441106__cc38c75975d8.png
+      - img_HeroMuseumItem_18.png
 
-  # Alexander the Great (lvl 1)
   19:
     name:
       ar: "الساريسا المقدونية"
@@ -435,9 +438,8 @@ relics:
       zh_CN: "马其顿长矛"
       zh_TW: "馬其頓長矛"
     sprite:
-      - img_HeroMuseumItem_19.Sprite.3799072429538379601__2385f534ed62.png
+      - img_HeroMuseumItem_19.png
 
-  # Tomyris (lvl 1)
   20:
     name:
       ar: "شارة الذراع الذهبية"
@@ -459,9 +461,8 @@ relics:
       zh_CN: "黄金带饰"
       zh_TW: "黃金帶飾"
     sprite:
-      - img_HeroMuseumItem_22.Sprite.-7326258086849472066__82232f324634.png
+      - img_HeroMuseumItem_22.png
 
-  # Edward of Woodstock (lvl 1)
   21:
     name:
       ar: "نجمة فرسان الرِباط"
@@ -483,9 +484,31 @@ relics:
       zh_CN: "嘉德勋章"
       zh_TW: "嘉德勳章"
     sprite:
-      - img_HeroMuseumItem_21.Sprite.5988358162050840249__799539f6570a.png
+      - img_HeroMuseumItem_21.png
 
-  # Pyrrhus (lvl 1)
+  22:
+    name:
+      ar: "جمل مع موسيقيين"
+      de: "Kamel mit Musikern"
+      en: "Camel with Musicians"
+      es: "Camello con músicos"
+      fr: "Chameau avec musiciens"
+      id: "Unta dengan Musisi"
+      it: "Cammello con musicisti"
+      ja: "三彩駱駝載楽俑"
+      ko: "낙타 연주자"
+      ms: "Unta dengan Pemuzik"
+      pl: "Wielbłąd i muzycy"
+      pt: "Camelo com Músicos"
+      ru: "Музыканты на верблюде"
+      th: "อูฐกับนักดนตรี"
+      tr: "Deve Üstünde Çalgıcılar"
+      vi: "Lạc Đà Chở Nhạc Công"
+      zh_CN: "唐三彩骆驼载乐俑"
+      zh_TW: "三彩駱駝俑"
+    sprite:
+      - img_HeroMuseumItem_17.png
+
   23:
     name:
       ar: "الجَرَّة الباناثينية"
@@ -507,9 +530,8 @@ relics:
       zh_CN: "彩绘双耳陶瓶"
       zh_TW: "彩繪雙耳陶瓶"
     sprite:
-      - img_HeroMuseumItem_23.Sprite.-3013964896224903570__6a7815695951.png
+      - img_HeroMuseumItem_23.png
 
-  # Attila (lvl 1)
   24:
     name:
       ar: "قوس الهون"
@@ -531,9 +553,8 @@ relics:
       zh_CN: "匈奴弓"
       zh_TW: "匈奴弓"
     sprite:
-      - img_HeroMuseumItem_24.Sprite.5902098745421136623__7a19552b284e.png
+      - img_HeroMuseumItem_24.png
 
-  # Takeda Shingen (lvl 1)
   25:
     name:
       ar: "كوشو هاتو نو شيداي"
@@ -555,9 +576,8 @@ relics:
       zh_CN: "甲州法度次第"
       zh_TW: "甲州法度次第"
     sprite:
-      - img_HeroMuseumItem_25.Sprite.-4176110942515193400__97b1154b12bf.png
+      - img_HeroMuseumItem_25.png
 
-  # Guan Yu (lvl 1)
   26:
     name:
       ar: "ختم تينغهو هانشو"
@@ -579,9 +599,8 @@ relics:
       zh_CN: "汉寿亭侯印"
       zh_TW: "漢壽亭侯印"
     sprite:
-      - img_HeroMuseumItem_27.Sprite.-4598441131458527818__026ab118d99f.png
+      - img_HeroMuseumItem_27.png
 
-  # Leonidas I (lvl 1)
   27:
     name:
       ar: "الأسبيس اليوناني"
@@ -603,16 +622,38 @@ relics:
       zh_CN: "希腊圆盾"
       zh_TW: "希臘圓盾"
     sprite:
-      - img_HeroMuseumItem_26.Sprite.-2577970451958045576__7dd5fd5f503b.png
+      - img_HeroMuseumItem_26.png
 
-  # Artemisia I (lvl 1)
+  28:
+    name:
+      ar: "النمس"
+      de: "Nemes-Kopftuch"
+      en: "Nemes"
+      es: "Nemes"
+      fr: "Némès"
+      id: "Nemes"
+      it: "Nemes"
+      ja: "ネメス"
+      ko: "네메스 두건"
+      ms: "Nemes"
+      pl: "Nemes"
+      pt: "Nemés"
+      ru: "Немес"
+      th: "เนเมส"
+      tr: "Nemes"
+      vi: "Khăn Nemes"
+      zh_CN: "尼美斯头巾"
+      zh_TW: "尼美斯頭巾"
+    sprite:
+      - img_HeroMuseumItem_28.png
+
   29:
     name:
       ar: "جرّة زيركسيس الأول"
       de: "Krug von Xerxes I."
       en: "Jar of Xerxes I"
       es: "Alabastrón de Jerjes I"
-      fr: "Jarre de Xerxès Ier"
+      fr: "Jarre de Xerxès Ier"
       id: "Guci Xerxes I"
       it: "Vaso di Serse I"
       ja: "クセルクセスの壺"
@@ -627,9 +668,8 @@ relics:
       zh_CN: "薛西斯之罐"
       zh_TW: "薛西斯之罐"
     sprite:
-      - img_HeroMuseumItem_29.Sprite.-7210471271129854335__afddad29e88e.png
+      - img_HeroMuseumItem_29.png
 
-  # Theodora (lvl 1)
   30:
     name:
       ar: "قنينة رومانية شرقية"
@@ -651,9 +691,8 @@ relics:
       zh_CN: "东罗马花纹瓶"
       zh_TW: "東羅馬花紋瓶"
     sprite:
-      - img_HeroMuseumItem_30.Sprite.-1520716455243021154__cefa411cd543.png
+      - img_HeroMuseumItem_30.png
 
-  # Yi Sun-sin
   31:
     name:
       ar: "نموذج سفينة السلحفاة"
@@ -675,9 +714,54 @@ relics:
       zh_CN: "龟船模型"
       zh_TW: "龜船模型"
     sprite:
-      - img_HeroMuseumItem_31.Sprite.-8497950143839164759__5418b4aa71e6.png
+      - img_HeroMuseumItem_31.png
 
-  # William I (lvl 1)
+  32:
+    name:
+      ar: "تمثال كوكولكان"
+      de: "Kukulkan-Skulptur"
+      en: "Kukulkan Sculpture"
+      es: "Escultura de Kukulcán"
+      fr: "Sculpture de Kukulkan"
+      id: "Patung Kukulkan"
+      it: "Scultura di Kukulkan"
+      ja: "ククルカンの神像"
+      ko: "쿠쿨칸 신상"
+      ms: "Arca Kukulkan"
+      pl: "Rzeźba Kukulkana"
+      pt: "Escultura de Kukulkan"
+      ru: "Скульптура Кукулькана"
+      th: "รูปปั้นกุกุลกัน"
+      tr: "Kukulkan Heykeli"
+      vi: "Tượng Quetzalcoatl"
+      zh_CN: "库库尔坎神像"
+      zh_TW: "庫庫爾坎神像"
+    sprite:
+      - img_HeroMuseumItem_32.png
+
+  33:
+    name:
+      ar: "أعمدة أشوكا"
+      de: "Säulen von Aschoka"
+      en: "Pillars of Ashoka"
+      es: "Pilares de Ashoka"
+      fr: "Piliers d'Ashoka"
+      id: "Pilar-Pilar Ashoka"
+      it: "Pilastri di Aśoka"
+      ja: "アショーカの尖塔"
+      ko: "아소카의 사자주두"
+      ms: "Tiang Asoka"
+      pl: "Filary Aśoki"
+      pt: "Pilares de Ashoka"
+      ru: "Колонны Ашоки"
+      th: "เสาแห่งอโศก"
+      tr: "Asoka'nın Sütunları"
+      vi: "Cột Trụ của Ashoka"
+      zh_CN: "阿育王石柱"
+      zh_TW: "阿育王石柱"
+    sprite:
+      - img_HeroMuseumItem_33.png
+
   34:
     name:
       ar: "لوحة بايو القماشية"
@@ -699,9 +783,8 @@ relics:
       zh_CN: "贝叶挂毯"
       zh_TW: "貝葉掛毯"
     sprite:
-      - img_HeroMuseumItem_34.Sprite.-8735209861130454622__18d431aa15fc.png
+      - img_HeroMuseumItem_34.png
 
-  # Harald Sigurdsson (lvl 1)
   35:
     name:
       ar: "حجر الرون"
@@ -723,9 +806,8 @@ relics:
       zh_CN: "卢恩石刻"
       zh_TW: "盧恩石刻"
     sprite:
-      - img_HeroMuseumItem_36.Sprite.-4650190395348559171__ec86114c0af9.png
+      - img_HeroMuseumItem_36.png
 
-  # Zenobia (lvl 1)
   36:
     name:
       ar: "مزهرية تَدمُر"
@@ -747,9 +829,54 @@ relics:
       zh_CN: "帕尔米拉陶瓶"
       zh_TW: "帕爾米拉陶瓶"
     sprite:
-      - img_HeroMuseumItem_35.Sprite.530736164400294508__bac9fdc03137.png
+      - img_HeroMuseumItem_35.png
 
-  # Nebuchadnezzar II (lvl 1)
+  37:
+    name:
+      ar: "عالم الصناديق"
+      de: "Globus von Krates"
+      en: "Globe of Crates"
+      es: "Globo de Crates"
+      fr: "Globe de Cratès"
+      id: "Globe dari Crates"
+      it: "Globo di Cratete"
+      ja: "銅製の地球儀"
+      ko: "구리 지구본"
+      ms: "Glob Peti"
+      pl: "Kula skrzyń"
+      pt: "Globo de Crates"
+      ru: "Глобус Кратета"
+      th: "ลูกโลกทองแดง"
+      tr: "Crates'in Küresi"
+      vi: "Quả Cầu Crates"
+      zh_CN: "铜制地球仪"
+      zh_TW: "銅製地球儀"
+    sprite:
+      - img_HeroMuseumItem_37.png
+
+  38:
+    name:
+      ar: "قلادة الورود"
+      de: "Rosenanhänger"
+      en: "Rose Pendant"
+      es: "Colgante de rosa"
+      fr: "Pendentif avec rose"
+      id: "Liontin Mawar"
+      it: "Ciondolo roseo"
+      ja: "ローズネックレス"
+      ko: "장미 목걸이"
+      ms: "Loket Bunga Ros"
+      pl: "Wisiorek z różą"
+      pt: "Pingente de Rosa"
+      ru: "Кулон с розой"
+      th: "จี้ดอกกุหลาบ"
+      tr: "Gül Kolye Ucu"
+      vi: "Mặt Dây Chuyền Hoa Hồng"
+      zh_CN: "玫瑰项链"
+      zh_TW: "玫瑰項鍊"
+    sprite:
+      - img_HeroMuseumItem_38.png
+
   39:
     name:
       ar: "طوب بلاد بابل المزجج متعدد الألوان"
@@ -771,9 +898,31 @@ relics:
       zh_CN: "巴比伦彩釉砖"
       zh_TW: "巴比倫彩釉磚"
     sprite:
-      - img_HeroMuseumItem_41.Sprite.4560865328795455047__9bbd83f58bd4.png
+      - img_HeroMuseumItem_41.png
 
-  # Moctezuma I (lvl 1)
+  40:
+    name:
+      ar: "قرن شراب الأسد المجنّح"
+      de: "Geflügeltes Löwen-Rhyton"
+      en: "Winged Lion Rhyton"
+      es: "Ritón de león alado"
+      fr: "Rhyton au lion ailé"
+      id: "Rhyton Singa Bersayap"
+      it: "Rhytòn del Leone alato"
+      ja: "有翼獅子の金製酒器"
+      ko: "날개 사자 뿔잔"
+      ms: "Bekas Minuman Singa Bersayap"
+      pl: "Skrzydlaty lew – ryton"
+      pt: "Ritão de Leão Alado"
+      ru: "Ритон с крылатым львом"
+      th: "ไรตันสิงโตมีปีก"
+      tr: "Kanatlı Aslan Riton"
+      vi: "Bình Sư Tử Có Cánh"
+      zh_CN: "有翼狮金来通"
+      zh_TW: "有翼獅金來通"
+    sprite:
+      - img_HeroMuseumItem_39.png
+
   41:
     name:
       ar: "حجر الشمس"
@@ -795,9 +944,8 @@ relics:
       zh_CN: "太阳石"
       zh_TW: "太陽石"
     sprite:
-      - img_HeroMuseumItem_40.Sprite.-5352154934589255920__86d9cefae3ab.png
+      - img_HeroMuseumItem_40.png
 
-  # Trajan (lvl 1)
   42:
     name:
       ar: "النسر الإمبراطوري"
@@ -819,9 +967,8 @@ relics:
       zh_CN: "帝国之鹰"
       zh_TW: "帝國之鷹"
     sprite:
-      - img_HeroMuseumItem_42.Sprite.-6350459694567479281__68f3483d4bf3.png
+      - img_HeroMuseumItem_42.png
 
-  # Cao Cao (lvl 2)
   10001:
     name:
       ar: "الأعمال المُجمّعة لتساو تساو"
@@ -843,9 +990,8 @@ relics:
       zh_CN: "魏武帝集"
       zh_TW: "魏武帝集"
     sprite:
-      - img_HeroMuseumItem_01.Sprite.5497904044943097419__313eab66e95e.png
+      - img_HeroMuseumItem_01.png
 
-  # Minamoto (lvl 2)
   10002:
     name:
       ar: "مزمار الخيزران لشيزوكا غوزين"
@@ -867,9 +1013,8 @@ relics:
       zh_CN: "七孔篠笛"
       zh_TW: "七孔篠笛"
     sprite:
-      - img_HeroMuseumItem_08.Sprite.-4790359420281795705__4a07f6cd3451.png
+      - img_HeroMuseumItem_08.png
 
-  # Aethelflaed (lvl 2)
   10003:
     name:
       ar: "خوذة ساتون هوو"
@@ -891,9 +1036,8 @@ relics:
       zh_CN: "萨顿胡头盔"
       zh_TW: "薩頓胡頭盔"
     sprite:
-      - img_HeroMuseumItem_09.Sprite.6798304952493961350__18f1e50b9f98.png
+      - img_HeroMuseumItem_09.png
 
-  # Hannibal Barca (lvl 2)
   10004:
     name:
       ar: "العملة القرطاجية"
@@ -915,9 +1059,8 @@ relics:
       zh_CN: "迦太基钱币"
       zh_TW: "迦太基錢幣"
     sprite:
-      - img_HeroMuseumItem_05.Sprite.902683059473368628__5c73291037b4.png
+      - img_HeroMuseumItem_05.png
 
-  # Richard I (lvl 2)
   10005:
     name:
       ar: "شعار الثلاثة أسود"
@@ -939,9 +1082,8 @@ relics:
       zh_CN: "三狮长盾"
       zh_TW: "三獅長盾"
     sprite:
-      - img_HeroMuseumItem_10.Sprite.7548017237407491421__91fd29f6c4fc.png
+      - img_HeroMuseumItem_10.png
 
-  # Charles Martel (lvl 2)
   10006:
     name:
       ar: "الخاتم الميروفنجي"
@@ -963,9 +1105,8 @@ relics:
       zh_CN: "墨洛温王朝珐琅金质戒指"
       zh_TW: "墨洛溫王朝琺瑯金質戒指"
     sprite:
-      - img_HeroMuseumItem_06.Sprite.-6710651370289058079__4b6b98e9850b.png
+      - img_HeroMuseumItem_06.png
 
-  # El Cid (lvl 2)
   10007:
     name:
       ar: "سيف السیِّد تيزونا"
@@ -987,9 +1128,8 @@ relics:
       zh_CN: "熙德佩剑蒂佐纳"
       zh_TW: "熙德佩劍蒂佐納"
     sprite:
-      - img_HeroMuseumItem_13.Sprite.-3288397073620785727__4d1bb0d1cba2.png
+      - img_HeroMuseumItem_13.png
 
-  # Yi Seong-Gye (lvl 2)
   10008:
     name:
       ar: "نقش التنين التوأم"
@@ -1011,9 +1151,8 @@ relics:
       zh_CN: "双龙刻宝盖"
       zh_TW: "雙龍刻寶蓋"
     sprite:
-      - img_HeroMuseumItem_03.Sprite.470058155234638549__fcedd2f259f9.png
+      - img_HeroMuseumItem_03.png
 
-  # Mulan (lvl 2)
   10009:
     name:
       ar: "حلية التنين والعنقاء اليشمية"
@@ -1035,9 +1174,8 @@ relics:
       zh_CN: "龙凤形玉器"
       zh_TW: "龍鳳形玉器"
     sprite:
-      - img_HeroMuseumItem_07.Sprite.6692043133602402356__f0a748d40f2e.png
+      - img_HeroMuseumItem_07.png
 
-  # Ragnar Lodbrok (lvl 2)
   10010:
     name:
       ar: "قرن شراب الفايكنج"
@@ -1059,9 +1197,8 @@ relics:
       zh_CN: "维京牛角杯"
       zh_TW: "維京牛角杯"
     sprite:
-      - img_HeroMuseumItem_12.Sprite.-155454291402510045__e9fed626a9cd.png
+      - img_HeroMuseumItem_12.png
 
-  # Mehmed II (lvl 2)
   10011:
     name:
       ar: "ياتاغان"
@@ -1083,9 +1220,8 @@ relics:
       zh_CN: "亚特坎"
       zh_TW: "亞特坎"
     sprite:
-      - img_HeroMuseumItem_14.Sprite.-9188920668785891645__bc44bced76e1.png
+      - img_HeroMuseumItem_14.png
 
-  # Frederick I (lvl 2)
   10012:
     name:
       ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
@@ -1107,9 +1243,8 @@ relics:
       zh_CN: "神圣罗马帝国皇冠"
       zh_TW: "神聖羅馬帝國皇冠"
     sprite:
-      - img_HeroMuseumItem_11.Sprite.5707150692102942080__799d0eff9df7.png
+      - img_HeroMuseumItem_11.png
 
-  # Julius Caesar (lvl 2)
   10013:
     name:
       ar: "تعليقات على الحرب الغالية"
@@ -1131,9 +1266,31 @@ relics:
       zh_CN: "高卢战记"
       zh_TW: "高盧戰記"
     sprite:
-      - img_HeroMuseumItem_04.Sprite.7903776769872823612__77c603d6697d.png
+      - img_HeroMuseumItem_04.png
 
-  # Thutmose III (lvl 2)
+  10014:
+    name:
+      ar: "تميمة شارلمان"
+      de: "Talisman Karls des Großen"
+      en: "Talisman of Charlemagne"
+      es: "Talismán de Carlomagno"
+      fr: "Talisman de Charlemagne"
+      id: "Jimat Charlemagne"
+      it: "Talismano di Carlo Magno"
+      ja: "シャルルマーニュの護符"
+      ko: "탈리스만"
+      ms: "Azimat Charlemagne"
+      pl: "Talizman Karola Wielkiego"
+      pt: "Talismã de Carlos Magno"
+      ru: "Талисман Карла Великого"
+      th: "เครื่องรางแห่งชาร์เลอมาญ"
+      tr: "Şarlman'ın Tılsımı"
+      vi: "Bùa Charlemagne"
+      zh_CN: "塔利斯曼"
+      zh_TW: "塔利斯曼"
+    sprite:
+      - img_HeroMuseumItem_02.png
+
   10015:
     name:
       ar: "جعران من خبر رع"
@@ -1155,9 +1312,54 @@ relics:
       zh_CN: "门赫佩尔圣甲虫"
       zh_TW: "門赫佩爾聖甲蟲"
     sprite:
-      - img_HeroMuseumItem_15.Sprite.2972705767729287372__a2e2d04cadc0.png
+      - img_HeroMuseumItem_15.png
 
-  # Constantine I (lvl 2)
+  10016:
+    name:
+      ar: "الرايات التسع البيضاء"
+      de: "Die Neun Weißen Banner"
+      en: "The Nine White Banners"
+      es: "Estandarte de nueve bases blancas"
+      fr: "Les Neuf bannières blanches"
+      id: "Sembilan Bendera Putih"
+      it: "I nove stendardi bianchi"
+      ja: "九遊白旗"
+      ko: "구유백독"
+      ms: "Sembilan Sepanduk Putih"
+      pl: "Dziewięć Białych Sztandarów"
+      pt: "As Nove Bandeiras Brancas"
+      ru: "Девять белых знамен"
+      th: "ธงขาวเก้า"
+      tr: "Dokuz Beyaz Tuğ"
+      vi: "Cửu Bạch Mao Tiết"
+      zh_CN: "九斿白纛"
+      zh_TW: "九斿白纛"
+    sprite:
+      - img_HeroMuseumItem_20.png
+
+  10017:
+    name:
+      ar: "الدرع الأيوبي"
+      de: "Ayyubidische Rüstung"
+      en: "Ayyubid Armor"
+      es: "Armadura ayubí"
+      fr: "Armure ayyoubide"
+      id: "Zirah Ayyubid"
+      it: "Armatura ayyubide"
+      ja: "イスラムの鎧"
+      ko: "이슬람 갑옷"
+      ms: "Perisai Ayyubiyah"
+      pl: "Zbroja ajjubidzka"
+      pt: "Armadura Aiúbida"
+      ru: "Доспех Айюбидов"
+      th: "ชุดเกราะอัยยูบิด"
+      tr: "Eyyubi Zırhı"
+      vi: "Áo Giáp Ayyubid"
+      zh_CN: "伊斯兰铠甲"
+      zh_TW: "伊斯蘭鎧甲"
+    sprite:
+      - img_HeroMuseumItem_16.png
+
   10018:
     name:
       ar: "مرسوم ميلان"
@@ -1179,9 +1381,8 @@ relics:
       zh_CN: "米兰诏书"
       zh_TW: "米蘭敕令"
     sprite:
-      - img_HeroMuseumItem_18.Sprite.4984457864574441106__cc38c75975d8.png
+      - img_HeroMuseumItem_18.png
 
-  # Alexander the Great (lvl 2)
   10019:
     name:
       ar: "الساريسا المقدونية"
@@ -1203,9 +1404,8 @@ relics:
       zh_CN: "马其顿长矛"
       zh_TW: "馬其頓長矛"
     sprite:
-      - img_HeroMuseumItem_19.Sprite.3799072429538379601__2385f534ed62.png
+      - img_HeroMuseumItem_19.png
 
-  # Tomyris (lvl 2)
   10020:
     name:
       ar: "شارة الذراع الذهبية"
@@ -1227,9 +1427,8 @@ relics:
       zh_CN: "黄金带饰"
       zh_TW: "黃金帶飾"
     sprite:
-      - img_HeroMuseumItem_22.Sprite.-7326258086849472066__82232f324634.png
+      - img_HeroMuseumItem_22.png
 
-  # Edward of Woodstock (lvl 2)
   10021:
     name:
       ar: "نجمة فرسان الرِباط"
@@ -1251,9 +1450,31 @@ relics:
       zh_CN: "嘉德勋章"
       zh_TW: "嘉德勳章"
     sprite:
-      - img_HeroMuseumItem_21.Sprite.5988358162050840249__799539f6570a.png
+      - img_HeroMuseumItem_21.png
 
-  # Pyrrhus (lvl 2)
+  10022:
+    name:
+      ar: "جمل مع موسيقيين"
+      de: "Kamel mit Musikern"
+      en: "Camel with Musicians"
+      es: "Camello con músicos"
+      fr: "Chameau avec musiciens"
+      id: "Unta dengan Musisi"
+      it: "Cammello con musicisti"
+      ja: "三彩駱駝載楽俑"
+      ko: "낙타 연주자"
+      ms: "Unta dengan Pemuzik"
+      pl: "Wielbłąd i muzycy"
+      pt: "Camelo com Músicos"
+      ru: "Музыканты на верблюде"
+      th: "อูฐกับนักดนตรี"
+      tr: "Deve Üstünde Çalgıcılar"
+      vi: "Lạc Đà Chở Nhạc Công"
+      zh_CN: "唐三彩骆驼载乐俑"
+      zh_TW: "三彩駱駝俑"
+    sprite:
+      - img_HeroMuseumItem_17.png
+
   10023:
     name:
       ar: "الجَرَّة الباناثينية"
@@ -1275,9 +1496,123 @@ relics:
       zh_CN: "彩绘双耳陶瓶"
       zh_TW: "彩繪雙耳陶瓶"
     sprite:
-      - img_HeroMuseumItem_23.Sprite.-3013964896224903570__6a7815695951.png
+      - img_HeroMuseumItem_23.png
 
-  # Richard I (lvl 3)
+  10032:
+    name:
+      ar: "تمثال كوكولكان"
+      de: "Kukulkan-Skulptur"
+      en: "Kukulkan Sculpture"
+      es: "Escultura de Kukulcán"
+      fr: "Sculpture de Kukulkan"
+      id: "Patung Kukulkan"
+      it: "Scultura di Kukulkan"
+      ja: "ククルカンの神像"
+      ko: "쿠쿨칸 신상"
+      ms: "Arca Kukulkan"
+      pl: "Rzeźba Kukulkana"
+      pt: "Escultura de Kukulkan"
+      ru: "Скульптура Кукулькана"
+      th: "รูปปั้นกุกุลกัน"
+      tr: "Kukulkan Heykeli"
+      vi: "Tượng Quetzalcoatl"
+      zh_CN: "库库尔坎神像"
+      zh_TW: "庫庫爾坎神像"
+    sprite:
+      - img_HeroMuseumItem_32.png
+
+  20001:
+    name:
+      ar: "الأعمال المُجمّعة لتساو تساو"
+      de: "Die Gesammelten Werke von Cao Cao"
+      en: "The Collected Works of Cao Cao"
+      es: "Las obras completas de Cao Cao"
+      fr: "Les œuvres recueillies de Cao Cao"
+      id: "Kumpulan Karya Cao Cao"
+      it: "Le opere complete di Cao Cao"
+      ja: "魏武帝集"
+      ko: "위무제집"
+      ms: "Karya Terkumpul Cao Cao"
+      pl: "Kompilacja dzieł Cao Cao"
+      pt: "As Obras Reunidas de Cao Cao"
+      ru: "Собрание работ Цао Цао"
+      th: "ผลงานรวมของโจโฉ"
+      tr: "Cao Cao'nun Toplu Eserleri"
+      vi: "Tuyển Tập Tác Phẩm Của Tào Tháo"
+      zh_CN: "魏武帝集"
+      zh_TW: "魏武帝集"
+    sprite:
+      - img_HeroMuseumItem_01.png
+
+  20002:
+    name:
+      ar: "مزمار الخيزران لشيزوكا غوزين"
+      de: "Bambusflöte von Shizuka Gozen"
+      en: "The Bamboo Flute of Shizuka Gozen"
+      es: "Flauta de bambú de Shizuka Gozen"
+      fr: "La Flûte de bambou de Shizuka Gozen"
+      id: "Seruling Bambu Shizuka Gozen"
+      it: "Il flauto di bambù di Shizuka Gozen"
+      ja: "7孔の篠笛"
+      ko: "시노부에"
+      ms: "Seruling Buluh Shizuka Gozen"
+      pl: "Flet bambusowy Shizuki Gozen"
+      pt: "A Flauta de Bambu de Shizuka Gozen"
+      ru: "Бамбуковая флейта Сидзуки Годзэн"
+      th: "ขลุ่ยไม้ไผ่ของสึซึกะ โกเซน"
+      tr: "Shizuka Gozen'in Bambu Flütü"
+      vi: "Sáo Trúc Của Shizuka Gozen"
+      zh_CN: "七孔篠笛"
+      zh_TW: "七孔篠笛"
+    sprite:
+      - img_HeroMuseumItem_08.png
+
+  20003:
+    name:
+      ar: "خوذة ساتون هوو"
+      de: "Helm von Sutton Hoo"
+      en: "Sutton Hoo Helmet"
+      es: "Yelmo de Sutton Hoo"
+      fr: "Casque Sutton Hoo"
+      id: "Helm Sutton Hoo"
+      it: "Elmo di Sutton Hoo"
+      ja: "サットン・フーのヘルメット"
+      ko: "서튼 후의 투구"
+      ms: "Ketopong Sutton Hoo"
+      pl: "Hełm z Sutton Hoo"
+      pt: "Elmo de Sutton Hoo"
+      ru: "Шлем из Саттон-Ху"
+      th: "หมวกซัตตันฮู"
+      tr: "Sutton Hoo Miğferi"
+      vi: "Mũ Giáp Sutton Hoo"
+      zh_CN: "萨顿胡头盔"
+      zh_TW: "薩頓胡頭盔"
+    sprite:
+      - img_HeroMuseumItem_09.png
+
+  20004:
+    name:
+      ar: "العملة القرطاجية"
+      de: "Punische Münzen"
+      en: "Carthaginian Coinage"
+      es: "Monedas cartaginesas"
+      fr: "Monnaie carthaginoise"
+      id: "Koin Kartago"
+      it: "Moneta cartaginese"
+      ja: "カルタゴ硬貨"
+      ko: "카르타고 동전"
+      ms: "Syiling Carthaginian"
+      pl: "Kartagińskie monety"
+      pt: "Moedas Cartaginesas"
+      ru: "Монеты Карфагена"
+      th: "เหรียญกษาปณ์คาร์เธจ"
+      tr: "Kartaca Sikkeleri"
+      vi: "Tiền Xu Carthaginian"
+      zh_CN: "迦太基钱币"
+      zh_TW: "迦太基錢幣"
+    sprite:
+      - img_HeroMuseumItem_05.png
+
   20005:
     name:
       ar: "شعار الثلاثة أسود"
@@ -1299,9 +1634,8 @@ relics:
       zh_CN: "三狮长盾"
       zh_TW: "三獅長盾"
     sprite:
-      - img_HeroMuseumItem_10.Sprite.7548017237407491421__91fd29f6c4fc.png
+      - img_HeroMuseumItem_10.png
 
-  # Charles Martel (lvl 3)
   20006:
     name:
       ar: "الخاتم الميروفنجي"
@@ -1323,9 +1657,8 @@ relics:
       zh_CN: "墨洛温王朝珐琅金质戒指"
       zh_TW: "墨洛溫王朝琺瑯金質戒指"
     sprite:
-      - img_HeroMuseumItem_06.Sprite.-6710651370289058079__4b6b98e9850b.png
+      - img_HeroMuseumItem_06.png
 
-  # El Cid (lvl 3)
   20007:
     name:
       ar: "سيف السیِّد تيزونا"
@@ -1347,9 +1680,8 @@ relics:
       zh_CN: "熙德佩剑蒂佐纳"
       zh_TW: "熙德佩劍蒂佐納"
     sprite:
-      - img_HeroMuseumItem_13.Sprite.-3288397073620785727__4d1bb0d1cba2.png
+      - img_HeroMuseumItem_13.png
 
-  # Yi Seong-Gye (lvl 3)
   20008:
     name:
       ar: "نقش التنين التوأم"
@@ -1371,9 +1703,8 @@ relics:
       zh_CN: "双龙刻宝盖"
       zh_TW: "雙龍刻寶蓋"
     sprite:
-      - img_HeroMuseumItem_03.Sprite.470058155234638549__fcedd2f259f9.png
+      - img_HeroMuseumItem_03.png
 
-  # Mulan (lvl 3)
   20009:
     name:
       ar: "حلية التنين والعنقاء اليشمية"
@@ -1395,9 +1726,8 @@ relics:
       zh_CN: "龙凤形玉器"
       zh_TW: "龍鳳形玉器"
     sprite:
-      - img_HeroMuseumItem_07.Sprite.6692043133602402356__f0a748d40f2e.png
+      - img_HeroMuseumItem_07.png
 
-  # Ragnar Lodbrok (lvl 3)
   20010:
     name:
       ar: "قرن شراب الفايكنج"
@@ -1419,9 +1749,8 @@ relics:
       zh_CN: "维京牛角杯"
       zh_TW: "維京牛角杯"
     sprite:
-      - img_HeroMuseumItem_12.Sprite.-155454291402510045__e9fed626a9cd.png
+      - img_HeroMuseumItem_12.png
 
-  # Mehmed II (lvl 3)
   20011:
     name:
       ar: "ياتاغان"
@@ -1443,9 +1772,31 @@ relics:
       zh_CN: "亚特坎"
       zh_TW: "亞特坎"
     sprite:
-      - img_HeroMuseumItem_14.Sprite.-9188920668785891645__bc44bced76e1.png
+      - img_HeroMuseumItem_14.png
 
-  # Julius Caesar (lvl 3)
+  20012:
+    name:
+      ar: "التاج الإمبراطوري للإمبراطورية الرومانية"
+      de: "Reichskrone"
+      en: "Imperial Crown of the Holy Roman Empire"
+      es: "Corona imperial del Sacro Imperio Romano Germánico"
+      fr: "Couronne impériale du Saint Empire romain germanique"
+      id: "Mahkota Kerajaan dari Kekaisaran Romawi Suci"
+      it: "Corona imperiale del Sacro Romano Impero"
+      ja: "神聖ローマ皇帝冠"
+      ko: "신성 로마 제국의 왕관"
+      ms: "Mahkota Imperial Empayar Rom Suci"
+      pl: "Korona Rzeszy"
+      pt: "Coroa Imperial do Sacro Império Romano"
+      ru: "Корона Священной Римской империи"
+      th: "มงกุฎจักรพรรดิแห่งจักรวรรดิโรมันอันศักดิ์สิทธิ์"
+      tr: "Kutsal Roma'nın İmparatorluk Tacı"
+      vi: "Vương Miện Hoàng Gia Của Đế Quốc La Mã Thần Thánh"
+      zh_CN: "神圣罗马帝国皇冠"
+      zh_TW: "神聖羅馬帝國皇冠"
+    sprite:
+      - img_HeroMuseumItem_11.png
+
   20013:
     name:
       ar: "تعليقات على الحرب الغالية"
@@ -1467,9 +1818,31 @@ relics:
       zh_CN: "高卢战记"
       zh_TW: "高盧戰記"
     sprite:
-      - img_HeroMuseumItem_04.Sprite.7903776769872823612__77c603d6697d.png
+      - img_HeroMuseumItem_04.png
 
-  # Thutmose III (lvl 3)
+  20014:
+    name:
+      ar: "تميمة شارلمان"
+      de: "Talisman Karls des Großen"
+      en: "Talisman of Charlemagne"
+      es: "Talismán de Carlomagno"
+      fr: "Talisman de Charlemagne"
+      id: "Jimat Charlemagne"
+      it: "Talismano di Carlo Magno"
+      ja: "シャルルマーニュの護符"
+      ko: "탈리스만"
+      ms: "Azimat Charlemagne"
+      pl: "Talizman Karola Wielkiego"
+      pt: "Talismã de Carlos Magno"
+      ru: "Талисман Карла Великого"
+      th: "เครื่องรางแห่งชาร์เลอมาญ"
+      tr: "Şarlman'ın Tılsımı"
+      vi: "Bùa Charlemagne"
+      zh_CN: "塔利斯曼"
+      zh_TW: "塔利斯曼"
+    sprite:
+      - img_HeroMuseumItem_02.png
+
   20015:
     name:
       ar: "جعران من خبر رع"
@@ -1491,4 +1864,27 @@ relics:
       zh_CN: "门赫佩尔圣甲虫"
       zh_TW: "門赫佩爾聖甲蟲"
     sprite:
-      - img_HeroMuseumItem_15.Sprite.2972705767729287372__a2e2d04cadc0.png
+      - img_HeroMuseumItem_15.png
+
+  20023:
+    name:
+      ar: "الجَرَّة الباناثينية"
+      de: "Panathenäische Amphore"
+      en: "Panathenaic Amphora"
+      es: "Ánfora panatenaica"
+      fr: "Amphore panathénaïque"
+      id: "Amfora Panathena"
+      it: "Anfora panatenaica"
+      ja: "色絵アンフォラ"
+      ko: "파나티나이코식 암포라"
+      ms: "Amphora Panathenaic"
+      pl: "Amfora panatenajska"
+      pt: "Ânfora Panatenaica"
+      ru: "Панафинейская амфора"
+      th: "ไหแอมโฟร่าพานาธีนิก"
+      tr: "Panathenaea Amforası"
+      vi: "Vò Hai Quai Panathenaea"
+      zh_CN: "彩绘双耳陶瓶"
+      zh_TW: "彩繪雙耳陶瓶"
+    sprite:
+      - img_HeroMuseumItem_23.png
