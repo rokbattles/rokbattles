@@ -202,6 +202,8 @@ equipment:
         vi: "Quyền Lực Thần Thánh"
         zh_CN: "耀世·神圣裁决"
         zh_TW: "耀世·神聖裁決"
+      sprite:
+        - img_icon_item_equip_5_5.png
 
     20002:
       name:
@@ -223,6 +225,8 @@ equipment:
         vi: "Búa nhật nguyệt"
         zh_CN: "降临·日月之锤"
         zh_TW: "降臨.日月之鎚"
+      sprite:
+        - img_icon_item_equip_5_6.png
 
     20003:
       name:
@@ -244,6 +248,8 @@ equipment:
         vi: "Vụ nổ Hydra"
         zh_CN: "疾风·九头蛇弩"
         zh_TW: "疾風.九頭蛇弩"
+      sprite:
+        - img_icon_item_equip_5_4.png
 
     20004:
       name:
@@ -265,6 +271,8 @@ equipment:
         vi: "Niềm tự hào của Thành Cát Tư Hãn"
         zh_CN: "野势·可汗之怒"
         zh_TW: "野勢·可汗之怒"
+      sprite:
+        - img_icon_item_equip_5_3.png
 
     20005:
       name:
@@ -286,6 +294,8 @@ equipment:
         vi: "Mũ giáp của Kẻ Chinh Phạt"
         zh_CN: "征服·王者之盔"
         zh_TW: "征服.王者之盔"
+      sprite:
+        - img_icon_item_equip_5_1.png
 
     20006:
       name:
@@ -307,6 +317,8 @@ equipment:
         vi: "Mặt nạ tổ tiên của đêm tối"
         zh_CN: "暗夜·诅咒面罩"
         zh_TW: "暗夜.詛咒面罩"
+      sprite:
+        - img_icon_item_equip_5_2.png
 
     20007:
       name:
@@ -328,6 +340,8 @@ equipment:
         vi: "Trường Thương Địa Ngục"
         zh_CN: "炼狱焦土长枪"
         zh_TW: "煉獄焦土長槍"
+      sprite:
+        - img_icon_item_equip_5_16.png
 
     20008:
       name:
@@ -349,6 +363,8 @@ equipment:
         vi: "Mũ giáp chiến tranh địa ngục"
         zh_CN: "炼狱焦土战盔"
         zh_TW: "煉獄焦土戰盔"
+      sprite:
+        - img_icon_item_equip_5_15.png
 
     20009:
       name:
@@ -370,6 +386,8 @@ equipment:
         vi: "Giáp hạng nặng của địa ngục"
         zh_CN: "炼狱焦土重铠"
         zh_TW: "煉獄焦土重鎧"
+      sprite:
+        - img_icon_item_equip_5_17.png
 
     20010:
       name:
@@ -391,6 +409,8 @@ equipment:
         vi: "Vòng tay địa ngục"
         zh_CN: "炼狱焦土臂章"
         zh_TW: "煉獄焦土臂章"
+      sprite:
+        - img_icon_item_equip_5_12.png
 
     20011:
       name:
@@ -412,6 +432,8 @@ equipment:
         vi: "Giáp địa ngục"
         zh_CN: "炼狱焦土裙甲"
         zh_TW: "煉獄焦土裙甲"
+      sprite:
+        - img_icon_item_equip_5_14.png
 
     20012:
       name:
@@ -433,6 +455,8 @@ equipment:
         vi: "Giày địa ngục"
         zh_CN: "炼狱焦土钢靴"
         zh_TW: "煉獄焦土鋼靴"
+      sprite:
+        - img_icon_item_equip_5_13.png
 
     20013:
       name:
@@ -454,6 +478,8 @@ equipment:
         vi: "Lá chắn của đế chế vĩnh cửu"
         zh_CN: "永恒帝国之盾"
         zh_TW: "永恆帝國之盾"
+      sprite:
+        - img_icon_item_equip_5_48.png
 
     20014:
       name:
@@ -475,6 +501,8 @@ equipment:
         vi: "Mũ giáp vàng của đế chế vĩnh cửu"
         zh_CN: "永恒帝国的金盔"
         zh_TW: "永恆帝國的金盔"
+      sprite:
+        - img_icon_item_equip_5_33.png
 
     20015:
       name:
@@ -496,6 +524,8 @@ equipment:
         vi: "Giáp Gai Đế Chế Vĩnh Cửu"
         zh_CN: "永恒帝国的刺甲"
         zh_TW: "永恆帝國的刺甲"
+      sprite:
+        - img_icon_item_equip_5_34.png
 
     20016:
       name:
@@ -517,6 +547,8 @@ equipment:
         vi: "Giáp bắp tay của đế chế vĩnh cửu"
         zh_CN: "永恒帝国的护臂"
         zh_TW: "永恆帝國的護臂"
+      sprite:
+        - img_icon_item_equip_5_32.png
 
     20017:
       name:
@@ -538,6 +570,8 @@ equipment:
         vi: "Giáp ống chân của đế chế vĩnh cửu"
         zh_CN: "永恒帝国的精铁腿甲"
         zh_TW: "永恆帝國的精鐵腿甲"
+      sprite:
+        - img_icon_item_equip_5_30.png
 
     20018:
       name:
@@ -559,6 +593,8 @@ equipment:
         vi: "Giày cao cổ chắc chắn của đế chế vĩnh cửu"
         zh_CN: "永恒帝国的不破履"
         zh_TW: "永恆帝國的不破履"
+      sprite:
+        - img_icon_item_equip_5_31.png
 
     20019:
       name:
@@ -580,6 +616,8 @@ equipment:
         vi: "Hơi thở của hàm rồng"
         zh_CN: "无踪龙息之弓"
         zh_TW: "無蹤龍息之弓"
+      sprite:
+        - img_icon_item_equip_5_44.png
 
     20020:
       name:
@@ -601,6 +639,8 @@ equipment:
         vi: "Mũ Sắt Hơi Thở Rồng Mất Tích"
         zh_CN: "无踪龙息铁盔"
         zh_TW: "無蹤龍息鐵盔"
+      sprite:
+        - img_icon_item_equip_5_26.png
 
     20021:
       name:
@@ -622,6 +662,8 @@ equipment:
         vi: "Đĩa của hàm rồng"
         zh_CN: "无踪龙息铠甲"
         zh_TW: "無蹤龍息鎧甲"
+      sprite:
+        - img_icon_item_equip_5_25.png
 
     20022:
       name:
@@ -643,6 +685,8 @@ equipment:
         vi: "Giáp bắp tay của hàm rồng"
         zh_CN: "无踪龙息护臂"
         zh_TW: "無蹤龍息護臂"
+      sprite:
+        - img_icon_item_equip_5_43.png
 
     20023:
       name:
@@ -664,6 +708,8 @@ equipment:
         vi: "Giáp hàm rồng"
         zh_CN: "无踪龙息裙甲"
         zh_TW: "無蹤龍息裙甲"
+      sprite:
+        - img_icon_item_equip_5_24.png
 
     20024:
       name:
@@ -685,6 +731,8 @@ equipment:
         vi: "Giày cao cổ của hàm rồng"
         zh_CN: "无踪龙息之履"
         zh_TW: "無蹤龍息之履"
+      sprite:
+        - img_icon_item_equip_5_45.png
 
     20025:
       name:
@@ -706,6 +754,8 @@ equipment:
         vi: "Sự Trả Thù của Quân Đoàn Bóng Tối"
         zh_CN: "暗影军团的复仇"
         zh_TW: "暗影軍團的復仇"
+      sprite:
+        - img_icon_item_equip_5_8.png
 
     20026:
       name:
@@ -727,6 +777,8 @@ equipment:
         vi: "Áo choàng hy vọng"
         zh_CN: "希望斗篷"
         zh_TW: "希望斗篷"
+      sprite:
+        - img_icon_item_equip_5_46.png
 
     20027:
       name:
@@ -748,6 +800,8 @@ equipment:
         vi: "Dải ngân hà"
         zh_CN: "银河之魄"
         zh_TW: "銀河之魄"
+      sprite:
+        - img_icon_item_equip_5_28.png
 
     20028:
       name:
@@ -769,6 +823,8 @@ equipment:
         vi: "Sự kiểm soát của Navar"
         zh_CN: "纳瓦尔的掌控"
         zh_TW: "納瓦爾的掌控"
+      sprite:
+        - img_icon_item_equip_5_18.png
 
     20029:
       name:
@@ -790,6 +846,8 @@ equipment:
         vi: "Kìm linh thiên"
         zh_CN: "神圣之握"
         zh_TW: "神聖之握"
+      sprite:
+        - img_icon_item_equip_5_42.png
 
     20030:
       name:
@@ -811,6 +869,8 @@ equipment:
         vi: "Sự lựa chọn của Ian"
         zh_CN: "伊安的抉择"
         zh_TW: "伊安的抉擇"
+      sprite:
+        - img_icon_item_equip_5_47.png
 
     20031:
       name:
@@ -832,6 +892,8 @@ equipment:
         vi: "Quần Giáp Chiến Thần"
         zh_CN: "沸血战神"
         zh_TW: "沸血戰神"
+      sprite:
+        - img_icon_item_equip_5_49.png
 
     20032:
       name:
@@ -853,6 +915,8 @@ equipment:
         vi: "Đêm vĩnh cửu"
         zh_CN: "暗夜永生"
         zh_TW: "暗夜永生"
+      sprite:
+        - img_icon_item_equip_5_22.png
 
     20033:
       name:
@@ -874,6 +938,8 @@ equipment:
         vi: "Tro tàn bình minh"
         zh_CN: "黎明灰烬"
         zh_TW: "黎明灰燼"
+      sprite:
+        - img_icon_item_equip_5_11.png
 
     20034:
       name:
@@ -895,6 +961,8 @@ equipment:
         vi: "Sự quay lại của Shio"
         zh_CN: "希奥的归途"
         zh_TW: "希奧的歸途"
+      sprite:
+        - img_icon_item_equip_5_27.png
 
     20035:
       name:
@@ -916,6 +984,8 @@ equipment:
         vi: "Máy ủi núi"
         zh_CN: "千山踏碎"
         zh_TW: "千山踏碎"
+      sprite:
+        - img_icon_item_equip_5_19.png
 
     20036:
       name:
@@ -937,6 +1007,8 @@ equipment:
         vi: "Giày Chỉ huy"
         zh_CN: "统御者战靴"
         zh_TW: "統御者戰靴"
+      sprite:
+        - img_icon_item_equip_5_21.png
 
     20037:
       name:
@@ -958,6 +1030,8 @@ equipment:
         vi: "Nhẫn Tận Thế"
         zh_CN: "末日之戒"
         zh_TW: "末日之戒"
+      sprite:
+        - img_icon_item_equip_5_38.png
 
     20038:
       name:
@@ -979,6 +1053,8 @@ equipment:
         vi: "Vinh quang vĩ đại nhất"
         zh_CN: "极昼之耀"
         zh_TW: "極晝之耀"
+      sprite:
+        - img_icon_item_equip_5_39.png
 
     20039:
       name:
@@ -1000,6 +1076,8 @@ equipment:
         vi: "Ánh Sáng Đêm Trường"
         zh_CN: "永夜之辉"
         zh_TW: "永夜之輝"
+      sprite:
+        - img_icon_item_equip_5_40.png
 
     20040:
       name:
@@ -1021,6 +1099,8 @@ equipment:
         vi: "Chiếc sừng thịnh nộ"
         zh_CN: "狂怒之角"
         zh_TW: "狂怒之角"
+      sprite:
+        - img_icon_item_equip_5_37.png
 
     20041:
       name:
@@ -1042,6 +1122,8 @@ equipment:
         vi: "Dao găm ẩn"
         zh_CN: "无锋匕首"
         zh_TW: "無鋒匕首"
+      sprite:
+        - img_icon_item_equip_5_23.png
 
     20042:
       name:
@@ -1063,6 +1145,8 @@ equipment:
         vi: "Lưới Mora"
         zh_CN: "莫拉的蜘蛛网"
         zh_TW: "莫拉的蜘蛛網"
+      sprite:
+        - img_icon_item_equip_5_35.png
 
     20043:
       name:
@@ -1084,6 +1168,8 @@ equipment:
         vi: "Đồng tiền may mắn của Scolas"
         zh_CN: "斯科拉斯的幸运硬币"
         zh_TW: "斯科拉斯的幸運硬幣"
+      sprite:
+        - img_icon_item_equip_5_41.png
 
     20044:
       name:
@@ -1105,6 +1191,8 @@ equipment:
         vi: "Báo thù"
         zh_CN: "复仇者之怒"
         zh_TW: "復仇者之怒"
+      sprite:
+        - img_icon_item_equip_5_36.png
 
     20045:
       name:
@@ -1126,6 +1214,8 @@ equipment:
         vi: "Thử Thách Vương Quốc Đã Mất"
         zh_CN: "失落之地的试炼"
         zh_TW: "失落之地的試煉"
+      sprite:
+        - img_icon_item_equip_5_20.png
 
     20051:
       name:
@@ -1147,6 +1237,8 @@ equipment:
         vi: "Mũ giáp hồi sinh"
         zh_CN: "复兴者头盔"
         zh_TW: "復興者頭盔"
+      sprite:
+        - img_icon_item_equip_4_7.png
 
     20052:
       name:
@@ -1168,6 +1260,8 @@ equipment:
         vi: "Đĩa hồi sinh"
         zh_CN: "复兴者铠甲"
         zh_TW: "復興者鎧甲"
+      sprite:
+        - img_icon_item_equip_4_5.png
 
     20053:
       name:
@@ -1189,6 +1283,8 @@ equipment:
         vi: "Găng tay hồi sinh"
         zh_CN: "复兴者手套"
         zh_TW: "復興者手套"
+      sprite:
+        - img_icon_item_equip_4_6.png
 
     20054:
       name:
@@ -1210,6 +1306,8 @@ equipment:
         vi: "Giáp ống chân hồi sinh"
         zh_CN: "复兴者腿甲"
         zh_TW: "復興者腿甲"
+      sprite:
+        - img_icon_item_equip_4_8.png
 
     20055:
       name:
@@ -1231,6 +1329,8 @@ equipment:
         vi: "Vương trượng của Lính gác rừng"
         zh_CN: "密林守卫的神杖"
         zh_TW: "密林守衛的神杖"
+      sprite:
+        - img_icon_item_equip_4_18.png
 
     20056:
       name:
@@ -1252,6 +1352,8 @@ equipment:
         vi: "Áo của Lính gác rừng"
         zh_CN: "密林守卫的鬼面"
         zh_TW: "密林守衛的鬼面"
+      sprite:
+        - img_icon_item_equip_4_16.png
 
     20057:
       name:
@@ -1273,6 +1375,8 @@ equipment:
         vi: "Áo choàng của Lính gác rừng"
         zh_CN: "密林守卫的长袍"
         zh_TW: "密林守衛的長袍"
+      sprite:
+        - img_icon_item_equip_4_19.png
 
     20058:
       name:
@@ -1294,6 +1398,8 @@ equipment:
         vi: "Vuốt của Lính gác rừng"
         zh_CN: "密林守卫的利爪"
         zh_TW: "密林守衛的利爪"
+      sprite:
+        - img_icon_item_equip_4_17.png
 
     20059:
       name:
@@ -1315,6 +1421,8 @@ equipment:
         vi: "Hoa anh đào Fukubuki"
         zh_CN: "樱落"
         zh_TW: "櫻落"
+      sprite:
+        - img_icon_item_equip_4_28.png
 
     20060:
       name:
@@ -1336,6 +1444,8 @@ equipment:
         vi: "Thời đại vàng"
         zh_CN: "流金岁月"
         zh_TW: "流金歲月"
+      sprite:
+        - img_icon_item_equip_4_27.png
 
     20061:
       name:
@@ -1357,6 +1467,8 @@ equipment:
         vi: "Trái tim Thánh nữ"
         zh_CN: "圣者之心"
         zh_TW: "聖者之心"
+      sprite:
+        - img_icon_item_equip_4_22.png
 
     20062:
       name:
@@ -1378,6 +1490,8 @@ equipment:
         vi: "Sự u buồn vực thẳm"
         zh_CN: "深渊凝视"
         zh_TW: "深淵凝視"
+      sprite:
+        - img_icon_item_equip_4_24.png
 
     20063:
       name:
@@ -1399,6 +1513,8 @@ equipment:
         vi: "Dòng dõi phù thủy"
         zh_CN: "魔女之裔"
         zh_TW: "魔女之裔"
+      sprite:
+        - img_icon_item_equip_4_20.png
 
     20064:
       name:
@@ -1420,6 +1536,8 @@ equipment:
         vi: "Phước lành của chúa tể bóng tối"
         zh_CN: "索隆的护佑"
         zh_TW: "索隆的護佑"
+      sprite:
+        - img_icon_item_equip_4_25.png
 
     20065:
       name:
@@ -1441,6 +1559,8 @@ equipment:
         vi: "Linh Hồn Của Quinn"
         zh_CN: "奎因之魂"
         zh_TW: "奎因之魂"
+      sprite:
+        - img_icon_item_equip_4_15.png
 
     20066:
       name:
@@ -1462,6 +1582,8 @@ equipment:
         vi: "Sự đau đớn của Iset"
         zh_CN: "伊西斯的隐忍"
         zh_TW: "伊西斯的隱忍"
+      sprite:
+        - img_icon_item_equip_4_26.png
 
     20067:
       name:
@@ -1483,6 +1605,8 @@ equipment:
         vi: "Sự tàn bạo của Seth"
         zh_CN: "赛特的残暴"
         zh_TW: "賽特的殘暴"
+      sprite:
+        - img_icon_item_equip_4_23.png
 
     20068:
       name:
@@ -1504,6 +1628,8 @@ equipment:
         vi: "Sự nhân văn của Karuak"
         zh_CN: "卡鲁拉克的谦逊"
         zh_TW: "卡魯拉克的謙遜"
+      sprite:
+        - img_icon_item_equip_4_13.png
 
     20069:
       name:
@@ -1525,6 +1651,8 @@ equipment:
         vi: "Giáp cuồng tín"
         zh_CN: "狂热者裙甲"
         zh_TW: "狂熱者裙甲"
+      sprite:
+        - img_icon_item_equip_4_14.png
 
     20070:
       name:
@@ -1546,6 +1674,8 @@ equipment:
         vi: "Đấu sĩ"
         zh_CN: "角斗士"
         zh_TW: "角鬥士"
+      sprite:
+        - img_icon_item_equip_4_12.png
 
     20071:
       name:
@@ -1567,6 +1697,8 @@ equipment:
         vi: "Tay đua trên mây"
         zh_CN: "彩云追月"
         zh_TW: "彩雲追月"
+      sprite:
+        - img_icon_item_equip_4_1.png
 
     20072:
       name:
@@ -1588,6 +1720,8 @@ equipment:
         vi: "Bước chân sương giá"
         zh_CN: "寒冰之境"
         zh_TW: "寒冰之境"
+      sprite:
+        - img_icon_item_equip_4_9.png
 
     20073:
       name:
@@ -1609,6 +1743,8 @@ equipment:
         vi: "Bước chân lửa"
         zh_CN: "火凤燎原"
         zh_TW: "火鳳燎原"
+      sprite:
+        - img_icon_item_equip_4_11.png
 
     20074:
       name:
@@ -1630,6 +1766,8 @@ equipment:
         vi: "Mặt Dây Chuyền Thi Sĩ"
         zh_CN: "吟游诗人的咏叹"
         zh_TW: "吟遊詩人的詠嘆"
+      sprite:
+        - img_icon_item_equip_4_4.png
 
     20075:
       name:
@@ -1651,6 +1789,8 @@ equipment:
         vi: "Phán Xử Im Lặng"
         zh_CN: "沉寂审判"
         zh_TW: "沉寂審判"
+      sprite:
+        - img_icon_item_equip_4_2.png
 
     20076:
       name:
@@ -1672,6 +1812,8 @@ equipment:
         vi: "Bùa Hộ Mệnh Delane"
         zh_CN: "德莱恩的护符"
         zh_TW: "德萊恩的護符"
+      sprite:
+        - img_icon_item_equip_4_3.png
 
     20077:
       name:
@@ -1693,6 +1835,8 @@ equipment:
         vi: "Lưỡi hái của Peter"
         zh_CN: "皮特的镰刀"
         zh_TW: "皮特的鐮刀"
+      sprite:
+        - img_icon_item_equip_4_21.png
 
     20078:
       name:
@@ -1714,6 +1858,8 @@ equipment:
         vi: "Nhẫn màu đỏ thẫm"
         zh_CN: "赤血之戒"
         zh_TW: "赤血之戒"
+      sprite:
+        - img_icon_item_equip_4_10.png
 
     20079:
       name:
@@ -1735,6 +1881,8 @@ equipment:
         vi: "Khăn trùm người gặt"
         zh_CN: "收获者头巾"
         zh_TW: "收穫者頭巾"
+      sprite:
+        - img_icon_item_equip_3_12.png
 
     20080:
       name:
@@ -1756,6 +1904,8 @@ equipment:
         vi: "Áo choàng người gặt"
         zh_CN: "收获者罩袍"
         zh_TW: "收穫者罩袍"
+      sprite:
+        - img_icon_item_equip_3_13.png
 
     20081:
       name:
@@ -1777,6 +1927,8 @@ equipment:
         vi: "Ống Quần Người Thu Hoạch"
         zh_CN: "收获者长裤"
         zh_TW: "收穫者長褲"
+      sprite:
+        - img_icon_item_equip_3_14.png
 
     20082:
       name:
@@ -1798,6 +1950,8 @@ equipment:
         vi: "Giày người gặt"
         zh_CN: "收获者筒靴"
         zh_TW: "收穫者筒靴"
+      sprite:
+        - img_icon_item_equip_3_15.png
 
     20083:
       name:
@@ -1819,6 +1973,8 @@ equipment:
         vi: "Giáp chiến tranh lộng gió"
         zh_CN: "狂风战盔"
         zh_TW: "狂風戰盔"
+      sprite:
+        - img_icon_item_equip_3_6.png
 
     20084:
       name:
@@ -1840,6 +1996,8 @@ equipment:
         vi: "Giáp ngực lộng gió"
         zh_CN: "狂风胸甲"
         zh_TW: "狂風胸甲"
+      sprite:
+        - img_icon_item_equip_3_4.png
 
     20085:
       name:
@@ -1861,6 +2019,8 @@ equipment:
         vi: "Giáp tay lộng gió"
         zh_CN: "狂风护腕"
         zh_TW: "狂風護腕"
+      sprite:
+        - img_icon_item_equip_3_3.png
 
     20086:
       name:
@@ -1882,6 +2042,8 @@ equipment:
         vi: "Giày lộng gió"
         zh_CN: "狂风长靴"
         zh_TW: "狂風長靴"
+      sprite:
+        - img_icon_item_equip_3_5.png
 
     20087:
       name:
@@ -1903,6 +2065,8 @@ equipment:
         vi: "Rìu lửa"
         zh_CN: "炽炎之斧"
         zh_TW: "熾炎之斧"
+      sprite:
+        - img_icon_item_equip_3_1.png
 
     20088:
       name:
@@ -1924,6 +2088,8 @@ equipment:
         vi: "Gậy Mất mát"
         zh_CN: "失落之杖"
         zh_TW: "失落之杖"
+      sprite:
+        - img_icon_item_equip_3_7.png
 
     20089:
       name:
@@ -1945,6 +2111,8 @@ equipment:
         vi: "Khiên của người giữ cửa"
         zh_CN: "名门之盾"
         zh_TW: "名門之盾"
+      sprite:
+        - img_icon_item_equip_3_10.png
 
     20090:
       name:
@@ -1966,6 +2134,8 @@ equipment:
         vi: "Mũ giáp Chinh phạt"
         zh_CN: "远征战盔"
         zh_TW: "遠征戰盔"
+      sprite:
+        - img_icon_item_equip_3_19.png
 
     20091:
       name:
@@ -1987,6 +2157,8 @@ equipment:
         vi: "Áo giáp nặng của Chỉ huy"
         zh_CN: "指挥官重铠"
         zh_TW: "指揮官重鎧"
+      sprite:
+        - img_icon_item_equip_3_20.png
 
     20092:
       name:
@@ -2008,6 +2180,8 @@ equipment:
         vi: "Bài thánh ca"
         zh_CN: "圣女之歌"
         zh_TW: "聖女之歌"
+      sprite:
+        - img_icon_item_equip_3_11.png
 
     20093:
       name:
@@ -2029,6 +2203,8 @@ equipment:
         vi: "Bàn tay của Calvin"
         zh_CN: "卡尔文之手"
         zh_TW: "卡爾文之手"
+      sprite:
+        - img_icon_item_equip_3_2.png
 
     20094:
       name:
@@ -2050,6 +2226,8 @@ equipment:
         vi: "Giáp ống chân của người bị tù đày biệt xứ"
         zh_CN: "流放者胫甲"
         zh_TW: "流放者脛甲"
+      sprite:
+        - img_icon_item_equip_3_8.png
 
     20095:
       name:
@@ -2071,6 +2249,8 @@ equipment:
         vi: "Ống quần lính gác"
         zh_CN: "守望者长裤"
         zh_TW: "守望者長褲"
+      sprite:
+        - img_icon_item_equip_3_17.png
 
     20096:
       name:
@@ -2092,6 +2272,8 @@ equipment:
         vi: "Chó săn đỏ"
         zh_CN: "猩红猎犬"
         zh_TW: "猩紅獵犬"
+      sprite:
+        - img_icon_item_equip_3_16.png
 
     20097:
       name:
@@ -2113,6 +2295,8 @@ equipment:
         vi: "Kêu gọi sự trung thành"
         zh_CN: "忠诚召唤"
         zh_TW: "忠誠召喚"
+      sprite:
+        - img_icon_item_equip_3_21.png
 
     20098:
       name:
@@ -2134,6 +2318,8 @@ equipment:
         vi: "Vòng cổ xương người của Lohar"
         zh_CN: "洛哈的兽骨项链"
         zh_TW: "洛哈的獸骨項鏈"
+      sprite:
+        - img_icon_item_equip_3_9.png
 
     20099:
       name:
@@ -2155,6 +2341,8 @@ equipment:
         vi: "Vật tổ man rợ"
         zh_CN: "野蛮图腾"
         zh_TW: "野蠻圖騰"
+      sprite:
+        - img_icon_item_equip_3_18.png
 
     20100:
       name:
@@ -2176,6 +2364,8 @@ equipment:
         vi: "Kích Tiên phong"
         zh_CN: "先锋长戟"
         zh_TW: "先鋒長戟"
+      sprite:
+        - img_icon_item_equip_2_9.png
 
     20101:
       name:
@@ -2197,6 +2387,8 @@ equipment:
         vi: "Giám ống chân của quân tiên phong"
         zh_CN: "先锋胫甲"
         zh_TW: "先鋒脛甲"
+      sprite:
+        - img_icon_item_equip_2_8.png
 
     20102:
       name:
@@ -2218,6 +2410,8 @@ equipment:
         vi: "Thanh đao phước lành"
         zh_CN: "福佑之刃"
         zh_TW: "福佑之刃"
+      sprite:
+        - img_icon_item_equip_2_3.png
 
     20103:
       name:
@@ -2239,6 +2433,8 @@ equipment:
         vi: "Mũ giáp của sự sợ hãi"
         zh_CN: "敬畏之盔"
         zh_TW: "敬畏之盔"
+      sprite:
+        - img_icon_item_equip_2_4.png
 
     20104:
       name:
@@ -2260,6 +2456,8 @@ equipment:
         vi: "Mũ giáp phượng hoàng"
         zh_CN: "凤翅盔"
         zh_TW: "鳳翅盔"
+      sprite:
+        - img_icon_item_equip_2_1.png
 
     20105:
       name:
@@ -2281,6 +2479,8 @@ equipment:
         vi: "Áo giáp bộ binh"
         zh_CN: "步人甲"
         zh_TW: "步人甲"
+      sprite:
+        - img_icon_item_equip_2_2.png
 
     20106:
       name:
@@ -2302,6 +2502,8 @@ equipment:
         vi: "Đĩa Milanese"
         zh_CN: "米兰盔甲"
         zh_TW: "米蘭盔甲"
+      sprite:
+        - img_icon_item_equip_2_5.png
 
     20107:
       name:
@@ -2323,6 +2525,8 @@ equipment:
         vi: "Quần Lính cảnh binh"
         zh_CN: "游侠长裤"
         zh_TW: "遊俠長褲"
+      sprite:
+        - img_icon_item_equip_2_12.png
 
     20108:
       name:
@@ -2344,6 +2548,8 @@ equipment:
         vi: "Găng tay da"
         zh_CN: "皮革手套"
         zh_TW: "皮革手套"
+      sprite:
+        - img_icon_item_equip_2_6.png
 
     20109:
       name:
@@ -2365,6 +2571,8 @@ equipment:
         vi: "Áo choàng bằng đồng"
         zh_CN: "青铜护腕"
         zh_TW: "青銅護腕"
+      sprite:
+        - img_icon_item_equip_2_7.png
 
     20110:
       name:
@@ -2386,6 +2594,8 @@ equipment:
         vi: "Giày Mũi Nhọn"
         zh_CN: "刃靴"
         zh_TW: "刃靴"
+      sprite:
+        - img_icon_item_equip_2_10.png
 
     20111:
       name:
@@ -2407,6 +2617,8 @@ equipment:
         vi: "Giày cổ cao"
         zh_CN: "敬畏之靴"
         zh_TW: "敬畏之靴"
+      sprite:
+        - img_icon_item_equip_2_11.png
 
     20112:
       name:
@@ -2428,6 +2640,8 @@ equipment:
         vi: "Kiếm dài sắt bén"
         zh_CN: "锋利长剑"
         zh_TW: "鋒利長劍"
+      sprite:
+        - img_icon_item_equip_1_3.png
 
     20113:
       name:
@@ -2449,6 +2663,8 @@ equipment:
         vi: "Mũ sắt"
         zh_CN: "铁制头盔"
         zh_TW: "鐵製頭盔"
+      sprite:
+        - img_icon_item_equip_1_2.png
 
     20114:
       name:
@@ -2470,6 +2686,8 @@ equipment:
         vi: "Thư chuỗi"
         zh_CN: "锁子甲"
         zh_TW: "鎖子甲"
+      sprite:
+        - img_icon_item_equip_1_1.png
 
     20115:
       name:
@@ -2491,6 +2709,8 @@ equipment:
         vi: "Quần ống túm thô"
         zh_CN: "粗布裤子"
         zh_TW: "粗布褲子"
+      sprite:
+        - img_icon_item_equip_1_4.png
 
     20116:
       name:
@@ -2512,6 +2732,8 @@ equipment:
         vi: "Găng tay vải"
         zh_CN: "棉麻手套"
         zh_TW: "棉麻手套"
+      sprite:
+        - img_icon_item_equip_1_5.png
 
     20117:
       name:
@@ -2533,6 +2755,8 @@ equipment:
         vi: "Giày cao gót chắc chắn"
         zh_CN: "耐用的布鞋"
         zh_TW: "耐用的布鞋"
+      sprite:
+        - img_icon_item_equip_1_6.png
 
     20118:
       name:
@@ -2554,6 +2778,8 @@ equipment:
         vi: "Trống Trận Karuak"
         zh_CN: "克拉克的战鼓"
         zh_TW: "克拉克的戰鼓"
+      sprite:
+        - img_icon_item_equip_5_51.png
 
     20119:
       name:
@@ -2575,6 +2801,8 @@ equipment:
         vi: "Tiếng Gọi Của Seth"
         zh_CN: "赛特的呼唤"
         zh_TW: "賽特的呼喚"
+      sprite:
+        - img_icon_item_equip_5_52.png
 
     20120:
       name:
@@ -2596,6 +2824,8 @@ equipment:
         vi: "Sẹo Gió"
         zh_CN: "凛风之痕"
         zh_TW: "凜風之痕"
+      sprite:
+        - img_icon_item_equip_4_29.png
 
     20121:
       name:
@@ -2617,6 +2847,8 @@ equipment:
         vi: "Mưu Kế Cổ Xưa"
         zh_CN: "上古兵书"
         zh_TW: "上古兵書"
+      sprite:
+        - img_icon_item_equip_4_30.png
 
     20122:
       name:
@@ -2638,6 +2870,8 @@ equipment:
         vi: "Mũ Nộ Mục Thương Lang"
         zh_CN: "黄昏揭示者"
         zh_TW: "蒼狼的怒目頭盔"
+      sprite:
+        - img_icon_item_equip_5_55.png
 
     20123:
       name:
@@ -2659,6 +2893,8 @@ equipment:
         vi: "Giáp Da Hộ Vệ Thương Lang"
         zh_CN: "苍狼的怒目头盔"
         zh_TW: "蒼狼的守護皮甲"
+      sprite:
+        - img_icon_item_equip_5_54.png
 
     20124:
       name:
@@ -2680,6 +2916,8 @@ equipment:
         vi: "Yết Thị Hoàng Hôn"
         zh_CN: "苍狼的守护皮甲"
         zh_TW: "黃昏揭示者"
+      sprite:
+        - img_icon_item_equip_5_53.png
 
     20125:
       name:
@@ -2701,6 +2939,8 @@ equipment:
         vi: "Găng Tay Bi Minh Thương Lang"
         zh_CN: "苍狼的悲鸣护手"
         zh_TW: "蒼狼的悲鳴護手"
+      sprite:
+        - img_icon_item_equip_5_57.png
 
     20126:
       name:
@@ -2722,6 +2962,8 @@ equipment:
         vi: "Quần Da Cao Ngạo Thương Lang"
         zh_CN: "苍狼的孤高皮裙"
         zh_TW: "蒼狼的孤高皮裙"
+      sprite:
+        - img_icon_item_equip_5_56.png
 
     20127:
       name:
@@ -2743,6 +2985,8 @@ equipment:
         vi: "Giày Đinh Gầm Rú Thương Lang"
         zh_CN: "苍狼的咆哮刃靴"
         zh_TW: "蒼狼的咆哮刃靴"
+      sprite:
+        - img_icon_item_equip_5_58.png
 
     20128:
       name:
@@ -2764,6 +3008,8 @@ equipment:
         vi: "Giáp Tay Bạc Màu Kỵ Sĩ"
         zh_CN: "骑士誓约之弓"
         zh_TW: "騎士銳痕手鎧"
+      sprite:
+        - img_icon_item_equip_4_33.png
 
     20129:
       name:
@@ -2785,6 +3031,8 @@ equipment:
         vi: "Quần Giáp Thắng Lợi Kỵ Sĩ"
         zh_CN: "骑士钢铁护额"
         zh_TW: "騎士勝利裙甲"
+      sprite:
+        - img_icon_item_equip_4_32.png
 
     20130:
       name:
@@ -2806,6 +3054,8 @@ equipment:
         vi: "Ủng Chiến Lãnh Phong Kỵ Sĩ"
         zh_CN: "骑士英魂披风"
         zh_TW: "騎士冷鋒戰靴"
+      sprite:
+        - img_icon_item_equip_4_31.png
 
     20131:
       name:
@@ -2827,6 +3077,8 @@ equipment:
         vi: "Băng Trán Gang Thép Kỵ Sĩ"
         zh_CN: "骑士锐痕手铠"
         zh_TW: "騎士鋼鐵護額"
+      sprite:
+        - img_icon_item_equip_4_35.png
 
     20132:
       name:
@@ -2848,6 +3100,8 @@ equipment:
         vi: "Áo Khoác Anh Hồn Kỵ Sĩ"
         zh_CN: "骑士胜利裙甲"
         zh_TW: "騎士英魂披風"
+      sprite:
+        - img_icon_item_equip_4_34.png
 
     20133:
       name:
@@ -2869,6 +3123,8 @@ equipment:
         vi: "Cung Thệ Ước Kỵ Sĩ"
         zh_CN: "骑士冷锋战靴"
         zh_TW: "騎士誓約之弓"
+      sprite:
+        - img_icon_item_equip_4_36.png
 
     20134:
       name:
@@ -2890,6 +3146,8 @@ equipment:
         vi: "Trượng Than Thở Vu Chúc"
         zh_CN: "巫祝的咏叹之杖"
         zh_TW: "巫祝的詠嘆之杖"
+      sprite:
+        - img_icon_item_equip_6_6.png
 
     20135:
       name:
@@ -2911,6 +3169,8 @@ equipment:
         vi: "Mão Tóc Khô Mộc Vu Chúc"
         zh_CN: "巫祝的枯木发冠"
         zh_TW: "巫祝的枯木髮冠"
+      sprite:
+        - img_icon_item_equip_6_2.png
 
     20136:
       name:
@@ -2932,6 +3192,8 @@ equipment:
         vi: "Áo Choàng Mê Chú Vu Chúc"
         zh_CN: "巫祝的迷咒斗篷"
         zh_TW: "巫祝的迷咒斗篷"
+      sprite:
+        - img_icon_item_equip_6_4.png
 
     20137:
       name:
@@ -2953,6 +3215,8 @@ equipment:
         vi: "Giáp Tay Sắc Đỏ Vu Chúc"
         zh_CN: "巫祝的赤色护腕"
         zh_TW: "巫祝的赤色護腕"
+      sprite:
+        - img_icon_item_equip_6_1.png
 
     20138:
       name:
@@ -2974,6 +3238,8 @@ equipment:
         vi: "Quần Dài Lấp Lánh Vu Chúc"
         zh_CN: "巫祝的流光长裤"
         zh_TW: "巫祝的流光長褲"
+      sprite:
+        - img_icon_item_equip_6_3.png
 
     20139:
       name:
@@ -2995,6 +3261,8 @@ equipment:
         vi: "Giày Ngắn Bùn Lầy Vu Chúc"
         zh_CN: "巫祝的泥泞短靴"
         zh_TW: "巫祝的泥濘短靴"
+      sprite:
+        - img_icon_item_equip_6_5.png
 
     20140:
       name:
@@ -3016,6 +3284,8 @@ equipment:
         vi: "Quyền Trượng Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的权杖"
         zh_TW: "輝煌女神的權杖"
+      sprite:
+        - img_icon_item_equip_5_62.png
 
     20141:
       name:
@@ -3037,6 +3307,8 @@ equipment:
         vi: "Kim Khôi Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的金盔"
         zh_TW: "輝煌女神的金盔"
+      sprite:
+        - img_icon_item_equip_5_63.png
 
     20142:
       name:
@@ -3058,6 +3330,8 @@ equipment:
         vi: "Chiến Y Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的战衣"
         zh_TW: "輝煌女神的戰衣"
+      sprite:
+        - img_icon_item_equip_5_59.png
 
     20143:
       name:
@@ -3079,6 +3353,8 @@ equipment:
         vi: "Giáp Tay Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的腕甲"
         zh_TW: "輝煌女神的腕甲"
+      sprite:
+        - img_icon_item_equip_5_61.png
 
     20144:
       name:
@@ -3100,6 +3376,8 @@ equipment:
         vi: "Xà Cạp Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的绑腿"
         zh_TW: "輝煌女神的綁腿"
+      sprite:
+        - img_icon_item_equip_5_64.png
 
     20145:
       name:
@@ -3121,6 +3399,8 @@ equipment:
         vi: "Giày Chiến Nữ Thần Huy Hoàng"
         zh_CN: "辉煌女神的战靴"
         zh_TW: "輝煌女神的戰靴"
+      sprite:
+        - img_icon_item_equip_5_60.png
 
     20164:
       name:
@@ -3142,6 +3422,8 @@ equipment:
         vi: "Lông Vũ Cháy Trụi"
         zh_CN: "焚烬之羽"
         zh_TW: "焚燼之羽"
+      sprite:
+        - img_icon_item_equip_7_1.png
 
     20166:
       name:
@@ -3163,6 +3445,8 @@ equipment:
         vi: "Chuôi Kiếm Anh Hùng"
         zh_CN: "传奇剑柄"
         zh_TW: "傳奇劍柄"
+      sprite:
+        - img_icon_item_equip_10_3.png
 
     20167:
       name:
@@ -3184,6 +3468,8 @@ equipment:
         vi: "Yên Ngựa Ngàn Lời Chúc"
         zh_CN: "万福金鞍"
         zh_TW: "萬福金鞍"
+      sprite:
+        - img_icon_item_equip_9_3.png
 
     20201:
       name:
@@ -3205,6 +3491,8 @@ equipment:
         vi: "Bí Vật – Cờ Hiệu Thiết Kỵ"
         zh_CN: "秘饰·铁骑之旌"
         zh_TW: "秘飾·鐵騎之旌"
+      sprite:
+        - img_icon_item_S11treasure2.png
 
     20202:
       name:
@@ -3226,6 +3514,8 @@ equipment:
         vi: "Bí Vật – Ghim Cài Cuồng Chiến"
         zh_CN: "秘饰·狂战胸针"
         zh_TW: "秘飾·狂戰胸針"
+      sprite:
+        - img_icon_item_S11treasure1.png
 
     20203:
       name:
@@ -3247,6 +3537,8 @@ equipment:
         vi: "Bí Vật – Mũi Tên Phá Hồn"
         zh_CN: "秘饰·破魂羽矢"
         zh_TW: "秘飾·破魂羽矢"
+      sprite:
+        - img_icon_item_S11treasure3.png
 
     20401:
       name:
@@ -3268,6 +3560,8 @@ equipment:
         vi: "Bí Vật - Đai Lưng Megingjörð"
         zh_CN: "秘饰·雷神腰带"
         zh_TW: "秘飾·雷神腰帶"
+      sprite:
+        - img_icon_item_S19treasure1.png
 
     20402:
       name:
@@ -3289,3 +3583,5 @@ equipment:
         vi: "Bí Vật - Huy Hiệu Nike"
         zh_CN: "秘饰·胜耀之徽"
         zh_TW: "秘飾・勝耀之徽"
+      sprite:
+        - img_icon_item_S20treasure1.png
