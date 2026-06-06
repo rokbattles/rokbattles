@@ -23,7 +23,7 @@ loot:
         zh_CN: "食物"
         zh_TW: "食物"
       sprite:
-        - img_food.Sprite.5736306850957416576__7a9375b082f2.png
+        - img_food.png
 
     2:
       name:
@@ -46,7 +46,7 @@ loot:
         zh_CN: "木材"
         zh_TW: "木材"
       sprite:
-        - img_wood.Sprite.2006013139117308715__2f42aad707b9.png
+        - img_wood.png
 
     3:
       name:
@@ -69,7 +69,7 @@ loot:
         zh_CN: "石料"
         zh_TW: "石料"
       sprite:
-        - img_stone.Sprite.-3023278319593103630__ba519b16748e.png
+        - img_stone.png
 
     4:
       name:
@@ -92,7 +92,7 @@ loot:
         zh_CN: "金币"
         zh_TW: "金幣"
       sprite:
-        - img_gold.Sprite.-1045916506475499754__81dbc789cb6d.png
+        - img_gold.png
 
     5:
       name:
@@ -115,7 +115,7 @@ loot:
         zh_CN: "宝石"
         zh_TW: "寶石"
       sprite:
-        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
+        - img_gem.png
 
     9:
       name:
@@ -138,7 +138,7 @@ loot:
         zh_CN: "水晶"
         zh_TW: "水晶"
       sprite:
-        - img_Crystal.Sprite.-6185304765529872521__292ba8e3c82a.png
+        - img_Crystal.png
 
     10:
       name:
@@ -161,7 +161,7 @@ loot:
         zh_CN: "治愈药剂"
         zh_TW: "治癒藥劑"
       sprite:
-        - img_icon_item_2225.Sprite.-397372876200005593__08262787ffb1.png
+        - img_icon_item_2225.png
 
     25:
       name:
@@ -184,7 +184,7 @@ loot:
         zh_CN: "宝石"
         zh_TW: "寶石"
       sprite:
-        - img_gem.Sprite.-5489749051654558138__a3f1c6e6fca9.png
+        - img_gem.png
 
   2:
     26:
@@ -208,8 +208,8 @@ loot:
         zh_CN: "10 宝石"
         zh_TW: "10 寶石"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_19.png
 
     27:
       name:
@@ -232,8 +232,8 @@ loot:
         zh_CN: "50 宝石"
         zh_TW: "50 寶石"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_19.png
 
     28:
       name:
@@ -256,8 +256,8 @@ loot:
         zh_CN: "100 宝石"
         zh_TW: "100 寶石"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_19.png
 
     29:
       name:
@@ -280,8 +280,8 @@ loot:
         zh_CN: "200 宝石"
         zh_TW: "200 寶石"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_19.png
 
     30:
       name:
@@ -304,8 +304,8 @@ loot:
         zh_CN: "500 宝石"
         zh_TW: "500 寶石"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_19.png
 
     32:
       name:
@@ -328,8 +328,8 @@ loot:
         zh_CN: "2,000 宝石"
         zh_TW: "2,000 寶石"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_19.Sprite.1418466283820594549__970263b35762.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_19.png
 
     34:
       name:
@@ -352,8 +352,8 @@ loot:
         zh_CN: "1分钟加速"
         zh_TW: "1分鐘加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_9.png
 
     36:
       name:
@@ -376,8 +376,8 @@ loot:
         zh_CN: "60分钟加速"
         zh_TW: "60分鐘加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_9.png
 
     37:
       name:
@@ -400,8 +400,8 @@ loot:
         zh_CN: "3小时加速"
         zh_TW: "3小時加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_9.png
 
     38:
       name:
@@ -424,8 +424,8 @@ loot:
         zh_CN: "8小时加速"
         zh_TW: "8小時加速"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_9.png
 
     44:
       name:
@@ -448,8 +448,8 @@ loot:
         zh_CN: "定点迁城"
         zh_TW: "定點遷城"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_29.Sprite.4816277751739750476__29d959f2f444.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_29.png
 
     45:
       name:
@@ -472,8 +472,8 @@ loot:
         zh_CN: "随机迁城"
         zh_TW: "隨機遷城"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_31.Sprite.-6480655314507567596__3bdd29222afa.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_31.png
 
     47:
       name:
@@ -496,8 +496,8 @@ loot:
         zh_CN: "白银钥匙"
         zh_TW: "白銀鑰匙"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_45.Sprite.-5650331185120659780__5f65b060d00f.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_45.png
 
     48:
       name:
@@ -520,8 +520,8 @@ loot:
         zh_CN: "黄金钥匙"
         zh_TW: "黃金鑰匙"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_46.Sprite.8443992211845787653__7c8e4d94f592.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_46.png
 
     58:
       name:
@@ -544,8 +544,8 @@ loot:
         zh_CN: "5分钟加速"
         zh_TW: "5分鐘加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_9.png
 
     60:
       name:
@@ -568,8 +568,8 @@ loot:
         zh_CN: "30分钟加速"
         zh_TW: "30分鐘加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_9.Sprite.8115798336092316083__777698be122c.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_9.png
 
     65:
       name:
@@ -592,8 +592,8 @@ loot:
         zh_CN: "30分钟建造加速"
         zh_TW: "30分鐘建造加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_10.Sprite.5318239789615846731__1c97f7e541a1.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_10.png
 
     71:
       name:
@@ -616,8 +616,8 @@ loot:
         zh_CN: "1分钟训练加速"
         zh_TW: "1分鐘訓練加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_12.png
 
     72:
       name:
@@ -640,8 +640,8 @@ loot:
         zh_CN: "5分钟训练加速"
         zh_TW: "5分鐘訓練加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_12.png
 
     74:
       name:
@@ -664,8 +664,8 @@ loot:
         zh_CN: "15分钟训练加速"
         zh_TW: "15分鐘訓練加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_12.png
 
     76:
       name:
@@ -688,8 +688,8 @@ loot:
         zh_CN: "60分钟训练加速"
         zh_TW: "60分鐘訓練加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_12.png
 
     77:
       name:
@@ -712,8 +712,8 @@ loot:
         zh_CN: "3小时训练加速"
         zh_TW: "3小時訓練加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_12.Sprite.582727247363867365__9e4334609ea8.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_12.png
 
     85:
       name:
@@ -736,8 +736,8 @@ loot:
         zh_CN: "30分钟研究加速"
         zh_TW: "30分鐘研究加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_13.Sprite.-784960241557596364__04deea8c7788.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_13.png
 
     92:
       name:
@@ -760,8 +760,8 @@ loot:
         zh_CN: "5分钟治疗加速"
         zh_TW: "5分鐘治療加速"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_11.png
 
     96:
       name:
@@ -784,8 +784,8 @@ loot:
         zh_CN: "60分钟治疗加速"
         zh_TW: "60分鐘治療加速"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_11.Sprite.1357832899314537__e7c7ed72e117.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_11.png
 
     109:
       name:
@@ -808,8 +808,8 @@ loot:
         zh_CN: "誓盟之书"
         zh_TW: "誓盟之書"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_24.Sprite.1000810112558960902__6d0f3ed615ff.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_24.png
 
     113:
       name:
@@ -832,8 +832,8 @@ loot:
         zh_CN: "12小时攻击强化"
         zh_TW: "12小時攻擊強化"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_26.Sprite.-5920047115381027567__7504b7b6239f.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_26.png
 
     114:
       name:
@@ -856,8 +856,8 @@ loot:
         zh_CN: "24小时攻击强化"
         zh_TW: "24小時攻擊強化"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_26.Sprite.-5920047115381027567__7504b7b6239f.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_26.png
 
     115:
       name:
@@ -880,8 +880,8 @@ loot:
         zh_CN: "12小时防御强化"
         zh_TW: "12小時防禦強化"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_27.png
 
     116:
       name:
@@ -904,8 +904,8 @@ loot:
         zh_CN: "24小时防御强化"
         zh_TW: "24小時防禦強化"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_27.Sprite.30152012822378307__4d55f2637e45.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_27.png
 
     # 25%
     120:
@@ -929,8 +929,8 @@ loot:
         zh_CN: "初级军队扩编"
         zh_TW: "初級軍隊擴編"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_35.Sprite.-6022566310603116478__be68d7d44757.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_35.png
 
     # 100 AP
     124:
@@ -954,8 +954,8 @@ loot:
         zh_CN: "初级行动力恢复"
         zh_TW: "初級行動力恢復"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_3.png
 
     # 500 AP
     125:
@@ -979,8 +979,8 @@ loot:
         zh_CN: "中级行动力恢复"
         zh_TW: "中級行動力恢復"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_3.png
 
     128:
       name:
@@ -1003,8 +1003,8 @@ loot:
         zh_CN: "等级1知识之书"
         zh_TW: "等級1知識之書"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_4.png
 
     129:
       name:
@@ -1027,8 +1027,8 @@ loot:
         zh_CN: "等级2知识之书"
         zh_TW: "等級2知識之書"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_4.png
 
     130:
       name:
@@ -1051,8 +1051,8 @@ loot:
         zh_CN: "等级3知识之书"
         zh_TW: "等級3知識之書"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_4.png
 
     131:
       name:
@@ -1075,8 +1075,8 @@ loot:
         zh_CN: "天赋重置"
         zh_TW: "天賦重置"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_2209.Sprite.-2902419969041532675__e72199fad192.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_2209.png
 
     141:
       name:
@@ -1099,8 +1099,8 @@ loot:
         zh_CN: "1,000 食物"
         zh_TW: "1,000 食物"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_23.Sprite.4308188145616510587__b87d268b0bcd.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_23.png
 
     142:
       name:
@@ -1123,8 +1123,8 @@ loot:
         zh_CN: "1,000 木材"
         zh_TW: "1,000 木材"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_22.Sprite.-6378098794990140693__be6145533d65.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_22.png
 
     143:
       name:
@@ -1147,8 +1147,8 @@ loot:
         zh_CN: "750 石料"
         zh_TW: "750 石料"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_21.Sprite.-3109613293361830943__0cb90cdd4336.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_21.png
 
     144:
       name:
@@ -1171,8 +1171,8 @@ loot:
         zh_CN: "500 金币"
         zh_TW: "500 金幣"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_20.Sprite.-3854421189056980114__3f71cbb3e85a.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_20.png
 
     145:
       name:
@@ -1195,8 +1195,8 @@ loot:
         zh_CN: "抵抗之箭"
         zh_TW: "抵抗之箭"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_2.Sprite.7520113341742508351__83947536e15e.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_2.png
 
     147:
       name:
@@ -1219,8 +1219,8 @@ loot:
         zh_CN: "等级4知识之书"
         zh_TW: "等級4知識之書"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_4.png
 
     148:
       name:
@@ -1243,8 +1243,8 @@ loot:
         zh_CN: "等级5知识之书"
         zh_TW: "等級5知識之書"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_4.Sprite.3792877751976589591__ca701e9a0407.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_4.png
 
     151:
       name:
@@ -1267,8 +1267,8 @@ loot:
         zh_CN: "5 VIP点数"
         zh_TW: "5 VIP點數"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_50.png
 
     155:
       name:
@@ -1291,8 +1291,8 @@ loot:
         zh_CN: "100 VIP点数"
         zh_TW: "100 VIP點數"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_50.Sprite.2112103113191814302__ca639e6920f5.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_50.png
 
     # 50 AP
     182:
@@ -1316,8 +1316,8 @@ loot:
         zh_CN: "紧急行动力恢复"
         zh_TW: "緊急行動力恢復"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_3.Sprite.6545125933290989157__8733999544bf.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_3.png
 
     # 20,000
     188:
@@ -1341,8 +1341,8 @@ loot:
         zh_CN: "等级5 预备部队"
         zh_TW: "等級5 預備部隊"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_76.png
 
     189:
       name:
@@ -1365,8 +1365,8 @@ loot:
         zh_CN: "等级6 预备部队"
         zh_TW: "等級6 預備部隊"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_76.Sprite.-8478448448741118069__cf69d253d666.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_76.png
 
     190:
       name:
@@ -1389,8 +1389,8 @@ loot:
         zh_CN: "水晶钥匙"
         zh_TW: "水晶鑰匙"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_2040.Sprite.-8896877877587276634__64515ff99b43.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_2040.png
 
     233:
       name:
@@ -1413,7 +1413,7 @@ loot:
         zh_CN: "阵营币"
         zh_TW: "陣營幣"
       sprite:
-        - img_icon_item_274.Sprite.2922146106772651713__7718e0b3bd48.png
+        - img_icon_item_274.png
 
     239:
       name:
@@ -1436,7 +1436,7 @@ loot:
         zh_CN: "科技币"
         zh_TW: "科技幣"
       sprite:
-        - img_icon_item_kvk2646.Sprite.2489482608633153126__d863cd51dbb5.png
+        - img_icon_item_kvk2646.png
 
     405:
       name:
@@ -1459,8 +1459,8 @@ loot:
         zh_CN: "5,000 个人积分"
         zh_TW: "5,000 個人積分"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_89.Sprite.110773705421280046__b4e556566dd5.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_89.png
 
     412:
       name:
@@ -1483,8 +1483,8 @@ loot:
         zh_CN: "皮革 (普通)"
         zh_TW: "皮革 (普通)"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_mat_30.Sprite.-899277241050317236__cf2ee768258a.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_mat_30.png
 
     413:
       name:
@@ -1507,8 +1507,8 @@ loot:
         zh_CN: "铁矿石 (普通)"
         zh_TW: "鐵礦石 (普通)"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_mat_25.Sprite.7654793971896976380__7752a4f64d41.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_mat_25.png
 
     414:
       name:
@@ -1531,8 +1531,8 @@ loot:
         zh_CN: "兽骨 (普通)"
         zh_TW: "獸骨 (普通)"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_mat_35.Sprite.251869861137381082__5ea61eca5d75.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_mat_35.png
 
     417:
       name:
@@ -1555,8 +1555,8 @@ loot:
         zh_CN: "乌木 (普通)"
         zh_TW: "烏木 (普通)"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_mat_15.Sprite.-2538357489674707961__280f4fb457ea.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_mat_15.png
 
     419:
       name:
@@ -1579,8 +1579,8 @@ loot:
         zh_CN: "皮革 (优秀)"
         zh_TW: "皮革 (優秀)"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_mat_29.Sprite.5478883628409344043__25eb66d51fb6.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_mat_29.png
 
     420:
       name:
@@ -1603,8 +1603,8 @@ loot:
         zh_CN: "铁矿石 (优秀)"
         zh_TW: "鐵礦石 (優秀)"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_mat_24.Sprite.8072268966102571235__95df03b13440.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_mat_24.png
 
     421:
       name:
@@ -1627,8 +1627,8 @@ loot:
         zh_CN: "兽骨 (优秀)"
         zh_TW: "獸骨 (優秀)"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_mat_34.Sprite.8991267780146024171__b2fcd9e91577.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_mat_34.png
 
     424:
       name:
@@ -1651,8 +1651,8 @@ loot:
         zh_CN: "乌木 (优秀)"
         zh_TW: "烏木 (優秀)"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_mat_14.Sprite.-5110219989689072000__dd94af144b3b.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_mat_14.png
 
     428:
       name:
@@ -1675,8 +1675,8 @@ loot:
         zh_CN: "兽骨（精英）"
         zh_TW: "獸骨（精英）"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_mat_33.Sprite.8784510727875336245__686f013d670e.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_mat_33.png
 
     435:
       name:
@@ -1699,8 +1699,8 @@ loot:
         zh_CN: "兽骨（史诗）"
         zh_TW: "獸骨（史詩）"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_mat_32.Sprite.3314737087164798687__f3df80ed5682.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_mat_32.png
 
     567:
       name:
@@ -1723,8 +1723,8 @@ loot:
         zh_CN: "君王之匙"
         zh_TW: "君王之匙"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_2086.Sprite.-4769084898354904771__ab183b9d65a5.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_2086.png
 
     # KVK 1 item
     577:
@@ -1748,7 +1748,7 @@ loot:
         zh_CN: "科技币"
         zh_TW: "科技幣"
       sprite:
-        - img_KVK_Coin2big.Sprite.-5192556106934865557__c5674f5d4b24.png
+        - img_KVK_Coin2big.png
 
     4304:
       name:
@@ -1897,8 +1897,8 @@ loot:
         zh_CN: "初级资源包A"
         zh_TW: "初級資源包A"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_48.png
 
     7004:
       name:
@@ -1921,8 +1921,8 @@ loot:
         zh_CN: "初级资源包B"
         zh_TW: "初級資源包B"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_48.png
 
     7005:
       name:
@@ -1945,8 +1945,8 @@ loot:
         zh_CN: "初级资源包C"
         zh_TW: "初級資源包C"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_48.png
 
     7006:
       name:
@@ -1969,8 +1969,8 @@ loot:
         zh_CN: "中级资源包"
         zh_TW: "中級資源包"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_48.Sprite.-178757702067627042__852775eae4f0.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_48.png
 
     # Normal
     7051:
@@ -1994,8 +1994,8 @@ loot:
         zh_CN: "装备材料箱"
         zh_TW: "裝備材料箱"
       sprite:
-        - img_icon_item_BGWhite.Sprite.-3482241854512601287__56a2c9f57356.png
-        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+        - img_icon_item_BGWhite.png
+        - img_icon_item_199.png
 
     # Advanced
     7052:
@@ -2019,8 +2019,8 @@ loot:
         zh_CN: "装备材料箱"
         zh_TW: "裝備材料箱"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_199.png
 
     # Elite
     7053:
@@ -2044,8 +2044,8 @@ loot:
         zh_CN: "装备材料箱"
         zh_TW: "裝備材料箱"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_199.png
 
     # Epic
     7054:
@@ -2069,8 +2069,8 @@ loot:
         zh_CN: "装备材料箱"
         zh_TW: "裝備材料箱"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_199.Sprite.6346166218017884800__a6946bb4db19.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_199.png
 
     8002:
       name:
@@ -2093,8 +2093,8 @@ loot:
         zh_CN: "等级2自选资源宝箱"
         zh_TW: "等級2自選資源寶箱"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_68.png
 
     8003:
       name:
@@ -2117,8 +2117,8 @@ loot:
         zh_CN: "等级3自选资源宝箱"
         zh_TW: "等級3自選資源寶箱"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_68.png
 
     8004:
       name:
@@ -2141,8 +2141,8 @@ loot:
         zh_CN: "等级4自选资源宝箱"
         zh_TW: "等級4自選資源寶箱"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_68.Sprite.-3174881341939556349__76cf4acc478b.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_68.png
 
     9989:
       name:
@@ -2165,8 +2165,8 @@ loot:
         zh_CN: "一捆璀璨的星光雕像"
         zh_TW: "一捆璀璨的星光雕像"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_HeroCarving_Stars04.Sprite.7542696492950506173__25670aa98ffd.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_HeroCarving_Stars04.png
 
     # Advanced
     9996:
@@ -2190,8 +2190,8 @@ loot:
         zh_CN: "陈旧的星光雕像"
         zh_TW: "陳舊的星光雕像"
       sprite:
-        - img_icon_item_BGGreen.Sprite.-3730235374750760315__ee67a28f6e4d.png
-        - img_icon_item_HeroCarving_Star2.Sprite.-4896788261184388954__d7758add4f0e.png
+        - img_icon_item_BGGreen.png
+        - img_icon_item_HeroCarving_Star2.png
 
     # Elite
     9997:
@@ -2215,8 +2215,8 @@ loot:
         zh_CN: "普通的星光雕像"
         zh_TW: "普通的星光雕像"
       sprite:
-        - img_icon_item_BGBlue.Sprite.2959590336938980375__7bfd465ed5a9.png
-        - img_icon_item_HeroCarving_Star3.Sprite.-9010997127951978096__f15e2082c509.png
+        - img_icon_item_BGBlue.png
+        - img_icon_item_HeroCarving_Star3.png
 
     # Epic
     9998:
@@ -2240,8 +2240,8 @@ loot:
         zh_CN: "崭新的星光雕像"
         zh_TW: "嶄新的星光雕像"
       sprite:
-        - img_icon_item_BGPurple.Sprite.-6826202297366345282__8ffdb02db3bf.png
-        - img_icon_item_HeroCarving_Star4.Sprite.-5367206491932855599__02b85af8f8f5.png
+        - img_icon_item_BGPurple.png
+        - img_icon_item_HeroCarving_Star4.png
 
     # Legendary
     9999:
@@ -2265,8 +2265,8 @@ loot:
         zh_CN: "璀璨的星光雕像"
         zh_TW: "璀璨的星光雕像"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_HeroCarving_Star5.Sprite.-7792003900206484865__4152c2fec8d1.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_HeroCarving_Star5.png
 
     10005:
       name:
@@ -2289,8 +2289,8 @@ loot:
         zh_CN: "传说统帅雕像"
         zh_TW: "傳說統帥雕像"
       sprite:
-        - img_icon_item_BGOrange.Sprite.-4613817503064826991__ba72b134b10f.png
-        - img_icon_item_HeroCarving_Universal5.Sprite.-7718458993068816883__7f227c4f54fb.png
+        - img_icon_item_BGOrange.png
+        - img_icon_item_HeroCarving_Universal5.png
 
   4:
     2:
