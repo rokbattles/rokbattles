@@ -107,11 +107,10 @@ pub fn unwrap_effective_payload(
     let inflated = inflate_first_zlib(&compressed.payload)
         .ok_or_else(|| "compressed wrapper did not contain zlib payload".to_string())?;
 
-    if let Some(inner) = parse_msg_wrapper(&inflated) {
-        if is_known_api(inner.api_id) {
+    if let Some(inner) = parse_msg_wrapper(&inflated)
+        && is_known_api(inner.api_id) {
             return Ok(UnwrappedPayload { api_id: Some(inner.api_id), payload: inner.payload });
         }
-    }
 
     if let Some(RawValue::LengthDelimited(report_data)) = protobuf_value(&inflated, 1)
         && let Some(inner) = parse_msg_wrapper(&report_data)
