@@ -87,7 +87,12 @@ pub fn parse_compressed_wrapper(data: &[u8]) -> Option<CompressedWrapper> {
     }
 }
 
-pub fn unwrap_effective_payload(data: &[u8]) -> Result<UnwrappedPayload, String> {
+/// Unwrap packet/container layers, accepting nested `Msg` payloads only when the API id passes
+/// the provided validator.
+pub fn unwrap_effective_payload(
+    data: &[u8],
+    is_known_api: impl Fn(u32) -> bool,
+) -> Result<UnwrappedPayload, String> {
     let Some(outer) = parse_msg_wrapper(data) else {
         return Ok(UnwrappedPayload { api_id: None, payload: data.to_vec() });
     };
@@ -102,12 +107,15 @@ pub fn unwrap_effective_payload(data: &[u8]) -> Result<UnwrappedPayload, String>
     let inflated = inflate_first_zlib(&compressed.payload)
         .ok_or_else(|| "compressed wrapper did not contain zlib payload".to_string())?;
 
-    if let Some(inner) = parse_msg_wrapper(&inflated) {
+    if let Some(inner) = parse_msg_wrapper(&inflated)
+        && is_known_api(inner.api_id)
+    {
         return Ok(UnwrappedPayload { api_id: Some(inner.api_id), payload: inner.payload });
     }
 
     if let Some(RawValue::LengthDelimited(report_data)) = protobuf_value(&inflated, 1)
         && let Some(inner) = parse_msg_wrapper(&report_data)
+        && is_known_api(inner.api_id)
     {
         return Ok(UnwrappedPayload { api_id: Some(inner.api_id), payload: inner.payload });
     }
@@ -185,6 +193,10 @@ impl<'a> ProtoCursor<'a> {
 
 #[cfg(test)]
 mod tests {
+    use std::io::Write;
+
+    use flate2::{Compression, write::ZlibEncoder};
+
     use super::*;
 
     #[test]
@@ -198,9 +210,77 @@ mod tests {
 
     #[test]
     fn unwrap_effective_payload_returns_plain_msg_payload() {
-        let unwrapped = unwrap_effective_payload(&[0x08, 0x0e, 0x12, 0x02, 0xaa, 0xbb]).unwrap();
+        let unwrapped =
+            unwrap_effective_payload(&[0x08, 0x0e, 0x12, 0x02, 0xaa, 0xbb], |_| true).unwrap();
 
         assert_eq!(unwrapped.api_id, Some(14));
         assert_eq!(unwrapped.payload, vec![0xaa, 0xbb]);
+    }
+
+    #[test]
+    fn validated_unwrap_rejects_unknown_report_data_msg_shape() {
+        let report_data = message_frame(2622, &[0xaa, 0xbb]);
+        let inflated = length_delimited_field(1, &report_data);
+        let compressed = compressed_frame(&inflated);
+        let outer = message_frame(9999, &compressed);
+
+        let unwrapped = unwrap_effective_payload(&outer, |api_id| api_id == 14).unwrap();
+
+        assert_eq!(unwrapped.api_id, None);
+        assert_eq!(unwrapped.payload, inflated);
+    }
+
+    #[test]
+    fn validated_unwrap_accepts_known_report_data_msg_shape() {
+        let report_data = message_frame(2622, &[0xaa, 0xbb]);
+        let inflated = length_delimited_field(1, &report_data);
+        let compressed = compressed_frame(&inflated);
+        let outer = message_frame(9999, &compressed);
+
+        let unwrapped = unwrap_effective_payload(&outer, |api_id| api_id == 2622).unwrap();
+
+        assert_eq!(unwrapped.api_id, Some(2622));
+        assert_eq!(unwrapped.payload, vec![0xaa, 0xbb]);
+    }
+
+    fn message_frame(api_id: u64, payload: &[u8]) -> Vec<u8> {
+        let mut out = Vec::new();
+        out.extend(varint_field(1, api_id));
+        out.extend(length_delimited_field(2, payload));
+        out
+    }
+
+    fn compressed_frame(inflated: &[u8]) -> Vec<u8> {
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(inflated).expect("zlib input should write");
+        let compressed = encoder.finish().expect("zlib should finish");
+
+        let mut out = Vec::new();
+        out.extend(varint_field(1, inflated.len() as u64));
+        out.extend(length_delimited_field(2, &compressed));
+        out
+    }
+
+    fn varint_field(field: u64, value: u64) -> Vec<u8> {
+        let mut out = encode_varint(field << 3);
+        out.extend(encode_varint(value));
+        out
+    }
+
+    fn length_delimited_field(field: u64, value: &[u8]) -> Vec<u8> {
+        let mut out = encode_varint((field << 3) | 2);
+        out.extend(encode_varint(value.len() as u64));
+        out.extend(value);
+        out
+    }
+
+    fn encode_varint(mut value: u64) -> Vec<u8> {
+        let mut out = Vec::new();
+        while value >= 0x80 {
+            out.push((value as u8 & 0x7f) | 0x80);
+            value >>= 7;
+        }
+        out.push(value as u8);
+        out
     }
 }

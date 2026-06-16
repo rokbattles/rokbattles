@@ -127,7 +127,8 @@ pub fn decode_server_frame_body(
     api_map: &ApiMap,
     descriptors: &DescriptorSet,
 ) -> Result<Option<ProcessedPacket>, ProcessorError> {
-    let unwrapped = unwrap_effective_payload(body).map_err(ProcessorError::Decode)?;
+    let unwrapped = unwrap_effective_payload(body, |api_id| api_map.get(api_id).is_some())
+        .map_err(ProcessorError::Decode)?;
     let Some(api_id) = unwrapped.api_id else {
         return Ok(None);
     };
