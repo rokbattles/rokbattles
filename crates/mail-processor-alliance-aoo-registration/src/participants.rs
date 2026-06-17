@@ -194,7 +194,7 @@ mod tests {
     #[test]
     fn roundtrip_participants_extracts_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.1087260861777680.json");
+            .join("../../samples/Alliance/Persistent.Mail.108726086177768046031.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
         let extractor = ParticipantsExtractor::new();
