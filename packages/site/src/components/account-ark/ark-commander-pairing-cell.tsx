@@ -41,7 +41,6 @@ export function ArkCommanderPairingCell({ primaryId, secondaryId }: ArkCommander
           <CommanderIcon
             alt={t("{name} icon", { name: secondaryName })}
             className="size-8 rounded-full"
-            fallback={false}
             id={secondaryId}
           />
           <span>{secondaryName}</span>
