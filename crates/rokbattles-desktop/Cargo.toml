@@ -33,6 +33,7 @@ libloading = { workspace = true }
 mail-decoder = { path = "../mail-decoder" }
 mail-registry = { path = "../mail-registry" }
 tauri-plugin-updater = { workspace = true }
+tauri-plugin-localhost = { workspace = true }
 notify = { workspace = true }
 
 [target.'cfg(any(target_os = "macos", target_os = "windows", target_os = "linux"))'.dependencies]

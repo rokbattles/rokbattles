@@ -36,7 +36,7 @@
         "media-src": "'self' data: blob:",
         "font-src": "'self' data:",
         "worker-src": "'self' blob:",
-        "connect-src": "'self' ipc: https://rokbattles.com https://ingress.rokbattles.com",
+        "connect-src": "'self' ipc: http://127.0.0.1:17654 http://localhost:17654 https://rokbattles.com https://ingress.rokbattles.com",
         "script-src": "'self'",
         "style-src": "'self' 'unsafe-inline'"
       },
@@ -50,7 +50,7 @@
         "media-src": "'self' data: blob:",
         "font-src": "'self' data:",
         "worker-src": "'self' blob:",
-        "connect-src": "'self' ipc: ws://localhost:1420 http://localhost:1420 https://rokbattles.com https://ingress.rokbattles.com",
+        "connect-src": "'self' ipc: ws://localhost:1420 http://localhost:1420 http://127.0.0.1:17654 http://localhost:17654 https://rokbattles.com https://ingress.rokbattles.com",
         "script-src": "'self' 'unsafe-eval' http://localhost:1420",
         "style-src": "'self' 'unsafe-inline' http://localhost:1420"
       }

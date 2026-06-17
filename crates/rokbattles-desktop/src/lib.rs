@@ -1,4 +1,5 @@
 mod app_config;
+mod external_callback;
 mod mailcache_discovery;
 mod network_introspection;
 mod tray;
@@ -16,6 +17,7 @@ use tauri::{
 };
 
 use crate::{
+    external_callback::ExternalCallbackState,
     network_introspection::{NetworkIntrospectionManager, NetworkStatus},
     watcher::{delete_processed, delete_upload_queue},
     watcher_manager::WatcherManager,
@@ -57,32 +59,39 @@ fn single_instance_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
     })
 }
 
-// Runtime registration is not supported on macOS. Test rokbattles:// there
-// with a bundled app installed in /Applications.
 #[cfg(desktop)]
-fn setup_deep_links(app: &tauri::App<tauri::Wry>) -> Result<(), tauri_plugin_deep_link::Error> {
+fn setup_deep_links(app: &tauri::App<tauri::Wry>) -> bool {
     use tauri_plugin_deep_link::DeepLinkExt;
 
+    let mut available = true;
+
+    // Runtime registration is not supported on macOS. Test rokbattles:// there
+    // with a bundled app installed in /Applications.
     // Linux runtime registration depends on freedesktop helpers:
     // `desktop-file-utils` for update-desktop-database and `xdg-utils` for
     // xdg-mime. Minimal installs may lack them, so keep app startup working.
-    #[cfg(target_os = "linux")]
+    #[cfg(any(target_os = "linux", all(debug_assertions, windows)))]
     if let Err(error) = app.deep_link().register_all() {
         eprintln!("[rokbattles] failed to register deep links: {error}");
+        available = false;
     }
 
-    #[cfg(all(debug_assertions, windows))]
-    app.deep_link().register_all()?;
-
-    if let Some(urls) = app.deep_link().get_current()? {
-        eprintln!("Opened with deep link URLs: {urls:?}");
+    match app.deep_link().get_current() {
+        Ok(Some(urls)) => {
+            eprintln!("Opened with deep link URLs: {urls:?}");
+        }
+        Ok(None) => {}
+        Err(error) => {
+            eprintln!("[rokbattles] failed to read current deep link URLs: {error}");
+            available = false;
+        }
     }
 
     app.deep_link().on_open_url(|event| {
         eprintln!("Opened with deep link URLs: {:?}", event.urls());
     });
 
-    Ok(())
+    available
 }
 
 fn normalize_dir_for_display(path: &str) -> String {
@@ -345,7 +354,8 @@ async fn resume_watcher(
 pub fn run() {
     let builder = tauri::Builder::default()
         .manage(WatcherManager::default())
-        .manage(NetworkIntrospectionManager::default());
+        .manage(NetworkIntrospectionManager::default())
+        .manage(ExternalCallbackState::default());
 
     #[cfg(desktop)]
     let builder = builder.plugin(single_instance_plugin());
@@ -405,7 +415,10 @@ pub fn run() {
             setup_autostart(app)?;
 
             #[cfg(desktop)]
-            setup_deep_links(app)?;
+            {
+                let deep_link_available = setup_deep_links(app);
+                app.state::<ExternalCallbackState>().set_deep_link_available(deep_link_available);
+            }
 
             let paused = app.state::<WatcherManager>().is_paused();
             if tray_supported() {
