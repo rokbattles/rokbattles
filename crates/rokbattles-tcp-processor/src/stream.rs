@@ -1,6 +1,7 @@
 //! Stream decryption and length-prefixed frame reconstruction.
 
 pub use tcp_stream::Direction;
+use tcp_stream::framing::MAX_FRAME_BODY_LEN;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RawFragment {
@@ -151,6 +152,9 @@ impl DirectionState {
 
         self.prefix.clear();
         self.extended.clear();
+        if length > MAX_FRAME_BODY_LEN {
+            return Err(format!("frame body length {length} exceeds maximum {MAX_FRAME_BODY_LEN}"));
+        }
         self.length = Some(length);
         self.remaining = Some(length);
         Ok(())
@@ -388,6 +392,22 @@ mod tests {
         assert_eq!(
             frames.first().map(|frame| frame.body.as_slice()),
             Some(&[0x08, 0x36, 0x12, 0x00][..])
+        );
+    }
+
+    #[test]
+    fn stream_decryptor_rejects_too_large_extended_frame() {
+        let mut decryptor = StreamDecryptor::new(626_273_431, 1_042_684_376);
+        let length = u32::try_from(MAX_FRAME_BODY_LEN + 1).expect("max frame length should fit");
+        let mut payload = Vec::from(u16::MAX.to_be_bytes());
+        payload.extend_from_slice(&length.to_be_bytes());
+        let fragment = RawFragment { index: 0, direction: Direction::ServerToClient, payload };
+
+        let error = decryptor.push(&fragment).expect_err("oversized frame should fail");
+
+        assert_eq!(
+            error,
+            format!("frame body length {} exceeds maximum {MAX_FRAME_BODY_LEN}", length)
         );
     }
 }
