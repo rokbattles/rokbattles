@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useExtracted } from "next-intl";
 import { getEquipmentName } from "@/hooks/use-equipment-name";
 import {
+  getEquipmentSpriteUrl,
   getEquipmentTierInfo,
   getEquipmentTroopTypeIconSrc,
   toRomanNumeral,
@@ -21,19 +22,21 @@ export function LoadoutEquipmentSlot({ token }: LoadoutEquipmentSlotProps) {
   const label =
     token?.id != null ? (getEquipmentName(token.id) ?? token.id.toString()) : t("Empty");
   const troopTypeIconSrc = getEquipmentTroopTypeIconSrc(troopType);
+  const equipmentSpriteUrl = getEquipmentSpriteUrl(token?.id);
 
   return (
     <div
       className="relative h-12 w-12 select-none overflow-hidden rounded-lg bg-zinc-600/10 dark:bg-white/5 sm:h-14 sm:w-14"
       title={label}
     >
-      {token?.id ? (
+      {equipmentSpriteUrl ? (
         <Image
-          src={`https://cdn.rokbattles.com/game/equipment/${token.id}.png`}
+          src={equipmentSpriteUrl}
           alt={label}
           fill
           sizes="(min-width: 640px) 56px, 48px"
           className="object-contain"
+          unoptimized
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-zinc-300">
