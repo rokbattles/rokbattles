@@ -414,6 +414,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
+name = "binary-cursor"
+version = "1.2.3"
+dependencies = [
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
 name = "binidx-cli"
 version = "1.2.3"
 dependencies = [
@@ -2972,6 +2980,7 @@ dependencies = [
 name = "mail-cli"
 version = "1.2.3"
 dependencies = [
+ "binary-cursor",
  "clap",
  "mail-decoder",
  "mail-processor-sdk",
