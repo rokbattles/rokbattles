@@ -69,7 +69,13 @@ pub(crate) struct PairingTotals {
     pub dps: i64,
     pub sps: i64,
     pub tps: i64,
+    pub hps: f64,
+    pub trade_percent: f64,
     pub battle_duration: i64,
+    #[serde(skip_serializing)]
+    pub(crate) healing_count: i64,
+    #[serde(skip_serializing)]
+    pub(crate) trade_percent_total: i64,
 }
 
 #[derive(Debug, Clone, Serialize, PartialEq)]

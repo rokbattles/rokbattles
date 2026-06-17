@@ -33,6 +33,7 @@ struct BattleTotalsDelta {
     deaths: i64,
     severely_wounded: i64,
     wounded: i64,
+    healing_count: i64,
     enemy_kill_score: i64,
     enemy_deaths: i64,
     enemy_severely_wounded: i64,
@@ -69,6 +70,7 @@ pub(crate) fn aggregate_pairings(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
+    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -111,6 +113,7 @@ pub(crate) fn aggregate_loadouts(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
+    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -169,6 +172,7 @@ pub(crate) fn aggregate_opponents(
     }
 
     let mut items = buckets.into_values().collect::<Vec<_>>();
+    finalize_totals(&mut items, |item| (&mut item.totals, item.count));
     sort_by_kill_score_then_count(&mut items, |item| (&item.totals, item.count));
     items
 }
@@ -247,6 +251,8 @@ fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
             .unwrap_or_default(),
         wounded: nested_i64(opponent, &["battle_results", "sender", "slightly_wounded"])
             .unwrap_or_default(),
+        healing_count: nested_i64(opponent, &["battle_results", "sender", "heal"])
+            .unwrap_or_default(),
         enemy_kill_score: nested_i64(opponent, &["battle_results", "opponent", "kill_points"])
             .unwrap_or_default(),
         enemy_deaths: nested_i64(opponent, &["battle_results", "opponent", "dead"])
@@ -266,6 +272,7 @@ fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, batt
     totals.deaths += delta.deaths;
     totals.severely_wounded += delta.severely_wounded;
     totals.wounded += delta.wounded;
+    totals.healing_count += delta.healing_count;
     totals.enemy_kill_score += delta.enemy_kill_score;
     totals.enemy_deaths += delta.enemy_deaths;
     totals.enemy_severely_wounded += delta.enemy_severely_wounded;
@@ -274,6 +281,26 @@ fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, batt
     totals.sps += delta.enemy_severely_wounded;
     totals.tps += delta.severely_wounded;
     totals.battle_duration += battle_duration;
+    totals.trade_percent_total += if delta.kill_score == delta.enemy_kill_score {
+        100
+    } else if delta.enemy_kill_score <= 0 {
+        0
+    } else {
+        ((delta.kill_score as f64 / delta.enemy_kill_score as f64) * 100.0).round() as i64
+    };
+}
+
+fn finalize_totals<T>(items: &mut [T], lookup: impl Fn(&mut T) -> (&mut PairingTotals, i64)) {
+    for item in items {
+        let (totals, count) = lookup(item);
+        totals.trade_percent =
+            if count > 0 { totals.trade_percent_total as f64 / count as f64 } else { 0.0 };
+        totals.hps = if totals.battle_duration > 0 {
+            totals.healing_count as f64 / (totals.battle_duration as f64 / 1000.0)
+        } else {
+            0.0
+        };
+    }
 }
 
 fn build_loadout_snapshot(mail: &Document, granularity: LoadoutGranularity) -> LoadoutSnapshot {
@@ -508,7 +535,7 @@ mod tests {
     fn build_test_mail(primary_equipment: &str, primary_armament_buffs: &str) -> Document {
         doc! {
             "metadata": { "mail_time": 1_735_689_600_000_i64 },
-            "timeline": { "start_timestamp": 0_i64 },
+            "timeline": { "start_timestamp": 1_735_689_600_000_i64 },
             "sender": {
                 "commanders": {
                     "primary": {
@@ -541,7 +568,8 @@ mod tests {
                             "kill_points": 100_i64,
                             "dead": 5_i64,
                             "severely_wounded": 7_i64,
-                            "slightly_wounded": 9_i64
+                            "slightly_wounded": 9_i64,
+                            "heal": 25_i64
                         },
                         "opponent": {
                             "kill_points": 50_i64,
@@ -569,8 +597,11 @@ mod tests {
         assert_eq!(first.secondary_commander_id, 200);
         assert_eq!(first.count, 2);
         assert_eq!(first.totals.kill_score, 200);
+        assert_eq!(first.totals.healing_count, 50);
         assert_eq!(first.totals.enemy_severely_wounded, 22);
         assert_eq!(first.totals.dps, 48);
+        assert_eq!(first.totals.trade_percent, 200.0);
+        assert_eq!(first.totals.hps, 5.0);
     }
 
     #[test]

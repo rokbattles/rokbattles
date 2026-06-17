@@ -24,6 +24,10 @@ const perSecondFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
   minimumFractionDigits: 0,
 });
+const percentFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 1,
+  minimumFractionDigits: 0,
+});
 
 const ALL_LOADOUT_KEY = "all-loadouts";
 const EMPTY_LOADOUT: LoadoutSnapshot = {
@@ -47,6 +51,14 @@ function formatPerSecond(value: number): string {
   }
 
   return `${perSecondFormatter.format(value)}/s`;
+}
+
+function formatPercent(value: number): string {
+  if (!Number.isFinite(value)) {
+    return "0%";
+  }
+
+  return `${percentFormatter.format(value)}%`;
 }
 
 function formatDurationSeconds(valueSeconds: number) {
@@ -324,6 +336,14 @@ export function MyPairingsContent() {
         description: t("Average duration of battles recorded while using this pairing."),
       },
       {
+        id: "avgTradePercent",
+        name: t("Avg. Trade Percentage"),
+        value: formatPercent(selectedLoadoutCard.totals.tradePercent),
+        description: t(
+          "Average trade percentage across battles recorded while using this pairing."
+        ),
+      },
+      {
         id: "dps",
         name: t("Damage Per Second (DPS)"),
         value: formatPerSecond(
@@ -346,6 +366,12 @@ export function MyPairingsContent() {
           ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
         ),
         description: t("Rate at which your troops become severely wounded each second."),
+      },
+      {
+        id: "hps",
+        name: t("Healing Per Second (HPS)"),
+        value: formatPerSecond(selectedLoadoutCard.totals.hps),
+        description: t("Average healing performed per second while using this pairing."),
       },
     ];
   }, [selectedLoadoutCard, t]);
@@ -394,6 +420,7 @@ export function MyPairingsContent() {
         dps: formatPerSecond(ratePerSecond(entry.totals.dps, entry.totals.battleDuration)),
         sps: formatPerSecond(ratePerSecond(entry.totals.sps, entry.totals.battleDuration)),
         tps: formatPerSecond(ratePerSecond(entry.totals.tps, entry.totals.battleDuration)),
+        hps: formatPerSecond(entry.totals.hps),
       })),
     [t, visibleOpponents]
   );

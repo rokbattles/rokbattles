@@ -30,6 +30,7 @@ type OpponentRow = {
   dps: string;
   sps: string;
   tps: string;
+  hps: string;
 };
 
 type PairingsLoadoutBreakdownProps = {
@@ -132,6 +133,7 @@ export function PairingsLoadoutBreakdown({
                       <TableHeader className="w-20">{t("DPS")}</TableHeader>
                       <TableHeader className="w-20">{t("SPS")}</TableHeader>
                       <TableHeader className="w-20">{t("TPS")}</TableHeader>
+                      <TableHeader className="w-20">{t("HPS")}</TableHeader>
                     </TableRow>
                   </TableHead>
                   <TableBody id={opponentsId}>
@@ -149,6 +151,7 @@ export function PairingsLoadoutBreakdown({
                         <TableCell className="w-20">{entry.dps}</TableCell>
                         <TableCell className="w-20">{entry.sps}</TableCell>
                         <TableCell className="w-20">{entry.tps}</TableCell>
+                        <TableCell className="w-20">{entry.hps}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

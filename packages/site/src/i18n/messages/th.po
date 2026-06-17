@@ -16,7 +16,7 @@ msgstr ""
 
 #: src/app/(legacy)/account/loot/page.tsx
 #: src/components/platform-layout.tsx
-msgid "yF/GXb"
+msgid "yF_GXb"
 msgstr ""
 
 #: src/app/(legacy)/account/pairings/page.tsx
@@ -90,7 +90,7 @@ msgstr ""
 #: src/components/olympian-arena/duel-commander-row.tsx
 #: src/components/report/report-commander-row.tsx
 #: src/components/reports/participant-cell.tsx
-msgid "+sdDeh"
+msgid "-sdDeh"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx
@@ -101,7 +101,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/report/report-overview-column.tsx
-msgid "PW+sL4"
+msgid "PW-sL4"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
@@ -117,7 +117,7 @@ msgid "JPFyHU"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g/Nwxg"
+msgid "g_Nwxg"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
@@ -169,7 +169,7 @@ msgid "ksU1u5"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx
-msgid "gwll/b"
+msgid "gwll_b"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -177,7 +177,7 @@ msgid "9uOFF3"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "VP5+CR"
+msgid "VP5-CR"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -186,7 +186,7 @@ msgid "oLkLww"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "b5C+CG"
+msgid "b5C-CG"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -280,11 +280,11 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "H+vBOj"
-msgstr "ผู้ชนะ"
+msgid "H-vBOj"
+msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "+a+2ug"
+msgid "-a-2ug"
 msgstr ""
 
 #: src/components/account-binds/account-binds-content.tsx
@@ -314,7 +314,7 @@ msgstr ""
 #: src/components/account-binds/bind-list-item.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
-msgid "tx/jZ/"
+msgid "tx_jZ_"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -326,7 +326,7 @@ msgid "pf6kFc"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "I/clsA"
+msgid "I_clsA"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -380,7 +380,7 @@ msgid "HAlOn1"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
-msgid "/0TOL5"
+msgid "_0TOL5"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -408,7 +408,7 @@ msgid "R4HO71"
 msgstr ""
 
 #: src/components/account-loot/loot-error-state.tsx
-msgid "XD64/m"
+msgid "XD64_m"
 msgstr ""
 
 #: src/components/account-loot/loot-filters-client.tsx
@@ -441,12 +441,12 @@ msgid "PF57EA"
 msgstr ""
 
 #: src/components/account-resources/account-resources-content.tsx
-msgid "e4+7ni"
+msgid "e4-7ni"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "+U6ozc"
+msgid "-U6ozc"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
@@ -526,7 +526,7 @@ msgid "lFZWlP"
 msgstr ""
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
-msgid "+RhnH+"
+msgid "-RhnH-"
 msgstr ""
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
@@ -539,7 +539,7 @@ msgid "vxHX7Q"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "5OhW+B"
+msgid "5OhW-B"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -590,7 +590,15 @@ msgid "OohBEM"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "jVC9W/"
+msgid "j80Jf5"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "gSUsVS"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "jVC9W_"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -614,7 +622,15 @@ msgid "ZTImOV"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "y+cvIx"
+msgid "5LIA_9"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "6pYaNr"
+msgstr ""
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "y-cvIx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
@@ -697,8 +713,8 @@ msgid "cSiC2v"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "+yzdej"
-msgstr "ทำลายล้าง"
+msgid "-yzdej"
+msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nyW1oU"
@@ -706,6 +722,10 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "hZ3HBi"
+msgstr ""
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgid "8czqas"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
@@ -739,12 +759,12 @@ msgid "MqtNsY"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "g+gbNs"
+msgid "g-gbNs"
 msgstr ""
 
 #: src/components/olympian-arena/duel-commander-row.tsx
 #: src/components/report/report-commander-row.tsx
-msgid "XoCgY+"
+msgid "XoCgY-"
 msgstr ""
 
 #: src/components/olympian-arena/duel-empty-state.tsx
@@ -777,7 +797,7 @@ msgid "CuNYjA"
 msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx
-msgid "m0+hvd"
+msgid "m0-hvd"
 msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx
@@ -842,7 +862,7 @@ msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "c+sY33"
+msgid "c-sY33"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -866,7 +886,7 @@ msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "9+Ddtu"
+msgid "9-Ddtu"
 msgstr ""
 
 #: src/components/platform-layout.tsx
@@ -956,7 +976,7 @@ msgid "Naj3md"
 msgstr ""
 
 #: src/components/report/report-entry-card.tsx
-msgid "BYmpT/"
+msgid "BYmpT_"
 msgstr ""
 
 #: src/components/report/report-entry-card.tsx
@@ -982,8 +1002,8 @@ msgstr ""
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08/"
-msgstr "ศัตรูทั้งหมด"
+msgid "ABZ08_"
+msgstr ""
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
@@ -996,7 +1016,7 @@ msgid "1ISgLB"
 msgstr "บาดเจ็บเล็กน้อย"
 
 #: src/components/report/report-participant-card.tsx
-msgid "RJ+ZIh"
+msgid "RJ-ZIh"
 msgstr ""
 
 #: src/components/report/report-relic-section.tsx
@@ -1044,7 +1064,7 @@ msgid "SHldaq"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "+XTzdP"
+msgid "-XTzdP"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1060,8 +1080,8 @@ msgid "VqILpx"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "ToO3/h"
-msgstr "ใดๆ ก็ได้"
+msgid "ToO3_h"
+msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ptYapO"
@@ -1072,15 +1092,15 @@ msgid "iScUrx"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "/VnDMl"
+msgid "_VnDMl"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "jm/spn"
+msgid "jm_spn"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw/tK"
+msgid "EWw_tK"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
