@@ -50,7 +50,6 @@ export default function ParticipantCell({
             alt={t("{name} icon", { name: secondaryName })}
             awakened={secondaryAwakened}
             className="size-8 rounded-full"
-            fallback={false}
             id={secondaryId}
           />
           <span>{secondaryName}</span>
