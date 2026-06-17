@@ -83,7 +83,7 @@ fn process_capture(
     fragments.sort_by_key(|fragment| fragment.index);
 
     let mut packets = Vec::new();
-    for fragment in &fragments {
+    for fragment in fragments {
         let frames = decryptor.push(fragment).map_err(ProcessorError::Decode)?;
         for frame in frames {
             if let Some(packet) = process_frame(frame, config, api_map, descriptors)? {
@@ -95,10 +95,10 @@ fn process_capture(
     Ok(packets)
 }
 
-fn collect_fragments(batches: &[RawBatch]) -> Vec<RawFragment> {
+fn collect_fragments(batches: &[RawBatch]) -> Vec<&RawFragment> {
     let mut fragments = Vec::new();
     for batch in batches {
-        fragments.extend(batch.fragments.iter().cloned());
+        fragments.extend(&batch.fragments);
     }
     fragments
 }
