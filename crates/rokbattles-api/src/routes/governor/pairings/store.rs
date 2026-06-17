@@ -59,6 +59,7 @@ pub(crate) async fn fetch_pairings_mails(
             "opponents.battle_results.sender.dead": 1,
             "opponents.battle_results.sender.severely_wounded": 1,
             "opponents.battle_results.sender.slightly_wounded": 1,
+            "opponents.battle_results.sender.heal": 1,
             "opponents.battle_results.opponent.kill_points": 1,
             "opponents.battle_results.opponent.dead": 1,
             "opponents.battle_results.opponent.severely_wounded": 1,

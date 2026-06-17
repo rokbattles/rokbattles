@@ -16,7 +16,7 @@ msgstr "Ark Match History"
 
 #: src/app/(legacy)/account/loot/page.tsx
 #: src/components/platform-layout.tsx
-msgid "yF/GXb"
+msgid "yF_GXb"
 msgstr "My Loot"
 
 #: src/app/(legacy)/account/pairings/page.tsx
@@ -90,7 +90,7 @@ msgstr "Unknown commander"
 #: src/components/olympian-arena/duel-commander-row.tsx
 #: src/components/report/report-commander-row.tsx
 #: src/components/reports/participant-cell.tsx
-msgid "+sdDeh"
+msgid "-sdDeh"
 msgstr "{name} icon"
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx
@@ -101,7 +101,7 @@ msgstr "Failed to load Ark match details."
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/report/report-overview-column.tsx
-msgid "PW+sL4"
+msgid "PW-sL4"
 msgstr "N/A"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
@@ -117,7 +117,7 @@ msgid "JPFyHU"
 msgstr "Kill Score"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g/Nwxg"
+msgid "g_Nwxg"
 msgstr "Occupation Score"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
@@ -169,7 +169,7 @@ msgid "ksU1u5"
 msgstr "Loading Ark match details..."
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx
-msgid "gwll/b"
+msgid "gwll_b"
 msgstr "Ark match not found."
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -177,7 +177,7 @@ msgid "9uOFF3"
 msgstr "Overview"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "VP5+CR"
+msgid "VP5-CR"
 msgstr "Rank"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -186,7 +186,7 @@ msgid "oLkLww"
 msgstr "Score"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "b5C+CG"
+msgid "b5C-CG"
 msgstr "Total Battles"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -280,11 +280,11 @@ msgstr "Time"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "H+vBOj"
+msgid "H-vBOj"
 msgstr "Winner"
 
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "+a+2ug"
+msgid "-a-2ug"
 msgstr "Members"
 
 #: src/components/account-binds/account-binds-content.tsx
@@ -314,7 +314,7 @@ msgstr "Default"
 #: src/components/account-binds/bind-list-item.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
-msgid "tx/jZ/"
+msgid "tx_jZ_"
 msgstr "ID {id}"
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -326,7 +326,7 @@ msgid "pf6kFc"
 msgstr "Enter a governor ID."
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "I/clsA"
+msgid "I_clsA"
 msgstr "Enter a valid governor ID."
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -380,7 +380,7 @@ msgid "HAlOn1"
 msgstr "Name"
 
 #: src/components/account-loot/loot-breakdown-table.tsx
-msgid "/0TOL5"
+msgid "_0TOL5"
 msgstr "Amount"
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -408,7 +408,7 @@ msgid "R4HO71"
 msgstr "Marauder Encampments"
 
 #: src/components/account-loot/loot-error-state.tsx
-msgid "XD64/m"
+msgid "XD64_m"
 msgstr "Failed to load loot."
 
 #: src/components/account-loot/loot-filters-client.tsx
@@ -441,12 +441,12 @@ msgid "PF57EA"
 msgstr "No loot in this date range."
 
 #: src/components/account-resources/account-resources-content.tsx
-msgid "e4+7ni"
+msgid "e4-7ni"
 msgstr "See daily gathered resources, gems, and crystals from RSS reports."
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "+U6ozc"
+msgid "-U6ozc"
 msgstr "Type"
 
 #: src/components/account-resources/resources-breakdown-table.tsx
@@ -526,7 +526,7 @@ msgid "lFZWlP"
 msgstr "Armament {id}"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
-msgid "+RhnH+"
+msgid "-RhnH-"
 msgstr "Empty"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
@@ -539,7 +539,7 @@ msgid "vxHX7Q"
 msgstr "All loadouts"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "5OhW+B"
+msgid "5OhW-B"
 msgstr "Loadout {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -590,7 +590,15 @@ msgid "OohBEM"
 msgstr "Average duration of battles recorded while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "jVC9W/"
+msgid "j80Jf5"
+msgstr "Avg. Trade Percentage"
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "gSUsVS"
+msgstr "Average trade percentage across battles recorded while using this pairing."
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "jVC9W_"
 msgstr "Damage Per Second (DPS)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -614,7 +622,15 @@ msgid "ZTImOV"
 msgstr "Rate at which your troops become severely wounded each second."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "y+cvIx"
+msgid "5LIA_9"
+msgstr "Healing Per Second (HPS)"
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "6pYaNr"
+msgstr "Average healing performed per second while using this pairing."
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "y-cvIx"
 msgstr "Analyze performance across commander pairings, loadouts, and matchups"
 
 #: src/components/my-pairings/pairings-filters.tsx
@@ -697,7 +713,7 @@ msgid "cSiC2v"
 msgstr "Opponent pairing"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "+yzdej"
+msgid "-yzdej"
 msgstr "DPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
@@ -707,6 +723,10 @@ msgstr "SPS"
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "hZ3HBi"
 msgstr "TPS"
+
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgid "8czqas"
+msgstr "HPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
@@ -739,12 +759,12 @@ msgid "MqtNsY"
 msgstr "Inscriptions"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "g+gbNs"
+msgid "g-gbNs"
 msgstr "Armament buffs"
 
 #: src/components/olympian-arena/duel-commander-row.tsx
 #: src/components/report/report-commander-row.tsx
-msgid "XoCgY+"
+msgid "XoCgY-"
 msgstr "Lvl {level}"
 
 #: src/components/olympian-arena/duel-empty-state.tsx
@@ -777,7 +797,7 @@ msgid "CuNYjA"
 msgstr "Duel summary"
 
 #: src/components/olympian-arena/duel-report-view.tsx
-msgid "m0+hvd"
+msgid "m0-hvd"
 msgstr "Duel Report"
 
 #: src/components/olympian-arena/duel-report-view.tsx
@@ -842,7 +862,7 @@ msgstr "Opponent"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "c+sY33"
+msgid "c-sY33"
 msgstr "Trade %"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -866,7 +886,7 @@ msgstr "Next page"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "9+Ddtu"
+msgid "9-Ddtu"
 msgstr "Next"
 
 #: src/components/platform-layout.tsx
@@ -956,7 +976,7 @@ msgid "Naj3md"
 msgstr "Unknown period"
 
 #: src/components/report/report-entry-card.tsx
-msgid "BYmpT/"
+msgid "BYmpT_"
 msgstr "UTC "
 
 #: src/components/report/report-entry-card.tsx
@@ -982,7 +1002,7 @@ msgstr "Data summary"
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08/"
+msgid "ABZ08_"
 msgstr "All Enemies"
 
 #: src/components/report/report-overview-column.tsx
@@ -996,7 +1016,7 @@ msgid "1ISgLB"
 msgstr "Slightly Wounded"
 
 #: src/components/report/report-participant-card.tsx
-msgid "RJ+ZIh"
+msgid "RJ-ZIh"
 msgstr "Rally"
 
 #: src/components/report/report-relic-section.tsx
@@ -1044,7 +1064,7 @@ msgid "SHldaq"
 msgstr "Secondary Commander"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "+XTzdP"
+msgid "-XTzdP"
 msgstr "Battle"
 
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1060,7 +1080,7 @@ msgid "VqILpx"
 msgstr "Garrison Building"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "ToO3/h"
+msgid "ToO3_h"
 msgstr "Any"
 
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1072,15 +1092,15 @@ msgid "iScUrx"
 msgstr "Alliance Fortress"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "/VnDMl"
+msgid "_VnDMl"
 msgstr "Other"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "jm/spn"
+msgid "jm_spn"
 msgstr "Reset"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw/tK"
+msgid "EWw_tK"
 msgstr "Apply"
 
 #: src/components/reports/reports-overview-drawer.tsx
