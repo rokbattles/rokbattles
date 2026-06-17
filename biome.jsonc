@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/samples"]
+    "includes": ["**", "!**/samples", "!.github"]
   },
   "formatter": {
     "enabled": true,
@@ -21,7 +21,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "a11y": {
         "useSemanticElements": "off"
       }
