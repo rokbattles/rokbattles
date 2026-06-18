@@ -1,0 +1,72 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Ironhand Baulur",
+      "infos": [
+        {
+          "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/2598606/2026-02-21/C1757A23D0F88C035FD831E272EA84C5_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png\"}",
+          "damageRate": 100,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 26,
+              "Type": 2,
+              "Value": 3
+            },
+            {
+              "SubType": 85,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 48,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "ɢᴠᴏ  Macro",
+          "order": 2,
+          "playerId": 2754617
+        }
+      ],
+      "npcLevel": 35,
+      "npcType": 102000057,
+      "pos": {
+        "x": 1517.0513916015625,
+        "y": 6927.49755859375
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "22572826177514434813",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_2754617",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1775144348829784,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": false
+}

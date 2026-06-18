@@ -1,0 +1,39 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "FactionTechPoint": 0,
+      "KingdomTechPoint": 0,
+      "Level": 4,
+      "Pos": {
+        "X": 3215.610107421875,
+        "Y": 4566.96923828125
+      },
+      "ResType": 3,
+      "ResValue": 260,
+      "Time": 1649934053,
+      "talentAdd": 0
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "id": "118801516499340535",
+  "is_select": false,
+  "mailScene": 0,
+  "receiver": "player_355254",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "serverId": 5,
+  "time": 1649934053053121,
+  "title": "",
+  "type": "Rss",
+  "unread": false
+}

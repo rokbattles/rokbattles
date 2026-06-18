@@ -1,0 +1,130 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "Idx": 0,
+      "allowPly": [
+        {
+          "AsGrade": 4,
+          "Name": "PAC MAN F9",
+          "PlyId": 211747565,
+          "Power": 2376082
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F18",
+          "PlyId": 208722389,
+          "Power": 1474666
+        },
+        {
+          "AsGrade": 1,
+          "Name": "NFL26x2",
+          "PlyId": 178893621,
+          "Power": 4353922
+        },
+        {
+          "AsGrade": 1,
+          "Name": "93primefarmm3",
+          "PlyId": 154550697,
+          "Power": 3610151
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F23",
+          "PlyId": 208725700,
+          "Power": 1415732
+        },
+        {
+          "AsGrade": 1,
+          "Name": "TenchuX",
+          "PlyId": 79029500,
+          "Power": 3514111
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Cinnamon Farm3",
+          "PlyId": 178034663,
+          "Power": 3738021
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F20",
+          "PlyId": 208722849,
+          "Power": 1606738
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F25",
+          "PlyId": 208761972,
+          "Power": 1487958
+        },
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F19",
+          "PlyId": 208673628,
+          "Power": 1521143
+        },
+        {
+          "AsGrade": 1,
+          "Name": "93prmefarm7",
+          "PlyId": 158760240,
+          "Power": 2889702
+        },
+        {
+          "AsGrade": 1,
+          "Name": "TenchuZ",
+          "PlyId": 189334994,
+          "Power": 15682711
+        },
+        {
+          "AsGrade": 1,
+          "Name": "CH24FloydyGold4",
+          "PlyId": 133997916,
+          "Power": 7004853
+        }
+      ],
+      "commanderPly": [
+        {
+          "AsGrade": 1,
+          "Name": "Abdul F16",
+          "PlyId": 194304962,
+          "Power": 11736221
+        }
+      ],
+      "gradeId": 0,
+      "old_grade": 1,
+      "resevePly": [],
+      "startTime": 1777730400000
+    },
+    "param": 1,
+    "subTitle": "You Have Been Chosen",
+    "title": "Registration Has Closed",
+    "type": 57
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "108518435177768053226",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_79029500",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1777680532632152,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

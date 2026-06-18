@@ -1,0 +1,50 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Blutfaust Bargha",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1597246/2025-12-30/995861C2522A98D049FEBBF01B5864CF_250x250.jpg\"}",
+          "damageRate": 100,
+          "idx": 1,
+          "loots": [],
+          "name": "D i e t e r",
+          "order": 2,
+          "playerId": 131747926
+        }
+      ],
+      "npcLevel": 29,
+      "npcType": 401000087,
+      "pos": {
+        "x": 5121.05810546875,
+        "y": 848.373779296875
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "83062859177409782917",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_131747926",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1774097829540216,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": true
+}

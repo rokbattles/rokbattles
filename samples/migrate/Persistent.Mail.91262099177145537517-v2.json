@@ -1,0 +1,76 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Bargha Poings-de-sang",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2026-02-03/298FB0DAB5FFF4967D3C24B9F13D18EF_250x250.jpg\"}",
+          "damageRate": 100,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 2
+            },
+            {
+              "SubType": 96,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 7052,
+              "Type": 2,
+              "Value": 14
+            }
+          ],
+          "name": "ˢlil",
+          "order": 2,
+          "playerId": 126921671
+        }
+      ],
+      "npcLevel": 25,
+      "npcType": 102000155,
+      "pos": {
+        "x": 3341.414794921875,
+        "y": 3463.9365234375
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "91262099177145537517",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_126921671",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1804,
+  "starMark": 0,
+  "time": 1771455375665491,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": false
+}

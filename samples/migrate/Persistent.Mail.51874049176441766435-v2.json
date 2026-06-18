@@ -1,0 +1,244 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "kvs": {
+      "BattleType": "Egypt",
+      "FlagCnt": 0,
+      "Idx": 0,
+      "IsEnroll": true,
+      "OccupyRelocateTowerCnt": 0,
+      "RelocateCnt": 0,
+      "asInfos": [
+        {
+          "Abbr": "55~r",
+          "AllianceId": 6495037,
+          "Idx": 0,
+          "IsBlue": true,
+          "Logo": "2_16_12_5_0_0",
+          "MemberMax": 30,
+          "Members": 0,
+          "Name": "Red Lobster",
+          "Power": 85710957,
+          "Score": 0,
+          "ServerId": 2355
+        },
+        {
+          "Abbr": "07/L",
+          "AllianceId": 6675910,
+          "Idx": 0,
+          "IsBlue": false,
+          "Logo": "11_14_33_5_0_0",
+          "MemberMax": 30,
+          "Members": 0,
+          "Name": "Legion Of Order",
+          "Power": 138914379,
+          "Score": 0,
+          "ServerId": 2407
+        }
+      ],
+      "gradeId": 0,
+      "isWin": false,
+      "maxBeKilled": {
+        "AsScore": 0
+      },
+      "maxBuildingScore": {
+        "AsScore": 0
+      },
+      "maxFlagScore": {
+        "AsScore": 0
+      },
+      "maxGatherScore": {
+        "AsScore": 0
+      },
+      "maxHealingScore": {
+        "AsScore": 0
+      },
+      "maxKilled": {
+        "AsScore": 0
+      },
+      "myAsId": 6675910,
+      "old_grade": 1,
+      "plyRanks": [
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "lillilMAYZEfarm",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Youth Farm 7",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Youth Farm 9",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "StriborF6",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "StriborF5",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Celine Slave",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Sishᴬ3",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "FedoteX",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "The Emperor M",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "JackF2",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "StriborF4",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "RayZ 3",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Правитель174323111",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "JackF3",
+          "Score": -1
+        },
+        {
+          "AsAbbr": "07/L",
+          "BuildingScore": 0,
+          "FlagScore": 0,
+          "GatherScore": 0,
+          "Job": 0,
+          "KillScore": 0,
+          "Name": "Hugo2cold",
+          "Score": -1
+        }
+      ]
+    },
+    "param": 1,
+    "subTitle": "Defeat",
+    "title": "Ark of Osiris Battle Results",
+    "type": 60
+  },
+  "box": "AllianceBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "51874049176441766435",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_179021919",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2,
+  "starMark": 0,
+  "time": 1764417664137834,
+  "title": "",
+  "type": "Alliance",
+  "unread": false
+}

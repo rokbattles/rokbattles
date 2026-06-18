@@ -1,0 +1,147 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "eliteBarName": "Bloodfist Bargha",
+      "infos": [
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2026-03-12/1972B8C167CC93BE8736173311EAE63E_250x250.jpg\"}",
+          "damageRate": 21.56357192993164,
+          "idx": 2,
+          "loots": [
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 130,
+              "Type": 2,
+              "Value": 14
+            },
+            {
+              "SubType": 76,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 7054,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Dr Benbu 벤부",
+          "order": 2,
+          "playerId": 29862805
+        },
+        {
+          "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/13415516/2026-03-12/450927531050D5DE0F478FF4B9DAB5AD_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png\"}",
+          "damageRate": 62.799407958984375,
+          "idx": 3,
+          "loots": [
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 130,
+              "Type": 2,
+              "Value": 14
+            },
+            {
+              "SubType": 96,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 47,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 7054,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "Kono x Voices",
+          "order": 2,
+          "playerId": 121971933
+        },
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_5.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1507184/2025-12-18/DE3DAFDAB4EC3293B184C349B641B9D6_250x250.jpg\"}",
+          "damageRate": 15.63702392578125,
+          "idx": 1,
+          "loots": [
+            {
+              "SubType": 27,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 3
+            },
+            {
+              "SubType": 36,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 48,
+              "Type": 2,
+              "Value": 1
+            },
+            {
+              "SubType": 7054,
+              "Type": 2,
+              "Value": 1
+            }
+          ],
+          "name": "북두의권",
+          "order": 2,
+          "playerId": 36388430
+        }
+      ],
+      "npcLevel": 31,
+      "npcType": 401000089,
+      "pos": {
+        "x": 5536.3125,
+        "y": 1714.2457275390625
+      }
+    }
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "826980817746319211",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_29862805",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 15908,
+  "starMark": 0,
+  "time": 1774631921085847,
+  "title": "",
+  "type": "BarCanyonKillBoss",
+  "unread": true
+}
