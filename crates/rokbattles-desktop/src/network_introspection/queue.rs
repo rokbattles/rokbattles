@@ -5,12 +5,13 @@ use std::{
     time::Duration,
 };
 
-use anyhow::Context;
+use anyhow::{Context, bail};
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 use tcp_stream::TcpStreamBatch;
 
 const TCP_STREAM_QUEUE_FILE_NAME: &str = "tcp-stream-upload-queue.json";
+const TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES: usize = 256 * 1024 * 1024;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub(super) struct TcpStreamUploadQueueStore {
@@ -36,8 +37,33 @@ pub(super) struct TcpStreamUploadQueue {
     items: Vec<QueuedTcpStreamBatch>,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(super) struct EnqueueBatchReport {
+    queued: bool,
+    dropped_captures: usize,
+    dropped_batches: usize,
+}
+
+impl EnqueueBatchReport {
+    pub(super) fn queued(self) -> bool {
+        self.queued
+    }
+
+    pub(super) fn dropped_captures(self) -> usize {
+        self.dropped_captures
+    }
+
+    pub(super) fn dropped_batches(self) -> usize {
+        self.dropped_batches
+    }
+}
+
 impl TcpStreamUploadQueue {
     pub(super) fn new(store: TcpStreamUploadQueueStore) -> Self {
+        Self::new_with_max_bytes(store, TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES)
+    }
+
+    fn new_with_max_bytes(store: TcpStreamUploadQueueStore, max_bytes: usize) -> Self {
         let mut items = Vec::new();
         for item in store.items {
             if !items.iter().any(|existing: &QueuedTcpStreamBatch| {
@@ -46,15 +72,28 @@ impl TcpStreamUploadQueue {
                 items.push(item);
             }
         }
-        Self { items }
+        let mut queue = Self { items };
+        queue.drop_oldest_captures_to_fit(max_bytes);
+        queue
     }
 
-    pub(super) fn enqueue_batch(&mut self, batch: TcpStreamBatch) {
+    pub(super) fn enqueue_batch(&mut self, batch: TcpStreamBatch) -> EnqueueBatchReport {
+        self.enqueue_batch_with_max_bytes(batch, TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES)
+    }
+
+    fn enqueue_batch_with_max_bytes(
+        &mut self,
+        batch: TcpStreamBatch,
+        max_bytes: usize,
+    ) -> EnqueueBatchReport {
         let key = tcp_stream_batch_key(&batch);
         if self.items.iter().any(|item| tcp_stream_batch_key(&item.batch) == key) {
-            return;
+            return EnqueueBatchReport { queued: true, dropped_captures: 0, dropped_batches: 0 };
         }
         self.items.push(QueuedTcpStreamBatch { batch, attempts: 0, not_before_ms: None });
+        let (dropped_captures, dropped_batches) = self.drop_oldest_captures_to_fit(max_bytes);
+        let queued = self.items.iter().any(|item| tcp_stream_batch_key(&item.batch) == key);
+        EnqueueBatchReport { queued, dropped_captures, dropped_batches }
     }
 
     pub(super) fn has_capture(&self, capture_id: &str) -> bool {
@@ -93,6 +132,30 @@ impl TcpStreamUploadQueue {
         TcpStreamUploadQueueStore { version: 1, items: self.items.clone() }
     }
 
+    fn drop_oldest_captures_to_fit(&mut self, max_bytes: usize) -> (usize, usize) {
+        let mut dropped_captures = 0usize;
+        let mut dropped_batches = 0usize;
+
+        while !queue_items_fit(&self.items, max_bytes) {
+            let Some(capture_id) = self.items.first().map(|item| item.batch.capture_id.clone())
+            else {
+                break;
+            };
+
+            let before = self.items.len();
+            self.items.retain(|item| item.batch.capture_id != capture_id);
+
+            let removed = before.saturating_sub(self.items.len());
+            if removed == 0 {
+                break;
+            }
+            dropped_captures = dropped_captures.saturating_add(1);
+            dropped_batches = dropped_batches.saturating_add(removed);
+        }
+
+        (dropped_captures, dropped_batches)
+    }
+
     fn has_earlier_batch_for_capture(&self, item: &QueuedTcpStreamBatch) -> bool {
         self.items.iter().any(|candidate| {
             candidate.batch.capture_id == item.batch.capture_id
@@ -106,6 +169,14 @@ pub(super) fn read_tcp_stream_upload_queue(
 ) -> anyhow::Result<TcpStreamUploadQueueStore> {
     let path = tcp_stream_upload_queue_file(app)?;
     if !path.exists() {
+        return Ok(TcpStreamUploadQueueStore::default());
+    }
+
+    let metadata = fs::metadata(&path).with_context(|| format!("Failed reading {path:?}"))?;
+    if metadata.len() > TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES as u64 {
+        fs::remove_file(&path).with_context(|| {
+            format!("Failed removing oversized TCP stream upload queue {path:?}")
+        })?;
         return Ok(TcpStreamUploadQueueStore::default());
     }
 
@@ -123,7 +194,23 @@ pub(super) fn write_tcp_stream_upload_queue(
 ) -> anyhow::Result<()> {
     let path = tcp_stream_upload_queue_file(app)?;
     let json = serde_json::to_vec(store).context("Failed to serialize TCP stream upload queue")?;
+    if json.len() > TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES {
+        bail!(
+            "TCP stream upload queue is {} bytes, exceeding the {} byte limit",
+            json.len(),
+            TCP_STREAM_UPLOAD_QUEUE_MAX_BYTES
+        );
+    }
     atomic_write(&path, &json).with_context(|| format!("Failed writing {path:?}"))
+}
+
+fn queue_items_fit(items: &[QueuedTcpStreamBatch], max_bytes: usize) -> bool {
+    serialized_queue_len(items).is_some_and(|len| len <= max_bytes)
+}
+
+fn serialized_queue_len(items: &[QueuedTcpStreamBatch]) -> Option<usize> {
+    let store = TcpStreamUploadQueueStore { version: 1, items: items.to_vec() };
+    serde_json::to_vec(&store).ok().map(|json| json.len())
 }
 
 fn tcp_stream_batch_key(batch: &TcpStreamBatch) -> TcpStreamBatchKey {
@@ -182,6 +269,50 @@ mod tests {
         queue.enqueue_batch(batch);
 
         assert_eq!(queue.store().items.len(), 1);
+    }
+
+    #[test]
+    fn tcp_stream_upload_queue_drops_oldest_capture_when_serialized_size_exceeds_quota() {
+        let first = tcp_stream_batch_for_capture("capture-1", 0, true);
+        let second = tcp_stream_batch_for_capture("capture-2", 0, true);
+        let mut queue = TcpStreamUploadQueue::default();
+        queue.enqueue_batch(first);
+        let max_bytes = serialized_queue_len(&queue.store().items).expect("queue should serialize");
+
+        let report = queue.enqueue_batch_with_max_bytes(second.clone(), max_bytes);
+
+        assert!(report.queued());
+        assert_eq!(report.dropped_captures(), 1);
+        assert_eq!(queue.store().items[0].batch.capture_id, second.capture_id);
+    }
+
+    #[test]
+    fn tcp_stream_upload_queue_drops_new_batch_when_it_cannot_fit_quota() {
+        let batch = tcp_stream_batch(0, true);
+        let item = QueuedTcpStreamBatch { batch: batch.clone(), attempts: 0, not_before_ms: None };
+        let max_bytes = serialized_queue_len(&[item]).expect("queue should serialize") - 1;
+        let mut queue = TcpStreamUploadQueue::default();
+
+        let report = queue.enqueue_batch_with_max_bytes(batch, max_bytes);
+
+        assert!(!report.queued());
+        assert!(queue.store().items.is_empty());
+    }
+
+    #[test]
+    fn tcp_stream_upload_queue_trims_loaded_store_to_quota() {
+        let first = tcp_stream_batch_for_capture("capture-1", 0, true);
+        let second = tcp_stream_batch_for_capture("capture-2", 0, true);
+        let mut queue = TcpStreamUploadQueue::default();
+        queue.enqueue_batch(first);
+        queue.enqueue_batch(second.clone());
+        let store = queue.store();
+        let max_bytes = serialized_queue_len(&store.items[1..]).expect("queue should serialize");
+
+        let queue = TcpStreamUploadQueue::new_with_max_bytes(store, max_bytes);
+
+        assert_eq!(queue.store().items.len(), 1);
+        assert_eq!(queue.store().items[0].batch.capture_id, second.capture_id);
     }
 
     #[test]

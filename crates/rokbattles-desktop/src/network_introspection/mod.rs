@@ -365,7 +365,28 @@ async fn flush_stream(
     };
 
     let has_earlier_queued_batch = queue.has_capture(&batch.capture_id);
-    queue.enqueue_batch(batch.clone());
+    let enqueue_report = queue.enqueue_batch(batch.clone());
+    if enqueue_report.dropped_batches() > 0 {
+        emit_log(
+            app,
+            format!(
+                "Dropped {} saved network upload batches from {} captures to keep retry storage bounded",
+                enqueue_report.dropped_batches(),
+                enqueue_report.dropped_captures()
+            ),
+        );
+    }
+    if !enqueue_report.queued() {
+        if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
+            emit_log(app, format!("Could not update saved network uploads: {error}"));
+        }
+        emit_log(
+            app,
+            format!("Dropped {} network fragments because retry storage is full", fragment_count),
+        );
+        mark_batch_handed_off(state);
+        return true;
+    }
     if let Err(error) = write_tcp_stream_upload_queue(app, &queue.store()) {
         emit_log(app, format!("Could not save network upload for retry: {error}"));
         queue.remove_batch(&batch);
