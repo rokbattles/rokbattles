@@ -148,7 +148,13 @@ impl DescriptorSet {
 
             if let Some(mapping) = api_map.and_then(|api_map| api_map.get(wrapper.api_id)) {
                 out.insert("Schema".to_string(), Value::String(mapping.schema().to_string()));
-                let decoded = self.decode(mapping.descriptor(), &wrapper.payload, api_map);
+                let decoded = if let Some(message) =
+                    self.messages.get(normalize_name(mapping.descriptor()))
+                {
+                    self.decode_message(&wrapper.payload, message, depth - 1, api_map)
+                } else {
+                    json!({ "error": format!("message not found: {}", mapping.descriptor()) })
+                };
                 out.insert("Data".to_string(), decoded);
             } else {
                 let value = protobuf_text_value(&wrapper.payload)?;
@@ -1044,6 +1050,38 @@ mod tests {
     }
 
     #[test]
+    fn decode_message_omits_oversized_zlib_bytes() {
+        use std::io::Write as _;
+
+        use flate2::{Compression, write::ZlibEncoder};
+
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "Test".to_string(),
+                full_name: "Test".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+        let oversized = vec![b'a'; crate::limits::MAX_ZLIB_INFLATED_BYTES + 1];
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(&oversized).expect("test fixture should compress");
+        let compressed = encoder.finish().expect("test fixture should finish");
+        let mut payload = vec![0x0a];
+        write_varint(compressed.len() as u64, &mut payload);
+        payload.extend_from_slice(&compressed);
+
+        let value = descriptors.decode("Test", &payload, None);
+
+        assert_eq!(value, json!({}));
+    }
+
+    #[test]
     fn decode_message_parses_prefixed_zlib_bytes() {
         use std::io::Write as _;
 
@@ -1379,6 +1417,47 @@ mod tests {
     }
 
     #[test]
+    fn decode_message_consumes_depth_for_mapped_wrapped_bytes() {
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "WrappedRecord".to_string(),
+                full_name: "WrappedRecord".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(2),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+        let api_map = ApiMap::from_artifact(std::collections::BTreeMap::from([(
+            "3300".to_string(),
+            ApiMapping {
+                schema: "WrappedRecord".to_string(),
+                descriptor: "WrappedRecord".to_string(),
+            },
+        )]))
+        .expect("api map should load");
+        let mut payload = vec![0xff];
+        for _ in 0..8 {
+            let mut wrapper = vec![0x08];
+            write_varint(3300, &mut wrapper);
+            wrapper.push(0x12);
+            write_varint(payload.len() as u64, &mut wrapper);
+            wrapper.extend_from_slice(&payload);
+
+            payload = vec![0x12];
+            write_varint(wrapper.len() as u64, &mut payload);
+            payload.extend_from_slice(&wrapper);
+        }
+
+        let value = descriptors.decode("WrappedRecord", &payload, Some(&api_map));
+
+        assert_eq!(mapped_wrapper_depth(&value), 6);
+    }
+
+    #[test]
     fn decode_message_decodes_inline_json_bytes_without_byte_summary() {
         let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
             messages: vec![Message {
@@ -1488,5 +1567,26 @@ mod tests {
             Value::Array(values) => values.iter().any(|value| contains_key(value, key)),
             _ => false,
         }
+    }
+
+    fn mapped_wrapper_depth(value: &Value) -> usize {
+        let Value::Object(object) = value else {
+            return 0;
+        };
+        let Some(Value::Object(data)) = object.get("Data") else {
+            return 0;
+        };
+        if !data.contains_key("Api") {
+            return 0;
+        }
+        1 + data.get("Data").map(mapped_wrapper_depth).unwrap_or(0)
+    }
+
+    fn write_varint(mut value: u64, out: &mut Vec<u8>) {
+        while value >= 0x80 {
+            out.push((value as u8 & 0x7f) | 0x80);
+            value >>= 7;
+        }
+        out.push(value as u8);
     }
 }

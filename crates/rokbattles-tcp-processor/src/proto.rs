@@ -4,6 +4,8 @@ use std::io::Read;
 
 use flate2::read::ZlibDecoder;
 
+use crate::limits::MAX_ZLIB_INFLATED_BYTES;
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum RawValue {
     Varint(u64),
@@ -104,6 +106,12 @@ pub fn unwrap_effective_payload(
     let Some(compressed) = parse_compressed_wrapper(&outer.payload) else {
         return Ok(UnwrappedPayload { api_id: Some(outer.api_id), payload: outer.payload });
     };
+    if compressed.declared_len > MAX_ZLIB_INFLATED_BYTES as u64 {
+        return Err(format!(
+            "compressed wrapper declares inflated length {} exceeding maximum {}",
+            compressed.declared_len, MAX_ZLIB_INFLATED_BYTES
+        ));
+    }
     let inflated = inflate_first_zlib(&compressed.payload)
         .ok_or_else(|| "compressed wrapper did not contain zlib payload".to_string())?;
 
@@ -136,8 +144,9 @@ fn inflate_first_zlib(data: &[u8]) -> Option<Vec<u8>> {
         };
         let mut decoder = ZlibDecoder::new(chunk);
         let mut out = Vec::new();
-        if decoder.read_to_end(&mut out).is_ok() {
-            return Some(out);
+        if decoder.by_ref().take((MAX_ZLIB_INFLATED_BYTES + 1) as u64).read_to_end(&mut out).is_ok()
+        {
+            return (out.len() <= MAX_ZLIB_INFLATED_BYTES).then_some(out);
         }
     }
     None
@@ -221,7 +230,7 @@ mod tests {
     fn validated_unwrap_rejects_unknown_report_data_msg_shape() {
         let report_data = message_frame(2622, &[0xaa, 0xbb]);
         let inflated = length_delimited_field(1, &report_data);
-        let compressed = compressed_frame(&inflated);
+        let compressed = compressed_frame(&inflated, inflated.len() as u64);
         let outer = message_frame(9999, &compressed);
 
         let unwrapped = unwrap_effective_payload(&outer, |api_id| api_id == 14).unwrap();
@@ -234,13 +243,37 @@ mod tests {
     fn validated_unwrap_accepts_known_report_data_msg_shape() {
         let report_data = message_frame(2622, &[0xaa, 0xbb]);
         let inflated = length_delimited_field(1, &report_data);
-        let compressed = compressed_frame(&inflated);
+        let compressed = compressed_frame(&inflated, inflated.len() as u64);
         let outer = message_frame(9999, &compressed);
 
         let unwrapped = unwrap_effective_payload(&outer, |api_id| api_id == 2622).unwrap();
 
         assert_eq!(unwrapped.api_id, Some(2622));
         assert_eq!(unwrapped.payload, vec![0xaa, 0xbb]);
+    }
+
+    #[test]
+    fn unwrap_effective_payload_rejects_declared_oversized_compressed_wrapper() {
+        let compressed =
+            compressed_frame(&[0xaa, 0xbb], crate::limits::MAX_ZLIB_INFLATED_BYTES as u64 + 1);
+        let outer = message_frame(9999, &compressed);
+
+        let error =
+            unwrap_effective_payload(&outer, |_| true).expect_err("oversized wrapper fails");
+
+        assert!(error.contains("exceeding maximum"));
+    }
+
+    #[test]
+    fn unwrap_effective_payload_rejects_oversized_compressed_wrapper_output() {
+        let inflated = vec![b'a'; crate::limits::MAX_ZLIB_INFLATED_BYTES + 1];
+        let compressed = compressed_frame(&inflated, crate::limits::MAX_ZLIB_INFLATED_BYTES as u64);
+        let outer = message_frame(9999, &compressed);
+
+        let error =
+            unwrap_effective_payload(&outer, |_| true).expect_err("oversized wrapper fails");
+
+        assert_eq!(error, "compressed wrapper did not contain zlib payload");
     }
 
     fn message_frame(api_id: u64, payload: &[u8]) -> Vec<u8> {
@@ -250,13 +283,13 @@ mod tests {
         out
     }
 
-    fn compressed_frame(inflated: &[u8]) -> Vec<u8> {
+    fn compressed_frame(inflated: &[u8], declared_len: u64) -> Vec<u8> {
         let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
         encoder.write_all(inflated).expect("zlib input should write");
         let compressed = encoder.finish().expect("zlib should finish");
 
         let mut out = Vec::new();
-        out.extend(varint_field(1, inflated.len() as u64));
+        out.extend(varint_field(1, declared_len));
         out.extend(length_delimited_field(2, &compressed));
         out
     }

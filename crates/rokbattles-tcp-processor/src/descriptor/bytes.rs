@@ -3,7 +3,10 @@ use std::io::Read as _;
 use flate2::read::ZlibDecoder;
 use serde_json::{Value, json};
 
-use crate::proto::{RawValue, parse_fields};
+use crate::{
+    limits::MAX_ZLIB_INFLATED_BYTES,
+    proto::{RawValue, parse_fields},
+};
 
 pub(super) fn text_or_json_value(bytes: &[u8]) -> Option<Value> {
     if let Ok(text) = std::str::from_utf8(bytes)
@@ -22,9 +25,12 @@ pub(super) fn text_or_json_value(bytes: &[u8]) -> Option<Value> {
 
 pub(super) fn zlib_text_or_json_value(bytes: &[u8]) -> Option<Value> {
     let offset = zlib_offset(bytes)?;
-    let mut decoder = ZlibDecoder::new(bytes.get(offset..)?);
+    let decoder = ZlibDecoder::new(bytes.get(offset..)?);
     let mut inflated = Vec::new();
-    decoder.read_to_end(&mut inflated).ok()?;
+    decoder.take((MAX_ZLIB_INFLATED_BYTES + 1) as u64).read_to_end(&mut inflated).ok()?;
+    if inflated.len() > MAX_ZLIB_INFLATED_BYTES {
+        return None;
+    }
     text_or_json_value(&inflated)
 }
 
