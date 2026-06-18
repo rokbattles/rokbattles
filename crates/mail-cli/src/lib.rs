@@ -12,7 +12,9 @@ mod fs_utils;
 mod lossless;
 mod run;
 
-pub use config::{Config, RebuildConfig, RebuildSummary, RunSummary};
+pub use config::{
+    Config, MigrateConfig, MigrateSummary, RebuildConfig, RebuildSummary, RunSummary,
+};
 pub use error::MailCliError;
-pub use lossless::rebuild_lossless;
+pub use lossless::{migrate_lossless, rebuild_lossless};
 pub use run::run;

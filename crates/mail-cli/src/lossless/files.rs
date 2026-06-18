@@ -4,7 +4,7 @@ use std::{
 };
 
 use crate::{
-    MailCliError, RebuildConfig,
+    MailCliError,
     fs_utils::{collect_sorted_files, is_json_file},
 };
 
@@ -21,20 +21,19 @@ pub(super) fn collect_lossless_json_files(path: &Path) -> Result<Vec<PathBuf>, M
     collect_sorted_files(path, is_json_file)
 }
 
-pub(super) fn resolve_output_dir(config: &RebuildConfig) -> Result<PathBuf, MailCliError> {
-    match &config.output_dir {
+pub(super) fn resolve_output_dir_for(
+    input_path: &Path,
+    output_dir: &Option<PathBuf>,
+) -> Result<PathBuf, MailCliError> {
+    match output_dir {
         Some(dir) => Ok(dir.clone()),
         None => {
-            let metadata = fs::metadata(&config.input_path)
-                .map_err(|source| MailCliError::Io { source, path: config.input_path.clone() })?;
+            let metadata = fs::metadata(input_path)
+                .map_err(|source| MailCliError::Io { source, path: input_path.to_path_buf() })?;
             if metadata.is_file() {
-                Ok(config
-                    .input_path
-                    .parent()
-                    .map(Path::to_path_buf)
-                    .unwrap_or_else(|| PathBuf::from(".")))
+                Ok(input_path.parent().map(Path::to_path_buf).unwrap_or_else(|| PathBuf::from(".")))
             } else {
-                Ok(config.input_path.clone())
+                Ok(input_path.to_path_buf())
             }
         }
     }

@@ -11,6 +11,12 @@ use paths::collect_input_files;
 
 /// Decode each mail buffer in the input directory into JSON.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
+    if config.lossless && config.binary_cursor {
+        return Err(MailCliError::InvalidOption {
+            message: "--lossless and --binary-cursor cannot be used together".to_string(),
+        });
+    }
+
     crate::fs_utils::ensure_directory(&config.input_dir)?;
 
     fs::create_dir_all(&config.output_dir)
@@ -20,7 +26,13 @@ pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
     let mut decoded_files = 0;
 
     for input in input_files {
-        decode_file(&input, &config.output_dir, config.pretty, config.lossless)?;
+        decode_file(
+            &input,
+            &config.output_dir,
+            config.pretty,
+            config.lossless,
+            config.binary_cursor,
+        )?;
         decoded_files += 1;
     }
 
@@ -58,6 +70,7 @@ mod tests {
             output_dir: output_dir.path().to_path_buf(),
             pretty: true,
             lossless: false,
+            binary_cursor: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 1);
@@ -81,6 +94,7 @@ mod tests {
             output_dir: output_dir.path().to_path_buf(),
             pretty: false,
             lossless: false,
+            binary_cursor: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 1);
@@ -105,6 +119,7 @@ mod tests {
             output_dir: output_dir.path().to_path_buf(),
             pretty: true,
             lossless: true,
+            binary_cursor: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 1);
@@ -126,6 +141,7 @@ mod tests {
             output_dir: temp.path().join("out"),
             pretty: true,
             lossless: false,
+            binary_cursor: false,
         };
         let err = run(&config).unwrap_err();
         assert!(matches!(err, MailCliError::InvalidInputDir { .. }));
@@ -141,6 +157,7 @@ mod tests {
             output_dir: output_dir.path().to_path_buf(),
             pretty: true,
             lossless: false,
+            binary_cursor: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 0);

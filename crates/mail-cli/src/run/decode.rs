@@ -11,9 +11,17 @@ pub(super) fn decode_file(
     output_dir: &Path,
     pretty: bool,
     lossless: bool,
+    binary_cursor: bool,
 ) -> Result<(), MailCliError> {
     let buffer =
         fs::read(input).map_err(|source| MailCliError::Io { source, path: input.to_path_buf() })?;
+    if binary_cursor {
+        let value = binary_cursor::decode(&buffer)
+            .map_err(|source| MailCliError::BinaryDecode { source, path: input.to_path_buf() })?;
+        write_json(output_dir, input, &value, pretty)?;
+        return Ok(());
+    }
+
     if lossless {
         let document = mail_decoder::decode_lossless(&buffer)
             .map_err(|source| MailCliError::Decode { source, path: input.to_path_buf() })?;

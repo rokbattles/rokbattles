@@ -4,6 +4,7 @@ version = "1.2.3"
 edition = "2024"
 
 [dependencies]
+binary-cursor = { path = "../binary-cursor" }
 clap = { workspace = true, features = ["derive"] }
 mail-decoder = { path = "../mail-decoder" }
 mail-registry = { path = "../mail-registry", features = ["processors"] }

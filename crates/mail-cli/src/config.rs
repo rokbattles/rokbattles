@@ -11,6 +11,8 @@ pub struct Config {
     pub pretty: bool,
     /// Whether to decode through the lossless representation.
     pub lossless: bool,
+    /// Decode binary files with `binary-cursor` instead of the old decoder.
+    pub binary_cursor: bool,
 }
 
 /// Result summary for a decode run.
@@ -37,4 +39,23 @@ pub struct RebuildConfig {
 pub struct RebuildSummary {
     /// Number of lossless JSON files rebuilt into raw buffers.
     pub rebuilt_files: usize,
+}
+
+/// Settings for converting stored lossless JSON into v2 decoded JSON.
+#[derive(Debug, Clone)]
+pub struct MigrateConfig {
+    /// File or directory that contains the lossless JSON documents.
+    pub input_path: PathBuf,
+    /// Directory where v2 JSON files should be written.
+    /// Defaults to the input directory, or the input file's parent directory.
+    pub output_dir: Option<PathBuf>,
+    /// Whether to pretty-print the v2 JSON output.
+    pub pretty: bool,
+}
+
+/// Result summary for a lossless-to-v2 run.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct MigrateSummary {
+    /// Number of lossless JSON files migrated into v2 JSON.
+    pub migrated_files: usize,
 }

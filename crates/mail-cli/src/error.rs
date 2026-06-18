@@ -31,6 +31,15 @@ pub enum MailCliError {
         /// Path to the buffer that was being decoded.
         path: PathBuf,
     },
+    /// Decoding a mail buffer with `binary-cursor` failed.
+    #[error("binary cursor decode failed for {}: {source}", path.display())]
+    BinaryDecode {
+        /// Underlying decoder error.
+        #[source]
+        source: binary_cursor::DecodeError,
+        /// Path to the buffer that was being decoded.
+        path: PathBuf,
+    },
     /// Serializing decoded JSON failed.
     #[error("JSON serialization failed for {}: {source}", path.display())]
     Json {
@@ -86,5 +95,11 @@ pub enum MailCliError {
     MissingFileName {
         /// Path that failed validation.
         path: PathBuf,
+    },
+    /// CLI options requested incompatible modes.
+    #[error("{message}")]
+    InvalidOption {
+        /// Description of the invalid option combination.
+        message: String,
     },
 }
