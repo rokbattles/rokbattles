@@ -1044,6 +1044,38 @@ mod tests {
     }
 
     #[test]
+    fn decode_message_omits_oversized_zlib_bytes() {
+        use std::io::Write as _;
+
+        use flate2::{Compression, write::ZlibEncoder};
+
+        let descriptors = DescriptorSet::from_artifact(DescriptorArtifact {
+            messages: vec![Message {
+                name: "Test".to_string(),
+                full_name: "Test".to_string(),
+                fields: vec![Field {
+                    name: "Data".to_string(),
+                    number: Some(1),
+                    r#type: Some(TYPE_BYTES),
+                    type_name: None,
+                }],
+                nested: Vec::new(),
+            }],
+        });
+        let oversized = vec![b'a'; crate::limits::MAX_ZLIB_INFLATED_BYTES + 1];
+        let mut encoder = ZlibEncoder::new(Vec::new(), Compression::default());
+        encoder.write_all(&oversized).expect("test fixture should compress");
+        let compressed = encoder.finish().expect("test fixture should finish");
+        let mut payload = vec![0x0a];
+        write_varint(compressed.len() as u64, &mut payload);
+        payload.extend_from_slice(&compressed);
+
+        let value = descriptors.decode("Test", &payload, None);
+
+        assert_eq!(value, json!({}));
+    }
+
+    #[test]
     fn decode_message_parses_prefixed_zlib_bytes() {
         use std::io::Write as _;
 
@@ -1488,5 +1520,13 @@ mod tests {
             Value::Array(values) => values.iter().any(|value| contains_key(value, key)),
             _ => false,
         }
+    }
+
+    fn write_varint(mut value: u64, out: &mut Vec<u8>) {
+        while value >= 0x80 {
+            out.push((value as u8 & 0x7f) | 0x80);
+            value >>= 7;
+        }
+        out.push(value as u8);
     }
 }

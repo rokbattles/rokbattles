@@ -8,6 +8,7 @@ mod artifact;
 mod config;
 mod descriptor;
 mod error;
+mod limits;
 mod processing;
 mod proto;
 mod storage;
