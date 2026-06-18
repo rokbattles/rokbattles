@@ -340,8 +340,14 @@ export function MyPairingsContent() {
         name: t("Avg. Trade Percentage"),
         value: formatPercent(selectedLoadoutCard.totals.tradePercent),
         description: t(
-          "Average trade percentage across battles recorded while using this pairing."
+          "Each battle's kill points gained divided by kill points lost, then averaged across battles."
         ),
+      },
+      {
+        id: "weightedTradePercent",
+        name: t("Total Trade Percentage"),
+        value: formatPercent(selectedLoadoutCard.totals.weightedTradePercent),
+        description: t("Total kill points gained divided by total kill points lost."),
       },
       {
         id: "dps",

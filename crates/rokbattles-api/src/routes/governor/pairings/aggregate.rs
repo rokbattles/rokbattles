@@ -295,11 +295,23 @@ fn finalize_totals<T>(items: &mut [T], lookup: impl Fn(&mut T) -> (&mut PairingT
         let (totals, count) = lookup(item);
         totals.trade_percent =
             if count > 0 { totals.trade_percent_total as f64 / count as f64 } else { 0.0 };
+        totals.weighted_trade_percent =
+            compute_trade_percent(totals.kill_score, totals.enemy_kill_score);
         totals.hps = if totals.battle_duration > 0 {
             totals.healing_count as f64 / (totals.battle_duration as f64 / 1000.0)
         } else {
             0.0
         };
+    }
+}
+
+fn compute_trade_percent(kill_score: i64, enemy_kill_score: i64) -> f64 {
+    if kill_score == enemy_kill_score {
+        100.0
+    } else if enemy_kill_score <= 0 {
+        0.0
+    } else {
+        (kill_score as f64 / enemy_kill_score as f64) * 100.0
     }
 }
 
@@ -533,6 +545,15 @@ mod tests {
     }
 
     fn build_test_mail(primary_equipment: &str, primary_armament_buffs: &str) -> Document {
+        build_test_mail_with_scores(primary_equipment, primary_armament_buffs, 100, 50)
+    }
+
+    fn build_test_mail_with_scores(
+        primary_equipment: &str,
+        primary_armament_buffs: &str,
+        kill_score: i64,
+        enemy_kill_score: i64,
+    ) -> Document {
         doc! {
             "metadata": { "mail_time": 1_735_689_600_000_i64 },
             "timeline": { "start_timestamp": 1_735_689_600_000_i64 },
@@ -565,14 +586,14 @@ mod tests {
                     },
                     "battle_results": {
                         "sender": {
-                            "kill_points": 100_i64,
+                            "kill_points": kill_score,
                             "dead": 5_i64,
                             "severely_wounded": 7_i64,
                             "slightly_wounded": 9_i64,
                             "heal": 25_i64
                         },
                         "opponent": {
-                            "kill_points": 50_i64,
+                            "kill_points": enemy_kill_score,
                             "dead": 3_i64,
                             "severely_wounded": 11_i64,
                             "slightly_wounded": 13_i64
@@ -587,7 +608,7 @@ mod tests {
     fn aggregate_pairings_groups_by_pairing_and_accumulates_totals() {
         let mails = vec![
             build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
-            build_test_mail("{1:100_2:25}", "1000_2;1001_3"),
+            build_test_mail_with_scores("{1:100_2:25}", "1000_2;1001_3", 100, 200),
         ];
 
         let items = aggregate_pairings(&mails, &test_range());
@@ -600,7 +621,8 @@ mod tests {
         assert_eq!(first.totals.healing_count, 50);
         assert_eq!(first.totals.enemy_severely_wounded, 22);
         assert_eq!(first.totals.dps, 48);
-        assert_eq!(first.totals.trade_percent, 200.0);
+        assert_eq!(first.totals.trade_percent, 125.0);
+        assert_eq!(first.totals.weighted_trade_percent, 80.0);
         assert_eq!(first.totals.hps, 5.0);
     }
 
