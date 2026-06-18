@@ -50,6 +50,7 @@ export type PairingTotals = {
   tps: number;
   hps: number;
   tradePercent: number;
+  weightedTradePercent: number;
   battleDuration: number;
 };
 

@@ -594,8 +594,16 @@ msgid "j80Jf5"
 msgstr "Avg. Trade Percentage"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "gSUsVS"
-msgstr "Average trade percentage across battles recorded while using this pairing."
+msgid "rsO25J"
+msgstr "Each battle's kill points gained divided by kill points lost, then averaged across battles."
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "tj24bj"
+msgstr "Total Trade Percentage"
+
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "pckGja"
+msgstr "Total kill points gained divided by total kill points lost."
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "jVC9W_"
