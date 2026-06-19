@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import { LootIcon } from "@/components/account-loot/loot-icon";
 import {
   Table,
   TableBody,
@@ -32,7 +33,12 @@ export function ResourcesBreakdownTable({ rows }: ResourcesBreakdownTableProps) 
       <TableBody>
         {rows.map((row) => (
           <TableRow key={row.key}>
-            <TableCell>{row.name}</TableCell>
+            <TableCell>
+              <div className="flex items-center gap-3">
+                <LootIcon spriteUrls={row.spriteUrls} />
+                <span>{row.name}</span>
+              </div>
+            </TableCell>
             <TableCell className="tabular-nums">{formatWholeNumber(row.gain)}</TableCell>
             <TableCell className="tabular-nums">{formatWholeNumber(row.bonus)}</TableCell>
             <TableCell className="tabular-nums">{formatWholeNumber(row.total)}</TableCell>
