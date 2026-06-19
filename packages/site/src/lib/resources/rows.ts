@@ -1,10 +1,11 @@
-import { getLootName } from "@/lib/loot-catalog";
+import { getLootName, getLootSprites } from "@/lib/loot-catalog";
 import { RESOURCE_TYPE_IDS } from "@/lib/resources/catalog";
 import type { ResourceTotals, ResourceTotalsByType } from "@/lib/types/resources";
 
 export type ResourceBreakdownRow = {
   key: string;
   name: string;
+  spriteUrls?: string[];
   gain: number;
   bonus: number;
   total: number;
@@ -26,6 +27,7 @@ export function buildResourceBreakdownRows(
     {
       key: "crystalsGain",
       name: crystalsName,
+      spriteUrls: getLootSprites(1, 9),
       gain: crystalsGain.gain,
       bonus: crystalsGain.bonus,
       total: crystalsGain.total,
@@ -42,6 +44,7 @@ export function buildResourceBreakdownRows(
     rows.push({
       key: `type:${type}`,
       name: resourceName,
+      spriteUrls: getLootSprites(1, type),
       gain: resource?.gain ?? 0,
       bonus: resource?.bonus ?? 0,
       total: resource?.total ?? 0,
