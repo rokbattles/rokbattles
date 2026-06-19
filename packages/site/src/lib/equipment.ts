@@ -9,12 +9,12 @@ export type EquipmentTroopType =
   | "engineering";
 
 const TROOP_TYPE_ICON_PATHS: Record<EquipmentTroopType, string> = {
-  infantry: "btn_BlackSmithsShopSystemInfantry.Sprite.-8042821011777516562__781710f5d2f4.png",
-  archer: "btn_BlackSmithsShopSystemArcher.Sprite.-8821678283852625625__0349d07a5d23.png",
-  cavalry: "btn_BlackSmithsShopSystemCavalry.Sprite.-1545899140773578379__69ba8909171f.png",
-  integration: "btn_BlackSmithsShopSystemIntegration.Sprite.6769590931564808732__8f64da276457.png",
-  leadership: "btn_BlackSmithsShopSystemLeadership.Sprite.-6704481556664019519__47b6bcae4b07.png",
-  engineering: "btn_BlackSmithsShopSystemVehicle.Sprite.-416128535698636701__ff4f7019fa82.png",
+  infantry: "btn_BlackSmithsShopSystemInfantry.png",
+  archer: "btn_BlackSmithsShopSystemArcher.png",
+  cavalry: "btn_BlackSmithsShopSystemCavalry.png",
+  integration: "btn_BlackSmithsShopSystemIntegration.png",
+  leadership: "btn_BlackSmithsShopSystemLeadership.png",
+  engineering: "btn_BlackSmithsShopSystemVehicle.png",
 };
 
 const ATTR_TROOP_TYPE_MAP: Record<number, EquipmentTroopType> = {

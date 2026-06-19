@@ -55,11 +55,11 @@ export function getCommanderSprites(
       }
 
       if (commander.rarity === "epic") {
-        return "img_icon_HeroProfile_BGMask_pink.Sprite.9180639604154885073__6cb43f8a16a8.png";
+        return "img_icon_HeroProfile_BGMask_pink.png";
       }
 
       if (commander.rarity === "legendary") {
-        return "img_icon_HeroProfile_BGMask_Orange.Sprite.-714417562748847876__d57eaef45df4.png";
+        return "img_icon_HeroProfile_BGMask_Orange.png";
       }
 
       return sprite;
