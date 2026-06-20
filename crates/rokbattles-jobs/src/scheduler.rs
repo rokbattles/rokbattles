@@ -13,7 +13,7 @@ use crate::{
 };
 
 /// Every 30 mins
-pub const REFRESH_BINDS_CRON: &str = "0 0,30 * * * *";
+pub const REFRESH_BINDS_CRON: &str = "0 */30 * * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_BARBARIAN_FORT_CRON: &str = "0 0 */8 * * *";
 
@@ -114,7 +114,7 @@ mod tests {
 
     #[test]
     fn refresh_binds_cron_runs_every_thirty_minutes_utc() {
-        assert_eq!(REFRESH_BINDS_CRON, "0 0,30 * * * *");
+        assert_eq!(REFRESH_BINDS_CRON, "0 */30 * * * *");
     }
 
     #[test]
