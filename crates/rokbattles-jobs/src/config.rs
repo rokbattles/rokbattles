@@ -26,11 +26,18 @@ impl Config {
     where
         F: Fn(&str) -> Option<String>,
     {
-        let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::Missing { key: "MONGODB_URI" })?;
+        let mongo_uri = required(&lookup, "MONGODB_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
 
         Ok(Self { mongo_uri, sentry_dsn })
     }
+}
+
+fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    lookup(key).ok_or(ConfigError::Missing { key })
 }
 
 #[cfg(test)]
