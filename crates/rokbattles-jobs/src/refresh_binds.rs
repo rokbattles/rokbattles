@@ -1,14 +1,13 @@
+//! Keep claimed governor names and avatars in sync with recent battle data.
+
 use futures::StreamExt;
 use mongodb::{
     Collection,
-    bson::{Document, doc},
+    bson::{Bson, Document, doc},
 };
+use rokbattles_api::db::ReportsStore;
 
-use super::types::RefreshBindsStats;
-use crate::{
-    bson_utils::{bson_to_i64_exact, nested_i64_exact, nested_string},
-    error::ApiError,
-};
+use crate::error::JobsError;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 struct LatestGovernorSnapshot {
@@ -17,17 +16,32 @@ struct LatestGovernorSnapshot {
     governor_avatar: Option<String>,
 }
 
-/// Update claimed governor binds using the latest sender snapshot we can find.
-pub(super) async fn refresh_claimed_governor_bindings(
+/// Counts from one governor bind refresh run.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct RefreshBindsStats {
+    pub governors_seen: usize,
+    pub governors_refreshed: usize,
+    pub claims_matched: u64,
+    pub claims_updated: u64,
+}
+
+/// Update claimed governor binds from the newest sender snapshot available.
+pub async fn refresh_claimed_governor_bindings(
+    reports_store: &ReportsStore,
+) -> Result<RefreshBindsStats, JobsError> {
+    refresh_claimed_governor_bindings_from_collections(
+        reports_store.claimed_governors_collection(),
+        reports_store.battle_collection(),
+    )
+    .await
+}
+
+async fn refresh_claimed_governor_bindings_from_collections(
     claimed_governors: &Collection<Document>,
     battle_reports: &Collection<Document>,
-) -> Result<RefreshBindsStats, ApiError> {
-    let distinct_ids = claimed_governors
-        .distinct("governorId", doc! {})
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
-
-    let governor_ids = distinct_ids.iter().filter_map(bson_to_i64_exact).collect::<Vec<_>>();
+) -> Result<RefreshBindsStats, JobsError> {
+    let distinct_ids = claimed_governors.distinct("governorId", doc! {}).await?;
+    let governor_ids = distinct_ids.iter().filter_map(bson_integer_to_i64).collect::<Vec<_>>();
 
     let mut stats =
         RefreshBindsStats { governors_seen: governor_ids.len(), ..RefreshBindsStats::default() };
@@ -49,8 +63,7 @@ pub(super) async fn refresh_claimed_governor_bindings(
                     }
                 },
             )
-            .await
-            .map_err(|error| ApiError::internal(error.to_string()))?;
+            .await?;
 
         if update_result.matched_count > 0 {
             stats.governors_refreshed += 1;
@@ -65,7 +78,7 @@ pub(super) async fn refresh_claimed_governor_bindings(
 async fn fetch_latest_sender_snapshots(
     battle_reports: &Collection<Document>,
     governor_ids: &[i64],
-) -> Result<Vec<LatestGovernorSnapshot>, ApiError> {
+) -> Result<Vec<LatestGovernorSnapshot>, JobsError> {
     let pipeline = vec![
         doc! {
             "$match": {
@@ -87,14 +100,11 @@ async fn fetch_latest_sender_snapshots(
         },
     ];
 
-    let mut cursor = battle_reports
-        .aggregate(pipeline)
-        .await
-        .map_err(|error| ApiError::internal(error.to_string()))?;
+    let mut cursor = battle_reports.aggregate(pipeline).await?;
 
     let mut snapshots = Vec::new();
     while let Some(next) = cursor.next().await {
-        let document = next.map_err(|error| ApiError::internal(error.to_string()))?;
+        let document = next?;
         if let Some(snapshot) = map_latest_snapshot_document(&document) {
             snapshots.push(snapshot);
         }
@@ -111,14 +121,52 @@ fn map_latest_snapshot_document(document: &Document) -> Option<LatestGovernorSna
     })
 }
 
+fn nested_i64_exact(document: &Document, path: &[&str]) -> Option<i64> {
+    nested_bson(document, path).and_then(bson_integer_to_i64)
+}
+
+fn nested_string(document: &Document, path: &[&str]) -> Option<String> {
+    nested_bson(document, path).and_then(|value| value.as_str().map(str::to_owned))
+}
+
+fn nested_bson<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
+    let (last, parents) = path.split_last()?;
+    let mut current = document;
+
+    for key in parents {
+        current = current.get_document(key).ok()?;
+    }
+
+    current.get(*last)
+}
+
+fn bson_integer_to_i64(value: &Bson) -> Option<i64> {
+    match value {
+        Bson::Int32(value) => Some(i64::from(*value)),
+        Bson::Int64(value) => Some(*value),
+        _ => None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use mongodb::bson::{Bson, doc};
 
-    use super::map_latest_snapshot_document;
+    use super::{bson_integer_to_i64, map_latest_snapshot_document};
 
     #[test]
-    fn maps_latest_snapshot_document() {
+    fn bson_integer_to_i64_accepts_stored_integer_id_types() {
+        assert_eq!(bson_integer_to_i64(&Bson::Int32(1001)), Some(1001));
+        assert_eq!(bson_integer_to_i64(&Bson::Int64(1001)), Some(1001));
+    }
+
+    #[test]
+    fn bson_integer_to_i64_rejects_float_ids() {
+        assert_eq!(bson_integer_to_i64(&Bson::Double(1001.0)), None);
+    }
+
+    #[test]
+    fn map_latest_snapshot_document_maps_fields() {
         let document = doc! {
             "_id": 1001_i64,
             "governorName": "Alpha",
@@ -132,7 +180,7 @@ mod tests {
     }
 
     #[test]
-    fn skips_snapshot_document_without_governor_id() {
+    fn map_latest_snapshot_document_skips_missing_governor_id() {
         let document = doc! {
             "governorName": "Alpha",
         };
@@ -141,7 +189,7 @@ mod tests {
     }
 
     #[test]
-    fn keeps_nullable_snapshot_fields() {
+    fn map_latest_snapshot_document_keeps_nullable_fields() {
         let document = doc! {
             "_id": 1001_i64,
             "governorName": Bson::Null,

@@ -1,4 +1,4 @@
-//! MongoDB collection helpers for report routes and bind refresh.
+//! MongoDB collection helpers shared by API routes and jobs.
 
 use mongodb::{
     Collection, IndexModel,
@@ -6,7 +6,7 @@ use mongodb::{
     options::IndexOptions,
 };
 
-/// Typed access to the Mongo collections used by the API.
+/// Mongo collections
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
     mails_battle: Collection<Document>,
