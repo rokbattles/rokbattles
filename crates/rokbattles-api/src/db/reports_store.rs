@@ -19,6 +19,7 @@ pub struct ReportsStore {
     mails_barcanyonkillboss: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
+    g_rok_prec_barbarianfort: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -36,6 +37,7 @@ impl ReportsStore {
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
+            g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
         }
     }
 
@@ -192,6 +194,17 @@ impl ReportsStore {
             self.claimed_governors.create_index(model).await?;
         }
 
+        let precomputed_barbarian_fort_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "kind": 1, "level": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+        ];
+
+        for model in precomputed_barbarian_fort_models {
+            self.g_rok_prec_barbarianfort.create_index(model).await?;
+        }
+
         Ok(())
     }
 
@@ -243,5 +256,10 @@ impl ReportsStore {
     /// Access claimed governor binds.
     pub fn claimed_governors_collection(&self) -> &Collection<Document> {
         &self.claimed_governors
+    }
+
+    /// Access precomputed barbarian fort aggregates.
+    pub fn precomputed_barbarian_fort_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_barbarianfort
     }
 }
