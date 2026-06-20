@@ -41,7 +41,7 @@ async fn refresh_claimed_governor_bindings_from_collections(
     battle_reports: &Collection<Document>,
 ) -> Result<RefreshBindsStats, JobsError> {
     let distinct_ids = claimed_governors.distinct("governorId", doc! {}).await?;
-    let governor_ids = distinct_ids.iter().filter_map(bson_to_i64_exact).collect::<Vec<_>>();
+    let governor_ids = distinct_ids.iter().filter_map(bson_integer_to_i64).collect::<Vec<_>>();
 
     let mut stats =
         RefreshBindsStats { governors_seen: governor_ids.len(), ..RefreshBindsStats::default() };
@@ -122,7 +122,7 @@ fn map_latest_snapshot_document(document: &Document) -> Option<LatestGovernorSna
 }
 
 fn nested_i64_exact(document: &Document, path: &[&str]) -> Option<i64> {
-    nested_bson(document, path).and_then(bson_to_i64_exact)
+    nested_bson(document, path).and_then(bson_integer_to_i64)
 }
 
 fn nested_string(document: &Document, path: &[&str]) -> Option<String> {
@@ -140,7 +140,7 @@ fn nested_bson<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
     current.get(*last)
 }
 
-fn bson_to_i64_exact(value: &Bson) -> Option<i64> {
+fn bson_integer_to_i64(value: &Bson) -> Option<i64> {
     match value {
         Bson::Int32(value) => Some(i64::from(*value)),
         Bson::Int64(value) => Some(*value),
@@ -152,7 +152,18 @@ fn bson_to_i64_exact(value: &Bson) -> Option<i64> {
 mod tests {
     use mongodb::bson::{Bson, doc};
 
-    use super::map_latest_snapshot_document;
+    use super::{bson_integer_to_i64, map_latest_snapshot_document};
+
+    #[test]
+    fn bson_integer_to_i64_accepts_stored_integer_id_types() {
+        assert_eq!(bson_integer_to_i64(&Bson::Int32(1001)), Some(1001));
+        assert_eq!(bson_integer_to_i64(&Bson::Int64(1001)), Some(1001));
+    }
+
+    #[test]
+    fn bson_integer_to_i64_rejects_float_ids() {
+        assert_eq!(bson_integer_to_i64(&Bson::Double(1001.0)), None);
+    }
 
     #[test]
     fn map_latest_snapshot_document_maps_fields() {
