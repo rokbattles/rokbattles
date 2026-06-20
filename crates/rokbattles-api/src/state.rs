@@ -15,18 +15,16 @@ pub struct DiscordOAuthConfig {
 pub struct AppState {
     pub auth_store: Arc<dyn AuthRepository>,
     pub reports_store: ReportsStore,
-    pub cron_secret: String,
     pub discord_oauth: DiscordOAuthConfig,
 }
 
 impl AppState {
-    /// Create app state from configured stores and secrets.
+    /// Create app state from the configured stores and OAuth settings.
     pub fn new(
         auth_store: Arc<dyn AuthRepository>,
         reports_store: ReportsStore,
-        cron_secret: String,
         discord_oauth: DiscordOAuthConfig,
     ) -> Self {
-        Self { auth_store, reports_store, cron_secret, discord_oauth }
+        Self { auth_store, reports_store, discord_oauth }
     }
 }

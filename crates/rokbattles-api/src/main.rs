@@ -51,12 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         client_secret: config.discord_client_secret.clone(),
         redirect_uri: config.discord_redirect_uri.clone(),
     };
-    let state = Arc::new(AppState::new(
-        auth_store,
-        reports_store,
-        config.cron_secret.clone(),
-        discord_oauth,
-    ));
+    let state = Arc::new(AppState::new(auth_store, reports_store, discord_oauth));
     let app = build_router(state);
 
     info!(bind_addr = %config.bind_addr, "starting rokbattles-api");

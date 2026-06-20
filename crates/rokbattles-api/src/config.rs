@@ -7,7 +7,6 @@ use std::env;
 pub struct Config {
     pub bind_addr: String,
     pub mongo_uri: String,
-    pub cron_secret: String,
     pub discord_client_id: String,
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
@@ -20,8 +19,6 @@ pub struct Config {
 pub enum ConfigError {
     #[error("missing required env var: MONGODB_URI")]
     MissingMongoUri,
-    #[error("missing required env var: CRON_SECRET")]
-    MissingCronSecret,
     #[error("missing required env var: DISCORD_CLIENT_ID")]
     MissingDiscordClientId,
     #[error("missing required env var: DISCORD_CLIENT_SECRET")]
@@ -42,7 +39,6 @@ impl Config {
     {
         let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8001".to_string());
         let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::MissingMongoUri)?;
-        let cron_secret = lookup("CRON_SECRET").ok_or(ConfigError::MissingCronSecret)?;
         let discord_client_id =
             lookup("DISCORD_CLIENT_ID").ok_or(ConfigError::MissingDiscordClientId)?;
         let discord_client_secret =
@@ -56,7 +52,6 @@ impl Config {
         Ok(Self {
             bind_addr,
             mongo_uri,
-            cron_secret,
             discord_client_id,
             discord_client_secret,
             discord_redirect_uri,
@@ -80,7 +75,6 @@ mod tests {
     fn uses_defaults_for_optional_values() {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
@@ -90,7 +84,6 @@ mod tests {
         assert_eq!(cfg.bind_addr, "0.0.0.0:8001");
         assert_eq!(cfg.log_filter, "rokbattles_api=info,axum=info");
         assert_eq!(cfg.mongo_uri, "mongodb://localhost:27017/rokbattles");
-        assert_eq!(cfg.cron_secret, "test-secret");
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
@@ -101,7 +94,6 @@ mod tests {
     fn loads_optional_sentry_dsn() {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
@@ -119,20 +111,9 @@ mod tests {
     }
 
     #[test]
-    fn requires_cron_secret() {
-        let err = Config::from_lookup(lookup(HashMap::from([(
-            "MONGODB_URI",
-            "mongodb://localhost:27017/rokbattles",
-        )])))
-        .expect_err("missing cron secret");
-        assert_eq!(err, ConfigError::MissingCronSecret);
-    }
-
-    #[test]
     fn requires_discord_client_id() {
         let err = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
@@ -144,7 +125,6 @@ mod tests {
     fn requires_discord_client_secret() {
         let err = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
@@ -156,7 +136,6 @@ mod tests {
     fn requires_discord_redirect_uri() {
         let err = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("CRON_SECRET", "test-secret"),
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
         ])))
