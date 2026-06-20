@@ -8,12 +8,15 @@ use tokio_cron_scheduler::{Job, JobScheduler};
 use tracing::{error, info, warn};
 
 use crate::{
-    error::JobsError, precompute_barbarianfort::precompute_barbarian_fort_data,
+    error::JobsError, precompute_barbarian::precompute_barbarian_data,
+    precompute_barbarianfort::precompute_barbarian_fort_data,
     refresh_binds::refresh_claimed_governor_bindings,
 };
 
 /// Every 30 mins
 pub const REFRESH_BINDS_CRON: &str = "0 0,30 * * * *";
+/// Every 8 hours
+pub const PRECOMPUTE_BARBARIAN_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_BARBARIAN_FORT_CRON: &str = "0 0 */8 * * *";
 
@@ -22,6 +25,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let scheduler = JobScheduler::new().await?;
     let reports_store = Arc::new(reports_store);
     let refresh_lock = Arc::new(Mutex::new(()));
+    let barbarian_lock = Arc::new(Mutex::new(()));
     let barbarian_fort_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
@@ -43,6 +47,30 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                 }
                 Err(error) => {
                     error!(%error, "failed to refresh claimed governor binds");
+                }
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
+        PRECOMPUTE_BARBARIAN_CRON,
+        Arc::clone(&reports_store),
+        barbarian_lock,
+        "barbarian precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_barbarian_data(&reports_store).await {
+                Ok(stats) => {
+                    info!(
+                        documents_read = stats.documents_read,
+                        reports_counted = stats.reports_counted,
+                        documents_written = stats.documents_written,
+                        "precomputed barbarian data"
+                    );
+                }
+                Err(error) => {
+                    error!(%error, "failed to precompute barbarian data");
                 }
             }
         },
@@ -110,7 +138,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::{PRECOMPUTE_BARBARIAN_FORT_CRON, REFRESH_BINDS_CRON};
+    use super::{PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, REFRESH_BINDS_CRON};
 
     #[test]
     fn refresh_binds_cron_runs_every_thirty_minutes_utc() {
@@ -120,5 +148,10 @@ mod tests {
     #[test]
     fn precompute_barbarian_fort_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_BARBARIAN_FORT_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn precompute_barbarian_cron_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_BARBARIAN_CRON, "0 0 */8 * * *");
     }
 }
