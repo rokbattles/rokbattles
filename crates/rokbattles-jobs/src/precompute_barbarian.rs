@@ -60,6 +60,7 @@ async fn read_observed_barbarian_reports(
                 "$elemMatch": {
                     "player_id": -2,
                     "npc.type": { "$in": target_by_kind.keys().copied().collect::<Vec<_>>() },
+                    "npc.b_type": { "$in": [BARBARIAN_B_TYPE, MARAUDER_B_TYPE] },
                 },
             },
         })

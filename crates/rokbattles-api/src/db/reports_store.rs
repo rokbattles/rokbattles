@@ -62,6 +62,9 @@ impl ReportsStore {
                 .keys(doc! { "opponents.player_id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! { "opponents.player_id": 1, "opponents.npc.type": 1, "opponents.npc.b_type": 1 })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
