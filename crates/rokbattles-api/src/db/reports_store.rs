@@ -21,6 +21,7 @@ pub struct ReportsStore {
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
+    g_rok_prec_baulur: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -40,6 +41,7 @@ impl ReportsStore {
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
+            g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
         }
     }
 
@@ -158,6 +160,7 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! { "participants.player_id": 1, "metadata.mail_time": -1 })
                 .build(),
+            IndexModel::builder().keys(doc! { "npc.type": 1 }).build(),
         ];
 
         for model in baulur_models {
@@ -221,6 +224,17 @@ impl ReportsStore {
             self.g_rok_prec_barbarianfort.create_index(model).await?;
         }
 
+        let precomputed_baulur_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "kind": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+        ];
+
+        for model in precomputed_baulur_models {
+            self.g_rok_prec_baulur.create_index(model).await?;
+        }
+
         Ok(())
     }
 
@@ -282,5 +296,10 @@ impl ReportsStore {
     /// Access precomputed barbarian fort aggregates.
     pub fn precomputed_barbarian_fort_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_barbarianfort
+    }
+
+    /// Access precomputed Baulur aggregates.
+    pub fn precomputed_baulur_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_baulur
     }
 }
