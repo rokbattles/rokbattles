@@ -27,9 +27,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
-    let filter = tracing_subscriber::EnvFilter::try_from_default_env()
-        .unwrap_or_else(|_| "rokbattles_ingress=info,axum=info".into());
-    tracing_subscriber::fmt().with_env_filter(filter).init();
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| format!("{}=info,axum=info", env!("CARGO_CRATE_NAME")).into()),
+        )
+        .init();
 
     let _sentry_guard = config.sentry_dsn.as_deref().map(|dsn| {
         sentry::init((

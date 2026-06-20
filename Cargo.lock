@@ -4692,6 +4692,7 @@ dependencies = [
  "flate2",
  "futures",
  "mongodb",
+ "sentry",
  "serde",
  "serde_json",
  "tcp-stream",

@@ -10,21 +10,14 @@ pub struct Config {
     pub discord_client_id: String,
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
-    pub log_filter: String,
     pub sentry_dsn: Option<String>,
 }
 
-/// Errors for missing required config.
+/// Errors for missing or invalid config.
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
-    #[error("missing required env var: MONGODB_URI")]
-    MissingMongoUri,
-    #[error("missing required env var: DISCORD_CLIENT_ID")]
-    MissingDiscordClientId,
-    #[error("missing required env var: DISCORD_CLIENT_SECRET")]
-    MissingDiscordClientSecret,
-    #[error("missing required env var: DISCORD_REDIRECT_URI")]
-    MissingDiscordRedirectUri,
+    #[error("missing required env var: {key}")]
+    Missing { key: &'static str },
 }
 
 impl Config {
@@ -38,15 +31,10 @@ impl Config {
         F: Fn(&str) -> Option<String>,
     {
         let bind_addr = lookup("BIND_ADDR").unwrap_or_else(|| "0.0.0.0:8001".to_string());
-        let mongo_uri = lookup("MONGODB_URI").ok_or(ConfigError::MissingMongoUri)?;
-        let discord_client_id =
-            lookup("DISCORD_CLIENT_ID").ok_or(ConfigError::MissingDiscordClientId)?;
-        let discord_client_secret =
-            lookup("DISCORD_CLIENT_SECRET").ok_or(ConfigError::MissingDiscordClientSecret)?;
-        let discord_redirect_uri =
-            lookup("DISCORD_REDIRECT_URI").ok_or(ConfigError::MissingDiscordRedirectUri)?;
-        let log_filter =
-            lookup("RUST_LOG").unwrap_or_else(|| "rokbattles_api=info,axum=info".to_string());
+        let mongo_uri = required(&lookup, "MONGODB_URI")?;
+        let discord_client_id = required(&lookup, "DISCORD_CLIENT_ID")?;
+        let discord_client_secret = required(&lookup, "DISCORD_CLIENT_SECRET")?;
+        let discord_redirect_uri = required(&lookup, "DISCORD_REDIRECT_URI")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
 
         Ok(Self {
@@ -55,10 +43,16 @@ impl Config {
             discord_client_id,
             discord_client_secret,
             discord_redirect_uri,
-            log_filter,
             sentry_dsn,
         })
     }
+}
+
+fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    lookup(key).ok_or(ConfigError::Missing { key })
 }
 
 #[cfg(test)]
@@ -82,7 +76,6 @@ mod tests {
         .expect("config");
 
         assert_eq!(cfg.bind_addr, "0.0.0.0:8001");
-        assert_eq!(cfg.log_filter, "rokbattles_api=info,axum=info");
         assert_eq!(cfg.mongo_uri, "mongodb://localhost:27017/rokbattles");
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
@@ -107,7 +100,7 @@ mod tests {
     #[test]
     fn requires_mongo_uri() {
         let err = Config::from_lookup(lookup(HashMap::new())).expect_err("missing uri");
-        assert_eq!(err, ConfigError::MissingMongoUri);
+        assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
     }
 
     #[test]
@@ -118,7 +111,7 @@ mod tests {
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
         .expect_err("missing discord client id");
-        assert_eq!(err, ConfigError::MissingDiscordClientId);
+        assert_eq!(err, ConfigError::Missing { key: "DISCORD_CLIENT_ID" });
     }
 
     #[test]
@@ -129,7 +122,7 @@ mod tests {
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
         ])))
         .expect_err("missing discord client secret");
-        assert_eq!(err, ConfigError::MissingDiscordClientSecret);
+        assert_eq!(err, ConfigError::Missing { key: "DISCORD_CLIENT_SECRET" });
     }
 
     #[test]
@@ -140,6 +133,6 @@ mod tests {
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
         ])))
         .expect_err("missing discord redirect uri");
-        assert_eq!(err, ConfigError::MissingDiscordRedirectUri);
+        assert_eq!(err, ConfigError::Missing { key: "DISCORD_REDIRECT_URI" });
     }
 }

@@ -2,15 +2,16 @@
 
 use std::{collections::BTreeSet, env, time::Duration};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub mongo_uri: String,
+    pub sentry_dsn: Option<String>,
     pub batch_size: i64,
     pub idle_sleep: Duration,
     pub api_filter: ApiFilter,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ApiFilter {
     pub enabled: bool,
     pub allowed_api_ids: BTreeSet<u32>,
@@ -22,7 +23,7 @@ impl ApiFilter {
     }
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
     #[error("missing required env var: {key}")]
     Missing { key: &'static str },
@@ -32,32 +33,43 @@ pub enum ConfigError {
 
 impl Config {
     pub fn from_env() -> Result<Self, ConfigError> {
+        Self::from_lookup(|key| env::var(key).ok())
+    }
+
+    fn from_lookup<F>(lookup: F) -> Result<Self, ConfigError>
+    where
+        F: Fn(&str) -> Option<String>,
+    {
         Ok(Self {
-            mongo_uri: required_env("MONGODB_URI")?,
+            mongo_uri: required(&lookup, "MONGODB_URI")?,
+            sentry_dsn: lookup("SENTRY_DSN").filter(|value| !value.is_empty()),
             batch_size: parse_i64(
                 "TCP_PROCESSOR_BATCH_SIZE",
-                env::var("TCP_PROCESSOR_BATCH_SIZE").ok(),
+                lookup("TCP_PROCESSOR_BATCH_SIZE"),
                 25,
             )?,
             idle_sleep: parse_duration_secs(
                 "TCP_PROCESSOR_IDLE_SLEEP_SECS",
-                env::var("TCP_PROCESSOR_IDLE_SLEEP_SECS").ok(),
+                lookup("TCP_PROCESSOR_IDLE_SLEEP_SECS"),
                 15,
             )?,
             api_filter: ApiFilter {
                 enabled: parse_bool(
                     "TCP_PROCESSOR_API_FILTER_ENABLED",
-                    env::var("TCP_PROCESSOR_API_FILTER_ENABLED").ok(),
+                    lookup("TCP_PROCESSOR_API_FILTER_ENABLED"),
                     false,
                 )?,
-                allowed_api_ids: parse_api_ids(env::var("TCP_PROCESSOR_ALLOWED_API_IDS").ok())?,
+                allowed_api_ids: parse_api_ids(lookup("TCP_PROCESSOR_ALLOWED_API_IDS"))?,
             },
         })
     }
 }
 
-fn required_env(key: &'static str) -> Result<String, ConfigError> {
-    env::var(key).map_err(|_error| ConfigError::Missing { key })
+fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    lookup(key).ok_or(ConfigError::Missing { key })
 }
 
 fn parse_bool(
@@ -119,7 +131,50 @@ fn parse_api_ids(value: Option<String>) -> Result<BTreeSet<u32>, ConfigError> {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+
     use super::*;
+
+    fn lookup(vars: HashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
+        move |key| vars.get(key).map(|value| (*value).to_string())
+    }
+
+    #[test]
+    fn uses_defaults_for_optional_values() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([(
+            "MONGODB_URI",
+            "mongodb://localhost:27017/rokbattles",
+        )])))
+        .expect("config");
+
+        assert_eq!(
+            cfg,
+            Config {
+                mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
+                sentry_dsn: None,
+                batch_size: 25,
+                idle_sleep: Duration::from_secs(15),
+                api_filter: ApiFilter { enabled: false, allowed_api_ids: BTreeSet::new() },
+            }
+        );
+    }
+
+    #[test]
+    fn loads_optional_sentry_dsn() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("SENTRY_DSN", "https://example@sentry.io/123"),
+        ])))
+        .expect("config");
+
+        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
+    }
+
+    #[test]
+    fn requires_mongo_uri() {
+        let err = Config::from_lookup(lookup(HashMap::new())).expect_err("missing uri");
+        assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
+    }
 
     #[test]
     fn api_filter_accepts_all_when_disabled() {

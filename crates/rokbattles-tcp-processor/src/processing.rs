@@ -172,6 +172,7 @@ mod tests {
     fn disabled_filter_accepts_unknown_future_ids() {
         let config = Config {
             mongo_uri: "mongodb://localhost/test".to_string(),
+            sentry_dsn: None,
             batch_size: 1,
             idle_sleep: std::time::Duration::from_secs(1),
             api_filter: ApiFilter { enabled: false, allowed_api_ids: BTreeSet::new() },
@@ -184,6 +185,7 @@ mod tests {
     fn process_frame_decodes_mapped_payload() {
         let config = Config {
             mongo_uri: "mongodb://localhost/test".to_string(),
+            sentry_dsn: None,
             batch_size: 1,
             idle_sleep: std::time::Duration::from_secs(1),
             api_filter: ApiFilter { enabled: false, allowed_api_ids: BTreeSet::new() },
@@ -299,6 +301,7 @@ mod tests {
     fn sample_config(api_filter: ApiFilter) -> Config {
         Config {
             mongo_uri: "mongodb://localhost/test".to_string(),
+            sentry_dsn: None,
             batch_size: 1,
             idle_sleep: std::time::Duration::from_secs(1),
             api_filter,

@@ -3,7 +3,7 @@
 use std::{env, time::Duration};
 
 /// Runtime configuration loaded from environment variables.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub mongo_uri: String,
     pub sentry_dsn: Option<String>,
@@ -13,7 +13,7 @@ pub struct Config {
 }
 
 /// Errors returned when configuration is missing or invalid.
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
     #[error("missing required env var: {key}")]
     Missing { key: &'static str },
@@ -24,15 +24,20 @@ pub enum ConfigError {
 impl Config {
     /// Load configuration from the environment (and `.env` if present).
     pub fn from_env() -> Result<Self, ConfigError> {
-        let mongo_uri = required_env("MONGODB_URI")?;
-        let sentry_dsn = env::var("SENTRY_DSN").ok().filter(|value| !value.is_empty());
-        let batch_size =
-            parse_i64("PROCESSOR_BATCH_SIZE", env::var("PROCESSOR_BATCH_SIZE").ok(), 500)?;
-        let concurrency =
-            parse_usize("PROCESSOR_CONCURRENCY", env::var("PROCESSOR_CONCURRENCY").ok(), 8)?;
+        Self::from_lookup(|key| env::var(key).ok())
+    }
+
+    fn from_lookup<F>(lookup: F) -> Result<Self, ConfigError>
+    where
+        F: Fn(&str) -> Option<String>,
+    {
+        let mongo_uri = required(&lookup, "MONGODB_URI")?;
+        let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
+        let batch_size = parse_i64("PROCESSOR_BATCH_SIZE", lookup("PROCESSOR_BATCH_SIZE"), 500)?;
+        let concurrency = parse_usize("PROCESSOR_CONCURRENCY", lookup("PROCESSOR_CONCURRENCY"), 8)?;
         let idle_sleep = parse_duration_secs(
             "PROCESSOR_IDLE_SLEEP_SECS",
-            env::var("PROCESSOR_IDLE_SLEEP_SECS").ok(),
+            lookup("PROCESSOR_IDLE_SLEEP_SECS"),
             15,
         )?;
 
@@ -40,8 +45,11 @@ impl Config {
     }
 }
 
-fn required_env(key: &'static str) -> Result<String, ConfigError> {
-    env::var(key).map_err(|_| ConfigError::Missing { key })
+fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    lookup(key).ok_or(ConfigError::Missing { key })
 }
 
 fn parse_i64(key: &'static str, value: Option<String>, default: i64) -> Result<i64, ConfigError> {
@@ -87,7 +95,50 @@ fn parse_duration_secs(
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashMap;
+
     use super::*;
+
+    fn lookup(vars: HashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
+        move |key| vars.get(key).map(|value| (*value).to_string())
+    }
+
+    #[test]
+    fn uses_defaults_for_optional_values() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([(
+            "MONGODB_URI",
+            "mongodb://localhost:27017/rokbattles",
+        )])))
+        .expect("config");
+
+        assert_eq!(
+            cfg,
+            Config {
+                mongo_uri: "mongodb://localhost:27017/rokbattles".to_string(),
+                sentry_dsn: None,
+                batch_size: 500,
+                concurrency: 8,
+                idle_sleep: Duration::from_secs(15),
+            }
+        );
+    }
+
+    #[test]
+    fn loads_optional_sentry_dsn() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("SENTRY_DSN", "https://example@sentry.io/123"),
+        ])))
+        .expect("config");
+
+        assert_eq!(cfg.sentry_dsn, Some("https://example@sentry.io/123".to_string()));
+    }
+
+    #[test]
+    fn requires_mongo_uri() {
+        let err = Config::from_lookup(lookup(HashMap::new())).expect_err("missing uri");
+        assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
+    }
 
     #[test]
     fn parse_i64_uses_default() {
