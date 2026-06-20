@@ -19,6 +19,7 @@ pub struct ReportsStore {
     mails_barcanyonkillboss: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
+    g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
 }
 
@@ -37,6 +38,7 @@ impl ReportsStore {
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
+            g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
         }
     }
@@ -58,6 +60,9 @@ impl ReportsStore {
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.player_id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "opponents.player_id": 1, "opponents.npc.type": 1, "opponents.npc.b_type": 1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
@@ -194,6 +199,17 @@ impl ReportsStore {
             self.claimed_governors.create_index(model).await?;
         }
 
+        let precomputed_barbarian_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "kind": 1, "level": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+        ];
+
+        for model in precomputed_barbarian_models {
+            self.g_rok_prec_barbarian.create_index(model).await?;
+        }
+
         let precomputed_barbarian_fort_models = vec![
             IndexModel::builder()
                 .keys(doc! { "kind": 1, "level": 1 })
@@ -256,6 +272,11 @@ impl ReportsStore {
     /// Access claimed governor binds.
     pub fn claimed_governors_collection(&self) -> &Collection<Document> {
         &self.claimed_governors
+    }
+
+    /// Access precomputed barbarian aggregates.
+    pub fn precomputed_barbarian_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_barbarian
     }
 
     /// Access precomputed barbarian fort aggregates.
