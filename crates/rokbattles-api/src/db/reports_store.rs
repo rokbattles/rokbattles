@@ -147,6 +147,7 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
                 .build(),
+            IndexModel::builder().keys(doc! { "body.sub_param": 1, "body.sub_type": 1 }).build(),
         ];
 
         for model in barbarian_fort_models {
