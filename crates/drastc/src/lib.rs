@@ -2,25 +2,26 @@
 
 //! DRASTC scoring model by Davor (TKC) and ROK Battles
 
+mod aggregate;
+mod metrics;
+mod reference;
+mod theoretical;
+mod weights;
+
+use aggregate::BattleAggregate;
+use reference::RecordMetrics;
+pub use reference::{DrastcReferenceRanges, ReferenceRange};
 use serde::Serialize;
+pub use theoretical::TheoreticalValues;
+use theoretical::theoretical_for_pairing;
+use weights::weighted_overall;
 
-const DAMAGE_WEIGHT: f64 = 0.25;
-const RAGE_WEIGHT: f64 = 0.20;
-const ASSIST_WEIGHT: f64 = 0.10;
-const SUSTAINABILITY_WEIGHT: f64 = 0.20;
-const TRADE_WEIGHT: f64 = 0.15;
-const CONSISTENCY_WEIGHT: f64 = 0.10;
-
-const P10: f64 = 0.10;
-const P90: f64 = 0.90;
-const TRADE_RATIO_SCORE_FLOOR: f64 = 0.0;
-const TRADE_RATIO_SCORE_CEILING: f64 = 2.0;
-const MIN_REFERENCE_RANGE: f64 = 0.000_000_001;
+pub(crate) const MIN_REFERENCE_RANGE: f64 = 0.000_000_001;
 
 /// Battle sample used by the DRASTC model.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct BattleRecord {
-    /// Battle duration in seconds. Non-positive or non-finite values are treated as one second.
+    /// Battle duration in seconds.
     pub duration_seconds: f64,
     /// Perspective-side kill points.
     pub kill_points: f64,
@@ -47,6 +48,8 @@ pub struct BattleRecord {
 pub struct DrastcModel {
     aggregate: BattleAggregate,
     samples: Vec<RecordMetrics>,
+    theoretical: TheoreticalValues,
+    reference_ranges: Option<DrastcReferenceRanges>,
 }
 
 impl DrastcModel {
@@ -67,9 +70,22 @@ impl DrastcModel {
         self.samples.push(RecordMetrics::from_record(record));
     }
 
+    /// Set theoretical Rage/Assist values by pairing.
+    ///
+    /// Unknown pairings default to zero values.
+    pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
+        self.theoretical = theoretical_for_pairing(primary_commander_id, secondary_commander_id)
+            .unwrap_or_default();
+    }
+
     /// Return the number of battle samples in the model.
     pub fn sample_count(&self) -> usize {
         self.samples.len()
+    }
+
+    /// Use externally calculated reference ranges for percentile-based scoring.
+    pub fn set_reference_ranges(&mut self, reference_ranges: DrastcReferenceRanges) {
+        self.reference_ranges = Some(reference_ranges);
     }
 
     /// Evaluate all records
@@ -78,41 +94,24 @@ impl DrastcModel {
             return None;
         }
 
-        let references = ReferenceMetrics::from_population(&self.samples);
+        let references = self
+            .reference_ranges
+            .unwrap_or_else(|| DrastcReferenceRanges::from_population(&self.samples));
         let metrics = self.aggregate.metrics();
 
-        let damage = references.damage.score(metrics.damage_per_second);
-        // Rage will likely use a formula like
-        // R = 10 * (((10 - avg_cycle) / 6) ^ 0.55), where avg_cycle is
-        let rage = CategoryScore::fixed_zero();
-        let assist = CategoryScore::fixed_zero();
-        let sustainability = references.sustainability.score(metrics.sustainability_per_second);
-        let trade = CategoryScore::fixed_range(
-            metrics.trade_ratio,
-            TRADE_RATIO_SCORE_FLOOR,
-            TRADE_RATIO_SCORE_CEILING,
-        );
+        let damage = references.damage.score_curved(metrics.damage_per_second, 0.55);
+        let rage = self.theoretical.rage_score();
+        let assist = self.theoretical.assist_score();
+        let sustainability =
+            references.sustainability.score_curved(metrics.sustainability_per_second, 0.55);
+        let trade = CategoryScore::fixed_range(metrics.trade_ratio, 0.0, 2.0);
         let consistency = references.consistency.score(metrics.consistency_rate);
 
-        let overall = (damage.score * DAMAGE_WEIGHT)
-            + (rage.score * RAGE_WEIGHT)
-            + (assist.score * ASSIST_WEIGHT)
-            + (sustainability.score * SUSTAINABILITY_WEIGHT)
-            + (trade.score * TRADE_WEIGHT)
-            + (consistency.score * CONSISTENCY_WEIGHT);
+        let breakdown =
+            DrastcCategories { damage, rage, assist, sustainability, trade, consistency };
+        let overall = weighted_overall(&breakdown);
 
-        Some(DrastcScore {
-            samples: self.aggregate.sample_count,
-            breakdown: DrastcCategories {
-                damage,
-                rage,
-                assist,
-                sustainability,
-                trade,
-                consistency,
-            },
-            overall,
-        })
+        Some(DrastcScore { samples: self.aggregate.sample_count(), breakdown, overall })
     }
 }
 
@@ -128,24 +127,15 @@ pub struct DrastcScore {
     pub overall: f64,
 }
 
-/// Raw aggregate metrics.
-#[derive(Debug, Clone, Copy, PartialEq)]
-struct Metrics {
-    damage_per_second: f64,
-    sustainability_per_second: f64,
-    trade_ratio: f64,
-    consistency_rate: f64,
-}
-
 /// Normalized DRASTC category scores.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DrastcCategories {
     /// Damage score.
     pub damage: CategoryScore,
-    /// Rage score, currently zero by design.
+    /// Rage score.
     pub rage: CategoryScore,
-    /// Assist/support score, currently zero by design.
+    /// Assist/support score.
     pub assist: CategoryScore,
     /// Sustainability score.
     pub sustainability: CategoryScore,
@@ -161,250 +151,21 @@ pub struct DrastcCategories {
 pub struct CategoryScore {
     /// Raw metric value.
     pub value: f64,
-    /// P10 reference value from the received battle samples.
+    /// P10 reference value.
     pub p10: f64,
-    /// P90 reference value from the received battle samples.
+    /// P90 reference value.
     pub p90: f64,
     /// Normalized score on a 0-10 scale.
     pub score: f64,
 }
 
 impl CategoryScore {
-    fn fixed_zero() -> Self {
+    pub(crate) fn fixed_zero() -> Self {
         Self { value: 0.0, p10: 0.0, p90: 0.0, score: 0.0 }
     }
 
     fn fixed_range(value: f64, p10: f64, p90: f64) -> Self {
-        ReferenceRange { count: 1, p10, p90 }.score(value)
-    }
-}
-
-#[derive(Debug, Clone, Copy, Default)]
-struct BattleAggregate {
-    sample_count: u64,
-    total_duration_seconds: f64,
-    inflicted_casualties: f64,
-    received_casualties: f64,
-    sender_healing: f64,
-    decisive_battles: u64,
-    wins: u64,
-    kill_points: f64,
-    opponent_kill_points: f64,
-    positive_trades: u64,
-}
-
-impl BattleAggregate {
-    fn push(&mut self, record: BattleRecord) {
-        self.sample_count += 1;
-        self.total_duration_seconds += normalized_duration(record.duration_seconds);
-        self.kill_points += finite_non_negative(record.kill_points);
-        self.opponent_kill_points += finite_non_negative(record.opponent_kill_points);
-        self.inflicted_casualties += casualties(
-            record.opponent_dead,
-            record.opponent_severely_wounded,
-            record.opponent_slightly_wounded,
-        );
-        self.received_casualties += casualties(
-            record.sender_dead,
-            record.sender_severely_wounded,
-            record.sender_slightly_wounded,
-        );
-        self.sender_healing += finite_non_negative(record.sender_healing);
-
-        let battle_outcome = battle_outcome(record);
-        if let Some(perspective_won) = battle_outcome {
-            self.decisive_battles += 1;
-            if perspective_won {
-                self.wins += 1;
-            }
-        }
-
-        if is_positive_trade(record.kill_points, record.opponent_kill_points) {
-            self.positive_trades += 1;
-        }
-    }
-
-    fn metrics(&self) -> Metrics {
-        let duration = self.total_duration_seconds.max(1.0);
-        let win_rate = if self.decisive_battles == 0 {
-            0.0
-        } else {
-            self.wins as f64 / self.decisive_battles as f64
-        };
-        let positive_trade_rate = if self.sample_count == 0 {
-            0.0
-        } else {
-            self.positive_trades as f64 / self.sample_count as f64
-        };
-        let consistency_rate = consistency_rate_from_parts(
-            (self.decisive_battles > 0).then_some(win_rate),
-            (self.sample_count > 0).then_some(positive_trade_rate),
-        )
-        .unwrap_or(0.0);
-
-        Metrics {
-            damage_per_second: self.inflicted_casualties / duration,
-            sustainability_per_second: (self.sender_healing - self.received_casualties) / duration,
-            trade_ratio: trade_ratio(self.kill_points, self.opponent_kill_points),
-            consistency_rate,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy)]
-struct RecordMetrics {
-    damage_per_second: f64,
-    sustainability_per_second: f64,
-    consistency_rate: Option<f64>,
-}
-
-impl RecordMetrics {
-    fn from_record(record: BattleRecord) -> Self {
-        let duration = normalized_duration(record.duration_seconds);
-        let positive_trade = if is_positive_trade(record.kill_points, record.opponent_kill_points) {
-            1.0
-        } else {
-            0.0
-        };
-        let inferred_win =
-            battle_outcome(record).map(|perspective_won| if perspective_won { 1.0 } else { 0.0 });
-
-        Self {
-            damage_per_second: casualties(
-                record.opponent_dead,
-                record.opponent_severely_wounded,
-                record.opponent_slightly_wounded,
-            ) / duration,
-            sustainability_per_second: (finite_non_negative(record.sender_healing)
-                - casualties(
-                    record.sender_dead,
-                    record.sender_severely_wounded,
-                    record.sender_slightly_wounded,
-                ))
-                / duration,
-            consistency_rate: consistency_rate_from_parts(inferred_win, Some(positive_trade)),
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy)]
-struct ReferenceMetrics {
-    damage: ReferenceRange,
-    sustainability: ReferenceRange,
-    consistency: ReferenceRange,
-}
-
-impl ReferenceMetrics {
-    fn from_population(population: &[RecordMetrics]) -> Self {
-        Self {
-            damage: ReferenceRange::from_values(
-                population.iter().map(|metrics| metrics.damage_per_second),
-            ),
-            sustainability: ReferenceRange::from_values(
-                population.iter().map(|metrics| metrics.sustainability_per_second),
-            ),
-            consistency: ReferenceRange::from_values(
-                population.iter().filter_map(|metrics| metrics.consistency_rate),
-            ),
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy)]
-struct ReferenceRange {
-    count: usize,
-    p10: f64,
-    p90: f64,
-}
-
-impl ReferenceRange {
-    fn from_values(values: impl Iterator<Item = f64>) -> Self {
-        let mut values = values.filter(|value| value.is_finite()).collect::<Vec<_>>();
-        values.sort_by(f64::total_cmp);
-        Self { count: values.len(), p10: percentile(&values, P10), p90: percentile(&values, P90) }
-    }
-
-    fn score(self, value: f64) -> CategoryScore {
-        let score = if self.count == 0 || !value.is_finite() {
-            0.0
-        } else if (self.p90 - self.p10).abs() <= MIN_REFERENCE_RANGE {
-            5.0
-        } else {
-            (10.0 * ((value - self.p10) / (self.p90 - self.p10))).clamp(0.0, 10.0)
-        };
-
-        CategoryScore { value, p10: self.p10, p90: self.p90, score }
-    }
-}
-
-fn percentile(sorted_values: &[f64], percentile: f64) -> f64 {
-    match sorted_values {
-        [] => 0.0,
-        [value] => *value,
-        values => {
-            let rank = percentile.clamp(0.0, 1.0) * (values.len() - 1) as f64;
-            let lower = rank.floor() as usize;
-            let upper = rank.ceil() as usize;
-            let lower_value = values.get(lower).copied().unwrap_or(0.0);
-            let upper_value = values.get(upper).copied().unwrap_or(lower_value);
-            lower_value + ((upper_value - lower_value) * (rank - lower as f64))
-        }
-    }
-}
-
-fn normalized_duration(duration_seconds: f64) -> f64 {
-    if duration_seconds.is_finite() && duration_seconds > 0.0 { duration_seconds } else { 1.0 }
-}
-
-fn casualties(dead: f64, severely_wounded: f64, slightly_wounded: f64) -> f64 {
-    finite_non_negative(dead)
-        + finite_non_negative(severely_wounded)
-        + finite_non_negative(slightly_wounded)
-}
-
-fn lethal_casualties(dead: f64, severely_wounded: f64) -> f64 {
-    finite_non_negative(dead) + finite_non_negative(severely_wounded)
-}
-
-fn finite_non_negative(value: f64) -> f64 {
-    if value.is_finite() && value > 0.0 { value } else { 0.0 }
-}
-
-fn is_positive_trade(kill_points: f64, opponent_kill_points: f64) -> bool {
-    finite_non_negative(kill_points) > finite_non_negative(opponent_kill_points)
-}
-
-fn battle_outcome(record: BattleRecord) -> Option<bool> {
-    let inflicted = lethal_casualties(record.opponent_dead, record.opponent_severely_wounded);
-    let received = lethal_casualties(record.sender_dead, record.sender_severely_wounded);
-    if (inflicted - received).abs() <= MIN_REFERENCE_RANGE {
-        None
-    } else {
-        Some(inflicted > received)
-    }
-}
-
-fn consistency_rate_from_parts(
-    win_rate: Option<f64>,
-    positive_trade_rate: Option<f64>,
-) -> Option<f64> {
-    match (win_rate, positive_trade_rate) {
-        (Some(win_rate), Some(positive_trade_rate)) => Some((win_rate + positive_trade_rate) / 2.0),
-        (Some(win_rate), None) => Some(win_rate),
-        (None, Some(positive_trade_rate)) => Some(positive_trade_rate),
-        (None, None) => None,
-    }
-}
-
-fn trade_ratio(kill_points: f64, opponent_kill_points: f64) -> f64 {
-    let kill_points = finite_non_negative(kill_points);
-    let opponent_kill_points = finite_non_negative(opponent_kill_points);
-    if kill_points <= MIN_REFERENCE_RANGE && opponent_kill_points <= MIN_REFERENCE_RANGE {
-        1.0
-    } else if opponent_kill_points <= MIN_REFERENCE_RANGE {
-        0.0
-    } else {
-        kill_points / opponent_kill_points
+        ReferenceRange::new(1, p10, p90).score(value)
     }
 }
 
@@ -446,6 +207,42 @@ mod tests {
     }
 
     #[test]
+    fn evaluate_uses_known_theoretical_values_for_gang_gamchan_achilles() {
+        let mut model = DrastcModel::new();
+        model.set_theoretical(579, 575);
+        model.push([record(200.0, 100.0)]);
+
+        let score = model.evaluate().expect("score");
+
+        assert_close(score.breakdown.rage.score, 5.47);
+        assert_close(score.breakdown.assist.score, 4.35);
+    }
+
+    #[test]
+    fn evaluate_uses_known_theoretical_values_for_qin_zhuge_liang() {
+        let mut model = DrastcModel::new();
+        model.set_theoretical(509, 179);
+        model.push([record(200.0, 100.0)]);
+
+        let score = model.evaluate().expect("score");
+
+        assert_close(score.breakdown.rage.score, 9.82);
+        assert_close(score.breakdown.assist.score, 5.16);
+    }
+
+    #[test]
+    fn evaluate_uses_known_theoretical_values_for_zhuge_liang_prime_hermann() {
+        let mut model = DrastcModel::new();
+        model.set_theoretical(179, 187);
+        model.push([record(200.0, 100.0)]);
+
+        let score = model.evaluate().expect("score");
+
+        assert_close(score.breakdown.rage.score, 6.83);
+        assert_close(score.breakdown.assist.score, 8.29);
+    }
+
+    #[test]
     fn evaluate_scores_aggregate_against_record_distribution() {
         let mut model = DrastcModel::new();
         model.push([
@@ -480,6 +277,72 @@ mod tests {
 
         assert!(score.breakdown.damage.p10 < score.breakdown.damage.p90);
         assert_eq!(score.samples, 3);
+    }
+
+    #[test]
+    fn evaluate_curves_damage_and_sustainability_scores() {
+        let mut model = DrastcModel::new();
+        model.push([
+            BattleRecord {
+                duration_seconds: 100.0,
+                kill_points: 100.0,
+                opponent_kill_points: 100.0,
+                opponent_dead: 0.0,
+                opponent_severely_wounded: 0.0,
+                opponent_slightly_wounded: 0.0,
+                sender_dead: 0.0,
+                sender_severely_wounded: 0.0,
+                sender_slightly_wounded: 100.0,
+                sender_healing: 0.0,
+            },
+            BattleRecord {
+                duration_seconds: 100.0,
+                kill_points: 100.0,
+                opponent_kill_points: 100.0,
+                opponent_dead: 0.0,
+                opponent_severely_wounded: 0.0,
+                opponent_slightly_wounded: 200.0,
+                sender_dead: 0.0,
+                sender_severely_wounded: 0.0,
+                sender_slightly_wounded: 0.0,
+                sender_healing: 0.0,
+            },
+        ]);
+
+        let score = model.evaluate().expect("score");
+
+        assert!(score.breakdown.damage.score > 5.0);
+        assert!(score.breakdown.sustainability.score > 5.0);
+    }
+
+    #[test]
+    fn evaluate_can_score_against_external_reference_ranges() {
+        let reference_ranges = DrastcReferenceRanges {
+            damage: ReferenceRange::new(2, 1.2, 2.8),
+            sustainability: ReferenceRange::new(2, -1.0, 1.0),
+            consistency: ReferenceRange::new(2, 0.0, 1.0),
+        };
+
+        let mut model = DrastcModel::new();
+        model.set_reference_ranges(reference_ranges);
+        model.push([BattleRecord {
+            duration_seconds: 100.0,
+            kill_points: 100.0,
+            opponent_kill_points: 100.0,
+            opponent_dead: 0.0,
+            opponent_severely_wounded: 0.0,
+            opponent_slightly_wounded: 200.0,
+            sender_dead: 0.0,
+            sender_severely_wounded: 0.0,
+            sender_slightly_wounded: 0.0,
+            sender_healing: 0.0,
+        }]);
+
+        let score = model.evaluate().expect("score");
+
+        assert_eq!(score.breakdown.damage.p10, reference_ranges.damage.p10);
+        assert_eq!(score.breakdown.damage.p90, reference_ranges.damage.p90);
+        assert!(score.breakdown.damage.score > 5.0);
     }
 
     #[test]
@@ -522,11 +385,7 @@ mod tests {
         assert_eq!(score.samples, 2);
     }
 
-    #[test]
-    fn percentile_interpolates_sorted_values() {
-        let values = [1.0, 2.0, 3.0, 4.0, 5.0];
-
-        assert_eq!(percentile(&values, 0.10), 1.4);
-        assert_eq!(percentile(&values, 0.90), 4.6);
+    fn assert_close(actual: f64, expected: f64) {
+        assert!((actual - expected).abs() < 0.02, "actual={actual}, expected={expected}");
     }
 }
