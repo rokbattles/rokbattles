@@ -109,6 +109,28 @@ armaments:
       zh_TW: "攻城單位攻擊力"
     percent: true
 
+  3008:
+    name:
+      ar: "هجوم القوات الميدانية"
+      de: "Truppenangriff auf dem Feld"
+      en: "Field Troop Attack"
+      es: "Ataque de tropas de campo"
+      fr: "Attaque de troupes de terrain"
+      id: "Serangan Pasukan Lapangan"
+      it: "Attacco delle truppe da campo"
+      ja: "野戦部隊攻撃力"
+      ko: "야전 부대 공격력"
+      ms: "Serangan Trup Lapangan"
+      pl: "Atak oddziału w polu"
+      pt: "Ataque de tropas de campo"
+      ru: "Атака отрядов в поле"
+      th: "พลังโจมตีของกองทหารภาคสนาม"
+      tr: "Sahra Kıtası Saldırısı"
+      vi: "Sức Tấn Công của Đội Quân Dã Chiến"
+      zh_CN: "野战部队攻击力"
+      zh_TW: "野戰部隊攻擊力"
+    percent: true
+
   3112:
     name:
       ar: "ضرر الرماة"
@@ -791,6 +813,116 @@ armaments:
       zh_TW: "對野蠻人的傷害"
     percent: true
 
+  10020:
+    name:
+      ar: "التأثير الإضافي للضرر الإضافي"
+      de: "„Zusätzlicher Schaden“-Bonus"
+      en: "Additional Damage Bonus"
+      es: "Bonificación de daño adicional"
+      fr: "Bonus de dégâts supplémentaires"
+      id: "Bonus Damage Tambahan"
+      it: "Bonus danni aggiuntivi"
+      ja: "追加ダメージ上昇"
+      ko: "추가 피해 증가"
+      ms: "Bonus Kerosakan Tambahan"
+      pl: "Premia do obrażeń wtórnych"
+      pt: "Bônus de dano adicional"
+      ru: "Бонус к дополнительному урону"
+      th: "โบนัสความเสียหายเพิ่มเติม"
+      tr: "Ek Hasar Bonusu"
+      vi: "Thưởng sát thương bổ sung"
+      zh_CN: "额外伤害提升"
+      zh_TW: "額外傷害提升"
+    percent: true
+
+  10060:
+    name:
+      ar: "ضرر المهارة/ضرر هجوم المجموعة/ضرر الضربة القاضية"
+      de: "Fähigkeits-/Kombo-Angriffs-/Schmetterschaden"
+      en: "Skill/Combo Attack/Smite Damage"
+      es: "Habilidad/Ataque combinado/Daño de embate"
+      fr: "Dégâts de compétence/d'attaque combinée/de concussion"
+      id: "Damage Skill/Serangan Kombo/Hantaman"
+      it: "Danni da abilità/attacco combinato/percosse"
+      ja: "スキル/連撃/重撃ダメージ"
+      ko: "스킬/연격/강타 피해"
+      ms: "Kerosakan Kemahiran/Serangan Kombo/Pukulan"
+      pl: "Obrażenia od umiejętności/ataku kombo/rąbnięcia"
+      pt: "Dano de habilidade/ataque em combo/concussão"
+      ru: "Урон навыками/урон комбо-атаками/ударный урон"
+      th: "ความเสียหายจากทักษะ/โจมตีคอมโบ/การทุบ"
+      tr: "Beceri/Kombo Saldırı/Darbe Hasarı"
+      vi: "Kỹ Năng/Tấn Công Combo/Sát Thương Trừng Phạt"
+      zh_CN: "技能/连击/重击伤害"
+      zh_TW: "技能/連擊/重擊傷害"
+    percent: true
+
+  10063:
+    name:
+      ar: "تقليل الضرر المستلَم من المهارة/هجوم المجموعة/الضربة القاضية"
+      de: "Verringerung des erlittenen Fähigkeits-/Kombo-Angriffs-/Schmetterschadens"
+      en: "Reduction to Received Skill/Combo Attack/Smite Damage"
+      es: "Reducción al daño recibido de habilidad/Ataque combinado/embate"
+      fr: "Réduction des dégâts de compétence/d'attaque combinée/de concussion subis"
+      id: "Pengurangan terhadap Damage Skill/Serangan Kombo/Hantaman yang Diterima"
+      it: "Riduzione dei danni da abilità/attacco combinato/percosse subiti"
+      ja: "スキル/連撃/重撃ダメージ減少"
+      ko: "스킬/연격/강타 피해 경감"
+      ms: "Pengurangan terhadap Kerosakan Kemahiran/Serangan Kombo/Pukulan yang Diterima"
+      pl: "Redukcja otrzymywanych obrażeń od umiejętności/ataków kombo/rąbnięcia"
+      pt: "Redução do dano recebido de habilidade/ataque em combo/concussão"
+      ru: "Снижение получаемого урона навыками/комбо-атаками/ударного урона"
+      th: "ลดความเสียหายที่ได้รับจากทักษะ/โจมตีคอมโบ/การทุบ"
+      tr: "Alınan Beceri/Kombo Saldırı/Darbe Hasarı azaltması"
+      vi: "Giảm Sát Thương Kỹ Năng/Sát Thương Tấn Công Combo/Sát Thương Trừng Phạt Nhận Vào"
+      zh_CN: "技能/连击/重击伤害减免"
+      zh_TW: "技能/連擊/重擊傷害減免"
+    percent: true
+
+  10064:
+    name:
+      ar: "ضرر المهارة بعيدة المدى/ضرر هجوم المجموعة بعيد المدى/ضرر الضربة القاضية بعيد المدى"
+      de: "Fernkampf-Fähigkeits-/Kombo-Fernkampfangriffs-/Fernkampf-Schmetterschaden"
+      en: "Ranged Skill/Ranged Combo Attack/Ranged Smite Damage"
+      es: "Habilidad a distancia/Ataque combinado a distancia/Daño de embate a distancia"
+      fr: "Dégâts de compétence à distance/d'attaque combinée à distance/de concussion à distance"
+      id: "Damage Skill Jarak Jauh/Serangan Kombo Jarak Jauh/Hantaman Jarak Jauh"
+      it: "Danni da abilità/attacco combinato/percosse a distanza"
+      ja: "遠隔スキル/遠隔連撃/遠隔重撃ダメージ"
+      ko: "원거리 스킬/원거리 연격/원거리 강타 피해"
+      ms: "Kerosakan Kemahiran Berjarak/Serangan Kombo Berjarak/Pukulan Berjarak"
+      pl: "Obrażenia dystansowe od umiejętności/ataku kombo/rąbnięcia"
+      pt: "Dano de habilidade a distância/ataque em combo a distância/concussão a distância"
+      ru: "Дальний урон навыками/урон дальними комбо-атаками/дальний ударный урон"
+      th: "ความเสียหายจากทักษะการโจมตีระยะไกล/การโจมตีคอมโบระยะไกล/การทุบระยะไกล"
+      tr: "Menzilli Beceri/Menzilli Kombo Saldırı/Menzilli Darbe Hasarı"
+      vi: "Kỹ Năng Tầm Xa/Tấn Công Combo Tầm Xa/Sát Thương Trừng Phạt Tầm Xa"
+      zh_CN: "远程技能/远程连击/远程重击伤害"
+      zh_TW: "遠距技能/遠距連擊/遠距重擊傷害"
+    percent: true
+
+  10067:
+    name:
+      ar: "تقليل الضرر المستلَم من المهارة بعيدة المدى/هجوم المجموعة بعيد المدى/الضربة القاضية بعيدة المدى"
+      de: "Verringerung des erlittenen Fernkampf-Fähigkeits-/Kombo-Fernkampfangriffs-/Fernkampf-Schmetterschadens"
+      en: "Reduction to Received Ranged Skill/Ranged Combo Attack/Ranged Smite Damage"
+      es: "Reducción al daño recibido de habilidad a distancia/Ataque combinado a distancia/embate a distancia"
+      fr: "Réduction des dégâts de compétence à distance/d'attaque combinée à distance/de concussion à distance subis"
+      id: "Pengurangan terhadap Damage Skill Jarak Jauh/Serangan Kombo Jarak Jauh/Hantaman Jarak Jauh yang Diterima"
+      it: "Riduzione dei danni da abilità/attacco combinato/percosse a distanza subiti"
+      ja: "遠隔スキル/遠隔連撃/遠隔重撃ダメージ減少"
+      ko: "원거리 스킬/원거리 연격/원거리 강타 피해 경감"
+      ms: "Pengurangan terhadap Kerosakan Kemahiran Berjarak/Serangan Kombo Berjarak/Pukulan Berjarak yang Diterima"
+      pl: "Redukcja otrzymywanych obrażeń dystansowych od umiejętności/ataku kombo/rąbnięcia"
+      pt: "Redução do dano recebido de habilidade a distância/ataque em combo a distância/concussão a distância"
+      ru: "Снижение получаемого дальнего урона навыками/дальними комбо-атаками/дальнего ударного урона"
+      th: "ลดความเสียหายที่ได้รับจากทักษะการโจมตีระยะไกล/การโจมตีคอมโบระยะไกล/การทุบระยะไกล"
+      tr: "Alınan Menzilli Beceri/Menzilli Kombo Saldırı/Menzilli Darbe Hasarı azaltması"
+      vi: "Giảm Sát Thương Kỹ Năng Tầm Xa/Sát Thương Tấn Công Combo Tầm Xa/Sát Thương Trừng Phạt Tầm Xa Nhận Vào"
+      zh_CN: "远程技能/远程连击/远程重击伤害减免"
+      zh_TW: "遠距技能/遠距連擊/遠距重擊傷害減免"
+    percent: true
+
   10101:
     name:
       ar: "الضرر الناتج عن البرابرة"
@@ -811,6 +943,50 @@ armaments:
       vi: "Thiệt hại Barbaria phải chịu"
       zh_CN: "野蛮人伤害减免"
       zh_TW: "受到的野蠻人傷害"
+    percent: true
+
+  10103:
+    name:
+      ar: "تقليل الضرر"
+      de: "Schadenverringerung"
+      en: "Damage Reduction"
+      es: "Reducción del Daño"
+      fr: "Réduction des dégâts"
+      id: "Pengurangan Damage"
+      it: "Riduzione danno"
+      ja: "ダメージ減少"
+      ko: "피해 경감"
+      ms: "Pengurangan Kerosakan"
+      pl: "Redukcja obrażeń"
+      pt: "Redução de danos"
+      ru: "Снижение урона"
+      th: "การลดความเสียหาย"
+      tr: "Hasar Azaltma"
+      vi: "Giảm sát thương"
+      zh_CN: "伤害减免"
+      zh_TW: "傷害減免"
+    percent: true
+
+  10104:
+    name:
+      ar: "آثار الشفاء المتلقاة"
+      de: "Heilungseffekt erhalten"
+      en: "Healing Effects Received"
+      es: "Efecto de Curación Recibido"
+      fr: "Effets de soins reçus"
+      id: "Efek Penyembuhan Diterima"
+      it: "Effetto di guarigione ricevuto"
+      ja: "受けた治療効果"
+      ko: "받는 치료 효과"
+      ms: "Kesan Penyembuhan Diterima"
+      pl: "Otrzymane efekty leczenia"
+      pt: "Efeito de Cura Recebido"
+      ru: "Полученный целебный эффект"
+      th: "เอฟเฟ็กต์การรักษาที่ได้รับ"
+      tr: "İyileştirme Etkisi Alındı"
+      vi: "Đã nhận hiệu ứng chữa lành"
+      zh_CN: "受到的治疗效果"
+      zh_TW: "受到的治療效果"
     percent: true
 
   10109:
@@ -945,6 +1121,28 @@ armaments:
       zh_TW: "騎兵單位對弓兵單位的傷害"
     percent: true
 
+  10317:
+    name:
+      ar: "الضرر الملحق بالفرسان بواسطة الرماة"
+      de: "Schaden der Kavallerie gegen Bogenschützen"
+      en: "Cavalry Damage Taken by Archers"
+      es: "Daño sufrido por arqueros de caballería"
+      fr: "Dégâts caval. subis par archers"
+      id: "Damage Kavaleri Diterima oleh Pemanah"
+      it: "Danni subiti dalla cavalleria dagli arcieri"
+      ja: "弓兵の騎兵から受けるダメージ"
+      ko: "궁병이 기마병에게 받는 피해"
+      ms: "Kerosakan Askar Berkuda yang Diterima oleh Pemanah"
+      pl: "Obrażenia kawalerii przeciw łucznikom"
+      pt: "Dano da cavalaria vs arqueiro"
+      ru: "Урон лучникам от кавалерии"
+      th: "ความเสียหายที่พลยิงรับจากทหารม้า"
+      tr: "Okçuların Aldığı Süvari Hasarı"
+      vi: "Sát Thương Cung Nhận Từ Kỵ"
+      zh_CN: "弓兵受到骑兵伤害"
+      zh_TW: "弓兵受到騎兵傷害"
+    percent: true
+
   12017:
     name:
       ar: "هجوم الجيش المحتشد"
@@ -1011,6 +1209,28 @@ armaments:
       zh_TW: "對集結/駐防部隊造成傷害"
     percent: true
 
+  15025:
+    name:
+      ar: "الضرر العادي بعيد المدى"
+      de: "Normaler Fernangriffsschaden"
+      en: "Ranged Normal Damage"
+      es: "Daño normal a distancia"
+      fr: "Dégâts normaux à distance"
+      id: "Damage Normal Jarak Jauh"
+      it: "Danni normali a distanza"
+      ja: "遠隔通常攻撃ダメージ"
+      ko: "원거리 일반 공격 피해"
+      ms: "Kerosakan Biasa Berjarak"
+      pl: "Podstawowe obrażenia dystansowe"
+      pt: "Dano normal a distância"
+      ru: "Обычный дальний урон"
+      th: "ความเสียหายปกติระยะไกล"
+      tr: "Menzilli Normal Hasar"
+      vi: "Sát Thương Thường Tầm Xa"
+      zh_CN: "远程普通攻击伤害"
+      zh_TW: "遠距普通攻擊傷害"
+    percent: true
+
   15028:
     name:
       ar: "الضرر العادي بعيد المدى المتلقّى"
@@ -1031,6 +1251,28 @@ armaments:
       vi: "Sát Thương Thường Tầm Xa Hứng Chịu"
       zh_CN: "远程普通攻击伤害减免"
       zh_TW: "受到的遠距普通攻擊傷害"
+    percent: true
+
+  15029:
+    name:
+      ar: "الأضرار تجاه قوات الوضع بعيد المدى"
+      de: "Schaden an Truppen im Fernkampfmodus"
+      en: "Damage to Ranged Mode Troops"
+      es: "Daño a tropas en modo a distancia"
+      fr: "Dégâts aux troupes en mode attaque à distance"
+      id: "Damage terhadap Pasukan Mode Jarak Jauh"
+      it: "Danni alle truppe in modalità a distanza"
+      ja: "遠隔形態の部隊に対して与える全てのダメージ"
+      ko: "원거리 상태의 부대에 입히는 모든 피해"
+      ms: "Kerosakan terhadap Trup Mod Berjarak"
+      pl: "Obrażenia zadawane oddziałom w trybie dystansowym"
+      pt: "Danos às Tropas do Modo de Longo Alcance"
+      ru: "Урон отрядам в режиме дальнего боя"
+      th: "ความเสียหายต่อกองทหารโหมดระยะไกล"
+      tr: "Menzilli Moddaki Kıtalara Verilen Hasar"
+      vi: "Sát thương cho đội quân chế độ tầm xa"
+      zh_CN: "对远程形态部队造成的所有伤害"
+      zh_TW: "對遠距離型態部隊造成的所有傷害"
     percent: true
 
   15032:
@@ -1099,6 +1341,28 @@ armaments:
       zh_TW: "造成的重擊傷害"
     percent: true
 
+  15070:
+    name:
+      ar: "ضرر الهجوم المضاد بعيد المدى"
+      de: "Fernkampf-Gegenangriffsschaden"
+      en: "Ranged Counterattack Damage"
+      es: "Daño de contraataque a distancia"
+      fr: "Bonus de dégâts de contre-attaque à distance"
+      id: "Damage Serangan Balasan Jarak Jauh"
+      it: "Danni da contrattacco a distanza"
+      ja: "遠隔反撃ダメージ"
+      ko: "원거리 반격 피해"
+      ms: "Kerosakan Serangan Balas Berjarak"
+      pl: "Obrażenia dystansowe od kontrataku"
+      pt: "Dano de contra-ataque a distância"
+      ru: "Урон дальними контратаками"
+      th: "ความเสียหายจากการโจมตีสวนกลับระยะไกล"
+      tr: "Menzilli Karşı Saldırı Hasarı"
+      vi: "Sát Thương Phản Công Tầm Xa"
+      zh_CN: "远程反击伤害"
+      zh_TW: "遠距反擊傷害"
+    percent: true
+
   15073:
     name:
       ar: "ضرر الهجوم المضاد بعيد المدى المتلقّى"
@@ -1141,6 +1405,28 @@ armaments:
       vi: "Sát thương trừng phạt tầm xa"
       zh_CN: "远程重击伤害"
       zh_TW: "造成的遠距重擊傷害"
+    percent: true
+
+  15085:
+    name:
+      ar: "الضرر الإضافي بعيد المدى"
+      de: "Zusätzlicher Fernkampfschaden"
+      en: "Ranged Additional Damage"
+      es: "Daño adicional a distancia"
+      fr: "Dégâts à distance supplémentaires"
+      id: "Damage Tambahan Jarak Jauh"
+      it: "Danni aggiuntivi a distanza"
+      ja: "遠隔追加ダメージ"
+      ko: "원거리 추가 피해"
+      ms: "Kerosakan Tambahan Berjarak"
+      pl: "Wtórne obrażenia dystansowe"
+      pt: "Dano adicional a distância"
+      ru: "Дальний дополнительный урон"
+      th: "ความเสียหายเพิ่มเติมระยะไกล"
+      tr: "Menzilli Ek Hasar"
+      vi: "Sát Thương Bổ Sung Tầm Xa"
+      zh_CN: "远程额外伤害"
+      zh_TW: "遠距額外傷害"
     percent: true
 
   15089:
@@ -1275,6 +1561,116 @@ armaments:
       zh_TW: "造成的遠距連擊傷害"
     percent: true
 
+  20001:
+    name:
+      ar: "تعزيز الضرر العادي"
+      de: "Normaler Schadensboost"
+      en: "Normal Damage Boost"
+      es: "Refuerzo de daño normal"
+      fr: "Boost de dégâts normaux"
+      id: "Pemerkuat Damage Normal"
+      it: "Incremento dei danni normali"
+      ja: "通常攻撃ダメージ増幅"
+      ko: "일반 공격 피해 증폭"
+      ms: "Dorongan Kerosakan Biasa"
+      pl: "Wzmocnienie podstawowych obrażeń"
+      pt: "Boost de dano normal"
+      ru: "Прирост обычного урона"
+      th: "บูสต์ความเสียหายปกติ"
+      tr: "Normal Hasar Güçlendirmesi"
+      vi: "Tăng cường sát thương thường"
+      zh_CN: "普通攻击伤害增幅"
+      zh_TW: "普通攻擊傷害增幅"
+    percent: true
+
+  20004:
+    name:
+      ar: "مقاومة الضرر العادي"
+      de: "Widerstand gegen normalen Schaden"
+      en: "Normal Damage Resistance"
+      es: "Resistencia al daño normal"
+      fr: "Résistance aux dégâts normaux"
+      id: "Resistansi Damage Normal"
+      it: "Resistenza ai danni normali"
+      ja: "通常攻撃ダメージ抵抗"
+      ko: "일반 공격 피해 저항"
+      ms: "Tentangan Kerosakan Biasa"
+      pl: "Odporność na podstawowe obrażenia"
+      pt: "Resistência a dano normal"
+      ru: "Сопротивление обычному урону"
+      th: "การต้านทานความเสียหายปกติ"
+      tr: "Normal Hasar Direnci"
+      vi: "Kháng Sát Thương Thường"
+      zh_CN: "普通攻击伤害抗性"
+      zh_TW: "普通攻擊傷害抗性"
+    percent: true
+
+  20009:
+    name:
+      ar: "تعزيز ضرر المهارة"
+      de: "Fähigkeitsschadensboost"
+      en: "Skill Damage Boost"
+      es: "Refuerzo de daño de habilidad"
+      fr: "Boost de dégâts de compétence"
+      id: "Pemerkuat Damage Skill"
+      it: "Incremento dei danni da abilità"
+      ja: "スキルダメージ増幅"
+      ko: "스킬 피해 증폭"
+      ms: "Dorongan Kerosakan Kemahiran"
+      pl: "Wzmocnienie obr. od umiejętności"
+      pt: "Boost de Dano da Habilidade"
+      ru: "Прирост к урону навыками"
+      th: "บูสต์ความเสียหายจากทักษะ"
+      tr: "Beceri Hasarı Güçlendirmesi"
+      vi: "Tăng cường sát thương kỹ năng"
+      zh_CN: "技能伤害增幅"
+      zh_TW: "技能傷害增幅"
+    percent: true
+
+  20012:
+    name:
+      ar: "مقاومة ضرر المهارة"
+      de: "Fähigkeitsschaden-Widerstand"
+      en: "Skill Damage Resistance"
+      es: "Resistencia al daño de habilidad"
+      fr: "Résistance aux dégâts de compétence"
+      id: "Resistansi Damage Skill"
+      it: "Riduzione ai danni da abilità"
+      ja: "スキルダメージ抵抗"
+      ko: "스킬 피해 저항"
+      ms: "Rintangan Kerosakan Kemahiran"
+      pl: "Odporność na obr. od umiejętności"
+      pt: "Resistência a Dano da Habilidade"
+      ru: "Сопротивление урону от навыков"
+      th: "ความทนทานความเสียหายจากทักษะ"
+      tr: "Beceri Hasarı Direnci"
+      vi: "Kháng Sát Thương Kỹ Năng"
+      zh_CN: "技能伤害抗性"
+      zh_TW: "技能傷害抗性"
+    percent: true
+
+  20013:
+    name:
+      ar: "تعزيز الضرر العادي بعيد المدى"
+      de: "Boost auf normalen Fernangriffsschaden"
+      en: "Ranged Normal Damage Boost"
+      es: "Refuerzo de daño normal a distancia"
+      fr: "Boost de dégâts normaux à distance"
+      id: "Pemerkuat Damage Normal Jarak Jauh"
+      it: "Incremento ai danni normali a distanza"
+      ja: "遠隔通常攻撃ダメージ増幅"
+      ko: "원거리 일반공격 피해 증폭"
+      ms: "Dorongan Kerosakan Biasa Berjarak"
+      pl: "Wzmocnienie podstawowych obrażeń dystansowych"
+      pt: "Boost de Dano Normal de Longo Alcance"
+      ru: "Прирост обычного дальнего урона"
+      th: "บูสต์ความเสียหายปกติระยะไกล"
+      tr: "Menzilli Normal Hasar Güçlendirmesi"
+      vi: "Tăng cường sát thương thường tầm xa"
+      zh_CN: "远程普通攻击伤害增幅"
+      zh_TW: "遠距普通攻擊傷害增幅"
+    percent: true
+
   20034:
     name:
       ar: "مقاومة الضرر"
@@ -1317,6 +1713,28 @@ armaments:
       vi: "Tăng cường sát thương trừng phạt"
       zh_CN: "重击伤害增幅"
       zh_TW: "造成的重擊傷害增幅"
+    percent: true
+
+  20042:
+    name:
+      ar: "مقاومة ضرر الضربة القاضية"
+      de: "Schmetterschaden-Widerstand"
+      en: "Smite Damage Resistance"
+      es: "Resistencia al daño de embate"
+      fr: "Résistance aux dégâts de concussion"
+      id: "Resistansi Damage Hantaman"
+      it: "Resistenza ai danni da percosse"
+      ja: "重撃ダメージ抵抗"
+      ko: "강타 피해 저항"
+      ms: "Rintangan Kerosakan Pukulan"
+      pl: "Odporność na obrażenia od rąbnięcia"
+      pt: "Resistência a dano de concussão"
+      ru: "Сопротивление ударному урону"
+      th: "การต้านทานความเสียหายจากการทุบ"
+      tr: "Darbe Hasarı Direnci"
+      vi: "Kháng sát thương trừng phạt"
+      zh_CN: "重击伤害抗性"
+      zh_TW: "重擊傷害抗性"
     percent: true
 
   20062:
