@@ -19,7 +19,7 @@ export function LootExplorerSummary({
     ? [
         ...items,
         {
-          label: t("Generated"),
+          label: t("Last updated"),
           value: formatGeneratedAt(generatedAt),
         },
       ]

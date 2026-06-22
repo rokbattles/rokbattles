@@ -537,11 +537,6 @@ msgid "yedWVm"
 msgstr "Failed to load loot explorer data."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "bzSrZ6"
-msgstr "Level {level}"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "qmJC1g"
 msgstr "Barbarian Wolf Tamers/Pack Striders"
 
@@ -556,6 +551,11 @@ msgstr "Barbarian Beast Riders/Blitz Hunters"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
 msgstr "English Soldiers"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "bzSrZ6"
+msgstr "Level {level}"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -654,8 +654,8 @@ msgid "75KFvG"
 msgstr "Loot Explorer"
 
 #: src/components/loot-explorer/loot-explorer-summary.tsx
-msgid "mjbpwF"
-msgstr "Generated"
+msgid "0ICwq5"
+msgstr "Last updated"
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "hjy3ZV"

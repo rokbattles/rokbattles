@@ -537,11 +537,6 @@ msgid "yedWVm"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "bzSrZ6"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "qmJC1g"
 msgstr ""
 
@@ -555,6 +550,11 @@ msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "bzSrZ6"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -654,7 +654,7 @@ msgid "75KFvG"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-summary.tsx
-msgid "mjbpwF"
+msgid "0ICwq5"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx

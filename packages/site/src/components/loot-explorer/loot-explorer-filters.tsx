@@ -9,6 +9,7 @@ export function LootExplorerFilters({
   typeOptions,
   selectedType,
   levelOptions,
+  levelOptionsByType,
   selectedLevels,
   allowMultipleLevels = true,
   showLevelFilter = true,
@@ -16,22 +17,50 @@ export function LootExplorerFilters({
   typeOptions: LootExplorerOption[];
   selectedType: string;
   levelOptions?: LootExplorerOption[];
+  levelOptionsByType?: Record<string, LootExplorerOption[]>;
   selectedLevels?: number[];
   allowMultipleLevels?: boolean;
   showLevelFilter?: boolean;
 }) {
   const t = useExtracted();
+  const [type, setType] = useState(selectedType);
   const [levels, setLevels] = useState<string[]>(selectedLevels?.map(String) ?? []);
+
+  useEffect(() => {
+    setType(selectedType);
+  }, [selectedType]);
 
   useEffect(() => {
     setLevels(selectedLevels?.map(String) ?? []);
   }, [selectedLevels]);
 
+  const effectiveLevelOptions = levelOptionsByType?.[type] ?? levelOptions ?? [];
   const levelSummary = levels.length
     ? levels
-        .map((level) => levelOptions?.find((option) => option.value === level)?.label ?? level)
+        .map(
+          (level) => effectiveLevelOptions.find((option) => option.value === level)?.label ?? level
+        )
         .join(", ")
     : t("All");
+
+  const handleTypeChange = (nextType: string) => {
+    setType(nextType);
+    if (!showLevelFilter) {
+      return;
+    }
+
+    const nextLevelOptions = levelOptionsByType?.[nextType] ?? levelOptions ?? [];
+    const nextLevelValues = new Set(nextLevelOptions.map((option) => option.value));
+    setLevels((currentLevels) => {
+      const validLevels = currentLevels.filter((level) => nextLevelValues.has(level));
+      if (validLevels.length > 0) {
+        return allowMultipleLevels ? validLevels : validLevels.slice(0, 1);
+      }
+
+      const firstLevel = nextLevelOptions[0]?.value;
+      return firstLevel ? [firstLevel] : [];
+    });
+  };
 
   return (
     <form className="space-y-4">
@@ -40,17 +69,14 @@ export function LootExplorerFilters({
           <span className="block font-medium text-sm/6 text-zinc-700 dark:text-zinc-200">
             {t("NPC")}
           </span>
-          <select
-            className="block w-full rounded-lg border border-zinc-950/10 bg-white px-3 py-2 text-sm/6 text-zinc-950 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-white"
-            name="type"
-            defaultValue={selectedType}
-          >
+          <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
             {typeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
+              <ListboxOption key={option.value} value={option.value}>
+                <ListboxLabel>{option.label}</ListboxLabel>
+              </ListboxOption>
             ))}
-          </select>
+          </Listbox>
+          <input name="type" type="hidden" value={type} />
         </label>
         {showLevelFilter ? (
           <div className="space-y-1.5">
@@ -72,7 +98,7 @@ export function LootExplorerFilters({
                 )}
                 value={levels}
               >
-                {(levelOptions ?? []).map((option) => (
+                {effectiveLevelOptions.map((option) => (
                   <ListboxOption key={option.value} value={option.value}>
                     <ListboxLabel>{option.label}</ListboxLabel>
                   </ListboxOption>
@@ -92,7 +118,7 @@ export function LootExplorerFilters({
                 )}
                 value={levels[0] ?? ""}
               >
-                {(levelOptions ?? []).map((option) => (
+                {effectiveLevelOptions.map((option) => (
                   <ListboxOption key={option.value} value={option.value}>
                     <ListboxLabel>{option.label}</ListboxLabel>
                   </ListboxOption>
