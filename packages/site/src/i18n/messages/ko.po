@@ -650,6 +650,7 @@ msgid "l7kWPA"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
+#: src/components/platform-layout.tsx
 msgid "75KFvG"
 msgstr ""
 
