@@ -229,7 +229,7 @@ fn target_catalog() -> Vec<TargetMetadata> {
         b_type: MARAUDER_B_TYPE,
         level: 41,
         ap_cost: 80,
-        honor_points: 0,
+        honor_points: 111,
         base_xp: 8200,
     });
 
@@ -432,6 +432,8 @@ mod tests {
         let level_38 = targets.iter().find(|target| target.kind == 38).expect("level 38");
         let level_45 = targets.iter().find(|target| target.kind == 405).expect("level 45");
         let marauder = targets.iter().find(|target| target.kind == 99).expect("marauder");
+        let level_41_marauder =
+            targets.iter().find(|target| target.kind == 100).expect("level 41 marauder");
 
         assert_eq!(level_38.ap_cost, 50);
         assert_eq!(level_38.honor_points, 103);
@@ -442,6 +444,9 @@ mod tests {
         assert_eq!(marauder.ap_cost, 50);
         assert_eq!(marauder.honor_points, 0);
         assert_eq!(marauder.base_xp, 3000);
+        assert_eq!(level_41_marauder.ap_cost, 80);
+        assert_eq!(level_41_marauder.honor_points, 111);
+        assert_eq!(level_41_marauder.base_xp, 8200);
     }
 
     #[test]
