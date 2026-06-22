@@ -653,6 +653,10 @@ msgstr "Baulurs"
 msgid "75KFvG"
 msgstr "Loot Explorer"
 
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "ntBJl8"
+msgstr "Explore loot data from every report ROK Battles collects and processes. Data refreshes every 8 hours."
+
 #: src/components/loot-explorer/loot-explorer-summary.tsx
 msgid "0ICwq5"
 msgstr "Last updated"
