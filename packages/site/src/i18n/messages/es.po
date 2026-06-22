@@ -388,6 +388,8 @@ msgid "wrpHgq"
 msgstr ""
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "r3YbHp"
 msgstr ""
 
@@ -400,10 +402,12 @@ msgid "T8KvU4"
 msgstr ""
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "4pFR10"
 msgstr ""
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
 msgid "R4HO71"
 msgstr ""
 
@@ -519,6 +523,163 @@ msgstr "Cancelar"
 #: src/components/language-selector.tsx
 msgid "jvo0vs"
 msgstr "Guardar"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "sNAPQj"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "yedWVm"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "bzSrZ6"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "qmJC1g"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "S5oZQH"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "9k2_Bx"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "s3oHvg"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "yaMHMB"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "r8aMgv"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "DPD1Vq"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "6tNcY-"
+msgstr ""
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "oAxAzA"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "PuC-Mi"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "1j7NiE"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "AAa9de"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "81t6Of"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "_GFlnd"
+msgstr ""
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "lNsQLY"
+msgstr ""
+
+#: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "owXGag"
+msgstr ""
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "NO4JXW"
+msgstr ""
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "QQMpmH"
+msgstr ""
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "0NLWkd"
+msgstr ""
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "pFZfPa"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "zQvVDJ"
+msgstr "Todo"
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "QfERSU"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "y1Qr81"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "EWw_tK"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "l7kWPA"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "75KFvG"
+msgstr ""
+
+#: src/components/loot-explorer/loot-explorer-summary.tsx
+msgid "mjbpwF"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "hjy3ZV"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "5ujeDa"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "qVGRIE"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "iiGDPW"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "d_fRcX"
+msgstr ""
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "Naokt5"
+msgstr ""
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx
@@ -1060,10 +1221,6 @@ msgid "8Q504V"
 msgstr "Metadatos"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "zQvVDJ"
-msgstr "Todo"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
 msgstr "Comandante principal"
 
@@ -1105,10 +1262,6 @@ msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw_tK"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx

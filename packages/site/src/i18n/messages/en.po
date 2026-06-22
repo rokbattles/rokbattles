@@ -388,6 +388,8 @@ msgid "wrpHgq"
 msgstr "Drops"
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "r3YbHp"
 msgstr "Barbarians"
 
@@ -400,10 +402,12 @@ msgid "T8KvU4"
 msgstr "Baulur"
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "4pFR10"
 msgstr "Marauders"
 
 #: src/components/account-loot/loot-category-list.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
 msgid "R4HO71"
 msgstr "Marauder Encampments"
 
@@ -519,6 +523,163 @@ msgstr "Cancel"
 #: src/components/language-selector.tsx
 msgid "jvo0vs"
 msgstr "Save"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "sNAPQj"
+msgstr "Loading loot explorer data..."
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "yedWVm"
+msgstr "Failed to load loot explorer data."
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "bzSrZ6"
+msgstr "Level {level}"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "qmJC1g"
+msgstr "Barbarian Wolf Tamers/Pack Striders"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "S5oZQH"
+msgstr "Barbarian Bone Archers/Heavy Archers"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "9k2_Bx"
+msgstr "Barbarian Beast Riders/Blitz Hunters"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "s3oHvg"
+msgstr "English Soldiers"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "yaMHMB"
+msgstr "Results"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "r8aMgv"
+msgstr "AP used"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "DPD1Vq"
+msgstr "Honor gained"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "6tNcY-"
+msgstr "XP gained"
+
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "oAxAzA"
+msgstr "{name} level {level}"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "PuC-Mi"
+msgstr "Ironhand Baulur"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "1j7NiE"
+msgstr "Miser Khaolak"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "AAa9de"
+msgstr "Under 1% damage"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "81t6Of"
+msgstr "1%-100% damage"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "_GFlnd"
+msgstr "Damage pool {pool}"
+
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "lNsQLY"
+msgstr "This has been seen {count, plural, one {# time} other {# times}}."
+
+#: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "owXGag"
+msgstr "Barbarian Forts"
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "NO4JXW"
+msgstr "Mottes"
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "QQMpmH"
+msgstr "Reward Tier {tier}"
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "0NLWkd"
+msgstr "This reward tier has been seen {count, plural, one {# time} other {# times}}, requiring damage {damage}."
+
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "pFZfPa"
+msgstr "n/a"
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "zQvVDJ"
+msgstr "All"
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "QfERSU"
+msgstr "NPC"
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "y1Qr81"
+msgstr "Level"
+
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "EWw_tK"
+msgstr "Apply"
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "l7kWPA"
+msgstr "Baulurs"
+
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "75KFvG"
+msgstr "Loot Explorer"
+
+#: src/components/loot-explorer/loot-explorer-summary.tsx
+msgid "mjbpwF"
+msgstr "Generated"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "hjy3ZV"
+msgstr "No drops have been observed for this selection."
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "5ujeDa"
+msgstr "Item"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "qVGRIE"
+msgstr "Quantity"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "iiGDPW"
+msgstr "Drop Rate"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "d_fRcX"
+msgstr "Seen"
+
+#: src/components/loot-explorer/loot-table.tsx
+msgid "Naokt5"
+msgstr "Item {type}:{subType}"
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx
@@ -1060,10 +1221,6 @@ msgid "8Q504V"
 msgstr "Metadata"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "zQvVDJ"
-msgstr "All"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
 msgstr "Primary Commander"
 
@@ -1106,10 +1263,6 @@ msgstr "Other"
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"
 msgstr "Reset"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw_tK"
-msgstr "Apply"
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "QRVQkf"

@@ -63,6 +63,11 @@ const config: NextConfig = {
         destination: "/docs/installation",
         permanent: false,
       },
+      {
+        source: "/loot-explorer",
+        destination: "/loot-explorer/barbarians",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
