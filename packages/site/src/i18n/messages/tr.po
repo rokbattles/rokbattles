@@ -653,6 +653,10 @@ msgstr ""
 msgid "75KFvG"
 msgstr ""
 
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "ntBJl8"
+msgstr ""
+
 #: src/components/loot-explorer/loot-explorer-summary.tsx
 msgid "0ICwq5"
 msgstr ""

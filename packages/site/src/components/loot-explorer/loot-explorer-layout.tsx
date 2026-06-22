@@ -28,7 +28,14 @@ export function LootExplorerLayout({
   return (
     <div className="space-y-8">
       <div className="space-y-5">
-        <Heading>{t("Loot Explorer")}</Heading>
+        <div className="space-y-2">
+          <Heading>{t("Loot Explorer")}</Heading>
+          <p className="max-w-xl text-sm/6 text-zinc-600 dark:text-zinc-400">
+            {t(
+              "Explore loot data from every report ROK Battles collects and processes. Data refreshes every 8 hours."
+            )}
+          </p>
+        </div>
         <nav className="flex flex-wrap gap-2 border-zinc-950/10 border-b pb-3 dark:border-white/10">
           {sections.map((section) => (
             <Link
