@@ -2,10 +2,10 @@ use crate::DrastcCategories;
 
 const WEIGHTS_TABLE: &[WeightedCategory] = &[
     WeightedCategory::new(Category::Damage, 0.25),
-    WeightedCategory::new(Category::Rage, 0.20),
+    WeightedCategory::new(Category::Rage, 0.15),
     WeightedCategory::new(Category::Assist, 0.10),
     WeightedCategory::new(Category::Sustainability, 0.20),
-    WeightedCategory::new(Category::Trade, 0.15),
+    WeightedCategory::new(Category::Trade, 0.20),
     WeightedCategory::new(Category::Consistency, 0.10),
 ];
 

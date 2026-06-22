@@ -72,10 +72,9 @@ impl DrastcModel {
 
     /// Set theoretical Rage/Assist values by pairing.
     ///
-    /// Unknown pairings default to zero values.
+    /// Unknown Rage pairings default to zero; Assist sums known commander values.
     pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
-        self.theoretical = theoretical_for_pairing(primary_commander_id, secondary_commander_id)
-            .unwrap_or_default();
+        self.theoretical = theoretical_for_pairing(primary_commander_id, secondary_commander_id);
     }
 
     /// Return the number of battle samples in the model.
@@ -215,7 +214,7 @@ mod tests {
         let score = model.evaluate().expect("score");
 
         assert_close(score.breakdown.rage.score, 5.47);
-        assert_close(score.breakdown.assist.score, 4.35);
+        assert_close(score.breakdown.assist.score, 3.39);
     }
 
     #[test]
@@ -227,7 +226,7 @@ mod tests {
         let score = model.evaluate().expect("score");
 
         assert_close(score.breakdown.rage.score, 9.82);
-        assert_close(score.breakdown.assist.score, 5.16);
+        assert_close(score.breakdown.assist.score, 5.61);
     }
 
     #[test]
