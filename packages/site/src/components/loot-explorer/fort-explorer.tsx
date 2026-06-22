@@ -4,7 +4,12 @@ import { useExtracted, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianFortLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
-import { findFortFamily, fortFamilies, levelOptions } from "@/lib/loot-explorer/catalog";
+import {
+  findFortFamily,
+  fortFamilies,
+  levelOptions,
+  resolveActiveLevels,
+} from "@/lib/loot-explorer/catalog";
 import { formatRange } from "@/lib/loot-explorer/format";
 import { LootExplorerFilters } from "./loot-explorer-filters";
 import { LootExplorerLayout } from "./loot-explorer-layout";
@@ -62,14 +67,32 @@ export function FortExplorer({
     );
   }
 
+  const familyLabels = new Map([
+    ["barbarian-forts", t("Barbarian Forts")],
+    ["marauder-encampments", t("Marauder Encampments")],
+    ["mottes", t("Mottes")],
+  ]);
+  const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
+  const availableFamilies = fortFamilies.filter((option) =>
+    items.some((item) => item.kind === option.kind)
+  );
+  const levelOptionsByType = Object.fromEntries(
+    availableFamilies.map((option) => [
+      option.key,
+      levelOptions(
+        items.filter((item) => item.kind === option.kind),
+        formatLevel
+      ),
+    ])
+  );
   const family = findFortFamily(selectedType, items);
   const familyItems = items.filter((item) => item.kind === family.kind);
-  const levels = levelOptions(familyItems, (level) =>
-    t("Level {level}", { level: level.toString() })
-  );
-  const activeLevels = selectedLevels.length
-    ? selectedLevels.slice(0, 1)
-    : levels.slice(0, 1).map((option) => Number(option.value));
+  const levels = levelOptionsByType[family.key] ?? [];
+  const activeLevels = resolveActiveLevels({
+    allowMultiple: false,
+    options: levels,
+    selectedLevels,
+  });
   const visibleItems = familyItems
     .filter((item) => activeLevels.includes(item.level))
     .sort((left, right) => left.level - right.level);
@@ -82,24 +105,18 @@ export function FortExplorer({
     { results: 0, apUsed: 0, honor: 0 }
   );
   const generatedAt = visibleItems[0]?.refreshedAt ?? familyItems[0]?.refreshedAt;
-  const familyLabels = new Map([
-    ["barbarian-forts", t("Barbarian Forts")],
-    ["marauder-encampments", t("Marauder Encampments")],
-    ["mottes", t("Mottes")],
-  ]);
   const familyLabel = familyLabels.get(family.key) ?? family.label;
 
   return (
     <LootExplorerLayout active="barbarian-forts">
       <LootExplorerFilters
-        typeOptions={fortFamilies
-          .filter((option) => items.some((item) => item.kind === option.kind))
-          .map((option) => ({
-            value: option.key,
-            label: familyLabels.get(option.key) ?? option.label,
-          }))}
+        typeOptions={availableFamilies.map((option) => ({
+          value: option.key,
+          label: familyLabels.get(option.key) ?? option.label,
+        }))}
         selectedType={family.key}
         levelOptions={levels}
+        levelOptionsByType={levelOptionsByType}
         selectedLevels={activeLevels}
         allowMultipleLevels={false}
       />

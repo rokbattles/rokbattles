@@ -4,7 +4,12 @@ import { useExtracted, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
 import { type BarbarianLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
-import { barbarianFamilies, findBarbarianFamily, levelOptions } from "@/lib/loot-explorer/catalog";
+import {
+  barbarianFamilies,
+  findBarbarianFamily,
+  levelOptions,
+  resolveActiveLevels,
+} from "@/lib/loot-explorer/catalog";
 import { LootExplorerFilters } from "./loot-explorer-filters";
 import { LootExplorerLayout } from "./loot-explorer-layout";
 import { LootExplorerStatus } from "./loot-explorer-status";
@@ -56,14 +61,30 @@ export function BarbarianExplorer({
     );
   }
 
+  const familyLabels = new Map([
+    ["barbarians", t("Barbarians")],
+    ["barbarian-wolf-tamers-pack-striders", t("Barbarian Wolf Tamers/Pack Striders")],
+    ["barbarian-bone-archers-heavy-archers", t("Barbarian Bone Archers/Heavy Archers")],
+    ["barbarian-beast-riders-blitz-hunters", t("Barbarian Beast Riders/Blitz Hunters")],
+    ["english-soldiers", t("English Soldiers")],
+    ["marauders", t("Marauders")],
+  ]);
+  const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
+  const availableFamilies = barbarianFamilies.filter((option) => items.some(option.matches));
+  const levelOptionsByType = Object.fromEntries(
+    availableFamilies.map((option) => [
+      option.key,
+      levelOptions(items.filter(option.matches), formatLevel),
+    ])
+  );
   const family = findBarbarianFamily(selectedType, items);
   const familyItems = items.filter(family.matches);
-  const levels = levelOptions(familyItems, (level) =>
-    t("Level {level}", { level: level.toString() })
-  );
-  const activeLevels = selectedLevels.length
-    ? selectedLevels
-    : levels.slice(0, 1).map((option) => Number(option.value));
+  const levels = levelOptionsByType[family.key] ?? [];
+  const activeLevels = resolveActiveLevels({
+    allowMultiple: true,
+    options: levels,
+    selectedLevels,
+  });
   const visibleItems = familyItems
     .filter((item) => activeLevels.includes(item.level))
     .sort((left, right) => left.level - right.level || left.kind - right.kind);
@@ -77,27 +98,18 @@ export function BarbarianExplorer({
     { results: 0, apUsed: 0, honor: 0, xp: 0 }
   );
   const generatedAt = visibleItems[0]?.refreshedAt ?? familyItems[0]?.refreshedAt;
-  const familyLabels = new Map([
-    ["barbarians", t("Barbarians")],
-    ["barbarian-wolf-tamers-pack-striders", t("Barbarian Wolf Tamers/Pack Striders")],
-    ["barbarian-bone-archers-heavy-archers", t("Barbarian Bone Archers/Heavy Archers")],
-    ["barbarian-beast-riders-blitz-hunters", t("Barbarian Beast Riders/Blitz Hunters")],
-    ["english-soldiers", t("English Soldiers")],
-    ["marauders", t("Marauders")],
-  ]);
   const familyLabel = familyLabels.get(family.key) ?? family.label;
 
   return (
     <LootExplorerLayout active="barbarians">
       <LootExplorerFilters
-        typeOptions={barbarianFamilies
-          .filter((option) => items.some(option.matches))
-          .map((option) => ({
-            value: option.key,
-            label: familyLabels.get(option.key) ?? option.label,
-          }))}
+        typeOptions={availableFamilies.map((option) => ({
+          value: option.key,
+          label: familyLabels.get(option.key) ?? option.label,
+        }))}
         selectedType={family.key}
         levelOptions={levels}
+        levelOptionsByType={levelOptionsByType}
         selectedLevels={activeLevels}
       />
       <LootExplorerSummary

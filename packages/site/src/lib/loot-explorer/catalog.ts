@@ -104,3 +104,24 @@ export function levelOptions(
     .sort((left, right) => left - right)
     .map((level) => ({ value: String(level), label: formatLabel(level) }));
 }
+
+export function resolveActiveLevels({
+  allowMultiple,
+  options,
+  selectedLevels,
+}: {
+  allowMultiple: boolean;
+  options: LootExplorerOption[];
+  selectedLevels: number[];
+}): number[] {
+  const availableLevels = new Set(options.map((option) => Number(option.value)));
+  const validSelectedLevels = selectedLevels.filter((level) => availableLevels.has(level));
+  const selected = allowMultiple ? validSelectedLevels : validSelectedLevels.slice(0, 1);
+
+  if (selected.length > 0) {
+    return selected;
+  }
+
+  const firstLevel = options[0]?.value;
+  return firstLevel ? [Number(firstLevel)] : [];
+}
