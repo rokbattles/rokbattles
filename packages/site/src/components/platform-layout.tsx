@@ -101,6 +101,13 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                 <TrophyIcon />
                 <SidebarLabel>{t("Olympian Arena")}</SidebarLabel>
               </SidebarItem>
+              <SidebarItem
+                href="/loot-explorer"
+                current={pathname === "/loot-explorer" || pathname.startsWith("/loot-explorer/")}
+              >
+                <GiftIcon />
+                <SidebarLabel>{t("Loot Explorer")}</SidebarLabel>
+              </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (
               <SidebarSection>
