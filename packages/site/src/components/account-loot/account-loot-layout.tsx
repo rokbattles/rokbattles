@@ -33,7 +33,9 @@ export function AccountLootLayout({
         <div className="space-y-2">
           <Heading>{t("My Loot")}</Heading>
           <p className="max-w-xl text-sm/6 text-zinc-600 dark:text-zinc-400">
-            {t("Review loot from reports collected for your selected governor.")}
+            {t(
+              "Explore loot that you have received from Barbarians, Barbarian Forts, and Baulurs."
+            )}
           </p>
         </div>
         <nav className="flex flex-wrap gap-2 border-zinc-950/10 border-b pb-3 dark:border-white/10">

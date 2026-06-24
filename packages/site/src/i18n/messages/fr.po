@@ -399,7 +399,7 @@ msgid "yF_GXb"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "ZCxDZ7"
+msgid "HaXTtS"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx

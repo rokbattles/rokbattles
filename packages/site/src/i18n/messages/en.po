@@ -390,8 +390,8 @@ msgid "yF_GXb"
 msgstr "My Loot"
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "ZCxDZ7"
-msgstr "Review loot from reports collected for your selected governor."
+msgid "HaXTtS"
+msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, and Baulurs."
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
