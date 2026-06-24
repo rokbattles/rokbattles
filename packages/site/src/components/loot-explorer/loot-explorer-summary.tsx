@@ -10,9 +10,11 @@ export type LootExplorerSummaryItem = {
 export function LootExplorerSummary({
   generatedAt,
   items,
+  maxColumns = 5,
 }: {
   generatedAt?: string;
   items: LootExplorerSummaryItem[];
+  maxColumns?: 4 | 5;
 }) {
   const t = useExtracted();
   const summaryItems = generatedAt
@@ -26,7 +28,13 @@ export function LootExplorerSummary({
     : items;
 
   return (
-    <div className="grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-5">
+    <div
+      className={
+        maxColumns === 4
+          ? "grid grid-cols-2 gap-6 md:grid-cols-4"
+          : "grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-5"
+      }
+    >
       {summaryItems.map((item) => (
         <div
           key={item.label}

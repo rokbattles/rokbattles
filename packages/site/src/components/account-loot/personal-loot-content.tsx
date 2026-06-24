@@ -194,7 +194,11 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
         minDate={minDate}
         maxDate={maxDate}
       />
-      {data ? <LootExplorerSummary items={summaryItems} /> : <Text>{t("Loading loot...")}</Text>}
+      {data ? (
+        <LootExplorerSummary items={summaryItems} maxColumns={4} />
+      ) : (
+        <Text>{t("Loading loot...")}</Text>
+      )}
       {data ? (
         <div className="space-y-8">
           {(data.groups.length ? data.groups : [emptyGroup()]).map((group) => {
