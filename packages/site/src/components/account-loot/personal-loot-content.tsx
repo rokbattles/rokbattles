@@ -3,19 +3,19 @@
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { useCallback, useContext, useMemo } from "react";
-import { LootBreakdownTable } from "@/components/account-loot/loot-breakdown-table";
 import {
-  type AccountLootSection,
   AccountLootLayout,
+  type AccountLootSection,
 } from "@/components/account-loot/account-loot-layout";
+import { LootBreakdownTable } from "@/components/account-loot/loot-breakdown-table";
 import { LootErrorState } from "@/components/account-loot/loot-error-state";
 import { PersonalLootFilters } from "@/components/account-loot/personal-loot-filters";
 import { LootExplorerSummary } from "@/components/loot-explorer/loot-explorer-summary";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import {
-  type PersonalLootEndpoint,
   defaultLootDateRange,
+  type PersonalLootEndpoint,
   usePersonalLoot,
 } from "@/hooks/use-personal-loot";
 import { formatLocalDateInput } from "@/lib/datetime";
@@ -69,11 +69,7 @@ function emptyGroup(): PersonalLootGroup {
   };
 }
 
-export function PersonalLootContent({
-  active,
-  endpoint,
-  datasetLocale,
-}: PersonalLootContentProps) {
+export function PersonalLootContent({ active, endpoint, datasetLocale }: PersonalLootContentProps) {
   const t = useExtracted();
   const searchParams = useSearchParams();
   const governorContext = useContext(GovernorContext);
@@ -122,14 +118,19 @@ export function PersonalLootContent({
         { value: "marauders", label: t("Marauders") },
       ],
       levelOptionsByType: {
-        barbarians: levelOptions(Array.from({ length: 55 }, (_, index) => index + 1), formatLevel),
+        barbarians: levelOptions(
+          Array.from({ length: 55 }, (_, index) => index + 1),
+          formatLevel
+        ),
         marauders: levelOptions([1, 41], formatLevel),
       },
       allowMultipleLevels: true,
     };
   }, [active, formatLevel, t]);
 
-  const selectedType = config.typeOptions.some((option) => option.value === searchParams.get("type"))
+  const selectedType = config.typeOptions.some(
+    (option) => option.value === searchParams.get("type")
+  )
     ? (searchParams.get("type") as string)
     : config.defaultType;
   const rawSelectedLevels = useMemo(() => parseLevels(searchParams), [searchParams]);

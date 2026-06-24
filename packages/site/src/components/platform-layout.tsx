@@ -127,7 +127,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
                     </SidebarItem>
                     <SidebarItem
                       href="/account/loot"
-                      current={pathname === "/account/loot" || pathname.startsWith("/account/loot/")}
+                      current={
+                        pathname === "/account/loot" || pathname.startsWith("/account/loot/")
+                      }
                     >
                       <GiftIcon />
                       <SidebarLabel>{t("My Loot")}</SidebarLabel>

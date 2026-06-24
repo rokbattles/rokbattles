@@ -274,7 +274,7 @@ fn into_personal_groups(
             }
         })
         .collect::<Vec<_>>();
-    payload.sort_by(|left, right| left.level.cmp(&right.level));
+    payload.sort_by_key(|group| group.level);
     payload
 }
 
