@@ -1,10 +1,3 @@
-export type LootCategoryKey =
-  | "barbarian"
-  | "marauder"
-  | "marauderEncampment"
-  | "barbarianFort"
-  | "baulur";
-
 export type LootRewardAggregate = {
   type: number;
   subType: number;
@@ -12,24 +5,28 @@ export type LootRewardAggregate = {
   count: number;
 };
 
-export type LootDailyAggregate = {
-  date: string;
-  reports: number;
-  lootTotal: number;
+export type PersonalLootTotals = {
+  results: number;
+  apUsed: number;
+  honorGained: number;
+  xpGained: number;
 };
 
-export type LootCategoryAggregate = {
+export type PersonalLootGroup = {
+  level: number | null;
   reports: number;
   lootTotal: number;
+  apUsed: number;
+  honorGained: number;
+  xpGained: number;
   rewards: LootRewardAggregate[];
-  daily: LootDailyAggregate[];
 };
 
-export type LootQueryResult = {
+export type PersonalLootQueryResult = {
   range: {
     start: string;
     end: string;
   };
-  totalReports: number;
-  categories: Record<LootCategoryKey, LootCategoryAggregate>;
+  totals: PersonalLootTotals;
+  groups: PersonalLootGroup[];
 };

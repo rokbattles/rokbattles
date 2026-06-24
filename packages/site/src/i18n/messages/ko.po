@@ -14,11 +14,6 @@ msgstr ""
 msgid "P2Qqmh"
 msgstr ""
 
-#: src/app/(legacy)/account/loot/page.tsx
-#: src/components/platform-layout.tsx
-msgid "yF_GXb"
-msgstr ""
-
 #: src/app/(legacy)/account/pairings/page.tsx
 #: src/components/platform-layout.tsx
 msgid "N42bBd"
@@ -137,7 +132,6 @@ msgid "BXfxPW"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-loot/loot-timeline-chart-client.tsx
 msgid "Sl01xK"
 msgstr ""
 
@@ -371,8 +365,32 @@ msgstr ""
 msgid "m9rp75"
 msgstr ""
 
-#: src/components/account-loot/account-loot-content.tsx
-msgid "fGwfGZ"
+#: src/components/account-loot/account-loot-layout.tsx
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "r3YbHp"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "owXGag"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "l7kWPA"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
+#: src/components/platform-layout.tsx
+msgid "yF_GXb"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
+msgid "ZCxDZ7"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -384,64 +402,112 @@ msgid "_0TOL5"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
-msgid "wrpHgq"
-msgstr ""
-
-#: src/components/account-loot/loot-category-list.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "r3YbHp"
-msgstr ""
-
-#: src/components/account-loot/loot-category-list.tsx
-msgid "Ap561B"
-msgstr ""
-
-#: src/components/account-loot/loot-category-list.tsx
-msgid "T8KvU4"
-msgstr ""
-
-#: src/components/account-loot/loot-category-list.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "4pFR10"
-msgstr ""
-
-#: src/components/account-loot/loot-category-list.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "R4HO71"
+#: src/components/loot-explorer/loot-table.tsx
+msgid "d_fRcX"
 msgstr ""
 
 #: src/components/account-loot/loot-error-state.tsx
 msgid "XD64_m"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "bzSrZ6"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "R4HO71"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "PuC-Mi"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+msgid "1j7NiE"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "4pFR10"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/baulur-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "yaMHMB"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "r8aMgv"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+#: src/components/loot-explorer/fort-explorer.tsx
+msgid "DPD1Vq"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/barbarian-explorer.tsx
+msgid "6tNcY-"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgid "JU88Di"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgid "WOPo3b"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgid "QtM1tY"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+msgid "PF57EA"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-filters.tsx
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "zQvVDJ"
+msgstr "전체"
+
+#: src/components/account-loot/personal-loot-filters.tsx
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "QfERSU"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-filters.tsx
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+msgid "y1Qr81"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "n5QvJy"
 msgstr ""
 
-#: src/components/account-loot/loot-filters-client.tsx
+#: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "Humfno"
 msgstr ""
 
-#: src/components/account-loot/loot-report-section.tsx
-#: src/components/account-resources/resources-report-section.tsx
-msgid "sdkaef"
-msgstr ""
-
-#: src/components/account-loot/loot-table-section.tsx
-msgid "WOPo3b"
-msgstr ""
-
-#: src/components/account-loot/loot-table-section.tsx
-msgid "QtM1tY"
-msgstr ""
-
-#: src/components/account-loot/loot-table-section.tsx
-msgid "PF57EA"
+#: src/components/account-loot/personal-loot-filters.tsx
+#: src/components/loot-explorer/loot-explorer-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "EWw_tK"
 msgstr ""
 
 #: src/components/account-resources/account-resources-content.tsx
@@ -467,6 +533,10 @@ msgstr ""
 
 #: src/components/account-resources/resources-error-state.tsx
 msgid "QTvbTs"
+msgstr ""
+
+#: src/components/account-resources/resources-report-section.tsx
+msgid "sdkaef"
 msgstr ""
 
 #: src/components/account-resources/resources-table-section.tsx
@@ -554,40 +624,7 @@ msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "bzSrZ6"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "yaMHMB"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "r8aMgv"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "DPD1Vq"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "6tNcY-"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
 msgid "oAxAzA"
-msgstr ""
-
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "PuC-Mi"
-msgstr ""
-
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "1j7NiE"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -607,11 +644,6 @@ msgid "lNsQLY"
 msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "owXGag"
-msgstr ""
-
-#: src/components/loot-explorer/fort-explorer.tsx
 msgid "NO4JXW"
 msgstr ""
 
@@ -625,28 +657,6 @@ msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "pFZfPa"
-msgstr ""
-
-#: src/components/loot-explorer/loot-explorer-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "zQvVDJ"
-msgstr "전체"
-
-#: src/components/loot-explorer/loot-explorer-filters.tsx
-msgid "QfERSU"
-msgstr ""
-
-#: src/components/loot-explorer/loot-explorer-filters.tsx
-msgid "y1Qr81"
-msgstr ""
-
-#: src/components/loot-explorer/loot-explorer-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw_tK"
-msgstr ""
-
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "l7kWPA"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
@@ -676,10 +686,6 @@ msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "iiGDPW"
-msgstr ""
-
-#: src/components/loot-explorer/loot-table.tsx
-msgid "d_fRcX"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx

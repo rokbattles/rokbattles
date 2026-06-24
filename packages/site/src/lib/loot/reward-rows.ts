@@ -1,5 +1,5 @@
 import { getLootName, getLootOrder, getLootSprites } from "@/lib/loot-catalog";
-import type { LootCategoryAggregate } from "@/lib/types/loot";
+import type { LootRewardAggregate } from "@/lib/types/loot";
 
 export type LootRewardRow = {
   key: string;
@@ -11,7 +11,7 @@ export type LootRewardRow = {
 };
 
 export function buildLootRewardRows(
-  category: LootCategoryAggregate,
+  category: { rewards: LootRewardAggregate[] },
   fallbackName: (type: number, subType: number) => string,
   locale?: string
 ): LootRewardRow[] {
