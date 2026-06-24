@@ -68,6 +68,11 @@ const config: NextConfig = {
         destination: "/loot-explorer/barbarians",
         permanent: false,
       },
+      {
+        source: "/account/loot",
+        destination: "/account/loot/barbarians",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {

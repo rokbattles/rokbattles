@@ -52,9 +52,6 @@ impl ReportsStore {
                 .keys(doc! { "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
-                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
-                .build(),
-            IndexModel::builder()
                 .keys(doc! { "sender.player_id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
@@ -65,6 +62,23 @@ impl ReportsStore {
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.player_id": 1, "opponents.npc.type": 1, "opponents.npc.b_type": 1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_receiver": 1,
+                    "opponents.player_id": 1,
+                    "opponents.npc.b_type": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_receiver": 1,
+                    "opponents.player_id": 1,
+                    "opponents.npc.b_type": 1,
+                    "opponents.npc.type": 1,
+                    "metadata.mail_time": -1,
+                })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "sender.commanders.primary.id": 1, "metadata.mail_time": -1 })
@@ -144,10 +158,24 @@ impl ReportsStore {
         }
 
         let barbarian_fort_models = vec![
-            IndexModel::builder()
-                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
-                .build(),
             IndexModel::builder().keys(doc! { "body.sub_param": 1, "body.sub_type": 1 }).build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_receiver": 1,
+                    "body.sub_type": 1,
+                    "body.sub_param": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_receiver": 1,
+                    "body.sub_type": 1,
+                    "body.sub_param": 1,
+                    "body.content.level": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
         ];
 
         for model in barbarian_fort_models {
@@ -155,13 +183,15 @@ impl ReportsStore {
         }
 
         let baulur_models = vec![
-            IndexModel::builder()
-                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
-                .build(),
-            IndexModel::builder()
-                .keys(doc! { "participants.player_id": 1, "metadata.mail_time": -1 })
-                .build(),
             IndexModel::builder().keys(doc! { "npc.type": 1 }).build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_receiver": 1,
+                    "participants.player_id": 1,
+                    "npc.type": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
         ];
 
         for model in baulur_models {

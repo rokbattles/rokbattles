@@ -25,8 +25,8 @@ export function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
       <TableHead>
         <TableRow>
           <TableHeader>{t("Name")}</TableHeader>
-          <TableHeader className="lg:w-36">{t("Amount")}</TableHeader>
-          <TableHeader className="lg:w-36">{t("Drops")}</TableHeader>
+          <TableHeader className="w-28">{t("Amount")}</TableHeader>
+          <TableHeader className="w-24">{t("Seen")}</TableHeader>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -38,8 +38,8 @@ export function LootBreakdownTable({ rows }: LootBreakdownTableProps) {
                 <span>{row.name}</span>
               </div>
             </TableCell>
-            <TableCell className="tabular-nums">{formatWholeNumber(row.total)}</TableCell>
-            <TableCell className="tabular-nums">{formatWholeNumber(row.count)}</TableCell>
+            <TableCell className="w-28 tabular-nums">{formatWholeNumber(row.total)}</TableCell>
+            <TableCell className="w-24 tabular-nums">{formatWholeNumber(row.count)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -1,22 +1,6 @@
 use serde::Serialize;
 
 #[derive(Debug, Clone, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub(crate) struct LootResponse {
-    range: LootRange,
-    total_reports: i64,
-    categories: LootCategories,
-}
-
-impl LootResponse {
-    pub fn new(range_start: String, range_end: String, categories: LootCategories) -> Self {
-        let total_reports = categories.total_reports();
-
-        Self { range: LootRange { start: range_start, end: range_end }, total_reports, categories }
-    }
-}
-
-#[derive(Debug, Clone, Serialize)]
 struct LootRange {
     start: String,
     end: String,
@@ -24,31 +8,49 @@ struct LootRange {
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub(crate) struct LootCategories {
-    pub barbarian: LootCategoryAggregateResponse,
-    pub marauder: LootCategoryAggregateResponse,
-    pub barbarian_fort: LootCategoryAggregateResponse,
-    pub marauder_encampment: LootCategoryAggregateResponse,
-    pub baulur: LootCategoryAggregateResponse,
+pub(crate) struct PersonalLootResponse {
+    range: LootRange,
+    totals: PersonalLootTotals,
+    groups: Vec<PersonalLootGroupResponse>,
 }
 
-impl LootCategories {
-    pub fn total_reports(&self) -> i64 {
-        self.barbarian.reports
-            + self.marauder.reports
-            + self.barbarian_fort.reports
-            + self.marauder_encampment.reports
-            + self.baulur.reports
+impl PersonalLootResponse {
+    pub fn new(
+        range_start: String,
+        range_end: String,
+        groups: Vec<PersonalLootGroupResponse>,
+    ) -> Self {
+        let totals = groups.iter().fold(PersonalLootTotals::default(), |mut totals, group| {
+            totals.results += group.reports;
+            totals.ap_used += group.ap_used;
+            totals.honor_gained += group.honor_gained;
+            totals.xp_gained += group.xp_gained;
+            totals
+        });
+
+        Self { range: LootRange { start: range_start, end: range_end }, totals, groups }
     }
+}
+
+#[derive(Debug, Clone, Default, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct PersonalLootTotals {
+    pub results: i64,
+    pub ap_used: i64,
+    pub honor_gained: i64,
+    pub xp_gained: i64,
 }
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
-pub(crate) struct LootCategoryAggregateResponse {
+pub(crate) struct PersonalLootGroupResponse {
+    pub level: Option<i32>,
     pub reports: i64,
     pub loot_total: i64,
+    pub ap_used: i64,
+    pub honor_gained: i64,
+    pub xp_gained: i64,
     pub rewards: Vec<LootRewardAggregateResponse>,
-    pub daily: Vec<LootDailyAggregateResponse>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -59,12 +61,4 @@ pub(crate) struct LootRewardAggregateResponse {
     pub sub_type: i64,
     pub total: i64,
     pub count: i64,
-}
-
-#[derive(Debug, Clone, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub(crate) struct LootDailyAggregateResponse {
-    pub date: String,
-    pub reports: i64,
-    pub loot_total: i64,
 }
