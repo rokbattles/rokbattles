@@ -2,6 +2,7 @@
 members = [
     "crates/binidx-cli",
     "crates/binidx-decoder",
+    "crates/drastc",
     "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-registry",
