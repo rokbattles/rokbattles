@@ -13,7 +13,7 @@ use reference::RecordMetrics;
 pub use reference::{DrastcReferenceRanges, ReferenceRange};
 use serde::Serialize;
 pub use theoretical::TheoreticalValues;
-use theoretical::theoretical_for_pairing;
+use theoretical::{is_supported_pairing, theoretical_for_pairing};
 use weights::weighted_overall;
 
 pub(crate) const MIN_REFERENCE_RANGE: f64 = 0.000_000_001;
@@ -75,6 +75,11 @@ impl DrastcModel {
     /// Unknown Rage pairings default to zero; Assist sums known commander values.
     pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
         self.theoretical = theoretical_for_pairing(primary_commander_id, secondary_commander_id);
+    }
+
+    /// Return true when the commander pairing exists in the Rage support table.
+    pub fn is_supported(primary_commander_id: u32, secondary_commander_id: u32) -> bool {
+        is_supported_pairing(primary_commander_id, secondary_commander_id)
     }
 
     /// Return the number of battle samples in the model.
@@ -215,6 +220,21 @@ mod tests {
 
         assert_close(score.breakdown.rage.score, 5.47);
         assert_close(score.breakdown.assist.score, 3.39);
+    }
+
+    #[test]
+    fn is_supported_returns_true_for_pairing_in_rage_table() {
+        assert!(DrastcModel::is_supported(579, 575));
+    }
+
+    #[test]
+    fn is_supported_returns_false_for_pairing_not_in_rage_table() {
+        assert!(!DrastcModel::is_supported(575, 540));
+    }
+
+    #[test]
+    fn is_supported_returns_false_for_unknown_ids() {
+        assert!(!DrastcModel::is_supported(1, 2));
     }
 
     #[test]

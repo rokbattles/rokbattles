@@ -188,6 +188,12 @@ pub(crate) fn theoretical_for_pairing(
     TheoreticalValues::new(avg_cycle, assist_raw)
 }
 
+pub(crate) fn is_supported_pairing(primary_commander_id: u32, secondary_commander_id: u32) -> bool {
+    THEORETICAL_RAGE_TABLE
+        .iter()
+        .any(|pairing| pairing.matches(primary_commander_id, secondary_commander_id))
+}
+
 fn rage_score(avg_cycle: f64) -> f64 {
     let scaled = ((10.0 - avg_cycle) / 6.0).clamp(0.0, 1.0);
     10.0 * scaled.powf(0.55)
