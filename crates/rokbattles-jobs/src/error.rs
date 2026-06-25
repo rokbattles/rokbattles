@@ -15,4 +15,6 @@ pub enum JobsError {
     Io(#[from] std::io::Error),
     #[error("MONGODB_URI must include a default database")]
     MissingDatabase,
+    #[error("Commander dataset contains no legendary commanders")]
+    MissingLegendaryCommanders,
 }
