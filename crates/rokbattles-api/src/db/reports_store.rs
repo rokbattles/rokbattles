@@ -22,6 +22,7 @@ pub struct ReportsStore {
     g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
     g_rok_prec_baulur: Collection<Document>,
+    g_rok_prec_cmdr_pairings: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -42,6 +43,7 @@ impl ReportsStore {
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
             g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
+            g_rok_prec_cmdr_pairings: db.collection("g_rok_prec_cmdr_pairings"),
         }
     }
 
@@ -87,10 +89,25 @@ impl ReportsStore {
                 .keys(doc! { "sender.commanders.secondary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! {
+                    "sender.commanders.primary.id": 1,
+                    "sender.commanders.secondary.id": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "opponents.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.commanders.secondary.id": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "opponents.commanders.primary.id": 1,
+                    "opponents.commanders.secondary.id": 1,
+                    "opponents.player_id": 1,
+                    "metadata.mail_time": -1,
+                })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_role": 1, "metadata.mail_time": -1 })
@@ -266,6 +283,17 @@ impl ReportsStore {
             self.g_rok_prec_baulur.create_index(model).await?;
         }
 
+        let precomputed_cmdr_pairing_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "primary_commander_id": 1, "secondary_commander_id": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+        ];
+
+        for model in precomputed_cmdr_pairing_models {
+            self.g_rok_prec_cmdr_pairings.create_index(model).await?;
+        }
+
         Ok(())
     }
 
@@ -332,5 +360,10 @@ impl ReportsStore {
     /// Access precomputed Baulur aggregates.
     pub fn precomputed_baulur_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_baulur
+    }
+
+    /// Access precomputed global commander pairing aggregates.
+    pub fn precomputed_commander_pairings_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_cmdr_pairings
     }
 }

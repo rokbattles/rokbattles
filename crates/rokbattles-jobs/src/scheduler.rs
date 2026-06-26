@@ -10,7 +10,9 @@ use tracing::{error, info, warn};
 use crate::{
     error::JobsError, precompute_barbarian::precompute_barbarian_data,
     precompute_barbarianfort::precompute_barbarian_fort_data,
-    precompute_baulur::precompute_baulur_data, refresh_binds::refresh_claimed_governor_bindings,
+    precompute_baulur::precompute_baulur_data,
+    precompute_cmdr_pairings::precompute_commander_pairings_data,
+    refresh_binds::refresh_claimed_governor_bindings,
 };
 
 /// Every 30 mins
@@ -21,6 +23,8 @@ pub const PRECOMPUTE_BARBARIAN_CRON: &str = "0 0 */8 * * *";
 pub const PRECOMPUTE_BARBARIAN_FORT_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_BAULUR_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours
+pub const PRECOMPUTE_COMMANDER_PAIRINGS_CRON: &str = "0 0 */8 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
 pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler, JobsError> {
@@ -30,6 +34,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let barbarian_lock = Arc::new(Mutex::new(()));
     let barbarian_fort_lock = Arc::new(Mutex::new(()));
     let baulur_lock = Arc::new(Mutex::new(()));
+    let commander_pairings_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
         &scheduler,
@@ -107,7 +112,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     add_locked_job(
         &scheduler,
         PRECOMPUTE_BAULUR_CRON,
-        reports_store,
+        Arc::clone(&reports_store),
         baulur_lock,
         "Baulur precompute is already running; skipping this tick",
         |reports_store| async move {
@@ -122,6 +127,33 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                 }
                 Err(error) => {
                     error!(%error, "failed to precompute Baulur data");
+                }
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
+        PRECOMPUTE_COMMANDER_PAIRINGS_CRON,
+        reports_store,
+        commander_pairings_lock,
+        "commander pairings precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_commander_pairings_data(&reports_store).await {
+                Ok(stats) => {
+                    info!(
+                        legendary_commanders = stats.legendary_commanders,
+                        observed_pairings = stats.observed_pairings,
+                        supported_drastc_pairings = stats.supported_drastc_pairings,
+                        scored_drastc_pairings = stats.scored_drastc_pairings,
+                        battle_entries_counted = stats.battle_entries_counted,
+                        documents_written = stats.documents_written,
+                        "precomputed commander pairings data"
+                    );
+                }
+                Err(error) => {
+                    error!(%error, "failed to precompute commander pairings data");
                 }
             }
         },
@@ -167,7 +199,7 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        REFRESH_BINDS_CRON,
+        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, REFRESH_BINDS_CRON,
     };
 
     #[test]
@@ -188,5 +220,10 @@ mod tests {
     #[test]
     fn precompute_baulur_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_BAULUR_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn precompute_commander_pairings_cron_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_CRON, "0 0 */8 * * *");
     }
 }
