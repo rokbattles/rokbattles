@@ -1,9 +1,6 @@
 use crate::{
     BattleRecord,
-    metrics::{
-        battle_outcome, casualties, consistency_rate_from_parts, finite_non_negative,
-        is_positive_trade, normalized_duration, trade_ratio,
-    },
+    metrics::{casualties, consistency_rate_from_parts, finite_non_negative, trade_ratio},
 };
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -30,8 +27,8 @@ pub(crate) struct BattleAggregate {
 
 impl BattleAggregate {
     pub(crate) fn push(&mut self, record: BattleRecord) {
-        self.sample_count += 1;
-        self.total_duration_seconds += normalized_duration(record.duration_seconds);
+        self.sample_count += record.sample_count;
+        self.total_duration_seconds += finite_non_negative(record.total_duration_seconds);
         self.kill_points += finite_non_negative(record.kill_points);
         self.opponent_kill_points += finite_non_negative(record.opponent_kill_points);
         self.inflicted_casualties += casualties(
@@ -45,18 +42,9 @@ impl BattleAggregate {
             record.sender_slightly_wounded,
         );
         self.sender_healing += finite_non_negative(record.sender_healing);
-
-        let battle_outcome = battle_outcome(record);
-        if let Some(perspective_won) = battle_outcome {
-            self.decisive_battles += 1;
-            if perspective_won {
-                self.wins += 1;
-            }
-        }
-
-        if is_positive_trade(record.kill_points, record.opponent_kill_points) {
-            self.positive_trades += 1;
-        }
+        self.decisive_battles += record.decisive_battles;
+        self.wins += record.wins.min(record.decisive_battles);
+        self.positive_trades += record.positive_trades.min(record.sample_count);
     }
 
     pub(crate) const fn sample_count(self) -> u64 {

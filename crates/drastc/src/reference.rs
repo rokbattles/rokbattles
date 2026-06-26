@@ -1,48 +1,6 @@
 use serde::Serialize;
 
-use crate::{
-    BattleRecord, CategoryScore, MIN_REFERENCE_RANGE,
-    metrics::{
-        battle_outcome, casualties, consistency_rate_from_parts, finite_non_negative,
-        is_positive_trade, normalized_duration,
-    },
-};
-
-#[derive(Debug, Clone, Copy)]
-pub(crate) struct RecordMetrics {
-    damage_per_second: f64,
-    sustainability_per_second: f64,
-    consistency_rate: Option<f64>,
-}
-
-impl RecordMetrics {
-    pub(crate) fn from_record(record: BattleRecord) -> Self {
-        let duration = normalized_duration(record.duration_seconds);
-        let positive_trade = if is_positive_trade(record.kill_points, record.opponent_kill_points) {
-            1.0
-        } else {
-            0.0
-        };
-        let inferred_win =
-            battle_outcome(record).map(|perspective_won| if perspective_won { 1.0 } else { 0.0 });
-
-        Self {
-            damage_per_second: casualties(
-                record.opponent_dead,
-                record.opponent_severely_wounded,
-                record.opponent_slightly_wounded,
-            ) / duration,
-            sustainability_per_second: (finite_non_negative(record.sender_healing)
-                - casualties(
-                    record.sender_dead,
-                    record.sender_severely_wounded,
-                    record.sender_slightly_wounded,
-                ))
-                / duration,
-            consistency_rate: consistency_rate_from_parts(inferred_win, Some(positive_trade)),
-        }
-    }
-}
+use crate::{CategoryScore, MIN_REFERENCE_RANGE};
 
 /// Percentile reference ranges used by percentile-based DRASTC categories.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
@@ -54,22 +12,6 @@ pub struct DrastcReferenceRanges {
     pub sustainability: ReferenceRange,
     /// Consistency reference range.
     pub consistency: ReferenceRange,
-}
-
-impl DrastcReferenceRanges {
-    pub(crate) fn from_population(population: &[RecordMetrics]) -> Self {
-        Self {
-            damage: ReferenceRange::from_values(
-                population.iter().map(|metrics| metrics.damage_per_second),
-            ),
-            sustainability: ReferenceRange::from_values(
-                population.iter().map(|metrics| metrics.sustainability_per_second),
-            ),
-            consistency: ReferenceRange::from_values(
-                population.iter().filter_map(|metrics| metrics.consistency_rate),
-            ),
-        }
-    }
 }
 
 /// P10/P90 benchmark range for one DRASTC metric.
@@ -92,12 +34,6 @@ impl ReferenceRange {
     /// Number of samples used for this range.
     pub const fn sample_count(self) -> usize {
         self.sample_count
-    }
-
-    fn from_values(values: impl Iterator<Item = f64>) -> Self {
-        let mut values = values.filter(|value| value.is_finite()).collect::<Vec<_>>();
-        values.sort_by(f64::total_cmp);
-        Self::new(values.len(), percentile(&values, 0.10), percentile(&values, 0.90))
     }
 
     pub(crate) fn score(self, value: f64) -> CategoryScore {
@@ -126,30 +62,28 @@ impl ReferenceRange {
     }
 }
 
-pub(crate) fn percentile(sorted_values: &[f64], percentile: f64) -> f64 {
-    match sorted_values {
-        [] => 0.0,
-        [value] => *value,
-        values => {
-            let rank = percentile.clamp(0.0, 1.0) * (values.len() - 1) as f64;
-            let lower = rank.floor() as usize;
-            let upper = rank.ceil() as usize;
-            let lower_value = values.get(lower).copied().unwrap_or(0.0);
-            let upper_value = values.get(upper).copied().unwrap_or(lower_value);
-            lower_value + ((upper_value - lower_value) * (rank - lower as f64))
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn percentile_interpolates_sorted_values() {
         let values = [1.0, 2.0, 3.0, 4.0, 5.0];
 
         assert_eq!(percentile(&values, 0.10), 1.4);
         assert_eq!(percentile(&values, 0.90), 4.6);
+    }
+
+    fn percentile(sorted_values: &[f64], percentile: f64) -> f64 {
+        match sorted_values {
+            [] => 0.0,
+            [value] => *value,
+            values => {
+                let rank = percentile.clamp(0.0, 1.0) * (values.len() - 1) as f64;
+                let lower = rank.floor() as usize;
+                let upper = rank.ceil() as usize;
+                let lower_value = values.get(lower).copied().unwrap_or(0.0);
+                let upper_value = values.get(upper).copied().unwrap_or(lower_value);
+                lower_value + ((upper_value - lower_value) * (rank - lower as f64))
+            }
+        }
     }
 }

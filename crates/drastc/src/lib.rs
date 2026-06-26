@@ -9,7 +9,6 @@ mod theoretical;
 mod weights;
 
 use aggregate::BattleAggregate;
-use reference::RecordMetrics;
 pub use reference::{DrastcReferenceRanges, ReferenceRange};
 use serde::Serialize;
 pub use theoretical::TheoreticalValues;
@@ -18,11 +17,13 @@ use weights::weighted_overall;
 
 pub(crate) const MIN_REFERENCE_RANGE: f64 = 0.000_000_001;
 
-/// Battle sample used by the DRASTC model.
+/// Aggregated battle samples used by the DRASTC model.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct BattleRecord {
-    /// Battle duration in seconds.
-    pub duration_seconds: f64,
+    /// Number of battle samples.
+    pub sample_count: u64,
+    /// Total battle duration in seconds.
+    pub total_duration_seconds: f64,
     /// Perspective-side kill points.
     pub kill_points: f64,
     /// Opposing-side kill points.
@@ -41,13 +42,18 @@ pub struct BattleRecord {
     pub sender_slightly_wounded: f64,
     /// Healing done by the perspective side.
     pub sender_healing: f64,
+    /// Number of battles with a non-tied lethal casualty outcome.
+    pub decisive_battles: u64,
+    /// Number of decisive battles won by the perspective side.
+    pub wins: u64,
+    /// Number of battles with positive kill-point trades.
+    pub positive_trades: u64,
 }
 
 /// DRASTC evaluator.
 #[derive(Debug, Default)]
 pub struct DrastcModel {
     aggregate: BattleAggregate,
-    samples: Vec<RecordMetrics>,
     theoretical: TheoreticalValues,
     reference_ranges: Option<DrastcReferenceRanges>,
 }
@@ -58,16 +64,9 @@ impl DrastcModel {
         Self::default()
     }
 
-    /// Add battle samples to the model.
-    pub fn push(&mut self, records: impl IntoIterator<Item = BattleRecord>) {
-        for record in records {
-            self.push_one(record);
-        }
-    }
-
-    fn push_one(&mut self, record: BattleRecord) {
+    /// Add aggregated battle samples to the model.
+    pub fn push(&mut self, record: BattleRecord) {
         self.aggregate.push(record);
-        self.samples.push(RecordMetrics::from_record(record));
     }
 
     /// Set theoretical Rage/Assist values by pairing.
@@ -84,7 +83,7 @@ impl DrastcModel {
 
     /// Return the number of battle samples in the model.
     pub fn sample_count(&self) -> usize {
-        self.samples.len()
+        usize::try_from(self.aggregate.sample_count()).unwrap_or(usize::MAX)
     }
 
     /// Use externally calculated reference ranges for percentile-based scoring.
@@ -94,13 +93,11 @@ impl DrastcModel {
 
     /// Evaluate all records
     pub fn evaluate(&self) -> Option<DrastcScore> {
-        if self.samples.is_empty() {
+        if self.aggregate.sample_count() == 0 {
             return None;
         }
 
-        let references = self
-            .reference_ranges
-            .unwrap_or_else(|| DrastcReferenceRanges::from_population(&self.samples));
+        let references = self.reference_ranges?;
         let metrics = self.aggregate.metrics();
 
         let damage = references.damage.score_curved(metrics.damage_per_second, 0.55);
@@ -179,7 +176,8 @@ mod tests {
 
     fn record(kill_points: f64, opponent_kill_points: f64) -> BattleRecord {
         BattleRecord {
-            duration_seconds: 100.0,
+            sample_count: 1,
+            total_duration_seconds: 100.0,
             kill_points,
             opponent_kill_points,
             opponent_dead: 10.0,
@@ -189,7 +187,24 @@ mod tests {
             sender_severely_wounded: 10.0,
             sender_slightly_wounded: 30.0,
             sender_healing: 5.0,
+            decisive_battles: 1,
+            wins: 1,
+            positive_trades: u64::from(kill_points > opponent_kill_points),
         }
+    }
+
+    fn reference_ranges() -> DrastcReferenceRanges {
+        DrastcReferenceRanges {
+            damage: ReferenceRange::new(10, 0.0, 4.0),
+            sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            consistency: ReferenceRange::new(10, 0.0, 1.0),
+        }
+    }
+
+    fn model_with_references() -> DrastcModel {
+        let mut model = DrastcModel::new();
+        model.set_reference_ranges(reference_ranges());
+        model
     }
 
     #[test]
@@ -200,9 +215,17 @@ mod tests {
     }
 
     #[test]
-    fn evaluate_keeps_rage_and_assist_at_zero() {
+    fn evaluate_returns_none_when_reference_ranges_are_missing() {
         let mut model = DrastcModel::new();
-        model.push([record(200.0, 100.0)]);
+        model.push(record(200.0, 100.0));
+
+        assert!(model.evaluate().is_none());
+    }
+
+    #[test]
+    fn evaluate_keeps_rage_and_assist_at_zero() {
+        let mut model = model_with_references();
+        model.push(record(200.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -212,9 +235,9 @@ mod tests {
 
     #[test]
     fn evaluate_uses_known_theoretical_values_for_gang_gamchan_achilles() {
-        let mut model = DrastcModel::new();
+        let mut model = model_with_references();
         model.set_theoretical(579, 575);
-        model.push([record(200.0, 100.0)]);
+        model.push(record(200.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -239,9 +262,9 @@ mod tests {
 
     #[test]
     fn evaluate_uses_known_theoretical_values_for_qin_zhuge_liang() {
-        let mut model = DrastcModel::new();
+        let mut model = model_with_references();
         model.set_theoretical(509, 179);
-        model.push([record(200.0, 100.0)]);
+        model.push(record(200.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -251,9 +274,9 @@ mod tests {
 
     #[test]
     fn evaluate_uses_known_theoretical_values_for_zhuge_liang_prime_hermann() {
-        let mut model = DrastcModel::new();
+        let mut model = model_with_references();
         model.set_theoretical(179, 187);
-        model.push([record(200.0, 100.0)]);
+        model.push(record(200.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -262,71 +285,51 @@ mod tests {
     }
 
     #[test]
-    fn evaluate_scores_aggregate_against_record_distribution() {
-        let mut model = DrastcModel::new();
-        model.push([
-            record(50.0, 100.0),
-            BattleRecord {
-                duration_seconds: 100.0,
-                kill_points: 200.0,
-                opponent_kill_points: 100.0,
-                opponent_dead: 20.0,
-                opponent_severely_wounded: 30.0,
-                opponent_slightly_wounded: 100.0,
-                sender_dead: 0.0,
-                sender_severely_wounded: 10.0,
-                sender_slightly_wounded: 20.0,
-                sender_healing: 10.0,
-            },
-            BattleRecord {
-                duration_seconds: 100.0,
-                kill_points: 300.0,
-                opponent_kill_points: 100.0,
-                opponent_dead: 30.0,
-                opponent_severely_wounded: 40.0,
-                opponent_slightly_wounded: 130.0,
-                sender_dead: 0.0,
-                sender_severely_wounded: 5.0,
-                sender_slightly_wounded: 5.0,
-                sender_healing: 20.0,
-            },
-        ]);
+    fn evaluate_scores_aggregate_metrics() {
+        let mut model = model_with_references();
+        model.push(BattleRecord {
+            sample_count: 3,
+            total_duration_seconds: 300.0,
+            kill_points: 550.0,
+            opponent_kill_points: 300.0,
+            opponent_dead: 60.0,
+            opponent_severely_wounded: 90.0,
+            opponent_slightly_wounded: 300.0,
+            sender_dead: 0.0,
+            sender_severely_wounded: 25.0,
+            sender_slightly_wounded: 55.0,
+            sender_healing: 35.0,
+            decisive_battles: 3,
+            wins: 3,
+            positive_trades: 2,
+        });
 
         let score = model.evaluate().expect("score");
 
-        assert!(score.breakdown.damage.p10 < score.breakdown.damage.p90);
         assert_eq!(score.samples, 3);
+        assert_close(score.breakdown.damage.value, 1.5);
+        assert_close(score.breakdown.sustainability.value, -0.15);
     }
 
     #[test]
     fn evaluate_curves_damage_and_sustainability_scores() {
-        let mut model = DrastcModel::new();
-        model.push([
-            BattleRecord {
-                duration_seconds: 100.0,
-                kill_points: 100.0,
-                opponent_kill_points: 100.0,
-                opponent_dead: 0.0,
-                opponent_severely_wounded: 0.0,
-                opponent_slightly_wounded: 0.0,
-                sender_dead: 0.0,
-                sender_severely_wounded: 0.0,
-                sender_slightly_wounded: 100.0,
-                sender_healing: 0.0,
-            },
-            BattleRecord {
-                duration_seconds: 100.0,
-                kill_points: 100.0,
-                opponent_kill_points: 100.0,
-                opponent_dead: 0.0,
-                opponent_severely_wounded: 0.0,
-                opponent_slightly_wounded: 200.0,
-                sender_dead: 0.0,
-                sender_severely_wounded: 0.0,
-                sender_slightly_wounded: 0.0,
-                sender_healing: 0.0,
-            },
-        ]);
+        let mut model = model_with_references();
+        model.push(BattleRecord {
+            sample_count: 1,
+            total_duration_seconds: 100.0,
+            kill_points: 100.0,
+            opponent_kill_points: 100.0,
+            opponent_dead: 0.0,
+            opponent_severely_wounded: 0.0,
+            opponent_slightly_wounded: 300.0,
+            sender_dead: 0.0,
+            sender_severely_wounded: 0.0,
+            sender_slightly_wounded: 0.0,
+            sender_healing: 0.0,
+            decisive_battles: 0,
+            wins: 0,
+            positive_trades: 0,
+        });
 
         let score = model.evaluate().expect("score");
 
@@ -344,8 +347,9 @@ mod tests {
 
         let mut model = DrastcModel::new();
         model.set_reference_ranges(reference_ranges);
-        model.push([BattleRecord {
-            duration_seconds: 100.0,
+        model.push(BattleRecord {
+            sample_count: 1,
+            total_duration_seconds: 100.0,
             kill_points: 100.0,
             opponent_kill_points: 100.0,
             opponent_dead: 0.0,
@@ -355,7 +359,10 @@ mod tests {
             sender_severely_wounded: 0.0,
             sender_slightly_wounded: 0.0,
             sender_healing: 0.0,
-        }]);
+            decisive_battles: 0,
+            wins: 0,
+            positive_trades: 0,
+        });
 
         let score = model.evaluate().expect("score");
 
@@ -366,8 +373,8 @@ mod tests {
 
     #[test]
     fn evaluate_infers_consistency_from_severe_dead_outcome() {
-        let mut model = DrastcModel::new();
-        model.push([record(50.0, 100.0)]);
+        let mut model = model_with_references();
+        model.push(record(50.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -376,8 +383,8 @@ mod tests {
 
     #[test]
     fn evaluate_scores_equal_trade_ratio_as_five() {
-        let mut model = DrastcModel::new();
-        model.push([record(100.0, 100.0)]);
+        let mut model = model_with_references();
+        model.push(record(100.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -386,8 +393,8 @@ mod tests {
 
     #[test]
     fn evaluate_scores_double_trade_ratio_as_ten() {
-        let mut model = DrastcModel::new();
-        model.push([record(200.0, 100.0)]);
+        let mut model = model_with_references();
+        model.push(record(200.0, 100.0));
 
         let score = model.evaluate().expect("score");
 
@@ -395,13 +402,26 @@ mod tests {
     }
 
     #[test]
-    fn push_adds_multiple_records() {
-        let mut model = DrastcModel::new();
-        model.push([record(100.0, 100.0), record(200.0, 100.0)]);
+    fn push_adds_aggregate_record() {
+        let mut model = model_with_references();
+        model.push(BattleRecord { sample_count: 2, ..record(200.0, 100.0) });
 
         let score = model.evaluate().expect("score");
 
         assert_eq!(score.samples, 2);
+    }
+
+    #[test]
+    fn push_combines_aggregate_records() {
+        let mut model = model_with_references();
+        model.push(record(50.0, 100.0));
+        model.push(record(200.0, 100.0));
+
+        let score = model.evaluate().expect("score");
+
+        assert_eq!(model.sample_count(), 2);
+        assert_eq!(score.samples, 2);
+        assert_close(score.breakdown.trade.value, 1.25);
     }
 
     fn assert_close(actual: f64, expected: f64) {

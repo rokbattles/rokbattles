@@ -2,6 +2,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use drastc::{BattleRecord, DrastcModel, DrastcReferenceRanges, DrastcScore, ReferenceRange};
 use futures::StreamExt;
 use mongodb::{
     Collection,
@@ -19,6 +20,8 @@ const BULK_WRITE_BATCH_SIZE: usize = 1_000;
 pub struct CommanderPairingsPrecomputeStats {
     pub legendary_commanders: usize,
     pub observed_pairings: usize,
+    pub supported_drastc_pairings: usize,
+    pub scored_drastc_pairings: usize,
     pub battle_entries_counted: i64,
     pub documents_written: usize,
 }
@@ -42,6 +45,35 @@ struct PairingRawTotals {
     sps_total: i64,
     tps_total: i64,
     healing_total: i64,
+    opponent_dead: i64,
+    opponent_slightly_wounded: i64,
+    sender_dead: i64,
+    sender_slightly_wounded: i64,
+    normalized_duration_seconds_total: f64,
+    decisive_battles: i64,
+    wins: i64,
+    positive_trades: i64,
+}
+
+impl PairingRawTotals {
+    fn to_drastc_record(self) -> BattleRecord {
+        BattleRecord {
+            sample_count: non_negative_i64_to_u64(self.total_battles),
+            total_duration_seconds: self.normalized_duration_seconds_total,
+            kill_points: self.kill_points_gained as f64,
+            opponent_kill_points: self.kill_points_lost as f64,
+            opponent_dead: self.opponent_dead as f64,
+            opponent_severely_wounded: self.severely_wounded_inflicted as f64,
+            opponent_slightly_wounded: self.opponent_slightly_wounded as f64,
+            sender_dead: self.sender_dead as f64,
+            sender_severely_wounded: self.severely_wounded_taken as f64,
+            sender_slightly_wounded: self.sender_slightly_wounded as f64,
+            sender_healing: self.healing_total as f64,
+            decisive_battles: non_negative_i64_to_u64(self.decisive_battles),
+            wins: non_negative_i64_to_u64(self.wins),
+            positive_trades: non_negative_i64_to_u64(self.positive_trades),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
@@ -66,8 +98,15 @@ pub async fn precompute_commander_pairings_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsPrecomputeStats, JobsError> {
     let legendary_ids = legendary_commander_ids()?;
-    let observed =
-        read_observed_pairings(reports_store.battle_collection(), &legendary_ids).await?;
+    let (observed, reference_ranges) =
+        read_pairings_and_reference_ranges(reports_store.battle_collection(), &legendary_ids)
+            .await?;
+    let supported_drastc_pairings = supported_drastc_pairings(&legendary_ids);
+    let drastc_scores = build_drastc_scores_from_aggregates(
+        &observed,
+        &supported_drastc_pairings,
+        reference_ranges,
+    );
 
     let refreshed_at = DateTime::now();
     let output = reports_store.precomputed_commander_pairings_collection();
@@ -79,7 +118,8 @@ pub async fn precompute_commander_pairings_data(
         let raw = observed.get(&key).copied().unwrap_or_default();
         battle_entries_counted += raw.total_battles;
         let summary = finalize_summary(raw);
-        let document = build_precomputed_document(key, summary, refreshed_at);
+        let document =
+            build_precomputed_document(key, summary, drastc_scores.get(&key), refreshed_at);
 
         documents.push((key, document));
     }
@@ -89,6 +129,8 @@ pub async fn precompute_commander_pairings_data(
     Ok(CommanderPairingsPrecomputeStats {
         legendary_commanders: legendary_ids.len(),
         observed_pairings: observed.len(),
+        supported_drastc_pairings: supported_drastc_pairings.len(),
+        scored_drastc_pairings: drastc_scores.len(),
         battle_entries_counted,
         documents_written,
     })
@@ -186,22 +228,19 @@ fn ordered_pairing_keys(legendary_ids: &[i64]) -> Vec<PairingKey> {
     keys
 }
 
-async fn read_observed_pairings(
+async fn read_pairings_and_reference_ranges(
     source: &Collection<Document>,
     legendary_ids: &[i64],
-) -> Result<BTreeMap<PairingKey, PairingRawTotals>, JobsError> {
+) -> Result<(BTreeMap<PairingKey, PairingRawTotals>, DrastcReferenceRanges), JobsError> {
     let pipeline = build_pairings_pipeline(legendary_ids);
     let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
-    let mut observed = BTreeMap::new();
 
-    while let Some(next) = cursor.next().await {
+    if let Some(next) = cursor.next().await {
         let document = next?;
-        if let Some((key, totals)) = map_aggregate_document(&document) {
-            observed.insert(key, totals);
-        }
+        return Ok(map_pairings_result_document(&document));
     }
 
-    Ok(observed)
+    Ok((BTreeMap::new(), default_reference_ranges()))
 }
 
 fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
@@ -266,25 +305,47 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
             }
         },
         doc! { "$unwind": "$entries" },
+        doc! { "$replaceRoot": { "newRoot": "$entries" } },
+        doc! {
+            "$facet": {
+                "observed": observed_pairings_subpipeline(),
+                "reference_ranges": reference_ranges_subpipeline(),
+            }
+        },
+    ]
+}
+
+fn observed_pairings_subpipeline() -> Vec<Document> {
+    vec![
         doc! {
             "$group": {
                 "_id": {
-                    "primary_commander_id": "$entries.primary_commander_id",
-                    "secondary_commander_id": "$entries.secondary_commander_id",
+                    "primary_commander_id": "$primary_commander_id",
+                    "secondary_commander_id": "$secondary_commander_id",
                 },
                 "total_battles": { "$sum": 1 },
-                "kill_points_gained": { "$sum": "$entries.kill_points_gained" },
-                "kill_points_lost": { "$sum": "$entries.kill_points_lost" },
-                "trade_percentage_total": { "$sum": "$entries.trade_percentage" },
-                "battle_duration_total": { "$sum": "$entries.battle_duration" },
+                "kill_points_gained": { "$sum": "$kill_points_gained" },
+                "kill_points_lost": { "$sum": "$kill_points_lost" },
+                "trade_percentage_total": { "$sum": "$trade_percentage" },
+                "battle_duration_total": { "$sum": "$battle_duration" },
                 "severely_wounded_inflicted": {
-                    "$sum": "$entries.severely_wounded_inflicted",
+                    "$sum": "$severely_wounded_inflicted",
                 },
-                "severely_wounded_taken": { "$sum": "$entries.severely_wounded_taken" },
-                "damage_total": { "$sum": "$entries.damage_total" },
-                "sps_total": { "$sum": "$entries.sps_total" },
-                "tps_total": { "$sum": "$entries.tps_total" },
-                "healing_total": { "$sum": "$entries.healing_total" },
+                "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
+                "damage_total": { "$sum": "$damage_total" },
+                "sps_total": { "$sum": "$sps_total" },
+                "tps_total": { "$sum": "$tps_total" },
+                "healing_total": { "$sum": "$healing_total" },
+                "opponent_dead": { "$sum": "$opponent_dead" },
+                "opponent_slightly_wounded": { "$sum": "$opponent_slightly_wounded" },
+                "sender_dead": { "$sum": "$sender_dead" },
+                "sender_slightly_wounded": { "$sum": "$sender_slightly_wounded" },
+                "normalized_duration_seconds_total": {
+                    "$sum": "$normalized_duration_seconds",
+                },
+                "decisive_battles": { "$sum": "$decisive_battle" },
+                "wins": { "$sum": "$win" },
+                "positive_trades": { "$sum": "$positive_trade" },
             }
         },
         doc! {
@@ -303,9 +364,155 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
                 "sps_total": 1,
                 "tps_total": 1,
                 "healing_total": 1,
+                "opponent_dead": 1,
+                "opponent_slightly_wounded": 1,
+                "sender_dead": 1,
+                "sender_slightly_wounded": 1,
+                "normalized_duration_seconds_total": 1,
+                "decisive_battles": 1,
+                "wins": 1,
+                "positive_trades": 1,
             }
         },
     ]
+}
+
+fn build_drastc_scores_from_aggregates(
+    observed: &BTreeMap<PairingKey, PairingRawTotals>,
+    supported_pairings: &[PairingKey],
+    reference_ranges: DrastcReferenceRanges,
+) -> BTreeMap<PairingKey, DrastcScore> {
+    let mut scores = BTreeMap::new();
+
+    for key in supported_pairings {
+        let Some(raw) = observed.get(key) else {
+            continue;
+        };
+
+        let mut model = DrastcModel::new();
+        model.set_reference_ranges(reference_ranges);
+        model.set_theoretical(key.primary_commander_id as u32, key.secondary_commander_id as u32);
+        model.push(raw.to_drastc_record());
+
+        if let Some(score) = model.evaluate() {
+            scores.insert(*key, score);
+        }
+    }
+
+    scores
+}
+
+fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey> {
+    ordered_pairing_keys(legendary_ids)
+        .into_iter()
+        .filter(|key| {
+            u32::try_from(key.primary_commander_id)
+                .ok()
+                .zip(u32::try_from(key.secondary_commander_id).ok())
+                .is_some_and(|(primary, secondary)| DrastcModel::is_supported(primary, secondary))
+        })
+        .collect()
+}
+
+fn reference_ranges_subpipeline() -> Vec<Document> {
+    vec![
+        doc! {
+            "$project": {
+                "damage_per_second": {
+                    "$divide": [
+                        {
+                            "$add": [
+                                "$opponent_dead",
+                                "$severely_wounded_inflicted",
+                                "$opponent_slightly_wounded",
+                            ]
+                        },
+                        "$normalized_duration_seconds",
+                    ]
+                },
+                "sustainability_per_second": {
+                    "$divide": [
+                        {
+                            "$subtract": [
+                                "$healing_total",
+                                {
+                                    "$add": [
+                                        "$sender_dead",
+                                        "$severely_wounded_taken",
+                                        "$sender_slightly_wounded",
+                                    ]
+                                },
+                            ]
+                        },
+                        "$normalized_duration_seconds",
+                    ]
+                },
+                "consistency_rate": consistency_rate_expr(),
+            }
+        },
+        doc! {
+            "$group": {
+                "_id": Bson::Null,
+                "samples": { "$sum": 1 },
+                "damage": {
+                    "$percentile": {
+                        "input": "$damage_per_second",
+                        "p": [0.1, 0.9],
+                        "method": "approximate",
+                    }
+                },
+                "sustainability": {
+                    "$percentile": {
+                        "input": "$sustainability_per_second",
+                        "p": [0.1, 0.9],
+                        "method": "approximate",
+                    }
+                },
+                "consistency": {
+                    "$percentile": {
+                        "input": "$consistency_rate",
+                        "p": [0.1, 0.9],
+                        "method": "approximate",
+                    }
+                },
+            }
+        },
+    ]
+}
+
+fn consistency_rate_expr() -> Document {
+    let positive_trade = doc! {
+        "$cond": [
+            { "$gt": ["$kill_points_gained", "$kill_points_lost"] },
+            1.0,
+            0.0,
+        ]
+    };
+    let won = doc! {
+        "$cond": [
+            {
+                "$gt": [
+                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
+                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
+                ]
+            },
+            1.0,
+            0.0,
+        ]
+    };
+
+    doc! {
+        "$cond": [
+            {
+                "$eq": [
+                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
+                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
+                ]
+            },
+            positive_trade.clone(),
+            { "$divide": [{ "$add": [won, positive_trade] }, 2.0] },
+        ]
+    }
 }
 
 fn legendary_id_bson_array(legendary_ids: &[i64]) -> Vec<Bson> {
@@ -344,8 +551,16 @@ fn perspective_entry(
 ) -> Document {
     let kill_points_gained = numeric_field(self_results_path, "kill_points");
     let kill_points_lost = numeric_field(enemy_results_path, "kill_points");
-    let severely_wounded_inflicted = numeric_field(enemy_results_path, "severely_wounded");
-    let severely_wounded_taken = numeric_field(self_results_path, "severely_wounded");
+    let opponent_dead = numeric_field(enemy_results_path, "dead");
+    let opponent_severely_wounded = numeric_field(enemy_results_path, "severely_wounded");
+    let opponent_slightly_wounded = numeric_field(enemy_results_path, "slightly_wounded");
+    let sender_dead = numeric_field(self_results_path, "dead");
+    let sender_severely_wounded = numeric_field(self_results_path, "severely_wounded");
+    let sender_slightly_wounded = numeric_field(self_results_path, "slightly_wounded");
+    let battle_duration = battle_duration_expr();
+    let inflicted_lethal =
+        doc! { "$add": [opponent_dead.clone(), opponent_severely_wounded.clone()] };
+    let received_lethal = doc! { "$add": [sender_dead.clone(), sender_severely_wounded.clone()] };
 
     doc! {
         "primary_commander_id": primary_expr,
@@ -353,18 +568,53 @@ fn perspective_entry(
         "kill_points_gained": kill_points_gained.clone(),
         "kill_points_lost": kill_points_lost.clone(),
         "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
-        "battle_duration": battle_duration_expr(),
-        "severely_wounded_inflicted": severely_wounded_inflicted.clone(),
-        "severely_wounded_taken": severely_wounded_taken.clone(),
+        "battle_duration": battle_duration.clone(),
+        "severely_wounded_inflicted": opponent_severely_wounded.clone(),
+        "severely_wounded_taken": sender_severely_wounded.clone(),
         "damage_total": {
             "$add": [
-                numeric_field(enemy_results_path, "slightly_wounded"),
-                severely_wounded_inflicted.clone(),
+                opponent_slightly_wounded.clone(),
+                opponent_severely_wounded.clone(),
             ]
         },
-        "sps_total": severely_wounded_inflicted,
-        "tps_total": severely_wounded_taken,
+        "sps_total": opponent_severely_wounded.clone(),
+        "tps_total": sender_severely_wounded.clone(),
         "healing_total": numeric_field(self_results_path, "heal"),
+        "opponent_dead": opponent_dead,
+        "opponent_slightly_wounded": opponent_slightly_wounded,
+        "sender_dead": sender_dead,
+        "sender_slightly_wounded": sender_slightly_wounded,
+        "normalized_duration_seconds": {
+            "$cond": [
+                { "$gt": [battle_duration.clone(), 0] },
+                { "$divide": [battle_duration, 1000.0] },
+                1.0,
+            ]
+        },
+        "decisive_battle": {
+            "$cond": [
+                { "$ne": [inflicted_lethal.clone(), received_lethal.clone()] },
+                1,
+                0,
+            ]
+        },
+        "win": {
+            "$cond": [
+                { "$gt": [inflicted_lethal, received_lethal] },
+                1,
+                0,
+            ]
+        },
+        "positive_trade": {
+            "$cond": [
+                { "$gt": [
+                    numeric_field(self_results_path, "kill_points"),
+                    numeric_field(enemy_results_path, "kill_points"),
+                ] },
+                1,
+                0,
+            ]
+        },
     }
 }
 
@@ -484,8 +734,88 @@ fn map_aggregate_document(document: &Document) -> Option<(PairingKey, PairingRaw
             sps_total: direct_i64(document, "sps_total").unwrap_or_default(),
             tps_total: direct_i64(document, "tps_total").unwrap_or_default(),
             healing_total: direct_i64(document, "healing_total").unwrap_or_default(),
+            opponent_dead: direct_i64(document, "opponent_dead").unwrap_or_default(),
+            opponent_slightly_wounded: direct_i64(document, "opponent_slightly_wounded")
+                .unwrap_or_default(),
+            sender_dead: direct_i64(document, "sender_dead").unwrap_or_default(),
+            sender_slightly_wounded: direct_i64(document, "sender_slightly_wounded")
+                .unwrap_or_default(),
+            normalized_duration_seconds_total: direct_f64(
+                document,
+                "normalized_duration_seconds_total",
+            )
+            .unwrap_or_default(),
+            decisive_battles: direct_i64(document, "decisive_battles").unwrap_or_default(),
+            wins: direct_i64(document, "wins").unwrap_or_default(),
+            positive_trades: direct_i64(document, "positive_trades").unwrap_or_default(),
         },
     ))
+}
+
+fn map_pairings_result_document(
+    document: &Document,
+) -> (BTreeMap<PairingKey, PairingRawTotals>, DrastcReferenceRanges) {
+    let mut observed = BTreeMap::new();
+
+    if let Some(Bson::Array(documents)) = document.get("observed") {
+        for value in documents {
+            let Bson::Document(document) = value else {
+                continue;
+            };
+
+            if let Some((key, totals)) = map_aggregate_document(document) {
+                observed.insert(key, totals);
+            }
+        }
+    }
+
+    let reference_ranges = document
+        .get("reference_ranges")
+        .and_then(|value| match value {
+            Bson::Array(values) => values.first(),
+            _ => None,
+        })
+        .and_then(|value| match value {
+            Bson::Document(document) => map_reference_ranges_document(document),
+            _ => None,
+        })
+        .unwrap_or_else(default_reference_ranges);
+
+    (observed, reference_ranges)
+}
+
+fn map_reference_ranges_document(document: &Document) -> Option<DrastcReferenceRanges> {
+    let samples = usize::try_from(direct_i64(document, "samples")?).ok()?;
+
+    Some(DrastcReferenceRanges {
+        damage: reference_range_from_percentiles(samples, document, "damage"),
+        sustainability: reference_range_from_percentiles(samples, document, "sustainability"),
+        consistency: reference_range_from_percentiles(samples, document, "consistency"),
+    })
+}
+
+fn reference_range_from_percentiles(
+    samples: usize,
+    document: &Document,
+    key: &str,
+) -> ReferenceRange {
+    let Some(Bson::Array(values)) = document.get(key) else {
+        return ReferenceRange::new(0, 0.0, 0.0);
+    };
+
+    ReferenceRange::new(
+        samples,
+        values.first().and_then(bson_to_f64).unwrap_or_default(),
+        values.get(1).and_then(bson_to_f64).unwrap_or_default(),
+    )
+}
+
+fn default_reference_ranges() -> DrastcReferenceRanges {
+    DrastcReferenceRanges {
+        damage: ReferenceRange::new(0, 0.0, 0.0),
+        sustainability: ReferenceRange::new(0, 0.0, 0.0),
+        consistency: ReferenceRange::new(0, 0.0, 0.0),
+    }
 }
 
 fn finalize_summary(raw: PairingRawTotals) -> PairingSummary {
@@ -530,6 +860,7 @@ fn rate_per_second(total: i64, duration_millis: i64) -> f64 {
 fn build_precomputed_document(
     key: PairingKey,
     summary: PairingSummary,
+    drastc: Option<&DrastcScore>,
     refreshed_at: DateTime,
 ) -> Document {
     doc! {
@@ -550,8 +881,41 @@ fn build_precomputed_document(
             "tps": summary.tps,
             "hps": summary.hps,
         },
+        "drastc": drastc.map(drastc_score_document),
         "refreshed_at": refreshed_at,
     }
+}
+
+fn drastc_score_document(score: &DrastcScore) -> Document {
+    doc! {
+        "samples": u64_to_i64(score.samples),
+        "breakdown": {
+            "damage": category_score_document(score.breakdown.damage),
+            "rage": category_score_document(score.breakdown.rage),
+            "assist": category_score_document(score.breakdown.assist),
+            "sustainability": category_score_document(score.breakdown.sustainability),
+            "trade": category_score_document(score.breakdown.trade),
+            "consistency": category_score_document(score.breakdown.consistency),
+        },
+        "overall": score.overall,
+    }
+}
+
+fn category_score_document(score: drastc::CategoryScore) -> Document {
+    doc! {
+        "value": score.value,
+        "p10": score.p10,
+        "p90": score.p90,
+        "score": score.score,
+    }
+}
+
+fn non_negative_i64_to_u64(value: i64) -> u64 {
+    u64::try_from(value).unwrap_or_default()
+}
+
+fn u64_to_i64(value: u64) -> i64 {
+    i64::try_from(value).unwrap_or(i64::MAX)
 }
 
 fn pairing_selector(key: PairingKey) -> Document {
@@ -589,6 +953,7 @@ fn bson_to_f64(value: &Bson) -> Option<f64> {
 
 #[cfg(test)]
 mod tests {
+    use drastc::BattleRecord;
     use mongodb::bson::doc;
 
     use super::*;
@@ -611,6 +976,18 @@ mod tests {
     }
 
     #[test]
+    fn supported_drastc_pairings_returns_only_model_supported_pairings() {
+        let keys = supported_drastc_pairings(&[575, 579, 540]);
+
+        assert!(
+            keys.contains(&PairingKey { primary_commander_id: 579, secondary_commander_id: 575 })
+        );
+        assert!(
+            !keys.contains(&PairingKey { primary_commander_id: 575, secondary_commander_id: 540 })
+        );
+    }
+
+    #[test]
     fn map_aggregate_document_maps_numeric_totals() {
         let document = doc! {
             "primary_commander_id": 509_i64,
@@ -626,11 +1003,38 @@ mod tests {
             "sps_total": 20_i64,
             "tps_total": 10_i64,
             "healing_total": 30_i64,
+            "opponent_dead": 5_i64,
+            "opponent_slightly_wounded": 30_i64,
+            "sender_dead": 2_i64,
+            "sender_slightly_wounded": 15_i64,
+            "normalized_duration_seconds_total": 10.0,
+            "decisive_battles": 1_i64,
+            "wins": 1_i64,
+            "positive_trades": 1_i64,
         };
 
         let (_, totals) = map_aggregate_document(&document).expect("aggregate document");
         assert_eq!(totals.total_battles, 2);
         assert_eq!(totals.damage_total, 50);
+        assert_eq!(totals.opponent_dead, 5);
+        assert_eq!(totals.normalized_duration_seconds_total, 10.0);
+        assert_eq!(totals.positive_trades, 1);
+    }
+
+    #[test]
+    fn map_reference_ranges_document_maps_percentile_arrays() {
+        let document = doc! {
+            "samples": 10_i64,
+            "damage": [1.0, 9.0],
+            "sustainability": [-5.0, 5.0],
+            "consistency": [0.2, 0.8],
+        };
+
+        let ranges = map_reference_ranges_document(&document).expect("reference ranges");
+
+        assert_eq!(ranges.damage.p10, 1.0);
+        assert_eq!(ranges.damage.p90, 9.0);
+        assert_eq!(ranges.damage.sample_count(), 10);
     }
 
     #[test]
@@ -647,6 +1051,7 @@ mod tests {
             sps_total: 20,
             tps_total: 10,
             healing_total: 30,
+            ..PairingRawTotals::default()
         });
 
         assert_eq!(summary.avg_trade_percentage, 150.0);
@@ -654,5 +1059,93 @@ mod tests {
         assert_eq!(summary.avg_battle_duration, 5_000.0);
         assert_eq!(summary.dps, 5.0);
         assert_eq!(summary.hps, 3.0);
+    }
+
+    #[test]
+    fn build_drastc_scores_from_aggregates_scores_supported_observed_pairings() {
+        let key = PairingKey { primary_commander_id: 579, secondary_commander_id: 575 };
+        let observed = BTreeMap::from([(
+            key,
+            PairingRawTotals {
+                total_battles: 2,
+                kill_points_gained: 250,
+                kill_points_lost: 200,
+                battle_duration_total: 150_000,
+                severely_wounded_inflicted: 25,
+                severely_wounded_taken: 25,
+                healing_total: 15,
+                opponent_dead: 10,
+                opponent_slightly_wounded: 90,
+                sender_dead: 10,
+                sender_slightly_wounded: 70,
+                normalized_duration_seconds_total: 150.0,
+                decisive_battles: 2,
+                wins: 1,
+                positive_trades: 1,
+                ..PairingRawTotals::default()
+            },
+        )]);
+        let ranges = DrastcReferenceRanges {
+            damage: ReferenceRange::new(10, 0.0, 4.0),
+            sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            consistency: ReferenceRange::new(10, 0.0, 1.0),
+        };
+
+        let scores = build_drastc_scores_from_aggregates(&observed, &[key], ranges);
+
+        let score = scores.get(&key).expect("drastc score");
+        assert_eq!(score.samples, 2);
+        assert_eq!(score.breakdown.rage.value, 8.0);
+        assert_eq!(score.breakdown.assist.value, 14.0);
+    }
+
+    #[test]
+    fn build_precomputed_document_sets_null_drastc_when_score_is_missing() {
+        let document = build_precomputed_document(
+            PairingKey { primary_commander_id: 1, secondary_commander_id: 2 },
+            PairingSummary::default(),
+            None,
+            DateTime::from_millis(0),
+        );
+
+        assert!(matches!(document.get("drastc"), Some(Bson::Null)));
+    }
+
+    #[test]
+    fn build_precomputed_document_embeds_drastc_score_when_present() {
+        let mut model = DrastcModel::new();
+        model.set_reference_ranges(DrastcReferenceRanges {
+            damage: ReferenceRange::new(1, 0.0, 4.0),
+            sustainability: ReferenceRange::new(1, -2.0, 2.0),
+            consistency: ReferenceRange::new(1, 0.0, 1.0),
+        });
+        model.set_theoretical(579, 575);
+        model.push(BattleRecord {
+            sample_count: 1,
+            total_duration_seconds: 100.0,
+            kill_points: 200.0,
+            opponent_kill_points: 100.0,
+            opponent_dead: 10.0,
+            opponent_severely_wounded: 20.0,
+            opponent_slightly_wounded: 70.0,
+            sender_dead: 0.0,
+            sender_severely_wounded: 10.0,
+            sender_slightly_wounded: 30.0,
+            sender_healing: 5.0,
+            decisive_battles: 1,
+            wins: 1,
+            positive_trades: 1,
+        });
+        let score = model.evaluate().expect("score");
+
+        let document = build_precomputed_document(
+            PairingKey { primary_commander_id: 579, secondary_commander_id: 575 },
+            PairingSummary::default(),
+            Some(&score),
+            DateTime::from_millis(0),
+        );
+
+        let drastc = document.get_document("drastc").expect("drastc document");
+        assert_eq!(drastc.get_i64("samples").ok(), Some(1));
     }
 }
