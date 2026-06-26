@@ -1,6 +1,6 @@
-import { Activity } from "react";
+import { Activity, type ReactNode } from "react";
 
-import type { CloseChoice } from "../lib/close-behavior";
+import type { CloseChoice } from "../lib/close-behavior.ts";
 
 type ClosePromptProps = {
   isOpen: boolean;
@@ -18,7 +18,7 @@ export function ClosePrompt({
   onRememberChoiceChange,
   onCancel,
   onChoose,
-}: ClosePromptProps) {
+}: ClosePromptProps): ReactNode {
   return (
     <Activity mode={isOpen ? "visible" : "hidden"} name="close-prompt">
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">

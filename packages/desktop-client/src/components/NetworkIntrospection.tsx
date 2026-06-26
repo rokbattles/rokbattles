@@ -1,4 +1,6 @@
-import type { NetworkStatus } from "../lib/tauri-client";
+import type { ReactNode } from "react";
+
+import type { NetworkStatus } from "../lib/tauri-client.ts";
 
 type NetworkIntrospectionProps = {
   status: NetworkStatus;
@@ -20,7 +22,7 @@ const statusClasses: Record<NetworkStatus["state"], string> = {
   error: "bg-rose-500/15 text-rose-200",
 };
 
-export function NetworkIntrospection({ status }: NetworkIntrospectionProps) {
+export function NetworkIntrospection({ status }: NetworkIntrospectionProps): ReactNode {
   return (
     <section className="mt-6 rounded-lg border border-zinc-800 bg-zinc-900/60">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 p-4">

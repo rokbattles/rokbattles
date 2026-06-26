@@ -1,10 +1,16 @@
-type WatchedDirectoriesCardProps = {
+import type { ReactNode } from "react";
+
+type WatchedDirectoriesProps = {
   dirs: string[];
   isLoading: boolean;
   onRemove: (dir: string) => void;
 };
 
-export function WatchedDirectories({ dirs, isLoading, onRemove }: WatchedDirectoriesCardProps) {
+export function WatchedDirectories({
+  dirs,
+  isLoading,
+  onRemove,
+}: WatchedDirectoriesProps): ReactNode {
   const hasDirs = dirs.length > 0;
 
   return (
