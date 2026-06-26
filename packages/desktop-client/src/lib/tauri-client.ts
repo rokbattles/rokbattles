@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 
-import type { CloseBehavior, CloseChoice } from "./close-behavior";
+import type { CloseBehavior, CloseChoice } from "./close-behavior.ts";
 
 export type DiscoverMailcacheResult = {
   added_dirs: string[];
@@ -15,54 +15,54 @@ export type NetworkStatus = {
   message?: string | null;
 };
 
-export function listDirs() {
+export function listDirs(): Promise<string[]> {
   return invoke<string[]>("list_dirs");
 }
 
-export function addDirs(paths: string[]) {
+export function addDirs(paths: string[]): Promise<string[]> {
   return invoke<string[]>("add_dir", { paths });
 }
 
-export function removeDir(path: string) {
+export function removeDir(path: string): Promise<string[]> {
   return invoke<string[]>("remove_dir", { path });
 }
 
-export function discoverMailcacheDirs() {
+export function discoverMailcacheDirs(): Promise<DiscoverMailcacheResult> {
   return invoke<DiscoverMailcacheResult>("discover_mailcache_dirs");
 }
 
-export function pauseWatcher() {
+export function pauseWatcher(): Promise<unknown> {
   return invoke("pause_watcher");
 }
 
-export function resumeWatcher() {
+export function resumeWatcher(): Promise<unknown> {
   return invoke("resume_watcher");
 }
 
-export function reprocessAll() {
+export function reprocessAll(): Promise<unknown> {
   return invoke("reprocess_all");
 }
 
-export function getCloseBehavior() {
+export function getCloseBehavior(): Promise<CloseBehavior> {
   return invoke<CloseBehavior>("get_close_behavior");
 }
 
-export function setCloseBehavior(behavior: CloseChoice) {
+export function setCloseBehavior(behavior: CloseChoice): Promise<unknown> {
   return invoke("set_close_behavior", { behavior });
 }
 
-export function getExperimentalNetworkIntrospection() {
+export function getExperimentalNetworkIntrospection(): Promise<boolean> {
   return invoke<boolean>("get_experimental_network_introspection");
 }
 
-export function getNetworkIntrospectionStatus() {
+export function getNetworkIntrospectionStatus(): Promise<NetworkStatus> {
   return invoke<NetworkStatus>("get_network_introspection_status");
 }
 
-export function minimizeToTray() {
+export function minimizeToTray(): Promise<unknown> {
   return invoke("minimize_to_tray");
 }
 
-export function requestAppQuit() {
+export function requestAppQuit(): Promise<unknown> {
   return invoke("request_app_quit");
 }

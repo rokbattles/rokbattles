@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { type ReactNode, useState } from "react";
 
-type LogsCardProps = {
-  watcherLogs: string[];
-  networkLogs: string[];
+import type { LogEntry } from "../lib/log-entry.ts";
+
+type LogsProps = {
+  watcherLogs: LogEntry[];
+  networkLogs: LogEntry[];
 };
 
 type LogTab = "watcher" | "network";
@@ -12,7 +14,7 @@ const logTabs: Array<{ id: LogTab; label: string }> = [
   { id: "network", label: "Network" },
 ];
 
-export function Logs({ watcherLogs, networkLogs }: LogsCardProps) {
+export function Logs({ watcherLogs, networkLogs }: LogsProps): ReactNode {
   const [activeTab, setActiveTab] = useState<LogTab>("watcher");
   const logs = activeTab === "watcher" ? watcherLogs : networkLogs;
 
@@ -46,13 +48,12 @@ export function Logs({ watcherLogs, networkLogs }: LogsCardProps) {
           <div className="h-full p-8 text-center text-sm text-zinc-400">No logs yet.</div>
         ) : (
           <div className="divide-y-0">
-            {logs.map((log, idx) => (
+            {logs.map((log) => (
               <div
-                // biome-ignore lint/suspicious/noArrayIndexKey: logs do not have stable IDs from the backend.
-                key={idx}
+                key={log.id}
                 className="px-3 py-1 font-mono text-xs text-zinc-300 break-words whitespace-pre-wrap"
               >
-                {log}
+                {log.message}
               </div>
             ))}
           </div>

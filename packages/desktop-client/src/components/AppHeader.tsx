@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type AppHeaderProps = {
   isAdding: boolean;
   isDiscovering: boolean;
@@ -14,7 +16,7 @@ export function AppHeader({
   onAdd,
   onDiscover,
   onReprocess,
-}: AppHeaderProps) {
+}: AppHeaderProps): ReactNode {
   return (
     <header className="mb-6 flex items-center justify-between gap-3">
       <h1 className="text-xl font-semibold tracking-tight">ROK Battles</h1>
