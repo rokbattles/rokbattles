@@ -5,6 +5,7 @@ use axum::{Router, routing::get};
 use crate::state::AppState;
 
 mod auth;
+mod combat_lab;
 mod governor;
 mod health;
 mod loot_explorer;
@@ -19,6 +20,7 @@ fn v1_router() -> Router<Arc<AppState>> {
     Router::new()
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
+        .route("/global/combat-lab", get(combat_lab::get_pairing))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))

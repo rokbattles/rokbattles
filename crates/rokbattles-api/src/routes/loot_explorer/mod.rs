@@ -16,8 +16,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::{error::ApiError, state::AppState};
 
-const LOOT_EXPLORER_CACHE_CONTROL: &str = "public, max-age=300";
-
 /// Returns precomputed barbarian loot documents.
 pub async fn get_barbarians(
     State(state): State<Arc<AppState>>,
@@ -33,7 +31,7 @@ pub async fn get_barbarians(
 
     Ok((
         StatusCode::OK,
-        [("Cache-Control", LOOT_EXPLORER_CACHE_CONTROL)],
+        [("Cache-Control", "public, max-age=3600")],
         Json(BarbarianResponse { items }),
     ))
 }
@@ -53,7 +51,7 @@ pub async fn get_barbarian_forts(
 
     Ok((
         StatusCode::OK,
-        [("Cache-Control", LOOT_EXPLORER_CACHE_CONTROL)],
+        [("Cache-Control", "public, max-age=3600")],
         Json(BarbarianFortResponse { items }),
     ))
 }
@@ -73,7 +71,7 @@ pub async fn get_baulurs(
 
     Ok((
         StatusCode::OK,
-        [("Cache-Control", LOOT_EXPLORER_CACHE_CONTROL)],
+        [("Cache-Control", "public, max-age=3600")],
         Json(BaulurResponse { items }),
     ))
 }
