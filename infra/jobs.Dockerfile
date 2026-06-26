@@ -22,7 +22,6 @@ COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-jobs /bin/rokbattles-jobs
-WORKDIR /app
-COPY --from=builder /app/datasets/commanders.yaml /app/datasets/commanders.yaml
 USER rokb:rokb
+WORKDIR /app
 ENTRYPOINT ["/bin/rokbattles-jobs"]
