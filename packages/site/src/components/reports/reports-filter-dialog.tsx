@@ -2,7 +2,7 @@
 
 import { useExtracted } from "next-intl";
 import type React from "react";
-import { useContext, useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -50,7 +50,7 @@ type ReportsFilterDialogProps = React.ComponentPropsWithoutRef<typeof Button> & 
 
 export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterDialogProps) {
   const t = useExtracted();
-  const context = useContext(ReportsFilterContext);
+  const context = use(ReportsFilterContext);
   if (!context) throw new Error("ReportsFilterDialog must be used within a ReportsFilterProvider");
 
   const {

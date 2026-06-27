@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { use } from "react";
 import { ArkMatchHistoryEmptyState } from "@/components/account-ark/ark-match-history-empty-state";
 import { ArkMatchHistoryErrorState } from "@/components/account-ark/ark-match-history-error-state";
 import { ArkMatchHistoryLoadingState } from "@/components/account-ark/ark-match-history-loading-state";
@@ -13,7 +13,7 @@ type ArkMatchHistoryContentProps = {
 };
 
 export function ArkMatchHistoryContent({ limit }: ArkMatchHistoryContentProps) {
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
   if (!governorContext) {
     throw new Error("Ark match history must be used within a GovernorProvider");
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { use } from "react";
 import { ArkMatchDetailErrorState } from "@/components/account-ark/ark-match-detail-error-state";
 import { ArkMatchDetailIndividualResultsSection } from "@/components/account-ark/ark-match-detail-individual-results-section";
 import { ArkMatchDetailLoadingState } from "@/components/account-ark/ark-match-detail-loading-state";
@@ -15,7 +15,7 @@ type ArkMatchDetailContentProps = {
 };
 
 export function ArkMatchDetailContent({ matchId }: ArkMatchDetailContentProps) {
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
   if (!governorContext) {
     throw new Error("Ark match details must be used within a GovernorProvider");
   }

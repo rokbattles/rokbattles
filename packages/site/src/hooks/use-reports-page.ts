@@ -2,7 +2,7 @@
 
 import { useExtracted } from "next-intl";
 import { parseAsString, useQueryState } from "nuqs";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildReportsQueryParams } from "@/lib/reports-query";
 import type { ReportsListResponse } from "@/lib/types/reports-list";
 import { GovernorContext } from "@/providers/governor-context";
@@ -27,8 +27,8 @@ export type UseReportsPageResult = {
 
 export function useReportsPage(scope: ReportsScope = "all"): UseReportsPageResult {
   const t = useExtracted();
-  const context = useContext(ReportsFilterContext);
-  const governorContext = useContext(GovernorContext);
+  const context = use(ReportsFilterContext);
+  const governorContext = use(GovernorContext);
 
   if (!context) {
     throw new Error("useReportsPage must be used within a ReportsFilterProvider");

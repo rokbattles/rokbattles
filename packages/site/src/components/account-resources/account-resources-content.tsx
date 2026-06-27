@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
-import { useContext, useMemo } from "react";
+import { use, useMemo } from "react";
 import { ResourcesErrorState } from "@/components/account-resources/resources-error-state";
 import { ResourcesFiltersClient } from "@/components/account-resources/resources-filters-client";
 import { ResourcesReportSection } from "@/components/account-resources/resources-report-section";
@@ -20,7 +20,7 @@ type AccountResourcesContentProps = {
 export function AccountResourcesContent({ datasetLocale }: AccountResourcesContentProps) {
   const t = useExtracted();
   const searchParams = useSearchParams();
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
   if (!governorContext) {
     throw new Error("My Resources page must be used within a GovernorProvider");
   }

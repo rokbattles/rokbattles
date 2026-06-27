@@ -16,7 +16,7 @@ import { useTheme } from "@wrksz/themes/client";
 import { usePathname } from "next/navigation";
 import { useExtracted } from "next-intl";
 import type React from "react";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { LanguageSelector } from "@/components/language-selector";
 import { SidebarGovernorHeader } from "@/components/sidebar-governor-header";
 import { Navbar } from "@/components/ui/navbar";
@@ -46,7 +46,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { user, loading, refresh } = useCurrentUser({ initialUser });
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
   const [isMounted, setIsMounted] = useState(false);
 
   if (!governorContext) {

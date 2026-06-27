@@ -1,7 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
-import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { use, useEffect, useId, useMemo, useState } from "react";
 import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
@@ -94,7 +94,7 @@ function formatCommanderPair(primaryId: number, secondaryId: number, unknownLabe
 }
 
 export function MyPairingsContent() {
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
 
   if (!governorContext) {
     throw new Error("My Pairings must be used within a GovernorProvider");
