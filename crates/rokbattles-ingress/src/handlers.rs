@@ -11,7 +11,6 @@ use mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use mongodb::bson::{Binary, Bson, DateTime, doc, spec::BinarySubtype};
 use serde::Serialize;
 use serde_json::Value;
-use tcp_stream::{TcpStreamBatch, ValidatedTcpStreamBatch};
 
 use crate::{
     clamav::{ScanStatus, scan_zstream},
@@ -30,14 +29,6 @@ pub struct UploadResponse {
     mail_id: String,
     mail_type: String,
     mail_attack_count: i64,
-}
-
-/// Response from the TCP stream upload endpoint.
-#[derive(Debug, Serialize)]
-pub struct TcpStreamUploadResponse {
-    status: String,
-    capture_id: String,
-    fragment_count: usize,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -205,31 +196,9 @@ pub async fn upload(
     Ok((status, Json(response)))
 }
 
-/// Store one TCP stream fragment batch for later processing.
-pub async fn upload_tcp_stream(
-    State(state): State<Arc<AppState>>,
-    headers: HeaderMap,
-    Json(batch): Json<TcpStreamBatch>,
-) -> Result<impl IntoResponse, ApiError> {
-    let user_agent = extract_user_agent(&headers)?;
-    let validated = batch.validate().map_err(|error| ApiError::bad_request(error.to_string()))?;
-    let fragment_count = validated.fragments.len();
-    let capture_id = validated.capture_id.clone();
-
-    let doc = tcp_stream_doc(&validated, &user_agent, DateTime::now())?;
-    let batch_index = doc
-        .get_i64("batch_index")
-        .map_err(|_| ApiError::internal("missing tcp stream batch index"))?;
-    state
-        .storage
-        .upsert_tcp_stream_raw(&capture_id, batch_index, doc)
-        .await
-        .map_err(|error| ApiError::database(error.to_string()))?;
-
-    Ok((
-        StatusCode::CREATED,
-        Json(TcpStreamUploadResponse { status: "stored".to_string(), capture_id, fragment_count }),
-    ))
+/// Acknowledge legacy TCP stream uploads without storing or validating them.
+pub async fn upload_tcp_stream() -> StatusCode {
+    StatusCode::NO_CONTENT
 }
 
 async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError> {
@@ -435,64 +404,9 @@ fn decode_lossless_doc(buffer: &[u8]) -> Result<Value, ApiError> {
     Ok(mail_decoder::lossless_to_json(&lossless))
 }
 
-fn tcp_stream_doc(
-    batch: &ValidatedTcpStreamBatch,
-    user_agent: &str,
-    now: DateTime,
-) -> Result<mongodb::bson::Document, ApiError> {
-    let fragments = batch
-        .fragments
-        .iter()
-        .map(|fragment| {
-            Ok(Bson::Document(doc! {
-                "index": u64_to_i64(fragment.index, "fragment index")?,
-                "direction": match fragment.direction {
-                    tcp_stream::Direction::ClientToServer => "client_to_server",
-                    tcp_stream::Direction::ServerToClient => "server_to_client",
-                },
-                "payload": Bson::Binary(Binary {
-                    subtype: BinarySubtype::Generic,
-                    bytes: fragment.payload.clone(),
-                }),
-            }))
-        })
-        .collect::<Result<Vec<_>, ApiError>>()?;
-
-    Ok(doc! {
-        "capture_id": &batch.capture_id,
-        "batch_index": u64_to_i64(batch.batch_index, "batch index")?,
-        "stream_ended": batch.stream_ended,
-        "status": STATUS_PENDING,
-        "user_agent": user_agent,
-        "stream": {
-            "client_addr": batch.stream.client_addr.to_string(),
-            "client_port": i32::from(batch.stream.client_port),
-            "server_addr": batch.stream.server_addr.to_string(),
-            "server_port": i32::from(batch.stream.server_port),
-        },
-        "handshake": {
-            "api_id": u64_to_i64(batch.handshake.api_id, "handshake api id")?,
-            "key1": u64_to_i64(batch.handshake.key1, "handshake key1")?,
-            "key2": u64_to_i64(batch.handshake.key2, "handshake key2")?,
-        },
-        "fragment_count": i32::try_from(batch.fragments.len())
-            .map_err(|_| ApiError::bad_request("too many tcp fragments"))?,
-        "fragments": Bson::Array(fragments),
-        "createdAt": now,
-        "updatedAt": now,
-    })
-}
-
-fn u64_to_i64(value: u64, label: &str) -> Result<i64, ApiError> {
-    i64::try_from(value).map_err(|_| ApiError::bad_request(format!("{label} is too large")))
-}
-
 #[cfg(test)]
 mod tests {
-    use std::net::{IpAddr, Ipv4Addr};
-
     use serde_json::json;
-    use tcp_stream::{CLIENT_PORT, Direction, Handshake, StreamId, TcpStreamFragmentUpload};
 
     use super::*;
 
@@ -847,30 +761,10 @@ mod tests {
         assert!(!ua_ok("ROKBattles/0.1.0 (MacOS; SomethingElse/1.2.3)"));
     }
 
-    #[test]
-    fn tcp_stream_doc_stores_fragment_payloads_as_binary() {
-        let batch = TcpStreamBatch {
-            capture_id: "capture-1".to_string(),
-            batch_index: 0,
-            stream_ended: false,
-            stream: StreamId {
-                client_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 1)),
-                client_port: 56_380,
-                server_addr: IpAddr::from(Ipv4Addr::new(10, 0, 0, 2)),
-                server_port: CLIENT_PORT,
-            },
-            handshake: Handshake { api_id: 8562, key1: 1, key2: 2 },
-            fragments: vec![TcpStreamFragmentUpload::from_payload(
-                0,
-                Direction::ServerToClient,
-                &[0x00, 0x02, 0xaa, 0xbb],
-            )],
-        };
-        let validated = batch.validate().expect("batch should validate");
+    #[tokio::test]
+    async fn upload_tcp_stream_returns_no_content() {
+        let status = upload_tcp_stream().await;
 
-        let doc = tcp_stream_doc(&validated, "ROKBattles/1.0.0", DateTime::now())
-            .expect("doc should build");
-
-        assert_eq!(doc.get_i32("fragment_count"), Ok(1));
+        assert_eq!(status, StatusCode::NO_CONTENT);
     }
 }

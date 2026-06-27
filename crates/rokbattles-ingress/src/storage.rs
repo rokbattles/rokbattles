@@ -1,6 +1,4 @@
-//! MongoDB access for raw mail and temporary TCP stream batches.
-
-use std::time::Duration;
+//! MongoDB access for raw mail uploads.
 
 use mongodb::{
     Collection, IndexModel,
@@ -13,7 +11,6 @@ use mongodb::{
 pub struct Storage {
     raw: Collection<Document>,
     raw_lossless: Collection<Document>,
-    tcp_streams_raw: Collection<Document>,
 }
 
 /// Mail metadata needed to decide whether an upload is newer.
@@ -25,11 +22,7 @@ pub struct ExistingMail {
 impl Storage {
     /// Bind storage helpers to the configured database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self {
-            raw: db.collection("mails_raw"),
-            raw_lossless: db.collection("mails_raw_lossless"),
-            tcp_streams_raw: db.collection("tcp_streams_raw"),
-        }
+        Self { raw: db.collection("mails_raw"), raw_lossless: db.collection("mails_raw_lossless") }
     }
 
     /// Create indexes used by the upload paths.
@@ -42,22 +35,6 @@ impl Storage {
         self.raw.create_index(mail_id_index.clone()).await?;
         self.raw_lossless.create_index(mail_id_index).await?;
 
-        let tcp_batch_index = IndexModel::builder()
-            .keys(doc! { "capture_id": 1, "batch_index": 1 })
-            .options(IndexOptions::builder().unique(true).build())
-            .build();
-        let tcp_created_index = IndexModel::builder()
-            .keys(doc! { "createdAt": 1 })
-            .options(
-                IndexOptions::builder().expire_after(Duration::from_secs(60 * 60 * 24 * 7)).build(),
-            )
-            .build();
-        let tcp_processor_index = IndexModel::builder()
-            .keys(doc! { "status": 1, "stream_ended": 1, "updatedAt": 1 })
-            .build();
-        self.tcp_streams_raw.create_index(tcp_batch_index).await?;
-        self.tcp_streams_raw.create_index(tcp_created_index).await?;
-        self.tcp_streams_raw.create_index(tcp_processor_index).await?;
         Ok(())
     }
 
@@ -100,26 +77,6 @@ impl Storage {
         update: Document,
     ) -> mongodb::error::Result<()> {
         self.raw_lossless.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
-        Ok(())
-    }
-
-    /// Store one raw TCP stream batch. Duplicate retries count as success.
-    pub async fn upsert_tcp_stream_raw(
-        &self,
-        capture_id: &str,
-        batch_index: i64,
-        doc: Document,
-    ) -> mongodb::error::Result<()> {
-        self.tcp_streams_raw
-            .update_one(
-                doc! {
-                    "capture_id": capture_id,
-                    "batch_index": batch_index,
-                },
-                doc! { "$setOnInsert": doc },
-            )
-            .upsert(true)
-            .await?;
         Ok(())
     }
 }
