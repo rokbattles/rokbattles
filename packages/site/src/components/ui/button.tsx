@@ -2,9 +2,9 @@ import {
   Button as HeadlessButton,
   type ButtonProps as HeadlessButtonProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
 import { forwardRef } from "react";
-import { cn } from "@/lib/cn";
 import { Link } from "./link";
 
 const styles = {

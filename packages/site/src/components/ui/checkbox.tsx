@@ -4,8 +4,8 @@ import {
   Field as HeadlessField,
   type FieldProps as HeadlessFieldProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
-import { cn } from "@/lib/cn";
 
 export function CheckboxGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (

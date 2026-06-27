@@ -4,8 +4,8 @@ import {
   Switch as HeadlessSwitch,
   type SwitchProps as HeadlessSwitchProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
-import { cn } from "@/lib/cn";
 
 export function SwitchGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (

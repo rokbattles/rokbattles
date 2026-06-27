@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Field, Label } from "@/components/ui/fieldset";
@@ -115,9 +116,7 @@ export function PersonalLootFilters({
                 onChange={handleMultipleLevelChange}
                 placeholder={t("All")}
                 renderValue={() => (
-                  <span
-                    className={levels.length ? "block truncate" : "block truncate text-zinc-500"}
-                  >
+                  <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
                   </span>
                 )}
@@ -138,9 +137,7 @@ export function PersonalLootFilters({
                 onChange={handleSingleLevelChange}
                 placeholder={t("All")}
                 renderValue={() => (
-                  <span
-                    className={levels.length ? "block truncate" : "block truncate text-zinc-500"}
-                  >
+                  <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
                   </span>
                 )}

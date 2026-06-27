@@ -1,5 +1,5 @@
+import { cn } from "cnfast";
 import Image from "next/image";
-import { cn } from "@/lib/cn";
 
 type LootIconProps = {
   spriteUrls?: string[];

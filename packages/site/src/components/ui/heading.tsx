@@ -1,5 +1,5 @@
+import { cn } from "cnfast";
 import type React from "react";
-import { cn } from "@/lib/cn";
 
 type HeadingProps = {
   level?: 1 | 2 | 3 | 4 | 5 | 6;

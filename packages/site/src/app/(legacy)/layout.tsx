@@ -5,10 +5,10 @@ import { PlatformLayout } from "@/components/platform-layout";
 import PlatformProviders from "@/components/platform-providers";
 import { getCurrentUser } from "@/lib/current-user";
 import "./globals.css";
+import { cn } from "cnfast";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
-import { cn } from "@/lib/cn";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
 
 const inter = Inter({

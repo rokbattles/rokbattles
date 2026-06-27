@@ -16,7 +16,7 @@
     "@sentry/nextjs": "^10.60.0",
     "@types/mdx": "^2.0.14",
     "@wrksz/themes": "^0.7.9",
-    "clsx": "^2.1.1",
+    "cnfast": "^0.0.8",
     "framer-motion": "^12.41.0",
     "fumadocs-core": "^16.10.5",
     "fumadocs-mdx": "^14.3.2",
@@ -28,7 +28,6 @@
     "react-dom": "^19.2.7",
     "react-markdown": "^10.1.0",
     "recharts": "^3.9.0",
-    "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

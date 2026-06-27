@@ -9,9 +9,9 @@ import {
   type ListboxProps as HeadlessListboxProps,
   ListboxSelectedOption as HeadlessListboxSelectedOption,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
 import { Fragment } from "react";
-import { cn } from "@/lib/cn";
 
 type BaseListboxProps<T> = {
   className?: string;

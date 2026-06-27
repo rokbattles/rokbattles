@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cnfast";
 import { usePathname, useSearchParams } from "next/navigation";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDurationShort, formatUtcDateTime } from "@/lib/datetime";
@@ -36,7 +37,7 @@ export default function ReportsTableRow({ report, onOpenOverview }: ReportsTable
   return (
     <TableRow
       href={href}
-      className={report.battles > 1 ? "cursor-pointer" : undefined}
+      className={cn(report.battles > 1 && "cursor-pointer")}
       onClickCapture={(event) => {
         if (report.battles <= 1 || !isPreviewableViewport()) {
           return;

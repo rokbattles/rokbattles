@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
 import { useEffect, useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
@@ -90,9 +91,7 @@ export function LootExplorerFilters({
                 onChange={setLevels}
                 placeholder={t("All")}
                 renderValue={() => (
-                  <span
-                    className={levels.length ? "block truncate" : "block truncate text-zinc-500"}
-                  >
+                  <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
                   </span>
                 )}
@@ -110,9 +109,7 @@ export function LootExplorerFilters({
                 onChange={(level) => setLevels(level ? [level] : [])}
                 placeholder={t("All")}
                 renderValue={() => (
-                  <span
-                    className={levels.length ? "block truncate" : "block truncate text-zinc-500"}
-                  >
+                  <span className={cn("block truncate", !levels.length && "text-zinc-500")}>
                     {levelSummary}
                   </span>
                 )}

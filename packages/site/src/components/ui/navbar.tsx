@@ -4,10 +4,10 @@ import {
   Button as HeadlessButton,
   type ButtonProps as HeadlessButtonProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import { LayoutGroup, motion } from "framer-motion";
 import type React from "react";
 import { forwardRef, useId } from "react";
-import { cn } from "@/lib/cn";
 import { TouchTarget } from "./button";
 import { Link } from "./link";
 

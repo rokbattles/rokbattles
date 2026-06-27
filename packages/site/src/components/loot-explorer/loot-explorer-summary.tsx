@@ -1,3 +1,4 @@
+import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
 import { formatGeneratedAt, formatNumber } from "@/lib/loot-explorer/format";
 
@@ -29,11 +30,10 @@ export function LootExplorerSummary({
 
   return (
     <div
-      className={
-        maxColumns === 4
-          ? "grid grid-cols-2 gap-6 md:grid-cols-4"
-          : "grid grid-cols-2 gap-6 md:grid-cols-3 xl:grid-cols-5"
-      }
+      className={cn(
+        "grid grid-cols-2 gap-6",
+        maxColumns === 4 ? "md:grid-cols-4" : "md:grid-cols-3 xl:grid-cols-5"
+      )}
     >
       {summaryItems.map((item) => (
         <div
