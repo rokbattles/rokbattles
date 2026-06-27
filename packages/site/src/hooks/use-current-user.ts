@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -22,7 +22,7 @@ export function useCurrentUser(options: UseCurrentUserOptions = {}) {
   const [user, setUser] = useState<CurrentUser | null>(initialUser ?? null);
   const [loading, setLoading] = useState(!hasInitialUser);
   const mountedRef = useRef(true);
-  const { setGovernors } = useContext(GovernorContext);
+  const { setGovernors } = use(GovernorContext);
 
   const fetchUser = useCallback(
     async ({ showLoading = true }: FetchUserOptions = {}) => {

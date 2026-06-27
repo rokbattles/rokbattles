@@ -8,7 +8,7 @@ import {
   ScaleIcon,
 } from "@heroicons/react/16/solid";
 import { useExtracted } from "next-intl";
-import { useContext, useState } from "react";
+import { use, useState } from "react";
 import { CookieConsentDialog } from "@/components/cookie-consent-dialog";
 import { Avatar } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +32,7 @@ type SidebarGovernorHeaderProps = {
 export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHeaderProps) {
   const t = useExtracted();
   const [isCookieDialogOpen, setIsCookieDialogOpen] = useState(false);
-  const context = useContext(GovernorContext);
+  const context = use(GovernorContext);
   if (!context) {
     throw new Error("SidebarGovernorHeader must be used within a GovernorProvider");
   }

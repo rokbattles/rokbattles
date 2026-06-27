@@ -2,7 +2,7 @@
 
 import { FunnelIcon } from "@heroicons/react/16/solid";
 import { useExtracted } from "next-intl";
-import { useContext } from "react";
+import { use } from "react";
 import { ReportsFilterDialog } from "@/components/reports/reports-filter-dialog";
 import ReportsTable from "@/components/reports/reports-table";
 import { Heading, Subheading } from "@/components/ui/heading";
@@ -10,7 +10,7 @@ import { GovernorContext } from "@/providers/governor-context";
 
 export function AccountReportsContent() {
   const t = useExtracted();
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
 
   if (!governorContext) {
     throw new Error("My Reports page must be used within a GovernorProvider");

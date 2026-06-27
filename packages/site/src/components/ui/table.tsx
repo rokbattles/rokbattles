@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext, use, useState } from "react";
 import { cn } from "@/lib/cn";
 import { Link } from "./link";
 
@@ -80,7 +80,7 @@ export function TableRow({
   target?: string;
   title?: string;
 } & React.ComponentPropsWithoutRef<"tr">) {
-  const { striped } = useContext(TableContext);
+  const { striped } = use(TableContext);
 
   return (
     <TableRowContext.Provider
@@ -102,7 +102,7 @@ export function TableRow({
 }
 
 export function TableHeader({ className, ...props }: React.ComponentPropsWithoutRef<"th">) {
-  const { bleed, grid } = useContext(TableContext);
+  const { bleed, grid } = use(TableContext);
 
   return (
     <th
@@ -118,8 +118,8 @@ export function TableHeader({ className, ...props }: React.ComponentPropsWithout
 }
 
 export function TableCell({ className, children, ...props }: React.ComponentPropsWithoutRef<"td">) {
-  const { bleed, dense, grid, striped } = useContext(TableContext);
-  const { href, target, title } = useContext(TableRowContext);
+  const { bleed, dense, grid, striped } = use(TableContext);
+  const { href, target, title } = use(TableRowContext);
   const [cellRef, setCellRef] = useState<HTMLElement | null>(null);
 
   return (

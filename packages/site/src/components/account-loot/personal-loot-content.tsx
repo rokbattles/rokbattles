@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
-import { useCallback, useContext, useMemo } from "react";
+import { use, useCallback, useMemo } from "react";
 import {
   AccountLootLayout,
   type AccountLootSection,
@@ -72,7 +72,7 @@ function emptyGroup(): PersonalLootGroup {
 export function PersonalLootContent({ active, endpoint, datasetLocale }: PersonalLootContentProps) {
   const t = useExtracted();
   const searchParams = useSearchParams();
-  const governorContext = useContext(GovernorContext);
+  const governorContext = use(GovernorContext);
   if (!governorContext) {
     throw new Error("My Loot page must be used within a GovernorProvider");
   }
