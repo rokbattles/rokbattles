@@ -1,16 +1,28 @@
 use std::{fs, path::PathBuf};
 
 use anyhow::{Context, anyhow};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, de};
 use tauri::{AppHandle, Manager};
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "snake_case")]
 pub(crate) enum CloseBehavior {
     #[default]
-    Ask,
     MinimizeToTray,
     Quit,
+}
+
+impl<'de> Deserialize<'de> for CloseBehavior {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        match String::deserialize(deserializer)?.as_str() {
+            "ask" | "minimize_to_tray" => Ok(Self::MinimizeToTray),
+            "quit" => Ok(Self::Quit),
+            value => Err(de::Error::unknown_variant(value, &["minimize_to_tray", "quit"])),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -21,22 +33,26 @@ pub(crate) struct AppConfig {
     pub(crate) close_behavior: CloseBehavior,
     #[serde(default = "default_auto_update")]
     pub(crate) auto_update: bool,
-    #[serde(default)]
-    pub(crate) autostart_initialized: bool,
+    #[serde(default = "default_auto_start")]
+    pub(crate) auto_start: bool,
 }
 
 impl Default for AppConfig {
     fn default() -> Self {
         Self {
             dirs: Vec::new(),
-            close_behavior: CloseBehavior::Ask,
+            close_behavior: CloseBehavior::MinimizeToTray,
             auto_update: default_auto_update(),
-            autostart_initialized: false,
+            auto_start: default_auto_start(),
         }
     }
 }
 
 fn default_auto_update() -> bool {
+    true
+}
+
+fn default_auto_start() -> bool {
     true
 }
 
@@ -110,13 +126,13 @@ pub(crate) fn set_auto_update(app: &AppHandle, enabled: bool) -> anyhow::Result<
     write_config(app, &config)
 }
 
-pub(crate) fn get_autostart_initialized(app: &AppHandle) -> anyhow::Result<bool> {
-    Ok(read_config(app)?.autostart_initialized)
+pub(crate) fn get_auto_start(app: &AppHandle) -> anyhow::Result<bool> {
+    Ok(read_config(app)?.auto_start)
 }
 
-pub(crate) fn set_autostart_initialized(app: &AppHandle, initialized: bool) -> anyhow::Result<()> {
+pub(crate) fn set_auto_start(app: &AppHandle, enabled: bool) -> anyhow::Result<()> {
     let mut config = read_config(app)?;
-    config.autostart_initialized = initialized;
+    config.auto_start = enabled;
     write_config(app, &config)
 }
 
@@ -125,32 +141,33 @@ mod tests {
     use super::{CloseBehavior, parse_config_bytes};
 
     #[test]
-    fn defaults_to_auto_update_true() {
+    fn defaults_to_requested_settings() {
         let config = parse_config_bytes(&[]).expect("default config should parse");
         assert!(config.auto_update);
-        assert!(!config.autostart_initialized);
-        assert_eq!(config.close_behavior, CloseBehavior::Ask);
+        assert!(config.auto_start);
+        assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.dirs.is_empty());
     }
 
     #[test]
-    fn reads_settings_keys_and_ignores_removed_network_introspection_flag() {
+    fn reads_settings_keys_and_ignores_removed_flags() {
         let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"quit","auto_update":false,"autostart_initialized":true,"experimental_network_introspection":true}"#;
         let config = parse_config_bytes(raw).expect("new config should parse");
 
         assert_eq!(config.dirs, vec!["/tmp/mail"]);
         assert_eq!(config.close_behavior, CloseBehavior::Quit);
         assert!(!config.auto_update);
-        assert!(config.autostart_initialized);
+        assert!(config.auto_start);
     }
 
     #[test]
-    fn missing_recent_settings_keep_defaults() {
+    fn old_ask_close_behavior_migrates_to_minimize_to_tray() {
         let raw = br#"{"dirs":["/tmp/mail"],"close_behavior":"ask"}"#;
         let config = parse_config_bytes(raw).expect("config without auto_update should parse");
 
         assert!(config.auto_update);
-        assert!(!config.autostart_initialized);
+        assert!(config.auto_start);
+        assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
     }
 
     #[test]
@@ -159,9 +176,9 @@ mod tests {
         let config = parse_config_bytes(raw).expect("legacy dirs-only shape should parse");
 
         assert_eq!(config.dirs, vec!["/tmp/one", "/tmp/two"]);
-        assert_eq!(config.close_behavior, CloseBehavior::Ask);
+        assert_eq!(config.close_behavior, CloseBehavior::MinimizeToTray);
         assert!(config.auto_update);
-        assert!(!config.autostart_initialized);
+        assert!(config.auto_start);
     }
 
     #[test]

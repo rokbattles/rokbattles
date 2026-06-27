@@ -12,7 +12,7 @@ import {
   resumeWatcher,
 } from "../lib/tauri-client.ts";
 
-type ShowTransientBanner = (type: BannerType, message: string) => void;
+type ShowBanner = (type: BannerType, message: string) => void;
 
 type WatchedDirectoriesState = {
   dirs: string[];
@@ -48,9 +48,7 @@ const initialWatchedDirectoriesState: WatchedDirectoriesState = {
   isLoading: true,
 };
 
-export function useWatchedDirectories(
-  showTransientBanner: ShowTransientBanner
-): UseWatchedDirectoriesResult {
+export function useWatchedDirectories(showBanner: ShowBanner): UseWatchedDirectoriesResult {
   const [state, dispatch] = useReducer(watchedDirectoriesReducer, initialWatchedDirectoriesState);
 
   const refresh = useCallback(async () => {
@@ -119,15 +117,15 @@ export function useWatchedDirectories(
       }
 
       await refresh();
-      showTransientBanner(bannerType, result.message);
+      showBanner(bannerType, result.message);
     } catch (error) {
       console.error("Failed to auto-discover mailcache dirs", error);
-      showTransientBanner("error", "No valid mailcache directories were found.");
+      showBanner("error", "No valid mailcache directories were found.");
     } finally {
       dispatch({ type: "discoverFinished" });
       await resumeWatcher();
     }
-  }, [refresh, showTransientBanner]);
+  }, [refresh, showBanner]);
 
   const handleReprocess = useCallback(async () => {
     try {

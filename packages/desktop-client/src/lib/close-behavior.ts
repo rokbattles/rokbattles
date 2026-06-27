@@ -1,10 +1,9 @@
-export type CloseBehavior = "ask" | "minimize_to_tray" | "quit";
-export type CloseChoice = Exclude<CloseBehavior, "ask">;
+export type CloseBehavior = "minimize_to_tray" | "quit";
 
 export function parseCloseBehavior(value: unknown): CloseBehavior {
-  if (value === "ask" || value === "minimize_to_tray" || value === "quit") {
+  if (value === "minimize_to_tray" || value === "quit") {
     return value;
   }
 
-  return "ask";
+  return "minimize_to_tray";
 }

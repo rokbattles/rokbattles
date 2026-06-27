@@ -14,23 +14,20 @@ export function WatchedDirectories({
   const hasDirs = dirs.length > 0;
 
   return (
-    <section className="rounded-lg border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
-      <div className="flex items-center justify-between border-b border-zinc-800 p-4">
-        <h2 className="text-base font-medium">Watched Directories</h2>
-      </div>
+    <section className="mt-4 border-t border-white/10">
       {isLoading ? (
-        <div className="p-8 text-center text-sm text-zinc-400">Loading directories...</div>
+        <div className="py-6 text-sm text-zinc-400">Loading directories...</div>
       ) : hasDirs ? (
-        <ul className="divide-y divide-zinc-800">
+        <ul className="divide-y divide-white/10">
           {dirs.map((dir) => (
-            <li key={dir} className="flex items-center justify-between gap-4 p-3">
+            <li key={dir} className="flex items-center justify-between gap-4 py-3">
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium text-zinc-200">{dir}</p>
+                <p className="truncate text-sm/6 font-medium text-zinc-200">{dir}</p>
               </div>
               <button
                 type="button"
                 onClick={() => onRemove(dir)}
-                className="inline-flex items-center rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1.5 text-xs font-medium text-zinc-200 hover:bg-zinc-700"
+                className="rounded-lg px-2 py-1 text-sm/5 font-medium text-zinc-400 hover:bg-white/5 hover:text-white"
               >
                 Remove
               </button>
@@ -38,9 +35,7 @@ export function WatchedDirectories({
           ))}
         </ul>
       ) : (
-        <div className="p-8 text-center text-sm text-zinc-400">
-          Click "Add directory" to start watching a directory.
-        </div>
+        <div className="py-6 text-sm text-zinc-400">No directories are being watched.</div>
       )}
     </section>
   );

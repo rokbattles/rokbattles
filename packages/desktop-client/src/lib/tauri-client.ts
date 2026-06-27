@@ -1,6 +1,13 @@
 import { invoke } from "@tauri-apps/api/core";
 
-import type { CloseBehavior, CloseChoice } from "./close-behavior.ts";
+import type { CloseBehavior } from "./close-behavior.ts";
+
+export type AppSettings = {
+  auto_update: boolean;
+  auto_start: boolean;
+  close_behavior: CloseBehavior;
+  tray_supported: boolean;
+};
 
 export type DiscoverMailcacheResult = {
   added_dirs: string[];
@@ -40,8 +47,24 @@ export function getCloseBehavior(): Promise<CloseBehavior> {
   return invoke<CloseBehavior>("get_close_behavior");
 }
 
-export function setCloseBehavior(behavior: CloseChoice): Promise<unknown> {
+export function setCloseBehavior(behavior: CloseBehavior): Promise<unknown> {
   return invoke("set_close_behavior", { behavior });
+}
+
+export function getAppSettings(): Promise<AppSettings> {
+  return invoke<AppSettings>("get_app_settings");
+}
+
+export function setAutoUpdate(enabled: boolean): Promise<unknown> {
+  return invoke("set_auto_update", { enabled });
+}
+
+export function setAutoStart(enabled: boolean): Promise<unknown> {
+  return invoke("set_auto_start", { enabled });
+}
+
+export function getCurrentDeepLinks(): Promise<string[]> {
+  return invoke<string[]>("get_current_deep_links");
 }
 
 export function minimizeToTray(): Promise<unknown> {
