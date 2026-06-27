@@ -1,6 +1,5 @@
 mod app_config;
 mod mailcache_discovery;
-mod network_introspection;
 mod tray;
 mod updater;
 mod watcher;
@@ -16,7 +15,6 @@ use tauri::{
 };
 
 use crate::{
-    network_introspection::{NetworkIntrospectionManager, NetworkStatus},
     watcher::{delete_processed, delete_upload_queue},
     watcher_manager::WatcherManager,
 };
@@ -287,18 +285,6 @@ fn set_auto_update(app: AppHandle, enabled: bool) -> Result<(), String> {
 }
 
 #[tauri::command]
-fn get_experimental_network_introspection(app: AppHandle) -> Result<bool, String> {
-    app_config::get_experimental_network_introspection(&app).map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-async fn get_network_introspection_status(
-    network: tauri::State<'_, NetworkIntrospectionManager>,
-) -> Result<NetworkStatus, String> {
-    Ok(network.status().await)
-}
-
-#[tauri::command]
 fn request_app_quit(app: AppHandle) {
     app.exit(0);
 }
@@ -343,9 +329,7 @@ async fn resume_watcher(
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default()
-        .manage(WatcherManager::default())
-        .manage(NetworkIntrospectionManager::default());
+    let builder = tauri::Builder::default().manage(WatcherManager::default());
 
     #[cfg(desktop)]
     let builder = builder.plugin(single_instance_plugin());
@@ -421,11 +405,6 @@ pub fn run() {
                 let watcher = handle.state::<WatcherManager>();
                 watcher.start(&handle).await;
                 tray::refresh_tray_menu(&handle, watcher.is_paused());
-
-                let network = handle.state::<NetworkIntrospectionManager>();
-                if app_config::get_experimental_network_introspection(&handle).unwrap_or(false) {
-                    network.start(&handle).await;
-                }
             });
 
             Ok(())
@@ -439,8 +418,6 @@ pub fn run() {
             set_close_behavior,
             get_auto_update,
             set_auto_update,
-            get_experimental_network_introspection,
-            get_network_introspection_status,
             request_app_quit,
             minimize_to_tray,
             reprocess_all,
@@ -460,7 +437,6 @@ pub fn run() {
             let handle = app.clone();
             tauri::async_runtime::spawn(async move {
                 handle.state::<WatcherManager>().stop(&handle).await;
-                handle.state::<NetworkIntrospectionManager>().shutdown().await;
                 handle.exit(0);
             });
         }
