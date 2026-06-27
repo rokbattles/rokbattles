@@ -9,6 +9,9 @@ allowBuilds:
   esbuild: true
   sharp: true
 
+overrides:
+  postcss: 8.5.15
+
 shellEmulator: true
 
 minimumReleaseAge: 2880 # 48 hours
