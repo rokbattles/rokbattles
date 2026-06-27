@@ -17,7 +17,6 @@ env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: -Dwarnings
   CI: true
-  NPCAP_SDK_VERSION: "1.16"
 
 jobs:
   lint-ts:
@@ -74,7 +73,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libpcap-dev patchelf
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Install Rust (stable)
         uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9 # v1
@@ -106,17 +105,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev libpcap-dev patchelf
-
-      - name: Install Npcap SDK (Windows only)
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          $archive = Join-Path $env:RUNNER_TEMP "npcap-sdk.zip"
-          $sdkDir = Join-Path $env:RUNNER_TEMP "npcap-sdk"
-          Invoke-WebRequest "https://npcap.com/dist/npcap-sdk-$env:NPCAP_SDK_VERSION.zip" -OutFile $archive
-          Expand-Archive $archive -DestinationPath $sdkDir
-          "LIB=$sdkDir\Lib\x64;$env:LIB" | Out-File -FilePath $env:GITHUB_ENV -Append
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@e97e2d8cc328f1b50210efc529dca0028893a2d9 # v1
