@@ -4648,7 +4648,6 @@ dependencies = [
  "sentry",
  "serde",
  "serde_json",
- "tcp-stream",
  "thiserror 2.0.18",
  "tokio",
  "tower_governor",
