@@ -7,3 +7,14 @@
   --font-sans: var(--font-inter), system-ui;
   --font-sans--font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto;
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
