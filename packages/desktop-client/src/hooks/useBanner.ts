@@ -4,12 +4,12 @@ import type { Banner, BannerType } from "../lib/banner.ts";
 
 const bannerDurationMs = 3000;
 
-type UseTransientBannerResult = {
+type UseBannerResult = {
   banner: Banner | null;
-  showTransientBanner: (type: BannerType, message: string) => void;
+  showBanner: (type: BannerType, message: string) => void;
 };
 
-export function useTransientBanner(): UseTransientBannerResult {
+export function useBanner(): UseBannerResult {
   const [banner, setBanner] = useState<Banner | null>(null);
 
   useEffect(() => {
@@ -26,9 +26,9 @@ export function useTransientBanner(): UseTransientBannerResult {
     };
   }, [banner]);
 
-  const showTransientBanner = useCallback((type: BannerType, message: string) => {
+  const showBanner = useCallback((type: BannerType, message: string) => {
     setBanner({ type, message });
   }, []);
 
-  return { banner, showTransientBanner };
+  return { banner, showBanner };
 }

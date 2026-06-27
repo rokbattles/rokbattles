@@ -25,27 +25,32 @@ fn tray_supported() -> bool {
 
 #[cfg(desktop)]
 fn setup_autostart(app: &tauri::App<tauri::Wry>) -> tauri::Result<()> {
-    use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
+    use tauri_plugin_autostart::MacosLauncher;
 
     let handle = app.handle();
     handle.plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))?;
 
-    if app_config::get_autostart_initialized(handle).unwrap_or(false) {
-        return Ok(());
-    }
-
-    match handle.autolaunch().enable() {
-        Ok(()) => {
-            if let Err(error) = app_config::set_autostart_initialized(handle, true) {
-                eprintln!("Failed to record autostart initialization: {error}");
-            }
-        }
+    let enabled = app_config::get_auto_start(handle).unwrap_or(true);
+    match apply_auto_start_setting(handle, enabled) {
+        Ok(()) => {}
         Err(error) => {
-            eprintln!("Failed to enable autostart: {error}");
+            eprintln!("Failed to apply autostart setting: {error}");
         }
     }
 
     Ok(())
+}
+
+#[cfg(desktop)]
+fn apply_auto_start_setting(app: &AppHandle, enabled: bool) -> Result<(), String> {
+    use tauri_plugin_autostart::ManagerExt;
+
+    let autolaunch = app.autolaunch();
+    if enabled {
+        autolaunch.enable().map_err(|e| e.to_string())
+    } else {
+        autolaunch.disable().map_err(|e| e.to_string())
+    }
 }
 
 #[cfg(desktop)]
@@ -193,6 +198,14 @@ struct DiscoverMailcacheResult {
     message: String,
 }
 
+#[derive(Debug, Serialize)]
+struct AppSettings {
+    auto_update: bool,
+    auto_start: bool,
+    close_behavior: CloseBehavior,
+    tray_supported: bool,
+}
+
 #[tauri::command]
 fn discover_mailcache_dirs(app: AppHandle) -> Result<DiscoverMailcacheResult, String> {
     if !cfg!(any(target_os = "windows", target_os = "macos")) {
@@ -271,6 +284,10 @@ fn get_close_behavior(app: AppHandle) -> Result<CloseBehavior, String> {
 
 #[tauri::command]
 fn set_close_behavior(app: AppHandle, behavior: CloseBehavior) -> Result<(), String> {
+    if behavior == CloseBehavior::MinimizeToTray && !tray_supported() {
+        return Err("Minimize to tray is not supported on this platform.".to_string());
+    }
+
     app_config::set_close_behavior(&app, behavior).map_err(|e| e.to_string())
 }
 
@@ -282,6 +299,32 @@ fn get_auto_update(app: AppHandle) -> Result<bool, String> {
 #[tauri::command]
 fn set_auto_update(app: AppHandle, enabled: bool) -> Result<(), String> {
     app_config::set_auto_update(&app, enabled).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn set_auto_start(app: AppHandle, enabled: bool) -> Result<(), String> {
+    #[cfg(desktop)]
+    apply_auto_start_setting(&app, enabled)?;
+
+    app_config::set_auto_start(&app, enabled).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn get_app_settings(app: AppHandle) -> Result<AppSettings, String> {
+    Ok(AppSettings {
+        auto_update: app_config::get_auto_update(&app).map_err(|e| e.to_string())?,
+        auto_start: app_config::get_auto_start(&app).map_err(|e| e.to_string())?,
+        close_behavior: app_config::get_close_behavior(&app).map_err(|e| e.to_string())?,
+        tray_supported: tray_supported(),
+    })
+}
+
+#[tauri::command]
+fn get_current_deep_links(app: AppHandle) -> Result<Vec<String>, String> {
+    use tauri_plugin_deep_link::DeepLinkExt;
+
+    let urls = app.deep_link().get_current().map_err(|e| e.to_string())?.unwrap_or_default();
+    Ok(urls.into_iter().map(|url| url.to_string()).collect())
 }
 
 #[tauri::command]
@@ -418,6 +461,9 @@ pub fn run() {
             set_close_behavior,
             get_auto_update,
             set_auto_update,
+            set_auto_start,
+            get_app_settings,
+            get_current_deep_links,
             request_app_quit,
             minimize_to_tray,
             reprocess_all,
