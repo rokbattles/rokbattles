@@ -1,7 +1,7 @@
 import { Input as HeadlessInput, type InputProps as HeadlessInputProps } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
 import { forwardRef } from "react";
-import { cn } from "@/lib/cn";
 
 export function InputGroup({ children }: React.ComponentPropsWithoutRef<"span">) {
   return (

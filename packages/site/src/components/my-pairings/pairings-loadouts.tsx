@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
 import { LoadoutArmamentList } from "@/components/my-pairings/loadout-armament-list";
 import { LoadoutEquipmentGrid } from "@/components/my-pairings/loadout-equipment-grid";
@@ -7,7 +8,6 @@ import { ReportInscriptionBadge } from "@/components/report/report-inscription-b
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/cn";
 import type { LoadoutAggregate } from "@/lib/pairings";
 
 export type LoadoutCard = LoadoutAggregate & {

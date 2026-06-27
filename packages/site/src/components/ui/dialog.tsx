@@ -8,8 +8,8 @@ import {
   DialogTitle as HeadlessDialogTitle,
   type DialogTitleProps as HeadlessDialogTitleProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
-import { cn } from "@/lib/cn";
 import { Text } from "./text";
 
 const sizes = {

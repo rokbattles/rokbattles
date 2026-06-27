@@ -1,7 +1,7 @@
+import { cn } from "cnfast";
 import Link from "next/link";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
-import { cn } from "@/lib/cn";
 
 export type LootExplorerSection = "barbarians" | "barbarian-forts" | "baulurs";
 

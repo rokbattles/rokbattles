@@ -8,9 +8,9 @@ import {
   DialogTitle as HeadlessDialogTitle,
   type DialogTitleProps as HeadlessDialogTitleProps,
 } from "@headlessui/react";
+import { cn } from "cnfast";
 import type React from "react";
 import { Text } from "@/components/ui/text";
-import { cn } from "@/lib/cn";
 
 const sizes = {
   xs: "sm:max-w-xs",

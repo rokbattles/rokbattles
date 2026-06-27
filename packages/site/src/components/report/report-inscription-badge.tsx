@@ -1,5 +1,5 @@
+import { cn } from "cnfast";
 import { getInscriptionName } from "@/hooks/use-inscription-name";
-import { cn } from "@/lib/cn";
 import { getInscriptionRarity } from "@/lib/report/parsers";
 
 type ReportInscriptionBadgeProps = {

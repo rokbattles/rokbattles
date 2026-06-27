@@ -1,8 +1,8 @@
 "use client";
 
+import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { cn } from "@/lib/cn";
 
 type Props = {
   count?: number;

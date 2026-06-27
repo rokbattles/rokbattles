@@ -1,9 +1,9 @@
 "use client";
 
+import { cn } from "cnfast";
 import Link from "next/link";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
-import { cn } from "@/lib/cn";
 
 export type AccountLootSection = "barbarians" | "barbarian-forts" | "baulurs";
 
