@@ -1,6 +1,6 @@
 //! Environment-driven configuration for the ingress service.
 
-use std::{env, num::NonZeroU32};
+use std::env;
 
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -13,9 +13,6 @@ pub struct Config {
     pub clamav_timeout_ms: u64,
     pub zstd_level: i32,
     pub max_upload_bytes: usize,
-    pub rate_limit_per_minute: NonZeroU32,
-    pub rate_limit_burst: NonZeroU32,
-    pub rate_limit_key: RateLimitKey,
 }
 
 /// Errors returned when configuration is missing or invalid.
@@ -47,11 +44,6 @@ impl Config {
         let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 3)?;
         let max_upload_bytes =
             parse_usize("MAX_UPLOAD_BYTES", lookup("MAX_UPLOAD_BYTES"), 25 * 1024 * 1024)?;
-        let rate_limit_per_minute =
-            parse_nonzero_u32("RATE_LIMIT_PER_MINUTE", lookup("RATE_LIMIT_PER_MINUTE"), 765)?;
-        let rate_limit_burst =
-            parse_nonzero_u32("RATE_LIMIT_BURST", lookup("RATE_LIMIT_BURST"), 1530)?;
-        let rate_limit_key = parse_rate_limit_key(lookup("RATE_LIMIT_KEY"), RateLimitKey::Peer)?;
 
         Ok(Self {
             bind_addr,
@@ -62,20 +54,8 @@ impl Config {
             clamav_timeout_ms,
             zstd_level,
             max_upload_bytes,
-            rate_limit_per_minute,
-            rate_limit_burst,
-            rate_limit_key,
         })
     }
-}
-
-/// Rate limit key strategy used by the governor middleware.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum RateLimitKey {
-    /// Use the peer IP from the TCP connection.
-    Peer,
-    /// Use Cloudflare's `CF-Connecting-IP` header (fallbacks to peer IP when missing).
-    Cloudflare,
 }
 
 fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
@@ -125,32 +105,6 @@ fn parse_usize(
     value.parse::<usize>().map_err(|_| ConfigError::Invalid { key, value })
 }
 
-fn parse_nonzero_u32(
-    key: &'static str,
-    value: Option<String>,
-    default: u32,
-) -> Result<NonZeroU32, ConfigError> {
-    let parsed = match value {
-        Some(value) => value.parse::<u32>().map_err(|_| ConfigError::Invalid { key, value })?,
-        None => default,
-    };
-    NonZeroU32::new(parsed).ok_or_else(|| ConfigError::Invalid { key, value: parsed.to_string() })
-}
-
-fn parse_rate_limit_key(
-    value: Option<String>,
-    default: RateLimitKey,
-) -> Result<RateLimitKey, ConfigError> {
-    let Some(value) = value else {
-        return Ok(default);
-    };
-    match value.to_ascii_lowercase().as_str() {
-        "peer" => Ok(RateLimitKey::Peer),
-        "cloudflare" | "cf" => Ok(RateLimitKey::Cloudflare),
-        _ => Err(ConfigError::Invalid { key: "RATE_LIMIT_KEY", value }),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
@@ -180,9 +134,6 @@ mod tests {
                 clamav_timeout_ms: 15_000,
                 zstd_level: 3,
                 max_upload_bytes: 25 * 1024 * 1024,
-                rate_limit_per_minute: NonZeroU32::new(765).expect("non-zero default"),
-                rate_limit_burst: NonZeroU32::new(1530).expect("non-zero default"),
-                rate_limit_key: RateLimitKey::Peer,
             }
         );
     }
@@ -202,18 +153,5 @@ mod tests {
     fn requires_mongo_uri() {
         let err = Config::from_lookup(lookup(HashMap::new())).expect_err("missing uri");
         assert_eq!(err, ConfigError::Missing { key: "MONGODB_URI" });
-    }
-
-    #[test]
-    fn parses_rate_limit_key() {
-        assert_eq!(
-            parse_rate_limit_key(Some("peer".to_string()), RateLimitKey::Peer).unwrap(),
-            RateLimitKey::Peer
-        );
-        assert_eq!(
-            parse_rate_limit_key(Some("cloudflare".to_string()), RateLimitKey::Peer).unwrap(),
-            RateLimitKey::Cloudflare
-        );
-        assert!(parse_rate_limit_key(Some("nope".to_string()), RateLimitKey::Peer).is_err());
     }
 }

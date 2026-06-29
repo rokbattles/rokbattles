@@ -4,7 +4,6 @@ mod clamav;
 mod config;
 mod error;
 mod handlers;
-mod rate_limit;
 mod state;
 mod storage;
 
@@ -16,10 +15,9 @@ use axum::{
     routing::{get, post},
 };
 use mongodb::options::ClientOptions;
-use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
 use tracing::info;
 
-use crate::{config::Config, rate_limit::RateLimitKeyExtractor, state::AppState, storage::Storage};
+use crate::{config::Config, state::AppState, storage::Storage};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -60,28 +58,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let state = Arc::new(AppState { config, storage });
 
-    let rate_limit_layer = {
-        let per_minute = state.config.rate_limit_per_minute.get();
-        let burst_size = state.config.rate_limit_burst.get();
-        let period_ms = (60_000u64 / u64::from(per_minute)).max(1);
-
-        let mut builder = GovernorConfigBuilder::default()
-            .key_extractor(RateLimitKeyExtractor::new(state.config.rate_limit_key));
-        builder.per_millisecond(period_ms).burst_size(burst_size);
-        let mut builder = builder.use_headers();
-        let governor_config = builder.finish().ok_or_else(|| {
-            std::io::Error::new(std::io::ErrorKind::InvalidInput, "invalid rate limit config")
-        })?;
-        GovernorLayer::new(governor_config)
-    };
-
-    let protected_routes =
-        Router::new().route("/v2/upload", post(handlers::upload)).layer(rate_limit_layer);
-
     let app = Router::new()
         .route("/health", get(handlers::health))
+        .route("/v2/upload", post(handlers::upload))
         .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
-        .merge(protected_routes)
         .with_state(state.clone())
         .layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
 
