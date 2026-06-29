@@ -17,6 +17,5 @@ thiserror = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "time"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
-tower_governor = { workspace = true, default-features = false, features = ["axum"] }
 zstd = { workspace = true }
 sentry = { workspace = true }
