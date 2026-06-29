@@ -60,34 +60,6 @@ fn single_instance_plugin() -> tauri::plugin::TauriPlugin<tauri::Wry> {
     })
 }
 
-// Runtime registration is not supported on macOS. Test rokbattles:// there
-// with a bundled app installed in /Applications.
-#[cfg(desktop)]
-fn setup_deep_links(app: &tauri::App<tauri::Wry>) -> Result<(), tauri_plugin_deep_link::Error> {
-    use tauri_plugin_deep_link::DeepLinkExt;
-
-    // Linux runtime registration depends on freedesktop helpers:
-    // `desktop-file-utils` for update-desktop-database and `xdg-utils` for
-    // xdg-mime. Minimal installs may lack them, so keep app startup working.
-    #[cfg(target_os = "linux")]
-    if let Err(error) = app.deep_link().register_all() {
-        eprintln!("[rokbattles] failed to register deep links: {error}");
-    }
-
-    #[cfg(all(debug_assertions, windows))]
-    app.deep_link().register_all()?;
-
-    if let Some(urls) = app.deep_link().get_current()? {
-        eprintln!("Opened with deep link URLs: {urls:?}");
-    }
-
-    app.deep_link().on_open_url(|event| {
-        eprintln!("Opened with deep link URLs: {:?}", event.urls());
-    });
-
-    Ok(())
-}
-
 fn normalize_dir_for_display(path: &str) -> String {
     let trimmed = path.trim();
     if trimmed.is_empty() {
@@ -320,14 +292,6 @@ fn get_app_settings(app: AppHandle) -> Result<AppSettings, String> {
 }
 
 #[tauri::command]
-fn get_current_deep_links(app: AppHandle) -> Result<Vec<String>, String> {
-    use tauri_plugin_deep_link::DeepLinkExt;
-
-    let urls = app.deep_link().get_current().map_err(|e| e.to_string())?.unwrap_or_default();
-    Ok(urls.into_iter().map(|url| url.to_string()).collect())
-}
-
-#[tauri::command]
 fn request_app_quit(app: AppHandle) {
     app.exit(0);
 }
@@ -378,7 +342,6 @@ pub fn run() {
     let builder = builder.plugin(single_instance_plugin());
 
     let app = builder
-        .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
@@ -431,9 +394,6 @@ pub fn run() {
             #[cfg(desktop)]
             setup_autostart(app)?;
 
-            #[cfg(desktop)]
-            setup_deep_links(app)?;
-
             let paused = app.state::<WatcherManager>().is_paused();
             if tray_supported() {
                 tray::setup_tray(app, paused)?;
@@ -463,7 +423,6 @@ pub fn run() {
             set_auto_update,
             set_auto_start,
             get_app_settings,
-            get_current_deep_links,
             request_app_quit,
             minimize_to_tray,
             reprocess_all,

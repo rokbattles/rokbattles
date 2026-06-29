@@ -8,7 +8,6 @@
     "core:window:allow-destroy",
     "opener:default",
     "dialog:default",
-    "deep-link:default",
     "updater:default"
   ]
 }

@@ -63,10 +63,6 @@ export function setAutoStart(enabled: boolean): Promise<unknown> {
   return invoke("set_auto_start", { enabled });
 }
 
-export function getCurrentDeepLinks(): Promise<string[]> {
-  return invoke<string[]>("get_current_deep_links");
-}
-
 export function minimizeToTray(): Promise<unknown> {
   return invoke("minimize_to_tray");
 }
