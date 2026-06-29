@@ -66,9 +66,9 @@ export function SettingsPage(): ReactNode {
           </div>
 
           <div className="flex items-center justify-between gap-4 py-2">
-            <span className="text-sm/6 font-medium text-white">Close prompt</span>
+            <span className="text-sm/6 font-medium text-white">Close behavior</span>
             <Switch
-              label="Close prompt"
+              label="Close behavior"
               value={effectiveCloseBehavior}
               options={closeBehaviorOptions}
               disabled={isCloseBehaviorPending}
