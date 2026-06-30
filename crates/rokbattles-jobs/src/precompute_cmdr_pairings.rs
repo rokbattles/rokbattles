@@ -292,6 +292,11 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
                 ],
             }
         },
+        doc! {
+            "$set": {
+                "_exclude_from_drastc_reference_ranges": rally_garrison_report_expr(),
+            }
+        },
         doc! { "$unwind": "$opponents" },
         doc! { "$match": { "opponents.player_id": { "$gt": 0 } } },
         doc! {
@@ -313,6 +318,36 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
             }
         },
     ]
+}
+
+fn rally_garrison_report_expr() -> Document {
+    doc! {
+        "$or": [
+            { "$in": ["$sender.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+            { "$ne": ["$sender.alliance_building_id", Bson::Null] },
+            { "$ne": ["$sender.structure_id", Bson::Null] },
+            {
+                "$gt": [
+                    {
+                        "$size": {
+                            "$filter": {
+                                "input": { "$ifNull": ["$opponents", []] },
+                                "as": "opponent",
+                                "cond": {
+                                    "$or": [
+                                        { "$in": ["$$opponent.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+                                        { "$ne": ["$$opponent.alliance_building_id", Bson::Null] },
+                                        { "$ne": ["$$opponent.structure_id", Bson::Null] },
+                                    ]
+                                },
+                            }
+                        }
+                    },
+                    0,
+                ]
+            },
+        ]
+    }
 }
 
 fn observed_pairings_subpipeline() -> Vec<Document> {
@@ -416,6 +451,11 @@ fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey> {
 
 fn reference_ranges_subpipeline() -> Vec<Document> {
     vec![
+        doc! {
+            "$match": {
+                "exclude_from_drastc_reference_ranges": { "$ne": true },
+            }
+        },
         doc! {
             "$project": {
                 "damage_per_second": {
@@ -565,6 +605,7 @@ fn perspective_entry(
     doc! {
         "primary_commander_id": primary_expr,
         "secondary_commander_id": secondary_expr,
+        "exclude_from_drastc_reference_ranges": "$_exclude_from_drastc_reference_ranges",
         "kill_points_gained": kill_points_gained.clone(),
         "kill_points_lost": kill_points_lost.clone(),
         "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
@@ -985,6 +1026,40 @@ mod tests {
         assert!(
             !keys.contains(&PairingKey { primary_commander_id: 575, secondary_commander_id: 540 })
         );
+    }
+
+    #[test]
+    fn reference_ranges_subpipeline_filters_rally_garrison_reports_only_in_reference_branch() {
+        let pipeline = reference_ranges_subpipeline();
+
+        assert_eq!(
+            pipeline.first(),
+            Some(&doc! {
+                "$match": {
+                    "exclude_from_drastc_reference_ranges": { "$ne": true },
+                }
+            })
+        );
+    }
+
+    #[test]
+    fn build_pairings_pipeline_marks_rally_garrison_reports_without_filtering_observed_entries() {
+        let pipeline = build_pairings_pipeline(&[509, 6]);
+
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$set")
+                .ok()
+                .and_then(|set| set.get("_exclude_from_drastc_reference_ranges"))
+                .is_some()
+        }));
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$facet")
+                .ok()
+                .and_then(|facet| facet.get_array("observed").ok())
+                .is_some()
+        }));
     }
 
     #[test]
