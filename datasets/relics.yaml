@@ -1521,29 +1521,6 @@ relics:
     sprite:
       - img_HeroMuseumItem_23.png
 
-  10043:
-    name:
-      ar: "دبوس نسر قوطي غربي"
-      de: "Adlerbrosche der Westgoten"
-      en: "Visigothic Eagle Brooch"
-      es: "Broche de águila visigótica"
-      fr: "Broche d'aigle wisigoth"
-      id: "Bros Elang Visigothic"
-      it: "Spilla con aquila visigota"
-      ja: "西ゴートの鷲型ブローチ"
-      ko: "서고트 독수리 브로치"
-      ms: "Pin Helang Visigothik"
-      pl: "Wizygocka broszka w kształcie orła"
-      pt: "Broche de Água Visigoda"
-      ru: "Вестготская фибула в виде орла"
-      th: "เข็มกลัดอินทรีวิสิกอธ"
-      tr: "Vizigot Kartal Broşu"
-      vi: "Ghim Cài Đại Bàng Visigoth"
-      zh_CN: "西哥特鹰形别针"
-      zh_TW: "西哥特鷹形別針"
-    sprite:
-      - img_HeroMuseumItem_43.png
-
   10032:
     name:
       ar: "تمثال كوكولكان"
@@ -1566,6 +1543,29 @@ relics:
       zh_TW: "庫庫爾坎神像"
     sprite:
       - img_HeroMuseumItem_32.png
+
+  10043:
+    name:
+      ar: "دبوس نسر قوطي غربي"
+      de: "Adlerbrosche der Westgoten"
+      en: "Visigothic Eagle Brooch"
+      es: "Broche de águila visigótica"
+      fr: "Broche d'aigle wisigoth"
+      id: "Bros Elang Visigothic"
+      it: "Spilla con aquila visigota"
+      ja: "西ゴートの鷲型ブローチ"
+      ko: "서고트 독수리 브로치"
+      ms: "Pin Helang Visigothik"
+      pl: "Wizygocka broszka w kształcie orła"
+      pt: "Broche de Água Visigoda"
+      ru: "Вестготская фибула в виде орла"
+      th: "เข็มกลัดอินทรีวิสิกอธ"
+      tr: "Vizigot Kartal Broşu"
+      vi: "Ghim Cài Đại Bàng Visigoth"
+      zh_CN: "西哥特鹰形别针"
+      zh_TW: "西哥特鷹形別針"
+    sprite:
+      - img_HeroMuseumItem_43.png
 
   20001:
     name:
