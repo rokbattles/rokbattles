@@ -7848,3 +7848,116 @@ commanders:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_195.png
+
+  618:
+    name:
+      ar: "بيلاجيوس"
+      de: "Pelayo"
+      en: "Pelagius"
+      es: "Pelayo"
+      fr: "Pélage"
+      id: "Pelagius"
+      it: "Pelagio"
+      ja: "ペラーヨ"
+      ko: "펠라기우스"
+      ms: "Pelagius"
+      pl: "Pelagiusz"
+      pt: "Pelágio"
+      ru: "Пелайо"
+      th: "เพอเลเจียส"
+      tr: "Pelagius"
+      vi: "Pelagius"
+      zh_CN: "佩拉约"
+      zh_TW: "佩拉約"
+    nickname:
+      ar: "بعث جامح"
+      de: "Widerspenstiger Erweckungsprediger"
+      en: "Unruly Revivalist"
+      es: "Predicador rebelde"
+      fr: "Évangéliste indiscipliné"
+      id: "Unruly Revivalist"
+      it: "Revivalista ribelle"
+      ja: "レコンキスタの始祖"
+      ko: "빼어난 부흥자"
+      ms: "Penggerak Kebangkitan Semula Sukar Dikawal"
+      pl: "Nieposłuszny odnowiciel"
+      pt: "Revivalista Indisciplinado"
+      ru: "Непокорный деятель"
+      th: "ผู้ฟื้นฟูศรัทธาใหม่ที่ควบคุมไม่อยู่"
+      tr: "Azılı Dirilişçi"
+      vi: "Tái Sinh Bất Bại"
+      zh_CN: "不羁的复兴者"
+      zh_TW: "不羈的復興者"
+    prime: false
+    rarity: legendary
+    skills:
+      - slot: 1
+        id: 434
+        expertId: 435
+      - slot: 2
+        id: 1825
+      - slot: 3
+        id: 1826
+      - slot: 4
+        id: 1827
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_196.png
+
+  627:
+    name:
+      ar: "يحيى بن خالد"
+      de: "Yahyā ibn Chālid"
+      en: "Yahya ibn Khalid"
+      es: "Yahya ibn Khalid"
+      fr: "Yahya ben Khalid"
+      id: "Yahya bin Khalid"
+      it: "Yahya ibn Khalid"
+      ja: "ヤフヤー・イブン・ハーリド"
+      ko: "야히야 이븐 칼리드"
+      ms: "Yahya ibn Khalid"
+      pl: "Yahya ibn Khalid"
+      pt: "Yahya ibn Khalid"
+      ru: "Яхья ибн Халид"
+      th: "ยะห์ยา อิบน์ คอลิด"
+      tr: "Yahya bin Halid"
+      vi: "Yahya ibn Khalid"
+      zh_CN: "叶海亚·伊本·哈立德"
+      zh_TW: "葉海亞・伊本・哈立德"
+    nickname:
+      ar: "رئيس الوزراء"
+      de: "Großwesir"
+      en: "Grand Vizier"
+      es: "Gran Visir"
+      fr: "Grand vizir"
+      id: "Wazir Agung"
+      it: "Gran visir"
+      ja: "国璽を託された宰相"
+      ko: "섭정 재상"
+      ms: "Wazir Agung"
+      pl: "Wielki wezyr"
+      pt: "Grão-vizir"
+      ru: "Великий визирь"
+      th: "อัครมหาเสนาบดี"
+      tr: "Sadrazam"
+      vi: "Tể Tướng"
+      zh_CN: "执玺宰辅"
+      zh_TW: "執璽宰輔"
+    prime: false
+    rarity: legendary
+    skills:
+      - slot: 1
+        id: 436
+      - slot: 2
+        id: 1828
+      - slot: 3
+        id: 1829
+      - slot: 4
+        id: 1830
+      - slot: 5
+        id: 1831
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_198.png
