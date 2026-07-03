@@ -137,7 +137,7 @@ export function getCommanderSkillDisplays(
     if (spriteUrls.length > 0) {
       displays.push({
         id: entry.id,
-        name: getCommanderSkillEntryName(entry, entry.id, locale),
+        name: getCommanderSkillName(commanderId, entry.id, locale),
         level,
         spriteUrls,
         expert: false,
@@ -169,7 +169,7 @@ export function getCommanderSkillDisplays(
 
       return {
         id: expertId,
-        name: getCommanderSkillEntryName(entry, expertId, locale),
+        name: getCommanderSkillName(commanderId, expertId, locale),
         spriteUrls,
         expert: true,
       };
@@ -204,7 +204,18 @@ export function getCommanderSkillName(
     return "";
   }
 
-  return getCommanderSkillEntryName(entry, skillId, locale);
+  const name = entry.expertId === skillId ? entry.expertName : entry.name;
+  if (!name) {
+    return "";
+  }
+
+  const resolvedLocale = resolveCommanderLocale(locale);
+  const localizedName = name[resolvedLocale];
+  if (localizedName !== undefined) {
+    return localizedName;
+  }
+
+  return name[defaultLocale] ?? "";
 }
 
 function getCommanderSkillEntries(commanderId: number | null | undefined): CommanderSkillEntry[] {
@@ -247,32 +258,6 @@ function findAnyCommanderSkillEntry(
   }
 
   return undefined;
-}
-
-function getCommanderSkillEntryName(
-  entry: CommanderSkillEntry,
-  skillId: number | null | undefined,
-  locale?: string
-): string {
-  const name = entry.expertId === skillId ? entry.expertName : entry.name;
-  return getLocalizedCatalogName(name, locale);
-}
-
-function getLocalizedCatalogName(
-  names: Record<string, string | undefined> | undefined,
-  locale?: string
-): string {
-  if (!names) {
-    return "";
-  }
-
-  const resolvedLocale = resolveCommanderLocale(locale);
-  const localizedName = names[resolvedLocale];
-  if (localizedName !== undefined) {
-    return localizedName;
-  }
-
-  return names[defaultLocale] ?? "";
 }
 
 function getSkillLevel(skill: CommanderSkillLevel | undefined): number | undefined {
