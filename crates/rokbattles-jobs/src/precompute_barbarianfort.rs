@@ -223,7 +223,7 @@ fn target_catalog() -> Vec<TargetMetadata> {
         kind: TargetKind::MarauderEncampment,
         level: 11,
         ap_cost: 300,
-        honor_points: 45,
+        honor_points: honor_points_for_level(11),
     });
 
     for level in 11..=15 {
@@ -460,7 +460,7 @@ mod tests {
             target.kind == TargetKind::MarauderEncampment
                 && target.level == 11
                 && target.ap_cost == 300
-                && target.honor_points == 45
+                && target.honor_points == 30
         }));
         assert!(targets.iter().any(|target| {
             target.kind == TargetKind::Motte
@@ -468,6 +468,37 @@ mod tests {
                 && target.ap_cost == 300
                 && target.honor_points == 30
         }));
+    }
+
+    #[test]
+    fn honor_points_match_kvktask_rule_visible_values() {
+        assert_eq!(honor_points_for_level(11), 30);
+        assert_eq!(honor_points_for_level(12), 45);
+        assert_eq!(honor_points_for_level(13), 60);
+        assert_eq!(honor_points_for_level(14), 80);
+        assert_eq!(honor_points_for_level(15), 100);
+    }
+
+    #[test]
+    fn target_catalog_maps_named_variants_to_their_base_honor_values() {
+        let targets = target_catalog();
+
+        let fort = targets
+            .iter()
+            .find(|target| target.kind == TargetKind::BarbarianFort && target.level == 11)
+            .expect("barbarian fort");
+        let encampment = targets
+            .iter()
+            .find(|target| target.kind == TargetKind::MarauderEncampment && target.level == 11)
+            .expect("marauder encampment");
+        let motte = targets
+            .iter()
+            .find(|target| target.kind == TargetKind::Motte && target.level == 11)
+            .expect("motte");
+
+        assert_eq!(fort.honor_points, 30);
+        assert_eq!(encampment.honor_points, fort.honor_points);
+        assert_eq!(motte.honor_points, fort.honor_points);
     }
 
     #[test]

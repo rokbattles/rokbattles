@@ -229,7 +229,7 @@ fn target_catalog() -> Vec<TargetMetadata> {
         b_type: MARAUDER_B_TYPE,
         level: 41,
         ap_cost: 80,
-        honor_points: 111,
+        honor_points: honor_points_for_level(41),
         base_xp: 8200,
     });
 
@@ -265,12 +265,9 @@ fn ap_cost_for_level(level: i32) -> i32 {
 
 fn honor_points_for_level(level: i32) -> i32 {
     match level {
-        26..=30 => 101,
-        31..=35 => 102,
-        36..=40 => 103,
-        41..=45 => 111,
-        46..=50 => 112,
-        51..=55 => 113,
+        41..=45 => 10,
+        46..=50 => 16,
+        51..=55 => 20,
         _ => 0,
     }
 }
@@ -431,22 +428,51 @@ mod tests {
         let targets = target_catalog();
         let level_38 = targets.iter().find(|target| target.kind == 38).expect("level 38");
         let level_45 = targets.iter().find(|target| target.kind == 405).expect("level 45");
+        let english_soldier =
+            targets.iter().find(|target| target.kind == 150_009).expect("english soldier");
         let marauder = targets.iter().find(|target| target.kind == 99).expect("marauder");
         let level_41_marauder =
             targets.iter().find(|target| target.kind == 100).expect("level 41 marauder");
 
         assert_eq!(level_38.ap_cost, 50);
-        assert_eq!(level_38.honor_points, 103);
+        assert_eq!(level_38.honor_points, 0);
         assert_eq!(level_38.base_xp, 3800);
         assert_eq!(level_45.ap_cost, 80);
-        assert_eq!(level_45.honor_points, 111);
+        assert_eq!(level_45.honor_points, 10);
         assert_eq!(level_45.base_xp, 9000);
+        assert_eq!(english_soldier.ap_cost, 80);
+        assert_eq!(english_soldier.honor_points, 10);
+        assert_eq!(english_soldier.base_xp, 8200);
         assert_eq!(marauder.ap_cost, 50);
         assert_eq!(marauder.honor_points, 0);
         assert_eq!(marauder.base_xp, 3000);
         assert_eq!(level_41_marauder.ap_cost, 80);
-        assert_eq!(level_41_marauder.honor_points, 111);
+        assert_eq!(level_41_marauder.honor_points, 10);
         assert_eq!(level_41_marauder.base_xp, 8200);
+    }
+
+    #[test]
+    fn honor_points_match_kvktask_rule_visible_values() {
+        assert_eq!(honor_points_for_level(41), 10);
+        assert_eq!(honor_points_for_level(45), 10);
+        assert_eq!(honor_points_for_level(46), 16);
+        assert_eq!(honor_points_for_level(50), 16);
+        assert_eq!(honor_points_for_level(51), 20);
+        assert_eq!(honor_points_for_level(55), 20);
+    }
+
+    #[test]
+    fn target_catalog_maps_named_variants_to_their_base_honor_values() {
+        let targets = target_catalog();
+
+        let barbarian = targets.iter().find(|target| target.kind == 401).expect("barbarian");
+        let marauder = targets.iter().find(|target| target.kind == 100).expect("marauder");
+        let english_soldier =
+            targets.iter().find(|target| target.kind == 150_009).expect("english soldier");
+
+        assert_eq!(barbarian.honor_points, 10);
+        assert_eq!(marauder.honor_points, barbarian.honor_points);
+        assert_eq!(english_soldier.honor_points, barbarian.honor_points);
     }
 
     #[test]
@@ -502,7 +528,7 @@ mod tests {
             b_type: 1,
             level: 38,
             ap_cost: 50,
-            honor_points: 103,
+            honor_points: 0,
             base_xp: 3800,
         };
         let mut stats = LevelStats { results: 2, xp_gained: 13_300, ..LevelStats::default() };
