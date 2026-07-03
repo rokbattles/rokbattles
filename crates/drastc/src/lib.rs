@@ -105,7 +105,7 @@ impl DrastcModel {
         let assist = self.theoretical.assist_score();
         let sustainability =
             references.sustainability.score_curved(metrics.sustainability_per_second, 0.55);
-        let trade = CategoryScore::fixed_range(metrics.trade_ratio, 0.0, 2.0);
+        let trade = references.trade.score(metrics.trade_ratio);
         let consistency = references.consistency.score(metrics.consistency_rate);
 
         let breakdown =
@@ -164,10 +164,6 @@ impl CategoryScore {
     pub(crate) fn fixed_zero() -> Self {
         Self { value: 0.0, p10: 0.0, p90: 0.0, score: 0.0 }
     }
-
-    fn fixed_range(value: f64, p10: f64, p90: f64) -> Self {
-        ReferenceRange::new(1, p10, p90).score(value)
-    }
 }
 
 #[cfg(test)]
@@ -197,6 +193,7 @@ mod tests {
         DrastcReferenceRanges {
             damage: ReferenceRange::new(10, 0.0, 4.0),
             sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            trade: ReferenceRange::new(10, 0.0, 2.0),
             consistency: ReferenceRange::new(10, 0.0, 1.0),
         }
     }
@@ -342,6 +339,7 @@ mod tests {
         let reference_ranges = DrastcReferenceRanges {
             damage: ReferenceRange::new(2, 1.2, 2.8),
             sustainability: ReferenceRange::new(2, -1.0, 1.0),
+            trade: ReferenceRange::new(2, 0.5, 1.5),
             consistency: ReferenceRange::new(2, 0.0, 1.0),
         };
 
@@ -368,6 +366,8 @@ mod tests {
 
         assert_eq!(score.breakdown.damage.p10, reference_ranges.damage.p10);
         assert_eq!(score.breakdown.damage.p90, reference_ranges.damage.p90);
+        assert_eq!(score.breakdown.trade.p10, reference_ranges.trade.p10);
+        assert_eq!(score.breakdown.trade.p90, reference_ranges.trade.p90);
         assert!(score.breakdown.damage.score > 5.0);
     }
 

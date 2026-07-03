@@ -14,6 +14,7 @@ use crate::error::JobsError;
 
 const COMMANDERS_YAML: &str = include_str!("../../../datasets/commanders.yaml");
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
+const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
 /// Counts from one commander pairing precompute run.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -292,6 +293,11 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
                 ],
             }
         },
+        doc! {
+            "$set": {
+                "_exclude_in_ranges": rally_garrison_report_expr(),
+            }
+        },
         doc! { "$unwind": "$opponents" },
         doc! { "$match": { "opponents.player_id": { "$gt": 0 } } },
         doc! {
@@ -313,6 +319,36 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
             }
         },
     ]
+}
+
+fn rally_garrison_report_expr() -> Document {
+    doc! {
+        "$or": [
+            { "$in": ["$sender.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+            { "$ne": ["$sender.alliance_building_id", Bson::Null] },
+            { "$ne": ["$sender.structure_id", Bson::Null] },
+            {
+                "$gt": [
+                    {
+                        "$size": {
+                            "$filter": {
+                                "input": { "$ifNull": ["$opponents", []] },
+                                "as": "opponent",
+                                "cond": {
+                                    "$or": [
+                                        { "$in": ["$$opponent.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+                                        { "$ne": ["$$opponent.alliance_building_id", Bson::Null] },
+                                        { "$ne": ["$$opponent.structure_id", Bson::Null] },
+                                    ]
+                                },
+                            }
+                        }
+                    },
+                    0,
+                ]
+            },
+        ]
+    }
 }
 
 fn observed_pairings_subpipeline() -> Vec<Document> {
@@ -417,6 +453,42 @@ fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey> {
 fn reference_ranges_subpipeline() -> Vec<Document> {
     vec![
         doc! {
+            "$match": {
+                "exclude_in_ranges": { "$ne": true },
+            }
+        },
+        doc! {
+            "$group": {
+                "_id": {
+                    "primary_commander_id": "$primary_commander_id",
+                    "secondary_commander_id": "$secondary_commander_id",
+                },
+                "total_battles": { "$sum": 1 },
+                "kill_points_gained": { "$sum": "$kill_points_gained" },
+                "kill_points_lost": { "$sum": "$kill_points_lost" },
+                "severely_wounded_inflicted": {
+                    "$sum": "$severely_wounded_inflicted",
+                },
+                "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
+                "healing_total": { "$sum": "$healing_total" },
+                "opponent_dead": { "$sum": "$opponent_dead" },
+                "opponent_slightly_wounded": { "$sum": "$opponent_slightly_wounded" },
+                "sender_dead": { "$sum": "$sender_dead" },
+                "sender_slightly_wounded": { "$sum": "$sender_slightly_wounded" },
+                "normalized_duration_seconds_total": {
+                    "$sum": "$normalized_duration_seconds",
+                },
+                "decisive_battles": { "$sum": "$decisive_battle" },
+                "wins": { "$sum": "$win" },
+                "positive_trades": { "$sum": "$positive_trade" },
+            }
+        },
+        doc! {
+            "$match": {
+                "total_battles": { "$gte": MIN_REFERENCE_RANGE_PAIRING_BATTLES },
+            }
+        },
+        doc! {
             "$project": {
                 "damage_per_second": {
                     "$divide": [
@@ -427,7 +499,7 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                                 "$opponent_slightly_wounded",
                             ]
                         },
-                        "$normalized_duration_seconds",
+                        { "$max": ["$normalized_duration_seconds_total", 1.0] },
                     ]
                 },
                 "sustainability_per_second": {
@@ -444,10 +516,11 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                                 },
                             ]
                         },
-                        "$normalized_duration_seconds",
+                        { "$max": ["$normalized_duration_seconds_total", 1.0] },
                     ]
                 },
-                "consistency_rate": consistency_rate_expr(),
+                "consistency_rate": aggregate_consistency_rate_expr(),
+                "trade_ratio": aggregate_trade_ratio_expr(),
             }
         },
         doc! {
@@ -475,42 +548,50 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                         "method": "approximate",
                     }
                 },
+                "trade": {
+                    "$percentile": {
+                        "input": "$trade_ratio",
+                        "p": [0.9],
+                        "method": "approximate",
+                    }
+                },
             }
         },
     ]
 }
 
-fn consistency_rate_expr() -> Document {
-    let positive_trade = doc! {
+fn aggregate_trade_ratio_expr() -> Document {
+    doc! {
         "$cond": [
-            { "$gt": ["$kill_points_gained", "$kill_points_lost"] },
+            { "$and": [
+                { "$lte": ["$kill_points_gained", 0] },
+                { "$lte": ["$kill_points_lost", 0] },
+            ] },
             1.0,
-            0.0,
-        ]
-    };
-    let won = doc! {
-        "$cond": [
             {
-                "$gt": [
-                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
-                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
+                "$cond": [
+                    { "$lte": ["$kill_points_lost", 0] },
+                    0.0,
+                    { "$divide": ["$kill_points_gained", "$kill_points_lost"] },
                 ]
             },
-            1.0,
-            0.0,
         ]
+    }
+}
+
+fn aggregate_consistency_rate_expr() -> Document {
+    let positive_trade_rate = doc! {
+        "$divide": ["$positive_trades", "$total_battles"]
+    };
+    let win_rate = doc! {
+        "$divide": ["$wins", "$decisive_battles"]
     };
 
     doc! {
         "$cond": [
-            {
-                "$eq": [
-                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
-                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
-                ]
-            },
-            positive_trade.clone(),
-            { "$divide": [{ "$add": [won, positive_trade] }, 2.0] },
+            { "$gt": ["$decisive_battles", 0] },
+            { "$divide": [{ "$add": [win_rate, positive_trade_rate.clone()] }, 2.0] },
+            positive_trade_rate,
         ]
     }
 }
@@ -565,6 +646,7 @@ fn perspective_entry(
     doc! {
         "primary_commander_id": primary_expr,
         "secondary_commander_id": secondary_expr,
+        "exclude_in_ranges": "$_exclude_in_ranges",
         "kill_points_gained": kill_points_gained.clone(),
         "kill_points_lost": kill_points_lost.clone(),
         "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
@@ -790,8 +872,17 @@ fn map_reference_ranges_document(document: &Document) -> Option<DrastcReferenceR
     Some(DrastcReferenceRanges {
         damage: reference_range_from_percentiles(samples, document, "damage"),
         sustainability: reference_range_from_percentiles(samples, document, "sustainability"),
+        trade: trade_reference_range_from_percentiles(samples, document),
         consistency: reference_range_from_percentiles(samples, document, "consistency"),
     })
+}
+
+fn trade_reference_range_from_percentiles(samples: usize, document: &Document) -> ReferenceRange {
+    let Some(Bson::Array(values)) = document.get("trade") else {
+        return ReferenceRange::new(0, 0.0, 0.0);
+    };
+
+    ReferenceRange::new(samples, 0.0, values.first().and_then(bson_to_f64).unwrap_or_default())
 }
 
 fn reference_range_from_percentiles(
@@ -814,6 +905,7 @@ fn default_reference_ranges() -> DrastcReferenceRanges {
     DrastcReferenceRanges {
         damage: ReferenceRange::new(0, 0.0, 0.0),
         sustainability: ReferenceRange::new(0, 0.0, 0.0),
+        trade: ReferenceRange::new(0, 0.0, 0.0),
         consistency: ReferenceRange::new(0, 0.0, 0.0),
     }
 }
@@ -988,6 +1080,51 @@ mod tests {
     }
 
     #[test]
+    fn reference_ranges_subpipeline_filters_rally_garrison_reports_only_in_reference_branch() {
+        let pipeline = reference_ranges_subpipeline();
+
+        assert_eq!(
+            pipeline.first(),
+            Some(&doc! {
+                "$match": {
+                    "exclude_in_ranges": { "$ne": true },
+                }
+            })
+        );
+    }
+
+    #[test]
+    fn reference_ranges_subpipeline_requires_minimum_pairing_battle_count() {
+        let pipeline = reference_ranges_subpipeline();
+
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$match")
+                .ok()
+                .and_then(|matcher| matcher.get_document("total_battles").ok())
+                .is_some_and(|total_battles| {
+                    total_battles.get_i64("$gte").ok() == Some(MIN_REFERENCE_RANGE_PAIRING_BATTLES)
+                })
+        }));
+    }
+
+    #[test]
+    fn build_pairings_pipeline_marks_rally_garrison_reports_without_filtering_observed_entries() {
+        let pipeline = build_pairings_pipeline(&[509, 6]);
+
+        assert!(pipeline.iter().any(|stage| {
+            stage.get_document("$set").ok().and_then(|set| set.get("_exclude_in_ranges")).is_some()
+        }));
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$facet")
+                .ok()
+                .and_then(|facet| facet.get_array("observed").ok())
+                .is_some()
+        }));
+    }
+
+    #[test]
     fn map_aggregate_document_maps_numeric_totals() {
         let document = doc! {
             "primary_commander_id": 509_i64,
@@ -1027,6 +1164,7 @@ mod tests {
             "samples": 10_i64,
             "damage": [1.0, 9.0],
             "sustainability": [-5.0, 5.0],
+            "trade": [1.8],
             "consistency": [0.2, 0.8],
         };
 
@@ -1035,6 +1173,9 @@ mod tests {
         assert_eq!(ranges.damage.p10, 1.0);
         assert_eq!(ranges.damage.p90, 9.0);
         assert_eq!(ranges.damage.sample_count(), 10);
+        assert_eq!(ranges.trade.p10, 0.0);
+        assert_eq!(ranges.trade.p90, 1.8);
+        assert_eq!(ranges.trade.sample_count(), 10);
     }
 
     #[test]
@@ -1088,6 +1229,7 @@ mod tests {
         let ranges = DrastcReferenceRanges {
             damage: ReferenceRange::new(10, 0.0, 4.0),
             sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            trade: ReferenceRange::new(10, 0.0, 2.0),
             consistency: ReferenceRange::new(10, 0.0, 1.0),
         };
 
@@ -1117,6 +1259,7 @@ mod tests {
         model.set_reference_ranges(DrastcReferenceRanges {
             damage: ReferenceRange::new(1, 0.0, 4.0),
             sustainability: ReferenceRange::new(1, -2.0, 2.0),
+            trade: ReferenceRange::new(1, 0.0, 2.0),
             consistency: ReferenceRange::new(1, 0.0, 1.0),
         });
         model.set_theoretical(579, 575);

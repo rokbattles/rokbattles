@@ -10,6 +10,8 @@ pub struct DrastcReferenceRanges {
     pub damage: ReferenceRange,
     /// Sustainability reference range.
     pub sustainability: ReferenceRange,
+    /// Trade reference range.
+    pub trade: ReferenceRange,
     /// Consistency reference range.
     pub consistency: ReferenceRange,
 }
