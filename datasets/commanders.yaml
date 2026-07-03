@@ -44,12 +44,22 @@ commanders:
       - slot: 1
         id: 22
         expertId: 61
+        expertSprite:
+          - img_WakeUpHeroSkill12.png
+        sprite:
+          - img_HeroSkill61.png
       - slot: 2
         id: 1041
+        sprite:
+          - img_HeroSkill6.png
       - slot: 3
         id: 1006
+        sprite:
+          - img_HeroSkill45.png
       - slot: 4
         id: 1007
+        sprite:
+          - img_HeroSkill3.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -98,15 +108,24 @@ commanders:
     rarity: epic
     skills:
       - slot: 1
-        id: 69
+        id: 30
+        expertId: 69
+        expertSprite:
+          - img_WakeUpHeroSkill7.png
+        sprite:
+          - img_HeroSkill33.png
       - slot: 2
         id: 1022
+        sprite:
+          - img_HeroSkill10.png
       - slot: 3
         id: 1023
+        sprite:
+          - img_HeroSkill16.png
       - slot: 4
         id: 1045
-      - slot: 5
-        id: 30
+        sprite:
+          - img_HeroSkill47.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -157,12 +176,22 @@ commanders:
       - slot: 1
         id: 23
         expertId: 62
+        expertSprite:
+          - img_WakeUpHeroSkill13.png
+        sprite:
+          - img_HeroSkill40.png
       - slot: 2
         id: 1008
+        sprite:
+          - img_HeroSkill5.png
       - slot: 3
         id: 1075
+        sprite:
+          - img_HeroSkill45.png
       - slot: 4
         id: 1067
+        sprite:
+          - img_HeroSkill3.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -212,14 +241,24 @@ commanders:
     skills:
       - slot: 1
         id: 85
+        sprite:
+          - img_HeroSkill81.png
       - slot: 2
         id: 1138
+        sprite:
+          - img_HeroSkill93.png
       - slot: 3
         id: 1139
+        sprite:
+          - img_HeroSkill94.png
       - slot: 4
         id: 1140
+        sprite:
+          - img_HeroSkill95.png
       - slot: 5
         id: 1148
+        sprite:
+          - img_WakeUpHeroSkill25.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -270,12 +309,22 @@ commanders:
       - slot: 1
         id: 24
         expertId: 63
+        expertSprite:
+          - img_WakeUpHeroSkill14.png
+        sprite:
+          - img_HeroSkill39.png
       - slot: 2
         id: 1009
+        sprite:
+          - img_HeroSkill20.png
       - slot: 3
         id: 1010
+        sprite:
+          - img_HeroSkill11.png
       - slot: 4
         id: 1011
+        sprite:
+          - img_HeroSkill47.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -325,14 +374,24 @@ commanders:
     skills:
       - slot: 1
         id: 25
+        sprite:
+          - img_HeroSkill38.png
       - slot: 2
         id: 1101
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1013
+        sprite:
+          - img_HeroSkill13.png
       - slot: 4
         id: 1042
+        sprite:
+          - img_HeroSkill5.png
       - slot: 5
         id: 1103
+        sprite:
+          - img_WakeUpHeroSkill15.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -382,14 +441,24 @@ commanders:
     skills:
       - slot: 1
         id: 26
+        sprite:
+          - img_HeroSkill37.png
       - slot: 2
         id: 1043
+        sprite:
+          - img_HeroSkill50.png
       - slot: 3
         id: 1066
+        sprite:
+          - img_HeroSkill6.png
       - slot: 4
         id: 1014
+        sprite:
+          - img_HeroSkill19.png
       - slot: 5
         id: 1104
+        sprite:
+          - img_WakeUpHeroSkill16.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -440,12 +509,22 @@ commanders:
       - slot: 1
         id: 27
         expertId: 64
+        expertSprite:
+          - img_WakeUpHeroSkill10.png
+        sprite:
+          - img_HeroSkill36.png
       - slot: 2
         id: 1015
+        sprite:
+          - img_HeroSkill13.png
       - slot: 3
         id: 1012
+        sprite:
+          - img_HeroSkill48.png
       - slot: 4
         id: 1016
+        sprite:
+          - img_HeroSkill49.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -495,13 +574,23 @@ commanders:
     skills:
       - slot: 1
         id: 28
+        sprite:
+          - img_HeroSkill35.png
       - slot: 2
         id: 1017
         expertId: 1102
+        expertSprite:
+          - img_WakeUpHeroSkill11.png
+        sprite:
+          - img_HeroSkill2.png
       - slot: 3
         id: 1018
+        sprite:
+          - img_HeroSkill11.png
       - slot: 4
         id: 1019
+        sprite:
+          - img_HeroSkill58.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -551,14 +640,24 @@ commanders:
     skills:
       - slot: 1
         id: 29
+        sprite:
+          - img_HeroSkill34.png
       - slot: 2
         id: 1021
+        sprite:
+          - img_HeroSkill49.png
       - slot: 3
         id: 1020
+        sprite:
+          - img_HeroSkill16.png
       - slot: 4
         id: 1044
+        sprite:
+          - img_HeroSkill5.png
       - slot: 5
         id: 1105
+        sprite:
+          - img_WakeUpHeroSkill17.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -609,12 +708,22 @@ commanders:
       - slot: 1
         id: 31
         expertId: 68
+        expertSprite:
+          - img_WakeUpHeroSkill6.png
+        sprite:
+          - img_HeroSkill32.png
       - slot: 2
         id: 1024
+        sprite:
+          - img_HeroSkill19.png
       - slot: 3
         id: 1025
+        sprite:
+          - img_HeroSkill11.png
       - slot: 4
         id: 1046
+        sprite:
+          - img_HeroSkill52.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -664,13 +773,23 @@ commanders:
     skills:
       - slot: 1
         id: 32
+        sprite:
+          - img_HeroSkill31.png
       - slot: 2
         id: 1026
+        sprite:
+          - img_HeroSkill11.png
       - slot: 3
         id: 1027
         expertId: 1109
+        expertSprite:
+          - img_WakeUpHeroSkill5.png
+        sprite:
+          - img_HeroSkill19.png
       - slot: 4
         id: 1048
+        sprite:
+          - img_HeroSkill1.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -720,13 +839,23 @@ commanders:
     skills:
       - slot: 1
         id: 33
+        sprite:
+          - img_HeroSkill30.png
       - slot: 2
         id: 1049
         expertId: 1110
+        expertSprite:
+          - img_WakeUpHeroSkill8.png
+        sprite:
+          - img_HeroSkill17.png
       - slot: 3
         id: 1028
+        sprite:
+          - img_HeroSkill45.png
       - slot: 4
         id: 1029
+        sprite:
+          - img_HeroSkill3.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -777,12 +906,22 @@ commanders:
       - slot: 1
         id: 34
         expertId: 66
+        expertSprite:
+          - img_WakeUpHeroSkill1.png
+        sprite:
+          - img_HeroSkill29.png
       - slot: 2
         id: 1030
+        sprite:
+          - img_HeroSkill9.png
       - slot: 3
         id: 1031
+        sprite:
+          - img_HeroSkill5.png
       - slot: 4
         id: 1047
+        sprite:
+          - img_HeroSkill62.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -832,13 +971,23 @@ commanders:
     skills:
       - slot: 1
         id: 35
+        sprite:
+          - img_HeroSkill28.png
       - slot: 2
         id: 1032
+        sprite:
+          - img_HeroSkill10.png
       - slot: 3
         id: 1040
         expertId: 1108
+        expertSprite:
+          - img_WakeUpHeroSkill4.png
+        sprite:
+          - img_HeroSkill16.png
       - slot: 4
         id: 1033
+        sprite:
+          - img_HeroSkill53.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -889,12 +1038,22 @@ commanders:
       - slot: 1
         id: 36
         expertId: 67
+        expertSprite:
+          - img_WakeUpHeroSkill2.png
+        sprite:
+          - img_HeroSkill27.png
       - slot: 2
         id: 1034
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1035
+        sprite:
+          - img_HeroSkill51.png
       - slot: 4
         id: 1051
+        sprite:
+          - img_HeroSkill63.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -944,13 +1103,23 @@ commanders:
     skills:
       - slot: 1
         id: 37
+        sprite:
+          - img_HeroSkill26.png
       - slot: 2
         id: 1036
         expertId: 1107
+        expertSprite:
+          - img_WakeUpHeroSkill3.png
+        sprite:
+          - img_HeroSkill13.png
       - slot: 3
         id: 1037
+        sprite:
+          - img_HeroSkill11.png
       - slot: 4
         id: 1050
+        sprite:
+          - img_HeroSkill7.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -1000,12 +1169,20 @@ commanders:
     skills:
       - slot: 1
         id: 42
+        sprite:
+          - img_HeroSkill23.png
       - slot: 2
         id: 1057
+        sprite:
+          - img_HeroSkill16.png
       - slot: 3
         id: 1058
+        sprite:
+          - img_HeroSkill17.png
       - slot: 4
         id: 1059
+        sprite:
+          - img_HeroSkill6.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGGreen.png
@@ -1055,12 +1232,20 @@ commanders:
     skills:
       - slot: 1
         id: 43
+        sprite:
+          - img_HeroSkill22.png
       - slot: 2
         id: 1060
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1061
+        sprite:
+          - img_HeroSkill39.png
       - slot: 4
         id: 1062
+        sprite:
+          - img_HeroSkill19.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGGreen.png
@@ -1110,12 +1295,20 @@ commanders:
     skills:
       - slot: 1
         id: 41
+        sprite:
+          - img_HeroSkill24.png
       - slot: 2
         id: 1054
+        sprite:
+          - img_HeroSkill6.png
       - slot: 3
         id: 1055
+        sprite:
+          - img_HeroSkill9.png
       - slot: 4
         id: 1056
+        sprite:
+          - img_HeroSkill3.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGGreen.png
@@ -1165,12 +1358,20 @@ commanders:
     skills:
       - slot: 1
         id: 44
+        sprite:
+          - img_HeroSkill21.png
       - slot: 2
         id: 1063
+        sprite:
+          - img_HeroSkill13.png
       - slot: 3
         id: 1064
+        sprite:
+          - img_HeroSkill14.png
       - slot: 4
         id: 1065
+        sprite:
+          - img_HeroSkill16.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGGreen.png
@@ -1221,12 +1422,22 @@ commanders:
       - slot: 1
         id: 49
         expertId: 65
+        expertSprite:
+          - img_WakeUpHeroSkill18.png
+        sprite:
+          - img_HeroSkill43.png
       - slot: 2
         id: 1071
+        sprite:
+          - img_HeroSkill44.png
       - slot: 3
         id: 1072
+        sprite:
+          - img_HeroSkill45.png
       - slot: 4
         id: 1073
+        sprite:
+          - img_HeroSkill46.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -1276,14 +1487,24 @@ commanders:
     skills:
       - slot: 1
         id: 51
+        sprite:
+          - img_HeroSkill75.png
       - slot: 2
         id: 1076
+        sprite:
+          - img_HeroSkill71.png
       - slot: 3
         id: 1077
+        sprite:
+          - img_HeroSkill73.png
       - slot: 4
         id: 1078
+        sprite:
+          - img_HeroSkill77.png
       - slot: 5
         id: 1106
+        sprite:
+          - img_WakeUpHeroSkill19.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -1333,12 +1554,20 @@ commanders:
     skills:
       - slot: 1
         id: 52
+        sprite:
+          - img_HeroSkill55.png
       - slot: 2
         id: 1079
+        sprite:
+          - img_HeroSkill70.png
       - slot: 3
         id: 1080
+        sprite:
+          - img_HeroSkill73.png
       - slot: 4
         id: 1081
+        sprite:
+          - img_HeroSkill74.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGBlue.png
@@ -1388,12 +1617,20 @@ commanders:
     skills:
       - slot: 1
         id: 53
+        sprite:
+          - img_HeroSkill76.png
       - slot: 2
         id: 1082
+        sprite:
+          - img_HeroSkill69.png
       - slot: 3
         id: 1083
+        sprite:
+          - img_HeroSkill73.png
       - slot: 4
         id: 1084
+        sprite:
+          - img_HeroSkill7.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGBlue.png
@@ -1443,12 +1680,20 @@ commanders:
     skills:
       - slot: 1
         id: 54
+        sprite:
+          - img_HeroSkill56.png
       - slot: 2
         id: 1085
+        sprite:
+          - img_HeroSkill20.png
       - slot: 3
         id: 1086
+        sprite:
+          - img_HeroSkill64.png
       - slot: 4
         id: 1087
+        sprite:
+          - img_HeroSkill65.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGBlue.png
@@ -1498,12 +1743,20 @@ commanders:
     skills:
       - slot: 1
         id: 55
+        sprite:
+          - img_HeroSkill60.png
       - slot: 2
         id: 1088
+        sprite:
+          - img_HeroSkill12.png
       - slot: 3
         id: 1089
+        sprite:
+          - img_HeroSkill59.png
       - slot: 4
         id: 1090
+        sprite:
+          - img_HeroSkill1.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGBlue.png
@@ -1553,13 +1806,23 @@ commanders:
     skills:
       - slot: 1
         id: 56
+        sprite:
+          - img_HeroSkill66.png
       - slot: 2
         id: 1091
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1092
+        sprite:
+          - img_HeroSkill67.png
       - slot: 4
         id: 1093
         expertId: 1111
+        expertSprite:
+          - img_WakeUpHeroSkill9.png
+        sprite:
+          - img_HeroSkill68.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -1609,12 +1872,20 @@ commanders:
     skills:
       - slot: 1
         id: 57
+        sprite:
+          - img_HeroSkill57.png
       - slot: 2
         id: 1094
+        sprite:
+          - img_HeroSkill9.png
       - slot: 3
         id: 1095
+        sprite:
+          - img_HeroSkill73.png
       - slot: 4
         id: 1096
+        sprite:
+          - img_HeroSkill3.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGBlue.png
@@ -1664,13 +1935,23 @@ commanders:
     skills:
       - slot: 1
         id: 82
+        sprite:
+          - img_HeroSkill78.png
       - slot: 2
         id: 1129
+        sprite:
+          - img_HeroSkill84.png
       - slot: 3
         id: 1130
         expertId: 1147
+        expertSprite:
+          - img_WakeUpHeroSkill24.png
+        sprite:
+          - img_HeroSkill85.png
       - slot: 4
         id: 1131
+        sprite:
+          - img_HeroSkill86.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -1721,12 +2002,22 @@ commanders:
       - slot: 1
         id: 83
         expertId: 88
+        expertSprite:
+          - img_WakeUpHeroSkill20.png
+        sprite:
+          - img_HeroSkill79.png
       - slot: 2
         id: 1132
+        sprite:
+          - img_HeroSkill87.png
       - slot: 3
         id: 1133
+        sprite:
+          - img_HeroSkill88.png
       - slot: 4
         id: 1134
+        sprite:
+          - img_HeroSkill89.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -1777,12 +2068,22 @@ commanders:
       - slot: 1
         id: 84
         expertId: 89
+        expertSprite:
+          - img_WakeUpHeroSkill21.png
+        sprite:
+          - img_HeroSkill80.png
       - slot: 2
         id: 1135
+        sprite:
+          - img_HeroSkill90.png
       - slot: 3
         id: 1136
+        sprite:
+          - img_HeroSkill91.png
       - slot: 4
         id: 1137
+        sprite:
+          - img_HeroSkill92.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -1833,12 +2134,22 @@ commanders:
       - slot: 1
         id: 86
         expertId: 90
+        expertSprite:
+          - img_WakeUpHeroSkill22.png
+        sprite:
+          - img_HeroSkill82.png
       - slot: 2
         id: 1141
+        sprite:
+          - img_HeroSkill96.png
       - slot: 3
         id: 1143
+        sprite:
+          - img_HeroSkill98.png
       - slot: 4
         id: 1142
+        sprite:
+          - img_HeroSkill97.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -1889,12 +2200,22 @@ commanders:
       - slot: 1
         id: 87
         expertId: 91
+        expertSprite:
+          - img_WakeUpHeroSkill23.png
+        sprite:
+          - img_HeroSkill83.png
       - slot: 2
         id: 1144
+        sprite:
+          - img_HeroSkill99.png
       - slot: 3
         id: 1145
+        sprite:
+          - img_HeroSkill100.png
       - slot: 4
         id: 1146
+        sprite:
+          - img_HeroSkill101.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -1945,12 +2266,22 @@ commanders:
       - slot: 1
         id: 121
         expertId: 122
+        expertSprite:
+          - img_WakeUpHeroSkill33.png
+        sprite:
+          - img_HeroSkill130.png
       - slot: 2
         id: 1195
+        sprite:
+          - img_HeroSkill133.png
       - slot: 3
         id: 1196
+        sprite:
+          - img_HeroSkill131.png
       - slot: 4
         id: 1197
+        sprite:
+          - img_HeroSkill132.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2000,14 +2331,24 @@ commanders:
     skills:
       - slot: 1
         id: 142
+        sprite:
+          - img_HeroSkill134.png
       - slot: 2
         id: 1254
+        sprite:
+          - img_HeroSkill136.png
       - slot: 3
         id: 1255
+        sprite:
+          - img_HeroSkill137.png
       - slot: 4
         id: 1256
+        sprite:
+          - img_HeroSkill135.png
       - slot: 5
         id: 1257
+        sprite:
+          - img_WakeUpHeroSkill34.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2057,14 +2398,24 @@ commanders:
     skills:
       - slot: 1
         id: 120
+        sprite:
+          - img_HeroSkill104.png
       - slot: 2
         id: 1191
+        sprite:
+          - img_HeroSkill105.png
       - slot: 3
         id: 1192
+        sprite:
+          - img_HeroSkill103.png
       - slot: 4
         id: 1193
+        sprite:
+          - img_HeroSkill102.png
       - slot: 5
         id: 1194
+        sprite:
+          - img_WakeUpHeroSkill26.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2114,14 +2465,24 @@ commanders:
     skills:
       - slot: 1
         id: 137
+        sprite:
+          - img_HeroSkill116.png
       - slot: 2
         id: 1223
+        sprite:
+          - img_HeroSkill117.png
       - slot: 3
         id: 1225
+        sprite:
+          - img_HeroSkill115.png
       - slot: 4
         id: 1224
+        sprite:
+          - img_HeroSkill114.png
       - slot: 5
         id: 1226
+        sprite:
+          - img_WakeUpHeroSkill29.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2172,12 +2533,22 @@ commanders:
       - slot: 1
         id: 128
         expertId: 129
+        expertSprite:
+          - img_WakeUpHeroSkill28.png
+        sprite:
+          - img_HeroSkill111.png
       - slot: 2
         id: 1199
+        sprite:
+          - img_HeroSkill113.png
       - slot: 3
         id: 1200
+        sprite:
+          - img_HeroSkill110.png
       - slot: 4
         id: 1201
+        sprite:
+          - img_HeroSkill112.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2227,14 +2598,24 @@ commanders:
     skills:
       - slot: 1
         id: 135
+        sprite:
+          - img_HeroSkill106.png
       - slot: 2
         id: 1217
+        sprite:
+          - img_HeroSkill109.png
       - slot: 3
         id: 1218
+        sprite:
+          - img_HeroSkill107.png
       - slot: 4
         id: 1219
+        sprite:
+          - img_HeroSkill108.png
       - slot: 5
         id: 1220
+        sprite:
+          - img_WakeUpHeroSkill27.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2284,14 +2665,24 @@ commanders:
     skills:
       - slot: 1
         id: 139
+        sprite:
+          - img_HeroSkill122.png
       - slot: 2
         id: 1238
+        sprite:
+          - img_HeroSkill125.png
       - slot: 3
         id: 1239
+        sprite:
+          - img_HeroSkill124.png
       - slot: 4
         id: 1240
+        sprite:
+          - img_HeroSkill123.png
       - slot: 5
         id: 1244
+        sprite:
+          - img_WakeUpHeroSkill31.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2341,14 +2732,24 @@ commanders:
     skills:
       - slot: 1
         id: 140
+        sprite:
+          - img_HeroSkill118.png
       - slot: 2
         id: 1241
+        sprite:
+          - img_HeroSkill121.png
       - slot: 3
         id: 1242
+        sprite:
+          - img_HeroSkill119.png
       - slot: 4
         id: 1243
+        sprite:
+          - img_HeroSkill120.png
       - slot: 5
         id: 1245
+        sprite:
+          - img_WakeUpHeroSkill30.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2398,14 +2799,24 @@ commanders:
     skills:
       - slot: 1
         id: 141
+        sprite:
+          - img_HeroSkill128.png
       - slot: 2
         id: 1249
+        sprite:
+          - img_HeroSkill126.png
       - slot: 3
         id: 1250
+        sprite:
+          - img_HeroSkill127.png
       - slot: 4
         id: 1251
+        sprite:
+          - img_HeroSkill129.png
       - slot: 5
         id: 1252
+        sprite:
+          - img_WakeUpHeroSkill32.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2455,14 +2866,24 @@ commanders:
     skills:
       - slot: 1
         id: 143
+        sprite:
+          - img_HeroSkill146.png
       - slot: 2
         id: 1258
+        sprite:
+          - img_HeroSkill145.png
       - slot: 3
         id: 1259
+        sprite:
+          - img_HeroSkill144.png
       - slot: 4
         id: 1260
+        sprite:
+          - img_HeroSkill143.png
       - slot: 5
         id: 1261
+        sprite:
+          - img_WakeUpHeroSkill35.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2512,14 +2933,24 @@ commanders:
     skills:
       - slot: 1
         id: 144
+        sprite:
+          - img_HeroSkill149.png
       - slot: 2
         id: 1262
+        sprite:
+          - img_HeroSkill147.png
       - slot: 3
         id: 1263
+        sprite:
+          - img_HeroSkill148.png
       - slot: 4
         id: 1264
+        sprite:
+          - img_HeroSkill150.png
       - slot: 5
         id: 1265
+        sprite:
+          - img_WakeUpHeroSkill36.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2569,14 +3000,24 @@ commanders:
     skills:
       - slot: 1
         id: 145
+        sprite:
+          - img_HeroSkill151.png
       - slot: 2
         id: 1266
+        sprite:
+          - img_HeroSkill153.png
       - slot: 3
         id: 1267
+        sprite:
+          - img_HeroSkill152.png
       - slot: 4
         id: 1268
+        sprite:
+          - img_HeroSkill154.png
       - slot: 5
         id: 1269
+        sprite:
+          - img_WakeUpHeroSkill37.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2627,12 +3068,22 @@ commanders:
       - slot: 1
         id: 146
         expertId: 147
+        expertSprite:
+          - img_WakeUpHeroSkill43.png
+        sprite:
+          - img_HeroSkill175.png
       - slot: 2
         id: 1270
+        sprite:
+          - img_HeroSkill176.png
       - slot: 3
         id: 1271
+        sprite:
+          - img_HeroSkill177.png
       - slot: 4
         id: 1272
+        sprite:
+          - img_HeroSkill178.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2682,14 +3133,24 @@ commanders:
     skills:
       - slot: 1
         id: 148
+        sprite:
+          - img_HeroSkill156.png
       - slot: 2
         id: 1273
+        sprite:
+          - img_HeroSkill157.png
       - slot: 3
         id: 1274
+        sprite:
+          - img_HeroSkill155.png
       - slot: 4
         id: 1275
+        sprite:
+          - img_HeroSkill158.png
       - slot: 5
         id: 1276
+        sprite:
+          - img_WakeUpHeroSkill38.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2739,14 +3200,24 @@ commanders:
     skills:
       - slot: 1
         id: 149
+        sprite:
+          - img_HeroSkill161.png
       - slot: 2
         id: 1277
+        sprite:
+          - img_HeroSkill159.png
       - slot: 3
         id: 1278
+        sprite:
+          - img_HeroSkill160.png
       - slot: 4
         id: 1279
+        sprite:
+          - img_HeroSkill162.png
       - slot: 5
         id: 1280
+        sprite:
+          - img_WakeUpHeroSkill39.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2797,12 +3268,22 @@ commanders:
       - slot: 1
         id: 150
         expertId: 151
+        expertSprite:
+          - img_WakeUpHeroSkill40.png
+        sprite:
+          - img_HeroSkill163.png
       - slot: 2
         id: 1284
+        sprite:
+          - img_HeroSkill164.png
       - slot: 3
         id: 1285
+        sprite:
+          - img_HeroSkill165.png
       - slot: 4
         id: 1286
+        sprite:
+          - img_HeroSkill166.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2852,14 +3333,24 @@ commanders:
     skills:
       - slot: 1
         id: 152
+        sprite:
+          - img_HeroSkill167.png
       - slot: 2
         id: 1288
+        sprite:
+          - img_HeroSkill169.png
       - slot: 3
         id: 1287
+        sprite:
+          - img_HeroSkill168.png
       - slot: 4
         id: 1290
+        sprite:
+          - img_HeroSkill170.png
       - slot: 5
         id: 1289
+        sprite:
+          - img_WakeUpHeroSkill41.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -2910,12 +3401,22 @@ commanders:
       - slot: 1
         id: 153
         expertId: 154
+        expertSprite:
+          - img_WakeUpHeroSkill14.png
+        sprite:
+          - img_HeroSkill106.png
       - slot: 2
         id: 1302
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1303
+        sprite:
+          - img_HeroSkill138.png
       - slot: 4
         id: 1304
+        sprite:
+          - img_HeroSkill142.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -2965,14 +3466,24 @@ commanders:
     skills:
       - slot: 1
         id: 155
+        sprite:
+          - img_HeroSkill179.png
       - slot: 2
         id: 1305
+        sprite:
+          - img_HeroSkill180.png
       - slot: 3
         id: 1306
+        sprite:
+          - img_HeroSkill181.png
       - slot: 4
         id: 1307
+        sprite:
+          - img_HeroSkill182.png
       - slot: 5
         id: 1308
+        sprite:
+          - img_WakeUpHeroSkill44.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3023,14 +3534,26 @@ commanders:
       - slot: 1
         id: 157
         expertId: 160
+        expertSprite:
+          - img_WakeUpHeroSkill46.png
+        sprite:
+          - img_HeroSkill184.png
       - slot: 2
         id: 1309
+        sprite:
+          - img_HeroSkill186.png
       - slot: 3
         id: 1310
+        sprite:
+          - img_HeroSkill183.png
       - slot: 4
         id: 1311
+        sprite:
+          - img_HeroSkill185.png
       - slot: 5
         id: 1312
+        sprite:
+          - img_WakeUpHeroSkill46.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3080,13 +3603,23 @@ commanders:
     skills:
       - slot: 1
         id: 158
+        sprite:
+          - img_HeroSkill190.png
       - slot: 2
         id: 1313
+        sprite:
+          - img_HeroSkill188.png
       - slot: 3
         id: 1314
         expertId: 1316
+        expertSprite:
+          - img_WakeUpHeroSkill45.png
+        sprite:
+          - img_HeroSkill187.png
       - slot: 4
         id: 1315
+        sprite:
+          - img_HeroSkill189.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3136,14 +3669,24 @@ commanders:
     skills:
       - slot: 1
         id: 161
+        sprite:
+          - img_HeroSkill191.png
       - slot: 2
         id: 1318
+        sprite:
+          - img_HeroSkill71.png
       - slot: 3
         id: 1319
+        sprite:
+          - img_HeroSkill192.png
       - slot: 4
         id: 1320
+        sprite:
+          - img_HeroSkill193.png
       - slot: 5
         id: 1321
+        sprite:
+          - img_WakeUpHeroSkill19.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -3193,14 +3736,24 @@ commanders:
     skills:
       - slot: 1
         id: 162
+        sprite:
+          - img_HeroSkill197.png
       - slot: 2
         id: 1322
+        sprite:
+          - img_HeroSkill195.png
       - slot: 3
         id: 1323
+        sprite:
+          - img_HeroSkill196.png
       - slot: 4
         id: 1324
+        sprite:
+          - img_HeroSkill194.png
       - slot: 5
         id: 1328
+        sprite:
+          - img_WakeUpHeroSkill47.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3251,12 +3804,22 @@ commanders:
       - slot: 1
         id: 164
         expertId: 165
+        expertSprite:
+          - img_WakeUpHeroSkill48.png
+        sprite:
+          - img_HeroSkill201.png
       - slot: 2
         id: 1326
+        sprite:
+          - img_HeroSkill199.png
       - slot: 3
         id: 1325
+        sprite:
+          - img_HeroSkill200.png
       - slot: 4
         id: 1327
+        sprite:
+          - img_HeroSkill198.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3307,12 +3870,22 @@ commanders:
       - slot: 1
         id: 168
         expertId: 169
+        expertSprite:
+          - img_WakeUpHeroSkill49.png
+        sprite:
+          - img_HeroSkill205.png
       - slot: 2
         id: 1329
+        sprite:
+          - img_HeroSkill202.png
       - slot: 3
         id: 1330
+        sprite:
+          - img_HeroSkill204.png
       - slot: 4
         id: 1331
+        sprite:
+          - img_HeroSkill203.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3363,12 +3936,22 @@ commanders:
       - slot: 1
         id: 170
         expertId: 171
+        expertSprite:
+          - img_WakeUpHeroSkill50.png
+        sprite:
+          - img_HeroSkill209.png
       - slot: 2
         id: 1332
+        sprite:
+          - img_HeroSkill206.png
       - slot: 3
         id: 1333
+        sprite:
+          - img_HeroSkill207.png
       - slot: 4
         id: 1334
+        sprite:
+          - img_HeroSkill208.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -3418,14 +4001,24 @@ commanders:
     skills:
       - slot: 1
         id: 172
+        sprite:
+          - img_HeroSkill210.png
       - slot: 2
         id: 1335
+        sprite:
+          - img_HeroSkill211.png
       - slot: 3
         id: 1336
+        sprite:
+          - img_HeroSkill212.png
       - slot: 4
         id: 1337
+        sprite:
+          - img_HeroSkill213.png
       - slot: 5
         id: 1338
+        sprite:
+          - img_WakeUpHeroSkill51.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3476,12 +4069,22 @@ commanders:
       - slot: 1
         id: 173
         expertId: 174
+        expertSprite:
+          - img_WakeUpHeroSkill52.png
+        sprite:
+          - img_HeroSkill214.png
       - slot: 2
         id: 1339
+        sprite:
+          - img_HeroSkill215.png
       - slot: 3
         id: 1341
+        sprite:
+          - img_HeroSkill217.png
       - slot: 4
         id: 1340
+        sprite:
+          - img_HeroSkill216.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3531,13 +4134,23 @@ commanders:
     skills:
       - slot: 1
         id: 176
+        sprite:
+          - img_HeroSkill218.png
       - slot: 2
         id: 1342
+        sprite:
+          - img_HeroSkill48.png
       - slot: 3
         id: 1343
+        sprite:
+          - img_HeroSkill225.png
       - slot: 4
         id: 1344
         expertId: 1345
+        expertSprite:
+          - img_HeroSkill223.png
+        sprite:
+          - img_HeroSkill224.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3588,12 +4201,22 @@ commanders:
       - slot: 1
         id: 177
         expertId: 178
+        expertSprite:
+          - img_HeroSkill219.png
+        sprite:
+          - img_HeroSkill221.png
       - slot: 2
         id: 1346
+        sprite:
+          - img_HeroSkill226.png
       - slot: 3
         id: 1347
+        sprite:
+          - img_HeroSkill220.png
       - slot: 4
         id: 1348
+        sprite:
+          - img_HeroSkill222.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3643,14 +4266,24 @@ commanders:
     skills:
       - slot: 1
         id: 179
+        sprite:
+          - img_HeroSkill227.png
       - slot: 2
         id: 1349
+        sprite:
+          - img_HeroSkill228.png
       - slot: 3
         id: 1350
+        sprite:
+          - img_HeroSkill229.png
       - slot: 4
         id: 1351
+        sprite:
+          - img_HeroSkill230.png
       - slot: 5
         id: 1352
+        sprite:
+          - img_WakeUpHeroSkill53.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3700,14 +4333,24 @@ commanders:
     skills:
       - slot: 1
         id: 180
+        sprite:
+          - img_HeroSkill231.png
       - slot: 2
         id: 1353
+        sprite:
+          - img_HeroSkill232.png
       - slot: 3
         id: 1354
+        sprite:
+          - img_HeroSkill233.png
       - slot: 4
         id: 1355
+        sprite:
+          - img_HeroSkill234.png
       - slot: 5
         id: 1356
+        sprite:
+          - img_WakeUpHeroSkill54.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3758,12 +4401,22 @@ commanders:
       - slot: 1
         id: 181
         expertId: 182
+        expertSprite:
+          - img_WakeUpHeroSkill56.png
+        sprite:
+          - img_HeroSkill241.png
       - slot: 2
         id: 1357
+        sprite:
+          - img_HeroSkill242.png
       - slot: 3
         id: 1358
+        sprite:
+          - img_HeroSkill240.png
       - slot: 4
         id: 1359
+        sprite:
+          - img_HeroSkill239.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -3814,12 +4467,22 @@ commanders:
       - slot: 1
         id: 183
         expertId: 184
+        expertSprite:
+          - img_WakeUpHeroSkill55.png
+        sprite:
+          - img_HeroSkill238.png
       - slot: 2
         id: 1360
+        sprite:
+          - img_HeroSkill236.png
       - slot: 3
         id: 1361
+        sprite:
+          - img_HeroSkill235.png
       - slot: 4
         id: 1362
+        sprite:
+          - img_HeroSkill237.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3869,13 +4532,23 @@ commanders:
     skills:
       - slot: 1
         id: 185
+        sprite:
+          - img_HeroSkill247.png
       - slot: 2
         id: 1363
+        sprite:
+          - img_HeroSkill248.png
       - slot: 3
         id: 1364
         expertId: 1366
+        expertSprite:
+          - img_WakeUpHeroSkill58.png
+        sprite:
+          - img_HeroSkill249.png
       - slot: 4
         id: 1365
+        sprite:
+          - img_HeroSkill250.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3925,14 +4598,24 @@ commanders:
     skills:
       - slot: 1
         id: 187
+        sprite:
+          - img_HeroSkill244.png
       - slot: 2
         id: 1367
+        sprite:
+          - img_HeroSkill243.png
       - slot: 3
         id: 1368
+        sprite:
+          - img_HeroSkill245.png
       - slot: 4
         id: 1369
+        sprite:
+          - img_HeroSkill246.png
       - slot: 5
         id: 1370
+        sprite:
+          - img_WakeUpHeroSkill57.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -3982,13 +4665,23 @@ commanders:
     skills:
       - slot: 1
         id: 188
+        sprite:
+          - img_HeroSkill256.png
       - slot: 2
         id: 1371
+        sprite:
+          - img_HeroSkill257.png
       - slot: 3
         id: 1372
+        sprite:
+          - img_HeroSkill258.png
       - slot: 4
         id: 1373
         expertId: 1374
+        expertSprite:
+          - img_WakeUpHeroSkill60.png
+        sprite:
+          - img_HeroSkill255.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4038,14 +4731,24 @@ commanders:
     skills:
       - slot: 1
         id: 189
+        sprite:
+          - img_HeroSkill252.png
       - slot: 2
         id: 1375
+        sprite:
+          - img_HeroSkill251.png
       - slot: 3
         id: 1376
+        sprite:
+          - img_HeroSkill254.png
       - slot: 4
         id: 1377
+        sprite:
+          - img_HeroSkill253.png
       - slot: 5
         id: 1378
+        sprite:
+          - img_WakeUpHeroSkill59.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4096,12 +4799,22 @@ commanders:
       - slot: 1
         id: 191
         expertId: 192
+        expertSprite:
+          - img_WakeUpHeroSkill61.png
+        sprite:
+          - img_HeroSkill259.png
       - slot: 2
         id: 1379
+        sprite:
+          - img_HeroSkill260.png
       - slot: 3
         id: 1380
+        sprite:
+          - img_HeroSkill261.png
       - slot: 4
         id: 1381
+        sprite:
+          - img_HeroSkill262.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -4151,14 +4864,24 @@ commanders:
     skills:
       - slot: 1
         id: 193
+        sprite:
+          - img_HeroSkill300.png
       - slot: 2
         id: 1382
+        sprite:
+          - img_HeroSkill301.png
       - slot: 3
         id: 1384
+        sprite:
+          - img_HeroSkill303.png
       - slot: 4
         id: 1383
+        sprite:
+          - img_HeroSkill302.png
       - slot: 5
         id: 1385
+        sprite:
+          - img_WakeUpHeroSkill63.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4208,14 +4931,24 @@ commanders:
     skills:
       - slot: 1
         id: 194
+        sprite:
+          - img_HeroSkill296.png
       - slot: 2
         id: 1386
+        sprite:
+          - img_HeroSkill297.png
       - slot: 3
         id: 1387
+        sprite:
+          - img_HeroSkill298.png
       - slot: 4
         id: 1388
+        sprite:
+          - img_HeroSkill299.png
       - slot: 5
         id: 1389
+        sprite:
+          - img_WakeUpHeroSkill62.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4265,14 +4998,24 @@ commanders:
     skills:
       - slot: 1
         id: 195
+        sprite:
+          - img_HeroSkill307.png
       - slot: 2
         id: 1391
+        sprite:
+          - img_HeroSkill304.png
       - slot: 3
         id: 1392
+        sprite:
+          - img_HeroSkill305.png
       - slot: 4
         id: 1393
+        sprite:
+          - img_HeroSkill548.png
       - slot: 5
         id: 1394
+        sprite:
+          - img_WakeUpHeroSkill65.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4322,14 +5065,24 @@ commanders:
     skills:
       - slot: 1
         id: 196
+        sprite:
+          - img_HeroSkill309.png
       - slot: 2
         id: 1395
+        sprite:
+          - img_HeroSkill311.png
       - slot: 3
         id: 1396
+        sprite:
+          - img_HeroSkill308.png
       - slot: 4
         id: 1397
+        sprite:
+          - img_HeroSkill310.png
       - slot: 5
         id: 1398
+        sprite:
+          - img_WakeUpHeroSkill64.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4379,14 +5132,24 @@ commanders:
     skills:
       - slot: 1
         id: 197
+        sprite:
+          - img_HeroSkill316.png
       - slot: 2
         id: 1400
+        sprite:
+          - img_HeroSkill317.png
       - slot: 3
         id: 1401
+        sprite:
+          - img_HeroSkill318.png
       - slot: 4
         id: 1402
+        sprite:
+          - img_HeroSkill319.png
       - slot: 5
         id: 1403
+        sprite:
+          - img_WakeUpHeroSkill67.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4436,14 +5199,24 @@ commanders:
     skills:
       - slot: 1
         id: 198
+        sprite:
+          - img_HeroSkill312.png
       - slot: 2
         id: 1404
+        sprite:
+          - img_HeroSkill313.png
       - slot: 3
         id: 1405
+        sprite:
+          - img_HeroSkill314.png
       - slot: 4
         id: 1406
+        sprite:
+          - img_HeroSkill315.png
       - slot: 5
         id: 1407
+        sprite:
+          - img_WakeUpHeroSkill66.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4493,14 +5266,24 @@ commanders:
     skills:
       - slot: 1
         id: 204
+        sprite:
+          - img_HeroSkill332.png
       - slot: 2
         id: 1420
+        sprite:
+          - img_HeroSkill333.png
       - slot: 3
         id: 1421
+        sprite:
+          - img_HeroSkill334.png
       - slot: 4
         id: 1422
+        sprite:
+          - img_HeroSkill335.png
       - slot: 5
         id: 1423
+        sprite:
+          - img_WakeUpHeroSkill71.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4551,12 +5334,22 @@ commanders:
       - slot: 1
         id: 202
         expertId: 203
+        expertSprite:
+          - img_WakeUpHeroSkill70.png
+        sprite:
+          - img_HeroSkill328.png
       - slot: 2
         id: 1417
+        sprite:
+          - img_HeroSkill329.png
       - slot: 3
         id: 1418
+        sprite:
+          - img_HeroSkill330.png
       - slot: 4
         id: 1419
+        sprite:
+          - img_HeroSkill331.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -4606,14 +5399,24 @@ commanders:
     skills:
       - slot: 1
         id: 205
+        sprite:
+          - img_HeroSkill325.png
       - slot: 2
         id: 1424
+        sprite:
+          - img_HeroSkill324.png
       - slot: 3
         id: 1425
+        sprite:
+          - img_HeroSkill327.png
       - slot: 4
         id: 1426
+        sprite:
+          - img_HeroSkill326.png
       - slot: 5
         id: 1427
+        sprite:
+          - img_WakeUpHeroSkill69.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4663,14 +5466,24 @@ commanders:
     skills:
       - slot: 1
         id: 206
+        sprite:
+          - img_HeroSkill323.png
       - slot: 2
         id: 1428
+        sprite:
+          - img_HeroSkill321.png
       - slot: 3
         id: 1429
+        sprite:
+          - img_HeroSkill322.png
       - slot: 4
         id: 1430
+        sprite:
+          - img_HeroSkill320.png
       - slot: 5
         id: 1431
+        sprite:
+          - img_WakeUpHeroSkill68.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4721,12 +5534,22 @@ commanders:
       - slot: 1
         id: 207
         expertId: 208
+        expertSprite:
+          - img_WakeUpHeroSkill73.png
+        sprite:
+          - img_HeroSkill340.png
       - slot: 2
         id: 1432
+        sprite:
+          - img_HeroSkill341.png
       - slot: 3
         id: 1433
+        sprite:
+          - img_HeroSkill342.png
       - slot: 4
         id: 1434
+        sprite:
+          - img_HeroSkill343.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4776,14 +5599,24 @@ commanders:
     skills:
       - slot: 1
         id: 209
+        sprite:
+          - img_HeroSkill338.png
       - slot: 2
         id: 1435
+        sprite:
+          - img_HeroSkill336.png
       - slot: 3
         id: 1437
+        sprite:
+          - img_HeroSkill339.png
       - slot: 4
         id: 1436
+        sprite:
+          - img_HeroSkill337.png
       - slot: 5
         id: 1465
+        sprite:
+          - img_WakeUpHeroSkill72.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4834,12 +5667,22 @@ commanders:
       - slot: 1
         id: 219
         expertId: 220
+        expertSprite:
+          - img_WakeUpHeroSkill75.png
+        sprite:
+          - img_HeroSkill344.png
       - slot: 2
         id: 1466
+        sprite:
+          - img_HeroSkill345.png
       - slot: 3
         id: 1467
+        sprite:
+          - img_HeroSkill346.png
       - slot: 4
         id: 1468
+        sprite:
+          - img_HeroSkill347.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4889,14 +5732,24 @@ commanders:
     skills:
       - slot: 1
         id: 221
+        sprite:
+          - img_HeroSkill348.png
       - slot: 2
         id: 1469
+        sprite:
+          - img_HeroSkill349.png
       - slot: 3
         id: 1470
+        sprite:
+          - img_HeroSkill350.png
       - slot: 4
         id: 1471
+        sprite:
+          - img_HeroSkill351.png
       - slot: 5
         id: 1472
+        sprite:
+          - img_WakeUpHeroSkill74.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -4946,14 +5799,24 @@ commanders:
     skills:
       - slot: 1
         id: 239
+        sprite:
+          - img_HeroSkill353.png
       - slot: 2
         id: 1511
+        sprite:
+          - img_HeroSkill355.png
       - slot: 3
         id: 1512
+        sprite:
+          - img_HeroSkill352.png
       - slot: 4
         id: 1513
+        sprite:
+          - img_HeroSkill354.png
       - slot: 5
         id: 1514
+        sprite:
+          - img_WakeUpHeroSkill76.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5003,14 +5866,24 @@ commanders:
     skills:
       - slot: 1
         id: 240
+        sprite:
+          - img_HeroSkill363.png
       - slot: 2
         id: 1515
+        sprite:
+          - img_HeroSkill360.png
       - slot: 3
         id: 1516
+        sprite:
+          - img_HeroSkill362.png
       - slot: 4
         id: 1517
+        sprite:
+          - img_HeroSkill361.png
       - slot: 5
         id: 1518
+        sprite:
+          - img_WakeUpHeroSkill78.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5060,14 +5933,24 @@ commanders:
     skills:
       - slot: 1
         id: 241
+        sprite:
+          - img_HeroSkill358.png
       - slot: 2
         id: 1519
+        sprite:
+          - img_HeroSkill359.png
       - slot: 3
         id: 1520
+        sprite:
+          - img_HeroSkill357.png
       - slot: 4
         id: 1521
+        sprite:
+          - img_HeroSkill356.png
       - slot: 5
         id: 1522
+        sprite:
+          - img_WakeUpHeroSkill77.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5117,13 +6000,23 @@ commanders:
     skills:
       - slot: 1
         id: 242
+        sprite:
+          - img_HeroSkill367.png
       - slot: 2
         id: 1523
+        sprite:
+          - img_HeroSkill364.png
       - slot: 3
         id: 1524
         expertId: 1526
+        expertSprite:
+          - img_WakeUpHeroSkill79.png
+        sprite:
+          - img_HeroSkill366.png
       - slot: 4
         id: 1525
+        sprite:
+          - img_HeroSkill365.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5173,14 +6066,24 @@ commanders:
     skills:
       - slot: 1
         id: 243
+        sprite:
+          - img_HeroSkill369.png
       - slot: 2
         id: 1528
+        sprite:
+          - img_HeroSkill370.png
       - slot: 3
         id: 1529
+        sprite:
+          - img_HeroSkill371.png
       - slot: 4
         id: 1530
+        sprite:
+          - img_HeroSkill368.png
       - slot: 5
         id: 1531
+        sprite:
+          - img_WakeUpHeroSkill80.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5230,14 +6133,24 @@ commanders:
     skills:
       - slot: 1
         id: 238
+        sprite:
+          - img_HeroSkill372.png
       - slot: 2
         id: 1507
+        sprite:
+          - img_HeroSkill373.png
       - slot: 3
         id: 1508
+        sprite:
+          - img_HeroSkill374.png
       - slot: 4
         id: 1509
+        sprite:
+          - img_HeroSkill375.png
       - slot: 5
         id: 1510
+        sprite:
+          - img_WakeUpHeroSkill81.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5288,12 +6201,22 @@ commanders:
       - slot: 1
         id: 236
         expertId: 237
+        expertSprite:
+          - img_WakeUpHeroSkill82.png
+        sprite:
+          - img_HeroSkill378.png
       - slot: 2
         id: 1504
+        sprite:
+          - img_HeroSkill377.png
       - slot: 3
         id: 1505
+        sprite:
+          - img_HeroSkill379.png
       - slot: 4
         id: 1506
+        sprite:
+          - img_HeroSkill376.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -5343,13 +6266,23 @@ commanders:
     skills:
       - slot: 1
         id: 246
+        sprite:
+          - img_HeroSkill383.png
       - slot: 2
         id: 1533
+        sprite:
+          - img_HeroSkill381.png
       - slot: 3
         id: 1534
+        sprite:
+          - img_HeroSkill382.png
       - slot: 4
         id: 1535
         expertId: 1536
+        expertSprite:
+          - img_WakeUpHeroSkill83.png
+        sprite:
+          - img_HeroSkill380.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5399,13 +6332,23 @@ commanders:
     skills:
       - slot: 1
         id: 247
+        sprite:
+          - img_HeroSkill384.png
       - slot: 2
         id: 1537
+        sprite:
+          - img_HeroSkill385.png
       - slot: 3
         id: 1538
+        sprite:
+          - img_HeroSkill386.png
       - slot: 4
         id: 1539
         expertId: 1540
+        expertSprite:
+          - img_WakeUpHeroSkill84.png
+        sprite:
+          - img_HeroSkill387.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5455,14 +6398,24 @@ commanders:
     skills:
       - slot: 1
         id: 252
+        sprite:
+          - img_HeroSkill396.png
       - slot: 2
         id: 1548
+        sprite:
+          - img_HeroSkill398.png
       - slot: 3
         id: 1549
+        sprite:
+          - img_HeroSkill399.png
       - slot: 4
         id: 1550
+        sprite:
+          - img_HeroSkill397.png
       - slot: 5
         id: 1551
+        sprite:
+          - img_WakeUpHeroSkill86.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5512,14 +6465,24 @@ commanders:
     skills:
       - slot: 1
         id: 251
+        sprite:
+          - img_HeroSkill394.png
       - slot: 2
         id: 1544
+        sprite:
+          - img_HeroSkill392.png
       - slot: 3
         id: 1545
+        sprite:
+          - img_HeroSkill393.png
       - slot: 4
         id: 1546
+        sprite:
+          - img_HeroSkill395.png
       - slot: 5
         id: 1547
+        sprite:
+          - img_WakeUpHeroSkill85.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5569,14 +6532,24 @@ commanders:
     skills:
       - slot: 1
         id: 306
+        sprite:
+          - img_HeroSkill406.png
       - slot: 2
         id: 1582
+        sprite:
+          - img_HeroSkill404.png
       - slot: 3
         id: 1583
+        sprite:
+          - img_HeroSkill407.png
       - slot: 4
         id: 1584
+        sprite:
+          - img_HeroSkill405.png
       - slot: 5
         id: 1585
+        sprite:
+          - img_WakeUpHeroSkill88.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5626,14 +6599,24 @@ commanders:
     skills:
       - slot: 1
         id: 254
+        sprite:
+          - img_HeroSkill402.png
       - slot: 2
         id: 1564
+        sprite:
+          - img_HeroSkill403.png
       - slot: 3
         id: 1565
+        sprite:
+          - img_HeroSkill400.png
       - slot: 4
         id: 1566
+        sprite:
+          - img_HeroSkill401.png
       - slot: 5
         id: 1567
+        sprite:
+          - img_WakeUpHeroSkill87.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5684,12 +6667,22 @@ commanders:
       - slot: 1
         id: 307
         expertId: 308
+        expertSprite:
+          - img_WakeUpHeroSkill91.png
+        sprite:
+          - img_HeroSkill433.png
       - slot: 2
         id: 1586
+        sprite:
+          - img_HeroSkill434.png
       - slot: 3
         id: 1587
+        sprite:
+          - img_HeroSkill435.png
       - slot: 4
         id: 1588
+        sprite:
+          - img_HeroSkill432.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5739,14 +6732,24 @@ commanders:
     skills:
       - slot: 1
         id: 314
+        sprite:
+          - img_HeroSkill426.png
       - slot: 2
         id: 1593
+        sprite:
+          - img_HeroSkill427.png
       - slot: 3
         id: 1594
+        sprite:
+          - img_HeroSkill425.png
       - slot: 4
         id: 1595
+        sprite:
+          - img_HeroSkill424.png
       - slot: 5
         id: 1596
+        sprite:
+          - img_WakeUpHeroSkill89.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5796,13 +6799,23 @@ commanders:
     skills:
       - slot: 1
         id: 311
+        sprite:
+          - img_HeroSkill431.png
       - slot: 2
         id: 1589
+        sprite:
+          - img_HeroSkill428.png
       - slot: 3
         id: 1590
         expertId: 1592
+        expertSprite:
+          - img_WakeUpHeroSkill90.png
+        sprite:
+          - img_HeroSkill429.png
       - slot: 4
         id: 1591
+        sprite:
+          - img_HeroSkill430.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5852,14 +6865,24 @@ commanders:
     skills:
       - slot: 1
         id: 316
+        sprite:
+          - img_HeroSkill449.png
       - slot: 2
         id: 1601
+        sprite:
+          - img_HeroSkill448.png
       - slot: 3
         id: 1602
+        sprite:
+          - img_HeroSkill447.png
       - slot: 4
         id: 1603
+        sprite:
+          - img_HeroSkill450.png
       - slot: 5
         id: 1604
+        sprite:
+          - img_WakeUpHeroSkill93.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5909,14 +6932,24 @@ commanders:
     skills:
       - slot: 1
         id: 315
+        sprite:
+          - img_HeroSkill444.png
       - slot: 2
         id: 1597
+        sprite:
+          - img_HeroSkill445.png
       - slot: 3
         id: 1598
+        sprite:
+          - img_HeroSkill446.png
       - slot: 4
         id: 1599
+        sprite:
+          - img_HeroSkill443.png
       - slot: 5
         id: 1600
+        sprite:
+          - img_WakeUpHeroSkill92.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -5966,14 +6999,24 @@ commanders:
     skills:
       - slot: 1
         id: 258
+        sprite:
+          - img_HeroSkill464.png
       - slot: 2
         id: 1560
+        sprite:
+          - img_HeroSkill462.png
       - slot: 3
         id: 1561
+        sprite:
+          - img_HeroSkill461.png
       - slot: 4
         id: 1562
+        sprite:
+          - img_HeroSkill463.png
       - slot: 5
         id: 1563
+        sprite:
+          - img_HeroSkill465.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6023,14 +7066,24 @@ commanders:
     skills:
       - slot: 1
         id: 364
+        sprite:
+          - img_HeroSkill478.png
       - slot: 2
         id: 1689
+        sprite:
+          - img_HeroSkill479.png
       - slot: 3
         id: 1691
+        sprite:
+          - img_HeroSkill477.png
       - slot: 4
         id: 1690
+        sprite:
+          - img_HeroSkill476.png
       - slot: 5
         id: 1692
+        sprite:
+          - img_HeroSkill480.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6080,14 +7133,24 @@ commanders:
     skills:
       - slot: 1
         id: 363
+        sprite:
+          - img_HeroSkill474.png
       - slot: 2
         id: 1685
+        sprite:
+          - img_HeroSkill472.png
       - slot: 3
         id: 1686
+        sprite:
+          - img_HeroSkill471.png
       - slot: 4
         id: 1687
+        sprite:
+          - img_HeroSkill473.png
       - slot: 5
         id: 1688
+        sprite:
+          - img_HeroSkill475.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6137,14 +7200,24 @@ commanders:
     skills:
       - slot: 1
         id: 309
+        sprite:
+          - img_HeroSkill466.png
       - slot: 2
         id: 1552
+        sprite:
+          - img_HeroSkill469.png
       - slot: 3
         id: 1553
+        sprite:
+          - img_HeroSkill467.png
       - slot: 4
         id: 1554
+        sprite:
+          - img_HeroSkill468.png
       - slot: 5
         id: 1555
+        sprite:
+          - img_HeroSkill470.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6195,12 +7268,22 @@ commanders:
       - slot: 1
         id: 372
         expertId: 373
+        expertSprite:
+          - img_HeroSkill485.png
+        sprite:
+          - img_HeroSkill483.png
       - slot: 2
         id: 1699
+        sprite:
+          - img_HeroSkill484.png
       - slot: 3
         id: 1700
+        sprite:
+          - img_HeroSkill482.png
       - slot: 4
         id: 1701
+        sprite:
+          - img_HeroSkill481.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6250,14 +7333,24 @@ commanders:
     skills:
       - slot: 1
         id: 377
+        sprite:
+          - img_HeroSkill504.png
       - slot: 2
         id: 1702
+        sprite:
+          - img_HeroSkill507.png
       - slot: 3
         id: 1703
+        sprite:
+          - img_HeroSkill505.png
       - slot: 4
         id: 1704
+        sprite:
+          - img_HeroSkill506.png
       - slot: 5
         id: 1705
+        sprite:
+          - img_HeroSkill508.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6307,14 +7400,24 @@ commanders:
     skills:
       - slot: 1
         id: 378
+        sprite:
+          - img_HeroSkill499.png
       - slot: 2
         id: 1706
+        sprite:
+          - img_HeroSkill500.png
       - slot: 3
         id: 1707
+        sprite:
+          - img_HeroSkill501.png
       - slot: 4
         id: 1708
+        sprite:
+          - img_HeroSkill502.png
       - slot: 5
         id: 1709
+        sprite:
+          - img_HeroSkill503.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6364,13 +7467,23 @@ commanders:
     skills:
       - slot: 1
         id: 379
+        sprite:
+          - img_HeroSkill511.png
       - slot: 2
         id: 1710
+        sprite:
+          - img_HeroSkill510.png
       - slot: 3
         id: 1711
         expertId: 1713
+        expertSprite:
+          - img_HeroSkill513.png
+        sprite:
+          - img_HeroSkill512.png
       - slot: 4
         id: 1712
+        sprite:
+          - img_HeroSkill509.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6420,14 +7533,24 @@ commanders:
     skills:
       - slot: 1
         id: 386
+        sprite:
+          - img_HeroSkill530.png
       - slot: 2
         id: 1723
+        sprite:
+          - img_HeroSkill529.png
       - slot: 3
         id: 1724
+        sprite:
+          - img_HeroSkill531.png
       - slot: 4
         id: 1725
+        sprite:
+          - img_HeroSkill528.png
       - slot: 5
         id: 1726
+        sprite:
+          - img_WakeUpHeroSkill97.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6477,13 +7600,23 @@ commanders:
     skills:
       - slot: 1
         id: 387
+        sprite:
+          - img_HeroSkill525.png
       - slot: 2
         id: 1727
+        sprite:
+          - img_HeroSkill527.png
       - slot: 3
         id: 1728
         expertId: 1730
+        expertSprite:
+          - img_WakeUpHeroSkill96.png
+        sprite:
+          - img_HeroSkill526.png
       - slot: 4
         id: 1729
+        sprite:
+          - img_HeroSkill524.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -6533,14 +7666,24 @@ commanders:
     skills:
       - slot: 1
         id: 356
+        sprite:
+          - img_HeroSkill544.png
       - slot: 2
         id: 1649
+        sprite:
+          - img_HeroSkill547.png
       - slot: 3
         id: 1650
+        sprite:
+          - img_HeroSkill546.png
       - slot: 4
         id: 1651
+        sprite:
+          - img_HeroSkill545.png
       - slot: 5
         id: 1652
+        sprite:
+          - img_WakeUpHeroSkill101.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6590,14 +7733,24 @@ commanders:
     skills:
       - slot: 1
         id: 359
+        sprite:
+          - img_HeroSkill556.png
       - slot: 2
         id: 1661
+        sprite:
+          - img_HeroSkill554.png
       - slot: 3
         id: 1662
+        sprite:
+          - img_HeroSkill555.png
       - slot: 4
         id: 1663
+        sprite:
+          - img_HeroSkill553.png
       - slot: 5
         id: 1664
+        sprite:
+          - img_WakeUpHeroSkill103.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6647,13 +7800,23 @@ commanders:
     skills:
       - slot: 1
         id: 362
+        sprite:
+          - img_HeroSkill549.png
       - slot: 2
         id: 1673
+        sprite:
+          - img_HeroSkill551.png
       - slot: 3
         id: 1674
         expertId: 1676
+        expertSprite:
+          - img_WakeUpHeroSkill102.png
+        sprite:
+          - img_HeroSkill552.png
       - slot: 4
         id: 1675
+        sprite:
+          - img_HeroSkill550.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6703,13 +7866,23 @@ commanders:
     skills:
       - slot: 1
         id: 409
+        sprite:
+          - img_HeroSkill566.png
       - slot: 2
         id: 1677
+        sprite:
+          - img_HeroSkill568.png
       - slot: 3
         id: 1678
+        sprite:
+          - img_HeroSkill567.png
       - slot: 4
         id: 1679
         expertId: 1680
+        expertSprite:
+          - img_WakeUpHeroSkill106.png
+        sprite:
+          - img_HeroSkill565.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6759,13 +7932,23 @@ commanders:
     skills:
       - slot: 1
         id: 383
+        sprite:
+          - img_HeroSkill519.png
       - slot: 2
         id: 1714
+        sprite:
+          - img_HeroSkill516.png
       - slot: 3
         id: 1715
         expertId: 1718
+        expertSprite:
+          - img_WakeUpHeroSkill94.png
+        sprite:
+          - img_HeroSkill518.png
       - slot: 4
         id: 1716
+        sprite:
+          - img_HeroSkill517.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -6815,14 +7998,23 @@ commanders:
     skills:
       - slot: 1
         id: 384
+        sprite:
+          - img_HeroSkill523.png
       - slot: 2
         id: 1719
+        sprite:
+          - img_HeroSkill522.png
       - slot: 3
         id: 1720
+        expertId: 1722
+        expertSprite:
+          - img_WakeUpHeroSkill95.png
+        sprite:
+          - img_HeroSkill520.png
       - slot: 4
         id: 1721
-      - slot: 5
-        id: 1722
+        sprite:
+          - img_HeroSkill521.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGPurple.png
@@ -6872,14 +8064,24 @@ commanders:
     skills:
       - slot: 1
         id: 388
+        sprite:
+          - img_HeroSkill538.png
       - slot: 2
         id: 1731
+        sprite:
+          - img_HeroSkill539.png
       - slot: 3
         id: 1732
+        sprite:
+          - img_HeroSkill537.png
       - slot: 4
         id: 1733
+        sprite:
+          - img_HeroSkill536.png
       - slot: 5
         id: 1734
+        sprite:
+          - img_WakeUpHeroSkill99.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6929,14 +8131,24 @@ commanders:
     skills:
       - slot: 1
         id: 389
+        sprite:
+          - img_HeroSkill535.png
       - slot: 2
         id: 1735
+        sprite:
+          - img_HeroSkill533.png
       - slot: 3
         id: 1736
+        sprite:
+          - img_HeroSkill534.png
       - slot: 4
         id: 1737
+        sprite:
+          - img_HeroSkill532.png
       - slot: 5
         id: 1738
+        sprite:
+          - img_WakeUpHeroSkill98.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -6986,14 +8198,24 @@ commanders:
     skills:
       - slot: 1
         id: 393
+        sprite:
+          - img_HeroSkill542.png
       - slot: 2
         id: 1751
+        sprite:
+          - img_HeroSkill543.png
       - slot: 3
         id: 1752
+        sprite:
+          - img_HeroSkill540.png
       - slot: 4
         id: 1753
+        sprite:
+          - img_HeroSkill541.png
       - slot: 5
         id: 1754
+        sprite:
+          - img_WakeUpHeroSkill100.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7043,13 +8265,23 @@ commanders:
     skills:
       - slot: 1
         id: 410
+        sprite:
+          - img_HeroSkill569.png
       - slot: 2
         id: 1763
+        sprite:
+          - img_HeroSkill570.png
       - slot: 3
         id: 1764
+        sprite:
+          - img_HeroSkill571.png
       - slot: 4
         id: 1765
         expertId: 1766
+        expertSprite:
+          - img_WakeUpHeroSkill107.png
+        sprite:
+          - img_HeroSkill572.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7099,14 +8331,24 @@ commanders:
     skills:
       - slot: 1
         id: 406
+        sprite:
+          - img_HeroSkill558.png
       - slot: 2
         id: 1755
+        sprite:
+          - img_HeroSkill560.png
       - slot: 3
         id: 1756
+        sprite:
+          - img_HeroSkill559.png
       - slot: 4
         id: 1757
+        sprite:
+          - img_HeroSkill557.png
       - slot: 5
         id: 1758
+        sprite:
+          - img_WakeUpHeroSkill104.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7156,13 +8398,23 @@ commanders:
     skills:
       - slot: 1
         id: 407
+        sprite:
+          - img_HeroSkill563.png
       - slot: 2
         id: 1759
+        sprite:
+          - img_HeroSkill564.png
       - slot: 3
         id: 1760
         expertId: 1762
+        expertSprite:
+          - img_WakeUpHeroSkill105.png
+        sprite:
+          - img_HeroSkill561.png
       - slot: 4
         id: 1761
+        sprite:
+          - img_HeroSkill562.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7212,14 +8464,24 @@ commanders:
     skills:
       - slot: 1
         id: 413
+        sprite:
+          - img_HeroSkill578.png
       - slot: 2
         id: 1767
+        sprite:
+          - img_HeroSkill577.png
       - slot: 3
         id: 1768
+        sprite:
+          - img_HeroSkill579.png
       - slot: 4
         id: 1769
+        sprite:
+          - img_HeroSkill580.png
       - slot: 5
-        id: 1786
+        id: 1770
+        sprite:
+          - img_WakeUpHeroSkill109.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7269,14 +8531,24 @@ commanders:
     skills:
       - slot: 1
         id: 414
+        sprite:
+          - img_HeroSkill574.png
       - slot: 2
         id: 1783
+        sprite:
+          - img_HeroSkill573.png
       - slot: 3
         id: 1784
+        sprite:
+          - img_HeroSkill575.png
       - slot: 4
         id: 1785
+        sprite:
+          - img_HeroSkill576.png
       - slot: 5
-        id: 1770
+        id: 1786
+        sprite:
+          - img_WakeUpHeroSkill108.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7326,13 +8598,23 @@ commanders:
     skills:
       - slot: 1
         id: 411
+        sprite:
+          - img_HeroSkill583.png
       - slot: 2
         id: 1787
+        sprite:
+          - img_HeroSkill584.png
       - slot: 3
         id: 1788
         expertId: 1790
+        expertSprite:
+          - img_WakeUpHeroSkill110.png
+        sprite:
+          - img_HeroSkill582.png
       - slot: 4
         id: 1789
+        sprite:
+          - img_HeroSkill585.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7382,14 +8664,24 @@ commanders:
     skills:
       - slot: 1
         id: 412
+        sprite:
+          - img_HeroSkill587.png
       - slot: 2
         id: 1791
+        sprite:
+          - img_HeroSkill589.png
       - slot: 3
         id: 1792
+        sprite:
+          - img_HeroSkill588.png
       - slot: 4
         id: 1793
+        sprite:
+          - img_HeroSkill586.png
       - slot: 5
         id: 1794
+        sprite:
+          - img_WakeUpHeroSkill111.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7439,14 +8731,24 @@ commanders:
     skills:
       - slot: 1
         id: 415
+        sprite:
+          - img_HeroSkill590.png
       - slot: 2
         id: 1795
+        sprite:
+          - img_HeroSkill593.png
       - slot: 3
         id: 1796
+        sprite:
+          - img_HeroSkill591.png
       - slot: 4
         id: 1797
+        sprite:
+          - img_HeroSkill592.png
       - slot: 5
         id: 1798
+        sprite:
+          - img_WakeUpHeroSkill112.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7497,12 +8799,22 @@ commanders:
       - slot: 1
         id: 416
         expertId: 417
+        expertSprite:
+          - img_WakeUpHeroSkill113.png
+        sprite:
+          - img_HeroSkill594.png
       - slot: 2
         id: 1799
+        sprite:
+          - img_HeroSkill597.png
       - slot: 3
         id: 1800
+        sprite:
+          - img_HeroSkill596.png
       - slot: 4
         id: 1801
+        sprite:
+          - img_HeroSkill595.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7553,12 +8865,22 @@ commanders:
       - slot: 1
         id: 419
         expertId: 420
+        expertSprite:
+          - img_WakeUpHeroSkill114.png
+        sprite:
+          - img_HeroSkill598.png
       - slot: 2
         id: 1802
+        sprite:
+          - img_HeroSkill599.png
       - slot: 3
         id: 1803
+        sprite:
+          - img_HeroSkill600.png
       - slot: 4
         id: 1804
+        sprite:
+          - img_HeroSkill601.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7608,14 +8930,24 @@ commanders:
     skills:
       - slot: 1
         id: 423
+        sprite:
+          - img_HeroSkill602.png
       - slot: 2
         id: 1805
+        sprite:
+          - img_HeroSkill603.png
       - slot: 3
         id: 1806
+        sprite:
+          - img_HeroSkill604.png
       - slot: 4
         id: 1807
+        sprite:
+          - img_HeroSkill605.png
       - slot: 5
         id: 1808
+        sprite:
+          - img_WakeUpHeroSkill115.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7665,14 +8997,24 @@ commanders:
     skills:
       - slot: 1
         id: 426
+        sprite:
+          - img_HeroSkill609.png
       - slot: 2
         id: 1809
+        sprite:
+          - img_HeroSkill610.png
       - slot: 3
         id: 1810
+        sprite:
+          - img_HeroSkill611.png
       - slot: 4
         id: 1811
+        sprite:
+          - img_HeroSkill612.png
       - slot: 5
         id: 1812
+        sprite:
+          - img_WakeUpHeroSkill116.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7722,14 +9064,24 @@ commanders:
     skills:
       - slot: 1
         id: 427
+        sprite:
+          - img_HeroSkill613.png
       - slot: 2
         id: 1813
+        sprite:
+          - img_HeroSkill614.png
       - slot: 3
         id: 1814
+        sprite:
+          - img_HeroSkill615.png
       - slot: 4
         id: 1815
+        sprite:
+          - img_HeroSkill616.png
       - slot: 5
         id: 1816
+        sprite:
+          - img_WakeUpHeroSkill117.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7779,14 +9131,24 @@ commanders:
     skills:
       - slot: 1
         id: 429
+        sprite:
+          - img_HeroSkill620.png
       - slot: 2
         id: 1817
+        sprite:
+          - img_HeroSkill619.png
       - slot: 3
         id: 1818
+        sprite:
+          - img_HeroSkill617.png
       - slot: 4
         id: 1819
+        sprite:
+          - img_HeroSkill618.png
       - slot: 5
         id: 1820
+        sprite:
+          - img_WakeUpHeroSkill118.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7836,14 +9198,23 @@ commanders:
     skills:
       - slot: 1
         id: 432
+        sprite:
+          - img_HeroSkill622.png
       - slot: 2
         id: 1821
+        sprite:
+          - img_HeroSkill623.png
       - slot: 3
         id: 1822
+        expertId: 1824
+        expertSprite:
+          - img_WakeUpHeroSkill119.png
+        sprite:
+          - img_HeroSkill621.png
       - slot: 4
         id: 1823
-      - slot: 5
-        id: 1824
+        sprite:
+          - img_HeroSkill624.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
@@ -7894,12 +9265,22 @@ commanders:
       - slot: 1
         id: 434
         expertId: 435
+        expertSprite:
+          - img_WakeUpHeroSkill120.png
+        sprite:
+          - img_HeroSkill625.png
       - slot: 2
         id: 1825
+        sprite:
+          - img_HeroSkill626.png
       - slot: 3
         id: 1826
+        sprite:
+          - img_HeroSkill627.png
       - slot: 4
         id: 1827
+        sprite:
+          - img_HeroSkill628.png
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png
