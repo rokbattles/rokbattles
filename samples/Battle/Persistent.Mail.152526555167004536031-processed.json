@@ -189,6 +189,10 @@
       "rally": null,
       "start_tick": 1378409,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -482,6 +486,10 @@
     "player_name": "Grigvar",
     "rally": true,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": null,
       "round": null,

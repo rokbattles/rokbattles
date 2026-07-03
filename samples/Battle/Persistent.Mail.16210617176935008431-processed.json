@@ -268,6 +268,10 @@
       "rally": true,
       "start_tick": 444,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -460,6 +464,10 @@
     "player_name": "ˢ vashido",
     "rally": null,
     "structure_id": 109,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": "",
       "round": 0,

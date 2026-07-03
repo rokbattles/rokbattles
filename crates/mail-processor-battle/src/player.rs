@@ -54,6 +54,7 @@ pub(crate) fn extract_player_fields(
     // - 109: obelisk (Ark)
     let structure_id = optional_u64_field(player, "ShId")?;
     let commanders = extract_commanders(player)?;
+    let support_skills = extract_support_skills(player)?;
     let (app_id, app_uid) = extract_app_identity(player)?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
@@ -88,6 +89,7 @@ pub(crate) fn extract_player_fields(
     fields.insert("rally".to_string(), rally.map(Value::from).unwrap_or(Value::Null));
     fields.insert("structure_id".to_string(), structure_id.map(Value::from).unwrap_or(Value::Null));
     fields.insert("commanders".to_string(), commanders);
+    fields.insert("support_skills".to_string(), support_skills);
     fields.insert("app_id".to_string(), app_id.map(Value::from).unwrap_or(Value::Null));
     fields.insert("app_uid".to_string(), app_uid.map(Value::from).unwrap_or(Value::Null));
     fields.insert("avatar_url".to_string(), avatar_url);
@@ -339,6 +341,53 @@ fn optional_armaments_field(
 
     entries.sort_by_key(|entry| entry["id"].as_u64().unwrap_or_default());
     Ok(Value::Array(entries))
+}
+
+fn extract_support_skills(player: &Map<String, Value>) -> Result<Value, ExtractError> {
+    let cass = match player.get("CASS") {
+        None | Some(Value::Null) => {
+            return Ok(json!({
+                "enable": false,
+                "skills": [],
+            }));
+        }
+        Some(value) => value
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "CASS", expected: "object" })?,
+    };
+
+    let enable = optional_bool_field(cass, "ENABLE")?.unwrap_or(false);
+    let skills = if enable { extract_support_skill_entries(cass)? } else { Vec::new() };
+
+    Ok(json!({
+        "enable": enable,
+        "skills": skills,
+    }))
+}
+
+fn extract_support_skill_entries(cass: &Map<String, Value>) -> Result<Vec<Value>, ExtractError> {
+    let value = match cass.get("SKILLS") {
+        None | Some(Value::Null) => return Ok(Vec::new()),
+        Some(value) => value,
+    };
+
+    let values = indexed_array_values(value, "SKILLS")?;
+    let mut skills = Vec::with_capacity(values.len());
+    for skill in values {
+        let skill = skill
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "SKILLS", expected: "object" })?;
+        let hero_id = require_u64_field(skill, "HeroId")?;
+        let skill_id = require_u64_field(skill, "SkillId")?;
+        let skill_level = require_u64_field(skill, "SkillLevel")?;
+        skills.push(json!({
+            "hero_id": hero_id,
+            "skill_id": skill_id,
+            "skill_level": skill_level,
+        }));
+    }
+
+    Ok(skills)
 }
 
 /// Parses the avatar field into avatar and frame URLs.
@@ -621,6 +670,70 @@ mod tests {
                 }
             }))
         );
+    }
+
+    #[test]
+    fn extract_player_fields_reads_enabled_support_skills() {
+        let mut player = base_player();
+        player.insert(
+            "CASS".to_string(),
+            json!({
+                "ENABLE": true,
+                "SKILLS": [
+                    1,
+                    { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 },
+                    2,
+                    { "HeroId": 63, "SkillId": 1133, "SkillLevel": 4 }
+                ]
+            }),
+        );
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(
+            fields.get("support_skills"),
+            Some(&json!({
+                "enable": true,
+                "skills": [
+                    { "hero_id": 62, "skill_id": 1132, "skill_level": 5 },
+                    { "hero_id": 63, "skill_id": 1133, "skill_level": 4 }
+                ]
+            }))
+        );
+    }
+
+    #[test]
+    fn extract_player_fields_defaults_support_skills_when_cass_is_missing() {
+        let player = base_player();
+        let fields = extract_player_fields(&player).unwrap();
+        assert_eq!(fields.get("support_skills"), Some(&json!({ "enable": false, "skills": [] })));
+    }
+
+    #[test]
+    fn extract_player_fields_defaults_support_skills_when_skills_are_missing() {
+        let mut player = base_player();
+        player.insert("CASS".to_string(), json!({ "ENABLE": true }));
+        let fields = extract_player_fields(&player).unwrap();
+        assert_eq!(fields.get("support_skills"), Some(&json!({ "enable": true, "skills": [] })));
+    }
+
+    #[test]
+    fn extract_player_fields_ignores_support_skills_when_disabled() {
+        let mut player = base_player();
+        player.insert(
+            "CASS".to_string(),
+            json!({
+                "ENABLE": false,
+                "SKILLS": [
+                    1,
+                    { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 }
+                ]
+            }),
+        );
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields.get("support_skills"), Some(&json!({ "enable": false, "skills": [] })));
     }
 
     #[test]

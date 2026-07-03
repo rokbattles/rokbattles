@@ -363,6 +363,13 @@ mod tests {
                                 "CTK": "tracking-4",
                                 "ShId": 22,
                                 "IsRally": false,
+                                "CASS": {
+                                    "ENABLE": true,
+                                    "SKILLS": [
+                                        1,
+                                        { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 }
+                                    ]
+                                },
                                 "AppUid": "103134073",
                                 "Avatar": "https://example.com/one.png"
                             }
@@ -437,6 +444,13 @@ mod tests {
         assert_eq!(opponents[0]["structure_id"], json!(22));
         assert!(opponents[0]["commanders"]["primary"]["id"].is_null());
         assert!(opponents[0]["commanders"]["secondary"]["id"].is_null());
+        assert_eq!(
+            opponents[0]["support_skills"],
+            json!({
+                "enable": true,
+                "skills": [{ "hero_id": 62, "skill_id": 1132, "skill_level": 5 }]
+            })
+        );
         assert_eq!(opponents[0]["app_id"], json!(2104267));
         assert_eq!(opponents[0]["app_uid"], json!(103134073));
         let participants = opponents[0]["participants"].as_array().expect("participants array");
@@ -480,6 +494,7 @@ mod tests {
         assert_eq!(opponents[1]["structure_id"], json!(51));
         assert!(opponents[1]["commanders"]["primary"]["id"].is_null());
         assert!(opponents[1]["commanders"]["secondary"]["id"].is_null());
+        assert_eq!(opponents[1]["support_skills"], json!({ "enable": false, "skills": [] }));
         assert_eq!(opponents[1]["app_id"], json!(8518744));
         assert_eq!(opponents[1]["app_uid"], json!(399975));
         assert_eq!(opponents[1]["frame_url"], json!("https://example.com/frame.png"));

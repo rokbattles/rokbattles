@@ -196,6 +196,21 @@
       "rally": null,
       "start_tick": 120717,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 110,
+            "skill_id": 1284,
+            "skill_level": 1
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -912,6 +927,21 @@
       "rally": null,
       "start_tick": 120689,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 11,
+            "skill_id": 1044,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -1430,6 +1460,21 @@
       "rally": null,
       "start_tick": 120793,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -1620,6 +1665,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 65,
+            "skill_id": 1146,
+            "skill_level": 4
+          },
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -1814,6 +1874,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2004,6 +2079,21 @@
       "rally": null,
       "start_tick": 120719,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 65,
+            "skill_id": 1146,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2198,6 +2288,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2392,6 +2497,21 @@
       "rally": null,
       "start_tick": 120701,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 11,
+            "skill_id": 1044,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2590,6 +2710,10 @@
       "rally": null,
       "start_tick": 120705,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2776,6 +2900,21 @@
       "rally": null,
       "start_tick": 120704,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 65,
+            "skill_id": 1146,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -2970,6 +3109,21 @@
       "rally": null,
       "start_tick": 120701,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -3164,6 +3318,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 1
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -3358,6 +3527,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -3556,6 +3740,21 @@
       "rally": null,
       "start_tick": 120712,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 11,
+            "skill_id": 1044,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -3746,6 +3945,21 @@
       "rally": null,
       "start_tick": 120709,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 3
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -3940,6 +4154,21 @@
       "rally": null,
       "start_tick": 120707,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 110,
+            "skill_id": 1284,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -4134,6 +4363,21 @@
       "rally": null,
       "start_tick": 120711,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 18,
+            "skill_id": 1050,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -4328,6 +4572,21 @@
       "rally": null,
       "start_tick": 120767,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -4522,6 +4781,21 @@
       "rally": null,
       "start_tick": 120769,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -4716,6 +4990,10 @@
       "rally": null,
       "start_tick": 120702,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -4910,6 +5188,21 @@
       "rally": null,
       "start_tick": 120783,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 2
+          },
+          {
+            "hero_id": 110,
+            "skill_id": 1284,
+            "skill_level": 1
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -5104,6 +5397,21 @@
       "rally": null,
       "start_tick": 120777,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -5298,6 +5606,21 @@
       "rally": null,
       "start_tick": 120767,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -5484,6 +5807,21 @@
       "rally": null,
       "start_tick": 120781,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -5678,6 +6016,21 @@
       "rally": null,
       "start_tick": 120781,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -5868,6 +6221,21 @@
       "rally": null,
       "start_tick": 120800,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 3
+          },
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 1
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -6062,6 +6430,21 @@
       "rally": null,
       "start_tick": 120786,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -6256,6 +6639,21 @@
       "rally": null,
       "start_tick": 120779,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 18,
+            "skill_id": 1050,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 65,
+            "skill_id": 1146,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -6446,6 +6844,21 @@
       "rally": null,
       "start_tick": 120800,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 65,
+            "skill_id": 1146,
+            "skill_level": 2
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -6640,6 +7053,21 @@
       "rally": null,
       "start_tick": 120786,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -6834,6 +7262,21 @@
       "rally": null,
       "start_tick": 120800,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -7028,6 +7471,21 @@
       "rally": null,
       "start_tick": 120790,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 15,
+            "skill_id": 1047,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -7226,6 +7684,21 @@
       "rally": null,
       "start_tick": 120787,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 18,
+            "skill_id": 1050,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 98,
+            "skill_id": 1199,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -7420,6 +7893,21 @@
       "rally": null,
       "start_tick": 120788,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 11,
+            "skill_id": 1044,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 14,
+            "skill_id": 1029,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -7610,6 +8098,21 @@
       "rally": null,
       "start_tick": 120789,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 110,
+            "skill_id": 1284,
+            "skill_level": 2
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -7804,6 +8307,21 @@
       "rally": null,
       "start_tick": 120786,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 62,
+            "skill_id": 1132,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 7,
+            "skill_id": 1013,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -8262,6 +8780,21 @@
     "player_name": "비아티나",
     "rally": true,
     "structure_id": null,
+    "support_skills": {
+      "enable": true,
+      "skills": [
+        {
+          "hero_id": 15,
+          "skill_id": 1047,
+          "skill_level": 5
+        },
+        {
+          "hero_id": 98,
+          "skill_id": 1199,
+          "skill_level": 5
+        }
+      ]
+    },
     "supreme_strife": {
       "battle_id": null,
       "round": null,
