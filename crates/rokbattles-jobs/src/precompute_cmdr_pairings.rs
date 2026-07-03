@@ -14,6 +14,7 @@ use crate::error::JobsError;
 
 const COMMANDERS_YAML: &str = include_str!("../../../datasets/commanders.yaml");
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
+const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
 /// Counts from one commander pairing precompute run.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -294,7 +295,7 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         },
         doc! {
             "$set": {
-                "_exclude_from_drastc_reference_ranges": rally_garrison_report_expr(),
+                "_exclude_in_ranges": rally_garrison_report_expr(),
             }
         },
         doc! { "$unwind": "$opponents" },
@@ -453,7 +454,36 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
     vec![
         doc! {
             "$match": {
-                "exclude_from_drastc_reference_ranges": { "$ne": true },
+                "exclude_in_ranges": { "$ne": true },
+            }
+        },
+        doc! {
+            "$group": {
+                "_id": {
+                    "primary_commander_id": "$primary_commander_id",
+                    "secondary_commander_id": "$secondary_commander_id",
+                },
+                "total_battles": { "$sum": 1 },
+                "severely_wounded_inflicted": {
+                    "$sum": "$severely_wounded_inflicted",
+                },
+                "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
+                "healing_total": { "$sum": "$healing_total" },
+                "opponent_dead": { "$sum": "$opponent_dead" },
+                "opponent_slightly_wounded": { "$sum": "$opponent_slightly_wounded" },
+                "sender_dead": { "$sum": "$sender_dead" },
+                "sender_slightly_wounded": { "$sum": "$sender_slightly_wounded" },
+                "normalized_duration_seconds_total": {
+                    "$sum": "$normalized_duration_seconds",
+                },
+                "decisive_battles": { "$sum": "$decisive_battle" },
+                "wins": { "$sum": "$win" },
+                "positive_trades": { "$sum": "$positive_trade" },
+            }
+        },
+        doc! {
+            "$match": {
+                "total_battles": { "$gte": MIN_REFERENCE_RANGE_PAIRING_BATTLES },
             }
         },
         doc! {
@@ -467,7 +497,7 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                                 "$opponent_slightly_wounded",
                             ]
                         },
-                        "$normalized_duration_seconds",
+                        { "$max": ["$normalized_duration_seconds_total", 1.0] },
                     ]
                 },
                 "sustainability_per_second": {
@@ -484,10 +514,10 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                                 },
                             ]
                         },
-                        "$normalized_duration_seconds",
+                        { "$max": ["$normalized_duration_seconds_total", 1.0] },
                     ]
                 },
-                "consistency_rate": consistency_rate_expr(),
+                "consistency_rate": aggregate_consistency_rate_expr(),
             }
         },
         doc! {
@@ -520,37 +550,19 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
     ]
 }
 
-fn consistency_rate_expr() -> Document {
-    let positive_trade = doc! {
-        "$cond": [
-            { "$gt": ["$kill_points_gained", "$kill_points_lost"] },
-            1.0,
-            0.0,
-        ]
+fn aggregate_consistency_rate_expr() -> Document {
+    let positive_trade_rate = doc! {
+        "$divide": ["$positive_trades", "$total_battles"]
     };
-    let won = doc! {
-        "$cond": [
-            {
-                "$gt": [
-                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
-                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
-                ]
-            },
-            1.0,
-            0.0,
-        ]
+    let win_rate = doc! {
+        "$divide": ["$wins", "$decisive_battles"]
     };
 
     doc! {
         "$cond": [
-            {
-                "$eq": [
-                    { "$add": ["$opponent_dead", "$severely_wounded_inflicted"] },
-                    { "$add": ["$sender_dead", "$severely_wounded_taken"] },
-                ]
-            },
-            positive_trade.clone(),
-            { "$divide": [{ "$add": [won, positive_trade] }, 2.0] },
+            { "$gt": ["$decisive_battles", 0] },
+            { "$divide": [{ "$add": [win_rate, positive_trade_rate.clone()] }, 2.0] },
+            positive_trade_rate,
         ]
     }
 }
@@ -605,7 +617,7 @@ fn perspective_entry(
     doc! {
         "primary_commander_id": primary_expr,
         "secondary_commander_id": secondary_expr,
-        "exclude_from_drastc_reference_ranges": "$_exclude_from_drastc_reference_ranges",
+        "exclude_in_ranges": "$_exclude_in_ranges",
         "kill_points_gained": kill_points_gained.clone(),
         "kill_points_lost": kill_points_lost.clone(),
         "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
@@ -1036,10 +1048,25 @@ mod tests {
             pipeline.first(),
             Some(&doc! {
                 "$match": {
-                    "exclude_from_drastc_reference_ranges": { "$ne": true },
+                    "exclude_in_ranges": { "$ne": true },
                 }
             })
         );
+    }
+
+    #[test]
+    fn reference_ranges_subpipeline_requires_minimum_pairing_battle_count() {
+        let pipeline = reference_ranges_subpipeline();
+
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$match")
+                .ok()
+                .and_then(|matcher| matcher.get_document("total_battles").ok())
+                .is_some_and(|total_battles| {
+                    total_battles.get_i64("$gte").ok() == Some(MIN_REFERENCE_RANGE_PAIRING_BATTLES)
+                })
+        }));
     }
 
     #[test]
@@ -1047,11 +1074,7 @@ mod tests {
         let pipeline = build_pairings_pipeline(&[509, 6]);
 
         assert!(pipeline.iter().any(|stage| {
-            stage
-                .get_document("$set")
-                .ok()
-                .and_then(|set| set.get("_exclude_from_drastc_reference_ranges"))
-                .is_some()
+            stage.get_document("$set").ok().and_then(|set| set.get("_exclude_in_ranges")).is_some()
         }));
         assert!(pipeline.iter().any(|stage| {
             stage
