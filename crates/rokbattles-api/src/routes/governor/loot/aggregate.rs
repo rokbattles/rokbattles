@@ -320,12 +320,9 @@ fn battle_honor_points_for_level(level: i32, npc_b_type: i32) -> i32 {
     }
 
     match level {
-        26..=30 => 101,
-        31..=35 => 102,
-        36..=40 => 103,
-        41..=45 => 111,
-        46..=50 => 112,
-        51..=55 => 113,
+        41..=45 => 10,
+        46..=50 => 16,
+        51..=55 => 20,
         _ => 0,
     }
 }
@@ -526,8 +523,60 @@ mod tests {
         assert_eq!(groups[1].reports, 1);
         assert_eq!(groups[1].loot_total, 7);
         assert_eq!(groups[1].ap_used, 80);
-        assert_eq!(groups[1].honor_gained, 111);
+        assert_eq!(groups[1].honor_gained, 10);
         assert_eq!(groups[1].xp_gained, 11);
+    }
+
+    #[test]
+    fn battle_honor_points_match_kvktask_rule_visible_values() {
+        assert_eq!(battle_honor_points_for_level(41, 1), 10);
+        assert_eq!(battle_honor_points_for_level(45, 1), 10);
+        assert_eq!(battle_honor_points_for_level(46, 1), 16);
+        assert_eq!(battle_honor_points_for_level(50, 1), 16);
+        assert_eq!(battle_honor_points_for_level(51, 1), 20);
+        assert_eq!(battle_honor_points_for_level(55, 1), 20);
+        assert_eq!(battle_honor_points_for_level(41, 15), 10);
+    }
+
+    #[test]
+    fn aggregate_personal_barbarian_loot_uses_same_honor_for_named_variants() {
+        let range = test_range();
+        let battle_time = 1_735_689_600_000;
+        let request =
+            BarbarianLootRequest { range, npc: BarbarianLootNpc::Barbarians, levels: vec![41] };
+
+        let groups = aggregate_personal_barbarian_loot(
+            vec![
+                build_npc_mail(battle_time, -2, 401, 1, 7, 11),
+                build_npc_mail(battle_time, -2, 150_009, 1, 7, 11),
+                build_npc_mail(battle_time, -2, 100, 15, 7, 11),
+            ],
+            &request,
+        );
+
+        assert_eq!(groups.len(), 1);
+        assert_eq!(groups[0].reports, 2);
+        assert_eq!(groups[0].honor_gained, 20);
+    }
+
+    #[test]
+    fn aggregate_personal_marauder_loot_uses_level_41_barbarian_honor() {
+        let range = test_range();
+        let battle_time = 1_735_689_600_000;
+        let request =
+            BarbarianLootRequest { range, npc: BarbarianLootNpc::Marauders, levels: vec![41] };
+
+        let groups = aggregate_personal_barbarian_loot(
+            vec![
+                build_npc_mail(battle_time, -2, 401, 1, 7, 11),
+                build_npc_mail(battle_time, -2, 100, 15, 7, 11),
+            ],
+            &request,
+        );
+
+        assert_eq!(groups.len(), 1);
+        assert_eq!(groups[0].reports, 1);
+        assert_eq!(groups[0].honor_gained, 10);
     }
 
     #[test]
@@ -551,6 +600,22 @@ mod tests {
         assert_eq!(groups[0].loot_total, 28);
         assert_eq!(groups[0].ap_used, 600);
         assert_eq!(groups[0].honor_gained, 60);
+    }
+
+    #[test]
+    fn aggregate_personal_marauder_encampment_uses_level_11_fort_honor() {
+        let range = test_range();
+        let request =
+            FortLootRequest { range, npc: FortLootNpc::MarauderEncampments, level: Some(11) };
+        let mail_time = 1_735_689_600_000;
+
+        let groups = aggregate_personal_fort_loot(
+            vec![build_system_barbarian_fort_mail(mail_time, 11, 3, 11)],
+            &request,
+        );
+
+        assert_eq!(groups.len(), 1);
+        assert_eq!(groups[0].honor_gained, 30);
     }
 
     #[test]
