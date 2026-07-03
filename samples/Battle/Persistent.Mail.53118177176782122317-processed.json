@@ -114,6 +114,10 @@
       "rally": null,
       "start_tick": 1314485,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -227,6 +231,10 @@
     "player_name": "Benbu",
     "rally": null,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": "",
       "round": 0,

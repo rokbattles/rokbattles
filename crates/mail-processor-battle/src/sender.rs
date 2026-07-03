@@ -85,6 +85,13 @@ mod tests {
                         "CTK": "tracking-3",
                         "ShId": 25,
                         "IsRally": true,
+                        "CASS": {
+                            "ENABLE": true,
+                            "SKILLS": [
+                                1,
+                                { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 }
+                            ]
+                        },
                         "AppUid": "8518744-123",
                         "Avatar": "{\"avatar\":\"https://example.com/avatar.png\",\"avatarFrame\":null}"
                     }
@@ -119,6 +126,13 @@ mod tests {
         assert!(fields["commanders"]["primary"]["id"].is_null());
         assert!(fields["commanders"]["secondary"]["id"].is_null());
         assert!(fields["commanders"]["primary"]["armaments"].is_null());
+        assert_eq!(
+            fields["support_skills"],
+            json!({
+                "enable": true,
+                "skills": [{ "hero_id": 62, "skill_id": 1132, "skill_level": 5 }]
+            })
+        );
         assert_eq!(fields["app_id"], json!(8518744));
         assert_eq!(fields["app_uid"], json!(123));
         assert_eq!(fields["avatar_url"], json!("https://example.com/avatar.png"));

@@ -138,6 +138,10 @@
       "rally": null,
       "start_tick": 375269,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -304,6 +308,10 @@
       "rally": null,
       "start_tick": 375279,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -632,6 +640,10 @@
     "player_name": "Pro100WRyj ツ",
     "rally": true,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": "",
       "round": 0,

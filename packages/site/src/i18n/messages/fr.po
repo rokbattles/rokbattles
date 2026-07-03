@@ -91,8 +91,7 @@ msgid "5hGibV"
 msgstr "Commandant inconnu"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/reports/participant-cell.tsx
 msgid "-sdDeh"
 msgstr ""
@@ -261,8 +260,7 @@ msgid "lsSmtD"
 msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
 msgid "5jeq8P"
 msgstr "Inconnu"
@@ -315,8 +313,6 @@ msgid "lKv8ex"
 msgstr "Défaut"
 
 #: src/components/account-binds/bind-list-item.tsx
-#: src/components/olympian-arena/duel-participant-card.tsx
-#: src/components/report/report-participant-card.tsx
 msgid "tx_jZ_"
 msgstr ""
 
@@ -567,6 +563,10 @@ msgstr ""
 #: src/components/account/account-settings-nav.tsx
 msgid "q5TmbN"
 msgstr "Gouverneurs"
+
+#: src/components/commander-loadout-row.tsx
+msgid "XoCgY-"
+msgstr ""
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
@@ -951,11 +951,6 @@ msgstr ""
 msgid "g-gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
-msgid "XoCgY-"
-msgstr ""
-
 #: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
 msgstr ""
@@ -968,14 +963,6 @@ msgstr ""
 #: src/components/report/report-participant-card.tsx
 msgid "DqkPqe"
 msgstr ""
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "t2Wr8I"
-msgstr "Principal"
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "6FQuCT"
-msgstr "Secondaire"
 
 #: src/components/olympian-arena/duel-participant-card.tsx
 msgid "cKnhhK"

@@ -171,6 +171,21 @@
       "rally": null,
       "start_tick": 1470644,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 12,
+            "skill_id": 1024,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 112,
+            "skill_id": 1303,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -336,6 +351,21 @@
       "rally": null,
       "start_tick": 1470642,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 3,
+            "skill_id": 1045,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 65,
+            "skill_id": 1144,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -501,6 +531,21 @@
       "rally": null,
       "start_tick": 1470649,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 17,
+            "skill_id": 1035,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 61,
+            "skill_id": 1131,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -670,6 +715,10 @@
       "rally": null,
       "start_tick": 1470644,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -839,6 +888,21 @@
       "rally": null,
       "start_tick": 1470634,
       "structure_id": null,
+      "support_skills": {
+        "enable": true,
+        "skills": [
+          {
+            "hero_id": 64,
+            "skill_id": 1141,
+            "skill_level": 5
+          },
+          {
+            "hero_id": 62,
+            "skill_id": 1134,
+            "skill_level": 5
+          }
+        ]
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -952,6 +1016,10 @@
     "player_name": "精武丶羅剎",
     "rally": null,
     "structure_id": null,
+    "support_skills": {
+      "enable": true,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": null,
       "round": null,

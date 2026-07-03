@@ -161,6 +161,10 @@
       "rally": null,
       "start_tick": 312015,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -270,6 +274,10 @@
     "player_name": "F6yst",
     "rally": null,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": "",
       "round": 0,

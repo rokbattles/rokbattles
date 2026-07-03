@@ -89,7 +89,7 @@ export function DuelParticipantCard({
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>{t("ID {id}", { id: playerId.toString() })}</Badge>
+              <Badge>{playerId.toString()}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
           </div>
@@ -101,10 +101,8 @@ export function DuelParticipantCard({
           <div className="space-y-2">
             <Subheading>{t("Commanders")}</Subheading>
             <div className="space-y-2">
-              {showPrimary ? <DuelCommanderRow commander={primary} label={t("Primary")} /> : null}
-              {showSecondary ? (
-                <DuelCommanderRow commander={secondary} label={t("Secondary")} />
-              ) : null}
+              {showPrimary ? <DuelCommanderRow commander={primary} /> : null}
+              {showSecondary ? <DuelCommanderRow commander={secondary} /> : null}
             </div>
           </div>
         ) : null}

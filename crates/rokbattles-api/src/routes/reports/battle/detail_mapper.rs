@@ -5,7 +5,8 @@ use super::types::{
     BattleReportBattleResults, BattleReportCastle, BattleReportCommander, BattleReportCommanderSet,
     BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata, BattleReportNpc,
     BattleReportOpponent, BattleReportPlayer, BattleReportRelic, BattleReportSummary,
-    BattleReportSummaryEntry, BattleReportTimeline,
+    BattleReportSummaryEntry, BattleReportSupportSkill, BattleReportSupportSkills,
+    BattleReportTimeline,
 };
 use crate::bson_utils::{
     nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
@@ -36,6 +37,10 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.castle.x",
         "sender.castle.y",
         "sender.app_uid",
+        "sender.support_skills.enable",
+        "sender.support_skills.skills.hero_id",
+        "sender.support_skills.skills.skill_id",
+        "sender.support_skills.skills.skill_level",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
         "sender.commanders.primary.level",
@@ -86,6 +91,10 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.castle.y",
         "opponents.app_uid",
         "opponents.tracking_key",
+        "opponents.support_skills.enable",
+        "opponents.support_skills.skills.hero_id",
+        "opponents.support_skills.skills.skill_id",
+        "opponents.support_skills.skills.skill_level",
         "opponents.commanders.primary.id",
         "opponents.commanders.primary.awakened",
         "opponents.commanders.primary.level",
@@ -182,6 +191,7 @@ fn map_detail_player(document: Option<&Document>) -> BattleReportPlayer {
         },
         app_uid: nested_i64_exact(document, &["app_uid"]),
         commanders: map_detail_commanders(document),
+        support_skills: map_detail_support_skills(nested_document(document, &["support_skills"])),
     }
 }
 
@@ -247,6 +257,33 @@ fn map_detail_armaments(document: &Document) -> Vec<BattleReportArmament> {
         .map(|armament| BattleReportArmament {
             affix: nested_string(armament, &["affix"]),
             buffs: nested_string(armament, &["buffs"]),
+        })
+        .collect()
+}
+
+fn map_detail_support_skills(document: Option<&Document>) -> BattleReportSupportSkills {
+    let Some(document) = document else {
+        return BattleReportSupportSkills::default();
+    };
+
+    BattleReportSupportSkills {
+        enable: nested_bool(document, &["enable"]),
+        skills: map_detail_support_skill_entries(document),
+    }
+}
+
+fn map_detail_support_skill_entries(document: &Document) -> Vec<BattleReportSupportSkill> {
+    let Some(skills) = nested_array(document, &["skills"]) else {
+        return Vec::new();
+    };
+
+    skills
+        .iter()
+        .filter_map(Bson::as_document)
+        .map(|skill| BattleReportSupportSkill {
+            hero_id: nested_i64_exact(skill, &["hero_id"]).unwrap_or_default(),
+            skill_id: nested_i64_exact(skill, &["skill_id"]).unwrap_or_default(),
+            skill_level: nested_i64_exact(skill, &["skill_level"]).unwrap_or_default(),
         })
         .collect()
 }
@@ -383,6 +420,8 @@ mod tests {
         assert_eq!(projection.get_i32("sender.commanders.primary.awakened").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.relics.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.skills.id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.support_skills.enable").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.support_skills.skills.skill_id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
@@ -409,6 +448,12 @@ mod tests {
                 "alliance_building_id": Bson::Null,
                 "castle": { "x": 10_i64, "y": 20_i64 },
                 "app_uid": 777_i64,
+                "support_skills": {
+                    "enable": true,
+                    "skills": [
+                        { "hero_id": 10_i64, "skill_id": 101_i64, "skill_level": 5_i64 },
+                    ],
+                },
                 "commanders": {
                     "primary": {
                         "id": 10_i64,
@@ -481,6 +526,9 @@ mod tests {
         assert_eq!(mapped.sender.commanders.primary.skills.len(), 1);
         assert_eq!(mapped.sender.commanders.primary.skills[0].id, 101);
         assert_eq!(mapped.sender.commanders.primary.armaments.len(), 1);
+        assert_eq!(mapped.sender.support_skills.enable, Some(true));
+        assert_eq!(mapped.sender.support_skills.skills.len(), 1);
+        assert_eq!(mapped.sender.support_skills.skills[0].skill_id, 101);
         assert_eq!(mapped.summary.sender.kill_points, Some(100));
         assert_eq!(mapped.opponents.len(), 1);
         assert_eq!(mapped.opponents[0].npc.r#type, Some(5));

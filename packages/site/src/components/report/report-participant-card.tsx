@@ -6,6 +6,7 @@ import { ReportArtifactSection } from "@/components/report/report-artifact-secti
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
 import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
 import { ReportRelicSection } from "@/components/report/report-relic-section";
+import { ReportSupportSkills } from "@/components/report/report-support-skills";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
@@ -60,7 +61,7 @@ export function ReportParticipantCard({
           <div className="text-base font-semibold text-zinc-900 dark:text-white">{playerName}</div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
             {typeof playerId === "number" && Number.isFinite(playerId) ? (
-              <Badge>{t("ID {id}", { id: playerId.toString() })}</Badge>
+              <Badge>{playerId.toString()}</Badge>
             ) : null}
             {allianceTag ? <Badge>{allianceTag}</Badge> : null}
             {participant?.is_rally ? <Badge>{t("Rally")}</Badge> : null}
@@ -77,6 +78,7 @@ export function ReportParticipantCard({
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />
               ) : null}
               {showSecondary ? <ReportCommanderRow commander={secondaryCommander} /> : null}
+              <ReportSupportSkills supportSkills={participant?.support_skills} />
             </div>
           </div>
         ) : null}
