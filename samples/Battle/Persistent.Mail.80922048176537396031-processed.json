@@ -142,6 +142,10 @@
       "rally": null,
       "start_tick": 525144,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": "",
         "round": 0,
@@ -276,6 +280,10 @@
     "player_name": "G Var",
     "rally": null,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": "",
       "round": 0,

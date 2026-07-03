@@ -159,6 +159,10 @@
       "rally": null,
       "start_tick": 421258,
       "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
       "supreme_strife": {
         "battle_id": null,
         "round": null,
@@ -264,6 +268,10 @@
     "player_name": "Resir",
     "rally": null,
     "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
     "supreme_strife": {
       "battle_id": null,
       "round": null,
