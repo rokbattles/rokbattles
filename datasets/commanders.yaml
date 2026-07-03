@@ -9330,14 +9330,19 @@ commanders:
     skills:
       - slot: 1
         id: 436
+        sprite: []
       - slot: 2
         id: 1828
+        sprite: []
       - slot: 3
         id: 1829
+        sprite: []
       - slot: 4
         id: 1830
+        sprite: []
       - slot: 5
         id: 1831
+        sprite: []
     sprite:
       - img_icon_HeroProfile_BGMask.png
       - img_icon_HeroProfile_BGOrange.png

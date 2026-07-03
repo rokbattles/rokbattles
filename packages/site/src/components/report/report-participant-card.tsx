@@ -6,6 +6,7 @@ import { ReportArtifactSection } from "@/components/report/report-artifact-secti
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
 import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
 import { ReportRelicSection } from "@/components/report/report-relic-section";
+import { ReportSupportSkills } from "@/components/report/report-support-skills";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
@@ -77,6 +78,7 @@ export function ReportParticipantCard({
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />
               ) : null}
               {showSecondary ? <ReportCommanderRow commander={secondaryCommander} /> : null}
+              <ReportSupportSkills supportSkills={participant?.support_skills} />
             </div>
           </div>
         ) : null}

@@ -306,8 +306,6 @@ msgid "lKv8ex"
 msgstr ""
 
 #: src/components/account-binds/bind-list-item.tsx
-#: src/components/olympian-arena/duel-participant-card.tsx
-#: src/components/report/report-participant-card.tsx
 msgid "tx_jZ_"
 msgstr ""
 
@@ -961,14 +959,6 @@ msgid "DqkPqe"
 msgstr "사령관"
 
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "t2Wr8I"
-msgstr "주사령관"
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "6FQuCT"
-msgstr "부사령관"
-
-#: src/components/olympian-arena/duel-participant-card.tsx
 msgid "cKnhhK"
 msgstr "부대 버프"
 
@@ -1147,6 +1137,10 @@ msgstr ""
 msgid "YeBMpE"
 msgstr "진형 {formation}"
 
+#: src/components/report/report-commander-row.tsx
+msgid "GXDLc0"
+msgstr ""
+
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr "해당 해시값에 대한 전투를 찾을 수 없습니다."
@@ -1205,6 +1199,10 @@ msgstr ""
 
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
+msgstr ""
+
+#: src/components/report/report-support-skills.tsx
+msgid "KGJECQ"
 msgstr ""
 
 #: src/components/report/report-view.tsx

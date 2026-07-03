@@ -3,6 +3,7 @@ import type {
   BattleMail,
   BattleOpponent,
   BattlePlayer,
+  BattleSupportSkill,
 } from "@/lib/types/battle";
 import type {
   RawBattleResults,
@@ -111,6 +112,14 @@ function buildArmamentFields(player: BattlePlayer): {
   };
 }
 
+function mapSupportSkill(skill: BattleSupportSkill) {
+  return {
+    hero_id: skill.heroId,
+    skill_id: skill.skillId,
+    skill_level: skill.skillLevel,
+  };
+}
+
 function mapPlayerToParticipant(
   player: BattlePlayer,
   npc?: { type: number | null; bType: number | null } | null
@@ -135,13 +144,19 @@ function mapPlayerToParticipant(
       id: player.commanders.primary.id ?? undefined,
       awakened: player.commanders.primary.awakened ?? undefined,
       level: player.commanders.primary.level ?? undefined,
+      skills: [...(player.commanders.primary.skills ?? [])],
       relics: [...(player.commanders.primary.relics ?? [])],
     },
     secondary_commander: {
       id: player.commanders.secondary.id ?? undefined,
       awakened: player.commanders.secondary.awakened ?? undefined,
       level: player.commanders.secondary.level ?? undefined,
+      skills: [...(player.commanders.secondary.skills ?? [])],
       relics: [...(player.commanders.secondary.relics ?? [])],
+    },
+    support_skills: {
+      enable: player.supportSkills?.enable ?? undefined,
+      skills: [...(player.supportSkills?.skills ?? [])].map(mapSupportSkill),
     },
     formation: player.commanders.primary.formation ?? undefined,
     equipment: player.commanders.primary.equipment ?? undefined,
