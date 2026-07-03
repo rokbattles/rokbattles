@@ -559,10 +559,6 @@ msgstr "Governors"
 msgid "XoCgY-"
 msgstr "Lvl {level}"
 
-#: src/components/commander-loadout-row.tsx
-msgid "GXDLc0"
-msgstr "Skill {id}"
-
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
 msgid "sjzLbX"
@@ -1197,10 +1193,6 @@ msgstr "Relics"
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
 msgstr "Relic {id}"
-
-#: src/components/report/report-support-skills.tsx
-msgid "KGJECQ"
-msgstr "Support skill {id}"
 
 #: src/components/report/report-view.tsx
 msgid "x5Tz6M"

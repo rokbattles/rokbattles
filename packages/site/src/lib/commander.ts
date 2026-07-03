@@ -8,6 +8,8 @@ type CommanderSkillEntry = {
   slot?: number;
   id?: number;
   expertId?: number;
+  name?: Record<string, string | undefined>;
+  expertName?: Record<string, string | undefined>;
   sprite?: string | string[];
   expertSprite?: string | string[];
 };
@@ -26,6 +28,7 @@ export type CommanderSkillLevel = {
 
 export type CommanderSkillDisplay = {
   id: number;
+  name: string;
   level?: number;
   spriteUrls: string[];
   expert: boolean;
@@ -100,7 +103,8 @@ export function getCommanderSprites(
 export function getCommanderSkillDisplays(
   commanderId: number | null | undefined,
   reportSkills: readonly CommanderSkillLevel[] | null | undefined,
-  awakened?: boolean | null
+  awakened?: boolean | null,
+  locale?: string
 ): CommanderSkillDisplay[] {
   const entries = getCommanderSkillEntries(commanderId);
   if (entries.length === 0) {
@@ -133,6 +137,7 @@ export function getCommanderSkillDisplays(
     if (spriteUrls.length > 0) {
       displays.push({
         id: entry.id,
+        name: getCommanderSkillEntryName(entry, entry.id, locale),
         level,
         spriteUrls,
         expert: false,
@@ -164,6 +169,7 @@ export function getCommanderSkillDisplays(
 
       return {
         id: expertId,
+        name: getCommanderSkillEntryName(entry, expertId, locale),
         spriteUrls,
         expert: true,
       };
@@ -185,6 +191,20 @@ export function getCommanderSkillSpriteUrls(
 
   const sprites = entry.expertId === skillId ? entry.expertSprite : entry.sprite;
   return getGameSpriteUrls(sprites);
+}
+
+export function getCommanderSkillName(
+  commanderId: number | null | undefined,
+  skillId: number | null | undefined,
+  locale?: string
+): string {
+  const entry =
+    findCommanderSkillEntry(commanderId, skillId) ?? findAnyCommanderSkillEntry(skillId);
+  if (!entry) {
+    return "";
+  }
+
+  return getCommanderSkillEntryName(entry, skillId, locale);
 }
 
 function getCommanderSkillEntries(commanderId: number | null | undefined): CommanderSkillEntry[] {
@@ -227,6 +247,32 @@ function findAnyCommanderSkillEntry(
   }
 
   return undefined;
+}
+
+function getCommanderSkillEntryName(
+  entry: CommanderSkillEntry,
+  skillId: number | null | undefined,
+  locale?: string
+): string {
+  const name = entry.expertId === skillId ? entry.expertName : entry.name;
+  return getLocalizedCatalogName(name, locale);
+}
+
+function getLocalizedCatalogName(
+  names: Record<string, string | undefined> | undefined,
+  locale?: string
+): string {
+  if (!names) {
+    return "";
+  }
+
+  const resolvedLocale = resolveCommanderLocale(locale);
+  const localizedName = names[resolvedLocale];
+  if (localizedName !== undefined) {
+    return localizedName;
+  }
+
+  return names[defaultLocale] ?? "";
 }
 
 function getSkillLevel(skill: CommanderSkillLevel | undefined): number | undefined {

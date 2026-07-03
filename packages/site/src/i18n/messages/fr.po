@@ -568,10 +568,6 @@ msgstr "Gouverneurs"
 msgid "XoCgY-"
 msgstr ""
 
-#: src/components/commander-loadout-row.tsx
-msgid "GXDLc0"
-msgstr ""
-
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
 msgid "sjzLbX"
@@ -1205,10 +1201,6 @@ msgstr ""
 
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
-msgstr ""
-
-#: src/components/report/report-support-skills.tsx
-msgid "KGJECQ"
 msgstr ""
 
 #: src/components/report/report-view.tsx
