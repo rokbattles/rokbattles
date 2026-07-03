@@ -464,6 +464,8 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                     "secondary_commander_id": "$secondary_commander_id",
                 },
                 "total_battles": { "$sum": 1 },
+                "kill_points_gained": { "$sum": "$kill_points_gained" },
+                "kill_points_lost": { "$sum": "$kill_points_lost" },
                 "severely_wounded_inflicted": {
                     "$sum": "$severely_wounded_inflicted",
                 },
@@ -518,6 +520,7 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                     ]
                 },
                 "consistency_rate": aggregate_consistency_rate_expr(),
+                "trade_ratio": aggregate_trade_ratio_expr(),
             }
         },
         doc! {
@@ -545,9 +548,35 @@ fn reference_ranges_subpipeline() -> Vec<Document> {
                         "method": "approximate",
                     }
                 },
+                "trade": {
+                    "$percentile": {
+                        "input": "$trade_ratio",
+                        "p": [0.9],
+                        "method": "approximate",
+                    }
+                },
             }
         },
     ]
+}
+
+fn aggregate_trade_ratio_expr() -> Document {
+    doc! {
+        "$cond": [
+            { "$and": [
+                { "$lte": ["$kill_points_gained", 0] },
+                { "$lte": ["$kill_points_lost", 0] },
+            ] },
+            1.0,
+            {
+                "$cond": [
+                    { "$lte": ["$kill_points_lost", 0] },
+                    0.0,
+                    { "$divide": ["$kill_points_gained", "$kill_points_lost"] },
+                ]
+            },
+        ]
+    }
 }
 
 fn aggregate_consistency_rate_expr() -> Document {
@@ -843,8 +872,17 @@ fn map_reference_ranges_document(document: &Document) -> Option<DrastcReferenceR
     Some(DrastcReferenceRanges {
         damage: reference_range_from_percentiles(samples, document, "damage"),
         sustainability: reference_range_from_percentiles(samples, document, "sustainability"),
+        trade: trade_reference_range_from_percentiles(samples, document),
         consistency: reference_range_from_percentiles(samples, document, "consistency"),
     })
+}
+
+fn trade_reference_range_from_percentiles(samples: usize, document: &Document) -> ReferenceRange {
+    let Some(Bson::Array(values)) = document.get("trade") else {
+        return ReferenceRange::new(0, 0.0, 0.0);
+    };
+
+    ReferenceRange::new(samples, 0.0, values.first().and_then(bson_to_f64).unwrap_or_default())
 }
 
 fn reference_range_from_percentiles(
@@ -867,6 +905,7 @@ fn default_reference_ranges() -> DrastcReferenceRanges {
     DrastcReferenceRanges {
         damage: ReferenceRange::new(0, 0.0, 0.0),
         sustainability: ReferenceRange::new(0, 0.0, 0.0),
+        trade: ReferenceRange::new(0, 0.0, 0.0),
         consistency: ReferenceRange::new(0, 0.0, 0.0),
     }
 }
@@ -1125,6 +1164,7 @@ mod tests {
             "samples": 10_i64,
             "damage": [1.0, 9.0],
             "sustainability": [-5.0, 5.0],
+            "trade": [1.8],
             "consistency": [0.2, 0.8],
         };
 
@@ -1133,6 +1173,9 @@ mod tests {
         assert_eq!(ranges.damage.p10, 1.0);
         assert_eq!(ranges.damage.p90, 9.0);
         assert_eq!(ranges.damage.sample_count(), 10);
+        assert_eq!(ranges.trade.p10, 0.0);
+        assert_eq!(ranges.trade.p90, 1.8);
+        assert_eq!(ranges.trade.sample_count(), 10);
     }
 
     #[test]
@@ -1186,6 +1229,7 @@ mod tests {
         let ranges = DrastcReferenceRanges {
             damage: ReferenceRange::new(10, 0.0, 4.0),
             sustainability: ReferenceRange::new(10, -2.0, 2.0),
+            trade: ReferenceRange::new(10, 0.0, 2.0),
             consistency: ReferenceRange::new(10, 0.0, 1.0),
         };
 
@@ -1215,6 +1259,7 @@ mod tests {
         model.set_reference_ranges(DrastcReferenceRanges {
             damage: ReferenceRange::new(1, 0.0, 4.0),
             sustainability: ReferenceRange::new(1, -2.0, 2.0),
+            trade: ReferenceRange::new(1, 0.0, 2.0),
             consistency: ReferenceRange::new(1, 0.0, 1.0),
         });
         model.set_theoretical(579, 575);
