@@ -9,10 +9,9 @@ import type { DuelBattle2Commander } from "@/lib/types/duelbattle2";
 
 type DuelCommanderRowProps = {
   commander: DuelBattle2Commander;
-  label: string;
 };
 
-export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
+export function DuelCommanderRow({ commander }: DuelCommanderRowProps) {
   const t = useExtracted();
   const commanderId = commander.id;
   const commanderName = getCommanderName(Number.isFinite(commanderId) ? commanderId : null);
@@ -32,7 +31,6 @@ export function DuelCommanderRow({ commander, label }: DuelCommanderRowProps) {
         />
         <Strong>{commanderLabel}</Strong>
       </span>
-      <Badge>{label}</Badge>
       {level != null ? <Badge>{t("Lvl {level}", { level: level.toString() })}</Badge> : null}
     </Text>
   );
