@@ -19,7 +19,7 @@ type CommanderCatalogEntry = {
   skills?: CommanderSkillEntry[];
 };
 
-type CommanderSkillLevel = {
+export type CommanderSkillLevel = {
   id?: number | null;
   level?: number | null;
 };
