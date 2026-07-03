@@ -82,8 +82,7 @@ msgid "5hGibV"
 msgstr "알 수 없는 사령관"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/reports/participant-cell.tsx
 msgid "-sdDeh"
 msgstr ""
@@ -252,8 +251,7 @@ msgid "lsSmtD"
 msgstr "이세트"
 
 #: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
 msgid "5jeq8P"
 msgstr "알 수 없음"
@@ -556,6 +554,14 @@ msgstr "일반"
 #: src/components/account/account-settings-nav.tsx
 msgid "q5TmbN"
 msgstr "지도자"
+
+#: src/components/commander-loadout-row.tsx
+msgid "XoCgY-"
+msgstr ""
+
+#: src/components/commander-loadout-row.tsx
+msgid "GXDLc0"
+msgstr ""
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
@@ -940,11 +946,6 @@ msgstr ""
 msgid "g-gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
-msgid "XoCgY-"
-msgstr ""
-
 #: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
 msgstr "해당 결투에 대한 보고서가 없습니다."
@@ -1136,10 +1137,6 @@ msgstr ""
 #: src/components/report/report-commander-row.tsx
 msgid "YeBMpE"
 msgstr "진형 {formation}"
-
-#: src/components/report/report-commander-row.tsx
-msgid "GXDLc0"
-msgstr ""
 
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"

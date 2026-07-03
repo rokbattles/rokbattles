@@ -82,8 +82,7 @@ msgid "5hGibV"
 msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/reports/participant-cell.tsx
 msgid "-sdDeh"
 msgstr ""
@@ -252,8 +251,7 @@ msgid "lsSmtD"
 msgstr "Izyda"
 
 #: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
+#: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
 msgid "5jeq8P"
 msgstr ""
@@ -555,6 +553,14 @@ msgstr ""
 
 #: src/components/account/account-settings-nav.tsx
 msgid "q5TmbN"
+msgstr ""
+
+#: src/components/commander-loadout-row.tsx
+msgid "XoCgY-"
+msgstr ""
+
+#: src/components/commander-loadout-row.tsx
+msgid "GXDLc0"
 msgstr ""
 
 #: src/components/cookie-consent-banner.tsx
@@ -940,11 +946,6 @@ msgstr ""
 msgid "g-gbNs"
 msgstr ""
 
-#: src/components/olympian-arena/duel-commander-row.tsx
-#: src/components/report/report-commander-row.tsx
-msgid "XoCgY-"
-msgstr ""
-
 #: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
 msgstr ""
@@ -1135,10 +1136,6 @@ msgstr ""
 
 #: src/components/report/report-commander-row.tsx
 msgid "YeBMpE"
-msgstr ""
-
-#: src/components/report/report-commander-row.tsx
-msgid "GXDLc0"
 msgstr ""
 
 #: src/components/report/report-empty-state.tsx
