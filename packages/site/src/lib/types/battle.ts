@@ -35,6 +35,7 @@ export type BattlePlayer = {
   castle: BattleCastle;
   appUid: number | null;
   commanders: BattleCommanderSet;
+  supportSkills: BattleSupportSkills;
 };
 
 export type BattleAlliance = {
@@ -74,6 +75,17 @@ export type BattleCommanderSkill = {
 export type BattleCommanderArmament = {
   affix: string | null;
   buffs: string | null;
+};
+
+export type BattleSupportSkills = {
+  enable: boolean | null;
+  skills: readonly BattleSupportSkill[];
+};
+
+export type BattleSupportSkill = {
+  heroId: number;
+  skillId: number;
+  skillLevel: number;
 };
 
 export type BattleAttack = {

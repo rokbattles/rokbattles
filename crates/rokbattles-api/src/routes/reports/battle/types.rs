@@ -111,6 +111,7 @@ pub(crate) struct BattleReportPlayer {
     pub castle: BattleReportCastle,
     pub app_uid: Option<i64>,
     pub commanders: BattleReportCommanderSet,
+    pub support_skills: BattleReportSupportSkills,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -164,6 +165,21 @@ pub(crate) struct BattleReportCommanderSkill {
 pub(crate) struct BattleReportArmament {
     pub affix: Option<String>,
     pub buffs: Option<String>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportSupportSkills {
+    pub enable: Option<bool>,
+    pub skills: Vec<BattleReportSupportSkill>,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportSupportSkill {
+    pub hero_id: i64,
+    pub skill_id: i64,
+    pub skill_level: i64,
 }
 
 #[derive(Debug, Serialize, Default)]

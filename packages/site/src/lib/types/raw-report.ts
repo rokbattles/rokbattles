@@ -18,8 +18,13 @@ export interface RawCommanderInfo {
   id?: number;
   awakened?: boolean | null;
   level?: number;
-  skills?: string;
+  skills?: RawCommanderSkillInfo[] | null;
   relics?: RawRelicInfo[] | null;
+}
+
+export interface RawCommanderSkillInfo {
+  id?: number;
+  level?: number;
 }
 
 export interface RawRelicInfo {
@@ -49,11 +54,23 @@ export interface RawParticipantInfo {
   tracking_key?: string;
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
+  support_skills?: RawSupportSkillsInfo | null;
   equipment?: string;
   equipment_2?: string;
   formation?: number;
   armament_buffs?: string;
   inscriptions?: string;
+}
+
+export interface RawSupportSkillsInfo {
+  enable?: boolean | null;
+  skills?: RawSupportSkillInfo[] | null;
+}
+
+export interface RawSupportSkillInfo {
+  hero_id: number;
+  skill_id: number;
+  skill_level: number;
 }
 
 export interface RawOverview {
