@@ -1,0 +1,12 @@
+[unstable]
+min-publish-age = true
+
+[resolver]
+incompatible-publish-age = "deny"
+
+[registry]
+global-min-publish-age = "48 hours"
+
+[target.x86_64-unknown-linux-musl]
+linker = "clang"
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
