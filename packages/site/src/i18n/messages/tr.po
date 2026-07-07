@@ -219,6 +219,7 @@ msgid "Y3Z7jw"
 msgstr "Öldürme Sayısı"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-results-chart.tsx
@@ -555,6 +556,212 @@ msgstr ""
 msgid "q5TmbN"
 msgstr ""
 
+#: src/components/combat-lab/combat-lab-loading.tsx
+msgid "DxDbqD"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-loading.tsx
+msgid "BM8-Ta"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-pairing-results.tsx
+msgid "RLkrMe"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-pairing-results.tsx
+msgid "fO1cCc"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-results.tsx
+msgid "ZdCdo5"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/reports/reports-table.tsx
+msgid "9bVtCz"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "OVW-cD"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "xh4gLq"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgid "nGp3S1"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "rD9xWZ"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "04DUsx"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "SDG3OT"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "87sFXA"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "OZfiOO"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "8RNVtf"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "adRA-N"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "j80Jf5"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "mg78mY"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "WkJcLb"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "pckGja"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "jVC9W_"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "cgKoQG"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "lsS3Jr"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "-6NJWI"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "CY224M"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "siJBnS"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "5LIA_9"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "6pYaNr"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "RrCui3"
+msgstr ""
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "06XNKO"
+msgstr ""
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "7rfR4O"
+msgstr ""
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "Vozv1X"
+msgstr ""
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "wB_wXs"
+msgstr ""
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "I2vW8-"
+msgstr ""
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "fgvwel"
+msgstr ""
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "fM6jjI"
+msgstr ""
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "TdTXXf"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "T807D4"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "HgiZfY"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "oe7Ktq"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "14P-1u"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "uKZXNL"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "Mxwl9f"
+msgstr ""
+
+#: src/components/combat-lab/drastc-info.tsx
+msgid "YyHv_v"
+msgstr ""
+
+#: src/components/combat-lab/drastc-section.tsx
+msgid "cjd1MY"
+msgstr ""
+
+#: src/components/combat-lab/drastc-section.tsx
+msgid "AAkx6U"
+msgstr ""
+
 #: src/components/commander-loadout-row.tsx
 msgid "XoCgY-"
 msgstr ""
@@ -715,22 +922,7 @@ msgid "5OhW-B"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/reports/reports-table.tsx
-msgid "9bVtCz"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "W2cCAf"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "xh4gLq"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "nGp3S1"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -738,15 +930,7 @@ msgid "2OWOn1"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "04DUsx"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "sCYwbS"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "87sFXA"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -754,15 +938,7 @@ msgid "2oN4Ru"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "8RNVtf"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "OohBEM"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "j80Jf5"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -774,19 +950,7 @@ msgid "tj24bj"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "pckGja"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "jVC9W_"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "pJCnfG"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "lsS3Jr"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -794,19 +958,7 @@ msgid "obveBp"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "CY224M"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "ZTImOV"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "5LIA_9"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "6pYaNr"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
