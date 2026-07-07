@@ -2,6 +2,7 @@
 
 import {
   ArrowDownTrayIcon,
+  ChartPieIcon,
   FireIcon,
   FlagIcon,
   GiftIcon,
@@ -107,6 +108,10 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               >
                 <GiftIcon />
                 <SidebarLabel>{t("Loot Explorer")}</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem href="/combat-lab" current={pathname === "/combat-lab"}>
+                <ChartPieIcon />
+                <SidebarLabel>{t("Combat Lab")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (
