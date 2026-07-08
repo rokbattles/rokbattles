@@ -35,6 +35,7 @@ type SectionConfig = {
   typeOptions: LootExplorerOption[];
   levelOptionsByType?: Record<string, LootExplorerOption[]>;
   allowMultipleLevels?: boolean;
+  showTypeFilter?: boolean;
   showLevelFilter?: boolean;
 };
 
@@ -111,6 +112,15 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       };
     }
 
+    if (active === "kahars-treasure") {
+      return {
+        defaultType: "kahars-treasure",
+        typeOptions: [{ value: "kahars-treasure", label: t("Kahar's Treasure") }],
+        showTypeFilter: false,
+        showLevelFilter: false,
+      };
+    }
+
     return {
       defaultType: "barbarians",
       typeOptions: [
@@ -147,7 +157,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
   const { data, error } = usePersonalLoot({
     governorId,
     endpoint,
-    type: selectedType,
+    type: config.showTypeFilter === false ? undefined : selectedType,
     levels: selectedLevels,
     startParam: startDate,
     endParam: endDate,
@@ -165,7 +175,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
   }
 
   const summaryItems = (() => {
-    if (active === "baulurs") {
+    if (active === "baulurs" || active === "kahars-treasure") {
       return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
     }
 
@@ -188,6 +198,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
         levelOptionsByType={config.levelOptionsByType}
         selectedLevels={selectedLevels}
         allowMultipleLevels={config.allowMultipleLevels}
+        showTypeFilter={config.showTypeFilter}
         showLevelFilter={config.showLevelFilter}
         startDate={startDate}
         endDate={endDate}

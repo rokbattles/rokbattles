@@ -17,6 +17,7 @@ type PersonalLootFiltersProps = {
   levelOptionsByType?: Record<string, LootExplorerOption[]>;
   selectedLevels?: number[];
   allowMultipleLevels?: boolean;
+  showTypeFilter?: boolean;
   showLevelFilter?: boolean;
   startDate: string;
   endDate: string;
@@ -31,6 +32,7 @@ export function PersonalLootFilters({
   levelOptionsByType,
   selectedLevels,
   allowMultipleLevels = true,
+  showTypeFilter = true,
   showLevelFilter = true,
   startDate,
   endDate,
@@ -95,17 +97,19 @@ export function PersonalLootFilters({
   return (
     <form className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <Field className="space-y-1.5">
-          <Label>{t("NPC")}</Label>
-          <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
-            {typeOptions.map((option) => (
-              <ListboxOption key={option.value} value={option.value}>
-                <ListboxLabel>{option.label}</ListboxLabel>
-              </ListboxOption>
-            ))}
-          </Listbox>
-          <input name="type" type="hidden" value={type} />
-        </Field>
+        {showTypeFilter ? (
+          <Field className="space-y-1.5">
+            <Label>{t("NPC")}</Label>
+            <Listbox<string> aria-label={t("NPC")} onChange={handleTypeChange} value={type}>
+              {typeOptions.map((option) => (
+                <ListboxOption key={option.value} value={option.value}>
+                  <ListboxLabel>{option.label}</ListboxLabel>
+                </ListboxOption>
+              ))}
+            </Listbox>
+            <input name="type" type="hidden" value={type} />
+          </Field>
+        ) : null}
         {showLevelFilter ? (
           <Field className="space-y-1.5">
             <Label>{t("Level")}</Label>
