@@ -16,12 +16,14 @@ pub struct ReportsStore {
     mails_alliance_aooindividualresults: Collection<Document>,
     mails_alliance_aooregistration: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
+    mails_system_kahartreasure: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
     g_rok_prec_barbarian: Collection<Document>,
     g_rok_prec_barbarianfort: Collection<Document>,
     g_rok_prec_baulur: Collection<Document>,
+    g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_cmdr_pairings: Collection<Document>,
 }
 
@@ -37,12 +39,14 @@ impl ReportsStore {
                 .collection("mails_alliance_aooindividualresults"),
             mails_alliance_aooregistration: db.collection("mails_alliance_aooregistration"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
+            mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
             g_rok_prec_barbarian: db.collection("g_rok_prec_barbarian"),
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
             g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
+            g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_cmdr_pairings: db.collection("g_rok_prec_cmdr_pairings"),
         }
     }
@@ -199,6 +203,17 @@ impl ReportsStore {
             self.mails_system_barbarianfort.create_index(model).await?;
         }
 
+        let kahar_treasure_models = vec![
+            IndexModel::builder().keys(doc! { "metadata.mail_time": -1 }).build(),
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
+
+        for model in kahar_treasure_models {
+            self.mails_system_kahartreasure.create_index(model).await?;
+        }
+
         let baulur_models = vec![
             IndexModel::builder().keys(doc! { "npc.type": 1 }).build(),
             IndexModel::builder()
@@ -283,6 +298,17 @@ impl ReportsStore {
             self.g_rok_prec_baulur.create_index(model).await?;
         }
 
+        let precomputed_kahar_treasure_models = vec![
+            IndexModel::builder()
+                .keys(doc! { "key": 1 })
+                .options(IndexOptions::builder().unique(true).build())
+                .build(),
+        ];
+
+        for model in precomputed_kahar_treasure_models {
+            self.g_rok_prec_kahartreasure.create_index(model).await?;
+        }
+
         let precomputed_cmdr_pairing_models = vec![
             IndexModel::builder()
                 .keys(doc! { "primary_commander_id": 1, "secondary_commander_id": 1 })
@@ -332,6 +358,11 @@ impl ReportsStore {
         &self.mails_system_barbarianfort
     }
 
+    /// Access the system Kahar treasure mail collection.
+    pub fn system_kahar_treasure_collection(&self) -> &Collection<Document> {
+        &self.mails_system_kahartreasure
+    }
+
     /// Access the bar canyon kill boss mail collection.
     pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
         &self.mails_barcanyonkillboss
@@ -360,6 +391,11 @@ impl ReportsStore {
     /// Access precomputed Baulur aggregates.
     pub fn precomputed_baulur_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_baulur
+    }
+
+    /// Access precomputed Kahar treasure aggregates.
+    pub fn precomputed_kahar_treasure_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_kahartreasure
     }
 
     /// Access precomputed global commander pairing aggregates.

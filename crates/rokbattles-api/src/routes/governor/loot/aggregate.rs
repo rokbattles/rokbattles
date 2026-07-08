@@ -4,7 +4,10 @@ use mongodb::bson::Bson;
 
 use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
-    store::{BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument, LootEntryDocument},
+    store::{
+        BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument,
+        KaharTreasureMailDocument, LootEntryDocument,
+    },
     types::{LootRewardAggregateResponse, PersonalLootGroupResponse},
 };
 use crate::{
@@ -161,6 +164,29 @@ pub(crate) fn aggregate_personal_baulur_loot(
             }
             add_loot(&mut aggregate, participant.loot.as_deref().unwrap_or_default());
         }
+    }
+
+    into_personal_groups(HashMap::from([(None, aggregate)]))
+}
+
+pub(crate) fn aggregate_personal_kahar_treasure_loot(
+    mails: Vec<KaharTreasureMailDocument>,
+    range: &GovernorDateRange,
+) -> Vec<PersonalLootGroupResponse> {
+    let mut aggregate = LootCategoryAggregate::default();
+
+    for mail in mails {
+        let Some(event_time_millis) = extract_event_time_millis(
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
+        ) else {
+            continue;
+        };
+        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
+            continue;
+        }
+
+        add_report(&mut aggregate);
+        add_loot(&mut aggregate, mail.loot.as_deref().unwrap_or_default());
     }
 
     into_personal_groups(HashMap::from([(None, aggregate)]))
@@ -417,7 +443,8 @@ mod tests {
         super::store::{
             BarbarianFortBodyDocument, BarbarianFortContentDocument, BarbarianFortMailDocument,
             BattleMailDocument, BattleNpcDocument, BattleOpponentDocument, BaulurMailDocument,
-            BaulurNpcDocument, BaulurParticipantDocument, LootEntryDocument, MailMetadataDocument,
+            BaulurNpcDocument, BaulurParticipantDocument, KaharTreasureMailDocument,
+            LootEntryDocument, MailMetadataDocument,
         },
         *,
     };
@@ -639,6 +666,28 @@ mod tests {
         assert_eq!(groups[0].loot_total, 11);
     }
 
+    #[test]
+    fn aggregate_personal_kahar_treasure_loot_counts_mails_without_combat_totals() {
+        let range = test_range();
+        let mail_time = 1_735_689_600_000;
+
+        let groups = aggregate_personal_kahar_treasure_loot(
+            vec![
+                build_kahar_treasure_mail(mail_time, 45_000),
+                build_kahar_treasure_mail(mail_time, 50_000),
+                build_kahar_treasure_mail(1_735_776_000_000, 75_000),
+            ],
+            &range,
+        );
+
+        assert_eq!(groups.len(), 1);
+        assert_eq!(groups[0].reports, 2);
+        assert_eq!(groups[0].loot_total, 95_000);
+        assert_eq!(groups[0].ap_used, 0);
+        assert_eq!(groups[0].honor_gained, 0);
+        assert_eq!(groups[0].xp_gained, 0);
+    }
+
     fn build_npc_mail(
         mail_time: i64,
         player_id: i64,
@@ -701,6 +750,17 @@ mod tests {
                     sub_type: Some(Bson::Int64(26)),
                     value: Some(Bson::Int64(loot_value)),
                 }]),
+            }]),
+        }
+    }
+
+    fn build_kahar_treasure_mail(mail_time: i64, loot_value: i64) -> KaharTreasureMailDocument {
+        KaharTreasureMailDocument {
+            metadata: Some(MailMetadataDocument { mail_time: Some(Bson::Int64(mail_time)) }),
+            loot: Some(vec![LootEntryDocument {
+                reward_type: Some(Bson::Int64(1)),
+                sub_type: Some(Bson::Int64(9)),
+                value: Some(Bson::Int64(loot_value)),
             }]),
         }
     }

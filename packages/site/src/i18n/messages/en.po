@@ -382,13 +382,20 @@ msgid "l7kWPA"
 msgstr "Baulurs"
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "c5aU-N"
+msgstr "Kahar's Treasure"
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "yF_GXb"
 msgstr "My Loot"
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "HaXTtS"
-msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, and Baulurs."
+msgid "en1tf5"
+msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, and Kahar's Treasure."
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
@@ -437,6 +444,7 @@ msgstr "Marauders"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "yaMHMB"
 msgstr "Results"
 
@@ -804,12 +812,14 @@ msgstr "Save"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "sNAPQj"
 msgstr "Loading loot explorer data..."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "yedWVm"
 msgstr "Failed to load loot explorer data."
 
@@ -1223,6 +1233,10 @@ msgstr "Theme"
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
 msgstr "Olympian Arena"
+
+#: src/components/platform-layout.tsx
+msgid "H2meTq"
+msgstr "Combat Lab"
 
 #: src/components/platform-layout.tsx
 msgid "dr0ueW"

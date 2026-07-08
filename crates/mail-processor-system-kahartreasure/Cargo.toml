@@ -1,0 +1,11 @@
+[package]
+name = "mail-processor-system-kahartreasure"
+version = "1.5.1"
+edition = "2024"
+
+[dependencies]
+mail-processor-sdk = { path = "../mail-processor-sdk" }
+serde_json = { workspace = true }
+
+[lib]
+doctest = false

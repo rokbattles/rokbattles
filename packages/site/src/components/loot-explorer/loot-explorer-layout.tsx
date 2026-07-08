@@ -3,12 +3,13 @@ import Link from "next/link";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
 
-export type LootExplorerSection = "barbarians" | "barbarian-forts" | "baulurs";
+export type LootExplorerSection = "barbarians" | "barbarian-forts" | "baulurs" | "kahars-treasure";
 
 const sections: Array<{ key: LootExplorerSection; href: string }> = [
   { key: "barbarians", href: "/loot-explorer/barbarians" },
   { key: "barbarian-forts", href: "/loot-explorer/barbarian-forts" },
   { key: "baulurs", href: "/loot-explorer/baulurs" },
+  { key: "kahars-treasure", href: "/loot-explorer/kahars-treasure" },
 ];
 
 export function LootExplorerLayout({
@@ -23,6 +24,7 @@ export function LootExplorerLayout({
     barbarians: t("Barbarians"),
     "barbarian-forts": t("Barbarian Forts"),
     baulurs: t("Baulurs"),
+    "kahars-treasure": t("Kahar's Treasure"),
   };
 
   return (

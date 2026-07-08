@@ -76,6 +76,20 @@ pub async fn get_baulurs(
     ))
 }
 
+/// Returns precomputed Kahar treasure loot.
+pub async fn get_kahar_treasure(
+    State(state): State<Arc<AppState>>,
+) -> Result<impl IntoResponse, ApiError> {
+    let item = fetch_document::<RawKaharTreasureDocument, KaharTreasureDocument>(
+        state.reports_store.precomputed_kahar_treasure_collection(),
+        doc! { "key": "all" },
+    )
+    .await?
+    .ok_or_else(|| ApiError::not_found("Kahar treasure data not found"))?;
+
+    Ok((StatusCode::OK, [("Cache-Control", "public, max-age=3600")], Json(item)))
+}
+
 async fn fetch_documents<Raw, Output>(
     collection: &Collection<Document>,
     filter: Document,
@@ -103,6 +117,26 @@ where
     }
 
     Ok(items)
+}
+
+async fn fetch_document<Raw, Output>(
+    collection: &Collection<Document>,
+    filter: Document,
+) -> Result<Option<Output>, ApiError>
+where
+    Raw: for<'de> Deserialize<'de> + Into<Output>,
+{
+    let document = collection
+        .find_one(filter)
+        .projection(doc! { "_id": 0 })
+        .await
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    document
+        .map(from_document::<Raw>)
+        .transpose()
+        .map_err(|error| ApiError::internal(format!("invalid loot explorer document: {error}")))
+        .map(|document| document.map(Into::into))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -302,6 +336,34 @@ impl From<RawBaulurDocument> for BaulurDocument {
     }
 }
 
+#[derive(Debug, Clone, Deserialize)]
+struct RawKaharTreasureDocument {
+    key: String,
+    loot: Vec<LootDrop>,
+    totals: KaharTreasureTotals,
+    refreshed_at: DateTime,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct KaharTreasureDocument {
+    key: String,
+    loot: Vec<LootDrop>,
+    totals: KaharTreasureTotals,
+    refreshed_at: String,
+}
+
+impl From<RawKaharTreasureDocument> for KaharTreasureDocument {
+    fn from(value: RawKaharTreasureDocument) -> Self {
+        Self {
+            key: value.key,
+            loot: value.loot,
+            totals: value.totals,
+            refreshed_at: date_time_to_string(value.refreshed_at),
+        }
+    }
+}
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct BarbarianData {
@@ -338,6 +400,12 @@ struct FortTotals {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct BaulurTotals {
+    results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct KaharTreasureTotals {
     results: i64,
 }
 
@@ -392,7 +460,11 @@ struct NumericRange {
 mod tests {
     use std::collections::HashMap;
 
-    use super::{parse_kind_request, parse_level_request};
+    use mongodb::bson::{DateTime, doc, from_document};
+
+    use super::{
+        KaharTreasureDocument, RawKaharTreasureDocument, parse_kind_request, parse_level_request,
+    };
 
     #[test]
     fn parse_level_request_accepts_kind_and_comma_separated_levels() {
@@ -412,5 +484,33 @@ mod tests {
         let params = HashMap::from([("kind".to_string(), "abc".to_string())]);
 
         assert!(parse_kind_request(&params).is_err());
+    }
+
+    #[test]
+    fn kahar_treasure_document_maps_precomputed_shape_to_api_shape() {
+        let raw = from_document::<RawKaharTreasureDocument>(doc! {
+            "key": "all",
+            "loot": [
+                {
+                    "type": 2,
+                    "sub_type": 147,
+                    "results": 12_i64,
+                    "drop_rate": 0.75,
+                    "quantity": { "min": 5_i64, "max": 5_i64 },
+                    "total_quantity": 60_i64,
+                    "average_quantity": 5.0,
+                },
+            ],
+            "totals": { "results": 17_i64 },
+            "refreshed_at": DateTime::from_millis(1_783_480_000_000),
+        })
+        .expect("raw Kahar treasure document");
+
+        let document = KaharTreasureDocument::from(raw);
+
+        assert_eq!(document.key, "all");
+        assert_eq!(document.totals.results, 17);
+        assert_eq!(document.loot.len(), 1);
+        assert!(document.refreshed_at.starts_with("2026-07-08T"));
     }
 }

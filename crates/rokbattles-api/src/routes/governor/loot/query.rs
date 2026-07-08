@@ -43,6 +43,11 @@ pub(crate) struct BaulurLootRequest {
     pub npc: BaulurLootNpc,
 }
 
+#[derive(Debug, Clone)]
+pub(crate) struct KaharTreasureLootRequest {
+    pub range: GovernorDateRange,
+}
+
 pub(crate) fn parse_barbarian_loot_request(
     params: &HashMap<String, String>,
 ) -> Result<BarbarianLootRequest, ApiError> {
@@ -88,6 +93,13 @@ pub(crate) fn parse_baulur_loot_request(
     };
 
     Ok(BaulurLootRequest { range, npc })
+}
+
+pub(crate) fn parse_kahar_treasure_loot_request(
+    params: &HashMap<String, String>,
+) -> Result<KaharTreasureLootRequest, ApiError> {
+    let range = parse_default_governor_date_range(params)?;
+    Ok(KaharTreasureLootRequest { range })
 }
 
 fn parse_levels(params: &HashMap<String, String>, key: &str) -> Result<Vec<i32>, ApiError> {
@@ -180,6 +192,25 @@ mod tests {
         let request = parse_baulur_loot_request(&date_params()).expect("request");
 
         assert_eq!(request.npc, BaulurLootNpc::IronhandBaulur);
+    }
+
+    #[test]
+    fn parse_kahar_treasure_loot_request_accepts_date_filters() {
+        let request = parse_kahar_treasure_loot_request(&date_params()).expect("request");
+
+        assert_eq!(request.range.start, "2025-02-03");
+        assert_eq!(request.range.end, "2025-02-04");
+    }
+
+    #[test]
+    fn parse_kahar_treasure_loot_request_ignores_type_filter() {
+        let mut params = date_params();
+        params.insert("type".to_string(), "baulurs".to_string());
+
+        let request = parse_kahar_treasure_loot_request(&params).expect("request");
+
+        assert_eq!(request.range.start, "2025-02-03");
+        assert_eq!(request.range.end, "2025-02-04");
     }
 
     fn date_params() -> HashMap<String, String> {

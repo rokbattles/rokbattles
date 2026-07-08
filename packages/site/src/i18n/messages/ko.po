@@ -382,12 +382,19 @@ msgid "l7kWPA"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "c5aU-N"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "yF_GXb"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "HaXTtS"
+msgid "en1tf5"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -437,6 +444,7 @@ msgstr ""
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "yaMHMB"
 msgstr ""
 
@@ -804,12 +812,14 @@ msgstr "저장"
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "sNAPQj"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "yedWVm"
 msgstr ""
 
@@ -1222,6 +1232,10 @@ msgstr "테마"
 
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
+msgstr ""
+
+#: src/components/platform-layout.tsx
+msgid "H2meTq"
 msgstr ""
 
 #: src/components/platform-layout.tsx

@@ -429,6 +429,7 @@ mod tests {
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
         assert!(is_supported_mail_type("Rss"));
         assert!(is_supported_mail_type("SystemBarbarianFort"));
+        assert!(is_supported_mail_type("SystemKaharTreasure"));
         assert!(is_supported_mail_type("AllianceAOOBattleResults"));
         assert!(is_supported_mail_type("AllianceAOOBattleInfo"));
         assert!(is_supported_mail_type("AllianceAOOIndividualResults"));
@@ -472,6 +473,19 @@ mod tests {
             }
         });
         assert_eq!(extract_mail_type(&decoded).unwrap(), "SystemBarbarianFort".to_string());
+    }
+
+    #[test]
+    fn extracts_system_kahar_treasure_mail_type() {
+        let decoded = json!({
+            "type": "System",
+            "box": "SystemBox",
+            "body": {
+                "subParam": 11,
+                "subType": 29
+            }
+        });
+        assert_eq!(extract_mail_type(&decoded).unwrap(), "SystemKaharTreasure".to_string());
     }
 
     #[test]
@@ -667,9 +681,11 @@ mod tests {
         assert_eq!(insert_status_for_mail_type("Battle"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("Rss"), STATUS_PENDING);
         assert_eq!(insert_status_for_mail_type("SystemBarbarianFort"), STATUS_PENDING);
+        assert_eq!(insert_status_for_mail_type("SystemKaharTreasure"), STATUS_PENDING);
         assert_eq!(update_status_for_mail_type("Battle"), STATUS_REPROCESS);
         assert_eq!(update_status_for_mail_type("Rss"), STATUS_REPROCESS);
         assert_eq!(update_status_for_mail_type("SystemBarbarianFort"), STATUS_REPROCESS);
+        assert_eq!(update_status_for_mail_type("SystemKaharTreasure"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleResults"), STATUS_PENDING);
         assert_eq!(update_status_for_mail_type("AllianceAOOBattleResults"), STATUS_REPROCESS);
         assert_eq!(insert_status_for_mail_type("AllianceAOOBattleInfo"), STATUS_PENDING);

@@ -21,6 +21,7 @@ pub struct Storage {
     barcanyonkillboss: Collection<Document>,
     rss: Collection<Document>,
     system_barbarianfort: Collection<Document>,
+    system_kahartreasure: Collection<Document>,
     alliance_aoobattleresults: Collection<Document>,
     alliance_aoobattleinfo: Collection<Document>,
     alliance_aooindividualresults: Collection<Document>,
@@ -38,6 +39,7 @@ impl Storage {
             barcanyonkillboss: db.collection(MailType::BarCanyonKillBoss.collection_name()),
             rss: db.collection(MailType::Rss.collection_name()),
             system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
+            system_kahartreasure: db.collection(MailType::SystemKaharTreasure.collection_name()),
             alliance_aoobattleresults: db
                 .collection(MailType::AllianceAOOBattleResults.collection_name()),
             alliance_aoobattleinfo: db
@@ -64,6 +66,7 @@ impl Storage {
         self.barcanyonkillboss.create_index(mail_id_index.clone()).await?;
         self.rss.create_index(mail_id_index.clone()).await?;
         self.system_barbarianfort.create_index(mail_id_index.clone()).await?;
+        self.system_kahartreasure.create_index(mail_id_index.clone()).await?;
         self.alliance_aoobattleresults.create_index(mail_id_index.clone()).await?;
         self.alliance_aoobattleinfo.create_index(mail_id_index.clone()).await?;
         self.alliance_aooindividualresults.create_index(mail_id_index.clone()).await?;
@@ -105,6 +108,7 @@ impl Storage {
             MailType::BarCanyonKillBoss => &self.barcanyonkillboss,
             MailType::Rss => &self.rss,
             MailType::SystemBarbarianFort => &self.system_barbarianfort,
+            MailType::SystemKaharTreasure => &self.system_kahartreasure,
             MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,

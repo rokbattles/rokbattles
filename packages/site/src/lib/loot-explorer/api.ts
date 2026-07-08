@@ -78,6 +78,15 @@ export type BaulurLootDocument = {
   refreshedAt: string;
 };
 
+export type KaharTreasureLootDocument = {
+  key: string;
+  loot: LootDrop[];
+  totals: {
+    results: number;
+  };
+  refreshedAt: string;
+};
+
 type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs";
 
 export async function fetchLootExplorerItems<T>(
@@ -92,4 +101,16 @@ export async function fetchLootExplorerItems<T>(
   }
 
   return (await response.json()) as LootExplorerResponse<T>;
+}
+
+export async function fetchKaharTreasureLoot(): Promise<KaharTreasureLootDocument> {
+  const response = await fetch("/proxy/v1/global/loot-explorer/kahars-treasure", {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to load Kahar treasure loot data: ${response.status}`);
+  }
+
+  return (await response.json()) as KaharTreasureLootDocument;
 }
