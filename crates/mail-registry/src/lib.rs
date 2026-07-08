@@ -6,6 +6,8 @@ use serde_json::{Map, Value};
 
 /// Internal system barbarian fort mail type label.
 pub const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
+/// Internal system Kahar treasure mail type label.
+pub const MAIL_TYPE_SYSTEM_KAHAR_TREASURE: &str = "SystemKaharTreasure";
 /// Internal Ark of Osiris battle results mail type label.
 pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
 /// Internal Ark of Osiris battle info mail type label.
@@ -28,6 +30,8 @@ pub enum MailType {
     Rss,
     /// System barbarian fort reports.
     SystemBarbarianFort,
+    /// System Kahar treasure reward mail.
+    SystemKaharTreasure,
     /// Ark of Osiris alliance battle results.
     AllianceAOOBattleResults,
     /// Ark of Osiris alliance battle info.
@@ -42,12 +46,13 @@ pub enum MailType {
 
 impl MailType {
     /// All processable mail types.
-    pub const ALL: [Self; 10] = [
+    pub const ALL: [Self; 11] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
         Self::Rss,
         Self::SystemBarbarianFort,
+        Self::SystemKaharTreasure,
         Self::AllianceAOOBattleResults,
         Self::AllianceAOOBattleInfo,
         Self::AllianceAOOIndividualResults,
@@ -64,6 +69,7 @@ impl MailType {
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
             "Rss" => Some(Self::Rss),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
+            MAIL_TYPE_SYSTEM_KAHAR_TREASURE => Some(Self::SystemKaharTreasure),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS => Some(Self::AllianceAOOBattleResults),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO => Some(Self::AllianceAOOBattleInfo),
             MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS => Some(Self::AllianceAOOIndividualResults),
@@ -88,6 +94,7 @@ impl MailType {
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
             Self::Rss => "Rss",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
+            Self::SystemKaharTreasure => MAIL_TYPE_SYSTEM_KAHAR_TREASURE,
             Self::AllianceAOOBattleResults => MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
             Self::AllianceAOOBattleInfo => MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO,
             Self::AllianceAOOIndividualResults => MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS,
@@ -105,6 +112,7 @@ impl MailType {
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
             Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
+            Self::SystemKaharTreasure => "mails_system_kahartreasure",
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
             Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
@@ -152,8 +160,13 @@ pub fn raw_mail_type_string(value: &Value) -> Option<String> {
 pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType> {
     let mail_type = root.get("type").and_then(Value::as_str)?;
 
-    if mail_type.eq_ignore_ascii_case("System") && is_system_barbarian_fort_mail(root) {
-        return Some(MailType::SystemBarbarianFort);
+    if mail_type.eq_ignore_ascii_case("System") {
+        if is_system_kahar_treasure_mail(root) {
+            return Some(MailType::SystemKaharTreasure);
+        }
+        if is_system_barbarian_fort_mail(root) {
+            return Some(MailType::SystemBarbarianFort);
+        }
     }
     if mail_type.eq_ignore_ascii_case("Alliance")
         && let Some(alliance_aoo_type) = detect_alliance_aoo_mail_type(root)
@@ -184,17 +197,25 @@ pub fn is_supported_mail_type(mail_type: &str) -> bool {
 }
 
 fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
-    if !mail_has_box(root, "Report") {
-        return false;
-    }
-
     let Some(body) = root.get("body").and_then(Value::as_object) else {
         return false;
     };
 
     let sub_param = body.get("subParam").and_then(value_as_u64);
     let sub_type = body.get("subType").and_then(value_as_u64);
-    matches!(sub_type, Some(11)) && matches!(sub_param, Some(1 | 3 | 4))
+
+    matches!((sub_type, sub_param), (Some(11), Some(1 | 3 | 4)))
+}
+
+fn is_system_kahar_treasure_mail(root: &Map<String, Value>) -> bool {
+    let Some(body) = root.get("body").and_then(Value::as_object) else {
+        return false;
+    };
+
+    let sub_param = body.get("subParam").and_then(value_as_u64);
+    let sub_type = body.get("subType").and_then(value_as_u64);
+
+    matches!((sub_type, sub_param), (Some(29), Some(11)))
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> {
@@ -251,6 +272,7 @@ pub fn process_mail(
         MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process(input),
         MailType::Rss => mail_processor_rss::process(input),
         MailType::SystemBarbarianFort => mail_processor_system_barbarianfort::process(input),
+        MailType::SystemKaharTreasure => mail_processor_system_kahartreasure::process(input),
         MailType::AllianceAOOBattleResults => {
             mail_processor_alliance_aoo_battle_results::process(input)
         }
@@ -327,6 +349,20 @@ mod tests {
         });
 
         assert_eq!(detect_mail_type(&payload), Some(MailType::SystemBarbarianFort));
+    }
+
+    #[test]
+    fn detect_mail_type_matches_system_kahar_treasure() {
+        let payload = json!({
+            "type": "System",
+            "box": "SystemBox",
+            "body": {
+                "subParam": 11,
+                "subType": 29
+            }
+        });
+
+        assert_eq!(detect_mail_type(&payload), Some(MailType::SystemKaharTreasure));
     }
 
     #[test]
@@ -451,14 +487,18 @@ mod tests {
     }
 
     #[test]
-    fn detect_mail_type_rejects_partial_system_matches() {
-        let unsupported_box = json!({
+    fn detect_mail_type_matches_system_subtypes_without_requiring_box() {
+        let payload = json!({
             "type": "System",
             "box": "AllianceBox",
             "body": { "subType": 11, "subParam": 1 }
         });
-        assert_eq!(detect_mail_type(&unsupported_box), None);
 
+        assert_eq!(detect_mail_type(&payload), Some(MailType::SystemBarbarianFort));
+    }
+
+    #[test]
+    fn detect_mail_type_rejects_partial_system_matches() {
         let unsupported_sub_type = json!({
             "type": "System",
             "box": "Report",
@@ -485,6 +525,7 @@ mod tests {
         assert_eq!(MailType::BarCanyonKillBoss.collection_name(), "mails_barcanyonkillboss");
         assert_eq!(MailType::Rss.collection_name(), "mails_rss");
         assert_eq!(MailType::SystemBarbarianFort.collection_name(), "mails_system_barbarianfort");
+        assert_eq!(MailType::SystemKaharTreasure.collection_name(), "mails_system_kahartreasure");
         assert_eq!(
             MailType::AllianceAOOBattleResults.collection_name(),
             "mails_alliance_aoobattleresults"
@@ -520,5 +561,42 @@ mod tests {
         let metadata = processed.sections().get("metadata").expect("metadata section");
 
         assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
+    }
+
+    #[cfg(feature = "processors")]
+    #[test]
+    fn process_mail_dispatches_system_kahar_treasure() {
+        let payload = json!({
+            "type": "System",
+            "id": "mail-1",
+            "time": 1234,
+            "receiver": "player-1",
+            "serverId": 55,
+            "attachments": [
+                1,
+                {
+                    "loot": [
+                        1,
+                        { "Type": 1, "SubType": 9, "Value": 45000 }
+                    ]
+                }
+            ],
+            "body": {
+                "subParam": 11,
+                "subType": 29
+            }
+        });
+
+        let processed =
+            process_mail(MailType::SystemKaharTreasure, &payload).expect("process kahar treasure");
+        let metadata = processed.sections().get("metadata").expect("metadata section");
+        let loot = processed
+            .sections()
+            .get("loot")
+            .and_then(mail_processor_sdk::Section::array)
+            .expect("loot section");
+
+        assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
+        assert_eq!(loot[0], json!({"type": 1, "sub_type": 9, "value": 45000}));
     }
 }

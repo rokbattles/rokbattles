@@ -248,6 +248,20 @@ mod tests {
     }
 
     #[test]
+    fn extract_mail_type_parses_system_kahar_treasure() {
+        let value = json!({
+            "type": "System",
+            "box": "SystemBox",
+            "body": {
+                "subParam": 11,
+                "subType": 29
+            }
+        });
+        let mail_type = extract_mail_type(&value).unwrap();
+        assert_eq!(mail_type, MailType::SystemKaharTreasure);
+    }
+
+    #[test]
     fn extract_mail_type_rejects_system_mail_with_unsupported_sub_param() {
         let value = json!({
             "type": "System",

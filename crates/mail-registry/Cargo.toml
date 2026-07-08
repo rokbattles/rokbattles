@@ -17,6 +17,7 @@ processors = [
     "dep:mail-processor-scoutreport",
     "dep:mail-processor-sdk",
     "dep:mail-processor-system-barbarianfort",
+    "dep:mail-processor-system-kahartreasure",
 ]
 
 [dependencies]
@@ -32,6 +33,7 @@ mail-processor-rss = { path = "../mail-processor-rss", optional = true }
 mail-processor-scoutreport = { path = "../mail-processor-scoutreport", optional = true }
 mail-processor-sdk = { path = "../mail-processor-sdk", optional = true }
 mail-processor-system-barbarianfort = { path = "../mail-processor-system-barbarianfort", optional = true }
+mail-processor-system-kahartreasure = { path = "../mail-processor-system-kahartreasure", optional = true }
 
 [lib]
 doctest = false

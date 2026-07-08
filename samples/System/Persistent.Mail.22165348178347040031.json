@@ -1,0 +1,79 @@
+{
+  "addition": "",
+  "attachments": [
+    1,
+    {
+      "id": 1,
+      "loot": [
+        1,
+        {
+          "PIC": "img_Crystal",
+          "SubType": 9,
+          "Type": 1,
+          "Value": 45000
+        },
+        2,
+        {
+          "PIC": "img_icon_item_4",
+          "SubType": 147,
+          "Type": 2,
+          "Value": 5
+        },
+        3,
+        {
+          "PIC": "img_icon_item_22",
+          "SubType": 10,
+          "Type": 2,
+          "Value": 1
+        },
+        4,
+        {
+          "PIC": "img_icon_item_24",
+          "SubType": 109,
+          "Type": 2,
+          "Value": 3
+        },
+        5,
+        {
+          "PIC": "img_icon_item_11",
+          "SubType": 94,
+          "Type": 2,
+          "Value": 1
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Greetings Governor,\n\nYou defeated Kahar the Hidden, and received a chest full of great rewards he left behind!",
+    "subParam": 11,
+    "subTitle": "Congratulations on Defeating Kahar the Hidden",
+    "subType": 29,
+    "title": "Kahar's Treasure"
+  },
+  "box": "SystemBox",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "22165348178347040031",
+  "mailScene": 0,
+  "preMailId": "",
+  "prevBox": "",
+  "receiver": "player_71738515",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 16012,
+  "starMark": 0,
+  "time": 1783470400647228,
+  "title": "",
+  "type": "System",
+  "unread": false
+}
