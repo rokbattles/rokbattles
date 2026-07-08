@@ -187,6 +187,198 @@ loot:
         - img_gem.png
 
   2:
+    3:
+      name:
+        ar: "150,000 طعام"
+        de: "150.000 Proviant"
+        en: "150,000 Food"
+        es: "150 000 de Alimento"
+        fr: "150 000 unités de nourriture"
+        id: "150.000 Food"
+        it: "150.000 unità di cibo"
+        ja: "150,000 食料"
+        ko: "식량 150,000개"
+        ms: "150,000 Makanan"
+        pl: "150 000 żywności"
+        pt: "150.000 de alimento"
+        ru: "150 000 пищи"
+        th: "อาหาร 150,000 หน่วย"
+        tr: "150.000 Gıda"
+        vi: "150.000 thực phẩm"
+        zh_CN: "150,000 食物"
+        zh_TW: "150,000 食物"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_23.png
+
+    6:
+      name:
+        ar: "5,000,000 طعام"
+        de: "5.000.000 Proviant"
+        en: "5,000,000 Food"
+        es: "5000 000 de Alimento"
+        fr: "5 000 000 unités de nourriture"
+        id: "5.000.000 Food"
+        it: "5.000.000 unità di cibo"
+        ja: "5,000,000 食料"
+        ko: "식량 5,000,000개"
+        ms: "5,000,000 Makanan"
+        pl: "5 000 000 żywności"
+        pt: "5.000.000 de alimento"
+        ru: "5 000 000 пищи"
+        th: "อาหาร 5,000,000 หน่วย"
+        tr: "5.000.000 Gıda"
+        vi: "5.000.000 thực phẩm"
+        zh_CN: "5,000,000 食物"
+        zh_TW: "5,000,000 食物"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_23.png
+
+    9:
+      name:
+        ar: "150,000 خشب"
+        de: "150.000 Holz"
+        en: "150,000 Wood"
+        es: "150 000 de Madera"
+        fr: "150 000 unités de bois"
+        id: "150.000 Kayu"
+        it: "150.000 unità di legname"
+        ja: "150,000 木材"
+        ko: "목재 150,000개"
+        ms: "150,000 Kayu"
+        pl: "150 000 drewna"
+        pt: "150.000 de madeira"
+        ru: "150 000 дерева"
+        th: "ไม้ 150,000 หน่วย"
+        tr: "150.000 Odun"
+        vi: "150.000 khối gỗ"
+        zh_CN: "150,000 木材"
+        zh_TW: "150,000 木材"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_22.png
+
+    10:
+      name:
+        ar: "500,000 خشب"
+        de: "500.000 Holz"
+        en: "500,000 Wood"
+        es: "500 000 de Madera"
+        fr: "500 000 unités de bois"
+        id: "500.000 Kayu"
+        it: "500.000 unità di legname"
+        ja: "500,000 木材"
+        ko: "목재 500,000개"
+        ms: "500,000 Kayu"
+        pl: "500 000 drewna"
+        pt: "500.000 de madeira"
+        ru: "500 000 дерева"
+        th: "ไม้ 500,000 หน่วย"
+        tr: "500.000 Odun"
+        vi: "500.000 khối gỗ"
+        zh_CN: "500,000 木材"
+        zh_TW: "500,000 木材"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_22.png
+
+    15:
+      name:
+        ar: "112,500 حجر"
+        de: "112.500 Steine"
+        en: "112,500 Stone"
+        es: "112,500 de Piedra"
+        fr: "112 500 pierres"
+        id: "112.500 Stone"
+        it: "112.500 unità di pietra"
+        ja: "112,500 石材"
+        ko: "석재 112,500개"
+        ms: "112,500 Batu"
+        pl: "112 500 kamienia"
+        pt: "112.500 de pedra"
+        ru: "112 500 камня"
+        th: "หิน 112,500 หน่วย"
+        tr: "112.500 Taş"
+        vi: "112.500 khối đá"
+        zh_CN: "112,500 石料"
+        zh_TW: "112,500 石料"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_21.png
+
+    16:
+      name:
+        ar: "375,000 حجر"
+        de: "375.000 Steine"
+        en: "375,000 Stone"
+        es: "375 000 de Piedra"
+        fr: "375 000 pierres"
+        id: "375.000 Batu"
+        it: "375.000 unità di pietra"
+        ja: "375,000 石材"
+        ko: "석재 375,000개"
+        ms: "375,000 Batu"
+        pl: "375 000 kamienia"
+        pt: "375.000 Pedras"
+        ru: "375 000 камня"
+        th: "หิน 375,000 หน่วย"
+        tr: "375.000 Taş"
+        vi: "375.000 khối đá"
+        zh_CN: "375,000 石料"
+        zh_TW: "375,000 石料"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_21.png
+
+    21:
+      name:
+        ar: "50,000 ذهب"
+        de: "50.000 Gold"
+        en: "50,000 Gold"
+        es: "50 000 de Oro"
+        fr: "50 000 unités d'or"
+        id: "50.000 Emas"
+        it: "50.000 Oro"
+        ja: "50,000 金貨"
+        ko: "금화 50,000개"
+        ms: "50,000 Emas"
+        pl: "50 000 złota"
+        pt: "50.000 de ouro"
+        ru: "50 000 золота"
+        th: "ทอง 50,000 หน่วย"
+        tr: "50.000 Altın"
+        vi: "50.000 đồng vàng"
+        zh_CN: "50,000 金币"
+        zh_TW: "50,000 金幣"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_20.png
+
+    22:
+      name:
+        ar: "200,000 ذهب"
+        de: "200.000 Gold"
+        en: "200,000 Gold"
+        es: "200 000 de Oro"
+        fr: "200 000 unités d'or"
+        id: "200.000 Emas"
+        it: "200.000 Oro"
+        ja: "200,000 金貨"
+        ko: "금화 200,000개"
+        ms: "200,000 Emas"
+        pl: "200 000 złota"
+        pt: "200.000 de ouro"
+        ru: "200 000 золота"
+        th: "ทอง 200,000 หน่วย"
+        tr: "200.000 Altın"
+        vi: "200.000 đồng vàng"
+        zh_CN: "200,000 金币"
+        zh_TW: "200,000 金幣"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_20.png
+
     26:
       name:
         ar: "10 جواهر"
@@ -715,6 +907,30 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_12.png
 
+    84:
+      name:
+        ar: "تسريع البحث لمدة 15 دقيقة"
+        de: "15 Minuten Forschungsbeschleunigung"
+        en: "15-Minute Research Speedup"
+        es: "15 minutos de Aceleración de Investigación"
+        fr: "Accélération de recherche - -15 minutes"
+        id: "Speedup Riset 15 Menit"
+        it: "Acceleratore ricerca da 15 minuti"
+        ja: "15分研究加速"
+        ko: "15분 연구 가속"
+        ms: "Percepat Penyelidikan 15 Minit"
+        pl: "15-min. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 15 minutos"
+        ru: "15-минутное ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 15 นาที"
+        tr: "15 Dakikalık Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 15 phút"
+        zh_CN: "15分钟研究加速"
+        zh_TW: "15分鐘研究加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_13.png
+
     85:
       name:
         ar: "تسريع البحث لمدة 30 دقيقة"
@@ -763,6 +979,30 @@ loot:
         - img_icon_item_BGGreen.png
         - img_icon_item_11.png
 
+    94:
+      name:
+        ar: "تسريع العلاج لمدة 15 دقيقة"
+        de: "15 Minuten Heilungsbeschleunigung"
+        en: "15-Minute Healing Speedup"
+        es: "15 minutos de Aceleración de Sanación"
+        fr: "Accélération de soin - 15 minutes"
+        id: "Speedup Penyembuhan 15 Menit"
+        it: "Acceleratore guarigione da 15 minuti"
+        ja: "15分治療加速"
+        ko: "15분 치료 가속"
+        ms: "Percepat Penyembuhan 15 Minit"
+        pl: "15-min. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 15 Minutos"
+        ru: "15-минутное ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 15 นาที"
+        tr: "15 Dakikalık İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 15 phút"
+        zh_CN: "15分钟治疗加速"
+        zh_TW: "15分鐘治療加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_11.png
+
     96:
       name:
         ar: "تسريع العلاج لمدة 60 دقيقة"
@@ -783,6 +1023,30 @@ loot:
         vi: "Tăng tốc chữa lành 60 phút"
         zh_CN: "60分钟治疗加速"
         zh_TW: "60分鐘治療加速"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_11.png
+
+    97:
+      name:
+        ar: "تسريع العلاج لمدة 3 ساعات"
+        de: "3 Stunden Heilungsbeschleunigung"
+        en: "3-Hour Healing Speedup"
+        es: "3 horas de Aceleración de Sanación"
+        fr: "Accélération de soin - 3 heures"
+        id: "Speedup Penyembuhan 3 Jam"
+        it: "Acceleratore guarigione da 3 ore"
+        ja: "3時間治療加速"
+        ko: "3시간 치료 가속"
+        ms: "Percepat Penyembuhan 3 Jam"
+        pl: "3-godz. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 3 Horas"
+        ru: "3-часовое ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 3 ชั่วโมง"
+        tr: "3 Saatlik İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 3 giờ"
+        zh_CN: "3小时治疗加速"
+        zh_TW: "3小時治療加速"
       sprite:
         - img_icon_item_BGBlue.png
         - img_icon_item_11.png
