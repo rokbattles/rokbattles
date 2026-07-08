@@ -1,6 +1,6 @@
 [package]
 name = "rokbattles-desktop"
-version = "1.5.0"
+version = "1.5.1"
 description = "A community-driven platform for sharing battle reports and surfacing actionable trends in Rise of Kingdoms."
 authors = ["Sylke Technologies, LLC"]
 edition = "2024"
