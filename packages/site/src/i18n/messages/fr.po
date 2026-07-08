@@ -678,6 +678,11 @@ msgstr ""
 msgid "pFZfPa"
 msgstr ""
 
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "c5aU-N"
+msgstr ""
+
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "75KFvG"
