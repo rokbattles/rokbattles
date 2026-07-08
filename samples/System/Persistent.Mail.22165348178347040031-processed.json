@@ -1,0 +1,35 @@
+{
+  "loot": [
+    {
+      "sub_type": 9,
+      "type": 1,
+      "value": 45000
+    },
+    {
+      "sub_type": 147,
+      "type": 2,
+      "value": 5
+    },
+    {
+      "sub_type": 10,
+      "type": 2,
+      "value": 1
+    },
+    {
+      "sub_type": 109,
+      "type": 2,
+      "value": 3
+    },
+    {
+      "sub_type": 94,
+      "type": 2,
+      "value": 1
+    }
+  ],
+  "metadata": {
+    "mail_id": "22165348178347040031",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1783470400647228,
+    "server_id": 16012
+  }
+}

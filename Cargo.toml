@@ -17,6 +17,7 @@ members = [
     "crates/mail-processor-scoutreport",
     "crates/mail-processor-sdk",
     "crates/mail-processor-system-barbarianfort",
+    "crates/mail-processor-system-kahartreasure",
     "crates/rokbattles-tcp-processor",
     "crates/rokbattles-api",
     "crates/rokbattles-jobs",
