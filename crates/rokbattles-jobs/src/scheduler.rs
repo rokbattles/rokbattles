@@ -12,6 +12,7 @@ use crate::{
     precompute_barbarianfort::precompute_barbarian_fort_data,
     precompute_baulur::precompute_baulur_data,
     precompute_cmdr_pairings::precompute_commander_pairings_data,
+    precompute_kahar_treasure::precompute_kahar_treasure_data,
     refresh_binds::refresh_claimed_governor_bindings,
 };
 
@@ -24,6 +25,8 @@ pub const PRECOMPUTE_BARBARIAN_FORT_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_BAULUR_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
+pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours
 pub const PRECOMPUTE_COMMANDER_PAIRINGS_CRON: &str = "0 0 */8 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
@@ -34,6 +37,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let barbarian_lock = Arc::new(Mutex::new(()));
     let barbarian_fort_lock = Arc::new(Mutex::new(()));
     let baulur_lock = Arc::new(Mutex::new(()));
+    let kahar_treasure_lock = Arc::new(Mutex::new(()));
     let commander_pairings_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
@@ -135,6 +139,30 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
 
     add_locked_job(
         &scheduler,
+        PRECOMPUTE_KAHAR_TREASURE_CRON,
+        Arc::clone(&reports_store),
+        kahar_treasure_lock,
+        "Kahar treasure precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_kahar_treasure_data(&reports_store).await {
+                Ok(stats) => {
+                    info!(
+                        documents_read = stats.documents_read,
+                        mails_counted = stats.mails_counted,
+                        documents_written = stats.documents_written,
+                        "precomputed Kahar treasure data"
+                    );
+                }
+                Err(error) => {
+                    error!(%error, "failed to precompute Kahar treasure data");
+                }
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
         PRECOMPUTE_COMMANDER_PAIRINGS_CRON,
         reports_store,
         commander_pairings_lock,
@@ -199,7 +227,7 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, REFRESH_BINDS_CRON,
+        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_KAHAR_TREASURE_CRON, REFRESH_BINDS_CRON,
     };
 
     #[test]
@@ -220,6 +248,11 @@ mod tests {
     #[test]
     fn precompute_baulur_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_BAULUR_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn precompute_kahar_treasure_cron_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_KAHAR_TREASURE_CRON, "0 0 */8 * * *");
     }
 
     #[test]
