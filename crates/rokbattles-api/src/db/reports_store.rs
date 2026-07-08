@@ -203,8 +203,12 @@ impl ReportsStore {
             self.mails_system_barbarianfort.create_index(model).await?;
         }
 
-        let kahar_treasure_models =
-            vec![IndexModel::builder().keys(doc! { "metadata.mail_time": -1 }).build()];
+        let kahar_treasure_models = vec![
+            IndexModel::builder().keys(doc! { "metadata.mail_time": -1 }).build(),
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_receiver": 1, "metadata.mail_time": -1 })
+                .build(),
+        ];
 
         for model in kahar_treasure_models {
             self.mails_system_kahartreasure.create_index(model).await?;

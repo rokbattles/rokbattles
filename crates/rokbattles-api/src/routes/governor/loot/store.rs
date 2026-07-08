@@ -101,6 +101,14 @@ pub(crate) struct BaulurMailDocument {
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
+pub(crate) struct KaharTreasureMailDocument {
+    #[serde(default)]
+    pub metadata: Option<MailMetadataDocument>,
+    #[serde(default)]
+    pub loot: Option<Vec<LootEntryDocument>>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
 pub(crate) struct BaulurNpcDocument {
     #[serde(default, rename = "type")]
     pub npc_type: Option<Bson>,
@@ -255,6 +263,33 @@ pub(crate) async fn fetch_baulur_mails(
 
     fetch_collection_documents(state.reports_store.barcanyonkillboss_collection(), filter, options)
         .await
+}
+
+pub(crate) async fn fetch_kahar_treasure_mails(
+    state: &Arc<AppState>,
+    mail_receiver: &str,
+    time_match: &Document,
+) -> Result<Vec<KaharTreasureMailDocument>, ApiError> {
+    let options = FindOptions::builder()
+        .projection(doc! {
+            "_id": 0,
+            "metadata.mail_time": 1,
+            "loot": 1,
+        })
+        .build();
+    let filter = doc! {
+        "$and": [
+            { "metadata.mail_receiver": mail_receiver },
+            time_match.clone(),
+        ]
+    };
+
+    fetch_collection_documents(
+        state.reports_store.system_kahar_treasure_collection(),
+        filter,
+        options,
+    )
+    .await
 }
 
 fn system_barbarian_fort_find_options() -> FindOptions {

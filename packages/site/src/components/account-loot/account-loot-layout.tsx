@@ -5,12 +5,13 @@ import Link from "next/link";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
 
-export type AccountLootSection = "barbarians" | "barbarian-forts" | "baulurs";
+export type AccountLootSection = "barbarians" | "barbarian-forts" | "baulurs" | "kahars-treasure";
 
 const sections: Array<{ key: AccountLootSection; href: string }> = [
   { key: "barbarians", href: "/account/loot/barbarians" },
   { key: "barbarian-forts", href: "/account/loot/barbarian-forts" },
   { key: "baulurs", href: "/account/loot/baulurs" },
+  { key: "kahars-treasure", href: "/account/loot/kahars-treasure" },
 ];
 
 export function AccountLootLayout({
@@ -25,6 +26,7 @@ export function AccountLootLayout({
     barbarians: t("Barbarians"),
     "barbarian-forts": t("Barbarian Forts"),
     baulurs: t("Baulurs"),
+    "kahars-treasure": t("Kahar's Treasure"),
   };
 
   return (
@@ -34,7 +36,7 @@ export function AccountLootLayout({
           <Heading>{t("My Loot")}</Heading>
           <p className="max-w-xl text-sm/6 text-zinc-600 dark:text-zinc-400">
             {t(
-              "Explore loot that you have received from Barbarians, Barbarian Forts, and Baulurs."
+              "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, and Kahar's Treasure."
             )}
           </p>
         </div>

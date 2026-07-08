@@ -4,12 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { toDateInput, todayUtcStartMillis } from "@/lib/loot/date";
 import type { PersonalLootQueryResult } from "@/lib/types/loot";
 
-export type PersonalLootEndpoint = "barbarians" | "barbarian-forts" | "baulurs";
+export type PersonalLootEndpoint = "barbarians" | "barbarian-forts" | "baulurs" | "kahars-treasure";
 
 type PersonalLootOptions = {
   governorId: number | null | undefined;
   endpoint: PersonalLootEndpoint;
-  type: string;
+  type?: string;
   levels?: number[];
   startParam?: string | null;
   endParam?: string | null;
@@ -34,8 +34,11 @@ function buildParams(options: PersonalLootOptions) {
   const params = new URLSearchParams({
     start: options.startParam || defaults.start,
     end: options.endParam || defaults.end,
-    type: options.type,
   });
+
+  if (options.type) {
+    params.set("type", options.type);
+  }
 
   if (options.levels?.length) {
     params.set("level", options.levels.join(","));
