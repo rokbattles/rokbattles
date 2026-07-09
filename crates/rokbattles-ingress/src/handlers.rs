@@ -15,6 +15,7 @@ use serde_json::Value;
 use crate::{
     clamav::{ScanStatus, scan_zstream},
     error::ApiError,
+    raw_mail::{self, RawMailDocumentInput},
     state::AppState,
 };
 
@@ -89,6 +90,8 @@ pub async fn upload(
             upload.file_name
         )));
     }
+
+    store_compressed_raw_mail(&state, &buffer, &decoded, &mail_id, &mail_type, &user_agent).await?;
 
     let attack_count = count_attacks(&decoded) as i64;
 
@@ -194,6 +197,64 @@ pub async fn upload(
     };
 
     Ok((status, Json(response)))
+}
+
+async fn store_compressed_raw_mail(
+    state: &AppState,
+    buffer: &[u8],
+    decoded: &Value,
+    mail_id: &str,
+    mail_type: &str,
+    user_agent: &str,
+) -> Result<(), ApiError> {
+    let checksum = raw_mail::sha256_hex(buffer);
+    let existing = state
+        .storage
+        .find_existing_compressed_raw(mail_id)
+        .await
+        .map_err(|error| ApiError::database(error.to_string()))?;
+
+    let action = match existing {
+        None => UploadAction::Insert,
+        Some(existing) if existing.checksum == checksum => UploadAction::Skip,
+        Some(_) => UploadAction::Update,
+    };
+
+    if matches!(action, UploadAction::Skip) {
+        return Ok(());
+    }
+
+    let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
+    let status = match action {
+        UploadAction::Insert => insert_status_for_mail_type(mail_type),
+        UploadAction::Update => update_status_for_mail_type(mail_type),
+        UploadAction::Skip => unreachable!("skip returned above"),
+    };
+    let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
+        original_bytes: buffer,
+        user_agent,
+        checksum: &checksum,
+        mail: &mail,
+        status,
+        now: DateTime::now(),
+        zstd_level: state.config.raw_zstd_level,
+    })?;
+
+    match action {
+        UploadAction::Insert => state
+            .storage
+            .insert_compressed_raw(doc)
+            .await
+            .map_err(|error| ApiError::database(error.to_string()))?,
+        UploadAction::Update => state
+            .storage
+            .update_compressed_raw(mail_id, doc)
+            .await
+            .map_err(|error| ApiError::database(error.to_string()))?,
+        UploadAction::Skip => {}
+    }
+
+    Ok(())
 }
 
 /// Acknowledge legacy TCP stream uploads without storing or validating them.
