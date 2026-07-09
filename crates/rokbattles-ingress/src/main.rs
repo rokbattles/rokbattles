@@ -4,6 +4,7 @@ mod clamav;
 mod config;
 mod error;
 mod handlers;
+mod raw_mail;
 mod state;
 mod storage;
 
