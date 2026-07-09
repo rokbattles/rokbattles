@@ -1147,6 +1147,30 @@ loot:
         - img_icon_item_BGPurple.png
         - img_icon_item_12.png
 
+    79:
+      name:
+        ar: "تسريع التدريب لمدة 15 ساعة"
+        de: "15 Stunden Ausbildungsbeschleunigung"
+        en: "15-Hour Training Speedup"
+        es: "15 horas de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 15 heures"
+        id: "Speedup Melatih 15 Jam"
+        it: "Acceleratore addestramento da 15 ore"
+        ja: "15時間訓練加速"
+        ko: "15시간 훈련 가속"
+        ms: "Percepat Latihan 15 Jam"
+        pl: "15-godz. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 15 horas"
+        ru: "15-часовое ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 15 ชั่วโมง"
+        tr: "15 Saatlik Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 15 giờ"
+        zh_CN: "15小时训练加速"
+        zh_TW: "15小時訓練加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_12.png
+
     84:
       name:
         ar: "تسريع البحث لمدة 15 دقيقة"
@@ -1241,6 +1265,54 @@ loot:
         zh_TW: "3小時研究加速"
       sprite:
         - img_icon_item_BGBlue.png
+        - img_icon_item_13.png
+
+    88:
+      name:
+        ar: "تسريع البحث لمدة 8 ساعات"
+        de: "8 Stunden Forschungsbeschleunigung"
+        en: "8-Hour Research Speedup"
+        es: "8 horas de Aceleración de Investigación"
+        fr: "Accélération de recherche - 8 heures"
+        id: "Speedup Riset 8 Jam"
+        it: "Acceleratore ricerca da 8 ore"
+        ja: "8時間研究加速"
+        ko: "8시간 연구 가속"
+        ms: "Percepat Penyelidikan 8 Jam"
+        pl: "8-godz. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 8 horas"
+        ru: "8-часовое ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 8 ชั่วโมง"
+        tr: "8 Saatlik Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 8 giờ"
+        zh_CN: "8小时研究加速"
+        zh_TW: "8小時研究加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_13.png
+
+    89:
+      name:
+        ar: "تسريع البحث لمدة 15 ساعة"
+        de: "15 Stunden Forschungsbeschleunigung"
+        en: "15-Hour Research Speedup"
+        es: "15 horas de Aceleración de Investigación"
+        fr: "Accélération de recherche - 15 heures"
+        id: "Speedup Riset 15 Jam"
+        it: "Acceleratore ricerca da 15 ore"
+        ja: "15時間研究加速"
+        ko: "15시간 연구 가속"
+        ms: "Percepat Penyelidikan 15 Jam"
+        pl: "15-godz. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 15 horas"
+        ru: "15-часовое ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 15 ชั่วโมง"
+        tr: "15 Saatlik Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 15 giờ"
+        zh_CN: "15小时研究加速"
+        zh_TW: "15小時研究加速"
+      sprite:
+        - img_icon_item_BGPurple.png
         - img_icon_item_13.png
 
     92:
