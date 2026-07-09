@@ -1,0 +1,9 @@
+{
+  "name": "@rokbattles/ui",
+  "version": "1.5.1",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@rokbattles/typescript-config": "workspace:*"
+  }
+}

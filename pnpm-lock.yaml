@@ -143,6 +143,14 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
+  packages/typescript-config: {}
+
+  packages/ui:
+    devDependencies:
+      '@rokbattles/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+
 packages:
 
   '@alloc/quick-lru@5.2.0':

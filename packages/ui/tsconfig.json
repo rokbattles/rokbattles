@@ -1,0 +1,10 @@
+{
+  "extends": "@rokbattles/typescript-config/react-library.json",
+  "compilerOptions": {
+    "paths": {
+      "@rokbattles/ui/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}
