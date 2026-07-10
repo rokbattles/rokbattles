@@ -835,6 +835,30 @@ loot:
         - img_icon_item_BGPurple.png
         - img_icon_item_9.png
 
+    41:
+      name:
+        ar: "تسريع 3 أيام"
+        de: "3 Tage Beschleunigung"
+        en: "3-Day Speedup"
+        es: "3 días de Aceleración"
+        fr: "Accélération - 3 jours"
+        id: "Speedup 3 Hari"
+        it: "Acceleratore da 3 giorni"
+        ja: "3日加速"
+        ko: "3일 가속"
+        ms: "Percepat 3 Hari"
+        pl: "3-dn. przyspieszenie"
+        pt: "Aceleração de 3 dias"
+        ru: "3-дневное ускорение"
+        th: "ตัวเร่งความเร็ว 3 วัน"
+        tr: "3 Günlük Hızlandırma"
+        vi: "Tăng tốc 3 ngày"
+        zh_CN: "3天加速"
+        zh_TW: "3天加速"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_9.png
+
     44:
       name:
         ar: "نقل محدد"
