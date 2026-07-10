@@ -16,7 +16,6 @@ pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
 pub const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
 /// Internal Ark of Osiris registration mail type label.
 pub const MAIL_TYPE_ALLIANCE_AOO_REGISTRATION: &str = "AllianceAOORegistration";
-
 /// Supported processable mail categories.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MailType {
@@ -26,6 +25,8 @@ pub enum MailType {
     DuelBattle2,
     /// Baulur reports.
     BarCanyonKillBoss,
+    /// GVE alliance boss member loot reports.
+    EventMemberLootReport,
     /// Resource gathering reports.
     Rss,
     /// System barbarian fort reports.
@@ -46,10 +47,11 @@ pub enum MailType {
 
 impl MailType {
     /// All processable mail types.
-    pub const ALL: [Self; 11] = [
+    pub const ALL: [Self; 12] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
+        Self::EventMemberLootReport,
         Self::Rss,
         Self::SystemBarbarianFort,
         Self::SystemKaharTreasure,
@@ -67,6 +69,7 @@ impl MailType {
             "Battle" => Some(Self::Battle),
             "DuelBattle2" => Some(Self::DuelBattle2),
             "BarCanyonKillBoss" => Some(Self::BarCanyonKillBoss),
+            "EventMemberLootReport" => Some(Self::EventMemberLootReport),
             "Rss" => Some(Self::Rss),
             MAIL_TYPE_SYSTEM_BARBARIAN_FORT => Some(Self::SystemBarbarianFort),
             MAIL_TYPE_SYSTEM_KAHAR_TREASURE => Some(Self::SystemKaharTreasure),
@@ -92,6 +95,7 @@ impl MailType {
             Self::Battle => "Battle",
             Self::DuelBattle2 => "DuelBattle2",
             Self::BarCanyonKillBoss => "BarCanyonKillBoss",
+            Self::EventMemberLootReport => "EventMemberLootReport",
             Self::Rss => "Rss",
             Self::SystemBarbarianFort => MAIL_TYPE_SYSTEM_BARBARIAN_FORT,
             Self::SystemKaharTreasure => MAIL_TYPE_SYSTEM_KAHAR_TREASURE,
@@ -110,6 +114,7 @@ impl MailType {
             Self::Battle => "mails_battle",
             Self::DuelBattle2 => "mails_duelbattle2",
             Self::BarCanyonKillBoss => "mails_barcanyonkillboss",
+            Self::EventMemberLootReport => "mails_eventmemberlootreport",
             Self::Rss => "mails_rss",
             Self::SystemBarbarianFort => "mails_system_barbarianfort",
             Self::SystemKaharTreasure => "mails_system_kahartreasure",
@@ -173,6 +178,9 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
     {
         return Some(alliance_aoo_type);
     }
+    if mail_type.eq_ignore_ascii_case("EventMemberLootReport") {
+        return is_gve_event_member_loot_report(root).then_some(MailType::EventMemberLootReport);
+    }
 
     MailType::from_label_ignore_ascii_case(mail_type)
 }
@@ -205,6 +213,16 @@ fn is_system_barbarian_fort_mail(root: &Map<String, Value>) -> bool {
     let sub_type = body.get("subType").and_then(value_as_u64);
 
     matches!((sub_type, sub_param), (Some(11), Some(1 | 3 | 4)))
+}
+
+fn is_gve_event_member_loot_report(root: &Map<String, Value>) -> bool {
+    root.get("body")
+        .and_then(Value::as_object)
+        .and_then(|body| body.get("content"))
+        .and_then(Value::as_object)
+        .and_then(|content| content.get("EventName"))
+        .and_then(Value::as_str)
+        .is_some_and(|event_name| event_name.eq_ignore_ascii_case("GVE"))
 }
 
 fn is_system_kahar_treasure_mail(root: &Map<String, Value>) -> bool {
@@ -260,6 +278,7 @@ pub fn process_mail(
         MailType::Battle => mail_processor_battle::process(input),
         MailType::DuelBattle2 => mail_processor_duelbattle2::process(input),
         MailType::BarCanyonKillBoss => mail_processor_barcanyonkillboss::process(input),
+        MailType::EventMemberLootReport => mail_processor_eventmemberlootreport::process(input),
         MailType::Rss => mail_processor_rss::process(input),
         MailType::SystemBarbarianFort => mail_processor_system_barbarianfort::process(input),
         MailType::SystemKaharTreasure => mail_processor_system_kahartreasure::process(input),
@@ -311,6 +330,24 @@ mod tests {
             detect_mail_type(&json!({ "type": "scoutreport" })),
             Some(MailType::ScoutReport)
         );
+    }
+
+    #[test]
+    fn detect_mail_type_accepts_only_gve_member_loot_reports() {
+        let gve = json!({
+            "type": "EventMemberLootReport",
+            "body": { "content": { "EventName": "GVE" } }
+        });
+        assert_eq!(detect_mail_type(&gve), Some(MailType::EventMemberLootReport));
+
+        for content in [json!({ "EventName": "OtherEvent" }), json!({}), json!({ "EventName": 1 })]
+        {
+            let mail = json!({
+                "type": "EventMemberLootReport",
+                "body": { "content": content }
+            });
+            assert_eq!(detect_mail_type(&mail), None);
+        }
     }
 
     #[test]
@@ -513,6 +550,10 @@ mod tests {
         assert_eq!(MailType::Battle.collection_name(), "mails_battle");
         assert_eq!(MailType::DuelBattle2.collection_name(), "mails_duelbattle2");
         assert_eq!(MailType::BarCanyonKillBoss.collection_name(), "mails_barcanyonkillboss");
+        assert_eq!(
+            MailType::EventMemberLootReport.collection_name(),
+            "mails_eventmemberlootreport"
+        );
         assert_eq!(MailType::Rss.collection_name(), "mails_rss");
         assert_eq!(MailType::SystemBarbarianFort.collection_name(), "mails_system_barbarianfort");
         assert_eq!(MailType::SystemKaharTreasure.collection_name(), "mails_system_kahartreasure");
@@ -588,5 +629,34 @@ mod tests {
 
         assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
         assert_eq!(loot[0], json!({"type": 1, "sub_type": 9, "value": 45000}));
+    }
+
+    #[cfg(feature = "processors")]
+    #[test]
+    fn process_mail_dispatches_event_member_loot_report() {
+        let payload = json!({
+            "type": "EventMemberLootReport",
+            "id": "mail-1",
+            "time": 1234,
+            "receiver": "player-1",
+            "serverId": 55,
+            "body": { "content": {
+                "EventName": "GVE",
+                "subTitle": "Bladefist Andaal Has Been Defeated",
+                "infos": [1, {
+                    "playerId": 7,
+                    "name": "Player",
+                    "avatar": null,
+                    "loots": [1, { "Type": 2, "SubType": 3, "Value": 4 }]
+                }]
+            }}
+        });
+        let processed =
+            process_mail(MailType::EventMemberLootReport, &payload).expect("process GVE report");
+        assert_eq!(processed.sections()["boss"].fields()["id"], json!(30001));
+        assert_eq!(
+            processed.sections()["participants"].array().expect("participants")[0]["player_id"],
+            json!(7)
+        );
     }
 }

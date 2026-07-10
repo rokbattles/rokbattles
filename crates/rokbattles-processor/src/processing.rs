@@ -206,6 +206,21 @@ mod tests {
     }
 
     #[test]
+    fn extract_mail_type_parses_only_gve_member_loot_reports() {
+        let gve = json!({
+            "type": "EventMemberLootReport",
+            "body": { "content": { "EventName": "GVE" } }
+        });
+        assert_eq!(extract_mail_type(&gve).unwrap(), MailType::EventMemberLootReport);
+
+        let other = json!({
+            "type": "EventMemberLootReport",
+            "body": { "content": { "EventName": "OtherEvent" } }
+        });
+        assert!(matches!(extract_mail_type(&other), Err(ProcessorError::UnsupportedMailType(_))));
+    }
+
+    #[test]
     fn extract_mail_type_parses_system_barbarian_fort() {
         let value = json!({
             "type": "System",

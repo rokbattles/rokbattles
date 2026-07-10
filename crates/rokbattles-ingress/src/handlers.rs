@@ -305,8 +305,12 @@ fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
     if let Some(mail_type) = mail_registry::detect_mail_type(decoded) {
         return Ok(mail_type.to_string());
     }
-    mail_registry::raw_mail_type_string(decoded)
-        .ok_or_else(|| ApiError::bad_request("missing mail type"))
+    let raw = mail_registry::raw_mail_type_string(decoded)
+        .ok_or_else(|| ApiError::bad_request("missing mail type"))?;
+    if mail_registry::MailType::from_label_ignore_ascii_case(&raw).is_some() {
+        return Err(ApiError::unsupported_type(raw));
+    }
+    Ok(raw)
 }
 
 fn insert_status_for_mail_type(mail_type: &str) -> &'static str {
@@ -484,10 +488,26 @@ mod tests {
     }
 
     #[test]
+    fn extracts_gve_member_loot_report_and_rejects_other_events() {
+        let gve = json!({
+            "type": "EventMemberLootReport",
+            "body": { "content": { "EventName": "GVE" } }
+        });
+        assert_eq!(extract_mail_type(&gve).unwrap(), "EventMemberLootReport");
+
+        let other = json!({
+            "type": "EventMemberLootReport",
+            "body": { "content": { "EventName": "OtherEvent" } }
+        });
+        assert!(matches!(extract_mail_type(&other), Err(ApiError::UnsupportedType(_))));
+    }
+
+    #[test]
     fn supports_known_mail_types() {
         assert!(is_supported_mail_type("Battle"));
         assert!(is_supported_mail_type("DuelBattle2"));
         assert!(is_supported_mail_type("BarCanyonKillBoss"));
+        assert!(is_supported_mail_type("EventMemberLootReport"));
         assert!(is_supported_mail_type("Rss"));
         assert!(is_supported_mail_type("SystemBarbarianFort"));
         assert!(is_supported_mail_type("SystemKaharTreasure"));
