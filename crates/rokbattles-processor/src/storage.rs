@@ -19,6 +19,7 @@ pub struct Storage {
     battle: Collection<Document>,
     duelbattle2: Collection<Document>,
     barcanyonkillboss: Collection<Document>,
+    eventmemberlootreport: Collection<Document>,
     rss: Collection<Document>,
     system_barbarianfort: Collection<Document>,
     system_kahartreasure: Collection<Document>,
@@ -37,6 +38,7 @@ impl Storage {
             battle: db.collection(MailType::Battle.collection_name()),
             duelbattle2: db.collection(MailType::DuelBattle2.collection_name()),
             barcanyonkillboss: db.collection(MailType::BarCanyonKillBoss.collection_name()),
+            eventmemberlootreport: db.collection(MailType::EventMemberLootReport.collection_name()),
             rss: db.collection(MailType::Rss.collection_name()),
             system_barbarianfort: db.collection(MailType::SystemBarbarianFort.collection_name()),
             system_kahartreasure: db.collection(MailType::SystemKaharTreasure.collection_name()),
@@ -64,6 +66,7 @@ impl Storage {
         self.battle.create_index(mail_id_index.clone()).await?;
         self.duelbattle2.create_index(mail_id_index.clone()).await?;
         self.barcanyonkillboss.create_index(mail_id_index.clone()).await?;
+        self.eventmemberlootreport.create_index(mail_id_index.clone()).await?;
         self.rss.create_index(mail_id_index.clone()).await?;
         self.system_barbarianfort.create_index(mail_id_index.clone()).await?;
         self.system_kahartreasure.create_index(mail_id_index.clone()).await?;
@@ -106,6 +109,7 @@ impl Storage {
             MailType::Battle => &self.battle,
             MailType::DuelBattle2 => &self.duelbattle2,
             MailType::BarCanyonKillBoss => &self.barcanyonkillboss,
+            MailType::EventMemberLootReport => &self.eventmemberlootreport,
             MailType::Rss => &self.rss,
             MailType::SystemBarbarianFort => &self.system_barbarianfort,
             MailType::SystemKaharTreasure => &self.system_kahartreasure,
