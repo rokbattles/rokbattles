@@ -219,10 +219,6 @@ fn is_system_kahar_treasure_mail(root: &Map<String, Value>) -> bool {
 }
 
 fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> {
-    if !mail_has_box(root, "AllianceBox") {
-        return None;
-    }
-
     let body = root.get("body").and_then(Value::as_object)?;
     let body_type = body.get("type").and_then(value_as_u64)?;
     let body_param = body.get("param").and_then(value_as_u64);
@@ -236,12 +232,6 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> 
         62 => Some(MailType::AllianceAOOIndividualResults),
         _ => None,
     }
-}
-
-fn mail_has_box(root: &Map<String, Value>, box_name: &str) -> bool {
-    ["box", "prevBox"].into_iter().any(
-        |field| matches!(root.get(field).and_then(Value::as_str), Some(value) if value == box_name),
-    )
 }
 
 fn value_as_u64(value: &Value) -> Option<u64> {
@@ -398,14 +388,12 @@ mod tests {
     fn detect_mail_type_matches_alliance_aoo_variants() {
         let registration = json!({
             "type": "Alliance",
-            "box": "AllianceBox",
             "body": { "type": 57, "param": 1 }
         });
         assert_eq!(detect_mail_type(&registration), Some(MailType::AllianceAOORegistration));
 
         let custom_battle_results = json!({
             "type": "Alliance",
-            "box": "AllianceBox",
             "body": { "type": 14, "param": 1 }
         });
         assert_eq!(
@@ -415,14 +403,12 @@ mod tests {
 
         let battle_info = json!({
             "type": "Alliance",
-            "box": "AllianceBox",
             "body": { "type": 61 }
         });
         assert_eq!(detect_mail_type(&battle_info), Some(MailType::AllianceAOOBattleInfo));
 
         let individual_results = json!({
             "type": "Alliance",
-            "box": "AllianceBox",
             "body": { "type": 62 }
         });
         assert_eq!(
@@ -432,11 +418,11 @@ mod tests {
     }
 
     #[test]
-    fn detect_mail_type_matches_archived_alliance_aoo_mail() {
+    fn detect_mail_type_matches_alliance_aoo_mail_in_any_mailbox() {
         let battle_results = json!({
             "type": "Alliance",
             "box": "Archive",
-            "prevBox": "AllianceBox",
+            "prevBox": "OtherBox",
             "body": { "type": 60, "param": 1 }
         });
 
@@ -461,13 +447,7 @@ mod tests {
     }
 
     #[test]
-    fn detect_mail_type_rejects_partial_alliance_matches() {
-        let missing_box = json!({
-            "type": "Alliance",
-            "body": { "type": 60, "param": 1 }
-        });
-        assert_eq!(detect_mail_type(&missing_box), None);
-
+    fn detect_mail_type_rejects_alliance_mail_without_body() {
         let missing_body = json!({
             "type": "Alliance",
             "box": "AllianceBox"
@@ -484,6 +464,16 @@ mod tests {
         });
 
         assert_eq!(detect_mail_type(&payload), None);
+    }
+
+    #[test]
+    fn detect_mail_type_checks_alliance_type_before_aoo_body() {
+        let payload = json!({
+            "type": "Battle",
+            "body": { "type": 60, "param": 1 }
+        });
+
+        assert_eq!(detect_mail_type(&payload), Some(MailType::Battle));
     }
 
     #[test]
