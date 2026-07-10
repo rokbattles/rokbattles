@@ -143,6 +143,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
+  packages/typescript-config: {}
+
 packages:
 
   '@alloc/quick-lru@5.2.0':
