@@ -71,7 +71,7 @@ export function DuelParticipantCard({
   const showSecondary = hasCommander(secondary);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="grid gap-5 lg:row-span-3 lg:grid-rows-subgrid">
       <div className="flex items-start gap-3">
         <GameAvatar
           avatarUrl={participant.avatarUrl || null}
@@ -96,7 +96,7 @@ export function DuelParticipantCard({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
             <Subheading>{t("Commanders")}</Subheading>
@@ -106,6 +106,8 @@ export function DuelParticipantCard({
             </div>
           </div>
         ) : null}
+      </div>
+      <div className="contents lg:block">
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
             <Subheading>{t("Troop Buffs")}</Subheading>

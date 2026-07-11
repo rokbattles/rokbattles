@@ -44,7 +44,7 @@ export function ReportEntryCard({ entry }: ReportEntryCardProps) {
           <ReportBattleResultsChart results={battleResults} />
         </section>
       ) : null}
-      <section className="grid gap-8 lg:grid-cols-2">
+      <section className="grid gap-8 lg:grid-cols-2 lg:gap-y-5">
         <ReportParticipantCard participant={selfParticipant} showArtifacts={!omitArtifacts} />
         <ReportParticipantCard participant={enemyParticipant} showArtifacts={!omitArtifacts} />
       </section>
