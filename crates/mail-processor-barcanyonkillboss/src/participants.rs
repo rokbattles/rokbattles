@@ -1,6 +1,6 @@
 //! Participants parser for BarCanyonKillBoss mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
 use crate::content::{
@@ -115,7 +115,7 @@ fn normalize_avatar_value(value: Value) -> Value {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

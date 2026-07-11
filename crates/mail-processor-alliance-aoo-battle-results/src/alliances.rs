@@ -1,6 +1,6 @@
 //! Alliance parser for AllianceAOOBattleResults mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, indexed_array_values, optional_string_field,
     optional_u64_field,
 };
@@ -72,7 +72,7 @@ impl Extractor for AlliancesExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

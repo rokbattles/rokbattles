@@ -1,6 +1,6 @@
 //! Timeline parser for Battle mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, indexed_array_values, optional_u64_field, require_i64_field,
     require_u64,
 };
@@ -109,7 +109,7 @@ impl Extractor for TimelineExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

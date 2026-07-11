@@ -1,6 +1,6 @@
 //! Shared player helpers for DuelBattle2 sections.
 
-pub(crate) use mail_processor_sdk::{
+pub(crate) use mail_sdk::{
     ExtractError, Section, indexed_array_values, require_bool_field, require_child_object,
     require_number_field, require_object, require_string_field, require_u64_field,
 };

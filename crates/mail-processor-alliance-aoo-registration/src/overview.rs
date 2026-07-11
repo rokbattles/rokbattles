@@ -1,6 +1,6 @@
 //! Overview parser for AllianceAOORegistration mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, require_u64_field};
+use mail_sdk::{ExtractError, Extractor, Section, require_u64_field};
 use serde_json::Value;
 
 use crate::content::require_body_kvs;
@@ -33,7 +33,7 @@ impl Extractor for OverviewExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

@@ -1,6 +1,6 @@
 //! Body parser for AllianceAOOIndividualResults mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, optional_u64_or_string_field, require_object,
     require_u64_or_string_field,
 };
@@ -46,7 +46,7 @@ impl Extractor for BodyExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

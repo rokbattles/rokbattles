@@ -1,6 +1,6 @@
 //! Helpers for walking AllianceAOORegistration mail content.
 
-use mail_processor_sdk::{ExtractError, require_child_object, require_object};
+use mail_sdk::{ExtractError, require_child_object, require_object};
 use serde_json::{Map, Value};
 
 /// Returns the registration payload nested under `body.kvs`.

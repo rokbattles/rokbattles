@@ -9,8 +9,8 @@ mod metadata;
 mod overview;
 mod participants;
 
-pub use mail_processor_sdk::{ExtractError, Section};
-use mail_processor_sdk::{ProcessError, ProcessedMail, Processor};
+pub use mail_sdk::{ExtractError, Section};
+use mail_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
 /// Runs the AllianceAOOBattleResults parser.

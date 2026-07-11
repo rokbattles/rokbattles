@@ -1,6 +1,6 @@
 //! Metadata parser for GVE member loot reports.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
+use mail_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
 use serde_json::Value;
 
 #[derive(Debug, Default)]

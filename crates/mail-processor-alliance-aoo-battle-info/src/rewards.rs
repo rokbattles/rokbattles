@@ -1,8 +1,6 @@
 //! Rewards parser for AllianceAOOBattleInfo mail.
 
-use mail_processor_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, require_u64_field,
-};
+use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64_field};
 use serde_json::{Map, Value, json};
 
 /// Pulls reward entries out of AllianceAOOBattleInfo attachments.
@@ -70,7 +68,7 @@ fn extract_rewards(
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

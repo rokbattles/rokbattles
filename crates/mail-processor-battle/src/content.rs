@@ -1,6 +1,6 @@
 //! Helpers for walking Battle mail content.
 
-pub(crate) use mail_processor_sdk::{
+pub(crate) use mail_sdk::{
     ExtractError, require_child_object, require_object, require_string_field, require_u64_field,
 };
 use serde_json::{Map, Value};

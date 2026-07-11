@@ -4,7 +4,7 @@ version = "1.5.2"
 edition = "2024"
 
 [dependencies]
-mail-processor-sdk = { path = "../mail-processor-sdk" }
+mail-sdk = { path = "../mail/sdk" }
 serde_json = { workspace = true }
 
 [lib]

@@ -5,9 +5,9 @@ edition = "2024"
 
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
-mail-decoder = { path = "../mail-decoder" }
-mail-registry = { path = "../mail-registry", features = ["processors"] }
-mail-processor-sdk = { path = "../mail-processor-sdk" }
+mail-decoder = { path = "../mail/decoder" }
+mail-registry = { path = "../mail/registry", features = ["processors"] }
+mail-sdk = { path = "../mail/sdk" }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }

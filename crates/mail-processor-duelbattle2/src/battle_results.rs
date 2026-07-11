@@ -1,6 +1,6 @@
 //! Battle results parser for DuelBattle2 mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::player::{locate_player, require_bool_field, require_u64_field};
@@ -58,7 +58,7 @@ fn extract_player_battle_results(player: &Map<String, Value>) -> Result<Value, E
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

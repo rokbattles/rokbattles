@@ -1,6 +1,6 @@
 //! Commander helpers for DuelBattle2 mail.
 
-use mail_processor_sdk::{ExtractError, indexed_array_values};
+use mail_sdk::{ExtractError, indexed_array_values};
 use serde_json::{Map, Value, json};
 
 use crate::player::{require_bool_field, require_child_object, require_u64_field};

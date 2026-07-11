@@ -1,6 +1,6 @@
 //! Metadata parser for RSS mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
+use mail_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
 use serde_json::Value;
 
 /// Pulls top-level metadata out of an RSS mail.
@@ -28,7 +28,7 @@ impl Extractor for MetadataExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

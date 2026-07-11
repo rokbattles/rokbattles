@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use mail_decoder::DecodeError;
-use mail_processor_sdk::ProcessError;
+use mail_sdk::ProcessError;
 use thiserror::Error;
 
 /// Errors returned by the `mail-cli` library.

@@ -1,6 +1,6 @@
 //! Summary parser for Battle mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_u64_field};
@@ -84,7 +84,7 @@ fn null_overview() -> Value {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;
