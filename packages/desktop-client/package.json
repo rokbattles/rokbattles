@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "cd ../../crates/rokbattles-desktop && ../../packages/desktop-client/node_modules/.bin/tauri"
+    "tauri": "cd ../../crates/desktop && ../../packages/desktop-client/node_modules/.bin/tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",

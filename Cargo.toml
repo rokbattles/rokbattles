@@ -25,7 +25,7 @@ members = [
     "crates/services/rokbattles-jobs",
     "crates/services/rokbattles-ingress",
     "crates/services/rokbattles-processor",
-    "crates/rokbattles-desktop",
+    "crates/desktop",
     "crates/core/rokgt-extractor",
     "crates/core/tcp-stream",
 ]
