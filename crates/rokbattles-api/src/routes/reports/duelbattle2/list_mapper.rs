@@ -1,4 +1,5 @@
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_bson::{nested_bool, nested_document, nested_i64};
 
 use super::{
     query::DuelBattle2Request,
@@ -6,7 +7,6 @@ use super::{
         DuelBattle2Entry, DuelBattle2ListItem, DuelBattle2Participant, DuelBattle2RowWithCursor,
     },
 };
-use crate::bson_utils::{nested_bool, nested_document, nested_i64};
 
 pub(super) fn build_duelbattle2_list_pipeline(
     request: &DuelBattle2Request,

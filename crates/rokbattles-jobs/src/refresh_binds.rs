@@ -3,9 +3,10 @@
 use futures::StreamExt;
 use mongodb::{
     Collection,
-    bson::{Bson, Document, doc},
+    bson::{Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
+use rokbattles_bson::{bson_integer_to_i64, nested_string, nested_value};
 
 use crate::error::JobsError;
 
@@ -122,30 +123,7 @@ fn map_latest_snapshot_document(document: &Document) -> Option<LatestGovernorSna
 }
 
 fn nested_i64_exact(document: &Document, path: &[&str]) -> Option<i64> {
-    nested_bson(document, path).and_then(bson_integer_to_i64)
-}
-
-fn nested_string(document: &Document, path: &[&str]) -> Option<String> {
-    nested_bson(document, path).and_then(|value| value.as_str().map(str::to_owned))
-}
-
-fn nested_bson<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    let (last, parents) = path.split_last()?;
-    let mut current = document;
-
-    for key in parents {
-        current = current.get_document(key).ok()?;
-    }
-
-    current.get(*last)
-}
-
-fn bson_integer_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        _ => None,
-    }
+    nested_value(document, path).and_then(bson_integer_to_i64)
 }
 
 #[cfg(test)]

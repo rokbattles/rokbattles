@@ -11,6 +11,7 @@ flate2 = { workspace = true, default-features = false, features = ["zlib"] }
 mail-decoder = { path = "../mail-decoder" }
 mail-registry = { path = "../mail-registry" }
 mongodb = { workspace = true }
+rokbattles-bson = { path = "../rokbattles-bson" }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sha2 = { workspace = true }

@@ -21,6 +21,7 @@ members = [
     "crates/mail-processor-system-kahartreasure",
     "crates/rokbattles-tcp-processor",
     "crates/rokbattles-api",
+    "crates/rokbattles-bson",
     "crates/rokbattles-jobs",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",

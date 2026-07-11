@@ -1,9 +1,9 @@
 use std::collections::{BTreeSet, HashMap};
 
 use mongodb::bson::{Bson, Document};
+use rokbattles_bson::{nested_array, nested_f64, nested_i64, nested_str};
 
 use crate::{
-    bson_utils::{nested_array, nested_f64, nested_i64, nested_str},
     routes::governor::{
         date_range::GovernorDateRange,
         pairings::{

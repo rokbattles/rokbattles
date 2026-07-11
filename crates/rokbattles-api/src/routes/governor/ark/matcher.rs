@@ -1,8 +1,9 @@
 use std::{cmp::Ordering, collections::BTreeMap};
 
 use mongodb::bson::{Bson, Document};
+use rokbattles_bson::bson_to_f64;
 
-use crate::{bson_utils::bson_to_f64, time_utils::normalize_timestamp_millis};
+use crate::time_utils::normalize_timestamp_millis;
 
 const DEFAULT_MATCH_DELTA_MILLIS: i64 = 60_000;
 

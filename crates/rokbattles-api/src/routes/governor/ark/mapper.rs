@@ -1,4 +1,5 @@
 use mongodb::bson::{Bson, Document};
+use rokbattles_bson::{bson_to_f64, bson_to_i64, nested_array, nested_document};
 
 use super::{
     matcher::MatchedArkMailSet,
@@ -7,10 +8,7 @@ use super::{
         ArkMatchDetailPairing, ArkMatchSummary,
     },
 };
-use crate::{
-    bson_utils::{bson_to_f64, bson_to_i64, nested_array, nested_document},
-    time_utils::normalize_timestamp_millis,
-};
+use crate::time_utils::normalize_timestamp_millis;
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct SecondaryWindow {

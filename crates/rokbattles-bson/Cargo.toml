@@ -1,0 +1,13 @@
+[package]
+name = "rokbattles-bson"
+version = "1.5.2"
+edition = "2024"
+
+[dependencies]
+mongodb = { workspace = true }
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true

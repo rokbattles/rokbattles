@@ -6,6 +6,7 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc, oid::ObjectId},
     options::FindOptions,
 };
+use rokbattles_bson::bson_to_u64;
 use serde_json::Value;
 
 use crate::{
@@ -142,9 +143,13 @@ fn parse_raw_batch(doc: Document) -> Result<RawBatch, ProcessorError> {
         .get_document("handshake")
         .map_err(|_error| ProcessorError::MissingField("handshake"))?;
     let handshake = RawHandshake {
-        key1: bson_to_u64(handshake_doc.get("key1"))
+        key1: handshake_doc
+            .get("key1")
+            .and_then(bson_to_u64)
             .ok_or(ProcessorError::MissingField("handshake.key1"))?,
-        key2: bson_to_u64(handshake_doc.get("key2"))
+        key2: handshake_doc
+            .get("key2")
+            .and_then(bson_to_u64)
             .ok_or(ProcessorError::MissingField("handshake.key2"))?,
     };
     let fragments = parse_fragments(doc.get("fragments"))?;
@@ -161,8 +166,10 @@ fn parse_fragments(value: Option<&Bson>) -> Result<Vec<RawFragment>, ProcessorEr
         let Bson::Document(doc) = item else {
             return Err(ProcessorError::InvalidField("fragments"));
         };
-        let index =
-            bson_to_u64(doc.get("index")).ok_or(ProcessorError::MissingField("fragments.index"))?;
+        let index = doc
+            .get("index")
+            .and_then(bson_to_u64)
+            .ok_or(ProcessorError::MissingField("fragments.index"))?;
         let direction = match doc.get_str("direction").ok() {
             Some("client_to_server") => Direction::ClientToServer,
             Some("server_to_client") => Direction::ServerToClient,
@@ -218,19 +225,6 @@ fn number_to_bson(number: &serde_json::Number) -> Bson {
         return Bson::Double(value);
     }
     Bson::Null
-}
-
-fn bson_to_i64(value: Option<&Bson>) -> Option<i64> {
-    match value {
-        Some(Bson::Int32(value)) => Some(i64::from(*value)),
-        Some(Bson::Int64(value)) => Some(*value),
-        Some(Bson::Double(value)) => Some(*value as i64),
-        _ => None,
-    }
-}
-
-fn bson_to_u64(value: Option<&Bson>) -> Option<u64> {
-    u64::try_from(bson_to_i64(value)?).ok()
 }
 
 #[cfg(test)]

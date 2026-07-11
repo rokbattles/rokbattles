@@ -1,6 +1,7 @@
 use std::{collections::HashMap, ops::RangeInclusive};
 
 use mongodb::bson::Bson;
+use rokbattles_bson::bson_to_i64_loose;
 
 use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
@@ -11,8 +12,7 @@ use super::{
     types::{LootRewardAggregateResponse, PersonalLootGroupResponse},
 };
 use crate::{
-    bson_utils::bson_to_i64_loose, routes::governor::date_range::GovernorDateRange,
-    time_utils::normalize_bson_timestamp_millis,
+    routes::governor::date_range::GovernorDateRange, time_utils::normalize_bson_timestamp_millis,
 };
 
 const KAHAR_AP_COST: i64 = 200;

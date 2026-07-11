@@ -9,6 +9,7 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
+use rokbattles_bson::{bson_to_f64, bson_to_i64};
 
 use crate::error::JobsError;
 
@@ -1023,24 +1024,6 @@ fn direct_i64(document: &Document, key: &str) -> Option<i64> {
 
 fn direct_f64(document: &Document, key: &str) -> Option<f64> {
     document.get(key).and_then(bson_to_f64)
-}
-
-fn bson_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        Bson::Double(value) if value.is_finite() => Some(*value as i64),
-        _ => None,
-    }
-}
-
-fn bson_to_f64(value: &Bson) -> Option<f64> {
-    match value {
-        Bson::Int32(value) => Some(f64::from(*value)),
-        Bson::Int64(value) => Some(*value as f64),
-        Bson::Double(value) if value.is_finite() => Some(*value),
-        _ => None,
-    }
 }
 
 #[cfg(test)]

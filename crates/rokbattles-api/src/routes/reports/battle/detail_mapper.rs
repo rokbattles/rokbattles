@@ -1,4 +1,8 @@
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_bson::{
+    nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
+    nested_string,
+};
 
 use super::types::{
     BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,
@@ -7,10 +11,6 @@ use super::types::{
     BattleReportOpponent, BattleReportPlayer, BattleReportRelic, BattleReportSummary,
     BattleReportSummaryEntry, BattleReportSupportSkill, BattleReportSupportSkills,
     BattleReportTimeline,
-};
-use crate::bson_utils::{
-    nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
-    nested_string,
 };
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
