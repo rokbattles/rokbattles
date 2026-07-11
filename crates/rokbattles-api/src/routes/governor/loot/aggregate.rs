@@ -15,6 +15,8 @@ use crate::{
     time_utils::normalize_bson_timestamp_millis,
 };
 
+const KAHAR_AP_COST: i64 = 200;
+
 #[derive(Debug, Default)]
 struct LootCategoryAggregate {
     reports: i64,
@@ -186,6 +188,7 @@ pub(crate) fn aggregate_personal_kahar_treasure_loot(
         }
 
         add_report(&mut aggregate);
+        aggregate.ap_used += KAHAR_AP_COST;
         add_loot(&mut aggregate, mail.loot.as_deref().unwrap_or_default());
     }
 
@@ -683,7 +686,7 @@ mod tests {
         assert_eq!(groups.len(), 1);
         assert_eq!(groups[0].reports, 2);
         assert_eq!(groups[0].loot_total, 95_000);
-        assert_eq!(groups[0].ap_used, 0);
+        assert_eq!(groups[0].ap_used, 400);
         assert_eq!(groups[0].honor_gained, 0);
         assert_eq!(groups[0].xp_gained, 0);
     }
