@@ -9,7 +9,7 @@ export function DrastcCredits() {
       <div className="font-semibold text-sm text-zinc-950 dark:text-white">{t("Credits")}</div>
       <Text>
         {t.rich(
-          "Created by The King's Codex and ROK Battles. Designed by Davor and implemented by ROK Battles, the model is available in <bold>ROK Battles: Combat Lab</bold> and within the <bold>The King's Codex</bold> Discord.",
+          "A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and implemented by ROK Battles, the model is available through the <bold>ROK Battles: Combat Lab</bold> and the Discord communities for <bold>The King's Codex</bold> and <bold>AQ/HQ</bold>.",
           {
             bold: (chunks) => <Strong>{chunks}</Strong>,
           }

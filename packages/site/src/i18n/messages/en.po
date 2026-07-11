@@ -741,8 +741,8 @@ msgid "wB_wXs"
 msgstr "Credits"
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "I2vW8-"
-msgstr "Created by The King's Codex and ROK Battles. Designed by Davor and implemented by ROK Battles, the model is available in <bold>ROK Battles: Combat Lab</bold> and within the <bold>The King's Codex</bold> Discord."
+msgid "rzNYK-"
+msgstr "A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and implemented by ROK Battles, the model is available through the <bold>ROK Battles: Combat Lab</bold> and the Discord communities for <bold>The King's Codex</bold> and <bold>AQ/HQ</bold>."
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "fgvwel"
