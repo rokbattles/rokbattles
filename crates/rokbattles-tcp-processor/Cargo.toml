@@ -4,12 +4,12 @@ version = "1.5.2"
 edition = "2024"
 
 [dependencies]
-tcp-stream = { path = "../tcp-stream" }
+tcp-stream = { path = "../core/tcp-stream" }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, features = ["zlib-rs"] }
 futures = { workspace = true }
 mongodb = { workspace = true }
-rokbattles-bson = { path = "../rokbattles-bson" }
+core-bson = { path = "../core/bson" }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 sentry = { workspace = true }

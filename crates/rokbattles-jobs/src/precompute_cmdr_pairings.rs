@@ -2,6 +2,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use core_bson::{bson_to_f64, bson_to_i64};
 use drastc::{BattleRecord, DrastcModel, DrastcReferenceRanges, DrastcScore, ReferenceRange};
 use futures::StreamExt;
 use mongodb::{
@@ -9,7 +10,6 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{bson_to_f64, bson_to_i64};
 
 use crate::error::JobsError;
 

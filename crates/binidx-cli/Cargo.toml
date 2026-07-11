@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["derive"] }
-binidx-decoder = { path = "../binidx-decoder" }
+binidx-decoder = { path = "../core/binidx-decoder" }
 
 [lib]
 doctest = false

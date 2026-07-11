@@ -1,5 +1,5 @@
 [package]
-name = "rokbattles-bson"
+name = "core-bson"
 version = "1.5.2"
 edition = "2024"
 
