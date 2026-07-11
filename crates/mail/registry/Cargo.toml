@@ -23,19 +23,19 @@ processors = [
 
 [dependencies]
 serde_json = { workspace = true }
-mail-processor-alliance-aoo-battle-info = { path = "../../mail-processor-alliance-aoo-battle-info", optional = true }
-mail-processor-alliance-aoo-battle-results = { path = "../../mail-processor-alliance-aoo-battle-results", optional = true }
-mail-processor-alliance-aoo-individual-results = { path = "../../mail-processor-alliance-aoo-individual-results", optional = true }
-mail-processor-alliance-aoo-registration = { path = "../../mail-processor-alliance-aoo-registration", optional = true }
-mail-processor-barcanyonkillboss = { path = "../../mail-processor-barcanyonkillboss", optional = true }
-mail-processor-battle = { path = "../../mail-processor-battle", optional = true }
-mail-processor-duelbattle2 = { path = "../../mail-processor-duelbattle2", optional = true }
-mail-processor-eventmemberlootreport = { path = "../../mail-processor-eventmemberlootreport", optional = true }
-mail-processor-rss = { path = "../../mail-processor-rss", optional = true }
-mail-processor-scoutreport = { path = "../../mail-processor-scoutreport", optional = true }
+mail-processor-alliance-aoo-battle-info = { path = "../processors/alliance-aoo-battle-info", optional = true }
+mail-processor-alliance-aoo-battle-results = { path = "../processors/alliance-aoo-battle-results", optional = true }
+mail-processor-alliance-aoo-individual-results = { path = "../processors/alliance-aoo-individual-results", optional = true }
+mail-processor-alliance-aoo-registration = { path = "../processors/alliance-aoo-registration", optional = true }
+mail-processor-barcanyonkillboss = { path = "../processors/barcanyonkillboss", optional = true }
+mail-processor-battle = { path = "../processors/battle", optional = true }
+mail-processor-duelbattle2 = { path = "../processors/duelbattle2", optional = true }
+mail-processor-eventmemberlootreport = { path = "../processors/eventmemberlootreport", optional = true }
+mail-processor-rss = { path = "../processors/rss", optional = true }
+mail-processor-scoutreport = { path = "../processors/scoutreport", optional = true }
 mail-sdk = { path = "../sdk", optional = true }
-mail-processor-system-barbarianfort = { path = "../../mail-processor-system-barbarianfort", optional = true }
-mail-processor-system-kahartreasure = { path = "../../mail-processor-system-kahartreasure", optional = true }
+mail-processor-system-barbarianfort = { path = "../processors/system-barbarianfort", optional = true }
+mail-processor-system-kahartreasure = { path = "../processors/system-kahartreasure", optional = true }
 
 [lib]
 doctest = false
