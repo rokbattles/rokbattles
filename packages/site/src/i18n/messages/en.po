@@ -669,11 +669,6 @@ msgstr "This reward tier has been seen {count, plural, one {# time} other {# tim
 msgid "pFZfPa"
 msgstr "n/a"
 
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
-msgstr "Kahar's Treasure"
-
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "75KFvG"
@@ -1106,6 +1101,10 @@ msgstr "Legal"
 #: src/components/platform-layout.tsx
 msgid "HqRNN8"
 msgstr "Support"
+
+#: src/components/platform-layout.tsx
+msgid "2IFGap"
+msgstr "Donate"
 
 #: src/components/platform-layout.tsx
 msgid "QnWNmB"
