@@ -64,7 +64,7 @@ export function KaharTreasureExplorer() {
       />
       <section className="space-y-3">
         <div>
-          <Subheading>{t("Kahar the Hidden")}</Subheading>
+          <Subheading>{t("Kahar's Treasure")}</Subheading>
         </div>
         <LootTable loot={item?.loot ?? []} locale={locale} />
       </section>
