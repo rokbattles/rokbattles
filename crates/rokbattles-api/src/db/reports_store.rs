@@ -17,6 +17,7 @@ pub struct ReportsStore {
     mails_alliance_aooregistration: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_system_kahartreasure: Collection<Document>,
+    mails_eventmemberlootreport: Collection<Document>,
     mails_barcanyonkillboss: Collection<Document>,
     mails_rss: Collection<Document>,
     claimed_governors: Collection<Document>,
@@ -24,6 +25,7 @@ pub struct ReportsStore {
     g_rok_prec_barbarianfort: Collection<Document>,
     g_rok_prec_baulur: Collection<Document>,
     g_rok_prec_kahartreasure: Collection<Document>,
+    g_rok_prec_karuakceremony: Collection<Document>,
     g_rok_prec_cmdr_pairings: Collection<Document>,
 }
 
@@ -40,6 +42,7 @@ impl ReportsStore {
             mails_alliance_aooregistration: db.collection("mails_alliance_aooregistration"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
             mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
+            mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
             mails_barcanyonkillboss: db.collection("mails_barcanyonkillboss"),
             mails_rss: db.collection("mails_rss"),
             claimed_governors: db.collection("claimedGovernors"),
@@ -47,6 +50,7 @@ impl ReportsStore {
             g_rok_prec_barbarianfort: db.collection("g_rok_prec_barbarianfort"),
             g_rok_prec_baulur: db.collection("g_rok_prec_baulur"),
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
+            g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
             g_rok_prec_cmdr_pairings: db.collection("g_rok_prec_cmdr_pairings"),
         }
     }
@@ -309,6 +313,15 @@ impl ReportsStore {
             self.g_rok_prec_kahartreasure.create_index(model).await?;
         }
 
+        self.g_rok_prec_karuakceremony
+            .create_index(
+                IndexModel::builder()
+                    .keys(doc! { "kind": 1 })
+                    .options(IndexOptions::builder().unique(true).build())
+                    .build(),
+            )
+            .await?;
+
         let precomputed_cmdr_pairing_models = vec![
             IndexModel::builder()
                 .keys(doc! { "primary_commander_id": 1, "secondary_commander_id": 1 })
@@ -363,6 +376,11 @@ impl ReportsStore {
         &self.mails_system_kahartreasure
     }
 
+    /// Access Karuak Ceremony member loot reports.
+    pub fn event_member_loot_report_collection(&self) -> &Collection<Document> {
+        &self.mails_eventmemberlootreport
+    }
+
     /// Access the bar canyon kill boss mail collection.
     pub fn barcanyonkillboss_collection(&self) -> &Collection<Document> {
         &self.mails_barcanyonkillboss
@@ -396,6 +414,11 @@ impl ReportsStore {
     /// Access precomputed Kahar treasure aggregates.
     pub fn precomputed_kahar_treasure_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_kahartreasure
+    }
+
+    /// Access precomputed Karuak Ceremony boss aggregates.
+    pub fn precomputed_karuak_ceremony_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_karuakceremony
     }
 
     /// Access precomputed global commander pairing aggregates.
