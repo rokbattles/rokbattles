@@ -22,7 +22,7 @@ COPY --from=files /etc/nsswitch.conf /etc/nsswitch.conf
 COPY --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=files /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rokbattles-tcp-processor /bin/rokbattles-tcp-processor
-COPY --from=builder /app/crates/rokbattles-tcp-processor/artifacts/tcp-processor-artifact.json /app/crates/rokbattles-tcp-processor/artifacts/tcp-processor-artifact.json
+COPY --from=builder /app/crates/services/rokbattles-tcp-processor/artifacts/tcp-processor-artifact.json /app/crates/services/rokbattles-tcp-processor/artifacts/tcp-processor-artifact.json
 USER rokb:rokb
 WORKDIR /app
 ENTRYPOINT ["/bin/rokbattles-tcp-processor"]
