@@ -1,7 +1,8 @@
 //! Opponent parser for Battle mail.
 
 use mail_processor_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, require_number_field,
+    ExtractError, Extractor, Section, indexed_array_values, optional_i64_field, optional_u64_field,
+    require_i64_field, require_number_field,
 };
 use serde_json::{Map, Value, json};
 
@@ -264,59 +265,6 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
     }
 
     Ok(Some(loot))
-}
-
-/// Reads an optional unsigned integer field from a JSON map.
-fn optional_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<u64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_u64()
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
-    }
-}
-
-/// Reads an optional signed integer field from a JSON map.
-fn optional_i64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<i64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => {
-            if let Some(value) = value.as_i64() {
-                return Ok(Some(value));
-            }
-            if let Some(value) = value.as_u64() {
-                return i64::try_from(value).map(Some).map_err(|_| {
-                    ExtractError::InvalidFieldType { field, expected: "signed 64-bit integer" }
-                });
-            }
-            Err(ExtractError::InvalidFieldType { field, expected: "integer" })
-        }
-    }
-}
-
-/// Reads a required signed integer field from a JSON map.
-fn require_i64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<i64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if let Some(value) = value.as_i64() {
-        return Ok(value);
-    }
-    if let Some(value) = value.as_u64() {
-        return i64::try_from(value).map_err(|_| ExtractError::InvalidFieldType {
-            field,
-            expected: "signed 64-bit integer",
-        });
-    }
-    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 #[cfg(test)]

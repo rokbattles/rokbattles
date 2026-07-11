@@ -1,6 +1,9 @@
 //! Alliance parser for AllianceAOOBattleResults mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, optional_string_field,
+    optional_u64_field,
+};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_bool_field, require_u64_field};
@@ -62,32 +65,6 @@ impl Extractor for AlliancesExtractor {
         }
 
         Ok(Section::from_array(alliances))
-    }
-}
-
-fn optional_string_field(
-    object: &serde_json::Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(Value::Null),
-        Some(value) => value
-            .as_str()
-            .map(|text| Value::String(text.to_string()))
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "string" }),
-    }
-}
-
-fn optional_u64_field(
-    object: &serde_json::Map<String, Value>,
-    field: &'static str,
-) -> Result<Value, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(Value::Null),
-        Some(value) => value
-            .as_u64()
-            .map(Value::from)
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 

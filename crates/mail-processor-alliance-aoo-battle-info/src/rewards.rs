@@ -1,6 +1,8 @@
 //! Rewards parser for AllianceAOOBattleInfo mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, require_u64_field,
+};
 use serde_json::{Map, Value, json};
 
 /// Pulls reward entries out of AllianceAOOBattleInfo attachments.
@@ -62,14 +64,6 @@ fn extract_rewards(
     }
 
     Ok(())
-}
-
-fn require_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
 #[cfg(test)]

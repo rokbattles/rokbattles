@@ -77,6 +77,26 @@ pub fn require_u64_field(
     value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
+/// Reads a required signed integer field from a JSON map.
+pub fn require_i64_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<i64, ExtractError> {
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value_to_i64(value)
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "signed 64-bit integer" })
+}
+
+/// Reads a required unsigned integer field that may be encoded as a numeric string.
+pub fn require_u64_or_string_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<u64, ExtractError> {
+    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
+    value_to_u64(value)
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
+}
+
 /// Reads a required boolean field from a JSON map.
 pub fn require_bool_field(
     object: &Map<String, Value>,
@@ -125,6 +145,40 @@ pub fn optional_u64_field(
     }
 }
 
+/// Reads an optional signed integer field from a JSON map.
+pub fn optional_i64_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Option<i64>, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(None),
+        Some(value) => value_to_i64(value)
+            .map(Some)
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "signed 64-bit integer" }),
+    }
+}
+
+/// Reads an optional unsigned integer field that may be encoded as a numeric string.
+pub fn optional_u64_or_string_field(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<Option<u64>, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(None),
+        Some(value) => value_to_u64(value)
+            .map(Some)
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
+    }
+}
+
+/// Reads an optional unsigned integer field and defaults to zero when absent.
+pub fn optional_u64_field_or_zero(
+    object: &Map<String, Value>,
+    field: &'static str,
+) -> Result<u64, ExtractError> {
+    Ok(optional_u64_field(object, field)?.unwrap_or_default())
+}
+
 /// Reads an optional boolean field from a JSON map.
 pub fn optional_bool_field(
     object: &Map<String, Value>,
@@ -162,6 +216,33 @@ pub fn optional_child_object<'a>(
             .as_object()
             .map(Some)
             .ok_or(ExtractError::InvalidFieldType { field, expected: "object" }),
+    }
+}
+
+/// Reads an optional object field, treating an empty array as absent.
+pub fn optional_child_object_or_empty_array<'a>(
+    object: &'a Map<String, Value>,
+    field: &'static str,
+) -> Result<Option<&'a Map<String, Value>>, ExtractError> {
+    match object.get(field) {
+        None | Some(Value::Null) => Ok(None),
+        Some(Value::Array(values)) if values.is_empty() => Ok(None),
+        Some(value) => value
+            .as_object()
+            .map(Some)
+            .ok_or(ExtractError::InvalidFieldType { field, expected: "object" }),
+    }
+}
+
+fn value_to_i64(value: &Value) -> Option<i64> {
+    value.as_i64().or_else(|| value.as_u64().and_then(|value| i64::try_from(value).ok()))
+}
+
+fn value_to_u64(value: &Value) -> Option<u64> {
+    match value {
+        Value::Number(number) => number.as_u64(),
+        Value::String(text) => text.parse().ok(),
+        _ => None,
     }
 }
 
@@ -261,6 +342,34 @@ mod tests {
         let input = json!({ "count": 7 });
         let object = require_object(&input).unwrap();
         assert_eq!(optional_u64_field(object, "count").unwrap(), Some(7));
+    }
+
+    #[test]
+    fn signed_fields_accept_signed_and_in_range_unsigned_values() {
+        let value = json!({ "negative": -7, "positive": u64::MAX });
+        let object = value.as_object().expect("object");
+
+        assert_eq!(require_i64_field(object, "negative"), Ok(-7));
+        assert!(require_i64_field(object, "positive").is_err());
+    }
+
+    #[test]
+    fn numeric_string_fields_accept_numbers_and_strings() {
+        let value = json!({ "number": 7, "string": "8", "invalid": "8.5" });
+        let object = value.as_object().expect("object");
+
+        assert_eq!(require_u64_or_string_field(object, "number"), Ok(7));
+        assert_eq!(require_u64_or_string_field(object, "string"), Ok(8));
+        assert!(require_u64_or_string_field(object, "invalid").is_err());
+    }
+
+    #[test]
+    fn optional_object_treats_empty_array_as_missing() {
+        let value = json!({ "missing": [], "present": {} });
+        let object = value.as_object().expect("object");
+
+        assert_eq!(optional_child_object_or_empty_array(object, "missing"), Ok(None));
+        assert!(optional_child_object_or_empty_array(object, "present").unwrap().is_some());
     }
 
     #[test]

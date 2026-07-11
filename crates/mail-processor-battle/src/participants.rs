@@ -1,6 +1,8 @@
 //! Participant helpers for Battle mail.
 
-use mail_processor_sdk::{ExtractError, optional_string_field, optional_u64_field};
+use mail_processor_sdk::{
+    ExtractError, optional_string_field, optional_u64_field, require_i64_field,
+};
 use serde_json::{Map, Value, json};
 
 use crate::content::require_string_field;
@@ -28,7 +30,7 @@ pub(crate) fn extract_participants(
             .as_object()
             .ok_or(ExtractError::InvalidFieldType { field, expected: "object" })?;
         let participant_id = parse_participant_id(participant_id, field)?;
-        let player_id = require_signed_id_field(participant, "PId")?;
+        let player_id = require_i64_field(participant, "PId")?;
         let player_name = require_string_field(participant, "PName")?;
         // Some reports leave out alliance abbreviations for participants.
         // Use an empty string in that case.
@@ -57,23 +59,6 @@ fn parse_participant_id(participant_id: &str, field: &'static str) -> Result<i64
     participant_id
         .parse::<i64>()
         .map_err(|_| ExtractError::InvalidFieldType { field, expected: "numeric object key" })
-}
-
-fn require_signed_id_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<i64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if let Some(id) = value.as_i64() {
-        return Ok(id);
-    }
-    if let Some(id) = value.as_u64() {
-        return i64::try_from(id).map_err(|_| ExtractError::InvalidFieldType {
-            field,
-            expected: "signed 64-bit integer",
-        });
-    }
-    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 #[cfg(test)]
