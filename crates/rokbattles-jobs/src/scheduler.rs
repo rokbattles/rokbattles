@@ -13,6 +13,7 @@ use crate::{
     precompute_baulur::precompute_baulur_data,
     precompute_cmdr_pairings::precompute_commander_pairings_data,
     precompute_kahar_treasure::precompute_kahar_treasure_data,
+    precompute_karuak_ceremony::precompute_karuak_ceremony_data,
     refresh_binds::refresh_claimed_governor_bindings,
 };
 
@@ -27,6 +28,8 @@ pub const PRECOMPUTE_BAULUR_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
+pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours
 pub const PRECOMPUTE_COMMANDER_PAIRINGS_CRON: &str = "0 0 */8 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
@@ -38,6 +41,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let barbarian_fort_lock = Arc::new(Mutex::new(()));
     let baulur_lock = Arc::new(Mutex::new(()));
     let kahar_treasure_lock = Arc::new(Mutex::new(()));
+    let karuak_ceremony_lock = Arc::new(Mutex::new(()));
     let commander_pairings_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
@@ -60,6 +64,26 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                 Err(error) => {
                     error!(%error, "failed to refresh claimed governor binds");
                 }
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
+        PRECOMPUTE_KARUAK_CEREMONY_CRON,
+        Arc::clone(&reports_store),
+        karuak_ceremony_lock,
+        "Karuak Ceremony precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_karuak_ceremony_data(&reports_store).await {
+                Ok(stats) => info!(
+                    documents_read = stats.documents_read,
+                    results_counted = stats.results_counted,
+                    documents_written = stats.documents_written,
+                    "precomputed Karuak Ceremony data"
+                ),
+                Err(error) => error!(%error, "failed to precompute Karuak Ceremony data"),
             }
         },
     )
@@ -227,7 +251,8 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_KAHAR_TREASURE_CRON, REFRESH_BINDS_CRON,
+        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_KAHAR_TREASURE_CRON,
+        PRECOMPUTE_KARUAK_CEREMONY_CRON, REFRESH_BINDS_CRON,
     };
 
     #[test]
@@ -258,5 +283,10 @@ mod tests {
     #[test]
     fn precompute_commander_pairings_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn precompute_karuak_ceremony_cron_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_KARUAK_CEREMONY_CRON, "0 0 */8 * * *");
     }
 }
