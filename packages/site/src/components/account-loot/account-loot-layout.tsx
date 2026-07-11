@@ -2,6 +2,7 @@
 
 import { cn } from "cnfast";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
 
@@ -22,6 +23,15 @@ export function AccountLootLayout({
   children: React.ReactNode;
 }) {
   const t = useExtracted();
+  const searchParams = useSearchParams();
+  const dateParams = new URLSearchParams();
+  for (const key of ["start", "end"]) {
+    const value = searchParams.get(key);
+    if (value) {
+      dateParams.set(key, value);
+    }
+  }
+  const dateQuery = dateParams.toString();
   const sectionLabels: Record<AccountLootSection, string> = {
     barbarians: t("Barbarians"),
     "barbarian-forts": t("Barbarian Forts"),
@@ -44,7 +54,7 @@ export function AccountLootLayout({
           {sections.map((section) => (
             <Link
               key={section.key}
-              href={section.href}
+              href={dateQuery ? `${section.href}?${dateQuery}` : section.href}
               className={cn(
                 "rounded-md px-3 py-2 text-sm/6 font-medium",
                 active === section.key
