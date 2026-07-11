@@ -31,9 +31,7 @@ export function BindListItem({ bind, isPending, onSetDefault, onUnlink }: BindLi
           </p>
           {bind.default ? <Badge color="emerald">{t("Default")}</Badge> : null}
         </div>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          {t("ID {id}", { id: bind.governorId.toString() })}
-        </p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">{bind.governorId.toString()}</p>
       </div>
 
       <div className="ml-auto shrink-0">

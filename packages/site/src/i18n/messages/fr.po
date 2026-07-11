@@ -312,10 +312,6 @@ msgstr ""
 msgid "lKv8ex"
 msgstr "Défaut"
 
-#: src/components/account-binds/bind-list-item.tsx
-msgid "tx_jZ_"
-msgstr ""
-
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
 msgstr "Vous ne pouvez lier qu'un maximum de trois gouverneurs."
