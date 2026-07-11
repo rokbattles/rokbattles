@@ -2,7 +2,6 @@
 //! ROK Battles API service.
 
 pub mod auth;
-pub(crate) mod bson_utils;
 pub mod config;
 pub mod db;
 pub mod error;

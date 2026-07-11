@@ -1,7 +1,9 @@
 //! Body parser for AllianceAOOBattleInfo mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
-use serde_json::{Map, Value, json};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, require_bool_field, require_u64_field,
+};
+use serde_json::{Value, json};
 
 /// Pulls fight schedule rows from `body.kvs.fightlist`.
 #[derive(Debug, Default)]
@@ -52,22 +54,6 @@ impl Extractor for BodyExtractor {
         section.insert("fights", Value::Array(fights));
         Ok(section)
     }
-}
-
-fn require_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
-}
-
-fn require_bool_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<bool, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value.as_bool().ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
 }
 
 #[cfg(test)]

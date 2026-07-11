@@ -1,7 +1,10 @@
 //! Timeline parser for Battle mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64};
-use serde_json::{Map, Value, json};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, indexed_array_values, optional_u64_field, require_i64_field,
+    require_u64,
+};
+use serde_json::{Value, json};
 
 use crate::{
     content::{require_content, require_string_field, require_u64_field},
@@ -67,7 +70,7 @@ impl Extractor for TimelineExtractor {
                     continue;
                 }
             };
-            let player_id = require_signed_id_field(assist_units, "PId")?;
+            let player_id = require_i64_field(assist_units, "PId")?;
             let player_name = require_string_field(assist_units, "PName")?;
             let count = optional_u64_field(assist_units, "Cnt")?;
             let event_id = optional_u64_field(assist_units, "TId")?;
@@ -99,38 +102,6 @@ impl Extractor for TimelineExtractor {
         section.insert("sampling", Value::Array(entries));
         section.insert("events", Value::Array(event_entries));
         Ok(section)
-    }
-}
-
-/// Reads an identifier that may be signed or unsigned.
-fn require_signed_id_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<i64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if let Some(id) = value.as_i64() {
-        return Ok(id);
-    }
-    if let Some(id) = value.as_u64() {
-        return i64::try_from(id).map_err(|_| ExtractError::InvalidFieldType {
-            field,
-            expected: "signed 64-bit integer",
-        });
-    }
-    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
-}
-
-/// Reads an optional unsigned integer field from a JSON object.
-fn optional_u64_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<u64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value
-            .as_u64()
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
     }
 }
 

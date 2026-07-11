@@ -9,6 +9,7 @@ drastc = { path = "../drastc" }
 futures = { workspace = true }
 mongodb = { workspace = true }
 rokbattles-api = { path = "../rokbattles-api" }
+rokbattles-bson = { path = "../rokbattles-bson" }
 sentry = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "signal", "sync"] }

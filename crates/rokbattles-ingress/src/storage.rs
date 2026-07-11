@@ -2,9 +2,10 @@
 
 use mongodb::{
     Collection, IndexModel,
-    bson::{Bson, Document, doc},
+    bson::{Document, doc},
     options::IndexOptions,
 };
+use rokbattles_bson::bson_to_i64;
 
 /// Ingress collections used by upload handlers.
 #[derive(Debug, Clone)]
@@ -142,17 +143,10 @@ fn parse_existing_compressed_raw(doc: Document) -> Option<ExistingCompressedRawM
     Some(ExistingCompressedRawMail { checksum })
 }
 
-fn bson_to_i64(value: &Bson) -> Option<i64> {
-    match value {
-        Bson::Int32(value) => Some(i64::from(*value)),
-        Bson::Int64(value) => Some(*value),
-        Bson::Double(value) => Some(*value as i64),
-        _ => None,
-    }
-}
-
 #[cfg(test)]
 mod tests {
+    use mongodb::bson::Bson;
+
     use super::*;
 
     #[test]

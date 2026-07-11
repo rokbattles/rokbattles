@@ -16,11 +16,11 @@ use mongodb::{
     options::FindOptions,
 };
 use reqwest::Url;
+use rokbattles_bson::bson_to_i64_exact;
 use serde::Deserialize;
 
 use crate::{
     auth::{AuthenticatedSession, extract_cookie_value},
-    bson_utils::bson_to_i64_exact,
     db::{DiscordUserUpsert, NewSessionRecord, OAuthStateRecord},
     error::ApiError,
     state::{AppState, DiscordOAuthConfig},

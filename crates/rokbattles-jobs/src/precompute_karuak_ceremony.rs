@@ -8,6 +8,7 @@ use mongodb::{
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
+use rokbattles_bson::{bson_to_i64_exact, nested_i64_exact as nested_i64};
 
 use crate::error::JobsError;
 
@@ -142,23 +143,11 @@ impl LootStats {
     }
 }
 
-fn nested_i64(document: &Document, path: &[&str]) -> Option<i64> {
-    let mut current = document;
-    for key in &path[..path.len() - 1] {
-        current = current.get_document(key).ok()?;
-    }
-    direct_i64(current, path[path.len() - 1])
-}
 fn direct_i32(document: &Document, key: &str) -> Option<i32> {
     direct_i64(document, key).and_then(|v| i32::try_from(v).ok())
 }
 fn direct_i64(document: &Document, key: &str) -> Option<i64> {
-    match document.get(key)? {
-        Bson::Int32(v) => Some(i64::from(*v)),
-        Bson::Int64(v) => Some(*v),
-        Bson::Double(v) if v.fract() == 0.0 => Some(*v as i64),
-        _ => None,
-    }
+    document.get(key).and_then(bson_to_i64_exact)
 }
 fn rate(part: usize, total: usize) -> f64 {
     if total == 0 { 0.0 } else { part as f64 / total as f64 }

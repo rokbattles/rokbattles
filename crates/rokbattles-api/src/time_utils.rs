@@ -1,6 +1,5 @@
 use mongodb::bson::{Bson, DateTime, Document, doc};
-
-use crate::bson_utils::bson_to_f64_loose;
+use rokbattles_bson::bson_to_f64_loose;
 
 /// Normalizes an epoch timestamp to milliseconds.
 /// Accepts values expressed in seconds, milliseconds, or microseconds.

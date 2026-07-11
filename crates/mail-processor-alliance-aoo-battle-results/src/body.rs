@@ -1,6 +1,8 @@
 //! Body parser for AllianceAOOBattleResults mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_processor_sdk::{
+    ExtractError, Extractor, Section, optional_u64_or_string_field, require_u64_or_string_field,
+};
 use serde_json::{Value, json};
 
 use crate::content::{
@@ -27,8 +29,8 @@ impl Extractor for BodyExtractor {
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let root = require_object(input)?;
         let body = require_child_object(root, "body")?;
-        let body_type = require_body_u64_field(body, "type")?;
-        let body_param = optional_body_u64_field(body, "param")?;
+        let body_type = require_u64_or_string_field(body, "type")?;
+        let body_param = optional_u64_or_string_field(body, "param")?;
         let kvs = require_body_kvs(input)?;
         let battle_type = require_string_field(kvs, "BattleType")?;
         let win = require_bool_field(kvs, "isWin")?;
@@ -41,35 +43,6 @@ impl Extractor for BodyExtractor {
         section.insert("win", Value::Bool(win));
         section.insert("alliance", json!({ "id": alliance_id }));
         Ok(section)
-    }
-}
-
-fn require_body_u64_field(
-    object: &serde_json::Map<String, Value>,
-    field: &'static str,
-) -> Result<u64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    value_as_u64(value)
-        .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
-}
-
-fn optional_body_u64_field(
-    object: &serde_json::Map<String, Value>,
-    field: &'static str,
-) -> Result<Option<u64>, ExtractError> {
-    match object.get(field) {
-        None | Some(Value::Null) => Ok(None),
-        Some(value) => value_as_u64(value)
-            .map(Some)
-            .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" }),
-    }
-}
-
-fn value_as_u64(value: &Value) -> Option<u64> {
-    match value {
-        Value::Number(number) => number.as_u64(),
-        Value::String(text) => text.parse::<u64>().ok(),
-        _ => None,
     }
 }
 

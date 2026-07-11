@@ -1,12 +1,12 @@
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_bson::{
+    nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
+};
 
 use super::types::{
     DuelBattle2DetailAlliance, DuelBattle2DetailBattleResult, DuelBattle2DetailBattleResults,
     DuelBattle2DetailBuff, DuelBattle2DetailCommander, DuelBattle2DetailCommanderSkill,
     DuelBattle2DetailItem, DuelBattle2DetailMetadata, DuelBattle2DetailPlayer,
-};
-use crate::bson_utils::{
-    nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
 };
 
 pub(super) fn build_duelbattle2_detail_filter(duel_id: i64) -> Document {

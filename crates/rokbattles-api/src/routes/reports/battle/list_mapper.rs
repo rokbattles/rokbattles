@@ -1,12 +1,12 @@
 use std::cmp::Ordering;
 
 use mongodb::bson::{Bson, Document};
+use rokbattles_bson::{nested_bool, nested_document, nested_i64, nested_str};
 
 use super::types::{
     ReportListItem, ReportListParticipant, ReportRowWithCursor, ReportSummary, ReportSummaryEntry,
     ReportTimeline, TimelineSample,
 };
-use crate::bson_utils::{nested_bool, nested_document, nested_i64, nested_str};
 
 const INVALID_OPPONENT_PLAYER_IDS: [i64; 2] = [-2, 0];
 

@@ -4451,6 +4451,7 @@ dependencies = [
  "mongodb",
  "rand 0.10.2",
  "reqwest 0.12.28",
+ "rokbattles-bson",
  "sentry",
  "serde",
  "sha2",
@@ -4458,6 +4459,13 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "rokbattles-bson"
+version = "1.5.2"
+dependencies = [
+ "mongodb",
 ]
 
 [[package]]
@@ -4493,6 +4501,7 @@ dependencies = [
  "mail-decoder",
  "mail-registry",
  "mongodb",
+ "rokbattles-bson",
  "sentry",
  "serde",
  "serde_json",
@@ -4513,6 +4522,7 @@ dependencies = [
  "futures",
  "mongodb",
  "rokbattles-api",
+ "rokbattles-bson",
  "sentry",
  "thiserror 2.0.18",
  "tokio",
@@ -4547,6 +4557,7 @@ dependencies = [
  "flate2",
  "futures",
  "mongodb",
+ "rokbattles-bson",
  "sentry",
  "serde",
  "serde_json",

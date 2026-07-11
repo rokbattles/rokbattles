@@ -4,8 +4,9 @@ use mongodb::{
     bson::{DateTime, Document, doc},
     options::{FindOneOptions, FindOptions},
 };
+use rokbattles_bson::bson_to_i64_exact;
 
-use crate::{bson_utils::bson_to_i64_exact, error::ApiError};
+use crate::error::ApiError;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub(super) struct UserClaimSummary {

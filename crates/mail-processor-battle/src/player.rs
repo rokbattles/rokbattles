@@ -2,7 +2,7 @@
 
 use mail_processor_sdk::{
     ExtractError, indexed_array_values, optional_bool_field, optional_string_field,
-    optional_u64_field, require_number_field,
+    optional_u64_field, require_i64_field, require_number_field,
 };
 use serde_json::{Map, Value, json};
 
@@ -22,7 +22,7 @@ const APP_ID_INTERNATIONAL: u64 = 2_104_267;
 pub(crate) fn extract_player_fields(
     player: &Map<String, Value>,
 ) -> Result<Map<String, Value>, ExtractError> {
-    let player_id = require_signed_id_field(player, "PId")?;
+    let player_id = require_i64_field(player, "PId")?;
     let player_name = require_string_field(player, "PName")?;
     let kingdom_id = extract_kingdom_id(player)?;
     let alliance_id = require_u64_field(player, "AId")?;
@@ -101,24 +101,6 @@ pub(crate) fn extract_player_fields(
 /// Reads the kingdom id from `COSId`.
 pub(crate) fn extract_kingdom_id(player: &Map<String, Value>) -> Result<Option<u64>, ExtractError> {
     optional_u64_field(player, "COSId")
-}
-
-/// Reads an identifier that may be signed or unsigned.
-fn require_signed_id_field(
-    object: &Map<String, Value>,
-    field: &'static str,
-) -> Result<i64, ExtractError> {
-    let value = object.get(field).ok_or(ExtractError::MissingField { field })?;
-    if let Some(id) = value.as_i64() {
-        return Ok(id);
-    }
-    if let Some(id) = value.as_u64() {
-        return i64::try_from(id).map_err(|_| ExtractError::InvalidFieldType {
-            field,
-            expected: "signed 64-bit integer",
-        });
-    }
-    Err(ExtractError::InvalidFieldType { field, expected: "integer" })
 }
 
 /// Splits `AppUid` into `app_id` and `app_uid`.
