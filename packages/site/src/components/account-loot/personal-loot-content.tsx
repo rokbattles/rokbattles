@@ -175,8 +175,15 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
   }
 
   const summaryItems = (() => {
-    if (active === "baulurs" || active === "kahars-treasure") {
+    if (active === "baulurs") {
       return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
+    }
+
+    if (active === "kahars-treasure") {
+      return [
+        { label: t("Results"), value: data?.totals.results ?? 0 },
+        { label: t("AP used"), value: data?.totals.apUsed ?? 0 },
+      ];
     }
 
     const items = [
