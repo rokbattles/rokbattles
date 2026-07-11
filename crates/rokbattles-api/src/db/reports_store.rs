@@ -246,6 +246,9 @@ impl ReportsStore {
                     .build(),
             )
             .await?;
+        self.mails_eventmemberlootreport
+            .create_index(IndexModel::builder().keys(doc! { "boss.id": 1 }).build())
+            .await?;
 
         let rss_models = vec![
             IndexModel::builder()
