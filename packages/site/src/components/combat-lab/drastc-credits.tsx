@@ -25,6 +25,14 @@ export function DrastcCredits() {
           {t("The King's Codex")}
         </a>
         <a
+          className="inline-flex font-medium text-blue-600 text-sm/6 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+          href="https://discord.gg/KP3dsGgsBA"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t("AQ/HQ")}
+        </a>
+        <a
           aria-label={t("Learn more about DRASTC")}
           className="inline-flex font-medium text-blue-600 text-sm/6 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
           href="https://buymeacoffee.com/davorrok/introducing-drastc"

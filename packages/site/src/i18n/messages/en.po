@@ -749,6 +749,10 @@ msgid "fgvwel"
 msgstr "The King's Codex"
 
 #: src/components/combat-lab/drastc-credits.tsx
+msgid "_I0-w2"
+msgstr "AQ/HQ"
+
+#: src/components/combat-lab/drastc-credits.tsx
 msgid "fM6jjI"
 msgstr "Learn more about DRASTC"
 
