@@ -1,11 +1,11 @@
 //! MongoDB access for raw mail uploads.
 
+use core_bson::bson_to_i64;
 use mongodb::{
     Collection, IndexModel,
     bson::{Document, doc},
     options::IndexOptions,
 };
-use rokbattles_bson::bson_to_i64;
 
 /// Ingress collections used by upload handlers.
 #[derive(Debug, Clone)]

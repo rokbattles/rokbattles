@@ -11,7 +11,7 @@ futures = { workspace = true }
 mongodb = { workspace = true }
 rand = { workspace = true }
 reqwest = { workspace = true, features = ["json"] }
-rokbattles-bson = { path = "../rokbattles-bson" }
+core-bson = { path = "../core/bson" }
 serde = { workspace = true, features = ["derive"] }
 sha2 = { workspace = true }
 thiserror = { workspace = true }

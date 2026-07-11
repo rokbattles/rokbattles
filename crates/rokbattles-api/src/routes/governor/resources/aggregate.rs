@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
+use core_bson::{bson_to_f64_loose, bson_to_i64_loose};
 use mongodb::bson::Bson;
-use rokbattles_bson::{bson_to_f64_loose, bson_to_i64_loose};
 
 use super::{
     store::RssMailDocument,

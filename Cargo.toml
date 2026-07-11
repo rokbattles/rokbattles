@@ -1,8 +1,8 @@
 [workspace]
 members = [
     "crates/binidx-cli",
-    "crates/binidx-decoder",
-    "crates/drastc",
+    "crates/core/binidx-decoder",
+    "crates/core/drastc",
     "crates/mail-cli",
     "crates/mail-decoder",
     "crates/mail-registry",
@@ -21,13 +21,13 @@ members = [
     "crates/mail-processor-system-kahartreasure",
     "crates/rokbattles-tcp-processor",
     "crates/rokbattles-api",
-    "crates/rokbattles-bson",
+    "crates/core/bson",
     "crates/rokbattles-jobs",
     "crates/rokbattles-ingress",
     "crates/rokbattles-processor",
     "crates/rokbattles-desktop",
-    "crates/rokgt-extractor",
-    "crates/tcp-stream",
+    "crates/core/rokgt-extractor",
+    "crates/core/tcp-stream",
 ]
 resolver = "3"
 

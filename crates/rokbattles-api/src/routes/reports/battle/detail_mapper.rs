@@ -1,8 +1,8 @@
-use mongodb::bson::{Bson, Document, doc};
-use rokbattles_bson::{
+use core_bson::{
     nested_array, nested_bool, nested_document, nested_i64, nested_i64_exact, nested_str,
     nested_string,
 };
+use mongodb::bson::{Bson, Document, doc};
 
 use super::types::{
     BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,

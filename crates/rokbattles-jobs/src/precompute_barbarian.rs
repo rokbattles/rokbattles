@@ -2,13 +2,13 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
+use core_bson::{bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64};
 use futures::StreamExt;
 use mongodb::{
     Collection,
     bson::{Bson, DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
-use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64};
 
 use crate::error::JobsError;
 

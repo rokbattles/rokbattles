@@ -1,12 +1,12 @@
 //! MongoDB access for raw TCP capture batches and processed packet output.
 
+use core_bson::bson_to_u64;
 use futures::TryStreamExt;
 use mongodb::{
     Collection, IndexModel,
     bson::{Bson, DateTime, Document, doc, oid::ObjectId},
     options::FindOptions,
 };
-use rokbattles_bson::bson_to_u64;
 use serde_json::Value;
 
 use crate::{
