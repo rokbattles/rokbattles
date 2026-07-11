@@ -48,7 +48,7 @@ export function ReportParticipantCard({
   const showSecondary = hasCommander(secondaryCommander);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="grid gap-5 lg:row-span-6 lg:grid-rows-subgrid">
       <div className="flex items-start gap-3">
         <GameAvatar
           avatarUrl={participant?.avatar_url ?? null}
@@ -69,7 +69,7 @@ export function ReportParticipantCard({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
             <Subheading>{t("Commanders")}</Subheading>
@@ -82,9 +82,17 @@ export function ReportParticipantCard({
             </div>
           </div>
         ) : null}
+      </div>
+      <div className="contents lg:block">
         <ReportEquipmentSection tokens={equipmentTokens} />
+      </div>
+      <div className="contents lg:block">
         {showArtifacts ? <ReportArtifactSection tokens={artifactTokens} /> : null}
+      </div>
+      <div className="contents lg:block">
         <ReportRelicSection relics={relics} />
+      </div>
+      <div className="contents lg:block">
         <ReportArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
       </div>
     </div>

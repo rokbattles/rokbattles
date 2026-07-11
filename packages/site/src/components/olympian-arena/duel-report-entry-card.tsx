@@ -34,7 +34,7 @@ export default function DuelReportEntryCard({ entry }: DuelEntryCardProps) {
         <DuelResultsChart results={battleResults} />
       </section>
 
-      <section className="grid gap-8 lg:grid-cols-2">
+      <section className="grid gap-8 lg:grid-cols-2 lg:gap-y-5">
         <DuelParticipantCard participant={sender} isWinner={outcome?.winner === "sender"} />
         <DuelParticipantCard participant={opponent} isWinner={outcome?.winner === "opponent"} />
       </section>
