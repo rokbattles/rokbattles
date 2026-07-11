@@ -1,6 +1,6 @@
 //! Helpers for walking AllianceAOOIndividualResults mail content.
 
-pub(crate) use mail_processor_sdk::{
+pub(crate) use mail_sdk::{
     ExtractError, optional_child_object, optional_child_object_or_empty_array,
     optional_u64_field as sdk_optional_u64_field,
     optional_u64_field_or_zero as sdk_optional_u64_field_or_zero, require_bool_field,

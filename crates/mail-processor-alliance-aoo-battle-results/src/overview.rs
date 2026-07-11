@@ -1,6 +1,6 @@
 //! Overview parser for AllianceAOOBattleResults mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::content::{
@@ -76,7 +76,7 @@ fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Val
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

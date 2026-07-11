@@ -1,6 +1,6 @@
 //! Participants parser for AllianceAOORegistration mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, indexed_array_values, optional_u64_field,
     require_number_field, require_string_field, require_u64_field,
 };
@@ -70,7 +70,7 @@ fn extract_participant(entry: &Value, field: ParticipantField) -> Result<Value, 
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

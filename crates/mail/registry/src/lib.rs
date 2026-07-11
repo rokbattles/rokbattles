@@ -273,7 +273,7 @@ fn value_to_string(value: &Value) -> Option<String> {
 pub fn process_mail(
     mail_type: MailType,
     input: &Value,
-) -> Result<mail_processor_sdk::ProcessedMail, mail_processor_sdk::ProcessError> {
+) -> Result<mail_sdk::ProcessedMail, mail_sdk::ProcessError> {
     match mail_type {
         MailType::Battle => mail_processor_battle::process(input),
         MailType::DuelBattle2 => mail_processor_duelbattle2::process(input),
@@ -624,7 +624,7 @@ mod tests {
         let loot = processed
             .sections()
             .get("loot")
-            .and_then(mail_processor_sdk::Section::array)
+            .and_then(mail_sdk::Section::array)
             .expect("loot section");
 
         assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));

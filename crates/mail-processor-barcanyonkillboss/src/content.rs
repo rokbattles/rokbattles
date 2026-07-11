@@ -1,6 +1,6 @@
 //! Helpers for walking BarCanyonKillBoss mail content.
 
-pub(crate) use mail_processor_sdk::{
+pub(crate) use mail_sdk::{
     ExtractError, require_child_object, require_number_field, require_object, require_string_field,
     require_u64_field,
 };

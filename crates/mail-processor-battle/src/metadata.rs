@@ -1,6 +1,6 @@
 //! Metadata parser for Battle mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, extract_base_metadata, optional_bool_field,
     require_string_field, require_u64_field,
 };
@@ -71,7 +71,7 @@ fn resolve_kvk(
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

@@ -1,6 +1,6 @@
 //! RSS parser for RSS mail content.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
 
 use crate::content::{
@@ -59,7 +59,7 @@ fn build_position(x: Value, y: Value) -> Value {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

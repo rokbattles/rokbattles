@@ -1,5 +1,5 @@
 [package]
-name = "mail-processor-sdk"
+name = "mail-sdk"
 version = "1.5.2"
 edition = "2024"
 

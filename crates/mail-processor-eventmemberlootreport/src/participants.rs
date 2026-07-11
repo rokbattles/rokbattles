@@ -1,6 +1,6 @@
 //! Member and loot parser for GVE member loot reports.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_string_field, require_u64_field};

@@ -440,12 +440,12 @@ mod tests {
         let samples = [
             include_bytes!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/../../samples/Battle/Persistent.Mail.485440176891031331"
+                "/../../../samples/Battle/Persistent.Mail.485440176891031331"
             ))
             .as_slice(),
             include_bytes!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
-                "/../../samples/Battle/Persistent.Mail.1409019176893142331"
+                "/../../../samples/Battle/Persistent.Mail.1409019176893142331"
             ))
             .as_slice(),
         ];

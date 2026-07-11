@@ -2970,8 +2970,8 @@ version = "1.5.2"
 dependencies = [
  "clap",
  "mail-decoder",
- "mail-processor-sdk",
  "mail-registry",
+ "mail-sdk",
  "serde",
  "serde_json",
  "tempfile",
@@ -2989,7 +2989,7 @@ dependencies = [
 name = "mail-processor-alliance-aoo-battle-info"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -2997,7 +2997,7 @@ dependencies = [
 name = "mail-processor-alliance-aoo-battle-results"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3005,7 +3005,7 @@ dependencies = [
 name = "mail-processor-alliance-aoo-individual-results"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3013,7 +3013,7 @@ dependencies = [
 name = "mail-processor-alliance-aoo-registration"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3021,7 +3021,7 @@ dependencies = [
 name = "mail-processor-barcanyonkillboss"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3029,7 +3029,7 @@ dependencies = [
 name = "mail-processor-battle"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3037,7 +3037,7 @@ dependencies = [
 name = "mail-processor-duelbattle2"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3045,7 +3045,7 @@ dependencies = [
 name = "mail-processor-eventmemberlootreport"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3053,7 +3053,7 @@ dependencies = [
 name = "mail-processor-rss"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3061,24 +3061,15 @@ dependencies = [
 name = "mail-processor-scoutreport"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
-]
-
-[[package]]
-name = "mail-processor-sdk"
-version = "1.5.2"
-dependencies = [
- "serde",
- "serde_json",
- "thiserror 2.0.18",
 ]
 
 [[package]]
 name = "mail-processor-system-barbarianfort"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3086,7 +3077,7 @@ dependencies = [
 name = "mail-processor-system-kahartreasure"
 version = "1.5.2"
 dependencies = [
- "mail-processor-sdk",
+ "mail-sdk",
  "serde_json",
 ]
 
@@ -3104,10 +3095,19 @@ dependencies = [
  "mail-processor-eventmemberlootreport",
  "mail-processor-rss",
  "mail-processor-scoutreport",
- "mail-processor-sdk",
  "mail-processor-system-barbarianfort",
  "mail-processor-system-kahartreasure",
+ "mail-sdk",
  "serde_json",
+]
+
+[[package]]
+name = "mail-sdk"
+version = "1.5.2"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
 ]
 
 [[package]]
@@ -4554,8 +4554,8 @@ version = "1.5.2"
 dependencies = [
  "dotenvy",
  "futures",
- "mail-processor-sdk",
  "mail-registry",
+ "mail-sdk",
  "mongodb",
  "sentry",
  "serde_json",

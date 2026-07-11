@@ -1,6 +1,6 @@
 //! Helpers for walking RSS mail content.
 
-pub(crate) use mail_processor_sdk::{
+pub(crate) use mail_sdk::{
     ExtractError, optional_number_field_or_zero, require_child_object, require_number_field,
     require_object,
 };

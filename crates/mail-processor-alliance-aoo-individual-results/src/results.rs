@@ -1,6 +1,6 @@
 //! Results parser for AllianceAOOIndividualResults mail.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section, require_object};
+use mail_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
 
 use crate::content::{
@@ -129,7 +129,7 @@ impl Extractor for ResultsExtractor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;

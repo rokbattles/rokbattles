@@ -1,8 +1,6 @@
 //! Participant helpers for Battle mail.
 
-use mail_processor_sdk::{
-    ExtractError, optional_string_field, optional_u64_field, require_i64_field,
-};
+use mail_sdk::{ExtractError, optional_string_field, optional_u64_field, require_i64_field};
 use serde_json::{Map, Value, json};
 
 use crate::content::require_string_field;

@@ -1,6 +1,6 @@
 //! GVE alliance boss identification from localized report subtitles.
 
-use mail_processor_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
 
 use crate::content::{require_content, require_string_field};
@@ -144,7 +144,7 @@ impl Extractor for BossExtractor {
 
 #[cfg(test)]
 mod tests {
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::json;
 
     use super::*;

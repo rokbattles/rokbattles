@@ -22,7 +22,7 @@ pub enum ProcessorError {
     #[error("unsupported mail type: {0}")]
     UnsupportedMailType(String),
     #[error("processing failed: {0}")]
-    Process(#[from] mail_processor_sdk::ProcessError),
+    Process(#[from] mail_sdk::ProcessError),
     #[error("bson serialization failed: {0}")]
     BsonEncode(#[from] mongodb::bson::ser::Error),
 }

@@ -1,6 +1,6 @@
 //! Opponent parser for Battle mail.
 
-use mail_processor_sdk::{
+use mail_sdk::{
     ExtractError, Extractor, Section, indexed_array_values, optional_i64_field, optional_u64_field,
     require_i64_field, require_number_field,
 };
@@ -271,7 +271,7 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use mail_processor_sdk::Extractor;
+    use mail_sdk::Extractor;
     use serde_json::{Value, json};
 
     use super::*;
