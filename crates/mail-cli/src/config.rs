@@ -9,8 +9,6 @@ pub struct Config {
     pub output_dir: PathBuf,
     /// Whether to pretty-print the JSON output.
     pub pretty: bool,
-    /// Whether to decode through the lossless representation.
-    pub lossless: bool,
 }
 
 /// Result summary for a decode run.
@@ -18,23 +16,4 @@ pub struct Config {
 pub struct RunSummary {
     /// Number of files that were decoded and written.
     pub decoded_files: usize,
-}
-
-/// Settings for rebuilding lossless JSON into raw mail buffers.
-#[derive(Debug, Clone)]
-pub struct RebuildConfig {
-    /// File or directory that contains the lossless JSON documents.
-    pub input_path: PathBuf,
-    /// Directory where rebuilt mail buffers should be written.
-    /// Defaults to the input directory, or the input file's parent directory.
-    pub output_dir: Option<PathBuf>,
-    /// Mail ID override for single-file inputs.
-    pub mail_id: Option<String>,
-}
-
-/// Result summary for a rebuild run.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct RebuildSummary {
-    /// Number of lossless JSON files rebuilt into raw buffers.
-    pub rebuilt_files: usize,
 }

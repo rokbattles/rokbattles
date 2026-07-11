@@ -20,7 +20,7 @@ pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
     let mut decoded_files = 0;
 
     for input in input_files {
-        decode_file(&input, &config.output_dir, config.pretty, config.lossless)?;
+        decode_file(&input, &config.output_dir, config.pretty)?;
         decoded_files += 1;
     }
 
@@ -34,8 +34,6 @@ mod tests {
         io::Write,
         path::Path,
     };
-
-    use serde_json::Value;
 
     use super::*;
 
@@ -57,7 +55,6 @@ mod tests {
             input_dir: input_dir.path().to_path_buf(),
             output_dir: output_dir.path().to_path_buf(),
             pretty: true,
-            lossless: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 1);
@@ -80,7 +77,6 @@ mod tests {
             input_dir: input_dir.path().to_path_buf(),
             output_dir: output_dir.path().to_path_buf(),
             pretty: false,
-            lossless: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 1);
@@ -91,42 +87,13 @@ mod tests {
     }
 
     #[test]
-    fn run_decodes_lossless_json() {
-        let input_dir = tempfile::tempdir().expect("input dir");
-        let output_dir = tempfile::tempdir().expect("output dir");
-        let input_path = input_dir.path().join("sample.mail");
-
-        let mut buffer = vec![0xff, 0x00];
-        buffer.extend_from_slice(&[0x05, 0xff]);
-        write_bytes(&input_path, &buffer);
-
-        let config = Config {
-            input_dir: input_dir.path().to_path_buf(),
-            output_dir: output_dir.path().to_path_buf(),
-            pretty: true,
-            lossless: true,
-        };
-        let summary = run(&config).unwrap();
-        assert_eq!(summary.decoded_files, 1);
-
-        let output_path = output_dir.path().join("sample.mail.json");
-        let json = fs::read_to_string(output_path).expect("read output");
-        let value: Value = serde_json::from_str(&json).expect("parse output");
-        assert_eq!(value["preamble_hex"], Value::String("ff00".to_string()));
-    }
-
-    #[test]
     fn run_rejects_non_directory_input() {
         let temp = tempfile::tempdir().expect("temp dir");
         let file_path = temp.path().join("file.bin");
         write_bytes(&file_path, &[0x01, 1]);
 
-        let config = Config {
-            input_dir: file_path,
-            output_dir: temp.path().join("out"),
-            pretty: true,
-            lossless: false,
-        };
+        let config =
+            Config { input_dir: file_path, output_dir: temp.path().join("out"), pretty: true };
         let err = run(&config).unwrap_err();
         assert!(matches!(err, MailCliError::InvalidInputDir { .. }));
     }
@@ -140,7 +107,6 @@ mod tests {
             input_dir: input_dir.path().to_path_buf(),
             output_dir: output_dir.path().to_path_buf(),
             pretty: true,
-            lossless: false,
         };
         let summary = run(&config).unwrap();
         assert_eq!(summary.decoded_files, 0);

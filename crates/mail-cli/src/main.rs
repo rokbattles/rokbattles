@@ -5,7 +5,7 @@
 use std::{error::Error, path::PathBuf};
 
 use clap::{ArgAction, Parser};
-use mail_cli::{Config, MailCliError, RebuildConfig};
+use mail_cli::{Config, MailCliError};
 
 #[derive(Parser, Debug)]
 #[command(name = "mail-cli", version, about = "Decode mail buffers into JSON")]
@@ -21,41 +21,16 @@ struct Cli {
     /// Whether to pretty-print the JSON output.
     #[arg(long, default_value_t = true, action = ArgAction::Set, value_name = "BOOL")]
     pretty: bool,
-
-    /// Whether to emit lossless JSON instead of the standard decoded form.
-    #[arg(long, default_value_t = false)]
-    lossless: bool,
-
-    /// Rebuild lossless JSON documents back into raw mail buffers.
-    #[arg(long = "rebuild", default_value_t = false)]
-    rebuild: bool,
-
-    /// Mail ID override when rebuilding a single lossless JSON document.
-    #[arg(long, value_name = "MAIL_ID")]
-    mail_id: Option<String>,
 }
 
 fn main() {
-    let Cli { input_dir, output_dir, pretty, lossless, rebuild, mail_id } = Cli::parse();
+    let Cli { input_dir, output_dir, pretty } = Cli::parse();
+    let config =
+        Config { output_dir: output_dir.unwrap_or_else(|| input_dir.clone()), input_dir, pretty };
 
-    if rebuild {
-        let config = RebuildConfig { input_path: input_dir, output_dir, mail_id };
-        if let Err(error) = mail_cli::rebuild_lossless(&config) {
-            report_error(&error);
-            std::process::exit(1);
-        }
-    } else {
-        let config = Config {
-            output_dir: output_dir.unwrap_or_else(|| input_dir.clone()),
-            input_dir,
-            pretty,
-            lossless,
-        };
-
-        if let Err(error) = mail_cli::run(&config) {
-            report_error(&error);
-            std::process::exit(1);
-        }
+    if let Err(error) = mail_cli::run(&config) {
+        report_error(&error);
+        std::process::exit(1);
     }
 }
 
