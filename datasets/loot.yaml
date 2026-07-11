@@ -3084,6 +3084,270 @@ loot:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Universal5.png
 
+    39:
+      name:
+        ar: "تسريع 15 ساعة"
+        de: "15 Stunden Beschleunigung"
+        en: "15-Hour Speedup"
+        es: "15 horas de Aceleración"
+        fr: "Accélération - 15 heures"
+        id: "Speedup 15 Jam"
+        it: "Acceleratore da 15 ore"
+        ja: "15時間加速"
+        ko: "15시간 가속"
+        ms: "Percepat 15 Jam"
+        pl: "15-godz. przyspieszenie"
+        pt: "Aceleração de 15 horas"
+        ru: "15-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 15 ชั่วโมง"
+        tr: "15 Saatlik Hızlandırma"
+        vi: "Tăng tốc 15 giờ"
+        zh_CN: "15小时加速"
+        zh_TW: "15小時加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_9.png
+
+    40:
+      name:
+        ar: "تسريع 24 ساعة"
+        de: "24 Stunden Beschleunigung"
+        en: "24-Hour Speedup"
+        es: "24 horas de Aceleración"
+        fr: "Accélération - 24 heures"
+        id: "Speedup 24 Jam"
+        it: "Acceleratore da 24 ore"
+        ja: "24時間加速"
+        ko: "24시간 가속"
+        ms: "Percepat 24 Jam"
+        pl: "24-godz. przyspieszenie"
+        pt: "Aceleração de 24 horas"
+        ru: "24-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 24 ชั่วโมง"
+        tr: "24 Saatlik Hızlandırma"
+        vi: "Tăng tốc 24 giờ"
+        zh_CN: "24小时加速"
+        zh_TW: "24小時加速"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_9.png
+
+    56:
+      name:
+        ar: "نقل إقليمي"
+        de: "Gebietsteleportierung"
+        en: "Territorial Teleport"
+        es: "Teletransporte Territorial"
+        fr: "Téléportation territoriale"
+        id: "Teleportasi Teritorial"
+        it: "Teletrasporto territoriale"
+        ja: "領土内移転"
+        ko: "영토 내 도시 이전"
+        ms: "Teleport Wilayah"
+        pl: "Obszarowa teleportacja"
+        pt: "Teleporto Territorial"
+        ru: "Телепорт по территории"
+        th: "เทเลพอร์ตเข้าอาณาเขต"
+        tr: "Bölgeye Işınlanma"
+        vi: "Dịch Chuyển Lãnh Thổ"
+        zh_CN: "领土迁城"
+        zh_TW: "領土遷城"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_30.png
+
+    112:
+      name:
+        ar: "24 ساعة جمع معزز"
+        de: "24-Stunden verbesserte Sammlung"
+        en: "24-Hour Enhanced Gathering"
+        es: "24 horas de Mejora de Recolección"
+        fr: "Amélioration de récolte - 24 heures"
+        id: "Enhanced Gathering 24 Jam"
+        it: "Raccolta migliorata da 24 ore"
+        ja: "24時間採集強化"
+        ko: "24시간 채집 능력 강화"
+        ms: "Pengumpulan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniony zbiór"
+        pt: "Coleta Aprimorada de 24 Horas"
+        ru: "Усиление сбора на 24 часа"
+        th: "เสริมการเก็บทรัพยากร 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Toplama"
+        vi: "Tăng cường thu thập 24 giờ"
+        zh_CN: "24小时采集强化"
+        zh_TW: "24小時採集強化"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_28.png
+
+    404:
+      name:
+        ar: "1,000 رصيد فردي"
+        de: "1.000 Persönliche Credits"
+        en: "1,000 Individual Credits"
+        es: "1 000 Créditos Individuales"
+        fr: "1 000 points individuels"
+        id: "1.000 Credit Perorangan"
+        it: "1.000 Crediti individuali"
+        ja: "1,000 個人ポイント"
+        ko: "1,000 개인 포인트"
+        ms: "1,000 Kredit Individu"
+        pl: "1 000 pkt osobistych"
+        pt: "1.000 créditos individuais"
+        ru: "Личные кредиты: 1000"
+        th: "เครดิตส่วนบุคคล 1,000 เครดิต"
+        tr: "1.000 Bireysel Kredi"
+        vi: "1.000 Tín dụng cá nhân"
+        zh_CN: "1,000 个人积分"
+        zh_TW: "1,000 個人積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_89.png
+
+    409:
+      name:
+        ar: "1,000 رصيد تحالف"
+        de: "1.000 Bündniscredits"
+        en: "1,000 Alliance Credits"
+        es: "1 000 Créditos de la Alianza"
+        fr: "1 000 points d'alliance"
+        id: "1.000 Credit Aliansi"
+        it: "1.000 Crediti dell'alleanza"
+        ja: "1,000 同盟ポイント"
+        ko: "1,000 연맹 포인트"
+        ms: "1,000 Kredit Perikatan"
+        pl: "1 000 punktów sojuszu"
+        pt: "1.000 créditos da aliança"
+        ru: "Кредиты альянса: 1000"
+        th: "เครดิตสมาพันธ์ 1,000 เครดิต"
+        tr: "1.000 Birlik Kredisi"
+        vi: "1.000 Tín dụng liên minh"
+        zh_CN: "1,000 联盟积分"
+        zh_TW: "1,000 聯盟積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_90.png
+
+    410:
+      name:
+        ar: "5,000 رصيد تحالف"
+        de: "5.000 Bündniscredits"
+        en: "5,000 Alliance Credits"
+        es: "5 000 Créditos de la Alianza"
+        fr: "5 000 points d'alliance"
+        id: "5.000 Credit Aliansi"
+        it: "5.000 Crediti dell'alleanza"
+        ja: "5,000 同盟ポイント"
+        ko: "5,000 연맹 포인트"
+        ms: "5,000 Kredit Perikatan"
+        pl: "5 000 punktów sojuszu"
+        pt: "5.000 créditos da aliança"
+        ru: "Кредиты альянса: 5000"
+        th: "เครดิตสมาพันธ์ 5,000 เครดิต"
+        tr: "5.000 Birlik Kredisi"
+        vi: "5.000 Tín dụng liên minh"
+        zh_CN: "5,000 联盟积分"
+        zh_TW: "5,000 聯盟積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_90.png
+
+    10003:
+      name:
+        ar: "تمثال قائد نخبة"
+        de: "Elite\\nKommandanten-Skulptur"
+        en: "Elite Commander Sculpture"
+        es: "Escultura de comandante de élite"
+        fr: "Sculpture de commandant d'élite"
+        id: "Patung Komandan Elite"
+        it: "Scultura del comandante élite"
+        ja: "エリート英雄像"
+        ko: "엘리트 사령관 조각상"
+        ms: "Arca Komander Elit"
+        pl: "Rzeźba elitarnego dowódcy"
+        pt: "Escultura Comandante Elite"
+        ru: "Скульптура элитного командира"
+        th: "รูปปั้นผู้บัญชาการยอดฝีมือ"
+        tr: "Seçkin Komutan Heykeli"
+        vi: "Tượng chỉ huy tinh nhuệ"
+        zh_CN: "精英统帅雕像"
+        zh_TW: "精英統帥雕像"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_HeroCarving_Universal3.png
+
+    10004:
+      name:
+        ar: "تمثال قائد ملحمي"
+        de: "Epische\\nKommandanten-Skulptur"
+        en: "Epic Commander Sculpture"
+        es: "Escultura de Comandante Épico"
+        fr: "Sculpture de commandant épique"
+        id: "Patung Komandan Epik"
+        it: "Scultura del comandante epica"
+        ja: "エピック英雄像"
+        ko: "영웅 사령관 조각상"
+        ms: "Arca Komander Epik"
+        pl: "Rzeźba epickiego dowódcy"
+        pt: "Escultura de Comandante Épico"
+        ru: "Скульптура эпического командира"
+        th: "รูปปั้นผู้บัญชาการชั้นเลิศ"
+        tr: "Destansı Komutan Heykeli"
+        vi: "Tượng chỉ huy vĩ đại"
+        zh_CN: "史诗统帅雕像"
+        zh_TW: "史詩統帥雕像"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_HeroCarving_Universal4.png
+
+    21068:
+      name:
+        ar: "رحمة كاروك"
+        de: "Karuaks Demut"
+        en: "Karuak's Humility"
+        es: "Humildad de Karuak"
+        fr: "Humilité de Karuak"
+        id: "Karuak's Humility"
+        it: "L'umiltà del Karuak"
+        ja: "カルラックのズボン"
+        ko: "칼스루에의 겸손"
+        ms: "Kerendahan Hati Karuak"
+        pl: "Pokora Karuaka"
+        pt: "Humildade de Karuak"
+        ru: "Смиренность Каруака"
+        th: "ความอ่อนน้อมของคารวค"
+        tr: "Karuak'ın Tevazusu"
+        vi: "Sự nhân văn của Karuak"
+        zh_CN: "卡鲁拉克的谦逊"
+        zh_TW: "卡魯拉克的謙遜"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_equip_4_13.png
+
+    21099:
+      name:
+        ar: "الطوطم الوحشي"
+        de: "Wildes Totem"
+        en: "Savage Totem"
+        es: "Tótem salvaje"
+        fr: "Totem sauvage"
+        id: "Savage Totem"
+        it: "Totem Selvaggio"
+        ja: "サベージトーテム"
+        ko: "야만 토템"
+        ms: "Totem Dahsyat"
+        pl: "Dziki totem"
+        pt: "Totem selvagem"
+        ru: "Тотем дикарей"
+        th: "โทเท็มป่าเถื่อน"
+        tr: "Yabani Totem"
+        vi: "Vật tổ man rợ"
+        zh_CN: "野蛮图腾"
+        zh_TW: "野蠻圖騰"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_equip_3_18.png
+
   4:
     2:
       name:
