@@ -382,7 +382,6 @@ msgstr "Baulurs"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "c5aU-N"
 msgstr "Kahar's Treasure"
@@ -450,6 +449,7 @@ msgstr "Results"
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "r8aMgv"
 msgstr "AP used"
 
@@ -668,6 +668,10 @@ msgstr "This reward tier has been seen {count, plural, one {# time} other {# tim
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "pFZfPa"
 msgstr "n/a"
+
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
+msgid "Tpg7c5"
+msgstr "Kahar the Hidden"
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
