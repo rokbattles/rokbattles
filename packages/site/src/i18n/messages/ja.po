@@ -303,10 +303,6 @@ msgstr ""
 msgid "lKv8ex"
 msgstr ""
 
-#: src/components/account-binds/bind-list-item.tsx
-msgid "tx_jZ_"
-msgstr ""
-
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
 msgstr ""

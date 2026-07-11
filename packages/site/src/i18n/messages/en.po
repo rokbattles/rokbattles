@@ -303,10 +303,6 @@ msgstr "Unlink bind"
 msgid "lKv8ex"
 msgstr "Default"
 
-#: src/components/account-binds/bind-list-item.tsx
-msgid "tx_jZ_"
-msgstr "ID {id}"
-
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
 msgstr "You can only bind up to three governors."
