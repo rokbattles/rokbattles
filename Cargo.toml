@@ -1,9 +1,9 @@
 [workspace]
 members = [
-    "crates/binidx-cli",
+    "crates/tools/binidx-cli",
     "crates/core/binidx-decoder",
     "crates/core/drastc",
-    "crates/mail-cli",
+    "crates/tools/mail-cli",
     "crates/mail/decoder",
     "crates/mail/registry",
     "crates/mail/processors/alliance-aoo-battle-info",

@@ -81,7 +81,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.1002579517552941234.json");
+            .join("../../../samples/Battle/Persistent.Mail.1002579517552941234.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -97,7 +97,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.30346123155694137715.json");
+            .join("../../../samples/Battle/Persistent.Mail.30346123155694137715.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -113,7 +113,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.47051167177023603224.json");
+            .join("../../../samples/Battle/Persistent.Mail.47051167177023603224.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -135,7 +135,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.33830971176980291131.json");
+            .join("../../../samples/Battle/Persistent.Mail.33830971176980291131.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
         assert!(matches!(value, Value::Array(_)));
@@ -152,7 +152,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/BarCanyonKillBoss/Persistent.Mail.21162669176948646831.json");
+            .join("../../../samples/BarCanyonKillBoss/Persistent.Mail.21162669176948646831.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -170,7 +170,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/DuelBattle2/Persistent.Mail.4197312176618249531.json");
+            .join("../../../samples/DuelBattle2/Persistent.Mail.4197312176618249531.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -186,7 +186,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/System/Persistent.Mail.87938122177133895831.json");
+            .join("../../../samples/System/Persistent.Mail.87938122177133895831.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -207,7 +207,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Rss/Persistent.Mail.113164877177212776431.json");
+            .join("../../../samples/Rss/Persistent.Mail.113164877177212776431.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -226,7 +226,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.102185423177177256731.json");
+            .join("../../../samples/Alliance/Persistent.Mail.102185423177177256731.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -246,7 +246,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.102185425177177256731.json");
+            .join("../../../samples/Alliance/Persistent.Mail.102185425177177256731.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -263,7 +263,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.6906962177237730831.json");
+            .join("../../../samples/Alliance/Persistent.Mail.6906962177237730831.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -285,7 +285,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
+            .join("../../../samples/Alliance/Persistent.Mail.102185429177177256731.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
@@ -304,7 +304,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Alliance/Persistent.Mail.6906964177237730831.json");
+            .join("../../../samples/Alliance/Persistent.Mail.6906964177237730831.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
