@@ -233,9 +233,9 @@ mod tests {
     #[test]
     fn selected_samples_decode_and_raw_compression_roundtrips() {
         let samples = [
-            "../../samples/Rss/Persistent.Mail.118801516499340535",
-            "../../samples/Battle/Persistent.Mail.100439187175234501131",
-            "../../samples/Battle/Persistent.Mail.18895907175034307923",
+            "../../../samples/Rss/Persistent.Mail.118801516499340535",
+            "../../../samples/Battle/Persistent.Mail.100439187175234501131",
+            "../../../samples/Battle/Persistent.Mail.18895907175034307923",
         ];
 
         for sample in samples {
@@ -252,7 +252,7 @@ mod tests {
     #[test]
     #[ignore = "prints compression benchmark data for local cutoff decisions"]
     fn benchmark_sample_compression() {
-        let sample_root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../samples");
+        let sample_root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples");
         let mut samples = Vec::new();
         collect_raw_samples(&sample_root, &mut samples);
         samples.sort();

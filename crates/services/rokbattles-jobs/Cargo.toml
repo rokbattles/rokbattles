@@ -5,11 +5,11 @@ edition = "2024"
 
 [dependencies]
 dotenvy = { workspace = true }
-drastc = { path = "../core/drastc" }
+drastc = { path = "../../core/drastc" }
 futures = { workspace = true }
 mongodb = { workspace = true }
 rokbattles-api = { path = "../rokbattles-api" }
-core-bson = { path = "../core/bson" }
+core-bson = { path = "../../core/bson" }
 sentry = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "signal", "sync"] }

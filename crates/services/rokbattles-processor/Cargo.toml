@@ -13,6 +13,6 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 futures = { workspace = true }
 zstd = { workspace = true }
 dotenvy = { workspace = true }
-mail-registry = { path = "../mail/registry", features = ["processors"] }
-mail-sdk = { path = "../mail/sdk" }
+mail-registry = { path = "../../mail/registry", features = ["processors"] }
+mail-sdk = { path = "../../mail/sdk" }
 sentry = { workspace = true }

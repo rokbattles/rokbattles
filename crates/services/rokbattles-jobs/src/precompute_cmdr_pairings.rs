@@ -13,7 +13,7 @@ use rokbattles_api::db::ReportsStore;
 
 use crate::error::JobsError;
 
-const COMMANDERS_YAML: &str = include_str!("../../../datasets/commanders.yaml");
+const COMMANDERS_YAML: &str = include_str!("../../../../datasets/commanders.yaml");
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
