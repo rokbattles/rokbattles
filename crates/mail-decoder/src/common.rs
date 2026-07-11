@@ -8,7 +8,7 @@ pub(crate) const TAG_OBJECT: u8 = 0x05;
 
 pub(crate) const MAX_DEPTH: usize = 128;
 
-/// Errors returned by [crate::decode] and [crate::decode_lossless].
+/// Errors returned by [crate::decode].
 #[derive(Debug)]
 pub enum DecodeError {
     /// The buffer ended before all required bytes were available.

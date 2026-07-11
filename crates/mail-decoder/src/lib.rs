@@ -26,11 +26,6 @@
 
 mod common;
 mod decoder;
-mod lossless;
 
 pub use common::DecodeError;
 pub use decoder::decode;
-pub use lossless::{
-    LosslessArray, LosslessContainer, LosslessDocument, LosslessEncodeError, LosslessEntry,
-    LosslessObject, LosslessValue, decode_lossless, encode_lossless, lossless_to_json,
-};

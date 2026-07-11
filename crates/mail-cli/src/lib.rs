@@ -9,10 +9,8 @@
 mod config;
 mod error;
 mod fs_utils;
-mod lossless;
 mod run;
 
-pub use config::{Config, RebuildConfig, RebuildSummary, RunSummary};
+pub use config::{Config, RunSummary};
 pub use error::MailCliError;
-pub use lossless::rebuild_lossless;
 pub use run::run;
