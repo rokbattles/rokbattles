@@ -669,11 +669,6 @@ msgstr ""
 msgid "pFZfPa"
 msgstr ""
 
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
-msgstr ""
-
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "75KFvG"
@@ -1106,6 +1101,10 @@ msgstr ""
 #: src/components/platform-layout.tsx
 msgid "HqRNN8"
 msgstr "Soporte"
+
+#: src/components/platform-layout.tsx
+msgid "2IFGap"
+msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "QnWNmB"
