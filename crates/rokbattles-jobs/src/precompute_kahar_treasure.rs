@@ -12,6 +12,7 @@ use rokbattles_api::db::ReportsStore;
 use crate::error::JobsError;
 
 const KAHAR_TREASURE_AGGREGATE_KEY: &str = "all";
+const KAHAR_AP_COST: i64 = 200;
 
 /// Counts from one Kahar treasure precompute run.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
@@ -33,7 +34,7 @@ pub async fn precompute_kahar_treasure_data(
     let document = build_precomputed_document(&aggregate, refreshed_at);
 
     precomputed
-        .replace_one(doc! { "key": KAHAR_TREASURE_AGGREGATE_KEY }, document)
+        .replace_one(doc! { "kind": KAHAR_TREASURE_AGGREGATE_KEY }, document)
         .upsert(true)
         .await?;
     stats.documents_written += 1;
@@ -98,10 +99,11 @@ fn build_precomputed_document(stats: &AggregateStats, refreshed_at: DateTime) ->
         .collect::<Vec<_>>();
 
     doc! {
-        "key": KAHAR_TREASURE_AGGREGATE_KEY,
+        "kind": KAHAR_TREASURE_AGGREGATE_KEY,
         "loot": loot,
         "totals": {
             "results": usize_to_i64(stats.results),
+            "ap_used": usize_to_i64(stats.results).saturating_mul(KAHAR_AP_COST),
         },
         "refreshed_at": refreshed_at,
     }
@@ -260,7 +262,7 @@ mod tests {
 
         let document = build_precomputed_document(&stats, DateTime::now());
 
-        assert_eq!(document.get_str("key"), Ok(KAHAR_TREASURE_AGGREGATE_KEY));
+        assert_eq!(document.get_str("kind"), Ok(KAHAR_TREASURE_AGGREGATE_KEY));
         assert!(!document.contains_key("data"));
         assert!(!document.contains_key("loot_pools"));
         assert_eq!(
@@ -268,7 +270,7 @@ mod tests {
             Ok(2)
         );
         let totals = document.get_document("totals").expect("totals");
-        assert!(!totals.contains_key("ap_used"));
+        assert_eq!(totals.get_i64("ap_used"), Ok(400));
         assert!(!totals.contains_key("honor_points_gained"));
         assert!(!totals.contains_key("xp_gained"));
         let loot = document.get_array("loot").expect("loot");

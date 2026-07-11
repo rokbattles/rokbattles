@@ -304,7 +304,7 @@ impl ReportsStore {
 
         let precomputed_kahar_treasure_models = vec![
             IndexModel::builder()
-                .keys(doc! { "key": 1 })
+                .keys(doc! { "kind": 1 })
                 .options(IndexOptions::builder().unique(true).build())
                 .build(),
         ];

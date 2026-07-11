@@ -79,10 +79,11 @@ export type BaulurLootDocument = {
 };
 
 export type KaharTreasureLootDocument = {
-  key: string;
+  kind: string;
   loot: LootDrop[];
   totals: {
     results: number;
+    apUsed: number;
   };
   refreshedAt: string;
 };
