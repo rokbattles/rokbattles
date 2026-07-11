@@ -11,7 +11,6 @@ use rokbattles_bson::bson_to_i64;
 #[derive(Debug, Clone)]
 pub struct Storage {
     raw: Collection<Document>,
-    raw_lossless: Collection<Document>,
     compressed_raw: Collection<Document>,
 }
 
@@ -30,11 +29,7 @@ pub struct ExistingCompressedRawMail {
 impl Storage {
     /// Bind storage helpers to the configured database.
     pub fn new(db: mongodb::Database) -> Self {
-        Self {
-            raw: db.collection("mails_raw"),
-            raw_lossless: db.collection("mails_raw_lossless"),
-            compressed_raw: db.collection("g_rok_mails"),
-        }
+        Self { raw: db.collection("mails_raw"), compressed_raw: db.collection("g_rok_mails") }
     }
 
     /// Create indexes used by the upload paths.
@@ -44,8 +39,7 @@ impl Storage {
             .options(IndexOptions::builder().unique(true).build())
             .build();
 
-        self.raw.create_index(mail_id_index.clone()).await?;
-        self.raw_lossless.create_index(mail_id_index).await?;
+        self.raw.create_index(mail_id_index).await?;
 
         let compressed_mail_id_index = IndexModel::builder()
             .keys(doc! { "mail.id": 1 })
@@ -113,22 +107,6 @@ impl Storage {
     /// Update an existing raw mail document.
     pub async fn update_raw(&self, mail_id: &str, update: Document) -> mongodb::error::Result<()> {
         self.raw.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
-        Ok(())
-    }
-
-    /// Insert a new lossless mail document.
-    pub async fn insert_lossless(&self, doc: Document) -> mongodb::error::Result<()> {
-        self.raw_lossless.insert_one(doc).await?;
-        Ok(())
-    }
-
-    /// Update an existing lossless mail document.
-    pub async fn update_lossless(
-        &self,
-        mail_id: &str,
-        update: Document,
-    ) -> mongodb::error::Result<()> {
-        self.raw_lossless.update_one(doc! { "mail_id": mail_id }, doc! { "$set": update }).await?;
         Ok(())
     }
 }
