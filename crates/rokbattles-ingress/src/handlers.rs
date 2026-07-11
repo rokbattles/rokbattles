@@ -107,9 +107,6 @@ pub async fn upload(
         let compressed = compress_mail_value(&decoded, state.config.zstd_level)?;
         let now = DateTime::now();
 
-        let lossless_doc = decode_lossless_doc(&buffer)?;
-        let lossless_compressed = compress_mail_value(&lossless_doc, state.config.zstd_level)?;
-
         match action {
             UploadAction::Insert => {
                 let raw_doc = doc! {
@@ -129,23 +126,6 @@ pub async fn upload(
                     .insert_raw(raw_doc)
                     .await
                     .map_err(|error| ApiError::database(error.to_string()))?;
-
-                let lossless_doc = doc! {
-                    "mail_id": &mail_id,
-                    "mail_attack_count": attack_count,
-                    "user_agent": &user_agent,
-                    "mail_value": Bson::Binary(Binary {
-                        subtype: BinarySubtype::Generic,
-                        bytes: lossless_compressed,
-                    }),
-                    "createdAt": now,
-                    "updatedAt": now,
-                };
-                state
-                    .storage
-                    .insert_lossless(lossless_doc)
-                    .await
-                    .map_err(|error| ApiError::database(error.to_string()))?;
             }
             UploadAction::Update => {
                 let raw_update = doc! {
@@ -161,21 +141,6 @@ pub async fn upload(
                 state
                     .storage
                     .update_raw(&mail_id, raw_update)
-                    .await
-                    .map_err(|error| ApiError::database(error.to_string()))?;
-
-                let lossless_update = doc! {
-                    "mail_attack_count": attack_count,
-                    "user_agent": &user_agent,
-                    "mail_value": Bson::Binary(Binary {
-                        subtype: BinarySubtype::Generic,
-                        bytes: lossless_compressed,
-                    }),
-                    "updatedAt": now,
-                };
-                state
-                    .storage
-                    .update_lossless(&mail_id, lossless_update)
                     .await
                     .map_err(|error| ApiError::database(error.to_string()))?;
             }
@@ -461,12 +426,6 @@ fn compress_mail_value(decoded: &Value, zstd_level: i32) -> Result<Vec<u8>, ApiE
         serde_json::to_vec(decoded).map_err(|error| ApiError::internal(error.to_string()))?;
     zstd::stream::encode_all(Cursor::new(json), zstd_level)
         .map_err(|error| ApiError::internal(error.to_string()))
-}
-
-fn decode_lossless_doc(buffer: &[u8]) -> Result<Value, ApiError> {
-    let lossless = mail_decoder::decode_lossless(buffer)
-        .map_err(|error| ApiError::decode_failed(error.to_string()))?;
-    Ok(mail_decoder::lossless_to_json(&lossless))
 }
 
 #[cfg(test)]
