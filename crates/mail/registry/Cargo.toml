@@ -1,0 +1,41 @@
+[package]
+name = "mail-registry"
+version = "1.5.2"
+edition = "2024"
+
+[features]
+default = []
+processors = [
+    "dep:mail-processor-alliance-aoo-battle-info",
+    "dep:mail-processor-alliance-aoo-battle-results",
+    "dep:mail-processor-alliance-aoo-individual-results",
+    "dep:mail-processor-alliance-aoo-registration",
+    "dep:mail-processor-barcanyonkillboss",
+    "dep:mail-processor-battle",
+    "dep:mail-processor-duelbattle2",
+    "dep:mail-processor-eventmemberlootreport",
+    "dep:mail-processor-rss",
+    "dep:mail-processor-scoutreport",
+    "dep:mail-sdk",
+    "dep:mail-processor-system-barbarianfort",
+    "dep:mail-processor-system-kahartreasure",
+]
+
+[dependencies]
+serde_json = { workspace = true }
+mail-processor-alliance-aoo-battle-info = { path = "../processors/alliance-aoo-battle-info", optional = true }
+mail-processor-alliance-aoo-battle-results = { path = "../processors/alliance-aoo-battle-results", optional = true }
+mail-processor-alliance-aoo-individual-results = { path = "../processors/alliance-aoo-individual-results", optional = true }
+mail-processor-alliance-aoo-registration = { path = "../processors/alliance-aoo-registration", optional = true }
+mail-processor-barcanyonkillboss = { path = "../processors/barcanyonkillboss", optional = true }
+mail-processor-battle = { path = "../processors/battle", optional = true }
+mail-processor-duelbattle2 = { path = "../processors/duelbattle2", optional = true }
+mail-processor-eventmemberlootreport = { path = "../processors/eventmemberlootreport", optional = true }
+mail-processor-rss = { path = "../processors/rss", optional = true }
+mail-processor-scoutreport = { path = "../processors/scoutreport", optional = true }
+mail-sdk = { path = "../sdk", optional = true }
+mail-processor-system-barbarianfort = { path = "../processors/system-barbarianfort", optional = true }
+mail-processor-system-kahartreasure = { path = "../processors/system-kahartreasure", optional = true }
+
+[lib]
+doctest = false

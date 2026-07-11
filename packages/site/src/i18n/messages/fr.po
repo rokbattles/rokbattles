@@ -313,10 +313,6 @@ msgstr ""
 msgid "lKv8ex"
 msgstr "Défaut"
 
-#: src/components/account-binds/bind-list-item.tsx
-msgid "tx_jZ_"
-msgstr ""
-
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
 msgstr "Vous ne pouvez lier qu'un maximum de trois gouverneurs."
@@ -391,6 +387,11 @@ msgid "l7kWPA"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "xRJGes"
+msgstr ""
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
@@ -403,7 +404,7 @@ msgid "yF_GXb"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "en1tf5"
+msgid "zwmya7"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
@@ -445,6 +446,31 @@ msgid "1j7NiE"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "SdCxJX"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "8_6Wn2"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "M3-BHu"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "HxOf0f"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "tbfLQx"
+msgstr ""
+
+#: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "4pFR10"
 msgstr ""
@@ -454,12 +480,14 @@ msgstr ""
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yaMHMB"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
+#: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "r8aMgv"
 msgstr ""
 
@@ -822,6 +850,7 @@ msgstr "Sauvegarder"
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "sNAPQj"
 msgstr ""
 
@@ -829,6 +858,7 @@ msgstr ""
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yedWVm"
 msgstr ""
 
@@ -1265,6 +1295,10 @@ msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "HqRNN8"
+msgstr ""
+
+#: src/components/platform-layout.tsx
+msgid "2IFGap"
 msgstr ""
 
 #: src/components/platform-layout.tsx

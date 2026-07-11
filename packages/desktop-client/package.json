@@ -1,13 +1,13 @@
 {
   "name": "@rokbattles/desktop-client",
   "private": true,
-  "version": "1.5.1",
+  "version": "1.5.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "cd ../../crates/rokbattles-desktop && ../../packages/desktop-client/node_modules/.bin/tauri"
+    "tauri": "cd ../../crates/desktop && ../../packages/desktop-client/node_modules/.bin/tauri"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
@@ -15,7 +15,7 @@
     "cnfast": "^0.0.8",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router": "^8.1.0"
+    "react-router": "^8.2.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.2",
@@ -25,6 +25,6 @@
     "@vitejs/plugin-react": "^6.0.3",
     "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3",
-    "vite": "^8.1.3"
+    "vite": "^8.1.4"
   }
 }

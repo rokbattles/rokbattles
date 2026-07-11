@@ -211,6 +211,54 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_23.png
 
+    4:
+      name:
+        ar: "500,000 طعام"
+        de: "500.000 Proviant"
+        en: "500,000 Food"
+        es: "500 000 de Alimento"
+        fr: "500 000 unités de nourriture"
+        id: "500.000 Food"
+        it: "500.000 unità di cibo"
+        ja: "500,000 食料"
+        ko: "식량 500,000개"
+        ms: "500,000 Makanan"
+        pl: "500 000 żywności"
+        pt: "500.000 de alimento"
+        ru: "500 000 пищи"
+        th: "อาหาร 500,000 หน่วย"
+        tr: "500.000 Gıda"
+        vi: "500.000 thực phẩm"
+        zh_CN: "500,000 食物"
+        zh_TW: "500,000 食物"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_23.png
+
+    5:
+      name:
+        ar: "1,500,000 طعام"
+        de: "1.500.000 Proviant"
+        en: "1,500,000 Food"
+        es: "1500 000 de Alimento"
+        fr: "1 500 000 unités de nourriture"
+        id: "1.500.000 Food"
+        it: "1.500.000 unità di cibo"
+        ja: "1,500,000 食料"
+        ko: "식량 1,500,000개"
+        ms: "1,500,000 Makanan"
+        pl: "1 500 000 żywności"
+        pt: "1.500.000 de alimento"
+        ru: "1 500 000 пищи"
+        th: "อาหาร 1,500,000 หน่วย"
+        tr: "1.500.000 Gıda"
+        vi: "1.500.000 thực phẩm"
+        zh_CN: "1,500,000 食物"
+        zh_TW: "1,500,000 食物"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_23.png
+
     6:
       name:
         ar: "5,000,000 طعام"
@@ -283,6 +331,54 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_22.png
 
+    11:
+      name:
+        ar: "1,500,000 خشب"
+        de: "1.500.000 Holz"
+        en: "1,500,000 Wood"
+        es: "1500 000 de Madera"
+        fr: "1 500 000 unités de bois"
+        id: "1.500.000 Kayu"
+        it: "1.500.000 unità di legname"
+        ja: "1,500,000 木材"
+        ko: "목재 1,500,000개"
+        ms: "1,500,000 Kayu"
+        pl: "1 500 000 drewna"
+        pt: "1.500.000 de madeira"
+        ru: "1 500 000 дерева"
+        th: "ไม้ 1,500,000 หน่วย"
+        tr: "1.500.000 Odun"
+        vi: "1.500.000 khối gỗ"
+        zh_CN: "1,500,000 木材"
+        zh_TW: "1,500,000 木材"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_22.png
+
+    12:
+      name:
+        ar: "5,000,000 خشب"
+        de: "5.000.000 Holz"
+        en: "5,000,000 Wood"
+        es: "5 000 000 de Madera"
+        fr: "5 000 000 unités de bois"
+        id: "5.000.000 Kayu"
+        it: "5.000.000 unità di legname"
+        ja: "5,000,000 木材"
+        ko: "목재 5,000,000개"
+        ms: "5,000,000 Kayu"
+        pl: "5 000 000 drewna"
+        pt: "5.000.000 de madeira"
+        ru: "5 000 000 дерева"
+        th: "ไม้ 5,000,000 หน่วย"
+        tr: "5.000.000 Odun"
+        vi: "5.000.000 khối gỗ"
+        zh_CN: "5,000,000 木材"
+        zh_TW: "5,000,000 木材"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_22.png
+
     15:
       name:
         ar: "112,500 حجر"
@@ -331,6 +427,54 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_21.png
 
+    17:
+      name:
+        ar: "1,125,000 حجر"
+        de: "1.125.000 Steine"
+        en: "1,125,000 Stone"
+        es: "1125 000 de Piedra"
+        fr: "1 125 000 pierres"
+        id: "1.125.000 Stone"
+        it: "1.125.000 unità di pietra"
+        ja: "1,125,000 石材"
+        ko: "석재 1,125,000개"
+        ms: "1,125,000 Batu"
+        pl: "1 125 000 kamienia"
+        pt: "1.125.000 de pedra"
+        ru: "1 125 000 камня"
+        th: "หิน 1,125,000 หน่วย"
+        tr: "1.125.000 Taş"
+        vi: "1.125.000 khối đá"
+        zh_CN: "1,125,000 石料"
+        zh_TW: "1,125,000 石料"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_21.png
+
+    18:
+      name:
+        ar: "3,750,000 حجر"
+        de: "3.750.000 Steine"
+        en: "3,750,000 Stone"
+        es: "3,750 000 de Piedra"
+        fr: "3 750 000 pierres"
+        id: "3.750.000 Stone"
+        it: "3.750.000 unità di pietra"
+        ja: "3,750,000 石材"
+        ko: "석재 3,750,000개"
+        ms: "3,750,000 Batu"
+        pl: "3 750 000 kamienia"
+        pt: "3.750.000 de pedra"
+        ru: "3 750 000 камня"
+        th: "หิน 3,750,000 หน่วย"
+        tr: "3.750.000 Taş"
+        vi: "3.750.000 khối đá"
+        zh_CN: "3,750,000 石料"
+        zh_TW: "3,750,000 石料"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_21.png
+
     21:
       name:
         ar: "50,000 ذهب"
@@ -377,6 +521,54 @@ loot:
         zh_TW: "200,000 金幣"
       sprite:
         - img_icon_item_BGBlue.png
+        - img_icon_item_20.png
+
+    23:
+      name:
+        ar: "600,000 ذهب"
+        de: "600.000 Gold"
+        en: "600,000 Gold"
+        es: "600 000 de Oro"
+        fr: "600 000 unités d'or"
+        id: "600.000 Emas"
+        it: "600.000 Oro"
+        ja: "600,000 金貨"
+        ko: "금화 600,000개"
+        ms: "600,000 Emas"
+        pl: "600 000 złota"
+        pt: "600.000 de ouro"
+        ru: "600 000 золота"
+        th: "ทอง 600,000 หน่วย"
+        tr: "600.000 Altın"
+        vi: "600.000 đồng vàng"
+        zh_CN: "600,000 金币"
+        zh_TW: "600,000 金幣"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_20.png
+
+    24:
+      name:
+        ar: "2,000,000 ذهب"
+        de: "2.000.000 Gold"
+        en: "2,000,000 Gold"
+        es: "2000 000 de Oro"
+        fr: "2 000 000 d'unités d'or"
+        id: "2.000.000 Emas"
+        it: "2.000.000 Oro"
+        ja: "2,000,000 金貨"
+        ko: "금화 2,000,000개"
+        ms: "2,000,000 Emas"
+        pl: "2 000 000 złota"
+        pt: "2.000.000 de ouro"
+        ru: "2 000 000 золота"
+        th: "ทอง 2,000,000 หน่วย"
+        tr: "2.000.000 Altın"
+        vi: "2.000.000 đồng vàng"
+        zh_CN: "2,000,000 金币"
+        zh_TW: "2,000,000 金幣"
+      sprite:
+        - img_icon_item_BGPurple.png
         - img_icon_item_20.png
 
     26:
@@ -499,6 +691,30 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_19.png
 
+    31:
+      name:
+        ar: "1000 جوهرة"
+        de: "1.000 Edelsteine"
+        en: "1,000 Gems"
+        es: "1000 gemas"
+        fr: "1 000 gemmes"
+        id: "1.000 Gem"
+        it: "1.000 gemme"
+        ja: "1,000 宝石"
+        ko: "보석 1,000개"
+        ms: "1,000 Permata"
+        pl: "1000 klejnotów"
+        pt: "1.000 Gemas"
+        ru: "1000 самоцветов"
+        th: "1,000 อัญมณี"
+        tr: "1.000 Cevher"
+        vi: "1.000 Đá Quý"
+        zh_CN: "1,000 宝石"
+        zh_TW: "1,000 寶石"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_19.png
+
     32:
       name:
         ar: "2000 جوهرة"
@@ -617,6 +833,30 @@ loot:
         zh_TW: "8小時加速"
       sprite:
         - img_icon_item_BGPurple.png
+        - img_icon_item_9.png
+
+    41:
+      name:
+        ar: "تسريع 3 أيام"
+        de: "3 Tage Beschleunigung"
+        en: "3-Day Speedup"
+        es: "3 días de Aceleración"
+        fr: "Accélération - 3 jours"
+        id: "Speedup 3 Hari"
+        it: "Acceleratore da 3 giorni"
+        ja: "3日加速"
+        ko: "3일 가속"
+        ms: "Percepat 3 Hari"
+        pl: "3-dn. przyspieszenie"
+        pt: "Aceleração de 3 dias"
+        ru: "3-дневное ускорение"
+        th: "ตัวเร่งความเร็ว 3 วัน"
+        tr: "3 Günlük Hızlandırma"
+        vi: "Tăng tốc 3 ngày"
+        zh_CN: "3天加速"
+        zh_TW: "3天加速"
+      sprite:
+        - img_icon_item_BGOrange.png
         - img_icon_item_9.png
 
     44:
@@ -907,6 +1147,54 @@ loot:
         - img_icon_item_BGBlue.png
         - img_icon_item_12.png
 
+    78:
+      name:
+        ar: "تسريع التدريب لمدة 8 ساعات"
+        de: "8 Stunden Ausbildungsbeschleunigung"
+        en: "8-Hour Training Speedup"
+        es: "8 horas de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 8 heures"
+        id: "Speedup Melatih 8 Jam"
+        it: "Acceleratore addestramento da 8 ore"
+        ja: "8時間訓練加速"
+        ko: "8시간 훈련 가속"
+        ms: "Percepat Latihan 8 Jam"
+        pl: "8-godz. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 8 Horas"
+        ru: "8-часовое ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 8 ชั่วโมง"
+        tr: "8 Saatlik Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 8 giờ"
+        zh_CN: "8小时训练加速"
+        zh_TW: "8小時訓練加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_12.png
+
+    79:
+      name:
+        ar: "تسريع التدريب لمدة 15 ساعة"
+        de: "15 Stunden Ausbildungsbeschleunigung"
+        en: "15-Hour Training Speedup"
+        es: "15 horas de Aceleración de Entrenamiento"
+        fr: "Accélération d'entraînement - 15 heures"
+        id: "Speedup Melatih 15 Jam"
+        it: "Acceleratore addestramento da 15 ore"
+        ja: "15時間訓練加速"
+        ko: "15시간 훈련 가속"
+        ms: "Percepat Latihan 15 Jam"
+        pl: "15-godz. przyspieszenie szkolenia"
+        pt: "Aceleração de treinamento de 15 horas"
+        ru: "15-часовое ускорение обучения"
+        th: "ตัวเร่งความเร็วการฝึก 15 ชั่วโมง"
+        tr: "15 Saatlik Eğitim Hızlandırması"
+        vi: "Tăng tốc huấn luyện 15 giờ"
+        zh_CN: "15小时训练加速"
+        zh_TW: "15小時訓練加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_12.png
+
     84:
       name:
         ar: "تسريع البحث لمدة 15 دقيقة"
@@ -953,6 +1241,102 @@ loot:
         zh_TW: "30分鐘研究加速"
       sprite:
         - img_icon_item_BGBlue.png
+        - img_icon_item_13.png
+
+    86:
+      name:
+        ar: "تسريع البحث لمدة 60 دقيقة"
+        de: "60 Minuten Forschungsbeschleunigung"
+        en: "60-Minute Research Speedup"
+        es: "60 minutos de Aceleración de Investigación"
+        fr: "Accélération de recherche - 60 minutes"
+        id: "Speedup Riset 60 Menit"
+        it: "Acceleratore ricerca da 60 minuti"
+        ja: "60分研究加速"
+        ko: "60분 연구 가속"
+        ms: "Percepat Penyelidikan 60 Minit"
+        pl: "60-min. przyspieszenie badania"
+        pt: "Aceleração de Pesquisa de 60 Minutos"
+        ru: "60-минутное ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 60 นาที"
+        tr: "60 Dakikalık Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 60 phút"
+        zh_CN: "60分钟研究加速"
+        zh_TW: "60分鐘研究加速"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_13.png
+
+    87:
+      name:
+        ar: "تسريع البحث لمدة 3 ساعات"
+        de: "3 Stunden Forschungsbeschleunigung"
+        en: "3-Hour Research Speedup"
+        es: "3 horas de Aceleración de Investigación"
+        fr: "Accélération de recherche - 3 heures"
+        id: "Speedup Riset 3 Jam"
+        it: "Acceleratore ricerca da 3 ore"
+        ja: "3時間研究加速"
+        ko: "3시간 연구 가속"
+        ms: "Percepat Penyelidikan 3 Jam"
+        pl: "3-godz. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 3 horas"
+        ru: "3-часовое ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 3 ชั่วโมง"
+        tr: "3 Saatlik Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 3 giờ"
+        zh_CN: "3小时研究加速"
+        zh_TW: "3小時研究加速"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_13.png
+
+    88:
+      name:
+        ar: "تسريع البحث لمدة 8 ساعات"
+        de: "8 Stunden Forschungsbeschleunigung"
+        en: "8-Hour Research Speedup"
+        es: "8 horas de Aceleración de Investigación"
+        fr: "Accélération de recherche - 8 heures"
+        id: "Speedup Riset 8 Jam"
+        it: "Acceleratore ricerca da 8 ore"
+        ja: "8時間研究加速"
+        ko: "8시간 연구 가속"
+        ms: "Percepat Penyelidikan 8 Jam"
+        pl: "8-godz. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 8 horas"
+        ru: "8-часовое ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 8 ชั่วโมง"
+        tr: "8 Saatlik Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 8 giờ"
+        zh_CN: "8小时研究加速"
+        zh_TW: "8小時研究加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_13.png
+
+    89:
+      name:
+        ar: "تسريع البحث لمدة 15 ساعة"
+        de: "15 Stunden Forschungsbeschleunigung"
+        en: "15-Hour Research Speedup"
+        es: "15 horas de Aceleración de Investigación"
+        fr: "Accélération de recherche - 15 heures"
+        id: "Speedup Riset 15 Jam"
+        it: "Acceleratore ricerca da 15 ore"
+        ja: "15時間研究加速"
+        ko: "15시간 연구 가속"
+        ms: "Percepat Penyelidikan 15 Jam"
+        pl: "15-godz. przyspieszenie badania"
+        pt: "Aceleração de pesquisa de 15 horas"
+        ru: "15-часовое ускорение исследования"
+        th: "ตัวเร่งความเร็วการวิจัย 15 ชั่วโมง"
+        tr: "15 Saatlik Araştırma Hızlandırması"
+        vi: "Tăng tốc nghiên cứu 15 giờ"
+        zh_CN: "15小时研究加速"
+        zh_TW: "15小時研究加速"
+      sprite:
+        - img_icon_item_BGPurple.png
         - img_icon_item_13.png
 
     92:
@@ -1049,6 +1433,54 @@ loot:
         zh_TW: "3小時治療加速"
       sprite:
         - img_icon_item_BGBlue.png
+        - img_icon_item_11.png
+
+    98:
+      name:
+        ar: "تسريع العلاج لمدة 8 ساعات"
+        de: "8 Stunden Heilungsbeschleunigung"
+        en: "8-Hour Healing Speedup"
+        es: "8 horas de Aceleración de Sanación"
+        fr: "Accélération de soin - 8 heures"
+        id: "Speedup Penyembuhan 8 Jam"
+        it: "Acceleratore guarigione da 8 ore"
+        ja: "8時間治療加速"
+        ko: "8시간 치료 가속"
+        ms: "Percepat Penyembuhan 8 Jam"
+        pl: "8-godz. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 8 Horas"
+        ru: "8-часовое ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 8 ชั่วโมง"
+        tr: "8 Saatlik İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 8 giờ"
+        zh_CN: "8小时治疗加速"
+        zh_TW: "8小時治療加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_11.png
+
+    99:
+      name:
+        ar: "تسريع العلاج لمدة 15 ساعة"
+        de: "15 Stunden Heilungsbeschleunigung"
+        en: "15-Hour Healing Speedup"
+        es: "15 horas de Aceleración de Sanación"
+        fr: "Accélération de soin - 15 heures"
+        id: "Speedup Penyembuhan 15 Jam"
+        it: "Acceleratore guarigione da 15 ore"
+        ja: "15時間治療加速"
+        ko: "15시간 치료 가속"
+        ms: "Percepat Penyembuhan 15 Jam"
+        pl: "15-godz. przyspieszenie leczenia"
+        pt: "Aceleração de cura de 15 Horas"
+        ru: "15-часовое ускорение исцеления"
+        th: "ตัวเร่งความเร็วการรักษา 15 ชั่วโมง"
+        tr: "15 Saatlik İyileştirme Hızlandırması"
+        vi: "Tăng tốc chữa lành 15 giờ"
+        zh_CN: "15小时治疗加速"
+        zh_TW: "15小時治療加速"
+      sprite:
+        - img_icon_item_BGPurple.png
         - img_icon_item_11.png
 
     109:
@@ -1510,6 +1942,54 @@ loot:
         - img_icon_item_BGPurple.png
         - img_icon_item_4.png
 
+    149:
+      name:
+        ar: "مجلد المعرفة مستوى 6"
+        de: "Lv.-6-Wissenskompendium"
+        en: "Lvl 6 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 6"
+        fr: "Tome du savoir niv. 6"
+        id: "Tome of Knowledge Lvl. 6"
+        it: "Tomo della conoscenza liv 6"
+        ja: "知識の書 Lv.6"
+        ko: "6레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 6"
+        pl: "Księga wiedzy poz. 6"
+        pt: "Tomo do Conhecimento nv. 6"
+        ru: "Фолиант знания ур. 6"
+        th: "ตำราแห่งความรู้ เลเวล 6"
+        tr: "6. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 6"
+        zh_CN: "等级6知识之书"
+        zh_TW: "等級6知識之書"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_4.png
+
+    150:
+      name:
+        ar: "مجلد المعرفة مستوى 7"
+        de: "Lv.-7-Wissenskompendium"
+        en: "Lvl 7 Tome of Knowledge"
+        es: "Tomo de conocimiento de nv. 7"
+        fr: "Tome du savoir niv. 7"
+        id: "Tome of Knowledge Lvl. 7"
+        it: "Tomo della conoscenza liv 7"
+        ja: "知識の書 Lv.7"
+        ko: "7레벨 지식의 서"
+        ms: "Buku Besar Pengetahuan Thp 7"
+        pl: "Księga wiedzy poz. 7"
+        pt: "Tomo do Conhecimento nv. 7"
+        ru: "Фолиант знания ур. 7"
+        th: "ตำราแห่งความรู้ เลเวล 7"
+        tr: "7. Sv. Bilgi Kitabı"
+        vi: "Sách Kiến Thức Cấp 7"
+        zh_CN: "等级7知识之书"
+        zh_TW: "等級7知識之書"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_4.png
+
     151:
       name:
         ar: "5 نقاط VIP"
@@ -1678,6 +2158,30 @@ loot:
         zh_TW: "陣營幣"
       sprite:
         - img_icon_item_274.png
+
+    235:
+      name:
+        ar: "خريطة المملكة المفقودة"
+        de: "Karte des Verlorenes Königreichs"
+        en: "Lost Kingdom Map"
+        es: "Mapa del Reino Perdido"
+        fr: "Carte du Royaume perdu"
+        id: "Peta Lost Kingdom"
+        it: "Mappa del regno perduto"
+        ja: "ロストキングダムマップ"
+        ko: "잃어버린 왕국 지도"
+        ms: "Peta Kerajaan Terbiar"
+        pl: "Mapa Zaginionego Królestwa"
+        pt: "Mapa do Reino Perdido"
+        ru: "Карта Потерянного королевства"
+        th: "แผนที่อาณาจักรที่สาบสูญ"
+        tr: "Kayıp Krallık Haritası"
+        vi: "Bản Đồ Vương Quốc Đã Mất"
+        zh_CN: "失落之地地图"
+        zh_TW: "失落之地地圖"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_2070.png
 
     239:
       name:
@@ -2432,6 +2936,30 @@ loot:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Stars04.png
 
+    9994:
+      name:
+        ar: "تمثال النجم الباهر المباركة."
+        de: "Gesegnete, glanzvolle Sternenlicht-Skulptur"
+        en: "Blessed Dazzling Starlight Sculpture"
+        es: "Escultura de Starlight resplandeciente bendita"
+        fr: "Sculpture de lumière d'étoile éblouissante bénie"
+        id: "Patung Cahaya Bintang yang Berkilau dan Diberkati"
+        it: "Scultura benedetta di luce stellare abbacinante"
+        ja: "祝福された輝ける星の勲章"
+        ko: "축복받은 찬란한 별빛 조각상"
+        ms: "Arca Cahaya Bintang Berkilauan Dirahmati"
+        pl: "Olśniewająca święta rzeźba gwiezdna"
+        pt: "Escultura da luz estrelada brilhante abençoada"
+        ru: "Благословенная ослепительная скульптура лунного света"
+        th: "รูปปั้นแสงดาวสว่างสุกใสที่ศักดิ์สิทธิ์"
+        tr: "Kutsanmış Göz Kamaştırıcı Yıldız Işığı Heykeli"
+        vi: "Tượng Ánh Sao Phước Lành Lấp Lánh"
+        zh_CN: "被祝福的璀璨星光雕像"
+        zh_TW: "被祝福的璀璨星光雕像"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_HeroCarving_Stars08.png
+
     # Advanced
     9996:
       name:
@@ -2555,6 +3083,270 @@ loot:
       sprite:
         - img_icon_item_BGOrange.png
         - img_icon_item_HeroCarving_Universal5.png
+
+    39:
+      name:
+        ar: "تسريع 15 ساعة"
+        de: "15 Stunden Beschleunigung"
+        en: "15-Hour Speedup"
+        es: "15 horas de Aceleración"
+        fr: "Accélération - 15 heures"
+        id: "Speedup 15 Jam"
+        it: "Acceleratore da 15 ore"
+        ja: "15時間加速"
+        ko: "15시간 가속"
+        ms: "Percepat 15 Jam"
+        pl: "15-godz. przyspieszenie"
+        pt: "Aceleração de 15 horas"
+        ru: "15-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 15 ชั่วโมง"
+        tr: "15 Saatlik Hızlandırma"
+        vi: "Tăng tốc 15 giờ"
+        zh_CN: "15小时加速"
+        zh_TW: "15小時加速"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_9.png
+
+    40:
+      name:
+        ar: "تسريع 24 ساعة"
+        de: "24 Stunden Beschleunigung"
+        en: "24-Hour Speedup"
+        es: "24 horas de Aceleración"
+        fr: "Accélération - 24 heures"
+        id: "Speedup 24 Jam"
+        it: "Acceleratore da 24 ore"
+        ja: "24時間加速"
+        ko: "24시간 가속"
+        ms: "Percepat 24 Jam"
+        pl: "24-godz. przyspieszenie"
+        pt: "Aceleração de 24 horas"
+        ru: "24-часовое ускорение"
+        th: "ตัวเร่งความเร็ว 24 ชั่วโมง"
+        tr: "24 Saatlik Hızlandırma"
+        vi: "Tăng tốc 24 giờ"
+        zh_CN: "24小时加速"
+        zh_TW: "24小時加速"
+      sprite:
+        - img_icon_item_BGOrange.png
+        - img_icon_item_9.png
+
+    56:
+      name:
+        ar: "نقل إقليمي"
+        de: "Gebietsteleportierung"
+        en: "Territorial Teleport"
+        es: "Teletransporte Territorial"
+        fr: "Téléportation territoriale"
+        id: "Teleportasi Teritorial"
+        it: "Teletrasporto territoriale"
+        ja: "領土内移転"
+        ko: "영토 내 도시 이전"
+        ms: "Teleport Wilayah"
+        pl: "Obszarowa teleportacja"
+        pt: "Teleporto Territorial"
+        ru: "Телепорт по территории"
+        th: "เทเลพอร์ตเข้าอาณาเขต"
+        tr: "Bölgeye Işınlanma"
+        vi: "Dịch Chuyển Lãnh Thổ"
+        zh_CN: "领土迁城"
+        zh_TW: "領土遷城"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_30.png
+
+    112:
+      name:
+        ar: "24 ساعة جمع معزز"
+        de: "24-Stunden verbesserte Sammlung"
+        en: "24-Hour Enhanced Gathering"
+        es: "24 horas de Mejora de Recolección"
+        fr: "Amélioration de récolte - 24 heures"
+        id: "Enhanced Gathering 24 Jam"
+        it: "Raccolta migliorata da 24 ore"
+        ja: "24時間採集強化"
+        ko: "24시간 채집 능력 강화"
+        ms: "Pengumpulan Dipertingkat 24 Jam"
+        pl: "24-godz. wzmocniony zbiór"
+        pt: "Coleta Aprimorada de 24 Horas"
+        ru: "Усиление сбора на 24 часа"
+        th: "เสริมการเก็บทรัพยากร 24 ชั่วโมง"
+        tr: "24 Saatlik Pekiştirilmiş Toplama"
+        vi: "Tăng cường thu thập 24 giờ"
+        zh_CN: "24小时采集强化"
+        zh_TW: "24小時採集強化"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_28.png
+
+    404:
+      name:
+        ar: "1,000 رصيد فردي"
+        de: "1.000 Persönliche Credits"
+        en: "1,000 Individual Credits"
+        es: "1 000 Créditos Individuales"
+        fr: "1 000 points individuels"
+        id: "1.000 Credit Perorangan"
+        it: "1.000 Crediti individuali"
+        ja: "1,000 個人ポイント"
+        ko: "1,000 개인 포인트"
+        ms: "1,000 Kredit Individu"
+        pl: "1 000 pkt osobistych"
+        pt: "1.000 créditos individuais"
+        ru: "Личные кредиты: 1000"
+        th: "เครดิตส่วนบุคคล 1,000 เครดิต"
+        tr: "1.000 Bireysel Kredi"
+        vi: "1.000 Tín dụng cá nhân"
+        zh_CN: "1,000 个人积分"
+        zh_TW: "1,000 個人積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_89.png
+
+    409:
+      name:
+        ar: "1,000 رصيد تحالف"
+        de: "1.000 Bündniscredits"
+        en: "1,000 Alliance Credits"
+        es: "1 000 Créditos de la Alianza"
+        fr: "1 000 points d'alliance"
+        id: "1.000 Credit Aliansi"
+        it: "1.000 Crediti dell'alleanza"
+        ja: "1,000 同盟ポイント"
+        ko: "1,000 연맹 포인트"
+        ms: "1,000 Kredit Perikatan"
+        pl: "1 000 punktów sojuszu"
+        pt: "1.000 créditos da aliança"
+        ru: "Кредиты альянса: 1000"
+        th: "เครดิตสมาพันธ์ 1,000 เครดิต"
+        tr: "1.000 Birlik Kredisi"
+        vi: "1.000 Tín dụng liên minh"
+        zh_CN: "1,000 联盟积分"
+        zh_TW: "1,000 聯盟積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_90.png
+
+    410:
+      name:
+        ar: "5,000 رصيد تحالف"
+        de: "5.000 Bündniscredits"
+        en: "5,000 Alliance Credits"
+        es: "5 000 Créditos de la Alianza"
+        fr: "5 000 points d'alliance"
+        id: "5.000 Credit Aliansi"
+        it: "5.000 Crediti dell'alleanza"
+        ja: "5,000 同盟ポイント"
+        ko: "5,000 연맹 포인트"
+        ms: "5,000 Kredit Perikatan"
+        pl: "5 000 punktów sojuszu"
+        pt: "5.000 créditos da aliança"
+        ru: "Кредиты альянса: 5000"
+        th: "เครดิตสมาพันธ์ 5,000 เครดิต"
+        tr: "5.000 Birlik Kredisi"
+        vi: "5.000 Tín dụng liên minh"
+        zh_CN: "5,000 联盟积分"
+        zh_TW: "5,000 聯盟積分"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_90.png
+
+    10003:
+      name:
+        ar: "تمثال قائد نخبة"
+        de: "Elite\\nKommandanten-Skulptur"
+        en: "Elite Commander Sculpture"
+        es: "Escultura de comandante de élite"
+        fr: "Sculpture de commandant d'élite"
+        id: "Patung Komandan Elite"
+        it: "Scultura del comandante élite"
+        ja: "エリート英雄像"
+        ko: "엘리트 사령관 조각상"
+        ms: "Arca Komander Elit"
+        pl: "Rzeźba elitarnego dowódcy"
+        pt: "Escultura Comandante Elite"
+        ru: "Скульптура элитного командира"
+        th: "รูปปั้นผู้บัญชาการยอดฝีมือ"
+        tr: "Seçkin Komutan Heykeli"
+        vi: "Tượng chỉ huy tinh nhuệ"
+        zh_CN: "精英统帅雕像"
+        zh_TW: "精英統帥雕像"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_HeroCarving_Universal3.png
+
+    10004:
+      name:
+        ar: "تمثال قائد ملحمي"
+        de: "Epische\\nKommandanten-Skulptur"
+        en: "Epic Commander Sculpture"
+        es: "Escultura de Comandante Épico"
+        fr: "Sculpture de commandant épique"
+        id: "Patung Komandan Epik"
+        it: "Scultura del comandante epica"
+        ja: "エピック英雄像"
+        ko: "영웅 사령관 조각상"
+        ms: "Arca Komander Epik"
+        pl: "Rzeźba epickiego dowódcy"
+        pt: "Escultura de Comandante Épico"
+        ru: "Скульптура эпического командира"
+        th: "รูปปั้นผู้บัญชาการชั้นเลิศ"
+        tr: "Destansı Komutan Heykeli"
+        vi: "Tượng chỉ huy vĩ đại"
+        zh_CN: "史诗统帅雕像"
+        zh_TW: "史詩統帥雕像"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_HeroCarving_Universal4.png
+
+    21068:
+      name:
+        ar: "رحمة كاروك"
+        de: "Karuaks Demut"
+        en: "Karuak's Humility"
+        es: "Humildad de Karuak"
+        fr: "Humilité de Karuak"
+        id: "Karuak's Humility"
+        it: "L'umiltà del Karuak"
+        ja: "カルラックのズボン"
+        ko: "칼스루에의 겸손"
+        ms: "Kerendahan Hati Karuak"
+        pl: "Pokora Karuaka"
+        pt: "Humildade de Karuak"
+        ru: "Смиренность Каруака"
+        th: "ความอ่อนน้อมของคารวค"
+        tr: "Karuak'ın Tevazusu"
+        vi: "Sự nhân văn của Karuak"
+        zh_CN: "卡鲁拉克的谦逊"
+        zh_TW: "卡魯拉克的謙遜"
+      sprite:
+        - img_icon_item_BGPurple.png
+        - img_icon_item_equip_4_13.png
+
+    21099:
+      name:
+        ar: "الطوطم الوحشي"
+        de: "Wildes Totem"
+        en: "Savage Totem"
+        es: "Tótem salvaje"
+        fr: "Totem sauvage"
+        id: "Savage Totem"
+        it: "Totem Selvaggio"
+        ja: "サベージトーテム"
+        ko: "야만 토템"
+        ms: "Totem Dahsyat"
+        pl: "Dziki totem"
+        pt: "Totem selvagem"
+        ru: "Тотем дикарей"
+        th: "โทเท็มป่าเถื่อน"
+        tr: "Yabani Totem"
+        vi: "Vật tổ man rợ"
+        zh_CN: "野蛮图腾"
+        zh_TW: "野蠻圖騰"
+      sprite:
+        - img_icon_item_BGBlue.png
+        - img_icon_item_equip_3_18.png
 
   4:
     2:

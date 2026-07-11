@@ -79,7 +79,17 @@ export type BaulurLootDocument = {
 };
 
 export type KaharTreasureLootDocument = {
-  key: string;
+  kind: string;
+  loot: LootDrop[];
+  totals: {
+    results: number;
+    apUsed: number;
+  };
+  refreshedAt: string;
+};
+
+export type KaruakCeremonyLootDocument = {
+  kind: number;
   loot: LootDrop[];
   totals: {
     results: number;
@@ -87,7 +97,7 @@ export type KaharTreasureLootDocument = {
   refreshedAt: string;
 };
 
-type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs";
+type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs" | "karuak-ceremony";
 
 export async function fetchLootExplorerItems<T>(
   endpoint: LootExplorerEndpoint

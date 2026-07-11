@@ -10,12 +10,12 @@ export function getCommanderName(id: number | null | undefined, locale?: string)
 
 export function useCommanderOptions(locale?: string) {
   const requestedLocale = resolveLocale(locale);
-  const entries = Object.entries(commanderMap).map(([id]) => {
+  const entries = Object.entries(commanderMap).map(([id, commander]) => {
     const localizedName = getCommanderNameByLocale(Number(id), requestedLocale) ?? String(id);
 
     return {
       id: Number(id),
-      name: localizedName,
+      name: commander.prime ? `${localizedName} (Prime)` : localizedName,
     };
   });
 

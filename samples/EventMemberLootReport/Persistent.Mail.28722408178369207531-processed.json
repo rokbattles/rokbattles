@@ -1,0 +1,1102 @@
+{
+  "boss": {
+    "id": 30001
+  },
+  "metadata": {
+    "mail_id": "28722408178369207531",
+    "mail_receiver": "player_71738515",
+    "mail_time": 1783692075648614,
+    "server_id": 16012
+  },
+  "participants": [
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png",
+      "frame_url": null,
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 71738515,
+      "player_name": "Grigvar x Dimi"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/6493015/2026-07-01/B7575CB261C54F9B5F21BE667E876EEC_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 404,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 12575917,
+      "player_name": "TugyCimoşBonny"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1507184/2025-12-18/DE3DAFDAB4EC3293B184C349B641B9D6_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 36388430,
+      "player_name": "북두의권"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-27/B8172587F9168E8467C4CBDA1B358E35_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_233.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9999,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 161065006,
+      "player_name": "Hellcheppapewж"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3534771/2026-06-29/427197E2FCD74036DCDA6427010AF3E0_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9999,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 78580756,
+      "player_name": "DogWarningﾒBar"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24534262/2026-07-03/D09C0710F2371864DFE48BC6DF160EF3_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 404,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 48060512,
+      "player_name": "Savageツ"
+    },
+    {
+      "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/124282356/24/02/04/bbac9cee0c3e3f2d_400x400.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 124282356,
+      "player_name": "運命ˢShelby"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/180588/2026-06-27/E854C9AB22A6646889B0EF97C4266443_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 45,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 32025587,
+      "player_name": "심래"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/99951184/2026-01-12/E928DD920BFF882C64891879A3B830A9_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 404,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 131056489,
+      "player_name": "浪人 kawa"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44139690/2026-06-19/695D1C7B278A73EE55CC657DD9F5BF05_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 39,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 45,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 53774360,
+      "player_name": "Hannonツ"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3598039/2025-06-01/CD15556EC8BC338269DB9920F0C2E16F_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 80663245,
+      "player_name": "Mark R Hunt"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/205066604/2026-07-04/56CDB32DE6E2ECCF501A70E54CF92D3A_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 152200009,
+      "player_name": "๖ۣۣۜSwalsh"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/99078702/2025-06-23/F6577718B9B9847D1C3C445708B8673F_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_207.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 129152631,
+      "player_name": "Klimson3"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101312618/2026-06-18/C18F019FD9A4B68E15C496799756E620_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_239.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 126920644,
+      "player_name": "ˢAzzCon"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/208815994/2025-07-11/5D1DBD9F5ED6359851627D2AD23B67D6_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 56,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 151739835,
+      "player_name": "Pro100WRyj ツ"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/33623437/2026-07-10/0B172DEE31DBCAB0005B39B6FA06F52B_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 40693070,
+      "player_name": "人Øgeday人"
+    },
+    {
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/122056382/22/08/10/99fea5fc51b8e522_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_144.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 122056382,
+      "player_name": "KavieN ツ"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/86461969/2026-05-16/BB28D52F20A9DFB2CC7481BCBD10E8B8_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_160.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 409,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 9999,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 106722531,
+      "player_name": "KhøSXAwer"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23828305/2026-07-07/2B6267B2204186108149AE79BAD43BDE_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 126454128,
+      "player_name": "ˢǤãrɗı"
+    },
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png",
+      "frame_url": null,
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 45,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 32889977,
+      "player_name": "뜬 이 니"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104825285/2026-07-03/DEA3A302F90AB960B12C3B6E4DCAEAC0_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_194.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9999,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 132831781,
+      "player_name": "ˢMoonyPew"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67760501/2026-06-20/D82CA49B74827B3EA8105EDEB669DDD2_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 409,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 83446732,
+      "player_name": "x҉Kyo"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3396349/2026-05-31/1A8B65CF9D79DF4C8FC201AD63AC0BE0_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 409,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 73764553,
+      "player_name": "꼬미V"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2026-07-05/09EAC9B71015DF50C58753A322C77D30_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 26518600,
+      "player_name": "ˢMadBro x Juju"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/34280769/2026-06-16/CB7E58CBB9E61FEA596DF80F0DD93B35_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_250.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 40,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 41377732,
+      "player_name": "ˢJianLaars 命"
+    },
+    {
+      "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/106468055/23/03/28/f5e093431f7367af_800x800.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 115,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10005,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 106468055,
+      "player_name": "끼  리"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/91276731/2026-07-10/03572372E5C17E41490D1851371C8336_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 409,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 129213098,
+      "player_name": "ˢˢsnowleopard"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/39710/2026-03-31/891641F3C8A9F6910A9FF93140755007_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 113,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 10004,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 31688439,
+      "player_name": "J I H"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2026-04-27/4688EF55CEFF0B664456BA6B71711961_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+      "loot": [
+        {
+          "sub_type": 16,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 37,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 45,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 126921671,
+      "player_name": "ˢlil"
+    },
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head22.png",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 87389039,
+      "player_name": "심래뿅뿅이"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100268014/2025-06-17/6AEA1B612E1AA7E3D2CC946DF27E6EBB_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 147,
+          "type": 2,
+          "value": 5
+        },
+        {
+          "sub_type": 40,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 56,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9999,
+          "type": 2,
+          "value": 1
+        }
+      ],
+      "player_id": 160369104,
+      "player_name": "气MALANGOS"
+    },
+    {
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101125871/2026-07-10/1F61EAE37D4425F806DCC46784B13B8C_250x250.jpg",
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "loot": [
+        {
+          "sub_type": 10,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 150,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 126613785,
+      "player_name": "ˢ Kleines"
+    },
+    {
+      "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_2025Ramadan.png",
+      "frame_url": null,
+      "loot": [
+        {
+          "sub_type": 4,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 149,
+          "type": 2,
+          "value": 2
+        },
+        {
+          "sub_type": 36,
+          "type": 2,
+          "value": 3
+        },
+        {
+          "sub_type": 28,
+          "type": 2,
+          "value": 1
+        },
+        {
+          "sub_type": 9998,
+          "type": 2,
+          "value": 2
+        }
+      ],
+      "player_id": 119181324,
+      "player_name": "十ˢTidusAzure"
+    }
+  ]
+}

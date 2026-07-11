@@ -2,15 +2,22 @@
 
 import { cn } from "cnfast";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
 
-export type AccountLootSection = "barbarians" | "barbarian-forts" | "baulurs" | "kahars-treasure";
+export type AccountLootSection =
+  | "barbarians"
+  | "barbarian-forts"
+  | "baulurs"
+  | "karuak-ceremony"
+  | "kahars-treasure";
 
 const sections: Array<{ key: AccountLootSection; href: string }> = [
   { key: "barbarians", href: "/account/loot/barbarians" },
   { key: "barbarian-forts", href: "/account/loot/barbarian-forts" },
   { key: "baulurs", href: "/account/loot/baulurs" },
+  { key: "karuak-ceremony", href: "/account/loot/karuak-ceremony" },
   { key: "kahars-treasure", href: "/account/loot/kahars-treasure" },
 ];
 
@@ -22,10 +29,20 @@ export function AccountLootLayout({
   children: React.ReactNode;
 }) {
   const t = useExtracted();
+  const searchParams = useSearchParams();
+  const dateParams = new URLSearchParams();
+  for (const key of ["start", "end"]) {
+    const value = searchParams.get(key);
+    if (value) {
+      dateParams.set(key, value);
+    }
+  }
+  const dateQuery = dateParams.toString();
   const sectionLabels: Record<AccountLootSection, string> = {
     barbarians: t("Barbarians"),
     "barbarian-forts": t("Barbarian Forts"),
     baulurs: t("Baulurs"),
+    "karuak-ceremony": t("Karuak Ceremony"),
     "kahars-treasure": t("Kahar's Treasure"),
   };
 
@@ -36,7 +53,7 @@ export function AccountLootLayout({
           <Heading>{t("My Loot")}</Heading>
           <p className="max-w-xl text-sm/6 text-zinc-600 dark:text-zinc-400">
             {t(
-              "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, and Kahar's Treasure."
+              "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
             )}
           </p>
         </div>
@@ -44,7 +61,7 @@ export function AccountLootLayout({
           {sections.map((section) => (
             <Link
               key={section.key}
-              href={section.href}
+              href={dateQuery ? `${section.href}?${dateQuery}` : section.href}
               className={cn(
                 "rounded-md px-3 py-2 text-sm/6 font-medium",
                 active === section.key

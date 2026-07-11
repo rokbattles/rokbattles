@@ -87,7 +87,7 @@ export function ResourcesFiltersClient({
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2" aria-busy={isPending ? "true" : undefined}>
+    <div className="grid gap-4 md:grid-cols-4" aria-busy={isPending ? "true" : undefined}>
       <Field className="space-y-2">
         <Label htmlFor="resources-start-date">{t("Start date")}</Label>
         <Input

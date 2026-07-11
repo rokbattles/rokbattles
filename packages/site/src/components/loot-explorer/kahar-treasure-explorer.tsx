@@ -57,7 +57,10 @@ export function KaharTreasureExplorer() {
     <LootExplorerLayout active="kahars-treasure">
       <LootExplorerSummary
         generatedAt={item?.refreshedAt}
-        items={[{ label: t("Results"), value: item?.totals.results ?? 0 }]}
+        items={[
+          { label: t("Results"), value: item?.totals.results ?? 0 },
+          { label: t("AP used"), value: item?.totals.apUsed ?? 0 },
+        ]}
       />
       <section className="space-y-3">
         <div>

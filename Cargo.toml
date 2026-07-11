@@ -1,31 +1,33 @@
 [workspace]
 members = [
-    "crates/binidx-cli",
-    "crates/binidx-decoder",
-    "crates/drastc",
-    "crates/mail-cli",
-    "crates/mail-decoder",
-    "crates/mail-registry",
-    "crates/mail-processor-alliance-aoo-battle-info",
-    "crates/mail-processor-alliance-aoo-battle-results",
-    "crates/mail-processor-alliance-aoo-individual-results",
-    "crates/mail-processor-alliance-aoo-registration",
-    "crates/mail-processor-barcanyonkillboss",
-    "crates/mail-processor-battle",
-    "crates/mail-processor-duelbattle2",
-    "crates/mail-processor-rss",
-    "crates/mail-processor-scoutreport",
-    "crates/mail-processor-sdk",
-    "crates/mail-processor-system-barbarianfort",
-    "crates/mail-processor-system-kahartreasure",
-    "crates/rokbattles-tcp-processor",
-    "crates/rokbattles-api",
-    "crates/rokbattles-jobs",
-    "crates/rokbattles-ingress",
-    "crates/rokbattles-processor",
-    "crates/rokbattles-desktop",
-    "crates/rokgt-extractor",
-    "crates/tcp-stream",
+    "crates/tools/binidx-cli",
+    "crates/core/binidx-decoder",
+    "crates/core/drastc",
+    "crates/tools/mail-cli",
+    "crates/mail/decoder",
+    "crates/mail/registry",
+    "crates/mail/processors/alliance-aoo-battle-info",
+    "crates/mail/processors/alliance-aoo-battle-results",
+    "crates/mail/processors/alliance-aoo-individual-results",
+    "crates/mail/processors/alliance-aoo-registration",
+    "crates/mail/processors/barcanyonkillboss",
+    "crates/mail/processors/battle",
+    "crates/mail/processors/duelbattle2",
+    "crates/mail/processors/eventmemberlootreport",
+    "crates/mail/processors/rss",
+    "crates/mail/processors/scoutreport",
+    "crates/mail/sdk",
+    "crates/mail/processors/system-barbarianfort",
+    "crates/mail/processors/system-kahartreasure",
+    "crates/services/rokbattles-tcp-processor",
+    "crates/services/rokbattles-api",
+    "crates/core/bson",
+    "crates/services/rokbattles-jobs",
+    "crates/services/rokbattles-ingress",
+    "crates/services/rokbattles-processor",
+    "crates/desktop",
+    "crates/core/rokgt-extractor",
+    "crates/core/tcp-stream",
 ]
 resolver = "3"
 
@@ -44,7 +46,7 @@ tauri-plugin-opener = "2.5.4"
 tauri-plugin-dialog = "2.7.1"
 tauri-plugin-autostart = "2.5.1"
 tauri-plugin-single-instance = "2.4.2"
-mongodb = "3.7.0"
+mongodb = "3.8.0"
 zstd = "0.13.3"
 reqwest = { version = "0.12.28", default-features = false, features = ["rustls-tls-native-roots"] }
 base64 = "0.22.1"
@@ -57,12 +59,12 @@ futures = "0.3.32"
 tauri-plugin-updater = "2.10.1"
 notify = "8.2.0"
 tempfile = "3.27.0"
-bytes = "1.12.0"
+bytes = "1.12.1"
 dotenvy = "0.15.7"
 flate2 = { version = "1.1.9", default-features = false }
 thiserror = "2.0.18"
 pcap = "2.4.0"
-sentry = { version = "0.48.3", default-features = false, features = ["rustls", "backtrace", "contexts", "debug-images", "panic", "reqwest"] }
+sentry = { version = "0.48.4", default-features = false, features = ["rustls", "backtrace", "contexts", "debug-images", "panic", "reqwest"] }
 tokio-cron-scheduler = "0.15.1"
 
 [profile.release]

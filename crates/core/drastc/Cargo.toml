@@ -1,0 +1,10 @@
+[package]
+name = "drastc"
+version = "1.5.2"
+edition = "2024"
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+
+[lib]
+doctest = false

@@ -1,0 +1,24 @@
+[package]
+name = "rokbattles-api"
+version = "1.5.2"
+edition = "2024"
+
+[dependencies]
+axum = { workspace = true }
+base64 = { workspace = true }
+dotenvy = { workspace = true }
+futures = { workspace = true }
+mongodb = { workspace = true }
+rand = { workspace = true }
+reqwest = { workspace = true, features = ["json"] }
+core-bson = { path = "../../core/bson" }
+serde = { workspace = true, features = ["derive"] }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+sentry = { workspace = true }
+
+[lib]
+doctest = false

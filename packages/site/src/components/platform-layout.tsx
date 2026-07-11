@@ -6,6 +6,7 @@ import {
   FireIcon,
   FlagIcon,
   GiftIcon,
+  HeartIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
@@ -171,6 +172,15 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               >
                 <QuestionMarkCircleIcon />
                 <SidebarLabel>{t("Support")}</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem
+                href="https://github.com/sponsors/rokbattles"
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={false}
+              >
+                <HeartIcon />
+                <SidebarLabel>{t("Donate")}</SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/docs/installation"

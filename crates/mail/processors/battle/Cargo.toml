@@ -1,0 +1,11 @@
+[package]
+name = "mail-processor-battle"
+version = "1.5.2"
+edition = "2024"
+
+[dependencies]
+mail-sdk = { path = "../../sdk" }
+serde_json = { workspace = true }
+
+[lib]
+doctest = false

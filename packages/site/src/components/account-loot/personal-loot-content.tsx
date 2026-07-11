@@ -21,6 +21,7 @@ import {
 import { formatLocalDateInput } from "@/lib/datetime";
 import { buildLootRewardRows } from "@/lib/loot/reward-rows";
 import type { LootExplorerOption } from "@/lib/loot-explorer/catalog";
+import { karuakBosses } from "@/lib/loot-explorer/catalog";
 import type { PersonalLootGroup } from "@/lib/types/loot";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -121,6 +122,24 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       };
     }
 
+    if (active === "karuak-ceremony") {
+      const labels = new Map([
+        ["bladefist-andaal", t("Bladefist Andaal")],
+        ["bearkeeper-lukor", t("Bearkeeper Lukor")],
+        ["bruteshield-murdos", t("Bruteshield Murdos")],
+        ["warmender-pache", t("Warmender Pache")],
+        ["solon-por", t("Solon Por")],
+      ]);
+      return {
+        defaultType: karuakBosses[0].key,
+        typeOptions: karuakBosses.map((boss) => ({
+          value: boss.key,
+          label: labels.get(boss.key) ?? boss.label,
+        })),
+        showLevelFilter: false,
+      };
+    }
+
     return {
       defaultType: "barbarians",
       typeOptions: [
@@ -175,8 +194,15 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
   }
 
   const summaryItems = (() => {
-    if (active === "baulurs" || active === "kahars-treasure") {
+    if (active === "baulurs" || active === "karuak-ceremony") {
       return [{ label: t("Results"), value: data?.totals.results ?? 0 }];
+    }
+
+    if (active === "kahars-treasure") {
+      return [
+        { label: t("Results"), value: data?.totals.results ?? 0 },
+        { label: t("AP used"), value: data?.totals.apUsed ?? 0 },
+      ];
     }
 
     const items = [

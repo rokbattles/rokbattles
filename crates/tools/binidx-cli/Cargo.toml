@@ -1,0 +1,12 @@
+[package]
+name = "binidx-cli"
+version = "1.5.2"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+binidx-decoder = { path = "../../core/binidx-decoder" }
+
+[lib]
+doctest = false
