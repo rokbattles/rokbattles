@@ -381,6 +381,11 @@ msgid "l7kWPA"
 msgstr "Baulurs"
 
 #: src/components/account-loot/account-loot-layout.tsx
+#: src/components/loot-explorer/loot-explorer-layout.tsx
+msgid "xRJGes"
+msgstr "Karuak Ceremony"
+
+#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
@@ -393,8 +398,8 @@ msgid "yF_GXb"
 msgstr "My Loot"
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "en1tf5"
-msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, and Kahar's Treasure."
+msgid "zwmya7"
+msgstr "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
@@ -435,6 +440,31 @@ msgid "1j7NiE"
 msgstr "Miser Khaolak"
 
 #: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "SdCxJX"
+msgstr "Bladefist Andaal"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "8_6Wn2"
+msgstr "Bearkeeper Lukor"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "M3-BHu"
+msgstr "Bruteshield Murdos"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "HxOf0f"
+msgstr "Warmender Pache"
+
+#: src/components/account-loot/personal-loot-content.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
+msgid "tbfLQx"
+msgstr "Solon Por"
+
+#: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "4pFR10"
 msgstr "Marauders"
@@ -444,6 +474,7 @@ msgstr "Marauders"
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yaMHMB"
 msgstr "Results"
 
@@ -607,6 +638,7 @@ msgstr "Save"
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "sNAPQj"
 msgstr "Loading loot explorer data..."
 
@@ -614,6 +646,7 @@ msgstr "Loading loot explorer data..."
 #: src/components/loot-explorer/baulur-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
+#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yedWVm"
 msgstr "Failed to load loot explorer data."
 

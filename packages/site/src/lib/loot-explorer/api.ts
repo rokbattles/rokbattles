@@ -88,7 +88,16 @@ export type KaharTreasureLootDocument = {
   refreshedAt: string;
 };
 
-type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs";
+export type KaruakCeremonyLootDocument = {
+  kind: number;
+  loot: LootDrop[];
+  totals: {
+    results: number;
+  };
+  refreshedAt: string;
+};
+
+type LootExplorerEndpoint = "barbarians" | "barbarian-forts" | "baulurs" | "karuak-ceremony";
 
 export async function fetchLootExplorerItems<T>(
   endpoint: LootExplorerEndpoint

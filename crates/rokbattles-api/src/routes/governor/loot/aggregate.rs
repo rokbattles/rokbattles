@@ -7,7 +7,7 @@ use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},
     store::{
         BarbarianFortMailDocument, BattleMailDocument, BaulurMailDocument,
-        KaharTreasureMailDocument, LootEntryDocument,
+        KaharTreasureMailDocument, KaruakCeremonyMailDocument, LootEntryDocument,
     },
     types::{LootRewardAggregateResponse, PersonalLootGroupResponse},
 };
@@ -190,6 +190,36 @@ pub(crate) fn aggregate_personal_kahar_treasure_loot(
         add_report(&mut aggregate);
         aggregate.ap_used += KAHAR_AP_COST;
         add_loot(&mut aggregate, mail.loot.as_deref().unwrap_or_default());
+    }
+
+    into_personal_groups(HashMap::from([(None, aggregate)]))
+}
+
+pub(crate) fn aggregate_personal_karuak_ceremony_loot(
+    mails: Vec<KaruakCeremonyMailDocument>,
+    governor_id: i64,
+    range: &GovernorDateRange,
+) -> Vec<PersonalLootGroupResponse> {
+    let mut aggregate = LootCategoryAggregate::default();
+
+    for mail in mails {
+        let Some(event_time_millis) = extract_event_time_millis(
+            mail.metadata.as_ref().and_then(|meta| meta.mail_time.as_ref()),
+        ) else {
+            continue;
+        };
+        if event_time_millis < range.start_millis || event_time_millis >= range.end_millis {
+            continue;
+        }
+
+        for participant in mail.participants.unwrap_or_default() {
+            if participant.player_id.as_ref().and_then(parse_i64_loose) != Some(governor_id) {
+                continue;
+            }
+            add_report(&mut aggregate);
+            add_loot(&mut aggregate, participant.loot.as_deref().unwrap_or_default());
+            break;
+        }
     }
 
     into_personal_groups(HashMap::from([(None, aggregate)]))

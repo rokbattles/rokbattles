@@ -2,6 +2,7 @@ import type {
   BarbarianFortLootDocument,
   BarbarianLootDocument,
   BaulurLootDocument,
+  KaruakCeremonyLootDocument,
 } from "@/lib/loot-explorer/api";
 
 export type LootExplorerOption = {
@@ -60,6 +61,14 @@ export const baulurFamilies = [
   { key: "miser-khaolak", label: "Miser Khaolak", kind: 102_000_063 },
 ] as const;
 
+export const karuakBosses = [
+  { key: "bladefist-andaal", label: "Bladefist Andaal", kind: 30_001 },
+  { key: "bearkeeper-lukor", label: "Bearkeeper Lukor", kind: 30_002 },
+  { key: "bruteshield-murdos", label: "Bruteshield Murdos", kind: 30_003 },
+  { key: "warmender-pache", label: "Warmender Pache", kind: 30_004 },
+  { key: "solon-por", label: "Solon Por", kind: 30_005 },
+] as const;
+
 export function findBarbarianFamily(
   key: string | undefined,
   items: BarbarianLootDocument[]
@@ -93,6 +102,17 @@ export function findBaulurFamily(key: string | undefined, items: BaulurLootDocum
   return (
     baulurFamilies.find((family) => items.some((item) => item.kind === family.kind)) ??
     baulurFamilies[0]
+  );
+}
+
+export function findKaruakBoss(key: string | undefined, items: KaruakCeremonyLootDocument[]) {
+  const requested = karuakBosses.find((boss) => boss.key === key);
+  if (requested && items.some((item) => item.kind === requested.kind)) {
+    return requested;
+  }
+
+  return (
+    karuakBosses.find((boss) => items.some((item) => item.kind === boss.kind)) ?? karuakBosses[0]
   );
 }
 
