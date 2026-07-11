@@ -76,6 +76,26 @@ pub async fn get_baulurs(
     ))
 }
 
+/// Returns precomputed Karuak Ceremony boss loot documents.
+pub async fn get_karuak_ceremony(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<HashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    let request = parse_kind_request(&params)?;
+    let items = fetch_documents::<RawKaruakCeremonyDocument, KaruakCeremonyDocument>(
+        state.reports_store.precomputed_karuak_ceremony_collection(),
+        request.filter(),
+        doc! { "kind": 1 },
+    )
+    .await?;
+
+    Ok((
+        StatusCode::OK,
+        [("Cache-Control", "public, max-age=3600")],
+        Json(KaruakCeremonyResponse { items }),
+    ))
+}
+
 /// Returns precomputed Kahar treasure loot.
 pub async fn get_kahar_treasure(
     State(state): State<Arc<AppState>>,
@@ -240,6 +260,12 @@ struct BaulurResponse {
     items: Vec<BaulurDocument>,
 }
 
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct KaruakCeremonyResponse {
+    items: Vec<KaruakCeremonyDocument>,
+}
+
 #[derive(Debug, Clone, Deserialize)]
 struct RawBarbarianDocument {
     kind: i32,
@@ -337,6 +363,34 @@ impl From<RawBaulurDocument> for BaulurDocument {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+struct RawKaruakCeremonyDocument {
+    kind: i32,
+    loot: Vec<LootDrop>,
+    totals: KaruakCeremonyTotals,
+    refreshed_at: DateTime,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct KaruakCeremonyDocument {
+    kind: i32,
+    loot: Vec<LootDrop>,
+    totals: KaruakCeremonyTotals,
+    refreshed_at: String,
+}
+
+impl From<RawKaruakCeremonyDocument> for KaruakCeremonyDocument {
+    fn from(value: RawKaruakCeremonyDocument) -> Self {
+        Self {
+            kind: value.kind,
+            loot: value.loot,
+            totals: value.totals,
+            refreshed_at: date_time_to_string(value.refreshed_at),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Deserialize)]
 struct RawKaharTreasureDocument {
     kind: String,
     loot: Vec<LootDrop>,
@@ -400,6 +454,12 @@ struct FortTotals {
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
 struct BaulurTotals {
+    results: i64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(serialize = "camelCase", deserialize = "snake_case"))]
+struct KaruakCeremonyTotals {
     results: i64,
 }
 

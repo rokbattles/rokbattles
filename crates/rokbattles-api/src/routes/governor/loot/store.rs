@@ -109,6 +109,14 @@ pub(crate) struct KaharTreasureMailDocument {
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
+pub(crate) struct KaruakCeremonyMailDocument {
+    #[serde(default)]
+    pub metadata: Option<MailMetadataDocument>,
+    #[serde(default)]
+    pub participants: Option<Vec<BaulurParticipantDocument>>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
 pub(crate) struct BaulurNpcDocument {
     #[serde(default, rename = "type")]
     pub npc_type: Option<Bson>,
@@ -286,6 +294,38 @@ pub(crate) async fn fetch_kahar_treasure_mails(
 
     fetch_collection_documents(
         state.reports_store.system_kahar_treasure_collection(),
+        filter,
+        options,
+    )
+    .await
+}
+
+pub(crate) async fn fetch_karuak_ceremony_mails(
+    state: &Arc<AppState>,
+    mail_receiver: &str,
+    governor_id: i64,
+    boss_id: i64,
+    time_match: &Document,
+) -> Result<Vec<KaruakCeremonyMailDocument>, ApiError> {
+    let options = FindOptions::builder()
+        .projection(doc! {
+            "_id": 0,
+            "metadata.mail_time": 1,
+            "participants.player_id": 1,
+            "participants.loot": 1,
+        })
+        .build();
+    let filter = doc! {
+        "$and": [
+            { "metadata.mail_receiver": mail_receiver },
+            { "boss.id": boss_id },
+            { "participants": { "$elemMatch": { "player_id": governor_id } } },
+            time_match.clone(),
+        ]
+    };
+
+    fetch_collection_documents(
+        state.reports_store.event_member_loot_report_collection(),
         filter,
         options,
     )

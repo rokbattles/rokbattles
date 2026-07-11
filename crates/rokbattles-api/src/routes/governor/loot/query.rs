@@ -48,6 +48,20 @@ pub(crate) struct KaharTreasureLootRequest {
     pub range: GovernorDateRange,
 }
 
+#[derive(Debug, Clone)]
+pub(crate) struct KaruakCeremonyLootRequest {
+    pub range: GovernorDateRange,
+    pub boss_id: i64,
+}
+
+const KARUAK_BOSSES: [(&str, i64); 5] = [
+    ("bladefist-andaal", 30_001),
+    ("bearkeeper-lukor", 30_002),
+    ("bruteshield-murdos", 30_003),
+    ("warmender-pache", 30_004),
+    ("solon-por", 30_005),
+];
+
 pub(crate) fn parse_barbarian_loot_request(
     params: &HashMap<String, String>,
 ) -> Result<BarbarianLootRequest, ApiError> {
@@ -100,6 +114,19 @@ pub(crate) fn parse_kahar_treasure_loot_request(
 ) -> Result<KaharTreasureLootRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
     Ok(KaharTreasureLootRequest { range })
+}
+
+pub(crate) fn parse_karuak_ceremony_loot_request(
+    params: &HashMap<String, String>,
+) -> Result<KaruakCeremonyLootRequest, ApiError> {
+    let range = parse_default_governor_date_range(params)?;
+    let selected = params.get("type").map(String::as_str).unwrap_or(KARUAK_BOSSES[0].0);
+    let boss_id = KARUAK_BOSSES
+        .iter()
+        .find_map(|(key, id)| (*key == selected).then_some(*id))
+        .ok_or_else(|| ApiError::bad_request("Invalid type"))?;
+
+    Ok(KaruakCeremonyLootRequest { range, boss_id })
 }
 
 fn parse_levels(params: &HashMap<String, String>, key: &str) -> Result<Vec<i32>, ApiError> {
@@ -200,6 +227,16 @@ mod tests {
 
         assert_eq!(request.range.start, "2025-02-03");
         assert_eq!(request.range.end, "2025-02-04");
+    }
+
+    #[test]
+    fn parse_karuak_ceremony_loot_request_selects_each_boss() {
+        for (key, boss_id) in KARUAK_BOSSES {
+            let mut params = date_params();
+            params.insert("type".to_string(), key.to_string());
+            let request = parse_karuak_ceremony_loot_request(&params).expect("request");
+            assert_eq!(request.boss_id, boss_id);
+        }
     }
 
     #[test]

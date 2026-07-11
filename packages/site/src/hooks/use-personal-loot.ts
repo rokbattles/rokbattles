@@ -4,7 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { toDateInput, todayUtcStartMillis } from "@/lib/loot/date";
 import type { PersonalLootQueryResult } from "@/lib/types/loot";
 
-export type PersonalLootEndpoint = "barbarians" | "barbarian-forts" | "baulurs" | "kahars-treasure";
+export type PersonalLootEndpoint =
+  | "barbarians"
+  | "barbarian-forts"
+  | "baulurs"
+  | "karuak-ceremony"
+  | "kahars-treasure";
 
 type PersonalLootOptions = {
   governorId: number | null | undefined;
