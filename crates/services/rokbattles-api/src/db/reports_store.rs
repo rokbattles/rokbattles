@@ -124,6 +124,20 @@ impl ReportsStore {
                 .keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! {
+                    "metadata.kvk": 1,
+                    "sender.server_season": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_role": 1,
+                    "sender.as_battle_type": 1,
+                    "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()

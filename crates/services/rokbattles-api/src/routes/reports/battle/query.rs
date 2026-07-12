@@ -11,6 +11,19 @@ pub(crate) enum ReportsFilterType {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ReportsFilterSubtype {
+    KvkSeason1,
+    KvkSeason2,
+    KvkSeason3,
+    KvkSeasonOfConquest,
+    ArkGoldenBattleground,
+    ArkSilverBattleground,
+    ArkOsirisLeague,
+    ArkPracticeMatch,
+    ArkCustomMatch,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ReportsFilterSide {
     None,
     Sender,
@@ -30,6 +43,7 @@ pub(crate) struct ReportsRequest {
     pub before_cursor: Option<i64>,
     pub after_cursor: Option<i64>,
     pub filter_type: Option<ReportsFilterType>,
+    pub filter_subtype: Option<ReportsFilterSubtype>,
     pub player_id: Option<i64>,
     pub sender_primary_commander_id: Option<i64>,
     pub sender_secondary_commander_id: Option<i64>,
@@ -58,6 +72,8 @@ pub(crate) fn parse_reports_request(
     };
 
     let filter_type = parse_filter_type(params.get("type").map(String::as_str))?;
+    let filter_subtype =
+        parse_filter_subtype(filter_type, params.get("subtype").map(String::as_str))?;
     let player_id =
         parse_optional_i64(params.get("pid").map(String::as_str), "Invalid governor id")?;
     let sender_primary_commander_id = parse_optional_i64(
@@ -96,6 +112,7 @@ pub(crate) fn parse_reports_request(
         before_cursor,
         after_cursor,
         filter_type,
+        filter_subtype,
         player_id,
         sender_primary_commander_id,
         sender_secondary_commander_id,
@@ -105,6 +122,30 @@ pub(crate) fn parse_reports_request(
         garrison_side,
         garrison_building_type,
     })
+}
+
+fn parse_filter_subtype(
+    filter_type: Option<ReportsFilterType>,
+    value: Option<&str>,
+) -> Result<Option<ReportsFilterSubtype>, ApiError> {
+    let Some(value) = value else {
+        return Ok(None);
+    };
+
+    let parsed = match (filter_type, value) {
+        (Some(ReportsFilterType::Kvk), "1") => ReportsFilterSubtype::KvkSeason1,
+        (Some(ReportsFilterType::Kvk), "2") => ReportsFilterSubtype::KvkSeason2,
+        (Some(ReportsFilterType::Kvk), "3") => ReportsFilterSubtype::KvkSeason3,
+        (Some(ReportsFilterType::Kvk), "100") => ReportsFilterSubtype::KvkSeasonOfConquest,
+        (Some(ReportsFilterType::Ark), "1") => ReportsFilterSubtype::ArkGoldenBattleground,
+        (Some(ReportsFilterType::Ark), "6") => ReportsFilterSubtype::ArkSilverBattleground,
+        (Some(ReportsFilterType::Ark), "3") => ReportsFilterSubtype::ArkOsirisLeague,
+        (Some(ReportsFilterType::Ark), "2") => ReportsFilterSubtype::ArkPracticeMatch,
+        (Some(ReportsFilterType::Ark), "5") => ReportsFilterSubtype::ArkCustomMatch,
+        _ => return Err(ApiError::bad_request("Invalid subtype for type")),
+    };
+
+    Ok(Some(parsed))
 }
 
 fn parse_filter_type(value: Option<&str>) -> Result<Option<ReportsFilterType>, ApiError> {
@@ -204,6 +245,30 @@ mod tests {
             ("rs".to_string(), "both".to_string()),
             ("gs".to_string(), "sender".to_string()),
         ]));
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn parses_type_scoped_subtypes() {
+        let kvk = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "kvk".to_string()),
+            ("subtype".to_string(), "100".to_string()),
+        ]))
+        .expect("parsed KVK subtype");
+        assert_eq!(kvk.filter_subtype, Some(ReportsFilterSubtype::KvkSeasonOfConquest));
+
+        let ark = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "ark".to_string()),
+            ("subtype".to_string(), "6".to_string()),
+        ]))
+        .expect("parsed Ark subtype");
+        assert_eq!(ark.filter_subtype, Some(ReportsFilterSubtype::ArkSilverBattleground));
+    }
+
+    #[test]
+    fn rejects_subtype_without_matching_type() {
+        let result =
+            parse_reports_request(&HashMap::from([("subtype".to_string(), "1".to_string())]));
         assert!(result.is_err());
     }
 }

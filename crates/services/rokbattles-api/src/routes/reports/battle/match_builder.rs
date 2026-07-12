@@ -1,7 +1,8 @@
 use mongodb::bson::{Bson, Document, doc};
 
 use super::query::{
-    ReportsFilterSide, ReportsFilterType, ReportsGarrisonBuildingType, ReportsRequest,
+    ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType, ReportsGarrisonBuildingType,
+    ReportsRequest,
 };
 
 /// Build the MongoDB `$match` object for battle report list queries.
@@ -88,6 +89,23 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
                 });
             }
         }
+    }
+
+    if let Some(filter_subtype) = request.filter_subtype {
+        let condition = match filter_subtype {
+            ReportsFilterSubtype::KvkSeason1 => doc! { "sender.server_season": "1" },
+            ReportsFilterSubtype::KvkSeason2 => doc! { "sender.server_season": "2" },
+            ReportsFilterSubtype::KvkSeason3 => doc! { "sender.server_season": "3" },
+            ReportsFilterSubtype::KvkSeasonOfConquest => {
+                doc! { "sender.server_season": "100" }
+            }
+            ReportsFilterSubtype::ArkGoldenBattleground => doc! { "sender.as_battle_type": 1_i64 },
+            ReportsFilterSubtype::ArkSilverBattleground => doc! { "sender.as_battle_type": 6_i64 },
+            ReportsFilterSubtype::ArkOsirisLeague => doc! { "sender.as_battle_type": 3_i64 },
+            ReportsFilterSubtype::ArkPracticeMatch => doc! { "sender.as_battle_type": 2_i64 },
+            ReportsFilterSubtype::ArkCustomMatch => doc! { "sender.as_battle_type": 5_i64 },
+        };
+        match_pipeline.push(condition);
     }
 
     let mut rally_conditions: Vec<Document> = Vec::new();
@@ -182,5 +200,51 @@ fn build_opponent_garrison_condition(
         "opponents": {
             "$elemMatch": elem_match,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashMap;
+
+    use mongodb::bson::Bson;
+
+    use super::*;
+    use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn kvk_subtype_matches_sender_server_season() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "kvk".to_string()),
+            ("subtype".to_string(), "100".to_string()),
+        ]))
+        .expect("valid KVK subtype");
+
+        let filter = build_reports_match(&request);
+
+        assert!(
+            match_conditions(&filter)
+                .contains(&Bson::Document(doc! { "sender.server_season": "100" }))
+        );
+    }
+
+    #[test]
+    fn ark_subtype_matches_sender_battle_type() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "ark".to_string()),
+            ("subtype".to_string(), "6".to_string()),
+        ]))
+        .expect("valid Ark subtype");
+
+        let filter = build_reports_match(&request);
+
+        assert!(
+            match_conditions(&filter)
+                .contains(&Bson::Document(doc! { "sender.as_battle_type": 6_i64 }))
+        );
+    }
+
+    fn match_conditions(filter: &Document) -> &Vec<Bson> {
+        filter.get_array("$and").expect("compound match filter")
     }
 }

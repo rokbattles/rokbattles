@@ -511,7 +511,6 @@ msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "zQvVDJ"
 msgstr ""
 
@@ -986,7 +985,6 @@ msgid "y-cvIx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "8Na2J4"
 msgstr ""
 
@@ -1015,10 +1013,12 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "RJ-ZIh"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "2pQ4w5"
 msgstr ""
 
@@ -1408,15 +1408,19 @@ msgid "zSOvI0"
 msgstr "ตัวกรอง"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "lVxkzV"
+msgid "RavlSl"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "8Q504V"
+msgid "dfPU6h"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "ToO3_h"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1428,19 +1432,51 @@ msgid "-XTzdP"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "RZr1Nw"
+msgid "H9srBH"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "PFb9jT"
+msgid "e3PeBT"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "2AAtTC"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "jbrAjx"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Ygh1LR"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "wudsnZ"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "gvEP4o"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "BQ9UYa"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "XE8i_T"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Qf8fwC"
+msgstr ""
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Hin97m"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ToO3_h"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
