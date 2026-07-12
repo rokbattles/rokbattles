@@ -84,16 +84,7 @@ impl Storage {
         let filter = doc! {
             "status": { "$in": [STATUS_PENDING, STATUS_REPROCESS] },
         };
-        let opts = FindOptions::builder()
-            .limit(batch_size)
-            .sort(doc! { "updatedAt": 1 })
-            .projection(doc! {
-                "_id": 1,
-                "mail_id": 1,
-                "status": 1,
-                "mail_value": 1,
-            })
-            .build();
+        let opts = pending_find_options(batch_size);
 
         self.raw.find(filter).with_options(opts).await
     }
@@ -155,5 +146,33 @@ impl Storage {
             )
             .await?;
         Ok(())
+    }
+}
+
+fn pending_find_options(batch_size: i64) -> FindOptions {
+    FindOptions::builder()
+        .limit(batch_size)
+        .sort(doc! { "status": 1, "updatedAt": 1 })
+        .projection(doc! {
+            "_id": 1,
+            "mail_id": 1,
+            "status": 1,
+            "mail_value": 1,
+        })
+        .build()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pending_mail_is_sorted_before_reprocess_mail() {
+        assert!(STATUS_PENDING < STATUS_REPROCESS);
+
+        let options = pending_find_options(100);
+
+        assert_eq!(options.limit, Some(100));
+        assert_eq!(options.sort, Some(doc! { "status": 1, "updatedAt": 1 }));
     }
 }
