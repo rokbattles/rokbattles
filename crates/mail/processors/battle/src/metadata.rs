@@ -2,7 +2,7 @@
 
 use mail_sdk::{
     ExtractError, Extractor, Section, extract_base_metadata, optional_bool_field,
-    require_string_field, require_u64_field,
+    optional_u64_field, require_string_field, require_u64_field,
 };
 use serde_json::{Map, Value};
 
@@ -33,11 +33,13 @@ impl Extractor for MetadataExtractor {
         let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
         let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
+        let ll_script_schema = optional_u64_field(content, "LLScriptSchema")?;
 
         let mut section = metadata.into_section();
         section.insert("report_id", Value::from(report_id));
         section.insert("mail_role", Value::String(mail_role));
         section.insert("kvk", Value::Bool(kvk));
+        section.insert("ll_script_schema", ll_script_schema.map_or(Value::Null, Value::from));
         Ok(section)
     }
 }
@@ -246,5 +248,57 @@ mod tests {
         let section = extractor.extract(&input).unwrap();
         let fields = section.fields();
         assert_eq!(fields["kvk"], json!(false));
+    }
+
+    #[test]
+    fn metadata_extractor_preserves_ll_script_schema() {
+        let input = metadata_input_with_ll_script_schema(Some(json!(320)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["ll_script_schema"], json!(320));
+    }
+
+    #[test]
+    fn metadata_extractor_preserves_zero_ll_script_schema() {
+        let input = metadata_input_with_ll_script_schema(Some(json!(0)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["ll_script_schema"], json!(0));
+    }
+
+    #[test]
+    fn metadata_extractor_uses_null_when_ll_script_schema_is_absent() {
+        let input = metadata_input_with_ll_script_schema(None);
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["ll_script_schema"], Value::Null);
+    }
+
+    fn metadata_input_with_ll_script_schema(ll_script_schema: Option<Value>) -> Value {
+        let mut input = json!({
+            "id": "mail-1",
+            "time": 1234,
+            "receiver": "player-1",
+            "serverId": 55,
+            "body": {
+                "content": {
+                    "Id": 18930744,
+                    "Role": "gsmp",
+                    "isConquerSeason": true,
+                    "SelfChar": {
+                        "COSId": 10
+                    }
+                }
+            }
+        });
+
+        if let Some(value) = ll_script_schema {
+            input["body"]["content"]["LLScriptSchema"] = value;
+        }
+
+        input
     }
 }
