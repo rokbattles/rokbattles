@@ -33,12 +33,14 @@ impl Extractor for MetadataExtractor {
         let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
         let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
+        let schema = optional_u64_field(content, "Schema")?;
         let ll_script_schema = optional_u64_field(content, "LLScriptSchema")?;
 
         let mut section = metadata.into_section();
         section.insert("report_id", Value::from(report_id));
         section.insert("mail_role", Value::String(mail_role));
         section.insert("kvk", Value::Bool(kvk));
+        section.insert("schema", schema.map_or(Value::Null, Value::from));
         section.insert("ll_script_schema", ll_script_schema.map_or(Value::Null, Value::from));
         Ok(section)
     }
@@ -260,6 +262,33 @@ mod tests {
     }
 
     #[test]
+    fn metadata_extractor_preserves_schema() {
+        let input = metadata_input_with_schema(Some(json!(10002)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["schema"], json!(10002));
+    }
+
+    #[test]
+    fn metadata_extractor_preserves_zero_schema() {
+        let input = metadata_input_with_schema(Some(json!(0)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["schema"], json!(0));
+    }
+
+    #[test]
+    fn metadata_extractor_uses_null_when_schema_is_absent() {
+        let input = metadata_input_with_schema(None);
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["schema"], Value::Null);
+    }
+
+    #[test]
     fn metadata_extractor_preserves_zero_ll_script_schema() {
         let input = metadata_input_with_ll_script_schema(Some(json!(0)));
 
@@ -297,6 +326,16 @@ mod tests {
 
         if let Some(value) = ll_script_schema {
             input["body"]["content"]["LLScriptSchema"] = value;
+        }
+
+        input
+    }
+
+    fn metadata_input_with_schema(schema: Option<Value>) -> Value {
+        let mut input = metadata_input_with_ll_script_schema(None);
+
+        if let Some(value) = schema {
+            input["body"]["content"]["Schema"] = value;
         }
 
         input
