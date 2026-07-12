@@ -23,6 +23,7 @@
         "x": 6305.955,
         "y": 6393.1953
       },
+      "auxiliary_skills": [],
       "avatar_url": "",
       "battle_results": {
         "opponent": {
@@ -135,6 +136,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 26855535,
+    "auxiliary_skills": [],
     "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
     "camp_id": 2,
     "castle": {

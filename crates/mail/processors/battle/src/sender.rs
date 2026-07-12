@@ -56,6 +56,13 @@ mod tests {
         serde_json::from_str(&json).expect("parse sample")
     }
 
+    fn load_auxiliary_skill_sample() -> Value {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../../samples/Battle/Persistent.Mail.32282022178380122828.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        serde_json::from_str(&json).expect("parse sample")
+    }
+
     #[test]
     fn sender_extractor_reads_basic_fields() {
         let input = json!({
@@ -151,6 +158,19 @@ mod tests {
                     "secondary": { "id": 12, "level": 21 },
                 }
             })
+        );
+    }
+
+    #[test]
+    fn sender_extractor_reads_auxiliary_skills_from_sample() {
+        let input = load_auxiliary_skill_sample();
+        let extractor = SenderExtractor::new();
+
+        let section = extractor.extract(&input).unwrap();
+
+        assert_eq!(
+            section.fields()["auxiliary_skills"],
+            json!([{ "hero_id": 141, "level": 5, "skill_id": 1420 }])
         );
     }
 

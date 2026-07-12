@@ -112,6 +112,7 @@ pub(crate) struct BattleReportPlayer {
     pub app_uid: Option<i64>,
     pub commanders: BattleReportCommanderSet,
     pub support_skills: BattleReportSupportSkills,
+    pub auxiliary_skills: Vec<BattleReportAuxiliarySkill>,
 }
 
 #[derive(Debug, Serialize, Default)]
@@ -184,6 +185,14 @@ pub(crate) struct BattleReportSupportSkill {
 
 #[derive(Debug, Serialize, Default)]
 #[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportAuxiliarySkill {
+    pub hero_id: i64,
+    pub level: i64,
+    pub skill_id: i64,
+}
+
+#[derive(Debug, Serialize, Default)]
+#[serde(rename_all = "camelCase")]
 pub(crate) struct BattleReportSummary {
     pub sender: BattleReportSummaryEntry,
     pub opponent: BattleReportSummaryEntry,
@@ -214,6 +223,8 @@ pub(crate) struct BattleReportOpponent {
     pub castle: BattleReportCastle,
     pub app_uid: Option<i64>,
     pub commanders: BattleReportCommanderSet,
+    pub support_skills: BattleReportSupportSkills,
+    pub auxiliary_skills: Vec<BattleReportAuxiliarySkill>,
     pub start_tick: i64,
     pub end_tick: i64,
     pub attack: BattleReportAttack,

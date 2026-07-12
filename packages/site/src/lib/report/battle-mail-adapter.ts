@@ -1,4 +1,5 @@
 import type {
+  BattleAuxiliarySkill,
   BattleDetailedResult,
   BattleMail,
   BattleOpponent,
@@ -120,6 +121,14 @@ function mapSupportSkill(skill: BattleSupportSkill) {
   };
 }
 
+function mapAuxiliarySkill(skill: BattleAuxiliarySkill) {
+  return {
+    hero_id: skill.heroId,
+    level: skill.level,
+    skill_id: skill.skillId,
+  };
+}
+
 function mapPlayerToParticipant(
   player: BattlePlayer,
   npc?: { type: number | null; bType: number | null } | null
@@ -158,6 +167,7 @@ function mapPlayerToParticipant(
       enable: player.supportSkills?.enable ?? undefined,
       skills: [...(player.supportSkills?.skills ?? [])].map(mapSupportSkill),
     },
+    auxiliary_skills: [...(player.auxiliarySkills ?? [])].map(mapAuxiliarySkill),
     formation: player.commanders.primary.formation ?? undefined,
     equipment: player.commanders.primary.equipment ?? undefined,
     equipment_2: player.commanders.secondary.equipment ?? undefined,
