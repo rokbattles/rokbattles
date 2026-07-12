@@ -5,12 +5,12 @@ use core_bson::{
 use mongodb::bson::{Bson, Document, doc};
 
 use super::types::{
-    BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportBattleResult,
-    BattleReportBattleResults, BattleReportCastle, BattleReportCommander, BattleReportCommanderSet,
-    BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata, BattleReportNpc,
-    BattleReportOpponent, BattleReportPlayer, BattleReportRelic, BattleReportSummary,
-    BattleReportSummaryEntry, BattleReportSupportSkill, BattleReportSupportSkills,
-    BattleReportTimeline,
+    BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportAuxiliarySkill,
+    BattleReportBattleResult, BattleReportBattleResults, BattleReportCastle, BattleReportCommander,
+    BattleReportCommanderSet, BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata,
+    BattleReportNpc, BattleReportOpponent, BattleReportPlayer, BattleReportRelic,
+    BattleReportSummary, BattleReportSummaryEntry, BattleReportSupportSkill,
+    BattleReportSupportSkills, BattleReportTimeline,
 };
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
@@ -41,6 +41,9 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.support_skills.skills.hero_id",
         "sender.support_skills.skills.skill_id",
         "sender.support_skills.skills.skill_level",
+        "sender.auxiliary_skills.hero_id",
+        "sender.auxiliary_skills.level",
+        "sender.auxiliary_skills.skill_id",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
         "sender.commanders.primary.level",
@@ -95,6 +98,9 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.support_skills.skills.hero_id",
         "opponents.support_skills.skills.skill_id",
         "opponents.support_skills.skills.skill_level",
+        "opponents.auxiliary_skills.hero_id",
+        "opponents.auxiliary_skills.level",
+        "opponents.auxiliary_skills.skill_id",
         "opponents.commanders.primary.id",
         "opponents.commanders.primary.awakened",
         "opponents.commanders.primary.level",
@@ -192,6 +198,7 @@ fn map_detail_player(document: Option<&Document>) -> BattleReportPlayer {
         app_uid: nested_i64_exact(document, &["app_uid"]),
         commanders: map_detail_commanders(document),
         support_skills: map_detail_support_skills(nested_document(document, &["support_skills"])),
+        auxiliary_skills: map_detail_auxiliary_skills(document),
     }
 }
 
@@ -288,6 +295,22 @@ fn map_detail_support_skill_entries(document: &Document) -> Vec<BattleReportSupp
         .collect()
 }
 
+fn map_detail_auxiliary_skills(document: &Document) -> Vec<BattleReportAuxiliarySkill> {
+    let Some(skills) = nested_array(document, &["auxiliary_skills"]) else {
+        return Vec::new();
+    };
+
+    skills
+        .iter()
+        .filter_map(Bson::as_document)
+        .map(|skill| BattleReportAuxiliarySkill {
+            hero_id: nested_i64_exact(skill, &["hero_id"]).unwrap_or_default(),
+            level: nested_i64_exact(skill, &["level"]).unwrap_or_default(),
+            skill_id: nested_i64_exact(skill, &["skill_id"]).unwrap_or_default(),
+        })
+        .collect()
+}
+
 fn map_detail_summary(document: Option<&Document>) -> BattleReportSummary {
     let Some(document) = document else {
         return BattleReportSummary::default();
@@ -338,6 +361,8 @@ fn map_detail_opponent(document: &Document) -> BattleReportOpponent {
         castle: base.castle,
         app_uid: base.app_uid,
         commanders: base.commanders,
+        support_skills: base.support_skills,
+        auxiliary_skills: base.auxiliary_skills,
         start_tick,
         end_tick: nested_i64(document, &["end_tick"]).unwrap_or(start_tick),
         attack: BattleReportAttack {
@@ -422,6 +447,8 @@ mod tests {
         assert_eq!(projection.get_i32("sender.commanders.primary.skills.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.support_skills.enable").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.support_skills.skills.skill_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.auxiliary_skills.skill_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("opponents.auxiliary_skills.skill_id").ok(), Some(1));
         assert_eq!(
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
@@ -454,6 +481,9 @@ mod tests {
                         { "hero_id": 10_i64, "skill_id": 101_i64, "skill_level": 5_i64 },
                     ],
                 },
+                "auxiliary_skills": [
+                    { "hero_id": 20_i64, "level": 4_i64, "skill_id": 202_i64 },
+                ],
                 "commanders": {
                     "primary": {
                         "id": 10_i64,
@@ -503,6 +533,13 @@ mod tests {
                     "start_tick": 60_i64,
                     "attack": { "x": 1_i64, "y": 2_i64 },
                     "npc": { "type": 5_i64, "b_type": 8_i64 },
+                    "support_skills": {
+                        "enable": false,
+                        "skills": [],
+                    },
+                    "auxiliary_skills": [
+                        { "hero_id": 30_i64, "level": 3_i64, "skill_id": 303_i64 },
+                    ],
                     "battle_results": {
                         "sender": {
                             "kill_points": 40_i64,
@@ -529,9 +566,12 @@ mod tests {
         assert_eq!(mapped.sender.support_skills.enable, Some(true));
         assert_eq!(mapped.sender.support_skills.skills.len(), 1);
         assert_eq!(mapped.sender.support_skills.skills[0].skill_id, 101);
+        assert_eq!(mapped.sender.auxiliary_skills[0].skill_id, 202);
         assert_eq!(mapped.summary.sender.kill_points, Some(100));
         assert_eq!(mapped.opponents.len(), 1);
         assert_eq!(mapped.opponents[0].npc.r#type, Some(5));
+        assert_eq!(mapped.opponents[0].support_skills.enable, Some(false));
+        assert_eq!(mapped.opponents[0].auxiliary_skills[0].skill_id, 303);
         assert_eq!(mapped.timeline.start_tick, 50);
     }
 
