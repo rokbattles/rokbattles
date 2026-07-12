@@ -1,9 +1,8 @@
-export const numberFormatter = new Intl.NumberFormat("en-US");
+import { decimalFormatter } from "@/lib/statistics-format";
 
-export const decimalFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 2,
-  minimumFractionDigits: 2,
-});
+export { decimalFormatter, formatPerSecond } from "@/lib/statistics-format";
+
+export const numberFormatter = new Intl.NumberFormat("en-US");
 
 export const scoreFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 2,
@@ -25,10 +24,6 @@ export function clampScore(value: number): number {
 
 export function formatNumber(value: number): string {
   return numberFormatter.format(Math.round(Number.isFinite(value) ? value : 0));
-}
-
-export function formatPerSecond(value: number): string {
-  return `${decimalFormatter.format(Number.isFinite(value) ? value : 0)}/s`;
 }
 
 export function formatPercent(value: number): string {

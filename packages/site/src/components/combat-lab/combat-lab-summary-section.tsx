@@ -1,6 +1,6 @@
 import { useExtracted } from "next-intl";
 import { useMemo } from "react";
-import { CombatLabSummaryMetric } from "@/components/combat-lab/combat-lab-summary-metric";
+import { SummaryMetric } from "@/components/summary-metric";
 import { Subheading } from "@/components/ui/heading";
 import type { CombatLabPairingDocument } from "@/lib/combat-lab/api";
 import {
@@ -67,7 +67,7 @@ export function CombatLabSummarySection({ item }: CombatLabSummarySectionProps) 
         label: t("Avg. Trade Percentage"),
         value: formatPercent(item.summary.avgTradePercentage),
         description: t(
-          "Each battle’s kill points gained divided by kill points lost, then averaged across battles."
+          "Each battle's kill points gained divided by kill points lost, then averaged across battles."
         ),
       },
       {
@@ -113,7 +113,7 @@ export function CombatLabSummarySection({ item }: CombatLabSummarySectionProps) 
       <Subheading>{t("Summary")}</Subheading>
       <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
         {metrics.map((metric) => (
-          <CombatLabSummaryMetric
+          <SummaryMetric
             key={metric.id}
             description={metric.description}
             label={metric.label}

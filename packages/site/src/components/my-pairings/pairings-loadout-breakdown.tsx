@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import { SummaryMetric } from "@/components/summary-metric";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
 import {
@@ -88,22 +89,14 @@ export function PairingsLoadoutBreakdown({
       ) : (
         <>
           <div className="space-y-3">
-            <div className="grid gap-6 grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-6 lg:grid-cols-3">
               {generalStats.map((stat) => (
-                <div
+                <SummaryMetric
                   key={stat.id}
-                  className="space-y-3 border-b border-zinc-200/60 pb-4 dark:border-white/10"
-                >
-                  <div className="space-y-1">
-                    <div className="text-sm font-semibold text-zinc-950 dark:text-white">
-                      {stat.name}
-                    </div>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">{stat.description}</p>
-                  </div>
-                  <div className="mt-4 text-3xl/8 font-semibold text-zinc-950 sm:text-3xl dark:text-white">
-                    {stat.value}
-                  </div>
-                </div>
+                  description={stat.description}
+                  label={stat.name}
+                  value={stat.value}
+                />
               ))}
             </div>
           </div>
