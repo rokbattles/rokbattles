@@ -33,6 +33,7 @@ impl Extractor for MetadataExtractor {
         let report_id = require_u64_field(content, "Id")?;
         let mail_role = require_string_field(content, "Role")?;
         let kvk = resolve_kvk(&mail_role, content, metadata.server_id)?;
+        let room_id = optional_u64_field(content, "RoomId")?;
         let schema = optional_u64_field(content, "Schema")?;
         let ll_script_schema = optional_u64_field(content, "LLScriptSchema")?;
 
@@ -40,6 +41,7 @@ impl Extractor for MetadataExtractor {
         section.insert("report_id", Value::from(report_id));
         section.insert("mail_role", Value::String(mail_role));
         section.insert("kvk", Value::Bool(kvk));
+        section.insert("room_id", room_id.map_or(Value::Null, Value::from));
         section.insert("schema", schema.map_or(Value::Null, Value::from));
         section.insert("ll_script_schema", ll_script_schema.map_or(Value::Null, Value::from));
         Ok(section)
@@ -271,6 +273,33 @@ mod tests {
     }
 
     #[test]
+    fn metadata_extractor_preserves_room_id() {
+        let input = metadata_input_with_room_id(Some(json!(3539)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["room_id"], json!(3539));
+    }
+
+    #[test]
+    fn metadata_extractor_preserves_zero_room_id() {
+        let input = metadata_input_with_room_id(Some(json!(0)));
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["room_id"], json!(0));
+    }
+
+    #[test]
+    fn metadata_extractor_uses_null_when_room_id_is_absent() {
+        let input = metadata_input_with_room_id(None);
+
+        let section = MetadataExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["room_id"], Value::Null);
+    }
+
+    #[test]
     fn metadata_extractor_preserves_zero_schema() {
         let input = metadata_input_with_schema(Some(json!(0)));
 
@@ -336,6 +365,16 @@ mod tests {
 
         if let Some(value) = schema {
             input["body"]["content"]["Schema"] = value;
+        }
+
+        input
+    }
+
+    fn metadata_input_with_room_id(room_id: Option<Value>) -> Value {
+        let mut input = metadata_input_with_ll_script_schema(None);
+
+        if let Some(value) = room_id {
+            input["body"]["content"]["RoomId"] = value;
         }
 
         input
