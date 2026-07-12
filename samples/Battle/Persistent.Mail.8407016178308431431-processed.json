@@ -163,6 +163,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 205396,
       "structure_id": null,
       "support_skills": {
@@ -282,6 +283,7 @@
     "player_id": 71738515,
     "player_name": "Grigvar x Dimi",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": true,

@@ -138,6 +138,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 875164,
       "structure_id": null,
       "support_skills": {
@@ -296,6 +297,7 @@
     "player_id": 47043938,
     "player_name": "QuackerOats",
     "rally": true,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

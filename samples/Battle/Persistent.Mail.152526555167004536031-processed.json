@@ -189,6 +189,7 @@
       "player_id": 72217206,
       "player_name": "Queen SammyJo",
       "rally": null,
+      "server_season": null,
       "start_tick": 1378409,
       "structure_id": null,
       "support_skills": {
@@ -488,6 +489,7 @@
     "player_id": 71738515,
     "player_name": "Grigvar",
     "rally": true,
+    "server_season": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

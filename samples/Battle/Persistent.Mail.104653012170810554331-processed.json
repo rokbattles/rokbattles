@@ -480,6 +480,7 @@
       "player_id": 18285347,
       "player_name": "ミ K H A L I D",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505754,
       "structure_id": null,
       "support_skills": {
@@ -671,6 +672,7 @@
       "player_id": 154813471,
       "player_name": "Dzin Wielki",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505817,
       "structure_id": null,
       "support_skills": {
@@ -862,6 +864,7 @@
       "player_id": 154813471,
       "player_name": "Dzin Wielki",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505823,
       "structure_id": null,
       "support_skills": {
@@ -1061,6 +1064,7 @@
       "player_id": 154813471,
       "player_name": "Dzin Wielki",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505823,
       "structure_id": null,
       "support_skills": {
@@ -1260,6 +1264,7 @@
       "player_id": 154813471,
       "player_name": "Dzin Wielki",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505817,
       "structure_id": null,
       "support_skills": {
@@ -1451,6 +1456,7 @@
       "player_id": 154813471,
       "player_name": "Dzin Wielki",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505876,
       "structure_id": null,
       "support_skills": {
@@ -1646,6 +1652,7 @@
       "player_id": 154193427,
       "player_name": "ミ Solgaleo ミ",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505790,
       "structure_id": null,
       "support_skills": {
@@ -1841,6 +1848,7 @@
       "player_id": 153947353,
       "player_name": "bedebuh",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505772,
       "structure_id": null,
       "support_skills": {
@@ -2036,6 +2044,7 @@
       "player_id": 156028467,
       "player_name": "ᴰᶰ SmeeR",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505817,
       "structure_id": null,
       "support_skills": {
@@ -2227,6 +2236,7 @@
       "player_id": 151201578,
       "player_name": "Nicossss",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505848,
       "structure_id": null,
       "support_skills": {
@@ -2422,6 +2432,7 @@
       "player_id": 156028467,
       "player_name": "ᴰᶰ SmeeR",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505840,
       "structure_id": null,
       "support_skills": {
@@ -2625,6 +2636,7 @@
       "player_id": 153873531,
       "player_name": "Lelouchhシ",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505811,
       "structure_id": null,
       "support_skills": {
@@ -2824,6 +2836,7 @@
       "player_id": 142651363,
       "player_name": "香水じゅん",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505799,
       "structure_id": null,
       "support_skills": {
@@ -3019,6 +3032,7 @@
       "player_id": 153434524,
       "player_name": "TANSAA",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505823,
       "structure_id": null,
       "support_skills": {
@@ -3214,6 +3228,7 @@
       "player_id": 155144299,
       "player_name": "ヅYusekeᵀᴴ",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505835,
       "structure_id": null,
       "support_skills": {
@@ -3405,6 +3420,7 @@
       "player_id": 153434524,
       "player_name": "TANSAA",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505786,
       "structure_id": null,
       "support_skills": {
@@ -3600,6 +3616,7 @@
       "player_id": 154838551,
       "player_name": "ExCalìbur",
       "rally": null,
+      "server_season": "3",
       "start_tick": 1505848,
       "structure_id": null,
       "support_skills": {
@@ -4068,6 +4085,7 @@
     "player_id": 71738515,
     "player_name": "ᵀᴼバニー",
     "rally": true,
+    "server_season": "3",
     "structure_id": null,
     "support_skills": {
       "enable": false,

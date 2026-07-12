@@ -57,6 +57,7 @@ pub(crate) fn extract_player_fields(
     let support_skills = extract_support_skills(player)?;
     let auxiliary_skills = extract_auxiliary_skills(player)?;
     let (app_id, app_uid) = extract_app_identity(player)?;
+    let server_season = optional_string_field(player, "SerSeason")?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
 
@@ -94,6 +95,10 @@ pub(crate) fn extract_player_fields(
     fields.insert("auxiliary_skills".to_string(), auxiliary_skills);
     fields.insert("app_id".to_string(), app_id.map(Value::from).unwrap_or(Value::Null));
     fields.insert("app_uid".to_string(), app_uid.map(Value::from).unwrap_or(Value::Null));
+    fields.insert(
+        "server_season".to_string(),
+        server_season.map(Value::String).unwrap_or(Value::Null),
+    );
     fields.insert("avatar_url".to_string(), avatar_url);
     fields.insert("frame_url".to_string(), frame_url);
     fields.insert("supreme_strife".to_string(), supreme_strife);
@@ -527,6 +532,33 @@ mod tests {
         player.remove("COSId");
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(fields.get("kingdom_id"), Some(&json!(null)));
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_server_season() {
+        let mut player = base_player();
+        player.insert("SerSeason".to_string(), json!("100"));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["server_season"], json!("100"));
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_empty_server_season() {
+        let mut player = base_player();
+        player.insert("SerSeason".to_string(), json!(""));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["server_season"], json!(""));
+    }
+
+    #[test]
+    fn extract_player_fields_uses_null_when_server_season_is_absent() {
+        let fields = extract_player_fields(&base_player()).unwrap();
+
+        assert_eq!(fields["server_season"], Value::Null);
     }
 
     #[test]

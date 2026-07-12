@@ -192,6 +192,7 @@
       "player_id": 37556801,
       "player_name": "Benbu",
       "rally": null,
+      "server_season": "100",
       "start_tick": 31439,
       "structure_id": null,
       "support_skills": {
@@ -332,6 +333,7 @@
     "player_id": 71738515,
     "player_name": "G Var",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

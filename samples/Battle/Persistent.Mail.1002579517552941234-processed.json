@@ -185,6 +185,7 @@
       "player_id": 130014943,
       "player_name": "xAvarice",
       "rally": null,
+      "server_season": "100",
       "start_tick": 312472,
       "structure_id": null,
       "support_skills": {
@@ -325,6 +326,7 @@
     "player_id": 110176153,
     "player_name": "F7yst",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

@@ -159,6 +159,7 @@
       "player_id": 13451284,
       "player_name": "hasan pilay",
       "rally": null,
+      "server_season": null,
       "start_tick": 421258,
       "structure_id": null,
       "support_skills": {
@@ -270,6 +271,7 @@
     "player_id": 14022209,
     "player_name": "Resir",
     "rally": null,
+    "server_season": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,
