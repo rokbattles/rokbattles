@@ -115,6 +115,7 @@
         "loot": null,
         "type": 33
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -202,6 +203,7 @@
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
     "kingdom_id": 1804,
+    "package_identifier": "com.lilithgames.rok.pc.int",
     "participants": [
       {
         "alliance": {

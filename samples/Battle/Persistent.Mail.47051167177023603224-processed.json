@@ -173,6 +173,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgames.rok.pc.int",
       "participants": [
         {
           "alliance": {
@@ -369,6 +370,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgames.rok.pc.int",
       "participants": [
         {
           "alliance": {
@@ -565,6 +567,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgames.rok.pc.int",
       "participants": [
         {
           "alliance": {
@@ -761,6 +764,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgames.rok.pc.int",
       "participants": [
         {
           "alliance": {
@@ -957,6 +961,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgames.rok.pc.int",
       "participants": [
         {
           "alliance": {
@@ -1153,6 +1158,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgame.roc.gp",
       "participants": [
         {
           "alliance": {
@@ -1353,6 +1359,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": "com.lilithgame.roc.gp",
       "participants": [
         {
           "alliance": {
@@ -1461,6 +1468,7 @@
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
     "kingdom_id": 2249,
+    "package_identifier": "com.lilithgame.roc.ios",
     "participants": [
       {
         "alliance": {

@@ -140,6 +140,7 @@
         ],
         "type": 150013
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -307,6 +308,7 @@
         ],
         "type": 150013
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -474,6 +476,7 @@
         ],
         "type": 150011
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -641,6 +644,7 @@
         ],
         "type": 150012
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -788,6 +792,7 @@
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_221.png",
     "kingdom_id": 1217,
+    "package_identifier": "com.lilithgames.rok.pc.int",
     "participants": [
       {
         "alliance": {

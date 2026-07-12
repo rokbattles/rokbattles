@@ -58,6 +58,7 @@ pub(crate) fn extract_player_fields(
     let auxiliary_skills = extract_auxiliary_skills(player)?;
     let (app_id, app_uid) = extract_app_identity(player)?;
     let server_season = optional_string_field(player, "SerSeason")?;
+    let package_identifier = optional_string_field(player, "PkgNameNew")?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
 
@@ -98,6 +99,10 @@ pub(crate) fn extract_player_fields(
     fields.insert(
         "server_season".to_string(),
         server_season.map(Value::String).unwrap_or(Value::Null),
+    );
+    fields.insert(
+        "package_identifier".to_string(),
+        package_identifier.map(Value::String).unwrap_or(Value::Null),
     );
     fields.insert("avatar_url".to_string(), avatar_url);
     fields.insert("frame_url".to_string(), frame_url);
@@ -559,6 +564,33 @@ mod tests {
         let fields = extract_player_fields(&base_player()).unwrap();
 
         assert_eq!(fields["server_season"], Value::Null);
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_package_identifier() {
+        let mut player = base_player();
+        player.insert("PkgNameNew".to_string(), json!("com.lilithgames.rok.pc.int"));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["package_identifier"], json!("com.lilithgames.rok.pc.int"));
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_empty_package_identifier() {
+        let mut player = base_player();
+        player.insert("PkgNameNew".to_string(), json!(""));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["package_identifier"], json!(""));
+    }
+
+    #[test]
+    fn extract_player_fields_uses_null_when_package_identifier_is_absent() {
+        let fields = extract_player_fields(&base_player()).unwrap();
+
+        assert_eq!(fields["package_identifier"], Value::Null);
     }
 
     #[test]

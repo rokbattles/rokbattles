@@ -140,6 +140,7 @@
         ],
         "type": 402
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -272,6 +273,7 @@
     },
     "frame_url": null,
     "kingdom_id": 1804,
+    "package_identifier": "com.lilithgames.rok.pc.int",
     "participants": [
       {
         "alliance": {
