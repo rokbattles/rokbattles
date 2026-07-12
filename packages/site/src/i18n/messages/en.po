@@ -511,7 +511,6 @@ msgstr "No loot in this date range."
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "zQvVDJ"
 msgstr "All"
 
@@ -986,7 +985,6 @@ msgid "y-cvIx"
 msgstr "Analyze performance across commander pairings, loadouts, and matchups"
 
 #: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "8Na2J4"
 msgstr "Ark of Osiris"
 
@@ -1015,10 +1013,12 @@ msgstr "Swarming"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "RJ-ZIh"
 msgstr "Rally"
 
 #: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
 msgid "2pQ4w5"
 msgstr "Garrison"
 
@@ -1408,16 +1408,20 @@ msgid "zSOvI0"
 msgstr "Filters"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "lVxkzV"
-msgstr "Filter battle reports by metadata, commanders, and battle roles."
+msgid "RavlSl"
+msgstr "Filter battle reports by governor, commanders, and battle roles."
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "8Q504V"
-msgstr "Metadata"
+msgid "dfPU6h"
+msgstr "Governor"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
 msgstr "Primary Commander"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "ToO3_h"
+msgstr "Any"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "SHldaq"
@@ -1428,20 +1432,52 @@ msgid "-XTzdP"
 msgstr "Battle"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "RZr1Nw"
-msgstr "Rally Side"
+msgid "H9srBH"
+msgstr "Ark of Osiris/Osiris League"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "PFb9jT"
-msgstr "Garrison Side"
+msgid "e3PeBT"
+msgstr "Subtype"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "2AAtTC"
+msgstr "Season 1"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "jbrAjx"
+msgstr "Season 2"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Ygh1LR"
+msgstr "Season 3"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "wudsnZ"
+msgstr "Season of Conquest"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "gvEP4o"
+msgstr "Golden Battleground"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "BQ9UYa"
+msgstr "Silver Battleground"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "XE8i_T"
+msgstr "Osiris League"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Qf8fwC"
+msgstr "Practice Match"
+
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "Hin97m"
+msgstr "Custom Match"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
 msgstr "Garrison Building"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ToO3_h"
-msgstr "Any"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ptYapO"

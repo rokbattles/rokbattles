@@ -1,5 +1,6 @@
 import type {
   ReportsFilterSide,
+  ReportsFilterSubtype,
   ReportsFilterType,
   ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
@@ -9,6 +10,7 @@ export type ReportsQueryParams = {
   before?: string;
   playerId?: number;
   type?: ReportsFilterType;
+  subtype?: ReportsFilterSubtype;
   senderPrimaryCommanderId?: number;
   senderSecondaryCommanderId?: number;
   opponentPrimaryCommanderId?: number;
@@ -23,6 +25,7 @@ export function buildReportsQueryParams({
   before,
   playerId,
   type,
+  subtype,
   senderPrimaryCommanderId,
   senderSecondaryCommanderId,
   opponentPrimaryCommanderId,
@@ -42,6 +45,7 @@ export function buildReportsQueryParams({
     params.set("pid", String(playerId));
   }
   if (type) params.set("type", type);
+  if (subtype && (type === "kvk" || type === "ark")) params.set("subtype", subtype);
   if (typeof senderPrimaryCommanderId === "number" && Number.isFinite(senderPrimaryCommanderId)) {
     params.set("spc", String(senderPrimaryCommanderId));
   }

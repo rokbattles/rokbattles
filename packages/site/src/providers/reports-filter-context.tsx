@@ -5,10 +5,13 @@ import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext } from "react";
 
 export type ReportsFilterType = "home" | "ark" | "kvk" | "strife";
+export type ReportsFilterSubtype = "1" | "2" | "3" | "5" | "6" | "100";
 export type ReportsFilterSide = "none" | "sender" | "opponent" | "both";
 export type ReportsGarrisonBuildingType = "flag" | "fortress" | "other";
 
 const filterTypes = new Set<ReportsFilterType>(["home", "ark", "kvk", "strife"]);
+const kvkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "100"]);
+const arkSubtypes = new Set<ReportsFilterSubtype>(["1", "2", "3", "5", "6"]);
 const filterSides = new Set<ReportsFilterSide>(["none", "sender", "opponent", "both"]);
 const garrisonBuildingTypes = new Set<ReportsGarrisonBuildingType>(["flag", "fortress", "other"]);
 
@@ -17,6 +20,23 @@ function resolveFilterType(value: string | null): ReportsFilterType | undefined 
     return undefined;
   }
   return filterTypes.has(value as ReportsFilterType) ? (value as ReportsFilterType) : undefined;
+}
+
+function resolveFilterSubtype(
+  type: ReportsFilterType | undefined,
+  value: string | null
+): ReportsFilterSubtype | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const subtype = value as ReportsFilterSubtype;
+  if (type === "kvk" && kvkSubtypes.has(subtype)) {
+    return subtype;
+  }
+  if (type === "ark" && arkSubtypes.has(subtype)) {
+    return subtype;
+  }
+  return undefined;
 }
 
 function resolveSide(value: string | null): ReportsFilterSide {
@@ -42,6 +62,8 @@ export type ReportsFilterContextValue = {
   setPlayerId: Dispatch<SetStateAction<number | undefined>>;
   type?: ReportsFilterType;
   setType: Dispatch<SetStateAction<ReportsFilterType | undefined>>;
+  subtype?: ReportsFilterSubtype;
+  setSubtype: Dispatch<SetStateAction<ReportsFilterSubtype | undefined>>;
   senderPrimaryCommanderId?: number;
   setSenderPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>>;
   senderSecondaryCommanderId?: number;
@@ -64,6 +86,7 @@ export const ReportsFilterContext = createContext<ReportsFilterContextValue | un
 export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const [playerIdParam, setPlayerIdParam] = useQueryState("pid", parseAsInteger);
   const [typeParam, setTypeParam] = useQueryState("type", parseAsString);
+  const [subtypeParam, setSubtypeParam] = useQueryState("subtype", parseAsString);
   const [senderPrimaryCommanderParam, setSenderPrimaryCommanderParam] = useQueryState(
     "spc",
     parseAsInteger
@@ -86,6 +109,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
 
   const playerId = playerIdParam ?? undefined;
   const type = resolveFilterType(typeParam);
+  const subtype = resolveFilterSubtype(type, subtypeParam);
   const senderPrimaryCommanderId = senderPrimaryCommanderParam ?? undefined;
   const senderSecondaryCommanderId = senderSecondaryCommanderParam ?? undefined;
   const opponentPrimaryCommanderId = opponentPrimaryCommanderParam ?? undefined;
@@ -102,6 +126,11 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const setType: Dispatch<SetStateAction<ReportsFilterType | undefined>> = (value) => {
     const next = typeof value === "function" ? value(type) : value;
     setTypeParam(next ?? null);
+  };
+
+  const setSubtype: Dispatch<SetStateAction<ReportsFilterSubtype | undefined>> = (value) => {
+    const next = typeof value === "function" ? value(subtype) : value;
+    setSubtypeParam(next ?? null);
   };
 
   const setSenderPrimaryCommanderId: Dispatch<SetStateAction<number | undefined>> = (value) => {
@@ -144,6 +173,7 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
   const reset = () => {
     setPlayerId(undefined);
     setType(undefined);
+    setSubtype(undefined);
     setSenderPrimaryCommanderId(undefined);
     setSenderSecondaryCommanderId(undefined);
     setOpponentPrimaryCommanderId(undefined);
@@ -158,6 +188,8 @@ export function ReportsFilterProvider({ children }: { children: ReactNode }) {
     setPlayerId,
     type,
     setType,
+    subtype,
+    setSubtype,
     senderPrimaryCommanderId,
     setSenderPrimaryCommanderId,
     senderSecondaryCommanderId,

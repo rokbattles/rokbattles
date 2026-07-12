@@ -18,6 +18,7 @@ import { useCommanderOptions } from "@/hooks/use-commander-name";
 import {
   ReportsFilterContext,
   type ReportsFilterSide,
+  type ReportsFilterSubtype,
   type ReportsFilterType,
   type ReportsGarrisonBuildingType,
 } from "@/providers/reports-filter-context";
@@ -58,6 +59,8 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
     setPlayerId,
     type,
     setType,
+    subtype,
+    setSubtype,
     senderPrimaryCommanderId,
     setSenderPrimaryCommanderId,
     senderSecondaryCommanderId,
@@ -82,6 +85,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
     return typeof initialId === "number" ? String(initialId) : "";
   });
   const [localType, setLocalType] = useState<ReportsFilterType | "">(() => type ?? "");
+  const [localSubtype, setLocalSubtype] = useState<ReportsFilterSubtype | "">(() => subtype ?? "");
   const [localSenderPrimaryCommanderId, setLocalSenderPrimaryCommanderId] = useState(() =>
     typeof senderPrimaryCommanderId === "number" ? String(senderPrimaryCommanderId) : ""
   );
@@ -116,6 +120,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
     const resolvedPlayerId = hasLockedPlayerId ? lockedPlayerId : playerId;
     setLocalPlayerId(typeof resolvedPlayerId === "number" ? String(resolvedPlayerId) : "");
     setLocalType(type ?? "");
+    setLocalSubtype(subtype ?? "");
     setLocalSenderPrimaryCommanderId(
       typeof senderPrimaryCommanderId === "number" ? String(senderPrimaryCommanderId) : ""
     );
@@ -135,6 +140,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
     isOpen,
     playerId,
     type,
+    subtype,
     senderPrimaryCommanderId,
     senderSecondaryCommanderId,
     opponentPrimaryCommanderId,
@@ -157,6 +163,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
         : undefined
     );
     setType(localType === "" ? undefined : localType);
+    setSubtype(localSubtype === "" ? undefined : localSubtype);
     setSenderPrimaryCommanderId(parseNumberInput(localSenderPrimaryCommanderId));
     setSenderSecondaryCommanderId(parseNumberInput(localSenderSecondaryCommanderId));
     setOpponentPrimaryCommanderId(parseNumberInput(localOpponentPrimaryCommanderId));
@@ -179,12 +186,12 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
       <Dialog open={isOpen} onClose={setIsOpen} size="4xl">
         <DialogTitle>{t("Filters")}</DialogTitle>
         <DialogDescription>
-          {t("Filter battle reports by metadata, commanders, and battle roles.")}
+          {t("Filter battle reports by governor, commanders, and battle roles.")}
         </DialogDescription>
         <DialogBody>
           <div className="grid gap-6 lg:grid-cols-3">
             <Fieldset>
-              <Legend>{t("Metadata")}</Legend>
+              <Legend>{t("Governor")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
                   <Label>{t("Governor ID")}</Label>
@@ -200,31 +207,6 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   />
                 </Field>
-                <Field>
-                  <Label>{t("Type")}</Label>
-                  <Listbox<ReportsFilterType | "">
-                    value={localType}
-                    onChange={(value) => {
-                      setLocalType(value);
-                    }}
-                  >
-                    <ListboxOption value="">
-                      <ListboxLabel>{t("All")}</ListboxLabel>
-                    </ListboxOption>
-                    <ListboxOption value="home">
-                      <ListboxLabel>{t("Home")}</ListboxLabel>
-                    </ListboxOption>
-                    <ListboxOption value="ark">
-                      <ListboxLabel>{t("Ark of Osiris")}</ListboxLabel>
-                    </ListboxOption>
-                    <ListboxOption value="kvk">
-                      <ListboxLabel>{t("KVK")}</ListboxLabel>
-                    </ListboxOption>
-                    <ListboxOption value="strife">
-                      <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
-                    </ListboxOption>
-                  </Listbox>
-                </Field>
               </div>
             </Fieldset>
             <Fieldset>
@@ -239,7 +221,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("All")}</ListboxLabel>
+                      <ListboxLabel>{t("Any")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -257,7 +239,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("All")}</ListboxLabel>
+                      <ListboxLabel>{t("Any")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -280,7 +262,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("All")}</ListboxLabel>
+                      <ListboxLabel>{t("Any")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -298,7 +280,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                     }}
                   >
                     <ListboxOption value="">
-                      <ListboxLabel>{t("All")}</ListboxLabel>
+                      <ListboxLabel>{t("Any")}</ListboxLabel>
                     </ListboxOption>
                     {commanderOptions.map((option) => (
                       <ListboxOption key={option.id} value={String(option.id)}>
@@ -312,8 +294,83 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
             <Fieldset className="lg:col-span-3">
               <Legend>{t("Battle")}</Legend>
               <div data-slot="control" className="grid gap-6 lg:grid-cols-3">
+                <div className="grid gap-6 lg:col-span-3 lg:grid-cols-3">
+                  <Field>
+                    <Label>{t("Type")}</Label>
+                    <Listbox<ReportsFilterType | "">
+                      value={localType}
+                      onChange={(value) => {
+                        setLocalType(value);
+                        setLocalSubtype("");
+                      }}
+                    >
+                      <ListboxOption value="">
+                        <ListboxLabel>{t("Any")}</ListboxLabel>
+                      </ListboxOption>
+                      <ListboxOption value="home">
+                        <ListboxLabel>{t("Home")}</ListboxLabel>
+                      </ListboxOption>
+                      <ListboxOption value="ark">
+                        <ListboxLabel>{t("Ark of Osiris/Osiris League")}</ListboxLabel>
+                      </ListboxOption>
+                      <ListboxOption value="kvk">
+                        <ListboxLabel>{t("KVK")}</ListboxLabel>
+                      </ListboxOption>
+                      <ListboxOption value="strife">
+                        <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
+                      </ListboxOption>
+                    </Listbox>
+                  </Field>
+                  {localType === "kvk" || localType === "ark" ? (
+                    <Field>
+                      <Label>{t("Subtype")}</Label>
+                      <Listbox<ReportsFilterSubtype | "">
+                        value={localSubtype}
+                        onChange={setLocalSubtype}
+                      >
+                        <ListboxOption value="">
+                          <ListboxLabel>{t("Any")}</ListboxLabel>
+                        </ListboxOption>
+                        {localType === "kvk" ? (
+                          <>
+                            <ListboxOption value="1">
+                              <ListboxLabel>{t("Season 1")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="2">
+                              <ListboxLabel>{t("Season 2")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="3">
+                              <ListboxLabel>{t("Season 3")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="100">
+                              <ListboxLabel>{t("Season of Conquest")}</ListboxLabel>
+                            </ListboxOption>
+                          </>
+                        ) : (
+                          <>
+                            <ListboxOption value="1">
+                              <ListboxLabel>{t("Golden Battleground")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="6">
+                              <ListboxLabel>{t("Silver Battleground")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="3">
+                              <ListboxLabel>{t("Osiris League")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="2">
+                              <ListboxLabel>{t("Practice Match")}</ListboxLabel>
+                            </ListboxOption>
+                            <ListboxOption value="5">
+                              <ListboxLabel>{t("Custom Match")}</ListboxLabel>
+                            </ListboxOption>
+                          </>
+                        )}
+                      </Listbox>
+                    </Field>
+                  ) : null}
+                </div>
                 <Field>
-                  <Label>{t("Rally Side")}</Label>
+                  <Label>{t("Rally")}</Label>
                   <Listbox<ReportsFilterSide>
                     value={localRallySide}
                     onChange={(value) => {
@@ -336,7 +393,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Garrison Side")}</Label>
+                  <Label>{t("Garrison")}</Label>
                   <Listbox<ReportsFilterSide>
                     value={localGarrisonSide}
                     onChange={(value) => {
