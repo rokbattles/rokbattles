@@ -18,13 +18,10 @@ import type {
   PairingsActivity,
   PairingsBattleType,
 } from "@/lib/pairings";
+import { formatPerSecond } from "@/lib/statistics-format";
 import { GovernorContext } from "@/providers/governor-context";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
-const perSecondFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 1,
-  minimumFractionDigits: 0,
-});
 const percentFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
   minimumFractionDigits: 0,
@@ -44,14 +41,6 @@ function formatNumber(value: number): string {
   }
 
   return numberFormatter.format(Math.round(value));
-}
-
-function formatPerSecond(value: number): string {
-  if (!Number.isFinite(value)) {
-    return "0/s";
-  }
-
-  return `${perSecondFormatter.format(value)}/s`;
 }
 
 function formatPercent(value: number): string {
@@ -309,7 +298,7 @@ export function MyPairingsContent() {
         id: "battles",
         name: t("Battles"),
         value: formatNumber(selectedLoadoutCard.count),
-        description: t("Total battles recorded for this loadout."),
+        description: t("Total battle reports recorded for this loadout."),
       },
       {
         id: "killPoints",
@@ -321,27 +310,25 @@ export function MyPairingsContent() {
         id: "enemyKillPoints",
         name: t("Opponent Kill Points"),
         value: formatNumber(selectedLoadoutCard.totals.enemyKillScore),
-        description: t("Total kill points your opponents earned against you."),
+        description: t("Total kill points earned by opponents against this pairing."),
       },
       {
         id: "severelyWounded",
         name: t("Severely Wounded (Taken)"),
         value: formatNumber(selectedLoadoutCard.totals.severelyWounded),
-        description: t(
-          "Number of your troops that became severely wounded while using this pairing."
-        ),
+        description: t("Number of troops that became severely wounded while using this pairing."),
       },
       {
         id: "enemySeverelyWounded",
         name: t("Severely Wounded (Inflicted)"),
         value: formatNumber(selectedLoadoutCard.totals.enemySeverelyWounded),
-        description: t("Number of opponent troops you caused to become severely wounded."),
+        description: t("Number of opponent troops this pairing caused to become severely wounded."),
       },
       {
         id: "avgDuration",
         name: t("Avg. Battle Duration"),
         value: formatDurationSeconds(avgDurationSeconds),
-        description: t("Average duration of battles recorded while using this pairing."),
+        description: t("Average battle duration for this pairing."),
       },
       {
         id: "avgTradePercent",
@@ -363,7 +350,7 @@ export function MyPairingsContent() {
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.dps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t("Average amount of damage you inflict per second while using this pairing."),
+        description: t("Average damage inflicted per second while using this pairing."),
       },
       {
         id: "sps",
@@ -371,7 +358,9 @@ export function MyPairingsContent() {
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.sps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t("Rate at which you inflict severely wounded troops each second."),
+        description: t(
+          "Average severely wounded troops inflicted per second while using this pairing."
+        ),
       },
       {
         id: "tps",
@@ -379,7 +368,9 @@ export function MyPairingsContent() {
         value: formatPerSecond(
           ratePerSecond(selectedLoadoutCard.totals.tps, selectedLoadoutCard.totals.battleDuration)
         ),
-        description: t("Rate at which your troops become severely wounded each second."),
+        description: t(
+          "Average severely wounded troops taken per second while using this pairing."
+        ),
       },
       {
         id: "hps",

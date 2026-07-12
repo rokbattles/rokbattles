@@ -644,6 +644,7 @@ msgid "nGp3S1"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "rD9xWZ"
 msgstr ""
 
@@ -653,6 +654,7 @@ msgid "04DUsx"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "SDG3OT"
 msgstr ""
 
@@ -662,6 +664,7 @@ msgid "87sFXA"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "OZfiOO"
 msgstr ""
 
@@ -671,6 +674,7 @@ msgid "8RNVtf"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "adRA-N"
 msgstr ""
 
@@ -680,7 +684,8 @@ msgid "j80Jf5"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
-msgid "mg78mY"
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "rsO25J"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
@@ -698,6 +703,7 @@ msgid "jVC9W_"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "cgKoQG"
 msgstr ""
 
@@ -707,6 +713,7 @@ msgid "lsS3Jr"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "-6NJWI"
 msgstr ""
 
@@ -716,6 +723,7 @@ msgid "CY224M"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "siJBnS"
 msgstr ""
 
@@ -975,43 +983,11 @@ msgid "5OhW-B"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "W2cCAf"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "2OWOn1"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "sCYwbS"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "2oN4Ru"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "OohBEM"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "rsO25J"
+msgid "B4KaVd"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "tj24bj"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "pJCnfG"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "obveBp"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "ZTImOV"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
