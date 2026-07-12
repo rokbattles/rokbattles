@@ -14,9 +14,10 @@ export function getLegendaryCommanderOptions(locale?: string): CombatLabCommande
     }
 
     const commanderId = Number(id);
+    const localizedName = getCommanderName(commanderId, locale) ?? id;
     options.push({
       id: commanderId,
-      name: getCommanderName(commanderId, locale) ?? id,
+      name: commander.prime ? `${localizedName} (Prime)` : localizedName,
     });
   }
 
