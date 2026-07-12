@@ -2,14 +2,16 @@ import type { EquipmentToken } from "@/lib/report/parsers";
 
 export const PAIRINGS_GENERIC_ERROR = "Failed to load pairings.";
 
-export type PairingsReportType = "ark" | "home" | "kvk" | "strife";
+export type PairingsActivity = "ark" | "home" | "kvk" | "strife";
+export type PairingsBattleType = "open-field" | "swarming" | "rally" | "garrison";
 
 export function buildPairingsRangeParams(options: {
   startDate?: string;
   endDate?: string;
-  excludeTypes?: PairingsReportType[];
+  excludeActivities?: PairingsActivity[];
+  excludeBattles?: PairingsBattleType[];
 }) {
-  const { startDate, endDate, excludeTypes } = options;
+  const { startDate, endDate, excludeActivities, excludeBattles } = options;
   const params =
     startDate && endDate
       ? new URLSearchParams({ start: startDate, end: endDate })
@@ -18,22 +20,26 @@ export function buildPairingsRangeParams(options: {
           end: `${new Date().getUTCFullYear()}-12-31`,
         });
 
-  if (excludeTypes && excludeTypes.length > 0) {
-    params.set("excludeTypes", excludeTypes.join(","));
+  if (excludeActivities && excludeActivities.length > 0) {
+    params.set("excludeActivities", excludeActivities.join(","));
+  }
+
+  if (excludeBattles && excludeBattles.length > 0) {
+    params.set("excludeBattles", excludeBattles.join(","));
   }
 
   return params;
 }
 
-export function formatExcludedPairingsReportTypes(
-  excludeTypes: PairingsReportType[],
-  options: Record<PairingsReportType, string>
+export function formatExcludedPairingsFilters<T extends string>(
+  excluded: T[],
+  options: Record<T, string>
 ) {
-  if (excludeTypes.length === 0) {
+  if (excluded.length === 0) {
     return null;
   }
 
-  return excludeTypes.map((type) => options[type]).join(", ");
+  return excluded.map((value) => options[value]).join(", ");
 }
 
 export type PairingTotals = {

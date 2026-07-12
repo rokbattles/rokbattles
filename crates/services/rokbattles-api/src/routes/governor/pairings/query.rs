@@ -8,23 +8,33 @@ use crate::{
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum PairingsReportType {
+pub(crate) enum PairingsActivity {
     Home,
     Ark,
     Kvk,
     Strife,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum PairingsBattleType {
+    OpenField,
+    Swarming,
+    Rally,
+    Garrison,
+}
+
 #[derive(Debug, Clone)]
 pub(crate) struct PairingsRequest {
     pub range: GovernorDateRange,
-    pub exclude_types: Vec<PairingsReportType>,
+    pub exclude_activities: Vec<PairingsActivity>,
+    pub exclude_battles: Vec<PairingsBattleType>,
 }
 
 #[derive(Debug, Clone)]
 pub(crate) struct PairingLoadoutsRequest {
     pub range: GovernorDateRange,
-    pub exclude_types: Vec<PairingsReportType>,
+    pub exclude_activities: Vec<PairingsActivity>,
+    pub exclude_battles: Vec<PairingsBattleType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
     pub granularity: LoadoutGranularity,
@@ -33,7 +43,8 @@ pub(crate) struct PairingLoadoutsRequest {
 #[derive(Debug, Clone)]
 pub(crate) struct PairingOpponentsRequest {
     pub range: GovernorDateRange,
-    pub exclude_types: Vec<PairingsReportType>,
+    pub exclude_activities: Vec<PairingsActivity>,
+    pub exclude_battles: Vec<PairingsBattleType>,
     pub primary_commander_id: i64,
     pub secondary_commander_id: i64,
     pub granularity: OpponentGranularity,
@@ -57,15 +68,19 @@ pub(crate) fn parse_pairings_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
-    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
-    Ok(PairingsRequest { range, exclude_types })
+    let exclude_activities =
+        parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
+    let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
+    Ok(PairingsRequest { range, exclude_activities, exclude_battles })
 }
 
 pub(crate) fn parse_pairing_loadouts_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingLoadoutsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
-    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
+    let exclude_activities =
+        parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
+    let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
@@ -73,7 +88,8 @@ pub(crate) fn parse_pairing_loadouts_request(
 
     Ok(PairingLoadoutsRequest {
         range,
-        exclude_types,
+        exclude_activities,
+        exclude_battles,
         primary_commander_id,
         secondary_commander_id,
         granularity,
@@ -84,7 +100,9 @@ pub(crate) fn parse_pairing_opponents_request(
     params: &HashMap<String, String>,
 ) -> Result<PairingOpponentsRequest, ApiError> {
     let range = parse_default_governor_date_range(params)?;
-    let exclude_types = parse_exclude_types(params.get("excludeTypes").map(String::as_str))?;
+    let exclude_activities =
+        parse_exclude_activities(params.get("excludeActivities").map(String::as_str))?;
+    let exclude_battles = parse_exclude_battles(params.get("excludeBattles").map(String::as_str))?;
     let primary_commander_id = parse_positive_required_i64(params, "primary", "Invalid pairing")?;
     let secondary_commander_id =
         parse_non_negative_required_i64(params, "secondary", "Invalid pairing")?;
@@ -100,7 +118,8 @@ pub(crate) fn parse_pairing_opponents_request(
 
     Ok(PairingOpponentsRequest {
         range,
-        exclude_types,
+        exclude_activities,
+        exclude_battles,
         primary_commander_id,
         secondary_commander_id,
         granularity,
@@ -108,16 +127,16 @@ pub(crate) fn parse_pairing_opponents_request(
     })
 }
 
-pub(crate) fn build_excluded_report_type_conditions(
-    exclude_types: &[PairingsReportType],
+pub(crate) fn build_excluded_activity_conditions(
+    exclude_activities: &[PairingsActivity],
 ) -> Vec<Document> {
-    exclude_types
+    exclude_activities
         .iter()
         .copied()
         .map(|filter_type| match filter_type {
-            PairingsReportType::Kvk => doc! { "metadata.kvk": true },
-            PairingsReportType::Ark => doc! { "metadata.mail_role": "dungeon" },
-            PairingsReportType::Home => doc! {
+            PairingsActivity::Kvk => doc! { "metadata.kvk": true },
+            PairingsActivity::Ark => doc! { "metadata.mail_role": "dungeon" },
+            PairingsActivity::Home => doc! {
                 "$and": [
                     { "metadata.kvk": { "$ne": true } },
                     { "metadata.mail_role": { "$ne": "dungeon" } },
@@ -129,7 +148,7 @@ pub(crate) fn build_excluded_report_type_conditions(
                     }
                 ]
             },
-            PairingsReportType::Strife => doc! {
+            PairingsActivity::Strife => doc! {
                 "$and": [
                     { "sender.supreme_strife.battle_id": { "$exists": true, "$nin": [Bson::Null, Bson::String(String::new())] } },
                     { "sender.supreme_strife.team_id": { "$exists": true, "$nin": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
@@ -139,28 +158,130 @@ pub(crate) fn build_excluded_report_type_conditions(
         .collect()
 }
 
-fn parse_exclude_types(raw: Option<&str>) -> Result<Vec<PairingsReportType>, ApiError> {
+pub(crate) fn build_excluded_battle_type_conditions(
+    exclude_battles: &[PairingsBattleType],
+) -> Vec<Document> {
+    exclude_battles
+        .iter()
+        .copied()
+        .map(|battle_type| doc! { "$expr": battle_type_expression(battle_type) })
+        .collect()
+}
+
+fn battle_type_expression(battle_type: PairingsBattleType) -> Document {
+    let sender_garrison = sender_garrison_expression();
+    let sender_rally = sender_rally_expression();
+    let opponent_rally_or_garrison = opponent_rally_or_garrison_expression();
+
+    match battle_type {
+        PairingsBattleType::Garrison => sender_garrison,
+        PairingsBattleType::Rally => doc! {
+            "$and": [
+                { "$not": [sender_garrison] },
+                sender_rally,
+            ]
+        },
+        PairingsBattleType::Swarming => doc! {
+            "$and": [
+                { "$not": [sender_garrison] },
+                { "$not": [sender_rally] },
+                opponent_rally_or_garrison,
+            ]
+        },
+        PairingsBattleType::OpenField => doc! {
+            "$and": [
+                { "$not": [sender_garrison] },
+                { "$not": [sender_rally] },
+                { "$not": [opponent_rally_or_garrison] },
+            ]
+        },
+    }
+}
+
+fn sender_garrison_expression() -> Document {
+    doc! {
+        "$or": [
+            { "$ne": [{ "$ifNull": ["$sender.alliance_building_id", Bson::Null] }, Bson::Null] },
+            { "$ne": [{ "$ifNull": ["$sender.structure_id", Bson::Null] }, Bson::Null] },
+        ]
+    }
+}
+
+fn sender_rally_expression() -> Document {
+    doc! {
+        "$in": ["$sender.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]]
+    }
+}
+
+fn opponent_rally_or_garrison_expression() -> Document {
+    doc! {
+        "$gt": [
+            {
+                "$size": {
+                    "$filter": {
+                        "input": { "$ifNull": ["$opponents", []] },
+                        "as": "opponent",
+                        "cond": {
+                            "$or": [
+                                { "$in": ["$$opponent.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+                                { "$ne": [{ "$ifNull": ["$$opponent.alliance_building_id", Bson::Null] }, Bson::Null] },
+                                { "$ne": [{ "$ifNull": ["$$opponent.structure_id", Bson::Null] }, Bson::Null] },
+                            ]
+                        }
+                    }
+                }
+            },
+            0,
+        ]
+    }
+}
+
+fn parse_exclude_activities(raw: Option<&str>) -> Result<Vec<PairingsActivity>, ApiError> {
     let Some(raw) = raw.map(str::trim).filter(|value| !value.is_empty()) else {
         return Ok(Vec::new());
     };
 
-    let mut exclude_types = Vec::new();
+    let mut exclude_activities = Vec::new();
 
     for value in raw.split(',').map(str::trim).filter(|value| !value.is_empty()) {
         let parsed = match value {
-            "home" => PairingsReportType::Home,
-            "ark" => PairingsReportType::Ark,
-            "kvk" => PairingsReportType::Kvk,
-            "strife" => PairingsReportType::Strife,
-            _ => return Err(ApiError::bad_request("Invalid excludeTypes")),
+            "home" => PairingsActivity::Home,
+            "ark" => PairingsActivity::Ark,
+            "kvk" => PairingsActivity::Kvk,
+            "strife" => PairingsActivity::Strife,
+            _ => return Err(ApiError::bad_request("Invalid excludeActivities")),
         };
 
-        if !exclude_types.contains(&parsed) {
-            exclude_types.push(parsed);
+        if !exclude_activities.contains(&parsed) {
+            exclude_activities.push(parsed);
         }
     }
 
-    Ok(exclude_types)
+    Ok(exclude_activities)
+}
+
+fn parse_exclude_battles(raw: Option<&str>) -> Result<Vec<PairingsBattleType>, ApiError> {
+    let Some(raw) = raw.map(str::trim).filter(|value| !value.is_empty()) else {
+        return Ok(Vec::new());
+    };
+
+    let mut exclude_battles = Vec::new();
+
+    for value in raw.split(',').map(str::trim).filter(|value| !value.is_empty()) {
+        let parsed = match value {
+            "open-field" => PairingsBattleType::OpenField,
+            "swarming" => PairingsBattleType::Swarming,
+            "rally" => PairingsBattleType::Rally,
+            "garrison" => PairingsBattleType::Garrison,
+            _ => return Err(ApiError::bad_request("Invalid excludeBattles")),
+        };
+
+        if !exclude_battles.contains(&parsed) {
+            exclude_battles.push(parsed);
+        }
+    }
+
+    Ok(exclude_battles)
 }
 
 fn parse_loadout_granularity(raw: Option<&str>) -> Result<LoadoutGranularity, ApiError> {
@@ -248,21 +369,105 @@ mod tests {
     }
 
     #[test]
-    fn parse_pairings_request_parses_exclude_types() {
-        let request = parse_pairings_request(&HashMap::from([(
-            "excludeTypes".to_string(),
-            "ark,kvk,ark".to_string(),
-        )]))
-        .expect("request");
-        assert_eq!(request.exclude_types, vec![PairingsReportType::Ark, PairingsReportType::Kvk]);
+    fn parse_pairings_request_defaults_to_include_all_battles() {
+        let request = parse_pairings_request(&HashMap::new()).expect("request");
+
+        assert_eq!((request.exclude_activities, request.exclude_battles), (vec![], vec![]));
     }
 
     #[test]
-    fn parse_pairings_request_rejects_invalid_exclude_type() {
+    fn parse_pairings_request_parses_excluded_activities() {
         let request = parse_pairings_request(&HashMap::from([(
-            "excludeTypes".to_string(),
+            "excludeActivities".to_string(),
+            "ark,kvk,ark".to_string(),
+        )]))
+        .expect("request");
+        assert_eq!(request.exclude_activities, vec![PairingsActivity::Ark, PairingsActivity::Kvk]);
+    }
+
+    #[test]
+    fn parse_pairings_request_parses_excluded_battles() {
+        let request = parse_pairings_request(&HashMap::from([(
+            "excludeBattles".to_string(),
+            "open-field,swarming,rally,garrison,swarming".to_string(),
+        )]))
+        .expect("request");
+
+        assert_eq!(
+            request.exclude_battles,
+            vec![
+                PairingsBattleType::OpenField,
+                PairingsBattleType::Swarming,
+                PairingsBattleType::Rally,
+                PairingsBattleType::Garrison,
+            ]
+        );
+    }
+
+    #[test]
+    fn parse_pairings_request_rejects_invalid_excluded_activity() {
+        let request = parse_pairings_request(&HashMap::from([(
+            "excludeActivities".to_string(),
             "unknown".to_string(),
         )]));
         assert!(request.is_err());
+    }
+
+    #[test]
+    fn parse_pairings_request_rejects_invalid_excluded_battle() {
+        let request = parse_pairings_request(&HashMap::from([(
+            "excludeBattles".to_string(),
+            "duel".to_string(),
+        )]));
+        assert!(request.is_err());
+    }
+
+    #[test]
+    fn garrison_battle_condition_matches_sender_structure_fields() {
+        assert_eq!(
+            battle_type_expression(PairingsBattleType::Garrison),
+            sender_garrison_expression()
+        );
+    }
+
+    #[test]
+    fn rally_battle_condition_excludes_sender_garrisons() {
+        assert_eq!(
+            battle_type_expression(PairingsBattleType::Rally),
+            doc! {
+                "$and": [
+                    { "$not": [sender_garrison_expression()] },
+                    sender_rally_expression(),
+                ]
+            }
+        );
+    }
+
+    #[test]
+    fn swarming_battle_condition_requires_special_opponent_only() {
+        assert_eq!(
+            battle_type_expression(PairingsBattleType::Swarming),
+            doc! {
+                "$and": [
+                    { "$not": [sender_garrison_expression()] },
+                    { "$not": [sender_rally_expression()] },
+                    opponent_rally_or_garrison_expression(),
+                ]
+            }
+        );
+    }
+
+    #[test]
+    fn open_field_battle_condition_excludes_all_special_marches() {
+        assert_eq!(
+            battle_type_expression(PairingsBattleType::OpenField),
+            doc! {
+                "$and": [
+                    { "$not": [sender_garrison_expression()] },
+                    { "$not": [sender_rally_expression()] },
+                    { "$not": [opponent_rally_or_garrison_expression()] },
+                ]
+            }
+        );
     }
 }
