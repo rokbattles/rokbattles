@@ -78,7 +78,10 @@ export function ReportParticipantCard({
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />
               ) : null}
               {showSecondary ? <ReportCommanderRow commander={secondaryCommander} /> : null}
-              <ReportSupportSkills supportSkills={participant?.support_skills} />
+              <ReportSupportSkills
+                supportSkills={participant?.support_skills}
+                auxiliarySkills={participant?.auxiliary_skills}
+              />
             </div>
           </div>
         ) : null}

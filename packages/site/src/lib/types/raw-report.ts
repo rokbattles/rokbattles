@@ -55,6 +55,7 @@ export interface RawParticipantInfo {
   primary_commander?: RawCommanderInfo;
   secondary_commander?: RawCommanderInfo;
   support_skills?: RawSupportSkillsInfo | null;
+  auxiliary_skills?: RawAuxiliarySkillInfo[] | null;
   equipment?: string;
   equipment_2?: string;
   formation?: number;
@@ -71,6 +72,12 @@ export interface RawSupportSkillInfo {
   hero_id: number;
   skill_id: number;
   skill_level: number;
+}
+
+export interface RawAuxiliarySkillInfo {
+  hero_id: number;
+  level: number;
+  skill_id: number;
 }
 
 export interface RawOverview {

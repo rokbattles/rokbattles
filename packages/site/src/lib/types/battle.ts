@@ -36,6 +36,7 @@ export type BattlePlayer = {
   appUid: number | null;
   commanders: BattleCommanderSet;
   supportSkills: BattleSupportSkills;
+  auxiliarySkills: readonly BattleAuxiliarySkill[];
 };
 
 export type BattleAlliance = {
@@ -86,6 +87,12 @@ export type BattleSupportSkill = {
   heroId: number;
   skillId: number;
   skillLevel: number;
+};
+
+export type BattleAuxiliarySkill = {
+  heroId: number;
+  level: number;
+  skillId: number;
 };
 
 export type BattleAttack = {
