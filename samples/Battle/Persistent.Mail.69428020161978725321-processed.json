@@ -171,6 +171,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "server_season": null,
       "start_tick": 1470644,
       "structure_id": null,
       "support_skills": {
@@ -352,6 +353,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "server_season": null,
       "start_tick": 1470642,
       "structure_id": null,
       "support_skills": {
@@ -533,6 +535,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "server_season": null,
       "start_tick": 1470649,
       "structure_id": null,
       "support_skills": {
@@ -718,6 +721,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "server_season": null,
       "start_tick": 1470644,
       "structure_id": null,
       "support_skills": {
@@ -892,6 +896,7 @@
       "player_id": 2987686,
       "player_name": "XxX  JOKER  XxX",
       "rally": null,
+      "server_season": null,
       "start_tick": 1470634,
       "structure_id": null,
       "support_skills": {
@@ -1022,6 +1027,7 @@
     "player_id": 4361125,
     "player_name": "精武丶羅剎",
     "rally": null,
+    "server_season": null,
     "structure_id": null,
     "support_skills": {
       "enable": true,

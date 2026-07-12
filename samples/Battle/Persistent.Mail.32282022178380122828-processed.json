@@ -163,6 +163,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 922766,
       "structure_id": null,
       "support_skills": {
@@ -329,6 +330,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 922766,
       "structure_id": null,
       "support_skills": {
@@ -495,6 +497,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 922765,
       "structure_id": null,
       "support_skills": {
@@ -661,6 +664,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 922800,
       "structure_id": null,
       "support_skills": {
@@ -807,6 +811,7 @@
     "player_id": 83629727,
     "player_name": "Atomicbunny",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

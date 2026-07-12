@@ -192,6 +192,7 @@
       "player_id": 129155556,
       "player_name": "ˢNinoveraptor",
       "rally": null,
+      "server_season": "100",
       "start_tick": 310841,
       "structure_id": null,
       "support_skills": {
@@ -387,6 +388,7 @@
       "player_id": 129155556,
       "player_name": "ˢNinoveraptor",
       "rally": null,
+      "server_season": "100",
       "start_tick": 310841,
       "structure_id": null,
       "support_skills": {
@@ -527,6 +529,7 @@
     "player_id": 71738515,
     "player_name": "Griggasaurus",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

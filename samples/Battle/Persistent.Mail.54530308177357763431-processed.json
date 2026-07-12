@@ -138,6 +138,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 375269,
       "structure_id": null,
       "support_skills": {
@@ -309,6 +310,7 @@
       "player_id": -2,
       "player_name": "",
       "rally": null,
+      "server_season": "",
       "start_tick": 375279,
       "structure_id": null,
       "support_skills": {
@@ -643,6 +645,7 @@
     "player_id": 151739835,
     "player_name": "Pro100WRyj ツ",
     "rally": true,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,

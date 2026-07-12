@@ -192,6 +192,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "server_season": "100",
       "start_tick": 109507,
       "structure_id": null,
       "support_skills": {
@@ -402,6 +403,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "server_season": "100",
       "start_tick": 109500,
       "structure_id": null,
       "support_skills": {
@@ -608,6 +610,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "server_season": "100",
       "start_tick": 109507,
       "structure_id": null,
       "support_skills": {
@@ -818,6 +821,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "server_season": "100",
       "start_tick": 109500,
       "structure_id": null,
       "support_skills": {
@@ -1024,6 +1028,7 @@
       "player_id": 92330300,
       "player_name": "Kung Fu Tsar",
       "rally": null,
+      "server_season": "100",
       "start_tick": 109507,
       "structure_id": null,
       "support_skills": {
@@ -1522,6 +1527,7 @@
       "player_id": 80837230,
       "player_name": "西伯利亞狼",
       "rally": true,
+      "server_season": "100",
       "start_tick": 109490,
       "structure_id": null,
       "support_skills": {
@@ -1749,6 +1755,7 @@
     "player_id": 71738515,
     "player_name": "agent G",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": true,

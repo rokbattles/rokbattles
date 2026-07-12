@@ -196,6 +196,7 @@
       "player_id": 29862805,
       "player_name": "Titanobenbu",
       "rally": null,
+      "server_season": "100",
       "start_tick": 1603621,
       "structure_id": null,
       "support_skills": {
@@ -282,6 +283,7 @@
     "player_id": 109813467,
     "player_name": "Faystonychus",
     "rally": null,
+    "server_season": "100",
     "structure_id": null,
     "support_skills": {
       "enable": false,
