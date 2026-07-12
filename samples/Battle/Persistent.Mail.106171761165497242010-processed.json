@@ -148,6 +148,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -1245,6 +1246,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -1416,6 +1418,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -1595,6 +1598,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -1774,6 +1778,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -1932,6 +1937,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2107,6 +2113,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2278,6 +2285,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2457,6 +2465,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2632,6 +2641,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2811,6 +2821,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -2986,6 +2997,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -3157,6 +3169,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -3332,6 +3345,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -3511,6 +3525,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -3690,6 +3705,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -3873,6 +3889,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4048,6 +4065,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4223,6 +4241,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4402,6 +4421,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4581,6 +4601,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4752,6 +4773,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -4927,6 +4949,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -5098,6 +5121,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -5273,6 +5297,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -5452,6 +5477,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -5627,6 +5653,7 @@
         "loot": null,
         "type": null
       },
+      "package_identifier": null,
       "participants": [
         {
           "alliance": {
@@ -5743,6 +5770,7 @@
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_67.png",
     "kingdom_id": 860,
+    "package_identifier": null,
     "participants": [
       {
         "alliance": {
