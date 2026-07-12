@@ -55,6 +55,7 @@ pub(crate) fn extract_player_fields(
     let structure_id = optional_u64_field(player, "ShId")?;
     let commanders = extract_commanders(player)?;
     let support_skills = extract_support_skills(player)?;
+    let auxiliary_skills = extract_auxiliary_skills(player)?;
     let (app_id, app_uid) = extract_app_identity(player)?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
@@ -90,6 +91,7 @@ pub(crate) fn extract_player_fields(
     fields.insert("structure_id".to_string(), structure_id.map(Value::from).unwrap_or(Value::Null));
     fields.insert("commanders".to_string(), commanders);
     fields.insert("support_skills".to_string(), support_skills);
+    fields.insert("auxiliary_skills".to_string(), auxiliary_skills);
     fields.insert("app_id".to_string(), app_id.map(Value::from).unwrap_or(Value::Null));
     fields.insert("app_uid".to_string(), app_uid.map(Value::from).unwrap_or(Value::Null));
     fields.insert("avatar_url".to_string(), avatar_url);
@@ -370,6 +372,42 @@ fn extract_support_skill_entries(cass: &Map<String, Value>) -> Result<Vec<Value>
     }
 
     Ok(skills)
+}
+
+fn extract_auxiliary_skills(player: &Map<String, Value>) -> Result<Value, ExtractError> {
+    let cahah = match player.get("CAHAH") {
+        None | Some(Value::Null) => return Ok(Value::Array(Vec::new())),
+        Some(Value::Object(cahah)) => cahah,
+        Some(Value::Array(values)) if values.is_empty() => return Ok(Value::Array(Vec::new())),
+        Some(_) => {
+            return Err(ExtractError::InvalidFieldType {
+                field: "CAHAH",
+                expected: "object or empty array",
+            });
+        }
+    };
+
+    let value = match cahah.get("ASSISTSKILL") {
+        None | Some(Value::Null) => return Ok(Value::Array(Vec::new())),
+        Some(value) => value,
+    };
+    let values = indexed_array_values(value, "ASSISTSKILL")?;
+    let mut skills = Vec::with_capacity(values.len());
+    for skill in values {
+        let skill = skill
+            .as_object()
+            .ok_or(ExtractError::InvalidFieldType { field: "ASSISTSKILL", expected: "object" })?;
+        let hero_id = require_u64_field(skill, "HeroId")?;
+        let level = require_u64_field(skill, "Level")?;
+        let skill_id = require_u64_field(skill, "SkillId")?;
+        skills.push(json!({
+            "hero_id": hero_id,
+            "level": level,
+            "skill_id": skill_id,
+        }));
+    }
+
+    Ok(Value::Array(skills))
 }
 
 /// Parses the avatar field into avatar and frame URLs.
@@ -716,6 +754,40 @@ mod tests {
         let fields = extract_player_fields(&player).unwrap();
 
         assert_eq!(fields.get("support_skills"), Some(&json!({ "enable": false, "skills": [] })));
+    }
+
+    #[test]
+    fn extract_player_fields_reads_auxiliary_skills() {
+        let mut player = base_player();
+        player.insert(
+            "CAHAH".to_string(),
+            json!({
+                "ASSISTSKILL": [
+                    1,
+                    { "HeroId": 141, "Index": 2, "Level": 5, "SkillId": 1420 }
+                ],
+                "HeroId": 509
+            }),
+        );
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(
+            fields.get("auxiliary_skills"),
+            Some(&json!([
+                { "hero_id": 141, "level": 5, "skill_id": 1420 }
+            ]))
+        );
+    }
+
+    #[test]
+    fn extract_player_fields_defaults_auxiliary_skills_when_cahah_is_empty_array() {
+        let mut player = base_player();
+        player.insert("CAHAH".to_string(), json!([]));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields.get("auxiliary_skills"), Some(&json!([])));
     }
 
     #[test]
