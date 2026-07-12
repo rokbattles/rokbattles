@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/olympian-arena",
+    "/combat-lab",
     "/loot-explorer/barbarians",
     "/loot-explorer/barbarian-forts",
     "/loot-explorer/baulurs",

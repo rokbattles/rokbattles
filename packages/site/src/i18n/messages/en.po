@@ -219,6 +219,7 @@ msgid "Y3Z7jw"
 msgstr "Kill Count"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
+#: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-results-chart.tsx
@@ -591,6 +592,216 @@ msgstr "General"
 msgid "q5TmbN"
 msgstr "Governors"
 
+#: src/components/combat-lab/combat-lab-loading.tsx
+msgid "DxDbqD"
+msgstr "Loading Combat Lab data"
+
+#: src/components/combat-lab/combat-lab-loading.tsx
+msgid "BM8-Ta"
+msgstr "Fetching the selected commander pairing."
+
+#: src/components/combat-lab/combat-lab-pairing-results.tsx
+msgid "RLkrMe"
+msgstr "Combat Lab data is unavailable"
+
+#: src/components/combat-lab/combat-lab-pairing-results.tsx
+msgid "fO1cCc"
+msgstr "Try another pairing."
+
+#: src/components/combat-lab/combat-lab-results.tsx
+msgid "ZdCdo5"
+msgstr "Last updated: {date}"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+#: src/components/reports/reports-table.tsx
+msgid "9bVtCz"
+msgstr "Battles"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "OVW-cD"
+msgstr "Total battle reports recorded for this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "xh4gLq"
+msgstr "Total kill points earned while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+#: src/components/my-pairings/pairings-loadout-breakdown.tsx
+msgid "nGp3S1"
+msgstr "Opponent Kill Points"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "rD9xWZ"
+msgstr "Total kill points earned by opponents against this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "04DUsx"
+msgstr "Severely Wounded (Taken)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "SDG3OT"
+msgstr "Number of troops that became severely wounded while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "87sFXA"
+msgstr "Severely Wounded (Inflicted)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "OZfiOO"
+msgstr "Number of opponent troops this pairing caused to become severely wounded."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "8RNVtf"
+msgstr "Avg. Battle Duration"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "adRA-N"
+msgstr "Average battle duration for this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "j80Jf5"
+msgstr "Avg. Trade Percentage"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "mg78mY"
+msgstr "Each battle’s kill points gained divided by kill points lost, then averaged across battles."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "WkJcLb"
+msgstr "Weighted Trade Percentage"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "pckGja"
+msgstr "Total kill points gained divided by total kill points lost."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "jVC9W_"
+msgstr "Damage Per Second (DPS)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "cgKoQG"
+msgstr "Average damage inflicted per second while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "lsS3Jr"
+msgstr "Sevs Per Second (SPS)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "-6NJWI"
+msgstr "Average severely wounded troops inflicted per second while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "CY224M"
+msgstr "Sevs Taken Per Second (TPS)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "siJBnS"
+msgstr "Average severely wounded troops taken per second while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "5LIA_9"
+msgstr "Healing Per Second (HPS)"
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
+msgid "6pYaNr"
+msgstr "Average healing performed per second while using this pairing."
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "RrCui3"
+msgstr "Summary"
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "06XNKO"
+msgstr "Primary commander"
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "7rfR4O"
+msgstr "Secondary commander"
+
+#: src/components/combat-lab/commander-pairing-form.tsx
+msgid "Vozv1X"
+msgstr "Choose two different legendary commanders before loading data."
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "wB_wXs"
+msgstr "Credits"
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "rzNYK-"
+msgstr "A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and implemented by ROK Battles, the model is available through the <bold>ROK Battles: Combat Lab</bold> and the Discord communities for <bold>The King's Codex</bold> and <bold>AQ/HQ</bold>."
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "fgvwel"
+msgstr "The King's Codex"
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "_I0-w2"
+msgstr "AQ/HQ"
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "fM6jjI"
+msgstr "Learn more about DRASTC"
+
+#: src/components/combat-lab/drastc-credits.tsx
+msgid "TdTXXf"
+msgstr "Learn more"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "T807D4"
+msgstr "Damage"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "HgiZfY"
+msgstr "Rage/Skill Cycle Efficiency"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "oe7Ktq"
+msgstr "Assist/Support"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "14P-1u"
+msgstr "Sustainability"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "uKZXNL"
+msgstr "Trade Efficiency"
+
+#: src/components/combat-lab/drastc-info.tsx
+#: src/components/combat-lab/drastc-radar.tsx
+msgid "Mxwl9f"
+msgstr "Consistency"
+
+#: src/components/combat-lab/drastc-info.tsx
+msgid "YyHv_v"
+msgstr "DRASTC breakdown"
+
+#: src/components/combat-lab/drastc-section.tsx
+msgid "cjd1MY"
+msgstr "DRASTC scoring"
+
+#: src/components/combat-lab/drastc-section.tsx
+msgid "AAkx6U"
+msgstr "Overall score"
+
 #: src/components/commander-loadout-row.tsx
 msgid "XoCgY-"
 msgstr "Lvl {level}"
@@ -755,55 +966,24 @@ msgid "5OhW-B"
 msgstr "Loadout {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/reports/reports-table.tsx
-msgid "9bVtCz"
-msgstr "Battles"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "W2cCAf"
 msgstr "Total battles recorded for this loadout."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "xh4gLq"
-msgstr "Total kill points earned while using this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "nGp3S1"
-msgstr "Opponent Kill Points"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "2OWOn1"
 msgstr "Total kill points your opponents earned against you."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "04DUsx"
-msgstr "Severely Wounded (Taken)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "sCYwbS"
 msgstr "Number of your troops that became severely wounded while using this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "87sFXA"
-msgstr "Severely Wounded (Inflicted)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "2oN4Ru"
 msgstr "Number of opponent troops you caused to become severely wounded."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "8RNVtf"
-msgstr "Avg. Battle Duration"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "OohBEM"
 msgstr "Average duration of battles recorded while using this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "j80Jf5"
-msgstr "Avg. Trade Percentage"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "rsO25J"
@@ -814,40 +994,16 @@ msgid "tj24bj"
 msgstr "Total Trade Percentage"
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "pckGja"
-msgstr "Total kill points gained divided by total kill points lost."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "jVC9W_"
-msgstr "Damage Per Second (DPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "pJCnfG"
 msgstr "Average amount of damage you inflict per second while using this pairing."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "lsS3Jr"
-msgstr "Sevs Per Second (SPS)"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "obveBp"
 msgstr "Rate at which you inflict severely wounded troops each second."
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "CY224M"
-msgstr "Sevs Taken Per Second (TPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
 msgid "ZTImOV"
 msgstr "Rate at which your troops become severely wounded each second."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "5LIA_9"
-msgstr "Healing Per Second (HPS)"
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "6pYaNr"
-msgstr "Average healing performed per second while using this pairing."
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "y-cvIx"
@@ -1132,6 +1288,10 @@ msgstr "Theme"
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
 msgstr "Olympian Arena"
+
+#: src/components/platform-layout.tsx
+msgid "H2meTq"
+msgstr "Combat Lab"
 
 #: src/components/platform-layout.tsx
 msgid "dr0ueW"
