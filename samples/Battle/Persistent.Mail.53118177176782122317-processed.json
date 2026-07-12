@@ -20,6 +20,7 @@
       "alliance_building_id": 3,
       "app_id": null,
       "app_uid": null,
+      "as_battle_type": null,
       "attack": {
         "id": "592909807",
         "x": 6305.955,
@@ -140,6 +141,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 26855535,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head06.png",
     "camp_id": 2,

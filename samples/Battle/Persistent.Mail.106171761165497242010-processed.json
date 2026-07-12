@@ -20,6 +20,7 @@
       "alliance_building_id": 1,
       "app_id": 2104267,
       "app_uid": 55067691,
+      "as_battle_type": null,
       "attack": {
         "id": "759927707",
         "x": 376.22803,
@@ -1114,6 +1115,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 315274,
+      "as_battle_type": null,
       "attack": {
         "id": "913132901",
         "x": 376.08002,
@@ -1294,6 +1296,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913139801",
         "x": 376.08002,
@@ -1466,6 +1469,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 860690,
+      "as_battle_type": null,
       "attack": {
         "id": "913147301",
         "x": 376.08002,
@@ -1646,6 +1650,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913150001",
         "x": 376.08002,
@@ -1826,6 +1831,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 79635144,
+      "as_battle_type": null,
       "attack": {
         "id": "913158501",
         "x": 376.08002,
@@ -1985,6 +1991,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913164001",
         "x": 376.08002,
@@ -2161,6 +2168,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913172401",
         "x": 376.08002,
@@ -2333,6 +2341,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913187901",
         "x": 376.08002,
@@ -2513,6 +2522,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6092005,
+      "as_battle_type": null,
       "attack": {
         "id": "913189201",
         "x": 376.08002,
@@ -2689,6 +2699,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 860690,
+      "as_battle_type": null,
       "attack": {
         "id": "913197101",
         "x": 376.08002,
@@ -2869,6 +2880,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6092005,
+      "as_battle_type": null,
       "attack": {
         "id": "913220401",
         "x": 376.08002,
@@ -3045,6 +3057,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 36142661,
+      "as_battle_type": null,
       "attack": {
         "id": "913238501",
         "x": 376.08002,
@@ -3217,6 +3230,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 36142661,
+      "as_battle_type": null,
       "attack": {
         "id": "913247701",
         "x": 376.08002,
@@ -3393,6 +3407,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913250901",
         "x": 376.08002,
@@ -3573,6 +3588,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913256001",
         "x": 376.08002,
@@ -3753,6 +3769,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6092005,
+      "as_battle_type": null,
       "attack": {
         "id": "913261101",
         "x": 376.08002,
@@ -3937,6 +3954,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913262601",
         "x": 376.08002,
@@ -4113,6 +4131,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 36142661,
+      "as_battle_type": null,
       "attack": {
         "id": "913287901",
         "x": 376.08002,
@@ -4289,6 +4308,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33276393,
+      "as_battle_type": null,
       "attack": {
         "id": "913288201",
         "x": 376.08002,
@@ -4469,6 +4489,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913288901",
         "x": 376.08002,
@@ -4649,6 +4670,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913312801",
         "x": 376.08002,
@@ -4821,6 +4843,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 293896,
+      "as_battle_type": null,
       "attack": {
         "id": "913315501",
         "x": 376.08002,
@@ -4997,6 +5020,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 3590279,
+      "as_battle_type": null,
       "attack": {
         "id": "913320201",
         "x": 373.64,
@@ -5169,6 +5193,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33276393,
+      "as_battle_type": null,
       "attack": {
         "id": "913347201",
         "x": 376.08002,
@@ -5345,6 +5370,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 6934144,
+      "as_battle_type": null,
       "attack": {
         "id": "913353501",
         "x": 376.08002,
@@ -5525,6 +5551,7 @@
       "alliance_building_id": null,
       "app_id": 9602340,
       "app_uid": 860690,
+      "as_battle_type": null,
       "attack": {
         "id": "913418401",
         "x": 373.64,
@@ -5702,6 +5729,7 @@
     "alliance_building_id": null,
     "app_id": 8518744,
     "app_uid": 255430,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/32180759/22/03/04/48addeeb2294a6da_800x800.jpg",
     "camp_id": null,

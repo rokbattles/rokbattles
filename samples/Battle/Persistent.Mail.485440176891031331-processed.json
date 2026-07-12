@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": null,
       "app_uid": null,
+      "as_battle_type": null,
       "attack": {
         "id": "10537201",
         "x": 7361.0835,
@@ -189,6 +190,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 32624247,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg",
     "camp_id": 2,

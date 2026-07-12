@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 17747014,
+      "as_battle_type": null,
       "attack": {
         "id": "557655001",
         "x": 4146.8564,
@@ -221,6 +222,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 17747014,
+      "as_battle_type": null,
       "attack": {
         "id": "557656601",
         "x": 4146.8564,
@@ -418,6 +420,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 17747014,
+      "as_battle_type": null,
       "attack": {
         "id": "557663601",
         "x": 4145.3955,
@@ -615,6 +618,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 17747014,
+      "as_battle_type": null,
       "attack": {
         "id": "557665001",
         "x": 4146.8564,
@@ -812,6 +816,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 17747014,
+      "as_battle_type": null,
       "attack": {
         "id": "557666201",
         "x": 4146.8564,
@@ -1009,6 +1014,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 218058054,
+      "as_battle_type": null,
       "attack": {
         "id": "559953001",
         "x": 4144.1616,
@@ -1206,6 +1212,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 218058054,
+      "as_battle_type": null,
       "attack": {
         "id": "560025001",
         "x": 4144.672,
@@ -1408,6 +1415,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 11119359,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head15.png",
     "camp_id": 1,
