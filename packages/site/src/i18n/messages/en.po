@@ -874,6 +874,23 @@ msgid "Mro8Zx"
 msgstr "Supreme Strife"
 
 #: src/components/my-pairings/pairings-filters.tsx
+msgid "cHoIky"
+msgstr "Open Field"
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "hAEZYZ"
+msgstr "Swarming"
+
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/report/report-participant-card.tsx
+msgid "RJ-ZIh"
+msgstr "Rally"
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "2pQ4w5"
+msgstr "Garrison"
+
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
 msgstr "Loadout granularity"
 
@@ -886,13 +903,17 @@ msgid "244wra"
 msgstr "Exact"
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "XuzWOu"
-msgstr "Exclude battles"
+msgid "CieiKz"
+msgstr "Exclude activities"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "450Fty"
 msgstr "None"
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "XuzWOu"
+msgstr "Exclude battles"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "ouEHpA"
@@ -1225,10 +1246,6 @@ msgstr "Troop Units"
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "1ISgLB"
 msgstr "Slightly Wounded"
-
-#: src/components/report/report-participant-card.tsx
-msgid "RJ-ZIh"
-msgstr "Rally"
 
 #: src/components/report/report-relic-section.tsx
 msgid "Ft8yjo"

@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import { formatLocalDateInput } from "@/lib/datetime";
 import {
-  formatExcludedPairingsReportTypes,
+  formatExcludedPairingsFilters,
   type LoadoutGranularity,
-  type PairingsReportType,
+  type PairingsActivity,
+  type PairingsBattleType,
 } from "@/lib/pairings";
 
 type PairingOption = {
@@ -27,8 +28,10 @@ type PairingsFiltersProps = {
   endDate: string;
   onStartDateChange: (value: string) => void;
   onEndDateChange: (value: string) => void;
-  excludedReportTypes: PairingsReportType[];
-  onExcludedReportTypesChange: (value: PairingsReportType[]) => void;
+  excludedActivities: PairingsActivity[];
+  onExcludedActivitiesChange: (value: PairingsActivity[]) => void;
+  excludedBattles: PairingsBattleType[];
+  onExcludedBattlesChange: (value: PairingsBattleType[]) => void;
 };
 
 export function PairingsFilters({
@@ -42,22 +45,28 @@ export function PairingsFilters({
   endDate,
   onStartDateChange,
   onEndDateChange,
-  excludedReportTypes,
-  onExcludedReportTypesChange,
+  excludedActivities,
+  onExcludedActivitiesChange,
+  excludedBattles,
+  onExcludedBattlesChange,
 }: PairingsFiltersProps) {
   const t = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
-  const excludeTypeLabels: Record<PairingsReportType, string> = {
+  const activityLabels: Record<PairingsActivity, string> = {
     ark: t("Ark of Osiris"),
     home: t("Home"),
     kvk: t("KVK"),
     strife: t("Supreme Strife"),
   };
-  const excludedTypeSummary = formatExcludedPairingsReportTypes(
-    excludedReportTypes,
-    excludeTypeLabels
-  );
+  const battleLabels: Record<PairingsBattleType, string> = {
+    "open-field": t("Open Field"),
+    swarming: t("Swarming"),
+    rally: t("Rally"),
+    garrison: t("Garrison"),
+  };
+  const excludedActivitySummary = formatExcludedPairingsFilters(excludedActivities, activityLabels);
+  const excludedBattleSummary = formatExcludedPairingsFilters(excludedBattles, battleLabels);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -110,16 +119,16 @@ export function PairingsFilters({
         </Listbox>
       </Field>
       <Field className="space-y-2">
-        <Label>{t("Exclude battles")}</Label>
-        <Listbox<PairingsReportType>
-          aria-label={t("Exclude battles")}
-          value={excludedReportTypes}
-          onChange={onExcludedReportTypesChange}
+        <Label>{t("Exclude activities")}</Label>
+        <Listbox<PairingsActivity>
+          aria-label={t("Exclude activities")}
+          value={excludedActivities}
+          onChange={onExcludedActivitiesChange}
           multiple
           placeholder={t("None")}
           renderValue={() =>
-            excludedTypeSummary ? (
-              <span className="block truncate">{excludedTypeSummary}</span>
+            excludedActivitySummary ? (
+              <span className="block truncate">{excludedActivitySummary}</span>
             ) : (
               <span className="block truncate text-zinc-500">{t("None")}</span>
             )
@@ -136,6 +145,36 @@ export function PairingsFilters({
           </ListboxOption>
           <ListboxOption value="home">
             <ListboxLabel>{t("Home")}</ListboxLabel>
+          </ListboxOption>
+        </Listbox>
+      </Field>
+      <Field className="space-y-2">
+        <Label>{t("Exclude battles")}</Label>
+        <Listbox<PairingsBattleType>
+          aria-label={t("Exclude battles")}
+          value={excludedBattles}
+          onChange={onExcludedBattlesChange}
+          multiple
+          placeholder={t("None")}
+          renderValue={() =>
+            excludedBattleSummary ? (
+              <span className="block truncate">{excludedBattleSummary}</span>
+            ) : (
+              <span className="block truncate text-zinc-500">{t("None")}</span>
+            )
+          }
+        >
+          <ListboxOption value="open-field">
+            <ListboxLabel>{t("Open Field")}</ListboxLabel>
+          </ListboxOption>
+          <ListboxOption value="swarming">
+            <ListboxLabel>{t("Swarming")}</ListboxLabel>
+          </ListboxOption>
+          <ListboxOption value="rally">
+            <ListboxLabel>{t("Rally")}</ListboxLabel>
+          </ListboxOption>
+          <ListboxOption value="garrison">
+            <ListboxLabel>{t("Garrison")}</ListboxLabel>
           </ListboxOption>
         </Listbox>
       </Field>

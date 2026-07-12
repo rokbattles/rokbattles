@@ -874,6 +874,23 @@ msgid "Mro8Zx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
+msgid "cHoIky"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "hAEZYZ"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/report/report-participant-card.tsx
+msgid "RJ-ZIh"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "2pQ4w5"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
 msgstr ""
 
@@ -886,12 +903,16 @@ msgid "244wra"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "XuzWOu"
+msgid "CieiKz"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "450Fty"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "XuzWOu"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
@@ -1225,10 +1246,6 @@ msgstr ""
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "1ISgLB"
 msgstr "Hafif Yaralı"
-
-#: src/components/report/report-participant-card.tsx
-msgid "RJ-ZIh"
-msgstr ""
 
 #: src/components/report/report-relic-section.tsx
 msgid "Ft8yjo"

@@ -39,9 +39,15 @@ pub async fn get(
 
     ensure_governor_claim_for_user(&state, &session.user.discord_id, governor_id).await?;
 
-    let mails =
-        fetch_pairings_mails(&state, governor_id, &request.range, None, &request.exclude_types)
-            .await?;
+    let mails = fetch_pairings_mails(
+        &state,
+        governor_id,
+        &request.range,
+        None,
+        &request.exclude_activities,
+        &request.exclude_battles,
+    )
+    .await?;
     let items = aggregate_pairings(&mails, &request.range);
     let response = PairingsResponse {
         range: PairingsRange { start: request.range.start, end: request.range.end },
@@ -68,7 +74,8 @@ pub async fn get_loadouts(
         governor_id,
         &request.range,
         Some(request.primary_commander_id),
-        &request.exclude_types,
+        &request.exclude_activities,
+        &request.exclude_battles,
     )
     .await?;
     let items = aggregate_loadouts(
@@ -103,7 +110,8 @@ pub async fn get_opponents(
         governor_id,
         &request.range,
         Some(request.primary_commander_id),
-        &request.exclude_types,
+        &request.exclude_activities,
+        &request.exclude_battles,
     )
     .await?;
     let items = aggregate_opponents(

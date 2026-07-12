@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import type {
   PairingAggregate,
+  PairingsActivity,
+  PairingsBattleType,
   PairingsRange,
-  PairingsReportType,
   PairingsResponse,
   PairingsResult,
 } from "@/lib/pairings";
@@ -21,11 +22,12 @@ type PairingsOptions = {
   governorId: number | null | undefined;
   startDate?: string;
   endDate?: string;
-  excludeTypes?: PairingsReportType[];
+  excludeActivities?: PairingsActivity[];
+  excludeBattles?: PairingsBattleType[];
 };
 
 export function usePairings(options: PairingsOptions): PairingsResult {
-  const { governorId, startDate, endDate, excludeTypes } = options;
+  const { governorId, startDate, endDate, excludeActivities, excludeBattles } = options;
   const [pairings, setPairings] = useState<PairingAggregate[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +46,12 @@ export function usePairings(options: PairingsOptions): PairingsResult {
     setError(null);
 
     try {
-      const params = buildPairingsRangeParams({ startDate, endDate, excludeTypes });
+      const params = buildPairingsRangeParams({
+        startDate,
+        endDate,
+        excludeActivities,
+        excludeBattles,
+      });
       const res = await fetch(`/proxy/v1/governor/${governorId}/pairings?${params}`, {
         cache: "no-store",
       });
@@ -65,7 +72,7 @@ export function usePairings(options: PairingsOptions): PairingsResult {
     } finally {
       setLoading(false);
     }
-  }, [governorId, startDate, endDate, excludeTypes]);
+  }, [governorId, startDate, endDate, excludeActivities, excludeBattles]);
 
   useEffect(() => {
     setPairings([]);

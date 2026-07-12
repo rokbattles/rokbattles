@@ -9,7 +9,10 @@ use crate::{
     error::ApiError,
     routes::governor::{
         date_range::GovernorDateRange,
-        pairings::query::{PairingsReportType, build_excluded_report_type_conditions},
+        pairings::query::{
+            PairingsActivity, PairingsBattleType, build_excluded_activity_conditions,
+            build_excluded_battle_type_conditions,
+        },
         store_utils::fetch_collection_documents,
     },
     state::AppState,
@@ -21,7 +24,8 @@ pub(crate) async fn fetch_pairings_mails(
     governor_id: i64,
     range: &GovernorDateRange,
     primary_commander_id: Option<i64>,
-    exclude_types: &[PairingsReportType],
+    exclude_activities: &[PairingsActivity],
+    exclude_battles: &[PairingsBattleType],
 ) -> Result<Vec<Document>, ApiError> {
     let mut and_filters = vec![
         doc! { "sender.player_id": governor_id },
@@ -33,9 +37,8 @@ pub(crate) async fn fetch_pairings_mails(
         and_filters.push(doc! { "sender.commanders.primary.id": primary_commander_id });
     }
 
-    let excluded_conditions = build_excluded_report_type_conditions(exclude_types);
-    if !excluded_conditions.is_empty() {
-        and_filters.push(doc! { "$nor": excluded_conditions });
+    if let Some(exclusion_filter) = build_exclusion_filter(exclude_activities, exclude_battles) {
+        and_filters.push(exclusion_filter);
     }
 
     let filter = doc! { "$and": and_filters };
@@ -68,4 +71,40 @@ pub(crate) async fn fetch_pairings_mails(
         .build();
 
     fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
+}
+
+fn build_exclusion_filter(
+    exclude_activities: &[PairingsActivity],
+    exclude_battles: &[PairingsBattleType],
+) -> Option<Document> {
+    let mut excluded_conditions = build_excluded_activity_conditions(exclude_activities);
+    excluded_conditions.extend(build_excluded_battle_type_conditions(exclude_battles));
+    (!excluded_conditions.is_empty()).then(|| doc! { "$nor": excluded_conditions })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn exclusion_filter_is_absent_when_everything_is_included() {
+        assert_eq!(build_exclusion_filter(&[], &[]), None);
+    }
+
+    #[test]
+    fn exclusion_filter_combines_activities_and_battles() {
+        let filter =
+            build_exclusion_filter(&[PairingsActivity::Kvk], &[PairingsBattleType::Swarming]);
+
+        assert_eq!(
+            filter,
+            Some(doc! {
+                "$nor": [
+                    doc! { "metadata.kvk": true },
+                    build_excluded_battle_type_conditions(&[PairingsBattleType::Swarming])
+                        .remove(0),
+                ]
+            })
+        );
+    }
 }

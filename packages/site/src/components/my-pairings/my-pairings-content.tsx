@@ -15,7 +15,8 @@ import type {
   LoadoutGranularity,
   LoadoutSnapshot,
   OpponentGranularity,
-  PairingsReportType,
+  PairingsActivity,
+  PairingsBattleType,
 } from "@/lib/pairings";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -105,7 +106,8 @@ export function MyPairingsContent() {
 
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
-  const [excludedReportTypes, setExcludedReportTypes] = useState<PairingsReportType[]>([]);
+  const [excludedActivities, setExcludedActivities] = useState<PairingsActivity[]>([]);
+  const [excludedBattles, setExcludedBattles] = useState<PairingsBattleType[]>([]);
   const hasCustomRange = Boolean(startDate && endDate);
   const rangeStartDate = hasCustomRange ? startDate : undefined;
   const rangeEndDate = hasCustomRange ? endDate : undefined;
@@ -117,7 +119,8 @@ export function MyPairingsContent() {
     governorId: activeGovernor?.governorId,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
-    excludeTypes: excludedReportTypes,
+    excludeActivities: excludedActivities,
+    excludeBattles: excludedBattles,
   });
   const [selectedPairingKey, setSelectedPairingKey] = useState<string | null>(null);
   const [loadoutGranularity, setLoadoutGranularity] = useState<LoadoutGranularity>("simplified");
@@ -181,7 +184,8 @@ export function MyPairingsContent() {
     granularity: loadoutGranularity,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
-    excludeTypes: excludedReportTypes,
+    excludeActivities: excludedActivities,
+    excludeBattles: excludedBattles,
   });
   const loadoutsResetKey = useMemo(
     () =>
@@ -191,7 +195,8 @@ export function MyPairingsContent() {
         loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
-        excludedReportTypes.join(",") || "none",
+        excludedActivities.join(",") || "none",
+        excludedBattles.join(",") || "none",
         canLoadLoadouts ? "ready" : "idle",
       ].join("|"),
     [
@@ -200,7 +205,8 @@ export function MyPairingsContent() {
       loadoutGranularity,
       rangeStartDate,
       rangeEndDate,
-      excludedReportTypes,
+      excludedActivities,
+      excludedBattles,
       canLoadLoadouts,
     ]
   );
@@ -212,7 +218,8 @@ export function MyPairingsContent() {
         loadoutGranularity,
         rangeStartDate ?? "none",
         rangeEndDate ?? "none",
-        excludedReportTypes.join(",") || "none",
+        excludedActivities.join(",") || "none",
+        excludedBattles.join(",") || "none",
       ].join("|"),
     [
       selectedPairingKey,
@@ -220,7 +227,8 @@ export function MyPairingsContent() {
       loadoutGranularity,
       rangeStartDate,
       rangeEndDate,
-      excludedReportTypes,
+      excludedActivities,
+      excludedBattles,
     ]
   );
 
@@ -400,7 +408,8 @@ export function MyPairingsContent() {
     loadoutKey: opponentLoadoutKey,
     startDate: rangeStartDate,
     endDate: rangeEndDate,
-    excludeTypes: excludedReportTypes,
+    excludeActivities: excludedActivities,
+    excludeBattles: excludedBattles,
   });
 
   useEffect(() => {
@@ -449,8 +458,10 @@ export function MyPairingsContent() {
         endDate={endDate}
         onStartDateChange={setStartDate}
         onEndDateChange={setEndDate}
-        excludedReportTypes={excludedReportTypes}
-        onExcludedReportTypesChange={setExcludedReportTypes}
+        excludedActivities={excludedActivities}
+        onExcludedActivitiesChange={setExcludedActivities}
+        excludedBattles={excludedBattles}
+        onExcludedBattlesChange={setExcludedBattles}
       />
       <PairingsLoadouts
         pairingsLoading={pairingsLoading}
