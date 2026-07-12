@@ -294,7 +294,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
             <Fieldset className="lg:col-span-3">
               <Legend>{t("Battle")}</Legend>
               <div data-slot="control" className="grid gap-6 lg:grid-cols-3">
-                <div className="grid gap-6 lg:col-span-3 lg:grid-cols-2">
+                <div className="grid gap-6 lg:col-span-3 lg:grid-cols-3">
                   <Field>
                     <Label>{t("Type")}</Label>
                     <Listbox<ReportsFilterType | "">
