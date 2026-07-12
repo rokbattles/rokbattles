@@ -23,6 +23,7 @@
         "x": 4007.4604,
         "y": 4532.009
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -207,6 +208,7 @@
         "x": 4009.0642,
         "y": 4529.0264
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -387,6 +389,7 @@
         "x": 4010.5613,
         "y": 4532.5957
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -567,6 +570,7 @@
         "x": 4007.4604,
         "y": 4532.009
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -740,6 +744,7 @@
         "x": 4009.0654,
         "y": 4527.3203
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/2987686/20/11/16/06ef504bbf07bdab_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -920,6 +925,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 4121243,
+    "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/4361125/21/04/26/22e953a50b46eb96_800x800.jpg",
     "camp_id": null,
     "castle": {

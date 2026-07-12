@@ -23,6 +23,7 @@
         "x": 3883.5469,
         "y": 3708.4446
       },
+      "auxiliary_skills": [],
       "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head01.png",
       "battle_results": {
         "opponent": {
@@ -182,6 +183,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 88504567,
+    "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/129397124/23/08/22/873da7c8f8852a46_640x640.jpg",
     "camp_id": null,
     "castle": {

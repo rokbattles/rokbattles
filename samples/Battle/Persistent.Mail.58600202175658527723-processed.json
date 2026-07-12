@@ -23,6 +23,7 @@
         "x": 3859.4285,
         "y": 3693.5112
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg",
       "battle_results": {
         "opponent": {
@@ -217,6 +218,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 88504567,
+    "auxiliary_skills": [],
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88504567/2025-08-12/1B8C6FB10E9D88C62AC3085AE6BE8CCA_250x250.jpg",
     "camp_id": null,
     "castle": {

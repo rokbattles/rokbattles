@@ -23,6 +23,7 @@
         "x": 3076.314,
         "y": 3192.9502
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -232,6 +233,7 @@
         "x": 3074.6917,
         "y": 3189.8972
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -437,6 +439,7 @@
         "x": 3079.349,
         "y": 3188.185
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -646,6 +649,7 @@
         "x": 3079.349,
         "y": 3188.185
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -855,6 +859,7 @@
         "x": 3079.349,
         "y": 3188.185
       },
+      "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/33171104/24/04/16/721f1f69c2f80cf9_800x800.jpg",
       "battle_results": {
         "opponent": {
@@ -1056,6 +1061,7 @@
     "alliance_building_id": null,
     "app_id": 8518744,
     "app_uid": 399975,
+    "auxiliary_skills": [],
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg",
     "camp_id": 4,
     "castle": {
