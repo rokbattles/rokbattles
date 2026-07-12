@@ -1,7 +1,7 @@
 import { useExtracted } from "next-intl";
 import { useMemo } from "react";
+import { SummaryMetric } from "@/components/summary-metric";
 import { Subheading } from "@/components/ui/heading";
-import { SummaryMetric } from "@/components/ui/summary-metric";
 import type { CombatLabPairingDocument } from "@/lib/combat-lab/api";
 import {
   formatDuration,

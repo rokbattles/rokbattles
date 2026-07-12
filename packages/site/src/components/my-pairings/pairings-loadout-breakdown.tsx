@@ -1,9 +1,9 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import { SummaryMetric } from "@/components/summary-metric";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
-import { SummaryMetric } from "@/components/ui/summary-metric";
 import {
   Table,
   TableBody,
