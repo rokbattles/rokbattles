@@ -161,78 +161,73 @@ pub(crate) fn build_excluded_activity_conditions(
 pub(crate) fn build_excluded_battle_type_conditions(
     exclude_battles: &[PairingsBattleType],
 ) -> Vec<Document> {
-    exclude_battles
-        .iter()
-        .copied()
-        .map(|battle_type| doc! { "$expr": battle_type_expression(battle_type) })
-        .collect()
+    exclude_battles.iter().copied().map(battle_type_condition).collect()
 }
 
-fn battle_type_expression(battle_type: PairingsBattleType) -> Document {
-    let sender_garrison = sender_garrison_expression();
-    let sender_rally = sender_rally_expression();
-    let opponent_rally_or_garrison = opponent_rally_or_garrison_expression();
-
+fn battle_type_condition(battle_type: PairingsBattleType) -> Document {
     match battle_type {
-        PairingsBattleType::Garrison => sender_garrison,
+        PairingsBattleType::Garrison => sender_garrison_condition(),
         PairingsBattleType::Rally => doc! {
             "$and": [
-                { "$not": [sender_garrison] },
-                sender_rally,
+                sender_not_garrison_condition(),
+                sender_rally_condition(),
             ]
         },
         PairingsBattleType::Swarming => doc! {
             "$and": [
-                { "$not": [sender_garrison] },
-                { "$not": [sender_rally] },
-                opponent_rally_or_garrison,
+                sender_not_garrison_condition(),
+                sender_not_rally_condition(),
+                opponent_rally_or_garrison_condition(),
             ]
         },
         PairingsBattleType::OpenField => doc! {
             "$and": [
-                { "$not": [sender_garrison] },
-                { "$not": [sender_rally] },
-                { "$not": [opponent_rally_or_garrison] },
+                sender_not_garrison_condition(),
+                sender_not_rally_condition(),
+                { "$nor": [opponent_rally_or_garrison_condition()] },
             ]
         },
     }
 }
 
-fn sender_garrison_expression() -> Document {
+fn sender_garrison_condition() -> Document {
+    doc! { "$or": sender_garrison_field_conditions() }
+}
+
+fn sender_not_garrison_condition() -> Document {
+    doc! { "$nor": sender_garrison_field_conditions() }
+}
+
+fn sender_garrison_field_conditions() -> Vec<Document> {
+    vec![
+        doc! { "sender.alliance_building_id": { "$exists": true, "$ne": Bson::Null } },
+        doc! { "sender.structure_id": { "$exists": true, "$ne": Bson::Null } },
+    ]
+}
+
+fn sender_rally_condition() -> Document {
     doc! {
-        "$or": [
-            { "$ne": [{ "$ifNull": ["$sender.alliance_building_id", Bson::Null] }, Bson::Null] },
-            { "$ne": [{ "$ifNull": ["$sender.structure_id", Bson::Null] }, Bson::Null] },
-        ]
+        "sender.rally": { "$in": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] }
     }
 }
 
-fn sender_rally_expression() -> Document {
+fn sender_not_rally_condition() -> Document {
     doc! {
-        "$in": ["$sender.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]]
+        "sender.rally": { "$nin": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] }
     }
 }
 
-fn opponent_rally_or_garrison_expression() -> Document {
+fn opponent_rally_or_garrison_condition() -> Document {
     doc! {
-        "$gt": [
-            {
-                "$size": {
-                    "$filter": {
-                        "input": { "$ifNull": ["$opponents", []] },
-                        "as": "opponent",
-                        "cond": {
-                            "$or": [
-                                { "$in": ["$$opponent.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
-                                { "$ne": [{ "$ifNull": ["$$opponent.alliance_building_id", Bson::Null] }, Bson::Null] },
-                                { "$ne": [{ "$ifNull": ["$$opponent.structure_id", Bson::Null] }, Bson::Null] },
-                            ]
-                        }
-                    }
-                }
-            },
-            0,
-        ]
+        "opponents": {
+            "$elemMatch": {
+                "$or": [
+                    { "rally": { "$in": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] } },
+                    { "alliance_building_id": { "$exists": true, "$ne": Bson::Null } },
+                    { "structure_id": { "$exists": true, "$ne": Bson::Null } },
+                ]
+            }
+        }
     }
 }
 
@@ -425,19 +420,19 @@ mod tests {
     #[test]
     fn garrison_battle_condition_matches_sender_structure_fields() {
         assert_eq!(
-            battle_type_expression(PairingsBattleType::Garrison),
-            sender_garrison_expression()
+            battle_type_condition(PairingsBattleType::Garrison),
+            sender_garrison_condition()
         );
     }
 
     #[test]
     fn rally_battle_condition_excludes_sender_garrisons() {
         assert_eq!(
-            battle_type_expression(PairingsBattleType::Rally),
+            battle_type_condition(PairingsBattleType::Rally),
             doc! {
                 "$and": [
-                    { "$not": [sender_garrison_expression()] },
-                    sender_rally_expression(),
+                    sender_not_garrison_condition(),
+                    sender_rally_condition(),
                 ]
             }
         );
@@ -446,12 +441,12 @@ mod tests {
     #[test]
     fn swarming_battle_condition_requires_special_opponent_only() {
         assert_eq!(
-            battle_type_expression(PairingsBattleType::Swarming),
+            battle_type_condition(PairingsBattleType::Swarming),
             doc! {
                 "$and": [
-                    { "$not": [sender_garrison_expression()] },
-                    { "$not": [sender_rally_expression()] },
-                    opponent_rally_or_garrison_expression(),
+                    sender_not_garrison_condition(),
+                    sender_not_rally_condition(),
+                    opponent_rally_or_garrison_condition(),
                 ]
             }
         );
@@ -460,12 +455,12 @@ mod tests {
     #[test]
     fn open_field_battle_condition_excludes_all_special_marches() {
         assert_eq!(
-            battle_type_expression(PairingsBattleType::OpenField),
+            battle_type_condition(PairingsBattleType::OpenField),
             doc! {
                 "$and": [
-                    { "$not": [sender_garrison_expression()] },
-                    { "$not": [sender_rally_expression()] },
-                    { "$not": [opponent_rally_or_garrison_expression()] },
+                    sender_not_garrison_condition(),
+                    sender_not_rally_condition(),
+                    { "$nor": [opponent_rally_or_garrison_condition()] },
                 ]
             }
         );
