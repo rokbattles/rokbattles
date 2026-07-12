@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 1122193,
+      "as_battle_type": null,
       "attack": {
         "id": "721984701",
         "x": 471.71045,
@@ -196,6 +197,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33775191,
+      "as_battle_type": null,
       "attack": {
         "id": "721998701",
         "x": 471.71045,
@@ -376,6 +378,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33775191,
+      "as_battle_type": null,
       "attack": {
         "id": "722007901",
         "x": 471.71045,
@@ -552,6 +555,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33775191,
+      "as_battle_type": null,
       "attack": {
         "id": "722028701",
         "x": 471.71045,
@@ -728,6 +732,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33775191,
+      "as_battle_type": null,
       "attack": {
         "id": "722395801",
         "x": 471.71045,
@@ -904,6 +909,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 3184881,
+      "as_battle_type": null,
       "attack": {
         "id": "722601401",
         "x": 471.71045,
@@ -1084,6 +1090,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 3184881,
+      "as_battle_type": null,
       "attack": {
         "id": "722754301",
         "x": 471.71045,
@@ -1260,6 +1267,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 3184881,
+      "as_battle_type": null,
       "attack": {
         "id": "722761901",
         "x": 471.71045,
@@ -1440,6 +1448,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 3184881,
+      "as_battle_type": null,
       "attack": {
         "id": "722802501",
         "x": 471.71045,
@@ -1620,6 +1629,7 @@
       "alliance_building_id": null,
       "app_id": 8518744,
       "app_uid": 1207552,
+      "as_battle_type": null,
       "attack": {
         "id": "722803101",
         "x": 471.71045,
@@ -1800,6 +1810,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 33775191,
+      "as_battle_type": null,
       "attack": {
         "id": "722803401",
         "x": 471.71045,
@@ -1977,6 +1988,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 7051299,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/7607766/22/04/14/18ef9606fb02795e_800x800.jpg",
     "camp_id": null,

@@ -59,6 +59,9 @@ pub(crate) fn extract_player_fields(
     let (app_id, app_uid) = extract_app_identity(player)?;
     let server_season = optional_string_field(player, "SerSeason")?;
     let package_identifier = optional_string_field(player, "PkgNameNew")?;
+    // Alliance battlefield types: 1 normal, 2 practice, 3 league, 4 invitation,
+    // 5 custom, 6 silver, and 7 tutorial.
+    let as_battle_type = optional_u64_field(player, "AsBattleType")?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
 
@@ -103,6 +106,10 @@ pub(crate) fn extract_player_fields(
     fields.insert(
         "package_identifier".to_string(),
         package_identifier.map(Value::String).unwrap_or(Value::Null),
+    );
+    fields.insert(
+        "as_battle_type".to_string(),
+        as_battle_type.map(Value::from).unwrap_or(Value::Null),
     );
     fields.insert("avatar_url".to_string(), avatar_url);
     fields.insert("frame_url".to_string(), frame_url);
@@ -591,6 +598,23 @@ mod tests {
         let fields = extract_player_fields(&base_player()).unwrap();
 
         assert_eq!(fields["package_identifier"], Value::Null);
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_as_battle_type() {
+        let mut player = base_player();
+        player.insert("AsBattleType".to_string(), json!(3));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["as_battle_type"], json!(3));
+    }
+
+    #[test]
+    fn extract_player_fields_uses_null_when_as_battle_type_is_absent() {
+        let fields = extract_player_fields(&base_player()).unwrap();
+
+        assert_eq!(fields["as_battle_type"], Value::Null);
     }
 
     #[test]

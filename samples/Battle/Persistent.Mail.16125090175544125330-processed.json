@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 29126922,
+      "as_battle_type": null,
       "attack": {
         "id": "201971501",
         "x": 3076.314,
@@ -232,6 +233,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 29126922,
+      "as_battle_type": null,
       "attack": {
         "id": "201972401",
         "x": 3074.6917,
@@ -440,6 +442,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 29126922,
+      "as_battle_type": null,
       "attack": {
         "id": "201973401",
         "x": 3079.349,
@@ -652,6 +655,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 29126922,
+      "as_battle_type": null,
       "attack": {
         "id": "201975601",
         "x": 3079.349,
@@ -864,6 +868,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 29126922,
+      "as_battle_type": null,
       "attack": {
         "id": "201976401",
         "x": 3079.349,
@@ -1073,6 +1078,7 @@
     "alliance_building_id": null,
     "app_id": 8518744,
     "app_uid": 399975,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/399975/2025-01-10/59D785F59BF71BBD6F45B8556C64133B_250x250.jpg",
     "camp_id": 4,

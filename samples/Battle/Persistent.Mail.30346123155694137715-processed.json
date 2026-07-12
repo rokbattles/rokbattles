@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 9545421,
+      "as_battle_type": null,
       "attack": {
         "id": "1706186",
         "x": 1760.1536,
@@ -185,6 +186,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 12688519,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/14022209/19/03/21/525554b7bd86e09f_200x200.jpg",
     "camp_id": null,

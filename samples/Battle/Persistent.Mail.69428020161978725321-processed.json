@@ -20,6 +20,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 2827380,
+      "as_battle_type": null,
       "attack": {
         "id": "809122101",
         "x": 4007.4604,
@@ -207,6 +208,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 2827380,
+      "as_battle_type": null,
       "attack": {
         "id": "809136501",
         "x": 4009.0642,
@@ -390,6 +392,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 2827380,
+      "as_battle_type": null,
       "attack": {
         "id": "809148701",
         "x": 4010.5613,
@@ -573,6 +576,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 2827380,
+      "as_battle_type": null,
       "attack": {
         "id": "809162201",
         "x": 4007.4604,
@@ -749,6 +753,7 @@
       "alliance_building_id": null,
       "app_id": 2104267,
       "app_uid": 2827380,
+      "as_battle_type": null,
       "attack": {
         "id": "809183001",
         "x": 4009.0654,
@@ -937,6 +942,7 @@
     "alliance_building_id": null,
     "app_id": 2104267,
     "app_uid": 4121243,
+    "as_battle_type": null,
     "auxiliary_skills": [],
     "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/4361125/21/04/26/22e953a50b46eb96_800x800.jpg",
     "camp_id": null,
