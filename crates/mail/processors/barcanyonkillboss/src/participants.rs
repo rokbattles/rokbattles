@@ -1,6 +1,6 @@
 //! Participants parser for BarCanyonKillBoss mail.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Map, Value, json};
 
 use crate::content::{
@@ -27,7 +27,7 @@ impl Extractor for ParticipantsExtractor {
         let content = require_content(input)?;
         let infos_value =
             content.get("infos").ok_or(ExtractError::MissingField { field: "infos" })?;
-        let infos = indexed_array_values(infos_value, "infos")?;
+        let infos = require_array(infos_value, "infos")?;
 
         let mut participants = Vec::with_capacity(infos.len());
         for info in infos {
@@ -60,7 +60,7 @@ fn extract_participant(info: &Map<String, Value>) -> Result<Value, ExtractError>
 
 fn extract_loot(info: &Map<String, Value>) -> Result<Value, ExtractError> {
     let value = info.get("loots").ok_or(ExtractError::MissingField { field: "loots" })?;
-    let values = indexed_array_values(value, "loots")?;
+    let values = require_array(value, "loots")?;
     let mut loot = Vec::with_capacity(values.len());
     for entry in values {
         let entry = entry

@@ -1,6 +1,6 @@
 //! Pairings parser for AllianceAOOIndividualResults mail.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_object};
+use mail_sdk::{ExtractError, Extractor, Section, require_array, require_object};
 use serde_json::{Value, json};
 
 use crate::content::{
@@ -32,12 +32,12 @@ impl Extractor for PairingsExtractor {
             Some(fight_report) => match optional_child_object_or_empty_array(fight_report, "Stat")?
             {
                 Some(stat) => match stat.get("HerosStat") {
-                    None | Some(Value::Null) => Vec::new(),
-                    Some(value) => indexed_array_values(value, "HerosStat")?,
+                    None | Some(Value::Null) => &[],
+                    Some(value) => require_array(value, "HerosStat")?,
                 },
-                None => Vec::new(),
+                None => &[],
             },
-            None => Vec::new(),
+            None => &[],
         };
 
         let mut pairings = Vec::with_capacity(heroes_stat.len());

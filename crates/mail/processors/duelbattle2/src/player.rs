@@ -1,7 +1,7 @@
 //! Shared player helpers for DuelBattle2 sections.
 
 pub(crate) use mail_sdk::{
-    ExtractError, Section, indexed_array_values, require_bool_field, require_child_object,
+    ExtractError, Section, require_array, require_bool_field, require_child_object,
     require_number_field, require_object, require_string_field, require_u64_field,
 };
 use serde_json::{Map, Value, json};
@@ -43,7 +43,7 @@ pub(crate) fn extract_player_buffs(
 ) -> Result<Vec<Value>, ExtractError> {
     let heroes = require_child_object(player, "Heroes")?;
     let buffs_value = heroes.get("Buffs").ok_or(ExtractError::MissingField { field: "Buffs" })?;
-    let buffs = indexed_array_values(buffs_value, "Buffs")?;
+    let buffs = require_array(buffs_value, "Buffs")?;
 
     let mut entries = Vec::with_capacity(buffs.len());
     for buff in buffs {

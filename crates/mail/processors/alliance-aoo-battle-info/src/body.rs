@@ -1,7 +1,7 @@
 //! Body parser for AllianceAOOBattleInfo mail.
 
 use mail_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, require_bool_field, require_u64_field,
+    ExtractError, Extractor, Section, require_array, require_bool_field, require_u64_field,
 };
 use serde_json::{Value, json};
 
@@ -33,7 +33,7 @@ impl Extractor for BodyExtractor {
             .ok_or(ExtractError::MissingField { field: "kvs" })?;
         let fightlist =
             kvs.get("fightlist").ok_or(ExtractError::MissingField { field: "fightlist" })?;
-        let fightlist = indexed_array_values(fightlist, "fightlist")?;
+        let fightlist = require_array(fightlist, "fightlist")?;
 
         let mut fights = Vec::with_capacity(fightlist.len());
         for fight in fightlist {

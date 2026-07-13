@@ -1,8 +1,7 @@
 //! Alliance parser for AllianceAOOBattleResults mail.
 
 use mail_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, optional_string_field,
-    optional_u64_field,
+    ExtractError, Extractor, Section, optional_string_field, optional_u64_field, require_array,
 };
 use serde_json::{Value, json};
 
@@ -27,7 +26,7 @@ impl Extractor for AlliancesExtractor {
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let kvs = require_body_kvs(input)?;
         let as_infos = kvs.get("asInfos").ok_or(ExtractError::MissingField { field: "asInfos" })?;
-        let as_infos = indexed_array_values(as_infos, "asInfos")?;
+        let as_infos = require_array(as_infos, "asInfos")?;
 
         let mut alliances = Vec::with_capacity(as_infos.len());
         for entry in as_infos {

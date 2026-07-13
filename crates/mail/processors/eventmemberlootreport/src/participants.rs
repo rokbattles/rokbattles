@@ -1,6 +1,6 @@
 //! Member and loot parser for GVE member loot reports.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_string_field, require_u64_field};
@@ -22,9 +22,9 @@ impl Extractor for ParticipantsExtractor {
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let content = require_content(input)?;
         let infos = content.get("infos").ok_or(ExtractError::MissingField { field: "infos" })?;
-        let infos = indexed_array_values(infos, "infos")?;
+        let infos = require_array(infos, "infos")?;
         let participants = infos
-            .into_iter()
+            .iter()
             .map(|value| {
                 let info = value
                     .as_object()
@@ -52,8 +52,8 @@ fn extract_participant(info: &Map<String, Value>) -> Result<Value, ExtractError>
 
 fn extract_loot(info: &Map<String, Value>) -> Result<Vec<Value>, ExtractError> {
     let loots = info.get("loots").ok_or(ExtractError::MissingField { field: "loots" })?;
-    indexed_array_values(loots, "loots")?
-        .into_iter()
+    require_array(loots, "loots")?
+        .iter()
         .map(|value| {
             let loot = value
                 .as_object()

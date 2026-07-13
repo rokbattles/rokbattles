@@ -1,7 +1,7 @@
 //! Opponent parser for Battle mail.
 
 use mail_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, optional_i64_field, optional_u64_field,
+    ExtractError, Extractor, Section, optional_i64_field, optional_u64_field, require_array,
     require_i64_field, require_number_field,
 };
 use serde_json::{Map, Value, json};
@@ -251,7 +251,7 @@ fn extract_npc_loot(attack: &Map<String, Value>) -> Result<Option<Vec<Value>>, E
         Some(value) => value,
     };
 
-    let values = indexed_array_values(value, "NpcKillLoot")?;
+    let values = require_array(value, "NpcKillLoot")?;
     let mut loot = Vec::with_capacity(values.len());
     for entry in values {
         let entry = entry

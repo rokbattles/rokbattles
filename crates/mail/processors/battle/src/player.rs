@@ -1,8 +1,8 @@
 //! Shared player helpers for Battle mail.
 
 use mail_sdk::{
-    ExtractError, indexed_array_values, optional_bool_field, optional_string_field,
-    optional_u64_field, require_i64_field, require_number_field,
+    ExtractError, optional_bool_field, optional_string_field, optional_u64_field, require_array,
+    require_i64_field, require_number_field,
 };
 use serde_json::{Map, Value, json};
 
@@ -277,7 +277,7 @@ fn optional_skills_field(
         Some(value) => value,
     };
 
-    let values = indexed_array_values(value, field)?;
+    let values = require_array(value, field)?;
     let mut skills = Vec::with_capacity(values.len());
     for skill in values {
         let skill = skill
@@ -300,7 +300,7 @@ fn optional_relics_field(
         Some(value) => value,
     };
 
-    let values = indexed_array_values(value, field)?;
+    let values = require_array(value, field)?;
     let Some(id) = values.first() else {
         return Ok(Value::Array(Vec::new()));
     };
@@ -368,7 +368,7 @@ fn extract_support_skill_entries(cass: &Map<String, Value>) -> Result<Vec<Value>
         Some(value) => value,
     };
 
-    let values = indexed_array_values(value, "SKILLS")?;
+    let values = require_array(value, "SKILLS")?;
     let mut skills = Vec::with_capacity(values.len());
     for skill in values {
         let skill = skill
@@ -404,7 +404,7 @@ fn extract_auxiliary_skills(player: &Map<String, Value>) -> Result<Value, Extrac
         None | Some(Value::Null) => return Ok(Value::Array(Vec::new())),
         Some(value) => value,
     };
-    let values = indexed_array_values(value, "ASSISTSKILL")?;
+    let values = require_array(value, "ASSISTSKILL")?;
     let mut skills = Vec::with_capacity(values.len());
     for skill in values {
         let skill = skill

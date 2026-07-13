@@ -1,7 +1,7 @@
 //! Timeline parser for Battle mail.
 
 use mail_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, optional_u64_field, require_i64_field,
+    ExtractError, Extractor, Section, optional_u64_field, require_array, require_i64_field,
     require_u64,
 };
 use serde_json::{Value, json};
@@ -34,7 +34,7 @@ impl Extractor for TimelineExtractor {
         let start_tick = require_u64_field(content, "Btk")?;
         let samples_value =
             content.get("Samples").ok_or(ExtractError::MissingField { field: "Samples" })?;
-        let samples = indexed_array_values(samples_value, "Samples")?;
+        let samples = require_array(samples_value, "Samples")?;
 
         let mut entries = Vec::with_capacity(samples.len());
         for sample in samples {
@@ -48,8 +48,8 @@ impl Extractor for TimelineExtractor {
         // - 26: reinforcements leave (`Cnt` may be missing when march count hits 0)
         // Some reports omit events entirely; treat missing or null as empty.
         let events = match content.get("Events") {
-            None | Some(Value::Null) => Vec::new(),
-            Some(value) => indexed_array_values(value, "Events")?,
+            None | Some(Value::Null) => &[],
+            Some(value) => require_array(value, "Events")?,
         };
         let mut event_entries = Vec::with_capacity(events.len());
         for event in events {

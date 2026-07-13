@@ -1,6 +1,6 @@
 //! Participants parser for AllianceAOOBattleResults mail.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values};
+use mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_number_field, require_string_field};
@@ -25,7 +25,7 @@ impl Extractor for ParticipantsExtractor {
         let kvs = require_body_kvs(input)?;
         let ply_ranks =
             kvs.get("plyRanks").ok_or(ExtractError::MissingField { field: "plyRanks" })?;
-        let ply_ranks = indexed_array_values(ply_ranks, "plyRanks")?;
+        let ply_ranks = require_array(ply_ranks, "plyRanks")?;
 
         let mut participants = Vec::with_capacity(ply_ranks.len());
         for entry in ply_ranks {

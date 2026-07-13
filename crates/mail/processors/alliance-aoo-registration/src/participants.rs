@@ -1,8 +1,8 @@
 //! Participants parser for AllianceAOORegistration mail.
 
 use mail_sdk::{
-    ExtractError, Extractor, Section, indexed_array_values, optional_u64_field,
-    require_number_field, require_string_field, require_u64_field,
+    ExtractError, Extractor, Section, optional_u64_field, require_array, require_number_field,
+    require_string_field, require_u64_field,
 };
 use serde_json::{Value, json};
 
@@ -43,7 +43,7 @@ impl Extractor for ParticipantsExtractor {
         for field in PARTICIPANT_FIELDS {
             let entries =
                 kvs.get(field.name).ok_or(ExtractError::MissingField { field: field.name })?;
-            for entry in indexed_array_values(entries, field.name)? {
+            for entry in require_array(entries, field.name)? {
                 participants.push(extract_participant(entry, field)?);
             }
         }
