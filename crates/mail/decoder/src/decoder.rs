@@ -2,11 +2,15 @@
 
 use serde_json::{Map, Number, Value};
 
-use crate::common::{
-    DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
+use crate::{
+    common::{
+        DecodeError, MAX_DEPTH, TAG_BOOL, TAG_F32, TAG_F64, TAG_OBJECT, TAG_STRING, is_known_tag,
+    },
+    value::numeric_keyed_container,
 };
 
-const MAX_PREAMBLE_SCAN_BYTES: usize = 4096;
+/// Largest header prefix scanned before the payload.
+const MAX_PREAMBLE_SCAN_BYTES: usize = 16;
 
 /// Decode a binary mail buffer into a JSON value.
 ///
@@ -39,11 +43,11 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
 
 fn find_payload_value(buffer: &[u8]) -> Option<Value> {
     let mut fallback = None;
-    for (offset, tag) in buffer.iter().enumerate() {
+    for (offset, tag) in buffer.iter().copied().enumerate() {
         if offset > MAX_PREAMBLE_SCAN_BYTES {
             break;
         }
-        if !is_known_tag(*tag) {
+        if !is_known_tag(tag) {
             continue;
         }
 
@@ -91,12 +95,12 @@ impl<'a> Decoder<'a> {
             }
             TAG_F32 => {
                 let raw = self.read_exact(4)?;
-                let value = f32::from_le_bytes(raw.try_into().expect("slice length checked"));
+                let value = f32::from_le_bytes(bytes4(raw)?);
                 number_value(f64::from(value))
             }
             TAG_F64 => {
                 let raw = self.read_exact(8)?;
-                let value = f64::from_be_bytes(raw.try_into().expect("slice length checked"));
+                let value = f64::from_be_bytes(bytes8(raw)?);
                 number_value(value)
             }
             TAG_STRING => {
@@ -114,9 +118,12 @@ impl<'a> Decoder<'a> {
         }
 
         self.depth += 1;
+        // The container tag does not tell us whether this is a list or a map.
+        // A string child starts a normal object; numeric children are normalized
+        // after the complete container has been read.
         let value = match self.peek_u8() {
             Some(TAG_STRING) => Value::Object(self.read_object_entries()?),
-            Some(_) => Value::Array(self.read_array_entries()?),
+            Some(_) => self.read_numeric_or_sequential_container()?,
             None => Value::Object(Map::new()),
         };
         self.depth -= 1;
@@ -145,7 +152,7 @@ impl<'a> Decoder<'a> {
         Ok(map)
     }
 
-    fn read_array_entries(&mut self) -> Result<Vec<Value>, DecodeError> {
+    fn read_numeric_or_sequential_container(&mut self) -> Result<Value, DecodeError> {
         let mut items = Vec::new();
 
         while let Some(tag) = self.peek_u8() {
@@ -158,7 +165,7 @@ impl<'a> Decoder<'a> {
             items.push(value);
         }
 
-        Ok(items)
+        Ok(numeric_keyed_container(&items).unwrap_or(Value::Array(items)))
     }
 
     fn read_string(&mut self) -> Result<String, DecodeError> {
@@ -177,7 +184,7 @@ impl<'a> Decoder<'a> {
 
     fn read_u32_le(&mut self) -> Result<u32, DecodeError> {
         let raw = self.read_exact(4)?;
-        Ok(u32::from_le_bytes(raw.try_into().expect("slice length checked")))
+        Ok(u32::from_le_bytes(bytes4(raw)?))
     }
 
     fn read_u8(&mut self) -> Result<u8, DecodeError> {
@@ -206,6 +213,16 @@ impl<'a> Decoder<'a> {
     }
 }
 
+fn bytes4(bytes: &[u8]) -> Result<[u8; 4], DecodeError> {
+    <[u8; 4]>::try_from(bytes)
+        .map_err(|_| DecodeError::UnexpectedEof { needed: 4, remaining: bytes.len() })
+}
+
+fn bytes8(bytes: &[u8]) -> Result<[u8; 8], DecodeError> {
+    <[u8; 8]>::try_from(bytes)
+        .map_err(|_| DecodeError::UnexpectedEof { needed: 8, remaining: bytes.len() })
+}
+
 fn number_value(value: f64) -> Result<Value, DecodeError> {
     if value.is_finite() {
         let normalized = normalize_integer(value);
@@ -230,7 +247,16 @@ fn normalize_integer(value: f64) -> Number {
         }
     }
 
-    Number::from_f64(value).expect("finite numbers fit JSON")
+    number_from_f64(value)
+}
+
+fn number_from_f64(value: f64) -> Number {
+    if let Some(number) = Number::from_f64(value) {
+        number
+    } else {
+        // `number_value` rejects NaN and infinity before this helper is called.
+        Number::from(0)
+    }
 }
 
 fn to_u64_exact(value: f64) -> Option<u64> {
@@ -251,6 +277,8 @@ fn to_i64_exact(value: f64) -> Option<i64> {
 
 #[cfg(test)]
 mod tests {
+    use serde_json::json;
+
     use super::*;
 
     const TAG_OBJECT_END: u8 = 0xff;
@@ -279,6 +307,12 @@ mod tests {
             buffer.extend_from_slice(value);
         }
         buffer.push(TAG_OBJECT_END);
+        buffer
+    }
+
+    fn encode_f64(value: f64) -> Vec<u8> {
+        let mut buffer = vec![TAG_F64];
+        buffer.extend_from_slice(&value.to_be_bytes());
         buffer
     }
 
@@ -374,6 +408,33 @@ mod tests {
     }
 
     #[test]
+    fn decode_sequential_numeric_keyed_container_as_array() {
+        let buffer = encode_array(&[
+            encode_f64(1.0),
+            encode_string("first"),
+            encode_f64(2.0),
+            encode_string("second"),
+        ]);
+
+        assert_eq!(decode(&buffer).unwrap(), json!(["first", "second"]));
+    }
+
+    #[test]
+    fn decode_non_sequential_numeric_keyed_container_as_object() {
+        let buffer = encode_array(&[encode_f64(42.0), encode_string("value")]);
+
+        assert_eq!(decode(&buffer).unwrap(), json!({ "42": "value" }));
+    }
+
+    #[test]
+    fn decode_sequential_numeric_scalar_container_as_array() {
+        let buffer =
+            encode_array(&[encode_f64(1.0), encode_f64(24.0), encode_f64(2.0), encode_f64(1.0)]);
+
+        assert_eq!(decode(&buffer).unwrap(), json!([24, 1]));
+    }
+
+    #[test]
     fn decode_unknown_tag_as_null() {
         let value = decode(&[0x99]).unwrap();
         assert_eq!(value, Value::Null);
@@ -454,5 +515,55 @@ mod tests {
             let value = decode(sample).expect("decode sample");
             assert!(matches!(value, Value::Object(_)));
         }
+    }
+
+    #[test]
+    fn decode_all_checked_in_mail_samples() {
+        let samples_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples");
+        let samples = collect_mail_samples(&samples_dir);
+
+        for input in &samples {
+            let buffer = std::fs::read(input)
+                .unwrap_or_else(|error| panic!("failed to read {}: {error}", input.display()));
+            if let Err(error) = decode(&buffer) {
+                panic!("failed to decode {}: {error}", input.display());
+            }
+        }
+
+        assert_eq!(samples.len(), 132);
+    }
+
+    fn collect_mail_samples(dir: &std::path::Path) -> Vec<std::path::PathBuf> {
+        let mut samples = Vec::new();
+        collect_mail_samples_inner(dir, &mut samples);
+        samples.sort();
+        samples
+    }
+
+    fn collect_mail_samples_inner(dir: &std::path::Path, samples: &mut Vec<std::path::PathBuf>) {
+        let entries = std::fs::read_dir(dir)
+            .unwrap_or_else(|error| panic!("failed to read {}: {error}", dir.display()));
+
+        for entry in entries {
+            let path = entry
+                .unwrap_or_else(|error| {
+                    panic!("failed to read entry in {}: {error}", dir.display())
+                })
+                .path();
+            if path.is_dir() {
+                collect_mail_samples_inner(&path, samples);
+            } else if is_binary_mail_sample(&path) {
+                samples.push(path);
+            }
+        }
+    }
+
+    fn is_binary_mail_sample(path: &std::path::Path) -> bool {
+        let Some(file_name) = path.file_name().and_then(std::ffi::OsStr::to_str) else {
+            return false;
+        };
+        file_name.starts_with("Persistent.Mail.")
+            && !file_name.ends_with(".json")
+            && !file_name.ends_with("-processed.json")
     }
 }
