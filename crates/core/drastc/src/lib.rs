@@ -239,7 +239,7 @@ mod tests {
         let score = model.evaluate().expect("score");
 
         assert_close(score.breakdown.rage.score, 5.47);
-        assert_close(score.breakdown.assist.score, 3.39);
+        assert_close(score.breakdown.assist.score, 3.42);
     }
 
     #[test]
@@ -266,7 +266,7 @@ mod tests {
         let score = model.evaluate().expect("score");
 
         assert_close(score.breakdown.rage.score, 9.82);
-        assert_close(score.breakdown.assist.score, 5.61);
+        assert_close(score.breakdown.assist.score, 5.57);
     }
 
     #[test]

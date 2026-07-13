@@ -23,7 +23,7 @@ const THEORETICAL_RAGE_TABLE: &[RagePairing] = &[
     RagePairing::new(103, 459, 8.7),
     RagePairing::new(509, 179, 4.2),
     RagePairing::new(509, 6, 4.2),
-    RagePairing::new(509, 195, 4.2),
+    RagePairing::new(509, 195, 4.5),
     RagePairing::new(611, 179, 7.0),
     RagePairing::new(611, 6, 7.2),
     RagePairing::new(611, 195, 7.3),
@@ -52,51 +52,56 @@ const THEORETICAL_RAGE_TABLE: &[RagePairing] = &[
     RagePairing::new(189, 190, 9.5),
     RagePairing::new(175, 189, 8.5),
     RagePairing::new(461, 460, 8.0),
+    RagePairing::new(540, 616, 7.5),
+    RagePairing::new(575, 616, 7.5),
+    RagePairing::new(545, 616, 7.8),
+    RagePairing::new(185, 616, 7.3),
+    RagePairing::new(459, 616, 7.5),
 ];
 
 const THEORETICAL_ASSIST_TABLE: &[AssistCommander] = &[
     AssistCommander::new(575, 8.0),
-    AssistCommander::new(99, 50.0),
-    AssistCommander::new(138, 7.0),
-    AssistCommander::new(98, 39.0),
-    AssistCommander::new(546, 7.0),
-    AssistCommander::new(611, 10.0),
-    AssistCommander::new(540, 2.0),
+    AssistCommander::new(99, 50.2),
+    AssistCommander::new(138, 7.02),
+    AssistCommander::new(98, 39.2),
+    AssistCommander::new(546, 6.666666667),
+    AssistCommander::new(611, 10.05),
+    AssistCommander::new(540, 1.8),
     AssistCommander::new(186, 0.0),
-    AssistCommander::new(103, 2.0),
+    AssistCommander::new(103, 2.466666667),
     AssistCommander::new(545, 3.0),
     AssistCommander::new(192, 24.0),
-    AssistCommander::new(146, 12.0),
+    AssistCommander::new(146, 11.5),
     AssistCommander::new(130, 0.0),
     AssistCommander::new(578, 2.0),
-    AssistCommander::new(190, 10.0),
-    AssistCommander::new(579, 6.0),
+    AssistCommander::new(190, 9.72),
+    AssistCommander::new(579, 6.24),
     AssistCommander::new(189, 0.0),
     AssistCommander::new(108, 18.0),
     AssistCommander::new(576, 5.0),
-    AssistCommander::new(187, 41.0),
-    AssistCommander::new(182, 5.0),
+    AssistCommander::new(187, 41.08),
+    AssistCommander::new(182, 4.615384615),
     AssistCommander::new(596, 0.0),
-    AssistCommander::new(148, 11.0),
+    AssistCommander::new(148, 10.8),
     AssistCommander::new(461, 0.0),
     AssistCommander::new(185, 16.0),
-    AssistCommander::new(175, 1.0),
+    AssistCommander::new(175, 0.72),
     AssistCommander::new(565, 0.0),
     AssistCommander::new(65, 0.0),
-    AssistCommander::new(9, 2.0),
+    AssistCommander::new(9, 1.8),
     AssistCommander::new(459, 40.0),
-    AssistCommander::new(509, 5.0),
-    AssistCommander::new(198, 4.0),
-    AssistCommander::new(162, 7.0),
+    AssistCommander::new(509, 4.5),
+    AssistCommander::new(198, 4.02),
+    AssistCommander::new(162, 6.5),
     AssistCommander::new(197, 4.0),
-    AssistCommander::new(140, 23.0),
-    AssistCommander::new(195, 16.0),
+    AssistCommander::new(140, 22.905),
+    AssistCommander::new(195, 15.56),
     AssistCommander::new(460, 0.0),
     AssistCommander::new(595, 0.0),
     AssistCommander::new(100, 13.0),
     AssistCommander::new(125, 52.0),
-    AssistCommander::new(616, 46.0),
-    AssistCommander::new(115, 21.0),
+    AssistCommander::new(616, 45.6),
+    AssistCommander::new(115, 20.6),
     AssistCommander::new(194, 0.0),
     AssistCommander::new(6, 0.0),
     AssistCommander::new(179, 30.0),
@@ -209,4 +214,15 @@ fn assist_raw_for_commander(commander_id: u32) -> f64 {
         .iter()
         .find(|commander| commander.commander_id == commander_id)
         .map_or(0.0, |commander| commander.assist_raw)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn includes_vercingetorix_pairings_and_assist_values() {
+        assert_eq!(theoretical_for_pairing(540, 616), TheoreticalValues::new(7.5, 47.4));
+        assert_eq!(theoretical_for_pairing(545, 616), TheoreticalValues::new(7.8, 48.6));
+    }
 }
