@@ -173,17 +173,15 @@ async fn store_compressed_raw_mail(
     user_agent: &str,
 ) -> Result<(), ApiError> {
     let checksum = raw_mail::sha256_hex(buffer);
+    let binary_size = i64::try_from(buffer.len())
+        .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
     let existing = state
         .storage
         .find_existing_compressed_raw(mail_id)
         .await
         .map_err(|error| ApiError::database(error.to_string()))?;
 
-    let action = match existing {
-        None => UploadAction::Insert,
-        Some(existing) if existing.checksum == checksum => UploadAction::Skip,
-        Some(_) => UploadAction::Update,
-    };
+    let action = decide_compressed_raw_action(existing.as_ref(), &checksum, buffer.len());
 
     if matches!(action, UploadAction::Skip) {
         return Ok(());
@@ -213,7 +211,7 @@ async fn store_compressed_raw_mail(
             .map_err(|error| ApiError::database(error.to_string()))?,
         UploadAction::Update => state
             .storage
-            .update_compressed_raw(mail_id, doc)
+            .update_compressed_raw(mail_id, &checksum, binary_size, doc)
             .await
             .map_err(|error| ApiError::database(error.to_string()))?,
         UploadAction::Skip => {}
@@ -399,6 +397,21 @@ fn decide_action(existing_attack_count: Option<i64>, attack_count: i64) -> Uploa
     match existing_attack_count {
         None => UploadAction::Insert,
         Some(existing) if attack_count > existing => UploadAction::Update,
+        Some(_) => UploadAction::Skip,
+    }
+}
+
+fn decide_compressed_raw_action(
+    existing: Option<&crate::storage::ExistingCompressedRawMail>,
+    checksum: &str,
+    size: usize,
+) -> UploadAction {
+    match existing {
+        None => UploadAction::Insert,
+        Some(existing) if existing.checksum.as_deref() == Some(checksum) => UploadAction::Skip,
+        Some(existing) if existing.size.is_some_and(|existing_size| size > existing_size) => {
+            UploadAction::Update
+        }
         Some(_) => UploadAction::Skip,
     }
 }
@@ -714,6 +727,54 @@ mod tests {
     fn decide_action_skips_when_not_newer() {
         assert!(matches!(decide_action(Some(5), 4), UploadAction::Skip));
         assert!(matches!(decide_action(Some(4), 4), UploadAction::Skip));
+    }
+
+    fn existing_compressed_raw(
+        checksum: &str,
+        size: Option<usize>,
+    ) -> crate::storage::ExistingCompressedRawMail {
+        crate::storage::ExistingCompressedRawMail { checksum: Some(checksum.to_string()), size }
+    }
+
+    #[test]
+    fn compressed_raw_action_inserts_when_missing() {
+        let action = decide_compressed_raw_action(None, "new", 100);
+        assert!(matches!(action, UploadAction::Insert));
+    }
+
+    #[test]
+    fn compressed_raw_action_skips_matching_checksum() {
+        let existing = existing_compressed_raw("same", Some(50));
+        let action = decide_compressed_raw_action(Some(&existing), "same", 100);
+        assert!(matches!(action, UploadAction::Skip));
+    }
+
+    #[test]
+    fn compressed_raw_action_updates_different_larger_binary() {
+        let existing = existing_compressed_raw("old", Some(99));
+        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+        assert!(matches!(action, UploadAction::Update));
+    }
+
+    #[test]
+    fn compressed_raw_action_skips_different_equal_size_binary() {
+        let existing = existing_compressed_raw("old", Some(100));
+        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+        assert!(matches!(action, UploadAction::Skip));
+    }
+
+    #[test]
+    fn compressed_raw_action_skips_different_smaller_binary() {
+        let existing = existing_compressed_raw("old", Some(101));
+        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+        assert!(matches!(action, UploadAction::Skip));
+    }
+
+    #[test]
+    fn compressed_raw_action_skips_when_stored_size_is_missing() {
+        let existing = existing_compressed_raw("old", None);
+        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+        assert!(matches!(action, UploadAction::Skip));
     }
 
     #[test]
