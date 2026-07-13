@@ -3,7 +3,7 @@ members = [
     "crates/tools/binidx-cli",
     "crates/core/binidx-decoder",
     "crates/core/drastc",
-    "crates/tools/mail-cli",
+    "crates/mail/cli",
     "crates/mail/decoder",
     "crates/mail/registry",
     "crates/mail/processors/alliance-aoo-battle-info",
