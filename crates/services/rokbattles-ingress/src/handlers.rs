@@ -1,4 +1,4 @@
-use std::{io::Cursor, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
     Json,
@@ -8,7 +8,7 @@ use axum::{
 };
 use bytes::Bytes;
 use mail_registry::{is_processable_mail_type, is_supported_mail_type};
-use mongodb::bson::{Binary, Bson, DateTime, doc, spec::BinarySubtype};
+use mongodb::bson::DateTime;
 use serde::Serialize;
 use serde_json::Value;
 
@@ -29,7 +29,6 @@ pub struct UploadResponse {
     status: String,
     mail_id: String,
     mail_type: String,
-    mail_attack_count: i64,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -91,62 +90,9 @@ pub async fn upload(
         )));
     }
 
-    store_compressed_raw_mail(&state, &buffer, &decoded, &mail_id, &mail_type, &user_agent).await?;
-
-    let attack_count = count_attacks(&decoded) as i64;
-
-    let existing = state
-        .storage
-        .find_existing(&mail_id)
-        .await
-        .map_err(|error| ApiError::database(error.to_string()))?;
-
-    let action = decide_action(existing.as_ref().map(|entry| entry.attack_count), attack_count);
-
-    if matches!(action, UploadAction::Insert | UploadAction::Update) {
-        let compressed = compress_mail_value(&decoded, state.config.zstd_level)?;
-        let now = DateTime::now();
-
-        match action {
-            UploadAction::Insert => {
-                let raw_doc = doc! {
-                    "mail_id": &mail_id,
-                    "mail_attack_count": attack_count,
-                    "user_agent": &user_agent,
-                    "status": insert_status_for_mail_type(&mail_type),
-                    "mail_value": Bson::Binary(Binary {
-                        subtype: BinarySubtype::Generic,
-                        bytes: compressed,
-                    }),
-                    "createdAt": now,
-                    "updatedAt": now,
-                };
-                state
-                    .storage
-                    .insert_raw(raw_doc)
-                    .await
-                    .map_err(|error| ApiError::database(error.to_string()))?;
-            }
-            UploadAction::Update => {
-                let raw_update = doc! {
-                    "mail_attack_count": attack_count,
-                    "user_agent": &user_agent,
-                    "status": update_status_for_mail_type(&mail_type),
-                    "mail_value": Bson::Binary(Binary {
-                        subtype: BinarySubtype::Generic,
-                        bytes: compressed,
-                    }),
-                    "updatedAt": now,
-                };
-                state
-                    .storage
-                    .update_raw(&mail_id, raw_update)
-                    .await
-                    .map_err(|error| ApiError::database(error.to_string()))?;
-            }
-            UploadAction::Skip => {}
-        }
-    }
+    let action =
+        store_compressed_raw_mail(&state, &buffer, &decoded, &mail_id, &mail_type, &user_agent)
+            .await?;
 
     let (status, label) = match action {
         UploadAction::Insert => (StatusCode::CREATED, "stored"),
@@ -154,12 +100,7 @@ pub async fn upload(
         UploadAction::Skip => (StatusCode::OK, "skipped"),
     };
 
-    let response = UploadResponse {
-        status: label.to_string(),
-        mail_id,
-        mail_type,
-        mail_attack_count: attack_count,
-    };
+    let response = UploadResponse { status: label.to_string(), mail_id, mail_type };
 
     Ok((status, Json(response)))
 }
@@ -171,7 +112,7 @@ async fn store_compressed_raw_mail(
     mail_id: &str,
     mail_type: &str,
     user_agent: &str,
-) -> Result<(), ApiError> {
+) -> Result<UploadAction, ApiError> {
     let checksum = raw_mail::sha256_hex(buffer);
     let binary_size = i64::try_from(buffer.len())
         .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
@@ -184,7 +125,7 @@ async fn store_compressed_raw_mail(
     let action = decide_compressed_raw_action(existing.as_ref(), &checksum, buffer.len());
 
     if matches!(action, UploadAction::Skip) {
-        return Ok(());
+        return Ok(action);
     }
 
     let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
@@ -217,7 +158,7 @@ async fn store_compressed_raw_mail(
         UploadAction::Skip => {}
     }
 
-    Ok(())
+    Ok(action)
 }
 
 /// Acknowledge legacy TCP stream uploads without storing or validating them.
@@ -389,18 +330,6 @@ fn is_probably_json(bytes: &[u8]) -> bool {
     trimmed.starts_with('{') || trimmed.starts_with('[')
 }
 
-fn count_attacks(value: &Value) -> usize {
-    find_attacks_object(value).map_or(0, |attacks| attacks.len())
-}
-
-fn decide_action(existing_attack_count: Option<i64>, attack_count: i64) -> UploadAction {
-    match existing_attack_count {
-        None => UploadAction::Insert,
-        Some(existing) if attack_count > existing => UploadAction::Update,
-        Some(_) => UploadAction::Skip,
-    }
-}
-
 fn decide_compressed_raw_action(
     existing: Option<&crate::storage::ExistingCompressedRawMail>,
     checksum: &str,
@@ -414,31 +343,6 @@ fn decide_compressed_raw_action(
         }
         Some(_) => UploadAction::Skip,
     }
-}
-
-fn find_attacks_object(value: &Value) -> Option<&serde_json::Map<String, Value>> {
-    match value {
-        Value::Object(map) => {
-            if let Some(Value::Object(attacks)) = map.get("Attacks") {
-                return Some(attacks);
-            }
-            for entry in map.values() {
-                if let Some(found) = find_attacks_object(entry) {
-                    return Some(found);
-                }
-            }
-            None
-        }
-        Value::Array(values) => values.iter().find_map(find_attacks_object),
-        _ => None,
-    }
-}
-
-fn compress_mail_value(decoded: &Value, zstd_level: i32) -> Result<Vec<u8>, ApiError> {
-    let json =
-        serde_json::to_vec(decoded).map_err(|error| ApiError::internal(error.to_string()))?;
-    zstd::stream::encode_all(Cursor::new(json), zstd_level)
-        .map_err(|error| ApiError::internal(error.to_string()))
 }
 
 #[cfg(test)]
@@ -695,38 +599,6 @@ mod tests {
     fn extracts_mail_id_from_metadata() {
         let decoded = json!({ "metadata": { "mail_id": "meta-1" } });
         assert_eq!(extract_mail_id(&decoded).as_deref(), Some("meta-1"));
-    }
-
-    #[test]
-    fn counts_attacks_nested() {
-        let decoded = json!({
-            "body": {
-                "content": {
-                    "Attacks": {
-                        "a": { "id": 1 },
-                        "b": { "id": 2 },
-                        "c": { "id": 3 }
-                    }
-                }
-            }
-        });
-        assert_eq!(count_attacks(&decoded), 3);
-    }
-
-    #[test]
-    fn decide_action_inserts_when_missing() {
-        assert!(matches!(decide_action(None, 4), UploadAction::Insert));
-    }
-
-    #[test]
-    fn decide_action_updates_when_newer() {
-        assert!(matches!(decide_action(Some(2), 4), UploadAction::Update));
-    }
-
-    #[test]
-    fn decide_action_skips_when_not_newer() {
-        assert!(matches!(decide_action(Some(5), 4), UploadAction::Skip));
-        assert!(matches!(decide_action(Some(4), 4), UploadAction::Skip));
     }
 
     fn existing_compressed_raw(

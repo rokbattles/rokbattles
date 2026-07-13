@@ -56,13 +56,9 @@ impl Storage {
 
     /// Ensure required indexes exist.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
-        let status_index = IndexModel::builder().keys(doc! { "status": 1, "updatedAt": 1 }).build();
-        self.raw.create_index(status_index).await?;
+        self.raw.create_index(source_queue_index()).await?;
 
-        let mail_id_index = IndexModel::builder()
-            .keys(doc! { "metadata.mail_id": 1 })
-            .options(IndexOptions::builder().unique(true).build())
-            .build();
+        let mail_id_index = processed_mail_id_index();
         self.battle.create_index(mail_id_index.clone()).await?;
         self.duelbattle2.create_index(mail_id_index.clone()).await?;
         self.barcanyonkillboss.create_index(mail_id_index.clone()).await?;
@@ -166,6 +162,17 @@ impl Storage {
     }
 }
 
+fn source_queue_index() -> IndexModel {
+    IndexModel::builder().keys(doc! { "status": 1, "updatedAt": 1 }).build()
+}
+
+fn processed_mail_id_index() -> IndexModel {
+    IndexModel::builder()
+        .keys(doc! { "metadata.mail_id": 1 })
+        .options(IndexOptions::builder().unique(true).build())
+        .build()
+}
+
 fn pending_find_options(batch_size: i64) -> FindOptions {
     FindOptions::builder()
         .limit(batch_size)
@@ -243,6 +250,18 @@ fn processed_update_pipeline(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn source_queue_index_matches_pending_query_and_sort() {
+        assert_eq!(source_queue_index().keys, doc! { "status": 1, "updatedAt": 1 });
+    }
+
+    #[test]
+    fn processed_mail_id_index_is_unique() {
+        let index = processed_mail_id_index();
+        assert_eq!(index.keys, doc! { "metadata.mail_id": 1 });
+        assert_eq!(index.options.and_then(|options| options.unique), Some(true));
+    }
 
     #[test]
     fn pending_mail_is_sorted_before_reprocess_mail() {
