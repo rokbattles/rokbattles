@@ -99,11 +99,19 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
             ReportsFilterSubtype::KvkSeasonOfConquest => {
                 doc! { "sender.server_season": "100" }
             }
-            ReportsFilterSubtype::ArkGoldenBattleground => doc! { "sender.as_battle_type": 1_i64 },
-            ReportsFilterSubtype::ArkSilverBattleground => doc! { "sender.as_battle_type": 6_i64 },
-            ReportsFilterSubtype::ArkOsirisLeague => doc! { "sender.as_battle_type": 3_i64 },
-            ReportsFilterSubtype::ArkPracticeMatch => doc! { "sender.as_battle_type": 2_i64 },
-            ReportsFilterSubtype::ArkCustomMatch => doc! { "sender.as_battle_type": 5_i64 },
+            ReportsFilterSubtype::ArkGoldenBattleground => {
+                build_ark_session_condition(Some("ab"), Some(""))
+            }
+            ReportsFilterSubtype::ArkSilverBattleground => {
+                build_ark_session_condition(None, Some("SilverEgypt"))
+            }
+            ReportsFilterSubtype::ArkOsirisLeague => build_ark_session_condition(Some("abl"), None),
+            ReportsFilterSubtype::ArkPracticeMatch => {
+                build_ark_session_condition(Some("abp"), Some("gvgn"))
+            }
+            ReportsFilterSubtype::ArkCustomMatch => {
+                build_ark_session_condition(Some("abp"), Some("DiyEgypt"))
+            }
         };
         match_pipeline.push(condition);
     }
@@ -142,6 +150,25 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     } else {
         doc! { "$and": match_pipeline }
     }
+}
+
+fn build_ark_session_condition(mode: Option<&str>, submode: Option<&str>) -> Document {
+    let mut conditions = Vec::new();
+    if let Some(mode) = mode {
+        conditions.push(doc! {
+            "sender.session": { "$regex": session_parameter_pattern("mode", mode) }
+        });
+    }
+    if let Some(submode) = submode {
+        conditions.push(doc! {
+            "sender.session": { "$regex": session_parameter_pattern("submode", submode) }
+        });
+    }
+    doc! { "$and": conditions }
+}
+
+fn session_parameter_pattern(name: &str, value: &str) -> String {
+    format!(r"(^|&){name}={value}(&|$)")
 }
 
 fn append_compound_condition(target: &mut Vec<Document>, conditions: Vec<Document>) {
@@ -229,19 +256,83 @@ mod tests {
     }
 
     #[test]
-    fn ark_subtype_matches_sender_battle_type() {
+    fn ark_golden_subtype_matches_session() {
         let request = parse_reports_request(&HashMap::from([
             ("type".to_string(), "ark".to_string()),
-            ("subtype".to_string(), "6".to_string()),
+            ("subtype".to_string(), "1".to_string()),
         ]))
         .expect("valid Ark subtype");
 
         let filter = build_reports_match(&request);
 
-        assert!(
-            match_conditions(&filter)
-                .contains(&Bson::Document(doc! { "sender.as_battle_type": 6_i64 }))
+        assert!(match_conditions(&filter).contains(&Bson::Document(doc! {
+            "$and": [
+                { "sender.session": { "$regex": r"(^|&)mode=ab(&|$)" } },
+                { "sender.session": { "$regex": r"(^|&)submode=(&|$)" } },
+            ]
+        })));
+    }
+
+    #[test]
+    fn ark_silver_subtype_matches_session() {
+        assert_ark_session_condition(
+            "6",
+            doc! {
+                "$and": [
+                    { "sender.session": { "$regex": r"(^|&)submode=SilverEgypt(&|$)" } }
+                ]
+            },
         );
+    }
+
+    #[test]
+    fn ark_league_subtype_matches_session() {
+        assert_ark_session_condition(
+            "3",
+            doc! {
+                "$and": [
+                    { "sender.session": { "$regex": r"(^|&)mode=abl(&|$)" } }
+                ]
+            },
+        );
+    }
+
+    #[test]
+    fn ark_practice_subtype_matches_session() {
+        assert_ark_session_condition(
+            "2",
+            doc! {
+                "$and": [
+                    { "sender.session": { "$regex": r"(^|&)mode=abp(&|$)" } },
+                    { "sender.session": { "$regex": r"(^|&)submode=gvgn(&|$)" } },
+                ]
+            },
+        );
+    }
+
+    #[test]
+    fn ark_custom_subtype_matches_session() {
+        assert_ark_session_condition(
+            "5",
+            doc! {
+                "$and": [
+                    { "sender.session": { "$regex": r"(^|&)mode=abp(&|$)" } },
+                    { "sender.session": { "$regex": r"(^|&)submode=DiyEgypt(&|$)" } },
+                ]
+            },
+        );
+    }
+
+    fn assert_ark_session_condition(subtype: &str, expected: Document) {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "ark".to_string()),
+            ("subtype".to_string(), subtype.to_string()),
+        ]))
+        .expect("valid Ark subtype");
+
+        let filter = build_reports_match(&request);
+
+        assert!(match_conditions(&filter).contains(&Bson::Document(expected)));
     }
 
     fn match_conditions(filter: &Document) -> &Vec<Bson> {

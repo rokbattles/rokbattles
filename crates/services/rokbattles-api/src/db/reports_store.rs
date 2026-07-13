@@ -133,7 +133,7 @@ impl ReportsStore {
             IndexModel::builder()
                 .keys(doc! {
                     "metadata.mail_role": 1,
-                    "sender.as_battle_type": 1,
+                    "sender.session": 1,
                     "metadata.mail_time": -1,
                 })
                 .build(),
