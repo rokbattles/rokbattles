@@ -148,9 +148,7 @@ mod tests {
         let input = json!({
             "Heroes": {
                 "Buffs": [
-                    1,
                     { "BuffId": 10, "BuffValue": 1.25 },
-                    2,
                     { "BuffId": 11, "BuffValue": 2 }
                 ]
             }

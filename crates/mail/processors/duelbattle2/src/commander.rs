@@ -67,9 +67,7 @@ mod tests {
                     "HeroId": 10,
                     "HeroLevel": 50,
                     "Skills": [
-                        1,
                         { "Level": 3, "SkillId": 101 },
-                        2,
                         { "Level": 4, "SkillId": 102 }
                     ],
                     "Star": 5
@@ -78,7 +76,7 @@ mod tests {
                     "Awaked": false,
                     "HeroId": 20,
                     "HeroLevel": 45,
-                    "Skills": [1, { "Level": 2, "SkillId": 201 }],
+                    "Skills": [{ "Level": 2, "SkillId": 201 }],
                     "Star": 4
                 }
             }

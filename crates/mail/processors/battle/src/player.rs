@@ -748,7 +748,7 @@ mod tests {
     #[test]
     fn extract_player_fields_reads_secondary_relic_id() {
         let mut player = base_player();
-        player.insert("HClt2".to_string(), json!([1, 6]));
+        player.insert("HClt2".to_string(), json!([6]));
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(fields["commanders"]["secondary"]["relics"], json!([{ "id": 6 }]));
     }
@@ -770,8 +770,8 @@ mod tests {
         player.insert("HAw".to_string(), json!(true));
         player.insert("HSt".to_string(), json!(4));
         player.insert("HEq".to_string(), json!("{1:200}"));
-        player.insert("HSS".to_string(), json!([1, { "SkillId": 111, "SkillLevel": 3 }]));
-        player.insert("HClt".to_string(), json!([1, 10001, 2, 2]));
+        player.insert("HSS".to_string(), json!([{ "SkillId": 111, "SkillLevel": 3 }]));
+        player.insert("HClt".to_string(), json!([10001, 2]));
         player.insert(
             "HWBs".to_string(),
             json!({ "1": { "Affix": "-1", "Buffs": "buffs-1", "Id": "ignored" } }),
@@ -782,8 +782,8 @@ mod tests {
         player.insert("HAw2".to_string(), json!(false));
         player.insert("HSt2".to_string(), json!(5));
         player.insert("HEq2".to_string(), json!("{2:201}"));
-        player.insert("HSS2".to_string(), json!([1, { "SkillId": 222, "SkillLevel": 5 }]));
-        player.insert("HClt2".to_string(), json!([1, 20001, 2, 5]));
+        player.insert("HSS2".to_string(), json!([{ "SkillId": 222, "SkillLevel": 5 }]));
+        player.insert("HClt2".to_string(), json!([20001, 5]));
         let fields = extract_player_fields(&player).unwrap();
         assert_eq!(
             fields.get("commanders"),
@@ -822,9 +822,7 @@ mod tests {
             json!({
                 "ENABLE": true,
                 "SKILLS": [
-                    1,
                     { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 },
-                    2,
                     { "HeroId": 63, "SkillId": 1133, "SkillLevel": 4 }
                 ]
             }),
@@ -867,7 +865,6 @@ mod tests {
             json!({
                 "ENABLE": false,
                 "SKILLS": [
-                    1,
                     { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 }
                 ]
             }),
@@ -885,7 +882,6 @@ mod tests {
             "CAHAH".to_string(),
             json!({
                 "ASSISTSKILL": [
-                    1,
                     { "HeroId": 141, "Index": 2, "Level": 5, "SkillId": 1420 }
                 ],
                 "HeroId": 509

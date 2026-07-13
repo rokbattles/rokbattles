@@ -69,7 +69,6 @@ mod tests {
             "body": {
                 "kvs": {
                     "plyRanks": [
-                        1,
                         {
                             "Name": "Tester",
                             "Score": -1,
@@ -102,7 +101,6 @@ mod tests {
             "body": {
                 "kvs": {
                     "plyRanks": [
-                        1,
                         {
                             "Name": "Tester",
                             "BuildingScore": 10,

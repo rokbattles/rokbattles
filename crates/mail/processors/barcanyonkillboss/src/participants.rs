@@ -126,16 +126,13 @@ mod tests {
             "body": {
                 "content": {
                     "infos": [
-                        1,
                         {
                             "playerId": 42,
                             "name": "Tester",
                             "avatar": "{\"avatar\":\"https://example.com/a.png\",\"avatarFrame\":\"https://example.com/f.png\"}",
                             "damageRate": 12.5,
                             "loots": [
-                                1,
                                 { "Type": 2, "SubType": 26, "Value": 3 },
-                                2,
                                 { "Type": 2, "SubType": 65, "Value": 2 }
                             ]
                         }
@@ -171,13 +168,12 @@ mod tests {
             "body": {
                 "content": {
                     "infos": [
-                        1,
                         {
                             "playerId": 7,
                             "name": "Solo",
                             "avatar": "https://example.com/a.png",
                             "damageRate": 1,
-                            "loots": [1, { "Type": 1, "SubType": 2, "Value": 3 }]
+                            "loots": [{ "Type": 1, "SubType": 2, "Value": 3 }]
                         }
                     ]
                 }
@@ -197,7 +193,6 @@ mod tests {
             "body": {
                 "content": {
                     "infos": [
-                        1,
                         {
                             "name": "Missing",
                             "avatar": null,

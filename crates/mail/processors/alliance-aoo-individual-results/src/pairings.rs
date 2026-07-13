@@ -86,7 +86,6 @@ mod tests {
                     "FightReport": {
                         "Stat": {
                             "HerosStat": [
-                                1,
                                 {
                                     "MainHeroId": 540,
                                     "AssistHeroId": 459,

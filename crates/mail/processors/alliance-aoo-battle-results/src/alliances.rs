@@ -82,7 +82,6 @@ mod tests {
             "body": {
                 "kvs": {
                     "asInfos": [
-                        1,
                         {
                             "Abbr": "AAA",
                             "AllianceId": 11,

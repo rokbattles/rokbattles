@@ -604,10 +604,8 @@ mod tests {
             "receiver": "player-1",
             "serverId": 55,
             "attachments": [
-                1,
                 {
                     "loot": [
-                        1,
                         { "Type": 1, "SubType": 9, "Value": 45000 }
                     ]
                 }
@@ -643,11 +641,11 @@ mod tests {
             "body": { "content": {
                 "EventName": "GVE",
                 "subTitle": "Bladefist Andaal Has Been Defeated",
-                "infos": [1, {
+                "infos": [{
                     "playerId": 7,
                     "name": "Player",
                     "avatar": null,
-                    "loots": [1, { "Type": 2, "SubType": 3, "Value": 4 }]
+                    "loots": [{ "Type": 2, "SubType": 3, "Value": 4 }]
                 }]
             }}
         });

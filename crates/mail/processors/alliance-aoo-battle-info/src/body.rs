@@ -71,13 +71,11 @@ mod tests {
             "body": {
                 "kvs": {
                     "fightlist": [
-                        1,
                         {
                             "Idx": 0,
                             "Time": 1771768966683u64,
                             "Win": true
                         },
-                        2,
                         {
                             "Idx": 1,
                             "Time": 1771770000000u64,

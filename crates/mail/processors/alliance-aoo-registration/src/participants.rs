@@ -81,7 +81,6 @@ mod tests {
             "body": {
                 "kvs": {
                     "resevePly": [
-                        1,
                         {
                             "Name": "Reserve",
                             "PlyId": 10,
@@ -90,7 +89,6 @@ mod tests {
                         }
                     ],
                     "commanderPly": [
-                        1,
                         {
                             "Name": "Commander",
                             "PlyId": 20,
@@ -99,7 +97,6 @@ mod tests {
                         }
                     ],
                     "allowPly": [
-                        1,
                         {
                             "Name": "Allowed",
                             "PlyId": 30,

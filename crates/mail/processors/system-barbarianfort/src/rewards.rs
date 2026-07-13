@@ -79,12 +79,9 @@ mod tests {
     fn rewards_extractor_reads_fields() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "loot": [
-                        1,
                         { "Type": 2, "SubType": 26, "Value": 3 },
-                        2,
                         { "Type": 2, "SubType": 65, "Value": 2 }
                     ]
                 }
@@ -118,10 +115,8 @@ mod tests {
     fn rewards_extractor_reads_all_attachments() {
         let input = json!({
             "attachments": [
-                1,
-                { "loot": [1, { "Type": 2, "SubType": 26, "Value": 3 }] },
-                2,
-                { "loot": [1, { "Type": 2, "SubType": 65, "Value": 2 }] }
+                { "loot": [{ "Type": 2, "SubType": 26, "Value": 3 }] },
+                { "loot": [{ "Type": 2, "SubType": 65, "Value": 2 }] }
             ]
         });
 
@@ -138,7 +133,6 @@ mod tests {
     fn rewards_extractor_rejects_missing_loot() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "id": 1
                 }

@@ -124,9 +124,7 @@ mod tests {
                     "Btk": 5,
                     "Events": [],
                     "Samples": [
-                        1,
                         { "Cnt": 10, "T": 100 },
-                        2,
                         { "Cnt": 20, "T": 200 }
                     ]
                 }
@@ -155,7 +153,6 @@ mod tests {
                     "Btk": 5,
                     "Samples": [],
                     "Events": [
-                        1,
                         {
                             "T": 7,
                             "Et": 18,
@@ -210,7 +207,6 @@ mod tests {
                     "Btk": 5,
                     "Samples": [],
                     "Events": [
-                        1,
                         {
                             "T": 7,
                             "Et": 18,
@@ -247,13 +243,11 @@ mod tests {
                     "Btk": 5,
                     "Samples": [],
                     "Events": [
-                        1,
                         {
                             "T": 7,
                             "Et": 18,
                             "CastleHealing": { "Cnt": 5, "IsSelf": 1 }
                         },
-                        2,
                         {
                             "T": 9,
                             "Et": 18,
