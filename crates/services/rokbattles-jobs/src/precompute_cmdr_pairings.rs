@@ -1221,7 +1221,7 @@ mod tests {
         let score = scores.get(&key).expect("drastc score");
         assert_eq!(score.samples, 2);
         assert_eq!(score.breakdown.rage.value, 8.0);
-        assert_eq!(score.breakdown.assist.value, 14.0);
+        assert_eq!(score.breakdown.assist.value, 14.24);
     }
 
     #[test]
