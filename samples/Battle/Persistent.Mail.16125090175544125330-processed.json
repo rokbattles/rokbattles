@@ -201,6 +201,7 @@
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 458684,
       "structure_id": null,
       "support_skills": {
@@ -410,6 +411,7 @@
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 458683,
       "structure_id": null,
       "support_skills": {
@@ -623,6 +625,7 @@
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 458697,
       "structure_id": null,
       "support_skills": {
@@ -836,6 +839,7 @@
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 458696,
       "structure_id": null,
       "support_skills": {
@@ -1045,6 +1049,7 @@
       "player_name": "SnaiL蝸牛 ぴっぴ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 458696,
       "structure_id": null,
       "support_skills": {
@@ -1203,6 +1208,7 @@
     "player_name": "Viatina乂Fayst",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": true,

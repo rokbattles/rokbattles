@@ -63,6 +63,13 @@ mod tests {
         serde_json::from_str(&json).expect("parse sample")
     }
 
+    fn load_session_sample() -> Value {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../../samples/Battle/Persistent.Mail.16210617176935008431.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        serde_json::from_str(&json).expect("parse sample")
+    }
+
     #[test]
     fn sender_extractor_reads_basic_fields() {
         let input = json!({
@@ -171,6 +178,19 @@ mod tests {
         assert_eq!(
             section.fields()["auxiliary_skills"],
             json!([{ "hero_id": 141, "level": 5, "skill_id": 1420 }])
+        );
+    }
+
+    #[test]
+    fn sender_extractor_reads_session_from_sample() {
+        let input = load_session_sample();
+        let extractor = SenderExtractor::new();
+
+        let section = extractor.extract(&input).unwrap();
+
+        assert_eq!(
+            section.fields()["session"],
+            json!("cfg_id=4&id=3538&mode=ab&role_id=113&submode=")
         );
     }
 

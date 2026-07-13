@@ -842,6 +842,7 @@
       "player_name": "Eiden2018",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 474937,
       "structure_id": null,
       "support_skills": {
@@ -1019,6 +1020,7 @@
       "player_name": "dabrus",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475002,
       "structure_id": null,
       "support_skills": {
@@ -1175,6 +1177,7 @@
       "player_name": "dabrus",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475013,
       "structure_id": null,
       "support_skills": {
@@ -1352,6 +1355,7 @@
       "player_name": "Nhi   Hí",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475104,
       "structure_id": null,
       "support_skills": {
@@ -1508,6 +1512,7 @@
       "player_name": "Simon시몬",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475111,
       "structure_id": null,
       "support_skills": {
@@ -1681,6 +1686,7 @@
       "player_name": "Navion69",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475200,
       "structure_id": null,
       "support_skills": {
@@ -1854,6 +1860,7 @@
       "player_name": "Gunz88",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475232,
       "structure_id": null,
       "support_skills": {
@@ -2027,6 +2034,7 @@
       "player_name": "cruack",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475371,
       "structure_id": null,
       "support_skills": {
@@ -2200,6 +2208,7 @@
       "player_name": "EOB 喵腳",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475433,
       "structure_id": null,
       "support_skills": {
@@ -2373,6 +2382,7 @@
       "player_name": "cruack",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475433,
       "structure_id": null,
       "support_skills": {
@@ -2550,6 +2560,7 @@
       "player_name": "Wanger94",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475440,
       "structure_id": null,
       "support_skills": {
@@ -2723,6 +2734,7 @@
       "player_name": "Sanya007",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475461,
       "structure_id": null,
       "support_skills": {
@@ -2904,6 +2916,7 @@
       "player_name": "VirusLoveLy",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475547,
       "structure_id": null,
       "support_skills": {
@@ -3077,6 +3090,7 @@
       "player_name": "Sanya007",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475568,
       "structure_id": null,
       "support_skills": {
@@ -3258,6 +3272,7 @@
       "player_name": "VirusLoveLy",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475603,
       "structure_id": null,
       "support_skills": {
@@ -3414,6 +3429,7 @@
       "player_name": "Phocidea",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475640,
       "structure_id": null,
       "support_skills": {
@@ -3591,6 +3607,7 @@
       "player_name": "Eiden2018",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475666,
       "structure_id": null,
       "support_skills": {
@@ -3764,6 +3781,7 @@
       "player_name": "dabrus",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475678,
       "structure_id": null,
       "support_skills": {
@@ -3937,6 +3955,7 @@
       "player_name": "Sorcerer Tim",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475682,
       "structure_id": null,
       "support_skills": {
@@ -4114,6 +4133,7 @@
       "player_name": "MemphusX",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 475825,
       "structure_id": null,
       "support_skills": {
@@ -4758,6 +4778,7 @@
     "player_name": "Ø Heimdall Ø",
     "rally": true,
     "server_season": null,
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

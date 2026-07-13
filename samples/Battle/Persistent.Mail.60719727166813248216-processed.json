@@ -176,6 +176,7 @@
       "player_name": "Old s",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536214,
       "structure_id": null,
       "support_skills": {
@@ -357,6 +358,7 @@
       "player_name": "Саrnagе",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536215,
       "structure_id": null,
       "support_skills": {
@@ -534,6 +536,7 @@
       "player_name": "Саrnagе",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536220,
       "structure_id": null,
       "support_skills": {
@@ -711,6 +714,7 @@
       "player_name": "Саrnagе",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536220,
       "structure_id": null,
       "support_skills": {
@@ -888,6 +892,7 @@
       "player_name": "Саrnagе",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536212,
       "structure_id": null,
       "support_skills": {
@@ -1069,6 +1074,7 @@
       "player_name": "VIP맹인",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536211,
       "structure_id": null,
       "support_skills": {
@@ -1246,6 +1252,7 @@
       "player_name": "VIP맹인",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536205,
       "structure_id": null,
       "support_skills": {
@@ -1427,6 +1434,7 @@
       "player_name": "VIP맹인",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536206,
       "structure_id": null,
       "support_skills": {
@@ -1608,6 +1616,7 @@
       "player_name": "VIP맹인",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536212,
       "structure_id": null,
       "support_skills": {
@@ -1789,6 +1798,7 @@
       "player_name": "Fear of God",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536220,
       "structure_id": null,
       "support_skills": {
@@ -1966,6 +1976,7 @@
       "player_name": "Саrnagе",
       "rally": null,
       "server_season": null,
+      "session": null,
       "start_tick": 1536213,
       "structure_id": null,
       "support_skills": {
@@ -2142,6 +2153,7 @@
     "player_name": "wb74",
     "rally": null,
     "server_season": null,
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

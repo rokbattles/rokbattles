@@ -775,6 +775,20 @@ mod tests {
     }
 
     #[test]
+    fn opponents_extractor_reads_session_from_sample() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../../samples/Battle/Persistent.Mail.16210617176935008431.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&json).expect("parse sample");
+        let extractor = OpponentsExtractor::new();
+
+        let section = extractor.extract(&value).expect("extract sample");
+        let opponents = section.array().expect("opponents array");
+
+        assert_eq!(opponents[0]["session"], json!("cfg_id=4&id=3538&mode=ab&role_id=113&submode="));
+    }
+
+    #[test]
     fn roundtrip_opponents_allows_negative_player_id() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../../../samples/Battle/Persistent.Mail.1409019176893142331.json");

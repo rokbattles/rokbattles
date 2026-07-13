@@ -147,6 +147,7 @@
       "player_name": "",
       "rally": null,
       "server_season": "",
+      "session": null,
       "start_tick": 101149,
       "structure_id": null,
       "support_skills": {
@@ -294,6 +295,7 @@
     "player_name": "Grigvar",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

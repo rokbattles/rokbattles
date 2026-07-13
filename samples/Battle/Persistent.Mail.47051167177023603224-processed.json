@@ -201,6 +201,7 @@
       "player_name": "Corsaire",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339451,
       "structure_id": null,
       "support_skills": {
@@ -399,6 +400,7 @@
       "player_name": "Corsaire",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339451,
       "structure_id": null,
       "support_skills": {
@@ -597,6 +599,7 @@
       "player_name": "Corsaire",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339450,
       "structure_id": null,
       "support_skills": {
@@ -795,6 +798,7 @@
       "player_name": "Corsaire",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339451,
       "structure_id": null,
       "support_skills": {
@@ -993,6 +997,7 @@
       "player_name": "Corsaire",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339451,
       "structure_id": null,
       "support_skills": {
@@ -1191,6 +1196,7 @@
       "player_name": "ᴴᴮMoretti",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339448,
       "structure_id": null,
       "support_skills": {
@@ -1393,6 +1399,7 @@
       "player_name": "ᴴᴮMoretti",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 1339449,
       "structure_id": null,
       "support_skills": {
@@ -1503,6 +1510,7 @@
     "player_name": "Smallest Madas",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

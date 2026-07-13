@@ -59,9 +59,8 @@ pub(crate) fn extract_player_fields(
     let (app_id, app_uid) = extract_app_identity(player)?;
     let server_season = optional_string_field(player, "SerSeason")?;
     let package_identifier = optional_string_field(player, "PkgNameNew")?;
-    // Alliance battlefield types: 1 normal, 2 practice, 3 league, 4 invitation,
-    // 5 custom, 6 silver, and 7 tutorial.
     let as_battle_type = optional_u64_field(player, "AsBattleType")?;
+    let session = optional_string_field(player, "Session")?;
     let (avatar_url, frame_url) = parse_avatar(player)?;
     let supreme_strife = extract_supreme_strife(player)?;
 
@@ -111,6 +110,7 @@ pub(crate) fn extract_player_fields(
         "as_battle_type".to_string(),
         as_battle_type.map(Value::from).unwrap_or(Value::Null),
     );
+    fields.insert("session".to_string(), session.map(Value::String).unwrap_or(Value::Null));
     fields.insert("avatar_url".to_string(), avatar_url);
     fields.insert("frame_url".to_string(), frame_url);
     fields.insert("supreme_strife".to_string(), supreme_strife);
@@ -615,6 +615,29 @@ mod tests {
         let fields = extract_player_fields(&base_player()).unwrap();
 
         assert_eq!(fields["as_battle_type"], Value::Null);
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_battle_session() {
+        let mut player = base_player();
+        player.insert(
+            "Session".to_string(),
+            json!("cfg_id=6&id=1953&mode=ab&role_id=120&submode=SilverEgypt"),
+        );
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(
+            fields["session"],
+            json!("cfg_id=6&id=1953&mode=ab&role_id=120&submode=SilverEgypt")
+        );
+    }
+
+    #[test]
+    fn extract_player_fields_uses_null_when_session_is_absent() {
+        let fields = extract_player_fields(&base_player()).unwrap();
+
+        assert_eq!(fields["session"], Value::Null);
     }
 
     #[test]

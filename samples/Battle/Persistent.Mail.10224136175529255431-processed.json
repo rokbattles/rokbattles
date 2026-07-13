@@ -197,6 +197,7 @@
       "player_name": "ˢNinoveraptor",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 310841,
       "structure_id": null,
       "support_skills": {
@@ -395,6 +396,7 @@
       "player_name": "ˢNinoveraptor",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 310841,
       "structure_id": null,
       "support_skills": {
@@ -538,6 +540,7 @@
     "player_name": "Griggasaurus",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,
