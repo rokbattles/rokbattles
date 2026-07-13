@@ -197,6 +197,7 @@
       "player_name": "Benbu",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 31439,
       "structure_id": null,
       "support_skills": {
@@ -340,6 +341,7 @@
     "player_name": "G Var",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

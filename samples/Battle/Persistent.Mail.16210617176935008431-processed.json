@@ -273,6 +273,7 @@
       "player_name": "TEDDY916",
       "rally": true,
       "server_season": "-1",
+      "session": "cfg_id=4&id=3538&mode=ab&role_id=113&submode=",
       "start_tick": 444,
       "structure_id": null,
       "support_skills": {
@@ -474,6 +475,7 @@
     "player_name": "ˢ vashido",
     "rally": null,
     "server_season": "-1",
+    "session": "cfg_id=4&id=3538&mode=ab&role_id=113&submode=",
     "structure_id": 109,
     "support_skills": {
       "enable": false,

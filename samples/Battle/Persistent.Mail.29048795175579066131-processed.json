@@ -143,6 +143,7 @@
       "player_name": "",
       "rally": null,
       "server_season": "",
+      "session": null,
       "start_tick": 809011,
       "structure_id": null,
       "support_skills": {
@@ -290,6 +291,7 @@
     "player_name": "Griggasaurus",
     "rally": null,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,

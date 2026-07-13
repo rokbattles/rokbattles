@@ -219,6 +219,7 @@
       "player_name": "Raha ツ",
       "rally": null,
       "server_season": "100",
+      "session": null,
       "start_tick": 315491,
       "structure_id": null,
       "support_skills": {
@@ -568,6 +569,7 @@
     "player_name": "jën x ƒaräɀ",
     "rally": true,
     "server_season": "100",
+    "session": null,
     "structure_id": null,
     "support_skills": {
       "enable": false,
