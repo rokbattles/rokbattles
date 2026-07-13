@@ -13,10 +13,22 @@ pub enum ProcessorError {
     MissingDatabase,
     #[error("missing required field: {0}")]
     MissingField(&'static str),
+    #[error("processed mail is missing its metadata section")]
+    MissingProcessedMetadata,
+    #[error("unsupported mail compression algorithm: {0}")]
+    UnsupportedCompression(String),
+    #[error("invalid uncompressed mail size: {0}")]
+    InvalidSize(i64),
+    #[error("uncompressed mail exceeds configured limit of {limit} bytes: {size}")]
+    SizeLimitExceeded { size: usize, limit: usize },
+    #[error("uncompressed mail size mismatch (expected {expected}, found {actual})")]
+    SizeMismatch { expected: usize, actual: usize },
+    #[error("mail checksum mismatch (expected {expected}, found {actual})")]
+    ChecksumMismatch { expected: String, actual: String },
     #[error("invalid mail payload: {0}")]
     InvalidMailPayload(String),
-    #[error("mail JSON decode failed: {0}")]
-    Decode(#[from] serde_json::Error),
+    #[error("binary mail decode failed: {0}")]
+    BinaryDecode(#[from] mail_decoder::DecodeError),
     #[error("zstd decode failed: {0}")]
     Decompress(#[from] std::io::Error),
     #[error("unsupported mail type: {0}")]
