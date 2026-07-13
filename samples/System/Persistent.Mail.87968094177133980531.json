@@ -1,39 +1,33 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "PIC": "img_icon_item_48",
           "SubType": 7006,
           "Type": 2,
           "Value": 55
         },
-        2,
         {
           "PIC": "img_icon_item_4",
           "SubType": 130,
           "Type": 2,
           "Value": 48
         },
-        3,
         {
           "PIC": "img_icon_item_11",
           "SubType": 92,
           "Type": 2,
           "Value": 7
         },
-        4,
         {
           "PIC": "img_icon_item_24",
           "SubType": 109,
           "Type": 2,
           "Value": 6
         },
-        5,
         {
           "PIC": "img_icon_item_3",
           "SubType": 182,

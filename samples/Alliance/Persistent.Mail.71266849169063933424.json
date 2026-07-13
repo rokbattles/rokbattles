@@ -1,65 +1,54 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "SubType": 7006,
           "Type": 2,
           "Value": 10
         },
-        2,
         {
           "SubType": 76,
           "Type": 2,
           "Value": 5
         },
-        3,
         {
           "SubType": 47,
           "Type": 2,
           "Value": 2
         },
-        4,
         {
           "SubType": 8135,
           "Type": 2,
           "Value": 150
         },
-        5,
         {
           "SubType": 32,
           "Type": 2,
           "Value": 1
         },
-        6,
         {
           "SubType": 10005,
           "Type": 2,
           "Value": 10
         },
-        7,
         {
           "SubType": 148,
           "Type": 2,
           "Value": 50
         },
-        8,
         {
           "SubType": 76,
           "Type": 2,
           "Value": 50
         },
-        9,
         {
           "SubType": 120,
           "Type": 2,
           "Value": 1
         },
-        10,
         {
           "SubType": 188,
           "Type": 2,

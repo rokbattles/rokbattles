@@ -34,7 +34,6 @@
       },
       "gopPhase": 0,
       "heros": [
-        1,
         {
           "assistSkills": [],
           "awaked": false,
@@ -46,21 +45,18 @@
           "label": 1,
           "level": 28,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 3,
               "skillId": 141
             },
-            2,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 3,
               "skillId": 1249
             },
-            3,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -73,7 +69,6 @@
           "transJobId": 0,
           "transJobSkillInfos": []
         },
-        2,
         {
           "assistSkills": [],
           "awaked": false,
@@ -85,7 +80,6 @@
           "label": 2,
           "level": 5,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -276,22 +270,18 @@
         "xbuffs": []
       },
       "ress": [
-        1,
         {
           "type": 1,
           "value": 228521311
         },
-        2,
         {
           "type": 2,
           "value": 229851309
         },
-        3,
         {
           "type": 3,
           "value": 251177896
         },
-        4,
         {
           "type": 4,
           "value": 189535835
@@ -332,7 +322,6 @@
         "campNo": 0,
         "heroLevel": 0,
         "heros": [
-          1,
           {
             "awaked": false,
             "ezUnitShowId": 0,
@@ -342,7 +331,6 @@
             "level": 28,
             "skins": []
           },
-          2,
           {
             "awaked": false,
             "ezUnitShowId": 0,
@@ -384,43 +372,36 @@
           "trustState": 0
         },
         "units": [
-          1,
           {
             "maxCount": 272480,
             "unitCount": 272480,
             "unitId": 5
           },
-          2,
           {
             "maxCount": 254615,
             "unitCount": 254615,
             "unitId": 7
           },
-          3,
           {
             "maxCount": 294446,
             "unitCount": 294446,
             "unitId": 6
           },
-          4,
           {
             "maxCount": 274812,
             "unitCount": 194078,
             "unitId": 8
           },
-          5,
           {
             "maxCount": 9600,
             "unitCount": 9600,
             "unitId": 1
           },
-          6,
           {
             "maxCount": 7344,
             "unitCount": 7344,
             "unitId": 3
           },
-          7,
           {
             "maxCount": 9290,
             "unitCount": 9290,

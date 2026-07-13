@@ -1,41 +1,34 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "SubType": 32,
           "Type": 2,
           "Value": 1
         },
-        2,
         {
           "SubType": 10005,
           "Type": 2,
           "Value": 10
         },
-        3,
         {
           "SubType": 148,
           "Type": 2,
           "Value": 50
         },
-        4,
         {
           "SubType": 76,
           "Type": 2,
           "Value": 50
         },
-        5,
         {
           "SubType": 120,
           "Type": 2,
           "Value": 1
         },
-        6,
         {
           "SubType": 188,
           "Type": 2,
@@ -70,7 +63,6 @@
           "AllBattleWinCnt": 555,
           "GatherCnt": 0,
           "HerosStat": [
-            1,
             {
               "AllBattleStat": {
                 "BattleCnt": 252,
@@ -82,7 +74,6 @@
               "KillCnt": 376786,
               "MainHeroId": 540
             },
-            2,
             {
               "AllBattleStat": {
                 "BattleCnt": 274,
@@ -94,7 +85,6 @@
               "KillCnt": 533230,
               "MainHeroId": 575
             },
-            3,
             {
               "AllBattleStat": {
                 "BattleCnt": 319,
@@ -106,7 +96,6 @@
               "KillCnt": 574040,
               "MainHeroId": 595
             },
-            4,
             {
               "AllBattleStat": {
                 "BattleCnt": 281,
@@ -118,7 +107,6 @@
               "KillCnt": 580515,
               "MainHeroId": 545
             },
-            5,
             {
               "AllBattleStat": {
                 "BattleCnt": 223,
@@ -130,7 +118,6 @@
               "KillCnt": 589276,
               "MainHeroId": 509
             },
-            6,
             {
               "AllBattleStat": {
                 "BattleCnt": 77,

@@ -1,47 +1,39 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "SubType": 30,
           "Type": 2,
           "Value": 1
         },
-        2,
         {
           "SubType": 44,
           "Type": 2,
           "Value": 2
         },
-        3,
         {
           "SubType": 9999,
           "Type": 2,
           "Value": 10
         },
-        4,
         {
           "SubType": 114,
           "Type": 2,
           "Value": 1
         },
-        5,
         {
           "SubType": 7006,
           "Type": 2,
           "Value": 100
         },
-        6,
         {
           "SubType": 405,
           "Type": 2,
           "Value": 20
         },
-        7,
         {
           "SubType": 25601294,
           "Type": 2,
@@ -62,7 +54,6 @@
       "OccupyRelocateTowerCnt": 28,
       "RelocateCnt": 64,
       "asInfos": [
-        1,
         {
           "Abbr": "SO4L",
           "AllianceId": 4805441,
@@ -77,7 +68,6 @@
           "isMine": true,
           "isWin": true
         },
-        2,
         {
           "Abbr": "DK62",
           "AllianceId": 1025248,
@@ -155,7 +145,6 @@
       "myAsId": 4805441,
       "old_grade": 1,
       "plyRanks": [
-        1,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16198,
@@ -167,7 +156,6 @@
           "Score": 185795,
           "rank_index": 1
         },
-        2,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16163,
@@ -179,7 +167,6 @@
           "Score": 139458,
           "rank_index": 2
         },
-        3,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16173,
@@ -191,7 +178,6 @@
           "Score": 128092,
           "rank_index": 3
         },
-        4,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16163,
@@ -203,7 +189,6 @@
           "Score": 122304,
           "rank_index": 4
         },
-        5,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16139,
@@ -215,7 +200,6 @@
           "Score": 121877,
           "rank_index": 5
         },
-        6,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 562,
@@ -227,7 +211,6 @@
           "Score": 116957,
           "rank_index": 6
         },
-        7,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 15446,
@@ -239,7 +222,6 @@
           "Score": 113873,
           "rank_index": 7
         },
-        8,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16163,
@@ -251,7 +233,6 @@
           "Score": 109349,
           "rank_index": 8
         },
-        9,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 922,
@@ -263,7 +244,6 @@
           "Score": 96751,
           "rank_index": 9
         },
-        10,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16123,
@@ -275,7 +255,6 @@
           "Score": 96017,
           "rank_index": 10
         },
-        11,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16123,
@@ -287,7 +266,6 @@
           "Score": 95120,
           "rank_index": 11
         },
-        12,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16163,
@@ -299,7 +277,6 @@
           "Score": 93336,
           "rank_index": 12
         },
-        13,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 8194,
@@ -311,7 +288,6 @@
           "Score": 91968,
           "rank_index": 13
         },
-        14,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16198,
@@ -323,7 +299,6 @@
           "Score": 89267,
           "rank_index": 14
         },
-        15,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16123,
@@ -335,7 +310,6 @@
           "Score": 76181,
           "rank_index": 15
         },
-        16,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 676,
@@ -347,7 +321,6 @@
           "Score": 68078,
           "rank_index": 16
         },
-        17,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 15024,
@@ -359,7 +332,6 @@
           "Score": 66867,
           "rank_index": 17
         },
-        18,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 15381,
@@ -371,7 +343,6 @@
           "Score": 65319,
           "rank_index": 18
         },
-        19,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 15699,
@@ -383,7 +354,6 @@
           "Score": 61133,
           "rank_index": 19
         },
-        20,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16238,
@@ -395,7 +365,6 @@
           "Score": 59448,
           "rank_index": 20
         },
-        21,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16208,
@@ -407,7 +376,6 @@
           "Score": 56858,
           "rank_index": 21
         },
-        22,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16238,
@@ -419,7 +387,6 @@
           "Score": 52805,
           "rank_index": 22
         },
-        23,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16123,
@@ -431,7 +398,6 @@
           "Score": 52085,
           "rank_index": 23
         },
-        24,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 15800,
@@ -443,7 +409,6 @@
           "Score": 40968,
           "rank_index": 24
         },
-        25,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 16198,
@@ -455,7 +420,6 @@
           "Score": 39542,
           "rank_index": 25
         },
-        26,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 13680,
@@ -467,7 +431,6 @@
           "Score": 30549,
           "rank_index": 26
         },
-        27,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 827,
@@ -479,7 +442,6 @@
           "Score": 29583,
           "rank_index": 27
         },
-        28,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 154,
@@ -491,7 +453,6 @@
           "Score": 26874,
           "rank_index": 28
         },
-        29,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 981,
@@ -503,7 +464,6 @@
           "Score": 24246,
           "rank_index": 29
         },
-        30,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 266,
@@ -515,7 +475,6 @@
           "Score": 22833,
           "rank_index": 30
         },
-        31,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 653,
@@ -527,7 +486,6 @@
           "Score": 22289,
           "rank_index": 31
         },
-        32,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 153,
@@ -539,7 +497,6 @@
           "Score": 18786,
           "rank_index": 32
         },
-        33,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 509,
@@ -551,7 +508,6 @@
           "Score": 17933,
           "rank_index": 33
         },
-        34,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 311,
@@ -563,7 +519,6 @@
           "Score": 16118,
           "rank_index": 34
         },
-        35,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 368,
@@ -575,7 +530,6 @@
           "Score": 14504,
           "rank_index": 35
         },
-        36,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 376,
@@ -587,7 +541,6 @@
           "Score": 12970,
           "rank_index": 36
         },
-        37,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 428,
@@ -599,7 +552,6 @@
           "Score": 11496,
           "rank_index": 37
         },
-        38,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -611,7 +563,6 @@
           "Score": -1,
           "rank_index": 38
         },
-        39,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -623,7 +574,6 @@
           "Score": -1,
           "rank_index": 39
         },
-        40,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -635,7 +585,6 @@
           "Score": -1,
           "rank_index": 40
         },
-        41,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -647,7 +596,6 @@
           "Score": -1,
           "rank_index": 41
         },
-        42,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -659,7 +607,6 @@
           "Score": -1,
           "rank_index": 42
         },
-        43,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -671,7 +618,6 @@
           "Score": -1,
           "rank_index": 43
         },
-        44,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,
@@ -683,7 +629,6 @@
           "Score": -1,
           "rank_index": 44
         },
-        45,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 0,

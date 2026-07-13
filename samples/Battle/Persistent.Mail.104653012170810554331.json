@@ -37,49 +37,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1327,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 165,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1326,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1325,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1308,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 155,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1305,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1306,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1307,
                 "SkillLevel": 5
@@ -373,44 +364,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 196,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1395,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1396,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1397,
                 "SkillLevel": 3
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 209,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1435,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1437,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1436,
                 "SkillLevel": 1
@@ -566,44 +549,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 128,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1199,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1200,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1201,
                 "SkillLevel": 2
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1010,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 1011,
                 "SkillLevel": 2
               },
-              4,
               {
                 "SkillId": 24,
                 "SkillLevel": 5
@@ -751,9 +726,7 @@
             "HAw": true,
             "HAw2": true,
             "HClt": [
-              1,
               3,
-              2,
               2
             ],
             "HEq": "{5:20107_10:0,6:20117_5:0,3:20114_6:0}",
@@ -765,49 +738,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1219,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1220,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 135,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1217,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1218,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 64,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1015,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1012,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1016,
                 "SkillLevel": 5
@@ -955,13 +919,10 @@
             "HAw": false,
             "HAw2": true,
             "HClt2": [
-              1,
               10001,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 10001
               }
@@ -975,49 +936,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1017,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1018,
                 "SkillLevel": 2
               },
-              3,
               {
                 "SkillId": 1019,
                 "SkillLevel": 2
               },
-              4,
               {
                 "SkillId": 28,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 25,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1101,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1013,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1042,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1103,
                 "SkillLevel": 1
@@ -1173,44 +1125,36 @@
             "HLv": 60,
             "HLv2": 58,
             "HSS": [
-              1,
               {
                 "SkillId": 1131,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 82,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1129,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1147,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1142,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 86,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1141,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1143,
                 "SkillLevel": 2
@@ -1366,49 +1310,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1545,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1546,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1547,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1201,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 129,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1199,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1200,
                 "SkillLevel": 5
@@ -1555,13 +1490,10 @@
             "HAw": false,
             "HAw2": true,
             "HClt2": [
-              1,
               8,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 8
               }
@@ -1575,44 +1507,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1425,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 1426,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 205,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1424,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 63,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1010,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1011,
                 "SkillLevel": 5
@@ -1761,49 +1685,40 @@
             "HLv": 60,
             "HLv2": 40,
             "HSS": [
-              1,
               {
                 "SkillId": 196,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1395,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1396,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1397,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1398,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1435,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1437,
                 "SkillLevel": 4
               },
-              3,
               {
                 "SkillId": 1436,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 209,
                 "SkillLevel": 5
@@ -1953,44 +1868,36 @@
             "HLv": 50,
             "HLv2": 46,
             "HSS": [
-              1,
               {
                 "SkillId": 128,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1199,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 1200,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1201,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1019,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 28,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1017,
                 "SkillLevel": 3
               },
-              4,
               {
                 "SkillId": 1018,
                 "SkillLevel": 1
@@ -2138,13 +2045,10 @@
             "HAw": false,
             "HAw2": false,
             "HClt2": [
-              1,
               10011,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 10011
               }
@@ -2157,44 +2061,36 @@
             "HLv": 60,
             "HLv2": 36,
             "HSS": [
-              1,
               {
                 "SkillId": 1533,
                 "SkillLevel": 2
               },
-              2,
               {
                 "SkillId": 1534,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1535,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 246,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 87,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1144,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1145,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1146,
                 "SkillLevel": 1
@@ -2336,19 +2232,14 @@
             "HAw": true,
             "HAw2": true,
             "HClt": [
-              1,
               3,
-              2,
               2
             ],
             "HClt2": [
-              1,
               10008,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 10008
               }
@@ -2362,49 +2253,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 135,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1217,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1218,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1219,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1220,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 63,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1010,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1011,
                 "SkillLevel": 5
@@ -2546,13 +2428,10 @@
             "HAw": true,
             "HAw2": true,
             "HClt2": [
-              1,
               10008,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 10008
               }
@@ -2566,49 +2445,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 196,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1395,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1396,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1397,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1398,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 63,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1010,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1011,
                 "SkillLevel": 5
@@ -2750,13 +2620,10 @@
             "HAw": false,
             "HAw2": false,
             "HClt2": [
-              1,
               19,
-              2,
               1
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 19
               }
@@ -2770,44 +2637,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1545,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1546,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 128,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1199,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1200,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1201,
                 "SkillLevel": 1
@@ -2955,13 +2814,10 @@
             "HAw": false,
             "HAw2": true,
             "HClt2": [
-              1,
               8,
-              2,
               2
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 8
               }
@@ -2975,44 +2831,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1395,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1396,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1397,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 196,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1010,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1011,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 63,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
@@ -3168,44 +3016,36 @@
             "HLv": 60,
             "HLv2": 49,
             "HSS": [
-              1,
               {
                 "SkillId": 82,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1129,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1147,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1131,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 25,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1101,
                 "SkillLevel": 2
               },
-              3,
               {
                 "SkillId": 1013,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1042,
                 "SkillLevel": 2
@@ -3353,13 +3193,10 @@
             "HAw": false,
             "HAw2": true,
             "HClt2": [
-              1,
               19,
-              2,
               1
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 19
               }
@@ -3373,44 +3210,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1545,
                 "SkillLevel": 2
               },
-              3,
               {
                 "SkillId": 1546,
                 "SkillLevel": 2
               },
-              4,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1200,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1201,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 129,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1199,
                 "SkillLevel": 5
@@ -3533,7 +3362,6 @@
       "DataOmit": false,
       "Ets": 1708105543,
       "Events": [
-        1,
         {
           "AssistUnits": {
             "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_175.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/160231362/240204/AEB45591A6072122CD3C3055F0D02182_250x250.jpg\"}",
@@ -3550,7 +3378,6 @@
           "Et": 18,
           "T": 1505787
         },
-        2,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/159749254/24/01/04/3459f3f2aef142bc_426x426.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3567,7 +3394,6 @@
           "Et": 18,
           "T": 1505796
         },
-        3,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/161701258/24/02/04/e46516c680b14178_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\"}",
@@ -3584,7 +3410,6 @@
           "Et": 18,
           "T": 1505802
         },
-        4,
         {
           "AssistUnits": {
             "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/65876978/240119/BFBB652651E026C20131270E7AC3C019_250x250.jpg\"}",
@@ -3601,7 +3426,6 @@
           "Et": 18,
           "T": 1505831
         },
-        5,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/156030007/24/02/12/2a5d6906ccb0343c_540x540.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3618,7 +3442,6 @@
           "Et": 18,
           "T": 1505847
         },
-        6,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/146455447/24/01/31/23dffb1e7e062545_320x320.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3635,7 +3458,6 @@
           "Et": 18,
           "T": 1505850
         },
-        7,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/161352471/23/10/23/7b4faa5d6427c157_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3652,7 +3474,6 @@
           "Et": 18,
           "T": 1505856
         },
-        8,
         {
           "AssistUnits": {
             "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_29.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/160250482/240203/EB9B8CB4B1F9B89BEF80A1B1A8323618_250x250.jpg\"}",
@@ -3669,7 +3490,6 @@
           "Et": 18,
           "T": 1505856
         },
-        9,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/64033840/24/02/14/380596866802efb5_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3686,7 +3506,6 @@
           "Et": 18,
           "T": 1505874
         },
-        10,
         {
           "AssistUnits": {
             "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/65876978/240119/BFBB652651E026C20131270E7AC3C019_250x250.jpg\"}",
@@ -3703,7 +3522,6 @@
           "Et": 26,
           "T": 1505891
         },
-        11,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/160329805/24/02/07/1e75f57036fba5d1_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
@@ -3720,7 +3538,6 @@
           "Et": 18,
           "T": 1505901
         },
-        12,
         {
           "AssistUnits": {
             "Avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/159689588/24/02/15/36e03a97bab310e5_503x503.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_43.png\"}",
@@ -3737,7 +3554,6 @@
           "Et": 18,
           "T": 1505916
         },
-        13,
         {
           "AssistUnits": {
             "Avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/160069515/240211/BBA0491EAB91D1DF13967B204C771FB6_250x250.jpg\"}",
@@ -3951,272 +3767,218 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 1395233,
           "T": 1505754
         },
-        2,
         {
           "Cnt": 1299375,
           "T": 1505763
         },
-        3,
         {
           "Cnt": 1237022,
           "T": 1505770
         },
-        4,
         {
           "Cnt": 1212886,
           "T": 1505772
         },
-        5,
         {
           "Cnt": 1180369,
           "T": 1505777
         },
-        6,
         {
           "Cnt": 1118641,
           "T": 1505784
         },
-        7,
         {
           "Cnt": 1085282,
           "T": 1505786
         },
-        8,
         {
           "Cnt": 1243932,
           "T": 1505787
         },
-        9,
         {
           "Cnt": 1209305,
           "T": 1505790
         },
-        10,
         {
           "Cnt": 1196323,
           "T": 1505791
         },
-        11,
         {
           "Cnt": 1162185,
           "T": 1505794
         },
-        12,
         {
           "Cnt": 1147021,
           "T": 1505796
         },
-        13,
         {
           "Cnt": 1237639,
           "T": 1505798
         },
-        14,
         {
           "Cnt": 1237639,
           "T": 1505799
         },
-        15,
         {
           "Cnt": 1185504,
           "T": 1505802
         },
-        16,
         {
           "Cnt": 1282117,
           "T": 1505807
         },
-        17,
         {
           "Cnt": 1198890,
           "T": 1505811
         },
-        18,
         {
           "Cnt": 1160952,
           "T": 1505813
         },
-        19,
         {
           "Cnt": 1105926,
           "T": 1505817
         },
-        20,
         {
           "Cnt": 1086201,
           "T": 1505819
         },
-        21,
         {
           "Cnt": 1067750,
           "T": 1505821
         },
-        22,
         {
           "Cnt": 1037788,
           "T": 1505823
         },
-        23,
         {
           "Cnt": 1017261,
           "T": 1505825
         },
-        24,
         {
           "Cnt": 985321,
           "T": 1505828
         },
-        25,
         {
           "Cnt": 977813,
           "T": 1505829
         },
-        26,
         {
           "Cnt": 1131890,
           "T": 1505831
         },
-        27,
         {
           "Cnt": 1099451,
           "T": 1505835
         },
-        28,
         {
           "Cnt": 1075713,
           "T": 1505837
         },
-        29,
         {
           "Cnt": 1059733,
           "T": 1505838
         },
-        30,
         {
           "Cnt": 1049218,
           "T": 1505840
         },
-        31,
         {
           "Cnt": 1020247,
           "T": 1505842
         },
-        32,
         {
           "Cnt": 991881,
           "T": 1505844
         },
-        33,
         {
           "Cnt": 1053282,
           "T": 1505847
         },
-        34,
         {
           "Cnt": 1033911,
           "T": 1505848
         },
-        35,
         {
           "Cnt": 1004304,
           "T": 1505850
         },
-        36,
         {
           "Cnt": 1360145,
           "T": 1505856
         },
-        37,
         {
           "Cnt": 1289138,
           "T": 1505861
         },
-        38,
         {
           "Cnt": 1250911,
           "T": 1505863
         },
-        39,
         {
           "Cnt": 1200041,
           "T": 1505868
         },
-        40,
         {
           "Cnt": 1176260,
           "T": 1505871
         },
-        41,
         {
           "Cnt": 1148143,
           "T": 1505874
         },
-        42,
         {
           "Cnt": 1330903,
           "T": 1505876
         },
-        43,
         {
           "Cnt": 1327429,
           "T": 1505877
         },
-        44,
         {
           "Cnt": 1292722,
           "T": 1505883
         },
-        45,
         {
           "Cnt": 1281321,
           "T": 1505884
         },
-        46,
         {
           "Cnt": 1150688,
           "T": 1505891
         },
-        47,
         {
           "Cnt": 1128671,
           "T": 1505898
         },
-        48,
         {
           "Cnt": 1118700,
           "T": 1505901
         },
-        49,
         {
           "Cnt": 1193133,
           "T": 1505905
         },
-        50,
         {
           "Cnt": 1173777,
           "T": 1505912
         },
-        51,
         {
           "Cnt": 1161327,
           "T": 1505916
         },
-        52,
         {
           "Cnt": 1357640,
           "T": 1505918
         },
-        53,
         {
           "Cnt": 1451245,
           "T": 1505919
         },
-        54,
         {
           "Cnt": 1444083,
           "T": 1505923
@@ -4254,54 +4016,44 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 205,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1424,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1425,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1426,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1427,
             "SkillLevel": 1
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 1531,
             "SkillLevel": 1
           },
-          2,
           {
             "SkillId": 243,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1528,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1529,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1530,
             "SkillLevel": 5

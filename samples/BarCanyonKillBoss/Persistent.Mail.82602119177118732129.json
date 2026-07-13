@@ -5,31 +5,26 @@
     "content": {
       "eliteBarName": "Swindler Dhalruk",
       "infos": [
-        1,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_149.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/129213098/23/03/30/2582725d78551b68_385x385.jpg\"}",
           "damageRate": 14.719000816345215,
           "idx": 2,
           "loots": [
-            1,
             {
               "SubType": 27,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 96,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 47,
               "Type": 2,
@@ -40,25 +35,21 @@
           "order": 2,
           "playerId": 129213098
         },
-        2,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100199074/2026-01-15/0BE76063C3E00AFFE3FCA9606DCA2E0E_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_178.png\"}",
           "damageRate": 85.281005859375,
           "idx": 1,
           "loots": [
-            1,
             {
               "SubType": 27,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 96,
               "Type": 2,

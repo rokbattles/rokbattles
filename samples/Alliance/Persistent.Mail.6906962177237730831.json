@@ -10,7 +10,6 @@
       "OccupyRelocateTowerCnt": 29,
       "RelocateCnt": 27,
       "asInfos": [
-        1,
         {
           "AllianceId": 1,
           "IsBlue": true,
@@ -20,7 +19,6 @@
           "Score": 30532,
           "isMine": true
         },
-        2,
         {
           "AllianceId": 2,
           "IsBlue": false,
@@ -95,7 +93,6 @@
       "myAsId": 1,
       "old_grade": 1,
       "plyRanks": [
-        1,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -107,7 +104,6 @@
           "Score": 202538,
           "rank_index": 1
         },
-        2,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -119,7 +115,6 @@
           "Score": 197935,
           "rank_index": 2
         },
-        3,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -131,7 +126,6 @@
           "Score": 180899,
           "rank_index": 3
         },
-        4,
         {
           "AsAbbr": "",
           "BuildingScore": 2503,
@@ -143,7 +137,6 @@
           "Score": 176192,
           "rank_index": 4
         },
-        5,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -155,7 +148,6 @@
           "Score": 176083,
           "rank_index": 5
         },
-        6,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -167,7 +159,6 @@
           "Score": 157518,
           "rank_index": 6
         },
-        7,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -179,7 +170,6 @@
           "Score": 153813,
           "rank_index": 7
         },
-        8,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -191,7 +181,6 @@
           "Score": 148806,
           "rank_index": 8
         },
-        9,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -203,7 +192,6 @@
           "Score": 143809,
           "rank_index": 9
         },
-        10,
         {
           "AsAbbr": "",
           "BuildingScore": 2458,
@@ -215,7 +203,6 @@
           "Score": 143584,
           "rank_index": 10
         },
-        11,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -227,7 +214,6 @@
           "Score": 134321,
           "rank_index": 11
         },
-        12,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -239,7 +225,6 @@
           "Score": 130696,
           "rank_index": 12
         },
-        13,
         {
           "AsAbbr": "",
           "BuildingScore": 2468,
@@ -251,7 +236,6 @@
           "Score": 121507,
           "rank_index": 13
         },
-        14,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -263,7 +247,6 @@
           "Score": 121091,
           "rank_index": 14
         },
-        15,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -275,7 +258,6 @@
           "Score": 120724,
           "rank_index": 15
         },
-        16,
         {
           "AsAbbr": "",
           "BuildingScore": 2468,
@@ -287,7 +269,6 @@
           "Score": 118073,
           "rank_index": 16
         },
-        17,
         {
           "AsAbbr": "",
           "BuildingScore": 2458,
@@ -299,7 +280,6 @@
           "Score": 118042,
           "rank_index": 17
         },
-        18,
         {
           "AsAbbr": "",
           "BuildingScore": 2493,
@@ -311,7 +291,6 @@
           "Score": 117945,
           "rank_index": 18
         },
-        19,
         {
           "AsAbbr": "",
           "BuildingScore": 2503,
@@ -323,7 +302,6 @@
           "Score": 117901,
           "rank_index": 19
         },
-        20,
         {
           "AsAbbr": "",
           "BuildingScore": 2503,
@@ -335,7 +313,6 @@
           "Score": 115604,
           "rank_index": 20
         },
-        21,
         {
           "AsAbbr": "",
           "BuildingScore": 2503,
@@ -347,7 +324,6 @@
           "Score": 103098,
           "rank_index": 21
         },
-        22,
         {
           "AsAbbr": "",
           "BuildingScore": 2503,
@@ -359,7 +335,6 @@
           "Score": 102548,
           "rank_index": 22
         },
-        23,
         {
           "AsAbbr": "",
           "BuildingScore": 2458,
@@ -371,7 +346,6 @@
           "Score": 98838,
           "rank_index": 23
         },
-        24,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -383,7 +357,6 @@
           "Score": 82321,
           "rank_index": 24
         },
-        25,
         {
           "AsAbbr": "",
           "BuildingScore": 2458,
@@ -395,7 +368,6 @@
           "Score": 78721,
           "rank_index": 25
         },
-        26,
         {
           "AsAbbr": "",
           "BuildingScore": 2418,
@@ -407,7 +379,6 @@
           "Score": 73032,
           "rank_index": 26
         },
-        27,
         {
           "AsAbbr": "",
           "BuildingScore": 2428,

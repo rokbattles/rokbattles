@@ -36,12 +36,10 @@
             "HLv": 42,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 11003,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 13,
                 "SkillLevel": 5
@@ -123,25 +121,21 @@
           },
           "NpcAtkExp": 15960,
           "NpcKillLoot": [
-            1,
             {
               "SubType": 71,
               "Type": 2,
               "Value": 20
             },
-            2,
             {
               "SubType": 130,
               "Type": 2,
               "Value": 10
             },
-            3,
             {
               "SubType": 9,
               "Type": 1,
               "Value": 500
             },
-            4,
             {
               "SubType": 7005,
               "Type": 2,
@@ -203,12 +197,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 200000,
           "T": 205395
         },
-        2,
         {
           "Cnt": 198594,
           "T": 205420
@@ -240,19 +232,14 @@
         "HAw": true,
         "HAw2": true,
         "HClt": [
-          1,
           10003,
-          2,
           2
         ],
         "HClt2": [
-          1,
           20005,
-          2,
           3
         ],
         "HCte2": [
-          1,
           {
             "ColId": 20005
           }
@@ -266,54 +253,44 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 1220,
             "SkillLevel": 1
           },
-          2,
           {
             "SkillId": 135,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1217,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1218,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1219,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 26,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1043,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1066,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1014,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1104,
             "SkillLevel": 1

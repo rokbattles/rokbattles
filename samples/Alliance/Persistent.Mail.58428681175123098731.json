@@ -10,7 +10,6 @@
       "OccupyRelocateTowerCnt": 38,
       "RelocateCnt": 51,
       "asInfos": [
-        1,
         {
           "Abbr": "SO4L",
           "AllianceId": 4805441,
@@ -24,7 +23,6 @@
           "Score": 67405,
           "ServerId": 1804
         },
-        2,
         {
           "Abbr": "WP80",
           "AllianceId": 5565521,
@@ -104,7 +102,6 @@
       "myAsId": 4805441,
       "old_grade": 1,
       "plyRanks": [
-        1,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4536,
@@ -115,7 +112,6 @@
           "Name": "agent G",
           "Score": 323807
         },
-        2,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4586,
@@ -126,7 +122,6 @@
           "Name": "2lowteg",
           "Score": 173685
         },
-        3,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4536,
@@ -137,7 +132,6 @@
           "Name": "农民ˢChino",
           "Score": 160599
         },
-        4,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4536,
@@ -148,7 +142,6 @@
           "Name": "ˢAzzCon",
           "Score": 149990
         },
-        5,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -159,7 +152,6 @@
           "Name": "Klimson3",
           "Score": 135182
         },
-        6,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4536,
@@ -170,7 +162,6 @@
           "Name": "Area 51 ツ",
           "Score": 133018
         },
-        7,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4651,
@@ -181,7 +172,6 @@
           "Name": "CamelAmphee69",
           "Score": 121389
         },
-        8,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4586,
@@ -192,7 +182,6 @@
           "Name": "Peachy Top",
           "Score": 90870
         },
-        9,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4611,
@@ -203,7 +192,6 @@
           "Name": "纽带MYSTIC",
           "Score": 90736
         },
-        10,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4611,
@@ -214,7 +202,6 @@
           "Name": "kev92",
           "Score": 79253
         },
-        11,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -225,7 +212,6 @@
           "Name": "klopotek",
           "Score": 79248
         },
-        12,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -236,7 +222,6 @@
           "Name": "乄Twᴇᴇᴛy",
           "Score": 77680
         },
-        13,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4611,
@@ -247,7 +232,6 @@
           "Name": "Benbu",
           "Score": 72107
         },
-        14,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4611,
@@ -258,7 +242,6 @@
           "Name": "Szpaczuh",
           "Score": 70726
         },
-        15,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4544,
@@ -269,7 +252,6 @@
           "Name": "The Damager ツ",
           "Score": 66451
         },
-        16,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -280,7 +262,6 @@
           "Name": "⽪卡丘Daspim",
           "Score": 65886
         },
-        17,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -291,7 +272,6 @@
           "Name": "Pro100WRyj ツ",
           "Score": 63356
         },
-        18,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,
@@ -302,7 +282,6 @@
           "Name": "ˢˣ乄Sinner",
           "Score": 59832
         },
-        19,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4661,
@@ -313,7 +292,6 @@
           "Name": "EbiSu",
           "Score": 58577
         },
-        20,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4611,
@@ -324,7 +302,6 @@
           "Name": "メDmitry82メ",
           "Score": 51754
         },
-        21,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4621,
@@ -335,7 +312,6 @@
           "Name": "ˡᵃᶻʸMac",
           "Score": 40769
         },
-        22,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4536,
@@ -346,7 +322,6 @@
           "Name": "lmmortaL",
           "Score": 40545
         },
-        23,
         {
           "AsAbbr": "SO4L",
           "BuildingScore": 4546,

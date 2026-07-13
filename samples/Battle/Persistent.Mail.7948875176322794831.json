@@ -35,7 +35,6 @@
             "HLv": 33,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 110,
                 "SkillLevel": 5
@@ -169,12 +168,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 1,
           "T": 208770
         },
-        2,
         {
           "Cnt": 0,
           "T": 208770
@@ -210,7 +207,6 @@
         "HLv": 1,
         "HLv2": 0,
         "HSS": [
-          1,
           {
             "SkillId": 416,
             "SkillLevel": 2

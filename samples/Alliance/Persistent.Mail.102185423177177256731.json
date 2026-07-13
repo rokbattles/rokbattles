@@ -11,7 +11,6 @@
       "OccupyRelocateTowerCnt": 33,
       "RelocateCnt": 30,
       "asInfos": [
-        1,
         {
           "Abbr": "O~60",
           "AllianceId": 7154636,
@@ -25,7 +24,6 @@
           "Score": 29659,
           "ServerId": 2560
         },
-        2,
         {
           "Abbr": "04Z",
           "AllianceId": 4808188,
@@ -105,7 +103,6 @@
       "myAsId": 4808188,
       "old_grade": 1,
       "plyRanks": [
-        1,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -116,7 +113,6 @@
           "Name": "jën x ƒaräɀ",
           "Score": 188637
         },
-        2,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -127,7 +123,6 @@
           "Name": "DogWarningﾒBar",
           "Score": 186027
         },
-        3,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -138,7 +133,6 @@
           "Name": "MarDem0",
           "Score": 174937
         },
-        4,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -149,7 +143,6 @@
           "Name": "뜬 이 니",
           "Score": 173793
         },
-        5,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -160,7 +153,6 @@
           "Name": "ˢJianLaars 命",
           "Score": 157123
         },
-        6,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -171,7 +163,6 @@
           "Name": "Viatina乂Fayst",
           "Score": 155372
         },
-        7,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -182,7 +173,6 @@
           "Name": "J I H",
           "Score": 152544
         },
-        8,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -193,7 +183,6 @@
           "Name": "ˢAuthentiks",
           "Score": 144855
         },
-        9,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -204,7 +193,6 @@
           "Name": "ˢǤãrɗı",
           "Score": 140413
         },
-        10,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -215,7 +203,6 @@
           "Name": "The Core",
           "Score": 133846
         },
-        11,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2785,
@@ -226,7 +213,6 @@
           "Name": "ˢ vashido",
           "Score": 129379
         },
-        12,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -237,7 +223,6 @@
           "Name": "Grigvar",
           "Score": 123123
         },
-        13,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -248,7 +233,6 @@
           "Name": "ˢ Kleines",
           "Score": 114214
         },
-        14,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -259,7 +243,6 @@
           "Name": "KYOSEALBOND",
           "Score": 111787
         },
-        15,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -270,7 +253,6 @@
           "Name": "2lowteg",
           "Score": 111774
         },
-        16,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -281,7 +263,6 @@
           "Name": "GGeoMAV",
           "Score": 110013
         },
-        17,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -292,7 +273,6 @@
           "Name": "klopotek",
           "Score": 108901
         },
-        18,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -303,7 +283,6 @@
           "Name": "Macronator",
           "Score": 107208
         },
-        19,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -314,7 +293,6 @@
           "Name": "ˢJuju x MadBro",
           "Score": 105000
         },
-        20,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2785,
@@ -325,7 +303,6 @@
           "Name": "ˢ AzzCon",
           "Score": 102859
         },
-        21,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -336,7 +313,6 @@
           "Name": "QuackerOats",
           "Score": 101152
         },
-        22,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -347,7 +323,6 @@
           "Name": "๖ۣۣۜSwalsh",
           "Score": 96468
         },
-        23,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -358,7 +333,6 @@
           "Name": "끼  리",
           "Score": 96265
         },
-        24,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -369,7 +343,6 @@
           "Name": "⽪卡丘Daspim",
           "Score": 89328
         },
-        25,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2745,
@@ -380,7 +353,6 @@
           "Name": "ˢLaiZ",
           "Score": 81345
         },
-        26,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2820,
@@ -391,7 +363,6 @@
           "Name": "심래",
           "Score": 72805
         },
-        27,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -402,7 +373,6 @@
           "Name": "Benbu 벤부",
           "Score": 62692
         },
-        28,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2830,
@@ -413,7 +383,6 @@
           "Name": "ˢMoonyPew",
           "Score": 59258
         },
-        29,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2830,
@@ -424,7 +393,6 @@
           "Name": "Hellcheppapewж",
           "Score": 50519
         },
-        30,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 2755,
@@ -435,7 +403,6 @@
           "Name": "BABYPENGU",
           "Score": 42757
         },
-        31,
         {
           "AsAbbr": "04Z",
           "BuildingScore": 0,
