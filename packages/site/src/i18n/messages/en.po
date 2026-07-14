@@ -679,6 +679,7 @@ msgid "rsO25J"
 msgstr "Each battle's kill points gained divided by kill points lost, then averaged across battles."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "WkJcLb"
 msgstr "Weighted Trade Percentage"
 
@@ -975,10 +976,6 @@ msgstr "Loadout {index}"
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "B4KaVd"
 msgstr "Total battle reports recorded for this loadout."
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "tj24bj"
-msgstr "Total Trade Percentage"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "y-cvIx"

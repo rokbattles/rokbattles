@@ -688,6 +688,7 @@ msgid "rsO25J"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/my-pairings-content.tsx
 msgid "WkJcLb"
 msgstr ""
 
@@ -983,10 +984,6 @@ msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "B4KaVd"
-msgstr ""
-
-#: src/components/my-pairings/my-pairings-content.tsx
-msgid "tj24bj"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
