@@ -340,7 +340,7 @@ export function MyPairingsContent() {
       },
       {
         id: "weightedTradePercent",
-        name: t("Total Trade Percentage"),
+        name: t("Weighted Trade Percentage"),
         value: formatPercent(selectedLoadoutCard.totals.weightedTradePercent),
         description: t("Total kill points gained divided by total kill points lost."),
       },
