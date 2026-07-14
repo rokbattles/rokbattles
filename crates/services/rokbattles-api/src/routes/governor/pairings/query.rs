@@ -206,15 +206,11 @@ fn sender_garrison_field_conditions() -> Vec<Document> {
 }
 
 fn sender_rally_condition() -> Document {
-    doc! {
-        "sender.rally": { "$in": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] }
-    }
+    doc! { "sender.rally": true }
 }
 
 fn sender_not_rally_condition() -> Document {
-    doc! {
-        "sender.rally": { "$nin": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] }
-    }
+    doc! { "sender.rally": { "$ne": true } }
 }
 
 fn opponent_rally_or_garrison_condition() -> Document {
@@ -222,7 +218,7 @@ fn opponent_rally_or_garrison_condition() -> Document {
         "opponents": {
             "$elemMatch": {
                 "$or": [
-                    { "rally": { "$in": [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)] } },
+                    { "rally": true },
                     { "alliance_building_id": { "$exists": true, "$ne": Bson::Null } },
                     { "structure_id": { "$exists": true, "$ne": Bson::Null } },
                 ]
@@ -435,6 +431,14 @@ mod tests {
                     sender_rally_condition(),
                 ]
             }
+        );
+    }
+
+    #[test]
+    fn sender_rally_conditions_use_boolean_schema() {
+        assert_eq!(
+            (sender_rally_condition(), sender_not_rally_condition()),
+            (doc! { "sender.rally": true }, doc! { "sender.rally": { "$ne": true } },)
         );
     }
 

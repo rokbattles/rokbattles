@@ -119,15 +119,14 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
 
     let mut rally_conditions: Vec<Document> = Vec::new();
     if matches!(request.rally_side, ReportsFilterSide::Sender | ReportsFilterSide::Both) {
-        rally_conditions
-            .push(doc! { "sender.rally": { "$in": [Bson::Int32(1), Bson::Boolean(true)] } });
+        rally_conditions.push(doc! { "sender.rally": true });
     }
     if matches!(request.rally_side, ReportsFilterSide::Opponent | ReportsFilterSide::Both) {
         rally_conditions.push(doc! {
             "opponents": {
                 "$elemMatch": {
                     "player_id": { "$gt": 0 },
-                    "rally": { "$in": [Bson::Int32(1), Bson::Boolean(true)] },
+                    "rally": true,
                 }
             }
         });
@@ -381,6 +380,34 @@ mod tests {
                 ]
             },
         );
+    }
+
+    #[test]
+    fn sender_rally_filter_matches_boolean_true() {
+        let request =
+            parse_reports_request(&HashMap::from([("rs".to_string(), "sender".to_string())]))
+                .expect("valid sender rally filter");
+
+        assert!(
+            match_conditions(&build_reports_match(&request))
+                .contains(&Bson::Document(doc! { "sender.rally": true }))
+        );
+    }
+
+    #[test]
+    fn opponent_rally_filter_matches_boolean_true() {
+        let request =
+            parse_reports_request(&HashMap::from([("rs".to_string(), "opponent".to_string())]))
+                .expect("valid opponent rally filter");
+
+        assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(doc! {
+            "opponents": {
+                "$elemMatch": {
+                    "player_id": { "$gt": 0 },
+                    "rally": true,
+                }
+            }
+        })));
     }
 
     fn assert_ark_session_condition(subtype: &str, expected: Document) {
