@@ -2,7 +2,7 @@
 
 use mongodb::{
     Collection, IndexModel,
-    bson::{Document, doc},
+    bson::{Bson, Document, doc},
     options::IndexOptions,
 };
 
@@ -122,6 +122,47 @@ impl ReportsStore {
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "$and": [
+                                {
+                                    "opponents.player_id": { "$gt": 0 }
+                                },
+                                { "metadata.kvk": false },
+                                {
+                                    "$or": [
+                                        { "metadata.mail_role": { "$lt": "dungeon" } },
+                                        { "metadata.mail_role": { "$gt": "dungeon" } },
+                                    ]
+                                },
+                                {
+                                    "$or": [
+                                        { "sender.supreme_strife.battle_id": { "$in": [Bson::Null, Bson::String(String::new())] } },
+                                        { "sender.supreme_strife.team_id": { "$in": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
+                                    ]
+                                },
+                            ]
+                        })
+                        .build(),
+                )
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_time": -1,
+                    "sender.supreme_strife.battle_id": 1,
+                })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "sender.supreme_strife.battle_id": { "$gt": "" },
+                            "sender.supreme_strife.team_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
             IndexModel::builder()
                 .keys(doc! {

@@ -8,8 +8,6 @@ use super::types::{
     ReportTimeline, TimelineSample,
 };
 
-const INVALID_OPPONENT_PLAYER_IDS: [i64; 2] = [-2, 0];
-
 pub(crate) fn build_battle_list_projection() -> Document {
     let mut projection = Document::new();
 
@@ -223,7 +221,7 @@ fn get_valid_sorted_opponents<'a>(opponents: &'a [&Document]) -> Vec<&'a Documen
 
 fn is_valid_opponent(opponent: &Document) -> bool {
     let player_id = nested_i64(opponent, &["player_id"]).unwrap_or(0);
-    !INVALID_OPPONENT_PLAYER_IDS.contains(&player_id)
+    player_id > 0
 }
 
 fn select_preferred_opponent<'a>(opponents: &'a [&Document]) -> Option<&'a Document> {

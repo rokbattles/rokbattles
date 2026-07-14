@@ -11,8 +11,8 @@ use axum::{
 };
 use futures::StreamExt;
 use mongodb::{
-    bson::doc,
-    options::{FindOneOptions, FindOptions},
+    bson::{Bson, doc},
+    options::{FindOneOptions, FindOptions, Hint},
 };
 
 use self::{
@@ -21,7 +21,7 @@ use self::{
     },
     list_mapper::{build_report_dedupe_key, map_battle_list_document},
     match_builder::build_reports_match,
-    query::parse_reports_request,
+    query::{ReportsFilterSide, ReportsFilterType, ReportsRequest, parse_reports_request},
     types::{ReportByIdResponse, ReportRowWithCursor, ReportsResponse},
 };
 use crate::{
@@ -47,10 +47,7 @@ pub async fn get(
     let request = parse_reports_request(&params)?;
     let final_match = build_reports_match(&request);
 
-    let options = FindOptions::builder()
-        .sort(doc! { "metadata.mail_time": request.sort_direction() })
-        .projection(self::list_mapper::build_battle_list_projection())
-        .build();
+    let options = build_battle_list_find_options(&request);
 
     let mut cursor = state
         .reports_store
@@ -95,6 +92,42 @@ pub async fn get(
     Ok((StatusCode::OK, [("Cache-Control", "no-store")], Json(response)))
 }
 
+fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
+    let hint_home_partial_index = should_hint_home_partial_index(request);
+    let hint = hint_home_partial_index
+        .then(|| Hint::Keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 }));
+    let max = request.before_cursor.filter(|_| hint_home_partial_index).map(|before_cursor| {
+        doc! {
+            "metadata.mail_time": before_cursor,
+            "metadata.kvk": Bson::MinKey,
+        }
+    });
+    let min = request.after_cursor.filter(|_| hint_home_partial_index).map(|after_cursor| {
+        doc! {
+            "metadata.mail_time": after_cursor,
+            "metadata.kvk": Bson::MaxKey,
+        }
+    });
+
+    FindOptions::builder()
+        .sort(doc! { "metadata.mail_time": request.sort_direction() })
+        .projection(self::list_mapper::build_battle_list_projection())
+        .hint(hint)
+        .max(max)
+        .min(min)
+        .build()
+}
+
+fn should_hint_home_partial_index(request: &ReportsRequest) -> bool {
+    matches!(request.filter_type, Some(ReportsFilterType::Home))
+        && request.sender_primary_commander_id.is_none()
+        && request.sender_secondary_commander_id.is_none()
+        && request.opponent_primary_commander_id.is_none()
+        && request.opponent_secondary_commander_id.is_none()
+        && matches!(request.rally_side, ReportsFilterSide::None)
+        && matches!(request.garrison_side, ReportsFilterSide::None)
+}
+
 /// Look up a single battle report by mail ID.
 pub async fn get_by_id(
     State(state): State<Arc<AppState>>,
@@ -131,7 +164,87 @@ fn parse_report_id(raw_id: &str) -> Result<String, ApiError> {
 
 #[cfg(test)]
 mod tests {
-    use super::parse_report_id;
+    use std::collections::HashMap;
+
+    use mongodb::{
+        bson::{Bson, doc},
+        options::Hint,
+    };
+
+    use super::{build_battle_list_find_options, parse_report_id};
+    use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn home_list_options_hint_the_home_partial_index() {
+        let request =
+            parse_reports_request(&HashMap::from([("type".to_string(), "home".to_string())]))
+                .expect("valid Home filter");
+
+        let options = build_battle_list_find_options(&request);
+
+        assert!(matches!(
+            options.hint,
+            Some(Hint::Keys(keys))
+                if keys == doc! { "metadata.mail_time": -1, "metadata.kvk": 1 }
+        ));
+        assert!(options.max.is_none());
+        assert!(options.min.is_none());
+    }
+
+    #[test]
+    fn home_before_cursor_bounds_the_home_partial_index() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "home".to_string()),
+            ("before".to_string(), "123456".to_string()),
+        ]))
+        .expect("valid Home before cursor");
+
+        let options = build_battle_list_find_options(&request);
+
+        assert_eq!(
+            options.max,
+            Some(doc! {
+                "metadata.mail_time": 123456_i64,
+                "metadata.kvk": Bson::MinKey,
+            })
+        );
+        assert!(options.min.is_none());
+    }
+
+    #[test]
+    fn home_after_cursor_bounds_the_home_partial_index() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "home".to_string()),
+            ("after".to_string(), "123456".to_string()),
+        ]))
+        .expect("valid Home after cursor");
+
+        let options = build_battle_list_find_options(&request);
+
+        assert_eq!(
+            options.min,
+            Some(doc! {
+                "metadata.mail_time": 123456_i64,
+                "metadata.kvk": Bson::MaxKey,
+            })
+        );
+        assert!(options.max.is_none());
+    }
+
+    #[test]
+    fn home_list_options_allow_specialized_commander_index() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "home".to_string()),
+            ("ssc".to_string(), "618".to_string()),
+        ]))
+        .expect("valid Home commander filter");
+
+        let options = build_battle_list_find_options(&request);
+
+        assert!(options.hint.is_none());
+        assert!(options.max.is_none());
+        assert!(options.min.is_none());
+    }
 
     #[test]
     fn parses_non_empty_report_id() {

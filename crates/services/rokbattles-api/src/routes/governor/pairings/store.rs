@@ -29,7 +29,7 @@ pub(crate) async fn fetch_pairings_mails(
 ) -> Result<Vec<Document>, ApiError> {
     let mut and_filters = vec![
         doc! { "sender.player_id": governor_id },
-        doc! { "opponents": { "$elemMatch": { "player_id": { "$nin": [-2, 0] } } } },
+        doc! { "opponents.player_id": { "$gt": 0 } },
         build_mail_time_match(range.start_millis, range.end_millis),
     ];
 
