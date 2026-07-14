@@ -199,7 +199,7 @@ fn for_each_pairing_entry(mail: &Document, mut push: impl FnMut(PairingEntry)) {
         .filter_map(Bson::as_document)
         .filter(|opponent| {
             let player_id = nested_i64(opponent, &["player_id"]).unwrap_or_default();
-            !matches!(player_id, -2 | 0)
+            player_id > 0
         })
         .collect::<Vec<_>>();
 

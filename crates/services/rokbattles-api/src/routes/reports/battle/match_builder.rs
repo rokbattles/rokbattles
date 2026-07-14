@@ -7,11 +7,7 @@ use super::query::{
 
 /// Build the MongoDB `$match` object for battle report list queries.
 pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
-    let mut match_pipeline: Vec<Document> = vec![doc! {
-        "opponents": {
-            "$elemMatch": { "player_id": { "$nin": [-2, 0] } }
-        }
-    }];
+    let mut match_pipeline: Vec<Document> = vec![doc! { "opponents.player_id": { "$gt": 0 } }];
 
     if let Some(before_cursor) = request.before_cursor {
         match_pipeline.push(doc! { "metadata.mail_time": { "$gt": before_cursor } });
@@ -40,7 +36,7 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(doc! {
             "opponents": {
                 "$elemMatch": {
-                    "player_id": { "$nin": [-2, 0] },
+                    "player_id": { "$gt": 0 },
                     "commanders.primary.id": commander_id,
                 }
             }
@@ -51,7 +47,7 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.push(doc! {
             "opponents": {
                 "$elemMatch": {
-                    "player_id": { "$nin": [-2, 0] },
+                    "player_id": { "$gt": 0 },
                     "commanders.secondary.id": commander_id,
                 }
             }
@@ -69,8 +65,13 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
             ReportsFilterType::Home => {
                 match_pipeline.push(doc! {
                     "$and": [
-                        { "metadata.kvk": { "$ne": true } },
-                        { "metadata.mail_role": { "$ne": "dungeon" } },
+                        { "metadata.kvk": false },
+                        {
+                            "$or": [
+                                { "metadata.mail_role": { "$lt": "dungeon" } },
+                                { "metadata.mail_role": { "$gt": "dungeon" } },
+                            ]
+                        },
                         {
                             "$or": [
                                 { "sender.supreme_strife.battle_id": { "$in": [Bson::Null, Bson::String("".to_string())] } },
@@ -83,8 +84,8 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
             ReportsFilterType::Strife => {
                 match_pipeline.push(doc! {
                     "$and": [
-                        { "sender.supreme_strife.battle_id": { "$exists": true, "$nin": [Bson::Null, Bson::String("".to_string())] } },
-                        { "sender.supreme_strife.team_id": { "$exists": true, "$nin": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
+                        { "sender.supreme_strife.battle_id": { "$gt": "" } },
+                        { "sender.supreme_strife.team_id": { "$gt": 0 } },
                     ]
                 });
             }
@@ -125,7 +126,7 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         rally_conditions.push(doc! {
             "opponents": {
                 "$elemMatch": {
-                    "player_id": { "$nin": [-2, 0] },
+                    "player_id": { "$gt": 0 },
                     "rally": { "$in": [Bson::Int32(1), Bson::Boolean(true)] },
                 }
             }
@@ -208,17 +209,17 @@ fn build_opponent_garrison_condition(
 ) -> Document {
     let elem_match = match garrison_type {
         Some(ReportsGarrisonBuildingType::Flag) => {
-            doc! { "player_id": { "$nin": [-2, 0] }, "alliance_building_id": 1 }
+            doc! { "player_id": { "$gt": 0 }, "alliance_building_id": 1 }
         }
         Some(ReportsGarrisonBuildingType::Fortress) => {
-            doc! { "player_id": { "$nin": [-2, 0] }, "alliance_building_id": 3 }
+            doc! { "player_id": { "$gt": 0 }, "alliance_building_id": 3 }
         }
         Some(ReportsGarrisonBuildingType::Other) => doc! {
-            "player_id": { "$nin": [-2, 0] },
+            "player_id": { "$gt": 0 },
             "alliance_building_id": { "$exists": true, "$nin": [Bson::Int32(1), Bson::Int32(3), Bson::Null] }
         },
         None => doc! {
-            "player_id": { "$nin": [-2, 0] },
+            "player_id": { "$gt": 0 },
             "alliance_building_id": { "$exists": true, "$ne": Bson::Null }
         },
     };
@@ -238,6 +239,65 @@ mod tests {
 
     use super::*;
     use crate::routes::reports::battle::query::parse_reports_request;
+
+    #[test]
+    fn home_filter_matches_non_kvk_non_dungeon_non_strife_reports() {
+        let request =
+            parse_reports_request(&HashMap::from([("type".to_string(), "home".to_string())]))
+                .expect("valid Home filter");
+
+        let filter = build_reports_match(&request);
+
+        assert_eq!(
+            filter,
+            doc! {
+                "$and": [
+                    { "opponents.player_id": { "$gt": 0 } },
+                    {
+                        "$and": [
+                            { "metadata.kvk": false },
+                            {
+                                "$or": [
+                                    { "metadata.mail_role": { "$lt": "dungeon" } },
+                                    { "metadata.mail_role": { "$gt": "dungeon" } },
+                                ]
+                            },
+                            {
+                                "$or": [
+                                    { "sender.supreme_strife.battle_id": { "$in": [Bson::Null, Bson::String(String::new())] } },
+                                    { "sender.supreme_strife.team_id": { "$in": [Bson::Null, Bson::Int32(0), Bson::Int64(0)] } },
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        );
+    }
+
+    #[test]
+    fn strife_filter_matches_active_supreme_strife_reports() {
+        let request =
+            parse_reports_request(&HashMap::from([("type".to_string(), "strife".to_string())]))
+                .expect("valid Strife filter");
+
+        let filter = build_reports_match(&request);
+
+        assert_eq!(
+            filter,
+            doc! {
+                "$and": [
+                    { "opponents.player_id": { "$gt": 0 } },
+                    {
+                        "$and": [
+                            { "sender.supreme_strife.battle_id": { "$gt": "" } },
+                            { "sender.supreme_strife.team_id": { "$gt": 0 } },
+                        ]
+                    }
+                ]
+            }
+        );
+    }
 
     #[test]
     fn kvk_subtype_matches_sender_server_season() {
