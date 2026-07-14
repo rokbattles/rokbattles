@@ -19,7 +19,6 @@ members = [
     "crates/mail/sdk",
     "crates/mail/processors/system-barbarianfort",
     "crates/mail/processors/system-kahartreasure",
-    "crates/services/rokbattles-tcp-processor",
     "crates/services/rokbattles-api",
     "crates/core/bson",
     "crates/services/rokbattles-jobs",
@@ -27,7 +26,6 @@ members = [
     "crates/services/rokbattles-processor",
     "crates/desktop",
     "crates/core/rokgt-extractor",
-    "crates/core/tcp-stream",
 ]
 resolver = "3"
 
@@ -63,7 +61,6 @@ bytes = "1.12.1"
 dotenvy = "0.15.7"
 flate2 = { version = "1.1.9", default-features = false }
 thiserror = "2.0.18"
-pcap = "2.4.0"
 sentry = { version = "0.48.4", default-features = false, features = ["rustls", "backtrace", "contexts", "debug-images", "panic", "reqwest"] }
 tokio-cron-scheduler = "0.15.1"
 
