@@ -95,19 +95,36 @@ struct PairingSummary {
     hps: f64,
 }
 
+#[derive(Debug, PartialEq)]
+struct PairingsAggregation {
+    observed: BTreeMap<PairingKey, PairingRawTotals>,
+    drastc_observed: BTreeMap<PairingKey, PairingRawTotals>,
+    reference_ranges: DrastcReferenceRanges,
+}
+
+impl Default for PairingsAggregation {
+    fn default() -> Self {
+        Self {
+            observed: BTreeMap::new(),
+            drastc_observed: BTreeMap::new(),
+            reference_ranges: default_reference_ranges(),
+        }
+    }
+}
+
 /// Refresh global legendary commander pairing summaries.
 pub async fn precompute_commander_pairings_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsPrecomputeStats, JobsError> {
     let legendary_ids = legendary_commander_ids()?;
-    let (observed, reference_ranges) =
+    let aggregation =
         read_pairings_and_reference_ranges(reports_store.battle_collection(), &legendary_ids)
             .await?;
     let supported_drastc_pairings = supported_drastc_pairings(&legendary_ids);
     let drastc_scores = build_drastc_scores_from_aggregates(
-        &observed,
+        &aggregation.drastc_observed,
         &supported_drastc_pairings,
-        reference_ranges,
+        aggregation.reference_ranges,
     );
 
     let refreshed_at = DateTime::now();
@@ -117,7 +134,7 @@ pub async fn precompute_commander_pairings_data(
     let mut documents = Vec::with_capacity(all_pairings.len());
 
     for key in all_pairings {
-        let raw = observed.get(&key).copied().unwrap_or_default();
+        let raw = aggregation.observed.get(&key).copied().unwrap_or_default();
         battle_entries_counted += raw.total_battles;
         let summary = finalize_summary(raw);
         let document =
@@ -130,7 +147,7 @@ pub async fn precompute_commander_pairings_data(
 
     Ok(CommanderPairingsPrecomputeStats {
         legendary_commanders: legendary_ids.len(),
-        observed_pairings: observed.len(),
+        observed_pairings: aggregation.observed.len(),
         supported_drastc_pairings: supported_drastc_pairings.len(),
         scored_drastc_pairings: drastc_scores.len(),
         battle_entries_counted,
@@ -233,7 +250,7 @@ fn ordered_pairing_keys(legendary_ids: &[i64]) -> Vec<PairingKey> {
 async fn read_pairings_and_reference_ranges(
     source: &Collection<Document>,
     legendary_ids: &[i64],
-) -> Result<(BTreeMap<PairingKey, PairingRawTotals>, DrastcReferenceRanges), JobsError> {
+) -> Result<PairingsAggregation, JobsError> {
     let pipeline = build_pairings_pipeline(legendary_ids);
     let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
 
@@ -242,7 +259,7 @@ async fn read_pairings_and_reference_ranges(
         return Ok(map_pairings_result_document(&document));
     }
 
-    Ok((BTreeMap::new(), default_reference_ranges()))
+    Ok(PairingsAggregation::default())
 }
 
 fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
@@ -297,6 +314,7 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         doc! {
             "$set": {
                 "_exclude_in_ranges": rally_garrison_report_expr(),
+                "_exclude_in_drastc": swarm_report_expr(),
             }
         },
         doc! { "$unwind": "$opponents" },
@@ -316,6 +334,7 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         doc! {
             "$facet": {
                 "observed": observed_pairings_subpipeline(),
+                "drastc_observed": drastc_pairings_subpipeline(),
                 "reference_ranges": reference_ranges_subpipeline(),
             }
         },
@@ -325,29 +344,50 @@ fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
 fn rally_garrison_report_expr() -> Document {
     doc! {
         "$or": [
-            { "$in": ["$sender.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
+            sender_rally_or_garrison_expr(),
+            opponent_rally_or_garrison_expr(),
+        ]
+    }
+}
+
+fn swarm_report_expr() -> Document {
+    doc! {
+        "$and": [
+            { "$not": [sender_rally_or_garrison_expr()] },
+            opponent_rally_or_garrison_expr(),
+        ]
+    }
+}
+
+fn sender_rally_or_garrison_expr() -> Document {
+    doc! {
+        "$or": [
+            { "$eq": ["$sender.rally", true] },
             { "$ne": ["$sender.alliance_building_id", Bson::Null] },
             { "$ne": ["$sender.structure_id", Bson::Null] },
+        ]
+    }
+}
+
+fn opponent_rally_or_garrison_expr() -> Document {
+    doc! {
+        "$gt": [
             {
-                "$gt": [
-                    {
-                        "$size": {
-                            "$filter": {
-                                "input": { "$ifNull": ["$opponents", []] },
-                                "as": "opponent",
-                                "cond": {
-                                    "$or": [
-                                        { "$in": ["$$opponent.rally", [Bson::Boolean(true), Bson::Int32(1), Bson::Int64(1)]] },
-                                        { "$ne": ["$$opponent.alliance_building_id", Bson::Null] },
-                                        { "$ne": ["$$opponent.structure_id", Bson::Null] },
-                                    ]
-                                },
-                            }
-                        }
-                    },
-                    0,
-                ]
+                "$size": {
+                    "$filter": {
+                        "input": { "$ifNull": ["$opponents", []] },
+                        "as": "opponent",
+                        "cond": {
+                            "$or": [
+                                { "$eq": ["$$opponent.rally", true] },
+                                { "$ne": ["$$opponent.alliance_building_id", Bson::Null] },
+                                { "$ne": ["$$opponent.structure_id", Bson::Null] },
+                            ]
+                        },
+                    }
+                }
             },
+            0,
         ]
     }
 }
@@ -412,6 +452,16 @@ fn observed_pairings_subpipeline() -> Vec<Document> {
             }
         },
     ]
+}
+
+fn drastc_pairings_subpipeline() -> Vec<Document> {
+    let mut pipeline = vec![doc! {
+        "$match": {
+            "exclude_in_drastc": { "$ne": true },
+        }
+    }];
+    pipeline.extend(observed_pairings_subpipeline());
+    pipeline
 }
 
 fn build_drastc_scores_from_aggregates(
@@ -648,6 +698,7 @@ fn perspective_entry(
         "primary_commander_id": primary_expr,
         "secondary_commander_id": secondary_expr,
         "exclude_in_ranges": "$_exclude_in_ranges",
+        "exclude_in_drastc": "$_exclude_in_drastc",
         "kill_points_gained": kill_points_gained.clone(),
         "kill_points_lost": kill_points_lost.clone(),
         "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
@@ -835,22 +886,9 @@ fn map_aggregate_document(document: &Document) -> Option<(PairingKey, PairingRaw
     ))
 }
 
-fn map_pairings_result_document(
-    document: &Document,
-) -> (BTreeMap<PairingKey, PairingRawTotals>, DrastcReferenceRanges) {
-    let mut observed = BTreeMap::new();
-
-    if let Some(Bson::Array(documents)) = document.get("observed") {
-        for value in documents {
-            let Bson::Document(document) = value else {
-                continue;
-            };
-
-            if let Some((key, totals)) = map_aggregate_document(document) {
-                observed.insert(key, totals);
-            }
-        }
-    }
+fn map_pairings_result_document(document: &Document) -> PairingsAggregation {
+    let observed = map_aggregate_documents(document, "observed");
+    let drastc_observed = map_aggregate_documents(document, "drastc_observed");
 
     let reference_ranges = document
         .get("reference_ranges")
@@ -864,7 +902,24 @@ fn map_pairings_result_document(
         })
         .unwrap_or_else(default_reference_ranges);
 
-    (observed, reference_ranges)
+    PairingsAggregation { observed, drastc_observed, reference_ranges }
+}
+
+fn map_aggregate_documents(
+    document: &Document,
+    field: &str,
+) -> BTreeMap<PairingKey, PairingRawTotals> {
+    let Some(Bson::Array(documents)) = document.get(field) else {
+        return BTreeMap::new();
+    };
+
+    documents
+        .iter()
+        .filter_map(|value| match value {
+            Bson::Document(document) => map_aggregate_document(document),
+            _ => None,
+        })
+        .collect()
 }
 
 fn map_reference_ranges_document(document: &Document) -> Option<DrastcReferenceRanges> {
@@ -1077,6 +1132,31 @@ mod tests {
     }
 
     #[test]
+    fn swarm_report_expr_requires_open_field_sender_and_special_opponent() {
+        assert_eq!(
+            swarm_report_expr(),
+            doc! {
+                "$and": [
+                    { "$not": [sender_rally_or_garrison_expr()] },
+                    opponent_rally_or_garrison_expr(),
+                ]
+            }
+        );
+    }
+
+    #[test]
+    fn drastc_pairings_subpipeline_excludes_swarm_entries() {
+        assert_eq!(
+            drastc_pairings_subpipeline().first(),
+            Some(&doc! {
+                "$match": {
+                    "exclude_in_drastc": { "$ne": true },
+                }
+            })
+        );
+    }
+
+    #[test]
     fn reference_ranges_subpipeline_requires_minimum_pairing_battle_count() {
         let pipeline = reference_ranges_subpipeline();
 
@@ -1105,6 +1185,56 @@ mod tests {
                 .and_then(|facet| facet.get_array("observed").ok())
                 .is_some()
         }));
+    }
+
+    #[test]
+    fn build_pairings_pipeline_routes_swarm_exclusion_to_drastc_entries() {
+        let pipeline = build_pairings_pipeline(&[509, 6]);
+
+        assert!(pipeline.iter().any(|stage| {
+            stage
+                .get_document("$facet")
+                .ok()
+                .and_then(|facet| facet.get_array("drastc_observed").ok())
+                .is_some_and(|stages| {
+                    stages.first().is_some_and(|stage| {
+                        stage.as_document().is_some_and(|stage| {
+                            stage
+                                .get_document("$match")
+                                .ok()
+                                .and_then(|matcher| matcher.get_document("exclude_in_drastc").ok())
+                                .and_then(|condition| condition.get_bool("$ne").ok())
+                                == Some(true)
+                        })
+                    })
+                })
+        }));
+    }
+
+    #[test]
+    fn map_pairings_result_document_keeps_summary_and_drastc_aggregates_separate() {
+        let result = map_pairings_result_document(&doc! {
+            "observed": [{
+                "primary_commander_id": 579_i64,
+                "secondary_commander_id": 575_i64,
+                "total_battles": 2_i64,
+            }],
+            "drastc_observed": [{
+                "primary_commander_id": 579_i64,
+                "secondary_commander_id": 575_i64,
+                "total_battles": 1_i64,
+            }],
+            "reference_ranges": [],
+        });
+        let pairing = PairingKey { primary_commander_id: 579, secondary_commander_id: 575 };
+
+        assert_eq!(
+            (
+                result.observed.get(&pairing).map(|totals| totals.total_battles),
+                result.drastc_observed.get(&pairing).map(|totals| totals.total_battles),
+            ),
+            (Some(2), Some(1))
+        );
     }
 
     #[test]
