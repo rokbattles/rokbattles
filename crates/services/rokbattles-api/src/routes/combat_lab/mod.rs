@@ -7,7 +7,7 @@ use axum::{
     response::IntoResponse,
 };
 use mongodb::{
-    bson::{DateTime, doc, from_document},
+    bson::{DateTime, Document, doc, from_document},
     options::FindOneOptions,
 };
 use serde::{Deserialize, Serialize};
@@ -24,7 +24,7 @@ pub async fn get_pairing(
         "primary_commander_id": request.primary_commander_id,
         "secondary_commander_id": request.secondary_commander_id,
     };
-    let options = FindOneOptions::builder().projection(doc! { "_id": 0 }).build();
+    let options = pairing_find_options();
     let Some(document) = state
         .reports_store
         .precomputed_commander_pairings_collection()
@@ -36,11 +36,19 @@ pub async fn get_pairing(
         return Err(ApiError::not_found("pairing not found"));
     };
 
-    let response: CombatLabPairingDocument = from_document::<RawCombatLabPairingDocument>(document)
-        .map_err(|error| ApiError::internal(format!("invalid combat lab document: {error}")))?
-        .into();
+    let response = map_pairing_document(document)?;
 
     Ok((StatusCode::OK, [("Cache-Control", "public, max-age=3600")], Json(response)))
+}
+
+fn pairing_find_options() -> FindOneOptions {
+    FindOneOptions::builder().projection(doc! { "_id": 0 }).build()
+}
+
+fn map_pairing_document(document: Document) -> Result<CombatLabPairingDocument, ApiError> {
+    from_document::<RawCombatLabPairingDocument>(document)
+        .map(Into::into)
+        .map_err(|error| ApiError::internal(format!("invalid combat lab document: {error}")))
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -83,6 +91,7 @@ struct RawCombatLabPairingDocument {
     primary_commander_id: i64,
     secondary_commander_id: i64,
     summary: CombatLabSummary,
+    strategies: CombatLabStrategies,
     drastc: Option<DrastcScore>,
     refreshed_at: DateTime,
 }
@@ -93,6 +102,7 @@ struct CombatLabPairingDocument {
     primary_commander_id: i64,
     secondary_commander_id: i64,
     summary: CombatLabSummary,
+    strategies: CombatLabStrategies,
     drastc: Option<DrastcScore>,
     refreshed_at: String,
 }
@@ -103,6 +113,7 @@ impl From<RawCombatLabPairingDocument> for CombatLabPairingDocument {
             primary_commander_id: value.primary_commander_id,
             secondary_commander_id: value.secondary_commander_id,
             summary: value.summary,
+            strategies: value.strategies,
             drastc: value.drastc,
             refreshed_at: date_time_to_string(value.refreshed_at),
         }
@@ -125,6 +136,29 @@ struct CombatLabSummary {
     sps: f64,
     tps: f64,
     hps: f64,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(deserialize = "snake_case", serialize = "camelCase"))]
+struct CombatLabStrategies {
+    all: CombatLabStrategySummary,
+    open_field: CombatLabStrategySummary,
+    swarming: CombatLabStrategySummary,
+    rally: CombatLabStrategySummary,
+    garrison: CombatLabStrategySummary,
+}
+
+#[derive(Debug, Clone, Deserialize, Serialize)]
+struct CombatLabStrategySummary {
+    #[serde(flatten)]
+    summary: CombatLabSummary,
+    formations: Vec<CombatLabFormation>,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize)]
+struct CombatLabFormation {
+    id: i64,
+    count: i64,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -157,7 +191,39 @@ struct CategoryScore {
 
 #[cfg(test)]
 mod tests {
+    use mongodb::bson::{Bson, to_document};
+
     use super::*;
+
+    fn stored_summary(total_battles: i64) -> Document {
+        doc! {
+            "total_battles": total_battles,
+            "kill_points_gained": 0_i64,
+            "kill_points_lost": 0_i64,
+            "avg_trade_percentage": 0.0,
+            "weighted_trade_percentage": 100.0,
+            "avg_battle_duration": 0.0,
+            "total_battle_duration": 0_i64,
+            "severely_wounded_inflicted": 0_i64,
+            "severely_wounded_taken": 0_i64,
+            "dps": 0.0,
+            "sps": 0.0,
+            "tps": 0.0,
+            "hps": 0.0,
+        }
+    }
+
+    fn stored_strategy(total_battles: i64, formation_id: i64) -> Document {
+        let mut strategy = stored_summary(total_battles);
+        strategy.insert(
+            "formations",
+            Bson::Array(vec![Bson::Document(doc! {
+                "id": formation_id,
+                "count": total_battles,
+            })]),
+        );
+        strategy
+    }
 
     #[test]
     fn parse_pairing_request_requires_both_commanders() {
@@ -188,5 +254,59 @@ mod tests {
             request,
             PairingRequest { primary_commander_id: 579, secondary_commander_id: 575 }
         );
+    }
+
+    #[test]
+    fn pairing_find_options_excludes_mongodb_id() {
+        assert_eq!(pairing_find_options().projection, Some(doc! { "_id": 0 }));
+    }
+
+    #[test]
+    fn map_pairing_document_includes_all_strategies_and_formations() {
+        let response = map_pairing_document(doc! {
+            "_id": "excluded",
+            "primary_commander_id": 509_i64,
+            "secondary_commander_id": 6_i64,
+            "summary": stored_summary(15),
+            "strategies": {
+                "all": stored_strategy(15, 0),
+                "open_field": stored_strategy(10, 2),
+                "swarming": stored_strategy(3, 1),
+                "rally": stored_strategy(1, 19),
+                "garrison": stored_strategy(1, 19),
+            },
+            "drastc": Bson::Null,
+            "refreshed_at": DateTime::from_millis(0),
+        })
+        .expect("mapped response");
+        let response = to_document(&response).expect("serialized response");
+        let strategies = response.get_document("strategies").expect("strategies");
+        let open_field = strategies.get_document("openField").expect("open field");
+
+        assert_eq!(
+            strategies.keys().map(String::as_str).collect::<Vec<_>>(),
+            ["all", "openField", "swarming", "rally", "garrison"]
+        );
+        assert_eq!(open_field.get_i64("totalBattles"), Ok(10));
+        assert!(open_field.get("total_battles").is_none());
+        assert_eq!(
+            open_field.get_array("formations"),
+            Ok(&vec![Bson::Document(doc! { "id": 2_i64, "count": 10_i64 })])
+        );
+        assert!(response.get("_id").is_none());
+    }
+
+    #[test]
+    fn map_pairing_document_rejects_documents_without_strategies() {
+        let error = map_pairing_document(doc! {
+            "primary_commander_id": 509_i64,
+            "secondary_commander_id": 6_i64,
+            "summary": stored_summary(15),
+            "drastc": Bson::Null,
+            "refreshed_at": DateTime::from_millis(0),
+        })
+        .expect_err("strategies are required");
+
+        assert!(error.to_string().contains("missing field `strategies`"));
     }
 }
