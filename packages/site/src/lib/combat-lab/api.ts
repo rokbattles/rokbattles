@@ -34,10 +34,28 @@ export type CombatLabSummary = {
   hps: number;
 };
 
+export type CombatLabFormation = {
+  id: number;
+  count: number;
+};
+
+export type CombatLabStrategySummary = CombatLabSummary & {
+  formations: CombatLabFormation[];
+};
+
+export type CombatLabStrategies = {
+  all: CombatLabStrategySummary;
+  openField: CombatLabStrategySummary;
+  swarming: CombatLabStrategySummary;
+  rally: CombatLabStrategySummary;
+  garrison: CombatLabStrategySummary;
+};
+
 export type CombatLabPairingDocument = {
   primaryCommanderId: number;
   secondaryCommanderId: number;
   summary: CombatLabSummary;
+  strategies: CombatLabStrategies;
   drastc: CombatLabDrastcScore | null;
   refreshedAt: string;
 };

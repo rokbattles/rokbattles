@@ -510,6 +510,7 @@ msgid "PF57EA"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
+#: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "zQvVDJ"
 msgstr "전체"
@@ -732,6 +733,37 @@ msgstr ""
 msgid "RrCui3"
 msgstr ""
 
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "8Ba35b"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "cHoIky"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
+msgid "hAEZYZ"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/report/report-participant-card.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "RJ-ZIh"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "2pQ4w5"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-summary-section.tsx
+msgid "uwJgwa"
+msgstr ""
+
 #: src/components/combat-lab/commander-pairing-form.tsx
 msgid "06XNKO"
 msgstr ""
@@ -808,6 +840,40 @@ msgstr ""
 
 #: src/components/combat-lab/drastc-section.tsx
 msgid "AAkx6U"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgid "_VnDMl"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "pGry-P"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/report/report-commander-row.tsx
+msgid "YeBMpE"
+msgstr "진형 {formation}"
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "DQqwcJ"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "1GKsgu"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "EU4z3x"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "Aujn2T"
+msgstr ""
+
+#: src/components/combat-lab/formation-breakdown.tsx
+msgid "wbsq7O"
 msgstr ""
 
 #: src/components/commander-loadout-row.tsx
@@ -998,25 +1064,6 @@ msgstr ""
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "Mro8Zx"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "cHoIky"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "hAEZYZ"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/report/report-participant-card.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "RJ-ZIh"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "2pQ4w5"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
@@ -1328,10 +1375,6 @@ msgstr "경상"
 msgid "sTixnc"
 msgstr ""
 
-#: src/components/report/report-commander-row.tsx
-msgid "YeBMpE"
-msgstr "진형 {formation}"
-
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr "해당 해시값에 대한 전투를 찾을 수 없습니다."
@@ -1483,10 +1526,6 @@ msgstr "연맹 깃발"
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "iScUrx"
 msgstr "연맹 요새"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "_VnDMl"
-msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"
