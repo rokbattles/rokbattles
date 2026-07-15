@@ -187,6 +187,30 @@ loot:
         - img_gem.png
 
   2:
+    2:
+      name:
+        ar: "50,000 طعام"
+        de: "50.000 Proviant"
+        en: "50,000 Food"
+        es: "50 000 de Alimento"
+        fr: "50 000 unités de nourriture"
+        id: "50.000 Food"
+        it: "50.000 unità di cibo"
+        ja: "50,000 食料"
+        ko: "식량 50,000개"
+        ms: "50,000 Makanan"
+        pl: "50 000 żywności"
+        pt: "50.000 de alimento"
+        ru: "50 000 пищи"
+        th: "อาหาร 50,000 หน่วย"
+        tr: "50.000 Gıda"
+        vi: "50.000 thực phẩm"
+        zh_CN: "50,000 食物"
+        zh_TW: "50,000 食物"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_23.png
+
     3:
       name:
         ar: "150,000 طعام"
@@ -283,6 +307,30 @@ loot:
         - img_icon_item_BGPurple.png
         - img_icon_item_23.png
 
+    8:
+      name:
+        ar: "50,000 خشب"
+        de: "50.000 Holz"
+        en: "50,000 Wood"
+        es: "50 000 de Madera"
+        fr: "50 000 unités de bois"
+        id: "50.000 Kayu"
+        it: "50.000 unità di legname"
+        ja: "50,000 木材"
+        ko: "목재 50,000개"
+        ms: "50,000 Kayu"
+        pl: "50 000 drewna"
+        pt: "50.000 de madeira"
+        ru: "50 000 дерева"
+        th: "ไม้ 50,000 หน่วย"
+        tr: "50.000 Odun"
+        vi: "50.000 khối gỗ"
+        zh_CN: "50,000 木材"
+        zh_TW: "50,000 木材"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_22.png
+
     9:
       name:
         ar: "150,000 خشب"
@@ -378,6 +426,30 @@ loot:
       sprite:
         - img_icon_item_BGPurple.png
         - img_icon_item_22.png
+
+    14:
+      name:
+        ar: "37,500 حجر"
+        de: "37.500 Steine"
+        en: "37,500 Stone"
+        es: "37,500 de Piedra"
+        fr: "37 500 pierres"
+        id: "37.500 Stone"
+        it: "37.500 unità di pietra"
+        ja: "37,500 石材"
+        ko: "석재 37,500개"
+        ms: "37,500 Batu"
+        pl: "37 500 kamienia"
+        pt: "37.500 de pedra"
+        ru: "37 500 камня"
+        th: "หิน 37,500 หน่วย"
+        tr: "37.500 Taş"
+        vi: "37.500 khối đá"
+        zh_CN: "37,500 石料"
+        zh_TW: "37,500 石料"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_21.png
 
     15:
       name:
@@ -759,6 +831,30 @@ loot:
         vi: "Tăng tốc 1 phút"
         zh_CN: "1分钟加速"
         zh_TW: "1分鐘加速"
+      sprite:
+        - img_icon_item_BGGreen.png
+        - img_icon_item_9.png
+
+    35:
+      name:
+        ar: "تسريع 15 دقيقة"
+        de: "15 Minuten Beschleunigung"
+        en: "15-Minute Speedup"
+        es: "15 minuto de Aceleración"
+        fr: "Accélération - 15 minutes"
+        id: "Speedup 15 Menit"
+        it: "Acceleratore da 15 minuti"
+        ja: "15分加速"
+        ko: "15분 가속"
+        ms: "Percepat 15 Minit"
+        pl: "15-min przyspieszenie"
+        pt: "Aceleração de 15 minutos"
+        ru: "15-минутное ускорение"
+        th: "ตัวเร่งความเร็ว 15 นาที"
+        tr: "15 Dakikalık Hızlandırma"
+        vi: "Tăng tốc 15 phút"
+        zh_CN: "15分钟加速"
+        zh_TW: "15分鐘加速"
       sprite:
         - img_icon_item_BGGreen.png
         - img_icon_item_9.png
