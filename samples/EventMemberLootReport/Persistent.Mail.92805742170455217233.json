@@ -1,0 +1,2296 @@
+{
+  "addition": "",
+  "attachments": [],
+  "body": {
+    "content": {
+      "EventName": "GVE",
+      "contentTxt": "Your alliance has successfully defeated Voodoo Priest Pache!\nWhat a remarkable accomplishment. If we stick together, I'm sure we can achieve great things!",
+      "infos": [
+        1,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165999222/23/08/29/0263bc2c5b9b6fab_512x512.jpg\"}",
+          "idx": 10,
+          "loots": [
+            1,
+            {
+              "SubType": 18,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 38,
+              "Type": 2,
+              "Value": 2
+            },
+            4,
+            {
+              "SubType": 28,
+              "Type": 2,
+              "Value": 3
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ArkAngel3",
+          "playerId": 165999222
+        },
+        2,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/150372008/23/06/17/0f21f13d7086ed2c_540x540.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_14.png\"}",
+          "idx": 1,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴵᴷJohnKCF",
+          "playerId": 150372008
+        },
+        3,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165414269/23/12/25/ea0edcda597444f3_736x736.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 39,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱLynk05",
+          "playerId": 165414269
+        },
+        4,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165234401/23/12/09/c93c98de778d9ab1_800x800.jpg\"}",
+          "idx": 40,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 410,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴰᴰRemembrMe",
+          "playerId": 165234401
+        },
+        5,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165868189/24/01/03/d49d6f7355829fba_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\"}",
+          "idx": 42,
+          "loots": [
+            1,
+            {
+              "SubType": 6,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴷᴹeurosky",
+          "playerId": 165868189
+        },
+        6,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165647124/230813/22270ACBB2E707F64570CFAE464DD54F_250x250.jpg\"}",
+          "idx": 41,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱ  Phu",
+          "playerId": 165647124
+        },
+        7,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/161236932/231231/1C7E8E4DB40C8E9D26C867353256EDBD_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\"}",
+          "idx": 43,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Gonnie",
+          "playerId": 161236932
+        },
+        8,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_28.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165281762/231001/B6DDEB6FD30CC5E59341D352CA06C78E_250x250.jpg\"}",
+          "idx": 38,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴿᴱHakamito",
+          "playerId": 165281762
+        },
+        9,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/161209861/23/06/15/175d14862f7fa6e7_800x800.jpg\"}",
+          "idx": 36,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴺᴸOakerz",
+          "playerId": 161209861
+        },
+        10,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_14.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165810020/23/09/22/8e1f0bfa20af51e0_768x768.jpg\"}",
+          "idx": 32,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 38,
+              "Type": 2,
+              "Value": 2
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱJîtem",
+          "playerId": 165810020
+        },
+        11,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/167683741/23/10/19/d288436d0177f9e5_800x800.jpg\"}",
+          "idx": 37,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 410,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱLucieros",
+          "playerId": 167683741
+        },
+        12,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/166055468/24/01/03/a305baa786190faa_800x800.jpg\"}",
+          "idx": 33,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "KiềuTrangg",
+          "playerId": 166055468
+        },
+        13,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/164909675/23/08/05/ebfeb82e40c06e74_750x750.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 35,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Zellik",
+          "playerId": 164909675
+        },
+        14,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165534768/23/12/10/51731044ce0e3f2e_376x376.jpg\"}",
+          "idx": 34,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 56,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "DārkStørm",
+          "playerId": 165534768
+        },
+        15,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165902973/230919/EEEA3EDA870E1F37706FF734EC760C72_250x250.jpg\"}",
+          "idx": 31,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "MK えむけー",
+          "playerId": 165902973
+        },
+        16,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head21.png\"}",
+          "idx": 44,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 109,
+              "Type": 2,
+              "Value": 20
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "AhHiHi",
+          "playerId": 161256289
+        },
+        17,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165882880/24/01/04/d67ad14d3039f127_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png\"}",
+          "idx": 46,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "Ĵoon",
+          "playerId": 165882880
+        },
+        18,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_28.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165373158/23/12/10/e5e7b07f0bd81e5b_800x800.jpg\"}",
+          "idx": 54,
+          "loots": [
+            1,
+            {
+              "SubType": 6,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 39,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "VelorX2",
+          "playerId": 165373158
+        },
+        19,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_14.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165932042/23/10/28/bab11ae47d9dcae9_800x800.jpg\"}",
+          "idx": 53,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴱ Haru",
+          "playerId": 165932042
+        },
+        20,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165123187/24/01/05/ad9036d2c042281e_222x222.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_166.png\"}",
+          "idx": 55,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱDarkDream",
+          "playerId": 165123187
+        },
+        21,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/140318981/23/03/30/3f664ce353204405_720x720.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 56,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 38,
+              "Type": 2,
+              "Value": 2
+            },
+            4,
+            {
+              "SubType": 405,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "๖ۣۜ Diplo",
+          "playerId": 140318981
+        },
+        22,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165173395/24/01/02/3e59cb32460171af_720x720.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\"}",
+          "idx": 45,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 410,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱLinhh",
+          "playerId": 165173395
+        },
+        23,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165318780/24/01/06/5973f826454c67bc_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\"}",
+          "idx": 52,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱBánh Bao",
+          "playerId": 165318780
+        },
+        24,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165208263/231214/76FF704365EA1B49AFD14ED25DFFC5F5_250x250.jpg\"}",
+          "idx": 50,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴱWai",
+          "playerId": 165208263
+        },
+        25,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_165.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165442243/23/08/26/67c36ce5f5de9c37_800x800.jpg\"}",
+          "idx": 47,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 28,
+              "Type": 2,
+              "Value": 3
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "DiễmLinhh",
+          "playerId": 165442243
+        },
+        26,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165933128/23/12/14/625da36ecf562fd0_540x540.jpg\"}",
+          "idx": 51,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 112,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴿᴱ OsaKanA",
+          "playerId": 165933128
+        },
+        27,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/166016605/23/10/23/22fbf56b6fb289a3_800x800.jpg\"}",
+          "idx": 48,
+          "loots": [
+            1,
+            {
+              "SubType": 12,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "TheSamDogs3",
+          "playerId": 166016605
+        },
+        28,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165529106/23/11/10/0c89ffd2906c3efc_373x373.jpg\"}",
+          "idx": 49,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 38,
+              "Type": 2,
+              "Value": 2
+            },
+            4,
+            {
+              "SubType": 112,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ˢʰᵖRangAwak",
+          "playerId": 165529106
+        },
+        29,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head18.png\"}",
+          "idx": 30,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᵉᵐᵖfist45",
+          "playerId": 165343309
+        },
+        30,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/159988598/231130/200500786C98C8F8C2BC4143EDB68546_250x250.jpg\"}",
+          "idx": 29,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 112,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ˢʰᵖKaribou",
+          "playerId": 159988598
+        },
+        31,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_4.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165522396/23/11/16/70277d00ddbd8472_800x800.jpg\"}",
+          "idx": 28,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 405,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴶᴾneppy",
+          "playerId": 165522396
+        },
+        32,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head08.png\"}",
+          "idx": 9,
+          "loots": [
+            1,
+            {
+              "SubType": 18,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 56,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ˢʰᵖDurand",
+          "playerId": 165257778
+        },
+        33,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/160876001/24/01/05/4c3a9366f01c2a35_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\"}",
+          "idx": 8,
+          "loots": [
+            1,
+            {
+              "SubType": 18,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "义 John义",
+          "playerId": 160876001
+        },
+        34,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/161057155/23/12/11/7440b1a79d67d52f_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 11,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "F7NNY",
+          "playerId": 161057155
+        },
+        35,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_14.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165887404/23/10/12/68d45d5d1f3aea4f_768x768.jpg\"}",
+          "idx": 13,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 44,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "BEN73",
+          "playerId": 165887404
+        },
+        36,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165887223/23/09/24/b095f2ae7cf65302_800x800.jpg\"}",
+          "idx": 12,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 38,
+              "Type": 2,
+              "Value": 2
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "Bãbyløn",
+          "playerId": 165887223
+        },
+        37,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_167.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165107966/24/01/04/ca297944b6c7e5cd_800x800.jpg\"}",
+          "idx": 14,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᵀᵀBlack",
+          "playerId": 165107966
+        },
+        38,
+        {
+          "avatar": "{\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165866606/24/01/06/c09e75e368ee1e7c_800x800.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 7,
+          "loots": [
+            1,
+            {
+              "SubType": 12,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Ayapaaan",
+          "playerId": 165866606
+        },
+        39,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165170153/23/09/10/433324ae5cc94178_736x736.jpg\"}",
+          "idx": 5,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Pake Celana",
+          "playerId": 165170153
+        },
+        40,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/161324467/240103/227856A07C408E479BE0E6A6A3D140B3_250x250.jpg\"}",
+          "idx": 2,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Kʜɪʟɪᴇʟ",
+          "playerId": 161324467
+        },
+        41,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165910326/23/12/27/d3b3a83ddb57c2f3_800x800.jpg\"}",
+          "idx": 6,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴷᴹるちあLucia",
+          "playerId": 165910326
+        },
+        42,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165869506/24/01/02/f859bce37de24054_800x800.jpg\"}",
+          "idx": 3,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 56,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴷᴹsube",
+          "playerId": 165869506
+        },
+        43,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/141084655/23/12/23/b2f6c418ade4505a_720x720.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_139.png\"}",
+          "idx": 4,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 39,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "x Mr T x",
+          "playerId": 141084655
+        },
+        44,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165866237/24/01/04/0b6ff09afa6792d9_800x800.jpg\"}",
+          "idx": 57,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴷᴹEmily",
+          "playerId": 165866237
+        },
+        45,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165867616/23/12/28/9eb206519706c855_800x800.jpg\"}",
+          "idx": 15,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴷᴹmangokiki",
+          "playerId": 165867616
+        },
+        46,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_35.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/39941959/24/01/06/ed33b8d656631c34_445x445.jpg\"}",
+          "idx": 17,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 405,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱBreezy",
+          "playerId": 39941959
+        },
+        47,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_28.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head17.png\"}",
+          "idx": 25,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "あすコウ",
+          "playerId": 165984335
+        },
+        48,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165866595/231223/BEEBCB71A6E8503814D3509D572A9D42_250x250.jpg\"}",
+          "idx": 24,
+          "loots": [
+            1,
+            {
+              "SubType": 12,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴷᴹまゆMayu",
+          "playerId": 165866595
+        },
+        49,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_166.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165299178/23/11/19/dcf245356125b208_800x800.jpg\"}",
+          "idx": 26,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 56,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "WorldEdiT",
+          "playerId": 165299178
+        },
+        50,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_12.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/165137215/23/08/06/c4bf7cbfd5821178_800x800.jpg\"}",
+          "idx": 27,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 112,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "Musinova",
+          "playerId": 165137215
+        },
+        51,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/164795479/23/10/08/d15a7519ee6b7d0f_465x465.jpg\"}",
+          "idx": 16,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10004,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴱWens",
+          "playerId": 164795479
+        },
+        52,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head12.png\"}",
+          "idx": 23,
+          "loots": [
+            1,
+            {
+              "SubType": 12,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴰYoDino",
+          "playerId": 165611557
+        },
+        53,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165209025/240103/25EB907877AEB733199D31B9D9CFB278_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
+          "idx": 21,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 410,
+              "Type": 2,
+              "Value": 4
+            },
+            5,
+            {
+              "SubType": 10005,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱnapoleon",
+          "playerId": 165209025
+        },
+        54,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_20.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head21.png\"}",
+          "idx": 18,
+          "loots": [
+            1,
+            {
+              "SubType": 6,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 147,
+              "Type": 2,
+              "Value": 20
+            },
+            3,
+            {
+              "SubType": 40,
+              "Type": 2,
+              "Value": 1
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴿᴱPi3no",
+          "playerId": 165866567
+        },
+        55,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165041886/24/01/01/f1efe132a730088c_800x800.jpg\"}",
+          "idx": 22,
+          "loots": [
+            1,
+            {
+              "SubType": 11,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "4Eva Y",
+          "playerId": 165041886
+        },
+        56,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_28.png\",\"avatar\":\"https://imv2-gl.lilithgame.com/p/10043/0/165673934/240105/BB3A95785124375DB32289315EDB82C7_250x250.jpg\"}",
+          "idx": 19,
+          "loots": [
+            1,
+            {
+              "SubType": 17,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9998,
+              "Type": 2,
+              "Value": 5
+            }
+          ],
+          "name": "ᴿᴱYuta",
+          "playerId": 165673934
+        },
+        57,
+        {
+          "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/165776969/24/01/04/07ba2a86e77bcae8_524x524.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_1.png\"}",
+          "idx": 20,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 149,
+              "Type": 2,
+              "Value": 6
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "Hvginn",
+          "playerId": 165776969
+        },
+        58,
+        {
+          "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png\",\"avatar\":\"https://imimg.lilithcdn.com/roc/llc_avatar/165755284/23/09/18/c32f9bbf0e7722aa_780x780.jpg\"}",
+          "idx": 58,
+          "loots": [
+            1,
+            {
+              "SubType": 5,
+              "Type": 2,
+              "Value": 1
+            },
+            2,
+            {
+              "SubType": 150,
+              "Type": 2,
+              "Value": 4
+            },
+            3,
+            {
+              "SubType": 37,
+              "Type": 2,
+              "Value": 4
+            },
+            4,
+            {
+              "SubType": 21099,
+              "Type": 2,
+              "Value": 1
+            },
+            5,
+            {
+              "SubType": 9999,
+              "Type": 2,
+              "Value": 2
+            }
+          ],
+          "name": "ᴿᴱChan",
+          "playerId": 165755284
+        }
+      ],
+      "subTitle": "Voodoo Priest Pache Has Been Defeated",
+      "title": "Challenge Complete"
+    }
+  },
+  "box": "SystemBox",
+  "flaglist": [],
+  "id": "92805742170455217233",
+  "mailScene": 0,
+  "receiver": "player_165999222",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 2294,
+  "time": 1704552172186742,
+  "title": "",
+  "type": "EventMemberLootReport",
+  "unread": false
+}
