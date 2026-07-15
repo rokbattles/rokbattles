@@ -30,6 +30,20 @@ const BOSSES: &[Boss] = &[
             "Tiễn Đao Thủ Andaal",
             "剪刀手 · 安德魯",
             "剪刀手 · 安德鲁",
+            // Historical names
+            "\"Fists of Blades\" Andaal",
+            "\"قبضة السيوف\" آندال",
+            "„Klingenfäuste\" Andaal",
+            "\"Puños de Espadas\" Andaal",
+            "Andaal « Poings tranchants »",
+            "\"Pugni di Lame\" Andaal",
+            "\"Tumbukan Bilah\" Andaal",
+            "Andaal Siekające Pięści",
+            "Andaal \"Punhos de lâminas\"",
+            "Андаал «Кулаки Ярости»",
+            "\"กำปั้นใบมีด\" อันดาล",
+            "\"Bıçak Yumruğu\" Andaal",
+            "\"Sức mạnh lưỡi đao\" Andaal",
         ],
     },
     Boss {
@@ -52,6 +66,8 @@ const BOSSES: &[Boss] = &[
             "Chăn gấu Lukor",
             "馭熊者 · 魯克魯斯",
             "驭熊者 · 鲁克鲁斯",
+            // Historical names
+            "Смотритель медведей Лукор",
         ],
     },
     Boss {
@@ -73,6 +89,23 @@ const BOSSES: &[Boss] = &[
             "Cấm Vệ Tàn Khốc Murdos",
             "殘酷禁衛 · 摩多",
             "残酷禁卫 · 摩多",
+            // Historical names
+            "Shield Chieftain Murdos",
+            "لصوص موردوس المدرعين",
+            "酋长禁卫 · 摩多",
+            "Schildhäuptling Murdos",
+            "Jefe de Escudos Murdos",
+            "Porte-bouclier Murdos",
+            "Capo Scudo Murdos",
+            "추장 호위군 모도",
+            "Ketua Perisai Murdos",
+            "Wódz z tarczą Murdos",
+            "Murdos, chefe de escudos",
+            "Вождь-защитник Мурдос",
+            "ประมุขเกราะ มูร์โดส",
+            "Kalkan Lideri Murdos",
+            "Thủ lĩnh khiên Murdos",
+            "酋長禁衛 · 摩多",
         ],
     },
     Boss {
@@ -94,6 +127,23 @@ const BOSSES: &[Boss] = &[
             "Huyết Nộ Chiến Bào Pache",
             "血怒戰醫·帕帕古",
             "血怒战医·帕帕古",
+            // Historical names
+            "Voodoo Priest Pache",
+            "باتشي كاهن الفودو",
+            "巫毒祭司 · 帕帕古",
+            "Voodoo-Priester Pache",
+            "Sacerdote Vudú Pache",
+            "Prêtre vaudou Pache",
+            "Prete Voodoo Pache",
+            "좀비 제사장 파파고",
+            "Paderi Voodoo Pache",
+            "Kapłanka voodoo Pache",
+            "Padre Voodoo",
+            "Жрец вуду Паче",
+            "นักบวชบูดู ปาเช",
+            "Vudu Rahibi Pache",
+            "Giáo sĩ tà thuật Pache",
+            "巫毒祭司 · 帕帕古",
         ],
     },
     Boss {
@@ -161,6 +211,22 @@ mod tests {
         for (subtitle, expected_id) in cases {
             let input = json!({"body": {"content": {"subTitle": subtitle}}});
             let section = BossExtractor::new().extract(&input).expect("known boss");
+            assert_eq!(section.fields()["id"], json!(expected_id));
+        }
+    }
+
+    #[test]
+    fn identifies_historical_boss_names() {
+        let cases = [
+            ("\"Fists of Blades\" Andaal Has Been Defeated", 30001),
+            ("Смотритель медведей Лукор побежден", 30002),
+            ("Shield Chieftain Murdos Has Been Defeated", 30003),
+            ("Voodoo Priest Pache Has Been Defeated", 30004),
+            ("Solon Por Has Been Defeated", 30005),
+        ];
+        for (subtitle, expected_id) in cases {
+            let input = json!({"body": {"content": {"subTitle": subtitle}}});
+            let section = BossExtractor::new().extract(&input).expect("historical boss name");
             assert_eq!(section.fields()["id"], json!(expected_id));
         }
     }
