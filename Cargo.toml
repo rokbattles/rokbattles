@@ -1,7 +1,5 @@
 [workspace]
 members = [
-    "crates/tools/binidx-cli",
-    "crates/core/binidx-decoder",
     "crates/core/drastc",
     "crates/tools/mail-cli",
     "crates/mail/decoder",

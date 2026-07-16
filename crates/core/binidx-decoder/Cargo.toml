@@ -1,9 +1,0 @@
-[package]
-name = "binidx-decoder"
-version = "1.5.2"
-edition = "2024"
-
-[dependencies]
-
-[lib]
-doctest = false
