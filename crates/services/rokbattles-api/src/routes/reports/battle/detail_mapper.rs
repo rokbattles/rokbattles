@@ -4,13 +4,16 @@ use core_bson::{
 };
 use mongodb::bson::{Bson, Document, doc};
 
-use super::types::{
-    BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportAuxiliarySkill,
-    BattleReportBattleResult, BattleReportBattleResults, BattleReportCastle, BattleReportCommander,
-    BattleReportCommanderSet, BattleReportCommanderSkill, BattleReportDetail, BattleReportMetadata,
-    BattleReportNpc, BattleReportOpponent, BattleReportPlayer, BattleReportRelic,
-    BattleReportSummary, BattleReportSummaryEntry, BattleReportSupportSkill,
-    BattleReportSupportSkills, BattleReportTimeline,
+use super::{
+    structure_override::resolve_avatar_override,
+    types::{
+        BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportAuxiliarySkill,
+        BattleReportBattleResult, BattleReportBattleResults, BattleReportCastle,
+        BattleReportCommander, BattleReportCommanderSet, BattleReportCommanderSkill,
+        BattleReportDetail, BattleReportMetadata, BattleReportNpc, BattleReportOpponent,
+        BattleReportPlayer, BattleReportRelic, BattleReportSummary, BattleReportSummaryEntry,
+        BattleReportSupportSkill, BattleReportSupportSkills, BattleReportTimeline,
+    },
 };
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
@@ -26,6 +29,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "metadata.mail_time",
         "metadata.mail_role",
         "metadata.kvk",
+        "metadata.schema",
         "sender.player_id",
         "sender.player_name",
         "sender.alliance.abbreviation",
@@ -34,6 +38,10 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "sender.tracking_key",
         "sender.rally",
         "sender.alliance_building_id",
+        "sender.character_type",
+        "sender.is_turret",
+        "sender.is_outpost",
+        "sender.structure_id",
         "sender.castle.x",
         "sender.castle.y",
         "sender.app_uid",
@@ -90,6 +98,10 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.frame_url",
         "opponents.rally",
         "opponents.alliance_building_id",
+        "opponents.character_type",
+        "opponents.is_turret",
+        "opponents.is_outpost",
+        "opponents.structure_id",
         "opponents.castle.x",
         "opponents.castle.y",
         "opponents.app_uid",
@@ -156,11 +168,12 @@ pub(super) fn build_battle_detail_projection() -> Document {
 }
 
 pub(super) fn map_battle_detail_document(document: &Document) -> Option<BattleReportDetail> {
+    let report_schema = nested_i64_exact(document, &["metadata", "schema"]);
     Some(BattleReportDetail {
         metadata: map_detail_metadata(document)?,
-        sender: map_detail_player(nested_document(document, &["sender"])),
+        sender: map_detail_player(nested_document(document, &["sender"]), report_schema),
         summary: map_detail_summary(nested_document(document, &["summary"])),
-        opponents: map_detail_opponents(document),
+        opponents: map_detail_opponents(document, report_schema),
         timeline: map_detail_timeline(nested_document(document, &["timeline"])),
     })
 }
@@ -174,10 +187,17 @@ fn map_detail_metadata(document: &Document) -> Option<BattleReportMetadata> {
     })
 }
 
-fn map_detail_player(document: Option<&Document>) -> BattleReportPlayer {
+fn map_detail_player(
+    document: Option<&Document>,
+    report_schema: Option<i64>,
+) -> BattleReportPlayer {
     let Some(document) = document else {
         return BattleReportPlayer::default();
     };
+    let (avatar_url, frame_url) = resolve_avatar_override(document, report_schema).map_or_else(
+        || (nested_string(document, &["avatar_url"]), nested_string(document, &["frame_url"])),
+        |avatar_url| (Some(avatar_url), None),
+    );
 
     BattleReportPlayer {
         player_id: nested_i64_exact(document, &["player_id"]).unwrap_or_default(),
@@ -186,8 +206,8 @@ fn map_detail_player(document: Option<&Document>) -> BattleReportPlayer {
             abbreviation: nested_string(document, &["alliance", "abbreviation"])
                 .unwrap_or_default(),
         },
-        avatar_url: nested_string(document, &["avatar_url"]),
-        frame_url: nested_string(document, &["frame_url"]),
+        avatar_url,
+        frame_url,
         tracking_key: nested_string(document, &["tracking_key"]),
         rally: nested_bool(document, &["rally"]),
         alliance_building_id: nested_i64_exact(document, &["alliance_building_id"]),
@@ -337,16 +357,23 @@ fn map_detail_summary_entry(document: Option<&Document>) -> BattleReportSummaryE
     }
 }
 
-fn map_detail_opponents(document: &Document) -> Vec<BattleReportOpponent> {
+fn map_detail_opponents(
+    document: &Document,
+    report_schema: Option<i64>,
+) -> Vec<BattleReportOpponent> {
     let Some(opponents) = nested_array(document, &["opponents"]) else {
         return Vec::new();
     };
 
-    opponents.iter().filter_map(Bson::as_document).map(map_detail_opponent).collect()
+    opponents
+        .iter()
+        .filter_map(Bson::as_document)
+        .map(|opponent| map_detail_opponent(opponent, report_schema))
+        .collect()
 }
 
-fn map_detail_opponent(document: &Document) -> BattleReportOpponent {
-    let base = map_detail_player(Some(document));
+fn map_detail_opponent(document: &Document, report_schema: Option<i64>) -> BattleReportOpponent {
+    let base = map_detail_player(Some(document), report_schema);
     let start_tick = nested_i64(document, &["start_tick"]).unwrap_or_default();
 
     BattleReportOpponent {
@@ -441,6 +468,11 @@ mod tests {
         let projection = build_battle_detail_projection();
 
         assert_eq!(projection.get_i32("metadata.mail_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("metadata.schema").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.structure_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("sender.character_type").ok(), Some(1));
+        assert_eq!(projection.get_i32("opponents.structure_id").ok(), Some(1));
+        assert_eq!(projection.get_i32("opponents.is_outpost").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.id").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.awakened").ok(), Some(1));
         assert_eq!(projection.get_i32("sender.commanders.primary.relics.id").ok(), Some(1));
@@ -573,6 +605,94 @@ mod tests {
         assert_eq!(mapped.opponents[0].support_skills.enable, Some(false));
         assert_eq!(mapped.opponents[0].auxiliary_skills[0].skill_id, 303);
         assert_eq!(mapped.timeline.start_tick, 50);
+    }
+
+    #[test]
+    fn structure_replaces_sender_avatar_and_removes_frame() {
+        let document = doc! {
+            "metadata": {
+                "mail_id": "16210617176935008431",
+                "mail_time": 123_i64,
+                "schema": 10_002_i64,
+            },
+            "sender": {
+                "avatar_url": "https://example.com/avatar.png",
+                "frame_url": "https://example.com/frame.png",
+                "structure_id": 109_i64,
+            },
+        };
+
+        let mapped = map_battle_detail_document(&document).expect("detail should map");
+
+        assert_eq!(
+            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
+            (Some("https://cdn.rokbattles.com/game/sprites/img_iconGVGBuilding16.png"), None,)
+        );
+    }
+
+    #[test]
+    fn alliance_building_replaces_opponent_avatar_and_removes_frame() {
+        let document = doc! {
+            "metadata": {
+                "mail_id": "53118177176782122317",
+                "mail_time": 123_i64,
+                "schema": 320_i64,
+            },
+            "sender": {},
+            "opponents": [{
+                "avatar_url": "https://example.com/avatar.png",
+                "frame_url": "https://example.com/frame.png",
+                "character_type": 7_i64,
+                "alliance_building_id": 3_i64,
+            }],
+        };
+
+        let mapped = map_battle_detail_document(&document).expect("detail should map");
+        let opponent = mapped.opponents.first().expect("opponent should map");
+
+        assert_eq!(
+            (opponent.avatar_url.as_deref(), opponent.frame_url.as_deref()),
+            (Some("https://cdn.rokbattles.com/game/sprites/img_iconAlliMainHall.png"), None,)
+        );
+    }
+
+    #[test]
+    fn ordinary_participant_keeps_avatar_and_frame() {
+        let document = doc! {
+            "metadata": { "mail_id": "mail-1", "mail_time": 123_i64 },
+            "sender": {
+                "avatar_url": "https://example.com/avatar.png",
+                "frame_url": "https://example.com/frame.png",
+                "character_type": 1_i64,
+                "alliance_building_id": 1_i64,
+            },
+        };
+
+        let mapped = map_battle_detail_document(&document).expect("detail should map");
+
+        assert_eq!(
+            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
+            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"),)
+        );
+    }
+
+    #[test]
+    fn structure_without_sprite_keeps_avatar_and_frame() {
+        let document = doc! {
+            "metadata": { "mail_id": "mail-1", "mail_time": 123_i64 },
+            "sender": {
+                "avatar_url": "https://example.com/avatar.png",
+                "frame_url": "https://example.com/frame.png",
+                "structure_id": 125_i64,
+            },
+        };
+
+        let mapped = map_battle_detail_document(&document).expect("detail should map");
+
+        assert_eq!(
+            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
+            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"),)
+        );
     }
 
     #[test]

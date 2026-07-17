@@ -19,6 +19,7 @@ tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 sentry = { workspace = true }
+yaml_serde = { workspace = true }
 
 [lib]
 doctest = false
