@@ -28,11 +28,10 @@ pub(crate) fn extract_player_fields(
     let alliance_id = require_u64_field(player, "AId")?;
     let alliance_name = require_string_field(player, "AName")?;
     let alliance_abbr = require_string_field(player, "Abbr")?;
-    // Alliance building id (AbT) mappings:
-    // - 1: flag
-    // - 3: stronghold
-    // - 11: horse fort (troy kvk)
     let alliance_building_id = optional_u64_field(player, "AbT")?;
+    let character_type = optional_u64_field(player, "CT")?;
+    let is_turret = optional_bool_field(player, "IsTurret")?;
+    let is_outpost = optional_bool_field(player, "IsOutpost")?;
     let castle_pos = require_child_object(player, "CastlePos")?;
     let castle_x = require_number_field(castle_pos, "X")?;
     let castle_y = require_number_field(castle_pos, "Y")?;
@@ -43,15 +42,6 @@ pub(crate) fn extract_player_fields(
     let tracking_key = optional_string_field(player, "CTK")?.unwrap_or_default();
     let camp_id = optional_u64_field(player, "SideId")?;
     let rally = optional_bool_field(player, "IsRally")?;
-    // Structure id (ShId) mappings:
-    // - 22: shrine of war (Ark)
-    // - 23: shrine of life (Ark)
-    // - 24: sky altar (Ark)
-    // - 25: ? (Ark)
-    // - 26: outpost of iset (Ark)
-    // - 38: Great Ziggurat (KVK)
-    // - 51: Lvl 7 Pass (KVK)
-    // - 109: obelisk (Ark)
     let structure_id = optional_u64_field(player, "ShId")?;
     let commanders = extract_commanders(player)?;
     let support_skills = extract_support_skills(player)?;
@@ -80,6 +70,12 @@ pub(crate) fn extract_player_fields(
         "alliance_building_id".to_string(),
         alliance_building_id.map(Value::from).unwrap_or(Value::Null),
     );
+    fields.insert(
+        "character_type".to_string(),
+        character_type.map(Value::from).unwrap_or(Value::Null),
+    );
+    fields.insert("is_turret".to_string(), is_turret.map(Value::from).unwrap_or(Value::Null));
+    fields.insert("is_outpost".to_string(), is_outpost.map(Value::from).unwrap_or(Value::Null));
     fields.insert(
         "castle".to_string(),
         json!({
@@ -708,6 +704,21 @@ mod tests {
         assert_eq!(fields.get("camp_id"), Some(&json!(3)));
         assert_eq!(fields.get("rally"), Some(&json!(true)));
         assert_eq!(fields.get("structure_id"), Some(&json!(109)));
+    }
+
+    #[test]
+    fn extract_player_fields_reads_building_discriminators() {
+        let mut player = base_player();
+        player.insert("CT".to_string(), json!(7));
+        player.insert("IsTurret".to_string(), json!(true));
+        player.insert("IsOutpost".to_string(), json!(false));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(
+            (fields.get("character_type"), fields.get("is_turret"), fields.get("is_outpost"),),
+            (Some(&json!(7)), Some(&json!(true)), Some(&json!(false)))
+        );
     }
 
     #[test]
