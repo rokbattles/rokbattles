@@ -20,6 +20,9 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "timeline.sampling.tick",
         "timeline.sampling.count",
         "sender.player_id",
+        "sender.rally",
+        "sender.alliance_building_id",
+        "sender.structure_id",
         "sender.commanders.primary.id",
         "sender.commanders.primary.awakened",
         "sender.commanders.secondary.id",
@@ -37,6 +40,7 @@ pub(crate) fn build_battle_list_projection() -> Document {
         "summary.opponent.remaining",
         "summary.opponent.troop_units",
         "opponents.player_id",
+        "opponents.rally",
         "opponents.attack.id",
         "opponents.start_tick",
         "opponents.alliance_building_id",
@@ -65,6 +69,11 @@ pub(crate) fn build_battle_list_projection() -> Document {
 }
 
 pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
+    if !is_shared_combat_report(document) {
+        return nested_str(document, &["metadata", "mail_id"])
+            .map(|mail_id| format!("mail:{mail_id}"));
+    }
+
     let sender_player_id = nested_i64(document, &["sender", "player_id"]).unwrap_or(0);
     let server_id = nested_i64(document, &["metadata", "server_id"]).unwrap_or(0);
     let start_timestamp = nested_i64(document, &["timeline", "start_timestamp"]).unwrap_or(0);
@@ -88,6 +97,24 @@ pub(super) fn build_report_dedupe_key(document: &Document) -> Option<String> {
         "attacks:{}|sender:{sender_player_id}|server:{server_id}|start:{start_timestamp}|end:{end_timestamp}",
         attack_ids.join(",")
     ))
+}
+
+fn is_shared_combat_report(document: &Document) -> bool {
+    if nested_bool(document, &["sender", "rally"]) == Some(true)
+        || nested_document(document, &["sender"]).is_some_and(has_garrison_field)
+    {
+        return true;
+    }
+
+    extract_opponents(document).into_iter().any(|opponent| {
+        is_valid_opponent(opponent)
+            && (nested_bool(opponent, &["rally"]) == Some(true) || has_garrison_field(opponent))
+    })
+}
+
+fn has_garrison_field(participant: &Document) -> bool {
+    has_non_null_field(participant, "alliance_building_id")
+        || has_non_null_field(participant, "structure_id")
 }
 
 pub(crate) fn map_battle_list_document(document: &Document) -> Option<ReportRowWithCursor> {
@@ -325,7 +352,7 @@ mod tests {
     fn dedupe_key_sorts_and_deduplicates_attack_ids() {
         let document = doc! {
             "metadata": { "mail_id": "mail-1", "server_id": 1804_i64 },
-            "sender": { "player_id": 125861505_i64 },
+            "sender": { "player_id": 125861505_i64, "rally": true },
             "timeline": { "start_timestamp": 1772492175_i64, "end_timestamp": 1772492282_i64 },
             "opponents": [
                 { "player_id": 56779522_i64, "attack": { "id": "640904" } },
@@ -340,6 +367,85 @@ mod tests {
             key,
             "attacks:640903,640904|sender:125861505|server:1804|start:1772492175|end:1772492282"
         );
+    }
+
+    #[test]
+    fn field_duel_reports_use_distinct_mail_keys() {
+        let first = doc! {
+            "metadata": { "mail_id": "46667158178428673715", "server_id": 1007_i64 },
+            "sender": { "player_id": 147868539_i64 },
+            "timeline": { "start_timestamp": 1784286616_i64, "end_timestamp": 1784286737_i64 },
+            "opponents": [
+                { "player_id": 153187088_i64, "attack": { "id": "273339901" } },
+                { "player_id": 153187088_i64, "attack": { "id": "273340201" } },
+                { "player_id": 153187088_i64, "attack": { "id": "273341101" } },
+            ],
+        };
+        let mut second = first.clone();
+        second.insert(
+            "metadata",
+            doc! {
+                "mail_id": "46667147178428673715",
+                "server_id": 1007_i64,
+            },
+        );
+
+        let keys = [
+            build_report_dedupe_key(&first).expect("first key"),
+            build_report_dedupe_key(&second).expect("second key"),
+        ];
+
+        assert_eq!(keys, ["mail:46667158178428673715", "mail:46667147178428673715",]);
+    }
+
+    #[test]
+    fn garrison_participant_reports_share_combat_key() {
+        let first = doc! {
+            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "sender": { "player_id": 147868539_i64, "alliance_building_id": 1_i64 },
+            "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
+            "opponents": [{ "player_id": 153187088_i64, "attack": { "id": "attack-1" } }],
+        };
+        let mut second = first.clone();
+        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+
+        assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+    }
+
+    #[test]
+    fn structure_garrison_participant_reports_share_combat_key() {
+        let first = doc! {
+            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "sender": { "player_id": 147868539_i64 },
+            "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
+            "opponents": [{
+                "player_id": 153187088_i64,
+                "structure_id": 25_i64,
+                "attack": { "id": "attack-1" },
+            }],
+        };
+        let mut second = first.clone();
+        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+
+        assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
+    }
+
+    #[test]
+    fn opponent_rally_participant_reports_share_combat_key() {
+        let first = doc! {
+            "metadata": { "mail_id": "mail-1", "server_id": 1007_i64 },
+            "sender": { "player_id": 147868539_i64 },
+            "timeline": { "start_timestamp": 100_i64, "end_timestamp": 200_i64 },
+            "opponents": [{
+                "player_id": 153187088_i64,
+                "rally": true,
+                "attack": { "id": "attack-1" },
+            }],
+        };
+        let mut second = first.clone();
+        second.insert("metadata", doc! { "mail_id": "mail-2", "server_id": 1007_i64 });
+
+        assert_eq!(build_report_dedupe_key(&first), build_report_dedupe_key(&second));
     }
 
     #[test]
