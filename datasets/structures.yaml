@@ -1,0 +1,1593 @@
+structures:
+  aliases:
+    203: 203
+    224: 224
+    234: 224
+    315: 315
+    316: 316
+    318: 318
+    319: 319
+    320: 320
+    401: 401
+    409: 309
+    416: 316
+    511: 511
+    809: 309
+    810: 310
+    811: 411
+    812: 412
+    814: 314
+    815: 315
+    816: 316
+    819: 319
+    904: 224
+    909: 309
+    911: 411
+    914: 314
+    919: 319
+    921: 224
+    1004: 224
+    1011: 511
+    1104: 224
+    30008: 301
+
+  alliance:
+    default: img_iconAlliMainHall.png
+
+    1:
+      sprite:
+        - img_iconAlliFlag.png
+      override:
+        turret:
+          sprite:
+            - img_iconAlliArrow.png
+        outpost:
+          sprite:
+            - img_iconKVKS7Building5.png
+
+    2:
+      sprite:
+        - img_iconAlliMainHall.png
+
+    3:
+      sprite:
+        - img_iconAlliMainHall.png
+
+    4:
+      sprite:
+        - img_iconSuperFood.png
+
+    5:
+      sprite:
+        - img_iconSuperWood.png
+
+    6:
+      sprite:
+        - img_iconSuperStone.png
+
+    7:
+      sprite:
+        - img_iconSuperGold.png
+
+    8:
+      sprite:
+        - img_iconAlliMainHall.png
+
+    9:
+      sprite:
+        - img_iconAlliMainHall.png
+
+    10:
+      sprite:
+        - img_iconAlliFlag.png
+
+    11:
+      sprite:
+        - img_iconAlliMainMuMa2.png
+
+  building:
+    default: img_iconT1Altar.png
+
+    1:
+      sprite:
+        - img_iconT3Altar.png
+
+    2:
+      sprite:
+        - img_iconT2Altar.png
+
+    3:
+      sprite:
+        - img_iconT2Altar.png
+
+    4:
+      sprite:
+        - img_iconT1Altar.png
+
+    5:
+      sprite:
+        - img_iconT1Altar.png
+
+    6:
+      sprite:
+        - img_iconT1Altar.png
+
+    7:
+      sprite:
+        - img_iconT1Altar.png
+
+    8:
+      sprite:
+        - img_iconT1Altar.png
+
+    9:
+      sprite:
+        - img_iconT1Altar.png
+
+    10:
+      sprite:
+        - img_iconPass.png
+
+    11:
+      sprite:
+        - img_iconPass.png
+
+    12:
+      sprite:
+        - img_iconPass.png
+
+    13:
+      sprite:
+        - img_iconPass.png
+
+    14:
+      sprite:
+        - img_iconPass.png
+
+    15:
+      sprite:
+        - img_iconPass.png
+
+    16:
+      sprite:
+        - img_iconT0Altar.png
+
+    17:
+      sprite:
+        - img_iconT0Altar.png
+
+    18:
+      sprite:
+        - img_iconT0Altar.png
+
+    19:
+      sprite:
+        - img_iconT0Altar.png
+
+    20:
+      sprite:
+        - img_iconT2Altar.png
+
+    21:
+      sprite:
+        - img_iconT2Altar.png
+
+    22:
+      sprite:
+        - img_iconGVGBuilding5.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding20.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding20.png
+
+    23:
+      sprite:
+        - img_iconGVGBuilding9.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding19.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding19.png
+
+    24:
+      sprite:
+        - img_iconGVGBuilding8.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding17.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding17.png
+
+    25:
+      sprite:
+        - img_iconGVGBuilding4.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding18.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding18.png
+
+    26:
+      sprite:
+        - img_iconGVGBuilding10.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding13.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding13.png
+
+    27:
+      sprite:
+        - img_iconGVGBuilding6.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding14.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding14.png
+
+    28:
+      sprite:
+        - img_iconGVGBuilding1.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding15.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding15.png
+
+    29:
+      sprite:
+        - img_iconT1Fort.png
+
+    30:
+      sprite:
+        - img_iconT2Fort1.png
+
+    31:
+      sprite:
+        - img_iconT4Altar.png
+      override:
+        219:
+          sprite:
+            - img_iconKVKS9Building1.png
+        309:
+          sprite:
+            - img_iconKVKS9Building1.png
+        20001:
+          sprite:
+            - img_iconT4Altar_New.png
+
+    32:
+      sprite:
+        - img_iconT4Altar.png
+      override:
+        219:
+          sprite:
+            - img_iconKVKS9Building1.png
+        309:
+          sprite:
+            - img_iconKVKS9Building1.png
+
+    33:
+      sprite:
+        - img_iconT5Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_2.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_2.png
+
+    34:
+      sprite:
+        - img_iconT6Altar.png
+
+    35:
+      sprite:
+        - img_iconT6Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_1.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_1.png
+
+    36:
+      sprite:
+        - img_iconT6Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_1.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_1.png
+
+    37:
+      sprite:
+        - img_iconT6Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_1.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_1.png
+
+    38:
+      sprite:
+        - img_iconT7Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_3.png
+        219:
+          sprite:
+            - img_iconKVKS9Building2.png
+        309:
+          sprite:
+            - img_iconKVKS9Building2.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_3.png
+        320:
+          sprite:
+            - img_iconAlliMainTroyMainCity.png
+        20001:
+          sprite:
+            - img_iconT7Altar_New.png
+
+    39:
+      sprite:
+        - img_iconT1Relic.png
+      override:
+        219:
+          sprite:
+            - img_iconKVKS9Building3.png
+        309:
+          sprite:
+            - img_iconKVKS9Building3.png
+
+    40:
+      sprite:
+        - img_iconT1Relic.png
+      override:
+        219:
+          sprite:
+            - img_iconKVKS9Building3.png
+        309:
+          sprite:
+            - img_iconKVKS9Building3.png
+
+    41:
+      sprite:
+        - img_iconT1Tower.png
+
+    42:
+      sprite:
+        - img_iconT1Tower.png
+
+    43:
+      sprite:
+        - img_iconT1Tower.png
+
+    44:
+      sprite:
+        - img_iconT1Tower.png
+
+    45:
+      sprite:
+        - img_iconPass.png
+
+    46:
+      sprite:
+        - img_iconPass.png
+
+    47:
+      sprite:
+        - img_iconPass.png
+
+    48:
+      sprite:
+        - img_iconT1Altar.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding21.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding21.png
+
+    49:
+      sprite:
+        - img_iconGVGBuilding5.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding20.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding20.png
+
+    50:
+      sprite:
+        - img_iconGVGBuilding9.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding19.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding19.png
+
+    51:
+      sprite:
+        - img_iconPass.png
+
+    52:
+      sprite:
+        - img_iconPass.png
+
+    53:
+      sprite:
+        - img_iconPass.png
+
+    54:
+      sprite:
+        - img_iconPass.png
+
+    55:
+      sprite:
+        - img_iconPass.png
+
+    56:
+      sprite:
+        - img_iconPass.png
+
+    57:
+      sprite:
+        - img_iconPass.png
+
+    58:
+      sprite:
+        - img_iconPass.png
+
+    59:
+      sprite:
+        - img_iconPass.png
+
+    60:
+      sprite:
+        - img_iconPass.png
+
+    61:
+      sprite:
+        - img_iconPass.png
+
+    62:
+      sprite:
+        - img_iconPass.png
+
+    63:
+      sprite:
+        - img_iconPass.png
+
+    64:
+      sprite:
+        - img_iconGVGBuilding8.png
+
+    65:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    66:
+      sprite:
+        - img_iconGVGBuilding8.png
+
+    67:
+      sprite:
+        - img_iconRockAncientPillar_1.png
+
+    68:
+      sprite:
+        - img_iconRockAncientPillar_1.png
+
+    69:
+      sprite:
+        - img_iconRockAncientPillar_1.png
+
+    70:
+      sprite:
+        - img_iconRockAncientPillar_1.png
+
+    71:
+      sprite:
+        - img_iconRockAncientPillar_1.png
+
+    72:
+      sprite:
+        - img_iconRockAncientPillar_3.png
+
+    73:
+      sprite:
+        - img_iconRockAncientPillar_3.png
+
+    74:
+      sprite:
+        - img_iconRockAncientPillar_3.png
+
+    75:
+      sprite:
+        - img_iconRockAncientPillar_3.png
+
+    76:
+      sprite:
+        - img_iconRockAncientPillar_3.png
+
+    77:
+      sprite:
+        - img_iconRockAncientPillar_5.png
+
+    78:
+      sprite:
+        - img_iconRockAncientPillar_5.png
+
+    79:
+      sprite:
+        - img_iconRockAncientPillar_5.png
+
+    80:
+      sprite:
+        - img_iconRockAncientPillar_5.png
+
+    81:
+      sprite:
+        - img_iconRockAncientPillar_5.png
+
+    82:
+      sprite:
+        - img_iconT5Altar.png
+      override:
+        203:
+          sprite:
+            - img_icon_MapBuilding_2.png
+        219:
+          sprite:
+            - img_iconKVKS9Building6.png
+        309:
+          sprite:
+            - img_iconKVKS9Building6.png
+        319:
+          sprite:
+            - img_icon_MapBuilding_2.png
+
+    83:
+      sprite:
+        - img_iconT5Altar.png
+      override:
+        219:
+          sprite:
+            - img_iconKVKS9Building6.png
+        309:
+          sprite:
+            - img_iconKVKS9Building6.png
+
+    84:
+      sprite:
+        - img_iconGVGBuilding8.png
+
+    85:
+      sprite:
+        - img_iconGVGBuilding8.png
+
+    86:
+      sprite:
+        - img_iconGVGBuilding8.png
+
+    87:
+      sprite:
+        - img_iconKVKS7Building1.png
+
+    88:
+      sprite:
+        - img_iconKVKS7Building4.png
+
+    89:
+      sprite:
+        - img_iconKVKS7Building4.png
+
+    90:
+      sprite:
+        - img_iconKVKS7Building3.png
+
+    91:
+      sprite:
+        - img_iconKVKS7Building3.png
+
+    92:
+      sprite:
+        - img_iconKVKS7Building3.png
+
+    93:
+      sprite:
+        - img_iconKVKS7Building3.png
+
+    94:
+      sprite:
+        - img_iconKVKS9Building1.png
+      override:
+        9:
+          sprite:
+            - img_iconT4Altar.png
+        100:
+          sprite:
+            - img_iconT4Altar.png
+        101:
+          sprite:
+            - img_iconT4Altar.png
+        102:
+          sprite:
+            - img_iconT4Altar.png
+        103:
+          sprite:
+            - img_iconT4Altar.png
+        104:
+          sprite:
+            - img_iconT4Altar.png
+        105:
+          sprite:
+            - img_iconT4Altar.png
+        106:
+          sprite:
+            - img_iconT4Altar.png
+        107:
+          sprite:
+            - img_iconT4Altar.png
+        108:
+          sprite:
+            - img_iconT4Altar.png
+        109:
+          sprite:
+            - img_iconT4Altar.png
+        110:
+          sprite:
+            - img_iconT4Altar.png
+        201:
+          sprite:
+            - img_iconT4Altar.png
+        202:
+          sprite:
+            - img_iconT4Altar.png
+        203:
+          sprite:
+            - img_iconT4Altar.png
+        204:
+          sprite:
+            - img_iconT4Altar.png
+        205:
+          sprite:
+            - img_iconT4Altar.png
+        207:
+          sprite:
+            - img_iconT4Altar.png
+        214:
+          sprite:
+            - img_iconT4Altar.png
+        215:
+          sprite:
+            - img_iconT4Altar.png
+        217:
+          sprite:
+            - img_iconT4Altar.png
+        224:
+          sprite:
+            - img_iconT4Altar.png
+        301:
+          sprite:
+            - img_iconT4Altar.png
+        304:
+          sprite:
+            - img_iconT4Altar.png
+        307:
+          sprite:
+            - img_iconT4Altar.png
+        310:
+          sprite:
+            - img_iconT4Altar.png
+        311:
+          sprite:
+            - img_iconT4Altar.png
+        312:
+          sprite:
+            - img_iconT4Altar.png
+        314:
+          sprite:
+            - img_iconT4Altar.png
+        315:
+          sprite:
+            - img_iconT4Altar.png
+        316:
+          sprite:
+            - img_iconT4Altar.png
+        318:
+          sprite:
+            - img_iconT4Altar.png
+        319:
+          sprite:
+            - img_iconT4Altar.png
+        320:
+          sprite:
+            - img_iconT4Altar.png
+        401:
+          sprite:
+            - img_iconT4Altar.png
+        404:
+          sprite:
+            - img_iconT4Altar.png
+        411:
+          sprite:
+            - img_iconT4Altar.png
+        412:
+          sprite:
+            - img_iconT4Altar.png
+        511:
+          sprite:
+            - img_iconT4Altar.png
+        10001:
+          sprite:
+            - img_iconT4Altar.png
+        10002:
+          sprite:
+            - img_iconT4Altar.png
+
+    95:
+      sprite:
+        - img_iconKVKS9Building5.png
+      override:
+        9:
+          sprite:
+            - img_iconT4Altar.png
+        100:
+          sprite:
+            - img_iconT4Altar.png
+        101:
+          sprite:
+            - img_iconT4Altar.png
+        102:
+          sprite:
+            - img_iconT4Altar.png
+        103:
+          sprite:
+            - img_iconT4Altar.png
+        104:
+          sprite:
+            - img_iconT4Altar.png
+        105:
+          sprite:
+            - img_iconT4Altar.png
+        106:
+          sprite:
+            - img_iconT4Altar.png
+        107:
+          sprite:
+            - img_iconT4Altar.png
+        108:
+          sprite:
+            - img_iconT4Altar.png
+        109:
+          sprite:
+            - img_iconT4Altar.png
+        110:
+          sprite:
+            - img_iconT4Altar.png
+        201:
+          sprite:
+            - img_iconT4Altar.png
+        202:
+          sprite:
+            - img_iconT4Altar.png
+        203:
+          sprite:
+            - img_iconT4Altar.png
+        204:
+          sprite:
+            - img_iconT4Altar.png
+        205:
+          sprite:
+            - img_iconT4Altar.png
+        207:
+          sprite:
+            - img_iconT4Altar.png
+        214:
+          sprite:
+            - img_iconT4Altar.png
+        215:
+          sprite:
+            - img_iconT4Altar.png
+        217:
+          sprite:
+            - img_iconT4Altar.png
+        224:
+          sprite:
+            - img_iconT4Altar.png
+        301:
+          sprite:
+            - img_iconT4Altar.png
+        304:
+          sprite:
+            - img_iconT4Altar.png
+        307:
+          sprite:
+            - img_iconT4Altar.png
+        310:
+          sprite:
+            - img_iconT4Altar.png
+        311:
+          sprite:
+            - img_iconT4Altar.png
+        312:
+          sprite:
+            - img_iconT4Altar.png
+        314:
+          sprite:
+            - img_iconT4Altar.png
+        315:
+          sprite:
+            - img_iconT4Altar.png
+        316:
+          sprite:
+            - img_iconT4Altar.png
+        318:
+          sprite:
+            - img_iconT4Altar.png
+        319:
+          sprite:
+            - img_iconT4Altar.png
+        320:
+          sprite:
+            - img_iconT4Altar.png
+        401:
+          sprite:
+            - img_iconT4Altar.png
+        404:
+          sprite:
+            - img_iconT4Altar.png
+        411:
+          sprite:
+            - img_iconT4Altar.png
+        412:
+          sprite:
+            - img_iconT4Altar.png
+        511:
+          sprite:
+            - img_iconT4Altar.png
+        10001:
+          sprite:
+            - img_iconT4Altar.png
+        10002:
+          sprite:
+            - img_iconT4Altar.png
+
+    96:
+      sprite:
+        - img_iconKVKS9Building5.png
+      override:
+        9:
+          sprite:
+            - img_iconT4Altar.png
+        100:
+          sprite:
+            - img_iconT4Altar.png
+        101:
+          sprite:
+            - img_iconT4Altar.png
+        102:
+          sprite:
+            - img_iconT4Altar.png
+        103:
+          sprite:
+            - img_iconT4Altar.png
+        104:
+          sprite:
+            - img_iconT4Altar.png
+        105:
+          sprite:
+            - img_iconT4Altar.png
+        106:
+          sprite:
+            - img_iconT4Altar.png
+        107:
+          sprite:
+            - img_iconT4Altar.png
+        108:
+          sprite:
+            - img_iconT4Altar.png
+        109:
+          sprite:
+            - img_iconT4Altar.png
+        110:
+          sprite:
+            - img_iconT4Altar.png
+        201:
+          sprite:
+            - img_iconT4Altar.png
+        202:
+          sprite:
+            - img_iconT4Altar.png
+        203:
+          sprite:
+            - img_iconT4Altar.png
+        204:
+          sprite:
+            - img_iconT4Altar.png
+        205:
+          sprite:
+            - img_iconT4Altar.png
+        207:
+          sprite:
+            - img_iconT4Altar.png
+        214:
+          sprite:
+            - img_iconT4Altar.png
+        215:
+          sprite:
+            - img_iconT4Altar.png
+        217:
+          sprite:
+            - img_iconT4Altar.png
+        224:
+          sprite:
+            - img_iconT4Altar.png
+        301:
+          sprite:
+            - img_iconT4Altar.png
+        304:
+          sprite:
+            - img_iconT4Altar.png
+        307:
+          sprite:
+            - img_iconT4Altar.png
+        310:
+          sprite:
+            - img_iconT4Altar.png
+        311:
+          sprite:
+            - img_iconT4Altar.png
+        312:
+          sprite:
+            - img_iconT4Altar.png
+        314:
+          sprite:
+            - img_iconT4Altar.png
+        315:
+          sprite:
+            - img_iconT4Altar.png
+        316:
+          sprite:
+            - img_iconT4Altar.png
+        318:
+          sprite:
+            - img_iconT4Altar.png
+        319:
+          sprite:
+            - img_iconT4Altar.png
+        320:
+          sprite:
+            - img_iconT4Altar.png
+        401:
+          sprite:
+            - img_iconT4Altar.png
+        404:
+          sprite:
+            - img_iconT4Altar.png
+        411:
+          sprite:
+            - img_iconT4Altar.png
+        412:
+          sprite:
+            - img_iconT4Altar.png
+        511:
+          sprite:
+            - img_iconT4Altar.png
+        10001:
+          sprite:
+            - img_iconT4Altar.png
+        10002:
+          sprite:
+            - img_iconT4Altar.png
+
+    97:
+      sprite:
+        - img_iconKVKS9Building5.png
+      override:
+        9:
+          sprite:
+            - img_iconT4Altar.png
+        100:
+          sprite:
+            - img_iconT4Altar.png
+        101:
+          sprite:
+            - img_iconT4Altar.png
+        102:
+          sprite:
+            - img_iconT4Altar.png
+        103:
+          sprite:
+            - img_iconT4Altar.png
+        104:
+          sprite:
+            - img_iconT4Altar.png
+        105:
+          sprite:
+            - img_iconT4Altar.png
+        106:
+          sprite:
+            - img_iconT4Altar.png
+        107:
+          sprite:
+            - img_iconT4Altar.png
+        108:
+          sprite:
+            - img_iconT4Altar.png
+        109:
+          sprite:
+            - img_iconT4Altar.png
+        110:
+          sprite:
+            - img_iconT4Altar.png
+        201:
+          sprite:
+            - img_iconT4Altar.png
+        202:
+          sprite:
+            - img_iconT4Altar.png
+        203:
+          sprite:
+            - img_iconT4Altar.png
+        204:
+          sprite:
+            - img_iconT4Altar.png
+        205:
+          sprite:
+            - img_iconT4Altar.png
+        207:
+          sprite:
+            - img_iconT4Altar.png
+        214:
+          sprite:
+            - img_iconT4Altar.png
+        215:
+          sprite:
+            - img_iconT4Altar.png
+        217:
+          sprite:
+            - img_iconT4Altar.png
+        224:
+          sprite:
+            - img_iconT4Altar.png
+        301:
+          sprite:
+            - img_iconT4Altar.png
+        304:
+          sprite:
+            - img_iconT4Altar.png
+        307:
+          sprite:
+            - img_iconT4Altar.png
+        310:
+          sprite:
+            - img_iconT4Altar.png
+        311:
+          sprite:
+            - img_iconT4Altar.png
+        312:
+          sprite:
+            - img_iconT4Altar.png
+        314:
+          sprite:
+            - img_iconT4Altar.png
+        315:
+          sprite:
+            - img_iconT4Altar.png
+        316:
+          sprite:
+            - img_iconT4Altar.png
+        318:
+          sprite:
+            - img_iconT4Altar.png
+        319:
+          sprite:
+            - img_iconT4Altar.png
+        320:
+          sprite:
+            - img_iconT4Altar.png
+        401:
+          sprite:
+            - img_iconT4Altar.png
+        404:
+          sprite:
+            - img_iconT4Altar.png
+        411:
+          sprite:
+            - img_iconT4Altar.png
+        412:
+          sprite:
+            - img_iconT4Altar.png
+        511:
+          sprite:
+            - img_iconT4Altar.png
+        10001:
+          sprite:
+            - img_iconT4Altar.png
+        10002:
+          sprite:
+            - img_iconT4Altar.png
+
+    98:
+      sprite:
+        - img_iconKVKS9Building4.png
+      override:
+        9:
+          sprite:
+            - img_iconT5Altar.png
+        100:
+          sprite:
+            - img_iconT5Altar.png
+        101:
+          sprite:
+            - img_iconT5Altar.png
+        102:
+          sprite:
+            - img_iconT5Altar.png
+        103:
+          sprite:
+            - img_iconT5Altar.png
+        104:
+          sprite:
+            - img_iconT5Altar.png
+        105:
+          sprite:
+            - img_iconT5Altar.png
+        106:
+          sprite:
+            - img_iconT5Altar.png
+        107:
+          sprite:
+            - img_iconT5Altar.png
+        108:
+          sprite:
+            - img_iconT5Altar.png
+        109:
+          sprite:
+            - img_iconT5Altar.png
+        110:
+          sprite:
+            - img_iconT5Altar.png
+        201:
+          sprite:
+            - img_iconT5Altar.png
+        202:
+          sprite:
+            - img_iconT5Altar.png
+        203:
+          sprite:
+            - img_iconT5Altar.png
+        204:
+          sprite:
+            - img_iconT5Altar.png
+        205:
+          sprite:
+            - img_iconT5Altar.png
+        207:
+          sprite:
+            - img_iconT5Altar.png
+        214:
+          sprite:
+            - img_iconT5Altar.png
+        215:
+          sprite:
+            - img_iconT5Altar.png
+        217:
+          sprite:
+            - img_iconT5Altar.png
+        224:
+          sprite:
+            - img_iconT5Altar.png
+        301:
+          sprite:
+            - img_iconT5Altar.png
+        304:
+          sprite:
+            - img_iconT5Altar.png
+        307:
+          sprite:
+            - img_iconT5Altar.png
+        310:
+          sprite:
+            - img_iconT5Altar.png
+        311:
+          sprite:
+            - img_iconT5Altar.png
+        312:
+          sprite:
+            - img_iconT5Altar.png
+        314:
+          sprite:
+            - img_iconT5Altar.png
+        315:
+          sprite:
+            - img_iconT5Altar.png
+        316:
+          sprite:
+            - img_iconT5Altar.png
+        318:
+          sprite:
+            - img_iconT5Altar.png
+        319:
+          sprite:
+            - img_iconT5Altar.png
+        320:
+          sprite:
+            - img_iconT5Altar.png
+        401:
+          sprite:
+            - img_iconT5Altar.png
+        404:
+          sprite:
+            - img_iconT5Altar.png
+        411:
+          sprite:
+            - img_iconT5Altar.png
+        412:
+          sprite:
+            - img_iconT5Altar.png
+        511:
+          sprite:
+            - img_iconT5Altar.png
+        10001:
+          sprite:
+            - img_iconT5Altar.png
+        10002:
+          sprite:
+            - img_iconT5Altar.png
+
+    99:
+      sprite:
+        - img_iconKVKS9Building4.png
+      override:
+        9:
+          sprite:
+            - img_iconT5Altar.png
+        100:
+          sprite:
+            - img_iconT5Altar.png
+        101:
+          sprite:
+            - img_iconT5Altar.png
+        102:
+          sprite:
+            - img_iconT5Altar.png
+        103:
+          sprite:
+            - img_iconT5Altar.png
+        104:
+          sprite:
+            - img_iconT5Altar.png
+        105:
+          sprite:
+            - img_iconT5Altar.png
+        106:
+          sprite:
+            - img_iconT5Altar.png
+        107:
+          sprite:
+            - img_iconT5Altar.png
+        108:
+          sprite:
+            - img_iconT5Altar.png
+        109:
+          sprite:
+            - img_iconT5Altar.png
+        110:
+          sprite:
+            - img_iconT5Altar.png
+        201:
+          sprite:
+            - img_iconT5Altar.png
+        202:
+          sprite:
+            - img_iconT5Altar.png
+        203:
+          sprite:
+            - img_iconT5Altar.png
+        204:
+          sprite:
+            - img_iconT5Altar.png
+        205:
+          sprite:
+            - img_iconT5Altar.png
+        207:
+          sprite:
+            - img_iconT5Altar.png
+        214:
+          sprite:
+            - img_iconT5Altar.png
+        215:
+          sprite:
+            - img_iconT5Altar.png
+        217:
+          sprite:
+            - img_iconT5Altar.png
+        224:
+          sprite:
+            - img_iconT5Altar.png
+        301:
+          sprite:
+            - img_iconT5Altar.png
+        304:
+          sprite:
+            - img_iconT5Altar.png
+        307:
+          sprite:
+            - img_iconT5Altar.png
+        310:
+          sprite:
+            - img_iconT5Altar.png
+        311:
+          sprite:
+            - img_iconT5Altar.png
+        312:
+          sprite:
+            - img_iconT5Altar.png
+        314:
+          sprite:
+            - img_iconT5Altar.png
+        315:
+          sprite:
+            - img_iconT5Altar.png
+        316:
+          sprite:
+            - img_iconT5Altar.png
+        318:
+          sprite:
+            - img_iconT5Altar.png
+        319:
+          sprite:
+            - img_iconT5Altar.png
+        320:
+          sprite:
+            - img_iconT5Altar.png
+        401:
+          sprite:
+            - img_iconT5Altar.png
+        404:
+          sprite:
+            - img_iconT5Altar.png
+        411:
+          sprite:
+            - img_iconT5Altar.png
+        412:
+          sprite:
+            - img_iconT5Altar.png
+        511:
+          sprite:
+            - img_iconT5Altar.png
+        10001:
+          sprite:
+            - img_iconT5Altar.png
+        10002:
+          sprite:
+            - img_iconT5Altar.png
+
+    100:
+      sprite:
+        - img_iconKVKS10City3.png
+      override:
+        312:
+          sprite:
+            - img_iconKVKS9Building2.png
+        412:
+          sprite:
+            - img_iconKVKS9Building2.png
+
+    101:
+      sprite:
+        - img_iconKVKS10City.png
+
+    102:
+      sprite:
+        - img_iconKVKS10City.png
+
+    103:
+      sprite:
+        - img_iconKVKS10City.png
+
+    104:
+      sprite:
+        - img_iconKVKS10City.png
+
+    105:
+      sprite:
+        - img_iconT6Altar.png
+
+    106:
+      sprite:
+        - img_iconT6Altar.png
+
+    107:
+      sprite:
+        - img_iconT6Altar.png
+
+    108:
+      sprite:
+        - img_iconT6Altar.png
+
+    109:
+      sprite:
+        - img_iconGVGBuilding1.png
+      override:
+        10002:
+          sprite:
+            - img_iconGVGBuilding16.png
+        10005:
+          sprite:
+            - img_iconGVGBuilding16.png
+
+    110:
+      sprite:
+        - img_iconGVGBuilding8.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding17.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding17.png
+
+    111:
+      sprite:
+        - img_iconGVGBuilding4.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding18.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding18.png
+
+    112:
+      sprite:
+        - img_iconGVGBuilding1.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding15.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding15.png
+
+    113:
+      sprite:
+        - img_iconT1Altar.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding21.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding21.png
+
+    114:
+      sprite:
+        - img_iconGVGBuilding5.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding20.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding20.png
+
+    115:
+      sprite:
+        - img_iconGVGBuilding9.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding19.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding19.png
+
+    116:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    117:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    118:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    119:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    120:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    121:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    122:
+      sprite:
+        - img_iconGVGBuilding5.png
+
+    123:
+      sprite:
+        - img_iconGVGBuilding5.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding20.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding20.png
+
+    124:
+      sprite:
+        - img_iconGVGBuilding9.png
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding19.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding19.png
+
+    125:
+      sprite: []
+      override:
+        10003:
+          sprite:
+            - img_iconGVGBuilding16.png
+        10004:
+          sprite:
+            - img_iconGVGBuilding16.png
+
+    126:
+      sprite:
+        - img_iconAlliMainDuelTeleportTower.png
+
+    127:
+      sprite:
+        - img_iconAlliMainDuelTeleportTower.png
+
+    128:
+      sprite:
+        - img_iconT1Altar.png
+
+    129:
+      sprite:
+        - img_InvasionKingdom_iconAlliMain.png
