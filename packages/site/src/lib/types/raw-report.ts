@@ -44,6 +44,7 @@ export interface RawParticipantInfo {
   alliance_tag?: string;
   avatar_url?: string;
   frame_url?: string;
+  avatar_override?: boolean;
   castle_x?: number;
   castle_y?: number;
   is_rally?: boolean | null;

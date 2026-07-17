@@ -142,6 +142,7 @@ function mapPlayerToParticipant(
     alliance_tag: player.alliance.abbreviation ?? undefined,
     avatar_url: player.avatarUrl ?? undefined,
     frame_url: player.frameUrl ?? undefined,
+    avatar_override: player.avatarOverride,
     castle_x: toOptionalNumber(player.castle.x),
     castle_y: toOptionalNumber(player.castle.y),
     is_rally: player.rally ?? undefined,

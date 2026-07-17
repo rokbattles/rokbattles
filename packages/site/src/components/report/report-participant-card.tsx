@@ -53,6 +53,7 @@ export function ReportParticipantCard({
         <GameAvatar
           avatarUrl={participant?.avatar_url ?? null}
           frameUrl={participant?.frame_url ?? null}
+          avatarOverride={participant?.avatar_override}
           alt={playerName}
           initials={getInitials(playerName)}
           className="size-12"
