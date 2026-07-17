@@ -32,6 +32,7 @@ mod detail_mapper;
 mod list_mapper;
 mod match_builder;
 mod query;
+mod structure_override;
 mod types;
 
 const PAGE_SIZE: usize = 100;
