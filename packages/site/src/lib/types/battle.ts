@@ -29,6 +29,7 @@ export type BattlePlayer = {
   alliance: BattleAlliance;
   avatarUrl: string | null;
   frameUrl: string | null;
+  avatarOverride: boolean;
   trackingKey: string | null;
   rally: boolean | null;
   allianceBuildingId: number | null;

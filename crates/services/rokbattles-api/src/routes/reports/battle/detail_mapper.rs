@@ -194,9 +194,16 @@ fn map_detail_player(
     let Some(document) = document else {
         return BattleReportPlayer::default();
     };
-    let (avatar_url, frame_url) = resolve_avatar_override(document, report_schema).map_or_else(
+    let avatar_override = resolve_avatar_override(document, report_schema);
+    let has_avatar_override = avatar_override.is_some();
+    let (avatar_url, frame_url) = avatar_override.map_or_else(
         || (nested_string(document, &["avatar_url"]), nested_string(document, &["frame_url"])),
-        |avatar_url| (Some(avatar_url), None),
+        |avatar_url| {
+            (
+                Some(avatar_url),
+                Some("https://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png".to_string()),
+            )
+        },
     );
 
     BattleReportPlayer {
@@ -208,6 +215,7 @@ fn map_detail_player(
         },
         avatar_url,
         frame_url,
+        avatar_override: has_avatar_override,
         tracking_key: nested_string(document, &["tracking_key"]),
         rally: nested_bool(document, &["rally"]),
         alliance_building_id: nested_i64_exact(document, &["alliance_building_id"]),
@@ -382,6 +390,7 @@ fn map_detail_opponent(document: &Document, report_schema: Option<i64>) -> Battl
         alliance: base.alliance,
         avatar_url: base.avatar_url,
         frame_url: base.frame_url,
+        avatar_override: base.avatar_override,
         tracking_key: base.tracking_key,
         rally: base.rally,
         alliance_building_id: base.alliance_building_id,
@@ -608,7 +617,7 @@ mod tests {
     }
 
     #[test]
-    fn structure_replaces_sender_avatar_and_removes_frame() {
+    fn structure_replaces_sender_avatar_and_frame() {
         let document = doc! {
             "metadata": {
                 "mail_id": "16210617176935008431",
@@ -625,13 +634,21 @@ mod tests {
         let mapped = map_battle_detail_document(&document).expect("detail should map");
 
         assert_eq!(
-            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
-            (Some("https://cdn.rokbattles.com/game/sprites/img_iconGVGBuilding16.png"), None,)
+            (
+                mapped.sender.avatar_url.as_deref(),
+                mapped.sender.frame_url.as_deref(),
+                mapped.sender.avatar_override,
+            ),
+            (
+                Some("https://cdn.rokbattles.com/game/sprites/img_iconGVGBuilding16.png"),
+                Some("https://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png"),
+                true,
+            )
         );
     }
 
     #[test]
-    fn alliance_building_replaces_opponent_avatar_and_removes_frame() {
+    fn alliance_building_replaces_opponent_avatar_and_frame() {
         let document = doc! {
             "metadata": {
                 "mail_id": "53118177176782122317",
@@ -651,8 +668,16 @@ mod tests {
         let opponent = mapped.opponents.first().expect("opponent should map");
 
         assert_eq!(
-            (opponent.avatar_url.as_deref(), opponent.frame_url.as_deref()),
-            (Some("https://cdn.rokbattles.com/game/sprites/img_iconAlliMainHall.png"), None,)
+            (
+                opponent.avatar_url.as_deref(),
+                opponent.frame_url.as_deref(),
+                opponent.avatar_override,
+            ),
+            (
+                Some("https://cdn.rokbattles.com/game/sprites/img_iconAlliMainHall.png"),
+                Some("https://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png"),
+                true,
+            )
         );
     }
 
@@ -671,8 +696,12 @@ mod tests {
         let mapped = map_battle_detail_document(&document).expect("detail should map");
 
         assert_eq!(
-            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
-            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"),)
+            (
+                mapped.sender.avatar_url.as_deref(),
+                mapped.sender.frame_url.as_deref(),
+                mapped.sender.avatar_override,
+            ),
+            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"), false,)
         );
     }
 
@@ -690,8 +719,12 @@ mod tests {
         let mapped = map_battle_detail_document(&document).expect("detail should map");
 
         assert_eq!(
-            (mapped.sender.avatar_url.as_deref(), mapped.sender.frame_url.as_deref()),
-            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"),)
+            (
+                mapped.sender.avatar_url.as_deref(),
+                mapped.sender.frame_url.as_deref(),
+                mapped.sender.avatar_override,
+            ),
+            (Some("https://example.com/avatar.png"), Some("https://example.com/frame.png"), false,)
         );
     }
 
