@@ -26,6 +26,7 @@
 
 mod common;
 mod decoder;
+mod value;
 
 pub use common::DecodeError;
 pub use decoder::decode;
