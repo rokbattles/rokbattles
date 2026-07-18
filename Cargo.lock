@@ -4501,11 +4501,13 @@ version = "1.5.2"
 dependencies = [
  "dotenvy",
  "futures",
+ "mail-decoder",
  "mail-registry",
  "mail-sdk",
  "mongodb",
  "sentry",
  "serde_json",
+ "sha2 0.10.9",
  "thiserror 2.0.18",
  "tokio",
  "tracing",

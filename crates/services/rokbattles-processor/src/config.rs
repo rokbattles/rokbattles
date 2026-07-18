@@ -40,7 +40,6 @@ impl Config {
             lookup("PROCESSOR_IDLE_SLEEP_SECS"),
             15,
         )?;
-
         Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, idle_sleep })
     }
 }
@@ -154,6 +153,28 @@ mod tests {
     #[test]
     fn parse_usize_rejects_zero() {
         assert!(parse_usize("TEST", Some("0".into()), 3).is_err());
+    }
+
+    #[test]
+    fn loads_processing_settings() {
+        let cfg = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("PROCESSOR_BATCH_SIZE", "25"),
+            ("PROCESSOR_CONCURRENCY", "4"),
+            ("PROCESSOR_IDLE_SLEEP_SECS", "2"),
+        ])))
+        .expect("config");
+        assert_eq!(cfg.batch_size, 25);
+        assert_eq!(cfg.concurrency, 4);
+        assert_eq!(cfg.idle_sleep, Duration::from_secs(2));
+    }
+
+    #[test]
+    fn numeric_settings_reject_invalid_values() {
+        assert!(parse_i64("I64", Some("bad".into()), 1).is_err());
+        assert!(parse_i64("I64", Some("-1".into()), 1).is_err());
+        assert!(parse_usize("USIZE", Some("bad".into()), 1).is_err());
+        assert!(parse_duration_secs("DURATION", Some("bad".into()), 1).is_err());
     }
 
     #[test]
