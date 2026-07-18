@@ -70,7 +70,7 @@ async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, Proc
                     .map(str::to_string);
                 let raw_id = doc.get_object_id("_id").ok();
                 let observed = observed_version(&doc);
-                match process_document(&storage, doc, config.max_mail_bytes).await {
+                match process_document(&storage, doc).await {
                     Err(error) => {
                         if should_mark_error(&error)
                             && let Some(raw_id) = raw_id
@@ -124,10 +124,9 @@ async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, Proc
 async fn process_document(
     storage: &Storage,
     doc: Document,
-    max_mail_bytes: usize,
 ) -> Result<ProcessOutcome, ProcessorError> {
     let raw = parse_raw_mail(doc)?;
-    let (mail_type, processed_doc) = prepare_processed_document(&raw, max_mail_bytes)?;
+    let (mail_type, processed_doc) = prepare_processed_document(&raw)?;
 
     if !storage
         .upsert_processed(mail_type, &raw.mail_id, &raw.checksum, raw.size, processed_doc)
@@ -147,11 +146,8 @@ async fn process_document(
     Ok(ProcessOutcome::Processed)
 }
 
-fn prepare_processed_document(
-    raw: &RawMail,
-    max_mail_bytes: usize,
-) -> Result<(MailType, Document), ProcessorError> {
-    let decoded = decode_mail_binary(raw, max_mail_bytes)?;
+fn prepare_processed_document(raw: &RawMail) -> Result<(MailType, Document), ProcessorError> {
+    let decoded = decode_mail_binary(raw)?;
     let root = normalize_root(&decoded).ok_or_else(|| {
         ProcessorError::InvalidMailPayload("mail payload must be an object".to_string())
     })?;
@@ -175,7 +171,6 @@ fn should_mark_error(error: &ProcessorError) -> bool {
             | ProcessorError::MissingProcessedMetadata
             | ProcessorError::UnsupportedCompression(_)
             | ProcessorError::InvalidSize(_)
-            | ProcessorError::SizeLimitExceeded { .. }
             | ProcessorError::SizeMismatch { .. }
             | ProcessorError::ChecksumMismatch { .. }
             | ProcessorError::InvalidMailPayload(_)
@@ -216,18 +211,12 @@ fn parse_raw_mail(mut doc: Document) -> Result<RawMail, ProcessorError> {
     Ok(RawMail { id, mail_id, status, checksum, size, algorithm, binary })
 }
 
-fn decode_mail_binary(raw: &RawMail, max_mail_bytes: usize) -> Result<Value, ProcessorError> {
+fn decode_mail_binary(raw: &RawMail) -> Result<Value, ProcessorError> {
     if raw.algorithm != "zstd" {
         return Err(ProcessorError::UnsupportedCompression(raw.algorithm.clone()));
     }
     let expected_size =
         usize::try_from(raw.size).map_err(|_| ProcessorError::InvalidSize(raw.size))?;
-    if expected_size > max_mail_bytes {
-        return Err(ProcessorError::SizeLimitExceeded {
-            size: expected_size,
-            limit: max_mail_bytes,
-        });
-    }
 
     let decoder = zstd::stream::read::Decoder::new(raw.binary.as_slice())?;
     let mut bytes = Vec::with_capacity(expected_size);
@@ -567,7 +556,7 @@ mod tests {
             "/../../../samples/Battle/Persistent.Mail.485440176891031331"
         ));
         let raw = raw_mail_from_bytes(bytes);
-        let decoded = decode_mail_binary(&raw, bytes.len()).unwrap();
+        let decoded = decode_mail_binary(&raw).unwrap();
         assert_eq!(mail_registry::detect_mail_type(&decoded), Some(MailType::Battle));
     }
 
@@ -663,7 +652,7 @@ mod tests {
         for (bytes, expected_type) in samples {
             let raw = raw_mail_from_bytes(bytes);
             let (mail_type, processed) =
-                prepare_processed_document(&raw, bytes.len()).expect("process compressed sample");
+                prepare_processed_document(&raw).expect("process compressed sample");
             assert_eq!(mail_type, *expected_type);
             assert_eq!(
                 processed.get_document("metadata").unwrap().get_i64("source_size").unwrap(),
@@ -679,7 +668,7 @@ mod tests {
     fn decode_mail_binary_rejects_unsupported_algorithm() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.algorithm = "gzip".to_string();
-        let error = decode_mail_binary(&raw, 100).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::UnsupportedCompression(value) if value == "gzip"));
     }
 
@@ -687,22 +676,15 @@ mod tests {
     fn decode_mail_binary_rejects_negative_size() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.size = -1;
-        let error = decode_mail_binary(&raw, 100).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::InvalidSize(-1)));
-    }
-
-    #[test]
-    fn decode_mail_binary_rejects_oversized_mail() {
-        let raw = raw_mail_from_bytes(b"anything");
-        let error = decode_mail_binary(&raw, 7).unwrap_err();
-        assert!(matches!(error, ProcessorError::SizeLimitExceeded { size: 8, limit: 7 }));
     }
 
     #[test]
     fn decode_mail_binary_rejects_size_mismatch() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.size += 1;
-        let error = decode_mail_binary(&raw, 100).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::SizeMismatch { expected: 9, actual: 8 }));
     }
 
@@ -710,7 +692,7 @@ mod tests {
     fn decode_mail_binary_rejects_checksum_mismatch() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.checksum = "wrong".to_string();
-        let error = decode_mail_binary(&raw, 100).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(
             matches!(error, ProcessorError::ChecksumMismatch { expected, .. } if expected == "wrong")
         );
@@ -720,21 +702,21 @@ mod tests {
     fn decode_mail_binary_rejects_corrupt_zstd() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.binary = vec![1, 2, 3];
-        let error = decode_mail_binary(&raw, 100).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::Decompress(_)));
     }
 
     #[test]
     fn decode_mail_binary_rejects_invalid_binary_mail() {
         let raw = raw_mail_from_bytes(&[]);
-        let error = decode_mail_binary(&raw, 1).unwrap_err();
+        let error = decode_mail_binary(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::BinaryDecode(_)));
     }
 
     #[test]
     fn prepare_processed_document_rejects_non_object_root() {
         let raw = raw_mail_from_bytes(&[0x01, 1]);
-        let error = prepare_processed_document(&raw, 2).unwrap_err();
+        let error = prepare_processed_document(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::InvalidMailPayload(_)));
     }
 

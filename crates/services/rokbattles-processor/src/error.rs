@@ -19,8 +19,6 @@ pub enum ProcessorError {
     UnsupportedCompression(String),
     #[error("invalid uncompressed mail size: {0}")]
     InvalidSize(i64),
-    #[error("uncompressed mail exceeds configured limit of {limit} bytes: {size}")]
-    SizeLimitExceeded { size: usize, limit: usize },
     #[error("uncompressed mail size mismatch (expected {expected}, found {actual})")]
     SizeMismatch { expected: usize, actual: usize },
     #[error("mail checksum mismatch (expected {expected}, found {actual})")]

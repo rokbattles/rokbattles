@@ -10,7 +10,6 @@ pub struct Config {
     pub batch_size: i64,
     pub concurrency: usize,
     pub idle_sleep: Duration,
-    pub max_mail_bytes: usize,
 }
 
 /// Errors returned when configuration is missing or invalid.
@@ -41,13 +40,7 @@ impl Config {
             lookup("PROCESSOR_IDLE_SLEEP_SECS"),
             15,
         )?;
-        let max_mail_bytes = parse_usize(
-            "PROCESSOR_MAX_MAIL_BYTES",
-            lookup("PROCESSOR_MAX_MAIL_BYTES"),
-            25 * 1024 * 1024,
-        )?;
-
-        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, idle_sleep, max_mail_bytes })
+        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, idle_sleep })
     }
 }
 
@@ -125,7 +118,6 @@ mod tests {
                 batch_size: 500,
                 concurrency: 8,
                 idle_sleep: Duration::from_secs(15),
-                max_mail_bytes: 25 * 1024 * 1024,
             }
         );
     }
@@ -161,16 +153,6 @@ mod tests {
     #[test]
     fn parse_usize_rejects_zero() {
         assert!(parse_usize("TEST", Some("0".into()), 3).is_err());
-    }
-
-    #[test]
-    fn loads_max_mail_bytes() {
-        let cfg = Config::from_lookup(lookup(HashMap::from([
-            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("PROCESSOR_MAX_MAIL_BYTES", "1024"),
-        ])))
-        .expect("config");
-        assert_eq!(cfg.max_mail_bytes, 1024);
     }
 
     #[test]
