@@ -128,13 +128,9 @@ async fn process_document(
     let raw = parse_raw_mail(doc)?;
     let (mail_type, processed_doc) = prepare_processed_document(&raw)?;
 
-    if !storage
+    storage
         .upsert_processed(mail_type, &raw.mail_id, &raw.checksum, raw.size, processed_doc)
-        .await?
-    {
-        debug!(mail_id = %raw.mail_id, "discarded stale processed mail output");
-        return Ok(ProcessOutcome::Stale);
-    }
+        .await?;
 
     let now = DateTime::now();
     if !storage.mark_processed(&raw.id, &raw.checksum, raw.size, now).await? {
@@ -160,7 +156,6 @@ fn prepare_processed_document(raw: &RawMail) -> Result<(MailType, Document), Pro
         .map_err(|_| ProcessorError::MissingProcessedMetadata)?;
     metadata.insert("source_checksum", raw.checksum.clone());
     metadata.insert("source_size", raw.size);
-    metadata.insert("source_processor_run_id", ObjectId::new());
     Ok((mail_type, processed_doc))
 }
 
@@ -660,7 +655,6 @@ mod tests {
             );
             let metadata = processed.get_document("metadata").unwrap();
             assert_eq!(metadata.get_str("source_checksum").unwrap(), raw.checksum);
-            assert!(metadata.get_object_id("source_processor_run_id").is_ok());
         }
     }
 

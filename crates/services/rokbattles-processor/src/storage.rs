@@ -97,7 +97,7 @@ impl Storage {
         source_checksum: &str,
         source_size: i64,
         doc: Document,
-    ) -> mongodb::error::Result<bool> {
+    ) -> mongodb::error::Result<()> {
         let collection = match mail_type {
             MailType::Battle => &self.battle,
             MailType::DuelBattle2 => &self.duelbattle2,
@@ -114,11 +114,8 @@ impl Storage {
         };
 
         let update = processed_update_pipeline(source_checksum, source_size, doc);
-        let result = collection
-            .update_one(doc! { "metadata.mail_id": mail_id }, update)
-            .upsert(true)
-            .await?;
-        Ok(result.modified_count > 0 || result.upserted_id.is_some())
+        collection.update_one(doc! { "metadata.mail_id": mail_id }, update).upsert(true).await?;
+        Ok(())
     }
 
     /// Mark a raw mail version as processed if it is still current.
