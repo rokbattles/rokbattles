@@ -141,7 +141,7 @@ async fn store_compressed_raw_mail(
         mail: &mail,
         status,
         now: DateTime::now(),
-        zstd_level: state.config.raw_zstd_level,
+        zstd_level: state.config.zstd_level,
     })?;
 
     match action {
