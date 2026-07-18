@@ -1,6 +1,6 @@
 //! Battle modifier and effect-statistic parsing.
 
-use mail_sdk::{ExtractError, indexed_array_values, require_string_field, require_u64_field};
+use mail_sdk::{ExtractError, require_array, require_string_field, require_u64_field};
 use serde_json::{Map, Value, json};
 
 /// Normalizes the sender and opponent effects attached to one attack.
@@ -29,8 +29,8 @@ fn extract_modifier_sources(
     value: Option<&Value>,
     field: &'static str,
 ) -> Result<Vec<Value>, ExtractError> {
-    optional_indexed_values(value, field)?
-        .into_iter()
+    optional_array_values(value, field)?
+        .iter()
         .map(|entry| {
             let entry = entry
                 .as_object()
@@ -44,8 +44,8 @@ fn extract_modifier_sources(
 }
 
 fn extract_modifier_ids(value: Option<&Value>) -> Result<Vec<u64>, ExtractError> {
-    optional_indexed_values(value, "Ids")?
-        .into_iter()
+    optional_array_values(value, "Ids")?
+        .iter()
         .map(|id| {
             id.as_u64().ok_or(ExtractError::InvalidFieldType {
                 field: "Ids",
@@ -59,8 +59,8 @@ fn extract_statistics(
     value: Option<&Value>,
     field: &'static str,
 ) -> Result<Vec<Value>, ExtractError> {
-    optional_indexed_values(value, field)?
-        .into_iter()
+    optional_array_values(value, field)?
+        .iter()
         .map(|entry| {
             let entry = entry
                 .as_object()
@@ -75,8 +75,8 @@ fn extract_statistics(
 }
 
 fn extract_stat_values(value: Option<&Value>) -> Result<Vec<Value>, ExtractError> {
-    optional_indexed_values(value, "Stats")?
-        .into_iter()
+    optional_array_values(value, "Stats")?
+        .iter()
         .map(|stat| {
             let stat = stat
                 .as_object()
@@ -89,13 +89,13 @@ fn extract_stat_values(value: Option<&Value>) -> Result<Vec<Value>, ExtractError
         .collect()
 }
 
-fn optional_indexed_values<'a>(
+fn optional_array_values<'a>(
     value: Option<&'a Value>,
     field: &'static str,
-) -> Result<Vec<&'a Value>, ExtractError> {
+) -> Result<&'a [Value], ExtractError> {
     match value {
-        None | Some(Value::Null) => Ok(Vec::new()),
-        Some(value) => indexed_array_values(value, field),
+        None | Some(Value::Null) => Ok(&[]),
+        Some(value) => require_array(value, field),
     }
 }
 
@@ -122,26 +122,23 @@ mod tests {
     fn extract_battle_effects_decodes_both_sides_and_preserves_values() {
         let input = json!({
             "SelfKvkModBuffIds": [
-                1,
-                { "Source": "policy_v2", "Ids": [1, 24, 2, 22] }
+                { "Source": "policy_v2", "Ids": [24, 22] }
             ],
             "OpsKvkModBuffIds": [
                 { "Source": "custom", "Ids": [9, 10, 11] }
             ],
             "SelfEffectStats": [
-                1,
                 {
                     "Source": "unit_skill",
                     "Id": 77,
-                    "Stats": [1, { "K": "FutureValue", "V": { "amount": 1.5 } }]
+                    "Stats": [{ "K": "FutureValue", "V": { "amount": 1.5 } }]
                 }
             ],
             "OpsEffectStats": [
-                1,
                 {
                     "Source": "policy_v2",
                     "Id": 2,
-                    "Stats": [1, { "K": "ExtraBadHurt", "V": 719 }]
+                    "Stats": [{ "K": "ExtraBadHurt", "V": 719 }]
                 }
             ]
         });
@@ -221,7 +218,7 @@ mod tests {
     #[test]
     fn extract_battle_effects_keeps_source_without_ids() {
         let input = json!({
-            "SelfKvkModBuffIds": [1, { "Source": "policy_v2" }]
+            "SelfKvkModBuffIds": [{ "Source": "policy_v2" }]
         });
 
         let effects = extract_battle_effects(input.as_object().expect("attack object"))
@@ -264,11 +261,10 @@ mod tests {
     fn extract_battle_effects_rejects_stat_without_value() {
         let input = json!({
             "SelfEffectStats": [
-                1,
                 {
                     "Source": "unit_skill",
                     "Id": 77,
-                    "Stats": [1, { "K": "MissingValue" }]
+                    "Stats": [{ "K": "MissingValue" }]
                 }
             ]
         });
