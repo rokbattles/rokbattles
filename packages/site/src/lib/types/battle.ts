@@ -21,6 +21,27 @@ export type BattleOpponent = BattlePlayer & {
   attack: BattleAttack;
   npc: BattleNpc;
   battleResults: BattleOpponentBattleResults;
+  battleEffects?: BattleEffects;
+};
+
+export type BattleEffects = {
+  sender: readonly BattleStratagem[];
+  opponent: readonly BattleStratagem[];
+};
+
+export type BattleStratagem = {
+  id: number;
+  name: string;
+  description: string;
+  effectivePercentage?: number;
+  statistics: readonly BattleStratagemStatistic[];
+};
+
+export type BattleStratagemStatistic = {
+  key: string;
+  value: unknown;
+  displayValue?: number;
+  unit?: "number" | "percent";
 };
 
 export type BattlePlayer = {

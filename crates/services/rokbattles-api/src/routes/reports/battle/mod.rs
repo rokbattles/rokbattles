@@ -32,6 +32,7 @@ mod detail_mapper;
 mod list_mapper;
 mod match_builder;
 mod query;
+mod stratagems;
 mod structure_override;
 mod types;
 

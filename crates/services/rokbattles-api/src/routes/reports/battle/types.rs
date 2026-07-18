@@ -1,3 +1,4 @@
+use mongodb::bson::Bson;
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]
@@ -232,6 +233,44 @@ pub(crate) struct BattleReportOpponent {
     pub attack: BattleReportAttack,
     pub npc: BattleReportNpc,
     pub battle_results: BattleReportBattleResults,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub battle_effects: Option<BattleReportBattleEffects>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportBattleEffects {
+    pub sender: Vec<BattleReportStratagem>,
+    pub opponent: Vec<BattleReportStratagem>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportStratagem {
+    pub id: i64,
+    pub name: String,
+    pub description: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effective_percentage: Option<f64>,
+    pub statistics: Vec<BattleReportStratagemStatistic>,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub(crate) struct BattleReportStratagemStatistic {
+    pub key: String,
+    pub value: Bson,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub display_value: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub unit: Option<BattleReportStatisticUnit>,
+}
+
+#[derive(Clone, Copy, Debug, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub(crate) enum BattleReportStatisticUnit {
+    Number,
+    Percent,
 }
 
 #[derive(Debug, Serialize, Default)]

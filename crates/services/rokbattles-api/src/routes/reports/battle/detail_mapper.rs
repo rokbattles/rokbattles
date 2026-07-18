@@ -5,6 +5,7 @@ use core_bson::{
 use mongodb::bson::{Bson, Document, doc};
 
 use super::{
+    stratagems::resolve_battle_effects,
     structure_override::resolve_avatar_override,
     types::{
         BattleReportAlliance, BattleReportArmament, BattleReportAttack, BattleReportAuxiliarySkill,
@@ -160,6 +161,7 @@ pub(super) fn build_battle_detail_projection() -> Document {
         "opponents.battle_results.opponent.power",
         "opponents.battle_results.opponent.attack_power",
         "opponents.battle_results.opponent.skill_power",
+        "opponents.battle_effects",
     ] {
         projection.insert(field, 1);
     }
@@ -383,6 +385,8 @@ fn map_detail_opponents(
 fn map_detail_opponent(document: &Document, report_schema: Option<i64>) -> BattleReportOpponent {
     let base = map_detail_player(Some(document), report_schema);
     let start_tick = nested_i64(document, &["start_tick"]).unwrap_or_default();
+    let battle_results = map_detail_battle_results(nested_document(document, &["battle_results"]));
+    let battle_effects = resolve_battle_effects(document, report_schema, &battle_results);
 
     BattleReportOpponent {
         player_id: base.player_id,
@@ -409,7 +413,8 @@ fn map_detail_opponent(document: &Document, report_schema: Option<i64>) -> Battl
             r#type: nested_i64_exact(document, &["npc", "type"]),
             b_type: nested_i64_exact(document, &["npc", "b_type"]),
         },
-        battle_results: map_detail_battle_results(nested_document(document, &["battle_results"])),
+        battle_results,
+        battle_effects,
     }
 }
 
@@ -494,6 +499,7 @@ mod tests {
             projection.get_i32("opponents.battle_results.opponent.kill_points").ok(),
             Some(1)
         );
+        assert_eq!(projection.get_i32("opponents.battle_effects").ok(), Some(1));
     }
 
     #[test]
@@ -614,6 +620,50 @@ mod tests {
         assert_eq!(mapped.opponents[0].support_skills.enable, Some(false));
         assert_eq!(mapped.opponents[0].auxiliary_skills[0].skill_id, 303);
         assert_eq!(mapped.timeline.start_tick, 50);
+    }
+
+    #[test]
+    fn maps_schema_819_stratagems_onto_each_attack() {
+        let document = doc! {
+            "metadata": {
+                "mail_id": "mail-koab",
+                "mail_time": 123_i64,
+                "schema": 819_i64,
+            },
+            "sender": {},
+            "opponents": [{
+                "battle_results": {
+                    "sender": { "severely_wounded": 12_691_i64 },
+                },
+                "battle_effects": {
+                    "sender": {
+                        "modifier_sources": [{
+                            "source": "policy_v2",
+                            "ids": [24_i64, 22_i64],
+                        }],
+                        "statistics": [],
+                    },
+                    "opponent": {
+                        "modifier_sources": [{
+                            "source": "policy_v2",
+                            "ids": [2_i64, 14_i64],
+                        }],
+                        "statistics": [{
+                            "source": "policy_v2",
+                            "id": 2_i64,
+                            "stats": [{ "key": "ExtraBadHurt", "value": 719_i64 }],
+                        }],
+                    },
+                },
+            }],
+        };
+
+        let mapped = map_battle_detail_document(&document).expect("detail should map");
+        let effects = mapped.opponents[0].battle_effects.as_ref().expect("KOAB effects");
+
+        assert_eq!(effects.sender[0].name, "Kind-Hearted");
+        assert_eq!(effects.opponent[0].name, "Decimation");
+        assert_eq!(effects.opponent[0].effective_percentage, Some(6.0));
     }
 
     #[test]

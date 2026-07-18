@@ -1431,6 +1431,54 @@ msgstr "Relics"
 msgid "ZW4lge"
 msgstr "Relic {id}"
 
+#: src/components/report/report-stratagem-section.tsx
+msgid "It0Aey"
+msgstr "Severely wounded unit power (past 3h)"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "4WlFf6"
+msgstr "Attack bonus"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "ikRAP_"
+msgstr "Extra severe wounds inflicted"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "25igcI"
+msgstr "Times triggered"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "ro9pK3"
+msgstr "Enemy units killed"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "FvbXnS"
+msgstr "Slightly wounded units healed"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "nmf4aA"
+msgstr "Unit deaths"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "3TI3iv"
+msgstr "Severe wounds prevented"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "eK3Owk"
+msgstr "Tier 5 units in the Hall of Heroes"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "5aSP17"
+msgstr "Damage bonus"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "DCHsxk"
+msgstr "Stratagems"
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "Hszv-5"
+msgstr "{percentage}% applied"
+
 #: src/components/report/report-view.tsx
 msgid "x5Tz6M"
 msgstr "Report"
