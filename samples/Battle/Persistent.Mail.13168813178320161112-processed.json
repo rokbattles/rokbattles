@@ -1,0 +1,1192 @@
+{
+  "metadata": {
+    "kvk": true,
+    "ll_script_schema": 819,
+    "mail_id": "13168813178320161112",
+    "mail_receiver": "player_163942986",
+    "mail_role": "gsmp",
+    "mail_time": 1783201611834033,
+    "report_id": 9426866,
+    "room_id": 0,
+    "schema": 819,
+    "server_id": 15999
+  },
+  "opponents": [
+    {
+      "alliance": {
+        "abbreviation": "RV45",
+        "id": 2640368,
+        "name": "Rise of Winxalo"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 88076339,
+      "as_battle_type": null,
+      "attack": {
+        "id": "180150801",
+        "x": 4097.038,
+        "y": 4186.922
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 1285,
+          "attack_power": -1910,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 126910,
+          "merits": 0,
+          "power": -1910,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 359438,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 191,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 360000,
+          "troop_units_max": 360000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 546,
+          "attack_power": -47888,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 3820,
+          "merits": 0,
+          "power": -50764,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 12691,
+          "skill_power": -2876,
+          "slightly_wounded": -719,
+          "troop_units": 82361,
+          "troop_units_max": 116930,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 4117.123,
+        "y": 4178.074
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "17101",
+              "buffs": "3001_0.024000;4001_0.019000;5001_0.024000",
+              "id": 1
+            },
+            {
+              "affix": "17202",
+              "buffs": "3001_0.029000;4001_0.021000;5001_0.016000",
+              "id": 2
+            },
+            {
+              "affix": "312;316",
+              "buffs": "6001_0.021000;4001_0.019000;5001_0.030000",
+              "id": 3
+            },
+            {
+              "affix": "17402",
+              "buffs": "3001_0.023000;4001_0.022000;5001_0.021000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_83:1,2:20005_105:1,3:20026_33:2,4:20016_104:11,5:20032_42:12,6:20034_43:2,7:20040_71:1,8:20167_92:1}",
+          "formation": 17,
+          "id": 595,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 420,
+              "level": 5
+            },
+            {
+              "id": 1802,
+              "level": 5
+            },
+            {
+              "id": 1803,
+              "level": 5
+            },
+            {
+              "id": 1804,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 17,
+          "id": 194,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 258,
+              "level": 5
+            },
+            {
+              "id": 1560,
+              "level": 5
+            },
+            {
+              "id": 1561,
+              "level": 5
+            },
+            {
+              "id": 1562,
+              "level": 5
+            },
+            {
+              "id": 1563,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 398203,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 2720,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "RV45"
+          },
+          "commanders": {
+            "primary": {
+              "id": 595,
+              "level": 60
+            },
+            "secondary": {
+              "id": 194,
+              "level": 60
+            }
+          },
+          "participant_id": 1227171,
+          "player_id": 195069094,
+          "player_name": "Ruucoᶫᶳ"
+        }
+      ],
+      "player_id": 195069094,
+      "player_name": "Ruucoᶫᶳ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 398198,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "195069094_1783201507_595_194"
+    },
+    {
+      "alliance": {
+        "abbreviation": "RV45",
+        "id": 2640368,
+        "name": "Rise of Winxalo"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 88076339,
+      "as_battle_type": null,
+      "attack": {
+        "id": "180152401",
+        "x": 4097.5034,
+        "y": 4186.9966
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 2741,
+          "attack_power": -2114,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 272290,
+          "merits": 0,
+          "power": -2114,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 313079,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 278,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 313357,
+          "troop_units_max": 313959,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 1134,
+          "attack_power": -57324,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 4450,
+          "merits": 0,
+          "power": -108916,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 27229,
+          "skill_power": -51592,
+          "slightly_wounded": -1169,
+          "troop_units": 66815,
+          "troop_units_max": 116930,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 4117.123,
+        "y": 4178.074
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "118",
+              "buffs": "3001_0.020000;4001_0.019000;5001_0.019000",
+              "id": 1
+            },
+            {
+              "affix": "209;218",
+              "buffs": "3001_0.034000;4001_0.023000;5001_0.025000",
+              "id": 2
+            },
+            {
+              "affix": "316",
+              "buffs": "6001_0.032000;4001_0.015000;5001_0.017000",
+              "id": 3
+            },
+            {
+              "affix": "404;417",
+              "buffs": "3001_0.015000;4001_0.017000;5001_0.021000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_112:1,2:20014_66:1,3:20026_57:1,4:20016_62:1,5:20032_110:11,6:20034_108:1,7:20097_14:0}",
+          "formation": 17,
+          "id": 545,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1752,
+              "level": 5
+            },
+            {
+              "id": 1753,
+              "level": 5
+            },
+            {
+              "id": 1754,
+              "level": 1
+            },
+            {
+              "id": 393,
+              "level": 5
+            },
+            {
+              "id": 1751,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 17,
+          "id": 185,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1547,
+              "level": 1
+            },
+            {
+              "id": 251,
+              "level": 5
+            },
+            {
+              "id": 1544,
+              "level": 5
+            },
+            {
+              "id": 1545,
+              "level": 5
+            },
+            {
+              "id": 1546,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 398203,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 2720,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "RV45"
+          },
+          "commanders": {
+            "primary": {
+              "id": 545,
+              "level": 60
+            },
+            "secondary": {
+              "id": 185,
+              "level": 60
+            }
+          },
+          "participant_id": 1227180,
+          "player_id": 195069094,
+          "player_name": "Ruucoᶫᶳ"
+        }
+      ],
+      "player_id": 195069094,
+      "player_name": "Ruucoᶫᶳ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 398199,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "195069094_1783201514_545_185"
+    },
+    {
+      "alliance": {
+        "abbreviation": "RV45",
+        "id": 2640368,
+        "name": "Rise of Winxalo"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 88076339,
+      "as_battle_type": null,
+      "attack": {
+        "id": "180154001",
+        "x": 4097.5034,
+        "y": 4186.9966
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 3026,
+          "attack_power": -2908,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 300200,
+          "merits": 0,
+          "power": -2908,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 358999,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 298,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 359297,
+          "troop_units_max": 360000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 1260,
+          "attack_power": -50348,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 5840,
+          "merits": 0,
+          "power": -120080,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 30020,
+          "skill_power": -69732,
+          "slightly_wounded": 1323,
+          "troop_units": 74501,
+          "troop_units_max": 116930,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 4117.123,
+        "y": 4178.074
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "108;120",
+              "buffs": "3003_0.026000;4003_0.016000;5003_0.020000",
+              "id": 1
+            },
+            {
+              "affix": "2202",
+              "buffs": "3003_0.028000;4003_0.035000;5003_0.015000",
+              "id": 2
+            },
+            {
+              "affix": "313;320",
+              "buffs": "3003_0.020000;6003_0.028000;5003_0.022000",
+              "id": 3
+            },
+            {
+              "affix": "414",
+              "buffs": "3003_0.020000;4003_0.030000;5003_0.027000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20060_40:20,2:20051_11:20,3:20052_35:20,4:20030_109:1,5:20054_37:20,6:20073_20:0}",
+          "formation": 2,
+          "id": 509,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 362,
+              "level": 5
+            },
+            {
+              "id": 1673,
+              "level": 5
+            },
+            {
+              "id": 1676,
+              "level": 5
+            },
+            {
+              "id": 1675,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 2,
+          "id": 179,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1531,
+              "level": 1
+            },
+            {
+              "id": 243,
+              "level": 5
+            },
+            {
+              "id": 1528,
+              "level": 5
+            },
+            {
+              "id": 1529,
+              "level": 5
+            },
+            {
+              "id": 1530,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 398203,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 2720,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "RV45"
+          },
+          "commanders": {
+            "primary": {
+              "id": 509,
+              "level": 60
+            },
+            "secondary": {
+              "id": 179,
+              "level": 60
+            }
+          },
+          "participant_id": 1227187,
+          "player_id": 195069094,
+          "player_name": "Ruucoᶫᶳ"
+        }
+      ],
+      "player_id": 195069094,
+      "player_name": "Ruucoᶫᶳ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 398199,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "195069094_1783201521_509_179"
+    },
+    {
+      "alliance": {
+        "abbreviation": "RV45",
+        "id": 2640368,
+        "name": "Rise of Winxalo"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 88076339,
+      "as_battle_type": null,
+      "attack": {
+        "id": "180156801",
+        "x": 4097.5034,
+        "y": 4186.9966
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 1163,
+          "attack_power": -4030,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 112930,
+          "merits": 0,
+          "power": -4030,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 358442,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 463,
+          "skill_power": 0,
+          "slightly_wounded": 25,
+          "troop_units": 358930,
+          "troop_units_max": 360000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 535,
+          "attack_power": -42612,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 8260,
+          "merits": 0,
+          "power": -45172,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 11293,
+          "skill_power": -2560,
+          "slightly_wounded": -239,
+          "troop_units": 58321,
+          "troop_units_max": 116930,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 4117.123,
+        "y": 4178.074
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "-1",
+              "buffs": "3002_0.020000;4002_0.022000;10002_0.014000",
+              "id": 1
+            },
+            {
+              "affix": "-1",
+              "buffs": "3002_0.032000;4004_0.035000;5002_0.028000",
+              "id": 2
+            },
+            {
+              "affix": "-1",
+              "buffs": "3002_0.016000;4002_0.017000;10016_0.056000",
+              "id": 3
+            },
+            {
+              "affix": "-1",
+              "buffs": "6002_0.018000;4004_0.010000;5002_0.020000",
+              "id": 4
+            }
+          ],
+          "awakened": false,
+          "equipment": "{}",
+          "formation": 13,
+          "id": 575,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1788,
+              "level": 1
+            },
+            {
+              "id": 1789,
+              "level": 1
+            },
+            {
+              "id": 411,
+              "level": 5
+            },
+            {
+              "id": 1787,
+              "level": 4
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": false,
+          "equipment": "{}",
+          "formation": 13,
+          "id": 579,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1800,
+              "level": 1
+            },
+            {
+              "id": 1801,
+              "level": 1
+            },
+            {
+              "id": 416,
+              "level": 5
+            },
+            {
+              "id": 1799,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 398203,
+      "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 2720,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgames.rok.pc.int",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "RV45"
+          },
+          "commanders": {
+            "primary": {
+              "id": 575,
+              "level": 60
+            },
+            "secondary": {
+              "id": 579,
+              "level": 60
+            }
+          },
+          "participant_id": 1227202,
+          "player_id": 195069094,
+          "player_name": "Ruucoᶫᶳ"
+        }
+      ],
+      "player_id": 195069094,
+      "player_name": "Ruucoᶫᶳ",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 398199,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "195069094_1783201531_575_579"
+    },
+    {
+      "alliance": {
+        "abbreviation": "RV45",
+        "id": 2640368,
+        "name": "Rise of Winxalo"
+      },
+      "alliance_building_id": null,
+      "app_id": 2104267,
+      "app_uid": 226544448,
+      "as_battle_type": null,
+      "attack": {
+        "id": "180172001",
+        "x": 4105.309,
+        "y": 4189.6436
+      },
+      "auxiliary_skills": [],
+      "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/226544448/2026-07-01/B07074882DF78516EC72AE69F741E270_250x250.jpg",
+      "battle_results": {
+        "opponent": {
+          "acclaim": 194,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 19320,
+          "merits": 0,
+          "power": 0,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 303019,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 0,
+          "skill_power": 0,
+          "slightly_wounded": 0,
+          "troop_units": 303019,
+          "troop_units_max": 310000,
+          "watchtower": 0,
+          "watchtower_max": 0
+        },
+        "sender": {
+          "acclaim": 78,
+          "attack_power": 0,
+          "dead": 0,
+          "death_reduction": 0,
+          "heal": 0,
+          "kill_points": 0,
+          "merits": 0,
+          "power": -7728,
+          "reinforcements_join": 0,
+          "reinforcements_leave": 0,
+          "remaining": 0,
+          "severe_wound_reduction": 0,
+          "severely_wounded": 1932,
+          "skill_power": -7728,
+          "slightly_wounded": 0,
+          "troop_units": 1932,
+          "troop_units_max": 116930,
+          "watchtower": 0,
+          "watchtower_max": 0
+        }
+      },
+      "camp_id": 3,
+      "castle": {
+        "level": 25,
+        "watchtower": null,
+        "x": 4107.4473,
+        "y": 4135.276
+      },
+      "character_type": 1,
+      "commanders": {
+        "primary": {
+          "armaments": [
+            {
+              "affix": "17102",
+              "buffs": "3001_0.026000;4002_0.017000;5001_0.015000",
+              "id": 1
+            },
+            {
+              "affix": "204",
+              "buffs": "3001_0.021000;4001_0.026000;5001_0.035000",
+              "id": 2
+            },
+            {
+              "affix": "315",
+              "buffs": "3001_0.035000;8000_0.062000;5001_0.028000",
+              "id": 3
+            },
+            {
+              "affix": "401",
+              "buffs": "3001_0.021000;4001_0.020000;5001_0.021000",
+              "id": 4
+            }
+          ],
+          "awakened": true,
+          "equipment": "{1:20002_72:1,2:20005_73:1,3:20026_31:1,4:20029_79:1,5:20032_76:1,6:20034_36:11,7:20076_37:0}",
+          "formation": 17,
+          "id": 595,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 1804,
+              "level": 5
+            },
+            {
+              "id": 420,
+              "level": 5
+            },
+            {
+              "id": 1802,
+              "level": 5
+            },
+            {
+              "id": 1803,
+              "level": 5
+            }
+          ],
+          "star_level": 6
+        },
+        "secondary": {
+          "armaments": null,
+          "awakened": true,
+          "equipment": "{}",
+          "formation": 17,
+          "id": 545,
+          "level": 60,
+          "relics": null,
+          "skills": [
+            {
+              "id": 393,
+              "level": 5
+            },
+            {
+              "id": 1751,
+              "level": 5
+            },
+            {
+              "id": 1752,
+              "level": 5
+            },
+            {
+              "id": 1753,
+              "level": 5
+            },
+            {
+              "id": 1754,
+              "level": 1
+            }
+          ],
+          "star_level": 6
+        }
+      },
+      "end_tick": 398203,
+      "frame_url": null,
+      "is_outpost": null,
+      "is_turret": null,
+      "kingdom_id": 2720,
+      "npc": {
+        "b_type": null,
+        "experience": 0,
+        "loot": null,
+        "type": null
+      },
+      "package_identifier": "com.lilithgame.roc.gp",
+      "participants": [
+        {
+          "alliance": {
+            "abbreviation": "RV45"
+          },
+          "commanders": {
+            "primary": {
+              "id": 595,
+              "level": 60
+            },
+            "secondary": {
+              "id": 545,
+              "level": 60
+            }
+          },
+          "participant_id": 1227282,
+          "player_id": 182674260,
+          "player_name": "Ƴutani"
+        }
+      ],
+      "player_id": 182674260,
+      "player_name": "Ƴutani",
+      "rally": null,
+      "server_season": "100",
+      "session": null,
+      "start_tick": 398203,
+      "structure_id": null,
+      "support_skills": {
+        "enable": false,
+        "skills": []
+      },
+      "supreme_strife": {
+        "battle_id": "",
+        "round": 0,
+        "team_id": 0
+      },
+      "tracking_key": "182674260_1783201576_595_545"
+    }
+  ],
+  "sender": {
+    "alliance": {
+      "abbreviation": "G44E",
+      "id": 7418393,
+      "name": "х҉44GOLDEN EMPIRE"
+    },
+    "alliance_building_id": null,
+    "app_id": 2104267,
+    "app_uid": 208421313,
+    "as_battle_type": null,
+    "auxiliary_skills": [],
+    "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/163942986/23/11/03/8008ea3ba64e08ef_800x800.jpg",
+    "camp_id": 4,
+    "castle": {
+      "level": 25,
+      "watchtower": null,
+      "x": 4144.792,
+      "y": 4284.984
+    },
+    "character_type": 1,
+    "commanders": {
+      "primary": {
+        "armaments": null,
+        "awakened": true,
+        "equipment": "{}",
+        "formation": null,
+        "id": 99,
+        "level": 50,
+        "relics": [
+          {
+            "id": 3
+          }
+        ],
+        "skills": [
+          {
+            "id": 1219,
+            "level": 5
+          },
+          {
+            "id": 1220,
+            "level": 1
+          },
+          {
+            "id": 135,
+            "level": 5
+          },
+          {
+            "id": 1217,
+            "level": 5
+          },
+          {
+            "id": 1218,
+            "level": 5
+          }
+        ],
+        "star_level": 6
+      },
+      "secondary": {
+        "armaments": null,
+        "awakened": false,
+        "equipment": "{}",
+        "formation": 17,
+        "id": 185,
+        "level": 57,
+        "relics": null,
+        "skills": [
+          {
+            "id": 1546,
+            "level": 1
+          },
+          {
+            "id": 251,
+            "level": 5
+          },
+          {
+            "id": 1544,
+            "level": 1
+          },
+          {
+            "id": 1545,
+            "level": 1
+          }
+        ],
+        "star_level": 6
+      }
+    },
+    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+    "is_outpost": null,
+    "is_turret": null,
+    "kingdom_id": 2644,
+    "package_identifier": "com.lilithgames.rok.pc.int",
+    "participants": [
+      {
+        "alliance": {
+          "abbreviation": "G44E"
+        },
+        "commanders": {
+          "primary": {
+            "id": 99,
+            "level": 50
+          },
+          "secondary": {
+            "id": 185,
+            "level": 57
+          }
+        },
+        "participant_id": 1226895,
+        "player_id": 163942986,
+        "player_name": "Yishana"
+      }
+    ],
+    "player_id": 163942986,
+    "player_name": "Yishana",
+    "rally": null,
+    "server_season": "100",
+    "session": null,
+    "structure_id": null,
+    "support_skills": {
+      "enable": false,
+      "skills": []
+    },
+    "supreme_strife": {
+      "battle_id": "",
+      "round": 0,
+      "team_id": 0
+    },
+    "tracking_key": "163942986_1783201359_99_185"
+  },
+  "summary": {
+    "opponent": {
+      "dead": 0,
+      "kill_points": 831650,
+      "remaining": 1692977,
+      "severely_wounded": 1230,
+      "slightly_wounded": 25,
+      "troop_units": 1694603
+    },
+    "sender": {
+      "dead": 0,
+      "kill_points": 22370,
+      "remaining": 0,
+      "severely_wounded": 83165,
+      "slightly_wounded": -804,
+      "troop_units": 82361
+    }
+  },
+  "timeline": {
+    "end_timestamp": 1783201611,
+    "events": [],
+    "sampling": [
+      {
+        "count": 82361,
+        "tick": 398198
+      },
+      {
+        "count": 58321,
+        "tick": 398199
+      },
+      {
+        "count": 0,
+        "tick": 398203
+      }
+    ],
+    "start_tick": 398198,
+    "start_timestamp": 1783201607
+  }
+}

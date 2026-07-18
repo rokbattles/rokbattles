@@ -1,6 +1,6 @@
 //! Summary parser for Battle mail.
 
-use mail_sdk::{ExtractError, Extractor, Section};
+use mail_sdk::{ExtractError, Extractor, Section, require_i64_field};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_u64_field};
@@ -54,7 +54,7 @@ fn extract_overview(overview: &Map<String, Value>) -> Result<Value, ExtractError
     let kill_points = require_u64_field(overview, "KillScore")?;
     let dead = require_u64_field(overview, "Dead")?;
     let severely_wounded = require_u64_field(overview, "BadHurt")?;
-    let slightly_wounded = require_u64_field(overview, "Hurt")?;
+    let slightly_wounded = require_i64_field(overview, "Hurt")?;
     let remaining = require_u64_field(overview, "Cnt")?;
     let troop_units = require_u64_field(overview, "Max")?;
 
