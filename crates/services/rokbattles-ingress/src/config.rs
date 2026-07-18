@@ -12,7 +12,6 @@ pub struct Config {
     pub clamav_addr: String,
     pub clamav_timeout_ms: u64,
     pub zstd_level: i32,
-    pub raw_zstd_level: i32,
     pub max_upload_bytes: usize,
 }
 
@@ -42,8 +41,7 @@ impl Config {
         let clamav_addr = lookup("CLAMAV_ADDR").unwrap_or_else(|| "127.0.0.1:3310".to_string());
         let clamav_timeout_ms =
             parse_u64("CLAMAV_TIMEOUT_MS", lookup("CLAMAV_TIMEOUT_MS"), 15_000)?;
-        let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 3)?;
-        let raw_zstd_level = parse_i32("RAW_ZSTD_LEVEL", lookup("RAW_ZSTD_LEVEL"), 6)?;
+        let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 6)?;
         let max_upload_bytes =
             parse_usize("MAX_UPLOAD_BYTES", lookup("MAX_UPLOAD_BYTES"), 25 * 1024 * 1024)?;
 
@@ -55,7 +53,6 @@ impl Config {
             clamav_addr,
             clamav_timeout_ms,
             zstd_level,
-            raw_zstd_level,
             max_upload_bytes,
         })
     }
@@ -135,8 +132,7 @@ mod tests {
                 clamav_enabled: false,
                 clamav_addr: "127.0.0.1:3310".to_string(),
                 clamav_timeout_ms: 15_000,
-                zstd_level: 3,
-                raw_zstd_level: 6,
+                zstd_level: 6,
                 max_upload_bytes: 25 * 1024 * 1024,
             }
         );
@@ -160,13 +156,13 @@ mod tests {
     }
 
     #[test]
-    fn loads_raw_zstd_level() {
+    fn loads_zstd_level() {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
-            ("RAW_ZSTD_LEVEL", "8"),
+            ("ZSTD_LEVEL", "8"),
         ])))
         .expect("config");
 
-        assert_eq!(cfg.raw_zstd_level, 8);
+        assert_eq!(cfg.zstd_level, 8);
     }
 }

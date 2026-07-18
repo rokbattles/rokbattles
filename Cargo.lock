@@ -4460,7 +4460,6 @@ version = "1.5.2"
 dependencies = [
  "axum",
  "bytes",
- "core-bson",
  "dotenvy",
  "flate2",
  "mail-decoder",
