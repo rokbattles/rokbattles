@@ -64,20 +64,18 @@ mod tests {
                                 "Awaked": true,
                                 "HeroId": 10,
                                 "HeroLevel": 50,
-                                "Skills": [1, { "Level": 3, "SkillId": 101 }],
+                                "Skills": [{ "Level": 3, "SkillId": 101 }],
                                 "Star": 5
                             },
                             "AssistHero": {
                                 "Awaked": false,
                                 "HeroId": 20,
                                 "HeroLevel": 45,
-                                "Skills": [1, { "Level": 2, "SkillId": 201 }],
+                                "Skills": [{ "Level": 2, "SkillId": 201 }],
                                 "Star": 4
                             },
                             "Buffs": [
-                                1,
                                 { "BuffId": 10, "BuffValue": 1.25 },
-                                2,
                                 { "BuffId": 11, "BuffValue": 2 }
                             ]
                         }

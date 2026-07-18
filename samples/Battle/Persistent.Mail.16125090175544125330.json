@@ -17,13 +17,11 @@
               "Ban": false,
               "ENABLE": true,
               "SKILLS": [
-                1,
                 {
                   "HeroId": 15,
                   "SkillId": 1047,
                   "SkillLevel": 5
                 },
-                2,
                 {
                   "HeroId": 10,
                   "SkillId": 1019,
@@ -52,54 +50,44 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1752,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1753,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1754,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 393,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1751,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1545,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1546,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1547,
                 "SkillLevel": 1
@@ -243,13 +231,11 @@
               "Ban": false,
               "ENABLE": true,
               "SKILLS": [
-                1,
                 {
                   "HeroId": 14,
                   "SkillId": 1029,
                   "SkillLevel": 5
                 },
-                2,
                 {
                   "HeroId": 142,
                   "SkillId": 1417,
@@ -270,13 +256,10 @@
             "HAw": true,
             "HAw2": true,
             "HClt2": [
-              1,
               20008,
-              2,
               3
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 20008
               }
@@ -289,44 +272,36 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 362,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1673,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1676,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1675,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1009,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1010,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1011,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 63,
                 "SkillLevel": 5
@@ -470,13 +445,11 @@
               "Ban": false,
               "ENABLE": true,
               "SKILLS": [
-                1,
                 {
                   "HeroId": 112,
                   "SkillId": 1303,
                   "SkillLevel": 5
                 },
-                2,
                 {
                   "HeroId": 17,
                   "SkillId": 1051,
@@ -505,54 +478,44 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1529,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1530,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1531,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 243,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1528,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1566,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1567,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 254,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1564,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1565,
                 "SkillLevel": 5
@@ -696,13 +659,11 @@
               "Ban": false,
               "ENABLE": true,
               "SKILLS": [
-                1,
                 {
                   "HeroId": 18,
                   "SkillId": 1050,
                   "SkillLevel": 5
                 },
-                2,
                 {
                   "HeroId": 110,
                   "SkillId": 1286,
@@ -730,54 +691,44 @@
             "HLv": 60,
             "HLv2": 38,
             "HSS": [
-              1,
               {
                 "SkillId": 389,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1735,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1736,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1737,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1738,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1704,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1705,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 377,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1702,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1703,
                 "SkillLevel": 5
@@ -921,13 +872,11 @@
               "Ban": false,
               "ENABLE": true,
               "SKILLS": [
-                1,
                 {
                   "HeroId": 7,
                   "SkillId": 1013,
                   "SkillLevel": 5
                 },
-                2,
                 {
                   "HeroId": 64,
                   "SkillId": 1141,
@@ -956,49 +905,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 246,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1533,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1534,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1536,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1465,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 209,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1435,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1437,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1436,
                 "SkillLevel": 5
@@ -1169,32 +1109,26 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 450675,
           "T": 458683
         },
-        2,
         {
           "Cnt": 447333,
           "T": 458684
         },
-        3,
         {
           "Cnt": 395486,
           "T": 458696
         },
-        4,
         {
           "Cnt": 381081,
           "T": 458697
         },
-        5,
         {
           "Cnt": 379648,
           "T": 458698
         },
-        6,
         {
           "Cnt": 364084,
           "T": 458701
@@ -1212,13 +1146,11 @@
           "Ban": false,
           "ENABLE": true,
           "SKILLS": [
-            1,
             {
               "HeroId": 14,
               "SkillId": 1029,
               "SkillLevel": 5
             },
-            2,
             {
               "HeroId": 128,
               "SkillId": 1358,
@@ -1239,13 +1171,10 @@
         "HAw": true,
         "HAw2": true,
         "HClt2": [
-          1,
           10019,
-          2,
           2
         ],
         "HCte2": [
-          1,
           {
             "ColId": 10019
           }
@@ -1259,49 +1188,40 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 1544,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1545,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1546,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1547,
             "SkillLevel": 1
           },
-          5,
           {
             "SkillId": 251,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 129,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1199,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1200,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1201,
             "SkillLevel": 5

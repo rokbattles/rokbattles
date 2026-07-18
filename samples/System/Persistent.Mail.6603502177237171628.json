@@ -1,29 +1,24 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "SubType": 7006,
           "Type": 2,
           "Value": 50
         },
-        2,
         {
           "SubType": 130,
           "Type": 2,
           "Value": 39
         },
-        3,
         {
           "SubType": 58,
           "Type": 2,
           "Value": 6
         },
-        4,
         {
           "SubType": 182,
           "Type": 2,

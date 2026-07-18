@@ -34,7 +34,6 @@
       },
       "gopPhase": 0,
       "heros": [
-        1,
         {
           "assistSkills": [],
           "awaked": false,
@@ -46,28 +45,24 @@
           "label": 1,
           "level": 35,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 51
             },
-            2,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 1,
               "skillId": 1076
             },
-            3,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 1,
               "skillId": 1077
             },
-            4,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -80,7 +75,6 @@
           "transJobId": 0,
           "transJobSkillInfos": []
         },
-        2,
         {
           "assistSkills": [],
           "awaked": false,
@@ -92,21 +86,18 @@
           "label": 2,
           "level": 20,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 30
             },
-            2,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 2,
               "skillId": 1022
             },
-            3,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -297,22 +288,18 @@
         "xbuffs": []
       },
       "ress": [
-        1,
         {
           "type": 1,
           "value": 148832956
         },
-        2,
         {
           "type": 2,
           "value": 148622364
         },
-        3,
         {
           "type": 3,
           "value": 167215929
         },
-        4,
         {
           "type": 4,
           "value": 273660290
@@ -353,7 +340,6 @@
         "campNo": 0,
         "heroLevel": 0,
         "heros": [
-          1,
           {
             "awaked": false,
             "ezUnitShowId": 0,
@@ -363,7 +349,6 @@
             "level": 35,
             "skins": []
           },
-          2,
           {
             "awaked": false,
             "ezUnitShowId": 0,
@@ -405,7 +390,6 @@
           "trustState": 0
         },
         "units": [
-          1,
           {
             "maxCount": 695105,
             "unitCount": 50270,

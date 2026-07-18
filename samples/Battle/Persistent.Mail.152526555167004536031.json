@@ -28,7 +28,6 @@
             "HAw": true,
             "HAw2": false,
             "HClt2": [
-              1,
               6
             ],
             "HEq": "{}",
@@ -38,44 +37,36 @@
             "HLv": 50,
             "HLv2": 55,
             "HSS": [
-              1,
               {
                 "SkillId": 32,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1026,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1109,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1048,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 28,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1017,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1018,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1019,
                 "SkillLevel": 1
@@ -166,25 +157,21 @@
           },
           "SelfRobRess2": {
             "2428546": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 1195068
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 1195068
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 1195068
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -192,25 +179,21 @@
               }
             ],
             "2428567": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 912720
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 912720
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 912720
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -218,25 +201,21 @@
               }
             ],
             "2428590": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 899393
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 899393
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 899393
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -244,25 +223,21 @@
               }
             ],
             "2428591": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 1039431
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 1039431
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 1039431
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -270,25 +245,21 @@
               }
             ],
             "2428603": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 1091149
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 1091149
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 1091149
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -296,25 +267,21 @@
               }
             ],
             "2428634": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 926848
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 926848
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 926848
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -322,25 +289,21 @@
               }
             ],
             "2428652": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 899393
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 899393
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 899393
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -348,25 +311,21 @@
               }
             ],
             "2428658": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 1216388
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 1216388
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 1216388
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -374,25 +333,21 @@
               }
             ],
             "2428754": [
-              1,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 1070354
               },
-              2,
               {
                 "SubType": 3,
                 "Type": 1,
                 "Value": 1070354
               },
-              3,
               {
                 "SubType": 4,
                 "Type": 1,
                 "Value": 1070354
               },
-              4,
               {
                 "SubType": 1,
                 "Type": 1,
@@ -515,12 +470,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 2286535,
           "T": 1378409
         },
-        2,
         {
           "Cnt": 2261980,
           "T": 1378436
@@ -547,7 +500,6 @@
         "HAw": true,
         "HAw2": true,
         "HClt2": [
-          1,
           6
         ],
         "HEq": "{7:20040_264:1,1:20013_288:1,4:20029_244:1,8:20037_312:1,2:20014_258:11,3:20026_243:11,5:20068_257:10,6:20034_232:11}",
@@ -557,44 +509,36 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 1199,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1200,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1201,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 129,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 28,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1102,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1018,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1019,
             "SkillLevel": 5

@@ -39,44 +39,36 @@
             "HLv": 50,
             "HLv2": 42,
             "HSS": [
-              1,
               {
                 "SkillId": 27,
                 "SkillLevel": 2
               },
-              2,
               {
                 "SkillId": 1015,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 1012,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1016,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1013,
                 "SkillLevel": 2
               },
-              2,
               {
                 "SkillId": 1042,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 25,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1101,
                 "SkillLevel": 1
@@ -198,19 +190,16 @@
           "SelfKvkModBuffIds": [],
           "SelfRobRess2": {
             "575753": [
-              1,
               {
                 "SubType": 1,
                 "Type": 1,
                 "Value": 3029855
               },
-              2,
               {
                 "SubType": 2,
                 "Type": 1,
                 "Value": 3908832
               },
-              3,
               {
                 "SubType": 3,
                 "Type": 1,
@@ -245,12 +234,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 224250,
           "T": 312472
         },
-        2,
         {
           "Cnt": 224250,
           "T": 312472
@@ -289,49 +276,40 @@
         "HLv": 50,
         "HLv2": 40,
         "HSS": [
-          1,
           {
             "SkillId": 1320,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1321,
             "SkillLevel": 1
           },
-          3,
           {
             "SkillId": 161,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1318,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1319,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 34,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1030,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1031,
             "SkillLevel": 1
           },
-          4,
           {
             "SkillId": 1047,
             "SkillLevel": 1

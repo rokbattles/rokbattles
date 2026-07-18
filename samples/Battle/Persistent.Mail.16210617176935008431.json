@@ -39,54 +39,44 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 359,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1661,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1662,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1663,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1664,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1584,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1585,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 306,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1582,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1583,
                 "SkillLevel": 5
@@ -133,13 +123,9 @@
             "PName": "TEDDY916",
             "PkgNameNew": "com.lilithgame.roc.gp",
             "PolicyCards": [
-              1,
               6,
-              2,
               23,
-              3,
               32,
-              4,
               22
             ],
             "SerSeason": "-1",
@@ -319,12 +305,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 1221365,
           "T": 444
         },
-        2,
         {
           "Cnt": 613819,
           "T": 485
@@ -364,54 +348,44 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 252,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1548,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1549,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1550,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1551,
             "SkillLevel": 1
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 1794,
             "SkillLevel": 1
           },
-          2,
           {
             "SkillId": 412,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1791,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1792,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1793,
             "SkillLevel": 5

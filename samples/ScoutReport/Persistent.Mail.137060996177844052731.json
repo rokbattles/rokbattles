@@ -34,12 +34,10 @@
       },
       "gopPhase": 0,
       "heros": [
-        1,
         {
           "assistSkills": [],
           "awaked": true,
           "collections": [
-            1,
             10003
           ],
           "formationInfo": {
@@ -49,35 +47,30 @@
           "label": 1,
           "level": 60,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 135
             },
-            2,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1217
             },
-            3,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1218
             },
-            4,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1219
             },
-            5,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -90,7 +83,6 @@
           "transJobId": 0,
           "transJobSkillInfos": []
         },
-        2,
         {
           "assistSkills": [],
           "awaked": true,
@@ -102,35 +94,30 @@
           "label": 2,
           "level": 30,
           "skills": [
-            1,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 412
             },
-            2,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1791
             },
-            3,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1792
             },
-            4,
             {
               "SkillTrans": [],
               "idx": 0,
               "level": 5,
               "skillId": 1793
             },
-            5,
             {
               "SkillTrans": [],
               "idx": 0,
@@ -321,22 +308,18 @@
         "xbuffs": []
       },
       "ress": [
-        1,
         {
           "type": 1,
           "value": 74717739
         },
-        2,
         {
           "type": 2,
           "value": 76658866
         },
-        3,
         {
           "type": 3,
           "value": 74344238
         },
-        4,
         {
           "type": 4,
           "value": 40302581
@@ -377,7 +360,6 @@
         "campNo": 0,
         "heroLevel": 0,
         "heros": [
-          1,
           {
             "awaked": true,
             "ezUnitShowId": 0,
@@ -387,7 +369,6 @@
             "level": 60,
             "skins": []
           },
-          2,
           {
             "awaked": true,
             "ezUnitShowId": 0,
@@ -429,31 +410,26 @@
           "trustState": 0
         },
         "units": [
-          1,
           {
             "maxCount": 1267,
             "unitCount": 1267,
             "unitId": 3
           },
-          2,
           {
             "maxCount": 1180439,
             "unitCount": 527852,
             "unitId": 107
           },
-          3,
           {
             "maxCount": 896157,
             "unitCount": 690157,
             "unitId": 13
           },
-          4,
           {
             "maxCount": 776282,
             "unitCount": 711199,
             "unitId": 15
           },
-          5,
           {
             "maxCount": 355092,
             "unitCount": 266684,

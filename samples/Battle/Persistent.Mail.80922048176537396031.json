@@ -39,12 +39,10 @@
             "HLv": 41,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 11003,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 13,
                 "SkillLevel": 5
@@ -179,13 +177,11 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 1,
           "T": 525144,
           "Time": 1765373960
         },
-        2,
         {
           "Cnt": 0,
           "T": 525144,
@@ -224,49 +220,40 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 1735,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1736,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1737,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1738,
             "SkillLevel": 1
           },
-          5,
           {
             "SkillId": 389,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 1789,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 411,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1787,
             "SkillLevel": 5,
             "Trans": [
-              1,
               {
                 "Ed": 20402,
                 "Id": 1,
@@ -274,7 +261,6 @@
                 "Tc": 1,
                 "Tn": 99
               },
-              2,
               {
                 "Ed": 20402,
                 "Id": 17,
@@ -282,7 +268,6 @@
                 "Tc": 1,
                 "Tn": 99
               },
-              3,
               {
                 "Ed": 20402,
                 "Id": 9,
@@ -292,7 +277,6 @@
               }
             ]
           },
-          4,
           {
             "SkillId": 1790,
             "SkillLevel": 5

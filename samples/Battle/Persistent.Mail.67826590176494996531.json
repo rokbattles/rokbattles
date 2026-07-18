@@ -35,12 +35,10 @@
             "HLv": 45,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 13,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 11003,
                 "SkillLevel": 5
@@ -174,12 +172,10 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 1,
           "T": 101149
         },
-        2,
         {
           "Cnt": 0,
           "T": 101149
@@ -210,9 +206,7 @@
         "HAw": true,
         "HAw2": false,
         "HClt": [
-          1,
           10001,
-          2,
           2
         ],
         "HEq": "{}",
@@ -223,49 +217,40 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 1013,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1042,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1103,
             "SkillLevel": 1
           },
-          4,
           {
             "SkillId": 25,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1101,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 1193,
             "SkillLevel": 2
           },
-          2,
           {
             "SkillId": 120,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1191,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1192,
             "SkillLevel": 5

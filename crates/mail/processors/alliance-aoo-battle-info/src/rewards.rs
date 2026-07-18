@@ -1,6 +1,6 @@
 //! Rewards parser for AllianceAOOBattleInfo mail.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64_field};
+use mail_sdk::{ExtractError, Extractor, Section, require_array, require_u64_field};
 use serde_json::{Map, Value, json};
 
 /// Pulls reward entries out of AllianceAOOBattleInfo attachments.
@@ -24,7 +24,7 @@ impl Extractor for RewardsExtractor {
             .as_object()
             .and_then(|root| root.get("attachments"))
             .ok_or(ExtractError::MissingField { field: "attachments" })?;
-        let attachments = indexed_array_values(attachments, "attachments")?;
+        let attachments = require_array(attachments, "attachments")?;
 
         let mut rewards = Vec::new();
         for attachment in attachments {
@@ -44,7 +44,7 @@ fn extract_rewards(
     rewards: &mut Vec<Value>,
 ) -> Result<(), ExtractError> {
     let loot = attachment.get("loot").ok_or(ExtractError::MissingField { field: "loot" })?;
-    let loot = indexed_array_values(loot, "loot")?;
+    let loot = require_array(loot, "loot")?;
 
     for entry in loot {
         let entry = entry
@@ -77,12 +77,9 @@ mod tests {
     fn rewards_extractor_reads_fields() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "loot": [
-                        1,
                         { "Type": 2, "SubType": 30, "Value": 1 },
-                        2,
                         { "Type": 2, "SubType": 44, "Value": 2 }
                     ]
                 }
@@ -116,10 +113,8 @@ mod tests {
     fn rewards_extractor_reads_all_attachments() {
         let input = json!({
             "attachments": [
-                1,
-                { "loot": [1, { "Type": 2, "SubType": 30, "Value": 1 }] },
-                2,
-                { "loot": [1, { "Type": 2, "SubType": 44, "Value": 2 }] }
+                { "loot": [{ "Type": 2, "SubType": 30, "Value": 1 }] },
+                { "loot": [{ "Type": 2, "SubType": 44, "Value": 2 }] }
             ]
         });
 
@@ -144,7 +139,6 @@ mod tests {
     fn rewards_extractor_rejects_missing_loot() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "id": 1
                 }

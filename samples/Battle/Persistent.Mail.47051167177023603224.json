@@ -38,54 +38,44 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 393,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1751,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1752,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1753,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1754,
                 "SkillLevel": 1
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1547,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1545,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1546,
                 "SkillLevel": 5
@@ -206,29 +196,24 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 9,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "Dead",
                   "V": 3
                 }
               ]
             },
-            2,
             {
               "Id": 1,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "BadHurt",
                   "V": 22588870
                 },
-                2,
                 {
                   "K": "Atk",
                   "V": 2100
@@ -237,20 +222,13 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 9,
-                2,
                 1,
-                3,
                 20,
-                4,
-                5,
                 5,
                 17,
-                6,
                 13
               ],
               "Source": "policy_v2"
@@ -267,7 +245,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -310,49 +287,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1701,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 373,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1699,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1700,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1405,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1406,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1407,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 198,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1404,
                 "SkillLevel": 5
@@ -473,29 +441,24 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 9,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "Dead",
                   "V": 4
                 }
               ]
             },
-            2,
             {
               "Id": 1,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "BadHurt",
                   "V": 22588870
                 },
-                2,
                 {
                   "K": "Atk",
                   "V": 2100
@@ -504,20 +467,13 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 9,
-                2,
                 1,
-                3,
                 20,
-                4,
-                5,
                 5,
                 17,
-                6,
                 13
               ],
               "Source": "policy_v2"
@@ -534,7 +490,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -577,49 +532,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 246,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1533,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1534,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1536,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 209,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1435,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1437,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1436,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1465,
                 "SkillLevel": 1
@@ -740,29 +686,24 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 9,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "Dead",
                   "V": 7
                 }
               ]
             },
-            2,
             {
               "Id": 1,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "BadHurt",
                   "V": 22588870
                 },
-                2,
                 {
                   "K": "Atk",
                   "V": 2100
@@ -771,20 +712,13 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 9,
-                2,
                 1,
-                3,
                 20,
-                4,
-                5,
                 5,
                 17,
-                6,
                 13
               ],
               "Source": "policy_v2"
@@ -801,7 +735,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -844,49 +777,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1737,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1738,
                 "SkillLevel": 1
               },
-              3,
               {
                 "SkillId": 389,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1735,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1736,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 411,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1787,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1790,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1789,
                 "SkillLevel": 5
@@ -1007,29 +931,24 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 9,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "Dead",
                   "V": 4
                 }
               ]
             },
-            2,
             {
               "Id": 1,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "BadHurt",
                   "V": 22588870
                 },
-                2,
                 {
                   "K": "Atk",
                   "V": 2100
@@ -1038,20 +957,13 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 9,
-                2,
                 1,
-                3,
                 20,
-                4,
-                5,
                 5,
                 17,
-                6,
                 13
               ],
               "Source": "policy_v2"
@@ -1068,7 +980,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -1111,49 +1022,40 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1673,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1676,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1675,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 362,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 1531,
                 "SkillLevel": 1
               },
-              2,
               {
                 "SkillId": 243,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1528,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1529,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1530,
                 "SkillLevel": 5
@@ -1274,29 +1176,24 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 9,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "Dead",
                   "V": 4
                 }
               ]
             },
-            2,
             {
               "Id": 1,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "BadHurt",
                   "V": 22588870
                 },
-                2,
                 {
                   "K": "Atk",
                   "V": 2100
@@ -1305,20 +1202,13 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 9,
-                2,
                 1,
-                3,
                 20,
-                4,
-                5,
                 5,
                 17,
-                6,
                 13
               ],
               "Source": "policy_v2"
@@ -1335,7 +1225,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -1370,13 +1259,10 @@
             "HAw": false,
             "HAw2": false,
             "HClt2": [
-              1,
               20008,
-              2,
               3
             ],
             "HCte2": [
-              1,
               {
                 "ColId": 20008
               }
@@ -1390,44 +1276,36 @@
             "HLv": 60,
             "HLv2": 50,
             "HSS": [
-              1,
               {
                 "SkillId": 1673,
                 "SkillLevel": 3
               },
-              2,
               {
                 "SkillId": 1674,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1675,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 362,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 24,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1009,
                 "SkillLevel": 4
               },
-              3,
               {
                 "SkillId": 1010,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 1011,
                 "SkillLevel": 1
@@ -1548,12 +1426,10 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 2,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "ExtraBadHurt",
                   "V": 355
@@ -1562,14 +1438,10 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 6,
-                2,
                 19,
-                3,
                 2
               ],
               "Source": "policy_v2"
@@ -1586,7 +1458,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -1629,54 +1500,44 @@
             "HLv": 60,
             "HLv2": 60,
             "HSS": [
-              1,
               {
                 "SkillId": 1752,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1753,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1754,
                 "SkillLevel": 1
               },
-              4,
               {
                 "SkillId": 393,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1751,
                 "SkillLevel": 5
               }
             ],
             "HSS2": [
-              1,
               {
                 "SkillId": 251,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 1544,
                 "SkillLevel": 5
               },
-              3,
               {
                 "SkillId": 1545,
                 "SkillLevel": 5
               },
-              4,
               {
                 "SkillId": 1546,
                 "SkillLevel": 5
               },
-              5,
               {
                 "SkillId": 1547,
                 "SkillLevel": 1
@@ -1797,12 +1658,10 @@
             "DuMax": 0
           },
           "OpsEffectStats": [
-            1,
             {
               "Id": 2,
               "Source": "policy_v2",
               "Stats": [
-                1,
                 {
                   "K": "ExtraBadHurt",
                   "V": 662
@@ -1811,14 +1670,10 @@
             }
           ],
           "OpsKvkModBuffIds": [
-            1,
             {
               "Ids": [
-                1,
                 6,
-                2,
                 19,
-                3,
                 2
               ],
               "Source": "policy_v2"
@@ -1835,7 +1690,6 @@
             "DuMax": 0
           },
           "SelfKvkModBuffIds": [
-            1,
             {
               "Source": "policy_v2"
             }
@@ -1884,27 +1738,22 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 153070,
           "T": 1339448
         },
-        2,
         {
           "Cnt": 144366,
           "T": 1339449
         },
-        3,
         {
           "Cnt": 127730,
           "T": 1339450
         },
-        4,
         {
           "Cnt": 105607,
           "T": 1339451
         },
-        5,
         {
           "Cnt": 0,
           "T": 1339453
@@ -1941,34 +1790,28 @@
         "HLv": 29,
         "HLv2": 28,
         "HSS": [
-          1,
           {
             "SkillId": 23,
             "SkillLevel": 2
           },
-          2,
           {
             "SkillId": 1008,
             "SkillLevel": 2
           },
-          3,
           {
             "SkillId": 1075,
             "SkillLevel": 1
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 1092,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 56,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1091,
             "SkillLevel": 5

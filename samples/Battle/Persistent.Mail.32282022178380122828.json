@@ -36,12 +36,10 @@
             "HLv": 45,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 901,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 3023,
                 "SkillLevel": 5
@@ -123,25 +121,21 @@
           },
           "NpcAtkExp": 12150,
           "NpcKillLoot": [
-            1,
             {
               "SubType": 143,
               "Type": 2,
               "Value": 160
             },
-            2,
             {
               "SubType": 424,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 130,
               "Type": 2,
               "Value": 10
             },
-            4,
             {
               "SubType": 9,
               "Type": 1,
@@ -211,12 +205,10 @@
             "HLv": 45,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 901,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 3023,
                 "SkillLevel": 5
@@ -298,25 +290,21 @@
           },
           "NpcAtkExp": 12150,
           "NpcKillLoot": [
-            1,
             {
               "SubType": 142,
               "Type": 2,
               "Value": 160
             },
-            2,
             {
               "SubType": 71,
               "Type": 2,
               "Value": 20
             },
-            3,
             {
               "SubType": 130,
               "Type": 2,
               "Value": 10
             },
-            4,
             {
               "SubType": 9,
               "Type": 1,
@@ -386,12 +374,10 @@
             "HLv": 43,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 3023,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 901,
                 "SkillLevel": 5
@@ -473,25 +459,21 @@
           },
           "NpcAtkExp": 11610,
           "NpcKillLoot": [
-            1,
             {
               "SubType": 142,
               "Type": 2,
               "Value": 152
             },
-            2,
             {
               "SubType": 71,
               "Type": 2,
               "Value": 20
             },
-            3,
             {
               "SubType": 130,
               "Type": 2,
               "Value": 10
             },
-            4,
             {
               "SubType": 9,
               "Type": 1,
@@ -561,12 +543,10 @@
             "HLv": 44,
             "HLv2": 0,
             "HSS": [
-              1,
               {
                 "SkillId": 901,
                 "SkillLevel": 5
               },
-              2,
               {
                 "SkillId": 3023,
                 "SkillLevel": 5
@@ -648,25 +628,21 @@
           },
           "NpcAtkExp": 11880,
           "NpcKillLoot": [
-            1,
             {
               "SubType": 141,
               "Type": 2,
               "Value": 156
             },
-            2,
             {
               "SubType": 71,
               "Type": 2,
               "Value": 20
             },
-            3,
             {
               "SubType": 130,
               "Type": 2,
               "Value": 10
             },
-            4,
             {
               "SubType": 9,
               "Type": 1,
@@ -728,37 +704,30 @@
         }
       },
       "Samples": [
-        1,
         {
           "Cnt": 328975,
           "T": 922765
         },
-        2,
         {
           "Cnt": 328800,
           "T": 922766
         },
-        3,
         {
           "Cnt": 329315,
           "T": 922784
         },
-        4,
         {
           "Cnt": 327543,
           "T": 922800
         },
-        5,
         {
           "Cnt": 329430,
           "T": 922802
         },
-        6,
         {
           "Cnt": 329361,
           "T": 922806
         },
-        7,
         {
           "Cnt": 329502,
           "T": 922824
@@ -773,7 +742,6 @@
         "Avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-12-10/3AD94B798E2B1801AB381AAE774B9F1B_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_221.png\"}",
         "CAHAH": {
           "ASSISTSKILL": [
-            1,
             {
               "HeroId": 141,
               "Index": 2,
@@ -809,49 +777,40 @@
         "HLv": 60,
         "HLv2": 60,
         "HSS": [
-          1,
           {
             "SkillId": 362,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1673,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1676,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1675,
             "SkillLevel": 5
           }
         ],
         "HSS2": [
-          1,
           {
             "SkillId": 364,
             "SkillLevel": 5
           },
-          2,
           {
             "SkillId": 1689,
             "SkillLevel": 5
           },
-          3,
           {
             "SkillId": 1691,
             "SkillLevel": 5
           },
-          4,
           {
             "SkillId": 1690,
             "SkillLevel": 5
           },
-          5,
           {
             "SkillId": 1692,
             "SkillLevel": 1

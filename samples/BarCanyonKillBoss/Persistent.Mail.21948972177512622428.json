@@ -5,31 +5,26 @@
     "content": {
       "eliteBarName": "Ironhand Baulur",
       "infos": [
-        1,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67915072/2025-12-10/3AD94B798E2B1801AB381AAE774B9F1B_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_221.png\"}",
           "damageRate": 100,
           "idx": 1,
           "loots": [
-            1,
             {
               "SubType": 26,
               "Type": 2,
               "Value": 3
             },
-            2,
             {
               "SubType": 85,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 7052,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,

@@ -102,7 +102,6 @@ mod tests {
                         "CASS": {
                             "ENABLE": true,
                             "SKILLS": [
-                                1,
                                 { "HeroId": 62, "SkillId": 1132, "SkillLevel": 5 }
                             ]
                         },

@@ -5,7 +5,6 @@
     "kvs": {
       "Idx": 0,
       "allowPly": [
-        1,
         {
           "AsGrade": 1,
           "Name": "人Øgeday人",
@@ -13,7 +12,6 @@
           "Power": 84784300,
           "memberType": 1
         },
-        2,
         {
           "AsGrade": 1,
           "Name": "코 어",
@@ -21,7 +19,6 @@
           "Power": 104789523,
           "memberType": 1
         },
-        3,
         {
           "AsGrade": 3,
           "Name": "x҉Kyo",
@@ -29,7 +26,6 @@
           "Power": 98724217,
           "memberType": 1
         },
-        4,
         {
           "AsGrade": 3,
           "Name": "심래",
@@ -37,7 +33,6 @@
           "Power": 108292164,
           "memberType": 1
         },
-        5,
         {
           "AsGrade": 3,
           "Name": "hot kormax",
@@ -45,7 +40,6 @@
           "Power": 87183888,
           "memberType": 1
         },
-        6,
         {
           "AsGrade": 4,
           "Name": "Benbu 벤부",
@@ -53,7 +47,6 @@
           "Power": 84097025,
           "memberType": 1
         },
-        7,
         {
           "AsGrade": 3,
           "Name": "ˢ Kleines",
@@ -61,7 +54,6 @@
           "Power": 98498979,
           "memberType": 1
         },
-        8,
         {
           "AsGrade": 1,
           "Name": "Savageツ",
@@ -69,7 +61,6 @@
           "Power": 93645146,
           "memberType": 1
         },
-        9,
         {
           "AsGrade": 3,
           "Name": "북두의권",
@@ -77,7 +68,6 @@
           "Power": 104211378,
           "memberType": 1
         },
-        10,
         {
           "AsGrade": 1,
           "Name": "ˢMoonyPew",
@@ -85,7 +75,6 @@
           "Power": 86380048,
           "memberType": 1
         },
-        11,
         {
           "AsGrade": 4,
           "Name": "ˢAuthentiks",
@@ -93,7 +82,6 @@
           "Power": 108946474,
           "memberType": 1
         },
-        12,
         {
           "AsGrade": 3,
           "Name": "DogWarningﾒBar",
@@ -101,7 +89,6 @@
           "Power": 158435397,
           "memberType": 1
         },
-        13,
         {
           "AsGrade": 1,
           "Name": "개듣보",
@@ -109,7 +96,6 @@
           "Power": 113404549,
           "memberType": 1
         },
-        14,
         {
           "AsGrade": 1,
           "Name": "Hellcheppapewж",
@@ -117,7 +103,6 @@
           "Power": 87809623,
           "memberType": 1
         },
-        15,
         {
           "AsGrade": 6,
           "Name": "Grigvar",
@@ -125,7 +110,6 @@
           "Power": 117892441,
           "memberType": 1
         },
-        16,
         {
           "AsGrade": 4,
           "Name": "ˢPewPeachPie",
@@ -133,7 +117,6 @@
           "Power": 94599898,
           "memberType": 1
         },
-        17,
         {
           "AsGrade": 4,
           "Name": "ˢAzzCon",
@@ -141,7 +124,6 @@
           "Power": 87572548,
           "memberType": 1
         },
-        18,
         {
           "AsGrade": 4,
           "Name": "MarKang0",
@@ -149,7 +131,6 @@
           "Power": 112788319,
           "memberType": 1
         },
-        19,
         {
           "AsGrade": 1,
           "Name": "끼  리",
@@ -157,7 +138,6 @@
           "Power": 98164905,
           "memberType": 1
         },
-        20,
         {
           "AsGrade": 3,
           "Name": "ˢǤãrɗı",
@@ -165,7 +145,6 @@
           "Power": 82900711,
           "memberType": 1
         },
-        21,
         {
           "AsGrade": 3,
           "Name": "뜬 이 니",
@@ -173,7 +152,6 @@
           "Power": 116868425,
           "memberType": 1
         },
-        22,
         {
           "AsGrade": 1,
           "Name": "十ˢTidus",
@@ -181,7 +159,6 @@
           "Power": 95877611,
           "memberType": 1
         },
-        23,
         {
           "AsGrade": 3,
           "Name": "QuackerOats",
@@ -189,7 +166,6 @@
           "Power": 88712379,
           "memberType": 1
         },
-        24,
         {
           "AsGrade": 3,
           "Name": "ampheeMcQueen",
@@ -197,7 +173,6 @@
           "Power": 89352026,
           "memberType": 1
         },
-        25,
         {
           "AsGrade": 4,
           "Name": "ᅠᅠ     ᅠ Swalsh",
@@ -207,7 +182,6 @@
         }
       ],
       "commanderPly": [
-        1,
         {
           "AsGrade": 4,
           "Name": "ˢJianLaars 命",
@@ -215,7 +189,6 @@
           "Power": 104670909,
           "memberType": 3
         },
-        2,
         {
           "AsGrade": 4,
           "Name": "2lowteg",
@@ -223,7 +196,6 @@
           "Power": 100533234,
           "memberType": 3
         },
-        3,
         {
           "AsGrade": 3,
           "Name": "ˢVashLaars 命",
@@ -231,7 +203,6 @@
           "Power": 105964806,
           "memberType": 3
         },
-        4,
         {
           "AsGrade": 4,
           "Name": "⽪卡丘Daspim",
@@ -239,7 +210,6 @@
           "Power": 95778859,
           "memberType": 3
         },
-        5,
         {
           "AsGrade": 4,
           "Name": "J I H",

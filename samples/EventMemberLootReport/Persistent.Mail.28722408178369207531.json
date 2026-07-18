@@ -6,37 +6,31 @@
       "EventName": "GVE",
       "contentTxt": "Your alliance has successfully defeated Bladefist Andaal!\nWhat a remarkable accomplishment. If we stick together, I'm sure we can achieve great things!",
       "infos": [
-        1,
         {
           "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png\"}",
           "extLoots": [],
           "idx": 22,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -46,37 +40,31 @@
           "name": "Grigvar x Dimi",
           "playerId": 71738515
         },
-        2,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/6493015/2026-07-01/B7575CB261C54F9B5F21BE667E876EEC_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\"}",
           "extLoots": [],
           "idx": 1,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 404,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -86,37 +74,31 @@
           "name": "TugyCimoşBonny",
           "playerId": 12575917
         },
-        3,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_206.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/1507184/2025-12-18/DE3DAFDAB4EC3293B184C349B641B9D6_250x250.jpg\"}",
           "extLoots": [],
           "idx": 23,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -126,37 +108,31 @@
           "name": "북두의권",
           "playerId": 36388430
         },
-        4,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_233.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104833380/2025-08-27/B8172587F9168E8467C4CBDA1B358E35_250x250.jpg\"}",
           "extLoots": [],
           "idx": 24,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9999,
               "Type": 2,
@@ -166,37 +142,31 @@
           "name": "Hellcheppapewж",
           "playerId": 161065006
         },
-        5,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3534771/2026-06-29/427197E2FCD74036DCDA6427010AF3E0_250x250.jpg\"}",
           "extLoots": [],
           "idx": 21,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9999,
               "Type": 2,
@@ -206,37 +176,31 @@
           "name": "DogWarningﾒBar",
           "playerId": 78580756
         },
-        6,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24534262/2026-07-03/D09C0710F2371864DFE48BC6DF160EF3_250x250.jpg\"}",
           "extLoots": [],
           "idx": 19,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 404,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -246,37 +210,31 @@
           "name": "Savageツ",
           "playerId": 48060512
         },
-        7,
         {
           "avatar": "{\"avatar\":\"https://imv2-gl.lilithgame.com/p/roc/avatar/124282356/24/02/04/bbac9cee0c3e3f2d_400x400.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
           "extLoots": [],
           "idx": 20,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -286,37 +244,31 @@
           "name": "運命ˢShelby",
           "playerId": 124282356
         },
-        8,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/180588/2026-06-27/E854C9AB22A6646889B0EF97C4266443_250x250.jpg\"}",
           "extLoots": [],
           "idx": 18,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 45,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -326,37 +278,31 @@
           "name": "심래",
           "playerId": 32025587
         },
-        9,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/99951184/2026-01-12/E928DD920BFF882C64891879A3B830A9_250x250.jpg\"}",
           "extLoots": [],
           "idx": 25,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 404,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -366,37 +312,31 @@
           "name": "浪人 kawa",
           "playerId": 131056489
         },
-        10,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/44139690/2026-06-19/695D1C7B278A73EE55CC657DD9F5BF05_250x250.jpg\"}",
           "extLoots": [],
           "idx": 27,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 39,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 45,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -406,37 +346,31 @@
           "name": "Hannonツ",
           "playerId": 53774360
         },
-        11,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3598039/2025-06-01/CD15556EC8BC338269DB9920F0C2E16F_250x250.jpg\"}",
           "extLoots": [],
           "idx": 31,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -446,37 +380,31 @@
           "name": "Mark R Hunt",
           "playerId": 80663245
         },
-        12,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/205066604/2026-07-04/56CDB32DE6E2ECCF501A70E54CF92D3A_250x250.jpg\"}",
           "extLoots": [],
           "idx": 26,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -486,37 +414,31 @@
           "name": "๖ۣۣۜSwalsh",
           "playerId": 152200009
         },
-        13,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_207.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/99078702/2025-06-23/F6577718B9B9847D1C3C445708B8673F_250x250.jpg\"}",
           "extLoots": [],
           "idx": 30,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -526,37 +448,31 @@
           "name": "Klimson3",
           "playerId": 129152631
         },
-        14,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101312618/2026-06-18/C18F019FD9A4B68E15C496799756E620_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_239.png\"}",
           "extLoots": [],
           "idx": 28,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -566,37 +482,31 @@
           "name": "ˢAzzCon",
           "playerId": 126920644
         },
-        15,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_26.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/208815994/2025-07-11/5D1DBD9F5ED6359851627D2AD23B67D6_250x250.jpg\"}",
           "extLoots": [],
           "idx": 29,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 56,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -606,37 +516,31 @@
           "name": "Pro100WRyj ツ",
           "playerId": 151739835
         },
-        16,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/33623437/2026-07-10/0B172DEE31DBCAB0005B39B6FA06F52B_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\"}",
           "extLoots": [],
           "idx": 32,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -646,37 +550,31 @@
           "name": "人Øgeday人",
           "playerId": 40693070
         },
-        17,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_144.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/122056382/22/08/10/99fea5fc51b8e522_800x800.jpg\"}",
           "extLoots": [],
           "idx": 17,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -686,37 +584,31 @@
           "name": "KavieN ツ",
           "playerId": 122056382
         },
-        18,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/86461969/2026-05-16/BB28D52F20A9DFB2CC7481BCBD10E8B8_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_160.png\"}",
           "extLoots": [],
           "idx": 15,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 409,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 9999,
               "Type": 2,
@@ -726,37 +618,31 @@
           "name": "KhøSXAwer",
           "playerId": 106722531
         },
-        19,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23828305/2026-07-07/2B6267B2204186108149AE79BAD43BDE_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
           "extLoots": [],
           "idx": 5,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -766,37 +652,31 @@
           "name": "ˢǤãrɗı",
           "playerId": 126454128
         },
-        20,
         {
           "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png\"}",
           "extLoots": [],
           "idx": 6,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 45,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -806,37 +686,31 @@
           "name": "뜬 이 니",
           "playerId": 32889977
         },
-        21,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/104825285/2026-07-03/DEA3A302F90AB960B12C3B6E4DCAEAC0_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_194.png\"}",
           "extLoots": [],
           "idx": 7,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9999,
               "Type": 2,
@@ -846,37 +720,31 @@
           "name": "ˢMoonyPew",
           "playerId": 132831781
         },
-        22,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/67760501/2026-06-20/D82CA49B74827B3EA8105EDEB669DDD2_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\"}",
           "extLoots": [],
           "idx": 4,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 409,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -886,37 +754,31 @@
           "name": "x҉Kyo",
           "playerId": 83446732
         },
-        23,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_218.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/3396349/2026-05-31/1A8B65CF9D79DF4C8FC201AD63AC0BE0_250x250.jpg\"}",
           "extLoots": [],
           "idx": 2,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 409,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -926,37 +788,31 @@
           "name": "꼬미V",
           "playerId": 73764553
         },
-        24,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/23824029/2026-07-05/09EAC9B71015DF50C58753A322C77D30_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_91.png\"}",
           "extLoots": [],
           "idx": 3,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -966,37 +822,31 @@
           "name": "ˢMadBro x Juju",
           "playerId": 26518600
         },
-        25,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_250.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/34280769/2026-06-16/CB7E58CBB9E61FEA596DF80F0DD93B35_250x250.jpg\"}",
           "extLoots": [],
           "idx": 16,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 40,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -1006,37 +856,31 @@
           "name": "ˢJianLaars 命",
           "playerId": 41377732
         },
-        26,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"https://imimg.lilithcdn.com/llc_avatar/106468055/23/03/28/f5e093431f7367af_800x800.jpg\"}",
           "extLoots": [],
           "idx": 8,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 115,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10005,
               "Type": 2,
@@ -1046,37 +890,31 @@
           "name": "끼  리",
           "playerId": 106468055
         },
-        27,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/91276731/2026-07-10/03572372E5C17E41490D1851371C8336_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
           "extLoots": [],
           "idx": 10,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 409,
               "Type": 2,
               "Value": 3
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -1086,37 +924,31 @@
           "name": "ˢˢsnowleopard",
           "playerId": 129213098
         },
-        28,
         {
           "avatar": "{\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/39710/2026-03-31/891641F3C8A9F6910A9FF93140755007_250x250.jpg\",\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\"}",
           "extLoots": [],
           "idx": 14,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 113,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 10004,
               "Type": 2,
@@ -1126,37 +958,31 @@
           "name": "J I H",
           "playerId": 31688439
         },
-        29,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2026-04-27/4688EF55CEFF0B664456BA6B71711961_250x250.jpg\"}",
           "extLoots": [],
           "idx": 9,
           "loots": [
-            1,
             {
               "SubType": 16,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 37,
               "Type": 2,
               "Value": 2
             },
-            4,
             {
               "SubType": 45,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -1166,37 +992,31 @@
           "name": "ˢlil",
           "playerId": 126921671
         },
-        30,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head22.png\"}",
           "extLoots": [],
           "idx": 13,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -1206,37 +1026,31 @@
           "name": "심래뿅뿅이",
           "playerId": 87389039
         },
-        31,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/100268014/2025-06-17/6AEA1B612E1AA7E3D2CC946DF27E6EBB_250x250.jpg\"}",
           "extLoots": [],
           "idx": 11,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 5
             },
-            3,
             {
               "SubType": 40,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 56,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9999,
               "Type": 2,
@@ -1246,37 +1060,31 @@
           "name": "气MALANGOS",
           "playerId": 160369104
         },
-        32,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101125871/2026-07-10/1F61EAE37D4425F806DCC46784B13B8C_250x250.jpg\"}",
           "extLoots": [],
           "idx": 12,
           "loots": [
-            1,
             {
               "SubType": 10,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 150,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,
@@ -1286,37 +1094,31 @@
           "name": "ˢ Kleines",
           "playerId": 126613785
         },
-        33,
         {
           "avatar": "{\"avatarFrame\":\"null\",\"avatar\":\"http://imimg.lilithcdn.com/roc/img_player_head_2025Ramadan.png\"}",
           "extLoots": [],
           "idx": 33,
           "loots": [
-            1,
             {
               "SubType": 4,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 149,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 36,
               "Type": 2,
               "Value": 3
             },
-            4,
             {
               "SubType": 28,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 9998,
               "Type": 2,

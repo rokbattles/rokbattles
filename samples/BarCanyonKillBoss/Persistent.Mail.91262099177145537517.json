@@ -5,37 +5,31 @@
     "content": {
       "eliteBarName": "Bargha Poings-de-sang",
       "infos": [
-        1,
         {
           "avatar": "{\"avatarFrame\":\"http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png\",\"avatar\":\"https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/101313198/2026-02-03/298FB0DAB5FFF4967D3C24B9F13D18EF_250x250.jpg\"}",
           "damageRate": 100,
           "idx": 1,
           "loots": [
-            1,
             {
               "SubType": 27,
               "Type": 2,
               "Value": 1
             },
-            2,
             {
               "SubType": 147,
               "Type": 2,
               "Value": 2
             },
-            3,
             {
               "SubType": 96,
               "Type": 2,
               "Value": 1
             },
-            4,
             {
               "SubType": 47,
               "Type": 2,
               "Value": 1
             },
-            5,
             {
               "SubType": 7052,
               "Type": 2,

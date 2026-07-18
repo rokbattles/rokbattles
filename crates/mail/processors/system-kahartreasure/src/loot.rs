@@ -1,6 +1,6 @@
 //! Loot parser for SystemKaharTreasure mail.
 
-use mail_sdk::{ExtractError, Extractor, Section, indexed_array_values, require_u64_field};
+use mail_sdk::{ExtractError, Extractor, Section, require_array, require_u64_field};
 use serde_json::{Map, Value, json};
 
 /// Pulls loot entries out of SystemKaharTreasure attachments.
@@ -24,7 +24,7 @@ impl Extractor for LootExtractor {
             .as_object()
             .and_then(|root| root.get("attachments"))
             .ok_or(ExtractError::MissingField { field: "attachments" })?;
-        let attachments = indexed_array_values(attachments, "attachments")?;
+        let attachments = require_array(attachments, "attachments")?;
 
         let mut loot = Vec::new();
         for attachment in attachments {
@@ -44,7 +44,7 @@ fn extract_loot(
     output: &mut Vec<Value>,
 ) -> Result<(), ExtractError> {
     let loot = attachment.get("loot").ok_or(ExtractError::MissingField { field: "loot" })?;
-    let loot = indexed_array_values(loot, "loot")?;
+    let loot = require_array(loot, "loot")?;
 
     for entry in loot {
         let entry = entry
@@ -77,12 +77,9 @@ mod tests {
     fn loot_extractor_reads_fields() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "loot": [
-                        1,
                         { "Type": 1, "SubType": 9, "Value": 45000 },
-                        2,
                         { "Type": 2, "SubType": 147, "Value": 5 }
                     ]
                 }
@@ -102,10 +99,8 @@ mod tests {
     fn loot_extractor_reads_all_attachments() {
         let input = json!({
             "attachments": [
-                1,
-                { "loot": [1, { "Type": 1, "SubType": 9, "Value": 45000 }] },
-                2,
-                { "loot": [1, { "Type": 2, "SubType": 147, "Value": 5 }] }
+                { "loot": [{ "Type": 1, "SubType": 9, "Value": 45000 }] },
+                { "loot": [{ "Type": 2, "SubType": 147, "Value": 5 }] }
             ]
         });
 
@@ -122,7 +117,6 @@ mod tests {
     fn loot_extractor_rejects_missing_loot() {
         let input = json!({
             "attachments": [
-                1,
                 {
                     "id": 1
                 }

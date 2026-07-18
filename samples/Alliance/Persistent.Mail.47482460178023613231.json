@@ -1,65 +1,54 @@
 {
   "addition": "",
   "attachments": [
-    1,
     {
       "id": 1,
       "loot": [
-        1,
         {
           "SubType": 7006,
           "Type": 2,
           "Value": 20
         },
-        2,
         {
           "SubType": 76,
           "Type": 2,
           "Value": 10
         },
-        3,
         {
           "SubType": 48,
           "Type": 2,
           "Value": 2
         },
-        4,
         {
           "SubType": 25601294,
           "Type": 2,
           "Value": 300
         },
-        5,
         {
           "SubType": 32,
           "Type": 2,
           "Value": 1
         },
-        6,
         {
           "SubType": 10005,
           "Type": 2,
           "Value": 10
         },
-        7,
         {
           "SubType": 148,
           "Type": 2,
           "Value": 50
         },
-        8,
         {
           "SubType": 76,
           "Type": 2,
           "Value": 50
         },
-        9,
         {
           "SubType": 120,
           "Type": 2,
           "Value": 1
         },
-        10,
         {
           "SubType": 188,
           "Type": 2,
@@ -96,7 +85,6 @@
           "AllBattleWinCnt": 222,
           "GatherCnt": 0,
           "HerosStat": [
-            1,
             {
               "AllBattleStat": {
                 "BattleCnt": 64,
@@ -108,7 +96,6 @@
               "KillCnt": 428372,
               "MainHeroId": 509
             },
-            2,
             {
               "AllBattleStat": {
                 "BattleCnt": 75,
@@ -120,7 +107,6 @@
               "KillCnt": 457614,
               "MainHeroId": 579
             },
-            3,
             {
               "AllBattleStat": {
                 "BattleCnt": 58,
@@ -132,7 +118,6 @@
               "KillCnt": 163954,
               "MainHeroId": 540
             },
-            4,
             {
               "AllBattleStat": {
                 "BattleCnt": 63,
@@ -144,7 +129,6 @@
               "KillCnt": 301683,
               "MainHeroId": 595
             },
-            5,
             {
               "AllBattleStat": {
                 "BattleCnt": 63,

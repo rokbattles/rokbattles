@@ -256,47 +256,20 @@ pub fn extract_base_metadata(input: &Value) -> Result<BaseMetadata, ExtractError
     })
 }
 
-/// Reads array values and skips index markers in index/value arrays.
-pub fn indexed_array_values<'a>(
+/// Reads the values from a decoded JSON array.
+pub fn require_array<'a>(
     value: &'a Value,
     field: &'static str,
-) -> Result<Vec<&'a Value>, ExtractError> {
-    let array =
-        value.as_array().ok_or(ExtractError::InvalidFieldType { field, expected: "array" })?;
-
-    if is_indexed_array(array) {
-        Ok(array.iter().skip(1).step_by(2).collect())
-    } else {
-        Ok(array.iter().collect())
-    }
-}
-
-fn is_indexed_array(array: &[Value]) -> bool {
-    if array.len() < 2 || !array.len().is_multiple_of(2) {
-        return false;
-    }
-
-    for (expected, value) in (match array.first().and_then(Value::as_u64) {
-        Some(value) if value == 0 || value == 1 => value,
-        _ => return false,
-    }..)
-        .zip(array.iter().step_by(2))
-    {
-        let index = match value.as_u64() {
-            Some(index) => index,
-            None => return false,
-        };
-        if index != expected {
-            return false;
-        }
-    }
-
-    true
+) -> Result<&'a [Value], ExtractError> {
+    value
+        .as_array()
+        .map(Vec::as_slice)
+        .ok_or(ExtractError::InvalidFieldType { field, expected: "array" })
 }
 
 #[cfg(test)]
 mod tests {
-    use serde_json::{Value, json};
+    use serde_json::json;
 
     use super::*;
     use crate::ExtractError;
@@ -397,33 +370,16 @@ mod tests {
     }
 
     #[test]
-    fn indexed_array_values_skips_index_pairs() {
-        let input = json!([1, "a", 2, "b"]);
-        let values = indexed_array_values(&input, "values").unwrap();
-        let values: Vec<Value> = values.into_iter().cloned().collect();
-        assert_eq!(values, vec![json!("a"), json!("b")]);
-    }
-
-    #[test]
-    fn indexed_array_values_supports_numeric_values() {
-        let input = json!([1, 10001, 2, 2]);
-        let values = indexed_array_values(&input, "values").unwrap();
-        let values: Vec<Value> = values.into_iter().cloned().collect();
-        assert_eq!(values, vec![json!(10001), json!(2)]);
-    }
-
-    #[test]
-    fn indexed_array_values_keeps_plain_arrays() {
+    fn require_array_returns_every_value() {
         let input = json!([1, 2, 3]);
-        let values = indexed_array_values(&input, "values").unwrap();
-        let values: Vec<Value> = values.into_iter().cloned().collect();
-        assert_eq!(values, vec![json!(1), json!(2), json!(3)]);
+        let values = require_array(&input, "values").unwrap();
+        assert_eq!(values, [json!(1), json!(2), json!(3)]);
     }
 
     #[test]
-    fn indexed_array_values_rejects_non_arrays() {
+    fn require_array_rejects_non_arrays() {
         let input = json!("nope");
-        let err = indexed_array_values(&input, "values").unwrap_err();
+        let err = require_array(&input, "values").unwrap_err();
         assert!(matches!(err, ExtractError::InvalidFieldType { .. }));
     }
 }
