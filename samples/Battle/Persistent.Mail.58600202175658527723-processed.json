@@ -29,6 +29,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/26855535/2025-08-05/F4A70084B2F932D6617F702C16CE2447_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -80,6 +90,7 @@
         "x": 3850.293,
         "y": 3689.0928
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -169,6 +180,8 @@
       },
       "end_tick": 1603627,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_128.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1804,
       "npc": {
         "b_type": null,
@@ -235,6 +248,7 @@
       "x": 3849.6797,
       "y": 3676.1494
     },
+    "character_type": 1,
     "commanders": {
       "primary": {
         "armaments": null,
@@ -265,6 +279,8 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_27.png",
+    "is_outpost": null,
+    "is_turret": null,
     "kingdom_id": 1804,
     "package_identifier": "com.lilithgames.rok.pc.int",
     "participants": [

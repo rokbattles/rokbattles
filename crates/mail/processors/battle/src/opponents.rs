@@ -7,6 +7,7 @@ use mail_sdk::{
 use serde_json::{Map, Value, json};
 
 use crate::{
+    battle_effects::extract_battle_effects,
     content::{require_child_object, require_content, require_u64_field},
     participants::extract_participants,
     player::extract_player_fields,
@@ -112,6 +113,8 @@ fn extract_attack_entry(
     fields.insert("npc".to_string(), npc);
     let battle_results = extract_battle_results(attack)?;
     fields.insert("battle_results".to_string(), battle_results);
+    let battle_effects = extract_battle_effects(attack)?;
+    fields.insert("battle_effects".to_string(), battle_effects);
     Ok((attack_id, attack_key, Value::Object(fields)))
 }
 
@@ -719,6 +722,47 @@ mod tests {
         assert_eq!(results["sender"]["slightly_wounded"], json!(-4));
         assert_eq!(results["opponent"]["severely_wounded"], json!(15));
         assert_eq!(results["opponent"]["slightly_wounded"], json!(-16));
+    }
+
+    #[test]
+    fn opponents_extractor_attaches_schema_819_battle_effects() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../../samples/Battle/Persistent.Mail.13168813178320161112.json");
+        let input = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&input).expect("parse sample");
+
+        let section = OpponentsExtractor::new().extract(&value).expect("extract opponents");
+        let opponents = section.array().expect("opponents array");
+        let entry = opponents
+            .iter()
+            .find(|opponent| opponent["attack"]["id"] == json!("180150801"))
+            .expect("target attack entry");
+
+        assert_eq!(
+            entry["battle_effects"],
+            json!({
+                "sender": {
+                    "modifier_sources": [
+                        { "source": "policy_v2", "ids": [24, 22, 28, 30, 31, 23] }
+                    ],
+                    "statistics": []
+                },
+                "opponent": {
+                    "modifier_sources": [
+                        { "source": "policy_v2", "ids": [11, 19, 7, 12, 2, 14] }
+                    ],
+                    "statistics": [
+                        {
+                            "source": "policy_v2",
+                            "id": 2,
+                            "stats": [
+                                { "key": "ExtraBadHurt", "value": 719 }
+                            ]
+                        }
+                    ]
+                }
+            })
+        );
     }
 
     #[test]

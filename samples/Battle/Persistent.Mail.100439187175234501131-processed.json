@@ -29,6 +29,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -80,6 +90,7 @@
         "x": 3412.2314,
         "y": 3894.792
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -165,6 +176,8 @@
       },
       "end_tick": 109515,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -239,6 +252,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -290,6 +313,7 @@
         "x": 3412.2314,
         "y": 3894.792
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -379,6 +403,8 @@
       },
       "end_tick": 109515,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -453,6 +479,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -504,6 +540,7 @@
         "x": 3412.2314,
         "y": 3894.792
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -589,6 +626,8 @@
       },
       "end_tick": 109523,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -663,6 +702,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -714,6 +763,7 @@
         "x": 3412.2314,
         "y": 3894.792
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -803,6 +853,8 @@
       },
       "end_tick": 109508,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -877,6 +929,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/61119042/2025-03-18/6AEFB6CCD4AF8EF8BD4F00F20A3D4FF9_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -928,6 +990,7 @@
         "x": 3412.2314,
         "y": 3894.792
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1013,6 +1076,8 @@
       },
       "end_tick": 109523,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_213.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -1087,6 +1152,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/24498214/2025-03-15/167A8515B5A676EFA9C2193C6DFDFA98_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1138,6 +1213,7 @@
         "x": 3440.455,
         "y": 3960.3057
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1227,6 +1303,8 @@
       },
       "end_tick": 109521,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1925,
       "npc": {
         "b_type": null,
@@ -1592,6 +1670,7 @@
       "x": 3506.0898,
       "y": 3958.3018
     },
+    "character_type": 3,
     "commanders": {
       "primary": {
         "armaments": [
@@ -1680,6 +1759,8 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_146.png",
+    "is_outpost": null,
+    "is_turret": null,
     "kingdom_id": 1804,
     "package_identifier": "com.lilithgames.rok.pc.int",
     "participants": [
