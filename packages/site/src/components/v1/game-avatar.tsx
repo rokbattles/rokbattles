@@ -36,6 +36,7 @@ export function GameAvatar({
   const resolvedAvatarUrl = normalize(avatarUrl);
   const resolvedFrameUrl = normalize(frameUrl);
   const radiusClass = square ? "rounded-(--avatar-radius)" : "rounded-full";
+  const frameClipClass = resolvedFrameUrl && !avatarOverride ? "[clip-path:circle(40.5%)]" : null;
 
   return (
     <span
@@ -55,7 +56,8 @@ export function GameAvatar({
           aria-hidden={alt ? undefined : "true"}
           className={cn(
             "size-full select-none fill-current p-[5%] font-medium text-[48px] uppercase",
-            radiusClass
+            radiusClass,
+            frameClipClass
           )}
           viewBox="0 0 100 100"
         >
@@ -74,7 +76,7 @@ export function GameAvatar({
       ) : null}
       {resolvedAvatarUrl ? (
         <span
-          className={cn("absolute", avatarOverride ? "z-20" : "inset-0")}
+          className={cn("absolute", avatarOverride ? "z-20" : "inset-0", frameClipClass)}
           style={
             avatarOverride
               ? {
