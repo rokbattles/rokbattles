@@ -6,6 +6,7 @@ import { ReportArtifactSection } from "@/components/report/report-artifact-secti
 import { ReportCommanderRow } from "@/components/report/report-commander-row";
 import { ReportEquipmentSection } from "@/components/report/report-equipment-section";
 import { ReportRelicSection } from "@/components/report/report-relic-section";
+import { ReportStratagemSection } from "@/components/report/report-stratagem-section";
 import { ReportSupportSkills } from "@/components/report/report-support-skills";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
@@ -48,7 +49,7 @@ export function ReportParticipantCard({
   const showSecondary = hasCommander(secondaryCommander);
 
   return (
-    <div className="grid gap-5 lg:row-span-6 lg:grid-rows-subgrid">
+    <div className="grid gap-5 lg:row-span-7 lg:grid-rows-subgrid">
       <div className="flex items-start gap-3">
         <GameAvatar
           avatarUrl={participant?.avatar_url ?? null}
@@ -98,6 +99,9 @@ export function ReportParticipantCard({
       </div>
       <div className="contents lg:block">
         <ReportArmamentSection buffs={armamentBuffs} inscriptions={inscriptionIds} />
+      </div>
+      <div className="contents lg:block">
+        <ReportStratagemSection stratagems={participant?.stratagems} />
       </div>
     </div>
   );

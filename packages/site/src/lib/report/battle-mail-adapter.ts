@@ -4,6 +4,7 @@ import type {
   BattleMail,
   BattleOpponent,
   BattlePlayer,
+  BattleStratagem,
   BattleSupportSkill,
 } from "@/lib/types/battle";
 import type {
@@ -131,7 +132,8 @@ function mapAuxiliarySkill(skill: BattleAuxiliarySkill) {
 
 function mapPlayerToParticipant(
   player: BattlePlayer,
-  npc?: { type: number | null; bType: number | null } | null
+  npc?: { type: number | null; bType: number | null } | null,
+  stratagems?: readonly BattleStratagem[]
 ): RawParticipantInfo {
   const armamentFields = buildArmamentFields(player);
 
@@ -174,6 +176,7 @@ function mapPlayerToParticipant(
     equipment_2: player.commanders.secondary.equipment ?? undefined,
     armament_buffs: armamentFields.armamentBuffs,
     inscriptions: armamentFields.inscriptions,
+    stratagems: stratagems && stratagems.length > 0 ? stratagems : undefined,
   };
 }
 
@@ -351,8 +354,8 @@ function mapEntry(mail: BattleMail, opponent: BattleOpponent): ReportEntry {
       pos_x: opponent.attack.x,
       pos_y: opponent.attack.y,
     },
-    self: mapPlayerToParticipant(mail.sender),
-    enemy: mapPlayerToParticipant(opponent, opponent.npc),
+    self: mapPlayerToParticipant(mail.sender, null, opponent.battleEffects?.sender),
+    enemy: mapPlayerToParticipant(opponent, opponent.npc, opponent.battleEffects?.opponent),
     battle_results: mapBattleResultsForOpponent(opponent),
   };
 

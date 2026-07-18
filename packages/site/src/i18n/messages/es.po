@@ -1431,6 +1431,54 @@ msgstr ""
 msgid "ZW4lge"
 msgstr ""
 
+#: src/components/report/report-stratagem-section.tsx
+msgid "It0Aey"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "4WlFf6"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "ikRAP_"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "25igcI"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "ro9pK3"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "FvbXnS"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "nmf4aA"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "3TI3iv"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "eK3Owk"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "5aSP17"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "DCHsxk"
+msgstr ""
+
+#: src/components/report/report-stratagem-section.tsx
+msgid "Hszv-5"
+msgstr ""
+
 #: src/components/report/report-view.tsx
 msgid "x5Tz6M"
 msgstr "Reporte"
