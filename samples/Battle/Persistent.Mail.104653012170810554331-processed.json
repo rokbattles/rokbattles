@@ -29,6 +29,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/10043/0/18285347/240128/E005ACC7A074E5901ECDF8F4F0FCCC66_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -80,6 +90,7 @@
         "x": 3592.247,
         "y": 3705.7988
       },
+      "character_type": 7,
       "commanders": {
         "primary": {
           "armaments": [
@@ -165,6 +176,8 @@
       },
       "end_tick": 1505923,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_16.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -516,6 +529,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/154813471/23/03/28/c5557eda589c5b7d_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -567,6 +590,7 @@
         "x": 3595.9355,
         "y": 3605.9795
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -648,6 +672,8 @@
       },
       "end_tick": 1505891,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -711,6 +737,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/154813471/23/03/28/c5557eda589c5b7d_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -762,6 +798,7 @@
         "x": 3595.9355,
         "y": 3605.9795
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -843,6 +880,8 @@
       },
       "end_tick": 1505891,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -906,6 +945,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/154813471/23/03/28/c5557eda589c5b7d_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -957,6 +1006,7 @@
         "x": 3595.9355,
         "y": 3605.9795
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1046,6 +1096,8 @@
       },
       "end_tick": 1505876,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -1109,6 +1161,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/154813471/23/03/28/c5557eda589c5b7d_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1160,6 +1222,7 @@
         "x": 3595.9355,
         "y": 3605.9795
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1249,6 +1312,8 @@
       },
       "end_tick": 1505898,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -1312,6 +1377,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/154813471/23/03/28/c5557eda589c5b7d_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1363,6 +1438,7 @@
         "x": 3595.9355,
         "y": 3605.9795
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1444,6 +1520,8 @@
       },
       "end_tick": 1505891,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -1507,6 +1585,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/154193427/24/02/15/9f42dbcacad152d2_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1558,6 +1646,7 @@
         "x": 3579.751,
         "y": 3657.205
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1643,6 +1732,8 @@
       },
       "end_tick": 1505845,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -1706,6 +1797,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/153947353/24/01/20/9fc6008e212e0a02_582x582.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1757,6 +1858,7 @@
         "x": 3593.9385,
         "y": 3639.6719
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1842,6 +1944,8 @@
       },
       "end_tick": 1505848,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -1905,6 +2009,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/156028467/24/01/05/93a93f96d7a2e399_236x236.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -1956,6 +2070,7 @@
         "x": 3629.2188,
         "y": 3595.503
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -2041,6 +2156,8 @@
       },
       "end_tick": 1505862,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -2104,6 +2221,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/151201578/23/12/25/3cbf5e5a435898a0_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -2155,6 +2282,7 @@
         "x": 3604.6904,
         "y": 3595.7236
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -2236,6 +2364,8 @@
       },
       "end_tick": 1505849,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -2299,6 +2429,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/156028467/24/01/05/93a93f96d7a2e399_236x236.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -2350,6 +2490,7 @@
         "x": 3629.2188,
         "y": 3595.503
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -2435,6 +2576,8 @@
       },
       "end_tick": 1505871,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_76.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -2498,6 +2641,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/153873531/24/01/28/c427f85855d7a0bf_616x616.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -2549,6 +2702,7 @@
         "x": 3579.0732,
         "y": 3670.459
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -2642,6 +2796,8 @@
       },
       "end_tick": 1505819,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_29.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -2705,6 +2861,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/142651363/23/12/15/5e9f2ba5602f0dbb_232x232.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -2756,6 +2922,7 @@
         "x": 3603.9785,
         "y": 3699.4346
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -2845,6 +3012,8 @@
       },
       "end_tick": 1505807,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_174.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -2908,6 +3077,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/153434524/23/05/08/2bd6ff9e44262888_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -2959,6 +3138,7 @@
         "x": 3574.7793,
         "y": 3573.1367
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -3044,6 +3224,8 @@
       },
       "end_tick": 1505861,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -3107,6 +3289,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/llc_avatar/155144299/23/11/07/1f6e72ae78a5326c_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -3158,6 +3350,7 @@
         "x": 3480.0938,
         "y": 3596.2666
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -3243,6 +3436,8 @@
       },
       "end_tick": 1505869,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_14.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -3306,6 +3501,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imimg.lilithcdn.com/roc/llc_avatar/153434524/23/05/08/2bd6ff9e44262888_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -3357,6 +3562,7 @@
         "x": 3574.7793,
         "y": 3573.1367
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -3438,6 +3644,8 @@
       },
       "end_tick": 1505787,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_73.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -3501,6 +3709,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://imv2-gl.lilithgame.com/p/roc/avatar/154838551/24/02/06/c95e7eb0eba2afb1_800x800.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": null,
@@ -3552,6 +3770,7 @@
         "x": 3522.1143,
         "y": 3608.1016
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -3637,6 +3856,8 @@
       },
       "end_tick": 1505864,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_171.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2194,
       "npc": {
         "b_type": null,
@@ -3703,6 +3924,7 @@
       "x": 3476.2314,
       "y": 3690.1855
     },
+    "character_type": 1,
     "commanders": {
       "primary": {
         "armaments": [
@@ -3791,6 +4013,8 @@
       }
     },
     "frame_url": null,
+    "is_outpost": null,
+    "is_turret": null,
     "kingdom_id": 2219,
     "package_identifier": null,
     "participants": [

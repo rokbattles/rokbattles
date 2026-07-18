@@ -29,6 +29,51 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                11,
+                19,
+                7,
+                12,
+                2,
+                14
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 719
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [
+                24,
+                22,
+                28,
+                30,
+                31,
+                23
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1285,
@@ -231,6 +276,51 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                11,
+                19,
+                7,
+                12,
+                2,
+                14
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 1542
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [
+                24,
+                22,
+                28,
+                30,
+                31,
+                23
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 2741,
@@ -437,6 +527,51 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                11,
+                19,
+                7,
+                12,
+                2,
+                14
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 1700
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [
+                24,
+                22,
+                28,
+                30,
+                31,
+                23
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 3026,
@@ -639,6 +774,51 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/88076339/2025-06-28/5D340725EC1FA67589C9F268B2918001_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                11,
+                19,
+                7,
+                12,
+                2,
+                14
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 640
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [
+                24,
+                22,
+                28,
+                30,
+                31,
+                23
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1163,
@@ -837,6 +1017,40 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/226544448/2026-07-01/B07074882DF78516EC72AE69F741E270_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                12,
+                19,
+                20,
+                27,
+                5,
+                17
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [
+                24,
+                22,
+                28,
+                30,
+                31,
+                23
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 194,

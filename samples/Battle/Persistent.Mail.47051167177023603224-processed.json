@@ -29,6 +29,58 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/17747014/2024-08-08/4E7A361481C36A5853A087B1275027BB_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                9,
+                1,
+                20,
+                5,
+                17,
+                13
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 9,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "Dead",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "BadHurt",
+                  "value": 22588870
+                },
+                {
+                  "key": "Atk",
+                  "value": 2100
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 3212,
@@ -80,6 +132,7 @@
         "x": 4335.241,
         "y": 5593.7637
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -169,6 +222,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1267,
       "npc": {
         "b_type": null,
@@ -232,6 +287,58 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/17747014/2024-08-08/4E7A361481C36A5853A087B1275027BB_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                9,
+                1,
+                20,
+                5,
+                17,
+                13
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 9,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "Dead",
+                  "value": 4
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "BadHurt",
+                  "value": 22588870
+                },
+                {
+                  "key": "Atk",
+                  "value": 2100
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1456,
@@ -283,6 +390,7 @@
         "x": 4335.241,
         "y": 5593.7637
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -368,6 +476,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1267,
       "npc": {
         "b_type": null,
@@ -431,6 +541,58 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/17747014/2024-08-08/4E7A361481C36A5853A087B1275027BB_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                9,
+                1,
+                20,
+                5,
+                17,
+                13
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 9,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "Dead",
+                  "value": 7
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "BadHurt",
+                  "value": 22588870
+                },
+                {
+                  "key": "Atk",
+                  "value": 2100
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1854,
@@ -482,6 +644,7 @@
         "x": 4335.241,
         "y": 5593.7637
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -567,6 +730,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1267,
       "npc": {
         "b_type": null,
@@ -630,6 +795,58 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/17747014/2024-08-08/4E7A361481C36A5853A087B1275027BB_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                9,
+                1,
+                20,
+                5,
+                17,
+                13
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 9,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "Dead",
+                  "value": 4
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "BadHurt",
+                  "value": 22588870
+                },
+                {
+                  "key": "Atk",
+                  "value": 2100
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1594,
@@ -681,6 +898,7 @@
         "x": 4335.241,
         "y": 5593.7637
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -766,6 +984,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1267,
       "npc": {
         "b_type": null,
@@ -829,6 +1049,58 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/IM/10043/0/17747014/2024-08-08/4E7A361481C36A5853A087B1275027BB_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                9,
+                1,
+                20,
+                5,
+                17,
+                13
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 9,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "Dead",
+                  "value": 4
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "BadHurt",
+                  "value": 22588870
+                },
+                {
+                  "key": "Atk",
+                  "value": 2100
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 3797,
@@ -880,6 +1152,7 @@
         "x": 4335.241,
         "y": 5593.7637
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -965,6 +1238,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_ProfileBg220x220_a.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 1267,
       "npc": {
         "b_type": null,
@@ -1028,6 +1303,41 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/218058054/2025-12-14/1F2F55DE70AB67AF8D6906B8A0FF7128_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                6,
+                19,
+                2
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 355
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 935,
@@ -1079,6 +1389,7 @@
         "x": 4130.0063,
         "y": 5481.9575
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1164,6 +1475,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2319,
       "npc": {
         "b_type": null,
@@ -1227,6 +1540,41 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/218058054/2025-12-14/1F2F55DE70AB67AF8D6906B8A0FF7128_250x250.jpg",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [
+            {
+              "ids": [
+                6,
+                19,
+                2
+              ],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": [
+            {
+              "id": 2,
+              "source": "policy_v2",
+              "stats": [
+                {
+                  "key": "ExtraBadHurt",
+                  "value": 662
+                }
+              ]
+            }
+          ]
+        },
+        "sender": {
+          "modifier_sources": [
+            {
+              "ids": [],
+              "source": "policy_v2"
+            }
+          ],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 1731,
@@ -1278,6 +1626,7 @@
         "x": 4130.0063,
         "y": 5481.9575
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": [
@@ -1367,6 +1716,8 @@
       },
       "end_tick": 1339453,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_223.png",
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 2319,
       "npc": {
         "b_type": null,
@@ -1433,6 +1784,7 @@
       "x": 4570.4307,
       "y": 5681.918
     },
+    "character_type": 1,
     "commanders": {
       "primary": {
         "armaments": null,
@@ -1484,6 +1836,8 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_140.png",
+    "is_outpost": null,
+    "is_turret": null,
     "kingdom_id": 2249,
     "package_identifier": "com.lilithgame.roc.ios",
     "participants": [

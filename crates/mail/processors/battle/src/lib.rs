@@ -2,6 +2,7 @@
 
 //! Parses Battle mail reports.
 
+mod battle_effects;
 mod content;
 mod metadata;
 mod opponents;

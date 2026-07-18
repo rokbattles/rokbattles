@@ -29,6 +29,16 @@
       },
       "auxiliary_skills": [],
       "avatar_url": "",
+      "battle_effects": {
+        "opponent": {
+          "modifier_sources": [],
+          "statistics": []
+        },
+        "sender": {
+          "modifier_sources": [],
+          "statistics": []
+        }
+      },
       "battle_results": {
         "opponent": {
           "acclaim": 0,
@@ -80,6 +90,7 @@
         "x": 3607.9,
         "y": 3454.4138
       },
+      "character_type": 1,
       "commanders": {
         "primary": {
           "armaments": null,
@@ -111,6 +122,8 @@
       },
       "end_tick": 875256,
       "frame_url": null,
+      "is_outpost": null,
+      "is_turret": null,
       "kingdom_id": 0,
       "npc": {
         "b_type": 2,
@@ -177,6 +190,7 @@
       "x": 3630.4648,
       "y": 3420.0195
     },
+    "character_type": 1,
     "commanders": {
       "primary": {
         "armaments": [
@@ -261,6 +275,8 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_217.png",
+    "is_outpost": null,
+    "is_turret": null,
     "kingdom_id": 1804,
     "package_identifier": "com.lilithgame.roc.gp",
     "participants": [
