@@ -850,7 +850,7 @@ dependencies = [
 
 [[package]]
 name = "core-bson"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mongodb",
 ]
@@ -1379,7 +1379,7 @@ dependencies = [
 
 [[package]]
 name = "drastc"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "serde",
 ]
@@ -2927,7 +2927,7 @@ dependencies = [
 
 [[package]]
 name = "mail-cli"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "clap",
  "mail-decoder",
@@ -2941,7 +2941,7 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-decoder-simd",
  "serde_json",
@@ -2950,11 +2950,11 @@ dependencies = [
 
 [[package]]
 name = "mail-decoder-simd"
-version = "1.6.0"
+version = "1.6.1"
 
 [[package]]
 name = "mail-processor-alliance-aoo-battle-info"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -2962,7 +2962,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-battle-results"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -2970,7 +2970,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-individual-results"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -2978,7 +2978,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-alliance-aoo-registration"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -2986,7 +2986,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-barcanyonkillboss"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -2994,7 +2994,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-battle"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3002,7 +3002,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-duelbattle2"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3010,7 +3010,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-eventmemberlootreport"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3018,7 +3018,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-rss"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3026,7 +3026,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-scoutreport"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3034,7 +3034,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-system-barbarianfort"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3042,7 +3042,7 @@ dependencies = [
 
 [[package]]
 name = "mail-processor-system-kahartreasure"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-sdk",
  "serde_json",
@@ -3050,7 +3050,7 @@ dependencies = [
 
 [[package]]
 name = "mail-registry"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "mail-processor-alliance-aoo-battle-info",
  "mail-processor-alliance-aoo-battle-results",
@@ -3070,7 +3070,7 @@ dependencies = [
 
 [[package]]
 name = "mail-sdk"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -4418,7 +4418,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-api"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "axum",
  "base64 0.22.1",
@@ -4440,7 +4440,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-desktop"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "anyhow",
  "mail-decoder",
@@ -4462,7 +4462,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-ingress"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "axum",
  "bytes",
@@ -4484,7 +4484,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-jobs"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "core-bson",
  "dotenvy",
@@ -4502,7 +4502,7 @@ dependencies = [
 
 [[package]]
 name = "rokbattles-processor"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "dotenvy",
  "futures",
