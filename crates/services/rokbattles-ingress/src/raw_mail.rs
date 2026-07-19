@@ -60,7 +60,8 @@ pub struct RawMailDocumentInput<'a> {
 
 /// Extract the fields required by the V2 `mail` subdocument.
 pub fn extract_raw_mail_metadata(decoded: &Value) -> Result<RawMailMetadata, ApiError> {
-    let root = normalize_root(decoded).ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
+    let root = mail_registry::normalize_mail_root(decoded)
+        .ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
     let object = root.as_object().ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
 
     let id = object
@@ -103,17 +104,6 @@ fn extract_receiver_identity(object: &serde_json::Map<String, Value>) -> Result<
         .filter(|value| value.starts_with("player_"))
         .map(str::to_string)
         .ok_or_else(|| ApiError::bad_request("missing mail receiver"))
-}
-
-fn normalize_root(value: &Value) -> Option<&Value> {
-    match value {
-        Value::Object(_) => Some(value),
-        Value::Array(items) => match items.as_slice() {
-            [item] if item.is_object() => Some(item),
-            _ => None,
-        },
-        _ => None,
-    }
 }
 
 fn value_to_string(value: &Value) -> Option<String> {
@@ -181,7 +171,7 @@ mod tests {
     }
 
     #[test]
-    fn extracts_v2_metadata_from_singleton_array() {
+    fn rejects_v2_metadata_from_singleton_array() {
         let decoded = json!([{
             "id": "12345",
             "time": 1772127772844751_u64,
@@ -189,9 +179,7 @@ mod tests {
             "receiver": "player_22"
         }]);
 
-        let metadata = extract_raw_mail_metadata(&decoded).expect("metadata");
-
-        assert_eq!(metadata.receiver, "player_22");
+        assert!(extract_raw_mail_metadata(&decoded).is_err());
     }
 
     #[test]

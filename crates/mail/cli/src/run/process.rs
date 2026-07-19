@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use mail_registry::{detect_mail_type, process_mail};
+use mail_registry::{detect_mail_type, normalize_mail_root, process_mail};
 use serde_json::Value;
 
 use super::paths::processed_output_path;
@@ -12,15 +12,7 @@ pub(super) fn write_processed_json(
     value: &Value,
     pretty: bool,
 ) -> Result<(), MailCliError> {
-    let processed_input = match value {
-        Value::Object(_) => Some(value),
-        Value::Array(items) => match items.as_slice() {
-            [item] if item.is_object() => Some(item),
-            _ => None,
-        },
-        _ => None,
-    };
-    let Some(processed_input) = processed_input else {
+    let Some(processed_input) = normalize_mail_root(value) else {
         return Ok(());
     };
 
@@ -182,14 +174,14 @@ mod tests {
     }
 
     #[test]
-    fn write_processed_json_handles_singleton_array() {
+    fn write_processed_json_handles_corrected_preamble_fixture() {
         let temp = tempfile::tempdir().expect("temp dir");
         let input = temp.path().join("sample.mail");
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../../samples/Battle/Persistent.Mail.33830971176980291131.json");
         let json = fs::read_to_string(sample_path).expect("read sample");
         let value: Value = serde_json::from_str(&json).expect("parse sample");
-        assert!(matches!(value, Value::Array(_)));
+        assert!(matches!(value, Value::Object(_)));
 
         write_processed_json(temp.path(), &input, &value, true).unwrap();
         let output = processed_output_path(temp.path(), &input).unwrap();

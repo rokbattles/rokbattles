@@ -1,7 +1,6 @@
 use std::{
     collections::HashSet,
     fs,
-    io::Read,
     path::PathBuf,
     time::{Duration, Instant},
 };
@@ -306,7 +305,7 @@ pub(crate) async fn next_file(app: &AppHandle, state: &mut WatcherState) -> Opti
 
         let header = tauri::async_runtime::spawn_blocking({
             let path = path.clone();
-            move || has_rok_fileheader_from_file(&path)
+            move || has_valid_rok_mail_file(&path)
         })
         .await;
 
@@ -415,10 +414,35 @@ pub(crate) fn apply_fs_event(state: &mut WatcherState, path: PathBuf, now_ms: u1
     }
 }
 
-fn has_rok_fileheader_from_file(path: &PathBuf) -> anyhow::Result<bool> {
-    let mut f = fs::File::open(path)
-        .with_context(|| format!("Failed to open file for header check: {:?}", path))?;
-    let mut buf = [0u8; 32];
-    let _ = f.read(&mut buf)?;
-    Ok(super::mail::has_rok_mail_header(&buf))
+fn has_valid_rok_mail_file(path: &std::path::Path) -> anyhow::Result<bool> {
+    let buffer = fs::read(path)
+        .with_context(|| format!("Failed to read file for native validation: {:?}", path))?;
+    Ok(mail_decoder::validate_file(&buffer).is_ok())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn native_validation_accepts_checked_in_mail() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Battle/Persistent.Mail.485440176891031331");
+
+        assert!(has_valid_rok_mail_file(&path).expect("validate sample"));
+    }
+
+    #[test]
+    fn native_validation_rejects_corrupt_mail() {
+        let sample = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../samples/Battle/Persistent.Mail.485440176891031331");
+        let mut buffer = fs::read(sample).expect("read sample");
+        let last = buffer.len() - 1;
+        buffer[last] ^= 1;
+        let temp = tempfile::tempdir().expect("temp dir");
+        let path = temp.path().join("Persistent.Mail.1");
+        fs::write(&path, buffer).expect("write corrupt sample");
+
+        assert!(!has_valid_rok_mail_file(&path).expect("validate sample"));
+    }
 }

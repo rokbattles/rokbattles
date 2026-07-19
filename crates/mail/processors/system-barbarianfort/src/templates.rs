@@ -1,4 +1,4 @@
-//! Localized mail body templates from `samples/game/mail`.
+//! Localized system barbarian fort mail body templates.
 
 pub(crate) const BODY_TEMPLATES: &[&str] = &[
     // BARBARIAN_CONTENT_2

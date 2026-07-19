@@ -226,7 +226,7 @@ fn update_status_for_mail_type(mail_type: &str) -> &'static str {
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
-    let root = normalize_root(decoded)?;
+    let root = mail_registry::normalize_mail_root(decoded)?;
     root.get("id")
         .and_then(value_to_string)
         .or_else(|| root.get("mail_id").and_then(value_to_string))
@@ -239,21 +239,6 @@ fn value_to_string(value: &Value) -> Option<String> {
     match value {
         Value::String(value) => Some(value.clone()),
         Value::Number(value) => Some(value.to_string()),
-        _ => None,
-    }
-}
-
-/// Turn a decoded mail payload into the root object we store.
-///
-/// Some mail samples decode as a one-item array. In that case the item is the
-/// root object. Other shapes are rejected.
-fn normalize_root(value: &Value) -> Option<&Value> {
-    match value {
-        Value::Object(_) => Some(value),
-        Value::Array(items) => match items.as_slice() {
-            [item] if item.is_object() => Some(item),
-            _ => None,
-        },
         _ => None,
     }
 }
@@ -358,9 +343,9 @@ mod tests {
     }
 
     #[test]
-    fn extracts_mail_type_from_singleton_array() {
+    fn rejects_mail_type_from_singleton_array() {
         let decoded = json!([{ "type": "Battle" }]);
-        assert_eq!(extract_mail_type(&decoded).unwrap(), "Battle");
+        assert!(extract_mail_type(&decoded).is_err());
     }
 
     #[test]
@@ -584,9 +569,9 @@ mod tests {
     }
 
     #[test]
-    fn extracts_mail_id_from_singleton_array() {
+    fn rejects_mail_id_from_singleton_array() {
         let decoded = json!([{ "id": "12345" }]);
-        assert_eq!(extract_mail_id(&decoded).as_deref(), Some("12345"));
+        assert_eq!(extract_mail_id(&decoded), None);
     }
 
     #[test]
