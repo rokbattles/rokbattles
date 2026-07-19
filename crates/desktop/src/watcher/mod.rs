@@ -163,7 +163,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
             }
 
             while state.upload_queue.len() < state.config.upload_prefetch_target {
-                if let Some(item) = next_file(&app, &mut state).await {
+                if let Some(item) = next_file(&app, &mut state) {
                     state.enqueue_upload(item);
                 } else {
                     break;

@@ -3,6 +3,7 @@ members = [
     "crates/core/drastc",
     "crates/mail/cli",
     "crates/mail/decoder",
+    "crates/mail/decoder-simd",
     "crates/mail/registry",
     "crates/mail/processors/alliance-aoo-battle-info",
     "crates/mail/processors/alliance-aoo-battle-results",

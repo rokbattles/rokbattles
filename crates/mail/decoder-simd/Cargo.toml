@@ -1,0 +1,10 @@
+[package]
+name = "mail-decoder-simd"
+version = "1.6.0"
+edition = "2024"
+
+[lints]
+workspace = true
+
+[lib]
+doctest = false

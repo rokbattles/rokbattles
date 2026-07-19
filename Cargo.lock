@@ -2943,9 +2943,14 @@ dependencies = [
 name = "mail-decoder"
 version = "1.6.0"
 dependencies = [
+ "mail-decoder-simd",
  "serde_json",
  "thiserror 2.0.18",
 ]
+
+[[package]]
+name = "mail-decoder-simd"
+version = "1.6.0"
 
 [[package]]
 name = "mail-processor-alliance-aoo-battle-info"
