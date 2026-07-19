@@ -4,6 +4,7 @@ version = "1.6.0"
 edition = "2024"
 
 [dependencies]
+mail-decoder-simd = { path = "../decoder-simd" }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 

@@ -276,7 +276,7 @@ pub(crate) async fn refresh_scans_if_needed(app: &AppHandle, state: &mut Watcher
     did_refresh
 }
 
-pub(crate) async fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<QueuedUpload> {
+pub(crate) fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<QueuedUpload> {
     for _ in 0..state.config.scan_budget_per_tick {
         let (scan_idx, _best_id) = state
             .scans
@@ -303,36 +303,17 @@ pub(crate) async fn next_file(app: &AppHandle, state: &mut WatcherState) -> Opti
             Err(_) => continue,
         };
 
-        let header = tauri::async_runtime::spawn_blocking({
-            let path = path.clone();
-            move || has_valid_rok_mail_file(&path)
-        })
-        .await;
-
-        match header {
-            Ok(Ok(true)) => {
-                state.store.entries.insert(key, sig.clone());
-                state.store_dirty_updates += 1;
-                state.maybe_flush_store(app);
-                return Some(QueuedUpload {
-                    path: path.to_string_lossy().to_string(),
-                    sig,
-                    attempts: 0,
-                    not_before_ms: None,
-                });
-            }
-            Ok(Ok(false)) => {
-                state.store.entries.insert(key, sig);
-                state.store_dirty_updates += 1;
-                state.maybe_flush_store(app);
-            }
-            Ok(Err(e)) => {
-                emit_log(app, format!("Header check failed for {:?}: {}", path, e));
-            }
-            Err(e) => {
-                emit_log(app, format!("Header check task failed for {:?}: {}", path, e));
-            }
-        }
+        // The upload stage reads and decodes file contents; discovery records only metadata so
+        // newly found files are not read twice.
+        state.store.entries.insert(key, sig.clone());
+        state.store_dirty_updates += 1;
+        state.maybe_flush_store(app);
+        return Some(QueuedUpload {
+            path: path.to_string_lossy().to_string(),
+            sig,
+            attempts: 0,
+            not_before_ms: None,
+        });
     }
 
     state.maybe_flush_store(app);
@@ -411,38 +392,5 @@ pub(crate) fn apply_fs_event(state: &mut WatcherState, path: PathBuf, now_ms: u1
     {
         let _ = scan.known_ids.insert(id);
         scan.max_id = Some(scan.max_id.map_or(id, |m| m.max(id)));
-    }
-}
-
-fn has_valid_rok_mail_file(path: &std::path::Path) -> anyhow::Result<bool> {
-    let buffer = fs::read(path)
-        .with_context(|| format!("Failed to read file for native validation: {:?}", path))?;
-    Ok(mail_decoder::validate_file(&buffer).is_ok())
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn native_validation_accepts_checked_in_mail() {
-        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.485440176891031331");
-
-        assert!(has_valid_rok_mail_file(&path).expect("validate sample"));
-    }
-
-    #[test]
-    fn native_validation_rejects_corrupt_mail() {
-        let sample = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../samples/Battle/Persistent.Mail.485440176891031331");
-        let mut buffer = fs::read(sample).expect("read sample");
-        let last = buffer.len() - 1;
-        buffer[last] ^= 1;
-        let temp = tempfile::tempdir().expect("temp dir");
-        let path = temp.path().join("Persistent.Mail.1");
-        fs::write(&path, buffer).expect("write corrupt sample");
-
-        assert!(!has_valid_rok_mail_file(&path).expect("validate sample"));
     }
 }

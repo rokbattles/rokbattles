@@ -71,10 +71,26 @@ fn decode_value_at(buffer: &[u8], base_offset: usize) -> Result<Value, DecodeErr
 }
 
 fn file_checksum(buffer: &[u8]) -> u64 {
-    buffer.iter().copied().enumerate().fold(CHECKSUM_SEED, |hash, (offset, byte)| {
-        let byte = if (1..FILE_HEADER_LEN).contains(&offset) { 0 } else { byte };
-        hash.wrapping_mul(33).wrapping_add(u64::from(byte))
-    })
+    const CHECKSUM_MULTIPLIER: u64 = 33;
+    const ZEROED_CHECKSUM_BYTES_FACTOR: u64 = CHECKSUM_MULTIPLIER.pow(8);
+
+    let Some((&marker, rest)) = buffer.split_first() else {
+        return CHECKSUM_SEED;
+    };
+    let Some(payload) = rest.get(FILE_HEADER_LEN - 1..) else {
+        return rest.iter().fold(
+            CHECKSUM_SEED.wrapping_mul(CHECKSUM_MULTIPLIER).wrapping_add(u64::from(marker)),
+            |hash, _| hash.wrapping_mul(CHECKSUM_MULTIPLIER),
+        );
+    };
+
+    // The checksum treats header bytes 1 through 8 as zero, so consuming that field is equivalent
+    // to multiplying the current hash by 33^8.
+    let header_hash = CHECKSUM_SEED
+        .wrapping_mul(CHECKSUM_MULTIPLIER)
+        .wrapping_add(u64::from(marker))
+        .wrapping_mul(ZEROED_CHECKSUM_BYTES_FACTOR);
+    mail_decoder_simd::checksum(header_hash, payload)
 }
 
 struct Decoder<'a> {
