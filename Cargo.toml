@@ -24,7 +24,6 @@ members = [
     "crates/services/rokbattles-ingress",
     "crates/services/rokbattles-processor",
     "crates/desktop",
-    "crates/core/rokgt-extractor",
 ]
 resolver = "3"
 
