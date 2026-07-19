@@ -15,17 +15,15 @@ pub fn checksum(hash: u64, bytes: &[u8]) -> u64 {
 }
 
 fn checksum_scalar(mut hash: u64, bytes: &[u8]) -> u64 {
-    let mut chunks = bytes.chunks_exact(4);
-    for chunk in &mut chunks {
-        if let &[byte_0, byte_1, byte_2, byte_3] = chunk {
-            let contribution = u64::from(byte_0) * MULTIPLIER_3
-                + u64::from(byte_1) * MULTIPLIER_2
-                + u64::from(byte_2) * MULTIPLIER
-                + u64::from(byte_3);
-            hash = hash.wrapping_mul(MULTIPLIER_4).wrapping_add(contribution);
-        }
+    let (chunks, remainder) = bytes.as_chunks::<4>();
+    for &[byte_0, byte_1, byte_2, byte_3] in chunks {
+        let contribution = u64::from(byte_0) * MULTIPLIER_3
+            + u64::from(byte_1) * MULTIPLIER_2
+            + u64::from(byte_2) * MULTIPLIER
+            + u64::from(byte_3);
+        hash = hash.wrapping_mul(MULTIPLIER_4).wrapping_add(contribution);
     }
-    for &byte in chunks.remainder() {
+    for &byte in remainder {
         hash = hash.wrapping_mul(MULTIPLIER).wrapping_add(u64::from(byte));
     }
     hash
@@ -57,9 +55,9 @@ mod platform {
         // SAFETY: `WEIGHTS.as_ptr()` points to four contiguous initialized `u16` values, matching
         // the load width.
         let weights: uint16x4_t = unsafe { vld1_u16(WEIGHTS.as_ptr()) };
-        let mut chunks = bytes.chunks_exact(16);
-        for chunk in &mut chunks {
-            // SAFETY: `chunks_exact(16)` guarantees 16 readable bytes.
+        let (chunks, remainder) = bytes.as_chunks::<16>();
+        for chunk in chunks {
+            // SAFETY: `as_chunks::<16>()` guarantees 16 readable bytes.
             let input = unsafe { vld1q_u8(chunk.as_ptr()) };
             let low = vmovl_u8(vget_low_u8(input));
             let high = vmovl_u8(vget_high_u8(input));
@@ -79,7 +77,7 @@ mod platform {
             }
         }
 
-        checksum_scalar(hash, chunks.remainder())
+        checksum_scalar(hash, remainder)
     }
 }
 
@@ -105,9 +103,9 @@ mod platform {
     #[target_feature(enable = "avx2")]
     unsafe fn checksum_avx2(mut hash: u64, bytes: &[u8]) -> u64 {
         let weights = _mm256_setr_epi32(35_937, 1_089, 33, 1, 35_937, 1_089, 33, 1);
-        let mut chunks = bytes.chunks_exact(16);
-        for chunk in &mut chunks {
-            // SAFETY: `chunks_exact(16)` guarantees 16 readable bytes.
+        let (chunks, remainder) = bytes.as_chunks::<16>();
+        for chunk in chunks {
+            // SAFETY: `as_chunks::<16>()` guarantees 16 readable bytes.
             let input = unsafe { _mm_loadu_si128(chunk.as_ptr().cast::<__m128i>()) };
             let low = _mm256_cvtepu8_epi32(input);
             let high = _mm256_cvtepu8_epi32(_mm_srli_si128::<8>(input));
@@ -125,7 +123,7 @@ mod platform {
             }
         }
 
-        checksum_scalar(hash, chunks.remainder())
+        checksum_scalar(hash, remainder)
     }
 }
 
