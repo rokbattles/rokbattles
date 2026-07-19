@@ -1,36 +1,124 @@
-//! Helpers for normalizing numeric-keyed containers.
+//! Helpers for classifying `Persistent.Mail` table contents.
 
-use serde_json::{Map, Value};
+use std::collections::BTreeMap;
 
-pub(crate) fn numeric_keyed_container(items: &[Value]) -> Option<Value> {
+use serde_json::{Map, Value, map::Entry};
+
+use crate::common::DecodeError;
+
+#[derive(Debug)]
+pub(crate) struct ClassifiedTable {
+    pub(crate) value: Value,
+}
+
+pub(crate) fn classify_table(
+    items: Vec<Value>,
+    table_offset: usize,
+) -> Result<ClassifiedTable, DecodeError> {
     if items.is_empty() || !items.len().is_multiple_of(2) {
-        return None;
+        return Ok(sequential(items));
     }
 
-    let mut pairs = Vec::with_capacity(items.len() / 2);
-    for (index, pair) in items.as_chunks::<2>().0.iter().enumerate() {
-        let key = integer_key(&pair[0])?;
-        pairs.push((key, index + 1, pair[1].clone()));
-    }
-
-    if pairs.iter().all(|(key, expected, _)| key == expected) {
-        return Some(Value::Array(pairs.into_iter().map(|(_, _, value)| value).collect()));
-    }
-
-    let mut map = Map::new();
-    for (key, _, value) in pairs {
-        // Non-sequential numeric keys are semantic ids. JSON object keys are
-        // strings, so preserve those ids using their decimal representation.
-        if map.insert(key.to_string(), value).is_some() {
-            return None;
+    let mut has_string_keys = false;
+    let mut has_number_keys = false;
+    for pair in items.as_chunks::<2>().0 {
+        match &pair[0] {
+            Value::String(_) => has_string_keys = true,
+            Value::Number(_) => has_number_keys = true,
+            _ => return Ok(sequential(items)),
         }
     }
 
-    Some(Value::Object(map))
+    if has_string_keys && has_number_keys {
+        return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
+    }
+
+    let value = if has_string_keys {
+        string_keyed_table(items, table_offset)?
+    } else {
+        numeric_keyed_table(items, table_offset)?
+    };
+    Ok(ClassifiedTable { value })
 }
 
-fn integer_key(value: &Value) -> Option<usize> {
-    usize::try_from(value.as_u64()?).ok()
+fn sequential(items: Vec<Value>) -> ClassifiedTable {
+    ClassifiedTable { value: Value::Array(items) }
+}
+
+fn string_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
+    let mut map = Map::with_capacity(items.len() / 2);
+    for (key, value) in owned_pairs(items) {
+        let Value::String(key) = key else {
+            unreachable!("table key types were classified before conversion");
+        };
+        match map.entry(key) {
+            Entry::Vacant(entry) => {
+                entry.insert(value);
+            }
+            Entry::Occupied(entry) => {
+                return Err(DecodeError::DuplicateTableKey {
+                    offset: table_offset,
+                    key: entry.key().clone(),
+                });
+            }
+        }
+    }
+    Ok(Value::Object(map))
+}
+
+fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
+    let pair_count = items.len() / 2;
+    let is_sequential = {
+        let mut keys = vec![false; pair_count];
+        items.as_chunks::<2>().0.iter().all(|pair| {
+            let Some(key) = pair[0].as_u64().and_then(|key| usize::try_from(key).ok()) else {
+                return false;
+            };
+            key > 0 && key <= pair_count && !std::mem::replace(&mut keys[key - 1], true)
+        })
+    };
+
+    if is_sequential {
+        let mut values = BTreeMap::new();
+        for (key, value) in owned_pairs(items) {
+            let Some(key) = key.as_u64().and_then(|key| usize::try_from(key).ok()) else {
+                unreachable!("sequential numeric keys were validated before conversion");
+            };
+            values.insert(key, value);
+        }
+        return Ok(Value::Array(values.into_values().collect()));
+    }
+
+    let mut map = Map::with_capacity(pair_count);
+    for (key, value) in owned_pairs(items) {
+        let Value::Number(key) = key else {
+            unreachable!("table key types were classified before conversion");
+        };
+        let key = key.to_string();
+        match map.entry(key) {
+            Entry::Vacant(entry) => {
+                entry.insert(value);
+            }
+            Entry::Occupied(entry) => {
+                return Err(DecodeError::DuplicateTableKey {
+                    offset: table_offset,
+                    key: entry.key().clone(),
+                });
+            }
+        }
+    }
+    Ok(Value::Object(map))
+}
+
+fn owned_pairs(items: Vec<Value>) -> impl Iterator<Item = (Value, Value)> {
+    let mut items = items.into_iter();
+    std::iter::from_fn(move || {
+        let key = items.next()?;
+        let Some(value) = items.next() else {
+            unreachable!("pair iterator requires an even item count");
+        };
+        Some((key, value))
+    })
 }
 
 #[cfg(test)]
@@ -40,18 +128,38 @@ mod tests {
     use super::*;
 
     #[test]
-    fn duplicate_numeric_keys_remain_an_array() {
-        let values = json!([2, "first", 2, "second"]);
-        let values = values.as_array().expect("array");
+    fn sequential_numeric_keys_are_sorted_into_an_array() {
+        let values = json!([2, "second", 1, "first"]);
+        let classified =
+            classify_table(values.as_array().expect("array").clone(), 0).expect("classify table");
 
-        assert_eq!(numeric_keyed_container(values), None);
+        assert_eq!(classified.value, json!(["first", "second"]));
     }
 
     #[test]
-    fn mixed_values_remain_an_array() {
-        let values = json!([1, "first", "key", "second"]);
-        let values = values.as_array().expect("array");
+    fn duplicate_numeric_keys_are_rejected() {
+        let values = json!([2, "first", 2, "second"]);
+        let error = classify_table(values.as_array().expect("array").clone(), 7)
+            .expect_err("duplicate should fail");
 
-        assert_eq!(numeric_keyed_container(values), None);
+        assert_eq!(error, DecodeError::DuplicateTableKey { offset: 7, key: "2".to_string() });
+    }
+
+    #[test]
+    fn mixed_key_types_are_rejected() {
+        let values = json!([1, "first", "key", "second"]);
+        let error = classify_table(values.as_array().expect("array").clone(), 11)
+            .expect_err("mixed keys should fail");
+
+        assert_eq!(error, DecodeError::MixedTableKeyTypes { offset: 11 });
+    }
+
+    #[test]
+    fn non_key_values_remain_a_sequence() {
+        let values = json!([true, "first", false, "second"]);
+        let classified =
+            classify_table(values.as_array().expect("array").clone(), 0).expect("classify table");
+
+        assert_eq!(classified.value, values);
     }
 }

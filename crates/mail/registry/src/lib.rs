@@ -133,15 +133,14 @@ impl fmt::Display for MailType {
     }
 }
 
-/// Normalize a decoded mail payload to a single root object.
+/// Normalize a decoded mail payload to the object value processors should use.
+///
+/// A valid decoded mail payload has an object root. Other shapes are rejected
+/// so malformed data cannot enter processor code.
 #[must_use]
-pub fn normalize_mail_root(value: &Value) -> Option<&Map<String, Value>> {
+pub fn normalize_mail_root(value: &Value) -> Option<&Value> {
     match value {
-        Value::Object(map) => Some(map),
-        Value::Array(items) => match items.as_slice() {
-            [Value::Object(map)] => Some(map),
-            _ => None,
-        },
+        Value::Object(_) => Some(value),
         _ => None,
     }
 }
@@ -188,7 +187,7 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
 /// Detect the processable mail type for a decoded mail payload.
 #[must_use]
 pub fn detect_mail_type(value: &Value) -> Option<MailType> {
-    let root = normalize_mail_root(value)?;
+    let root = normalize_mail_root(value)?.as_object()?;
     detect_mail_type_from_root(root)
 }
 
@@ -303,15 +302,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn normalize_mail_root_accepts_object_and_singleton_array() {
+    fn normalize_mail_root_accepts_object() {
         let object = json!({ "type": "Battle" });
-        assert!(normalize_mail_root(&object).is_some());
+        assert_eq!(normalize_mail_root(&object), Some(&object));
+    }
 
+    #[test]
+    fn normalize_mail_root_rejects_singleton_array() {
         let singleton = json!([{ "type": "Battle" }]);
-        assert!(normalize_mail_root(&singleton).is_some());
-
-        let multiple = json!([{ "type": "Battle" }, { "type": "Battle" }]);
-        assert!(normalize_mail_root(&multiple).is_none());
+        assert_eq!(normalize_mail_root(&singleton), None);
     }
 
     #[test]

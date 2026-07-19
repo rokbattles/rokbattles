@@ -1,32 +1,28 @@
 #![forbid(unsafe_code)]
 
-//! Mail binary decoder.
+//! Decoder for `Persistent.Mail` files.
 //!
-//! # Format
-//! Each value starts with a one-byte tag:
-//! - `0x01` -> bool (`u8`, non-zero is `true`)
-//! - `0x02` -> `f32` (little-endian)
-//! - `0x03` -> `f64` (big-endian)
-//! - `0x04` -> UTF-8 string (`u32` length, little-endian, then bytes)
-//! - `0x05` -> container (object or array)
-//! - Anything else -> `null`
+//! A complete file contains a fixed nine-byte header followed by one tagged
+//! value. The header starts with `0xff` and stores a little-endian
+//! 64-bit checksum in bytes 1 through 8. The checksum uses a wrapping DJB2
+//! recurrence over the complete file while treating its checksum bytes as zero.
 //!
-//! Objects are sequences of `key -> value` pairs where keys are encoded as
-//! strings (tag `0x04`). Objects end when the next tag is not a string tag.
-//! In the sample files, an unknown tag (`0xff`) is used as an explicit
-//! terminator; the decoder consumes that byte as the end marker.
+//! Supported value tags are:
 //!
-//! Arrays use the same `0x05` tag. If the first element is not a string tag,
-//! the decoder treats the container as an array of values until the terminator.
+//! - `0x01`: boolean (`u8`)
+//! - `0x03`: big-endian IEEE-754 `f64`
+//! - `0x04`: UTF-8 string with a little-endian `u32` byte length
+//! - `0x05`: table contents ending with the explicit `0xff` terminator
 //!
-//! The files in `samples/` also contain a small leading header. If the first
-//! parsed value is `null` and trailing bytes remain, the decoder treats the
-//! leading bytes as a preamble and scans for the first offset that yields a
-//! complete decode without trailing bytes.
+//! Tables are read completely before classification. String-keyed tables become
+//! JSON objects, numeric keys `1..N` become JSON arrays, other numeric keys
+//! become decimal JSON object keys, and unkeyed sequences remain arrays. Empty
+//! tables are represented as `[]`. Mixed or duplicate keys are rejected to avoid
+//! silently losing information in JSON.
 
 mod common;
 mod decoder;
 mod value;
 
 pub use common::DecodeError;
-pub use decoder::decode;
+pub use decoder::{decode, decode_value, validate_file};

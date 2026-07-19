@@ -42,13 +42,26 @@ mod tests {
         file.write_all(bytes).expect("write bytes");
     }
 
+    fn native_file(payload: &[u8]) -> Vec<u8> {
+        let mut buffer = vec![0xff];
+        buffer.extend_from_slice(&0_u64.to_le_bytes());
+        buffer.extend_from_slice(payload);
+        let checksum =
+            buffer.iter().copied().enumerate().fold(0x1505_u64, |hash, (index, byte)| {
+                let byte = if (1..9).contains(&index) { 0 } else { byte };
+                hash.wrapping_mul(33).wrapping_add(u64::from(byte))
+            });
+        buffer[1..9].copy_from_slice(&checksum.to_le_bytes());
+        buffer
+    }
+
     #[test]
     fn run_decodes_and_writes_pretty_json() {
         let input_dir = tempfile::tempdir().expect("input dir");
         let output_dir = tempfile::tempdir().expect("output dir");
         let input_path = input_dir.path().join("sample.mail");
 
-        let buffer = vec![0x05, 0x04, 0x01, 0, 0, 0, b'a', 0x01, 1, 0xff];
+        let buffer = native_file(&[0x05, 0x04, 0x01, 0, 0, 0, b'a', 0x01, 1, 0xff]);
         write_bytes(&input_path, &buffer);
 
         let config = Config {
@@ -70,7 +83,7 @@ mod tests {
         let output_dir = tempfile::tempdir().expect("output dir");
         let input_path = input_dir.path().join("sample.mail");
 
-        let buffer = vec![0x05, 0x04, 0x01, 0, 0, 0, b'a', 0x01, 1, 0xff];
+        let buffer = native_file(&[0x05, 0x04, 0x01, 0, 0, 0, b'a', 0x01, 1, 0xff]);
         write_bytes(&input_path, &buffer);
 
         let config = Config {

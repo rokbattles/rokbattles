@@ -9,7 +9,7 @@ use std::{
 };
 
 use futures::stream::TryStreamExt;
-use mail_registry::{MailType, process_mail};
+use mail_registry::{MailType, normalize_mail_root, process_mail};
 use mongodb::bson::{Bson, DateTime, Document, oid::ObjectId};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -144,7 +144,7 @@ async fn process_document(
 
 fn prepare_processed_document(raw: &RawMail) -> Result<(MailType, Document), ProcessorError> {
     let decoded = decode_mail_binary(raw)?;
-    let root = normalize_root(&decoded).ok_or_else(|| {
+    let root = normalize_mail_root(&decoded).ok_or_else(|| {
         ProcessorError::InvalidMailPayload("mail payload must be an object".to_string())
     })?;
     let mail_type = extract_mail_type(root)?;
@@ -239,17 +239,6 @@ fn observed_version(doc: &Document) -> ObservedVersion {
     }
 }
 
-fn normalize_root(value: &Value) -> Option<&Value> {
-    match value {
-        Value::Object(_) => Some(value),
-        Value::Array(items) => match items.as_slice() {
-            [item] if item.is_object() => Some(item),
-            _ => None,
-        },
-        _ => None,
-    }
-}
-
 fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
     if let Some(mail_type) = mail_registry::detect_mail_type(root) {
         return Ok(mail_type);
@@ -269,24 +258,6 @@ mod tests {
 
     use super::*;
     use crate::storage::STATUS_PENDING;
-
-    #[test]
-    fn normalize_root_accepts_object() {
-        let value = json!({ "type": "Battle" });
-        assert!(normalize_root(&value).is_some());
-    }
-
-    #[test]
-    fn normalize_root_accepts_singleton_array() {
-        let value = json!([{ "type": "Battle" }]);
-        assert!(normalize_root(&value).is_some());
-    }
-
-    #[test]
-    fn normalize_root_rejects_other_shapes() {
-        let value = json!([1, 2, 3]);
-        assert!(normalize_root(&value).is_none());
-    }
 
     #[test]
     fn extract_mail_type_parses_known_types() {
@@ -525,6 +496,19 @@ mod tests {
         }
     }
 
+    fn native_file(payload: &[u8]) -> Vec<u8> {
+        let mut buffer = vec![0xff];
+        buffer.extend_from_slice(&0_u64.to_le_bytes());
+        buffer.extend_from_slice(payload);
+        let checksum =
+            buffer.iter().copied().enumerate().fold(0x1505_u64, |hash, (index, byte)| {
+                let byte = if (1..9).contains(&index) { 0 } else { byte };
+                hash.wrapping_mul(33).wrapping_add(u64::from(byte))
+            });
+        buffer[1..9].copy_from_slice(&checksum.to_le_bytes());
+        buffer
+    }
+
     fn raw_document() -> Document {
         doc! {
             "_id": ObjectId::new(),
@@ -659,6 +643,110 @@ mod tests {
     }
 
     #[test]
+    fn all_processable_binary_samples_match_processed_fixtures() {
+        let samples_root =
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples");
+        let mut samples = Vec::new();
+        collect_binary_mail_samples(&samples_root, &mut samples);
+        samples.sort();
+        let mut processed_count = 0;
+
+        for input in samples {
+            let bytes = std::fs::read(&input)
+                .unwrap_or_else(|error| panic!("failed to read {}: {error}", input.display()));
+            let decoded = mail_decoder::decode(&bytes)
+                .unwrap_or_else(|error| panic!("failed to decode {}: {error}", input.display()));
+            let Some(root) = normalize_mail_root(&decoded) else {
+                panic!("non-object root for {}", input.display());
+            };
+            let Some(mail_type) = mail_registry::detect_mail_type(root) else {
+                continue;
+            };
+            let processed = process_mail(mail_type, root)
+                .unwrap_or_else(|error| panic!("failed to process {}: {error}", input.display()));
+            let actual = serde_json::to_value(processed).expect("serialize processed mail");
+            let expected_path =
+                std::path::PathBuf::from(format!("{}-processed.json", input.display()));
+            let expected: Value =
+                serde_json::from_slice(&std::fs::read(&expected_path).unwrap_or_else(|error| {
+                    panic!("failed to read {}: {error}", expected_path.display())
+                }))
+                .unwrap_or_else(|error| {
+                    panic!("failed to parse {}: {error}", expected_path.display())
+                });
+
+            assert!(
+                json_equivalent(&actual, &expected),
+                "processed output differs for {}",
+                input.display()
+            );
+            processed_count += 1;
+        }
+
+        assert_eq!(processed_count, 132);
+    }
+
+    fn collect_binary_mail_samples(root: &std::path::Path, samples: &mut Vec<std::path::PathBuf>) {
+        for entry in std::fs::read_dir(root)
+            .unwrap_or_else(|error| panic!("failed to read {}: {error}", root.display()))
+        {
+            let path = entry
+                .unwrap_or_else(|error| {
+                    panic!("failed to read entry in {}: {error}", root.display())
+                })
+                .path();
+            if path.is_dir() {
+                if path.file_name().and_then(|name| name.to_str()) != Some("game") {
+                    collect_binary_mail_samples(&path, samples);
+                }
+                continue;
+            }
+            let Some(name) = path.file_name().and_then(|name| name.to_str()) else {
+                continue;
+            };
+            if name.starts_with("Persistent.Mail.") && !name.ends_with(".json") {
+                samples.push(path);
+            }
+        }
+    }
+
+    fn json_equivalent(actual: &Value, expected: &Value) -> bool {
+        match (actual, expected) {
+            (Value::Array(actual), Value::Array(expected)) => {
+                actual.len() == expected.len()
+                    && actual.iter().zip(expected).all(|(a, b)| json_equivalent(a, b))
+            }
+            (Value::Object(actual), Value::Object(expected)) => {
+                actual.len() == expected.len()
+                    && actual.iter().all(|(key, value)| {
+                        expected.get(key).is_some_and(|other| json_equivalent(value, other))
+                    })
+            }
+            (Value::Number(actual), Value::Number(expected)) => {
+                match (actual.as_i64(), expected.as_i64()) {
+                    (Some(actual), Some(expected)) => actual == expected,
+                    _ => match (actual.as_u64(), expected.as_u64()) {
+                        (Some(actual), Some(expected)) => actual == expected,
+                        _ => match (actual.as_f64(), expected.as_f64()) {
+                            (Some(actual), Some(expected)) => {
+                                ordered_float_bits(actual).abs_diff(ordered_float_bits(expected))
+                                    <= 1
+                            }
+                            _ => false,
+                        },
+                    },
+                }
+            }
+            _ => actual == expected,
+        }
+    }
+
+    fn ordered_float_bits(value: f64) -> u64 {
+        let bits = value.to_bits();
+        if bits & (1_u64 << 63) == 0 { bits | (1_u64 << 63) } else { !bits }
+    }
+
+    #[test]
     fn decode_mail_binary_rejects_unsupported_algorithm() {
         let mut raw = raw_mail_from_bytes(b"anything");
         raw.algorithm = "gzip".to_string();
@@ -709,7 +797,8 @@ mod tests {
 
     #[test]
     fn prepare_processed_document_rejects_non_object_root() {
-        let raw = raw_mail_from_bytes(&[0x01, 1]);
+        let bytes = native_file(&[0x01, 1]);
+        let raw = raw_mail_from_bytes(&bytes);
         let error = prepare_processed_document(&raw).unwrap_err();
         assert!(matches!(error, ProcessorError::InvalidMailPayload(_)));
     }
