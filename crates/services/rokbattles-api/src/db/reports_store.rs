@@ -104,6 +104,13 @@ impl ReportsStore {
                 })
                 .build(),
             IndexModel::builder()
+                .keys(doc! {
+                    "metadata.kvk": 1,
+                    "sender.commanders.primary.id": 1,
+                    "sender.commanders.secondary.id": 1,
+                })
+                .build(),
+            IndexModel::builder()
                 .keys(doc! { "opponents.commanders.primary.id": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
@@ -115,6 +122,14 @@ impl ReportsStore {
                     "opponents.commanders.secondary.id": 1,
                     "opponents.player_id": 1,
                     "metadata.mail_time": -1,
+                })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.kvk": 1,
+                    "opponents.commanders.primary.id": 1,
+                    "opponents.commanders.secondary.id": 1,
+                    "opponents.player_id": 1,
                 })
                 .build(),
             IndexModel::builder()

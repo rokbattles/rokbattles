@@ -1,4 +1,4 @@
-use drastc::DrastcScore;
+use drastc::{DrastcConfidence, DrastcScore};
 use mongodb::bson::{Bson, DateTime, Document, doc};
 
 use super::model::{
@@ -47,7 +47,7 @@ fn rate_per_second(total: i64, duration_millis: i64) -> f64 {
 pub(super) fn build_precomputed_document(
     key: PairingKey,
     strategies: &PairingStrategies,
-    drastc: Option<&DrastcScore>,
+    drastc: Option<(&DrastcScore, &DrastcConfidence)>,
     refreshed_at: DateTime,
 ) -> Document {
     let all = strategies.all();
@@ -68,7 +68,7 @@ pub(super) fn build_precomputed_document(
             "rally": strategy_summary_document(rally),
             "garrison": strategy_summary_document(garrison),
         },
-        "drastc": drastc.map(drastc_score_document),
+        "drastc": drastc.map(|(score, confidence)| drastc_score_document(score, confidence)),
         "refreshed_at": refreshed_at,
     }
 }
@@ -108,7 +108,7 @@ fn summary_document(summary: PairingSummary) -> Document {
     }
 }
 
-fn drastc_score_document(score: &DrastcScore) -> Document {
+fn drastc_score_document(score: &DrastcScore, confidence: &DrastcConfidence) -> Document {
     doc! {
         "samples": u64_to_i64(score.samples),
         "breakdown": {
@@ -120,6 +120,11 @@ fn drastc_score_document(score: &DrastcScore) -> Document {
             "consistency": category_score_document(score.breakdown.consistency),
         },
         "overall": score.overall,
+        "confidence": {
+            "score": confidence.score,
+            "unique_governors": u64_to_i64(confidence.unique_governors),
+            "effective_governors": confidence.effective_governors,
+        },
     }
 }
 
@@ -140,7 +145,9 @@ fn u64_to_i64(value: u64) -> i64 {
 mod tests {
     use std::collections::BTreeMap;
 
-    use drastc::{BattleRecord, DrastcModel, DrastcReferenceRanges, ReferenceRange};
+    use drastc::{
+        BattleRecord, DrastcConfidence, DrastcModel, DrastcReferenceRanges, ReferenceRange,
+    };
 
     use super::*;
 
@@ -252,16 +259,20 @@ mod tests {
             positive_trades: 1,
         });
         let score = model.evaluate().expect("score");
+        let confidence = DrastcConfidence::from_governor_distribution(1, 1, 1.0);
 
         let document = build_precomputed_document(
             PairingKey { primary_commander_id: 579, secondary_commander_id: 575 },
             &PairingStrategies::default(),
-            Some(&score),
+            Some((&score, &confidence)),
             DateTime::from_millis(0),
         );
 
         let drastc = document.get_document("drastc").expect("drastc document");
         assert_eq!(drastc.get_i64("samples").ok(), Some(1));
+        let stored_confidence = drastc.get_document("confidence").expect("confidence document");
+        assert_eq!(stored_confidence.get_i64("unique_governors"), Ok(1));
+        assert_eq!(stored_confidence.get_f64("effective_governors"), Ok(1.0));
     }
 
     #[test]

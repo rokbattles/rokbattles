@@ -3,12 +3,14 @@
 //! DRASTC scoring model by Davor (TKC) and ROK Battles
 
 mod aggregate;
+mod confidence;
 mod metrics;
 mod reference;
 mod theoretical;
 mod weights;
 
 use aggregate::BattleAggregate;
+pub use confidence::DrastcConfidence;
 pub use reference::{DrastcReferenceRanges, ReferenceRange};
 use serde::Serialize;
 pub use theoretical::TheoreticalValues;
