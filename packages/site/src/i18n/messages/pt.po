@@ -776,6 +776,34 @@ msgstr ""
 msgid "Vozv1X"
 msgstr ""
 
+#: src/components/combat-lab/confidence-score.tsx
+msgid "wx9Vu9"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "477I0g"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "OlIql8"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "AxMhQr"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "p_rUwJ"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "EoQTj0"
+msgstr ""
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "riw_yc"
+msgstr ""
+
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "wB_wXs"
 msgstr ""

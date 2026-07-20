@@ -1,5 +1,6 @@
 import { useExtracted } from "next-intl";
 import { BreakdownScoreBar } from "@/components/combat-lab/breakdown-score-bar";
+import { ConfidenceScore } from "@/components/combat-lab/confidence-score";
 import { DrastcInfo } from "@/components/combat-lab/drastc-info";
 import { DrastcRadar } from "@/components/combat-lab/drastc-radar";
 import { Subheading } from "@/components/ui/heading";
@@ -20,6 +21,7 @@ export function DrastcSection({ score }: DrastcSectionProps) {
           <div className="space-y-4">
             <DrastcRadar score={score} />
             <BreakdownScoreBar label={t("Overall score")} score={score.overall} />
+            <ConfidenceScore score={score.confidence.score} />
           </div>
         </div>
         <DrastcInfo score={score} />

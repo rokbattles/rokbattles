@@ -5,6 +5,12 @@ export type CombatLabCategoryScore = {
   score: number;
 };
 
+export type CombatLabDrastcConfidence = {
+  score: number;
+  uniqueGovernors: number;
+  effectiveGovernors: number;
+};
+
 export type CombatLabDrastcScore = {
   samples: number;
   breakdown: {
@@ -16,6 +22,7 @@ export type CombatLabDrastcScore = {
     consistency: CombatLabCategoryScore;
   };
   overall: number;
+  confidence: CombatLabDrastcConfidence;
 };
 
 export type CombatLabSummary = {

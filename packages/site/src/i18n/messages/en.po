@@ -776,6 +776,34 @@ msgstr "Secondary commander"
 msgid "Vozv1X"
 msgstr "Choose two different legendary commanders before loading data."
 
+#: src/components/combat-lab/confidence-score.tsx
+msgid "wx9Vu9"
+msgstr "Very low"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "477I0g"
+msgstr "Low"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "OlIql8"
+msgstr "Moderate"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "AxMhQr"
+msgstr "High"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "p_rUwJ"
+msgstr "Very high"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "EoQTj0"
+msgstr "Confidence"
+
+#: src/components/combat-lab/confidence-score.tsx
+msgid "riw_yc"
+msgstr "Beta"
+
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "wB_wXs"
 msgstr "Credits"
