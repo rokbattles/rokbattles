@@ -60,7 +60,6 @@ pub(super) fn build_precomputed_document(
     doc! {
         "primary_commander_id": key.primary_commander_id,
         "secondary_commander_id": key.secondary_commander_id,
-        "summary": summary_document(finalize_summary(all.totals)),
         "strategies": {
             "all": strategy_summary_document(&all),
             "open_field": strategy_summary_document(open_field),
@@ -206,7 +205,6 @@ mod tests {
             doc! {
                 "primary_commander_id": 1_i64,
                 "secondary_commander_id": 2_i64,
-                "summary": zero_summary,
                 "strategies": {
                     "all": zero_strategy.clone(),
                     "open_field": zero_strategy.clone(),
@@ -276,7 +274,7 @@ mod tests {
     }
 
     #[test]
-    fn build_precomputed_document_keeps_legacy_summary_and_adds_all_strategy_shapes() {
+    fn build_precomputed_document_emits_all_strategy_shapes() {
         let mut strategies = PairingStrategies::default();
         strategies.values.insert(
             Strategy::OpenField,
@@ -313,17 +311,9 @@ mod tests {
             None,
             DateTime::from_millis(0),
         );
-        let legacy = document.get_document("summary").expect("legacy summary");
         let strategy_documents = document.get_document("strategies").expect("strategies");
         let all = strategy_documents.get_document("all").expect("all");
 
-        assert_eq!(
-            legacy,
-            &all.iter()
-                .filter(|(key, _)| *key != "formations")
-                .map(|(key, value)| (key.clone(), value.clone()))
-                .collect::<Document>()
-        );
         assert_eq!(all.get_i64("total_battles"), Ok(5));
         for strategy in ["open_field", "swarming", "rally", "garrison"] {
             assert!(strategy_documents.get_document(strategy).is_ok());

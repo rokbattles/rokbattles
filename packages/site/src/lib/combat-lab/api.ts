@@ -61,7 +61,6 @@ export type CombatLabStrategies = {
 export type CombatLabPairingDocument = {
   primaryCommanderId: number;
   secondaryCommanderId: number;
-  summary: CombatLabSummary;
   strategies: CombatLabStrategies;
   drastc: CombatLabDrastcScore | null;
   refreshedAt: string;

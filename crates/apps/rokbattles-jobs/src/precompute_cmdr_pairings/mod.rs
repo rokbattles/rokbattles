@@ -1,4 +1,4 @@
-//! Precompute global legendary commander pairing battle summaries.
+//! Precompute global legendary commander pairing battle data.
 
 mod confidence;
 mod mapper;
@@ -40,7 +40,7 @@ pub struct CommanderPairingsPrecomputeStats {
     pub documents_written: usize,
 }
 
-/// Refresh global legendary commander pairing summaries.
+/// Refresh global legendary commander pairing data.
 pub async fn precompute_commander_pairings_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsPrecomputeStats, JobsError> {
@@ -258,16 +258,18 @@ mod tests {
             documents
                 .iter()
                 .find(|(key, _)| *key == observed_key)
-                .and_then(|(_, document)| document.get_document("summary").ok())
-                .and_then(|summary| summary.get_i64("total_battles").ok()),
+                .and_then(|(_, document)| document.get_document("strategies").ok())
+                .and_then(|strategies| strategies.get_document("all").ok())
+                .and_then(|all| all.get_i64("total_battles").ok()),
             Some(4)
         );
         assert_eq!(
             documents
                 .iter()
                 .find(|(key, _)| *key == unobserved_key)
-                .and_then(|(_, document)| document.get_document("summary").ok())
-                .and_then(|summary| summary.get_i64("total_battles").ok()),
+                .and_then(|(_, document)| document.get_document("strategies").ok())
+                .and_then(|strategies| strategies.get_document("all").ok())
+                .and_then(|all| all.get_i64("total_battles").ok()),
             Some(0)
         );
     }
