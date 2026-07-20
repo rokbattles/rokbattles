@@ -167,6 +167,15 @@ struct DrastcScore {
     samples: i64,
     breakdown: DrastcCategories,
     overall: f64,
+    confidence: DrastcConfidence,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize, Serialize)]
+#[serde(rename_all(deserialize = "snake_case", serialize = "camelCase"))]
+struct DrastcConfidence {
+    score: f64,
+    unique_governors: i64,
+    effective_governors: f64,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -308,5 +317,71 @@ mod tests {
         .expect_err("strategies are required");
 
         assert!(error.to_string().contains("missing field `strategies`"));
+    }
+
+    #[test]
+    fn map_pairing_document_requires_and_serializes_drastc_confidence() {
+        let category = doc! { "value": 1.0, "p10": 0.0, "p90": 2.0, "score": 5.0 };
+        let response = map_pairing_document(doc! {
+            "primary_commander_id": 595_i64,
+            "secondary_commander_id": 596_i64,
+            "summary": stored_summary(111_512),
+            "strategies": {
+                "all": stored_strategy(111_512, 0),
+                "open_field": stored_strategy(111_512, 0),
+                "swarming": stored_strategy(0, 0),
+                "rally": stored_strategy(0, 0),
+                "garrison": stored_strategy(0, 0),
+            },
+            "drastc": {
+                "samples": 111_512_i64,
+                "breakdown": {
+                    "damage": category.clone(),
+                    "rage": category.clone(),
+                    "assist": category.clone(),
+                    "sustainability": category.clone(),
+                    "trade": category.clone(),
+                    "consistency": category,
+                },
+                "overall": 6.89,
+                "confidence": {
+                    "score": 4.09,
+                    "unique_governors": 816_i64,
+                    "effective_governors": 28.414381,
+                },
+            },
+            "refreshed_at": DateTime::from_millis(0),
+        })
+        .expect("mapped response");
+        let response = to_document(&response).expect("serialized response");
+        let confidence = response
+            .get_document("drastc")
+            .and_then(|drastc| drastc.get_document("confidence"))
+            .expect("serialized confidence");
+
+        assert_eq!(confidence.get_f64("score"), Ok(4.09));
+        assert_eq!(confidence.get_i64("uniqueGovernors"), Ok(816));
+        assert_eq!(confidence.get_f64("effectiveGovernors"), Ok(28.414381));
+        assert!(confidence.get("unique_governors").is_none());
+    }
+
+    #[test]
+    fn stored_drastc_score_without_confidence_is_rejected() {
+        let category = doc! { "value": 1.0, "p10": 0.0, "p90": 2.0, "score": 5.0 };
+        let error = from_document::<DrastcScore>(doc! {
+            "samples": 1_i64,
+            "breakdown": {
+                "damage": category.clone(),
+                "rage": category.clone(),
+                "assist": category.clone(),
+                "sustainability": category.clone(),
+                "trade": category.clone(),
+                "consistency": category,
+            },
+            "overall": 5.0,
+        })
+        .expect_err("confidence is required");
+
+        assert!(error.to_string().contains("missing field `confidence`"));
     }
 }

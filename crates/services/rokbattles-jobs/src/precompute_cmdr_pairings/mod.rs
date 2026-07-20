@@ -1,5 +1,6 @@
 //! Precompute global legendary commander pairing battle summaries.
 
+mod confidence;
 mod mapper;
 mod model;
 mod output;
@@ -8,7 +9,7 @@ mod scoring;
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use drastc::DrastcScore;
+use drastc::{DrastcConfidence, DrastcScore};
 use mongodb::{
     Collection,
     bson::{DateTime, Document, doc},
@@ -16,6 +17,7 @@ use mongodb::{
 use rokbattles_api::db::ReportsStore;
 
 use self::{
+    confidence::read_pairing_confidences,
     mapper::read_pairings_and_reference_ranges,
     model::{PairingKey, PairingStrategies},
     output::build_precomputed_document,
@@ -33,6 +35,7 @@ pub struct CommanderPairingsPrecomputeStats {
     pub observed_pairings: usize,
     pub supported_drastc_pairings: usize,
     pub scored_drastc_pairings: usize,
+    pub confidence_scored_pairings: usize,
     pub battle_entries_counted: i64,
     pub documents_written: usize,
 }
@@ -51,9 +54,11 @@ pub async fn precompute_commander_pairings_data(
         &supported_drastc_pairings,
         aggregation.reference_ranges,
     );
+    let confidences =
+        read_pairing_confidences(reports_store.battle_collection(), &supported_drastc_pairings)
+            .await?;
 
     let refreshed_at = DateTime::now();
-    let output = reports_store.precomputed_commander_pairings_collection();
     let all_pairings = ordered_pairing_keys(&legendary_ids);
     let battle_entries_counted = all_pairings
         .iter()
@@ -64,16 +69,21 @@ pub async fn precompute_commander_pairings_data(
         &all_pairings,
         &aggregation.strategies,
         &drastc_scores,
+        &confidences,
         refreshed_at,
     );
-
-    let documents_written = write_pairing_documents(output, documents).await?;
+    let documents_written = write_pairing_documents(
+        reports_store.precomputed_commander_pairings_collection(),
+        documents,
+    )
+    .await?;
 
     Ok(CommanderPairingsPrecomputeStats {
         legendary_commanders: legendary_ids.len(),
         observed_pairings: aggregation.strategies.len(),
         supported_drastc_pairings: supported_drastc_pairings.len(),
         scored_drastc_pairings: drastc_scores.len(),
+        confidence_scored_pairings: confidences.len(),
         battle_entries_counted,
         documents_written,
     })
@@ -83,6 +93,7 @@ fn build_pairing_documents(
     pairings: &[PairingKey],
     strategies_by_pairing: &BTreeMap<PairingKey, PairingStrategies>,
     drastc_scores: &BTreeMap<PairingKey, DrastcScore>,
+    confidences: &BTreeMap<PairingKey, DrastcConfidence>,
     refreshed_at: DateTime,
 ) -> Vec<(PairingKey, Document)> {
     let empty_strategies = PairingStrategies::default();
@@ -91,8 +102,8 @@ fn build_pairing_documents(
         .iter()
         .map(|key| {
             let strategies = strategies_by_pairing.get(key).unwrap_or(&empty_strategies);
-            let document =
-                build_precomputed_document(*key, strategies, drastc_scores.get(key), refreshed_at);
+            let drastc = drastc_scores.get(key).zip(confidences.get(key));
+            let document = build_precomputed_document(*key, strategies, drastc, refreshed_at);
             (*key, document)
         })
         .collect()
@@ -237,6 +248,7 @@ mod tests {
         let documents = build_pairing_documents(
             &pairings,
             &BTreeMap::from([(observed_key, observed_strategies)]),
+            &BTreeMap::new(),
             &BTreeMap::new(),
             DateTime::from_millis(0),
         );

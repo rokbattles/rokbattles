@@ -1,17 +1,60 @@
+use std::collections::BTreeSet;
+
 use mongodb::bson::{Bson, Document, doc};
 
-use super::model::Strategy;
+use super::model::{PairingKey, Strategy};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
 pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
+    let mut pipeline = build_pairing_entries_pipeline(legendary_ids);
+    pipeline.extend([
+        raw_totals_group_stage(doc! {
+            "primary_commander_id": "$primary_commander_id",
+            "secondary_commander_id": "$secondary_commander_id",
+            "strategy": "$strategy",
+            "formation": "$formation",
+        }),
+        strategy_totals_group_stage(),
+        reference_eligibility_stage(),
+        reference_metric_stage(),
+        reference_window_stage(),
+        pairing_output_group_stage(),
+        pairing_output_project_stage(),
+    ]);
+    pipeline
+}
+
+fn build_pairing_entries_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
     let legendary_id_values = legendary_id_bson_array(legendary_ids);
+    let sender_condition = ids_match_condition(
+        "$sender.commanders.primary.id",
+        "$sender.commanders.secondary.id",
+        &legendary_id_values,
+    );
+    let opponent_condition = ids_match_condition(
+        "$opponents.commanders.primary.id",
+        "$opponents.commanders.secondary.id",
+        &legendary_id_values,
+    );
+    let pair_filters = vec![
+        Bson::Document(doc! {
+            "sender.commanders.primary.id": { "$in": legendary_id_values.clone() },
+            "sender.commanders.secondary.id": { "$in": legendary_id_values.clone() },
+        }),
+        Bson::Document(doc! {
+            "opponents": {
+                "$elemMatch": {
+                    "player_id": { "$gt": 0 },
+                    "commanders.primary.id": { "$in": legendary_id_values.clone() },
+                    "commanders.secondary.id": { "$in": legendary_id_values },
+                }
+            }
+        }),
+    ];
+
     let sender_entry = conditional_entry(
-        ids_match_condition(
-            "$sender.commanders.primary.id",
-            "$sender.commanders.secondary.id",
-            &legendary_id_values,
-        ),
+        sender_condition,
         perspective_entry(
             "$sender.commanders.primary.id",
             "$sender.commanders.secondary.id",
@@ -22,11 +65,7 @@ pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         ),
     );
     let opponent_entry = conditional_entry(
-        ids_match_condition(
-            "$opponents.commanders.primary.id",
-            "$opponents.commanders.secondary.id",
-            &legendary_id_values,
-        ),
+        opponent_condition,
         perspective_entry(
             "$opponents.commanders.primary.id",
             "$opponents.commanders.secondary.id",
@@ -37,26 +76,85 @@ pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         ),
     );
 
+    build_entries_pipeline(sender_entry, opponent_entry, pair_filters)
+}
+
+pub(super) fn build_supported_pairing_entries_pipeline(
+    supported_pairings: &[PairingKey],
+) -> Vec<Document> {
+    let sender_condition = exact_pairing_condition(
+        "$sender.commanders.primary.id",
+        "$sender.commanders.secondary.id",
+        supported_pairings,
+    );
+    let opponent_condition = exact_pairing_condition(
+        "$opponents.commanders.primary.id",
+        "$opponents.commanders.secondary.id",
+        supported_pairings,
+    );
+    let primary_ids = supported_pairings
+        .iter()
+        .map(|key| key.primary_commander_id)
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .map(Bson::Int64)
+        .collect::<Vec<_>>();
+    let secondary_ids = supported_pairings
+        .iter()
+        .map(|key| key.secondary_commander_id)
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .map(Bson::Int64)
+        .collect::<Vec<_>>();
+    let pair_filters = vec![
+        Bson::Document(doc! {
+            "sender.commanders.primary.id": { "$in": primary_ids.clone() },
+            "sender.commanders.secondary.id": { "$in": secondary_ids.clone() },
+        }),
+        Bson::Document(doc! {
+            "opponents": {
+                "$elemMatch": {
+                    "player_id": { "$gt": 0 },
+                    "commanders.primary.id": { "$in": primary_ids },
+                    "commanders.secondary.id": { "$in": secondary_ids },
+                }
+            }
+        }),
+    ];
+
+    let sender_entry = conditional_entry(
+        sender_condition,
+        confidence_entry(
+            "$sender.commanders.primary.id",
+            "$sender.commanders.secondary.id",
+            "$_sender_strategy",
+            "$sender.player_id",
+        ),
+    );
+    let opponent_entry = conditional_entry(
+        opponent_condition,
+        confidence_entry(
+            "$opponents.commanders.primary.id",
+            "$opponents.commanders.secondary.id",
+            opponent_strategy_expr(),
+            "$opponents.player_id",
+        ),
+    );
+
+    build_entries_pipeline(sender_entry, opponent_entry, pair_filters)
+}
+
+fn build_entries_pipeline(
+    sender_entry: Document,
+    opponent_entry: Document,
+    pair_filters: Vec<Bson>,
+) -> Vec<Document> {
     vec![
         doc! {
             "$match": {
                 "metadata.kvk": true,
                 "opponents": { "$elemMatch": { "player_id": { "$gt": 0 } } },
-                "$or": [
-                    {
-                        "sender.commanders.primary.id": { "$in": legendary_id_values.clone() },
-                        "sender.commanders.secondary.id": { "$in": legendary_id_values.clone() },
-                    },
-                    {
-                        "opponents": {
-                            "$elemMatch": {
-                                "player_id": { "$gt": 0 },
-                                "commanders.primary.id": { "$in": legendary_id_values.clone() },
-                                "commanders.secondary.id": { "$in": legendary_id_values.clone() },
-                            }
-                        }
-                    },
-                ],
+                "$or": pair_filters,
             }
         },
         doc! {
@@ -78,19 +176,44 @@ pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         },
         doc! { "$unwind": "$entries" },
         doc! { "$replaceRoot": { "newRoot": "$entries" } },
-        raw_totals_group_stage(doc! {
-            "primary_commander_id": "$primary_commander_id",
-            "secondary_commander_id": "$secondary_commander_id",
-            "strategy": "$strategy",
-            "formation": "$formation",
-        }),
-        strategy_totals_group_stage(),
-        reference_eligibility_stage(),
-        reference_metric_stage(),
-        reference_window_stage(),
-        pairing_output_group_stage(),
-        pairing_output_project_stage(),
     ]
+}
+
+fn confidence_entry(
+    primary_expr: &'static str,
+    secondary_expr: &'static str,
+    strategy_expr: impl Into<Bson>,
+    player_expr: &'static str,
+) -> Document {
+    doc! {
+        "primary_commander_id": primary_expr,
+        "secondary_commander_id": secondary_expr,
+        "strategy": strategy_expr.into(),
+        "player_id": { "$ifNull": [player_expr, 0_i64] },
+    }
+}
+
+fn exact_pairing_condition(
+    primary_expr: &'static str,
+    secondary_expr: &'static str,
+    supported_pairings: &[PairingKey],
+) -> Document {
+    let pairing_values = supported_pairings
+        .iter()
+        .map(|key| {
+            Bson::Array(vec![
+                Bson::Int64(key.primary_commander_id),
+                Bson::Int64(key.secondary_commander_id),
+            ])
+        })
+        .collect::<Vec<_>>();
+
+    doc! {
+        "$in": [
+            [primary_expr, secondary_expr],
+            pairing_values,
+        ]
+    }
 }
 
 fn sender_strategy_expr() -> Document {
@@ -714,6 +837,35 @@ mod tests {
         assert_eq!(group_count, 3);
         assert!(!pipeline.iter().any(|stage| stage.contains_key("$facet")));
         assert!(pipeline.iter().any(|stage| stage.contains_key("$setWindowFields")));
+    }
+
+    #[test]
+    fn exact_pairing_condition_uses_compact_tuple_membership() {
+        let condition = exact_pairing_condition(
+            "$primary",
+            "$secondary",
+            &[
+                PairingKey { primary_commander_id: 595, secondary_commander_id: 596 },
+                PairingKey { primary_commander_id: 509, secondary_commander_id: 6 },
+            ],
+        );
+        let operands = condition.get_array("$in").expect("tuple membership operands");
+
+        assert_eq!(operands.len(), 2);
+        assert_eq!(
+            operands.first(),
+            Some(&Bson::Array(vec![
+                Bson::String("$primary".to_string()),
+                Bson::String("$secondary".to_string()),
+            ]))
+        );
+        assert_eq!(
+            operands.get(1),
+            Some(&Bson::Array(vec![
+                Bson::Array(vec![Bson::Int64(595), Bson::Int64(596)]),
+                Bson::Array(vec![Bson::Int64(509), Bson::Int64(6)]),
+            ]))
+        );
     }
 
     #[test]

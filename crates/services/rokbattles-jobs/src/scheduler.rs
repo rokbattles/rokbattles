@@ -199,6 +199,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                         observed_pairings = stats.observed_pairings,
                         supported_drastc_pairings = stats.supported_drastc_pairings,
                         scored_drastc_pairings = stats.scored_drastc_pairings,
+                        confidence_scored_pairings = stats.confidence_scored_pairings,
                         battle_entries_counted = stats.battle_entries_counted,
                         documents_written = stats.documents_written,
                         "precomputed commander pairings data"
