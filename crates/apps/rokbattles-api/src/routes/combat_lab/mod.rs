@@ -6,9 +6,10 @@ use axum::{
     http::StatusCode,
     response::IntoResponse,
 };
+use futures::TryStreamExt;
 use mongodb::{
-    bson::{DateTime, Document, doc, from_document},
-    options::FindOneOptions,
+    bson::{Bson, DateTime, Document, doc, from_document},
+    options::{FindOneOptions, FindOptions},
 };
 use serde::{Deserialize, Serialize};
 
@@ -41,8 +42,60 @@ pub async fn get_pairing(
     Ok((StatusCode::OK, [("Cache-Control", "public, max-age=3600")], Json(response)))
 }
 
+/// Returns DRASTC rankings for every scored commander pairing.
+pub async fn get_rankings(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<HashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    let request = parse_rankings_request(&params)?;
+    let collection = state
+        .reports_store
+        .precomputed_commander_pairings_collection()
+        .clone_with_type::<RawCombatLabRankingDocument>();
+    let cursor = collection
+        .find(rankings_filter())
+        .with_options(rankings_find_options(request))
+        .await
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+    let documents: Vec<RawCombatLabRankingDocument> =
+        cursor.try_collect().await.map_err(|error| ApiError::internal(error.to_string()))?;
+    let response = CombatLabRankingsResponse::from(documents);
+
+    Ok((StatusCode::OK, [("Cache-Control", "public, max-age=3600")], Json(response)))
+}
+
 fn pairing_find_options() -> FindOneOptions {
     FindOneOptions::builder().projection(doc! { "_id": 0 }).build()
+}
+
+fn rankings_filter() -> Document {
+    doc! { "drastc": { "$ne": Bson::Null } }
+}
+
+fn rankings_find_options(request: RankingsRequest) -> FindOptions {
+    let mut sort = Document::new();
+    sort.insert(request.sort_by.mongo_path(), request.direction.mongo_order());
+    sort.insert("primary_commander_id", 1);
+    sort.insert("secondary_commander_id", 1);
+
+    FindOptions::builder().projection(rankings_projection()).sort(sort).build()
+}
+
+fn rankings_projection() -> Document {
+    doc! {
+        "_id": 0,
+        "primary_commander_id": 1,
+        "secondary_commander_id": 1,
+        "refreshed_at": 1,
+        "drastc.overall": 1,
+        "drastc.confidence": 1,
+        "drastc.breakdown.damage.score": 1,
+        "drastc.breakdown.rage.score": 1,
+        "drastc.breakdown.assist.score": 1,
+        "drastc.breakdown.sustainability.score": 1,
+        "drastc.breakdown.trade.score": 1,
+        "drastc.breakdown.consistency.score": 1,
+    }
 }
 
 fn map_pairing_document(document: Document) -> Result<CombatLabPairingDocument, ApiError> {
@@ -66,6 +119,85 @@ fn parse_pairing_request(params: &HashMap<String, String>) -> Result<PairingRequ
     }
 
     Ok(PairingRequest { primary_commander_id, secondary_commander_id })
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct RankingsRequest {
+    sort_by: RankingsSort,
+    direction: RankingsDirection,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RankingsSort {
+    Overall,
+    Damage,
+    Rage,
+    Assist,
+    Sustainability,
+    Trade,
+    Consistency,
+}
+
+impl RankingsSort {
+    fn parse(value: &str) -> Option<Self> {
+        match value {
+            "overall" => Some(Self::Overall),
+            "damage" => Some(Self::Damage),
+            "rage" => Some(Self::Rage),
+            "assist" => Some(Self::Assist),
+            "sustainability" => Some(Self::Sustainability),
+            "trade" => Some(Self::Trade),
+            "consistency" => Some(Self::Consistency),
+            _ => None,
+        }
+    }
+
+    fn mongo_path(self) -> &'static str {
+        match self {
+            Self::Overall => "drastc.overall",
+            Self::Damage => "drastc.breakdown.damage.score",
+            Self::Rage => "drastc.breakdown.rage.score",
+            Self::Assist => "drastc.breakdown.assist.score",
+            Self::Sustainability => "drastc.breakdown.sustainability.score",
+            Self::Trade => "drastc.breakdown.trade.score",
+            Self::Consistency => "drastc.breakdown.consistency.score",
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RankingsDirection {
+    Ascending,
+    Descending,
+}
+
+impl RankingsDirection {
+    fn parse(value: &str) -> Option<Self> {
+        match value {
+            "asc" => Some(Self::Ascending),
+            "desc" => Some(Self::Descending),
+            _ => None,
+        }
+    }
+
+    fn mongo_order(self) -> i32 {
+        match self {
+            Self::Ascending => 1,
+            Self::Descending => -1,
+        }
+    }
+}
+
+fn parse_rankings_request(params: &HashMap<String, String>) -> Result<RankingsRequest, ApiError> {
+    let sort_by = params.get("sort").map_or(Ok(RankingsSort::Overall), |value| {
+        RankingsSort::parse(value.trim()).ok_or_else(|| ApiError::bad_request("Invalid sort"))
+    })?;
+    let direction = params.get("direction").map_or(Ok(RankingsDirection::Descending), |value| {
+        RankingsDirection::parse(value.trim())
+            .ok_or_else(|| ApiError::bad_request("Invalid direction"))
+    })?;
+
+    Ok(RankingsRequest { sort_by, direction })
 }
 
 fn parse_required_i64(params: &HashMap<String, String>, key: &str) -> Result<i64, ApiError> {
@@ -195,6 +327,103 @@ struct CategoryScore {
     score: f64,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+struct RawCombatLabRankingDocument {
+    primary_commander_id: i64,
+    secondary_commander_id: i64,
+    refreshed_at: DateTime,
+    drastc: RawCombatLabRankingScore,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct RawCombatLabRankingScore {
+    breakdown: RawCombatLabRankingBreakdown,
+    overall: f64,
+    confidence: DrastcConfidence,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct RawCombatLabRankingBreakdown {
+    damage: RawCombatLabRankingCategory,
+    rage: RawCombatLabRankingCategory,
+    assist: RawCombatLabRankingCategory,
+    sustainability: RawCombatLabRankingCategory,
+    trade: RawCombatLabRankingCategory,
+    consistency: RawCombatLabRankingCategory,
+}
+
+#[derive(Debug, Clone, Copy, Deserialize)]
+struct RawCombatLabRankingCategory {
+    score: f64,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct CombatLabRankingsResponse {
+    items: Vec<CombatLabRankingDocument>,
+    refreshed_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct CombatLabRankingDocument {
+    primary_commander_id: i64,
+    secondary_commander_id: i64,
+    drastc: CombatLabRankingScore,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct CombatLabRankingScore {
+    breakdown: CombatLabRankingBreakdown,
+    overall: f64,
+    confidence: DrastcConfidence,
+}
+
+#[derive(Debug, Clone, Copy, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct CombatLabRankingBreakdown {
+    damage: f64,
+    rage: f64,
+    assist: f64,
+    sustainability: f64,
+    trade: f64,
+    consistency: f64,
+}
+
+impl From<RawCombatLabRankingDocument> for CombatLabRankingDocument {
+    fn from(value: RawCombatLabRankingDocument) -> Self {
+        let breakdown = value.drastc.breakdown;
+
+        Self {
+            primary_commander_id: value.primary_commander_id,
+            secondary_commander_id: value.secondary_commander_id,
+            drastc: CombatLabRankingScore {
+                breakdown: CombatLabRankingBreakdown {
+                    damage: breakdown.damage.score,
+                    rage: breakdown.rage.score,
+                    assist: breakdown.assist.score,
+                    sustainability: breakdown.sustainability.score,
+                    trade: breakdown.trade.score,
+                    consistency: breakdown.consistency.score,
+                },
+                overall: value.drastc.overall,
+                confidence: value.drastc.confidence,
+            },
+        }
+    }
+}
+
+impl From<Vec<RawCombatLabRankingDocument>> for CombatLabRankingsResponse {
+    fn from(documents: Vec<RawCombatLabRankingDocument>) -> Self {
+        let refreshed_at =
+            documents.iter().map(|document| document.refreshed_at).max().map(date_time_to_string);
+        let items = documents.into_iter().map(Into::into).collect();
+
+        Self { items, refreshed_at }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use mongodb::bson::{Bson, to_document};
@@ -265,6 +494,182 @@ mod tests {
     #[test]
     fn pairing_find_options_excludes_mongodb_id() {
         assert_eq!(pairing_find_options().projection, Some(doc! { "_id": 0 }));
+    }
+
+    #[test]
+    fn rankings_request_defaults_to_overall_descending() {
+        let request = parse_rankings_request(&HashMap::new()).expect("default rankings request");
+
+        assert_eq!(
+            request,
+            RankingsRequest {
+                sort_by: RankingsSort::Overall,
+                direction: RankingsDirection::Descending,
+            }
+        );
+        assert_eq!(
+            rankings_find_options(request).sort,
+            Some(doc! {
+                "drastc.overall": -1,
+                "primary_commander_id": 1,
+                "secondary_commander_id": 1,
+            })
+        );
+    }
+
+    #[test]
+    fn rankings_request_supports_every_score_in_both_directions() {
+        let sort_cases = [
+            ("overall", RankingsSort::Overall, "drastc.overall"),
+            ("damage", RankingsSort::Damage, "drastc.breakdown.damage.score"),
+            ("rage", RankingsSort::Rage, "drastc.breakdown.rage.score"),
+            ("assist", RankingsSort::Assist, "drastc.breakdown.assist.score"),
+            (
+                "sustainability",
+                RankingsSort::Sustainability,
+                "drastc.breakdown.sustainability.score",
+            ),
+            ("trade", RankingsSort::Trade, "drastc.breakdown.trade.score"),
+            ("consistency", RankingsSort::Consistency, "drastc.breakdown.consistency.score"),
+        ];
+        let direction_cases =
+            [("asc", RankingsDirection::Ascending, 1), ("desc", RankingsDirection::Descending, -1)];
+
+        for (sort_value, expected_sort, expected_path) in sort_cases {
+            for (direction_value, expected_direction, expected_order) in direction_cases {
+                let params = HashMap::from([
+                    ("sort".to_string(), sort_value.to_string()),
+                    ("direction".to_string(), direction_value.to_string()),
+                ]);
+                let request = parse_rankings_request(&params).expect("supported rankings request");
+                let options = rankings_find_options(request);
+
+                assert_eq!(request.sort_by, expected_sort);
+                assert_eq!(request.direction, expected_direction);
+                assert_eq!(
+                    options.sort.and_then(|sort| sort.get_i32(expected_path).ok()),
+                    Some(expected_order)
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn rankings_request_rejects_confidence_and_invalid_directions() {
+        let confidence = HashMap::from([("sort".to_string(), "confidence".to_string())]);
+        let invalid_direction = HashMap::from([("direction".to_string(), "sideways".to_string())]);
+
+        assert_eq!(
+            parse_rankings_request(&confidence)
+                .expect_err("confidence is not sortable")
+                .to_string(),
+            "Invalid sort"
+        );
+        assert_eq!(
+            parse_rankings_request(&invalid_direction).expect_err("invalid direction").to_string(),
+            "Invalid direction"
+        );
+    }
+
+    #[test]
+    fn rankings_query_filters_scored_pairings_and_projects_required_fields() {
+        assert_eq!(rankings_filter(), doc! { "drastc": { "$ne": Bson::Null } });
+        assert_eq!(
+            rankings_projection(),
+            doc! {
+                "_id": 0,
+                "primary_commander_id": 1,
+                "secondary_commander_id": 1,
+                "refreshed_at": 1,
+                "drastc.overall": 1,
+                "drastc.confidence": 1,
+                "drastc.breakdown.damage.score": 1,
+                "drastc.breakdown.rage.score": 1,
+                "drastc.breakdown.assist.score": 1,
+                "drastc.breakdown.sustainability.score": 1,
+                "drastc.breakdown.trade.score": 1,
+                "drastc.breakdown.consistency.score": 1,
+            }
+        );
+    }
+
+    #[test]
+    fn ranking_response_contains_ids_scores_and_confidence_only() {
+        let category = doc! { "score": 5.0 };
+        let raw = from_document::<RawCombatLabRankingDocument>(doc! {
+            "primary_commander_id": 595_i64,
+            "secondary_commander_id": 596_i64,
+            "refreshed_at": DateTime::from_millis(1_000),
+            "drastc": {
+                "overall": 6.89,
+                "confidence": {
+                    "score": 4.09,
+                    "unique_governors": 816_i64,
+                    "effective_governors": 28.414381,
+                },
+                "breakdown": {
+                    "damage": category.clone(),
+                    "rage": category.clone(),
+                    "assist": category.clone(),
+                    "sustainability": category.clone(),
+                    "trade": category.clone(),
+                    "consistency": category,
+                },
+            },
+        })
+        .expect("projected ranking document");
+        let response = to_document(&CombatLabRankingDocument::from(raw)).expect("ranking response");
+        let drastc = response.get_document("drastc").expect("drastc response");
+        let breakdown = drastc.get_document("breakdown").expect("breakdown response");
+
+        assert_eq!(
+            response.keys().map(String::as_str).collect::<Vec<_>>(),
+            ["primaryCommanderId", "secondaryCommanderId", "drastc"]
+        );
+        assert_eq!(
+            drastc.keys().map(String::as_str).collect::<Vec<_>>(),
+            ["breakdown", "overall", "confidence"]
+        );
+        assert_eq!(
+            breakdown.keys().map(String::as_str).collect::<Vec<_>>(),
+            ["damage", "rage", "assist", "sustainability", "trade", "consistency"]
+        );
+        assert_eq!(breakdown.get_f64("damage"), Ok(5.0));
+        assert!(response.get("strategies").is_none());
+        assert!(response.get("refreshedAt").is_none());
+    }
+
+    #[test]
+    fn rankings_response_uses_latest_refresh_time() {
+        let ranking = |refreshed_at| RawCombatLabRankingDocument {
+            primary_commander_id: 595,
+            secondary_commander_id: 596,
+            refreshed_at,
+            drastc: RawCombatLabRankingScore {
+                breakdown: RawCombatLabRankingBreakdown {
+                    damage: RawCombatLabRankingCategory { score: 5.0 },
+                    rage: RawCombatLabRankingCategory { score: 5.0 },
+                    assist: RawCombatLabRankingCategory { score: 5.0 },
+                    sustainability: RawCombatLabRankingCategory { score: 5.0 },
+                    trade: RawCombatLabRankingCategory { score: 5.0 },
+                    consistency: RawCombatLabRankingCategory { score: 5.0 },
+                },
+                overall: 5.0,
+                confidence: DrastcConfidence {
+                    score: 5.0,
+                    unique_governors: 1,
+                    effective_governors: 1.0,
+                },
+            },
+        };
+        let latest = DateTime::from_millis(2_000);
+
+        let response = CombatLabRankingsResponse::from(vec![
+            ranking(DateTime::from_millis(1_000)),
+            ranking(latest),
+        ]);
+
+        assert_eq!(response.refreshed_at, Some(date_time_to_string(latest)));
     }
 
     #[test]
