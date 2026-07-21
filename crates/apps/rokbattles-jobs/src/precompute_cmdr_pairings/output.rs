@@ -74,6 +74,12 @@ pub(super) fn build_precomputed_document(
 
 fn strategy_summary_document(raw: &StrategyRawTotals) -> Document {
     let mut summary = summary_document(finalize_summary(raw.totals));
+    summary.insert("power_loss_inflicted", raw.totals.power_loss_inflicted);
+    summary.insert("power_loss_taken", raw.totals.power_loss_taken);
+    summary.insert("atk_power_loss_inflicted", raw.totals.atk_power_loss_inflicted);
+    summary.insert("atk_power_loss_taken", raw.totals.atk_power_loss_taken);
+    summary.insert("skill_power_loss_inflicted", raw.totals.skill_power_loss_inflicted);
+    summary.insert("skill_power_loss_taken", raw.totals.skill_power_loss_taken);
     summary.insert(
         "formations",
         raw.formations
@@ -198,6 +204,12 @@ mod tests {
             "hps": 0.0,
         };
         let mut zero_strategy = zero_summary.clone();
+        zero_strategy.insert("power_loss_inflicted", 0_i64);
+        zero_strategy.insert("power_loss_taken", 0_i64);
+        zero_strategy.insert("atk_power_loss_inflicted", 0_i64);
+        zero_strategy.insert("atk_power_loss_taken", 0_i64);
+        zero_strategy.insert("skill_power_loss_inflicted", 0_i64);
+        zero_strategy.insert("skill_power_loss_taken", 0_i64);
         zero_strategy.insert("formations", Bson::Array(Vec::new()));
 
         assert_eq!(
@@ -285,6 +297,12 @@ mod tests {
                     kill_points_lost: 100,
                     trade_percentage_total: 300.0,
                     battle_duration_total: 10_000,
+                    power_loss_inflicted: 1_200,
+                    power_loss_taken: 900,
+                    atk_power_loss_inflicted: 500,
+                    atk_power_loss_taken: 400,
+                    skill_power_loss_inflicted: 700,
+                    skill_power_loss_taken: 500,
                     ..PairingRawTotals::default()
                 },
                 formations: BTreeMap::from([(0, 1), (1, 1)]),
@@ -299,6 +317,12 @@ mod tests {
                     kill_points_lost: 200,
                     trade_percentage_total: 450.0,
                     battle_duration_total: 15_000,
+                    power_loss_inflicted: 1_800,
+                    power_loss_taken: 1_500,
+                    atk_power_loss_inflicted: 800,
+                    atk_power_loss_taken: 600,
+                    skill_power_loss_inflicted: 1_000,
+                    skill_power_loss_taken: 900,
                     ..PairingRawTotals::default()
                 },
                 formations: BTreeMap::from([(1, 2), (2, 1)]),
@@ -315,6 +339,12 @@ mod tests {
         let all = strategy_documents.get_document("all").expect("all");
 
         assert_eq!(all.get_i64("total_battles"), Ok(5));
+        assert_eq!(all.get_i64("power_loss_inflicted"), Ok(3_000));
+        assert_eq!(all.get_i64("power_loss_taken"), Ok(2_400));
+        assert_eq!(all.get_i64("atk_power_loss_inflicted"), Ok(1_300));
+        assert_eq!(all.get_i64("atk_power_loss_taken"), Ok(1_000));
+        assert_eq!(all.get_i64("skill_power_loss_inflicted"), Ok(1_700));
+        assert_eq!(all.get_i64("skill_power_loss_taken"), Ok(1_400));
         for strategy in ["open_field", "swarming", "rally", "garrison"] {
             assert!(strategy_documents.get_document(strategy).is_ok());
         }

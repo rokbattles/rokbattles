@@ -17,6 +17,12 @@ pub(super) struct PairingRawTotals {
     pub(super) battle_duration_total: i64,
     pub(super) severely_wounded_inflicted: i64,
     pub(super) severely_wounded_taken: i64,
+    pub(super) power_loss_inflicted: i64,
+    pub(super) power_loss_taken: i64,
+    pub(super) atk_power_loss_inflicted: i64,
+    pub(super) atk_power_loss_taken: i64,
+    pub(super) skill_power_loss_inflicted: i64,
+    pub(super) skill_power_loss_taken: i64,
     pub(super) damage_total: i64,
     pub(super) sps_total: i64,
     pub(super) tps_total: i64,
@@ -40,6 +46,12 @@ impl PairingRawTotals {
         self.battle_duration_total += other.battle_duration_total;
         self.severely_wounded_inflicted += other.severely_wounded_inflicted;
         self.severely_wounded_taken += other.severely_wounded_taken;
+        self.power_loss_inflicted += other.power_loss_inflicted;
+        self.power_loss_taken += other.power_loss_taken;
+        self.atk_power_loss_inflicted += other.atk_power_loss_inflicted;
+        self.atk_power_loss_taken += other.atk_power_loss_taken;
+        self.skill_power_loss_inflicted += other.skill_power_loss_inflicted;
+        self.skill_power_loss_taken += other.skill_power_loss_taken;
         self.damage_total += other.damage_total;
         self.sps_total += other.sps_total;
         self.tps_total += other.tps_total;
@@ -209,6 +221,12 @@ mod tests {
                         battle_duration_total: value * 1_000,
                         severely_wounded_inflicted: value * 3,
                         severely_wounded_taken: value * 2,
+                        power_loss_inflicted: value * 12,
+                        power_loss_taken: value * 9,
+                        atk_power_loss_inflicted: value * 5,
+                        atk_power_loss_taken: value * 4,
+                        skill_power_loss_inflicted: value * 7,
+                        skill_power_loss_taken: value * 5,
                         damage_total: value * 4,
                         sps_total: value * 3,
                         tps_total: value * 2,
@@ -239,6 +257,12 @@ mod tests {
                     battle_duration_total: 10_000,
                     severely_wounded_inflicted: 30,
                     severely_wounded_taken: 20,
+                    power_loss_inflicted: 120,
+                    power_loss_taken: 90,
+                    atk_power_loss_inflicted: 50,
+                    atk_power_loss_taken: 40,
+                    skill_power_loss_inflicted: 70,
+                    skill_power_loss_taken: 50,
                     damage_total: 40,
                     sps_total: 30,
                     tps_total: 20,

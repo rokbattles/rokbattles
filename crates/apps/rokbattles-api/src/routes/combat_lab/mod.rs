@@ -146,9 +146,22 @@ struct CombatLabStrategies {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
+#[serde(rename_all(deserialize = "snake_case", serialize = "camelCase"))]
 struct CombatLabStrategySummary {
     #[serde(flatten)]
     summary: CombatLabSummary,
+    #[serde(default)]
+    power_loss_inflicted: i64,
+    #[serde(default)]
+    power_loss_taken: i64,
+    #[serde(default)]
+    atk_power_loss_inflicted: i64,
+    #[serde(default)]
+    atk_power_loss_taken: i64,
+    #[serde(default)]
+    skill_power_loss_inflicted: i64,
+    #[serde(default)]
+    skill_power_loss_taken: i64,
     formations: Vec<CombatLabFormation>,
 }
 
@@ -219,7 +232,7 @@ mod tests {
         }
     }
 
-    fn stored_strategy(total_battles: i64, formation_id: i64) -> Document {
+    fn stored_legacy_strategy(total_battles: i64, formation_id: i64) -> Document {
         let mut strategy = stored_summary(total_battles);
         strategy.insert(
             "formations",
@@ -228,6 +241,17 @@ mod tests {
                 "count": total_battles,
             })]),
         );
+        strategy
+    }
+
+    fn stored_strategy(total_battles: i64, formation_id: i64) -> Document {
+        let mut strategy = stored_legacy_strategy(total_battles, formation_id);
+        strategy.insert("power_loss_inflicted", 1_200_i64);
+        strategy.insert("power_loss_taken", 900_i64);
+        strategy.insert("atk_power_loss_inflicted", 500_i64);
+        strategy.insert("atk_power_loss_taken", 400_i64);
+        strategy.insert("skill_power_loss_inflicted", 700_i64);
+        strategy.insert("skill_power_loss_taken", 500_i64);
         strategy
     }
 
@@ -294,6 +318,13 @@ mod tests {
         );
         assert_eq!(open_field.get_i64("totalBattles"), Ok(10));
         assert!(open_field.get("total_battles").is_none());
+        assert_eq!(open_field.get_i64("powerLossInflicted"), Ok(1_200));
+        assert_eq!(open_field.get_i64("powerLossTaken"), Ok(900));
+        assert_eq!(open_field.get_i64("atkPowerLossInflicted"), Ok(500));
+        assert_eq!(open_field.get_i64("atkPowerLossTaken"), Ok(400));
+        assert_eq!(open_field.get_i64("skillPowerLossInflicted"), Ok(700));
+        assert_eq!(open_field.get_i64("skillPowerLossTaken"), Ok(500));
+        assert!(open_field.get("power_loss_inflicted").is_none());
         assert_eq!(
             open_field.get_array("formations"),
             Ok(&vec![Bson::Document(doc! { "id": 2_i64, "count": 10_i64 })])
@@ -377,5 +408,32 @@ mod tests {
         .expect_err("confidence is required");
 
         assert!(error.to_string().contains("missing field `confidence`"));
+    }
+
+    #[test]
+    fn map_pairing_document_defaults_new_power_losses_for_legacy_strategy_documents() {
+        let legacy_strategy = stored_legacy_strategy(1, 0);
+        let response = map_pairing_document(doc! {
+            "primary_commander_id": 509_i64,
+            "secondary_commander_id": 6_i64,
+            "strategies": {
+                "all": legacy_strategy.clone(),
+                "open_field": legacy_strategy.clone(),
+                "swarming": legacy_strategy.clone(),
+                "rally": legacy_strategy.clone(),
+                "garrison": legacy_strategy,
+            },
+            "drastc": Bson::Null,
+            "refreshed_at": DateTime::from_millis(0),
+        })
+        .expect("mapped legacy response");
+        let response = to_document(&response).expect("serialized response");
+        let all = response
+            .get_document("strategies")
+            .and_then(|strategies| strategies.get_document("all"))
+            .expect("all strategy");
+
+        assert_eq!(all.get_i64("powerLossInflicted"), Ok(0));
+        assert_eq!(all.get_i64("skillPowerLossTaken"), Ok(0));
     }
 }

@@ -40,6 +40,14 @@ fn map_raw_totals_document(document: &Document) -> PairingRawTotals {
         severely_wounded_inflicted: direct_i64(document, "severely_wounded_inflicted")
             .unwrap_or_default(),
         severely_wounded_taken: direct_i64(document, "severely_wounded_taken").unwrap_or_default(),
+        power_loss_inflicted: direct_i64(document, "power_loss_inflicted").unwrap_or_default(),
+        power_loss_taken: direct_i64(document, "power_loss_taken").unwrap_or_default(),
+        atk_power_loss_inflicted: direct_i64(document, "atk_power_loss_inflicted")
+            .unwrap_or_default(),
+        atk_power_loss_taken: direct_i64(document, "atk_power_loss_taken").unwrap_or_default(),
+        skill_power_loss_inflicted: direct_i64(document, "skill_power_loss_inflicted")
+            .unwrap_or_default(),
+        skill_power_loss_taken: direct_i64(document, "skill_power_loss_taken").unwrap_or_default(),
         damage_total: direct_i64(document, "damage_total").unwrap_or_default(),
         sps_total: direct_i64(document, "sps_total").unwrap_or_default(),
         tps_total: direct_i64(document, "tps_total").unwrap_or_default(),
@@ -214,6 +222,12 @@ mod tests {
             "battle_duration_total": 10_000_i64,
             "severely_wounded_inflicted": 20_i64,
             "severely_wounded_taken": 10_i64,
+            "power_loss_inflicted": 1_200_i64,
+            "power_loss_taken": 900_i64,
+            "atk_power_loss_inflicted": 500_i64,
+            "atk_power_loss_taken": 400_i64,
+            "skill_power_loss_inflicted": 700_i64,
+            "skill_power_loss_taken": 500_i64,
             "damage_total": 50_i64,
             "sps_total": 20_i64,
             "tps_total": 10_i64,
@@ -230,6 +244,12 @@ mod tests {
 
         let totals = map_raw_totals_document(&document);
         assert_eq!(totals.total_battles, 2);
+        assert_eq!(totals.power_loss_inflicted, 1_200);
+        assert_eq!(totals.power_loss_taken, 900);
+        assert_eq!(totals.atk_power_loss_inflicted, 500);
+        assert_eq!(totals.atk_power_loss_taken, 400);
+        assert_eq!(totals.skill_power_loss_inflicted, 700);
+        assert_eq!(totals.skill_power_loss_taken, 500);
         assert_eq!(totals.damage_total, 50);
         assert_eq!(totals.opponent_dead, 5);
         assert_eq!(totals.normalized_duration_seconds_total, 10.0);

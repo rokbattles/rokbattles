@@ -47,6 +47,12 @@ export type CombatLabFormation = {
 };
 
 export type CombatLabStrategySummary = CombatLabSummary & {
+  powerLossInflicted: number;
+  powerLossTaken: number;
+  atkPowerLossInflicted: number;
+  atkPowerLossTaken: number;
+  skillPowerLossInflicted: number;
+  skillPowerLossTaken: number;
   formations: CombatLabFormation[];
 };
 

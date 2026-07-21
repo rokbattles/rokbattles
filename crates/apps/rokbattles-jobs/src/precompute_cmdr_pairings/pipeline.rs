@@ -302,6 +302,12 @@ fn raw_totals_group_stage(id: Document) -> Document {
             "battle_duration_total": { "$sum": "$battle_duration" },
             "severely_wounded_inflicted": { "$sum": "$severely_wounded_inflicted" },
             "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
+            "power_loss_inflicted": { "$sum": "$power_loss_inflicted" },
+            "power_loss_taken": { "$sum": "$power_loss_taken" },
+            "atk_power_loss_inflicted": { "$sum": "$atk_power_loss_inflicted" },
+            "atk_power_loss_taken": { "$sum": "$atk_power_loss_taken" },
+            "skill_power_loss_inflicted": { "$sum": "$skill_power_loss_inflicted" },
+            "skill_power_loss_taken": { "$sum": "$skill_power_loss_taken" },
             "damage_total": { "$sum": "$damage_total" },
             "sps_total": { "$sum": "$sps_total" },
             "tps_total": { "$sum": "$tps_total" },
@@ -333,6 +339,12 @@ fn strategy_totals_group_stage() -> Document {
             "battle_duration_total": { "$sum": "$battle_duration_total" },
             "severely_wounded_inflicted": { "$sum": "$severely_wounded_inflicted" },
             "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
+            "power_loss_inflicted": { "$sum": "$power_loss_inflicted" },
+            "power_loss_taken": { "$sum": "$power_loss_taken" },
+            "atk_power_loss_inflicted": { "$sum": "$atk_power_loss_inflicted" },
+            "atk_power_loss_taken": { "$sum": "$atk_power_loss_taken" },
+            "skill_power_loss_inflicted": { "$sum": "$skill_power_loss_inflicted" },
+            "skill_power_loss_taken": { "$sum": "$skill_power_loss_taken" },
             "damage_total": { "$sum": "$damage_total" },
             "sps_total": { "$sum": "$sps_total" },
             "tps_total": { "$sum": "$tps_total" },
@@ -524,6 +536,12 @@ fn raw_totals_aggregate_document() -> Document {
         "battle_duration_total": "$battle_duration_total",
         "severely_wounded_inflicted": "$severely_wounded_inflicted",
         "severely_wounded_taken": "$severely_wounded_taken",
+        "power_loss_inflicted": "$power_loss_inflicted",
+        "power_loss_taken": "$power_loss_taken",
+        "atk_power_loss_inflicted": "$atk_power_loss_inflicted",
+        "atk_power_loss_taken": "$atk_power_loss_taken",
+        "skill_power_loss_inflicted": "$skill_power_loss_inflicted",
+        "skill_power_loss_taken": "$skill_power_loss_taken",
         "damage_total": "$damage_total",
         "sps_total": "$sps_total",
         "tps_total": "$tps_total",
@@ -654,6 +672,12 @@ fn perspective_entry(
         "battle_duration": battle_duration.clone(),
         "severely_wounded_inflicted": opponent_severely_wounded.clone(),
         "severely_wounded_taken": sender_severely_wounded.clone(),
+        "power_loss_inflicted": power_loss_field(enemy_results_path, "power"),
+        "power_loss_taken": power_loss_field(self_results_path, "power"),
+        "atk_power_loss_inflicted": power_loss_field(enemy_results_path, "attack_power"),
+        "atk_power_loss_taken": power_loss_field(self_results_path, "attack_power"),
+        "skill_power_loss_inflicted": power_loss_field(enemy_results_path, "skill_power"),
+        "skill_power_loss_taken": power_loss_field(self_results_path, "skill_power"),
         "damage_total": {
             "$add": [
                 opponent_slightly_wounded.clone(),
@@ -703,6 +727,15 @@ fn perspective_entry(
 
 fn numeric_field(path: &str, field: &str) -> Document {
     doc! { "$ifNull": [format!("${path}.{field}"), 0] }
+}
+
+fn power_loss_field(path: &str, field: &str) -> Document {
+    doc! {
+        "$max": [
+            { "$multiply": [numeric_field(path, field), -1_i64] },
+            0_i64,
+        ]
+    }
 }
 
 fn trade_percentage_expr(kill_points_gained: Document, kill_points_lost: Document) -> Document {
@@ -1069,5 +1102,34 @@ mod tests {
         );
 
         assert_eq!(entry.get_document("formation"), Ok(&doc! { "$ifNull": ["$formation", 0_i64] }));
+    }
+
+    #[test]
+    fn perspective_entry_orients_and_normalizes_power_losses() {
+        let entry = perspective_entry(
+            "$primary",
+            "$secondary",
+            "$formation",
+            "$strategy",
+            "self_results",
+            "enemy_results",
+        );
+
+        assert_eq!(
+            entry.get_document("power_loss_inflicted"),
+            Ok(&power_loss_field("enemy_results", "power"))
+        );
+        assert_eq!(
+            entry.get_document("power_loss_taken"),
+            Ok(&power_loss_field("self_results", "power"))
+        );
+        assert_eq!(
+            entry.get_document("atk_power_loss_inflicted"),
+            Ok(&power_loss_field("enemy_results", "attack_power"))
+        );
+        assert_eq!(
+            entry.get_document("skill_power_loss_taken"),
+            Ok(&power_loss_field("self_results", "skill_power"))
+        );
     }
 }
