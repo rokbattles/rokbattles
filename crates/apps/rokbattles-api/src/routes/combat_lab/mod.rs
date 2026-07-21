@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{error::ApiError, state::AppState};
 
-/// Returns one precomputed legendary commander pairing summary for Combat Lab.
+/// Returns one precomputed legendary commander pairing for Combat Lab.
 pub async fn get_pairing(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
@@ -90,7 +90,6 @@ fn date_time_to_string(value: DateTime) -> String {
 struct RawCombatLabPairingDocument {
     primary_commander_id: i64,
     secondary_commander_id: i64,
-    summary: CombatLabSummary,
     strategies: CombatLabStrategies,
     drastc: Option<DrastcScore>,
     refreshed_at: DateTime,
@@ -101,7 +100,6 @@ struct RawCombatLabPairingDocument {
 struct CombatLabPairingDocument {
     primary_commander_id: i64,
     secondary_commander_id: i64,
-    summary: CombatLabSummary,
     strategies: CombatLabStrategies,
     drastc: Option<DrastcScore>,
     refreshed_at: String,
@@ -112,7 +110,6 @@ impl From<RawCombatLabPairingDocument> for CombatLabPairingDocument {
         Self {
             primary_commander_id: value.primary_commander_id,
             secondary_commander_id: value.secondary_commander_id,
-            summary: value.summary,
             strategies: value.strategies,
             drastc: value.drastc,
             refreshed_at: date_time_to_string(value.refreshed_at),
@@ -276,7 +273,6 @@ mod tests {
             "_id": "excluded",
             "primary_commander_id": 509_i64,
             "secondary_commander_id": 6_i64,
-            "summary": stored_summary(15),
             "strategies": {
                 "all": stored_strategy(15, 0),
                 "open_field": stored_strategy(10, 2),
@@ -310,7 +306,6 @@ mod tests {
         let error = map_pairing_document(doc! {
             "primary_commander_id": 509_i64,
             "secondary_commander_id": 6_i64,
-            "summary": stored_summary(15),
             "drastc": Bson::Null,
             "refreshed_at": DateTime::from_millis(0),
         })
@@ -325,7 +320,6 @@ mod tests {
         let response = map_pairing_document(doc! {
             "primary_commander_id": 595_i64,
             "secondary_commander_id": 596_i64,
-            "summary": stored_summary(111_512),
             "strategies": {
                 "all": stored_strategy(111_512, 0),
                 "open_field": stored_strategy(111_512, 0),
