@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore};
+use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore};
 
 use super::{
     model::{PairingKey, PairingRawTotals},
@@ -46,7 +46,7 @@ pub(super) fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey
 
 #[cfg(test)]
 mod tests {
-    use drastc::{DrastcReferenceRanges, ReferenceRange};
+    use rokbattles_drastc::{DrastcReferenceRanges, ReferenceRange};
 
     use super::*;
 

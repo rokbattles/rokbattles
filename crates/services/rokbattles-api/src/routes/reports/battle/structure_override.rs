@@ -1,7 +1,7 @@
 use std::{borrow::Borrow, collections::HashMap, fmt, sync::OnceLock};
 
-use core_bson::{nested_bool, nested_i64_exact};
 use mongodb::bson::Document;
+use rokbattles_bson::{nested_bool, nested_i64_exact};
 use serde::{
     Deserialize, Deserializer,
     de::{self, Visitor},

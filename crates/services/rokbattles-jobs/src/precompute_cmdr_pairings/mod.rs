@@ -9,12 +9,12 @@ mod scoring;
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use drastc::{DrastcConfidence, DrastcScore};
 use mongodb::{
     Collection,
     bson::{DateTime, Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
+use rokbattles_drastc::{DrastcConfidence, DrastcScore};
 
 use self::{
     confidence::read_pairing_confidences,

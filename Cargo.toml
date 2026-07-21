@@ -1,6 +1,6 @@
 [workspace]
 members = [
-    "crates/core/drastc",
+    "crates/core/rokbattles-drastc",
     "crates/mail/cli",
     "crates/mail/decoder",
     "crates/mail/decoder-simd",
@@ -19,7 +19,7 @@ members = [
     "crates/mail/processors/system-barbarianfort",
     "crates/mail/processors/system-kahartreasure",
     "crates/services/rokbattles-api",
-    "crates/core/bson",
+    "crates/core/rokbattles-bson",
     "crates/services/rokbattles-jobs",
     "crates/services/rokbattles-ingress",
     "crates/services/rokbattles-processor",

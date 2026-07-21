@@ -1,5 +1,5 @@
-use core_bson::{nested_bool, nested_document, nested_i64};
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_bson::{nested_bool, nested_document, nested_i64};
 
 use super::{
     query::DuelBattle2Request,

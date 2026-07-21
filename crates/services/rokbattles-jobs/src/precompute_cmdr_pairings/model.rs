@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use drastc::{BattleRecord, DrastcReferenceRanges, ReferenceRange};
+use rokbattles_drastc::{BattleRecord, DrastcReferenceRanges, ReferenceRange};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(super) struct PairingKey {
