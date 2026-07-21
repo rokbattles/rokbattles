@@ -27,8 +27,8 @@ tauri-plugin-dialog = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
 reqwest = { workspace = true, features = ["multipart", "json"] }
-rokbattles-mail-decoder = { path = "../core/rokbattles-mail-decoder" }
-rokbattles-mail-registry = { path = "../core/rokbattles-mail-registry" }
+rokbattles-mail-decoder = { path = "../../core/rokbattles-mail-decoder" }
+rokbattles-mail-registry = { path = "../../core/rokbattles-mail-registry" }
 tauri-plugin-updater = { workspace = true }
 notify = { workspace = true }
 
