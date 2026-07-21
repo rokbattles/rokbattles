@@ -9,8 +9,8 @@ use std::{
 };
 
 use futures::stream::TryStreamExt;
-use mail_registry::{MailType, normalize_mail_root, process_mail};
 use mongodb::bson::{Bson, DateTime, Document, oid::ObjectId};
+use rokbattles_mail_registry::{MailType, normalize_mail_root, process_mail};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use tracing::{debug, error, info};
@@ -228,7 +228,7 @@ fn decode_mail_binary(raw: &RawMail) -> Result<Value, ProcessorError> {
         });
     }
 
-    Ok(mail_decoder::decode(&bytes)?)
+    Ok(rokbattles_mail_decoder::decode(&bytes)?)
 }
 
 fn observed_version(doc: &Document) -> ObservedVersion {
@@ -240,11 +240,11 @@ fn observed_version(doc: &Document) -> ObservedVersion {
 }
 
 fn extract_mail_type(root: &Value) -> Result<MailType, ProcessorError> {
-    if let Some(mail_type) = mail_registry::detect_mail_type(root) {
+    if let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(root) {
         return Ok(mail_type);
     }
 
-    let mail_type = mail_registry::raw_mail_type_string(root)
+    let mail_type = rokbattles_mail_registry::raw_mail_type_string(root)
         .ok_or_else(|| ProcessorError::InvalidMailPayload("missing mail type".to_string()))?;
     Err(ProcessorError::UnsupportedMailType(mail_type))
 }
@@ -536,7 +536,7 @@ mod tests {
         ));
         let raw = raw_mail_from_bytes(bytes);
         let decoded = decode_mail_binary(&raw).unwrap();
-        assert_eq!(mail_registry::detect_mail_type(&decoded), Some(MailType::Battle));
+        assert_eq!(rokbattles_mail_registry::detect_mail_type(&decoded), Some(MailType::Battle));
     }
 
     #[test]
@@ -654,12 +654,12 @@ mod tests {
         for input in samples {
             let bytes = std::fs::read(&input)
                 .unwrap_or_else(|error| panic!("failed to read {}: {error}", input.display()));
-            let decoded = mail_decoder::decode(&bytes)
+            let decoded = rokbattles_mail_decoder::decode(&bytes)
                 .unwrap_or_else(|error| panic!("failed to decode {}: {error}", input.display()));
             let Some(root) = normalize_mail_root(&decoded) else {
                 panic!("non-object root for {}", input.display());
             };
-            let Some(mail_type) = mail_registry::detect_mail_type(root) else {
+            let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(root) else {
                 continue;
             };
             let processed = process_mail(mail_type, root)

@@ -1,11 +1,11 @@
 //! MongoDB access helpers for processor operations.
 
-use mail_registry::MailType;
 use mongodb::{
     Collection, Cursor, IndexModel,
     bson::{Bson, DateTime, Document, doc, oid::ObjectId},
     options::{FindOptions, IndexOptions},
 };
+use rokbattles_mail_registry::MailType;
 
 pub const STATUS_PENDING: &str = "pending";
 pub const STATUS_REPROCESS: &str = "reprocess";

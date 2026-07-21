@@ -1,0 +1,12 @@
+[package]
+name = "rokbattles-mail-decoder"
+version = "1.6.1"
+edition = "2024"
+
+[dependencies]
+rokbattles-mail-decoder-simd = { path = "../rokbattles-mail-decoder-simd" }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lib]
+doctest = false

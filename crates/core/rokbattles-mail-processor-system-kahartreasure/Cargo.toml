@@ -1,0 +1,11 @@
+[package]
+name = "rokbattles-mail-processor-system-kahartreasure"
+version = "1.6.1"
+edition = "2024"
+
+[dependencies]
+rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
+serde_json = { workspace = true }
+
+[lib]
+doctest = false

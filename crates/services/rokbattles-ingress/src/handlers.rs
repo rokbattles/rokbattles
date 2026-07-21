@@ -7,8 +7,8 @@ use axum::{
     response::IntoResponse,
 };
 use bytes::Bytes;
-use mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use mongodb::bson::DateTime;
+use rokbattles_mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use serde::Serialize;
 use serde_json::Value;
 
@@ -73,7 +73,7 @@ pub async fn upload(
         }
     }
 
-    let decoded = mail_decoder::decode(&buffer)
+    let decoded = rokbattles_mail_decoder::decode(&buffer)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;
 
     let mail_type = extract_mail_type(&decoded)?;
@@ -206,12 +206,12 @@ async fn read_upload(multipart: &mut Multipart) -> Result<UploadInput, ApiError>
 }
 
 fn extract_mail_type(decoded: &Value) -> Result<String, ApiError> {
-    if let Some(mail_type) = mail_registry::detect_mail_type(decoded) {
+    if let Some(mail_type) = rokbattles_mail_registry::detect_mail_type(decoded) {
         return Ok(mail_type.to_string());
     }
-    let raw = mail_registry::raw_mail_type_string(decoded)
+    let raw = rokbattles_mail_registry::raw_mail_type_string(decoded)
         .ok_or_else(|| ApiError::bad_request("missing mail type"))?;
-    if mail_registry::MailType::from_label_ignore_ascii_case(&raw).is_some() {
+    if rokbattles_mail_registry::MailType::from_label_ignore_ascii_case(&raw).is_some() {
         return Err(ApiError::unsupported_type(raw));
     }
     Ok(raw)
@@ -226,7 +226,7 @@ fn update_status_for_mail_type(mail_type: &str) -> &'static str {
 }
 
 fn extract_mail_id(decoded: &Value) -> Option<String> {
-    let root = mail_registry::normalize_mail_root(decoded)?;
+    let root = rokbattles_mail_registry::normalize_mail_root(decoded)?;
     root.get("id")
         .and_then(value_to_string)
         .or_else(|| root.get("mail_id").and_then(value_to_string))

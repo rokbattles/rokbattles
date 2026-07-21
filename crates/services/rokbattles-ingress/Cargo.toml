@@ -8,8 +8,8 @@ axum = { workspace = true, features = ["multipart"] }
 bytes = { workspace = true }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, default-features = false, features = ["zlib"] }
-mail-decoder = { path = "../../mail/decoder" }
-mail-registry = { path = "../../mail/registry" }
+rokbattles-mail-decoder = { path = "../../core/rokbattles-mail-decoder" }
+rokbattles-mail-registry = { path = "../../core/rokbattles-mail-registry" }
 mongodb = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

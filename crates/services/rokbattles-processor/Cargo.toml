@@ -14,7 +14,7 @@ futures = { workspace = true }
 zstd = { workspace = true }
 sha2 = { workspace = true }
 dotenvy = { workspace = true }
-mail-decoder = { path = "../../mail/decoder" }
-mail-registry = { path = "../../mail/registry", features = ["processors"] }
-mail-sdk = { path = "../../mail/sdk" }
+rokbattles-mail-decoder = { path = "../../core/rokbattles-mail-decoder" }
+rokbattles-mail-registry = { path = "../../core/rokbattles-mail-registry", features = ["processors"] }
+rokbattles-mail-sdk = { path = "../../core/rokbattles-mail-sdk" }
 sentry = { workspace = true }

@@ -1,0 +1,19 @@
+[package]
+name = "rokbattles-mail-cli"
+version = "1.6.1"
+edition = "2024"
+
+[dependencies]
+clap = { workspace = true, features = ["derive"] }
+rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+rokbattles-mail-registry = { path = "../rokbattles-mail-registry", features = ["processors"] }
+rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lib]
+doctest = false
