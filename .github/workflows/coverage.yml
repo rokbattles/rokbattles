@@ -51,7 +51,7 @@ jobs:
         run: cargo llvm-cov --workspace --lcov --output-path lcov.info
 
       - name: Report coverage
-        uses: getsentry/codecov-action@03112cc3b486a3397dc8d17a58680008721fc86f # 0.3.7
+        uses: getsentry/codecov-action@eb2b4a6c4be3ecb42867043570579fa3b6879f6e # 0.3.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: ./lcov.info
