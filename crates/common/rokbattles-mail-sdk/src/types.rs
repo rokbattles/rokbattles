@@ -2,7 +2,7 @@
 
 use std::collections::BTreeMap;
 
-use serde::Serialize;
+use serde::{Serialize, de::DeserializeOwned};
 use serde_json::{Map, Value};
 
 /// Data for one processed section.
@@ -118,6 +118,14 @@ impl ProcessedMail {
     #[must_use]
     pub fn sections(&self) -> &BTreeMap<String, Section> {
         &self.sections
+    }
+
+    /// Converts the generic section map into a processor's concrete output type.
+    pub fn into_typed<T: DeserializeOwned>(self) -> Result<T, crate::ProcessError> {
+        let value = serde_json::to_value(self)
+            .map_err(|source| crate::ProcessError::InvalidOutput { source })?;
+        serde_json::from_value(value)
+            .map_err(|source| crate::ProcessError::InvalidOutput { source })
     }
 }
 

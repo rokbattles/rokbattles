@@ -1,0 +1,15 @@
+[package]
+name = "rokbattles-codegen-mail-types"
+version = "1.6.1"
+edition = "2024"
+
+[dependencies]
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+ts-rs = { workspace = true, features = ["serde-json-impl"] }
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true

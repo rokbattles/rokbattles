@@ -10,13 +10,14 @@ mod pairings;
 mod results;
 mod rewards;
 
+pub use rokbattles_codegen_mail_types::allianceaooindividualresults::AllianceAooIndividualResults;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the AllianceAOOIndividualResults parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<AllianceAooIndividualResults, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {
@@ -46,13 +47,8 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rewards"));
-        assert!(sections.contains_key("body"));
-        assert!(sections.contains_key("overview"));
-        assert!(sections.contains_key("pairings"));
-        assert!(sections.contains_key("results"));
+
+        assert_eq!(processed.overview.player_name.as_deref(), Some("Grigvar"));
     }
 
     #[test]
@@ -63,13 +59,8 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rewards"));
-        assert!(sections.contains_key("body"));
-        assert!(sections.contains_key("overview"));
-        assert!(sections.contains_key("pairings"));
-        assert!(sections.contains_key("results"));
+
+        assert!(processed.overview.player_name.is_none());
     }
 
     #[test]
@@ -80,13 +71,8 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rewards"));
-        assert!(sections.contains_key("body"));
-        assert!(sections.contains_key("overview"));
-        assert!(sections.contains_key("pairings"));
-        assert!(sections.contains_key("results"));
+
+        assert!(processed.overview.total_results.is_none());
     }
 
     #[test]
@@ -97,13 +83,7 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rewards"));
-        assert!(sections.contains_key("body"));
-        assert!(sections.contains_key("overview"));
-        assert!(sections.contains_key("pairings"));
-        assert!(sections.contains_key("results"));
-        assert_eq!(sections["results"].fields()["healing_score"], serde_json::json!(0));
+
+        assert_eq!(processed.results.healing_score, Some(0));
     }
 }

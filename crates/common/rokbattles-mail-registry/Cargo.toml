@@ -6,6 +6,7 @@ edition = "2024"
 [features]
 default = []
 processors = [
+    "dep:rokbattles-codegen-mail-types",
     "dep:rokbattles-mail-processor-alliance-aoo-battle-info",
     "dep:rokbattles-mail-processor-alliance-aoo-battle-results",
     "dep:rokbattles-mail-processor-alliance-aoo-individual-results",
@@ -23,6 +24,7 @@ processors = [
 
 [dependencies]
 serde_json = { workspace = true }
+rokbattles-codegen-mail-types = { path = "../../codegen/rokbattles-codegen-mail-types", optional = true }
 rokbattles-mail-processor-alliance-aoo-battle-info = { path = "../rokbattles-mail-processor-alliance-aoo-battle-info", optional = true }
 rokbattles-mail-processor-alliance-aoo-battle-results = { path = "../rokbattles-mail-processor-alliance-aoo-battle-results", optional = true }
 rokbattles-mail-processor-alliance-aoo-individual-results = { path = "../rokbattles-mail-processor-alliance-aoo-individual-results", optional = true }

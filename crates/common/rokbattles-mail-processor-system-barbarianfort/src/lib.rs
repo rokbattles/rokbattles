@@ -8,13 +8,14 @@ mod metadata;
 mod rewards;
 mod templates;
 
+pub use rokbattles_codegen_mail_types::systembarbarianfort::SystemBarbarianFort;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the SystemBarbarianFort parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<SystemBarbarianFort, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {

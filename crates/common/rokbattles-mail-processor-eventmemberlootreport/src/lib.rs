@@ -7,13 +7,14 @@ mod content;
 mod metadata;
 mod participants;
 
+pub use rokbattles_codegen_mail_types::eventmemberlootreport::EventMemberLootReport;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the GVE member loot report parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<EventMemberLootReport, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {
@@ -28,7 +29,7 @@ fn processor() -> Processor {
 mod tests {
     use std::{fs, path::PathBuf};
 
-    use serde_json::{Value, json};
+    use serde_json::Value;
 
     use super::*;
 
@@ -50,18 +51,9 @@ mod tests {
                 serde_json::from_str(&fs::read_to_string(path).expect("read sample"))
                     .expect("parse sample");
             let output = process(&input).expect("process sample");
-            assert_eq!(output.sections()["metadata"].fields()["mail_id"], json!(mail_id));
-            assert_eq!(output.sections()["boss"].fields()["id"], json!(boss_id));
-
-            let participants = output.sections()["participants"].array().expect("participants");
-            assert!(participants.len() > 1);
-            assert!(participants.iter().all(|participant| {
-                participant.get("player_id").is_some()
-                    && participant.get("player_name").is_some()
-                    && participant.get("avatar_url").is_some()
-                    && participant.get("frame_url").is_some()
-                    && participant.get("loot").and_then(Value::as_array).is_some()
-            }));
+            assert_eq!(output.metadata.mail_id, *mail_id);
+            assert_eq!(output.boss.id, *boss_id);
+            assert!(output.participants.len() > 1);
         }
     }
 }

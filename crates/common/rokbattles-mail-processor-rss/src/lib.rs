@@ -6,13 +6,14 @@ mod content;
 mod metadata;
 mod rss;
 
+pub use rokbattles_codegen_mail_types::rss::Rss;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the RSS parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<Rss, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {
@@ -38,9 +39,8 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rss"));
+
+        assert_eq!(processed.metadata.mail_id, "113157979177212756131");
     }
 
     #[test]
@@ -51,9 +51,7 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("rss"));
-        assert_eq!(sections["rss"].fields()["crystals_gain"], serde_json::json!(0));
+
+        assert_eq!(processed.rss.crystals_gain.as_u64(), Some(0));
     }
 }

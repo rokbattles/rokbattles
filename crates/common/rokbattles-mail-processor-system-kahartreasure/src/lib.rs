@@ -5,13 +5,14 @@
 mod loot;
 mod metadata;
 
+pub use rokbattles_codegen_mail_types::systemkahartreasure::SystemKaharTreasure;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the SystemKaharTreasure parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<SystemKaharTreasure, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {

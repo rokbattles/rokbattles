@@ -1,0 +1,16 @@
+[package]
+name = "rokbattles-codegen"
+version = "1.6.1"
+edition = "2024"
+
+[dependencies]
+anyhow = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+rokbattles-codegen-mail-types = { path = "../rokbattles-codegen-mail-types" }
+ts-rs = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+
+[lints]
+workspace = true

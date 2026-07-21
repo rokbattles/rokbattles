@@ -1,0 +1,9 @@
+{
+  "name": "@rokbattles/types",
+  "version": "1.6.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./mail/*": "./src/mail/*.ts"
+  }
+}

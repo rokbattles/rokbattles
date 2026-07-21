@@ -143,6 +143,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
+  packages/types: {}
+
   packages/typescript-config: {}
 
 packages:

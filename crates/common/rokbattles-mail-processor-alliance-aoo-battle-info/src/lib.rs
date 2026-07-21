@@ -6,13 +6,14 @@ mod body;
 mod metadata;
 mod rewards;
 
+pub use rokbattles_codegen_mail_types::allianceaoobattleinfo::AllianceAooBattleInfo;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the AllianceAOOBattleInfo parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<AllianceAooBattleInfo, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {

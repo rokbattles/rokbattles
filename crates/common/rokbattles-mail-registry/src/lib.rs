@@ -272,34 +272,49 @@ fn value_to_string(value: &Value) -> Option<String> {
 pub fn process_mail(
     mail_type: MailType,
     input: &Value,
-) -> Result<rokbattles_mail_sdk::ProcessedMail, rokbattles_mail_sdk::ProcessError> {
+) -> Result<rokbattles_codegen_mail_types::Mail, rokbattles_mail_sdk::ProcessError> {
+    use rokbattles_codegen_mail_types::Mail;
+
     match mail_type {
-        MailType::Battle => rokbattles_mail_processor_battle::process(input),
-        MailType::DuelBattle2 => rokbattles_mail_processor_duelbattle2::process(input),
-        MailType::BarCanyonKillBoss => rokbattles_mail_processor_barcanyonkillboss::process(input),
+        MailType::Battle => rokbattles_mail_processor_battle::process(input)
+            .map(|mail| Mail::Battle(Box::new(mail))),
+        MailType::DuelBattle2 => rokbattles_mail_processor_duelbattle2::process(input)
+            .map(|mail| Mail::DuelBattle2(Box::new(mail))),
+        MailType::BarCanyonKillBoss => rokbattles_mail_processor_barcanyonkillboss::process(input)
+            .map(|mail| Mail::BarCanyonKillBoss(Box::new(mail))),
         MailType::EventMemberLootReport => {
             rokbattles_mail_processor_eventmemberlootreport::process(input)
+                .map(|mail| Mail::EventMemberLootReport(Box::new(mail)))
         }
-        MailType::Rss => rokbattles_mail_processor_rss::process(input),
+        MailType::Rss => {
+            rokbattles_mail_processor_rss::process(input).map(|mail| Mail::Rss(Box::new(mail)))
+        }
         MailType::SystemBarbarianFort => {
             rokbattles_mail_processor_system_barbarianfort::process(input)
+                .map(|mail| Mail::SystemBarbarianFort(Box::new(mail)))
         }
         MailType::SystemKaharTreasure => {
             rokbattles_mail_processor_system_kahartreasure::process(input)
+                .map(|mail| Mail::SystemKaharTreasure(Box::new(mail)))
         }
         MailType::AllianceAOOBattleResults => {
             rokbattles_mail_processor_alliance_aoo_battle_results::process(input)
+                .map(|mail| Mail::AllianceAooBattleResults(Box::new(mail)))
         }
         MailType::AllianceAOOBattleInfo => {
             rokbattles_mail_processor_alliance_aoo_battle_info::process(input)
+                .map(|mail| Mail::AllianceAooBattleInfo(Box::new(mail)))
         }
         MailType::AllianceAOOIndividualResults => {
             rokbattles_mail_processor_alliance_aoo_individual_results::process(input)
+                .map(|mail| Mail::AllianceAooIndividualResults(Box::new(mail)))
         }
         MailType::AllianceAOORegistration => {
             rokbattles_mail_processor_alliance_aoo_registration::process(input)
+                .map(|mail| Mail::AllianceAooRegistration(Box::new(mail)))
         }
-        MailType::ScoutReport => rokbattles_mail_processor_scoutreport::process(input),
+        MailType::ScoutReport => rokbattles_mail_processor_scoutreport::process(input)
+            .map(|mail| Mail::ScoutReport(Box::new(mail))),
     }
 }
 
@@ -596,9 +611,11 @@ mod tests {
 
         let processed =
             process_mail(MailType::ScoutReport, &payload).expect("process scout report");
-        let metadata = processed.sections().get("metadata").expect("metadata section");
+        let rokbattles_codegen_mail_types::Mail::ScoutReport(processed) = processed else {
+            panic!("unexpected processed mail variant");
+        };
 
-        assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
+        assert_eq!(processed.metadata.mail_id, "mail-1");
     }
 
     #[cfg(feature = "processors")]
@@ -625,15 +642,12 @@ mod tests {
 
         let processed =
             process_mail(MailType::SystemKaharTreasure, &payload).expect("process kahar treasure");
-        let metadata = processed.sections().get("metadata").expect("metadata section");
-        let loot = processed
-            .sections()
-            .get("loot")
-            .and_then(rokbattles_mail_sdk::Section::array)
-            .expect("loot section");
+        let rokbattles_codegen_mail_types::Mail::SystemKaharTreasure(processed) = processed else {
+            panic!("unexpected processed mail variant");
+        };
 
-        assert_eq!(metadata.fields()["mail_id"], json!("mail-1"));
-        assert_eq!(loot[0], json!({"type": 1, "sub_type": 9, "value": 45000}));
+        assert_eq!(processed.metadata.mail_id, "mail-1");
+        assert_eq!(processed.loot[0].value, 45_000);
     }
 
     #[cfg(feature = "processors")]
@@ -658,10 +672,11 @@ mod tests {
         });
         let processed =
             process_mail(MailType::EventMemberLootReport, &payload).expect("process GVE report");
-        assert_eq!(processed.sections()["boss"].fields()["id"], json!(30001));
-        assert_eq!(
-            processed.sections()["participants"].array().expect("participants")[0]["player_id"],
-            json!(7)
-        );
+        let rokbattles_codegen_mail_types::Mail::EventMemberLootReport(processed) = processed
+        else {
+            panic!("unexpected processed mail variant");
+        };
+        assert_eq!(processed.boss.id, 30_001);
+        assert_eq!(processed.participants[0].player_id, 7);
     }
 }

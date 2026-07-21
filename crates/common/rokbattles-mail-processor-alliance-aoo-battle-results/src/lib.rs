@@ -9,13 +9,14 @@ mod metadata;
 mod overview;
 mod participants;
 
+pub use rokbattles_codegen_mail_types::allianceaoobattleresults::AllianceAooBattleResults;
 pub use rokbattles_mail_sdk::{ExtractError, Section};
-use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
+use rokbattles_mail_sdk::{ProcessError, Processor};
 use serde_json::Value;
 
 /// Runs the AllianceAOOBattleResults parser.
-pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
-    processor().process(input)
+pub fn process(input: &Value) -> Result<AllianceAooBattleResults, ProcessError> {
+    processor().process(input)?.into_typed()
 }
 
 fn processor() -> Processor {
@@ -44,11 +45,7 @@ mod tests {
         let value: Value = serde_json::from_str(&json).expect("parse sample");
 
         let processed = process(&value).expect("process sample");
-        let sections = processed.sections();
-        assert!(sections.contains_key("metadata"));
-        assert!(sections.contains_key("alliances"));
-        assert!(sections.contains_key("body"));
-        assert!(sections.contains_key("participants"));
-        assert!(sections.contains_key("overview"));
+
+        assert_eq!(processed.alliances.len(), 2);
     }
 }

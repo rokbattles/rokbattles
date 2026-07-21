@@ -46,4 +46,11 @@ pub enum ProcessError {
         /// Name of the section.
         section: &'static str,
     },
+    /// The extracted sections did not match the processor's declared output type.
+    #[error("processed mail does not match its declared output type: {source}")]
+    InvalidOutput {
+        /// Serialization or deserialization error describing the mismatch.
+        #[source]
+        source: serde_json::Error,
+    },
 }

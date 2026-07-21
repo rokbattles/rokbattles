@@ -4280,6 +4280,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-codegen"
+version = "1.6.1"
+dependencies = [
+ "anyhow",
+ "clap",
+ "rokbattles-codegen-mail-types",
+ "tempfile",
+ "ts-rs",
+]
+
+[[package]]
+name = "rokbattles-codegen-mail-types"
+version = "1.6.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "ts-rs",
+]
+
+[[package]]
 name = "rokbattles-desktop"
 version = "1.6.1"
 dependencies = [
@@ -4379,6 +4399,7 @@ version = "1.6.1"
 name = "rokbattles-mail-processor-alliance-aoo-battle-info"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4387,6 +4408,7 @@ dependencies = [
 name = "rokbattles-mail-processor-alliance-aoo-battle-results"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4395,6 +4417,7 @@ dependencies = [
 name = "rokbattles-mail-processor-alliance-aoo-individual-results"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4403,6 +4426,7 @@ dependencies = [
 name = "rokbattles-mail-processor-alliance-aoo-registration"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4411,6 +4435,7 @@ dependencies = [
 name = "rokbattles-mail-processor-barcanyonkillboss"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4419,6 +4444,7 @@ dependencies = [
 name = "rokbattles-mail-processor-battle"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4427,6 +4453,7 @@ dependencies = [
 name = "rokbattles-mail-processor-duelbattle2"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4435,6 +4462,7 @@ dependencies = [
 name = "rokbattles-mail-processor-eventmemberlootreport"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4443,6 +4471,7 @@ dependencies = [
 name = "rokbattles-mail-processor-rss"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4451,6 +4480,7 @@ dependencies = [
 name = "rokbattles-mail-processor-scoutreport"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4459,6 +4489,7 @@ dependencies = [
 name = "rokbattles-mail-processor-system-barbarianfort"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4467,6 +4498,7 @@ dependencies = [
 name = "rokbattles-mail-processor-system-kahartreasure"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-sdk",
  "serde_json",
 ]
@@ -4475,6 +4507,7 @@ dependencies = [
 name = "rokbattles-mail-registry"
 version = "1.6.1"
 dependencies = [
+ "rokbattles-codegen-mail-types",
  "rokbattles-mail-processor-alliance-aoo-battle-info",
  "rokbattles-mail-processor-alliance-aoo-battle-results",
  "rokbattles-mail-processor-alliance-aoo-individual-results",
@@ -5878,6 +5911,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "termcolor"
+version = "1.4.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "06794f8f6c5c898b3275aebefa6b8a1cb24cd2c6c79397ab15774837a0bc5755"
+dependencies = [
+ "winapi-util",
+]
+
+[[package]]
 name = "thiserror"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6313,6 +6355,29 @@ name = "try-lock"
 version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
+
+[[package]]
+name = "ts-rs"
+version = "12.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "756050066659291d47a554a9f558125db17428b073c5ffce1daf5dcb0f7231d8"
+dependencies = [
+ "serde_json",
+ "thiserror 2.0.19",
+ "ts-rs-macros",
+]
+
+[[package]]
+name = "ts-rs-macros"
+version = "12.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "38d90eea51bc7988ef9e674bf80a85ba6804739e535e9cab48e4bb34a8b652aa"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.119",
+ "termcolor",
+]
 
 [[package]]
 name = "typed-builder"
