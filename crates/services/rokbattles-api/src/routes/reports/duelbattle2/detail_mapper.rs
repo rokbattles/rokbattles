@@ -1,7 +1,7 @@
-use core_bson::{
+use mongodb::bson::{Bson, Document, doc};
+use rokbattles_bson::{
     nested_array, nested_bool, nested_document, nested_f64, nested_i64, nested_string,
 };
-use mongodb::bson::{Bson, Document, doc};
 
 use super::types::{
     DuelBattle2DetailAlliance, DuelBattle2DetailBattleResult, DuelBattle2DetailBattleResults,

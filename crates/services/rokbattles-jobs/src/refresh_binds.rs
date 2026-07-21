@@ -1,12 +1,12 @@
 //! Keep claimed governor names and avatars in sync with recent battle data.
 
-use core_bson::{bson_integer_to_i64, nested_string, nested_value};
 use futures::StreamExt;
 use mongodb::{
     Collection,
     bson::{Document, doc},
 };
 use rokbattles_api::db::ReportsStore;
+use rokbattles_bson::{bson_integer_to_i64, nested_string, nested_value};
 
 use crate::error::JobsError;
 

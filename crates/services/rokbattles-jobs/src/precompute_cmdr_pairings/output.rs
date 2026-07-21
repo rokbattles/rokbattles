@@ -1,5 +1,5 @@
-use drastc::{DrastcConfidence, DrastcScore};
 use mongodb::bson::{Bson, DateTime, Document, doc};
+use rokbattles_drastc::{DrastcConfidence, DrastcScore};
 
 use super::model::{
     PairingKey, PairingRawTotals, PairingStrategies, PairingSummary, Strategy, StrategyRawTotals,
@@ -128,7 +128,7 @@ fn drastc_score_document(score: &DrastcScore, confidence: &DrastcConfidence) -> 
     }
 }
 
-fn category_score_document(score: drastc::CategoryScore) -> Document {
+fn category_score_document(score: rokbattles_drastc::CategoryScore) -> Document {
     doc! {
         "value": score.value,
         "p10": score.p10,
@@ -145,7 +145,7 @@ fn u64_to_i64(value: u64) -> i64 {
 mod tests {
     use std::collections::BTreeMap;
 
-    use drastc::{
+    use rokbattles_drastc::{
         BattleRecord, DrastcConfidence, DrastcModel, DrastcReferenceRanges, ReferenceRange,
     };
 

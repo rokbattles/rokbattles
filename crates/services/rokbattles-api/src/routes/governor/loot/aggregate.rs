@@ -1,7 +1,7 @@
 use std::{collections::HashMap, ops::RangeInclusive};
 
-use core_bson::bson_to_i64_loose;
 use mongodb::bson::Bson;
+use rokbattles_bson::bson_to_i64_loose;
 
 use super::{
     query::{BarbarianLootNpc, BarbarianLootRequest, BaulurLootNpc, FortLootNpc, FortLootRequest},

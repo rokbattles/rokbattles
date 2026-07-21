@@ -849,13 +849,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "core-bson"
-version = "1.6.1"
-dependencies = [
- "mongodb",
-]
-
-[[package]]
 name = "core-foundation"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1373,13 +1366,6 @@ name = "dpi"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d8b14ccef22fc6f5a8f4d7d768562a182c04ce9a3b3157b91390b52ddfdf1a76"
-dependencies = [
- "serde",
-]
-
-[[package]]
-name = "drastc"
-version = "1.6.1"
 dependencies = [
  "serde",
 ]
@@ -4422,12 +4408,12 @@ version = "1.6.1"
 dependencies = [
  "axum",
  "base64 0.22.1",
- "core-bson",
  "dotenvy",
  "futures",
  "mongodb",
  "rand 0.10.2",
  "reqwest 0.12.28",
+ "rokbattles-bson",
  "sentry",
  "serde",
  "sha2 0.10.9",
@@ -4436,6 +4422,13 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "yaml_serde",
+]
+
+[[package]]
+name = "rokbattles-bson"
+version = "1.6.1"
+dependencies = [
+ "mongodb",
 ]
 
 [[package]]
@@ -4458,6 +4451,13 @@ dependencies = [
  "tauri-plugin-updater",
  "tempfile",
  "tokio",
+]
+
+[[package]]
+name = "rokbattles-drastc"
+version = "1.6.1"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
@@ -4486,12 +4486,12 @@ dependencies = [
 name = "rokbattles-jobs"
 version = "1.6.1"
 dependencies = [
- "core-bson",
  "dotenvy",
- "drastc",
  "futures",
  "mongodb",
  "rokbattles-api",
+ "rokbattles-bson",
+ "rokbattles-drastc",
  "sentry",
  "thiserror 2.0.18",
  "tokio",

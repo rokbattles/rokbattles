@@ -1,7 +1,9 @@
 use std::{collections::HashMap, sync::OnceLock};
 
-use core_bson::{bson_to_f64, bson_to_i64_exact, nested_array, nested_document, nested_i64_exact};
 use mongodb::bson::{Bson, Document};
+use rokbattles_bson::{
+    bson_to_f64, bson_to_i64_exact, nested_array, nested_document, nested_i64_exact,
+};
 use serde::Deserialize;
 
 use super::types::{
