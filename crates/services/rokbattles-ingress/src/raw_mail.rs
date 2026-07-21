@@ -60,7 +60,7 @@ pub struct RawMailDocumentInput<'a> {
 
 /// Extract the fields required by the V2 `mail` subdocument.
 pub fn extract_raw_mail_metadata(decoded: &Value) -> Result<RawMailMetadata, ApiError> {
-    let root = mail_registry::normalize_mail_root(decoded)
+    let root = rokbattles_mail_registry::normalize_mail_root(decoded)
         .ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
     let object = root.as_object().ok_or_else(|| ApiError::bad_request("invalid mail root"))?;
 
@@ -229,7 +229,7 @@ mod tests {
         for sample in samples {
             let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(sample);
             let bytes = std::fs::read(path).expect("read sample");
-            let decoded = mail_decoder::decode(&bytes).expect("decode sample");
+            let decoded = rokbattles_mail_decoder::decode(&bytes).expect("decode sample");
             extract_raw_mail_metadata(&decoded).expect("extract metadata");
 
             let compressed = compress_raw_mail(&bytes, 3).expect("compress sample");

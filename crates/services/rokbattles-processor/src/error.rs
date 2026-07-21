@@ -26,13 +26,13 @@ pub enum ProcessorError {
     #[error("invalid mail payload: {0}")]
     InvalidMailPayload(String),
     #[error("binary mail decode failed: {0}")]
-    BinaryDecode(#[from] mail_decoder::DecodeError),
+    BinaryDecode(#[from] rokbattles_mail_decoder::DecodeError),
     #[error("zstd decode failed: {0}")]
     Decompress(#[from] std::io::Error),
     #[error("unsupported mail type: {0}")]
     UnsupportedMailType(String),
     #[error("processing failed: {0}")]
-    Process(#[from] mail_sdk::ProcessError),
+    Process(#[from] rokbattles_mail_sdk::ProcessError),
     #[error("bson serialization failed: {0}")]
     BsonEncode(#[from] mongodb::bson::ser::Error),
 }

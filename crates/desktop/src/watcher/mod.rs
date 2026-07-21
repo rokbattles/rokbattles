@@ -237,7 +237,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     }
                 };
 
-                let decoded = match mail_decoder::decode(&bytes) {
+                let decoded = match rokbattles_mail_decoder::decode(&bytes) {
                     Ok(m) => m,
                     Err(e) => {
                         emit_log(&app, format!("Decode failed for {}: {}", file_name, e));
@@ -245,8 +245,8 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     }
                 };
 
-                let raw_type = mail_registry::raw_mail_type(&decoded);
-                let supported_type = mail_registry::detect_mail_type(&decoded);
+                let raw_type = rokbattles_mail_registry::raw_mail_type(&decoded);
+                let supported_type = rokbattles_mail_registry::detect_mail_type(&decoded);
                 if supported_type.is_none() {
                     emit_log(
                         &app,

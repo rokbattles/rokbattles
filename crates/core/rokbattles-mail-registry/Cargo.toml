@@ -1,0 +1,41 @@
+[package]
+name = "rokbattles-mail-registry"
+version = "1.6.1"
+edition = "2024"
+
+[features]
+default = []
+processors = [
+    "dep:rokbattles-mail-processor-alliance-aoo-battle-info",
+    "dep:rokbattles-mail-processor-alliance-aoo-battle-results",
+    "dep:rokbattles-mail-processor-alliance-aoo-individual-results",
+    "dep:rokbattles-mail-processor-alliance-aoo-registration",
+    "dep:rokbattles-mail-processor-barcanyonkillboss",
+    "dep:rokbattles-mail-processor-battle",
+    "dep:rokbattles-mail-processor-duelbattle2",
+    "dep:rokbattles-mail-processor-eventmemberlootreport",
+    "dep:rokbattles-mail-processor-rss",
+    "dep:rokbattles-mail-processor-scoutreport",
+    "dep:rokbattles-mail-sdk",
+    "dep:rokbattles-mail-processor-system-barbarianfort",
+    "dep:rokbattles-mail-processor-system-kahartreasure",
+]
+
+[dependencies]
+serde_json = { workspace = true }
+rokbattles-mail-processor-alliance-aoo-battle-info = { path = "../rokbattles-mail-processor-alliance-aoo-battle-info", optional = true }
+rokbattles-mail-processor-alliance-aoo-battle-results = { path = "../rokbattles-mail-processor-alliance-aoo-battle-results", optional = true }
+rokbattles-mail-processor-alliance-aoo-individual-results = { path = "../rokbattles-mail-processor-alliance-aoo-individual-results", optional = true }
+rokbattles-mail-processor-alliance-aoo-registration = { path = "../rokbattles-mail-processor-alliance-aoo-registration", optional = true }
+rokbattles-mail-processor-barcanyonkillboss = { path = "../rokbattles-mail-processor-barcanyonkillboss", optional = true }
+rokbattles-mail-processor-battle = { path = "../rokbattles-mail-processor-battle", optional = true }
+rokbattles-mail-processor-duelbattle2 = { path = "../rokbattles-mail-processor-duelbattle2", optional = true }
+rokbattles-mail-processor-eventmemberlootreport = { path = "../rokbattles-mail-processor-eventmemberlootreport", optional = true }
+rokbattles-mail-processor-rss = { path = "../rokbattles-mail-processor-rss", optional = true }
+rokbattles-mail-processor-scoutreport = { path = "../rokbattles-mail-processor-scoutreport", optional = true }
+rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk", optional = true }
+rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort", optional = true }
+rokbattles-mail-processor-system-kahartreasure = { path = "../rokbattles-mail-processor-system-kahartreasure", optional = true }
+
+[lib]
+doctest = false

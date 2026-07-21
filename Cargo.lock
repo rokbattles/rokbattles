@@ -2912,158 +2912,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mail-cli"
-version = "1.6.1"
-dependencies = [
- "clap",
- "mail-decoder",
- "mail-registry",
- "mail-sdk",
- "serde",
- "serde_json",
- "tempfile",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "mail-decoder"
-version = "1.6.1"
-dependencies = [
- "mail-decoder-simd",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "mail-decoder-simd"
-version = "1.6.1"
-
-[[package]]
-name = "mail-processor-alliance-aoo-battle-info"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-alliance-aoo-battle-results"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-alliance-aoo-individual-results"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-alliance-aoo-registration"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-barcanyonkillboss"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-battle"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-duelbattle2"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-eventmemberlootreport"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-rss"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-scoutreport"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-system-barbarianfort"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-processor-system-kahartreasure"
-version = "1.6.1"
-dependencies = [
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-registry"
-version = "1.6.1"
-dependencies = [
- "mail-processor-alliance-aoo-battle-info",
- "mail-processor-alliance-aoo-battle-results",
- "mail-processor-alliance-aoo-individual-results",
- "mail-processor-alliance-aoo-registration",
- "mail-processor-barcanyonkillboss",
- "mail-processor-battle",
- "mail-processor-duelbattle2",
- "mail-processor-eventmemberlootreport",
- "mail-processor-rss",
- "mail-processor-scoutreport",
- "mail-processor-system-barbarianfort",
- "mail-processor-system-kahartreasure",
- "mail-sdk",
- "serde_json",
-]
-
-[[package]]
-name = "mail-sdk"
-version = "1.6.1"
-dependencies = [
- "serde",
- "serde_json",
- "thiserror 2.0.18",
-]
-
-[[package]]
 name = "markup5ever"
 version = "0.38.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4436,10 +4284,10 @@ name = "rokbattles-desktop"
 version = "1.6.1"
 dependencies = [
  "anyhow",
- "mail-decoder",
- "mail-registry",
  "notify",
  "reqwest 0.12.28",
+ "rokbattles-mail-decoder",
+ "rokbattles-mail-registry",
  "serde",
  "serde_json",
  "tauri",
@@ -4468,9 +4316,9 @@ dependencies = [
  "bytes",
  "dotenvy",
  "flate2",
- "mail-decoder",
- "mail-registry",
  "mongodb",
+ "rokbattles-mail-decoder",
+ "rokbattles-mail-registry",
  "sentry",
  "serde",
  "serde_json",
@@ -4501,15 +4349,167 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-mail-cli"
+version = "1.6.1"
+dependencies = [
+ "clap",
+ "rokbattles-mail-decoder",
+ "rokbattles-mail-registry",
+ "rokbattles-mail-sdk",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "rokbattles-mail-decoder"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-decoder-simd",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "rokbattles-mail-decoder-simd"
+version = "1.6.1"
+
+[[package]]
+name = "rokbattles-mail-processor-alliance-aoo-battle-info"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-alliance-aoo-battle-results"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-alliance-aoo-individual-results"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-alliance-aoo-registration"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-barcanyonkillboss"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-battle"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-duelbattle2"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-eventmemberlootreport"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-rss"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-scoutreport"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-system-barbarianfort"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-processor-system-kahartreasure"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-registry"
+version = "1.6.1"
+dependencies = [
+ "rokbattles-mail-processor-alliance-aoo-battle-info",
+ "rokbattles-mail-processor-alliance-aoo-battle-results",
+ "rokbattles-mail-processor-alliance-aoo-individual-results",
+ "rokbattles-mail-processor-alliance-aoo-registration",
+ "rokbattles-mail-processor-barcanyonkillboss",
+ "rokbattles-mail-processor-battle",
+ "rokbattles-mail-processor-duelbattle2",
+ "rokbattles-mail-processor-eventmemberlootreport",
+ "rokbattles-mail-processor-rss",
+ "rokbattles-mail-processor-scoutreport",
+ "rokbattles-mail-processor-system-barbarianfort",
+ "rokbattles-mail-processor-system-kahartreasure",
+ "rokbattles-mail-sdk",
+ "serde_json",
+]
+
+[[package]]
+name = "rokbattles-mail-sdk"
+version = "1.6.1"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
 name = "rokbattles-processor"
 version = "1.6.1"
 dependencies = [
  "dotenvy",
  "futures",
- "mail-decoder",
- "mail-registry",
- "mail-sdk",
  "mongodb",
+ "rokbattles-mail-decoder",
+ "rokbattles-mail-registry",
+ "rokbattles-mail-sdk",
  "sentry",
  "serde_json",
  "sha2 0.10.9",

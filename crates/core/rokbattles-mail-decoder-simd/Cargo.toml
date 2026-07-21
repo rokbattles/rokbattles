@@ -1,0 +1,10 @@
+[package]
+name = "rokbattles-mail-decoder-simd"
+version = "1.6.1"
+edition = "2024"
+
+[lints]
+workspace = true
+
+[lib]
+doctest = false
