@@ -34,10 +34,16 @@ struct BattleTotalsDelta {
     severely_wounded: i64,
     wounded: i64,
     healing_count: i64,
+    power_loss: i64,
+    atk_power_loss: i64,
+    skill_power_loss: i64,
     enemy_kill_score: i64,
     enemy_deaths: i64,
     enemy_severely_wounded: i64,
     enemy_wounded: i64,
+    enemy_power_loss: i64,
+    enemy_atk_power_loss: i64,
+    enemy_skill_power_loss: i64,
 }
 
 pub(crate) fn aggregate_pairings(
@@ -253,6 +259,9 @@ fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
             .unwrap_or_default(),
         healing_count: nested_i64(opponent, &["battle_results", "sender", "heal"])
             .unwrap_or_default(),
+        power_loss: power_loss(opponent, &["battle_results", "sender", "power"]),
+        atk_power_loss: power_loss(opponent, &["battle_results", "sender", "attack_power"]),
+        skill_power_loss: power_loss(opponent, &["battle_results", "sender", "skill_power"]),
         enemy_kill_score: nested_i64(opponent, &["battle_results", "opponent", "kill_points"])
             .unwrap_or_default(),
         enemy_deaths: nested_i64(opponent, &["battle_results", "opponent", "dead"])
@@ -264,7 +273,17 @@ fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
         .unwrap_or_default(),
         enemy_wounded: nested_i64(opponent, &["battle_results", "opponent", "slightly_wounded"])
             .unwrap_or_default(),
+        enemy_power_loss: power_loss(opponent, &["battle_results", "opponent", "power"]),
+        enemy_atk_power_loss: power_loss(opponent, &["battle_results", "opponent", "attack_power"]),
+        enemy_skill_power_loss: power_loss(
+            opponent,
+            &["battle_results", "opponent", "skill_power"],
+        ),
     }
+}
+
+fn power_loss(document: &Document, path: &[&str]) -> i64 {
+    nested_i64(document, path).unwrap_or_default().saturating_neg().max(0)
 }
 
 fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, battle_duration: i64) {
@@ -273,10 +292,16 @@ fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, batt
     totals.severely_wounded += delta.severely_wounded;
     totals.wounded += delta.wounded;
     totals.healing_count += delta.healing_count;
+    totals.power_loss += delta.power_loss;
+    totals.atk_power_loss += delta.atk_power_loss;
+    totals.skill_power_loss += delta.skill_power_loss;
     totals.enemy_kill_score += delta.enemy_kill_score;
     totals.enemy_deaths += delta.enemy_deaths;
     totals.enemy_severely_wounded += delta.enemy_severely_wounded;
     totals.enemy_wounded += delta.enemy_wounded;
+    totals.enemy_power_loss += delta.enemy_power_loss;
+    totals.enemy_atk_power_loss += delta.enemy_atk_power_loss;
+    totals.enemy_skill_power_loss += delta.enemy_skill_power_loss;
     totals.dps += delta.enemy_wounded + delta.enemy_severely_wounded;
     totals.sps += delta.enemy_severely_wounded;
     totals.tps += delta.severely_wounded;
@@ -531,7 +556,7 @@ fn sort_by_kill_score_then_count<T>(items: &mut [T], lookup: impl Fn(&T) -> (&Pa
 
 #[cfg(test)]
 mod tests {
-    use mongodb::bson::doc;
+    use mongodb::bson::{doc, to_document};
 
     use super::*;
 
@@ -590,13 +615,19 @@ mod tests {
                             "dead": 5_i64,
                             "severely_wounded": 7_i64,
                             "slightly_wounded": 9_i64,
-                            "heal": 25_i64
+                            "heal": 25_i64,
+                            "power": -300_i64,
+                            "attack_power": -100_i64,
+                            "skill_power": -200_i64
                         },
                         "opponent": {
                             "kill_points": enemy_kill_score,
                             "dead": 3_i64,
                             "severely_wounded": 11_i64,
-                            "slightly_wounded": 13_i64
+                            "slightly_wounded": 13_i64,
+                            "power": -600_i64,
+                            "attack_power": -250_i64,
+                            "skill_power": -350_i64
                         }
                     }
                 }
@@ -619,11 +650,25 @@ mod tests {
         assert_eq!(first.count, 2);
         assert_eq!(first.totals.kill_score, 200);
         assert_eq!(first.totals.healing_count, 50);
+        assert_eq!(first.totals.power_loss, 600);
+        assert_eq!(first.totals.atk_power_loss, 200);
+        assert_eq!(first.totals.skill_power_loss, 400);
         assert_eq!(first.totals.enemy_severely_wounded, 22);
+        assert_eq!(first.totals.enemy_power_loss, 1_200);
+        assert_eq!(first.totals.enemy_atk_power_loss, 500);
+        assert_eq!(first.totals.enemy_skill_power_loss, 700);
         assert_eq!(first.totals.dps, 48);
         assert_eq!(first.totals.trade_percent, 125.0);
         assert_eq!(first.totals.weighted_trade_percent, 80.0);
         assert_eq!(first.totals.hps, 5.0);
+
+        let serialized = to_document(&first.totals).expect("serialized pairing totals");
+        assert_eq!(serialized.get_i64("powerLoss"), Ok(600));
+        assert_eq!(serialized.get_i64("atkPowerLoss"), Ok(200));
+        assert_eq!(serialized.get_i64("skillPowerLoss"), Ok(400));
+        assert_eq!(serialized.get_i64("enemyPowerLoss"), Ok(1_200));
+        assert_eq!(serialized.get_i64("enemyAtkPowerLoss"), Ok(500));
+        assert_eq!(serialized.get_i64("enemySkillPowerLoss"), Ok(700));
     }
 
     #[test]
@@ -675,5 +720,13 @@ mod tests {
 
         assert_eq!(items.len(), 1);
         assert_eq!(items[0].count, 1);
+    }
+
+    #[test]
+    fn power_loss_converts_negative_deltas_and_ignores_non_losses() {
+        assert_eq!(power_loss(&doc! { "value": -10_i64 }, &["value"]), 10);
+        assert_eq!(power_loss(&doc! { "value": 0_i64 }, &["value"]), 0);
+        assert_eq!(power_loss(&doc! { "value": 10_i64 }, &["value"]), 0);
+        assert_eq!(power_loss(&Document::new(), &["value"]), 0);
     }
 }

@@ -47,10 +47,16 @@ export type PairingTotals = {
   deaths: number;
   severelyWounded: number;
   wounded: number;
+  powerLoss: number;
+  atkPowerLoss: number;
+  skillPowerLoss: number;
   enemyKillScore: number;
   enemyDeaths: number;
   enemySeverelyWounded: number;
   enemyWounded: number;
+  enemyPowerLoss: number;
+  enemyAtkPowerLoss: number;
+  enemySkillPowerLoss: number;
   dps: number;
   sps: number;
   tps: number;
