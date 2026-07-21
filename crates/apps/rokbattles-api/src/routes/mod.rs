@@ -21,6 +21,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
         .route("/global/combat-lab", get(combat_lab::get_pairing))
+        .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))

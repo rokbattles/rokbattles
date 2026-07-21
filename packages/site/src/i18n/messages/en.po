@@ -608,6 +608,7 @@ msgstr "Combat Lab data is unavailable"
 msgid "fO1cCc"
 msgstr "Try another pairing."
 
+#: src/components/combat-lab/combat-lab-rankings-results.tsx
 #: src/components/combat-lab/combat-lab-results.tsx
 msgid "ZdCdo5"
 msgstr "Last updated: {date}"

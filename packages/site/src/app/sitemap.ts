@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/olympian-arena",
     "/combat-lab",
+    "/combat-lab/rankings",
     "/loot-explorer/barbarians",
     "/loot-explorer/barbarian-forts",
     "/loot-explorer/baulurs",
