@@ -6,14 +6,14 @@
   "build": {
     "beforeDevCommand": {
       "script": "pnpm dev",
-      "cwd": "../../packages/desktop-client"
+      "cwd": "../../../packages/desktop-client"
     },
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": {
       "script": "pnpm build",
-      "cwd": "../../packages/desktop-client"
+      "cwd": "../../../packages/desktop-client"
     },
-    "frontendDist": "../../packages/desktop-client/dist"
+    "frontendDist": "../../../packages/desktop-client/dist"
   },
   "app": {
     "windows": [

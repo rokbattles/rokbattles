@@ -23,7 +23,7 @@ members = [
     "crates/services/rokbattles-jobs",
     "crates/services/rokbattles-ingress",
     "crates/services/rokbattles-processor",
-    "crates/desktop",
+    "crates/services/rokbattles-desktop",
 ]
 resolver = "3"
 
