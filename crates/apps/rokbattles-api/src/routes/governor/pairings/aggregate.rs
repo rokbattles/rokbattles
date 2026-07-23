@@ -283,7 +283,7 @@ fn extract_battle_delta(opponent: &Document) -> BattleTotalsDelta {
 }
 
 fn power_loss(document: &Document, path: &[&str]) -> i64 {
-    nested_i64(document, path).unwrap_or_default().saturating_neg().max(0)
+    nested_i64(document, path).unwrap_or_default()
 }
 
 fn apply_battle_delta(totals: &mut PairingTotals, delta: BattleTotalsDelta, battle_duration: i64) {
@@ -650,25 +650,25 @@ mod tests {
         assert_eq!(first.count, 2);
         assert_eq!(first.totals.kill_score, 200);
         assert_eq!(first.totals.healing_count, 50);
-        assert_eq!(first.totals.power_loss, 600);
-        assert_eq!(first.totals.atk_power_loss, 200);
-        assert_eq!(first.totals.skill_power_loss, 400);
+        assert_eq!(first.totals.power_loss, -600);
+        assert_eq!(first.totals.atk_power_loss, -200);
+        assert_eq!(first.totals.skill_power_loss, -400);
         assert_eq!(first.totals.enemy_severely_wounded, 22);
-        assert_eq!(first.totals.enemy_power_loss, 1_200);
-        assert_eq!(first.totals.enemy_atk_power_loss, 500);
-        assert_eq!(first.totals.enemy_skill_power_loss, 700);
+        assert_eq!(first.totals.enemy_power_loss, -1_200);
+        assert_eq!(first.totals.enemy_atk_power_loss, -500);
+        assert_eq!(first.totals.enemy_skill_power_loss, -700);
         assert_eq!(first.totals.dps, 48);
         assert_eq!(first.totals.trade_percent, 125.0);
         assert_eq!(first.totals.weighted_trade_percent, 80.0);
         assert_eq!(first.totals.hps, 5.0);
 
         let serialized = to_document(&first.totals).expect("serialized pairing totals");
-        assert_eq!(serialized.get_i64("powerLoss"), Ok(600));
-        assert_eq!(serialized.get_i64("atkPowerLoss"), Ok(200));
-        assert_eq!(serialized.get_i64("skillPowerLoss"), Ok(400));
-        assert_eq!(serialized.get_i64("enemyPowerLoss"), Ok(1_200));
-        assert_eq!(serialized.get_i64("enemyAtkPowerLoss"), Ok(500));
-        assert_eq!(serialized.get_i64("enemySkillPowerLoss"), Ok(700));
+        assert_eq!(serialized.get_i64("powerLoss"), Ok(-600));
+        assert_eq!(serialized.get_i64("atkPowerLoss"), Ok(-200));
+        assert_eq!(serialized.get_i64("skillPowerLoss"), Ok(-400));
+        assert_eq!(serialized.get_i64("enemyPowerLoss"), Ok(-1_200));
+        assert_eq!(serialized.get_i64("enemyAtkPowerLoss"), Ok(-500));
+        assert_eq!(serialized.get_i64("enemySkillPowerLoss"), Ok(-700));
     }
 
     #[test]
@@ -723,10 +723,10 @@ mod tests {
     }
 
     #[test]
-    fn power_loss_converts_negative_deltas_and_ignores_non_losses() {
-        assert_eq!(power_loss(&doc! { "value": -10_i64 }, &["value"]), 10);
+    fn power_loss_preserves_stored_deltas() {
+        assert_eq!(power_loss(&doc! { "value": -10_i64 }, &["value"]), -10);
         assert_eq!(power_loss(&doc! { "value": 0_i64 }, &["value"]), 0);
-        assert_eq!(power_loss(&doc! { "value": 10_i64 }, &["value"]), 0);
+        assert_eq!(power_loss(&doc! { "value": 10_i64 }, &["value"]), 10);
         assert_eq!(power_loss(&Document::new(), &["value"]), 0);
     }
 }
