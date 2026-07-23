@@ -42,35 +42,43 @@ pub(crate) async fn fetch_pairings_mails(
     }
 
     let filter = doc! { "$and": and_filters };
-    let options = FindOptions::builder()
-        .projection(doc! {
-            "_id": 0,
-            "metadata.mail_time": 1,
-            "timeline.start_timestamp": 1,
-            "sender.commanders.primary.id": 1,
-            "sender.commanders.secondary.id": 1,
-            "sender.commanders.primary.equipment": 1,
-            "sender.commanders.primary.formation": 1,
-            "sender.commanders.primary.armaments": 1,
-            "sender.commanders.secondary.armaments": 1,
-            "opponents.player_id": 1,
-            "opponents.start_tick": 1,
-            "opponents.end_tick": 1,
-            "opponents.commanders.primary.id": 1,
-            "opponents.commanders.secondary.id": 1,
-            "opponents.battle_results.sender.kill_points": 1,
-            "opponents.battle_results.sender.dead": 1,
-            "opponents.battle_results.sender.severely_wounded": 1,
-            "opponents.battle_results.sender.slightly_wounded": 1,
-            "opponents.battle_results.sender.heal": 1,
-            "opponents.battle_results.opponent.kill_points": 1,
-            "opponents.battle_results.opponent.dead": 1,
-            "opponents.battle_results.opponent.severely_wounded": 1,
-            "opponents.battle_results.opponent.slightly_wounded": 1,
-        })
-        .build();
+    let options = FindOptions::builder().projection(pairings_projection()).build();
 
     fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
+}
+
+fn pairings_projection() -> Document {
+    doc! {
+        "_id": 0,
+        "metadata.mail_time": 1,
+        "timeline.start_timestamp": 1,
+        "sender.commanders.primary.id": 1,
+        "sender.commanders.secondary.id": 1,
+        "sender.commanders.primary.equipment": 1,
+        "sender.commanders.primary.formation": 1,
+        "sender.commanders.primary.armaments": 1,
+        "sender.commanders.secondary.armaments": 1,
+        "opponents.player_id": 1,
+        "opponents.start_tick": 1,
+        "opponents.end_tick": 1,
+        "opponents.commanders.primary.id": 1,
+        "opponents.commanders.secondary.id": 1,
+        "opponents.battle_results.sender.kill_points": 1,
+        "opponents.battle_results.sender.dead": 1,
+        "opponents.battle_results.sender.severely_wounded": 1,
+        "opponents.battle_results.sender.slightly_wounded": 1,
+        "opponents.battle_results.sender.heal": 1,
+        "opponents.battle_results.sender.power": 1,
+        "opponents.battle_results.sender.attack_power": 1,
+        "opponents.battle_results.sender.skill_power": 1,
+        "opponents.battle_results.opponent.kill_points": 1,
+        "opponents.battle_results.opponent.dead": 1,
+        "opponents.battle_results.opponent.severely_wounded": 1,
+        "opponents.battle_results.opponent.slightly_wounded": 1,
+        "opponents.battle_results.opponent.power": 1,
+        "opponents.battle_results.opponent.attack_power": 1,
+        "opponents.battle_results.opponent.skill_power": 1,
+    }
 }
 
 fn build_exclusion_filter(
@@ -106,5 +114,20 @@ mod tests {
                 ]
             })
         );
+    }
+
+    #[test]
+    fn pairings_projection_includes_power_loss_fields() {
+        let projection = pairings_projection();
+        let fields = [
+            "opponents.battle_results.sender.power",
+            "opponents.battle_results.sender.attack_power",
+            "opponents.battle_results.sender.skill_power",
+            "opponents.battle_results.opponent.power",
+            "opponents.battle_results.opponent.attack_power",
+            "opponents.battle_results.opponent.skill_power",
+        ];
+
+        assert!(fields.into_iter().all(|field| projection.get_i32(field) == Ok(1)));
     }
 }
