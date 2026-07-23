@@ -683,7 +683,7 @@ mod tests {
             processed_count += 1;
         }
 
-        assert_eq!(processed_count, 132);
+        assert_eq!(processed_count, 135);
     }
 
     fn collect_binary_mail_samples(root: &std::path::Path, samples: &mut Vec<std::path::PathBuf>) {

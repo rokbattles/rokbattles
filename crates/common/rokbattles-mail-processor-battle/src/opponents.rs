@@ -818,6 +818,20 @@ mod tests {
     }
 
     #[test]
+    fn opponents_extractor_preserves_is_auto_one_from_player() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/Battle/Persistent.Mail.1002579517552941234.json");
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        let mut value: Value = serde_json::from_str(&json).expect("parse sample");
+        value["body"]["content"]["Attacks"]["603103"]["CIdt"]["IsAuto"] = json!(1);
+
+        let section = OpponentsExtractor::new().extract(&value).expect("extract sample");
+        let opponents = section.array().expect("opponents array");
+
+        assert_eq!(opponents[0]["is_auto"], json!(1));
+    }
+
+    #[test]
     fn opponents_extractor_reads_session_from_sample() {
         let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../../samples/Battle/Persistent.Mail.16210617176935008431.json");

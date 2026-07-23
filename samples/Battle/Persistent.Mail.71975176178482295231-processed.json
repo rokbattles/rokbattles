@@ -1,15 +1,15 @@
 {
   "metadata": {
-    "kvk": false,
-    "ll_script_schema": 320,
-    "mail_id": "1409019176893142331",
+    "kvk": true,
+    "ll_script_schema": 234,
+    "mail_id": "71975176178482295231",
     "mail_receiver": "player_71738515",
     "mail_role": "gsmp",
-    "mail_time": 1768931423616381,
-    "report_id": 6232813,
+    "mail_time": 1784822952651357,
+    "report_id": 16427913,
     "room_id": 0,
-    "schema": 10,
-    "server_id": 1804
+    "schema": 234,
+    "server_id": 16012
   },
   "opponents": [
     {
@@ -23,9 +23,9 @@
       "app_uid": null,
       "as_battle_type": null,
       "attack": {
-        "id": "10852801",
-        "x": 3804.8684,
-        "y": 3974.8313
+        "id": "1340835701",
+        "x": 1957.713,
+        "y": 2826.287
       },
       "auxiliary_skills": [],
       "avatar_url": "",
@@ -42,42 +42,42 @@
       "battle_results": {
         "opponent": {
           "acclaim": 0,
-          "attack_power": -80988,
-          "dead": 20247,
+          "attack_power": -100052,
+          "dead": 33172,
           "death_reduction": 0,
           "heal": 0,
           "kill_points": 0,
           "merits": 0,
-          "power": -80988,
+          "power": -132688,
           "reinforcements_join": 0,
           "reinforcements_leave": 0,
           "remaining": 0,
           "severe_wound_reduction": 0,
           "severely_wounded": 0,
-          "skill_power": 0,
+          "skill_power": -32636,
           "slightly_wounded": 0,
-          "troop_units": 195526,
-          "troop_units_max": 210000,
+          "troop_units": 258980,
+          "troop_units_max": 260000,
           "watchtower": 0,
           "watchtower_max": 0
         },
         "sender": {
           "acclaim": 0,
-          "attack_power": -100,
+          "attack_power": -210,
           "dead": 0,
           "death_reduction": 0,
-          "heal": 0,
+          "heal": 3262,
           "kill_points": 0,
           "merits": 0,
-          "power": -100,
+          "power": -210,
           "reinforcements_join": 0,
           "reinforcements_leave": 0,
-          "remaining": 199148,
+          "remaining": 199088,
           "severe_wound_reduction": 0,
-          "severely_wounded": 10,
+          "severely_wounded": 21,
           "skill_power": 0,
-          "slightly_wounded": 842,
-          "troop_units": 200000,
+          "slightly_wounded": 3597,
+          "troop_units": 199444,
           "troop_units_max": 200000,
           "watchtower": 0,
           "watchtower_max": 0
@@ -87,8 +87,8 @@
       "castle": {
         "level": 0,
         "watchtower": null,
-        "x": 3803.5735,
-        "y": 3981.8271
+        "x": 1957.713,
+        "y": 2819.902
       },
       "character_type": 1,
       "commanders": {
@@ -97,12 +97,16 @@
           "awakened": false,
           "equipment": "{}",
           "formation": null,
-          "id": 86,
-          "level": 38,
+          "id": 273,
+          "level": 52,
           "relics": null,
           "skills": [
             {
-              "id": 111,
+              "id": 13,
+              "level": 5
+            },
+            {
+              "id": 11003,
               "level": 5
             }
           ],
@@ -120,7 +124,7 @@
           "star_level": 0
         }
       },
-      "end_tick": 35068,
+      "end_tick": 1942627,
       "frame_url": null,
       "is_auto": 0,
       "is_outpost": null,
@@ -128,25 +132,30 @@
       "kingdom_id": 0,
       "npc": {
         "b_type": 1,
-        "experience": 6650,
+        "experience": 19760,
         "loot": [
           {
-            "sub_type": 7005,
+            "sub_type": 130,
             "type": 2,
-            "value": 66
+            "value": 10
           },
           {
-            "sub_type": 417,
-            "type": 2,
-            "value": 2
+            "sub_type": 9,
+            "type": 1,
+            "value": 688
           },
           {
-            "sub_type": 128,
+            "sub_type": 142,
             "type": 2,
-            "value": 38
+            "value": 188
+          },
+          {
+            "sub_type": 71,
+            "type": 2,
+            "value": 20
           }
         ],
-        "type": 38
+        "type": 412
       },
       "package_identifier": null,
       "participants": [
@@ -156,15 +165,15 @@
           },
           "commanders": {
             "primary": {
-              "id": 86,
-              "level": 38
+              "id": 273,
+              "level": 52
             },
             "secondary": {
               "id": 0,
               "level": 0
             }
           },
-          "participant_id": 54797,
+          "participant_id": 9951413,
           "player_id": -2,
           "player_name": ""
         }
@@ -174,10 +183,10 @@
       "rally": null,
       "server_season": "",
       "session": null,
-      "start_tick": 35058,
+      "start_tick": 1942606,
       "structure_id": null,
       "support_skills": {
-        "enable": false,
+        "enable": true,
         "skills": []
       },
       "supreme_strife": {
@@ -185,7 +194,7 @@
         "round": 0,
         "team_id": 0
       },
-      "tracking_key": "-2_1768917586_86"
+      "tracking_key": "-2_1784821015_273"
     }
   ],
   "sender": {
@@ -199,13 +208,13 @@
     "app_uid": 32624247,
     "as_battle_type": null,
     "auxiliary_skills": [],
-    "avatar_url": "https://plat-fau-global.lilithgame.com/p/astc/IM/10043/0/32624247/2026-01-15/1822754B851EA438ECFE0FF4994C2FA6_250x250.jpg",
-    "camp_id": null,
+    "avatar_url": "http://imimg.lilithcdn.com/roc/img_player_head_festive_1022.png",
+    "camp_id": 4,
     "castle": {
       "level": 25,
       "watchtower": null,
-      "x": 3815.752,
-      "y": 3978.6064
+      "x": 2001.1328,
+      "y": 2825.6484
     },
     "character_type": 1,
     "commanders": {
@@ -223,14 +232,6 @@
         ],
         "skills": [
           {
-            "id": 1219,
-            "level": 5
-          },
-          {
-            "id": 1220,
-            "level": 1
-          },
-          {
             "id": 135,
             "level": 5
           },
@@ -241,6 +242,14 @@
           {
             "id": 1218,
             "level": 5
+          },
+          {
+            "id": 1219,
+            "level": 5
+          },
+          {
+            "id": 1220,
+            "level": 1
           }
         ],
         "star_level": 6
@@ -254,7 +263,7 @@
         "level": 60,
         "relics": [
           {
-            "id": 10005
+            "id": 20005
           }
         ],
         "skills": [
@@ -282,8 +291,8 @@
         "star_level": 6
       }
     },
-    "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png",
-    "is_auto": 0,
+    "frame_url": null,
+    "is_auto": 1,
     "is_outpost": null,
     "is_turret": null,
     "kingdom_id": 1804,
@@ -303,19 +312,19 @@
             "level": 60
           }
         },
-        "participant_id": 79229,
+        "participant_id": 9959565,
         "player_id": 71738515,
-        "player_name": "Grigvar"
+        "player_name": "Grigvar x Dimi"
       }
     ],
     "player_id": 71738515,
-    "player_name": "Grigvar",
+    "player_name": "Grigvar x Dimi",
     "rally": null,
     "server_season": "100",
     "session": null,
     "structure_id": null,
     "support_skills": {
-      "enable": false,
+      "enable": true,
       "skills": []
     },
     "supreme_strife": {
@@ -323,7 +332,7 @@
       "round": 0,
       "team_id": 0
     },
-    "tracking_key": "71738515_1768931378_99_8"
+    "tracking_key": "71738515_1784822775_99_8"
   },
   "summary": {
     "opponent": {
@@ -344,19 +353,19 @@
     }
   },
   "timeline": {
-    "end_timestamp": 1768931423,
+    "end_timestamp": 1784822952,
     "events": [],
     "sampling": [
       {
-        "count": 200000,
-        "tick": 35058
+        "count": 199444,
+        "tick": 1942606
       },
       {
-        "count": 199148,
-        "tick": 35069
+        "count": 199088,
+        "tick": 1942628
       }
     ],
-    "start_tick": 35058,
-    "start_timestamp": 1768931412
+    "start_tick": 1942606,
+    "start_timestamp": 1784822930
   }
 }

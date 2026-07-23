@@ -70,6 +70,13 @@ mod tests {
         serde_json::from_str(&json).expect("parse sample")
     }
 
+    fn load_is_auto_sample(mail_id: &str) -> Value {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join(format!("../../../samples/Battle/Persistent.Mail.{mail_id}.json"));
+        let json = fs::read_to_string(sample_path).expect("read sample");
+        serde_json::from_str(&json).expect("parse sample")
+    }
+
     #[test]
     fn sender_extractor_reads_basic_fields() {
         let input = json!({
@@ -191,6 +198,33 @@ mod tests {
             section.fields()["session"],
             json!("cfg_id=4&id=3538&mode=ab&role_id=113&submode=")
         );
+    }
+
+    #[test]
+    fn sender_extractor_preserves_is_auto_one_from_sample() {
+        let input = load_is_auto_sample("71975176178482295231");
+
+        let section = SenderExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["is_auto"], json!(1));
+    }
+
+    #[test]
+    fn sender_extractor_preserves_is_auto_zero_from_sample() {
+        let input = load_is_auto_sample("945698817789415606");
+
+        let section = SenderExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["is_auto"], json!(0));
+    }
+
+    #[test]
+    fn sender_extractor_uses_null_when_is_auto_is_absent() {
+        let input = load_is_auto_sample("30346123155694137715");
+
+        let section = SenderExtractor::new().extract(&input).unwrap();
+
+        assert_eq!(section.fields()["is_auto"], Value::Null);
     }
 
     #[test]
