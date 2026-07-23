@@ -7,9 +7,11 @@ allowBuilds:
   '@swc/core': true
   '@tailwindcss/oxide': true
   esbuild: true
-  sharp: true
+  sharp: false
 
 overrides:
+  "fast-uri@": 3.1.4
+  "next@16.2.11>sharp": "-"
   postcss: 8.5.15
 
 shellEmulator: true
