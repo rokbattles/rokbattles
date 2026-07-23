@@ -17,5 +17,8 @@ tokio-cron-scheduler = { workspace = true }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+mimalloc = { workspace = true }
+
 [lib]
 doctest = false
