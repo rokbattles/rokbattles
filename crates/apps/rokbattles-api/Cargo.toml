@@ -21,5 +21,8 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 sentry = { workspace = true }
 yaml_serde = { workspace = true }
 
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+mimalloc = { workspace = true }
+
 [lib]
 doctest = false

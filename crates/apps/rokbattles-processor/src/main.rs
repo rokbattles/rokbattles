@@ -2,6 +2,10 @@
 
 //! Background processor for raw mail documents.
 
+#[cfg(all(target_os = "linux", target_env = "musl"))]
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 mod config;
 mod error;
 mod processing;

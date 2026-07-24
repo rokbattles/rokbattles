@@ -2,6 +2,10 @@
 
 //! Binary entrypoint for scheduled jobs.
 
+#[cfg(all(target_os = "linux", target_env = "musl"))]
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 use std::path::PathBuf;
 
 use mongodb::options::ClientOptions;

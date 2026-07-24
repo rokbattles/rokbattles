@@ -1,5 +1,9 @@
 #![forbid(unsafe_code)]
 
+#[cfg(all(target_os = "linux", target_env = "musl"))]
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 mod clamav;
 mod config;
 mod error;
