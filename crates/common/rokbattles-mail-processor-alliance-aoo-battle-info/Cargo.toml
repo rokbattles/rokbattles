@@ -1,7 +1,8 @@
 [package]
 name = "rokbattles-mail-processor-alliance-aoo-battle-info"
-version = "1.6.1"
-edition = "2024"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
 
 [dependencies]
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }

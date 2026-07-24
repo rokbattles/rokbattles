@@ -1,7 +1,8 @@
 [package]
 name = "rokbattles-mail-decoder-simd"
-version = "1.6.1"
-edition = "2024"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
 
 [lints]
 workspace = true
