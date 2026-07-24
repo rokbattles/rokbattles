@@ -7,11 +7,11 @@ version.workspace = true
 [dependencies]
 dotenvy = { workspace = true }
 rokbattles-drastc = { path = "../../common/rokbattles-drastc" }
-futures = { workspace = true }
+futures = { workspace = true, features = ["std"] }
 mongodb = { workspace = true }
 rokbattles-api = { path = "../rokbattles-api" }
 rokbattles-bson = { path = "../../common/rokbattles-bson" }
-sentry = { workspace = true }
+sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt-multi-thread", "signal", "sync"] }
 tokio-cron-scheduler = { workspace = true }
@@ -19,7 +19,7 @@ tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
-mimalloc = { workspace = true }
+mimalloc = { workspace = true, features = ["secure"] }
 
 [lib]
 doctest = false

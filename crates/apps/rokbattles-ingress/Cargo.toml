@@ -5,10 +5,10 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-axum = { workspace = true, features = ["multipart"] }
+axum = { workspace = true, features = ["http1", "json", "multipart", "tokio", "tracing"] }
 bytes = { workspace = true }
 dotenvy = { workspace = true }
-flate2 = { workspace = true, default-features = false, features = ["zlib"] }
+flate2 = { workspace = true, features = ["zlib"] }
 rokbattles-mail-decoder = { path = "../../common/rokbattles-mail-decoder" }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 mongodb = { workspace = true }
@@ -20,7 +20,7 @@ tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "tim
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 zstd = { workspace = true }
-sentry = { workspace = true }
+sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }
 
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
-mimalloc = { workspace = true }
+mimalloc = { workspace = true, features = ["secure"] }
