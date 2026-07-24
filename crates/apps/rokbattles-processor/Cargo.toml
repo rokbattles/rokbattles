@@ -1,7 +1,8 @@
 [package]
 name = "rokbattles-processor"
-version = "1.6.1"
-edition = "2024"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
 
 [dependencies]
 tokio = { workspace = true }

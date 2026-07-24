@@ -1,31 +1,14 @@
 [workspace]
 members = [
-    "crates/common/rokbattles-drastc",
-    "crates/common/rokbattles-mail-cli",
-    "crates/common/rokbattles-mail-decoder",
-    "crates/common/rokbattles-mail-decoder-simd",
-    "crates/common/rokbattles-mail-registry",
-    "crates/common/rokbattles-mail-processor-alliance-aoo-battle-info",
-    "crates/common/rokbattles-mail-processor-alliance-aoo-battle-results",
-    "crates/common/rokbattles-mail-processor-alliance-aoo-individual-results",
-    "crates/common/rokbattles-mail-processor-alliance-aoo-registration",
-    "crates/common/rokbattles-mail-processor-barcanyonkillboss",
-    "crates/common/rokbattles-mail-processor-battle",
-    "crates/common/rokbattles-mail-processor-duelbattle2",
-    "crates/common/rokbattles-mail-processor-eventmemberlootreport",
-    "crates/common/rokbattles-mail-processor-rss",
-    "crates/common/rokbattles-mail-processor-scoutreport",
-    "crates/common/rokbattles-mail-sdk",
-    "crates/common/rokbattles-mail-processor-system-barbarianfort",
-    "crates/common/rokbattles-mail-processor-system-kahartreasure",
-    "crates/apps/rokbattles-api",
-    "crates/common/rokbattles-bson",
-    "crates/apps/rokbattles-jobs",
-    "crates/apps/rokbattles-ingress",
-    "crates/apps/rokbattles-processor",
-    "crates/apps/rokbattles-desktop",
+    "crates/apps/*",
+    "crates/common/*",
 ]
 resolver = "3"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.97"
+version = "1.6.1"
 
 [workspace.dependencies]
 anyhow = "1.0.104"
