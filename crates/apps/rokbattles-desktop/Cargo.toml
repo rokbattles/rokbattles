@@ -20,14 +20,14 @@ doctest = false
 tauri-build = { workspace = true }
 
 [dependencies]
-tauri = { workspace = true }
+tauri = { workspace = true, features = ["tray-icon"] }
 tauri-plugin-opener = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 tauri-plugin-dialog = { workspace = true }
 anyhow = { workspace = true }
 tokio = { workspace = true, features = ["macros", "sync", "time"] }
-reqwest = { workspace = true, features = ["multipart", "json"] }
+reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }
 rokbattles-mail-decoder = { path = "../../common/rokbattles-mail-decoder" }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 tauri-plugin-updater = { workspace = true }
