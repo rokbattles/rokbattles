@@ -32,6 +32,7 @@ pub(crate) fn extract_player_fields(
     let character_type = optional_u64_field(player, "CT")?;
     let is_turret = optional_bool_field(player, "IsTurret")?;
     let is_outpost = optional_bool_field(player, "IsOutpost")?;
+    let is_auto = optional_u64_field(player, "IsAuto")?;
     let castle_pos = require_child_object(player, "CastlePos")?;
     let castle_x = require_number_field(castle_pos, "X")?;
     let castle_y = require_number_field(castle_pos, "Y")?;
@@ -76,6 +77,7 @@ pub(crate) fn extract_player_fields(
     );
     fields.insert("is_turret".to_string(), is_turret.map(Value::from).unwrap_or(Value::Null));
     fields.insert("is_outpost".to_string(), is_outpost.map(Value::from).unwrap_or(Value::Null));
+    fields.insert("is_auto".to_string(), is_auto.map(Value::from).unwrap_or(Value::Null));
     fields.insert(
         "castle".to_string(),
         json!({
@@ -719,6 +721,23 @@ mod tests {
             (fields.get("character_type"), fields.get("is_turret"), fields.get("is_outpost"),),
             (Some(&json!(7)), Some(&json!(true)), Some(&json!(false)))
         );
+    }
+
+    #[test]
+    fn extract_player_fields_preserves_is_auto() {
+        let mut player = base_player();
+        player.insert("IsAuto".to_string(), json!(1));
+
+        let fields = extract_player_fields(&player).unwrap();
+
+        assert_eq!(fields["is_auto"], json!(1));
+    }
+
+    #[test]
+    fn extract_player_fields_uses_null_when_is_auto_is_absent() {
+        let fields = extract_player_fields(&base_player()).unwrap();
+
+        assert_eq!(fields["is_auto"], Value::Null);
     }
 
     #[test]

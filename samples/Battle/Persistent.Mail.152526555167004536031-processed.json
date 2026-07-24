@@ -155,6 +155,7 @@
       },
       "end_tick": 1378436,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_138.png",
+      "is_auto": null,
       "is_outpost": null,
       "is_turret": null,
       "kingdom_id": 993,
@@ -305,6 +306,7 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_69.png",
+    "is_auto": null,
     "is_outpost": null,
     "is_turret": null,
     "kingdom_id": 993,

@@ -126,6 +126,7 @@
       },
       "end_tick": 205419,
       "frame_url": null,
+      "is_auto": 0,
       "is_outpost": null,
       "is_turret": null,
       "kingdom_id": 0,
@@ -279,6 +280,7 @@
       }
     },
     "frame_url": null,
+    "is_auto": 0,
     "is_outpost": null,
     "is_turret": null,
     "kingdom_id": 1804,

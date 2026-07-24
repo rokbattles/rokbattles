@@ -527,7 +527,7 @@ mod tests {
             );
         }
 
-        assert_eq!(samples.len(), 132);
+        assert_eq!(samples.len(), 135);
     }
 
     fn collect_mail_samples(dir: &Path) -> Vec<PathBuf> {

@@ -122,6 +122,7 @@
       },
       "end_tick": 208770,
       "frame_url": null,
+      "is_auto": 0,
       "is_outpost": null,
       "is_turret": null,
       "kingdom_id": 0,
@@ -221,6 +222,7 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_189.png",
+    "is_auto": 0,
     "is_outpost": null,
     "is_turret": null,
     "kingdom_id": 1804,

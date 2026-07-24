@@ -176,6 +176,7 @@
       },
       "end_tick": 310904,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+      "is_auto": 0,
       "is_outpost": null,
       "is_turret": null,
       "kingdom_id": 1804,
@@ -388,6 +389,7 @@
       },
       "end_tick": 310890,
       "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_7.png",
+      "is_auto": 0,
       "is_outpost": null,
       "is_turret": null,
       "kingdom_id": 1804,
@@ -541,6 +543,7 @@
       }
     },
     "frame_url": "http://imimg.lilithcdn.com/roc/img_AvatarFrame_104.png",
+    "is_auto": 0,
     "is_outpost": null,
     "is_turret": null,
     "kingdom_id": 1804,
