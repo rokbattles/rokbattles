@@ -22,13 +22,17 @@ import type {
 import { getCommanderName } from "@/lib/commander";
 
 const overallColumn = { key: "overall", label: "DRASTC" } as const;
-const breakdownColumns: Array<{ key: Exclude<CombatLabRankingSort, "overall">; label: string }> = [
-  { key: "damage", label: "Damage" },
-  { key: "rage", label: "Rage" },
-  { key: "assist", label: "Assist" },
-  { key: "sustainability", label: "Sustainability" },
-  { key: "trade", label: "Trade" },
-  { key: "consistency", label: "Consistency" },
+const breakdownColumns: Array<{
+  key: Exclude<CombatLabRankingSort, "overall">;
+  label: string;
+  title: string;
+}> = [
+  { key: "damage", label: "D", title: "Damage" },
+  { key: "rage", label: "R", title: "Rage" },
+  { key: "assist", label: "A", title: "Assist" },
+  { key: "sustainability", label: "S", title: "Sustainability" },
+  { key: "trade", label: "T", title: "Trade" },
+  { key: "consistency", label: "C", title: "Consistency" },
 ];
 
 type CombatLabRankingsTableProps = {
@@ -58,9 +62,10 @@ export function CombatLabRankingsTable({
             sort={sort}
             direction={direction}
             onSort={onSort}
+            className="w-0 px-2"
           />
-          <TableHeader className="text-right">
-            <span className="inline-flex items-center gap-2">
+          <TableHeader className="w-0 px-2 text-right">
+            <span className="inline-flex items-center gap-1">
               Confidence
               <Badge>Beta</Badge>
             </span>
@@ -73,6 +78,8 @@ export function CombatLabRankingsTable({
               sort={sort}
               direction={direction}
               onSort={onSort}
+              className="w-0 px-2"
+              title={column.title}
             />
           ))}
         </TableRow>
@@ -93,32 +100,53 @@ export function CombatLabRankingsTable({
                 {index + 1}
               </TableCell>
               <TableCell>
-                <div className="pointer-events-none flex -space-x-2">
-                  <CommanderIcon
-                    id={item.primaryCommanderId}
-                    alt={`${primaryName} icon`}
-                    className="size-10"
-                  />
-                  <CommanderIcon
-                    id={item.secondaryCommanderId}
-                    alt={`${secondaryName} icon`}
-                    className="size-10"
-                  />
+                <div className="flex flex-col">
+                  <span className="inline-flex items-center gap-2">
+                    <CommanderIcon
+                      id={item.primaryCommanderId}
+                      alt={`${primaryName} icon`}
+                      className="size-8 rounded-full"
+                    />
+                    <span>{primaryName}</span>
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                    <CommanderIcon
+                      id={item.secondaryCommanderId}
+                      alt={`${secondaryName} icon`}
+                      className="size-8 rounded-full"
+                    />
+                    <span>{secondaryName}</span>
+                  </span>
                 </div>
               </TableCell>
-              <CombatLabRankingsScoreCell score={item.drastc.overall} />
-              <TableCell className="text-right text-zinc-600 tabular-nums dark:text-zinc-400">
+              <CombatLabRankingsScoreCell className="w-0 px-2" score={item.drastc.overall} />
+              <TableCell className="w-0 px-2 text-right text-zinc-600 tabular-nums dark:text-zinc-400">
                 {scoreFormatter.format(
                   Math.min(99.99, clampScore(item.drastc.confidence.score) * 10)
                 )}
                 %
               </TableCell>
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.damage} />
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.rage} />
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.assist} />
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.sustainability} />
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.trade} />
-              <CombatLabRankingsScoreCell score={item.drastc.breakdown.consistency} />
+              <CombatLabRankingsScoreCell
+                className="w-0 px-2"
+                score={item.drastc.breakdown.damage}
+              />
+              <CombatLabRankingsScoreCell className="w-0 px-2" score={item.drastc.breakdown.rage} />
+              <CombatLabRankingsScoreCell
+                className="w-0 px-2"
+                score={item.drastc.breakdown.assist}
+              />
+              <CombatLabRankingsScoreCell
+                className="w-0 px-2"
+                score={item.drastc.breakdown.sustainability}
+              />
+              <CombatLabRankingsScoreCell
+                className="w-0 px-2"
+                score={item.drastc.breakdown.trade}
+              />
+              <CombatLabRankingsScoreCell
+                className="w-0 px-2"
+                score={item.drastc.breakdown.consistency}
+              />
             </TableRow>
           );
         })}
