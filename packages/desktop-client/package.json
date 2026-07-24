@@ -15,7 +15,7 @@
     "cnfast": "^0.0.8",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router": "^8.2.0"
+    "react-router": "^8.3.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
