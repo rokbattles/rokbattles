@@ -11,5 +11,8 @@ tokio = { workspace = true, features = ["io-util", "macros", "net", "rt-multi-th
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
+[target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
+mimalloc = { workspace = true, features = ["secure"] }
+
 [dev-dependencies]
 tokio = { workspace = true, features = ["time"] }

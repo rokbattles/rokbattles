@@ -4327,6 +4327,7 @@ dependencies = [
  "base64 0.22.1",
  "dotenvy",
  "hickory-proto",
+ "mimalloc",
  "serde",
  "thiserror 2.0.19",
  "tokio",
@@ -4562,6 +4563,7 @@ name = "rokbattles-tcp-relay"
 version = "1.6.1"
 dependencies = [
  "dotenvy",
+ "mimalloc",
  "thiserror 2.0.19",
  "tokio",
  "tracing",
