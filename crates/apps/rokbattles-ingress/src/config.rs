@@ -13,6 +13,7 @@ pub struct Config {
     pub clamav_timeout_ms: u64,
     pub zstd_level: i32,
     pub max_upload_bytes: usize,
+    pub relay_token: String,
 }
 
 /// Errors returned when configuration is missing or invalid.
@@ -44,6 +45,9 @@ impl Config {
         let zstd_level = parse_i32("ZSTD_LEVEL", lookup("ZSTD_LEVEL"), 6)?;
         let max_upload_bytes =
             parse_usize("MAX_UPLOAD_BYTES", lookup("MAX_UPLOAD_BYTES"), 25 * 1024 * 1024)?;
+        let relay_token = lookup("RELAY_TOKEN")
+            .filter(|value| !value.is_empty())
+            .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
 
         Ok(Self {
             bind_addr,
@@ -54,6 +58,7 @@ impl Config {
             clamav_timeout_ms,
             zstd_level,
             max_upload_bytes,
+            relay_token,
         })
     }
 }
@@ -117,10 +122,10 @@ mod tests {
 
     #[test]
     fn uses_defaults_for_optional_values() {
-        let cfg = Config::from_lookup(lookup(HashMap::from([(
-            "MONGODB_URI",
-            "mongodb://localhost:27017/rokbattles",
-        )])))
+        let cfg = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", "secret"),
+        ])))
         .expect("config");
 
         assert_eq!(
@@ -134,6 +139,7 @@ mod tests {
                 clamav_timeout_ms: 15_000,
                 zstd_level: 6,
                 max_upload_bytes: 25 * 1024 * 1024,
+                relay_token: "secret".to_string(),
             }
         );
     }
@@ -142,6 +148,7 @@ mod tests {
     fn loads_optional_sentry_dsn() {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", "secret"),
             ("SENTRY_DSN", "https://example@sentry.io/123"),
         ])))
         .expect("config");
@@ -159,10 +166,33 @@ mod tests {
     fn loads_zstd_level() {
         let cfg = Config::from_lookup(lookup(HashMap::from([
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", "secret"),
             ("ZSTD_LEVEL", "8"),
         ])))
         .expect("config");
 
         assert_eq!(cfg.zstd_level, 8);
+    }
+
+    #[test]
+    fn requires_relay_token() {
+        let error = Config::from_lookup(lookup(HashMap::from([(
+            "MONGODB_URI",
+            "mongodb://localhost:27017/rokbattles",
+        )])))
+        .expect_err("relay token should be required");
+
+        assert_eq!(error, ConfigError::Missing { key: "RELAY_TOKEN" });
+    }
+
+    #[test]
+    fn rejects_empty_relay_token() {
+        let error = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("RELAY_TOKEN", ""),
+        ])))
+        .expect_err("relay token should not be empty");
+
+        assert_eq!(error, ConfigError::Missing { key: "RELAY_TOKEN" });
     }
 }

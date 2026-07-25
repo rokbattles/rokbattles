@@ -1,3 +1,7 @@
+use std::sync::Arc;
+
+use rokbattles_mail_reconstructor::MailReconstructor;
+
 use crate::{config::Config, storage::Storage};
 
 /// Shared application state for request handlers.
@@ -5,4 +9,5 @@ use crate::{config::Config, storage::Storage};
 pub struct AppState {
     pub config: Config,
     pub storage: Storage,
+    pub mail_reconstructor: Arc<MailReconstructor>,
 }

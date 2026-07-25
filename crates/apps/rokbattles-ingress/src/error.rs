@@ -22,6 +22,8 @@ pub enum ApiError {
     Clamav(String),
     #[error("internal error: {0}")]
     Internal(String),
+    #[error("relay authentication failed")]
+    Unauthorized,
 }
 
 impl ApiError {
@@ -55,6 +57,7 @@ impl ApiError {
             ApiError::UnsupportedType(_) => StatusCode::UNPROCESSABLE_ENTITY,
             ApiError::DecodeFailed(_) => StatusCode::BAD_REQUEST,
             ApiError::Clamav(_) => StatusCode::BAD_GATEWAY,
+            ApiError::Unauthorized => StatusCode::UNAUTHORIZED,
             ApiError::Database(_) | ApiError::Internal(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }

@@ -3,11 +3,12 @@ use std::sync::Arc;
 use axum::{
     Json,
     extract::{Multipart, State},
-    http::{HeaderMap, HeaderValue, StatusCode},
+    http::{HeaderMap, HeaderValue, StatusCode, header},
     response::IntoResponse,
 };
 use bytes::Bytes;
 use mongodb::bson::DateTime;
+use rokbattles_mail_reconstructor::ReconstructionContext;
 use rokbattles_mail_registry::{is_processable_mail_type, is_supported_mail_type};
 use serde::Serialize;
 use serde_json::Value;
@@ -22,6 +23,7 @@ use crate::{
 const STATUS_PENDING: &str = "pending";
 const STATUS_REPROCESS: &str = "reprocess";
 const STATUS_UNPROCESSABLE: &str = "unprocessable";
+const MAX_RELAY_BATCH_ENTRIES: usize = 512;
 
 /// Response from the mail upload endpoint.
 #[derive(Debug, Serialize)]
@@ -29,6 +31,25 @@ pub struct UploadResponse {
     status: String,
     mail_id: String,
     mail_type: String,
+}
+
+/// Per-entry result returned by the relay batch endpoint.
+#[derive(Debug, Serialize)]
+pub struct RelayMailResult {
+    index: usize,
+    status: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    mail_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    mail_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    error: Option<String>,
+}
+
+/// Response returned after independently processing every batch entry.
+#[derive(Debug, Serialize)]
+pub struct RelayBatchResponse {
+    results: Vec<RelayMailResult>,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -103,6 +124,158 @@ pub async fn upload(
     let response = UploadResponse { status: label.to_string(), mail_id, mail_type };
 
     Ok((status, Json(response)))
+}
+
+/// Reconstruct and store a size-bounded batch of raw relay mail entries.
+pub async fn upload_relay(
+    State(state): State<Arc<AppState>>,
+    headers: HeaderMap,
+    mut multipart: Multipart,
+) -> Result<impl IntoResponse, ApiError> {
+    authorize_relay(&headers, &state.config.relay_token)?;
+    let user_agent = extract_user_agent(&headers)?;
+    let mut server_id = None;
+    let mut player_id = None;
+    let mut entries = Vec::new();
+
+    while let Some(field) =
+        multipart.next_field().await.map_err(|error| ApiError::bad_request(error.to_string()))?
+    {
+        match field.name() {
+            Some("server_id") => {
+                server_id = Some(
+                    field
+                        .text()
+                        .await
+                        .map_err(|error| ApiError::bad_request(error.to_string()))?
+                        .parse::<i32>()
+                        .map_err(|_| ApiError::bad_request("server_id must be an i32"))?,
+                );
+            }
+            Some("player_id") => {
+                player_id = Some(
+                    field
+                        .text()
+                        .await
+                        .map_err(|error| ApiError::bad_request(error.to_string()))?
+                        .parse::<i64>()
+                        .map_err(|_| ApiError::bad_request("player_id must be an i64"))?,
+                );
+            }
+            Some("mail") => {
+                if entries.len() >= MAX_RELAY_BATCH_ENTRIES {
+                    return Err(ApiError::bad_request(format!(
+                        "relay batch exceeds {MAX_RELAY_BATCH_ENTRIES} entries"
+                    )));
+                }
+                let content_type = field.content_type().unwrap_or("application/octet-stream");
+                if !is_allowed_content_type(content_type) {
+                    return Err(ApiError::bad_request(format!(
+                        "unsupported relay mail content type: {content_type}"
+                    )));
+                }
+                entries.push(
+                    field
+                        .bytes()
+                        .await
+                        .map_err(|error| ApiError::bad_request(error.to_string()))?,
+                );
+            }
+            Some(name) => {
+                return Err(ApiError::bad_request(format!(
+                    "unsupported relay batch field: {name}"
+                )));
+            }
+            None => return Err(ApiError::bad_request("relay batch field is missing a name")),
+        }
+    }
+
+    if entries.is_empty() {
+        return Err(ApiError::bad_request("relay batch contains no mail entries"));
+    }
+
+    let context = ReconstructionContext { server_id, player_id };
+    let mut results = Vec::with_capacity(entries.len());
+    for (index, entry) in entries.into_iter().enumerate() {
+        let result = match state.mail_reconstructor.reconstruct(&entry, context) {
+            Ok(mail) => {
+                match store_reconstructed_mail(&state, &mail.bytes, &mail.id, &user_agent).await {
+                    Ok(action) => RelayMailResult {
+                        index,
+                        status: action_label(action).to_string(),
+                        mail_id: Some(mail.id),
+                        mail_type: Some(mail.mail_type),
+                        error: None,
+                    },
+                    Err(error) => RelayMailResult {
+                        index,
+                        status: "rejected".to_string(),
+                        mail_id: Some(mail.id),
+                        mail_type: Some(mail.mail_type),
+                        error: Some(error.to_string()),
+                    },
+                }
+            }
+            Err(error) => RelayMailResult {
+                index,
+                status: "rejected".to_string(),
+                mail_id: None,
+                mail_type: None,
+                error: Some(error.to_string()),
+            },
+        };
+        results.push(result);
+    }
+
+    Ok((StatusCode::OK, Json(RelayBatchResponse { results })))
+}
+
+async fn store_reconstructed_mail(
+    state: &AppState,
+    bytes: &[u8],
+    mail_id: &str,
+    user_agent: &str,
+) -> Result<UploadAction, ApiError> {
+    let decoded = rokbattles_mail_decoder::decode(bytes)
+        .map_err(|error| ApiError::decode_failed(error.to_string()))?;
+    let decoded_id =
+        extract_mail_id(&decoded).ok_or_else(|| ApiError::bad_request("missing mail id"))?;
+    if decoded_id != mail_id {
+        return Err(ApiError::bad_request("reconstructed mail id mismatch"));
+    }
+    let mail_type = extract_mail_type(&decoded)?;
+    store_compressed_raw_mail(state, bytes, &decoded, mail_id, &mail_type, user_agent).await
+}
+
+fn action_label(action: UploadAction) -> &'static str {
+    match action {
+        UploadAction::Insert => "stored",
+        UploadAction::Update => "updated",
+        UploadAction::Skip => "skipped",
+    }
+}
+
+fn authorize_relay(headers: &HeaderMap, expected: &str) -> Result<(), ApiError> {
+    let actual = headers
+        .get(header::AUTHORIZATION)
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer "))
+        .ok_or(ApiError::Unauthorized)?;
+    if constant_time_eq(actual.as_bytes(), expected.as_bytes()) {
+        Ok(())
+    } else {
+        Err(ApiError::Unauthorized)
+    }
+}
+
+fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
+    let mut difference = left.len() ^ right.len();
+    for index in 0..left.len().max(right.len()) {
+        let left_byte = left.get(index).copied().unwrap_or_default();
+        let right_byte = right.get(index).copied().unwrap_or_default();
+        difference |= usize::from(left_byte ^ right_byte);
+    }
+    difference == 0
 }
 
 async fn store_compressed_raw_mail(
@@ -273,7 +446,7 @@ fn is_allowed_content_encoding(value: Option<&HeaderValue>) -> bool {
 
 /// Read and validate the user agent header.
 ///
-/// Expected format: `ROKBattles/<version>`, with an optional `Tauri/` suffix.
+/// Expected format: `ROKBattles/<version>`, with an optional recognized suffix.
 fn extract_user_agent(headers: &HeaderMap) -> Result<String, ApiError> {
     let user_agent = headers
         .get("user-agent")
@@ -287,7 +460,7 @@ fn extract_user_agent(headers: &HeaderMap) -> Result<String, ApiError> {
     Ok(user_agent.to_string())
 }
 
-/// Check the `ROKBattles/<version>` prefix and optional Tauri suffix.
+/// Check the `ROKBattles/<version>` prefix and optional client suffix.
 fn ua_ok(user_agent: &str) -> bool {
     let Some(rest) = user_agent.strip_prefix("ROKBattles/") else {
         return false;
@@ -301,6 +474,7 @@ fn ua_ok(user_agent: &str) -> bool {
 
     match parts.next() {
         None => true,
+        Some("(Relay)") => true,
         Some(remainder) => remainder.starts_with('(') && remainder.contains(" Tauri/"),
     }
 }
@@ -621,6 +795,15 @@ mod tests {
     }
 
     #[test]
+    fn relay_authorization_requires_matching_bearer_token() {
+        let mut headers = HeaderMap::new();
+        headers.insert(header::AUTHORIZATION, HeaderValue::from_static("Bearer secret"));
+
+        assert!(authorize_relay(&headers, "secret").is_ok());
+        assert!(matches!(authorize_relay(&headers, "different"), Err(ApiError::Unauthorized)));
+    }
+
+    #[test]
     fn compressed_raw_action_skips_different_smaller_binary() {
         let existing = existing_compressed_raw("old", Some(101));
         let action = decide_compressed_raw_action(Some(&existing), "new", 100);
@@ -718,6 +901,11 @@ mod tests {
     #[test]
     fn ua_ok_accepts_tauri_suffix() {
         assert!(ua_ok("ROKBattles/0.2.5 (MacOS; Tauri/1.5.0)"));
+    }
+
+    #[test]
+    fn ua_ok_accepts_relay_suffix() {
+        assert!(ua_ok("ROKBattles/1.6.1 (Relay)"));
     }
 
     #[test]

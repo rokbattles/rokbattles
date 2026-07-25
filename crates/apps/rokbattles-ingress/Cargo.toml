@@ -11,6 +11,7 @@ dotenvy = { workspace = true }
 flate2 = { workspace = true, features = ["zlib"] }
 rokbattles-mail-decoder = { path = "../../common/rokbattles-mail-decoder" }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
+rokbattles-mail-reconstructor = { path = "../../common/rokbattles-mail-reconstructor" }
 mongodb = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

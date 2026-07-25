@@ -20,6 +20,7 @@ use axum::{
     routing::{get, post},
 };
 use mongodb::options::ClientOptions;
+use rokbattles_mail_reconstructor::MailReconstructor;
 use tracing::info;
 
 use crate::{config::Config, state::AppState, storage::Storage};
@@ -30,6 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::from_path(&dotenv_path).ok();
 
     let config = Config::from_env()?;
+    let mail_reconstructor = Arc::new(MailReconstructor::load("artifacts/artifacts.json")?);
     tracing_subscriber::fmt()
         .with_env_filter(
             tracing_subscriber::EnvFilter::try_from_default_env()
@@ -61,11 +63,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let storage = Storage::new(db);
     storage.ensure_indexes().await?;
 
-    let state = Arc::new(AppState { config, storage });
+    let state = Arc::new(AppState { config, storage, mail_reconstructor });
 
     let app = Router::new()
         .route("/health", get(handlers::health))
         .route("/v2/upload", post(handlers::upload))
+        .route("/v2/relay/upload", post(handlers::upload_relay))
         .route("/v2/tcp-stream", post(handlers::upload_tcp_stream))
         .with_state(state.clone())
         .layer(DefaultBodyLimit::max(state.config.max_upload_bytes));
