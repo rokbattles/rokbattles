@@ -90,7 +90,7 @@ fn file_checksum(buffer: &[u8]) -> u64 {
         .wrapping_mul(CHECKSUM_MULTIPLIER)
         .wrapping_add(u64::from(marker))
         .wrapping_mul(ZEROED_CHECKSUM_BYTES_FACTOR);
-    rokbattles_mail_decoder_simd::checksum(header_hash, payload)
+    rokbattles_djb2_simd::checksum(header_hash, payload)
 }
 
 struct Decoder<'a> {
