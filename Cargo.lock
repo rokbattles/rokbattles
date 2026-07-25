@@ -4320,6 +4320,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-dns-resolver"
+version = "1.6.1"
+dependencies = [
+ "axum",
+ "base64 0.22.1",
+ "dotenvy",
+ "hickory-proto",
+ "serde",
+ "thiserror 2.0.19",
+ "tokio",
+ "tower",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "rokbattles-drastc"
 version = "1.6.1"
 dependencies = [
