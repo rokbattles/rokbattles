@@ -8,7 +8,7 @@ use tokio::{
 };
 use tracing::{info, warn};
 
-use crate::{RuntimeArtifact, observer::StreamObserver};
+use crate::{MailUploader, RuntimeArtifact, observer::StreamObserver};
 
 const COPY_BUFFER_BYTES: usize = 16 * 1024;
 
@@ -37,6 +37,7 @@ pub async fn serve(
     listener: TcpListener,
     upstream_addr: String,
     artifact: Arc<RuntimeArtifact>,
+    uploader: Option<MailUploader>,
 ) -> io::Result<()> {
     let upstream_addr: Arc<str> = upstream_addr.into();
 
@@ -45,10 +46,11 @@ pub async fn serve(
         info!(%client_addr, "TCP relay stream connected");
         let upstream_addr = Arc::clone(&upstream_addr);
         let artifact = Arc::clone(&artifact);
+        let uploader = uploader.clone();
 
         std::mem::drop(tokio::spawn(async move {
             if let Err(error) =
-                relay_connection(client, &upstream_addr, artifact, client_addr).await
+                relay_connection(client, &upstream_addr, artifact, uploader, client_addr).await
             {
                 warn!(%client_addr, %error, "TCP relay stream failed");
             }
@@ -61,6 +63,7 @@ async fn relay_connection(
     client: TcpStream,
     upstream_addr: &str,
     artifact: Arc<RuntimeArtifact>,
+    uploader: Option<MailUploader>,
     client_addr: SocketAddr,
 ) -> Result<(), ConnectionError> {
     client.set_nodelay(true).map_err(ConnectionError::ConfigureClient)?;
@@ -69,7 +72,7 @@ async fn relay_connection(
         TcpStream::connect(upstream_addr).await.map_err(ConnectionError::ConnectUpstream)?;
     upstream.set_nodelay(true).map_err(ConnectionError::ConfigureUpstream)?;
 
-    let mut observer = StreamObserver::spawn(artifact, client_addr);
+    let mut observer = StreamObserver::spawn(artifact, uploader, client_addr);
     let (mut client_reader, mut client_writer) = client.into_split();
     let (mut upstream_reader, mut upstream_writer) = upstream.into_split();
     let forwarding = tokio::try_join!(
@@ -143,6 +146,7 @@ mod tests {
                 client,
                 &upstream_addr.to_string(),
                 Arc::new(RuntimeArtifact::test_fixture()),
+                None,
                 relay_addr,
             )
             .await
@@ -324,6 +328,7 @@ mod tests {
             relay_listener,
             upstream_addr.to_string(),
             Arc::new(RuntimeArtifact::test_fixture()),
+            None,
         ));
 
         let upstream_task = tokio::spawn(async move {
@@ -361,6 +366,7 @@ mod tests {
             relay_listener,
             upstream_addr.to_string(),
             Arc::new(RuntimeArtifact::test_fixture()),
+            None,
         ));
 
         let mut failed_client =

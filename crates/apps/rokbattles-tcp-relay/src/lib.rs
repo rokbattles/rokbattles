@@ -13,7 +13,9 @@ mod observer;
 mod protobuf;
 mod relay;
 mod stream;
+mod uploader;
 
 pub use artifact::{ArtifactError, RuntimeArtifact};
 pub use config::{Config, ConfigError};
 pub use relay::serve;
+pub use uploader::MailUploader;

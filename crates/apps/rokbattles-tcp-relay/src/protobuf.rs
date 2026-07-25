@@ -6,7 +6,7 @@ use flate2::read::ZlibDecoder;
 
 use crate::artifact::{COMPRESSED_API_ID, CompressionSchema, RuntimeArtifact, ZMSG_API_ID};
 
-pub(crate) const MAX_INFLATED_BYTES: usize = 8 * 1024 * 1024;
+pub(crate) const MAX_INFLATED_BYTES: usize = 25 * 1024 * 1024;
 
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub(crate) enum ProtocolError {
@@ -82,12 +82,13 @@ pub(crate) fn effective_message<'a>(
     }
 }
 
-pub(crate) fn validate_mail_candidates(
+pub(crate) fn mail_candidates(
     payload: &[u8],
     artifact: &RuntimeArtifact,
     api_id: u32,
-) -> Result<(), ProtocolError> {
+) -> Result<Vec<Vec<u8>>, ProtocolError> {
     let carrier = artifact.carriers.get(&api_id).ok_or(ProtocolError::UnexpectedWrappedMessage)?;
+    let mut candidates = Vec::new();
     let mut cursor = FieldCursor::new(payload);
     while let Some(field) = cursor.next()? {
         if !carrier.shape.accepts(field.number, field.wire) {
@@ -100,8 +101,22 @@ pub(crate) fn validate_mail_candidates(
             return Err(ProtocolError::WrongWireType);
         };
         validate_message(candidate, &artifact.protocol.mail_entity)?;
+        candidates.push(candidate.to_vec());
     }
-    Ok(())
+    Ok(candidates)
+}
+
+pub(crate) fn parse_login(
+    payload: &[u8],
+    artifact: &RuntimeArtifact,
+) -> Result<(i64, i32), ProtocolError> {
+    let player_id = required_varint(payload, artifact.protocol.login_player_id_field)?;
+    let server_id = required_varint(payload, artifact.protocol.login_server_id_field)?;
+    let player_id = i64::from_ne_bytes(player_id.to_ne_bytes());
+    let server_id = u32::try_from(server_id)
+        .map(|value| i32::from_ne_bytes(value.to_ne_bytes()))
+        .map_err(|_error| ProtocolError::IntegerOutOfRange)?;
+    Ok((player_id, server_id))
 }
 
 fn validate_message(

@@ -2,10 +2,17 @@
 
 use crate::{
     RuntimeArtifact,
-    protobuf::{ProtocolError, effective_message, parse_handshake, validate_mail_candidates},
+    artifact::LOGIN_API_ID,
+    protobuf::{ProtocolError, effective_message, mail_candidates, parse_handshake, parse_login},
 };
 
-pub(crate) const MAX_FRAME_BODY_BYTES: usize = 4 * 1024 * 1024;
+pub(crate) const MAX_FRAME_BODY_BYTES: usize = 25 * 1024 * 1024;
+
+#[derive(Debug, PartialEq, Eq)]
+pub(crate) enum StreamEvent {
+    Login { player_id: i64, server_id: i32 },
+    Mails(Vec<Vec<u8>>),
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
 pub(crate) enum StreamError {
@@ -61,16 +68,19 @@ impl<'a> ServerStreamProcessor<'a> {
         }
     }
 
-    pub(crate) fn push(&mut self, payload: &[u8]) -> Result<(), StreamError> {
+    pub(crate) fn push(&mut self, payload: &[u8]) -> Result<Vec<StreamEvent>, StreamError> {
+        let mut events = Vec::new();
         let mut position = 0usize;
         while position < payload.len() {
             if self.remaining.is_none() {
                 self.read_prefix(payload, &mut position)?;
                 let Some(remaining) = self.remaining else {
-                    return Ok(());
+                    return Ok(events);
                 };
                 if remaining == 0 {
-                    self.complete_frame()?;
+                    if let Some(event) = self.complete_frame()? {
+                        events.push(event);
+                    }
                     continue;
                 }
             }
@@ -90,11 +100,13 @@ impl<'a> ServerStreamProcessor<'a> {
             position = end;
             let next_remaining = remaining.saturating_sub(take);
             self.remaining = Some(next_remaining);
-            if next_remaining == 0 {
-                self.complete_frame()?;
+            if next_remaining == 0
+                && let Some(event) = self.complete_frame()?
+            {
+                events.push(event);
             }
         }
-        Ok(())
+        Ok(events)
     }
 
     fn read_prefix(&mut self, payload: &[u8], position: &mut usize) -> Result<(), StreamError> {
@@ -125,21 +137,28 @@ impl<'a> ServerStreamProcessor<'a> {
         Ok(())
     }
 
-    fn complete_frame(&mut self) -> Result<(), StreamError> {
+    fn complete_frame(&mut self) -> Result<Option<StreamEvent>, StreamError> {
         self.remaining = None;
-        if self.frame_index == 0 {
+        let event = if self.frame_index == 0 {
             let (key1, _key2) = parse_handshake(&self.body, self.artifact)
                 .map_err(|_error| StreamError::UnsupportedHandshake)?;
             self.cipher = Some(StreamCipher::new(server_secret(key1)));
+            None
         } else {
             let message = effective_message(&self.body, self.artifact)?;
-            if self.artifact.carriers.contains_key(&message.api_id) {
-                validate_mail_candidates(&message.payload, self.artifact, message.api_id)?;
+            if message.api_id == LOGIN_API_ID {
+                let (player_id, server_id) = parse_login(&message.payload, self.artifact)?;
+                Some(StreamEvent::Login { player_id, server_id })
+            } else if self.artifact.carriers.contains_key(&message.api_id) {
+                let candidates = mail_candidates(&message.payload, self.artifact, message.api_id)?;
+                (!candidates.is_empty()).then_some(StreamEvent::Mails(candidates))
+            } else {
+                None
             }
-        }
+        };
         self.frame_index = self.frame_index.saturating_add(1);
         self.body.clear();
-        Ok(())
+        Ok(event)
     }
 }
 
@@ -386,9 +405,34 @@ mod tests {
         for body in [direct_7909, direct_7901, zmsg_7921, compressed_7927] {
             stream.extend(encrypted_frame(&mut cipher, &body));
         }
-        processor.push(&stream).expect("coalesced direct and wrapped frames should parse");
+        let events =
+            processor.push(&stream).expect("coalesced direct and wrapped frames should parse");
 
         assert_eq!(processor.frame_index, 5);
+        assert_eq!(
+            events
+                .iter()
+                .map(|event| match event {
+                    StreamEvent::Mails(entries) => entries.len(),
+                    StreamEvent::Login { .. } => 0,
+                })
+                .sum::<usize>(),
+            5
+        );
+    }
+
+    #[test]
+    fn processor_emits_login_context() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut processor = ServerStreamProcessor::new(&artifact);
+        let mut cipher = StreamCipher::new(server_secret(626_273_431));
+        let login = [varint_field(1, 123_456), varint_field(2, 1804)].concat();
+        let mut stream = frame(HANDSHAKE_BODY);
+        stream.extend(encrypted_frame(&mut cipher, &msg(LOGIN_API_ID, &login)));
+
+        let events = processor.push(&stream).expect("login frame should parse");
+
+        assert_eq!(events, [StreamEvent::Login { player_id: 123_456, server_id: 1804 }]);
     }
 
     #[test]

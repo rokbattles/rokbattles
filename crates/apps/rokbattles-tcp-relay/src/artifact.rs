@@ -14,6 +14,7 @@ const MAX_ARTIFACT_BYTES: u64 = 32 * 1024 * 1024;
 const ARTIFACT_PATH: &str = "artifacts/artifacts.json";
 
 pub(crate) const HANDSHAKE_API_ID: u32 = 8562;
+pub(crate) const LOGIN_API_ID: u32 = 15;
 pub(crate) const COMPRESSED_API_ID: u32 = 9999;
 pub(crate) const ZMSG_API_ID: u32 = 61438;
 
@@ -70,6 +71,7 @@ impl RuntimeArtifact {
         let messages = MessageIndex::new(&file.descriptors.messages)?;
         let msg = messages.required("Msg")?;
         let handshake = messages.for_api(&file.api_map, HANDSHAKE_API_ID, "SxNtf")?;
+        let login = messages.for_api(&file.api_map, LOGIN_API_ID, "LoginAck")?;
         let compressed = messages.for_api(&file.api_map, COMPRESSED_API_ID, "CompressedMsg")?;
         let zmsg = messages.for_api(&file.api_map, ZMSG_API_ID, "ZMsg")?;
         let report_ack = messages.required("ReportAck")?;
@@ -80,6 +82,8 @@ impl RuntimeArtifact {
             msg_payload_field: msg.required_field("Payload", FieldType::Bytes)?.number,
             handshake_key1_field: handshake.required_field("K1", FieldType::Int32)?.number,
             handshake_key2_field: handshake.required_field("K2", FieldType::Int32)?.number,
+            login_player_id_field: login.required_field("PlayerId", FieldType::Int64)?.number,
+            login_server_id_field: login.required_field("ServerId", FieldType::Int32)?.number,
             compressed: CompressionSchema {
                 length_field: compressed.required_field("Len", FieldType::Int32)?.number,
                 payload_field: compressed.required_field("Data", FieldType::Bytes)?.number,
@@ -144,6 +148,8 @@ impl RuntimeArtifact {
                 msg_payload_field: 2,
                 handshake_key1_field: 1,
                 handshake_key2_field: 2,
+                login_player_id_field: 1,
+                login_server_id_field: 2,
                 compressed: CompressionSchema { length_field: 1, payload_field: 2 },
                 zmsg: CompressionSchema { length_field: 1, payload_field: 2 },
                 report_data_field: 1,
@@ -316,6 +322,7 @@ fn normalize_type_name(name: &str) -> &str {
 
 #[derive(Debug, Clone, Copy)]
 enum FieldType {
+    Int64,
     Int32,
     Message,
     Bytes,
@@ -324,6 +331,7 @@ enum FieldType {
 impl FieldType {
     const fn code(self) -> u8 {
         match self {
+            Self::Int64 => 3,
             Self::Int32 => 5,
             Self::Message => 11,
             Self::Bytes => 12,
@@ -337,6 +345,8 @@ pub(crate) struct ProtocolSchema {
     pub(crate) msg_payload_field: u32,
     pub(crate) handshake_key1_field: u32,
     pub(crate) handshake_key2_field: u32,
+    pub(crate) login_player_id_field: u32,
+    pub(crate) login_server_id_field: u32,
     pub(crate) compressed: CompressionSchema,
     pub(crate) zmsg: CompressionSchema,
     pub(crate) report_data_field: u32,
