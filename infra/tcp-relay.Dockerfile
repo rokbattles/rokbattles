@@ -13,7 +13,9 @@ RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-target-x86_64-musl,target=/target,sharing=locked \
     cd /src && \
     CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-tcp-relay && \
-    cp /target/x86_64-unknown-linux-musl/release/rokbattles-tcp-relay /app/rokbattles-tcp-relay
+    cp /target/x86_64-unknown-linux-musl/release/rokbattles-tcp-relay /app/rokbattles-tcp-relay && \
+    mkdir -p /app/artifacts && \
+    cp /src/crates/apps/rokbattles-tcp-relay/artifacts/artifacts.json /app/artifacts/artifacts.json
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
 RUN apk add --no-cache ca-certificates tzdata
@@ -26,6 +28,7 @@ COPY --link --from=files /etc/passwd /etc/group /etc/nsswitch.conf /etc/
 COPY --link --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --link --from=files /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --link --from=builder /app/rokbattles-tcp-relay /bin/rokbattles-tcp-relay
+COPY --link --from=builder /app/artifacts /app/artifacts
 USER rokb:rokb
 WORKDIR /app
 EXPOSE 3101

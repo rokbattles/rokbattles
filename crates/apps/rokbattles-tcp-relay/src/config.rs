@@ -29,8 +29,8 @@ impl Config {
     ///
     /// # Errors
     ///
-    /// Returns [`ConfigError`] when `UPSTREAM_ADDR` is absent or when a
-    /// configured address is invalid.
+    /// Returns [`ConfigError`] when a required value is absent or a configured
+    /// address is invalid.
     pub fn from_env() -> Result<Self, ConfigError> {
         Self::from_lookup(|key| env::var(key).ok())
     }
@@ -46,7 +46,6 @@ impl Config {
         let upstream_addr = validate_upstream_addr(
             lookup("UPSTREAM_ADDR").ok_or(ConfigError::Missing { key: "UPSTREAM_ADDR" })?,
         )?;
-
         Ok(Self { bind_addr, upstream_addr })
     }
 }
@@ -55,7 +54,7 @@ fn parse<T>(key: &'static str, value: String) -> Result<T, ConfigError>
 where
     T: std::str::FromStr,
 {
-    value.parse().map_err(|_| ConfigError::Invalid { key, value })
+    value.parse().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 fn validate_upstream_addr(value: String) -> Result<String, ConfigError> {

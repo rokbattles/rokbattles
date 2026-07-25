@@ -12,4 +12,5 @@ packages/site/legal/
 *.tsbuildinfo
 next-env.d.ts
 samples/game/
+crates/apps/rokbattles-tcp-relay/artifacts/
 .source

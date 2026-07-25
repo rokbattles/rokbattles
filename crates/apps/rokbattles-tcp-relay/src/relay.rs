@@ -1,18 +1,16 @@
 //! TCP listener and connection forwarding.
 
-use std::{io, sync::Arc};
+use std::{io, net::SocketAddr, sync::Arc};
 
 use tokio::{
-    io::copy_bidirectional,
+    io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt},
     net::{TcpListener, TcpStream},
 };
-use tracing::{debug, warn};
+use tracing::{info, warn};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-struct TransferStats {
-    client_to_upstream_bytes: u64,
-    upstream_to_client_bytes: u64,
-}
+use crate::{RuntimeArtifact, observer::StreamObserver};
+
+const COPY_BUFFER_BYTES: usize = 16 * 1024;
 
 #[derive(Debug, thiserror::Error)]
 enum ConnectionError {
@@ -35,45 +33,79 @@ enum ConnectionError {
 /// # Errors
 ///
 /// Returns an I/O error if accepting a new client connection fails.
-pub async fn serve(listener: TcpListener, upstream_addr: String) -> io::Result<()> {
+pub async fn serve(
+    listener: TcpListener,
+    upstream_addr: String,
+    artifact: Arc<RuntimeArtifact>,
+) -> io::Result<()> {
     let upstream_addr: Arc<str> = upstream_addr.into();
 
     loop {
         let (client, client_addr) = listener.accept().await?;
+        info!(%client_addr, "TCP relay stream connected");
         let upstream_addr = Arc::clone(&upstream_addr);
+        let artifact = Arc::clone(&artifact);
 
         std::mem::drop(tokio::spawn(async move {
-            match relay_connection(client, &upstream_addr).await {
-                Ok(stats) => {
-                    debug!(
-                        %client_addr,
-                        client_to_upstream_bytes = stats.client_to_upstream_bytes,
-                        upstream_to_client_bytes = stats.upstream_to_client_bytes,
-                        "TCP relay connection closed"
-                    );
-                }
-                Err(error) => {
-                    warn!(%client_addr, %error, "TCP relay connection failed");
-                }
+            if let Err(error) =
+                relay_connection(client, &upstream_addr, artifact, client_addr).await
+            {
+                warn!(%client_addr, %error, "TCP relay stream failed");
             }
+            info!(%client_addr, "TCP relay stream disconnected");
         }));
     }
 }
 
 async fn relay_connection(
-    mut client: TcpStream,
+    client: TcpStream,
     upstream_addr: &str,
-) -> Result<TransferStats, ConnectionError> {
+    artifact: Arc<RuntimeArtifact>,
+    client_addr: SocketAddr,
+) -> Result<(), ConnectionError> {
     client.set_nodelay(true).map_err(ConnectionError::ConfigureClient)?;
 
-    let mut upstream =
+    let upstream =
         TcpStream::connect(upstream_addr).await.map_err(ConnectionError::ConnectUpstream)?;
     upstream.set_nodelay(true).map_err(ConnectionError::ConfigureUpstream)?;
 
-    let (client_to_upstream_bytes, upstream_to_client_bytes) =
-        copy_bidirectional(&mut client, &mut upstream).await.map_err(ConnectionError::Forward)?;
+    let mut observer = StreamObserver::spawn(artifact, client_addr);
+    let (mut client_reader, mut client_writer) = client.into_split();
+    let (mut upstream_reader, mut upstream_writer) = upstream.into_split();
+    let forwarding = tokio::try_join!(
+        forward_bytes(&mut client_reader, &mut upstream_writer, None),
+        forward_bytes(&mut upstream_reader, &mut client_writer, Some(&mut observer)),
+    );
+    observer.finish().await;
+    forwarding.map_err(ConnectionError::Forward)?;
 
-    Ok(TransferStats { client_to_upstream_bytes, upstream_to_client_bytes })
+    Ok(())
+}
+
+async fn forward_bytes<R, W>(
+    reader: &mut R,
+    writer: &mut W,
+    mut observer: Option<&mut StreamObserver>,
+) -> io::Result<()>
+where
+    R: AsyncRead + Unpin,
+    W: AsyncWrite + Unpin,
+{
+    let mut buffer = vec![0; COPY_BUFFER_BYTES];
+    loop {
+        let count = reader.read(&mut buffer).await?;
+        if count == 0 {
+            writer.shutdown().await?;
+            return Ok(());
+        }
+        let bytes = buffer.get(..count).ok_or_else(|| {
+            io::Error::new(io::ErrorKind::InvalidData, "read exceeded copy buffer")
+        })?;
+        writer.write_all(bytes).await?;
+        if let Some(observer) = &mut observer {
+            observer.observe(bytes);
+        }
+    }
 }
 
 #[cfg(test)]
@@ -94,8 +126,8 @@ mod tests {
         timeout(TEST_TIMEOUT, future).await.expect("socket operation should not time out")
     }
 
-    async fn connected_streams()
-    -> (TcpStream, TcpStream, JoinHandle<Result<TransferStats, ConnectionError>>) {
+    async fn connected_streams() -> (TcpStream, TcpStream, JoinHandle<Result<(), ConnectionError>>)
+    {
         let upstream_listener =
             TcpListener::bind("127.0.0.1:0").await.expect("upstream listener should bind");
         let upstream_addr =
@@ -107,7 +139,13 @@ mod tests {
         let relay_task = tokio::spawn(async move {
             let (client, _) =
                 relay_listener.accept().await.expect("relay should accept the client");
-            relay_connection(client, &upstream_addr.to_string()).await
+            relay_connection(
+                client,
+                &upstream_addr.to_string(),
+                Arc::new(RuntimeArtifact::test_fixture()),
+                relay_addr,
+            )
+            .await
         });
 
         let client =
@@ -140,21 +178,14 @@ mod tests {
 
         client.shutdown().await.expect("client write side should close");
         upstream.shutdown().await.expect("upstream write side should close");
-        let stats = within(relay_task)
+        within(relay_task)
             .await
             .expect("relay task should not panic")
             .expect("relay connection should finish");
 
         assert_eq!(
-            (received_upstream, received_client, stats),
-            (
-                client_payload.to_vec(),
-                upstream_payload.to_vec(),
-                TransferStats {
-                    client_to_upstream_bytes: client_payload.len() as u64,
-                    upstream_to_client_bytes: upstream_payload.len() as u64,
-                },
-            )
+            (received_upstream, received_client),
+            (client_payload.to_vec(), upstream_payload.to_vec())
         );
     }
 
@@ -181,22 +212,41 @@ mod tests {
 
         let (received_client, received_upstream) =
             within(async { tokio::join!(client_exchange, upstream_exchange) }).await;
-        let stats = within(relay_task)
+        within(relay_task)
             .await
             .expect("relay task should not panic")
             .expect("relay connection should finish");
 
-        assert_eq!(
-            (received_upstream, received_client, stats),
-            (
-                client_payload,
-                upstream_payload,
-                TransferStats {
-                    client_to_upstream_bytes: (64 * 1024) as u64,
-                    upstream_to_client_bytes: (96 * 1024) as u64,
-                },
-            )
-        );
+        assert_eq!((received_upstream, received_client), (client_payload, upstream_payload));
+    }
+
+    #[tokio::test]
+    async fn full_observer_queue_should_not_drop_forwarded_bytes() {
+        let client_addr = "127.0.0.1:12345".parse().expect("address should parse");
+        let (mut observer, start_sender) =
+            StreamObserver::spawn_paused(Arc::new(RuntimeArtifact::test_fixture()), client_addr, 1);
+        let payload = vec![0x5a; COPY_BUFFER_BYTES * 3];
+        let (mut source_writer, mut source_reader) = tokio::io::duplex(payload.len());
+        let (mut destination_writer, mut destination_reader) = tokio::io::duplex(payload.len());
+
+        let source = async {
+            source_writer.write_all(&payload).await.expect("source should write");
+            source_writer.shutdown().await.expect("source should close");
+        };
+        let forwarding =
+            forward_bytes(&mut source_reader, &mut destination_writer, Some(&mut observer));
+        let destination = async {
+            let mut received = Vec::new();
+            destination_reader.read_to_end(&mut received).await.expect("destination should read");
+            received
+        };
+        let (_, forwarded, received) =
+            within(async { tokio::join!(source, forwarding, destination) }).await;
+        forwarded.expect("forwarding should remain healthy");
+        let _start_result = start_sender.send(());
+        observer.finish().await;
+
+        assert_eq!(received, payload);
     }
 
     #[tokio::test]
@@ -270,7 +320,11 @@ mod tests {
         let relay_listener =
             TcpListener::bind("127.0.0.1:0").await.expect("relay listener should bind");
         let relay_addr = relay_listener.local_addr().expect("relay address should be available");
-        let relay_task = tokio::spawn(serve(relay_listener, upstream_addr.to_string()));
+        let relay_task = tokio::spawn(serve(
+            relay_listener,
+            upstream_addr.to_string(),
+            Arc::new(RuntimeArtifact::test_fixture()),
+        ));
 
         let upstream_task = tokio::spawn(async move {
             let (first, _) =
@@ -303,7 +357,11 @@ mod tests {
         let relay_listener =
             TcpListener::bind("127.0.0.1:0").await.expect("relay listener should bind");
         let relay_addr = relay_listener.local_addr().expect("relay address should be available");
-        let relay_task = tokio::spawn(serve(relay_listener, upstream_addr.to_string()));
+        let relay_task = tokio::spawn(serve(
+            relay_listener,
+            upstream_addr.to_string(),
+            Arc::new(RuntimeArtifact::test_fixture()),
+        ));
 
         let mut failed_client =
             TcpStream::connect(relay_addr).await.expect("first client should connect");
