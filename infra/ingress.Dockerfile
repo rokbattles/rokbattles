@@ -15,7 +15,7 @@ RUN --mount=type=bind,source=.,target=/src \
     CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-ingress && \
     cp /target/x86_64-unknown-linux-musl/release/rokbattles-ingress /app/rokbattles-ingress && \
     mkdir -p /app/artifacts && \
-    cp /src/crates/apps/rokbattles-tcp-relay/artifacts/artifacts.json /app/artifacts/artifacts.json
+    cp /src/crates/apps/rokbattles-ingress/artifacts/artifacts.json /app/artifacts/artifacts.json
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
 RUN apk add --no-cache ca-certificates tzdata
