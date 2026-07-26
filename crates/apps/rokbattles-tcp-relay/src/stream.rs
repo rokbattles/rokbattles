@@ -11,7 +11,7 @@ pub(crate) const MAX_FRAME_BODY_BYTES: usize = 25 * 1024 * 1024;
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) enum StreamEvent {
     Login { player_id: i64, server_id: i32 },
-    Mails(Vec<Vec<u8>>),
+    Mails { server_id: Option<i32>, entries: Vec<Vec<u8>> },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
@@ -151,7 +151,10 @@ impl<'a> ServerStreamProcessor<'a> {
                 Some(StreamEvent::Login { player_id, server_id })
             } else if self.artifact.carriers.contains_key(&message.api_id) {
                 let candidates = mail_candidates(&message.payload, self.artifact, message.api_id)?;
-                (!candidates.is_empty()).then_some(StreamEvent::Mails(candidates))
+                (!candidates.entries.is_empty()).then_some(StreamEvent::Mails {
+                    server_id: candidates.server_id,
+                    entries: candidates.entries,
+                })
             } else {
                 None
             }
@@ -413,7 +416,7 @@ mod tests {
             events
                 .iter()
                 .map(|event| match event {
-                    StreamEvent::Mails(entries) => entries.len(),
+                    StreamEvent::Mails { entries, .. } => entries.len(),
                     StreamEvent::Login { .. } => 0,
                 })
                 .sum::<usize>(),

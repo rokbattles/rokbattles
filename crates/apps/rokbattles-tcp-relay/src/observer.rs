@@ -149,10 +149,11 @@ impl StreamObserver {
                                         server_id: Some(server_id),
                                     };
                                 }
-                                StreamEvent::Mails(entries) => {
+                                StreamEvent::Mails { server_id, entries } => {
                                     let Some(sender) = &upload_sender else {
                                         continue;
                                     };
+                                    learn_server_id(&mut context, server_id);
                                     if let Err(reason) = submit_batches(sender, &context, entries) {
                                         disable_once(&task_state, client_addr, reason);
                                         return;
@@ -217,6 +218,13 @@ impl StreamObserver {
             record_join_failure(&self.state, self.client_addr, &error);
         }
     }
+}
+
+fn learn_server_id(context: &mut MailContext, candidate: Option<i32>) {
+    if context.server_id.is_some() {
+        return;
+    }
+    context.server_id = candidate.filter(|server_id| *server_id != 0);
 }
 
 fn submit_batches(
@@ -284,6 +292,33 @@ fn record_join_failure(state: &AtomicU8, client_addr: SocketAddr, error: &JoinEr
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mail_server_id_initializes_missing_connection_context() {
+        let mut context = MailContext::default();
+
+        learn_server_id(&mut context, Some(16_012));
+
+        assert_eq!(context.server_id, Some(16_012));
+    }
+
+    #[test]
+    fn mail_server_id_does_not_replace_login_context() {
+        let mut context = MailContext { player_id: Some(123), server_id: Some(1_804) };
+
+        learn_server_id(&mut context, Some(16_012));
+
+        assert_eq!(context.server_id, Some(1_804));
+    }
+
+    #[test]
+    fn zero_mail_server_id_does_not_initialize_connection_context() {
+        let mut context = MailContext::default();
+
+        learn_server_id(&mut context, Some(0));
+
+        assert_eq!(context.server_id, None);
+    }
 
     #[tokio::test]
     async fn unsupported_handshake_disables_only_the_observer() {

@@ -42,6 +42,12 @@ pub(crate) struct EffectiveMessage<'a> {
     pub(crate) payload: Cow<'a, [u8]>,
 }
 
+#[derive(Debug, PartialEq, Eq)]
+pub(crate) struct MailCandidates {
+    pub(crate) entries: Vec<Vec<u8>>,
+    pub(crate) server_id: Option<i32>,
+}
+
 pub(crate) fn parse_handshake(
     body: &[u8],
     artifact: &RuntimeArtifact,
@@ -86,9 +92,10 @@ pub(crate) fn mail_candidates(
     payload: &[u8],
     artifact: &RuntimeArtifact,
     api_id: u32,
-) -> Result<Vec<Vec<u8>>, ProtocolError> {
+) -> Result<MailCandidates, ProtocolError> {
     let carrier = artifact.carriers.get(&api_id).ok_or(ProtocolError::UnexpectedWrappedMessage)?;
-    let mut candidates = Vec::new();
+    let mut entries = Vec::new();
+    let mut server_id = None;
     let mut cursor = FieldCursor::new(payload);
     while let Some(field) = cursor.next()? {
         if !carrier.shape.accepts(field.number, field.wire) {
@@ -100,10 +107,13 @@ pub(crate) fn mail_candidates(
         let FieldValue::LengthDelimited(candidate) = field.value else {
             return Err(ProtocolError::WrongWireType);
         };
-        validate_message(candidate, &artifact.protocol.mail_entity)?;
-        candidates.push(candidate.to_vec());
+        let candidate_server_id = validate_mail_entity(candidate, artifact)?;
+        if server_id.is_none() {
+            server_id = candidate_server_id.filter(|server_id| *server_id != 0);
+        }
+        entries.push(candidate.to_vec());
     }
-    Ok(candidates)
+    Ok(MailCandidates { entries, server_id })
 }
 
 pub(crate) fn parse_login(
@@ -113,23 +123,34 @@ pub(crate) fn parse_login(
     let player_id = required_varint(payload, artifact.protocol.login_player_id_field)?;
     let server_id = required_varint(payload, artifact.protocol.login_server_id_field)?;
     let player_id = i64::from_ne_bytes(player_id.to_ne_bytes());
-    let server_id = u32::try_from(server_id)
-        .map(|value| i32::from_ne_bytes(value.to_ne_bytes()))
-        .map_err(|_error| ProtocolError::IntegerOutOfRange)?;
+    let server_id = decode_int32(server_id)?;
     Ok((player_id, server_id))
 }
 
-fn validate_message(
+fn validate_mail_entity(
     data: &[u8],
-    shape: &crate::artifact::MessageShape,
-) -> Result<(), ProtocolError> {
+    artifact: &RuntimeArtifact,
+) -> Result<Option<i32>, ProtocolError> {
+    let mut server_id = None;
     let mut cursor = FieldCursor::new(data);
     while let Some(field) = cursor.next()? {
-        if !shape.accepts(field.number, field.wire) {
+        if !artifact.protocol.mail_entity.accepts(field.number, field.wire) {
             return Err(ProtocolError::WrongWireType);
         }
+        if field.number == artifact.protocol.mail_server_id_field {
+            let FieldValue::Varint(value) = field.value else {
+                return Err(ProtocolError::WrongWireType);
+            };
+            server_id = Some(decode_int32(value)?);
+        }
     }
-    Ok(())
+    Ok(server_id)
+}
+
+fn decode_int32(value: u64) -> Result<i32, ProtocolError> {
+    u32::try_from(value)
+        .map(|value| i32::from_ne_bytes(value.to_ne_bytes()))
+        .map_err(|_error| ProtocolError::IntegerOutOfRange)
 }
 
 fn parse_msg<'a>(
@@ -275,6 +296,30 @@ impl<'a> FieldCursor<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mail_candidates_extracts_nonzero_server_id() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let entity = [0x0a, 0x01, b'1', 0x68, 0x8c, 0x7d];
+        let payload = [vec![0x0a, entity.len() as u8], entity.to_vec()].concat();
+
+        let candidates =
+            mail_candidates(&payload, &artifact, 7909).expect("mail carrier should parse");
+
+        assert_eq!(candidates.server_id, Some(16_012));
+    }
+
+    #[test]
+    fn mail_candidates_ignores_zero_server_id_for_context() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let entity = [0x0a, 0x01, b'1', 0x68, 0x00];
+        let payload = [vec![0x0a, entity.len() as u8], entity.to_vec()].concat();
+
+        let candidates =
+            mail_candidates(&payload, &artifact, 7909).expect("mail carrier should parse");
+
+        assert_eq!(candidates.server_id, None);
+    }
 
     #[test]
     fn field_cursor_rejects_truncated_length_delimited_value() {
