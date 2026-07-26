@@ -2,7 +2,7 @@
 
 use mongodb::{
     Collection, IndexModel,
-    bson::{Bson, Document, doc},
+    bson::{Binary, Bson, Document, doc, spec::BinarySubtype},
     options::IndexOptions,
 };
 
@@ -17,6 +17,7 @@ pub struct Storage {
 pub struct ExistingCompressedRawMail {
     pub checksum: Option<String>,
     pub size: Option<usize>,
+    pub has_network_entity: bool,
 }
 
 impl Storage {
@@ -40,7 +41,11 @@ impl Storage {
         let doc = self
             .compressed_raw
             .find_one(doc! { "mail.id": mail_id })
-            .projection(doc! { "metadata.checksum": 1, "metadata.size": 1 })
+            .projection(doc! {
+                "metadata.checksum": 1,
+                "metadata.size": 1,
+                "network.entity": 1,
+            })
             .await?;
         Ok(doc.and_then(parse_existing_compressed_raw))
     }
@@ -48,6 +53,31 @@ impl Storage {
     /// Insert a new V2 raw compressed mail document.
     pub async fn insert_compressed_raw(&self, doc: Document) -> mongodb::error::Result<()> {
         self.compressed_raw.insert_one(doc).await?;
+        Ok(())
+    }
+
+    /// Attach a compressed relay entity to an existing mail that does not have one.
+    pub async fn store_network_entity_if_missing(
+        &self,
+        mail_id: &str,
+        compressed_entity: Vec<u8>,
+    ) -> mongodb::error::Result<()> {
+        self.compressed_raw
+            .update_one(
+                doc! {
+                    "mail.id": mail_id,
+                    "network.entity": { "$exists": false },
+                },
+                doc! {
+                    "$set": {
+                        "network.entity": Bson::Binary(Binary {
+                            subtype: BinarySubtype::Generic,
+                            bytes: compressed_entity,
+                        }),
+                    },
+                },
+            )
+            .await?;
         Ok(())
     }
 
@@ -85,7 +115,12 @@ fn parse_existing_compressed_raw(doc: Document) -> Option<ExistingCompressedRawM
             _ => None,
         })
         .and_then(|size| usize::try_from(size).ok());
-    Some(ExistingCompressedRawMail { checksum, size })
+    let has_network_entity = doc
+        .get_document("network")
+        .ok()
+        .and_then(|network| network.get("entity"))
+        .is_some_and(|entity| matches!(entity, Bson::Binary(_)));
+    Some(ExistingCompressedRawMail { checksum, size, has_network_entity })
 }
 
 fn compressed_raw_update_filter(mail_id: &str, checksum: &str, size: i64) -> Document {
@@ -114,11 +149,21 @@ mod tests {
                 "checksum": "abc123",
                 "size": 42_i64,
             },
+            "network": {
+                "entity": Bson::Binary(Binary {
+                    subtype: BinarySubtype::Generic,
+                    bytes: vec![1, 2, 3],
+                }),
+            },
         };
         let existing = parse_existing_compressed_raw(doc).expect("existing compressed mail");
         assert_eq!(
             existing,
-            ExistingCompressedRawMail { checksum: Some("abc123".to_string()), size: Some(42) }
+            ExistingCompressedRawMail {
+                checksum: Some("abc123".to_string()),
+                size: Some(42),
+                has_network_entity: true,
+            }
         );
     }
 
@@ -127,6 +172,7 @@ mod tests {
         let doc = doc! { "metadata": { "checksum": "abc123" } };
         let existing = parse_existing_compressed_raw(doc).expect("existing compressed mail");
         assert_eq!(existing.size, None);
+        assert!(!existing.has_network_entity);
     }
 
     #[test]

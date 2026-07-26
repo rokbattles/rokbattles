@@ -12,10 +12,8 @@ RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
     --mount=type=cache,id=rokbattles-cargo-target-x86_64-musl,target=/target,sharing=locked \
     cd /src && \
-    CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-ingress && \
-    cp /target/x86_64-unknown-linux-musl/release/rokbattles-ingress /app/rokbattles-ingress && \
-    mkdir -p /app/artifacts && \
-    cp /src/crates/apps/rokbattles-ingress/artifacts/artifacts.json /app/artifacts/artifacts.json
+    CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-dns-resolver && \
+    cp /target/x86_64-unknown-linux-musl/release/rokbattles-dns-resolver /app/rokbattles-dns-resolver
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
 RUN apk add --no-cache ca-certificates tzdata
@@ -27,9 +25,8 @@ FROM scratch AS runner
 COPY --link --from=files /etc/passwd /etc/group /etc/nsswitch.conf /etc/
 COPY --link --from=files /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --link --from=files /usr/share/zoneinfo /usr/share/zoneinfo
-COPY --link --from=builder /app/rokbattles-ingress /bin/rokbattles-ingress
-COPY --link --from=builder /app/artifacts /app/artifacts
+COPY --link --from=builder /app/rokbattles-dns-resolver /bin/rokbattles-dns-resolver
 USER rokb:rokb
 WORKDIR /app
-EXPOSE 8000
-ENTRYPOINT ["/bin/rokbattles-ingress"]
+EXPOSE 8053
+ENTRYPOINT ["/bin/rokbattles-dns-resolver"]

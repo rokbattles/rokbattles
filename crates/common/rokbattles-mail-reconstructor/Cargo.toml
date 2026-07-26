@@ -1,0 +1,23 @@
+[package]
+name = "rokbattles-mail-reconstructor"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+base64 = { workspace = true }
+flate2 = { workspace = true, features = ["zlib-rs"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+rokbattles-mail-encoder = { path = "../rokbattles-mail-encoder" }
+rokbattles-mail-registry = { path = "../rokbattles-mail-registry" }
+
+[lib]
+doctest = false
+
+[dev-dependencies]
+rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+
+[lints]
+workspace = true

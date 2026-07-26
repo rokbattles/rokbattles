@@ -1584,6 +1584,7 @@ dependencies = [
  "crc32fast",
  "libz-sys",
  "miniz_oxide",
+ "zlib-rs",
 ]
 
 [[package]]
@@ -4320,6 +4321,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-djb2-simd"
+version = "1.6.1"
+
+[[package]]
+name = "rokbattles-dns-resolver"
+version = "1.6.1"
+dependencies = [
+ "axum",
+ "base64 0.22.1",
+ "dotenvy",
+ "hickory-proto",
+ "mimalloc",
+ "serde",
+ "thiserror 2.0.19",
+ "tokio",
+ "tower",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "rokbattles-drastc"
 version = "1.6.1"
 dependencies = [
@@ -4337,6 +4359,7 @@ dependencies = [
  "mimalloc",
  "mongodb",
  "rokbattles-mail-decoder",
+ "rokbattles-mail-reconstructor",
  "rokbattles-mail-registry",
  "sentry",
  "serde",
@@ -4386,14 +4409,20 @@ dependencies = [
 name = "rokbattles-mail-decoder"
 version = "1.6.1"
 dependencies = [
- "rokbattles-mail-decoder-simd",
+ "rokbattles-djb2-simd",
  "serde_json",
  "thiserror 2.0.19",
 ]
 
 [[package]]
-name = "rokbattles-mail-decoder-simd"
+name = "rokbattles-mail-encoder"
 version = "1.6.1"
+dependencies = [
+ "rokbattles-djb2-simd",
+ "rokbattles-mail-decoder",
+ "serde_json",
+ "thiserror 2.0.19",
+]
 
 [[package]]
 name = "rokbattles-mail-processor-alliance-aoo-battle-info"
@@ -4492,6 +4521,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-mail-reconstructor"
+version = "1.6.1"
+dependencies = [
+ "base64 0.22.1",
+ "flate2",
+ "rokbattles-mail-decoder",
+ "rokbattles-mail-encoder",
+ "rokbattles-mail-registry",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+]
+
+[[package]]
 name = "rokbattles-mail-registry"
 version = "1.6.1"
 dependencies = [
@@ -4539,6 +4582,23 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "zstd",
+]
+
+[[package]]
+name = "rokbattles-tcp-relay"
+version = "1.6.1"
+dependencies = [
+ "bytes",
+ "dotenvy",
+ "flate2",
+ "mimalloc",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.19",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -7614,6 +7674,12 @@ dependencies = [
  "indexmap 2.14.0",
  "memchr",
 ]
+
+[[package]]
+name = "zlib-rs"
+version = "0.6.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b142a20ec14a91d5bc708c1dc21b080c550113d8aa77afa29635673a65dd02c5"
 
 [[package]]
 name = "zmij"

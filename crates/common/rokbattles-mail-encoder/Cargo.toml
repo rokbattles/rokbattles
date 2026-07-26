@@ -1,5 +1,5 @@
 [package]
-name = "rokbattles-mail-decoder"
+name = "rokbattles-mail-encoder"
 edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
@@ -9,5 +9,11 @@ rokbattles-djb2-simd = { path = "../rokbattles-djb2-simd" }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
 
+[dev-dependencies]
+rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+
 [lib]
 doctest = false
+
+[lints]
+workspace = true

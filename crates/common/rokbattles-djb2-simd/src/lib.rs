@@ -1,4 +1,4 @@
-//! Runtime-dispatched SIMD and portable scalar checksum implementations for the mail decoder.
+//! Runtime-dispatched SIMD and portable scalar implementations of wrapping DJB2.
 
 #![deny(unsafe_op_in_unsafe_fn)]
 
