@@ -27,11 +27,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!(
         bind_addr = %config.bind_addr,
         upstream_addr = %config.upstream_addr,
+        max_connections = config.protection.max_connections,
+        max_connections_per_ip = config.protection.max_connections_per_ip,
+        upstream_connect_timeout_seconds = config.protection.upstream_connect_timeout.as_secs(),
+        idle_timeout_seconds = config.protection.idle_timeout.as_secs(),
         carrier_count = artifact.carrier_count(),
         "starting TCP relay"
     );
     let listener = tokio::net::TcpListener::bind(config.bind_addr).await?;
-    serve(listener, config.upstream_addr, artifact, uploader).await?;
+    serve(listener, config.upstream_addr, artifact, uploader, config.protection).await?;
 
     Ok(())
 }

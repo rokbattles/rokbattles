@@ -1,14 +1,22 @@
 //! TCP listener and connection forwarding.
 
-use std::{io, net::SocketAddr, sync::Arc};
+use std::{
+    collections::HashMap,
+    io,
+    net::{IpAddr, SocketAddr},
+    sync::{Arc, Mutex, MutexGuard},
+    time::Duration,
+};
 
 use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt},
     net::{TcpListener, TcpStream},
+    sync::{OwnedSemaphorePermit, Semaphore, watch},
+    time::{self, Instant},
 };
-use tracing::{info, warn};
+use tracing::{debug, info, warn};
 
-use crate::{MailUploader, RuntimeArtifact, observer::StreamObserver};
+use crate::{MailUploader, RelayProtection, RuntimeArtifact, observer::StreamObserver};
 
 const COPY_BUFFER_BYTES: usize = 16 * 1024;
 
@@ -18,10 +26,93 @@ enum ConnectionError {
     ConfigureClient(#[source] io::Error),
     #[error("failed to connect to the upstream server: {0}")]
     ConnectUpstream(#[source] io::Error),
+    #[error("timed out while connecting to the upstream server")]
+    ConnectUpstreamTimeout,
     #[error("failed to configure the upstream socket: {0}")]
     ConfigureUpstream(#[source] io::Error),
     #[error("failed while forwarding bytes: {0}")]
     Forward(#[source] io::Error),
+    #[error("connection was idle for too long")]
+    IdleTimeout,
+}
+
+#[derive(Debug, Clone)]
+struct ConnectionLimiter {
+    global: Arc<Semaphore>,
+    per_ip: Arc<Mutex<HashMap<IpAddr, usize>>>,
+    max_connections_per_ip: usize,
+}
+
+impl ConnectionLimiter {
+    fn new(protection: RelayProtection) -> Self {
+        Self {
+            global: Arc::new(Semaphore::new(protection.max_connections)),
+            per_ip: Arc::new(Mutex::new(HashMap::new())),
+            max_connections_per_ip: protection.max_connections_per_ip,
+        }
+    }
+
+    fn try_acquire(&self, ip: IpAddr) -> Result<ConnectionPermit, ConnectionLimit> {
+        let global = Arc::clone(&self.global)
+            .try_acquire_owned()
+            .map_err(|_error| ConnectionLimit::Global)?;
+        let ip = canonical_ip(ip);
+        let mut per_ip = lock_counts(&self.per_ip);
+        let count = per_ip.entry(ip).or_default();
+        if *count >= self.max_connections_per_ip {
+            return Err(ConnectionLimit::PerIp);
+        }
+        *count += 1;
+        drop(per_ip);
+
+        Ok(ConnectionPermit { _global: global, per_ip: Arc::clone(&self.per_ip), ip })
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ConnectionLimit {
+    Global,
+    PerIp,
+}
+
+impl ConnectionLimit {
+    const fn as_str(self) -> &'static str {
+        match self {
+            Self::Global => "global",
+            Self::PerIp => "per_ip",
+        }
+    }
+}
+
+#[derive(Debug)]
+struct ConnectionPermit {
+    _global: OwnedSemaphorePermit,
+    per_ip: Arc<Mutex<HashMap<IpAddr, usize>>>,
+    ip: IpAddr,
+}
+
+impl Drop for ConnectionPermit {
+    fn drop(&mut self) {
+        let mut per_ip = lock_counts(&self.per_ip);
+        let Some(count) = per_ip.get_mut(&self.ip) else {
+            return;
+        };
+        *count -= 1;
+        if *count == 0 {
+            per_ip.remove(&self.ip);
+        }
+    }
+}
+
+fn lock_counts(counts: &Mutex<HashMap<IpAddr, usize>>) -> MutexGuard<'_, HashMap<IpAddr, usize>> {
+    counts.lock().unwrap_or_else(std::sync::PoisonError::into_inner)
+}
+
+fn canonical_ip(ip: IpAddr) -> IpAddr {
+    match ip {
+        IpAddr::V6(ipv6) => ipv6.to_ipv4_mapped().map_or(IpAddr::V6(ipv6), IpAddr::V4),
+        IpAddr::V4(_) => ip,
+    }
 }
 
 /// Accept connections from `listener` and forward each one to `upstream_addr`.
@@ -38,19 +129,40 @@ pub async fn serve(
     upstream_addr: String,
     artifact: Arc<RuntimeArtifact>,
     uploader: Option<MailUploader>,
+    protection: RelayProtection,
 ) -> io::Result<()> {
     let upstream_addr: Arc<str> = upstream_addr.into();
+    let limiter = ConnectionLimiter::new(protection);
 
     loop {
         let (client, client_addr) = listener.accept().await?;
+        let permit = match limiter.try_acquire(client_addr.ip()) {
+            Ok(permit) => permit,
+            Err(limit) => {
+                debug!(
+                    %client_addr,
+                    limit = limit.as_str(),
+                    "TCP relay connection rejected"
+                );
+                continue;
+            }
+        };
         info!(%client_addr, "TCP relay stream connected");
         let upstream_addr = Arc::clone(&upstream_addr);
         let artifact = Arc::clone(&artifact);
         let uploader = uploader.clone();
 
         std::mem::drop(tokio::spawn(async move {
-            if let Err(error) =
-                relay_connection(client, &upstream_addr, artifact, uploader, client_addr).await
+            if let Err(error) = relay_connection(
+                client,
+                &upstream_addr,
+                artifact,
+                uploader,
+                client_addr,
+                protection,
+                Some(permit),
+            )
+            .await
             {
                 warn!(%client_addr, %error, "TCP relay stream failed");
             }
@@ -65,30 +177,54 @@ async fn relay_connection(
     artifact: Arc<RuntimeArtifact>,
     uploader: Option<MailUploader>,
     client_addr: SocketAddr,
+    protection: RelayProtection,
+    connection_permit: Option<ConnectionPermit>,
 ) -> Result<(), ConnectionError> {
     client.set_nodelay(true).map_err(ConnectionError::ConfigureClient)?;
 
     let upstream =
-        TcpStream::connect(upstream_addr).await.map_err(ConnectionError::ConnectUpstream)?;
+        time::timeout(protection.upstream_connect_timeout, TcpStream::connect(upstream_addr))
+            .await
+            .map_err(|_elapsed| ConnectionError::ConnectUpstreamTimeout)?
+            .map_err(ConnectionError::ConnectUpstream)?;
     upstream.set_nodelay(true).map_err(ConnectionError::ConfigureUpstream)?;
 
     let mut observer = StreamObserver::spawn(artifact, uploader, client_addr);
-    let (mut client_reader, mut client_writer) = client.into_split();
-    let (mut upstream_reader, mut upstream_writer) = upstream.into_split();
-    let forwarding = tokio::try_join!(
-        forward_bytes(&mut client_reader, &mut upstream_writer, None),
-        forward_bytes(&mut upstream_reader, &mut client_writer, Some(&mut observer)),
-    );
+    let forwarding = {
+        let (mut client_reader, mut client_writer) = client.into_split();
+        let (mut upstream_reader, mut upstream_writer) = upstream.into_split();
+        let (activity, activity_receiver) = watch::channel(Instant::now());
+        let forwarding = async {
+            tokio::try_join!(
+                forward_bytes(&mut client_reader, &mut upstream_writer, None, &activity),
+                forward_bytes(
+                    &mut upstream_reader,
+                    &mut client_writer,
+                    Some(&mut observer),
+                    &activity,
+                ),
+            )
+        };
+        tokio::pin!(forwarding);
+        tokio::select! {
+            result = &mut forwarding => {
+                result.map(|_directions| ()).map_err(ConnectionError::Forward)
+            },
+            () = wait_for_idle(activity_receiver, protection.idle_timeout) => {
+                Err(ConnectionError::IdleTimeout)
+            }
+        }
+    };
+    drop(connection_permit);
     observer.finish().await;
-    forwarding.map_err(ConnectionError::Forward)?;
-
-    Ok(())
+    forwarding
 }
 
 async fn forward_bytes<R, W>(
     reader: &mut R,
     writer: &mut W,
     mut observer: Option<&mut StreamObserver>,
+    activity: &watch::Sender<Instant>,
 ) -> io::Result<()>
 where
     R: AsyncRead + Unpin,
@@ -105,8 +241,26 @@ where
             io::Error::new(io::ErrorKind::InvalidData, "read exceeded copy buffer")
         })?;
         writer.write_all(bytes).await?;
+        activity.send_replace(Instant::now());
         if let Some(observer) = &mut observer {
             observer.observe(bytes);
+        }
+    }
+}
+
+async fn wait_for_idle(mut activity: watch::Receiver<Instant>, idle_timeout: Duration) {
+    let idle = time::sleep(idle_timeout);
+    tokio::pin!(idle);
+    loop {
+        tokio::select! {
+            () = &mut idle => return,
+            changed = activity.changed() => {
+                if changed.is_err() {
+                    std::future::pending::<()>().await;
+                }
+                let last_activity = *activity.borrow_and_update();
+                idle.as_mut().reset(last_activity + idle_timeout);
+            }
         }
     }
 }
@@ -125,8 +279,54 @@ mod tests {
 
     const TEST_TIMEOUT: Duration = Duration::from_secs(3);
 
+    fn test_protection() -> RelayProtection {
+        RelayProtection {
+            max_connections: 16,
+            max_connections_per_ip: 8,
+            upstream_connect_timeout: TEST_TIMEOUT,
+            idle_timeout: TEST_TIMEOUT,
+        }
+    }
+
     async fn within<T>(future: impl Future<Output = T>) -> T {
         timeout(TEST_TIMEOUT, future).await.expect("socket operation should not time out")
+    }
+
+    #[test]
+    fn connection_limiter_enforces_global_limit() {
+        let protection =
+            RelayProtection { max_connections: 2, max_connections_per_ip: 2, ..test_protection() };
+        let limiter = ConnectionLimiter::new(protection);
+        let _first =
+            limiter.try_acquire("192.0.2.1".parse().expect("IP should parse")).expect("first");
+        let _second =
+            limiter.try_acquire("192.0.2.2".parse().expect("IP should parse")).expect("second");
+
+        let error = limiter
+            .try_acquire("192.0.2.3".parse().expect("IP should parse"))
+            .expect_err("global limit should reject a third connection");
+
+        assert_eq!(error, ConnectionLimit::Global);
+    }
+
+    #[test]
+    fn connection_limiter_enforces_per_ip_limit_and_releases_permits() {
+        let protection =
+            RelayProtection { max_connections: 2, max_connections_per_ip: 1, ..test_protection() };
+        let limiter = ConnectionLimiter::new(protection);
+        let ip = "192.0.2.1".parse().expect("IP should parse");
+        let permit = limiter.try_acquire(ip).expect("first connection should be allowed");
+
+        let error = limiter
+            .try_acquire("::ffff:192.0.2.1".parse().expect("mapped IP should parse"))
+            .expect_err("mapped address should share the per-IP limit");
+        drop(permit);
+        let replacement = limiter.try_acquire(ip);
+
+        assert!(
+            error == ConnectionLimit::PerIp && replacement.is_ok(),
+            "per-IP permits should reject while held and become reusable after release"
+        );
     }
 
     async fn connected_streams() -> (TcpStream, TcpStream, JoinHandle<Result<(), ConnectionError>>)
@@ -148,6 +348,8 @@ mod tests {
                 Arc::new(RuntimeArtifact::test_fixture()),
                 None,
                 relay_addr,
+                test_protection(),
+                None,
             )
             .await
         });
@@ -237,8 +439,13 @@ mod tests {
             source_writer.write_all(&payload).await.expect("source should write");
             source_writer.shutdown().await.expect("source should close");
         };
-        let forwarding =
-            forward_bytes(&mut source_reader, &mut destination_writer, Some(&mut observer));
+        let (activity, _activity_receiver) = watch::channel(Instant::now());
+        let forwarding = forward_bytes(
+            &mut source_reader,
+            &mut destination_writer,
+            Some(&mut observer),
+            &activity,
+        );
         let destination = async {
             let mut received = Vec::new();
             destination_reader.read_to_end(&mut received).await.expect("destination should read");
@@ -251,6 +458,53 @@ mod tests {
         observer.finish().await;
 
         assert_eq!(received, payload);
+    }
+
+    #[tokio::test]
+    async fn idle_connection_should_close_both_sides() {
+        let upstream_listener =
+            TcpListener::bind("127.0.0.1:0").await.expect("upstream listener should bind");
+        let upstream_addr =
+            upstream_listener.local_addr().expect("upstream address should be available");
+        let relay_listener =
+            TcpListener::bind("127.0.0.1:0").await.expect("relay listener should bind");
+        let relay_addr = relay_listener.local_addr().expect("relay address should be available");
+        let protection =
+            RelayProtection { idle_timeout: Duration::from_millis(50), ..test_protection() };
+        let relay_task = tokio::spawn(async move {
+            let (client, client_addr) =
+                relay_listener.accept().await.expect("relay should accept client");
+            relay_connection(
+                client,
+                &upstream_addr.to_string(),
+                Arc::new(RuntimeArtifact::test_fixture()),
+                None,
+                client_addr,
+                protection,
+                None,
+            )
+            .await
+        });
+
+        let mut client =
+            TcpStream::connect(relay_addr).await.expect("client should connect to relay");
+        let (mut upstream, _) =
+            upstream_listener.accept().await.expect("relay should connect upstream");
+        let result = within(relay_task).await.expect("relay task should not panic");
+        let mut client_response = Vec::new();
+        let mut upstream_request = Vec::new();
+        within(client.read_to_end(&mut client_response))
+            .await
+            .expect("idle client should observe EOF");
+        within(upstream.read_to_end(&mut upstream_request))
+            .await
+            .expect("idle upstream should observe EOF");
+
+        assert!(
+            matches!(result, Err(ConnectionError::IdleTimeout))
+                && client_response.is_empty()
+                && upstream_request.is_empty()
+        );
     }
 
     #[tokio::test]
@@ -329,6 +583,7 @@ mod tests {
             upstream_addr.to_string(),
             Arc::new(RuntimeArtifact::test_fixture()),
             None,
+            test_protection(),
         ));
 
         let upstream_task = tokio::spawn(async move {
@@ -367,6 +622,7 @@ mod tests {
             upstream_addr.to_string(),
             Arc::new(RuntimeArtifact::test_fixture()),
             None,
+            test_protection(),
         ));
 
         let mut failed_client =

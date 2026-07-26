@@ -4588,6 +4588,7 @@ dependencies = [
 name = "rokbattles-tcp-relay"
 version = "1.6.1"
 dependencies = [
+ "bytes",
  "dotenvy",
  "flate2",
  "mimalloc",

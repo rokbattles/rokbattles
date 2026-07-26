@@ -1,8 +1,25 @@
 //! Environment-driven configuration for the TCP relay.
 
-use std::{env, net::SocketAddr};
+use std::{env, net::SocketAddr, time::Duration};
 
 const DEFAULT_BIND_ADDR: &str = "0.0.0.0:3101";
+const DEFAULT_MAX_CONNECTIONS: usize = 512;
+const DEFAULT_MAX_CONNECTIONS_PER_IP: usize = 6;
+const DEFAULT_UPSTREAM_CONNECT_TIMEOUT_SECONDS: u64 = 10;
+const DEFAULT_IDLE_TIMEOUT_SECONDS: u64 = 5 * 60;
+
+/// Limits applied to public relay connections.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RelayProtection {
+    /// Maximum number of simultaneous client connections.
+    pub max_connections: usize,
+    /// Maximum simultaneous client connections from one source IP address.
+    pub max_connections_per_ip: usize,
+    /// Maximum time allowed to establish an upstream connection.
+    pub upstream_connect_timeout: Duration,
+    /// Maximum time a connected stream may remain inactive in both directions.
+    pub idle_timeout: Duration,
+}
 
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, PartialEq, Eq)]
@@ -13,6 +30,8 @@ pub struct Config {
     pub upstream_addr: String,
     /// Bearer token shared with ingress.
     pub relay_token: String,
+    /// Resource limits and timeouts for public connections.
+    pub protection: RelayProtection,
 }
 
 /// Errors returned when relay configuration is missing or invalid.
@@ -51,7 +70,29 @@ impl Config {
         let relay_token = lookup("RELAY_TOKEN")
             .filter(|value| !value.is_empty())
             .ok_or(ConfigError::Missing { key: "RELAY_TOKEN" })?;
-        Ok(Self { bind_addr, upstream_addr, relay_token })
+        let protection = RelayProtection {
+            max_connections: parse_bounded_nonzero(
+                "MAX_CONNECTIONS",
+                lookup("MAX_CONNECTIONS").unwrap_or_else(|| DEFAULT_MAX_CONNECTIONS.to_string()),
+                tokio::sync::Semaphore::MAX_PERMITS,
+            )?,
+            max_connections_per_ip: parse_nonzero(
+                "MAX_CONNECTIONS_PER_IP",
+                lookup("MAX_CONNECTIONS_PER_IP")
+                    .unwrap_or_else(|| DEFAULT_MAX_CONNECTIONS_PER_IP.to_string()),
+            )?,
+            upstream_connect_timeout: Duration::from_secs(parse_nonzero(
+                "UPSTREAM_CONNECT_TIMEOUT_SECONDS",
+                lookup("UPSTREAM_CONNECT_TIMEOUT_SECONDS")
+                    .unwrap_or_else(|| DEFAULT_UPSTREAM_CONNECT_TIMEOUT_SECONDS.to_string()),
+            )?),
+            idle_timeout: Duration::from_secs(parse_nonzero(
+                "IDLE_TIMEOUT_SECONDS",
+                lookup("IDLE_TIMEOUT_SECONDS")
+                    .unwrap_or_else(|| DEFAULT_IDLE_TIMEOUT_SECONDS.to_string()),
+            )?),
+        };
+        Ok(Self { bind_addr, upstream_addr, relay_token, protection })
     }
 }
 
@@ -60,6 +101,28 @@ where
     T: std::str::FromStr,
 {
     value.parse().map_err(|_error| ConfigError::Invalid { key, value })
+}
+
+fn parse_nonzero<T>(key: &'static str, value: String) -> Result<T, ConfigError>
+where
+    T: std::str::FromStr + PartialEq + Default,
+{
+    let parsed = parse(key, value.clone())?;
+    if parsed == T::default() {
+        return Err(ConfigError::Invalid { key, value });
+    }
+    Ok(parsed)
+}
+
+fn parse_bounded_nonzero<T>(key: &'static str, value: String, maximum: T) -> Result<T, ConfigError>
+where
+    T: std::str::FromStr + PartialEq + PartialOrd + Default,
+{
+    let parsed = parse_nonzero(key, value.clone())?;
+    if parsed > maximum {
+        return Err(ConfigError::Invalid { key, value });
+    }
+    Ok(parsed)
 }
 
 fn validate_upstream_addr(value: String) -> Result<String, ConfigError> {
@@ -114,8 +177,66 @@ mod tests {
                 bind_addr: "0.0.0.0:3101".parse().expect("fixture should be valid"),
                 upstream_addr: "example.com:3101".to_string(),
                 relay_token: "secret".to_string(),
+                protection: RelayProtection {
+                    max_connections: 512,
+                    max_connections_per_ip: 6,
+                    upstream_connect_timeout: Duration::from_secs(10),
+                    idle_timeout: Duration::from_secs(300),
+                },
             }
         );
+    }
+
+    #[test]
+    fn connection_protection_should_load_from_environment() {
+        let config = Config::from_lookup(lookup(HashMap::from([
+            ("UPSTREAM_ADDR", "example.com:3101"),
+            ("RELAY_TOKEN", "secret"),
+            ("MAX_CONNECTIONS", "128"),
+            ("MAX_CONNECTIONS_PER_IP", "8"),
+            ("UPSTREAM_CONNECT_TIMEOUT_SECONDS", "15"),
+            ("IDLE_TIMEOUT_SECONDS", "600"),
+        ])))
+        .expect("configuration should be valid");
+
+        assert_eq!(
+            config.protection,
+            RelayProtection {
+                max_connections: 128,
+                max_connections_per_ip: 8,
+                upstream_connect_timeout: Duration::from_secs(15),
+                idle_timeout: Duration::from_secs(600),
+            }
+        );
+    }
+
+    #[test]
+    fn zero_connection_protection_value_should_be_rejected() {
+        let error = Config::from_lookup(lookup(HashMap::from([
+            ("UPSTREAM_ADDR", "example.com:3101"),
+            ("RELAY_TOKEN", "secret"),
+            ("MAX_CONNECTIONS_PER_IP", "0"),
+        ])))
+        .expect_err("zero per-IP limit should be invalid");
+
+        assert_eq!(
+            error,
+            ConfigError::Invalid { key: "MAX_CONNECTIONS_PER_IP", value: "0".to_string() }
+        );
+    }
+
+    #[test]
+    fn excessive_global_connection_limit_should_be_rejected() {
+        let excessive = tokio::sync::Semaphore::MAX_PERMITS.saturating_add(1).to_string();
+        let error = Config::from_lookup(|key| match key {
+            "UPSTREAM_ADDR" => Some("example.com:3101".to_string()),
+            "RELAY_TOKEN" => Some("secret".to_string()),
+            "MAX_CONNECTIONS" => Some(excessive.clone()),
+            _ => None,
+        })
+        .expect_err("excessive global limit should be invalid");
+
+        assert_eq!(error, ConfigError::Invalid { key: "MAX_CONNECTIONS", value: excessive });
     }
 
     #[test]

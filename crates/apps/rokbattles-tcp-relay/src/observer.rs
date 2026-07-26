@@ -8,6 +8,7 @@ use std::{
     },
 };
 
+use bytes::Bytes;
 use tokio::{
     sync::{mpsc, oneshot},
     task::{JoinError, JoinHandle},
@@ -259,6 +260,7 @@ fn try_submit(
     context: &MailContext,
     entries: Vec<Vec<u8>>,
 ) -> Result<(), DisableReason> {
+    let entries = entries.into_iter().map(Bytes::from).collect();
     let batch = MailBatch { context: context.clone(), entries };
     sender.try_send(batch).map_err(|error| match error {
         mpsc::error::TrySendError::Full(_batch) => DisableReason::UploadQueueFull,
