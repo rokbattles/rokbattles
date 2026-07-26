@@ -21,7 +21,7 @@ use crate::{
 };
 
 const OBSERVER_QUEUE_CHUNKS: usize = 512;
-const UPLOAD_QUEUE_BATCHES: usize = 4;
+const UPLOAD_QUEUE_BATCHES: usize = 32;
 const MAX_UPLOAD_BATCH_ENTRIES: usize = 512;
 const MAX_UPLOAD_BATCH_BYTES: usize = 24 * 1024 * 1024;
 const ACTIVE: u8 = 0;
@@ -335,6 +335,28 @@ mod tests {
         assert_eq!(second.entries.len(), 1);
         assert_eq!(first.context, context);
         assert_eq!(second.context, context);
+    }
+
+    #[tokio::test]
+    async fn upload_queue_can_buffer_initial_mail_sync() {
+        let (sender, mut receiver) = mpsc::channel(UPLOAD_QUEUE_BATCHES);
+        let context = MailContext::default();
+        let mut remaining = 500;
+
+        while remaining > 0 {
+            let entry_count = remaining.min(30);
+            submit_batches(&sender, &context, vec![vec![1]; entry_count])
+                .expect("initial mail sync should fit in the upload queue");
+            remaining -= entry_count;
+        }
+        drop(sender);
+
+        let mut queued_entries = 0;
+        while let Some(batch) = receiver.recv().await {
+            queued_entries += batch.entries.len();
+        }
+
+        assert_eq!(queued_entries, 500);
     }
 
     #[test]
