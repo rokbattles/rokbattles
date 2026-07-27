@@ -6,19 +6,6 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
-name = "rokbattles_desktop_lib"
-crate-type = ["staticlib", "cdylib", "rlib"]
-doctest = false
-
-[build-dependencies]
-tauri-build = { workspace = true }
-
 [dependencies]
 tauri = { workspace = true, features = ["tray-icon"] }
 tauri-plugin-opener = { workspace = true }
@@ -39,3 +26,16 @@ tauri-plugin-single-instance = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }
+
+[build-dependencies]
+tauri-build = { workspace = true }
+
+[lib]
+# The `_lib` suffix keeps the library name from conflicting with the binary
+# on Windows. See https://github.com/rust-lang/cargo/issues/8519.
+name = "rokbattles_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+doctest = false
+
+[lints]
+workspace = true

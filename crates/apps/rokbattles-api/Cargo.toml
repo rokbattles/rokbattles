@@ -27,3 +27,6 @@ mimalloc = { workspace = true, features = ["secure"] }
 
 [lib]
 doctest = false
+
+[lints]
+workspace = true

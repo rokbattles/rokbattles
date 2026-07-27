@@ -13,11 +13,11 @@ thiserror = { workspace = true }
 rokbattles-mail-encoder = { path = "../rokbattles-mail-encoder" }
 rokbattles-mail-registry = { path = "../rokbattles-mail-registry" }
 
-[lib]
-doctest = false
-
 [dev-dependencies]
 rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+
+[lib]
+doctest = false
 
 [lints]
 workspace = true
