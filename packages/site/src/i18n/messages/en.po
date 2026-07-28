@@ -326,11 +326,6 @@ msgid "GNDCcc"
 msgstr "Governor ID"
 
 #: src/components/account-binds/binds-claim-form.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "bNKXH5"
-msgstr "71738515"
-
-#: src/components/account-binds/binds-claim-form.tsx
 msgid "U9mCsP"
 msgstr "You have reached the maximum of three binds."
 

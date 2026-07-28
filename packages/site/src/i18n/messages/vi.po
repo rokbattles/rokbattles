@@ -1,28 +1,37 @@
 msgid ""
 msgstr ""
 "Language: vi\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: next-intl\n"
 "X-Crowdin-SourceKey: msgstr\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: rokbattles\n"
+"X-Crowdin-Project-ID: 858302\n"
+"X-Crowdin-Language: vi\n"
+"X-Crowdin-File: en.po\n"
+"X-Crowdin-File-ID: 344\n"
+"Project-Id-Version: rokbattles\n"
+"Language-Team: Vietnamese\n"
+"PO-Revision-Date: 2026-07-28 11:11\n"
 
 #: src/app/(legacy)/account/ark/[matchId]/page.tsx
 msgid "WDt8Y9"
-msgstr ""
+msgstr "Trận đấu AoO"
 
 #: src/app/(legacy)/account/ark/page.tsx
 msgid "P2Qqmh"
-msgstr ""
+msgstr "Lịch sử các trận đấu AoO"
 
 #: src/app/(legacy)/account/pairings/page.tsx
 #: src/components/platform-layout.tsx
 msgid "N42bBd"
-msgstr ""
+msgstr "Ghép cặp của tôi"
 
 #: src/app/(legacy)/account/resources/page.tsx
 #: src/components/platform-layout.tsx
 msgid "gMtUZq"
-msgstr ""
+msgstr "Tài nguyên của tôi"
 
 #: src/app/(legacy)/account/settings/layout.tsx
 #: src/components/sidebar-governor-header.tsx
@@ -31,25 +40,25 @@ msgstr "Cài Đặt Tài Khoản"
 
 #: src/app/(legacy)/account/settings/page.tsx
 msgid "hJZwTS"
-msgstr ""
+msgstr "Địa chỉ Email"
 
 #: src/app/(legacy)/account/settings/page.tsx
 msgid "rmEwjk"
-msgstr ""
+msgstr "Địa chỉ email của bạn được đồng bộ từ Discord."
 
 #: src/app/(legacy)/olympian-arena/[id]/page.tsx
 msgid "xVCzuX"
-msgstr ""
+msgstr "Khám phá các trận đấu tay đôi "
 
 #: src/app/(legacy)/olympian-arena/page.tsx
 msgid "78PvoX"
-msgstr ""
+msgstr "Báo cáo Olympian Arena"
 
 #: src/app/(legacy)/olympian-arena/page.tsx
 #: src/app/(legacy)/page.tsx
 #: src/components/account/account-reports-content.tsx
 msgid "F2qQa8"
-msgstr ""
+msgstr "Trực tiếp (UTC)"
 
 #: src/app/(legacy)/page.tsx
 #: src/components/platform-layout.tsx
@@ -59,7 +68,7 @@ msgstr "Báo Cáo Trận Đấu"
 #: src/app/(legacy)/page.tsx
 #: src/components/account/account-reports-content.tsx
 msgid "9Obw6C"
-msgstr ""
+msgstr "Bộ lọc"
 
 #: src/app/(legacy)/report/[id]/page.tsx
 msgid "1gqsiW"
@@ -67,11 +76,11 @@ msgstr "Báo cáo chiến đấu"
 
 #: src/app/(legacy)/report/[id]/page.tsx
 msgid "irMluf"
-msgstr ""
+msgstr "Quay lại mục Báo cáo của tôi"
 
 #: src/app/(legacy)/report/[id]/page.tsx
 msgid "8PEDrB"
-msgstr ""
+msgstr "Khám phá các Trận đấu"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -79,7 +88,7 @@ msgstr ""
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/participant-cell.tsx
 msgid "5hGibV"
-msgstr ""
+msgstr "Chỉ huy không xác định"
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
 #: src/components/commander-loadout-row.tsx
@@ -89,7 +98,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx
 msgid "Xe3O7i"
-msgstr ""
+msgstr "Không thể tải chi tiết trận đấu AoO"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
@@ -100,15 +109,15 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "gkoU0i"
-msgstr ""
+msgstr "Kết quả cá nhân"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "FsjcN7"
-msgstr ""
+msgstr "Điểm Trận đấu AoO"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "JPFyHU"
-msgstr ""
+msgstr "Điểm Tiêu diệt"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "g_Nwxg"
@@ -116,7 +125,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5YClsN"
-msgstr ""
+msgstr "Điểm Quy định"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "nCGWau"
@@ -124,15 +133,15 @@ msgstr "Số Trận Thắng"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Hw0iax"
-msgstr ""
+msgstr "Trận Thua"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "BXfxPW"
-msgstr ""
+msgstr "% Chiến thắng"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Sl01xK"
-msgstr ""
+msgstr "Số giết"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
@@ -143,11 +152,11 @@ msgstr "Bị thương nặng"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "mJwM5A"
-msgstr ""
+msgstr "Đơn vị được chữa lành"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "itiyNN"
-msgstr ""
+msgstr "Tăng tốc (phút)"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "lcP4aP"
@@ -155,11 +164,11 @@ msgstr "Dịch Chuyển"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5g03Dq"
-msgstr ""
+msgstr "Công trình đã vào"
 
 #: src/components/account-ark/ark-match-detail-loading-state.tsx
 msgid "ksU1u5"
-msgstr ""
+msgstr "Đang tải chi tiết trận đấu AoO"
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx
 msgid "gwll_b"
@@ -167,7 +176,7 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "9uOFF3"
-msgstr ""
+msgstr "Tổng quan"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "VP5-CR"
@@ -176,7 +185,7 @@ msgstr ""
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
 msgid "oLkLww"
-msgstr ""
+msgstr "Điểm"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "b5C-CG"
@@ -184,33 +193,33 @@ msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "GY2gN9"
-msgstr ""
+msgstr "Điểm tiêu diệt nhận được"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "9otZoU"
-msgstr ""
+msgstr "Điểm tiêu diệt tổn thất"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "fq2V8a"
-msgstr ""
+msgstr "Hiệu suất của bộ ghép cặp"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "Tm8lLF"
-msgstr ""
+msgstr "Không tìm thấy bộ ghép cặp nào cho trận này"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "02koas"
-msgstr ""
+msgstr "#"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "goGXET"
-msgstr ""
+msgstr "Ghép cặp"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 msgid "ZtK0ZT"
-msgstr ""
+msgstr "Trận đấu (Thắng/Tổng)"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -227,24 +236,24 @@ msgstr "Số Lượng Tiêu Diệt"
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "RCtKQ2"
-msgstr ""
+msgstr "Điểm tiêu diệt"
 
 #: src/components/account-ark/ark-match-history-empty-state.tsx
 msgid "7fThOd"
-msgstr ""
+msgstr "Không tìm thấy lịch sử trận đấu AoO"
 
 #: src/components/account-ark/ark-match-history-error-state.tsx
 msgid "6IRh9u"
-msgstr ""
+msgstr "Không thể tải lịch sử trận đấu AoO"
 
 #: src/components/account-ark/ark-match-history-loading-state.tsx
 msgid "raC1gL"
-msgstr ""
+msgstr "Đang tải lịch sử trận đấu AoO"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
 msgid "T4H9Lz"
-msgstr ""
+msgstr "Seth"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
@@ -255,21 +264,21 @@ msgstr "Iset"
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
 msgid "5jeq8P"
-msgstr ""
+msgstr "Không xác định"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 msgid "lgBBrD"
-msgstr ""
+msgstr "Xem chi tiết trận đấu AoO"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 msgid "iVlule"
-msgstr ""
+msgstr "Liên minh không xác định"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "ug01Mk"
-msgstr ""
+msgstr "Thời gian"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
@@ -282,35 +291,35 @@ msgstr ""
 
 #: src/components/account-binds/account-binds-content.tsx
 msgid "XongGf"
-msgstr ""
+msgstr "Không thể thiết lập liên kết mặc định. Vui lòng thử lại."
 
 #: src/components/account-binds/account-binds-content.tsx
 msgid "1VWYm7"
-msgstr ""
+msgstr "Không thể gỡ liên kết. Vui lòng thử lại. "
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "wL7VAE"
-msgstr ""
+msgstr "Hành động"
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "E2APuV"
-msgstr ""
+msgstr "Thiết lập liên kết mặc định"
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
 msgid "7L4R8L"
-msgstr ""
+msgstr "Gỡ liên kết"
 
 #: src/components/account-binds/bind-list-item.tsx
 msgid "lKv8ex"
-msgstr ""
+msgstr "Mặc định"
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "K994jQ"
-msgstr ""
+msgstr "Chỉ được liên kết tối đa 3 thống đốc."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "pf6kFc"
-msgstr ""
+msgstr "Nhập ID thống đốc."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "I_clsA"
@@ -318,52 +327,47 @@ msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "JUJHzc"
-msgstr ""
+msgstr "Đã xảy ra lỗi trong quá trình liên kết. Vui lòng thử lại."
 
 #: src/components/account-binds/binds-claim-form.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "GNDCcc"
-msgstr ""
-
-#: src/components/account-binds/binds-claim-form.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "bNKXH5"
-msgstr ""
+msgstr "ID thống đốc"
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "U9mCsP"
-msgstr ""
+msgstr "Bạn đã đạt giới hạn tối đa 3 liên kết"
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "dbfVtv"
-msgstr ""
+msgstr "Đang liên kết..."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "FRzSFh"
-msgstr ""
+msgstr "Liên kết thống đốc"
 
 #: src/components/account-binds/binds-claim-section.tsx
 msgid "JMZWnS"
-msgstr ""
+msgstr "Liên kết thống đốc"
 
 #: src/components/account-binds/binds-claim-section.tsx
 msgid "HOHINg"
-msgstr ""
+msgstr "Liên kết thống đốc với tài khoản của bạn bằng cách nhập ID thống đốc từ RoK. Tối đa 3 ID được nhận."
 
 #: src/components/account-binds/binds-list.tsx
 msgid "QXdDDh"
-msgstr ""
+msgstr "Liên kết"
 
 #: src/components/account-binds/binds-list.tsx
 msgid "m9rp75"
-msgstr ""
+msgstr "Khồn có liên kết nào."
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "r3YbHp"
-msgstr ""
+msgstr "Người Man Rợ"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
@@ -400,7 +404,7 @@ msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
-msgstr ""
+msgstr "TÊN"
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "_0TOL5"
@@ -424,7 +428,7 @@ msgstr ""
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "R4HO71"
-msgstr ""
+msgstr "Pháo đài Cướp bóc"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -464,7 +468,7 @@ msgstr ""
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "4pFR10"
-msgstr ""
+msgstr "Quân Cướp bóc"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -499,21 +503,21 @@ msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 msgid "WOPo3b"
-msgstr ""
+msgstr "Phần thưởng không xác định {type}/{subType}"
 
 #: src/components/account-loot/personal-loot-content.tsx
 msgid "QtM1tY"
-msgstr ""
+msgstr "Chi tiết chiến lợi phẩm"
 
 #: src/components/account-loot/personal-loot-content.tsx
 msgid "PF57EA"
-msgstr ""
+msgstr "Không có chiến lợi phẩm nào trong khoảng thời gian này."
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "zQvVDJ"
-msgstr ""
+msgstr "Tất cả"
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
@@ -529,13 +533,13 @@ msgstr ""
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "n5QvJy"
-msgstr ""
+msgstr "Ngày bắt đầu"
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "Humfno"
-msgstr ""
+msgstr "Ngày kết thúc"
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
@@ -554,43 +558,43 @@ msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 msgid "x9zwkN"
-msgstr ""
+msgstr "Thêm"
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 msgid "saDFoR"
-msgstr ""
+msgstr "Thưởng thêm"
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 msgid "MJ2jZQ"
-msgstr ""
+msgstr "Tổng"
 
 #: src/components/account-resources/resources-error-state.tsx
 msgid "QTvbTs"
-msgstr ""
+msgstr "Không thể tải tài nguyên"
 
 #: src/components/account-resources/resources-report-section.tsx
 msgid "sdkaef"
-msgstr ""
+msgstr "Không có báo cáo nào trong khoảng thời gian này."
 
 #: src/components/account-resources/resources-table-section.tsx
 msgid "F1tgWX"
-msgstr ""
+msgstr "Phân tích tài nguyên"
 
 #: src/components/account-resources/resources-table-section.tsx
 msgid "9pjHcG"
-msgstr ""
+msgstr "Không có tài nguyên nào trong khoảng thời gian này."
 
 #: src/components/account/account-reports-content.tsx
 msgid "2YkOMs"
-msgstr ""
+msgstr "Báo cáo chiến đấu của tôi"
 
 #: src/components/account/account-settings-nav.tsx
 msgid "1iEPTM"
-msgstr ""
+msgstr "Tổng quan"
 
 #: src/components/account/account-settings-nav.tsx
 msgid "q5TmbN"
-msgstr ""
+msgstr "Thống đốc"
 
 #: src/components/combat-lab/combat-lab-loading.tsx
 msgid "DxDbqD"
@@ -618,7 +622,7 @@ msgstr ""
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/reports/reports-table.tsx
 msgid "9bVtCz"
-msgstr ""
+msgstr "Trận chiến"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 msgid "OVW-cD"
@@ -627,13 +631,13 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "xh4gLq"
-msgstr ""
+msgstr "Tổng điểm tiêu diệt nhận được khi sử dụng bộ ghép cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nGp3S1"
-msgstr ""
+msgstr "Điểm tiêu diệt của đối phương"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -643,7 +647,7 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "04DUsx"
-msgstr ""
+msgstr "Đơn vị bị thương nặng (Nhận vào)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -653,7 +657,7 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "87sFXA"
-msgstr ""
+msgstr "Đơn vị bị thương nặng (Gây ra)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -663,7 +667,7 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "8RNVtf"
-msgstr ""
+msgstr "Thời lượng trung bình của trận đấu"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -703,7 +707,7 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "lsS3Jr"
-msgstr ""
+msgstr "Thương nặng mỗi giây (SPS)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -713,7 +717,7 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "CY224M"
-msgstr ""
+msgstr "Thương nặng nhận vào mỗi giây (TPS)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -883,7 +887,7 @@ msgstr ""
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/report/report-commander-row.tsx
 msgid "YeBMpE"
-msgstr ""
+msgstr "Đội hình {formation}"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "DQqwcJ"
@@ -912,37 +916,37 @@ msgstr ""
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
 msgid "sjzLbX"
-msgstr ""
+msgstr "Chấp nhận "
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
 msgid "VzIOKf"
-msgstr ""
+msgstr "Từ chối "
 
 #: src/components/cookie-consent-dialog.tsx
 msgid "KS0bwV"
-msgstr ""
+msgstr "Cài đặt cookie"
 
 #: src/components/language-selector.tsx
 msgid "eVlu1R"
-msgstr ""
+msgstr "Chọn ngôn ngữ"
 
 #: src/components/language-selector.tsx
 msgid "y1Z3or"
-msgstr ""
+msgstr "Ngôn ngữ (Language)"
 
 #: src/components/language-selector.tsx
 msgid "QmFCUz"
-msgstr ""
+msgstr "Các ngôn ngữ khác ngoài tiếng Anh có thể chưa đầy đủ. Phần văn bản chưa được dịch sẽ hiển thị bằng tiếng Anh."
 
 #: src/components/language-selector.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "47FYwb"
-msgstr ""
+msgstr "Hủy"
 
 #: src/components/language-selector.tsx
 msgid "jvo0vs"
-msgstr ""
+msgstr "Lưu"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -1049,7 +1053,7 @@ msgstr ""
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx
 msgid "lFZWlP"
-msgstr ""
+msgstr "Vũ trang {id}"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
 msgid "-RhnH-"
@@ -1058,11 +1062,11 @@ msgstr ""
 #: src/components/my-pairings/loadout-equipment-slot.tsx
 #: src/components/report/report-equipment-slot.tsx
 msgid "f8EGjq"
-msgstr ""
+msgstr "Tài năng đặc biệt {troopType}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "vxHX7Q"
-msgstr ""
+msgstr "Tất cả các thanh trang bị"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "5OhW-B"
@@ -1078,34 +1082,34 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "8Na2J4"
-msgstr ""
+msgstr "Chiếc rương của Thần Osiris"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ejEGdx"
-msgstr ""
+msgstr "Trang chủ"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "mJFWRb"
-msgstr ""
+msgstr "KvK"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "Mro8Zx"
-msgstr ""
+msgstr "Tranh đấu tối thượng"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
-msgstr ""
+msgstr "Độ chi tiết của thanh trang bị"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "as39fN"
-msgstr ""
+msgstr "Đơn giản hoá"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "244wra"
-msgstr ""
+msgstr "Chính xác"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "CieiKz"
@@ -1114,49 +1118,49 @@ msgstr ""
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "450Fty"
-msgstr ""
+msgstr "Không có"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "XuzWOu"
-msgstr ""
+msgstr "Loại trừ các trận đấu"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "ouEHpA"
-msgstr ""
+msgstr "Chi tiết bộ trang bị"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "dshKLk"
-msgstr ""
+msgstr "Đang tải các bộ ghép cặp..."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "DCzVxS"
-msgstr ""
+msgstr "Chọn 1 bộ ghép cặp để bắt đầu."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "mNV3qS"
-msgstr ""
+msgstr "Đang tải thanh trang bị..."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "yiwezx"
-msgstr ""
+msgstr "Chọn một thanh trang bị để xem chi tiết."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "HPFDiG"
-msgstr ""
+msgstr "Bộ ghép cặp của đối phương"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "OBAkIS"
-msgstr ""
+msgstr "Đang tải trận đấu của đối phương"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "bey2Db"
-msgstr ""
+msgstr "Không có bộ ghép cặp của đối phương cho lựa chọn này."
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "cSiC2v"
-msgstr ""
+msgstr "Bộ ghép cặp0"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "-yzdej"
@@ -1164,11 +1168,11 @@ msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nyW1oU"
-msgstr ""
+msgstr "SPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "hZ3HBi"
-msgstr ""
+msgstr "TPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "8czqas"
@@ -1177,12 +1181,12 @@ msgstr ""
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
 msgid "qyJtWy"
-msgstr ""
+msgstr "Xem ít hơn"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
 msgid "aWpBzj"
-msgstr ""
+msgstr "Xem thêm"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "898qG3"
@@ -1190,19 +1194,19 @@ msgstr "Thanh trang bị"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "sU47wG"
-msgstr ""
+msgstr "Cuộn sang ngang để xem thêm các thanh trang bị"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "Jt86J1"
-msgstr ""
+msgstr "Đang tải các thanh trang bị..."
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "byP6IC"
-msgstr ""
+msgstr "Đã được chọn"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "MqtNsY"
-msgstr ""
+msgstr "Minh văn"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g-gbNs"
@@ -1210,16 +1214,16 @@ msgstr ""
 
 #: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
-msgstr ""
+msgstr "Không có báo cáo nào cho trận đấu tay đôi này."
 
 #: src/components/olympian-arena/duel-loading-state.tsx
 msgid "U5Mxzi"
-msgstr ""
+msgstr "Đâng tải báo cáo trận đấu tay đôi"
 
 #: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
 msgid "DqkPqe"
-msgstr ""
+msgstr "Chỉ huy"
 
 #: src/components/olympian-arena/duel-participant-card.tsx
 msgid "cKnhhK"
@@ -1227,7 +1231,7 @@ msgstr "Tăng quân"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx
 msgid "CuNYjA"
-msgstr ""
+msgstr "Tổng quan trận đấu tay đôi"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 msgid "m0-hvd"
@@ -1241,40 +1245,40 @@ msgstr "Đã Sao Chép"
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
 msgid "OKhRC6"
-msgstr ""
+msgstr "Chia sẻ"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 msgid "eukQnl"
-msgstr ""
+msgstr "Chúng tôi không thể tải trận đấu tay đôi này"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 msgid "A1ykkc"
-msgstr ""
+msgstr "Đơn vị"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "NxzeNU"
-msgstr ""
+msgstr "Chết"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 msgid "CtBzuU"
-msgstr ""
+msgstr "Bị thương nặng"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 msgid "NboP8s"
-msgstr "Quân bị thương"
+msgstr "Bị thương"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 msgid "YoPSLI"
-msgstr ""
+msgstr "Chữa lành"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 msgid "YXoHk0"
-msgstr ""
+msgstr "Sức Mạnh"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -1283,7 +1287,7 @@ msgstr ""
 #: src/components/reports/reports-overview-drawer.tsx
 #: src/components/reports/reports-table.tsx
 msgid "nbwXXN"
-msgstr ""
+msgstr "Người gửi"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -1291,7 +1295,7 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/reports/reports-table.tsx
 msgid "Mdj7Fr"
-msgstr ""
+msgstr "Đối phương"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
@@ -1300,22 +1304,22 @@ msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 msgid "aXdZke"
-msgstr "Chuỗi Chiến Thắng"
+msgstr "Chuỗi Thắng"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "k9hDFZ"
-msgstr ""
+msgstr "Trang trước"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "JJNc3c"
-msgstr ""
+msgstr "Trước"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "rBj9Ib"
-msgstr ""
+msgstr "Trang tiếp theo"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
@@ -1324,19 +1328,19 @@ msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "Q7dLbA"
-msgstr ""
+msgstr "Chế độ sáng"
 
 #: src/components/platform-layout.tsx
 msgid "hMUQH5"
-msgstr ""
+msgstr "Chế độ tối"
 
 #: src/components/platform-layout.tsx
 msgid "Pe0ogR"
-msgstr ""
+msgstr "Giao diện"
 
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
-msgstr ""
+msgstr "Olympian Arena"
 
 #: src/components/platform-layout.tsx
 msgid "H2meTq"
@@ -1344,23 +1348,23 @@ msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "dr0ueW"
-msgstr ""
+msgstr "Dữ liệu của tôi"
 
 #: src/components/platform-layout.tsx
 msgid "NFE4yO"
-msgstr ""
+msgstr "Trận chiến của tôi"
 
 #: src/components/platform-layout.tsx
 msgid "odeufe"
-msgstr ""
+msgstr "Trận chiến AoO của tôi"
 
 #: src/components/platform-layout.tsx
 msgid "7oFrM6"
-msgstr ""
+msgstr "Điều khoản pháp lý"
 
 #: src/components/platform-layout.tsx
 msgid "HqRNN8"
-msgstr ""
+msgstr "Hỗ Trợ"
 
 #: src/components/platform-layout.tsx
 msgid "2IFGap"
@@ -1368,15 +1372,15 @@ msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "QnWNmB"
-msgstr ""
+msgstr "Desktop App"
 
 #: src/components/platform-layout.tsx
 msgid "EQpyb8"
-msgstr ""
+msgstr "Chuyển đổi giao diện"
 
 #: src/components/platform-layout.tsx
 msgid "SQJto2"
-msgstr ""
+msgstr "Đăng nhập"
 
 #: src/components/report/report-armament-section.tsx
 msgid "e36Xiv"
@@ -1384,33 +1388,33 @@ msgstr "Thông Tin Vũ Trang"
 
 #: src/components/report/report-artifact-section.tsx
 msgid "eW5eoW"
-msgstr ""
+msgstr "Bí vật"
 
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "ka8VLG"
-msgstr ""
+msgstr "Còn lại"
 
 #: src/components/report/report-battle-results-chart.tsx
 msgid "UAaBlE"
-msgstr ""
+msgstr "Chữa lành"
 
 #: src/components/report/report-battle-results-chart.tsx
 msgid "xtXDYN"
-msgstr ""
+msgstr "Bị thương nhẹ"
 
 #: src/components/report/report-battle-results-chart.tsx
 msgid "sTixnc"
-msgstr ""
+msgstr "Chiến công"
 
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
-msgstr ""
+msgstr "Không tìm thấy trận chiến nào cho hash này."
 
 #: src/components/report/report-entry-card.tsx
 msgid "Naj3md"
-msgstr ""
+msgstr "Giai đoạn không xác định"
 
 #: src/components/report/report-entry-card.tsx
 msgid "BYmpT_"
@@ -1418,24 +1422,24 @@ msgstr ""
 
 #: src/components/report/report-entry-card.tsx
 msgid "eKTCWw"
-msgstr ""
+msgstr "Tổng quan trận chiến"
 
 #: src/components/report/report-equipment-section.tsx
 msgid "r80fiF"
-msgstr ""
+msgstr "Trang bị"
 
 #: src/components/report/report-equipment-slot.tsx
 msgid "JqXZrY"
-msgstr ""
+msgstr "Trang bị {id}"
 
 #: src/components/report/report-loading-state.tsx
 msgid "KfYBwG"
-msgstr ""
+msgstr "Đang tải báo cáo..."
 
 #: src/components/report/report-overview-card.tsx
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "eQhi5P"
-msgstr ""
+msgstr "Tổng quan dữ liệu"
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-drawer.tsx
@@ -1445,7 +1449,7 @@ msgstr ""
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "kzHEVE"
-msgstr ""
+msgstr "Quân số"
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
@@ -1454,11 +1458,11 @@ msgstr "Bị thương nhẹ"
 
 #: src/components/report/report-relic-section.tsx
 msgid "Ft8yjo"
-msgstr ""
+msgstr "Thánh Vật"
 
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
-msgstr ""
+msgstr "Thánh Vật {id}"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "It0Aey"
@@ -1510,15 +1514,15 @@ msgstr ""
 
 #: src/components/report/report-view.tsx
 msgid "x5Tz6M"
-msgstr ""
+msgstr "Báo cáo"
 
 #: src/components/reports/reports-empty-state-row.tsx
 msgid "43CUrU"
-msgstr ""
+msgstr "Không tìm thấy báo cáo nào."
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "bUd0tj"
-msgstr ""
+msgstr "Một trong hai bên"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "zSOvI0"
@@ -1534,7 +1538,7 @@ msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
-msgstr ""
+msgstr "Chỉ huy chính"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3_h"
@@ -1542,7 +1546,7 @@ msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "SHldaq"
-msgstr ""
+msgstr "Chỉ huy phụ"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "-XTzdP"
@@ -1594,15 +1598,15 @@ msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
-msgstr ""
+msgstr "Đồn trú cấu trúc"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ptYapO"
-msgstr ""
+msgstr "Cờ liên minh"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "iScUrx"
-msgstr ""
+msgstr "Pháo đài liên minh"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"
@@ -1610,47 +1614,47 @@ msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "QRVQkf"
-msgstr ""
+msgstr "Tổng quan trận chiến"
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "EWfXcY"
-msgstr ""
+msgstr "Xem qua về báo cáo trận chiến trước khi mở."
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "lY8J2h"
-msgstr ""
+msgstr "Dòng thời gian của trận chiến"
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "rbrahO"
-msgstr ""
+msgstr "Đóng"
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "bvIiB8"
-msgstr ""
+msgstr "Xem đầy đủ báo cáo"
 
 #: src/components/reports/reports-skeleton-rows.tsx
 msgid "tQtRWX"
-msgstr ""
+msgstr "Đang tải báo cáo..."
 
 #: src/components/reports/reports-table.tsx
 msgid "IuFETn"
-msgstr ""
+msgstr "Thời lượng"
 
 #: src/components/sidebar-governor-header.tsx
 msgid "JoFtLa"
-msgstr ""
+msgstr "Chọn thống đốc"
 
 #: src/components/sidebar-governor-header.tsx
 msgid "p5J4xw"
-msgstr ""
+msgstr "Nhận thống đốc"
 
 #: src/components/sidebar-governor-header.tsx
 msgid "hquG55"
-msgstr ""
+msgstr "Cài đặt Cookie"
 
 #: src/components/sidebar-governor-header.tsx
 msgid "xXbJso"
-msgstr ""
+msgstr "Đăng xuất"
 
 #: src/hooks/use-ark-match-detail.ts
 #: src/hooks/use-ark-match-history.ts
@@ -1659,4 +1663,4 @@ msgstr ""
 #: src/hooks/use-report.ts
 #: src/hooks/use-reports-page.ts
 msgid "JUgfbD"
-msgstr ""
+msgstr "Không thể lấy dữ liệu"
