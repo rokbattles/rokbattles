@@ -198,7 +198,7 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   <Input
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    placeholder={t("71738515")}
+                    placeholder="71738515"
                     value={localPlayerId}
                     disabled={hasLockedPlayerId}
                     onChange={(event) => {

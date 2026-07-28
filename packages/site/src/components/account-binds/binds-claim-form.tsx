@@ -68,7 +68,7 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
             name="governorId"
             inputMode="numeric"
             pattern="[0-9]*"
-            placeholder={t("71738515")}
+            placeholder="71738515"
             value={governorIdInput}
             onChange={(event) => {
               setGovernorIdInput(event.target.value);
