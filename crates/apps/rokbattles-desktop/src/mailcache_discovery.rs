@@ -78,6 +78,13 @@ pub(crate) fn path_identity_key(path: &Path) -> String {
     }
 }
 
+#[cfg_attr(
+    all(test, not(any(target_os = "windows", target_os = "macos"))),
+    expect(
+        dead_code,
+        reason = "mail cache discovery tests only exercise supported desktop targets"
+    )
+)]
 fn normalize_and_dedupe(paths: Vec<PathBuf>) -> Vec<String> {
     let mut set = BTreeSet::new();
     for path in paths {
