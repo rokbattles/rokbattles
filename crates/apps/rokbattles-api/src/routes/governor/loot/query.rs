@@ -137,8 +137,9 @@ fn parse_levels(params: &HashMap<String, String>, key: &str) -> Result<Vec<i32>,
 
     let mut levels = Vec::new();
     for value in raw.split(',').map(str::trim).filter(|value| !value.is_empty()) {
-        let level =
-            value.parse::<i32>().map_err(|_| ApiError::bad_request(format!("Invalid {key}")))?;
+        let level = value
+            .parse::<i32>()
+            .map_err(|_error| ApiError::bad_request(format!("Invalid {key}")))?;
         if !levels.contains(&level) {
             levels.push(level);
         }
@@ -203,7 +204,7 @@ mod tests {
         params.insert("type".to_string(), "marauders".to_string());
         params.insert("level".to_string(), "2".to_string());
 
-        assert!(parse_barbarian_loot_request(&params).is_err());
+        parse_barbarian_loot_request(&params).unwrap_err();
     }
 
     #[test]
@@ -211,7 +212,7 @@ mod tests {
         let mut params = date_params();
         params.insert("level".to_string(), "1,2".to_string());
 
-        assert!(parse_fort_loot_request(&params).is_err());
+        parse_fort_loot_request(&params).unwrap_err();
     }
 
     #[test]

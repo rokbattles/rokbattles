@@ -114,7 +114,7 @@ pub async fn get_by_id(
 }
 
 fn parse_duelbattle2_id(raw_id: &str) -> Result<i64, ApiError> {
-    raw_id.trim().parse::<i64>().map_err(|_| ApiError::bad_request("Invalid duel id"))
+    raw_id.trim().parse::<i64>().map_err(|_error| ApiError::bad_request("Invalid duel id"))
 }
 
 #[cfg(test)]
@@ -136,6 +136,6 @@ mod tests {
     #[test]
     fn rejects_non_numeric_duel_id() {
         let parsed = parse_duelbattle2_id("abc");
-        assert!(parsed.is_err());
+        parsed.unwrap_err();
     }
 }

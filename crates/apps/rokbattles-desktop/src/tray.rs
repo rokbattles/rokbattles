@@ -46,9 +46,9 @@ pub(crate) fn refresh_tray_menu(app: &AppHandle, paused: bool) {
 
 pub(crate) fn show_main_window(app: &AppHandle) {
     if let Some(window) = app.get_webview_window(MAIN_WINDOW_LABEL) {
-        let _ = window.show();
-        let _ = window.unminimize();
-        let _ = window.set_focus();
+        drop(window.show());
+        drop(window.unminimize());
+        drop(window.set_focus());
     }
 }
 
@@ -56,13 +56,13 @@ pub(crate) fn hide_main_window(app: &AppHandle) {
     #[cfg(any(target_os = "windows", target_os = "macos"))]
     {
         if let Some(window) = app.get_webview_window(MAIN_WINDOW_LABEL) {
-            let _ = window.hide();
+            drop(window.hide());
         }
     }
 
     #[cfg(not(any(target_os = "windows", target_os = "macos")))]
     {
-        let _ = app;
+        let _app = app;
     }
 }
 

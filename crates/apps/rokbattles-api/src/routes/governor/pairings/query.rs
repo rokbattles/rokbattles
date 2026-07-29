@@ -335,7 +335,7 @@ mod tests {
             ("secondary".to_string(), "456".to_string()),
             ("granularity".to_string(), "normalized".to_string()),
         ]));
-        assert!(request.is_err());
+        request.unwrap_err();
     }
 
     #[test]
@@ -345,7 +345,7 @@ mod tests {
             ("secondary".to_string(), "456".to_string()),
             ("granularity".to_string(), "simplified".to_string()),
         ]));
-        assert!(request.is_err());
+        request.unwrap_err();
     }
 
     #[test]
@@ -401,7 +401,7 @@ mod tests {
             "excludeActivities".to_string(),
             "unknown".to_string(),
         )]));
-        assert!(request.is_err());
+        request.unwrap_err();
     }
 
     #[test]
@@ -410,7 +410,7 @@ mod tests {
             "excludeBattles".to_string(),
             "duel".to_string(),
         )]));
-        assert!(request.is_err());
+        request.unwrap_err();
     }
 
     #[test]

@@ -59,7 +59,7 @@ impl DirScan {
     }
 
     fn peek_next_id(&self) -> Option<u128> {
-        if self.cursor == 0 { None } else { Some(self.ids[self.cursor - 1]) }
+        self.ids.get(self.cursor.checked_sub(1)?).copied()
     }
 
     fn pop_next_id(&mut self) -> Option<u128> {
@@ -67,7 +67,7 @@ impl DirScan {
             return None;
         }
         self.cursor -= 1;
-        Some(self.ids[self.cursor])
+        self.ids.get(self.cursor).copied()
     }
 
     fn path_for_id(&self, id: u128) -> PathBuf {
@@ -285,7 +285,7 @@ pub(crate) fn next_file(app: &AppHandle, state: &mut WatcherState) -> Option<Que
             .filter_map(|(idx, scan)| scan.peek_next_id().map(|id| (idx, id)))
             .max_by_key(|(_, id)| *id)?;
 
-        let scan = &mut state.scans[scan_idx];
+        let scan = state.scans.get_mut(scan_idx)?;
         let id = scan.pop_next_id()?;
         let path = scan.path_for_id(id);
         let key = path.to_string_lossy().to_string();

@@ -75,7 +75,6 @@ pub(crate) fn path_identity_key(path: &Path) -> String {
     }
 }
 
-#[allow(dead_code)]
 fn normalize_and_dedupe(paths: Vec<PathBuf>) -> Vec<String> {
     let mut set = BTreeSet::new();
     for path in paths {

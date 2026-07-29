@@ -108,7 +108,7 @@ mod tests {
     fn confidence_is_zero_without_identified_governors() {
         let confidence = DrastcConfidence::from_governor_distribution(100, 0, 10_000.0);
 
-        assert_eq!(confidence.score, 0.0);
+        assert_approx_eq(confidence.score, 0.0);
     }
 
     #[test]

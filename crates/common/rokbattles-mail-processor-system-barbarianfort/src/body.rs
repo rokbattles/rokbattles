@@ -105,21 +105,19 @@ fn match_template(
     for (index, token) in tokens.iter().enumerate() {
         match token {
             TemplateToken::Literal(literal) => {
-                if !remaining.starts_with(literal) {
-                    return None;
-                }
-                remaining = &remaining[literal.len()..];
+                remaining = remaining.strip_prefix(literal)?;
             }
             TemplateToken::Placeholder(name) => {
-                let next_literal = tokens[index + 1..].iter().find_map(|token| match token {
+                let following_tokens = tokens.get(index + 1..).unwrap_or_default();
+                let next_literal = following_tokens.iter().find_map(|token| match token {
                     TemplateToken::Literal(literal) if !literal.is_empty() => Some(*literal),
                     TemplateToken::Literal(_) | TemplateToken::Placeholder(_) => None,
                 });
                 let capture = match next_literal {
                     Some(literal) => {
                         let end = remaining.find(literal)?;
-                        let capture = &remaining[..end];
-                        remaining = &remaining[end..];
+                        let (capture, rest) = remaining.split_at_checked(end)?;
+                        remaining = rest;
                         capture
                     }
                     None => {
@@ -154,19 +152,29 @@ fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
     let mut remaining = template;
 
     while let Some(start) = remaining.find('{') {
-        let literal = &remaining[..start];
+        let Some((literal, unmatched_placeholder)) = remaining.split_at_checked(start) else {
+            return tokens;
+        };
         if !literal.is_empty() {
             tokens.push(TemplateToken::Literal(literal));
         }
 
-        let after_start = &remaining[start + 1..];
+        let Some(after_start) = unmatched_placeholder.strip_prefix('{') else {
+            return tokens;
+        };
         let Some(end) = after_start.find('}') else {
-            tokens.push(TemplateToken::Literal(&remaining[start..]));
+            tokens.push(TemplateToken::Literal(unmatched_placeholder));
+            return tokens;
+        };
+        let Some((placeholder, after_placeholder)) = after_start.split_at_checked(end) else {
+            return tokens;
+        };
+        let Some(rest) = after_placeholder.strip_prefix('}') else {
             return tokens;
         };
 
-        tokens.push(TemplateToken::Placeholder(&after_start[..end]));
-        remaining = &after_start[end + 1..];
+        tokens.push(TemplateToken::Placeholder(placeholder));
+        remaining = rest;
     }
 
     if !remaining.is_empty() {
@@ -201,9 +209,9 @@ fn parse_level(value: &str) -> Option<u64> {
     }
 
     let start = trimmed.find(|character: char| character.is_ascii_digit())?;
-    let digits = &trimmed[start..];
+    let digits = trimmed.get(start..)?;
     let end = digits.find(|character: char| !character.is_ascii_digit()).unwrap_or(digits.len());
-    digits[..end].parse::<u64>().ok()
+    digits.get(..end)?.parse::<u64>().ok()
 }
 
 #[cfg(test)]

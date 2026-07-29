@@ -43,7 +43,7 @@ impl Processor {
 
             for (section, handle) in handles {
                 let result =
-                    handle.join().map_err(|_| ProcessError::ExtractorPanicked { section })?;
+                    handle.join().map_err(|_panic| ProcessError::ExtractorPanicked { section })?;
                 results.push((section, result));
             }
 
@@ -141,6 +141,10 @@ mod tests {
             "panic"
         }
 
+        #[expect(
+            clippy::panic_in_result_fn,
+            reason = "this test extractor must panic to verify panic isolation"
+        )]
         fn extract(&self, _input: &Value) -> Result<Section, ExtractError> {
             panic!("boom");
         }

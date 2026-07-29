@@ -141,7 +141,9 @@ fn extract_app_identity(
 }
 
 fn parse_app_uid_number(value: &str, expected: &'static str) -> Result<u64, ExtractError> {
-    value.parse::<u64>().map_err(|_| ExtractError::InvalidFieldType { field: "AppUid", expected })
+    value
+        .parse::<u64>()
+        .map_err(|_error| ExtractError::InvalidFieldType { field: "AppUid", expected })
 }
 
 /// Reads `AppUid` as a string when it is present.
@@ -326,7 +328,7 @@ fn optional_armaments_field(
 
     let mut entries = Vec::with_capacity(map.len());
     for (key, value) in map {
-        let id = key.parse::<u64>().map_err(|_| ExtractError::InvalidFieldType {
+        let id = key.parse::<u64>().map_err(|_error| ExtractError::InvalidFieldType {
             field,
             expected: "numeric object key",
         })?;

@@ -228,8 +228,8 @@ mod tests {
 
         let score = model.evaluate().expect("score");
 
-        assert_eq!(score.breakdown.rage.score, 0.0);
-        assert_eq!(score.breakdown.assist.score, 0.0);
+        assert_close(score.breakdown.rage.score, 0.0);
+        assert_close(score.breakdown.assist.score, 0.0);
     }
 
     #[test]
@@ -366,10 +366,10 @@ mod tests {
 
         let score = model.evaluate().expect("score");
 
-        assert_eq!(score.breakdown.damage.p10, reference_ranges.damage.p10);
-        assert_eq!(score.breakdown.damage.p90, reference_ranges.damage.p90);
-        assert_eq!(score.breakdown.trade.p10, reference_ranges.trade.p10);
-        assert_eq!(score.breakdown.trade.p90, reference_ranges.trade.p90);
+        assert_close(score.breakdown.damage.p10, reference_ranges.damage.p10);
+        assert_close(score.breakdown.damage.p90, reference_ranges.damage.p90);
+        assert_close(score.breakdown.trade.p10, reference_ranges.trade.p10);
+        assert_close(score.breakdown.trade.p90, reference_ranges.trade.p90);
         assert!(score.breakdown.damage.score > 5.0);
     }
 
@@ -380,7 +380,7 @@ mod tests {
 
         let score = model.evaluate().expect("score");
 
-        assert_eq!(score.breakdown.consistency.value, 0.5);
+        assert_close(score.breakdown.consistency.value, 0.5);
     }
 
     #[test]
@@ -390,7 +390,7 @@ mod tests {
 
         let score = model.evaluate().expect("score");
 
-        assert_eq!(score.breakdown.trade.score, 5.0);
+        assert_close(score.breakdown.trade.score, 5.0);
     }
 
     #[test]
@@ -400,7 +400,7 @@ mod tests {
 
         let score = model.evaluate().expect("score");
 
-        assert_eq!(score.breakdown.trade.score, 10.0);
+        assert_close(score.breakdown.trade.score, 10.0);
     }
 
     #[test]

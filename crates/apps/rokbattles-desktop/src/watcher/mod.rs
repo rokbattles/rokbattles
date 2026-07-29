@@ -60,7 +60,7 @@ fn http_client() -> &'static reqwest::Client {
 }
 
 fn emit_log(app: &AppHandle, message: impl Into<String>) {
-    let _ = app.emit("rokbattles", LogPayload { message: message.into() });
+    drop(app.emit("rokbattles", LogPayload { message: message.into() }));
 }
 
 fn now_epoch_ms() -> u128 {
@@ -83,7 +83,7 @@ pub struct WatcherTask {
 
 impl WatcherTask {
     pub async fn shutdown(self, app: &AppHandle) {
-        let _ = self.shutdown.send(true);
+        let _send_result = self.shutdown.send(true);
         let mut handle = self.handle;
         tokio::select! {
             _ = &mut handle => {}
@@ -127,7 +127,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
             move |res: Result<notify::Event, notify::Error>| {
                 if let Ok(event) = res {
                     for path in event.paths {
-                        let _ = fs_tx.try_send(path);
+                        drop(fs_tx.try_send(path));
                     }
                 }
             }

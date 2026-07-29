@@ -8,7 +8,7 @@ pub(crate) fn parse_optional_i64(
         return Ok(None);
     };
 
-    value.parse::<i64>().map(Some).map_err(|_| ApiError::bad_request(error_message))
+    value.parse::<i64>().map(Some).map_err(|_error| ApiError::bad_request(error_message))
 }
 
 #[cfg(test)]
@@ -23,6 +23,6 @@ mod tests {
 
     #[test]
     fn rejects_invalid_numbers() {
-        assert!(parse_optional_i64(Some("abc"), "bad value").is_err());
+        parse_optional_i64(Some("abc"), "bad value").unwrap_err();
     }
 }

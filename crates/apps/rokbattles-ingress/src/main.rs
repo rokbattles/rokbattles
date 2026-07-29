@@ -28,7 +28,7 @@ use crate::{config::Config, state::AppState, storage::Storage};
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
-    dotenvy::from_path(&dotenv_path).ok();
+    drop(dotenvy::from_path(&dotenv_path));
 
     let config = Config::from_env()?;
     let mail_reconstructor = Arc::new(MailReconstructor::load("artifacts/artifacts.json")?);

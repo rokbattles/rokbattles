@@ -153,7 +153,7 @@ fn prepare_processed_document(raw: &RawMail) -> Result<(MailType, Document), Pro
     let mut processed_doc = mongodb::bson::to_document(&processed)?;
     let metadata = processed_doc
         .get_document_mut("metadata")
-        .map_err(|_| ProcessorError::MissingProcessedMetadata)?;
+        .map_err(|_error| ProcessorError::MissingProcessedMetadata)?;
     metadata.insert("source_checksum", raw.checksum.clone());
     metadata.insert("source_size", raw.size);
     Ok((mail_type, processed_doc))
@@ -178,26 +178,26 @@ fn should_mark_error(error: &ProcessorError) -> bool {
 }
 
 fn parse_raw_mail(mut doc: Document) -> Result<RawMail, ProcessorError> {
-    let id = doc.get_object_id("_id").map_err(|_| ProcessorError::MissingField("_id"))?;
+    let id = doc.get_object_id("_id").map_err(|_error| ProcessorError::MissingField("_id"))?;
     let status = doc.get_str("status").unwrap_or(crate::storage::STATUS_PENDING).to_string();
     let metadata =
-        doc.get_document("metadata").map_err(|_| ProcessorError::MissingField("metadata"))?;
+        doc.get_document("metadata").map_err(|_error| ProcessorError::MissingField("metadata"))?;
     let checksum = metadata
         .get_str("checksum")
-        .map_err(|_| ProcessorError::MissingField("metadata.checksum"))?
+        .map_err(|_error| ProcessorError::MissingField("metadata.checksum"))?
         .to_string();
     let size =
-        metadata.get_i64("size").map_err(|_| ProcessorError::MissingField("metadata.size"))?;
+        metadata.get_i64("size").map_err(|_error| ProcessorError::MissingField("metadata.size"))?;
     let algorithm = metadata
         .get_str("algo")
-        .map_err(|_| ProcessorError::MissingField("metadata.algo"))?
+        .map_err(|_error| ProcessorError::MissingField("metadata.algo"))?
         .to_string();
     let mut mail = match doc.remove("mail") {
         Some(Bson::Document(mail)) => mail,
         _ => return Err(ProcessorError::MissingField("mail")),
     };
     let mail_id =
-        mail.get_str("id").map_err(|_| ProcessorError::MissingField("mail.id"))?.to_string();
+        mail.get_str("id").map_err(|_error| ProcessorError::MissingField("mail.id"))?.to_string();
     let binary = match mail.remove("binary") {
         Some(Bson::Binary(binary)) => binary.bytes,
         _ => return Err(ProcessorError::MissingField("mail.binary")),
@@ -211,7 +211,7 @@ fn decode_mail_binary(raw: &RawMail) -> Result<Value, ProcessorError> {
         return Err(ProcessorError::UnsupportedCompression(raw.algorithm.clone()));
     }
     let expected_size =
-        usize::try_from(raw.size).map_err(|_| ProcessorError::InvalidSize(raw.size))?;
+        usize::try_from(raw.size).map_err(|_error| ProcessorError::InvalidSize(raw.size))?;
 
     let decoder = zstd::stream::read::Decoder::new(raw.binary.as_slice())?;
     let mut bytes = Vec::with_capacity(expected_size);

@@ -198,16 +198,12 @@ fn map_pairings(individual_results: Option<&Document>) -> Vec<ArkMatchDetailPair
 }
 
 fn nested_value<'a>(document: &'a Document, path: &[&str]) -> Option<&'a Bson> {
-    if path.is_empty() {
-        return None;
+    let (key, parent_path) = path.split_last()?;
+    if parent_path.is_empty() {
+        return document.get(key);
     }
 
-    if path.len() == 1 {
-        return document.get(path[0]);
-    }
-
-    let parent = nested_document(document, &path[..path.len() - 1])?;
-    parent.get(path[path.len() - 1])
+    nested_document(document, parent_path)?.get(key)
 }
 
 fn parse_timestamp_millis(value: &Bson) -> Option<i64> {
@@ -247,9 +243,11 @@ fn parse_bool(value: Option<&Bson>) -> Option<bool> {
             _ => None,
         },
         Bson::Double(value) if value.is_finite() => {
-            if *value == 1.0 {
+            if value.to_bits() == 1.0_f64.to_bits() {
                 Some(true)
-            } else if *value == 0.0 {
+            } else if value.to_bits() == 0.0_f64.to_bits()
+                || value.to_bits() == (-0.0_f64).to_bits()
+            {
                 Some(false)
             } else {
                 None
