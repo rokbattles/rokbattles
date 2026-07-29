@@ -13,7 +13,7 @@ msgstr ""
 "X-Crowdin-File-ID: 344\n"
 "Project-Id-Version: rokbattles\n"
 "Language-Team: Vietnamese\n"
-"PO-Revision-Date: 2026-07-28 11:11\n"
+"PO-Revision-Date: 2026-07-28 18:48\n"
 
 #: src/app/(legacy)/account/ark/[matchId]/page.tsx
 msgid "WDt8Y9"
@@ -94,7 +94,7 @@ msgstr "Chỉ huy không xác định"
 #: src/components/commander-loadout-row.tsx
 #: src/components/reports/participant-cell.tsx
 msgid "-sdDeh"
-msgstr ""
+msgstr "{name} biểu tượng"
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx
 msgid "Xe3O7i"
@@ -105,7 +105,7 @@ msgstr "Không thể tải chi tiết trận đấu AoO"
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/report/report-overview-column.tsx
 msgid "PW-sL4"
-msgstr ""
+msgstr "N/A"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "gkoU0i"
@@ -121,7 +121,7 @@ msgstr "Điểm Tiêu diệt"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "g_Nwxg"
-msgstr ""
+msgstr "Điểm Chiếm đóng"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5YClsN"
@@ -172,7 +172,7 @@ msgstr "Đang tải chi tiết trận đấu AoO"
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx
 msgid "gwll_b"
-msgstr ""
+msgstr "Không tìm thấy trận đấu AoO"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "9uOFF3"
@@ -180,7 +180,7 @@ msgstr "Tổng quan"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "VP5-CR"
-msgstr ""
+msgstr "Hạng"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
@@ -189,7 +189,7 @@ msgstr "Điểm"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "b5C-CG"
-msgstr ""
+msgstr "Tổng Trận đấu"
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 msgid "GY2gN9"
@@ -283,11 +283,11 @@ msgstr "Thời gian"
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
 msgid "H-vBOj"
-msgstr ""
+msgstr "Phe thắng"
 
 #: src/components/account-ark/ark-match-history-table.tsx
 msgid "-a-2ug"
-msgstr ""
+msgstr "Thành viên"
 
 #: src/components/account-binds/account-binds-content.tsx
 msgid "XongGf"
@@ -323,7 +323,7 @@ msgstr "Nhập ID thống đốc."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "I_clsA"
-msgstr ""
+msgstr "Nhập đúng ID thống đốc."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "JUJHzc"
@@ -374,56 +374,56 @@ msgstr "Người Man Rợ"
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "owXGag"
-msgstr ""
+msgstr "Pháo đài Man Rợ"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "l7kWPA"
-msgstr ""
+msgstr "Thiết thủ Baulur"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "xRJGes"
-msgstr ""
+msgstr "Nghi lễ Karuak"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "c5aU-N"
-msgstr ""
+msgstr "Kho báu của Kahar"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "yF_GXb"
-msgstr ""
+msgstr "Chiến lợi phẩm của tôi"
 
 #: src/components/account-loot/account-loot-layout.tsx
 msgid "zwmya7"
-msgstr ""
+msgstr "Khám phá chiến lợi phẩm thu được từ Người man rợ, Pháo đài man rợ, Thiết thủ Baulur, Nghi lễ Karuak và Kho báu của Kahar."
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "HAlOn1"
-msgstr "TÊN"
+msgstr "Tên"
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 msgid "_0TOL5"
-msgstr ""
+msgstr "Số lượng"
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 #: src/components/loot-explorer/loot-table.tsx
 msgid "d_fRcX"
-msgstr ""
+msgstr "Đã gặp"
 
 #: src/components/account-loot/loot-error-state.tsx
 msgid "XD64_m"
-msgstr ""
+msgstr "Không thể tải chiến lợi phẩm."
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "bzSrZ6"
-msgstr ""
+msgstr "Cấp độ {level}"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
@@ -433,12 +433,12 @@ msgstr "Pháo đài Cướp bóc"
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "PuC-Mi"
-msgstr ""
+msgstr "Thiết thủ Baulur"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "1j7NiE"
-msgstr ""
+msgstr "Tên bủn xỉn Khaolak"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
@@ -463,7 +463,7 @@ msgstr ""
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "tbfLQx"
-msgstr ""
+msgstr "Solon Por"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -477,29 +477,29 @@ msgstr "Quân Cướp bóc"
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yaMHMB"
-msgstr ""
+msgstr "Kết quả"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 msgid "r8aMgv"
-msgstr ""
+msgstr "AP đã dùng"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "DPD1Vq"
-msgstr ""
+msgstr "Danh dự nhận được"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "6tNcY-"
-msgstr ""
+msgstr "Kinh nghiệm nhận được"
 
 #: src/components/account-loot/personal-loot-content.tsx
 msgid "JU88Di"
-msgstr ""
+msgstr "Đang tải chiến lợi phẩm..."
 
 #: src/components/account-loot/personal-loot-content.tsx
 msgid "WOPo3b"
@@ -522,12 +522,12 @@ msgstr "Tất cả"
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "QfERSU"
-msgstr ""
+msgstr "NPC"
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "y1Qr81"
-msgstr ""
+msgstr "Cấp độ"
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
@@ -545,16 +545,16 @@ msgstr "Ngày kết thúc"
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "EWw_tK"
-msgstr ""
+msgstr "Áp dụng"
 
 #: src/components/account-resources/account-resources-content.tsx
 msgid "e4-7ni"
-msgstr ""
+msgstr "Xem tài nguyên, Gem và Pha lê được thu thập hàng ngày từ các báo cáo RSS."
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "-U6ozc"
-msgstr ""
+msgstr "Loại"
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 msgid "x9zwkN"
@@ -598,24 +598,24 @@ msgstr "Thống đốc"
 
 #: src/components/combat-lab/combat-lab-loading.tsx
 msgid "DxDbqD"
-msgstr ""
+msgstr "Đang tải dữ liệu Combat Lab"
 
 #: src/components/combat-lab/combat-lab-loading.tsx
 msgid "BM8-Ta"
-msgstr ""
+msgstr "Đang lấy thông tin về cặp chỉ huy đã chọn."
 
 #: src/components/combat-lab/combat-lab-pairing-results.tsx
 msgid "RLkrMe"
-msgstr ""
+msgstr "Dữ liệu Combat Lab hiện không có sẵn"
 
 #: src/components/combat-lab/combat-lab-pairing-results.tsx
 msgid "fO1cCc"
-msgstr ""
+msgstr "Hãy thử một cặp khác."
 
 #: src/components/combat-lab/combat-lab-rankings-results.tsx
 #: src/components/combat-lab/combat-lab-results.tsx
 msgid "ZdCdo5"
-msgstr ""
+msgstr "Cập nhật lần cuối {date}"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -626,7 +626,7 @@ msgstr "Trận chiến"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 msgid "OVW-cD"
-msgstr ""
+msgstr "Tổng số trận chiến được ghi nhận cho cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -642,7 +642,7 @@ msgstr "Điểm tiêu diệt của đối phương"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "rD9xWZ"
-msgstr ""
+msgstr "Tổng điểm tiêu diệt nhận được khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -652,7 +652,7 @@ msgstr "Đơn vị bị thương nặng (Nhận vào)"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "SDG3OT"
-msgstr ""
+msgstr "Số đơn vị của bạn bị thương nặng khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -662,7 +662,7 @@ msgstr "Đơn vị bị thương nặng (Gây ra)"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "OZfiOO"
-msgstr ""
+msgstr "Số quân đối phương bị thương nặng do bạn gây ra khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -672,37 +672,37 @@ msgstr "Thời lượng trung bình của trận đấu"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "adRA-N"
-msgstr ""
+msgstr "Thời lượng trận chiến trung bình cho cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "j80Jf5"
-msgstr ""
+msgstr "Tỉ lệ trao đổi trung bình (%)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "rsO25J"
-msgstr ""
+msgstr "Lấy điểm tiêu diệt nhận được chia cho điểm tiêu diệt bị mất trong mỗi trận đấu, sau đó tính giá trị trung bình qua các trận."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "WkJcLb"
-msgstr ""
+msgstr "Tỷ lệ trao đổi có trọng số (%)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "pckGja"
-msgstr ""
+msgstr "Tổng điểm tiêu diệt nhận được chia cho điểm tiêu diệt bị mất."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "jVC9W_"
-msgstr ""
+msgstr "Sát thương mỗi giây (DPS)"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "cgKoQG"
-msgstr ""
+msgstr "Lượng sát thương trung bình gây ra mỗi giây khi sử dụng sự kết hợp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -712,7 +712,7 @@ msgstr "Thương nặng mỗi giây (SPS)"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "-6NJWI"
-msgstr ""
+msgstr "Số lượng đơn vị bị thương nặng gây ra mỗi giây khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
@@ -722,167 +722,167 @@ msgstr "Thương nặng nhận vào mỗi giây (TPS)"
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "siJBnS"
-msgstr ""
+msgstr "Số lượng đơn vị bị thương nặng nhận vào trung bình mỗi giây khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "5LIA_9"
-msgstr ""
+msgstr "Chữa lành mỗi giây"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "6pYaNr"
-msgstr ""
+msgstr "Lượng chữa lành trung bình mỗi giây khi sử dụng cặp này."
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 msgid "RrCui3"
-msgstr ""
+msgstr "Tổng quát"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 msgid "8Ba35b"
-msgstr ""
+msgstr "Tổng quát chiến lược"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "cHoIky"
-msgstr ""
+msgstr "Ngoài đồng"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "hAEZYZ"
-msgstr ""
+msgstr "Swarming"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "RJ-ZIh"
-msgstr ""
+msgstr "Tập kết"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "2pQ4w5"
-msgstr ""
+msgstr "Đồn trú"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
 msgid "uwJgwa"
-msgstr ""
+msgstr "Điểm DRASTC ở trên chỉ được tính dựa trên các trận chiến  ngoài đồng. Việc thay đổi chế độ xem tóm tắt bên dưới không ảnh hưởng đến điểm số này."
 
 #: src/components/combat-lab/commander-pairing-form.tsx
 msgid "06XNKO"
-msgstr ""
+msgstr "Chỉ huy chính"
 
 #: src/components/combat-lab/commander-pairing-form.tsx
 msgid "7rfR4O"
-msgstr ""
+msgstr "Chỉ huy phụ"
 
 #: src/components/combat-lab/commander-pairing-form.tsx
 msgid "Vozv1X"
-msgstr ""
+msgstr "Chọn hai chỉ huy huyền thoại khác nhau trước khi tải dữ liệu."
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "wx9Vu9"
-msgstr ""
+msgstr "Rất thấp"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "477I0g"
-msgstr ""
+msgstr "Thấp"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "OlIql8"
-msgstr ""
+msgstr "Vừa phải"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "AxMhQr"
-msgstr ""
+msgstr "Cao"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "p_rUwJ"
-msgstr ""
+msgstr "Rất cao"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "EoQTj0"
-msgstr ""
+msgstr "Độ tin cậy"
 
 #: src/components/combat-lab/confidence-score.tsx
 msgid "riw_yc"
-msgstr ""
+msgstr "Beta"
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "wB_wXs"
-msgstr ""
+msgstr "Credits"
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "rzNYK-"
-msgstr ""
+msgstr "Một mô hình tính điểm được xây dựng bởi ROK Battles, The King's Codex và AQ/HQ. Mô hình này do Davor thiết kế và ROK Battles triển khai, hiện có sẵn thông qua <bold>ROK Battles: Phòng thí nghiệm Trận chiến(Combat Lab)</bold> cũng như các cộng đồng Discord của <bold>The King's Codex</bold> và <bold>AQ/HQ</bold>."
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "fgvwel"
-msgstr ""
+msgstr "The King's Codex"
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "_I0-w2"
-msgstr ""
+msgstr "AQ/HQ"
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "fM6jjI"
-msgstr ""
+msgstr "Tìm hiểu thêm về DRASTC"
 
 #: src/components/combat-lab/drastc-credits.tsx
 msgid "TdTXXf"
-msgstr ""
+msgstr "Tìm hiểu thêm"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "T807D4"
-msgstr ""
+msgstr "Sát thương"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "HgiZfY"
-msgstr ""
+msgstr "Hiệu suất chu kỳ Nộ/Kỹ năng"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "oe7Ktq"
-msgstr ""
+msgstr "Hỗ trợ"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "14P-1u"
-msgstr ""
+msgstr "Tính bền vững"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "uKZXNL"
-msgstr ""
+msgstr "Hiệu suất trao đổi"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
 msgid "Mxwl9f"
-msgstr ""
+msgstr "Tính nhất quán"
 
 #: src/components/combat-lab/drastc-info.tsx
 msgid "YyHv_v"
-msgstr ""
+msgstr "Phân tích chi tiết theo DRASTC"
 
 #: src/components/combat-lab/drastc-section.tsx
 msgid "cjd1MY"
-msgstr ""
+msgstr "Chấm điểm DRASTC"
 
 #: src/components/combat-lab/drastc-section.tsx
 msgid "AAkx6U"
-msgstr ""
+msgstr "Điểm tổng thể"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "_VnDMl"
-msgstr ""
+msgstr "Khác"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "pGry-P"
-msgstr ""
+msgstr "Không có đội hình"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/report/report-commander-row.tsx
@@ -891,27 +891,27 @@ msgstr "Đội hình {formation}"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "DQqwcJ"
-msgstr ""
+msgstr "Đội hình"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "1GKsgu"
-msgstr ""
+msgstr "Tần suất sử dụng đội hình trong các báo cáo trận chiến được ghi lại cho cặp này."
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "EU4z3x"
-msgstr ""
+msgstr "Không có dữ liệu về đội hình."
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "Aujn2T"
-msgstr ""
+msgstr "Số lượng"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 msgid "wbsq7O"
-msgstr ""
+msgstr "Tần suất sử dụng"
 
 #: src/components/commander-loadout-row.tsx
 msgid "XoCgY-"
-msgstr ""
+msgstr "Cấp {level}"
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
@@ -954,7 +954,7 @@ msgstr "Lưu"
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "sNAPQj"
-msgstr ""
+msgstr "Đang tải dữ liệu Khám phá Chiến lợi phẩm..."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -962,93 +962,93 @@ msgstr ""
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
 msgid "yedWVm"
-msgstr ""
+msgstr "Không thể tải dữ liệu Khám phá Chiến lợi phẩm."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "qmJC1g"
-msgstr ""
+msgstr "Man Rợ Thuần Hoá Sói/Bầy Man Rợ Lang Thang"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "S5oZQH"
-msgstr ""
+msgstr "Cung Thủ Xương Man Rợ/Cung Thủ Hạng Nặng Man Rợ"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "9k2_Bx"
-msgstr ""
+msgstr "Man Rợ Cưỡi Thú/Thợ Săn Man Tốc Chiến"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
-msgstr ""
+msgstr "Binh Sĩ Anh"
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "oAxAzA"
-msgstr ""
+msgstr "{name} cấp {level}"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "AAa9de"
-msgstr ""
+msgstr "Dưới 1% sát thương"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "81t6Of"
-msgstr ""
+msgstr "Từ 1%-100% sát thương"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "_GFlnd"
-msgstr ""
+msgstr "Tổng lượng sát thương {pool}"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "lNsQLY"
-msgstr ""
+msgstr "Điều này đã được xem {count, plural, one {# lần} other {# lần}}."
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "NO4JXW"
-msgstr ""
+msgstr "Tháp Pháo Cổng"
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "QQMpmH"
-msgstr ""
+msgstr "Quà cấp {tier}"
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "0NLWkd"
-msgstr ""
+msgstr "Quà cấp này đã được thấy {count, plural, one {# lần} other {# lần}}, cần lượng sát thương {damage}."
 
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "pFZfPa"
-msgstr ""
+msgstr "n/a"
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
 msgid "75KFvG"
-msgstr ""
+msgstr "Khám phá Chiến lợi phẩm"
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "ntBJl8"
-msgstr ""
+msgstr "Khám phá dữ liệu chiến lợi phẩm từ mọi báo cáo mà ROK Battles thu thập và xử lý. Dữ liệu được cập nhật 8 giờ một lần."
 
 #: src/components/loot-explorer/loot-explorer-summary.tsx
 msgid "0ICwq5"
-msgstr ""
+msgstr "Cập nhật lần cuối"
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "hjy3ZV"
-msgstr ""
+msgstr "Không có lần rơi nào được ghi nhận đối với sự lựa chọn này. "
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "5ujeDa"
-msgstr ""
+msgstr "Vật phẩm"
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "qVGRIE"
-msgstr ""
+msgstr "Số Lượng"
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "iiGDPW"
-msgstr ""
+msgstr "Tỷ lệ rơi"
 
 #: src/components/loot-explorer/loot-table.tsx
 msgid "Naokt5"
-msgstr ""
+msgstr "Vật phẩm {type}: {subType}"
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx
@@ -1057,7 +1057,7 @@ msgstr "Vũ trang {id}"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
 msgid "-RhnH-"
-msgstr ""
+msgstr "Trống"
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
 #: src/components/report/report-equipment-slot.tsx
@@ -1070,15 +1070,15 @@ msgstr "Tất cả các thanh trang bị"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "5OhW-B"
-msgstr ""
+msgstr "Thanh trang bị {index}"
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "B4KaVd"
-msgstr ""
+msgstr "Tổng số trận chiến được ghi nhận cho thanh trang bị này."
 
 #: src/components/my-pairings/my-pairings-content.tsx
 msgid "y-cvIx"
-msgstr ""
+msgstr "Phân tích hiệu suất dựa trên các ghép cặp chỉ huy, trang bị và các trận đấu."
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "8Na2J4"
@@ -1113,7 +1113,7 @@ msgstr "Chính xác"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "CieiKz"
-msgstr ""
+msgstr "Loại trừ các hoạt động"
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1160,11 +1160,11 @@ msgstr "Không có bộ ghép cặp của đối phương cho lựa chọn này.
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "cSiC2v"
-msgstr "Bộ ghép cặp0"
+msgstr "Bộ ghép cặp"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "-yzdej"
-msgstr ""
+msgstr "DPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "nyW1oU"
@@ -1176,7 +1176,7 @@ msgstr "TPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 msgid "8czqas"
-msgstr ""
+msgstr "HPS"
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
@@ -1210,7 +1210,7 @@ msgstr "Minh văn"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g-gbNs"
-msgstr ""
+msgstr "Thông Tin Vũ Trang"
 
 #: src/components/olympian-arena/duel-empty-state.tsx
 msgid "NT6UmB"
@@ -1235,7 +1235,7 @@ msgstr "Tổng quan trận đấu tay đôi"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 msgid "m0-hvd"
-msgstr ""
+msgstr "Báo cáo trận đấu tay đôi"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
@@ -1300,7 +1300,7 @@ msgstr "Đối phương"
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "c-sY33"
-msgstr ""
+msgstr "Tỉ lệ trao đổi (%)"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 msgid "aXdZke"
@@ -1324,7 +1324,7 @@ msgstr "Trang tiếp theo"
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
 msgid "9-Ddtu"
-msgstr ""
+msgstr "Tiếp"
 
 #: src/components/platform-layout.tsx
 msgid "Q7dLbA"
@@ -1344,7 +1344,7 @@ msgstr "Olympian Arena"
 
 #: src/components/platform-layout.tsx
 msgid "H2meTq"
-msgstr ""
+msgstr "Phòng thí nghiệm Chiến đấu"
 
 #: src/components/platform-layout.tsx
 msgid "dr0ueW"
@@ -1368,7 +1368,7 @@ msgstr "Hỗ Trợ"
 
 #: src/components/platform-layout.tsx
 msgid "2IFGap"
-msgstr ""
+msgstr "Quyên góp"
 
 #: src/components/platform-layout.tsx
 msgid "QnWNmB"
@@ -1418,7 +1418,7 @@ msgstr "Giai đoạn không xác định"
 
 #: src/components/report/report-entry-card.tsx
 msgid "BYmpT_"
-msgstr ""
+msgstr "UTC "
 
 #: src/components/report/report-entry-card.tsx
 msgid "eKTCWw"
@@ -1444,7 +1444,7 @@ msgstr "Tổng quan dữ liệu"
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "ABZ08_"
-msgstr ""
+msgstr "Tất cả kẻ thù"
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
@@ -1466,51 +1466,51 @@ msgstr "Thánh Vật {id}"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "It0Aey"
-msgstr ""
+msgstr "Đơn vị bị thương nặng"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "4WlFf6"
-msgstr ""
+msgstr "Thưởng tấn công"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "ikRAP_"
-msgstr ""
+msgstr "Mức thương nặng được gây ra thêm"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "25igcI"
-msgstr ""
+msgstr "Số lần kích hoạt"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "ro9pK3"
-msgstr ""
+msgstr "Số quân địch bị tiêu diệt"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "FvbXnS"
-msgstr ""
+msgstr "Đơn vị bị thương nhẹ được chữa lành"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "nmf4aA"
-msgstr ""
+msgstr "Đơn vị tử vong"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "3TI3iv"
-msgstr ""
+msgstr "Mức thương nặng được giảm"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "eK3Owk"
-msgstr ""
+msgstr "Đơn vị lính cấp 5 trong Đại Sảnh Anh Hùng"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "5aSP17"
-msgstr ""
+msgstr "Thưởng sát thương"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "DCHsxk"
-msgstr ""
+msgstr "Chiến Lược"
 
 #: src/components/report/report-stratagem-section.tsx
 msgid "Hszv-5"
-msgstr ""
+msgstr "{percentage}% được áp dụng"
 
 #: src/components/report/report-view.tsx
 msgid "x5Tz6M"
@@ -1530,11 +1530,11 @@ msgstr "Bộ Lọc"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "RavlSl"
-msgstr ""
+msgstr "Lọc báo cáo trận chiến theo siêu dữ liệu, chỉ huy và vai trò trong trận chiến."
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "dfPU6h"
-msgstr ""
+msgstr "Thống đốc"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "rS3oIg"
@@ -1542,7 +1542,7 @@ msgstr "Chỉ huy chính"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3_h"
-msgstr ""
+msgstr "Bất kỳ"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "SHldaq"
@@ -1550,51 +1550,51 @@ msgstr "Chỉ huy phụ"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "-XTzdP"
-msgstr ""
+msgstr "Trận chiến"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "H9srBH"
-msgstr ""
+msgstr "Chiếc Rương Của Thần Osiris/Liên Minh Osiris"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "e3PeBT"
-msgstr ""
+msgstr "Nhóm con"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "2AAtTC"
-msgstr ""
+msgstr "Mùa 1"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jbrAjx"
-msgstr ""
+msgstr "Mùa 2"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "Ygh1LR"
-msgstr ""
+msgstr "Mùa 3"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "wudsnZ"
-msgstr ""
+msgstr "Mùa Chinh phạt"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "gvEP4o"
-msgstr ""
+msgstr "Chiến Trường Bạch Ngân"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "BQ9UYa"
-msgstr ""
+msgstr "Chiến Trường Hoàng Kim"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "XE8i_T"
-msgstr ""
+msgstr "Liên Minh Osiris"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "Qf8fwC"
-msgstr ""
+msgstr "Trận diễn tập"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "Hin97m"
-msgstr ""
+msgstr "Trận đấu tự chọn"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
@@ -1610,7 +1610,7 @@ msgstr "Pháo đài liên minh"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"
-msgstr ""
+msgstr "Đặt lại"
 
 #: src/components/reports/reports-overview-drawer.tsx
 msgid "QRVQkf"
