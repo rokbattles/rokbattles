@@ -199,7 +199,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
             </SidebarSection>
           </SidebarBody>
           {!user ? (
-            <SidebarFooter className="max-lg:hidden">
+            <SidebarFooter>
               <SidebarItem href="/proxy/v1/auth/discord/login" prefetch={false}>
                 <SidebarLabel>{t("Sign in")}</SidebarLabel>
               </SidebarItem>
