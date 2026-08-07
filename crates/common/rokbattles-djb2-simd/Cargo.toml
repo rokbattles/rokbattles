@@ -4,8 +4,8 @@ edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 
-[lints]
-workspace = true
-
 [lib]
 doctest = false
+
+[lints]
+workspace = true

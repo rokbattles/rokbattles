@@ -187,7 +187,7 @@ mod tests {
         let document = build_document(30_001, &aggregate, DateTime::from_millis(123));
         assert_eq!(document.get_i64("kind"), Ok(30_001));
         assert_eq!(document.get_document("totals").unwrap().get_i64("results"), Ok(2));
-        assert!(document.get_array("loot").is_ok());
+        document.get_array("loot").unwrap();
         assert!(!document.contains_key("pools"));
     }
 }

@@ -58,7 +58,7 @@ pub(crate) fn extract_participants(
 fn parse_participant_id(participant_id: &str, field: &'static str) -> Result<i64, ExtractError> {
     participant_id
         .parse::<i64>()
-        .map_err(|_| ExtractError::InvalidFieldType { field, expected: "numeric object key" })
+        .map_err(|_error| ExtractError::InvalidFieldType { field, expected: "numeric object key" })
 }
 
 #[cfg(test)]

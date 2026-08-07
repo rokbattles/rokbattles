@@ -234,6 +234,6 @@ mod tests {
     #[test]
     fn rejects_unknown_boss() {
         let input = json!({"body": {"content": {"subTitle": "Unknown defeated"}}});
-        assert!(BossExtractor::new().extract(&input).is_err());
+        BossExtractor::new().extract(&input).unwrap_err();
     }
 }

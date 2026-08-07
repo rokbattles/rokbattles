@@ -156,7 +156,7 @@ pub async fn upload_relay(
                         .await
                         .map_err(|error| ApiError::bad_request(error.to_string()))?
                         .parse::<i32>()
-                        .map_err(|_| ApiError::bad_request("server_id must be an i32"))?,
+                        .map_err(|_error| ApiError::bad_request("server_id must be an i32"))?,
                 );
             }
             Some("player_id") => {
@@ -166,7 +166,7 @@ pub async fn upload_relay(
                         .await
                         .map_err(|error| ApiError::bad_request(error.to_string()))?
                         .parse::<i64>()
-                        .map_err(|_| ApiError::bad_request("player_id must be an i64"))?,
+                        .map_err(|_error| ApiError::bad_request("player_id must be an i64"))?,
                 );
             }
             Some("mail") => {
@@ -308,7 +308,7 @@ async fn store_compressed_raw_mail(
 ) -> Result<UploadAction, ApiError> {
     let checksum = raw_mail::sha256_hex(buffer);
     let binary_size = i64::try_from(buffer.len())
-        .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
+        .map_err(|_error| ApiError::internal("mail binary is too large to store size"))?;
     let existing = state
         .storage
         .find_existing_compressed_raw(mail_id)
@@ -317,27 +317,26 @@ async fn store_compressed_raw_mail(
 
     let action = decide_compressed_raw_action(existing.as_ref(), &checksum, buffer.len());
 
-    if matches!(action, UploadAction::Skip) {
-        if let (Some(entity), Some(existing)) = (network_entity, existing.as_ref())
-            && existing.checksum.as_deref() == Some(checksum.as_str())
-            && !existing.has_network_entity
-        {
-            let compressed_entity = raw_mail::compress_raw_mail(entity, state.config.zstd_level)?;
-            state
-                .storage
-                .store_network_entity_if_missing(mail_id, compressed_entity)
-                .await
-                .map_err(|error| ApiError::database(error.to_string()))?;
-        }
-        return Ok(action);
-    }
-
-    let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
     let status = match action {
         UploadAction::Insert => insert_status_for_mail_type(mail_type),
         UploadAction::Update => update_status_for_mail_type(mail_type),
-        UploadAction::Skip => unreachable!("skip returned above"),
+        UploadAction::Skip => {
+            if let (Some(entity), Some(existing)) = (network_entity, existing.as_ref())
+                && existing.checksum.as_deref() == Some(checksum.as_str())
+                && !existing.has_network_entity
+            {
+                let compressed_entity =
+                    raw_mail::compress_raw_mail(entity, state.config.zstd_level)?;
+                state
+                    .storage
+                    .store_network_entity_if_missing(mail_id, compressed_entity)
+                    .await
+                    .map_err(|error| ApiError::database(error.to_string()))?;
+            }
+            return Ok(action);
+        }
     };
+    let mail = raw_mail::extract_raw_mail_metadata(decoded)?;
     let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
         original_bytes: buffer,
         network_entity,
@@ -513,7 +512,9 @@ fn ua_ok(user_agent: &str) -> bool {
 
 fn is_probably_json(bytes: &[u8]) -> bool {
     let sample_len = bytes.len().min(256);
-    let sample = &bytes[..sample_len];
+    let Some(sample) = bytes.get(..sample_len) else {
+        return false;
+    };
     let Ok(text) = std::str::from_utf8(sample) else {
         return false;
     };
@@ -551,7 +552,7 @@ mod tests {
     #[test]
     fn rejects_mail_type_from_singleton_array() {
         let decoded = json!([{ "type": "Battle" }]);
-        assert!(extract_mail_type(&decoded).is_err());
+        extract_mail_type(&decoded).unwrap_err();
     }
 
     #[test]
@@ -835,7 +836,7 @@ mod tests {
         let mut headers = HeaderMap::new();
         headers.insert(header::AUTHORIZATION, HeaderValue::from_static("Bearer secret"));
 
-        assert!(authorize_relay(&headers, "secret").is_ok());
+        authorize_relay(&headers, "secret").unwrap();
         assert!(matches!(authorize_relay(&headers, "different"), Err(ApiError::Unauthorized)));
     }
 
@@ -881,8 +882,8 @@ mod tests {
 
     #[test]
     fn rejects_invalid_filename() {
-        assert!(parse_mail_id_from_filename("battle.mail.1").is_err());
-        assert!(parse_mail_id_from_filename("Persistent.Mail.").is_err());
+        parse_mail_id_from_filename("battle.mail.1").unwrap_err();
+        parse_mail_id_from_filename("Persistent.Mail.").unwrap_err();
     }
 
     #[test]

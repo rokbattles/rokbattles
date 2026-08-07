@@ -43,7 +43,7 @@ impl Extractor for OpponentsExtractor {
             }
 
             for handle in handles {
-                let result = handle.join().map_err(|_| ExtractError::InvalidFieldType {
+                let result = handle.join().map_err(|_panic| ExtractError::InvalidFieldType {
                     field: "Attacks",
                     expected: "non-panicking extraction",
                 })?;
@@ -80,7 +80,11 @@ fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
             expected: "numeric object key",
         });
     }
-    attack_id[..end].parse::<u64>().map_err(|_| ExtractError::InvalidFieldType {
+    let numeric_prefix = attack_id.get(..end).ok_or(ExtractError::InvalidFieldType {
+        field: "Attacks",
+        expected: "numeric object key",
+    })?;
+    numeric_prefix.parse::<u64>().map_err(|_error| ExtractError::InvalidFieldType {
         field: "Attacks",
         expected: "numeric object key",
     })

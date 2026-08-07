@@ -62,9 +62,9 @@ mod tests {
 
     #[test]
     fn parse_governor_id_param_rejects_non_positive_or_invalid_values() {
-        assert!(parse_governor_id_param("0").is_err());
-        assert!(parse_governor_id_param("-1").is_err());
-        assert!(parse_governor_id_param("abc").is_err());
+        parse_governor_id_param("0").unwrap_err();
+        parse_governor_id_param("-1").unwrap_err();
+        parse_governor_id_param("abc").unwrap_err();
     }
 
     #[test]

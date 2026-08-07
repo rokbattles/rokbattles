@@ -210,7 +210,7 @@ fn parse_optional_i32(
         return Ok(None);
     };
 
-    raw.parse::<i32>().map(Some).map_err(|_| ApiError::bad_request(format!("Invalid {key}")))
+    raw.parse::<i32>().map(Some).map_err(|_error| ApiError::bad_request(format!("Invalid {key}")))
 }
 
 fn parse_optional_i32_list(
@@ -224,8 +224,9 @@ fn parse_optional_i32_list(
 
     let mut parsed = Vec::new();
     for value in raw.split(',').map(str::trim).filter(|value| !value.is_empty()) {
-        let parsed_value =
-            value.parse::<i32>().map_err(|_| ApiError::bad_request(format!("Invalid {key}")))?;
+        let parsed_value = value
+            .parse::<i32>()
+            .map_err(|_error| ApiError::bad_request(format!("Invalid {key}")))?;
         if !parsed.contains(&parsed_value) {
             parsed.push(parsed_value);
         }
@@ -544,7 +545,7 @@ mod tests {
     fn parse_kind_request_rejects_invalid_kind() {
         let params = HashMap::from([("kind".to_string(), "abc".to_string())]);
 
-        assert!(parse_kind_request(&params).is_err());
+        parse_kind_request(&params).unwrap_err();
     }
 
     #[test]

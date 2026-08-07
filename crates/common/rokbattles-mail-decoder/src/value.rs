@@ -49,7 +49,7 @@ fn string_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, D
     let mut map = Map::with_capacity(items.len() / 2);
     for (key, value) in owned_pairs(items) {
         let Value::String(key) = key else {
-            unreachable!("table key types were classified before conversion");
+            return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
         };
         match map.entry(key) {
             Entry::Vacant(entry) => {
@@ -74,7 +74,13 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
             let Some(key) = pair[0].as_u64().and_then(|key| usize::try_from(key).ok()) else {
                 return false;
             };
-            key > 0 && key <= pair_count && !std::mem::replace(&mut keys[key - 1], true)
+            let Some(index) = key.checked_sub(1) else {
+                return false;
+            };
+            let Some(seen) = keys.get_mut(index) else {
+                return false;
+            };
+            !std::mem::replace(seen, true)
         })
     };
 
@@ -82,7 +88,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
         let mut values = BTreeMap::new();
         for (key, value) in owned_pairs(items) {
             let Some(key) = key.as_u64().and_then(|key| usize::try_from(key).ok()) else {
-                unreachable!("sequential numeric keys were validated before conversion");
+                return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
             };
             values.insert(key, value);
         }
@@ -92,7 +98,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
     let mut map = Map::with_capacity(pair_count);
     for (key, value) in owned_pairs(items) {
         let Value::Number(key) = key else {
-            unreachable!("table key types were classified before conversion");
+            return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
         };
         let key = key.to_string();
         match map.entry(key) {
@@ -112,13 +118,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
 
 fn owned_pairs(items: Vec<Value>) -> impl Iterator<Item = (Value, Value)> {
     let mut items = items.into_iter();
-    std::iter::from_fn(move || {
-        let key = items.next()?;
-        let Some(value) = items.next() else {
-            unreachable!("pair iterator requires an even item count");
-        };
-        Some((key, value))
-    })
+    std::iter::from_fn(move || items.next().zip(items.next()))
 }
 
 #[cfg(test)]

@@ -22,5 +22,8 @@ mimalloc = { workspace = true, features = ["secure"] }
 [dev-dependencies]
 tokio = { workspace = true, features = ["time"] }
 
+[lib]
+doctest = false
+
 [lints]
 workspace = true

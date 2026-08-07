@@ -71,7 +71,7 @@ fn parse<T>(key: &'static str, value: String) -> Result<T, ConfigError>
 where
     T: std::str::FromStr,
 {
-    value.parse().map_err(|_| ConfigError::Invalid { key, value })
+    value.parse().map_err(|_error| ConfigError::Invalid { key, value })
 }
 
 fn parse_hostname(key: &'static str, value: String) -> Result<String, ConfigError> {

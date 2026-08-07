@@ -21,7 +21,7 @@ use crate::{config::Config, error::ProcessorError, processing::process_loop, sto
 #[tokio::main]
 async fn main() -> Result<(), ProcessorError> {
     let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
-    dotenvy::from_path(&dotenv_path).ok();
+    drop(dotenvy::from_path(&dotenv_path));
 
     let config = Config::from_env()?;
     tracing_subscriber::fmt()

@@ -20,3 +20,9 @@ mimalloc = { workspace = true, features = ["secure"] }
 
 [dev-dependencies]
 tower = { workspace = true, features = ["util"] }
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true

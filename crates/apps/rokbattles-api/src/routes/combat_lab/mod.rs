@@ -206,7 +206,8 @@ fn parse_required_i64(params: &HashMap<String, String>, key: &str) -> Result<i64
         return Err(ApiError::bad_request(format!("Missing {key}")));
     };
 
-    let value = raw.parse::<i64>().map_err(|_| ApiError::bad_request(format!("Invalid {key}")))?;
+    let value =
+        raw.parse::<i64>().map_err(|_error| ApiError::bad_request(format!("Invalid {key}")))?;
     if value <= 0 {
         return Err(ApiError::bad_request(format!("Invalid {key}")));
     }

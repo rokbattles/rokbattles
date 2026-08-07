@@ -36,7 +36,7 @@ mod tests {
     fn rejects_non_numeric_after_cursor() {
         let result =
             parse_duelbattle2_request(&HashMap::from([("after".to_string(), "bad".to_string())]));
-        assert!(result.is_err());
+        result.unwrap_err();
     }
 
     #[test]

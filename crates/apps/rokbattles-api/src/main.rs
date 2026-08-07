@@ -18,7 +18,7 @@ use tracing::info;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let dotenv_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
-    dotenvy::from_path(&dotenv_path).ok();
+    drop(dotenvy::from_path(&dotenv_path));
 
     let config = Config::from_env()?;
     tracing_subscriber::fmt()

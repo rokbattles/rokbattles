@@ -236,7 +236,7 @@ mod tests {
     fn rejects_non_numeric_cursor() {
         let result =
             parse_reports_request(&HashMap::from([("after".to_string(), "abc".to_string())]));
-        assert!(result.is_err());
+        result.unwrap_err();
     }
 
     #[test]
@@ -245,7 +245,7 @@ mod tests {
             ("rs".to_string(), "both".to_string()),
             ("gs".to_string(), "sender".to_string()),
         ]));
-        assert!(result.is_err());
+        result.unwrap_err();
     }
 
     #[test]
@@ -269,6 +269,6 @@ mod tests {
     fn rejects_subtype_without_matching_type() {
         let result =
             parse_reports_request(&HashMap::from([("subtype".to_string(), "1".to_string())]));
-        assert!(result.is_err());
+        result.unwrap_err();
     }
 }

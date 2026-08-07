@@ -139,7 +139,7 @@ fn atomic_write(path: &Path, bytes: &[u8]) -> anyhow::Result<()> {
     if let Err(e) = fs::rename(&tmp_path, path) {
         // Best-effort fallback for Windows rename semantics.
         if e.kind() == io::ErrorKind::AlreadyExists {
-            let _ = fs::remove_file(path);
+            drop(fs::remove_file(path));
             fs::rename(&tmp_path, path).with_context(|| format!("Failed replacing {:?}", path))?;
         } else {
             return Err(e).with_context(|| format!("Failed renaming {:?} -> {:?}", tmp_path, path));

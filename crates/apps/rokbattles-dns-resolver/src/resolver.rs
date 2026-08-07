@@ -58,7 +58,11 @@ impl Resolver {
         let request = Message::from_vec(wire_request)?;
         let mut response = response_for(&request);
 
-        if request.metadata.message_type != MessageType::Query || request.queries.len() != 1 {
+        let [query] = request.queries.as_slice() else {
+            response.metadata.response_code = ResponseCode::FormErr;
+            return Ok(response.to_vec()?);
+        };
+        if request.metadata.message_type != MessageType::Query {
             response.metadata.response_code = ResponseCode::FormErr;
             return Ok(response.to_vec()?);
         }
@@ -68,7 +72,6 @@ impl Resolver {
             return Ok(response.to_vec()?);
         }
 
-        let query = &request.queries[0];
         if query.query_class() != DNSClass::IN || !self.is_target(query.name()) {
             response.metadata.response_code = ResponseCode::Refused;
             return Ok(response.to_vec()?);

@@ -167,11 +167,11 @@ mod tests {
             ..PairingRawTotals::default()
         });
 
-        assert_eq!(summary.avg_trade_percentage, 150.0);
-        assert_eq!(summary.weighted_trade_percentage, 200.0);
-        assert_eq!(summary.avg_battle_duration, 5_000.0);
-        assert_eq!(summary.dps, 5.0);
-        assert_eq!(summary.hps, 3.0);
+        assert_eq!(summary.avg_trade_percentage.to_bits(), 150.0_f64.to_bits());
+        assert_eq!(summary.weighted_trade_percentage.to_bits(), 200.0_f64.to_bits());
+        assert_eq!(summary.avg_battle_duration.to_bits(), 5_000.0_f64.to_bits());
+        assert_eq!(summary.dps.to_bits(), 5.0_f64.to_bits());
+        assert_eq!(summary.hps.to_bits(), 3.0_f64.to_bits());
     }
 
     #[test]
@@ -225,8 +225,9 @@ mod tests {
                 compute_trade_percentage(0, 0),
                 compute_trade_percentage(200, 0),
                 compute_trade_percentage(200, 100),
-            ],
-            [100.0, 0.0, 200.0]
+            ]
+            .map(f64::to_bits),
+            [100.0, 0.0, 200.0].map(f64::to_bits)
         );
     }
 
@@ -316,7 +317,7 @@ mod tests {
 
         assert_eq!(all.get_i64("total_battles"), Ok(5));
         for strategy in ["open_field", "swarming", "rally", "garrison"] {
-            assert!(strategy_documents.get_document(strategy).is_ok());
+            strategy_documents.get_document(strategy).unwrap();
         }
         assert_eq!(
             all.get_array("formations"),

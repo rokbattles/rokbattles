@@ -19,9 +19,15 @@ pub(super) fn build_drastc_scores_from_aggregates(
             continue;
         };
 
+        let Ok(primary_commander_id) = u32::try_from(key.primary_commander_id) else {
+            continue;
+        };
+        let Ok(secondary_commander_id) = u32::try_from(key.secondary_commander_id) else {
+            continue;
+        };
         let mut model = DrastcModel::new();
         model.set_reference_ranges(reference_ranges);
-        model.set_theoretical(key.primary_commander_id as u32, key.secondary_commander_id as u32);
+        model.set_theoretical(primary_commander_id, secondary_commander_id);
         model.push(raw.to_drastc_record());
 
         if let Some(score) = model.evaluate() {
@@ -97,7 +103,7 @@ mod tests {
 
         let score = scores.get(&key).expect("drastc score");
         assert_eq!(score.samples, 2);
-        assert_eq!(score.breakdown.rage.value, 8.0);
-        assert_eq!(score.breakdown.assist.value, 14.24);
+        assert_eq!(score.breakdown.rage.value.to_bits(), 8.0_f64.to_bits());
+        assert_eq!(score.breakdown.assist.value.to_bits(), 14.24_f64.to_bits());
     }
 }

@@ -825,8 +825,8 @@ mod tests {
             .expect("leading match");
 
         assert_eq!(matcher.get_bool("metadata.kvk"), Ok(true));
-        assert!(matcher.get_document("opponents").is_ok());
-        assert!(matcher.get_array("$or").is_ok());
+        matcher.get_document("opponents").unwrap();
+        matcher.get_array("$or").unwrap();
     }
 
     #[test]
@@ -882,7 +882,7 @@ mod tests {
             "_reference_consistency_percentiles",
             "_reference_trade_percentiles",
         ] {
-            assert!(output.get_document(field).is_ok());
+            output.get_document(field).unwrap();
         }
         let group = pairing_output_group_stage();
         let condition = group

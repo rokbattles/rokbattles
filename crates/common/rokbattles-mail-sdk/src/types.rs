@@ -41,11 +41,17 @@ impl Section {
     ///
     /// # Panics
     /// Panics if the section is backed by an array.
+    #[expect(
+        clippy::unwrap_in_result,
+        reason = "panicking for array-backed sections is this method's documented contract"
+    )]
     pub fn insert(&mut self, key: impl Into<String>, value: Value) -> Option<Value> {
-        match &mut self.data {
-            SectionData::Object(fields) => fields.insert(key.into(), value),
-            SectionData::Array(_) => panic!("attempted to insert into an array section"),
+        let fields = match &mut self.data {
+            SectionData::Object(fields) => Some(fields),
+            SectionData::Array(_) => None,
         }
+        .expect("attempted to insert into an array section");
+        fields.insert(key.into(), value)
     }
 
     /// Returns the fields when the section is object-backed.

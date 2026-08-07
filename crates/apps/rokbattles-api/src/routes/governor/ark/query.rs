@@ -72,6 +72,6 @@ mod tests {
     #[test]
     fn parse_match_id_trims_and_rejects_empty_values() {
         assert_eq!(parse_match_id("  mail-123  ").expect("match id"), "mail-123");
-        assert!(parse_match_id("   ").is_err());
+        parse_match_id("   ").unwrap_err();
     }
 }

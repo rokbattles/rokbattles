@@ -232,7 +232,7 @@ mod tests {
         assert_eq!(totals.total_battles, 2);
         assert_eq!(totals.damage_total, 50);
         assert_eq!(totals.opponent_dead, 5);
-        assert_eq!(totals.normalized_duration_seconds_total, 10.0);
+        assert_eq!(totals.normalized_duration_seconds_total.to_bits(), 10.0_f64.to_bits());
         assert_eq!(totals.positive_trades, 1);
     }
 
@@ -248,11 +248,11 @@ mod tests {
 
         let ranges = map_reference_ranges_document(&document).expect("reference ranges");
 
-        assert_eq!(ranges.damage.p10, 1.0);
-        assert_eq!(ranges.damage.p90, 9.0);
+        assert_eq!(ranges.damage.p10.to_bits(), 1.0_f64.to_bits());
+        assert_eq!(ranges.damage.p90.to_bits(), 9.0_f64.to_bits());
         assert_eq!(ranges.damage.sample_count(), 10);
-        assert_eq!(ranges.trade.p10, 0.0);
-        assert_eq!(ranges.trade.p90, 1.8);
+        assert_eq!(ranges.trade.p10.to_bits(), 0.0_f64.to_bits());
+        assert_eq!(ranges.trade.p90.to_bits(), 1.8_f64.to_bits());
         assert_eq!(ranges.trade.sample_count(), 10);
     }
 }

@@ -25,3 +25,6 @@ sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images"
 
 [target.'cfg(all(target_os = "linux", target_env = "musl"))'.dependencies]
 mimalloc = { workspace = true, features = ["secure"] }
+
+[lints]
+workspace = true
