@@ -40,6 +40,10 @@ commanders:
       zh_TW: "無冕之王"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 22
@@ -201,6 +205,10 @@ commanders:
       zh_TW: "天縱之才"
     prime: false
     rarity: epic
+    talents:
+      - infantry
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 30
@@ -362,6 +370,10 @@ commanders:
       zh_TW: "紅鬍子"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 23
@@ -523,6 +535,10 @@ commanders:
       zh_TW: "唯一聖主"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 85
@@ -685,6 +701,10 @@ commanders:
       zh_TW: "變革之弓"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 24
@@ -846,6 +866,10 @@ commanders:
       zh_TW: "亂世梟雄"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - peacekeeping
+      - mobility
     skills:
       - slot: 1
         id: 25
@@ -1008,6 +1032,10 @@ commanders:
       zh_TW: "獅心王"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 26
@@ -1170,6 +1198,10 @@ commanders:
       zh_TW: "鐮倉戰神"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - peacekeeping
+      - skill
     skills:
       - slot: 1
         id: 27
@@ -1331,6 +1363,10 @@ commanders:
       zh_TW: "不朽戰錘"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 28
@@ -1492,6 +1528,10 @@ commanders:
       zh_TW: "神聖領主"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 29
@@ -1654,6 +1694,10 @@ commanders:
       zh_TW: "條頓堡的解放者"
     prime: false
     rarity: epic
+    talents:
+      - archer
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 31
@@ -1815,6 +1859,10 @@ commanders:
       zh_TW: "武士道之魂"
     prime: false
     rarity: epic
+    talents:
+      - archer
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 32
@@ -1976,6 +2024,10 @@ commanders:
       zh_TW: "戰火雙刃"
     prime: false
     rarity: epic
+    talents:
+      - leadership
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 33
@@ -2137,6 +2189,10 @@ commanders:
       zh_TW: "奧爾良少女"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - gathering
+      - support
     skills:
       - slot: 1
         id: 34
@@ -2298,6 +2354,10 @@ commanders:
       zh_TW: "儒將之風"
     prime: false
     rarity: epic
+    talents:
+      - infantry
+      - garrison
+      - attack
     skills:
       - slot: 1
         id: 35
@@ -2459,6 +2519,10 @@ commanders:
       zh_TW: "凱爾特玫瑰"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - peacekeeping
+      - skill
     skills:
       - slot: 1
         id: 36
@@ -2620,6 +2684,10 @@ commanders:
       zh_TW: "不羈的復興者"
     prime: false
     rarity: epic
+    talents:
+      - cavalry
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 37
@@ -2781,6 +2849,10 @@ commanders:
       zh_TW: "人民之盾"
     prime: false
     rarity: advanced
+    talents:
+      - infantry
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 42
@@ -2920,6 +2992,10 @@ commanders:
       zh_TW: "暗影蝰蛇"
     prime: false
     rarity: advanced
+    talents:
+      - archer
+      - peacekeeping
+      - skill
     skills:
       - slot: 1
         id: 43
@@ -3059,6 +3135,10 @@ commanders:
       zh_TW: "雄鷹之翼"
     prime: false
     rarity: advanced
+    talents:
+      - integration
+      - gathering
+      - attack
     skills:
       - slot: 1
         id: 41
@@ -3198,6 +3278,10 @@ commanders:
       zh_TW: "浴火戰矛"
     prime: false
     rarity: advanced
+    talents:
+      - cavalry
+      - versatility
+      - mobility
     skills:
       - slot: 1
         id: 44
@@ -3337,6 +3421,10 @@ commanders:
       zh_TW: "迦太基守護者"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 49
@@ -3498,6 +3586,10 @@ commanders:
       zh_TW: "埃及豔后"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - support
     skills:
       - slot: 1
         id: 51
@@ -3660,6 +3752,10 @@ commanders:
       zh_TW: "西西里女王"
     prime: false
     rarity: elite
+    talents:
+      - integration
+      - gathering
+      - skill
     skills:
       - slot: 1
         id: 52
@@ -3799,6 +3895,10 @@ commanders:
       zh_TW: "軍團變革者"
     prime: false
     rarity: elite
+    talents:
+      - leadership
+      - gathering
+      - skill
     skills:
       - slot: 1
         id: 53
@@ -3938,6 +4038,10 @@ commanders:
       zh_TW: "落日之美人"
     prime: false
     rarity: elite
+    talents:
+      - archer
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 54
@@ -4077,6 +4181,10 @@ commanders:
       zh_TW: "湖上騎士"
     prime: false
     rarity: elite
+    talents:
+      - cavalry
+      - versatility
+      - mobility
     skills:
       - slot: 1
         id: 55
@@ -4216,6 +4324,10 @@ commanders:
       zh_TW: "蠻族咆哮者"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - peacekeeping
+      - support
     skills:
       - slot: 1
         id: 56
@@ -4377,6 +4489,10 @@ commanders:
       zh_TW: "死亡蜜酒"
     prime: false
     rarity: elite
+    talents:
+      - integration
+      - gathering
+      - skill
     skills:
       - slot: 1
         id: 57
@@ -4516,6 +4632,10 @@ commanders:
       zh_TW: "最後的羅馬人"
     prime: false
     rarity: epic
+    talents:
+      - cavalry
+      - peacekeeping
+      - mobility
     skills:
       - slot: 1
         id: 82
@@ -4677,6 +4797,10 @@ commanders:
       zh_TW: "天選之豹"
     prime: false
     rarity: epic
+    talents:
+      - cavalry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 83
@@ -4838,6 +4962,10 @@ commanders:
       zh_TW: "帝國先驅"
     prime: false
     rarity: epic
+    talents:
+      - leadership
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 84
@@ -4999,6 +5127,10 @@ commanders:
       zh_TW: "納賽爾國王"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - support
     skills:
       - slot: 1
         id: 86
@@ -5160,6 +5292,10 @@ commanders:
       zh_TW: "伊斯坦布爾征服者"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 87
@@ -5321,6 +5457,10 @@ commanders:
       zh_TW: "巾幗英雄"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - peacekeeping
+      - support
     skills:
       - slot: 1
         id: 121
@@ -5482,6 +5622,10 @@ commanders:
       zh_TW: "千古女帝"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 142
@@ -5644,6 +5788,10 @@ commanders:
       zh_TW: "成吉思汗"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 120
@@ -5806,6 +5954,10 @@ commanders:
       zh_TW: "歐洲之父"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 137
@@ -5968,6 +6120,10 @@ commanders:
       zh_TW: "征服之王"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 128
@@ -6129,6 +6285,10 @@ commanders:
       zh_TW: "麥西亞領主"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - peacekeeping
+      - support
     skills:
       - slot: 1
         id: 135
@@ -6291,6 +6451,10 @@ commanders:
       zh_TW: "馬薩革泰統治者"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 139
@@ -6453,6 +6617,10 @@ commanders:
       zh_TW: "黑太子"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 140
@@ -6615,6 +6783,10 @@ commanders:
       zh_TW: "新羅之主"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - attack
     skills:
       - slot: 1
         id: 141
@@ -6777,6 +6949,10 @@ commanders:
       zh_TW: "上帝之鞭"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 143
@@ -6939,6 +7115,10 @@ commanders:
       zh_TW: "甲斐之虎"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - mobility
     skills:
       - slot: 1
         id: 144
@@ -7101,6 +7281,10 @@ commanders:
       zh_TW: "安土桃山之淚"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - support
     skills:
       - slot: 1
         id: 145
@@ -7263,6 +7447,10 @@ commanders:
       zh_TW: "上帝的贈禮"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 146
@@ -7424,6 +7612,10 @@ commanders:
       zh_TW: "美髯公"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 148
@@ -7586,6 +7778,10 @@ commanders:
       zh_TW: "萬人之敵"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - defense
     skills:
       - slot: 1
         id: 149
@@ -7748,6 +7944,10 @@ commanders:
       zh_TW: "眾神的寵兒"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 150
@@ -7909,6 +8109,10 @@ commanders:
       zh_TW: "卡里亞女王"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 152
@@ -8071,6 +8275,10 @@ commanders:
       zh_TW: "猩紅避役"
     prime: false
     rarity: epic
+    talents:
+      - archer
+      - peacekeeping
+      - skill
     skills:
       - slot: 1
         id: 153
@@ -8232,6 +8440,10 @@ commanders:
       zh_TW: "忠武公"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 155
@@ -8394,6 +8606,10 @@ commanders:
       zh_TW: "孔雀聖主"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 157
@@ -8578,6 +8794,10 @@ commanders:
       zh_TW: "征服者"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 158
@@ -8739,6 +8959,10 @@ commanders:
       zh_TW: "諾曼底攝政女王"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - gathering
+      - defense
     skills:
       - slot: 1
         id: 161
@@ -8901,6 +9125,10 @@ commanders:
       zh_TW: "無情者"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 162
@@ -9063,6 +9291,10 @@ commanders:
       zh_TW: "帕爾米拉女王"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 164
@@ -9224,6 +9456,10 @@ commanders:
       zh_TW: "最強的鬼神"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 168
@@ -9385,6 +9621,10 @@ commanders:
       zh_TW: "策謀的舞姬"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - peacekeeping
+      - support
     skills:
       - slot: 1
         id: 170
@@ -9546,6 +9786,10 @@ commanders:
       zh_TW: "波斯帝國締造者"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 172
@@ -9708,6 +9952,10 @@ commanders:
       zh_TW: "巴比倫復興者"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 173
@@ -9869,6 +10117,10 @@ commanders:
       zh_TW: "阿茲特克雄鷹"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - peacekeeping
+      - skill
     skills:
       - slot: 1
         id: 176
@@ -10030,6 +10282,10 @@ commanders:
       zh_TW: "最佳元首"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 177
@@ -10191,6 +10447,10 @@ commanders:
       zh_TW: "聖潔君主"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - garrison
+      - mobility
     skills:
       - slot: 1
         id: 179
@@ -10353,6 +10613,10 @@ commanders:
       zh_TW: "西楚霸王"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 180
@@ -10515,6 +10779,10 @@ commanders:
       zh_TW: "卡特加特勇士"
     prime: false
     rarity: epic
+    talents:
+      - infantry
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 181
@@ -10676,6 +10944,10 @@ commanders:
       zh_TW: "北海傳奇"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 183
@@ -10837,6 +11109,10 @@ commanders:
       zh_TW: "衛社之臣"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - smite
     skills:
       - slot: 1
         id: 185
@@ -10998,6 +11274,10 @@ commanders:
       zh_TW: "永耀之日"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - defense
     skills:
       - slot: 1
         id: 187
@@ -11160,6 +11440,10 @@ commanders:
       zh_TW: "天神之怒"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 188
@@ -11321,6 +11605,10 @@ commanders:
       zh_TW: "努比亞甘達刻"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 189
@@ -11483,6 +11771,10 @@ commanders:
       zh_TW: "格魯吉亞之心"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - gathering
+      - support
     skills:
       - slot: 1
         id: 191
@@ -11644,6 +11936,10 @@ commanders:
       zh_TW: "德川之鹿"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 193
@@ -11806,6 +12102,10 @@ commanders:
       zh_TW: "卡努尼"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - conquering
+      - attack
     skills:
       - slot: 1
         id: 194
@@ -11968,6 +12268,10 @@ commanders:
       zh_TW: "布列塔尼之鷹"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - combo
     skills:
       - slot: 1
         id: 195
@@ -12130,6 +12434,10 @@ commanders:
       zh_TW: "涅瓦河的英雄"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 196
@@ -12292,6 +12600,10 @@ commanders:
       zh_TW: "羅馬護國公"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 197
@@ -12454,6 +12766,10 @@ commanders:
       zh_TW: "札馬的軍神"
     prime: true
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 198
@@ -12616,6 +12932,10 @@ commanders:
       zh_TW: "托特神喜愛之人"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 204
@@ -12778,6 +13098,10 @@ commanders:
       zh_TW: "和平之人"
     prime: false
     rarity: epic
+    talents:
+      - archer
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 202
@@ -12939,6 +13263,10 @@ commanders:
       zh_TW: "蘭開斯特之王"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - support
     skills:
       - slot: 1
         id: 205
@@ -13101,6 +13429,10 @@ commanders:
       zh_TW: "愛西尼女王"
     prime: true
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 206
@@ -13263,6 +13595,10 @@ commanders:
       zh_TW: "聖盃領主"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 207
@@ -13424,6 +13760,10 @@ commanders:
       zh_TW: "天佑聖女"
     prime: true
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 209
@@ -13586,6 +13926,10 @@ commanders:
       zh_TW: "安達魯斯總督"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - defense
     skills:
       - slot: 1
         id: 219
@@ -13747,6 +14091,10 @@ commanders:
       zh_TW: "阿卡德大帝"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 221
@@ -13909,6 +14257,10 @@ commanders:
       zh_TW: "北歐女王"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 239
@@ -14071,6 +14423,10 @@ commanders:
       zh_TW: "蒙兀兒開創者"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 240
@@ -14233,6 +14589,10 @@ commanders:
       zh_TW: "拜占庭革新之王"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 241
@@ -14395,6 +14755,10 @@ commanders:
       zh_TW: "迦太基女王"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 242
@@ -14556,6 +14920,10 @@ commanders:
       zh_TW: "臥龍先生"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 243
@@ -14718,6 +15086,10 @@ commanders:
       zh_TW: "伊庇魯斯之王"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - defense
     skills:
       - slot: 1
         id: 238
@@ -14880,6 +15252,10 @@ commanders:
       zh_TW: "雅典之父"
     prime: false
     rarity: epic
+    talents:
+      - infantry
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 236
@@ -15041,6 +15417,10 @@ commanders:
       zh_TW: "冠軍侯"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 246
@@ -15202,6 +15582,10 @@ commanders:
       zh_TW: "不眠皇帝"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - support
     skills:
       - slot: 1
         id: 247
@@ -15363,6 +15747,10 @@ commanders:
       zh_TW: "拉科尼亞之鷹"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 252
@@ -15525,6 +15913,10 @@ commanders:
       zh_TW: "漢武帝"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 251
@@ -15687,6 +16079,10 @@ commanders:
       zh_TW: "新亞述國王"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 306
@@ -15849,6 +16245,10 @@ commanders:
       zh_TW: "日耳曼狼王"
     prime: true
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 254
@@ -16011,6 +16411,10 @@ commanders:
       zh_TW: "保護的海石"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 307
@@ -16172,6 +16576,10 @@ commanders:
       zh_TW: "改變戰爭的人"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - attack
     skills:
       - slot: 1
         id: 314
@@ -16334,6 +16742,10 @@ commanders:
       zh_TW: "四相合一"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - defense
     skills:
       - slot: 1
         id: 311
@@ -16495,6 +16907,10 @@ commanders:
       zh_TW: "原野之花"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 316
@@ -16657,6 +17073,10 @@ commanders:
       zh_TW: "帝國日月"
     prime: true
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - mobility
     skills:
       - slot: 1
         id: 315
@@ -16819,6 +17239,10 @@ commanders:
       zh_TW: "天空之藍"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - smite
     skills:
       - slot: 1
         id: 258
@@ -16981,6 +17405,10 @@ commanders:
       zh_TW: "珍珠小枝"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 364
@@ -17143,6 +17571,10 @@ commanders:
       zh_TW: "武愍公"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - defense
     skills:
       - slot: 1
         id: 363
@@ -17305,6 +17737,10 @@ commanders:
       zh_TW: "全勝將軍"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - smite
     skills:
       - slot: 1
         id: 309
@@ -17467,6 +17903,10 @@ commanders:
       zh_TW: "奧丁之力"
     prime: true
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 372
@@ -17628,6 +18068,10 @@ commanders:
       zh_TW: "破曉先驅"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 377
@@ -17790,6 +18234,10 @@ commanders:
       zh_TW: "摩爾達維亞大公"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 378
@@ -17952,6 +18400,10 @@ commanders:
       zh_TW: "正義騎士"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 379
@@ -18113,6 +18565,10 @@ commanders:
       zh_TW: "冒煙青蛙"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 386
@@ -18275,6 +18731,10 @@ commanders:
       zh_TW: "六天夫人"
     prime: false
     rarity: epic
+    talents:
+      - integration
+      - gathering
+      - defense
     skills:
       - slot: 1
         id: 387
@@ -18436,6 +18896,10 @@ commanders:
       zh_TW: "東照大權現"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - garrison
+      - smite
     skills:
       - slot: 1
         id: 356
@@ -18598,6 +19062,10 @@ commanders:
       zh_TW: "薩珊晨輝"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - conquering
+      - skill
     skills:
       - slot: 1
         id: 359
@@ -18760,6 +19228,10 @@ commanders:
       zh_TW: "始皇帝"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 362
@@ -18921,6 +19393,10 @@ commanders:
       zh_TW: "匈牙利偉大君主"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - garrison
+      - attack
     skills:
       - slot: 1
         id: 409
@@ -19082,6 +19558,10 @@ commanders:
       zh_TW: "權謀女王"
     prime: false
     rarity: epic
+    talents:
+      - engineering
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 383
@@ -19243,6 +19723,10 @@ commanders:
       zh_TW: "帝國權臣"
     prime: false
     rarity: epic
+    talents:
+      - engineering
+      - versatility
+      - defense
     skills:
       - slot: 1
         id: 384
@@ -19404,6 +19888,10 @@ commanders:
       zh_TW: "忠武佐命"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - combo
     skills:
       - slot: 1
         id: 388
@@ -19566,6 +20054,10 @@ commanders:
       zh_TW: "天選之王"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - combo
     skills:
       - slot: 1
         id: 389
@@ -19728,6 +20220,10 @@ commanders:
       zh_TW: "殺神"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - smite
     skills:
       - slot: 1
         id: 393
@@ -19890,6 +20386,10 @@ commanders:
       zh_TW: "東方凱撒"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 410
@@ -20051,6 +20551,10 @@ commanders:
       zh_TW: "數學之父"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - defense
     skills:
       - slot: 1
         id: 406
@@ -20213,6 +20717,10 @@ commanders:
       zh_TW: "紅皇后"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 407
@@ -20374,6 +20882,10 @@ commanders:
       zh_TW: "皮亞斯特王"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - defense
     skills:
       - slot: 1
         id: 413
@@ -20536,6 +21048,10 @@ commanders:
       zh_TW: "矮子丕平"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - support
     skills:
       - slot: 1
         id: 414
@@ -20698,6 +21214,10 @@ commanders:
       zh_TW: "希臘第一勇士"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - combo
     skills:
       - slot: 1
         id: 411
@@ -20859,6 +21379,10 @@ commanders:
       zh_TW: "護城者"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 412
@@ -21021,6 +21545,10 @@ commanders:
       zh_TW: "建國者"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - garrison
+      - combo
     skills:
       - slot: 1
         id: 415
@@ -21183,6 +21711,10 @@ commanders:
       zh_TW: "落星將相"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - combo
     skills:
       - slot: 1
         id: 416
@@ -21344,6 +21876,10 @@ commanders:
       zh_TW: "兵家之師"
     prime: true
     rarity: legendary
+    talents:
+      - infantry
+      - versatility
+      - smite
     skills:
       - slot: 1
         id: 419
@@ -21505,6 +22041,10 @@ commanders:
       zh_TW: "無骨者"
     prime: false
     rarity: legendary
+    talents:
+      - infantry
+      - conquering
+      - defense
     skills:
       - slot: 1
         id: 423
@@ -21667,6 +22207,10 @@ commanders:
       zh_TW: "塞爾柱雄主"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 426
@@ -21829,6 +22373,10 @@ commanders:
       zh_TW: "千島共主"
     prime: false
     rarity: legendary
+    talents:
+      - archer
+      - garrison
+      - skill
     skills:
       - slot: 1
         id: 427
@@ -21991,6 +22539,10 @@ commanders:
       zh_TW: "高盧之王"
     prime: false
     rarity: legendary
+    talents:
+      - leadership
+      - versatility
+      - support
     skills:
       - slot: 1
         id: 429
@@ -22153,6 +22705,10 @@ commanders:
       zh_TW: "榮光女王"
     prime: false
     rarity: legendary
+    talents:
+      - engineering
+      - versatility
+      - skill
     skills:
       - slot: 1
         id: 432
@@ -22314,6 +22870,10 @@ commanders:
       zh_TW: "不羈的復興者"
     prime: false
     rarity: legendary
+    talents:
+      - cavalry
+      - garrison
+      - support
     skills:
       - slot: 1
         id: 434
@@ -22475,6 +23035,10 @@ commanders:
       zh_TW: "執璽宰輔"
     prime: false
     rarity: legendary
+    talents:
+      - integration
+      - gathering
+      - mobility
     skills:
       - slot: 1
         id: 436
