@@ -1,4 +1,4 @@
-//! Precompute global legendary commander pairing battle data.
+//! Precompute global commander pairing battle data.
 
 mod confidence;
 mod mapper;
@@ -31,7 +31,7 @@ const BULK_WRITE_BATCH_SIZE: usize = 1_000;
 /// Counts from one commander pairing precompute run.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct CommanderPairingsPrecomputeStats {
-    pub legendary_commanders: usize,
+    pub commanders: usize,
     pub observed_pairings: usize,
     pub supported_drastc_pairings: usize,
     pub scored_drastc_pairings: usize,
@@ -40,15 +40,19 @@ pub struct CommanderPairingsPrecomputeStats {
     pub documents_written: usize,
 }
 
-/// Refresh global legendary commander pairing data.
+/// Refresh global commander pairing data.
 pub async fn precompute_commander_pairings_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsPrecomputeStats, JobsError> {
-    let legendary_ids = legendary_commander_ids()?;
-    let aggregation =
-        read_pairings_and_reference_ranges(reports_store.battle_collection(), &legendary_ids)
-            .await?;
-    let supported_drastc_pairings = supported_drastc_pairings(&legendary_ids);
+    let commander_catalog = commander_catalog()?;
+    let supported_drastc_pairings = supported_drastc_pairings(&commander_catalog.all);
+    let aggregation = read_pairings_and_reference_ranges(
+        reports_store.battle_collection(),
+        &commander_catalog.all,
+        &commander_catalog.legendary,
+        &supported_drastc_pairings,
+    )
+    .await?;
     let drastc_scores = build_drastc_scores_from_aggregates(
         &aggregation.drastc_observed,
         &supported_drastc_pairings,
@@ -59,7 +63,7 @@ pub async fn precompute_commander_pairings_data(
             .await?;
 
     let refreshed_at = DateTime::now();
-    let all_pairings = ordered_pairing_keys(&legendary_ids);
+    let all_pairings = ordered_pairing_keys(&commander_catalog.all);
     let battle_entries_counted = all_pairings
         .iter()
         .filter_map(|key| aggregation.strategies.get(key))
@@ -79,7 +83,7 @@ pub async fn precompute_commander_pairings_data(
     .await?;
 
     Ok(CommanderPairingsPrecomputeStats {
-        legendary_commanders: legendary_ids.len(),
+        commanders: commander_catalog.all.len(),
         observed_pairings: aggregation.strategies.len(),
         supported_drastc_pairings: supported_drastc_pairings.len(),
         scored_drastc_pairings: drastc_scores.len(),
@@ -140,17 +144,24 @@ async fn write_pairing_documents(
     Ok(documents_written)
 }
 
-fn legendary_commander_ids() -> Result<Vec<i64>, JobsError> {
-    let mut ids = BTreeSet::new();
+struct CommanderCatalog {
+    all: Vec<i64>,
+    legendary: Vec<i64>,
+}
+
+fn commander_catalog() -> Result<CommanderCatalog, JobsError> {
+    let mut all = BTreeSet::new();
+    let mut legendary = BTreeSet::new();
     let mut current_id = None;
     let mut current_is_legendary = false;
 
     for line in COMMANDERS_YAML.lines() {
         if let Some(id) = parse_top_level_commander_id(line) {
             if current_is_legendary && let Some(previous_id) = current_id {
-                ids.insert(previous_id);
+                legendary.insert(previous_id);
             }
 
+            all.insert(id);
             current_id = Some(id);
             current_is_legendary = false;
             continue;
@@ -162,14 +173,20 @@ fn legendary_commander_ids() -> Result<Vec<i64>, JobsError> {
     }
 
     if current_is_legendary && let Some(previous_id) = current_id {
-        ids.insert(previous_id);
+        legendary.insert(previous_id);
     }
 
-    if ids.is_empty() {
+    if all.is_empty() {
+        return Err(JobsError::MissingCommanders);
+    }
+    if legendary.is_empty() {
         return Err(JobsError::MissingLegendaryCommanders);
     }
 
-    Ok(ids.into_iter().collect())
+    Ok(CommanderCatalog {
+        all: all.into_iter().collect(),
+        legendary: legendary.into_iter().collect(),
+    })
 }
 
 fn parse_top_level_commander_id(line: &str) -> Option<i64> {
@@ -182,11 +199,13 @@ fn parse_top_level_commander_id(line: &str) -> Option<i64> {
     id.parse::<i64>().ok()
 }
 
-fn ordered_pairing_keys(legendary_ids: &[i64]) -> Vec<PairingKey> {
-    let mut keys = Vec::with_capacity(legendary_ids.len().saturating_mul(legendary_ids.len()));
+fn ordered_pairing_keys(commander_ids: &[i64]) -> Vec<PairingKey> {
+    let mut keys = Vec::with_capacity(
+        commander_ids.len().saturating_mul(commander_ids.len().saturating_sub(1)),
+    );
 
-    for primary_commander_id in legendary_ids {
-        for secondary_commander_id in legendary_ids {
+    for primary_commander_id in commander_ids {
+        for secondary_commander_id in commander_ids {
             if primary_commander_id == secondary_commander_id {
                 continue;
             }
@@ -215,20 +234,42 @@ mod tests {
     use super::*;
 
     #[test]
-    fn legendary_commander_ids_reads_expected_dataset_values() {
-        let ids = legendary_commander_ids().expect("legendary ids");
-        assert!(ids.contains(&509));
-        assert!(ids.contains(&6));
-        assert!(ids.contains(&179));
-        assert!(ids.contains(&187));
-        assert!(!ids.contains(&12));
+    fn commander_catalog_reads_every_top_level_dataset_entry() {
+        let catalog = commander_catalog().expect("commander catalog");
+
+        assert_eq!(catalog.all.len(), 141);
     }
 
     #[test]
-    fn ordered_pairing_keys_excludes_self_pairings() {
-        let keys = ordered_pairing_keys(&[1, 2, 3]);
-        assert_eq!(keys.len(), 6);
-        assert!(!keys.contains(&PairingKey { primary_commander_id: 1, secondary_commander_id: 1 }));
+    fn commander_catalog_includes_non_legendary_commanders() {
+        let catalog = commander_catalog().expect("commander catalog");
+
+        assert!([12, 22, 33].iter().all(|id| catalog.all.contains(id)));
+    }
+
+    #[test]
+    fn commander_catalog_preserves_legendary_drastc_reference_population() {
+        let catalog = commander_catalog().expect("commander catalog");
+
+        assert_eq!(catalog.legendary.len(), 110);
+    }
+
+    #[test]
+    fn full_catalog_does_not_expand_supported_drastc_pairings() {
+        let catalog = commander_catalog().expect("commander catalog");
+
+        assert_eq!(
+            supported_drastc_pairings(&catalog.all),
+            supported_drastc_pairings(&catalog.legendary)
+        );
+    }
+
+    #[test]
+    fn ordered_pairing_keys_generates_every_ordered_non_self_pairing() {
+        let catalog = commander_catalog().expect("commander catalog");
+        let keys = ordered_pairing_keys(&catalog.all);
+
+        assert_eq!(keys.len(), 141 * 140);
     }
 
     #[test]
