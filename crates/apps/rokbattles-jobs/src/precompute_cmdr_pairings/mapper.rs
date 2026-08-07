@@ -18,8 +18,9 @@ use crate::error::JobsError;
 pub(super) async fn read_pairings_and_reference_ranges(
     source: &Collection<Document>,
     legendary_ids: &[i64],
+    cutoff_mail_time: i64,
 ) -> Result<PairingsAggregation, JobsError> {
-    let pipeline = build_pairings_pipeline(legendary_ids);
+    let pipeline = build_pairings_pipeline(legendary_ids, cutoff_mail_time);
     let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
     let mut aggregation = PairingsAggregation::default();
 

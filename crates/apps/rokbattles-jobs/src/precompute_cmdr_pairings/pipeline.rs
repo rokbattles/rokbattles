@@ -6,8 +6,11 @@ use super::model::{PairingKey, Strategy};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
-pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
-    let mut pipeline = build_pairing_entries_pipeline(legendary_ids);
+pub(super) fn build_pairings_pipeline(
+    legendary_ids: &[i64],
+    cutoff_mail_time: i64,
+) -> Vec<Document> {
+    let mut pipeline = build_pairing_entries_pipeline(legendary_ids, cutoff_mail_time);
     pipeline.extend([
         raw_totals_group_stage(doc! {
             "primary_commander_id": "$primary_commander_id",
@@ -25,7 +28,7 @@ pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
     pipeline
 }
 
-fn build_pairing_entries_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
+fn build_pairing_entries_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
     let legendary_id_values = legendary_id_bson_array(legendary_ids);
     let sender_condition = ids_match_condition(
         "$sender.commanders.primary.id",
@@ -76,11 +79,12 @@ fn build_pairing_entries_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
         ),
     );
 
-    build_entries_pipeline(sender_entry, opponent_entry, pair_filters)
+    build_entries_pipeline(sender_entry, opponent_entry, pair_filters, cutoff_mail_time)
 }
 
 pub(super) fn build_supported_pairing_entries_pipeline(
     supported_pairings: &[PairingKey],
+    cutoff_mail_time: i64,
 ) -> Vec<Document> {
     let sender_condition = exact_pairing_condition(
         "$sender.commanders.primary.id",
@@ -141,18 +145,20 @@ pub(super) fn build_supported_pairing_entries_pipeline(
         ),
     );
 
-    build_entries_pipeline(sender_entry, opponent_entry, pair_filters)
+    build_entries_pipeline(sender_entry, opponent_entry, pair_filters, cutoff_mail_time)
 }
 
 fn build_entries_pipeline(
     sender_entry: Document,
     opponent_entry: Document,
     pair_filters: Vec<Bson>,
+    cutoff_mail_time: i64,
 ) -> Vec<Document> {
     vec![
         doc! {
             "$match": {
                 "metadata.kvk": true,
+                "metadata.mail_time": { "$gte": cutoff_mail_time },
                 "opponents": { "$elemMatch": { "player_id": { "$gt": 0 } } },
                 "$or": pair_filters,
             }
@@ -818,20 +824,27 @@ mod tests {
 
     #[test]
     fn build_pairings_pipeline_starts_with_indexable_kvk_filter() {
-        let pipeline = build_pairings_pipeline(&[509, 6]);
+        let cutoff_mail_time = 1_755_000_000_000_000_i64;
+        let pipeline = build_pairings_pipeline(&[509, 6], cutoff_mail_time);
         let matcher = pipeline
             .first()
             .and_then(|stage| stage.get_document("$match").ok())
             .expect("leading match");
 
         assert_eq!(matcher.get_bool("metadata.kvk"), Ok(true));
+        assert_eq!(
+            matcher
+                .get_document("metadata.mail_time")
+                .and_then(|mail_time| mail_time.get_i64("$gte")),
+            Ok(cutoff_mail_time)
+        );
         assert!(matcher.get_document("opponents").is_ok());
         assert!(matcher.get_array("$or").is_ok());
     }
 
     #[test]
     fn build_pairings_pipeline_streams_pairing_documents_without_facets() {
-        let pipeline = build_pairings_pipeline(&[509, 6]);
+        let pipeline = build_pairings_pipeline(&[509, 6], 1_755_000_000_000_000_i64);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
 
         assert_eq!(group_count, 3);

@@ -27,6 +27,8 @@ use crate::error::JobsError;
 
 const COMMANDERS_YAML: &str = include_str!("../../../../../datasets/commanders.yaml");
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
+const RANKING_WINDOW_DAYS: i64 = 365;
+const MILLIS_PER_DAY: i64 = 24 * 60 * 60 * 1_000;
 
 /// Counts from one commander pairing precompute run.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -44,21 +46,28 @@ pub struct CommanderPairingsPrecomputeStats {
 pub async fn precompute_commander_pairings_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsPrecomputeStats, JobsError> {
+    let refreshed_at = DateTime::now();
+    let cutoff_mail_time = ranking_cutoff_mail_time(refreshed_at);
     let legendary_ids = legendary_commander_ids()?;
-    let aggregation =
-        read_pairings_and_reference_ranges(reports_store.battle_collection(), &legendary_ids)
-            .await?;
+    let aggregation = read_pairings_and_reference_ranges(
+        reports_store.battle_collection(),
+        &legendary_ids,
+        cutoff_mail_time,
+    )
+    .await?;
     let supported_drastc_pairings = supported_drastc_pairings(&legendary_ids);
     let drastc_scores = build_drastc_scores_from_aggregates(
         &aggregation.drastc_observed,
         &supported_drastc_pairings,
         aggregation.reference_ranges,
     );
-    let confidences =
-        read_pairing_confidences(reports_store.battle_collection(), &supported_drastc_pairings)
-            .await?;
+    let confidences = read_pairing_confidences(
+        reports_store.battle_collection(),
+        &supported_drastc_pairings,
+        cutoff_mail_time,
+    )
+    .await?;
 
-    let refreshed_at = DateTime::now();
     let all_pairings = ordered_pairing_keys(&legendary_ids);
     let battle_entries_counted = all_pairings
         .iter()
@@ -87,6 +96,13 @@ pub async fn precompute_commander_pairings_data(
         battle_entries_counted,
         documents_written,
     })
+}
+
+fn ranking_cutoff_mail_time(run_at: DateTime) -> i64 {
+    run_at
+        .timestamp_millis()
+        .saturating_sub(RANKING_WINDOW_DAYS * MILLIS_PER_DAY)
+        .saturating_mul(1_000)
 }
 
 fn build_pairing_documents(
@@ -229,6 +245,17 @@ mod tests {
         let keys = ordered_pairing_keys(&[1, 2, 3]);
         assert_eq!(keys.len(), 6);
         assert!(!keys.contains(&PairingKey { primary_commander_id: 1, secondary_commander_id: 1 }));
+    }
+
+    #[test]
+    fn ranking_cutoff_preserves_the_utc_run_time() {
+        let run_at = DateTime::parse_rfc3339_str("2026-08-12T08:00:00Z").expect("run timestamp");
+        let expected = DateTime::parse_rfc3339_str("2025-08-12T08:00:00Z")
+            .expect("cutoff timestamp")
+            .timestamp_millis()
+            * 1_000;
+
+        assert_eq!(ranking_cutoff_mail_time(run_at), expected);
     }
 
     #[test]
