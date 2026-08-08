@@ -17,9 +17,12 @@ use crate::error::JobsError;
 
 pub(super) async fn read_pairings_and_reference_ranges(
     source: &Collection<Document>,
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
+    drastc_reference_ids: &[i64],
+    supported_drastc_pairings: &[PairingKey],
 ) -> Result<PairingsAggregation, JobsError> {
-    let pipeline = build_pairings_pipeline(legendary_ids);
+    let pipeline =
+        build_pairings_pipeline(commander_ids, drastc_reference_ids, supported_drastc_pairings);
     let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
     let mut aggregation = PairingsAggregation::default();
 

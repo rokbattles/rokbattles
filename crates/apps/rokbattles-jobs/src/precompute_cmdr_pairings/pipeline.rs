@@ -6,8 +6,12 @@ use super::model::{PairingKey, Strategy};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
-pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
-    let mut pipeline = build_pairing_entries_pipeline(legendary_ids);
+pub(super) fn build_pairings_pipeline(
+    commander_ids: &[i64],
+    drastc_reference_ids: &[i64],
+    supported_drastc_pairings: &[PairingKey],
+) -> Vec<Document> {
+    let mut pipeline = build_pairing_entries_pipeline(commander_ids);
     pipeline.extend([
         raw_totals_group_stage(doc! {
             "primary_commander_id": "$primary_commander_id",
@@ -16,38 +20,38 @@ pub(super) fn build_pairings_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
             "formation": "$formation",
         }),
         strategy_totals_group_stage(),
-        reference_eligibility_stage(),
+        reference_eligibility_stage(drastc_reference_ids),
         reference_metric_stage(),
         reference_window_stage(),
-        pairing_output_group_stage(),
+        pairing_output_group_stage(supported_drastc_pairings),
         pairing_output_project_stage(),
     ]);
     pipeline
 }
 
-fn build_pairing_entries_pipeline(legendary_ids: &[i64]) -> Vec<Document> {
-    let legendary_id_values = legendary_id_bson_array(legendary_ids);
+fn build_pairing_entries_pipeline(commander_ids: &[i64]) -> Vec<Document> {
+    let commander_id_values = commander_id_bson_array(commander_ids);
     let sender_condition = ids_match_condition(
         "$sender.commanders.primary.id",
         "$sender.commanders.secondary.id",
-        &legendary_id_values,
+        &commander_id_values,
     );
     let opponent_condition = ids_match_condition(
         "$opponents.commanders.primary.id",
         "$opponents.commanders.secondary.id",
-        &legendary_id_values,
+        &commander_id_values,
     );
     let pair_filters = vec![
         Bson::Document(doc! {
-            "sender.commanders.primary.id": { "$in": legendary_id_values.clone() },
-            "sender.commanders.secondary.id": { "$in": legendary_id_values.clone() },
+            "sender.commanders.primary.id": { "$in": commander_id_values.clone() },
+            "sender.commanders.secondary.id": { "$in": commander_id_values.clone() },
         }),
         Bson::Document(doc! {
             "opponents": {
                 "$elemMatch": {
                     "player_id": { "$gt": 0 },
-                    "commanders.primary.id": { "$in": legendary_id_values.clone() },
-                    "commanders.secondary.id": { "$in": legendary_id_values },
+                    "commanders.primary.id": { "$in": commander_id_values.clone() },
+                    "commanders.secondary.id": { "$in": commander_id_values },
                 }
             }
         }),
@@ -357,13 +361,17 @@ fn strategy_totals_group_stage() -> Document {
     }
 }
 
-fn reference_eligibility_stage() -> Document {
+fn reference_eligibility_stage(drastc_reference_ids: &[i64]) -> Document {
+    let reference_ids = commander_id_bson_array(drastc_reference_ids);
+
     doc! {
         "$set": {
             "_reference_eligible": {
                 "$and": [
                     { "$eq": ["$_id.strategy", Strategy::OpenField.as_str()] },
                     { "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES] },
+                    { "$in": ["$_id.primary_commander_id", reference_ids.clone()] },
+                    { "$in": ["$_id.secondary_commander_id", reference_ids] },
                 ]
             }
         }
@@ -478,7 +486,13 @@ fn reference_window_stage() -> Document {
     }
 }
 
-fn pairing_output_group_stage() -> Document {
+fn pairing_output_group_stage(supported_drastc_pairings: &[PairingKey]) -> Document {
+    let supported_pairing_condition = exact_pairing_condition(
+        "$_id.primary_commander_id",
+        "$_id.secondary_commander_id",
+        supported_drastc_pairings,
+    );
+
     doc! {
         "$group": {
             "_id": {
@@ -491,7 +505,12 @@ fn pairing_output_group_stage() -> Document {
             "drastc_observed": {
                 "$max": {
                     "$cond": [
-                        { "$eq": ["$_id.strategy", Strategy::OpenField.as_str()] },
+                        {
+                            "$and": [
+                                { "$eq": ["$_id.strategy", Strategy::OpenField.as_str()] },
+                                supported_pairing_condition,
+                            ]
+                        },
                         raw_totals_aggregate_document(),
                         Bson::Null,
                     ]
@@ -594,19 +613,19 @@ fn aggregate_consistency_rate_expr() -> Document {
     }
 }
 
-fn legendary_id_bson_array(legendary_ids: &[i64]) -> Vec<Bson> {
-    legendary_ids.iter().map(|id| Bson::Int64(*id)).collect()
+fn commander_id_bson_array(commander_ids: &[i64]) -> Vec<Bson> {
+    commander_ids.iter().map(|id| Bson::Int64(*id)).collect()
 }
 
 fn ids_match_condition(
     primary_expr: &'static str,
     secondary_expr: &'static str,
-    legendary_ids: &[Bson],
+    commander_ids: &[Bson],
 ) -> Document {
     doc! {
         "$and": [
-            { "$in": [primary_expr, legendary_ids.to_vec()] },
-            { "$in": [secondary_expr, legendary_ids.to_vec()] },
+            { "$in": [primary_expr, commander_ids.to_vec()] },
+            { "$in": [secondary_expr, commander_ids.to_vec()] },
             { "$ne": [primary_expr, secondary_expr] },
         ]
     }
@@ -800,15 +819,17 @@ mod tests {
     use super::*;
 
     #[test]
-    fn reference_eligibility_requires_large_open_field_pairings() {
+    fn reference_eligibility_requires_large_open_field_reference_pairings() {
         assert_eq!(
-            reference_eligibility_stage(),
+            reference_eligibility_stage(&[509, 6]),
             doc! {
                 "$set": {
                     "_reference_eligible": {
                         "$and": [
                             { "$eq": ["$_id.strategy", "open_field"] },
                             { "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES] },
+                            { "$in": ["$_id.primary_commander_id", [509_i64, 6_i64]] },
+                            { "$in": ["$_id.secondary_commander_id", [509_i64, 6_i64]] },
                         ]
                     }
                 }
@@ -818,7 +839,7 @@ mod tests {
 
     #[test]
     fn build_pairings_pipeline_starts_with_indexable_kvk_filter() {
-        let pipeline = build_pairings_pipeline(&[509, 6]);
+        let pipeline = build_pairings_pipeline(&[509, 6, 12], &[509, 6], &[]);
         let matcher = pipeline
             .first()
             .and_then(|stage| stage.get_document("$match").ok())
@@ -831,7 +852,7 @@ mod tests {
 
     #[test]
     fn build_pairings_pipeline_streams_pairing_documents_without_facets() {
-        let pipeline = build_pairings_pipeline(&[509, 6]);
+        let pipeline = build_pairings_pipeline(&[509, 6, 12], &[509, 6], &[]);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
 
         assert_eq!(group_count, 3);
@@ -884,7 +905,13 @@ mod tests {
         ] {
             assert!(output.get_document(field).is_ok());
         }
-        let group = pairing_output_group_stage();
+    }
+
+    #[test]
+    fn pairing_output_limits_drastc_observations_to_supported_pairings() {
+        let supported_pairing =
+            PairingKey { primary_commander_id: 579, secondary_commander_id: 575 };
+        let group = pairing_output_group_stage(&[supported_pairing]);
         let condition = group
             .get_document("$group")
             .and_then(|group| group.get_document("drastc_observed"))
@@ -893,7 +920,16 @@ mod tests {
             .expect("DRASTC condition");
         assert_eq!(
             condition.first(),
-            Some(&Bson::Document(doc! { "$eq": ["$_id.strategy", "open_field"] }))
+            Some(&Bson::Document(doc! {
+                "$and": [
+                    { "$eq": ["$_id.strategy", "open_field"] },
+                    exact_pairing_condition(
+                        "$_id.primary_commander_id",
+                        "$_id.secondary_commander_id",
+                        &[supported_pairing],
+                    ),
+                ]
+            }))
         );
     }
 

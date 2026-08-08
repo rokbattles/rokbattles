@@ -2,10 +2,7 @@ use std::collections::BTreeMap;
 
 use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore};
 
-use super::{
-    model::{PairingKey, PairingRawTotals},
-    ordered_pairing_keys,
-};
+use super::model::{PairingKey, PairingRawTotals};
 
 pub(super) fn build_drastc_scores_from_aggregates(
     observed: &BTreeMap<PairingKey, PairingRawTotals>,
@@ -32,14 +29,23 @@ pub(super) fn build_drastc_scores_from_aggregates(
     scores
 }
 
-pub(super) fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey> {
-    ordered_pairing_keys(legendary_ids)
-        .into_iter()
-        .filter(|key| {
-            u32::try_from(key.primary_commander_id)
-                .ok()
-                .zip(u32::try_from(key.secondary_commander_id).ok())
-                .is_some_and(|(primary, secondary)| DrastcModel::is_supported(primary, secondary))
+pub(super) fn supported_drastc_pairings(commander_ids: &[i64]) -> Vec<PairingKey> {
+    commander_ids
+        .iter()
+        .flat_map(|primary_commander_id| {
+            commander_ids.iter().filter_map(move |secondary_commander_id| {
+                if primary_commander_id == secondary_commander_id {
+                    return None;
+                }
+
+                let primary = u32::try_from(*primary_commander_id).ok()?;
+                let secondary = u32::try_from(*secondary_commander_id).ok()?;
+
+                DrastcModel::is_supported(primary, secondary).then_some(PairingKey {
+                    primary_commander_id: *primary_commander_id,
+                    secondary_commander_id: *secondary_commander_id,
+                })
+            })
         })
         .collect()
 }
