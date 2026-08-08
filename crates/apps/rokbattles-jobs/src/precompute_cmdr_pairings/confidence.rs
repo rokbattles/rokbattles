@@ -17,8 +17,9 @@ use crate::error::JobsError;
 pub(super) async fn read_pairing_confidences(
     source: &Collection<Document>,
     supported_pairings: &[PairingKey],
+    cutoff_mail_time: i64,
 ) -> Result<BTreeMap<PairingKey, DrastcConfidence>, JobsError> {
-    let pipeline = build_confidence_pipeline(supported_pairings);
+    let pipeline = build_confidence_pipeline(supported_pairings, cutoff_mail_time);
     let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
     let mut confidences = BTreeMap::new();
 
@@ -31,8 +32,12 @@ pub(super) async fn read_pairing_confidences(
     Ok(confidences)
 }
 
-pub(super) fn build_confidence_pipeline(supported_pairings: &[PairingKey]) -> Vec<Document> {
-    let mut pipeline = build_supported_pairing_entries_pipeline(supported_pairings);
+pub(super) fn build_confidence_pipeline(
+    supported_pairings: &[PairingKey],
+    cutoff_mail_time: i64,
+) -> Vec<Document> {
+    let mut pipeline =
+        build_supported_pairing_entries_pipeline(supported_pairings, cutoff_mail_time);
     pipeline.extend([
         doc! {
             "$match": {
@@ -111,7 +116,8 @@ mod tests {
     #[test]
     fn confidence_pipeline_groups_open_field_battles_by_governor_then_pairing() {
         let pairing = PairingKey { primary_commander_id: 595, secondary_commander_id: 596 };
-        let pipeline = build_confidence_pipeline(&[pairing]);
+        let cutoff_mail_time = 1_755_000_000_000_000_i64;
+        let pipeline = build_confidence_pipeline(&[pairing], cutoff_mail_time);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
         let pairing_match = pipeline
             .iter()
@@ -123,6 +129,12 @@ mod tests {
         assert_eq!(pairing_match.get_str("strategy"), Ok("open_field"));
         let leading_match = pipeline[0].get_document("$match").expect("leading match");
         assert_eq!(leading_match.get_array("$or").map(Vec::len), Ok(2));
+        assert_eq!(
+            leading_match
+                .get_document("metadata.mail_time")
+                .and_then(|mail_time| mail_time.get_i64("$gte")),
+            Ok(cutoff_mail_time)
+        );
         assert!(!format!("{pipeline:?}").contains("kill_points_gained"));
     }
 
