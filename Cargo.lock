@@ -4383,11 +4383,13 @@ dependencies = [
  "rokbattles-bson",
  "rokbattles-drastc",
  "sentry",
+ "serde",
  "thiserror 2.0.19",
  "tokio",
  "tokio-cron-scheduler",
  "tracing",
  "tracing-subscriber",
+ "yaml_serde",
 ]
 
 [[package]]

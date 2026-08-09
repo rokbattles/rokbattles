@@ -13,8 +13,14 @@ pub enum JobsError {
     Scheduler(#[from] tokio_cron_scheduler::JobSchedulerError),
     #[error(transparent)]
     Io(#[from] std::io::Error),
+    #[error(transparent)]
+    BsonSerialization(#[from] mongodb::bson::ser::Error),
+    #[error(transparent)]
+    Yaml(#[from] yaml_serde::Error),
     #[error("MONGODB_URI must include a default database")]
     MissingDatabase,
     #[error("Commander dataset contains no legendary commanders")]
     MissingLegendaryCommanders,
+    #[error("invalid Combat Lab data: {0}")]
+    InvalidCombatLabData(String),
 }
