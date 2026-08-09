@@ -20,6 +20,7 @@ armaments:
       zh_CN: "金矿采集速度"
       zh_TW: "金幣採集速度"
     percent: true
+    max_roll: 0.075
 
   3001:
     name:
@@ -42,6 +43,7 @@ armaments:
       zh_CN: "步兵单位攻击力"
       zh_TW: "步兵攻擊力"
     percent: true
+    max_roll: 0.035
 
   3002:
     name:
@@ -64,6 +66,7 @@ armaments:
       zh_CN: "骑兵单位攻击力"
       zh_TW: "騎兵攻擊力"
     percent: true
+    max_roll: 0.035
 
   3003:
     name:
@@ -86,6 +89,7 @@ armaments:
       zh_CN: "弓兵单位攻击力"
       zh_TW: "弓兵攻擊力"
     percent: true
+    max_roll: 0.035
 
   3004:
     name:
@@ -108,6 +112,7 @@ armaments:
       zh_CN: "攻城单位攻击力"
       zh_TW: "攻城單位攻擊力"
     percent: true
+    max_roll: 0.035
 
   3008:
     name:
@@ -174,6 +179,7 @@ armaments:
       zh_CN: "步兵单位防御力"
       zh_TW: "步兵防禦力"
     percent: true
+    max_roll: 0.035
 
   4002:
     name:
@@ -196,6 +202,7 @@ armaments:
       zh_CN: "骑兵单位防御力"
       zh_TW: "騎兵防禦力"
     percent: true
+    max_roll: 0.035
 
   4003:
     name:
@@ -218,6 +225,7 @@ armaments:
       zh_CN: "弓兵单位防御力"
       zh_TW: "弓兵防禦力"
     percent: true
+    max_roll: 0.035
 
   4004:
     name:
@@ -240,6 +248,7 @@ armaments:
       zh_CN: "攻城单位防御力"
       zh_TW: "攻城單位防禦力"
     percent: true
+    max_roll: 0.035
 
   5001:
     name:
@@ -262,6 +271,7 @@ armaments:
       zh_CN: "步兵单位生命值"
       zh_TW: "步兵生命值"
     percent: true
+    max_roll: 0.035
 
   5002:
     name:
@@ -284,6 +294,7 @@ armaments:
       zh_CN: "骑兵单位生命值"
       zh_TW: "騎兵生命值"
     percent: true
+    max_roll: 0.035
 
   5003:
     name:
@@ -306,6 +317,7 @@ armaments:
       zh_CN: "弓兵单位生命值"
       zh_TW: "弓兵生命值"
     percent: true
+    max_roll: 0.035
 
   5004:
     name:
@@ -328,6 +340,7 @@ armaments:
       zh_CN: "攻城单位生命值"
       zh_TW: "攻城單位生命值"
     percent: true
+    max_roll: 0.035
 
   5501:
     name:
@@ -614,6 +627,7 @@ armaments:
       zh_CN: "步兵速度"
       zh_TW: "步兵行軍速度"
     percent: true
+    max_roll: 0.035
 
   6002:
     name:
@@ -636,6 +650,7 @@ armaments:
       zh_CN: "骑兵速度"
       zh_TW: "騎兵行軍速度"
     percent: true
+    max_roll: 0.035
 
   6003:
     name:
@@ -658,6 +673,7 @@ armaments:
       zh_CN: "弓兵速度"
       zh_TW: "弓兵行軍速度"
     percent: true
+    max_roll: 0.035
 
   6004:
     name:
@@ -680,6 +696,7 @@ armaments:
       zh_CN: "攻城单位速度"
       zh_TW: "攻城單位行軍速度"
     percent: true
+    max_roll: 0.035
 
   8000:
     name:
@@ -702,6 +719,7 @@ armaments:
       zh_CN: "部队负载"
       zh_TW: "全軍負載"
     percent: true
+    max_roll: 0.07
 
   10002:
     name:
@@ -724,6 +742,7 @@ armaments:
       zh_CN: "所有伤害"
       zh_TW: "所有傷害"
     percent: true
+    max_roll: 0.02
 
   10006:
     name:
@@ -812,6 +831,7 @@ armaments:
       zh_CN: "对野蛮人的伤害"
       zh_TW: "對野蠻人的傷害"
     percent: true
+    max_roll: 0.07
 
   10020:
     name:
@@ -944,6 +964,7 @@ armaments:
       zh_CN: "野蛮人伤害减免"
       zh_TW: "受到的野蠻人傷害"
     percent: true
+    max_roll: 0.07
 
   10103:
     name:
