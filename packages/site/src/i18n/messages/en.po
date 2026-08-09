@@ -506,6 +506,7 @@ msgstr "No loot in this date range."
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "zQvVDJ"
 msgstr "All"
@@ -584,6 +585,7 @@ msgid "1iEPTM"
 msgstr "General"
 
 #: src/components/account/account-settings-nav.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 msgid "q5TmbN"
 msgstr "Governors"
 
@@ -739,11 +741,13 @@ msgid "cHoIky"
 msgstr "Open Field"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "hAEZYZ"
 msgstr "Swarming"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/reports-filter-dialog.tsx
@@ -751,6 +755,7 @@ msgid "RJ-ZIh"
 msgstr "Rally"
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "2pQ4w5"
@@ -826,6 +831,7 @@ msgstr "Learn more"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "T807D4"
 msgstr "Damage"
 
@@ -841,6 +847,7 @@ msgstr "Assist/Support"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "14P-1u"
 msgstr "Sustainability"
 
@@ -851,6 +858,7 @@ msgstr "Trade Efficiency"
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "Mxwl9f"
 msgstr "Consistency"
 
@@ -863,6 +871,7 @@ msgid "cjd1MY"
 msgstr "DRASTC scoring"
 
 #: src/components/combat-lab/drastc-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "AAkx6U"
 msgstr "Overall score"
 
@@ -893,12 +902,373 @@ msgid "EU4z3x"
 msgstr "No formation data available."
 
 #: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "Aujn2T"
 msgstr "Count"
 
 #: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "wbsq7O"
 msgstr "Usage"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "3UfoyS"
+msgstr "Damage dealt"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "a8wkKu"
+msgstr "Severely wounded inflicted"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "nHRTeq"
+msgstr "Severely wounded taken"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "6nP3O3"
+msgstr "Healing"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "CR1jqj"
+msgstr "No kill-point history was observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bHc-kK"
+msgstr "Kill points"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "6XQ7TN"
+msgstr "No per-second combat metrics were observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "4LmEJw"
+msgstr "Battle tempo"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bi2p6K"
+msgstr "Gained"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "FL6lKX"
+msgstr "Lost"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "pQyHNd"
+msgstr "Formation {id}"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "et90bv"
+msgstr "Formation usage"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "d1hB-Y"
+msgstr "No formations were observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "P0CCi6"
+msgstr "Unknown formation"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "gTB0E8"
+msgstr "Special"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "n-kv74"
+msgstr "Rare"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "n96a21"
+msgstr "Common"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "kBCJ1h"
+msgstr "Special + Common"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "LGFrbW"
+msgstr "Rare + Common"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "zI4pec"
+msgstr "Common + Common"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "sWUO6d"
+msgstr "Buff {id}"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "A11sVS"
+msgstr "No armaments were observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "A8WChX"
+msgstr "Inscription usage"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "Lf9G-H"
+msgstr "Inscription"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "EQ64I9"
+msgstr "Buff rolls"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "YYAOkZ"
+msgstr "No buff rolls observed."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "Q5MUc_"
+msgstr "Average roll"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "f3OK0O"
+msgstr "Buff"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "5GHMUY"
+msgstr "Max roll usage"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "FFUeRn"
+msgstr "Iconic"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bLl42R"
+msgstr "Item {id}"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "1fK0HA"
+msgstr "No iconic"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "OpOCgf"
+msgstr "No special talent"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "JA1cOg"
+msgstr "Other pieces"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "GAykkl"
+msgstr "Special talent"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "HsQkt_"
+msgstr "Other pairings"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "dhWdgY"
+msgstr "No equipment was observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "lQnI9c"
+msgstr "Piece usage"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/report/report-equipment-section.tsx
+msgid "r80fiF"
+msgstr "Equipment"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "OuXBmU"
+msgstr "Iconic level distribution among legendary equipment"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "WIUHfr"
+msgstr "legendary"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "jNS_xO"
+msgstr "No legendary pieces observed."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yFbpA7"
+msgstr "Iconic levels"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "M6AncG"
+msgstr "Special talent usage across equipment"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "a3iU9_"
+msgstr "special talent"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "8KYwzg"
+msgstr "No talent data observed."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "JSmL_0"
+msgstr "Most common order-agnostic accessory pairings"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "-cr1mW"
+msgstr "pairings"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yWTdUP"
+msgstr "No complete accessory pairings observed."
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "SiC_-B"
+msgstr "Accessory pairings"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "DHR_nV"
+msgstr "{count, plural, one {# piece of equipment was excluded from iconic levels because it was not legendary.} other {# pieces of equipment were excluded from iconic levels because they were not legendary.}}"
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "zOo6e-"
+msgstr "Rage"
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "For9ib"
+msgstr "Assist"
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "90axO4"
+msgstr "Trade"
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "5lfH9K"
+msgstr "DRASTC"
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "GudWSn"
+msgstr "Based on {battles} battle reports and {governors} governors."
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "uqe58g"
+msgstr "Breakdown"
+
+#: src/components/combat-lab/new/combat-lab-preview-empty-state.tsx
+msgid "wOFJFO"
+msgstr "No data available"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "SxCvYA"
+msgstr "Scroll"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "wduJme"
+msgstr "Instrument"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "bSCV9J"
+msgstr "Flag"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "v8Ts9G"
+msgstr "Emblem"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "z5UrIH"
+msgstr "Build breakdown"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "9qO4Xm"
+msgstr "Armament: {slot}"
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "VcxUDs"
+msgstr "Equipment: {slot}"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "rwIPgH"
+msgstr "1 year"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "AwuN57"
+msgstr "6 months"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "p1dNds"
+msgstr "1 month"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "FrAoo9"
+msgstr "7 days"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "w0fenY"
+msgstr "Open field"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "57mpWo"
+msgstr "Back to Combat Lab"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "spcNSp"
+msgstr "Updated at {date}"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "74vgSJ"
+msgstr "Time range"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "5m4j06"
+msgstr "Scenario"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "lJifFN"
+msgstr "Changing the filters will not change the DRASTC results."
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "Xm3-B9"
+msgstr "DRASTC uses the most recent year of open-field battle reports."
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "FGfOI7"
+msgstr "Combat breakdown"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "H3G-_A"
+msgstr "Battle reports"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "T6fLvD"
+msgstr "Kill points gained"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "4dEukv"
+msgstr "Kill points lost"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "RwXuHc"
+msgstr "Trade percentage"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "PI-sR4"
+msgstr "Avg. battle duration"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "pTywiR"
+msgstr "Damage per second (DPS)"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "X5d0pn"
+msgstr "Sevs per second (SPS)"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "LgMoVb"
+msgstr "Sevs taken per second (TPS)"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "gl_xty"
+msgstr "Healing per second (HPS)"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "VRbbGy"
+msgstr "No combat summary was observed for this time range and scenario."
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "7SRayd"
+msgstr "Combat performance"
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "UG5qoS"
+msgstr "No data"
 
 #: src/components/commander-loadout-row.tsx
 msgid "XoCgY-"
@@ -1414,10 +1784,6 @@ msgstr "UTC "
 #: src/components/report/report-entry-card.tsx
 msgid "eKTCWw"
 msgstr "Battle summary"
-
-#: src/components/report/report-equipment-section.tsx
-msgid "r80fiF"
-msgstr "Equipment"
 
 #: src/components/report/report-equipment-slot.tsx
 msgid "JqXZrY"

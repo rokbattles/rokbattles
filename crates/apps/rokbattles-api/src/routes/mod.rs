@@ -13,7 +13,14 @@ mod reports;
 
 /// Build the top-level API router.
 pub fn router() -> Router<Arc<AppState>> {
-    Router::new().route("/health", get(health::get)).nest("/v1", v1_router())
+    Router::new()
+        .route("/health", get(health::get))
+        .nest("/v1", v1_router())
+        .nest("/v2", v2_router())
+}
+
+fn v2_router() -> Router<Arc<AppState>> {
+    Router::new().route("/global/combat-lab", get(combat_lab::v2::get_pairing))
 }
 
 fn v1_router() -> Router<Arc<AppState>> {

@@ -7,6 +7,7 @@ type CommanderIconProps = {
   alt: string;
   awakened?: boolean | null;
   className?: string;
+  loading?: "eager" | "lazy";
   sizes?: string;
 };
 
@@ -15,6 +16,7 @@ export function CommanderIcon({
   alt,
   awakened = false,
   className,
+  loading = "lazy",
   sizes = "32px",
 }: CommanderIconProps) {
   const spriteUrls = getCommanderSprites(id, awakened === true);
@@ -38,7 +40,7 @@ export function CommanderIcon({
           alt=""
           className="object-contain"
           fill
-          loading="lazy"
+          loading={loading}
           sizes={sizes}
           src={spriteUrl}
           unoptimized

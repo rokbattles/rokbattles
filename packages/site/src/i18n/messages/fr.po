@@ -515,6 +515,7 @@ msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 msgid "zQvVDJ"
 msgstr ""
@@ -593,6 +594,7 @@ msgid "1iEPTM"
 msgstr ""
 
 #: src/components/account/account-settings-nav.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 msgid "q5TmbN"
 msgstr "Gouverneurs"
 
@@ -748,11 +750,13 @@ msgid "cHoIky"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "hAEZYZ"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/reports-filter-dialog.tsx
@@ -760,6 +764,7 @@ msgid "RJ-ZIh"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-summary-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "2pQ4w5"
@@ -835,6 +840,7 @@ msgstr ""
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "T807D4"
 msgstr ""
 
@@ -850,6 +856,7 @@ msgstr ""
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "14P-1u"
 msgstr ""
 
@@ -860,6 +867,7 @@ msgstr ""
 
 #: src/components/combat-lab/drastc-info.tsx
 #: src/components/combat-lab/drastc-radar.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "Mxwl9f"
 msgstr ""
 
@@ -872,6 +880,7 @@ msgid "cjd1MY"
 msgstr ""
 
 #: src/components/combat-lab/drastc-section.tsx
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
 msgid "AAkx6U"
 msgstr ""
 
@@ -902,11 +911,372 @@ msgid "EU4z3x"
 msgstr ""
 
 #: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "Aujn2T"
 msgstr ""
 
 #: src/components/combat-lab/formation-breakdown.tsx
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "wbsq7O"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "3UfoyS"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "a8wkKu"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "nHRTeq"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "6nP3O3"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "CR1jqj"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bHc-kK"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "6XQ7TN"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "4LmEJw"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bi2p6K"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "FL6lKX"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "pQyHNd"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "et90bv"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "d1hB-Y"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "P0CCi6"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "gTB0E8"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "n-kv74"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "n96a21"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "kBCJ1h"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "LGFrbW"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "zI4pec"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "sWUO6d"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "A11sVS"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "A8WChX"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "Lf9G-H"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "EQ64I9"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "YYAOkZ"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "Q5MUc_"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "f3OK0O"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "5GHMUY"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "FFUeRn"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "bLl42R"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "1fK0HA"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "OpOCgf"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "JA1cOg"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "GAykkl"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "HsQkt_"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "dhWdgY"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "lQnI9c"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/report/report-equipment-section.tsx
+msgid "r80fiF"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "OuXBmU"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "WIUHfr"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "jNS_xO"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yFbpA7"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "M6AncG"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "a3iU9_"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "8KYwzg"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "JSmL_0"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "-cr1mW"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yWTdUP"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "SiC_-B"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "DHR_nV"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "zOo6e-"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "For9ib"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "90axO4"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "5lfH9K"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "GudWSn"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-drastc.tsx
+msgid "uqe58g"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-empty-state.tsx
+msgid "wOFJFO"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "SxCvYA"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "wduJme"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "bSCV9J"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "v8Ts9G"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "z5UrIH"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "9qO4Xm"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
+msgid "VcxUDs"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "rwIPgH"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "AwuN57"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "p1dNds"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "FrAoo9"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "w0fenY"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "57mpWo"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "spcNSp"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "74vgSJ"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "5m4j06"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "lJifFN"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "Xm3-B9"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "FGfOI7"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "H3G-_A"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "T6fLvD"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "4dEukv"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "RwXuHc"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "PI-sR4"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "pTywiR"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "X5d0pn"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "LgMoVb"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "gl_xty"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "VRbbGy"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "7SRayd"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview.tsx
+msgid "UG5qoS"
 msgstr ""
 
 #: src/components/commander-loadout-row.tsx
@@ -1422,10 +1792,6 @@ msgstr ""
 
 #: src/components/report/report-entry-card.tsx
 msgid "eKTCWw"
-msgstr ""
-
-#: src/components/report/report-equipment-section.tsx
-msgid "r80fiF"
 msgstr ""
 
 #: src/components/report/report-equipment-slot.tsx
