@@ -43,6 +43,8 @@ type PlatformLayoutProps = {
   initialUser?: CurrentUser | null;
 };
 
+const fullWidthRoutes = new Set(["/combat-lab/new"]);
+
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const t = useExtracted();
   const pathname = usePathname();
@@ -82,6 +84,7 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
 
   return (
     <SidebarLayout
+      fullWidth={fullWidthRoutes.has(pathname)}
       navbar={<Navbar />}
       sidebar={
         <Sidebar>

@@ -15,6 +15,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::{error::ApiError, state::AppState};
 
+pub(super) mod v2;
+
 /// Returns one precomputed legendary commander pairing for Combat Lab.
 pub async fn get_pairing(
     State(state): State<Arc<AppState>>,

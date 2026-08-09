@@ -5,10 +5,12 @@ import { defaultLocale } from "@/i18n/config";
 import { resolveLocale } from "@/i18n/locale";
 
 const equipmentMap = equipmentData.equipment.item;
+const equipmentSlotMap = equipmentData.equipment.slot;
 
 type EquipmentIdKey = keyof typeof equipmentMap;
 type EquipmentEntry = (typeof equipmentMap)[EquipmentIdKey];
 type EquipmentLocale = keyof EquipmentEntry["name"];
+type EquipmentSlotIdKey = keyof typeof equipmentSlotMap;
 
 export function getEquipmentName(id: number | null | undefined, locale?: string) {
   if (typeof id !== "number" || !Number.isFinite(id)) {
@@ -24,5 +26,14 @@ export function getEquipmentName(id: number | null | undefined, locale?: string)
   return (
     (equipment.name as Record<string, string | undefined>)[requestedLocale] ??
     equipment.name[defaultLocale as EquipmentLocale]
+  );
+}
+
+export function getEquipmentSlotName(slot: number, locale?: string): string {
+  const names = equipmentSlotMap[String(slot) as EquipmentSlotIdKey];
+  const requestedLocale = resolveLocale(locale);
+  return (
+    (names as Record<string, string | undefined>)[requestedLocale] ??
+    names[defaultLocale as keyof typeof names]
   );
 }
