@@ -27,6 +27,7 @@ pub struct ReportsStore {
     g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_karuakceremony: Collection<Document>,
     g_rok_prec_cmdr_pairings: Collection<Document>,
+    g_rok_prec_cmdr_pairings_v2: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -52,6 +53,7 @@ impl ReportsStore {
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
             g_rok_prec_cmdr_pairings: db.collection("g_rok_prec_cmdr_pairings"),
+            g_rok_prec_cmdr_pairings_v2: db.collection("g_rok_prec_cmdr_pairings_v2"),
         }
     }
 
@@ -419,6 +421,10 @@ impl ReportsStore {
             self.g_rok_prec_cmdr_pairings.create_index(model).await?;
         }
 
+        for model in precomputed_commander_pairing_v2_indexes() {
+            self.g_rok_prec_cmdr_pairings_v2.create_index(model).await?;
+        }
+
         Ok(())
     }
 
@@ -510,5 +516,34 @@ impl ReportsStore {
     /// Access precomputed global commander pairing aggregates.
     pub fn precomputed_commander_pairings_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_cmdr_pairings
+    }
+
+    /// Access compact, chunked Combat Lab commander pairing aggregates.
+    pub fn precomputed_commander_pairings_v2_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_cmdr_pairings_v2
+    }
+}
+
+fn precomputed_commander_pairing_v2_indexes() -> [IndexModel; 2] {
+    [
+        IndexModel::builder()
+            .keys(doc! { "k": 1, "p": 1, "s": 1, "g": -1, "m": 1, "q": 1 })
+            .options(IndexOptions::builder().unique(true).build())
+            .build(),
+        IndexModel::builder().keys(doc! { "g": 1 }).build(),
+    ]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn compact_commander_pairing_indexes_support_generation_reads_and_cleanup() {
+        let [documents, generations] = precomputed_commander_pairing_v2_indexes();
+
+        assert_eq!(documents.keys, doc! { "k": 1, "p": 1, "s": 1, "g": -1, "m": 1, "q": 1 });
+        assert_eq!(documents.options.and_then(|options| options.unique), Some(true));
+        assert_eq!(generations.keys, doc! { "g": 1 });
     }
 }

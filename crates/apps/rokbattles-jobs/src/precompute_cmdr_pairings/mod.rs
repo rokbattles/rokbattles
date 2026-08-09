@@ -156,7 +156,7 @@ async fn write_pairing_documents(
     Ok(documents_written)
 }
 
-fn legendary_commander_ids() -> Result<Vec<i64>, JobsError> {
+pub(crate) fn legendary_commander_ids() -> Result<Vec<i64>, JobsError> {
     let mut ids = BTreeSet::new();
     let mut current_id = None;
     let mut current_is_legendary = false;

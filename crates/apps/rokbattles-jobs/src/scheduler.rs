@@ -12,6 +12,7 @@ use crate::{
     precompute_barbarianfort::precompute_barbarian_fort_data,
     precompute_baulur::precompute_baulur_data,
     precompute_cmdr_pairings::precompute_commander_pairings_data,
+    precompute_cmdr_pairings_v2::precompute_commander_pairings_v2_data,
     precompute_kahar_treasure::precompute_kahar_treasure_data,
     precompute_karuak_ceremony::precompute_karuak_ceremony_data,
     refresh_binds::refresh_claimed_governor_bindings,
@@ -31,6 +32,8 @@ pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
 pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_COMMANDER_PAIRINGS_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours, offset four hours from the existing commander pairing job.
+pub const PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON: &str = "0 0 4,12,20 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
 pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler, JobsError> {
@@ -43,6 +46,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let kahar_treasure_lock = Arc::new(Mutex::new(()));
     let karuak_ceremony_lock = Arc::new(Mutex::new(()));
     let commander_pairings_lock = Arc::new(Mutex::new(()));
+    let commander_pairings_v2_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
         &scheduler,
@@ -188,7 +192,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     add_locked_job(
         &scheduler,
         PRECOMPUTE_COMMANDER_PAIRINGS_CRON,
-        reports_store,
+        Arc::clone(&reports_store),
         commander_pairings_lock,
         "commander pairings precompute is already running; skipping this tick",
         |reports_store| async move {
@@ -207,6 +211,34 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
                 }
                 Err(error) => {
                     error!(%error, "failed to precompute commander pairings data");
+                }
+            }
+        },
+    )
+    .await?;
+
+    add_locked_job(
+        &scheduler,
+        PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON,
+        reports_store,
+        commander_pairings_v2_lock,
+        "compact commander pairings precompute is already running; skipping this tick",
+        |reports_store| async move {
+            match precompute_commander_pairings_v2_data(&reports_store).await {
+                Ok(stats) => info!(
+                    legendary_commanders = stats.legendary_commanders,
+                    pairings = stats.pairings,
+                    performance_points = stats.performance_points,
+                    loadout_snapshots = stats.loadout_snapshots,
+                    documents_written = stats.documents_written,
+                    max_document_bytes = stats.max_document_bytes,
+                    performance_seconds = stats.performance_seconds,
+                    loadout_seconds = stats.loadout_seconds,
+                    total_seconds = stats.total_seconds,
+                    "precomputed compact commander pairings data"
+                ),
+                Err(error) => {
+                    error!(%error, "failed to precompute compact commander pairings data")
                 }
             }
         },
@@ -252,8 +284,8 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_KAHAR_TREASURE_CRON,
-        PRECOMPUTE_KARUAK_CEREMONY_CRON, REFRESH_BINDS_CRON,
+        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON,
+        PRECOMPUTE_KAHAR_TREASURE_CRON, PRECOMPUTE_KARUAK_CEREMONY_CRON, REFRESH_BINDS_CRON,
     };
 
     #[test]
@@ -284,6 +316,11 @@ mod tests {
     #[test]
     fn precompute_commander_pairings_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn compact_commander_pairings_cron_runs_at_four_twelve_and_twenty_utc() {
+        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, "0 0 4,12,20 * * *");
     }
 
     #[test]
