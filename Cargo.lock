@@ -4332,6 +4332,7 @@ dependencies = [
  "dotenvy",
  "hickory-proto",
  "mimalloc",
+ "reqwest 0.12.28",
  "serde",
  "thiserror 2.0.19",
  "tokio",

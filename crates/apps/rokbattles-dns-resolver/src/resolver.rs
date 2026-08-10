@@ -32,6 +32,16 @@ pub enum ResolveError {
     Encode(#[from] hickory_proto::ProtoError),
 }
 
+pub(crate) enum IntraResolution {
+    Local(Vec<u8>),
+    Forward,
+}
+
+enum Resolution {
+    Local(Message),
+    NonTarget(Message),
+}
+
 impl Resolver {
     /// Create a resolver for `target_hostname` that returns `relay_ipv4` and,
     /// when present, `relay_ipv6`.
@@ -56,22 +66,51 @@ impl Resolver {
     /// [`ResolveError::Encode`] if the response cannot be serialized.
     pub fn resolve(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
         let request = Message::from_vec(wire_request)?;
+        let response = match self.resolve_message(&request) {
+            Resolution::Local(response) => response,
+            Resolution::NonTarget(mut response) => {
+                response.metadata.response_code = ResponseCode::Refused;
+                response
+            }
+        };
+
+        Ok(response.to_vec()?)
+    }
+
+    pub(crate) fn resolve_for_intra(
+        &self,
+        wire_request: &[u8],
+    ) -> Result<IntraResolution, ResolveError> {
+        let request = Message::from_vec(wire_request)?;
+        match self.resolve_message(&request) {
+            Resolution::Local(response) => Ok(IntraResolution::Local(response.to_vec()?)),
+            Resolution::NonTarget(_) => Ok(IntraResolution::Forward),
+        }
+    }
+
+    pub(crate) fn servfail(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
+        let request = Message::from_vec(wire_request)?;
         let mut response = response_for(&request);
+        response.metadata.response_code = ResponseCode::ServFail;
+        Ok(response.to_vec()?)
+    }
+
+    fn resolve_message(&self, request: &Message) -> Resolution {
+        let mut response = response_for(request);
 
         if request.metadata.message_type != MessageType::Query || request.queries.len() != 1 {
             response.metadata.response_code = ResponseCode::FormErr;
-            return Ok(response.to_vec()?);
+            return Resolution::Local(response);
         }
 
         if request.metadata.op_code != OpCode::Query {
             response.metadata.response_code = ResponseCode::NotImp;
-            return Ok(response.to_vec()?);
+            return Resolution::Local(response);
         }
 
         let query = &request.queries[0];
         if query.query_class() != DNSClass::IN || !self.is_target(query.name()) {
-            response.metadata.response_code = ResponseCode::Refused;
-            return Ok(response.to_vec()?);
+            return Resolution::NonTarget(response);
         }
 
         let answer = match query.query_type() {
@@ -83,7 +122,7 @@ impl Resolver {
             response.add_answer(Record::from_rdata(query.name().clone(), DNS_TTL_SECONDS, answer));
         }
 
-        Ok(response.to_vec()?)
+        Resolution::Local(response)
     }
 
     fn is_target(&self, name: &hickory_proto::rr::Name) -> bool {
