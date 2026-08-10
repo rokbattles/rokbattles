@@ -6,6 +6,7 @@ use std::{
 };
 
 use hickory_proto::rr::Name;
+use reqwest::Url;
 
 const DEFAULT_BIND_ADDR: &str = "0.0.0.0:8053";
 
@@ -20,6 +21,8 @@ pub struct Config {
     pub relay_ipv4: Ipv4Addr,
     /// Optional IPv6 address returned for the target hostname.
     pub relay_ipv6: Option<Ipv6Addr>,
+    /// DoH resolver used for non-target queries received from Intra.
+    pub intra_upstream_doh_url: Url,
 }
 
 /// Errors returned when resolver configuration is missing or invalid.
@@ -38,8 +41,9 @@ impl Config {
     ///
     /// # Errors
     ///
-    /// Returns [`ConfigError`] when `TARGET_HOSTNAME` or `RELAY_IPV4` is absent,
-    /// or when a configured hostname or address is invalid.
+    /// Returns [`ConfigError`] when `TARGET_HOSTNAME`, `RELAY_IPV4`, or
+    /// `INTRA_UPSTREAM_DOH_URL` is absent, or when a configured hostname,
+    /// address, or URL is invalid.
     pub fn from_env() -> Result<Self, ConfigError> {
         Self::from_lookup(|key| env::var(key).ok())
     }
@@ -62,8 +66,13 @@ impl Config {
         )?;
         let relay_ipv6 =
             lookup("RELAY_IPV6").map(|value| parse("RELAY_IPV6", value)).transpose()?;
+        let intra_upstream_doh_url = parse_upstream_url(
+            "INTRA_UPSTREAM_DOH_URL",
+            lookup("INTRA_UPSTREAM_DOH_URL")
+                .ok_or(ConfigError::Missing { key: "INTRA_UPSTREAM_DOH_URL" })?,
+        )?;
 
-        Ok(Self { bind_addr, target_hostname, relay_ipv4, relay_ipv6 })
+        Ok(Self { bind_addr, target_hostname, relay_ipv4, relay_ipv6, intra_upstream_doh_url })
     }
 }
 
@@ -83,19 +92,35 @@ fn parse_hostname(key: &'static str, value: String) -> Result<String, ConfigErro
     }
 }
 
+fn parse_upstream_url(key: &'static str, value: String) -> Result<Url, ConfigError> {
+    match Url::parse(&value) {
+        Ok(url) if url.scheme() == "https" && url.host_str().is_some() => Ok(url),
+        Ok(_) | Err(_) => Err(ConfigError::Invalid { key, value }),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
 
     use super::*;
 
+    const TEST_UPSTREAM_DOH_URL: &str = "https://dns.example.net/dns-query";
+
     fn lookup(vars: HashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
         move |key| vars.get(key).map(|value| (*value).to_string())
     }
 
+    fn lookup_with_upstream(
+        mut vars: HashMap<&'static str, &'static str>,
+    ) -> impl Fn(&str) -> Option<String> {
+        vars.entry("INTRA_UPSTREAM_DOH_URL").or_insert(TEST_UPSTREAM_DOH_URL);
+        lookup(vars)
+    }
+
     #[test]
     fn optional_values_should_use_development_defaults() {
-        let config = Config::from_lookup(lookup(HashMap::from([
+        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "example.com"),
             ("RELAY_IPV4", "203.0.113.10"),
         ])))
@@ -108,30 +133,37 @@ mod tests {
                 target_hostname: "example.com".to_string(),
                 relay_ipv4: Ipv4Addr::new(203, 0, 113, 10),
                 relay_ipv6: None,
+                intra_upstream_doh_url: Url::parse(TEST_UPSTREAM_DOH_URL)
+                    .expect("upstream URL fixture should be valid"),
             }
         );
     }
 
     #[test]
     fn target_hostname_should_be_required() {
-        let error = Config::from_lookup(lookup(HashMap::from([("RELAY_IPV4", "203.0.113.10")])))
-            .expect_err("target hostname should be absent");
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([(
+            "RELAY_IPV4",
+            "203.0.113.10",
+        )])))
+        .expect_err("target hostname should be absent");
 
         assert_eq!(error, ConfigError::Missing { key: "TARGET_HOSTNAME" });
     }
 
     #[test]
     fn relay_ipv4_should_be_required() {
-        let error =
-            Config::from_lookup(lookup(HashMap::from([("TARGET_HOSTNAME", "example.com")])))
-                .expect_err("relay address should be absent");
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([(
+            "TARGET_HOSTNAME",
+            "example.com",
+        )])))
+        .expect_err("relay address should be absent");
 
         assert_eq!(error, ConfigError::Missing { key: "RELAY_IPV4" });
     }
 
     #[test]
     fn target_hostname_should_be_normalized() {
-        let config = Config::from_lookup(lookup(HashMap::from([
+        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "ExAmPlE.CoM."),
             ("RELAY_IPV4", "203.0.113.10"),
         ])))
@@ -142,7 +174,7 @@ mod tests {
 
     #[test]
     fn invalid_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "not a hostname"),
             ("RELAY_IPV4", "203.0.113.10"),
         ])))
@@ -156,7 +188,7 @@ mod tests {
 
     #[test]
     fn empty_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", ""),
             ("RELAY_IPV4", "203.0.113.10"),
         ])))
@@ -167,7 +199,7 @@ mod tests {
 
     #[test]
     fn root_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "."),
             ("RELAY_IPV4", "203.0.113.10"),
         ])))
@@ -178,7 +210,7 @@ mod tests {
 
     #[test]
     fn invalid_bind_addr_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "example.com"),
             ("RELAY_IPV4", "203.0.113.10"),
             ("BIND_ADDR", "localhost"),
@@ -193,7 +225,7 @@ mod tests {
 
     #[test]
     fn invalid_relay_ipv4_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "example.com"),
             ("RELAY_IPV4", "2001:db8::1"),
         ])))
@@ -207,7 +239,7 @@ mod tests {
 
     #[test]
     fn configured_relay_ipv6_should_be_loaded() {
-        let config = Config::from_lookup(lookup(HashMap::from([
+        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "example.com"),
             ("RELAY_IPV4", "203.0.113.10"),
             ("RELAY_IPV6", "2001:db8::10"),
@@ -219,7 +251,7 @@ mod tests {
 
     #[test]
     fn invalid_relay_ipv6_should_be_rejected() {
-        let error = Config::from_lookup(lookup(HashMap::from([
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
             ("TARGET_HOSTNAME", "example.com"),
             ("RELAY_IPV4", "203.0.113.10"),
             ("RELAY_IPV6", "203.0.113.11"),
@@ -230,5 +262,46 @@ mod tests {
             error,
             ConfigError::Invalid { key: "RELAY_IPV6", value: "203.0.113.11".to_string() }
         );
+    }
+
+    #[test]
+    fn required_intra_upstream_should_be_loaded() {
+        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
+            ("TARGET_HOSTNAME", "example.com"),
+            ("RELAY_IPV4", "203.0.113.10"),
+            ("INTRA_UPSTREAM_DOH_URL", "https://dns.example.net/custom-query"),
+        ])))
+        .expect("configuration should be valid");
+
+        assert_eq!(config.intra_upstream_doh_url.as_str(), "https://dns.example.net/custom-query");
+    }
+
+    #[test]
+    fn non_https_intra_upstream_should_be_rejected() {
+        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
+            ("TARGET_HOSTNAME", "example.com"),
+            ("RELAY_IPV4", "203.0.113.10"),
+            ("INTRA_UPSTREAM_DOH_URL", "http://dns.example.net/dns-query"),
+        ])))
+        .expect_err("upstream URL should require HTTPS");
+
+        assert_eq!(
+            error,
+            ConfigError::Invalid {
+                key: "INTRA_UPSTREAM_DOH_URL",
+                value: "http://dns.example.net/dns-query".to_string(),
+            }
+        );
+    }
+
+    #[test]
+    fn intra_upstream_should_be_required() {
+        let error = Config::from_lookup(lookup(HashMap::from([
+            ("TARGET_HOSTNAME", "example.com"),
+            ("RELAY_IPV4", "203.0.113.10"),
+        ])))
+        .expect_err("upstream URL should be absent");
+
+        assert_eq!(error, ConfigError::Missing { key: "INTRA_UPSTREAM_DOH_URL" });
     }
 }

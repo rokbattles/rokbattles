@@ -9,9 +9,10 @@ axum = { workspace = true, features = ["http1", "query", "tokio"] }
 base64 = { workspace = true }
 dotenvy = { workspace = true }
 hickory-proto = { workspace = true, features = ["std"] }
+reqwest = { workspace = true, features = ["rustls-tls-native-roots"] }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }
-tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "time"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
