@@ -116,6 +116,9 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
       <Subheading level={3} className="!text-lg/7">
         {t("Skills")}: {commanderName}
       </Subheading>
+      <Subheading level={4} className="mt-3">
+        {t("Skills usage")}
+      </Subheading>
 
       {preview.heatmapTotal === 0 ? (
         <CombatLabPreviewEmptyState

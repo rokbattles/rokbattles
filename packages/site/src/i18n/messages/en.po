@@ -960,6 +960,10 @@ msgid "pQyHNd"
 msgstr "Formation {id}"
 
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yoc4SI"
+msgstr "Formation"
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "et90bv"
 msgstr "Formation usage"
 
@@ -1179,6 +1183,10 @@ msgstr "Equipment: {slot}"
 #: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "EJSVsO"
 msgstr "Skills"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "coLB3O"
+msgstr "Skills usage"
 
 #: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "8bnFEH"
