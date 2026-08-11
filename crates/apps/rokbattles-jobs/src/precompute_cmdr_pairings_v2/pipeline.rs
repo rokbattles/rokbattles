@@ -64,7 +64,10 @@ pub(super) fn loadout_pipeline(
                 "x": {
                     "$top": {
                         "sortBy": { "t": -1 },
-                        "output": { "f": "$f", "e": "$e", "a": "$a" },
+                        "output": {
+                            "f": "$f", "e": "$e", "a": "$a",
+                            "ps": "$ps", "pe": "$pe", "ss": "$ss", "se": "$se",
+                        },
                     }
                 },
             }
@@ -73,7 +76,10 @@ pub(super) fn loadout_pipeline(
             "$project": {
                 "_id": 0, "p": "$_id.p", "s": "$_id.s", "m": "$_id.m",
                 "d": "$_id.d", "c": "$_id.c",
-                "v": ["$_id.d", "$_id.c", "$_id.u", "$x.f", "$x.e", "$x.a"],
+                "v": [
+                    "$_id.d", "$_id.c", "$_id.u", "$x.f", "$x.e", "$x.a",
+                    skill_build_expr("$x.ps"), "$x.pe", skill_build_expr("$x.ss"), "$x.se",
+                ],
             }
         },
         doc! {
@@ -122,6 +128,7 @@ fn pairing_entries_pipeline(
             "$sender.commanders.secondary.id",
             "$sender.player_id",
             "$sender.commanders.primary",
+            "$sender.commanders.secondary",
             "$_senderScenario",
             "opponents.battle_results.sender",
             "opponents.battle_results.opponent",
@@ -135,6 +142,7 @@ fn pairing_entries_pipeline(
             "$opponents.commanders.secondary.id",
             "$opponents.player_id",
             "$opponents.commanders.primary",
+            "$opponents.commanders.secondary",
             opponent_scenario_expr(),
             "opponents.battle_results.opponent",
             "opponents.battle_results.sender",
@@ -230,6 +238,7 @@ fn perspective_entry(
     secondary: &'static str,
     player: &'static str,
     primary_path: &'static str,
+    secondary_path: &'static str,
     scenario: impl Into<Bson>,
     own_results: &'static str,
     enemy_results: &'static str,
@@ -261,10 +270,96 @@ fn perspective_entry(
                 "f": { "$ifNull": [format!("{primary_path}.formation"), 0_i64] },
                 "e": { "$ifNull": [format!("{primary_path}.equipment"), Bson::Null] },
                 "a": { "$ifNull": [format!("{primary_path}.armaments"), []] },
+                "ps": { "$ifNull": [format!("{primary_path}.skills"), []] },
+                "pe": { "$ifNull": [format!("{primary_path}.awakened"), Bson::Null] },
+                "ss": { "$ifNull": [format!("{secondary_path}.skills"), []] },
+                "se": { "$ifNull": [format!("{secondary_path}.awakened"), Bson::Null] },
             });
         }
     }
     entry
+}
+
+fn skill_build_expr(path: &str) -> Document {
+    doc! {
+        "$let": {
+            "vars": {
+                "allSkills": { "$ifNull": [path, []] },
+            },
+            "in": {
+                "$let": {
+                    "vars": { "skills": { "$slice": ["$$allSkills", 4_i64] } },
+                    "in": {
+                        "$cond": [
+                            {
+                                "$and": [
+                                    { "$in": [{ "$size": "$$allSkills" }, [4_i64, 5_i64]] },
+                                    {
+                                        "$allElementsTrue": {
+                                            "$map": {
+                                                "input": "$$skills",
+                                                "as": "skill",
+                                                "in": {
+                                                    "$and": [
+                                                        { "$gt": ["$$skill.id", 0_i64] },
+                                                        { "$gte": ["$$skill.level", 1_i64] },
+                                                        { "$lte": ["$$skill.level", 5_i64] },
+                                                    ]
+                                                },
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "$eq": [
+                                            {
+                                                "$size": {
+                                                    "$setUnion": [
+                                                        {
+                                                            "$map": {
+                                                                "input": "$$skills",
+                                                                "as": "skill",
+                                                                "in": "$$skill.id",
+                                                            }
+                                                        },
+                                                        [],
+                                                    ]
+                                                }
+                                            },
+                                            4_i64,
+                                        ]
+                                    },
+                                    {
+                                        "$or": [
+                                            { "$eq": [{ "$size": "$$allSkills" }, 4_i64] },
+                                            {
+                                                "$eq": [
+                                                    { "$arrayElemAt": ["$$allSkills.level", 4_i64] },
+                                                    1_i64,
+                                                ]
+                                            },
+                                        ]
+                                    },
+                                ]
+                            },
+                            {
+                                "$reduce": {
+                                    "input": "$$skills",
+                                    "initialValue": 0_i64,
+                                    "in": {
+                                        "$add": [
+                                            { "$multiply": ["$$value", 10_i64] },
+                                            "$$this.level",
+                                        ]
+                                    },
+                                }
+                            },
+                            Bson::Null,
+                        ]
+                    }
+                }
+            }
+        }
+    }
 }
 
 fn numeric_field(path: &str, field: &str) -> Document {
@@ -411,5 +506,19 @@ mod tests {
         assert!(!rendered.contains("$sort"));
         assert!(rendered.contains("\"m\""));
         assert!(rendered.contains("\"d\""));
+    }
+
+    #[test]
+    fn loadout_pipeline_compacts_skill_objects_after_selecting_latest_snapshots() {
+        let pipeline = loadout_pipeline(&[1, 2], 0, 100, 50);
+        let rendered = format!("{pipeline:?}");
+        let top = rendered.find("$top").expect("latest snapshot selection");
+        let skill_compaction = rendered.find("$slice").expect("skill compaction");
+
+        assert!(skill_compaction > top);
+        assert!(!rendered.contains("$sortArray"));
+        assert!(rendered.contains("[Int64(4), Int64(5)]"));
+        assert!(rendered.contains("$$allSkills.level"));
+        assert!(rendered.contains("$$this.level"));
     }
 }

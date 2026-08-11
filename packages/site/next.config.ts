@@ -30,6 +30,7 @@ const plugins = [withNextIntl, withMDX, withSentry];
 const isProdEnv = process.env.NODE_ENV === "production";
 
 const config: NextConfig = {
+  agentRules: false,
   compiler: {
     reactRemoveProperties: true,
     removeConsole: isProdEnv,

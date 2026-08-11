@@ -2,11 +2,13 @@ use std::collections::HashMap;
 
 use mongodb::bson::Bson;
 use rokbattles_bson::bson_to_i64;
-use serde::Deserialize;
+use serde::{Deserialize, de::DeserializeOwned};
 
 use super::{
     catalog::Catalogs,
-    model::{InscriptionRarity, LoadoutBucket, MonthLoadouts, canonical_formation_id},
+    model::{
+        InscriptionRarity, LoadoutBucket, MonthLoadouts, SkillAccumulator, canonical_formation_id,
+    },
 };
 
 const LEGENDARY_EQUIPMENT_QUALITY: i64 = 5;
@@ -21,12 +23,16 @@ pub(super) struct ProjectedLoadout {
     pub(super) e: Option<String>,
     #[serde(default)]
     pub(super) a: Vec<Armament>,
+    pub(super) ps: Option<i64>,
+    pub(super) pe: Option<bool>,
+    pub(super) ss: Option<i64>,
+    pub(super) se: Option<bool>,
 }
 
 pub(super) fn map_projected_loadout(value: &Bson) -> Result<ProjectedLoadout, String> {
     let values = value.as_array().ok_or("loadout record is not an array")?;
-    if values.len() != 6 {
-        return Err(format!("loadout record has {} fields instead of 6", values.len()));
+    if values.len() != 10 {
+        return Err(format!("loadout record has {} fields instead of 10", values.len()));
     }
     let integer = |index: usize, name: &str| {
         bson_to_i64(&values[index]).ok_or_else(|| format!("loadout {name} is not an integer"))
@@ -38,7 +44,6 @@ pub(super) fn map_projected_loadout(value: &Bson) -> Result<ProjectedLoadout, St
     };
     let a = mongodb::bson::from_bson(values[5].clone())
         .map_err(|error| format!("invalid loadout armaments: {error}"))?;
-
     Ok(ProjectedLoadout {
         d: integer(0, "day")?,
         c: integer(1, "scenario")?,
@@ -46,7 +51,16 @@ pub(super) fn map_projected_loadout(value: &Bson) -> Result<ProjectedLoadout, St
         f: integer(3, "formation")?,
         e,
         a,
+        ps: optional_field(&values[6], "primary skills")?,
+        pe: optional_field(&values[7], "primary expertise")?,
+        ss: optional_field(&values[8], "secondary skills")?,
+        se: optional_field(&values[9], "secondary expertise")?,
     })
+}
+
+fn optional_field<T: DeserializeOwned>(value: &Bson, name: &str) -> Result<Option<T>, String> {
+    mongodb::bson::from_bson(value.clone())
+        .map_err(|error| format!("invalid loadout {name}: {error}"))
 }
 
 #[derive(Debug, Deserialize)]
@@ -72,6 +86,36 @@ pub(super) fn accumulate_snapshot(
     accumulate_formation(bucket, snapshot.f);
     accumulate_armaments(bucket, &snapshot.a, catalogs);
     accumulate_equipment(bucket, snapshot.e.as_deref(), catalogs);
+    accumulate_skills(&mut bucket.primary_skills, snapshot.ps, snapshot.pe);
+    accumulate_skills(&mut bucket.secondary_skills, snapshot.ss, snapshot.se);
+}
+
+fn accumulate_skills(
+    accumulator: &mut SkillAccumulator,
+    build: Option<i64>,
+    expertised: Option<bool>,
+) {
+    let Some(build) = build.filter(|build| valid_skill_build(*build)) else {
+        return;
+    };
+
+    accumulator.sample += 1;
+    *accumulator.builds.entry(build).or_default() += 1;
+    let Some(expertised) = expertised else {
+        return;
+    };
+    accumulator.expertise_sample += 1;
+    accumulator.expertised += i64::from(expertised);
+}
+
+fn valid_skill_build(mut build: i64) -> bool {
+    for _ in 0..4 {
+        if !(1..=5).contains(&build.rem_euclid(10)) {
+            return false;
+        }
+        build = build.div_euclid(10);
+    }
+    build == 0
 }
 
 fn accumulate_formation(bucket: &mut LoadoutBucket, formation_id: i64) {
@@ -241,8 +285,37 @@ pub(super) fn pack_month(month: MonthLoadouts) -> Vec<Bson> {
                 Bson::Array(pairs),
             ]));
         }
+
+        pack_skills(&mut records, day, scenario, 0, bucket.primary_skills);
+        pack_skills(&mut records, day, scenario, 1, bucket.secondary_skills);
     }
     records
+}
+
+fn pack_skills(
+    records: &mut Vec<Bson>,
+    day: i64,
+    scenario: i64,
+    role: i64,
+    skills: SkillAccumulator,
+) {
+    if skills.sample == 0 {
+        return;
+    }
+    let mut builds = Vec::with_capacity(skills.builds.len() * 2);
+    for (build, count) in skills.builds {
+        builds.extend([build.into(), count.into()]);
+    }
+    records.push(Bson::Array(vec![
+        4_i64.into(),
+        day.into(),
+        scenario.into(),
+        role.into(),
+        skills.sample.into(),
+        skills.expertise_sample.into(),
+        skills.expertised.into(),
+        Bson::Array(builds),
+    ]));
 }
 
 fn parse_equipment(value: Option<&str>) -> Vec<EquipmentToken> {
@@ -334,5 +407,68 @@ mod tests {
 
         assert_eq!(packed.len(), 1);
         assert!(!format!("{packed:?}").contains("name"));
+    }
+
+    #[test]
+    fn skill_build_and_expertise_are_counted_separately() {
+        let mut accumulator = SkillAccumulator::default();
+
+        accumulate_skills(&mut accumulator, Some(1_255), Some(true));
+
+        assert_eq!(accumulator.builds.get(&1_255), Some(&1));
+        assert_eq!(accumulator.expertise_sample, 1);
+        assert_eq!(accumulator.expertised, 1);
+    }
+
+    #[test]
+    fn invalid_skill_builds_are_ignored() {
+        let mut accumulator = SkillAccumulator::default();
+
+        accumulate_skills(&mut accumulator, Some(1_256), Some(false));
+
+        assert_eq!(accumulator.sample, 0);
+        assert!(accumulator.builds.is_empty());
+    }
+
+    #[test]
+    fn projected_loadout_maps_both_commander_skill_sets() {
+        let record = Bson::Array(vec![
+            10_i64.into(),
+            1_i64.into(),
+            99_i64.into(),
+            2_i64.into(),
+            Bson::Null,
+            Bson::Array(Vec::new()),
+            1_255_i64.into(),
+            true.into(),
+            5_551_i64.into(),
+            false.into(),
+        ]);
+
+        let projected = map_projected_loadout(&record).expect("projected loadout");
+
+        assert_eq!(projected.ps, Some(1_255));
+        assert_eq!(projected.pe, Some(true));
+        assert_eq!(projected.ss, Some(5_551));
+        assert_eq!(projected.se, Some(false));
+    }
+
+    #[test]
+    fn packed_skills_use_additive_loadout_tuple_kind_four() {
+        let mut month = MonthLoadouts::default();
+        let skills = &mut month.buckets.entry((10, 1)).or_default().primary_skills;
+        skills.sample = 3;
+        skills.expertise_sample = 3;
+        skills.expertised = 2;
+        skills.builds.insert(5_555, 3);
+
+        let packed = pack_month(month);
+        let tuple = packed[0].as_array().expect("skill tuple");
+
+        assert_eq!(tuple[0].as_i64(), Some(4));
+        assert_eq!(tuple[3].as_i64(), Some(0));
+        assert_eq!(tuple[5].as_i64(), Some(3));
+        assert_eq!(tuple[6].as_i64(), Some(2));
+        assert_eq!(tuple[7].as_array().map(Vec::len), Some(2));
     }
 }

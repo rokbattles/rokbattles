@@ -109,12 +109,22 @@ pub(super) struct EquipmentSlotAccumulator {
 }
 
 #[derive(Debug, Clone, Default)]
+pub(super) struct SkillAccumulator {
+    pub(super) sample: i64,
+    pub(super) expertise_sample: i64,
+    pub(super) expertised: i64,
+    pub(super) builds: BTreeMap<i64, i64>,
+}
+
+#[derive(Debug, Clone, Default)]
 pub(super) struct LoadoutBucket {
     pub(super) formation: FormationAccumulator,
     pub(super) armaments: BTreeMap<i64, ArmamentSlotAccumulator>,
     pub(super) equipment: BTreeMap<i64, EquipmentSlotAccumulator>,
     pub(super) accessory_sample: i64,
     pub(super) accessory_pairs: BTreeMap<(i64, i64), i64>,
+    pub(super) primary_skills: SkillAccumulator,
+    pub(super) secondary_skills: SkillAccumulator,
 }
 
 #[derive(Debug, Clone, Default)]

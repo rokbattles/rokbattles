@@ -79,11 +79,7 @@ pub async fn get_pairing(
         let values = chunk.get_array("v").map_err(|error| {
             ApiError::internal(format!("invalid compact Combat Lab chunk: {error}"))
         })?;
-        match kind {
-            1 => performance.extend(values.iter().cloned()),
-            2 => loadouts.extend(values.iter().cloned()),
-            _ => {}
-        }
+        append_chunk(kind, values, &mut performance, &mut loadouts);
     }
 
     let response = CombatLabV2Response {
@@ -96,6 +92,14 @@ pub async fn get_pairing(
         armament_maximums,
     };
     Ok((StatusCode::OK, [("Cache-Control", "public, max-age=3600")], Json(response)))
+}
+
+fn append_chunk(kind: i64, values: &[Bson], performance: &mut Vec<Bson>, loadouts: &mut Vec<Bson>) {
+    match kind {
+        1 => performance.extend(values.iter().cloned()),
+        2 => loadouts.extend(values.iter().cloned()),
+        _ => {}
+    }
 }
 
 fn map_drastc(value: &Bson) -> Result<DrastcScore, ApiError> {
@@ -234,5 +238,17 @@ mod tests {
         let maximums = read_armament_maximums().expect("armament maximums");
 
         assert_eq!(maximums.get(&10_002), Some(&0.02));
+    }
+
+    #[test]
+    fn loadout_chunks_preserve_additive_inner_tuple_kinds() {
+        let skill_tuple = Bson::Array(vec![4_i64.into(), 1_000_i64.into(), 0_i64.into()]);
+        let mut performance = Vec::new();
+        let mut loadouts = Vec::new();
+
+        append_chunk(2, std::slice::from_ref(&skill_tuple), &mut performance, &mut loadouts);
+
+        assert!(performance.is_empty());
+        assert_eq!(loadouts, vec![skill_tuple]);
     }
 }
