@@ -253,7 +253,9 @@ export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
         <CombatLabPreviewLoadouts
           formationUsage={formationUsage}
           loadouts={selected?.loadouts}
+          primaryCommanderName={data.pairing.primaryCommanderName}
           rangeKey={rangeKey}
+          secondaryCommanderName={data.pairing.secondaryCommanderName}
         />
       </div>
     </div>

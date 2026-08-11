@@ -10,6 +10,17 @@ import type {
   CombatLabPreviewLoadouts as LoadoutData,
 } from "@/lib/combat-lab/preview-types";
 
+const CombatLabPreviewSkills = dynamic(
+  () =>
+    import("@/components/combat-lab/new/combat-lab-preview-skills").then(
+      (module) => module.CombatLabPreviewSkills
+    ),
+  {
+    loading: () => <SkillsSkeleton />,
+    ssr: false,
+  }
+);
+
 const CombatLabPreviewFormationChart = dynamic(
   () =>
     import("@/components/combat-lab/new/combat-lab-preview-charts").then(
@@ -68,14 +79,34 @@ function FormationChartSkeleton() {
   );
 }
 
+function SkillsSkeleton() {
+  return (
+    <>
+      {["primary", "secondary"].map((role) => (
+        <article
+          className="min-h-[42rem] animate-pulse rounded-md border border-zinc-950/10 bg-white p-5 dark:border-white/10 dark:bg-zinc-900 sm:p-6"
+          key={role}
+        >
+          <div className="h-6 w-48 rounded bg-zinc-200 dark:bg-zinc-800" />
+          <div className="mt-5 aspect-square rounded bg-zinc-950/[.035] dark:bg-white/5" />
+        </article>
+      ))}
+    </>
+  );
+}
+
 export function CombatLabPreviewLoadouts({
   formationUsage,
   loadouts,
+  primaryCommanderName,
   rangeKey,
+  secondaryCommanderName,
 }: {
   formationUsage: CombatLabPreviewFormationUsagePoint[];
   loadouts?: LoadoutData | null;
+  primaryCommanderName: string;
   rangeKey: CombatLabPreviewRangeKey;
+  secondaryCommanderName: string;
 }) {
   const t = useExtracted();
   const locale = useLocale();
@@ -104,6 +135,12 @@ export function CombatLabPreviewLoadouts({
       </Heading>
 
       <div className="grid gap-5 xl:grid-cols-2">
+        <CombatLabPreviewSkills
+          primaryCommanderName={primaryCommanderName}
+          rangeKey={rangeKey}
+          secondaryCommanderName={secondaryCommanderName}
+          skills={loadouts?.skills}
+        />
         <CombatLabPreviewFormationChart points={formationUsage} rangeKey={rangeKey} />
         {armamentSlotOrder.map((slotId) => {
           const matchingSlot = armamentSlots.find((item) => item.slot === slotId);

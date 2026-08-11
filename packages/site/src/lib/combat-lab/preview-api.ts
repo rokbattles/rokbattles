@@ -145,6 +145,7 @@ function expandWireData(wire: CombatLabV2Wire, locale?: string): CombatLabPrevie
       if (kind === 1) addArmament(output, tuple, wire.armamentMaximums ?? {});
       if (kind === 2) addEquipment(output, tuple);
       if (kind === 3) addAccessory(accessoryAggregates, range, scenario, tuple);
+      if (kind === 4) addSkills(output, tuple);
     });
   }
   for (const range of combatLabPreviewRangeKeys) {
@@ -158,6 +159,18 @@ function expandWireData(wire: CombatLabV2Wire, locale?: string): CombatLabPrevie
       for (const slot of output?.loadouts.equipment.slots ?? []) {
         slot.points.sort((left, right) => left.bucketStartMs - right.bucketStartMs);
       }
+      output?.loadouts.skills.primary.builds.sort((left, right) =>
+        left.skills.localeCompare(right.skills)
+      );
+      output?.loadouts.skills.secondary.builds.sort((left, right) =>
+        left.skills.localeCompare(right.skills)
+      );
+      output?.loadouts.skills.primary.expertisePoints.sort(
+        (left, right) => left.bucketStartMs - right.bucketStartMs
+      );
+      output?.loadouts.skills.secondary.expertisePoints.sort(
+        (left, right) => left.bucketStartMs - right.bucketStartMs
+      );
       const aggregate = accessoryAggregates.get(`${range}:${scenario}`);
       const equipment = output?.loadouts.equipment;
       if (!aggregate || !equipment) continue;
@@ -213,12 +226,23 @@ function emptyScenario(): CombatLabPreviewScenario {
     trends: [],
     formationUsage: [],
     loadouts: {
+      skills: {
+        primary: emptySkillUsage(),
+        secondary: emptySkillUsage(),
+      },
       armaments: { slots: [1, 2, 3, 4].map((slot) => ({ slot, points: [] })) },
       equipment: {
         slots: [1, 2, 3, 4, 5, 6, 7].map((slot) => ({ slot, points: [] })),
         accessoryPairings: { sampleSize: 0, pairings: [] },
       },
     },
+  };
+}
+
+function emptySkillUsage() {
+  return {
+    builds: [],
+    expertisePoints: [],
   };
 }
 
@@ -317,6 +341,30 @@ function addAccessory(
     aggregate.pairs.set(pairKey, current);
   }
   aggregates.set(key, aggregate);
+}
+
+function addSkills(output: CombatLabPreviewScenario, tuple: Array<number | number[]>) {
+  const roleId = finite(tuple[3] as number);
+  if (roleId !== 0 && roleId !== 1) return;
+  const role = roleId === 0 ? "primary" : "secondary";
+  const skills = output.loadouts.skills[role];
+  const expertiseSampleSize = finite(tuple[5] as number);
+  const expertisedCount = finite(tuple[6] as number);
+  skills.expertisePoints.push({
+    bucketStartMs: finite(tuple[1] as number),
+    sampleSize: expertiseSampleSize,
+    expertisedCount,
+    notExpertisedCount: Math.max(0, expertiseSampleSize - expertisedCount),
+  });
+
+  const builds = Array.isArray(tuple[7]) ? tuple[7] : Array.isArray(tuple[9]) ? tuple[9] : [];
+  for (const [build, count] of pairValues(builds)) {
+    const code = Math.trunc(build).toString().padStart(4, "0");
+    if (!/^[1-5]{4}$/.test(code)) continue;
+    const current = skills.builds.find((item) => item.skills === code);
+    if (current) current.count += count;
+    else skills.builds.push({ skills: code, count });
+  }
 }
 
 function forEachMatchingRange(

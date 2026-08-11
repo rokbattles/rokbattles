@@ -135,7 +135,24 @@ export type CombatLabPreviewAccessoryPairings = {
   }>;
 };
 
+export type CombatLabPreviewSkillUsage = {
+  builds: Array<{
+    skills: string;
+    count: number;
+  }>;
+  expertisePoints: Array<{
+    bucketStartMs: number;
+    sampleSize: number;
+    expertisedCount: number;
+    notExpertisedCount: number;
+  }>;
+};
+
 export type CombatLabPreviewLoadouts = {
+  skills: {
+    primary: CombatLabPreviewSkillUsage;
+    secondary: CombatLabPreviewSkillUsage;
+  };
   armaments: {
     slots: CombatLabPreviewArmamentSlot[];
   };

@@ -903,11 +903,13 @@ msgstr ""
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "Aujn2T"
 msgstr ""
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "wbsq7O"
 msgstr ""
 
@@ -1172,6 +1174,50 @@ msgstr ""
 
 #: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
 msgid "VcxUDs"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "EJSVsO"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "8bnFEH"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "OaYD5P"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "eE8qNh"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "u8s8SM"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "NWOFoC"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "I5NMJ8"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "Pc5PiL"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "u6M31h"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "pulVrz"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "cALsOG"
 msgstr ""
 
 #: src/components/combat-lab/new/combat-lab-preview.tsx

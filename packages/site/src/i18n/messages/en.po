@@ -903,11 +903,13 @@ msgstr "No formation data available."
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "Aujn2T"
 msgstr "Count"
 
 #: src/components/combat-lab/formation-breakdown.tsx
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "wbsq7O"
 msgstr "Usage"
 
@@ -1173,6 +1175,50 @@ msgstr "Armament: {slot}"
 #: src/components/combat-lab/new/combat-lab-preview-loadouts.tsx
 msgid "VcxUDs"
 msgstr "Equipment: {slot}"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "EJSVsO"
+msgstr "Skills"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "8bnFEH"
+msgstr "No skill builds were observed for these filters."
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "OaYD5P"
+msgstr "Skills 1 & 2"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "eE8qNh"
+msgstr "Skills 3 & 4"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "u8s8SM"
+msgstr "Heatmap of four-skill level combinations from 1111 to 5555"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "NWOFoC"
+msgstr "Fewer"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "I5NMJ8"
+msgstr "More"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "Pc5PiL"
+msgstr "Expertise status"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "u6M31h"
+msgstr "Expertised"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "pulVrz"
+msgstr "Not expertised"
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "cALsOG"
+msgstr "No expertise status observed."
 
 #: src/components/combat-lab/new/combat-lab-preview.tsx
 msgid "rwIPgH"
