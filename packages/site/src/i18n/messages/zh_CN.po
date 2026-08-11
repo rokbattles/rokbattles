@@ -960,6 +960,10 @@ msgid "pQyHNd"
 msgstr ""
 
 #: src/components/combat-lab/new/combat-lab-preview-charts.tsx
+msgid "yoc4SI"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-charts.tsx
 msgid "et90bv"
 msgstr ""
 
@@ -1178,6 +1182,10 @@ msgstr ""
 
 #: src/components/combat-lab/new/combat-lab-preview-skills.tsx
 msgid "EJSVsO"
+msgstr ""
+
+#: src/components/combat-lab/new/combat-lab-preview-skills.tsx
+msgid "coLB3O"
 msgstr ""
 
 #: src/components/combat-lab/new/combat-lab-preview-skills.tsx

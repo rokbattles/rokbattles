@@ -309,12 +309,15 @@ export function CombatLabPreviewFormationChart({
 
   if (chartData.length === 0 || series.length === 0) {
     return (
-      <article className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900">
-        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
-          <Subheading level={3}>{t("Formation usage")}</Subheading>
-        </div>
+      <article className="min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 xl:col-span-2 dark:border-white/10 dark:bg-zinc-900 sm:p-6">
+        <Subheading level={3} className="!text-lg/7">
+          {t("Formation")}
+        </Subheading>
+        <Subheading level={4} className="mt-3">
+          {t("Formation usage")}
+        </Subheading>
         <CombatLabPreviewEmptyState
-          className="m-5 min-h-72 sm:m-6 sm:min-h-80"
+          className="mt-3 min-h-72 sm:min-h-80"
           message={t("No formations were observed for these filters.")}
         />
       </article>
@@ -322,10 +325,13 @@ export function CombatLabPreviewFormationChart({
   }
 
   return (
-    <article className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900">
-      <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
-        <Subheading level={3}>{t("Formation usage")}</Subheading>
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium">
+    <article className="min-w-0 rounded-md border border-zinc-950/10 bg-white p-5 xl:col-span-2 dark:border-white/10 dark:bg-zinc-900 sm:p-6">
+      <Subheading level={3} className="!text-lg/7">
+        {t("Formation")}
+      </Subheading>
+      <div className="mt-3">
+        <Subheading level={4}>{t("Formation usage")}</Subheading>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium">
           {series.map((formation) => (
             <span
               key={formation.id}
@@ -336,51 +342,55 @@ export function CombatLabPreviewFormationChart({
             </span>
           ))}
         </div>
-      </div>
-      <div className="h-80 px-2 pt-5 pr-4 pb-3 sm:h-96">
-        <ResponsiveContainer minWidth={0}>
-          <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
-            <CartesianGrid stroke="rgba(113,113,122,.18)" strokeDasharray="3 5" vertical={false} />
-            <XAxis
-              axisLine={false}
-              dataKey="date"
-              minTickGap={42}
-              tick={{ fill: "#71717a", fontSize: 11 }}
-              tickLine={false}
-            />
-            <YAxis
-              axisLine={false}
-              domain={[0, 100]}
-              tick={{ fill: "#71717a", fontSize: 11 }}
-              tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
-              tickLine={false}
-              width={46}
-            />
-            <RechartsTooltip
-              content={(props) => (
-                <ChartTooltip
-                  {...props}
-                  formatName={(dataKey) =>
-                    seriesByKey.get(String(dataKey)) ?? t("Unknown formation")
-                  }
-                  formatValue={(value) => `${decimalFormatter.format(value)}%`}
-                />
-              )}
-            />
-            {series.map((formation) => (
-              <Line
-                key={formation.id}
-                dataKey={formation.dataKey}
-                dot={false}
-                isAnimationActive={false}
-                name={formation.name}
-                stroke={formation.color}
-                strokeWidth={formation.id === 2 ? 2.75 : 1.75}
-                type="monotone"
+        <div className="mt-2 h-80 sm:h-96">
+          <ResponsiveContainer minWidth={0}>
+            <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
+              <CartesianGrid
+                stroke="rgba(113,113,122,.18)"
+                strokeDasharray="3 5"
+                vertical={false}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
+              <XAxis
+                axisLine={false}
+                dataKey="date"
+                minTickGap={42}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                tickLine={false}
+              />
+              <YAxis
+                axisLine={false}
+                domain={[0, 100]}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
+                tickLine={false}
+                width={46}
+              />
+              <RechartsTooltip
+                content={(props) => (
+                  <ChartTooltip
+                    {...props}
+                    formatName={(dataKey) =>
+                      seriesByKey.get(String(dataKey)) ?? t("Unknown formation")
+                    }
+                    formatValue={(value) => `${decimalFormatter.format(value)}%`}
+                  />
+                )}
+              />
+              {series.map((formation) => (
+                <Line
+                  key={formation.id}
+                  dataKey={formation.dataKey}
+                  dot={false}
+                  isAnimationActive={false}
+                  name={formation.name}
+                  stroke={formation.color}
+                  strokeWidth={formation.id === 2 ? 2.75 : 1.75}
+                  type="monotone"
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </article>
   );
