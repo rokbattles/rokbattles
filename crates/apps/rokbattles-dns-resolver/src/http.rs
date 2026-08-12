@@ -155,7 +155,7 @@ fn decode_dns_parameter(encoded: &str) -> Result<Vec<u8>, HttpError> {
 #[cfg(test)]
 mod tests {
     use std::{
-        net::{Ipv4Addr, Ipv6Addr},
+        net::Ipv4Addr,
         sync::mpsc::{self, Receiver, Sender, TryRecvError},
         time::Duration,
     };
@@ -168,10 +168,7 @@ mod tests {
     };
     use hickory_proto::{
         op::{Message, MessageType, OpCode, Query, ResponseCode},
-        rr::{
-            Name, RData, Record, RecordType,
-            rdata::{A, AAAA},
-        },
+        rr::{Name, RData, Record, RecordType, rdata::A},
     };
     use reqwest::Url;
     use tokio::task::JoinHandle;
@@ -181,7 +178,6 @@ mod tests {
 
     const TARGET_HOSTNAME: &str = "example.com";
     const RELAY_IPV4: Ipv4Addr = Ipv4Addr::new(203, 0, 113, 10);
-    const RELAY_IPV6: Ipv6Addr = Ipv6Addr::new(0x2001, 0xdb8, 0, 0, 0, 0, 0, 0x10);
     const UPSTREAM_IPV4: Ipv4Addr = Ipv4Addr::new(198, 51, 100, 42);
 
     #[derive(Clone)]
@@ -236,7 +232,7 @@ mod tests {
     }
 
     fn app_with_upstream(upstream_url: Url, timeout: Duration) -> Router {
-        let resolver = Resolver::new(TARGET_HOSTNAME, RELAY_IPV4, None);
+        let resolver = Resolver::new(TARGET_HOSTNAME, RELAY_IPV4);
         let forwarder = DoHForwarder::with_test_timeout(upstream_url, timeout)
             .expect("forwarder fixture should build");
         router(resolver, forwarder)
@@ -367,14 +363,9 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn intra_target_aaaa_query_should_return_configured_local_answer() {
-        let resolver = Resolver::new(TARGET_HOSTNAME, RELAY_IPV4, Some(RELAY_IPV6));
-        let forwarder = DoHForwarder::new(
-            Url::parse("http://127.0.0.1:9/dns-query").expect("fixture URL should be valid"),
-        )
-        .expect("forwarder fixture should build");
+    async fn intra_target_aaaa_query_should_return_nodata() {
         let response = send_post(
-            router(resolver, forwarder),
+            app(),
             "/intra",
             dns_query_for(TARGET_HOSTNAME, RecordType::AAAA),
             DNS_MEDIA_TYPE,
@@ -383,8 +374,8 @@ mod tests {
         let message = decode_dns_response(response).await;
 
         assert_eq!(
-            message.answers.first().map(|answer| &answer.data),
-            Some(&RData::AAAA(AAAA(RELAY_IPV6)))
+            (message.metadata.response_code, message.answers.is_empty()),
+            (ResponseCode::NoError, true)
         );
     }
 
