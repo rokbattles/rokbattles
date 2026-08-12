@@ -10,6 +10,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 import { CookieConsentProvider } from "@/providers/cookie-consent-context";
+import { GameTranslationsProvider } from "@/providers/game-translation-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -65,17 +66,19 @@ export default async function Layout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <NextIntlClientProvider messages={messages}>
-          <CookieConsentProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <PlatformProviders
-                initialGovernors={initialGovernors}
-                initialActiveGovernorId={initialActiveGovernorId}
-              >
-                <PlatformLayout initialUser={user}>{children}</PlatformLayout>
-              </PlatformProviders>
-            </ThemeProvider>
-            <CookieConsentBanner />
-          </CookieConsentProvider>
+          <GameTranslationsProvider>
+            <CookieConsentProvider>
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                <PlatformProviders
+                  initialGovernors={initialGovernors}
+                  initialActiveGovernorId={initialActiveGovernorId}
+                >
+                  <PlatformLayout initialUser={user}>{children}</PlatformLayout>
+                </PlatformProviders>
+              </ThemeProvider>
+              <CookieConsentBanner />
+            </CookieConsentProvider>
+          </GameTranslationsProvider>
         </NextIntlClientProvider>
       </body>
     </html>
