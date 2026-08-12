@@ -26,11 +26,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         bind_addr = %config.bind_addr,
         target_hostname = %config.target_hostname,
         relay_ipv4 = %config.relay_ipv4,
-        relay_ipv6 = ?config.relay_ipv6,
         intra_upstream_doh_url = %config.intra_upstream_doh_url,
         "starting DNS-over-HTTPS resolver"
     );
-    let resolver = Resolver::new(config.target_hostname, config.relay_ipv4, config.relay_ipv6);
+    let resolver = Resolver::new(config.target_hostname, config.relay_ipv4);
     let forwarder = DoHForwarder::new(config.intra_upstream_doh_url)?;
     let app = router(resolver, forwarder);
 

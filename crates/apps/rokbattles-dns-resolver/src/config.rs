@@ -2,7 +2,7 @@
 
 use std::{
     env,
-    net::{Ipv4Addr, Ipv6Addr, SocketAddr},
+    net::{Ipv4Addr, SocketAddr},
 };
 
 use hickory_proto::rr::Name;
@@ -15,12 +15,10 @@ const DEFAULT_BIND_ADDR: &str = "0.0.0.0:8053";
 pub struct Config {
     /// Address on which the HTTP server listens.
     pub bind_addr: SocketAddr,
-    /// The only hostname for which the resolver returns relay addresses.
+    /// The only hostname for which the resolver returns the relay address.
     pub target_hostname: String,
     /// IPv4 address returned for the target hostname.
     pub relay_ipv4: Ipv4Addr,
-    /// Optional IPv6 address returned for the target hostname.
-    pub relay_ipv6: Option<Ipv6Addr>,
     /// DoH resolver used for non-target queries received from Intra.
     pub intra_upstream_doh_url: Url,
 }
@@ -64,15 +62,13 @@ impl Config {
             "RELAY_IPV4",
             lookup("RELAY_IPV4").ok_or(ConfigError::Missing { key: "RELAY_IPV4" })?,
         )?;
-        let relay_ipv6 =
-            lookup("RELAY_IPV6").map(|value| parse("RELAY_IPV6", value)).transpose()?;
         let intra_upstream_doh_url = parse_upstream_url(
             "INTRA_UPSTREAM_DOH_URL",
             lookup("INTRA_UPSTREAM_DOH_URL")
                 .ok_or(ConfigError::Missing { key: "INTRA_UPSTREAM_DOH_URL" })?,
         )?;
 
-        Ok(Self { bind_addr, target_hostname, relay_ipv4, relay_ipv6, intra_upstream_doh_url })
+        Ok(Self { bind_addr, target_hostname, relay_ipv4, intra_upstream_doh_url })
     }
 }
 
@@ -132,7 +128,6 @@ mod tests {
                 bind_addr: "0.0.0.0:8053".parse().expect("fixture should be valid"),
                 target_hostname: "example.com".to_string(),
                 relay_ipv4: Ipv4Addr::new(203, 0, 113, 10),
-                relay_ipv6: None,
                 intra_upstream_doh_url: Url::parse(TEST_UPSTREAM_DOH_URL)
                     .expect("upstream URL fixture should be valid"),
             }
@@ -234,33 +229,6 @@ mod tests {
         assert_eq!(
             error,
             ConfigError::Invalid { key: "RELAY_IPV4", value: "2001:db8::1".to_string() }
-        );
-    }
-
-    #[test]
-    fn configured_relay_ipv6_should_be_loaded() {
-        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-            ("RELAY_IPV6", "2001:db8::10"),
-        ])))
-        .expect("configuration should be valid");
-
-        assert_eq!(config.relay_ipv6, Some(Ipv6Addr::new(0x2001, 0xdb8, 0, 0, 0, 0, 0, 0x10)));
-    }
-
-    #[test]
-    fn invalid_relay_ipv6_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-            ("RELAY_IPV6", "203.0.113.11"),
-        ])))
-        .expect_err("relay address should not be IPv4");
-
-        assert_eq!(
-            error,
-            ConfigError::Invalid { key: "RELAY_IPV6", value: "203.0.113.11".to_string() }
         );
     }
 
