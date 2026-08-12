@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { type ReportsScope, useReportsPage } from "@/hooks/use-reports-page";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsEmptyStateRow from "./reports-empty-state-row";
@@ -48,7 +49,9 @@ export default function ReportsTable({
             <TableHeader>{t("Sender")}</TableHeader>
             <TableHeader>{t("Opponent")}</TableHeader>
             <TableHeader className="sm:w-32">{t("Battles")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
+            <TableHeader className="sm:w-32">
+              <GameTranslate value="LC_COMMON_KILLING_AMOUNT" />
+            </TableHeader>
             <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
             <TableHeader className="sm:w-32">{t("Duration")}</TableHeader>
           </TableRow>

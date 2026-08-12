@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 
 export type AccountLootSection =
   | "barbarians"
@@ -38,12 +39,12 @@ export function AccountLootLayout({
     }
   }
   const dateQuery = dateParams.toString();
-  const sectionLabels: Record<AccountLootSection, string> = {
-    barbarians: t("Barbarians"),
-    "barbarian-forts": t("Barbarian Forts"),
+  const sectionLabels: Record<AccountLootSection, React.ReactNode> = {
+    barbarians: <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR" />,
+    "barbarian-forts": <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_FORT" />,
     baulurs: t("Baulurs"),
-    "karuak-ceremony": t("Karuak Ceremony"),
-    "kahars-treasure": t("Kahar's Treasure"),
+    "karuak-ceremony": <GameTranslate value="LC_EVENT_GVE_TITLE" />,
+    "kahars-treasure": <GameTranslate value="LC_KINGDOMWAR_BARBARIAN_TITLE" />,
   };
 
   return (

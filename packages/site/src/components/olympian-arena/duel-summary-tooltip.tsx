@@ -1,11 +1,12 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import type { ReactNode } from "react";
 
 type DuelSummaryTooltipProps = {
   active?: boolean;
   payload?: unknown;
-  label?: string | number;
+  label?: ReactNode;
 };
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
@@ -31,7 +32,7 @@ export function DuelSummaryTooltip({ active, payload, label }: DuelSummaryToolti
 
   return (
     <div className="rounded-lg border border-zinc-950/10 bg-white px-4 py-3 text-xs shadow-lg dark:border-white/10 dark:bg-zinc-900">
-      <div className="font-semibold text-zinc-700 dark:text-zinc-100">{String(label)}</div>
+      <div className="font-semibold text-zinc-700 dark:text-zinc-100">{label}</div>
       <div className="mt-3 space-y-1.5">
         {entries.map((entry) => {
           const descriptor =

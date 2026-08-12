@@ -103,55 +103,12 @@ msgid "gkoU0i"
 msgstr "Individual Results"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "FsjcN7"
-msgstr "Ark of Osiris Score"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "JPFyHU"
-msgstr "Kill Score"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g_Nwxg"
-msgstr "Occupation Score"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "5YClsN"
-msgstr "Provisions Score"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "nCGWau"
-msgstr "Battles Won"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Hw0iax"
 msgstr "Battles Lost"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "BXfxPW"
-msgstr "Win Percentage"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "Sl01xK"
-msgstr "Kills"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "sz3C4k"
-msgstr "Severely Wounded"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "mJwM5A"
-msgstr "Units Healed"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "itiyNN"
 msgstr "Speedups (minutes)"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "lcP4aP"
-msgstr "Teleports"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5g03Dq"
@@ -212,23 +169,6 @@ msgstr "Pairing"
 msgid "ZtK0ZT"
 msgstr "Battles (win/total)"
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgid "Y3Z7jw"
-msgstr "Kill Count"
-
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/combat-lab/combat-lab-summary-section.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "RCtKQ2"
-msgstr "Kill Points"
-
 #: src/components/account-ark/ark-match-history-empty-state.tsx
 msgid "7fThOd"
 msgstr "No Ark match history found."
@@ -240,16 +180,6 @@ msgstr "Failed to load Ark match history."
 #: src/components/account-ark/ark-match-history-loading-state.tsx
 msgid "raC1gL"
 msgstr "Loading Ark match history..."
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "T4H9Lz"
-msgstr "Seth"
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "lsSmtD"
-msgstr "Iset"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
@@ -354,35 +284,9 @@ msgid "m9rp75"
 msgstr "No binds yet."
 
 #: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "r3YbHp"
-msgstr "Barbarians"
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "owXGag"
-msgstr "Barbarian Forts"
-
-#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "l7kWPA"
 msgstr "Baulurs"
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "xRJGes"
-msgstr "Karuak Ceremony"
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
-msgstr "Kahar's Treasure"
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/platform-layout.tsx
@@ -415,51 +319,6 @@ msgstr "Failed to load loot."
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "bzSrZ6"
 msgstr "Level {level}"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "R4HO71"
-msgstr "Marauder Encampments"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "PuC-Mi"
-msgstr "Ironhand Baulur"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "1j7NiE"
-msgstr "Miser Khaolak"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "SdCxJX"
-msgstr "Bladefist Andaal"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "8_6Wn2"
-msgstr "Bearkeeper Lukor"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "M3-BHu"
-msgstr "Bruteshield Murdos"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "HxOf0f"
-msgstr "Warmender Pache"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "tbfLQx"
-msgstr "Solon Por"
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "4pFR10"
-msgstr "Marauders"
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -1380,25 +1239,8 @@ msgid "yedWVm"
 msgstr "Failed to load loot explorer data."
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "qmJC1g"
-msgstr "Barbarian Wolf Tamers/Pack Striders"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "S5oZQH"
-msgstr "Barbarian Bone Archers/Heavy Archers"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "9k2_Bx"
-msgstr "Barbarian Beast Riders/Blitz Hunters"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
 msgstr "English Soldiers"
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "oAxAzA"
-msgstr "{name} level {level}"
 
 #: src/components/loot-explorer/baulur-explorer.tsx
 msgid "AAa9de"
@@ -1496,23 +1338,9 @@ msgid "y-cvIx"
 msgstr "Analyze performance across commander pairings, loadouts, and matchups"
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "8Na2J4"
-msgstr "Ark of Osiris"
-
-#: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ejEGdx"
 msgstr "Home"
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "mJFWRb"
-msgstr "KVK"
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Mro8Zx"
-msgstr "Supreme Strife"
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
@@ -1620,10 +1448,6 @@ msgid "byP6IC"
 msgstr "Selected"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "MqtNsY"
-msgstr "Inscriptions"
-
-#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g-gbNs"
 msgstr "Armament buffs"
 
@@ -1634,15 +1458,6 @@ msgstr "No reports were found for this duel."
 #: src/components/olympian-arena/duel-loading-state.tsx
 msgid "U5Mxzi"
 msgstr "Loading duel report..."
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-#: src/components/report/report-participant-card.tsx
-msgid "DqkPqe"
-msgstr "Commanders"
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "cKnhhK"
-msgstr "Troop Buffs"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx
 msgid "CuNYjA"
@@ -1670,30 +1485,6 @@ msgstr "We could not load this duel."
 #: src/components/report/report-battle-results-chart.tsx
 msgid "A1ykkc"
 msgstr "Units"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "NxzeNU"
-msgstr "Dead"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-msgid "CtBzuU"
-msgstr "Severely wounded"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "NboP8s"
-msgstr "Wounded"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YoPSLI"
-msgstr "Healed"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YXoHk0"
-msgstr "Power"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -1754,10 +1545,6 @@ msgid "Pe0ogR"
 msgstr "Theme"
 
 #: src/components/platform-layout.tsx
-msgid "sqvUg2"
-msgstr "Olympian Arena"
-
-#: src/components/platform-layout.tsx
 msgid "H2meTq"
 msgstr "Combat Lab"
 
@@ -1797,32 +1584,6 @@ msgstr "Toggle theme"
 msgid "SQJto2"
 msgstr "Sign in"
 
-#: src/components/report/report-armament-section.tsx
-msgid "e36Xiv"
-msgstr "Armament Info"
-
-#: src/components/report/report-artifact-section.tsx
-msgid "eW5eoW"
-msgstr "Artifacts"
-
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "ka8VLG"
-msgstr "Remaining"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "UAaBlE"
-msgstr "Heal"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "xtXDYN"
-msgstr "Slightly wounded"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "sTixnc"
-msgstr "Acclaim"
-
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr "No battles were found for this hash."
@@ -1853,23 +1614,9 @@ msgid "eQhi5P"
 msgstr "Data summary"
 
 #: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08_"
-msgstr "All Enemies"
-
-#: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "kzHEVE"
 msgstr "Troop Units"
-
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "1ISgLB"
-msgstr "Slightly Wounded"
-
-#: src/components/report/report-relic-section.tsx
-msgid "Ft8yjo"
-msgstr "Relics"
 
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
@@ -1916,10 +1663,6 @@ msgid "5aSP17"
 msgstr "Damage bonus"
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "DCHsxk"
-msgstr "Stratagems"
-
-#: src/components/report/report-stratagem-section.tsx
 msgid "Hszv-5"
 msgstr "{percentage}% applied"
 
@@ -1948,16 +1691,8 @@ msgid "dfPU6h"
 msgstr "Governor"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "rS3oIg"
-msgstr "Primary Commander"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3_h"
 msgstr "Any"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "SHldaq"
-msgstr "Secondary Commander"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "-XTzdP"
@@ -1972,52 +1707,8 @@ msgid "e3PeBT"
 msgstr "Subtype"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "2AAtTC"
-msgstr "Season 1"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "jbrAjx"
-msgstr "Season 2"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Ygh1LR"
-msgstr "Season 3"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "wudsnZ"
-msgstr "Season of Conquest"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "gvEP4o"
-msgstr "Golden Battleground"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "BQ9UYa"
-msgstr "Silver Battleground"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "XE8i_T"
-msgstr "Osiris League"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Qf8fwC"
-msgstr "Practice Match"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Hin97m"
-msgstr "Custom Match"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
 msgstr "Garrison Building"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ptYapO"
-msgstr "Alliance Flag"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "iScUrx"
-msgstr "Alliance Fortress"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"

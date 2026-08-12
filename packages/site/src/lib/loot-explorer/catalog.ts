@@ -5,9 +5,9 @@ import type {
   KaruakCeremonyLootDocument,
 } from "@/lib/loot-explorer/api";
 
-export type LootExplorerOption = {
+export type LootExplorerOption<TLabel = string> = {
   value: string;
-  label: string;
+  label: TLabel;
 };
 
 export type BarbarianFamily = {

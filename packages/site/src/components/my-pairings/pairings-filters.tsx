@@ -1,9 +1,11 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import { Fragment, type ReactNode } from "react";
 import { Field, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { formatLocalDateInput } from "@/lib/datetime";
 import {
   formatExcludedPairingsFilters,
@@ -53,11 +55,11 @@ export function PairingsFilters({
   const t = useExtracted();
   const minDate = "2025-01-01";
   const maxDate = formatLocalDateInput(new Date());
-  const activityLabels: Record<PairingsActivity, string> = {
-    ark: t("Ark of Osiris"),
+  const activityLabels: Record<PairingsActivity, ReactNode> = {
+    ark: <GameTranslate value="LC_BATTLEFIELD_TITLE" />,
     home: t("Home"),
-    kvk: t("KVK"),
-    strife: t("Supreme Strife"),
+    kvk: <GameTranslate value="LC_COMMON_DIC_US_NAME_1" />,
+    strife: <GameTranslate value="LC_TITAN_TITLE" />,
   };
   const battleLabels: Record<PairingsBattleType, string> = {
     "open-field": t("Open Field"),
@@ -65,7 +67,7 @@ export function PairingsFilters({
     rally: t("Rally"),
     garrison: t("Garrison"),
   };
-  const excludedActivitySummary = formatExcludedPairingsFilters(excludedActivities, activityLabels);
+  const excludedActivitySummary = excludedActivities.map((activity) => activityLabels[activity]);
   const excludedBattleSummary = formatExcludedPairingsFilters(excludedBattles, battleLabels);
 
   return (
@@ -127,21 +129,34 @@ export function PairingsFilters({
           multiple
           placeholder={t("None")}
           renderValue={() =>
-            excludedActivitySummary ? (
-              <span className="block truncate">{excludedActivitySummary}</span>
+            excludedActivitySummary.length ? (
+              <span className="block truncate">
+                {excludedActivitySummary.map((label, index) => (
+                  <Fragment key={excludedActivities[index]}>
+                    {index > 0 ? ", " : null}
+                    {label}
+                  </Fragment>
+                ))}
+              </span>
             ) : (
               <span className="block truncate text-zinc-500">{t("None")}</span>
             )
           }
         >
           <ListboxOption value="ark">
-            <ListboxLabel>{t("Ark of Osiris")}</ListboxLabel>
+            <ListboxLabel>
+              <GameTranslate value="LC_BATTLEFIELD_TITLE" />
+            </ListboxLabel>
           </ListboxOption>
           <ListboxOption value="kvk">
-            <ListboxLabel>{t("KVK")}</ListboxLabel>
+            <ListboxLabel>
+              <GameTranslate value="LC_COMMON_DIC_US_NAME_1" />
+            </ListboxLabel>
           </ListboxOption>
           <ListboxOption value="strife">
-            <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
+            <ListboxLabel>
+              <GameTranslate value="LC_TITAN_TITLE" />
+            </ListboxLabel>
           </ListboxOption>
           <ListboxOption value="home">
             <ListboxLabel>{t("Home")}</ListboxLabel>

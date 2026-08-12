@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import type { ReactNode } from "react";
 import { SummaryMetric } from "@/components/summary-metric";
 import { Button } from "@/components/ui/button";
 import { Subheading } from "@/components/ui/heading";
@@ -13,10 +14,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Text } from "@/components/ui/text";
+import { GameTranslate } from "@/components/v1/game-translate";
 
 type GeneralStat = {
   id: string;
-  name: string;
+  name: ReactNode;
   value: string;
   description: string;
 };
@@ -121,7 +123,9 @@ export function PairingsLoadoutBreakdown({
                       <TableHeader className="w-12">{t("#")}</TableHeader>
                       <TableHeader>{t("Opponent pairing")}</TableHeader>
                       <TableHeader className="w-24">{t("Battles")}</TableHeader>
-                      <TableHeader className="w-32">{t("Kill Points")}</TableHeader>
+                      <TableHeader className="w-32">
+                        <GameTranslate value="LC_COMMON_KILL_SCORE" />
+                      </TableHeader>
                       <TableHeader className="w-40">{t("Opponent Kill Points")}</TableHeader>
                       <TableHeader className="w-20">{t("DPS")}</TableHeader>
                       <TableHeader className="w-20">{t("SPS")}</TableHeader>

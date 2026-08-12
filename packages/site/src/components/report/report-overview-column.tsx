@@ -1,13 +1,14 @@
 "use client";
 
 import { useExtracted } from "next-intl";
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { getOverviewValue, OVERVIEW_METRICS } from "@/lib/report/overview-metrics";
 import type { RawOverview, RawParticipantInfo } from "@/lib/types/raw-report";
 
@@ -26,7 +27,12 @@ export function ReportOverviewColumn({
 }: ReportOverviewColumnProps) {
   const t = useExtracted();
   const participantName = participant?.player_name?.trim();
-  const sideTitle = side === "self" ? participantName || t("Unknown") : t("All Enemies");
+  const sideTitle =
+    side === "self" ? (
+      participantName || t("Unknown")
+    ) : (
+      <GameTranslate value="LC_COMMON_BATTLEREPORT_ALLENEMY" />
+    );
   return (
     <div className="space-y-3 rounded bg-zinc-600/10 p-4 dark:bg-white/5">
       <Subheading>{sideTitle}</Subheading>
@@ -34,25 +40,25 @@ export function ReportOverviewColumn({
         {OVERVIEW_METRICS.map((metric) => {
           const key = side === "self" ? metric.selfKey : metric.enemyKey;
           const value = getOverviewValue(overview, key);
-          let label: string;
+          let label: ReactNode;
           switch (metric.labelKey) {
             case "troopUnits":
               label = t("Troop Units");
               break;
             case "dead":
-              label = t("Dead");
+              label = <GameTranslate value="LC_COMMON_DEATH" />;
               break;
             case "severelyWounded":
-              label = t("Severely Wounded");
+              label = <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />;
               break;
             case "slightlyWounded":
-              label = t("Slightly Wounded");
+              label = <GameTranslate value="LC_COMMON_SLIGHTLY_WOUNDED" />;
               break;
             case "remaining":
-              label = t("Remaining");
+              label = <GameTranslate value="LC_COMMON_UNITS_REMAINING" />;
               break;
             case "killPoints":
-              label = t("Kill Points");
+              label = <GameTranslate value="LC_COMMON_KILL_SCORE" />;
               break;
             default:
               return null;

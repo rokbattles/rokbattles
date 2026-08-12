@@ -8,6 +8,7 @@ import { ReportInscriptionBadge } from "@/components/report/report-inscription-b
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { LoadoutAggregate } from "@/lib/pairings";
 
 export type LoadoutCard = LoadoutAggregate & {
@@ -89,7 +90,7 @@ export function PairingsLoadouts({
 
                     <div className="space-y-2">
                       <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                        {t("Inscriptions")}
+                        <GameTranslate value="LC_FORMATION_EQUIP_FILTER_INSCRIPTION" />
                       </p>
                       <div className="flex min-h-5 flex-wrap gap-1.5">
                         {loadout.loadout.inscriptions.map((id) => (

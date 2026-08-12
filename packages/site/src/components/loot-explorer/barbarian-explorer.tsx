@@ -1,8 +1,9 @@
 "use client";
 
 import { useExtracted, useLocale } from "next-intl";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { type BarbarianLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
 import {
   barbarianFamilies,
@@ -61,13 +62,31 @@ export function BarbarianExplorer({
     );
   }
 
-  const familyLabels = new Map([
-    ["barbarians", t("Barbarians")],
-    ["barbarian-wolf-tamers-pack-striders", t("Barbarian Wolf Tamers/Pack Striders")],
-    ["barbarian-bone-archers-heavy-archers", t("Barbarian Bone Archers/Heavy Archers")],
-    ["barbarian-beast-riders-blitz-hunters", t("Barbarian Beast Riders/Blitz Hunters")],
+  const familyLabels = new Map<string, ReactNode>([
+    ["barbarians", <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR" />],
+    [
+      "barbarian-wolf-tamers-pack-striders",
+      <>
+        <GameTranslate value="LC_COMMON_BARBARIAN_INFANTRY_NAME" />/
+        <GameTranslate value="LC_COMMON_BARBARIAN_INFANTRY_NAME2" />
+      </>,
+    ],
+    [
+      "barbarian-bone-archers-heavy-archers",
+      <>
+        <GameTranslate value="LC_COMMON_BARBARIAN_ARCHER_NAME" />/
+        <GameTranslate value="LC_COMMON_BARBARIAN_ARCHER_NAME2" />
+      </>,
+    ],
+    [
+      "barbarian-beast-riders-blitz-hunters",
+      <>
+        <GameTranslate value="LC_COMMON_BARBARIAN_CAVALRY_NAME" />/
+        <GameTranslate value="LC_COMMON_BARBARIAN_CAVALRY_NAME2" />
+      </>,
+    ],
     ["english-soldiers", t("English Soldiers")],
-    ["marauders", t("Marauders")],
+    ["marauders", <GameTranslate value="LC_COMMON_SEARCH_PVE_MARA" />],
   ]);
   const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
   const availableFamilies = barbarianFamilies.filter((option) => items.some(option.matches));
@@ -125,7 +144,7 @@ export function BarbarianExplorer({
         {visibleItems.map((item) => (
           <section key={`${item.kind}:${item.level}`} className="space-y-3">
             <Subheading>
-              {t("{name} level {level}", { level: item.level.toString(), name: familyLabel })}
+              {familyLabel} {t("Level {level}", { level: item.level.toString() })}
             </Subheading>
             <LootTable loot={item.loot} locale={locale} />
           </section>

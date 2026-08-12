@@ -7,6 +7,7 @@ import {
   DescriptionTerm,
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { formatArkMetricValue, formatArkPercentValue } from "@/lib/ark/detail-format";
 import type { ArkMatchDetailIndividualResults } from "@/lib/types/ark";
 
@@ -24,23 +25,33 @@ export function ArkMatchDetailIndividualResultsSection({
     <div className="space-y-2">
       <Subheading>{t("Individual Results")}</Subheading>
       <DescriptionList>
-        <DescriptionTerm>{t("Ark of Osiris Score")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_FLAG" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.arkOfOsirisScore, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Kill Score")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_KILL" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.killScore, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Occupation Score")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_BUILDING" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.occupationScore, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Provisions Score")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_RESOURCE" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.provisionsScore, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Battles Won")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_STAT_DATA3_02" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.battlesWin, unavailableLabel)}
         </DescriptionDetails>
@@ -48,19 +59,27 @@ export function ArkMatchDetailIndividualResultsSection({
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.battlesLose, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Win Percentage")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_WIN" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkPercentValue(individualResults.winRate, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Kills")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_KILL_NUM" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.kills, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Severely Wounded")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.severelyWounded, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Units Healed")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_RESULT_HEAL" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.unitsHealed, unavailableLabel)}
         </DescriptionDetails>
@@ -68,7 +87,9 @@ export function ArkMatchDetailIndividualResultsSection({
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.speedups, unavailableLabel)}
         </DescriptionDetails>
-        <DescriptionTerm>{t("Teleports")}</DescriptionTerm>
+        <DescriptionTerm>
+          <GameTranslate value="LC_BATTLEFIELD_END_TELEPORT" />
+        </DescriptionTerm>
         <DescriptionDetails className="tabular-nums">
           {formatArkMetricValue(individualResults.teleports, unavailableLabel)}
         </DescriptionDetails>

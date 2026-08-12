@@ -14,6 +14,7 @@ import {
 import { Field, Fieldset, Label, Legend } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { useCommanderOptions } from "@/hooks/use-commander-name";
 import {
   ReportsFilterContext,
@@ -213,7 +214,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               <Legend>{t("Sender")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{t("Primary Commander")}</Label>
+                  <Label>
+                    <GameTranslate value="LC_HERO_CHIEFCOMMANDER" />
+                  </Label>
                   <Listbox
                     value={localSenderPrimaryCommanderId}
                     onChange={(value) => {
@@ -231,7 +234,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Secondary Commander")}</Label>
+                  <Label>
+                    <GameTranslate value="LC_HERO_SECONDARYCOMMANDER" />
+                  </Label>
                   <Listbox
                     value={localSenderSecondaryCommanderId}
                     onChange={(value) => {
@@ -254,7 +259,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
               <Legend>{t("Opponent")}</Legend>
               <div data-slot="control" className="space-y-6">
                 <Field>
-                  <Label>{t("Primary Commander")}</Label>
+                  <Label>
+                    <GameTranslate value="LC_HERO_CHIEFCOMMANDER" />
+                  </Label>
                   <Listbox
                     value={localOpponentPrimaryCommanderId}
                     onChange={(value) => {
@@ -272,7 +279,9 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                   </Listbox>
                 </Field>
                 <Field>
-                  <Label>{t("Secondary Commander")}</Label>
+                  <Label>
+                    <GameTranslate value="LC_HERO_SECONDARYCOMMANDER" />
+                  </Label>
                   <Listbox
                     value={localOpponentSecondaryCommanderId}
                     onChange={(value) => {
@@ -314,10 +323,14 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                         <ListboxLabel>{t("Ark of Osiris/Osiris League")}</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="kvk">
-                        <ListboxLabel>{t("KVK")}</ListboxLabel>
+                        <ListboxLabel>
+                          <GameTranslate value="LC_COMMON_DIC_US_NAME_1" />
+                        </ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="strife">
-                        <ListboxLabel>{t("Supreme Strife")}</ListboxLabel>
+                        <ListboxLabel>
+                          <GameTranslate value="LC_TITAN_TITLE" />
+                        </ListboxLabel>
                       </ListboxOption>
                     </Listbox>
                   </Field>
@@ -334,34 +347,52 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                         {localType === "kvk" ? (
                           <>
                             <ListboxOption value="1">
-                              <ListboxLabel>{t("Season 1")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_MAP_LAND_SEASON_1" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="2">
-                              <ListboxLabel>{t("Season 2")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_MAP_LAND_SEASON_2" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="3">
-                              <ListboxLabel>{t("Season 3")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_MAP_LAND_SEASON_3" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="100">
-                              <ListboxLabel>{t("Season of Conquest")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_MAP_LAND_SEASON_CONQUER" />
+                              </ListboxLabel>
                             </ListboxOption>
                           </>
                         ) : (
                           <>
                             <ListboxOption value="1">
-                              <ListboxLabel>{t("Golden Battleground")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_BATTLEFIELD_LEAGUEB_GBATTLE" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="6">
-                              <ListboxLabel>{t("Silver Battleground")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_BATTLEFIELD_LEAGUEB_SBATTLE" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="3">
-                              <ListboxLabel>{t("Osiris League")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_BATTLEFIELD_LEAGUE_ENTRANCE" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="2">
-                              <ListboxLabel>{t("Practice Match")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_BATTLEFIELD_PRACTISE_ENTRY" />
+                              </ListboxLabel>
                             </ListboxOption>
                             <ListboxOption value="5">
-                              <ListboxLabel>{t("Custom Match")}</ListboxLabel>
+                              <ListboxLabel>
+                                <GameTranslate value="LC_BATTLEFIELD_DIY_BUTTON_01" />
+                              </ListboxLabel>
                             </ListboxOption>
                           </>
                         )}
@@ -430,10 +461,14 @@ export function ReportsFilterDialog({ lockedPlayerId, ...props }: ReportsFilterD
                         <ListboxLabel>{t("Any")}</ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="flag">
-                        <ListboxLabel>{t("Alliance Flag")}</ListboxLabel>
+                        <ListboxLabel>
+                          <GameTranslate value="LC_COMMON_ALLIANCE_FLAG" />
+                        </ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="fortress">
-                        <ListboxLabel>{t("Alliance Fortress")}</ListboxLabel>
+                        <ListboxLabel>
+                          <GameTranslate value="LC_ALLIANCE_TERRITORY_BUILD_NAME2" />
+                        </ListboxLabel>
                       </ListboxOption>
                       <ListboxOption value="other">
                         <ListboxLabel>{t("Other")}</ListboxLabel>

@@ -3,6 +3,7 @@
 import { useExtracted, useLocale } from "next-intl";
 import { useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { fetchKaharTreasureLoot, type KaharTreasureLootDocument } from "@/lib/loot-explorer/api";
 import { LootExplorerLayout } from "./loot-explorer-layout";
 import { LootExplorerStatus } from "./loot-explorer-status";
@@ -64,7 +65,9 @@ export function KaharTreasureExplorer() {
       />
       <section className="space-y-3">
         <div>
-          <Subheading>{t("Kahar's Treasure")}</Subheading>
+          <Subheading>
+            <GameTranslate value="LC_KINGDOMWAR_BARBARIAN_TITLE" />
+          </Subheading>
         </div>
         <LootTable loot={item?.loot ?? []} locale={locale} />
       </section>

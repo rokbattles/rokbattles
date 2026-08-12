@@ -1,8 +1,8 @@
 "use client";
 
-import { useExtracted } from "next-intl";
 import { ReportEquipmentSlot } from "@/components/report/report-equipment-slot";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { EquipmentToken } from "@/lib/report/parsers";
 
 type ReportArtifactSectionProps = {
@@ -10,14 +10,15 @@ type ReportArtifactSectionProps = {
 };
 
 export function ReportArtifactSection({ tokens }: ReportArtifactSectionProps) {
-  const t = useExtracted();
   if (tokens.length === 0) {
     return null;
   }
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Artifacts")}</Subheading>
+      <Subheading>
+        <GameTranslate value="LC_KINGDOMWAR_S14_TROOPSEQUIP_BTN" />
+      </Subheading>
       <div className="grid grid-cols-4 gap-3 sm:grid-cols-5">
         {tokens.map((token) => (
           <div key={`${token.slot}-${token.id}`}>
