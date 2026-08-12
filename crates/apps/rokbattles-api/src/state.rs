@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::db::{AuthRepository, ReportsStore};
+use crate::db::{AuthRepository, GameLocalizationStore, ReportsStore};
 
 /// Discord OAuth settings used by auth routes.
 #[derive(Clone)]
@@ -14,6 +14,7 @@ pub struct DiscordOAuthConfig {
 #[derive(Clone)]
 pub struct AppState {
     pub auth_store: Arc<dyn AuthRepository>,
+    pub game_localizations: GameLocalizationStore,
     pub reports_store: ReportsStore,
     pub discord_oauth: DiscordOAuthConfig,
 }
@@ -22,9 +23,10 @@ impl AppState {
     /// Create app state from the configured stores and OAuth settings.
     pub fn new(
         auth_store: Arc<dyn AuthRepository>,
+        game_localizations: GameLocalizationStore,
         reports_store: ReportsStore,
         discord_oauth: DiscordOAuthConfig,
     ) -> Self {
-        Self { auth_store, reports_store, discord_oauth }
+        Self { auth_store, game_localizations, reports_store, discord_oauth }
     }
 }
