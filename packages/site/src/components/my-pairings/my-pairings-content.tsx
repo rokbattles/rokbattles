@@ -6,6 +6,7 @@ import { PairingsFilters } from "@/components/my-pairings/pairings-filters";
 import { PairingsLoadoutBreakdown } from "@/components/my-pairings/pairings-loadout-breakdown";
 import { type LoadoutCard, PairingsLoadouts } from "@/components/my-pairings/pairings-loadouts";
 import { Text } from "@/components/ui/text";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { getCommanderName } from "@/hooks/use-commander-name";
 import { usePairingLoadouts } from "@/hooks/use-pairing-loadouts";
 import { usePairingOpponents } from "@/hooks/use-pairing-opponents";
@@ -302,7 +303,7 @@ export function MyPairingsContent() {
       },
       {
         id: "killPoints",
-        name: t("Kill Points"),
+        name: <GameTranslate value="LC_COMMON_KILL_SCORE" />,
         value: formatNumber(selectedLoadoutCard.totals.killScore),
         description: t("Total kill points earned while using this pairing."),
       },

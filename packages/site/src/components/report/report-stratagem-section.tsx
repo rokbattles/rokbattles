@@ -4,6 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useExtracted, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import {
   formatStratagemPercentage,
   formatStratagemStatistic,
@@ -41,7 +42,9 @@ export function ReportStratagemSection({ stratagems }: ReportStratagemSectionPro
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Stratagems")}</Subheading>
+      <Subheading>
+        <GameTranslate value="LC_KINGDOMWAR_S19_POLICY_ICON" />
+      </Subheading>
       <div className="space-y-3">
         {stratagems.map((stratagem) => (
           <details className="group" key={stratagem.id}>

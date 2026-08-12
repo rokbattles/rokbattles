@@ -103,55 +103,12 @@ msgid "gkoU0i"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "FsjcN7"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "JPFyHU"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g_Nwxg"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "5YClsN"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "nCGWau"
-msgstr "Wygrane bitwy"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Hw0iax"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "BXfxPW"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "Sl01xK"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "sz3C4k"
-msgstr "Ciężko ranni"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "mJwM5A"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "itiyNN"
 msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "lcP4aP"
-msgstr "Teleportacje"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5g03Dq"
@@ -212,23 +169,6 @@ msgstr ""
 msgid "ZtK0ZT"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgid "Y3Z7jw"
-msgstr "Liczba zabitych"
-
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/combat-lab/combat-lab-summary-section.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "RCtKQ2"
-msgstr ""
-
 #: src/components/account-ark/ark-match-history-empty-state.tsx
 msgid "7fThOd"
 msgstr ""
@@ -240,16 +180,6 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-loading-state.tsx
 msgid "raC1gL"
 msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "lsSmtD"
-msgstr "Izyda"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
@@ -354,34 +284,8 @@ msgid "m9rp75"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "r3YbHp"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "owXGag"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "l7kWPA"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "xRJGes"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
@@ -414,51 +318,6 @@ msgstr ""
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "bzSrZ6"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "R4HO71"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "PuC-Mi"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "1j7NiE"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "SdCxJX"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "8_6Wn2"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "M3-BHu"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "HxOf0f"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "tbfLQx"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "4pFR10"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
@@ -1380,24 +1239,7 @@ msgid "yedWVm"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "qmJC1g"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "S5oZQH"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "9k2_Bx"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "oAxAzA"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -1496,22 +1338,8 @@ msgid "y-cvIx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "8Na2J4"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ejEGdx"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "mJFWRb"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Mro8Zx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
@@ -1620,10 +1448,6 @@ msgid "byP6IC"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "MqtNsY"
-msgstr ""
-
-#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g-gbNs"
 msgstr ""
 
@@ -1634,15 +1458,6 @@ msgstr ""
 #: src/components/olympian-arena/duel-loading-state.tsx
 msgid "U5Mxzi"
 msgstr ""
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-#: src/components/report/report-participant-card.tsx
-msgid "DqkPqe"
-msgstr ""
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "cKnhhK"
-msgstr "Wzmocnienia jednostek"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx
 msgid "CuNYjA"
@@ -1669,30 +1484,6 @@ msgstr ""
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 msgid "A1ykkc"
-msgstr ""
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "NxzeNU"
-msgstr ""
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-msgid "CtBzuU"
-msgstr ""
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "NboP8s"
-msgstr "Ranni"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YoPSLI"
-msgstr ""
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YXoHk0"
 msgstr ""
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
@@ -1754,10 +1545,6 @@ msgid "Pe0ogR"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "sqvUg2"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgid "H2meTq"
 msgstr ""
 
@@ -1797,32 +1584,6 @@ msgstr ""
 msgid "SQJto2"
 msgstr ""
 
-#: src/components/report/report-armament-section.tsx
-msgid "e36Xiv"
-msgstr "Informacje o uzbrojeniu"
-
-#: src/components/report/report-artifact-section.tsx
-msgid "eW5eoW"
-msgstr ""
-
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "ka8VLG"
-msgstr ""
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "UAaBlE"
-msgstr ""
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "xtXDYN"
-msgstr ""
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "sTixnc"
-msgstr ""
-
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr ""
@@ -1853,22 +1614,8 @@ msgid "eQhi5P"
 msgstr ""
 
 #: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08_"
-msgstr ""
-
-#: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "kzHEVE"
-msgstr ""
-
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "1ISgLB"
-msgstr "Lekko ranni"
-
-#: src/components/report/report-relic-section.tsx
-msgid "Ft8yjo"
 msgstr ""
 
 #: src/components/report/report-relic-slot.tsx
@@ -1916,10 +1663,6 @@ msgid "5aSP17"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "DCHsxk"
-msgstr ""
-
-#: src/components/report/report-stratagem-section.tsx
 msgid "Hszv-5"
 msgstr ""
 
@@ -1948,15 +1691,7 @@ msgid "dfPU6h"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "rS3oIg"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3_h"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "SHldaq"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
@@ -1972,51 +1707,7 @@ msgid "e3PeBT"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "2AAtTC"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "jbrAjx"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Ygh1LR"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "wudsnZ"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "gvEP4o"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "BQ9UYa"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "XE8i_T"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Qf8fwC"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Hin97m"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ptYapO"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "iScUrx"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx

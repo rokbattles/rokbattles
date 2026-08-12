@@ -1,11 +1,13 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import type { ReactNode } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { ReportsSummaryEntry } from "@/lib/types/reports-list";
 
 type ReportsOverviewSummaryCardProps = {
-  title: string;
+  title: ReactNode;
   summary: ReportsSummaryEntry;
 };
 
@@ -36,14 +38,16 @@ export default function ReportsOverviewSummaryCard({
           </dd>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">{t("Dead")}</dt>
+          <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
+            <GameTranslate value="LC_COMMON_DEATH" />
+          </dt>
           <dd className="font-semibold text-base/6 text-zinc-950 tabular-nums sm:text-sm/6 dark:text-white">
             {formatNumber(summary.dead)}
           </dd>
         </div>
         <div className="flex items-center justify-between gap-4">
           <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
-            {t("Severely Wounded")}
+            <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />
           </dt>
           <dd className="font-semibold text-base/6 text-zinc-950 tabular-nums sm:text-sm/6 dark:text-white">
             {formatNumber(summary.severelyWounded)}
@@ -51,7 +55,7 @@ export default function ReportsOverviewSummaryCard({
         </div>
         <div className="flex items-center justify-between gap-4">
           <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
-            {t("Slightly Wounded")}
+            <GameTranslate value="LC_COMMON_SLIGHTLY_WOUNDED" />
           </dt>
           <dd className="font-semibold text-base/6 text-zinc-950 tabular-nums sm:text-sm/6 dark:text-white">
             {formatNumber(summary.slightlyWounded)}
@@ -59,7 +63,7 @@ export default function ReportsOverviewSummaryCard({
         </div>
         <div className="flex items-center justify-between gap-4">
           <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
-            {t("Remaining")}
+            <GameTranslate value="LC_COMMON_UNITS_REMAINING" />
           </dt>
           <dd className="font-semibold text-base/6 text-zinc-950 tabular-nums sm:text-sm/6 dark:text-white">
             {formatNumber(summary.remaining)}
@@ -68,7 +72,7 @@ export default function ReportsOverviewSummaryCard({
         <div className="my-3 border-zinc-950/10 border-t dark:border-white/10" />
         <div className="flex items-center justify-between gap-4">
           <dt className="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">
-            {t("Kill Points")}
+            <GameTranslate value="LC_COMMON_KILL_SCORE" />
           </dt>
           <dd className="font-semibold text-base/6 text-zinc-950 tabular-nums sm:text-sm/6 dark:text-white">
             {formatNumber(summary.killPoints)}

@@ -1,10 +1,11 @@
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { useExtracted } from "next-intl";
-import { useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 import { FormationBreakdown } from "@/components/combat-lab/formation-breakdown";
 import { SummaryMetric } from "@/components/summary-metric";
 import { Subheading } from "@/components/ui/heading";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { CombatLabPairingDocument, CombatLabStrategies } from "@/lib/combat-lab/api";
 import {
   formatDuration,
@@ -20,7 +21,7 @@ type CombatLabSummarySectionProps = {
 
 type CombatLabMetric = {
   id: string;
-  label: string;
+  label: ReactNode;
   value: string;
   description: string;
 };
@@ -41,7 +42,7 @@ export function CombatLabSummarySection({ item }: CombatLabSummarySectionProps) 
       },
       {
         id: "kill-points-gained",
-        label: t("Kill Points"),
+        label: <GameTranslate value="LC_COMMON_KILL_SCORE" />,
         value: formatNumber(summary.killPointsGained),
         description: t("Total kill points earned while using this pairing."),
       },

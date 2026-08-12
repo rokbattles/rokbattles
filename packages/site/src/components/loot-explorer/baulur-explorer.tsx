@@ -1,8 +1,9 @@
 "use client";
 
 import { useExtracted, useLocale } from "next-intl";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { type BaulurLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
 import { baulurFamilies, findBaulurFamily } from "@/lib/loot-explorer/catalog";
 import { LootExplorerFilters } from "./loot-explorer-filters";
@@ -52,9 +53,9 @@ export function BaulurExplorer({ selectedType }: { selectedType?: string }) {
 
   const family = findBaulurFamily(selectedType, items);
   const item = items.find((candidate) => candidate.kind === family.kind);
-  const familyLabels = new Map([
-    ["ironhand-baulur", t("Ironhand Baulur")],
-    ["miser-khaolak", t("Miser Khaolak")],
+  const familyLabels = new Map<string, ReactNode>([
+    ["ironhand-baulur", <GameTranslate value="LC_COMMON_SMALL_CAYON_BOSS_NAME" />],
+    ["miser-khaolak", <GameTranslate value="LC_COMMON_SMALL_CAYON_RARE_NAME" />],
   ]);
   const poolLabels = new Map([
     [0, t("Under 1% damage")],

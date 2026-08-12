@@ -34,6 +34,7 @@ import {
   SidebarSpacer,
 } from "@/components/ui/sidebar";
 import { SidebarLayout } from "@/components/ui/sidebar-layout";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
@@ -104,7 +105,9 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               </SidebarItem>
               <SidebarItem href="/olympian-arena" current={pathname === "/olympian-arena"}>
                 <TrophyIcon />
-                <SidebarLabel>{t("Olympian Arena")}</SidebarLabel>
+                <SidebarLabel>
+                  <GameTranslate value="LC_KINGDOMWAR_S20_ARENA_EVENT_INFO_TITLE_1" />
+                </SidebarLabel>
               </SidebarItem>
               <SidebarItem
                 href="/loot-explorer"

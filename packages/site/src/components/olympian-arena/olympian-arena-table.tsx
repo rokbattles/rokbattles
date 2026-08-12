@@ -4,6 +4,7 @@ import { useExtracted } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { useOlympianArenaDuels } from "@/hooks/use-olympian-arena-duels";
 import ReportsEmptyStateRow from "../reports/reports-empty-state-row";
 import ReportsErrorRow from "../reports/reports-error-row";
@@ -39,7 +40,9 @@ export default function OlympianArenaTable({ skeletonCount = 10 }: OlympianArena
             <TableHeader className="sm:w-36">{t("Time")}</TableHeader>
             <TableHeader>{t("Sender")}</TableHeader>
             <TableHeader>{t("Opponent")}</TableHeader>
-            <TableHeader className="sm:w-32">{t("Kill Count")}</TableHeader>
+            <TableHeader className="sm:w-32">
+              <GameTranslate value="LC_COMMON_KILLING_AMOUNT" />
+            </TableHeader>
             <TableHeader className="sm:w-32">{t("Trade %")}</TableHeader>
             <TableHeader className="sm:w-32">{t("Win Streak")}</TableHeader>
           </TableRow>

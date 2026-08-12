@@ -1,8 +1,9 @@
 "use client";
 
 import { useExtracted, useLocale } from "next-intl";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { type BarbarianFortLootDocument, fetchLootExplorerItems } from "@/lib/loot-explorer/api";
 import {
   findFortFamily,
@@ -67,9 +68,9 @@ export function FortExplorer({
     );
   }
 
-  const familyLabels = new Map([
-    ["barbarian-forts", t("Barbarian Forts")],
-    ["marauder-encampments", t("Marauder Encampments")],
+  const familyLabels = new Map<string, ReactNode>([
+    ["barbarian-forts", <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_FORT" />],
+    ["marauder-encampments", <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_MARA_EN" />],
     ["mottes", t("Mottes")],
   ]);
   const formatLevel = (level: number) => t("Level {level}", { level: level.toString() });
@@ -132,7 +133,7 @@ export function FortExplorer({
         {visibleItems.map((item) => (
           <section key={`${item.kind}:${item.level}`} className="space-y-5">
             <Subheading>
-              {t("{name} level {level}", { level: item.level.toString(), name: familyLabel })}
+              {familyLabel} {t("Level {level}", { level: item.level.toString() })}
             </Subheading>
             {item.rewardTiers.map((tier) => (
               <div key={tier.tier} className="space-y-3">

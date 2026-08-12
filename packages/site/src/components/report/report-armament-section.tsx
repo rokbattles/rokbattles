@@ -9,6 +9,7 @@ import {
   DescriptionTerm,
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import type { ArmamentBuff } from "@/lib/report/parsers";
 
@@ -25,7 +26,9 @@ export function ReportArmamentSection({ buffs, inscriptions }: ReportArmamentSec
 
   return (
     <div className="space-y-2">
-      <Subheading>{t("Armament Info")}</Subheading>
+      <Subheading>
+        <GameTranslate value="LC_FORMATION_EQUIP_ARMORY_DETAILS" />
+      </Subheading>
       {inscriptions.length > 0 ? (
         <div className="flex flex-wrap gap-1.5">
           {inscriptions.map((id) => (

@@ -32,13 +32,16 @@ function isGameTranslationResponse(value: unknown): value is GameTranslationResp
 export function GameTranslationsProvider({ children }: { children: ReactNode }) {
   const locale = resolveLocale(useLocale());
   const currentLocaleRef = useRef(locale);
-  currentLocaleRef.current = locale;
 
   const keyUsageCountsRef = useRef(new Map<string, number>());
   const requestedKeysRef = useRef(new Set<string>());
   const previousLocaleRef = useRef(locale);
   const [registeredKeys, setRegisteredKeys] = useState<ReadonlySet<string>>(() => new Set());
   const [translations, setTranslations] = useState<GameTranslationResponse>({});
+
+  useEffect(() => {
+    currentLocaleRef.current = locale;
+  }, [locale]);
 
   const registerKey = useCallback((translationKey: string) => {
     const usageCount = keyUsageCountsRef.current.get(translationKey) ?? 0;

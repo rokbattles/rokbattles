@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useExtracted } from "next-intl";
-import { use, useCallback, useMemo } from "react";
+import { type ReactNode, use, useCallback, useMemo } from "react";
 import {
   AccountLootLayout,
   type AccountLootSection,
@@ -13,6 +13,7 @@ import { PersonalLootFilters } from "@/components/account-loot/personal-loot-fil
 import { LootExplorerSummary } from "@/components/loot-explorer/loot-explorer-summary";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
+import { GameTranslate } from "@/components/v1/game-translate";
 import {
   defaultLootDateRange,
   type PersonalLootEndpoint,
@@ -33,7 +34,7 @@ type PersonalLootContentProps = {
 
 type SectionConfig = {
   defaultType: string;
-  typeOptions: LootExplorerOption[];
+  typeOptions: LootExplorerOption<ReactNode>[];
   levelOptionsByType?: Record<string, LootExplorerOption[]>;
   allowMultipleLevels?: boolean;
   showTypeFilter?: boolean;
@@ -88,8 +89,14 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       return {
         defaultType: "barbarian-forts",
         typeOptions: [
-          { value: "barbarian-forts", label: t("Barbarian Forts") },
-          { value: "marauder-encampments", label: t("Marauder Encampments") },
+          {
+            value: "barbarian-forts",
+            label: <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_FORT" />,
+          },
+          {
+            value: "marauder-encampments",
+            label: <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_MARA_EN" />,
+          },
         ],
         levelOptionsByType: {
           "barbarian-forts": levelOptions(
@@ -106,8 +113,14 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       return {
         defaultType: "ironhand-baulur",
         typeOptions: [
-          { value: "ironhand-baulur", label: t("Ironhand Baulur") },
-          { value: "miser-khaolak", label: t("Miser Khaolak") },
+          {
+            value: "ironhand-baulur",
+            label: <GameTranslate value="LC_COMMON_SMALL_CAYON_BOSS_NAME" />,
+          },
+          {
+            value: "miser-khaolak",
+            label: <GameTranslate value="LC_COMMON_SMALL_CAYON_RARE_NAME" />,
+          },
         ],
         showLevelFilter: false,
       };
@@ -116,7 +129,12 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
     if (active === "kahars-treasure") {
       return {
         defaultType: "kahars-treasure",
-        typeOptions: [{ value: "kahars-treasure", label: t("Kahar's Treasure") }],
+        typeOptions: [
+          {
+            value: "kahars-treasure",
+            label: <GameTranslate value="LC_KINGDOMWAR_BARBARIAN_TITLE" />,
+          },
+        ],
         showTypeFilter: false,
         showLevelFilter: false,
       };
@@ -124,11 +142,11 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
 
     if (active === "karuak-ceremony") {
       const labels = new Map([
-        ["bladefist-andaal", t("Bladefist Andaal")],
-        ["bearkeeper-lukor", t("Bearkeeper Lukor")],
-        ["bruteshield-murdos", t("Bruteshield Murdos")],
-        ["warmender-pache", t("Warmender Pache")],
-        ["solon-por", t("Solon Por")],
+        ["bladefist-andaal", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME1" />],
+        ["bearkeeper-lukor", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME2" />],
+        ["bruteshield-murdos", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME3" />],
+        ["warmender-pache", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME4" />],
+        ["solon-por", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME5" />],
       ]);
       return {
         defaultType: karuakBosses[0].key,
@@ -143,8 +161,8 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
     return {
       defaultType: "barbarians",
       typeOptions: [
-        { value: "barbarians", label: t("Barbarians") },
-        { value: "marauders", label: t("Marauders") },
+        { value: "barbarians", label: <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR" /> },
+        { value: "marauders", label: <GameTranslate value="LC_COMMON_SEARCH_PVE_MARA" /> },
       ],
       levelOptionsByType: {
         barbarians: levelOptions(
@@ -155,7 +173,7 @@ export function PersonalLootContent({ active, endpoint, datasetLocale }: Persona
       },
       allowMultipleLevels: true,
     };
-  }, [active, formatLevel, t]);
+  }, [active, formatLevel]);
 
   const selectedType = config.typeOptions.some(
     (option) => option.value === searchParams.get("type")

@@ -11,6 +11,7 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { ReportsListItem } from "@/lib/types/reports-list";
 import ReportsOverviewSummaryCard from "./reports-overview-summary-card";
 import ReportsOverviewTimelineChart from "./reports-overview-timeline-chart";
@@ -62,7 +63,7 @@ export default function ReportsOverviewDrawer({ report, onClose }: ReportsOvervi
                 <ReportsOverviewSummaryCard summary={report.summary.sender} title={t("Sender")} />
                 <ReportsOverviewSummaryCard
                   summary={report.summary.opponent}
-                  title={t("All Enemies")}
+                  title={<GameTranslate value="LC_COMMON_BATTLEREPORT_ALLENEMY" />}
                 />
               </div>
             </section>

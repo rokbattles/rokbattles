@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import type { ReactNode } from "react";
 import {
   Bar,
   BarChart,
@@ -9,8 +10,10 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
+  type YAxisTickContentProps,
 } from "recharts";
 import { ReportBattleSummaryTooltip } from "@/components/report/report-battle-summary-tooltip";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { RawBattleResults } from "@/lib/types/raw-report";
 
 type BattleMetricConfig = {
@@ -36,7 +39,6 @@ const BATTLE_METRICS: readonly BattleMetricConfig[] = [
 
 type BattleSummaryDatum = {
   key: string;
-  label: string;
   self: number;
   enemy: number;
 };
@@ -53,7 +55,7 @@ function getMetricValue(results: RawBattleResults, key: keyof RawBattleResults) 
   return raw;
 }
 
-function buildChartData(results: RawBattleResults, labels: Record<string, string>) {
+function buildChartData(results: RawBattleResults) {
   const rows: BattleSummaryDatum[] = [];
   for (const metric of BATTLE_METRICS) {
     const selfValue = getMetricValue(results, metric.selfKey);
@@ -61,14 +63,8 @@ function buildChartData(results: RawBattleResults, labels: Record<string, string
     if (selfValue == null && enemyValue == null) {
       continue;
     }
-    const label = labels[metric.labelKey];
-    if (!label) {
-      continue;
-    }
-
     rows.push({
       key: metric.labelKey,
-      label,
       self: selfValue ?? 0,
       enemy: enemyValue ?? 0,
     });
@@ -76,19 +72,34 @@ function buildChartData(results: RawBattleResults, labels: Record<string, string
   return rows;
 }
 
+function ChartLabelTick({
+  labels,
+  payload,
+  x,
+  y,
+}: YAxisTickContentProps & {
+  labels: Record<string, ReactNode>;
+}) {
+  return (
+    <text x={x} y={y} dy="0.32em" fill="#6b7280" fontSize={12} textAnchor="end">
+      {labels[String(payload.value)]}
+    </text>
+  );
+}
+
 export function ReportBattleResultsChart({ results }: { results: RawBattleResults }) {
   const t = useExtracted();
-  const chartLabels = {
+  const chartLabels: Record<string, ReactNode> = {
     units: t("Units"),
-    remaining: t("Remaining"),
-    heal: t("Heal"),
-    dead: t("Dead"),
-    severelyWounded: t("Severely wounded"),
-    slightlyWounded: t("Slightly wounded"),
-    killPoints: t("Kill Points"),
-    acclaim: t("Acclaim"),
+    remaining: <GameTranslate value="LC_COMMON_UNITS_REMAINING" />,
+    heal: <GameTranslate value="LC_OTHER_BATTLEREPORT_STATISTICS_HEAL" />,
+    dead: <GameTranslate value="LC_COMMON_DEATH" />,
+    severelyWounded: <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />,
+    slightlyWounded: <GameTranslate value="LC_COMMON_SLIGHTLY_WOUNDED" />,
+    killPoints: <GameTranslate value="LC_COMMON_KILL_SCORE" />,
+    acclaim: <GameTranslate value="LC_COMMON_CURRENT_CONTRIBUTION" />,
   };
-  const chartData = buildChartData(results, chartLabels);
+  const chartData = buildChartData(results);
 
   if (chartData.length === 0) {
     return null;
@@ -113,9 +124,9 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
             />
             <YAxis
               type="category"
-              dataKey="label"
+              dataKey="key"
               width={140}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={(props) => <ChartLabelTick {...props} labels={chartLabels} />}
               axisLine={{ stroke: "#d4d4d8" }}
               tickLine={false}
             />
@@ -125,7 +136,7 @@ export function ReportBattleResultsChart({ results }: { results: RawBattleResult
                 <ReportBattleSummaryTooltip
                   active={props.active}
                   payload={props.payload}
-                  label={props.label}
+                  label={chartLabels[String(props.label)] ?? props.label}
                 />
               )}
             />

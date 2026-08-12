@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Text } from "@/components/ui/text";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { formatArkBattlesValue, formatArkMetricValue } from "@/lib/ark/detail-format";
 import type { ArkMatchDetailPairing } from "@/lib/types/ark";
 
@@ -35,9 +36,15 @@ export function ArkMatchDetailPairingsSection({ pairings }: ArkMatchDetailPairin
               <TableHeader className="w-12">{t("#")}</TableHeader>
               <TableHeader>{t("Pairing")}</TableHeader>
               <TableHeader className="w-40">{t("Battles (win/total)")}</TableHeader>
-              <TableHeader className="w-40">{t("Kill Count")}</TableHeader>
-              <TableHeader className="w-40">{t("Kill Points")}</TableHeader>
-              <TableHeader className="w-40">{t("Severely Wounded")}</TableHeader>
+              <TableHeader className="w-40">
+                <GameTranslate value="LC_COMMON_KILLING_AMOUNT" />
+              </TableHeader>
+              <TableHeader className="w-40">
+                <GameTranslate value="LC_COMMON_KILL_SCORE" />
+              </TableHeader>
+              <TableHeader className="w-40">
+                <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />
+              </TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>

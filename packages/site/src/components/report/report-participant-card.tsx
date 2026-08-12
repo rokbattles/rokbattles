@@ -11,6 +11,7 @@ import { ReportSupportSkills } from "@/components/report/report-support-skills";
 import { Badge } from "@/components/ui/badge";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { getInitials } from "@/lib/avatar";
 import { parseArmamentBuffs, parseEquipment, parseSemicolonNumberList } from "@/lib/report/parsers";
 import type { RawCommanderInfo, RawParticipantInfo } from "@/lib/types/raw-report";
@@ -74,7 +75,9 @@ export function ReportParticipantCard({
       <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{t("Commanders")}</Subheading>
+            <Subheading>
+              <GameTranslate value="LC_COMMON_POWER_DETAILS_COMMANDER_TITLE" />
+            </Subheading>
             <div className="space-y-2">
               {showPrimary ? (
                 <ReportCommanderRow commander={primaryCommander} formation={primaryFormation} />

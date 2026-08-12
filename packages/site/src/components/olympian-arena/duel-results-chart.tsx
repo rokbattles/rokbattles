@@ -1,6 +1,7 @@
 "use client";
 
 import { useExtracted } from "next-intl";
+import type { ReactNode } from "react";
 import {
   Bar,
   BarChart,
@@ -9,8 +10,10 @@ import {
   ResponsiveContainer,
   XAxis,
   YAxis,
+  type YAxisTickContentProps,
 } from "recharts";
 import { DuelSummaryTooltip } from "@/components/olympian-arena/duel-summary-tooltip";
+import { GameTranslate } from "@/components/v1/game-translate";
 import type { DuelBattle2BattleResult, DuelBattle2BattleResults } from "@/lib/types/duelbattle2";
 
 type DuelMetricConfig = {
@@ -33,7 +36,6 @@ const DUEL_METRICS: readonly DuelMetricConfig[] = [
 
 type DuelSummaryDatum = {
   key: string;
-  label: string;
   sender: number;
   opponent: number;
 };
@@ -50,7 +52,7 @@ function getMetricValue(results: DuelBattle2BattleResult, key: keyof DuelBattle2
   return raw;
 }
 
-function buildChartData(results: DuelBattle2BattleResults, labels: Record<string, string>) {
+function buildChartData(results: DuelBattle2BattleResults) {
   const rows: DuelSummaryDatum[] = [];
   for (const metric of DUEL_METRICS) {
     const senderValue = getMetricValue(results.sender, metric.valueKey);
@@ -58,14 +60,8 @@ function buildChartData(results: DuelBattle2BattleResults, labels: Record<string
     if (senderValue == null && opponentValue == null) {
       continue;
     }
-    const label = labels[metric.labelKey];
-    if (!label) {
-      continue;
-    }
-
     rows.push({
       key: metric.labelKey,
-      label,
       sender: senderValue ?? 0,
       opponent: opponentValue ?? 0,
     });
@@ -73,18 +69,33 @@ function buildChartData(results: DuelBattle2BattleResults, labels: Record<string
   return rows;
 }
 
+function ChartLabelTick({
+  labels,
+  payload,
+  x,
+  y,
+}: YAxisTickContentProps & {
+  labels: Record<string, ReactNode>;
+}) {
+  return (
+    <text x={x} y={y} dy="0.32em" fill="#6b7280" fontSize={12} textAnchor="end">
+      {labels[String(payload.value)]}
+    </text>
+  );
+}
+
 export function DuelResultsChart({ results }: { results: DuelBattle2BattleResults }) {
   const t = useExtracted();
-  const chartLabels = {
+  const chartLabels: Record<string, ReactNode> = {
     units: t("Units"),
-    dead: t("Dead"),
-    severelyWounded: t("Severely wounded"),
-    wounded: t("Wounded"),
-    healed: t("Healed"),
-    killPoints: t("Kill Points"),
-    power: t("Power"),
+    dead: <GameTranslate value="LC_COMMON_DEATH" />,
+    severelyWounded: <GameTranslate value="LC_COMMON_SEVERELY_WOUNDED" />,
+    wounded: <GameTranslate value="LC_COMMON_THE_WOUNDED" />,
+    healed: <GameTranslate value="LC_BATTLEFIELD_JJC_STATS_HEAL" />,
+    killPoints: <GameTranslate value="LC_COMMON_KILL_SCORE" />,
+    power: <GameTranslate value="LC_COMMON_POWER" />,
   };
-  const chartData = buildChartData(results, chartLabels);
+  const chartData = buildChartData(results);
 
   if (chartData.length === 0) {
     return null;
@@ -109,9 +120,9 @@ export function DuelResultsChart({ results }: { results: DuelBattle2BattleResult
             />
             <YAxis
               type="category"
-              dataKey="label"
+              dataKey="key"
               width={150}
-              tick={{ fontSize: 12, fill: "#6b7280" }}
+              tick={(props) => <ChartLabelTick {...props} labels={chartLabels} />}
               axisLine={{ stroke: "#d4d4d8" }}
               tickLine={false}
             />
@@ -121,7 +132,7 @@ export function DuelResultsChart({ results }: { results: DuelBattle2BattleResult
                 <DuelSummaryTooltip
                   active={props.active}
                   payload={props.payload}
-                  label={props.label}
+                  label={chartLabels[String(props.label)] ?? props.label}
                 />
               )}
             />

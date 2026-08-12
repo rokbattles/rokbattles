@@ -2,6 +2,7 @@ import { cn } from "cnfast";
 import Link from "next/link";
 import { useExtracted } from "next-intl";
 import { Heading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 
 export type LootExplorerSection =
   | "barbarians"
@@ -26,12 +27,12 @@ export function LootExplorerLayout({
   children: React.ReactNode;
 }) {
   const t = useExtracted();
-  const sectionLabels: Record<LootExplorerSection, string> = {
-    barbarians: t("Barbarians"),
-    "barbarian-forts": t("Barbarian Forts"),
+  const sectionLabels: Record<LootExplorerSection, React.ReactNode> = {
+    barbarians: <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR" />,
+    "barbarian-forts": <GameTranslate value="LC_COMMON_SEARCH_PVE_BAR_FORT" />,
     baulurs: t("Baulurs"),
-    "karuak-ceremony": t("Karuak Ceremony"),
-    "kahars-treasure": t("Kahar's Treasure"),
+    "karuak-ceremony": <GameTranslate value="LC_EVENT_GVE_TITLE" />,
+    "kahars-treasure": <GameTranslate value="LC_KINGDOMWAR_BARBARIAN_TITLE" />,
   };
 
   return (

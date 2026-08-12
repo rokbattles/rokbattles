@@ -2,7 +2,7 @@
 
 import { cn } from "cnfast";
 import { useExtracted } from "next-intl";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { Listbox, ListboxLabel, ListboxOption } from "@/components/ui/listbox";
 import type { LootExplorerOption } from "@/lib/loot-explorer/catalog";
 
@@ -15,7 +15,7 @@ export function LootExplorerFilters({
   allowMultipleLevels = true,
   showLevelFilter = true,
 }: {
-  typeOptions: LootExplorerOption[];
+  typeOptions: LootExplorerOption<ReactNode>[];
   selectedType: string;
   levelOptions?: LootExplorerOption[];
   levelOptionsByType?: Record<string, LootExplorerOption[]>;

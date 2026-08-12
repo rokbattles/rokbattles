@@ -3,6 +3,7 @@
 import { useExtracted } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { GameTranslate } from "@/components/v1/game-translate";
 import {
   formatArkAllianceLabel,
   getArkIsetAlliance,
@@ -24,7 +25,13 @@ export function ArkMatchHistoryRow({ row }: ArkMatchHistoryRowProps) {
   const isetAlliance = getArkIsetAlliance(row);
   const winnerSide = getArkWinnerSide(row);
   const winnerLabel =
-    winnerSide === "seth" ? t("Seth") : winnerSide === "iset" ? t("Iset") : t("Unknown");
+    winnerSide === "seth" ? (
+      <GameTranslate value="LC_BATTLEFIELD_SETH" />
+    ) : winnerSide === "iset" ? (
+      <GameTranslate value="LC_BATTLEFIELD_ISIS" />
+    ) : (
+      t("Unknown")
+    );
   const winnerBadgeColor = winnerSide === "seth" ? "red" : winnerSide === "iset" ? "blue" : "zinc";
   const membersLabel = `${formatWholeNumber(isetAlliance?.members ?? 0)} vs ${formatWholeNumber(sethAlliance?.members ?? 0)}`;
   const scoreLabel = `${formatWholeNumber(isetAlliance?.score ?? 0)} vs ${formatWholeNumber(sethAlliance?.score ?? 0)}`;

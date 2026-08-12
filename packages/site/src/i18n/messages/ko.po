@@ -103,55 +103,12 @@ msgid "gkoU0i"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "FsjcN7"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "JPFyHU"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g_Nwxg"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "5YClsN"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "nCGWau"
-msgstr "승리 횟수"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "Hw0iax"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "BXfxPW"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "Sl01xK"
-msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "sz3C4k"
-msgstr "중상"
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "mJwM5A"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "itiyNN"
 msgstr ""
-
-#: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "lcP4aP"
-msgstr "이전"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 msgid "5g03Dq"
@@ -212,23 +169,6 @@ msgstr "조합"
 msgid "ZtK0ZT"
 msgstr ""
 
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/olympian-arena/olympian-arena-table.tsx
-#: src/components/reports/reports-table.tsx
-msgid "Y3Z7jw"
-msgstr "처치 수"
-
-#: src/components/account-ark/ark-match-detail-pairings-section.tsx
-#: src/components/combat-lab/combat-lab-summary-section.tsx
-#: src/components/my-pairings/my-pairings-content.tsx
-#: src/components/my-pairings/pairings-loadout-breakdown.tsx
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "RCtKQ2"
-msgstr "처치 점수"
-
 #: src/components/account-ark/ark-match-history-empty-state.tsx
 msgid "7fThOd"
 msgstr ""
@@ -240,16 +180,6 @@ msgstr ""
 #: src/components/account-ark/ark-match-history-loading-state.tsx
 msgid "raC1gL"
 msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "T4H9Lz"
-msgstr ""
-
-#: src/components/account-ark/ark-match-history-row.tsx
-#: src/components/account-ark/ark-match-history-table.tsx
-msgid "lsSmtD"
-msgstr "이세트"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
@@ -354,34 +284,8 @@ msgid "m9rp75"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "r3YbHp"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "owXGag"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 msgid "l7kWPA"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "xRJGes"
-msgstr ""
-
-#: src/components/account-loot/account-loot-layout.tsx
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/kahar-treasure-explorer.tsx
-#: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
@@ -414,51 +318,6 @@ msgstr ""
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 msgid "bzSrZ6"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "R4HO71"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "PuC-Mi"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/baulur-explorer.tsx
-msgid "1j7NiE"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "SdCxJX"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "8_6Wn2"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "M3-BHu"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "HxOf0f"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "tbfLQx"
-msgstr ""
-
-#: src/components/account-loot/personal-loot-content.tsx
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "4pFR10"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
@@ -1380,24 +1239,7 @@ msgid "yedWVm"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "qmJC1g"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "S5oZQH"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "9k2_Bx"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
 msgid "s3oHvg"
-msgstr ""
-
-#: src/components/loot-explorer/barbarian-explorer.tsx
-#: src/components/loot-explorer/fort-explorer.tsx
-msgid "oAxAzA"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
@@ -1496,23 +1338,9 @@ msgid "y-cvIx"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "8Na2J4"
-msgstr "오시리스의 함"
-
-#: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "ejEGdx"
 msgstr "본국"
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "mJFWRb"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Mro8Zx"
-msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 msgid "StqoPN"
@@ -1620,10 +1448,6 @@ msgid "byP6IC"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "MqtNsY"
-msgstr ""
-
-#: src/components/my-pairings/pairings-loadouts.tsx
 msgid "g-gbNs"
 msgstr ""
 
@@ -1634,15 +1458,6 @@ msgstr "해당 결투에 대한 보고서가 없습니다."
 #: src/components/olympian-arena/duel-loading-state.tsx
 msgid "U5Mxzi"
 msgstr "결투 보고서 불러오는 중..."
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-#: src/components/report/report-participant-card.tsx
-msgid "DqkPqe"
-msgstr "사령관"
-
-#: src/components/olympian-arena/duel-participant-card.tsx
-msgid "cKnhhK"
-msgstr "부대 버프"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx
 msgid "CuNYjA"
@@ -1670,30 +1485,6 @@ msgstr "결투 정보를 불러올 수 없습니다."
 #: src/components/report/report-battle-results-chart.tsx
 msgid "A1ykkc"
 msgstr "유닛"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "NxzeNU"
-msgstr "전사"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-#: src/components/report/report-battle-results-chart.tsx
-msgid "CtBzuU"
-msgstr "중상"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "NboP8s"
-msgstr "부상자"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YoPSLI"
-msgstr "치료 완료"
-
-#: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YXoHk0"
-msgstr "투력"
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
@@ -1754,10 +1545,6 @@ msgid "Pe0ogR"
 msgstr "테마"
 
 #: src/components/platform-layout.tsx
-msgid "sqvUg2"
-msgstr ""
-
-#: src/components/platform-layout.tsx
 msgid "H2meTq"
 msgstr ""
 
@@ -1797,32 +1584,6 @@ msgstr "테마 변경"
 msgid "SQJto2"
 msgstr "로그인"
 
-#: src/components/report/report-armament-section.tsx
-msgid "e36Xiv"
-msgstr "무기 정보"
-
-#: src/components/report/report-artifact-section.tsx
-msgid "eW5eoW"
-msgstr "장신구"
-
-#: src/components/report/report-battle-results-chart.tsx
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "ka8VLG"
-msgstr "잔여"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "UAaBlE"
-msgstr "치료"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "xtXDYN"
-msgstr "경상"
-
-#: src/components/report/report-battle-results-chart.tsx
-msgid "sTixnc"
-msgstr ""
-
 #: src/components/report/report-empty-state.tsx
 msgid "198xPO"
 msgstr "해당 해시값에 대한 전투를 찾을 수 없습니다."
@@ -1853,23 +1614,9 @@ msgid "eQhi5P"
 msgstr "데이터 요약"
 
 #: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08_"
-msgstr ""
-
-#: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
 msgid "kzHEVE"
 msgstr "병과 유닛"
-
-#: src/components/report/report-overview-column.tsx
-#: src/components/reports/reports-overview-summary-card.tsx
-msgid "1ISgLB"
-msgstr "경상"
-
-#: src/components/report/report-relic-section.tsx
-msgid "Ft8yjo"
-msgstr ""
 
 #: src/components/report/report-relic-slot.tsx
 msgid "ZW4lge"
@@ -1916,10 +1663,6 @@ msgid "5aSP17"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "DCHsxk"
-msgstr ""
-
-#: src/components/report/report-stratagem-section.tsx
 msgid "Hszv-5"
 msgstr ""
 
@@ -1948,16 +1691,8 @@ msgid "dfPU6h"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "rS3oIg"
-msgstr "주사령관"
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "ToO3_h"
 msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "SHldaq"
-msgstr "부사령관"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "-XTzdP"
@@ -1972,52 +1707,8 @@ msgid "e3PeBT"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "2AAtTC"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "jbrAjx"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Ygh1LR"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "wudsnZ"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "gvEP4o"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "BQ9UYa"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "XE8i_T"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Qf8fwC"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Hin97m"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
 msgid "VqILpx"
 msgstr "주둔 건물"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ptYapO"
-msgstr "연맹 깃발"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "iScUrx"
-msgstr "연맹 요새"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgid "jm_spn"

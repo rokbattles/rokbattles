@@ -1,6 +1,8 @@
+import type { ReactNode } from "react";
+
 type SummaryMetricProps = {
   description: string;
-  label: string;
+  label: ReactNode;
   value: string;
 };
 

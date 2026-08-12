@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/description-list";
 import { Subheading } from "@/components/ui/heading";
 import { GameAvatar } from "@/components/v1/game-avatar";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
 import { getInitials } from "@/lib/avatar";
 import type {
@@ -99,7 +100,9 @@ export function DuelParticipantCard({
       <div className="contents lg:block">
         {showPrimary || showSecondary ? (
           <div className="space-y-2">
-            <Subheading>{t("Commanders")}</Subheading>
+            <Subheading>
+              <GameTranslate value="LC_COMMON_POWER_DETAILS_COMMANDER_TITLE" />
+            </Subheading>
             <div className="space-y-2">
               {showPrimary ? <DuelCommanderRow commander={primary} /> : null}
               {showSecondary ? <DuelCommanderRow commander={secondary} /> : null}
@@ -110,7 +113,9 @@ export function DuelParticipantCard({
       <div className="contents lg:block">
         {displayBuffs.length > 0 ? (
           <div className="space-y-2">
-            <Subheading>{t("Troop Buffs")}</Subheading>
+            <Subheading>
+              <GameTranslate value="LC_MAIL_BATTLE_BUFFPAGE_TITLE" />
+            </Subheading>
             <DescriptionList id={buffsId}>
               {visibleBuffs.map((buff) => (
                 <Fragment key={buff.id}>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useExtracted, useLocale } from "next-intl";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { Subheading } from "@/components/ui/heading";
+import { GameTranslate } from "@/components/v1/game-translate";
 import { fetchLootExplorerItems, type KaruakCeremonyLootDocument } from "@/lib/loot-explorer/api";
 import { findKaruakBoss, karuakBosses } from "@/lib/loot-explorer/catalog";
 import { LootExplorerFilters } from "./loot-explorer-filters";
@@ -50,12 +51,12 @@ export function KaruakCeremonyExplorer({ selectedType }: { selectedType?: string
 
   const boss = findKaruakBoss(selectedType, items);
   const item = items.find((candidate) => candidate.kind === boss.kind);
-  const labels = new Map([
-    ["bladefist-andaal", t("Bladefist Andaal")],
-    ["bearkeeper-lukor", t("Bearkeeper Lukor")],
-    ["bruteshield-murdos", t("Bruteshield Murdos")],
-    ["warmender-pache", t("Warmender Pache")],
-    ["solon-por", t("Solon Por")],
+  const labels = new Map<string, ReactNode>([
+    ["bladefist-andaal", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME1" />],
+    ["bearkeeper-lukor", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME2" />],
+    ["bruteshield-murdos", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME3" />],
+    ["warmender-pache", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME4" />],
+    ["solon-por", <GameTranslate value="LC_EVENT_GVE_BOSS_NAME5" />],
   ]);
 
   return (
