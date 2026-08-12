@@ -195,6 +195,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_5.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21001: 1
+            440: 70
+            441: 10
+            445: 10
+        refine:
+          gold: 30000000
+          items:
+            21001: 1
+            440: 35
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21001: 1
+              440: 20
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21001: 1
+              440: 45
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21001: 1
+              440: 55
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21001: 1
+              440: 90
+              441: 15
+              445: 15
 
     20002:
       name:
@@ -219,6 +267,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_6.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21002: 1
+            440: 10
+            441: 70
+            445: 10
+        refine:
+          gold: 30000000
+          items:
+            21002: 1
+            440: 5
+            441: 35
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21002: 1
+              441: 20
+              440: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21002: 1
+              441: 45
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21002: 1
+              441: 55
+              440: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21002: 1
+              441: 90
+              440: 15
+              445: 15
 
     20003:
       name:
@@ -243,6 +339,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_4.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21003: 1
+            440: 10
+            441: 10
+            445: 70
+        refine:
+          gold: 30000000
+          items:
+            21003: 1
+            440: 5
+            441: 5
+            445: 35
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21003: 1
+              445: 20
+              441: 5
+              440: 5
+          3:
+            gold: 20000000
+            items:
+              21003: 1
+              445: 45
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21003: 1
+              445: 55
+              441: 10
+              440: 10
+          5:
+            gold: 20000000
+            items:
+              21003: 1
+              445: 90
+              441: 15
+              440: 15
 
     20004:
       name:
@@ -267,6 +411,48 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_3.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21004: 1
+            440: 50
+            445: 10
+        refine:
+          gold: 30000000
+          items:
+            21004: 1
+            440: 25
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21004: 1
+              440: 20
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21004: 1
+              440: 25
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21004: 1
+              440: 45
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21004: 1
+              440: 75
+              445: 15
 
     20005:
       name:
@@ -291,6 +477,48 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_1.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21005: 1
+            441: 50
+            440: 10
+        refine:
+          gold: 30000000
+          items:
+            21005: 1
+            441: 25
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21005: 1
+              441: 20
+              440: 5
+          3:
+            gold: 20000000
+            items:
+              21005: 1
+              441: 25
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21005: 1
+              441: 45
+              440: 10
+          5:
+            gold: 20000000
+            items:
+              21005: 1
+              441: 75
+              440: 15
 
     20006:
       name:
@@ -315,6 +543,48 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_2.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21006: 1
+            445: 50
+            441: 10
+        refine:
+          gold: 30000000
+          items:
+            21006: 1
+            445: 25
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21006: 1
+              445: 20
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21006: 1
+              445: 25
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21006: 1
+              445: 45
+              441: 10
+          5:
+            gold: 20000000
+            items:
+              21006: 1
+              445: 75
+              441: 15
 
     20007:
       name:
@@ -339,6 +609,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_16.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21007: 1
+            440: 60
+            441: 15
+            445: 15
+        refine:
+          gold: 20000000
+          items:
+            21007: 1
+            440: 30
+            441: 7
+            445: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21007: 1
+              440: 10
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21007: 1
+              440: 25
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21007: 1
+              440: 30
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21007: 1
+              440: 50
+              441: 15
+              445: 15
 
     20008:
       name:
@@ -363,6 +681,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_15.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21008: 1
+            440: 40
+            441: 10
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21008: 1
+            440: 20
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21008: 1
+              440: 15
+          3:
+            gold: 20000000
+            items:
+              21008: 1
+              440: 10
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21008: 1
+              440: 25
+              441: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21008: 1
+              440: 40
+              441: 10
+              445: 10
 
     20009:
       name:
@@ -387,6 +751,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_17.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21009: 1
+            440: 40
+            441: 10
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21009: 1
+            440: 20
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21009: 1
+              440: 15
+          3:
+            gold: 20000000
+            items:
+              21009: 1
+              440: 10
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21009: 1
+              440: 25
+              441: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21009: 1
+              440: 40
+              441: 10
+              445: 10
 
     20010:
       name:
@@ -411,6 +821,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_12.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21010: 1
+            440: 30
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21010: 1
+            440: 15
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21010: 1
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21010: 1
+              440: 10
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21010: 1
+              440: 15
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21010: 1
+              440: 30
+              445: 10
 
     20011:
       name:
@@ -435,6 +886,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_14.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21011: 1
+            440: 40
+            441: 10
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21011: 1
+            440: 20
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21011: 1
+              440: 15
+          3:
+            gold: 20000000
+            items:
+              21011: 1
+              440: 10
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21011: 1
+              440: 25
+              441: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21011: 1
+              440: 40
+              441: 10
+              445: 10
 
     20012:
       name:
@@ -459,6 +956,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_13.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21012: 1
+            440: 30
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21012: 1
+            440: 15
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21012: 1
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21012: 1
+              440: 10
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21012: 1
+              440: 15
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21012: 1
+              440: 30
+              445: 10
 
     20013:
       name:
@@ -483,6 +1021,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_48.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21013: 1
+            441: 60
+            445: 15
+            440: 15
+        refine:
+          gold: 20000000
+          items:
+            21013: 1
+            441: 30
+            445: 7
+            440: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21013: 1
+              441: 10
+              440: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21013: 1
+              441: 25
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21013: 1
+              441: 30
+              440: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21013: 1
+              441: 50
+              440: 15
+              445: 15
 
     20014:
       name:
@@ -507,6 +1093,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_33.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21014: 1
+            441: 40
+            445: 10
+            440: 10
+        refine:
+          gold: 20000000
+          items:
+            21014: 1
+            441: 20
+            445: 5
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21014: 1
+              441: 15
+          3:
+            gold: 20000000
+            items:
+              21014: 1
+              441: 10
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21014: 1
+              441: 25
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21014: 1
+              441: 40
+              440: 10
+              445: 10
 
     20015:
       name:
@@ -531,6 +1163,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_34.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21015: 1
+            441: 40
+            445: 10
+            440: 10
+        refine:
+          gold: 20000000
+          items:
+            21015: 1
+            441: 20
+            445: 5
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21015: 1
+              441: 15
+          3:
+            gold: 20000000
+            items:
+              21015: 1
+              441: 10
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21015: 1
+              441: 25
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21015: 1
+              441: 40
+              440: 10
+              445: 10
 
     20016:
       name:
@@ -555,6 +1233,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_32.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21016: 1
+            441: 30
+            440: 10
+        refine:
+          gold: 20000000
+          items:
+            21016: 1
+            441: 15
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21016: 1
+              441: 10
+          3:
+            gold: 20000000
+            items:
+              21016: 1
+              441: 10
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21016: 1
+              441: 15
+              440: 5
+          5:
+            gold: 20000000
+            items:
+              21016: 1
+              441: 30
+              440: 10
 
     20017:
       name:
@@ -579,6 +1298,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_30.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21017: 1
+            441: 40
+            445: 10
+            440: 10
+        refine:
+          gold: 20000000
+          items:
+            21017: 1
+            441: 20
+            445: 5
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21017: 1
+              441: 15
+          3:
+            gold: 20000000
+            items:
+              21017: 1
+              441: 10
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21017: 1
+              441: 25
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21017: 1
+              441: 40
+              440: 10
+              445: 10
 
     20018:
       name:
@@ -603,6 +1368,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_31.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21018: 1
+            441: 30
+            440: 10
+        refine:
+          gold: 20000000
+          items:
+            21018: 1
+            441: 15
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21018: 1
+              441: 10
+          3:
+            gold: 20000000
+            items:
+              21018: 1
+              441: 10
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21018: 1
+              441: 15
+              440: 5
+          5:
+            gold: 20000000
+            items:
+              21018: 1
+              441: 30
+              440: 10
 
     20019:
       name:
@@ -627,6 +1433,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_44.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21019: 1
+            445: 60
+            440: 15
+            441: 15
+        refine:
+          gold: 20000000
+          items:
+            21019: 1
+            445: 30
+            440: 7
+            441: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21019: 1
+              445: 10
+              440: 5
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21019: 1
+              445: 25
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21019: 1
+              445: 30
+              440: 10
+              441: 10
+          5:
+            gold: 20000000
+            items:
+              21019: 1
+              445: 50
+              440: 15
+              441: 15
 
     20020:
       name:
@@ -651,6 +1505,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_26.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21020: 1
+            445: 40
+            440: 10
+            441: 10
+        refine:
+          gold: 20000000
+          items:
+            21020: 1
+            445: 20
+            440: 5
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21020: 1
+              445: 15
+          3:
+            gold: 20000000
+            items:
+              21020: 1
+              445: 10
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21020: 1
+              445: 25
+              440: 5
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21020: 1
+              445: 40
+              440: 10
+              441: 10
 
     20021:
       name:
@@ -675,6 +1575,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_25.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21021: 1
+            445: 40
+            440: 10
+            441: 10
+        refine:
+          gold: 20000000
+          items:
+            21021: 1
+            445: 20
+            440: 5
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21021: 1
+              445: 15
+          3:
+            gold: 20000000
+            items:
+              21021: 1
+              445: 10
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21021: 1
+              445: 25
+              440: 5
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21021: 1
+              445: 40
+              440: 10
+              441: 10
 
     20022:
       name:
@@ -699,6 +1645,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_43.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21022: 1
+            445: 30
+            441: 10
+        refine:
+          gold: 20000000
+          items:
+            21022: 1
+            445: 15
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21022: 1
+              445: 10
+          3:
+            gold: 20000000
+            items:
+              21022: 1
+              445: 10
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21022: 1
+              445: 15
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21022: 1
+              445: 30
+              441: 10
 
     20023:
       name:
@@ -723,6 +1710,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_24.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21023: 1
+            445: 40
+            440: 10
+            441: 10
+        refine:
+          gold: 20000000
+          items:
+            21023: 1
+            445: 20
+            440: 5
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21023: 1
+              445: 15
+          3:
+            gold: 20000000
+            items:
+              21023: 1
+              445: 10
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21023: 1
+              445: 25
+              440: 5
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21023: 1
+              445: 40
+              440: 10
+              441: 10
 
     20024:
       name:
@@ -747,6 +1780,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_45.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21024: 1
+            445: 30
+            441: 10
+        refine:
+          gold: 20000000
+          items:
+            21024: 1
+            445: 15
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21024: 1
+              445: 10
+          3:
+            gold: 20000000
+            items:
+              21024: 1
+              445: 10
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21024: 1
+              445: 15
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21024: 1
+              445: 30
+              441: 10
 
     20025:
       name:
@@ -771,6 +1845,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_8.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21025: 1
+            440: 40
+            441: 10
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21025: 1
+            440: 20
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21025: 1
+              440: 15
+          3:
+            gold: 20000000
+            items:
+              21025: 1
+              440: 10
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21025: 1
+              440: 25
+              441: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21025: 1
+              440: 40
+              441: 10
+              445: 10
 
     20026:
       name:
@@ -795,6 +1915,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_46.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21026: 1
+            441: 40
+            440: 10
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21026: 1
+            441: 20
+            440: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21026: 1
+              441: 15
+          3:
+            gold: 20000000
+            items:
+              21026: 1
+              441: 10
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21026: 1
+              441: 25
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21026: 1
+              441: 40
+              440: 10
+              445: 10
 
     20027:
       name:
@@ -819,6 +1985,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_28.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21027: 1
+            445: 40
+            440: 10
+            441: 10
+        refine:
+          gold: 15000000
+          items:
+            21027: 1
+            445: 20
+            440: 5
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21027: 1
+              445: 15
+          3:
+            gold: 20000000
+            items:
+              21027: 1
+              445: 10
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21027: 1
+              445: 25
+              440: 5
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21027: 1
+              445: 40
+              440: 10
+              441: 10
 
     20028:
       name:
@@ -843,6 +2055,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_18.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21028: 1
+            440: 30
+            441: 10
+        refine:
+          gold: 15000000
+          items:
+            21028: 1
+            440: 15
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21028: 1
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21028: 1
+              440: 10
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21028: 1
+              440: 15
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21028: 1
+              440: 30
+              441: 10
 
     20029:
       name:
@@ -867,6 +2120,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_42.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21029: 1
+            441: 30
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21029: 1
+            441: 15
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21029: 1
+              441: 10
+          3:
+            gold: 20000000
+            items:
+              21029: 1
+              441: 10
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21029: 1
+              441: 15
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21029: 1
+              441: 30
+              445: 10
 
     20030:
       name:
@@ -891,6 +2185,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_47.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21030: 1
+            445: 30
+            440: 10
+        refine:
+          gold: 15000000
+          items:
+            21030: 1
+            445: 15
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21030: 1
+              445: 10
+          3:
+            gold: 20000000
+            items:
+              21030: 1
+              445: 10
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21030: 1
+              445: 15
+              440: 5
+          5:
+            gold: 20000000
+            items:
+              21030: 1
+              445: 30
+              440: 10
 
     20031:
       name:
@@ -915,6 +2250,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_49.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21031: 1
+            445: 40
+            440: 10
+            441: 10
+        refine:
+          gold: 15000000
+          items:
+            21031: 1
+            445: 20
+            440: 5
+            441: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21031: 1
+              445: 15
+          3:
+            gold: 20000000
+            items:
+              21031: 1
+              445: 10
+              440: 5
+              441: 5
+          4:
+            gold: 20000000
+            items:
+              21031: 1
+              445: 25
+              440: 5
+              441: 5
+          5:
+            gold: 20000000
+            items:
+              21031: 1
+              445: 40
+              440: 10
+              441: 10
 
     20032:
       name:
@@ -939,6 +2320,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_22.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21032: 1
+            441: 40
+            440: 10
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21032: 1
+            441: 20
+            440: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21032: 1
+              441: 15
+          3:
+            gold: 20000000
+            items:
+              21032: 1
+              441: 10
+              440: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21032: 1
+              441: 25
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21032: 1
+              441: 40
+              440: 10
+              445: 10
 
     20033:
       name:
@@ -963,6 +2390,52 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_11.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21033: 1
+            440: 40
+            441: 10
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21033: 1
+            440: 20
+            441: 5
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21033: 1
+              440: 15
+          3:
+            gold: 20000000
+            items:
+              21033: 1
+              440: 10
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21033: 1
+              440: 25
+              441: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21033: 1
+              440: 40
+              441: 10
+              445: 10
 
     20034:
       name:
@@ -987,6 +2460,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_27.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21034: 1
+            441: 30
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21034: 1
+            441: 15
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21034: 1
+              441: 10
+          3:
+            gold: 20000000
+            items:
+              21034: 1
+              441: 10
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21034: 1
+              441: 15
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21034: 1
+              441: 30
+              445: 10
 
     20035:
       name:
@@ -1011,6 +2525,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_19.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21035: 1
+            440: 30
+            445: 10
+        refine:
+          gold: 15000000
+          items:
+            21035: 1
+            440: 15
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21035: 1
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21035: 1
+              440: 10
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21035: 1
+              440: 15
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21035: 1
+              440: 30
+              445: 10
 
     20036:
       name:
@@ -1035,6 +2590,47 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_21.png
+      costs:
+        craft:
+          gold: 15000000
+          items:
+            21036: 1
+            445: 30
+            440: 10
+        refine:
+          gold: 15000000
+          items:
+            21036: 1
+            445: 15
+            440: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21036: 1
+              445: 10
+          3:
+            gold: 20000000
+            items:
+              21036: 1
+              445: 10
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21036: 1
+              445: 15
+              440: 5
+          5:
+            gold: 20000000
+            items:
+              21036: 1
+              445: 30
+              440: 10
 
     20037:
       name:
@@ -1059,6 +2655,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_38.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21037: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21037: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21037: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21037: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21037: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21037: 1
+              440: 40
+              441: 30
+              445: 30
 
     20038:
       name:
@@ -1083,6 +2727,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_39.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21038: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21038: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21038: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21038: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21038: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21038: 1
+              440: 40
+              441: 30
+              445: 30
 
     20039:
       name:
@@ -1107,6 +2799,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_40.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21039: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21039: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21039: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21039: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21039: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21039: 1
+              440: 40
+              441: 30
+              445: 30
 
     20040:
       name:
@@ -1131,6 +2871,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_37.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21040: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21040: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21040: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21040: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21040: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21040: 1
+              440: 40
+              441: 30
+              445: 30
 
     20041:
       name:
@@ -1155,6 +2943,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_23.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21041: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21041: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21041: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21041: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21041: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21041: 1
+              440: 40
+              441: 30
+              445: 30
 
     20042:
       name:
@@ -1179,6 +3015,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_35.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21042: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21042: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21042: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21042: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21042: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21042: 1
+              440: 40
+              441: 30
+              445: 30
 
     20043:
       name:
@@ -1203,6 +3087,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_41.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21043: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21043: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21043: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21043: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21043: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21043: 1
+              440: 40
+              441: 30
+              445: 30
 
     20044:
       name:
@@ -1227,6 +3159,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_36.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21044: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21044: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21044: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21044: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21044: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21044: 1
+              440: 40
+              441: 30
+              445: 30
 
     20045:
       name:
@@ -1275,6 +3255,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_7.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21051: 1
+            438: 30
+            434: 10
+        refine:
+          gold: 6000000
+          items:
+            21051: 1
 
     20052:
       name:
@@ -1299,6 +3290,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_5.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21052: 1
+            438: 40
+            433: 20
+        refine:
+          gold: 6000000
+          items:
+            21052: 1
 
     20053:
       name:
@@ -1323,6 +3325,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_6.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21053: 1
+            438: 30
+            434: 10
+        refine:
+          gold: 6000000
+          items:
+            21053: 1
 
     20054:
       name:
@@ -1347,6 +3360,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_8.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21054: 1
+            438: 40
+            433: 20
+        refine:
+          gold: 6000000
+          items:
+            21054: 1
 
     20055:
       name:
@@ -1371,6 +3395,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_18.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21055: 1
+            435: 35
+        refine:
+          gold: 6000000
+          items:
+            21055: 1
 
     20056:
       name:
@@ -1395,6 +3429,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_16.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21056: 1
+            435: 25
+        refine:
+          gold: 6000000
+          items:
+            21056: 1
 
     20057:
       name:
@@ -1419,6 +3463,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_19.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21057: 1
+            435: 25
+        refine:
+          gold: 6000000
+          items:
+            21057: 1
 
     20058:
       name:
@@ -1443,6 +3497,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_17.png
+      costs:
+        craft:
+          gold: 6000000
+          items:
+            21058: 1
+            435: 15
+        refine:
+          gold: 6000000
+          items:
+            21058: 1
 
     20059:
       name:
@@ -1467,6 +3531,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_28.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21059: 1
+            434: 70
+            433: 15
+            438: 15
+        refine:
+          gold: 5000000
+          items:
+            21059: 1
 
     20060:
       name:
@@ -1491,6 +3567,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_27.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21060: 1
+            438: 70
+            434: 15
+            433: 15
+        refine:
+          gold: 5000000
+          items:
+            21060: 1
 
     20061:
       name:
@@ -1515,6 +3603,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_22.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21061: 1
+            433: 70
+            438: 15
+            434: 15
+        refine:
+          gold: 5000000
+          items:
+            21061: 1
 
     20062:
       name:
@@ -1539,6 +3639,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_24.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21062: 1
+            433: 30
+            434: 10
+            438: 10
+        refine:
+          gold: 5000000
+          items:
+            21062: 1
 
     20063:
       name:
@@ -1563,6 +3675,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_20.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21063: 1
+            434: 30
+            433: 10
+            438: 10
+        refine:
+          gold: 5000000
+          items:
+            21063: 1
 
     20064:
       name:
@@ -1587,6 +3711,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_25.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21064: 1
+            433: 40
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21064: 1
 
     20065:
       name:
@@ -1611,6 +3746,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_15.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21065: 1
+            434: 40
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21065: 1
 
     20066:
       name:
@@ -1635,6 +3781,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_26.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21066: 1
+            433: 40
+        refine:
+          gold: 5000000
+          items:
+            21066: 1
 
     20067:
       name:
@@ -1659,6 +3815,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_23.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21067: 1
+            434: 30
+            438: 10
+        refine:
+          gold: 5000000
+          items:
+            21067: 1
 
     20068:
       name:
@@ -1683,6 +3850,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_13.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21068: 1
+            434: 40
+            433: 20
+        refine:
+          gold: 5000000
+          items:
+            21068: 1
 
     20069:
       name:
@@ -1707,6 +3885,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_14.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21069: 1
+            438: 40
+            433: 20
+        refine:
+          gold: 5000000
+          items:
+            21069: 1
 
     20070:
       name:
@@ -1731,6 +3920,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_12.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21070: 1
+            433: 40
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21070: 1
 
     20071:
       name:
@@ -1755,6 +3955,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_1.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21071: 1
+            433: 30
+            438: 10
+        refine:
+          gold: 5000000
+          items:
+            21071: 1
 
     20072:
       name:
@@ -1779,6 +3990,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_9.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21072: 1
+            434: 30
+            433: 10
+        refine:
+          gold: 5000000
+          items:
+            21072: 1
 
     20073:
       name:
@@ -1803,6 +4025,17 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_11.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21073: 1
+            438: 30
+            433: 10
+        refine:
+          gold: 5000000
+          items:
+            21073: 1
 
     20074:
       name:
@@ -1827,6 +4060,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_4.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21074: 1
+            435: 80
+        refine:
+          gold: 8000000
+          items:
+            21074: 1
 
     20075:
       name:
@@ -1851,6 +4094,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_2.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21075: 1
+            438: 30
+            433: 20
+            434: 20
+        refine:
+          gold: 8000000
+          items:
+            21075: 1
 
     20076:
       name:
@@ -1875,6 +4130,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_3.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21076: 1
+            433: 30
+            438: 20
+            434: 20
+        refine:
+          gold: 8000000
+          items:
+            21076: 1
 
     20077:
       name:
@@ -1899,6 +4166,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_21.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21077: 1
+            435: 80
+        refine:
+          gold: 8000000
+          items:
+            21077: 1
 
     20078:
       name:
@@ -1923,6 +4200,16 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_10.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21078: 1
+            435: 80
+        refine:
+          gold: 8000000
+          items:
+            21078: 1
 
     20079:
       name:
@@ -1947,6 +4234,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_12.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21079: 1
+            428: 30
+        refine:
+          gold: 3000000
+          items:
+            21079: 1
 
     20080:
       name:
@@ -1971,6 +4268,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_13.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21080: 1
+            428: 30
+        refine:
+          gold: 3000000
+          items:
+            21080: 1
 
     20081:
       name:
@@ -1995,6 +4302,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_14.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21081: 1
+            428: 30
+        refine:
+          gold: 3000000
+          items:
+            21081: 1
 
     20082:
       name:
@@ -2019,6 +4336,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_15.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21082: 1
+            428: 20
+        refine:
+          gold: 3000000
+          items:
+            21082: 1
 
     20083:
       name:
@@ -2043,6 +4370,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_6.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21083: 1
+            427: 30
+            426: 30
+        refine:
+          gold: 3000000
+          items:
+            21083: 1
 
     20084:
       name:
@@ -2067,6 +4405,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_4.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21084: 1
+            427: 30
+            426: 30
+        refine:
+          gold: 3000000
+          items:
+            21084: 1
 
     20085:
       name:
@@ -2091,6 +4440,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_3.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21085: 1
+            427: 20
+            426: 20
+        refine:
+          gold: 3000000
+          items:
+            21085: 1
 
     20086:
       name:
@@ -2115,6 +4475,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_5.png
+      costs:
+        craft:
+          gold: 3000000
+          items:
+            21086: 1
+            427: 20
+            426: 20
+        refine:
+          gold: 3000000
+          items:
+            21086: 1
 
     20087:
       name:
@@ -2139,6 +4510,18 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_1.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21087: 1
+            426: 50
+            431: 20
+            427: 20
+        refine:
+          gold: 2000000
+          items:
+            21087: 1
 
     20088:
       name:
@@ -2163,6 +4546,18 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_7.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21088: 1
+            431: 50
+            427: 20
+            426: 20
+        refine:
+          gold: 2000000
+          items:
+            21088: 1
 
     20089:
       name:
@@ -2187,6 +4582,18 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_10.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21089: 1
+            427: 50
+            426: 20
+            431: 20
+        refine:
+          gold: 2000000
+          items:
+            21089: 1
 
     20090:
       name:
@@ -2211,6 +4618,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_19.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21090: 1
+            426: 40
+            427: 20
+        refine:
+          gold: 2000000
+          items:
+            21090: 1
 
     20091:
       name:
@@ -2235,6 +4653,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_20.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21091: 1
+            431: 40
+            427: 20
+        refine:
+          gold: 2000000
+          items:
+            21091: 1
 
     20092:
       name:
@@ -2259,6 +4688,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_11.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21092: 1
+            431: 30
+            426: 10
+        refine:
+          gold: 2000000
+          items:
+            21092: 1
 
     20093:
       name:
@@ -2283,6 +4723,18 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_2.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21093: 1
+            427: 30
+            426: 5
+            431: 5
+        refine:
+          gold: 2000000
+          items:
+            21093: 1
 
     20094:
       name:
@@ -2307,6 +4759,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_8.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21094: 1
+            431: 40
+            427: 20
+        refine:
+          gold: 2000000
+          items:
+            21094: 1
 
     20095:
       name:
@@ -2331,6 +4794,18 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_17.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21095: 1
+            427: 40
+            431: 10
+            426: 10
+        refine:
+          gold: 2000000
+          items:
+            21095: 1
 
     20096:
       name:
@@ -2355,6 +4830,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_16.png
+      costs:
+        craft:
+          gold: 2000000
+          items:
+            21096: 1
+            427: 40
+        refine:
+          gold: 2000000
+          items:
+            21096: 1
 
     20097:
       name:
@@ -2379,6 +4864,17 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_21.png
+      costs:
+        craft:
+          gold: 4000000
+          items:
+            21097: 1
+            427: 35
+            431: 35
+        refine:
+          gold: 4000000
+          items:
+            21097: 1
 
     20098:
       name:
@@ -2403,6 +4899,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_9.png
+      costs:
+        craft:
+          gold: 4000000
+          items:
+            21098: 1
+            428: 70
+        refine:
+          gold: 4000000
+          items:
+            21098: 1
 
     20099:
       name:
@@ -2427,6 +4933,16 @@ equipment:
       rarity: elite
       sprite:
         - img_icon_item_equip_3_18.png
+      costs:
+        craft:
+          gold: 4000000
+          items:
+            21099: 1
+            428: 70
+        refine:
+          gold: 4000000
+          items:
+            21099: 1
 
     20100:
       name:
@@ -2451,6 +4967,16 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_9.png
+      costs:
+        craft:
+          gold: 750000
+          items:
+            21100: 1
+            419: 110
+        refine:
+          gold: 750000
+          items:
+            21100: 1
 
     20101:
       name:
@@ -2475,6 +5001,16 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_8.png
+      costs:
+        craft:
+          gold: 750000
+          items:
+            21101: 1
+            419: 70
+        refine:
+          gold: 750000
+          items:
+            21101: 1
 
     20102:
       name:
@@ -2499,6 +5035,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_3.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21102: 1
+            420: 60
+            424: 20
+        refine:
+          gold: 500000
+          items:
+            21102: 1
 
     20103:
       name:
@@ -2523,6 +5070,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_4.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21103: 1
+            419: 40
+            420: 10
+        refine:
+          gold: 500000
+          items:
+            21103: 1
 
     20104:
       name:
@@ -2547,6 +5105,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_1.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21104: 1
+            424: 40
+            420: 10
+        refine:
+          gold: 500000
+          items:
+            21104: 1
 
     20105:
       name:
@@ -2571,6 +5140,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_2.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21105: 1
+            420: 40
+            419: 10
+        refine:
+          gold: 500000
+          items:
+            21105: 1
 
     20106:
       name:
@@ -2595,6 +5175,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_5.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21106: 1
+            419: 40
+            424: 10
+        refine:
+          gold: 500000
+          items:
+            21106: 1
 
     20107:
       name:
@@ -2619,6 +5210,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_12.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21107: 1
+            420: 40
+            424: 10
+        refine:
+          gold: 500000
+          items:
+            21107: 1
 
     20108:
       name:
@@ -2643,6 +5245,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_6.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21108: 1
+            424: 20
+            420: 15
+        refine:
+          gold: 500000
+          items:
+            21108: 1
 
     20109:
       name:
@@ -2667,6 +5280,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_7.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21109: 1
+            419: 20
+            420: 15
+        refine:
+          gold: 500000
+          items:
+            21109: 1
 
     20110:
       name:
@@ -2691,6 +5315,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_10.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21110: 1
+            424: 20
+            419: 15
+        refine:
+          gold: 500000
+          items:
+            21110: 1
 
     20111:
       name:
@@ -2715,6 +5350,17 @@ equipment:
       rarity: advanced
       sprite:
         - img_icon_item_equip_2_11.png
+      costs:
+        craft:
+          gold: 500000
+          items:
+            21111: 1
+            420: 20
+            424: 15
+        refine:
+          gold: 500000
+          items:
+            21111: 1
 
     20112:
       name:
@@ -2739,6 +5385,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_3.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21112: 1
+            412: 100
+        refine:
+          gold: 100000
+          items:
+            21112: 1
 
     20113:
       name:
@@ -2763,6 +5419,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_2.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21113: 1
+            413: 80
+        refine:
+          gold: 100000
+          items:
+            21113: 1
 
     20114:
       name:
@@ -2787,6 +5453,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_1.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21114: 1
+            417: 80
+        refine:
+          gold: 100000
+          items:
+            21114: 1
 
     20115:
       name:
@@ -2811,6 +5487,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_4.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21115: 1
+            412: 60
+        refine:
+          gold: 100000
+          items:
+            21115: 1
 
     20116:
       name:
@@ -2835,6 +5521,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_5.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21116: 1
+            413: 60
+        refine:
+          gold: 100000
+          items:
+            21116: 1
 
     20117:
       name:
@@ -2859,6 +5555,16 @@ equipment:
       rarity: normal
       sprite:
         - img_icon_item_equip_1_6.png
+      costs:
+        craft:
+          gold: 100000
+          items:
+            21117: 1
+            417: 60
+        refine:
+          gold: 100000
+          items:
+            21117: 1
 
     20118:
       name:
@@ -2883,6 +5589,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_51.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21118: 1
+            441: 40
+            445: 30
+            440: 30
+        refine:
+          gold: 50000000
+          items:
+            21118: 1
+            441: 20
+            445: 15
+            440: 15
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21118: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21118: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21118: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21118: 1
+              440: 40
+              441: 30
+              445: 30
 
     20119:
       name:
@@ -2907,6 +5661,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_52.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21119: 1
+            445: 40
+            441: 30
+            440: 30
+        refine:
+          gold: 50000000
+          items:
+            21119: 1
+            445: 20
+            441: 15
+            440: 15
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21119: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21119: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21119: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21119: 1
+              440: 40
+              441: 30
+              445: 30
 
     20120:
       name:
@@ -2931,6 +5733,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_29.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21120: 1
+            433: 30
+            438: 20
+            434: 20
+        refine:
+          gold: 8000000
+          items:
+            21120: 1
 
     20121:
       name:
@@ -2955,6 +5769,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_30.png
+      costs:
+        craft:
+          gold: 8000000
+          items:
+            21121: 1
+            438: 30
+            433: 20
+            434: 20
+        refine:
+          gold: 8000000
+          items:
+            21121: 1
 
     20122:
       name:
@@ -2979,6 +5805,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_55.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21122: 1
+            440: 30
+            441: 30
+            445: 30
+        refine:
+          gold: 30000000
+          items:
+            21122: 1
+            440: 15
+            441: 15
+            445: 15
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21122: 1
+              440: 10
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21122: 1
+              445: 15
+              441: 10
+              440: 10
+          4:
+            gold: 20000000
+            items:
+              21122: 1
+              441: 20
+              440: 15
+              445: 15
+          5:
+            gold: 20000000
+            items:
+              21122: 1
+              440: 30
+              441: 25
+              445: 25
 
     20123:
       name:
@@ -3003,6 +5877,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_54.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21123: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 30000000
+          items:
+            21123: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21123: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21123: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21123: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21123: 1
+              440: 20
+              441: 20
+              445: 20
 
     20124:
       name:
@@ -3027,6 +5949,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_53.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21124: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 30000000
+          items:
+            21124: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21124: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21124: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21124: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21124: 1
+              440: 20
+              441: 20
+              445: 20
 
     20125:
       name:
@@ -3051,6 +6021,53 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_57.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21125: 1
+            440: 10
+            441: 15
+            445: 15
+        refine:
+          gold: 30000000
+          items:
+            21125: 1
+            440: 5
+            441: 7
+            445: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21125: 1
+              440: 5
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21125: 1
+              440: 5
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21125: 1
+              441: 10
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21125: 1
+              440: 15
+              441: 10
+              445: 15
 
     20126:
       name:
@@ -3075,6 +6092,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_56.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21126: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 30000000
+          items:
+            21126: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21126: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21126: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21126: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21126: 1
+              440: 20
+              441: 20
+              445: 20
 
     20127:
       name:
@@ -3099,6 +6164,53 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_58.png
+      costs:
+        craft:
+          gold: 30000000
+          items:
+            21127: 1
+            440: 15
+            441: 10
+            445: 15
+        refine:
+          gold: 30000000
+          items:
+            21127: 1
+            440: 7
+            441: 5
+            445: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21127: 1
+              440: 5
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21127: 1
+              440: 5
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21127: 1
+              441: 10
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21127: 1
+              440: 15
+              441: 10
+              445: 15
 
     20128:
       name:
@@ -3123,6 +6235,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_33.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21128: 1
+            433: 30
+            434: 30
+            438: 30
+        refine:
+          gold: 5000000
+          items:
+            21128: 1
 
     20129:
       name:
@@ -3147,6 +6271,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_32.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21129: 1
+            433: 20
+            434: 20
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21129: 1
 
     20130:
       name:
@@ -3171,6 +6307,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_31.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21130: 1
+            433: 20
+            434: 20
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21130: 1
 
     20131:
       name:
@@ -3195,6 +6343,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_35.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21131: 1
+            433: 10
+            434: 15
+            438: 15
+        refine:
+          gold: 5000000
+          items:
+            21131: 1
 
     20132:
       name:
@@ -3219,6 +6379,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_34.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21132: 1
+            433: 20
+            434: 20
+            438: 20
+        refine:
+          gold: 5000000
+          items:
+            21132: 1
 
     20133:
       name:
@@ -3243,6 +6415,18 @@ equipment:
       rarity: epic
       sprite:
         - img_icon_item_equip_4_36.png
+      costs:
+        craft:
+          gold: 5000000
+          items:
+            21133: 1
+            433: 15
+            434: 10
+            438: 15
+        refine:
+          gold: 5000000
+          items:
+            21133: 1
 
     20134:
       name:
@@ -3267,6 +6451,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_6.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21134: 1
+            442: 35
+        refine:
+          gold: 20000000
+          items:
+            21134: 1
+            442: 17
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21134: 1
+          3:
+            gold: 20000000
+            items:
+              21134: 1
+          4:
+            gold: 20000000
+            items:
+              21134: 1
+          5:
+            gold: 20000000
+            items:
+              21134: 1
 
     20135:
       name:
@@ -3291,6 +6507,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_2.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21135: 1
+            442: 25
+        refine:
+          gold: 20000000
+          items:
+            21135: 1
+            442: 12
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21135: 1
+          3:
+            gold: 20000000
+            items:
+              21135: 1
+          4:
+            gold: 20000000
+            items:
+              21135: 1
+          5:
+            gold: 20000000
+            items:
+              21135: 1
 
     20136:
       name:
@@ -3315,6 +6563,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_4.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21136: 1
+            442: 25
+        refine:
+          gold: 20000000
+          items:
+            21136: 1
+            442: 12
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21136: 1
+          3:
+            gold: 20000000
+            items:
+              21136: 1
+          4:
+            gold: 20000000
+            items:
+              21136: 1
+          5:
+            gold: 20000000
+            items:
+              21136: 1
 
     20137:
       name:
@@ -3339,6 +6619,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_1.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21137: 1
+            442: 15
+        refine:
+          gold: 20000000
+          items:
+            21137: 1
+            442: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21137: 1
+          3:
+            gold: 20000000
+            items:
+              21137: 1
+          4:
+            gold: 20000000
+            items:
+              21137: 1
+          5:
+            gold: 20000000
+            items:
+              21137: 1
 
     20138:
       name:
@@ -3363,6 +6675,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_3.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21138: 1
+            442: 25
+        refine:
+          gold: 20000000
+          items:
+            21138: 1
+            442: 12
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21138: 1
+          3:
+            gold: 20000000
+            items:
+              21138: 1
+          4:
+            gold: 20000000
+            items:
+              21138: 1
+          5:
+            gold: 20000000
+            items:
+              21138: 1
 
     20139:
       name:
@@ -3387,6 +6731,38 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_6_5.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21139: 1
+            442: 15
+        refine:
+          gold: 20000000
+          items:
+            21139: 1
+            442: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21139: 1
+          3:
+            gold: 20000000
+            items:
+              21139: 1
+          4:
+            gold: 20000000
+            items:
+              21139: 1
+          5:
+            gold: 20000000
+            items:
+              21139: 1
 
     20140:
       name:
@@ -3411,6 +6787,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_62.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21140: 1
+            440: 30
+            441: 30
+            445: 30
+        refine:
+          gold: 20000000
+          items:
+            21140: 1
+            440: 15
+            441: 15
+            445: 15
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21140: 1
+              440: 10
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21140: 1
+              445: 15
+              441: 10
+              440: 10
+          4:
+            gold: 20000000
+            items:
+              21140: 1
+              441: 20
+              440: 15
+              445: 15
+          5:
+            gold: 20000000
+            items:
+              21140: 1
+              440: 30
+              441: 25
+              445: 25
 
     20141:
       name:
@@ -3435,6 +6859,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_63.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21141: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 20000000
+          items:
+            21141: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21141: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21141: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21141: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21141: 1
+              440: 20
+              441: 20
+              445: 20
 
     20142:
       name:
@@ -3459,6 +6931,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_59.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21142: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 20000000
+          items:
+            21142: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21142: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21142: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21142: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21142: 1
+              440: 20
+              441: 20
+              445: 20
 
     20143:
       name:
@@ -3483,6 +7003,53 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_61.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21143: 1
+            440: 15
+            441: 15
+            445: 10
+        refine:
+          gold: 20000000
+          items:
+            21143: 1
+            440: 7
+            441: 7
+            445: 5
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21143: 1
+              440: 5
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21143: 1
+              440: 5
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21143: 1
+              441: 10
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21143: 1
+              440: 15
+              441: 10
+              445: 15
 
     20144:
       name:
@@ -3507,6 +7074,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_64.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21144: 1
+            440: 20
+            441: 20
+            445: 20
+        refine:
+          gold: 20000000
+          items:
+            21144: 1
+            440: 10
+            441: 10
+            445: 10
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21144: 1
+              440: 5
+              441: 5
+              445: 5
+          3:
+            gold: 20000000
+            items:
+              21144: 1
+              445: 10
+              441: 5
+              440: 5
+          4:
+            gold: 20000000
+            items:
+              21144: 1
+              440: 15
+              441: 10
+              445: 10
+          5:
+            gold: 20000000
+            items:
+              21144: 1
+              440: 20
+              441: 20
+              445: 20
 
     20145:
       name:
@@ -3531,6 +7146,53 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_5_60.png
+      costs:
+        craft:
+          gold: 20000000
+          items:
+            21145: 1
+            440: 10
+            441: 15
+            445: 15
+        refine:
+          gold: 20000000
+          items:
+            21145: 1
+            440: 5
+            441: 7
+            445: 7
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21145: 1
+              440: 5
+              441: 5
+          3:
+            gold: 20000000
+            items:
+              21145: 1
+              440: 5
+              441: 5
+              445: 5
+          4:
+            gold: 20000000
+            items:
+              21145: 1
+              441: 10
+              440: 5
+              445: 5
+          5:
+            gold: 20000000
+            items:
+              21145: 1
+              440: 15
+              441: 10
+              445: 15
 
     20164:
       name:
@@ -3555,6 +7217,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_7_1.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21164: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21164: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21164: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21164: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21164: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21164: 1
+              440: 40
+              441: 30
+              445: 30
 
     20166:
       name:
@@ -3579,6 +7289,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_10_3.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21166: 1
+            441: 40
+            445: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21166: 1
+            441: 20
+            445: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21166: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21166: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21166: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21166: 1
+              440: 40
+              441: 30
+              445: 30
 
     20167:
       name:
@@ -3603,6 +7361,54 @@ equipment:
       rarity: legendary
       sprite:
         - img_icon_item_equip_9_3.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21167: 1
+            445: 40
+            441: 40
+            440: 40
+        refine:
+          gold: 50000000
+          items:
+            21167: 1
+            445: 20
+            441: 20
+            440: 20
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+          2:
+            gold: 20000000
+            items:
+              21167: 1
+              445: 15
+              441: 10
+              440: 10
+          3:
+            gold: 20000000
+            items:
+              21167: 1
+              445: 20
+              441: 15
+              440: 15
+          4:
+            gold: 20000000
+            items:
+              21167: 1
+              441: 30
+              440: 20
+              445: 20
+          5:
+            gold: 20000000
+            items:
+              21167: 1
+              440: 40
+              441: 30
+              445: 30
 
     20201:
       name:
