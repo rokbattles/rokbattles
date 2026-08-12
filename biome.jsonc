@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/samples", "!.github"]
+    "includes": ["**", "!**/samples", "!.github", "!packages/site/src/app/icon.svg"]
   },
   "formatter": {
     "enabled": true,
