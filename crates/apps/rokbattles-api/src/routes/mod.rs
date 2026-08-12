@@ -6,6 +6,7 @@ use crate::state::AppState;
 
 mod auth;
 mod combat_lab;
+mod game;
 mod governor;
 mod health;
 mod loot_explorer;
@@ -25,6 +26,7 @@ fn v2_router() -> Router<Arc<AppState>> {
 
 fn v1_router() -> Router<Arc<AppState>> {
     Router::new()
+        .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
         .route("/global/combat-lab", get(combat_lab::get_pairing))
