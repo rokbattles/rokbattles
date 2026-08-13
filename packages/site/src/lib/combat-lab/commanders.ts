@@ -3,6 +3,7 @@ import { commanderMap, getCommanderName } from "@/lib/commander";
 export type CombatLabCommanderOption = {
   id: number;
   name: string;
+  talents: string[];
 };
 
 export function getLegendaryCommanderOptions(locale?: string): CombatLabCommanderOption[] {
@@ -18,6 +19,7 @@ export function getLegendaryCommanderOptions(locale?: string): CombatLabCommande
     options.push({
       id: commanderId,
       name: commander.prime ? `${localizedName} (Prime)` : localizedName,
+      talents: commander.talents ?? [],
     });
   }
 

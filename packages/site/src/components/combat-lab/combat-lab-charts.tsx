@@ -14,11 +14,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  CombatLabDonut,
-  type CombatLabDonutDatum,
-} from "@/components/combat-lab/new/combat-lab-donut";
-import { CombatLabPreviewEmptyState } from "@/components/combat-lab/new/combat-lab-preview-empty-state";
+import { CombatLabDonut, type CombatLabDonutDatum } from "@/components/combat-lab/combat-lab-donut";
+import { CombatLabEmptyState } from "@/components/combat-lab/combat-lab-empty-state";
 import { Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import { getArmamentInfo } from "@/hooks/use-armament-name";
@@ -32,6 +29,7 @@ import type {
   CombatLabPreviewRangeKey,
   CombatLabPreviewTrend,
 } from "@/lib/combat-lab/preview-types";
+import { calculateTradePercentage } from "@/lib/combat-lab/trade-percentage";
 import { toRomanNumeral } from "@/lib/equipment";
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
@@ -87,7 +85,7 @@ function numberOrZero(value: unknown) {
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }
 
-export function CombatLabPreviewCharts({
+export function CombatLabCharts({
   rangeKey,
   trends,
 }: {
@@ -115,14 +113,9 @@ export function CombatLabPreviewCharts({
   if (!chartData.some((point) => point.battles > 0)) {
     return (
       <div className="grid gap-5 xl:grid-cols-2">
-        <EmptyChartCard
-          message={t("No kill-point history was observed for these filters.")}
-          title={t("Kill points")}
-        />
-        <EmptyChartCard
-          message={t("No per-second combat metrics were observed for these filters.")}
-          title={t("Battle tempo")}
-        />
+        <EmptyChartCard title={t("Kill points")} />
+        <EmptyChartCard title={t("Battle tempo")} />
+        <EmptyChartCard className="xl:col-span-2" title={t("Trade percentage")} />
       </div>
     );
   }
@@ -270,22 +263,90 @@ export function CombatLabPreviewCharts({
           </ResponsiveContainer>
         </div>
       </article>
+
+      <article
+        aria-labelledby="trade-percentage-chart-title"
+        className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900"
+        data-testid="trade-percentage-chart"
+      >
+        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+          <Subheading id="trade-percentage-chart-title" level={3}>
+            {t("Trade percentage")}
+          </Subheading>
+        </div>
+        <div className="h-72 px-2 pt-5 pr-4 pb-3">
+          <ResponsiveContainer minWidth={0}>
+            <AreaChart
+              accessibilityLayer
+              data={chartData}
+              margin={{ top: 4, right: 4, bottom: 4, left: 4 }}
+            >
+              <defs>
+                <linearGradient id="trade-percentage" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#059669" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#059669" stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                stroke="rgba(113,113,122,.18)"
+                strokeDasharray="3 5"
+                vertical={false}
+              />
+              <XAxis
+                axisLine={false}
+                dataKey="date"
+                minTickGap={42}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                tickLine={false}
+              />
+              <YAxis
+                axisLine={false}
+                domain={[0, "auto"]}
+                tick={{ fill: "#71717a", fontSize: 11 }}
+                tickFormatter={(value) => `${decimalFormatter.format(Number(value))}%`}
+                tickLine={false}
+                width={58}
+              />
+              <RechartsTooltip
+                content={(props) => (
+                  <ChartTooltip
+                    {...props}
+                    formatName={() => t("Trade percentage")}
+                    formatValue={(value) => `${decimalFormatter.format(value)}%`}
+                  />
+                )}
+              />
+              <Area
+                dataKey="tradePercentage"
+                dot={false}
+                fill="url(#trade-percentage)"
+                isAnimationActive={false}
+                stroke="#059669"
+                strokeWidth={2.5}
+                type="monotone"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </article>
     </div>
   );
 }
 
-function EmptyChartCard({ message, title }: { message: string; title: string }) {
+function EmptyChartCard({ className, title }: { className?: string; title: string }) {
   return (
-    <article className="min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900">
+    <article
+      className={`min-w-0 overflow-hidden rounded-md border border-zinc-950/10 bg-white dark:border-white/10 dark:bg-zinc-900 ${className ?? ""}`}
+    >
       <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
         <Subheading level={3}>{title}</Subheading>
       </div>
-      <CombatLabPreviewEmptyState className="m-5 min-h-64" message={message} />
+      <CombatLabEmptyState className="m-5 min-h-64" />
     </article>
   );
 }
 
-export function CombatLabPreviewFormationChart({
+export function CombatLabFormationChart({
   points,
   rangeKey,
 }: {
@@ -316,10 +377,7 @@ export function CombatLabPreviewFormationChart({
         <Subheading level={4} className="mt-3">
           {t("Formation usage")}
         </Subheading>
-        <CombatLabPreviewEmptyState
-          className="mt-3 min-h-72 sm:min-h-80"
-          message={t("No formations were observed for these filters.")}
-        />
+        <CombatLabEmptyState className="mt-3 min-h-72 sm:min-h-80" />
       </article>
     );
   }
@@ -396,7 +454,7 @@ export function CombatLabPreviewFormationChart({
   );
 }
 
-export function CombatLabPreviewArmamentChart({
+export function CombatLabArmamentChart({
   rangeKey,
   slot,
 }: {
@@ -406,14 +464,18 @@ export function CombatLabPreviewArmamentChart({
   const t = useExtracted();
   const locale = useLocale();
   const decimalFormatter = createDecimalFormatter(locale);
-  const inscriptionOptions = [
-    { key: "special", label: t("Special"), color: "#2563eb" },
-    { key: "rare", label: t("Rare"), color: "#7c3aed" },
-    { key: "common", label: t("Common"), color: "#71717a" },
-    { key: "specialCommon", label: t("Special + Common"), color: "#0891b2" },
-    { key: "rareCommon", label: t("Rare + Common"), color: "#d97706" },
-    { key: "commonCommon", label: t("Common + Common"), color: "#059669" },
-  ] as const;
+  const inscriptionOptions = useMemo(
+    () =>
+      [
+        { key: "special", label: t("Special"), color: "#2563eb" },
+        { key: "rare", label: t("Rare"), color: "#7c3aed" },
+        { key: "common", label: t("Common"), color: "#71717a" },
+        { key: "specialCommon", label: t("Special + Common"), color: "#0891b2" },
+        { key: "rareCommon", label: t("Rare + Common"), color: "#d97706" },
+        { key: "commonCommon", label: t("Common + Common"), color: "#059669" },
+      ] as const,
+    [t]
+  );
   const buffOptions = useMemo(
     () => getArmamentBuffOptions(slot, locale, (id) => t("Buff {id}", { id: id.toString() })),
     [locale, slot, t]
@@ -430,12 +492,7 @@ export function CombatLabPreviewArmamentChart({
   const selectedBuffInfo = selectedBuff ? getArmamentInfo(selectedBuff.id, locale) : undefined;
 
   if (!slot.points.some((point) => point.sampleSize > 0)) {
-    return (
-      <CombatLabPreviewEmptyState
-        className="min-h-[34rem]"
-        message={t("No armaments were observed for these filters.")}
-      />
-    );
+    return <CombatLabEmptyState className="min-h-[34rem]" />;
   }
 
   return (
@@ -581,7 +638,7 @@ export function CombatLabPreviewArmamentChart({
   );
 }
 
-export function CombatLabPreviewEquipmentChart({
+export function CombatLabEquipmentChart({
   accessoryPairings,
   rangeKey,
   slot,
@@ -623,12 +680,7 @@ export function CombatLabPreviewEquipmentChart({
   );
 
   if (totals.observations <= 0) {
-    return (
-      <CombatLabPreviewEmptyState
-        className="min-h-[31rem]"
-        message={t("No equipment was observed for these filters.")}
-      />
-    );
+    return <CombatLabEmptyState className="min-h-[31rem]" />;
   }
 
   return (
@@ -844,7 +896,7 @@ function ChartTooltip({
   );
 }
 
-type AggregatedTrend = CombatLabPreviewTrend & { date: string };
+type AggregatedTrend = CombatLabPreviewTrend & { date: string; tradePercentage: number };
 
 function aggregateTrends(
   trends: CombatLabPreviewTrend[],
@@ -881,7 +933,11 @@ function aggregateTrends(
   const dateFormatter = trendDateFormatter(locale);
   return Array.from(grouped.values())
     .sort((a, b) => a.bucketStartMs - b.bucketStartMs)
-    .map((point) => ({ ...point, date: dateFormatter.format(point.bucketStartMs) }));
+    .map((point) => ({
+      ...point,
+      date: dateFormatter.format(point.bucketStartMs),
+      tradePercentage: calculateTradePercentage(point.killPointsGained, point.killPointsLost),
+    }));
 }
 
 type FormationChartSeries = {

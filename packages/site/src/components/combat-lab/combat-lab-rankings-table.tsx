@@ -88,7 +88,7 @@ export function CombatLabRankingsTable({
         {items.map((item, index) => {
           const primaryName = getCommanderName(item.primaryCommanderId, locale) ?? "Unknown";
           const secondaryName = getCommanderName(item.secondaryCommanderId, locale) ?? "Unknown";
-          const href = `/combat-lab/new?primary=${item.primaryCommanderId}&secondary=${item.secondaryCommanderId}`;
+          const href = `/combat-lab?primary=${item.primaryCommanderId}&secondary=${item.secondaryCommanderId}`;
 
           return (
             <TableRow

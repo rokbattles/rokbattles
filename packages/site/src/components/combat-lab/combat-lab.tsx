@@ -1,16 +1,18 @@
 "use client";
 
-import { ArrowLeftIcon, InformationCircleIcon } from "@heroicons/react/16/solid";
+import { InformationCircleIcon, PencilSquareIcon } from "@heroicons/react/16/solid";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useExtracted, useLocale } from "next-intl";
-import { type CSSProperties, useState } from "react";
-import { CombatLabPreviewDrastc } from "@/components/combat-lab/new/combat-lab-preview-drastc";
-import { CombatLabPreviewEmptyState } from "@/components/combat-lab/new/combat-lab-preview-empty-state";
-import { CombatLabPreviewLoadouts } from "@/components/combat-lab/new/combat-lab-preview-loadouts";
+import { type CSSProperties, useMemo, useState } from "react";
+import { CombatLabDrastc } from "@/components/combat-lab/combat-lab-drastc";
+import { CombatLabEmptyState } from "@/components/combat-lab/combat-lab-empty-state";
+import { CombatLabHeader } from "@/components/combat-lab/combat-lab-header";
+import { CombatLabLoadouts } from "@/components/combat-lab/combat-lab-loadouts";
+import { CommanderPairingDrawer } from "@/components/combat-lab/commander-pairing-drawer";
 import { CommanderIcon } from "@/components/commander-icon";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
+import type { CombatLabCommanderOption } from "@/lib/combat-lab/commanders";
 import { formatRefreshedAt } from "@/lib/combat-lab/format";
 import {
   type CombatLabPreviewData,
@@ -22,11 +24,9 @@ import {
   type CombatLabPreviewDrastc as DrastcData,
 } from "@/lib/combat-lab/preview-types";
 
-const CombatLabPreviewCharts = dynamic(
+const CombatLabCharts = dynamic(
   () =>
-    import("@/components/combat-lab/new/combat-lab-preview-charts").then(
-      (module) => module.CombatLabPreviewCharts
-    ),
+    import("@/components/combat-lab/combat-lab-charts").then((module) => module.CombatLabCharts),
   { loading: () => <ChartSkeleton />, ssr: false }
 );
 
@@ -40,7 +40,13 @@ const drastcCategoryKeys = [
 ] as const;
 const skeletonChartBarHeights = [35, 62, 48, 76, 58, 84, 68] as const;
 
-export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
+export function CombatLab({
+  commanderOptions,
+  data,
+}: {
+  commanderOptions: CombatLabCommanderOption[];
+  data: CombatLabPreviewData;
+}) {
   const t = useExtracted();
   const locale = useLocale();
   const rangeLabels: Record<CombatLabPreviewRangeKey, string> = {
@@ -56,18 +62,27 @@ export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
     rally: t("Rally"),
     garrison: t("Garrison"),
   };
-  const compactFormatter = new Intl.NumberFormat(locale, {
-    notation: "compact",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  const numberFormatter = new Intl.NumberFormat(locale);
-  const decimalFormatter = new Intl.NumberFormat(locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  const compactFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        notation: "compact",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [locale]
+  );
+  const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const decimalFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }),
+    [locale]
+  );
   const [rangeKey, setRangeKey] = useState<CombatLabPreviewRangeKey>("1y");
   const [scenarioKey, setScenarioKey] = useState<CombatLabPreviewScenarioKey>("openField");
+  const [pairingPickerOpen, setPairingPickerOpen] = useState(false);
 
   const selected = data.ranges?.[rangeKey]?.scenarios?.[scenarioKey];
   const summary = normalizeSummary(selected?.summary);
@@ -81,46 +96,57 @@ export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
 
   return (
     <div className="min-h-dvh text-zinc-950 dark:text-white">
-      <header className="relative -mx-6 -mt-6 overflow-hidden border-zinc-950/10 border-b bg-zinc-950 text-white lg:-mx-10 lg:-mt-10 lg:rounded-t-lg dark:border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(37,99,235,.28),transparent_42%),radial-gradient(circle_at_20%_100%,rgba(124,58,237,.18),transparent_38%)]" />
-        <div className="relative mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
-          <Link
-            href="/combat-lab/rankings"
-            className="inline-flex items-center gap-1.5 font-medium text-sm text-zinc-400 transition hover:text-white"
-          >
-            <ArrowLeftIcon className="size-4" /> {t("Back to Combat Lab")}
-          </Link>
-          <div className="mt-8 flex items-center gap-3">
-            <div className="flex">
-              <CommanderIcon
-                id={data.pairing.primaryCommanderId}
-                alt={data.pairing.primaryCommanderName}
-                awakened
-                className="size-14 sm:size-16"
-                loading="eager"
-                sizes="64px"
-              />
-              <CommanderIcon
-                id={data.pairing.secondaryCommanderId}
-                alt={data.pairing.secondaryCommanderName}
-                awakened
-                className="-ml-3 size-14 sm:size-16"
-                loading="eager"
-                sizes="64px"
-              />
-            </div>
-            <div>
-              <h1 className="font-semibold text-2xl tracking-tight sm:text-4xl">
-                {data.pairing.primaryCommanderName} <span className="text-zinc-500">/</span>{" "}
-                {data.pairing.secondaryCommanderName}
-              </h1>
-              <Text className="mt-1 !text-sm/5 !text-zinc-400 sm:!text-base/6">
-                {t("Updated at {date}", { date: updated })}
-              </Text>
+      <CombatLabHeader active="explore">
+        <button
+          className="group mt-5 flex w-full cursor-pointer items-center gap-3 rounded-md border border-transparent bg-transparent p-3 text-left transition hover:border-white/10 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 sm:w-fit sm:min-w-xl sm:p-4"
+          data-testid="change-pairing"
+          onClick={() => setPairingPickerOpen(true)}
+          type="button"
+        >
+          <div className="flex">
+            <CommanderIcon
+              id={data.pairing.primaryCommanderId}
+              alt={data.pairing.primaryCommanderName}
+              awakened
+              className="size-14 sm:size-16"
+              loading="eager"
+              sizes="64px"
+            />
+            <CommanderIcon
+              id={data.pairing.secondaryCommanderId}
+              alt={data.pairing.secondaryCommanderName}
+              awakened
+              className="-ml-3 size-14 sm:size-16"
+              loading="eager"
+              sizes="64px"
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-balance font-semibold text-lg/6 tracking-tight sm:text-3xl">
+              {data.pairing.primaryCommanderName} <span className="text-zinc-500">/</span>{" "}
+              {data.pairing.secondaryCommanderName}
+            </h2>
+            <div className="mt-1 flex flex-wrap items-center gap-x-2 text-zinc-400 text-xs/5 sm:text-sm/6">
+              <span className="inline-flex items-center gap-1">
+                <PencilSquareIcon className="relative top-px size-3.5" /> {t("Change pairing")}
+              </span>
+              <span aria-hidden="true" className="text-zinc-600">
+                &bull;
+              </span>
+              <span>{t("Updated at {date}", { date: updated })}</span>
             </div>
           </div>
-        </div>
-      </header>
+        </button>
+      </CombatLabHeader>
+
+      <CommanderPairingDrawer
+        commanderOptions={commanderOptions}
+        key={`${data.pairing.primaryCommanderId}-${data.pairing.secondaryCommanderId}`}
+        onClose={() => setPairingPickerOpen(false)}
+        open={pairingPickerOpen}
+        primaryCommanderId={data.pairing.primaryCommanderId}
+        secondaryCommanderId={data.pairing.secondaryCommanderId}
+      />
 
       <div className="z-20 -mx-6 border-zinc-950/10 border-b bg-white/95 backdrop-blur lg:sticky lg:top-0 lg:-mx-10 dark:border-white/10 dark:bg-zinc-950/90">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 py-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
@@ -235,9 +261,7 @@ export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
               />
             </div>
           ) : (
-            <CombatLabPreviewEmptyState
-              message={t("No combat summary was observed for this time range and scenario.")}
-            />
+            <CombatLabEmptyState />
           )}
         </section>
 
@@ -245,12 +269,12 @@ export function CombatLabPreview({ data }: { data: CombatLabPreviewData }) {
           <Heading id="trends-title" level={2} className="mb-4">
             {t("Combat performance")}
           </Heading>
-          <CombatLabPreviewCharts rangeKey={rangeKey} trends={trends} />
+          <CombatLabCharts rangeKey={rangeKey} trends={trends} />
         </section>
 
-        {drastc ? <CombatLabPreviewDrastc score={drastc} /> : null}
+        {drastc ? <CombatLabDrastc score={drastc} /> : null}
 
-        <CombatLabPreviewLoadouts
+        <CombatLabLoadouts
           formationUsage={formationUsage}
           loadouts={selected?.loadouts}
           primaryCommanderName={data.pairing.primaryCommanderName}
@@ -406,6 +430,20 @@ function ChartSkeleton() {
           </div>
         </div>
       ))}
+      <div className="overflow-hidden rounded-md border border-zinc-950/10 bg-white xl:col-span-2 dark:border-white/10 dark:bg-zinc-900">
+        <div className="border-zinc-950/10 border-b px-5 py-4 dark:border-white/10">
+          <SkeletonBlock className="h-5 w-36" />
+        </div>
+        <div className="flex h-72 items-end gap-4 px-6 pt-8 pb-6">
+          {skeletonChartBarHeights.map((height) => (
+            <SkeletonBlock
+              className="flex-1"
+              key={`trade-percentage-bar-${height}`}
+              style={{ height: `${height}%` }}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

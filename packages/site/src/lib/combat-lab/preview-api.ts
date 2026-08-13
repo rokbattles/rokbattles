@@ -9,6 +9,7 @@ import {
   combatLabPreviewRangeKeys,
   combatLabPreviewScenarioKeys,
 } from "@/lib/combat-lab/preview-types";
+import { calculateTradePercentage } from "@/lib/combat-lab/trade-percentage";
 import { getCommanderName } from "@/lib/commander";
 
 type WireDrastc = Omit<NonNullable<CombatLabPreviewData["drastc"]>, "confidence"> & {
@@ -97,7 +98,7 @@ function expandWireData(wire: CombatLabV2Wire, locale?: string): CombatLabPrevie
       severelyWoundedInflicted: finite(tuple[6]),
       severelyWoundedTaken: finite(tuple[7]),
       averageBattleDurationSeconds: divide(durationMs, battles) / 1000,
-      weightedTradePercent: tradePercent(killPointsGained, killPointsLost),
+      weightedTradePercent: calculateTradePercentage(killPointsGained, killPointsLost),
       dps: perSecond(finite(tuple[10]), rateDurationMs),
       sps: perSecond(finite(tuple[6]), rateDurationMs),
       tps: perSecond(finite(tuple[7]), rateDurationMs),
@@ -397,9 +398,4 @@ function divide(numerator: number, denominator: number): number {
 
 function perSecond(total: number, durationMs: number): number {
   return divide(total, durationMs / 1000);
-}
-
-function tradePercent(gained: number, lost: number): number {
-  if (gained === lost) return 100;
-  return lost > 0 ? (gained / lost) * 100 : 0;
 }

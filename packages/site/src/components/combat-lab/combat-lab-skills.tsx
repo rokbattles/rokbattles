@@ -12,8 +12,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CombatLabUsageTooltip } from "@/components/combat-lab/new/combat-lab-donut";
-import { CombatLabPreviewEmptyState } from "@/components/combat-lab/new/combat-lab-preview-empty-state";
+import { CombatLabUsageTooltip } from "@/components/combat-lab/combat-lab-donut";
+import { CombatLabEmptyState } from "@/components/combat-lab/combat-lab-empty-state";
 import { Subheading } from "@/components/ui/heading";
 import type {
   CombatLabPreviewLoadouts,
@@ -60,7 +60,7 @@ type SkillExpertiseBucket = {
   sampleSize: number;
 };
 
-export function CombatLabPreviewSkills({
+export function CombatLabSkills({
   primaryCommanderName,
   rangeKey,
   secondaryCommanderName,
@@ -121,10 +121,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
       </Subheading>
 
       {preview.heatmapTotal === 0 ? (
-        <CombatLabPreviewEmptyState
-          className="mt-3"
-          message={t("No skill builds were observed for these filters.")}
-        />
+        <CombatLabEmptyState className="mt-3" />
       ) : (
         <>
           <div className="mt-3 grid grid-cols-[auto_auto_minmax(0,1fr)] gap-x-2">
@@ -185,10 +182,7 @@ function SkillCard({ commanderName, preview }: { commanderName: string; preview:
               <ChartLegend color="#a1a1aa" label={t("Not expertised")} />
             </div>
             {preview.expertisePoints.length === 0 ? (
-              <CombatLabPreviewEmptyState
-                className="mt-4 min-h-64"
-                message={t("No expertise status observed.")}
-              />
+              <CombatLabEmptyState className="mt-4 min-h-64" />
             ) : (
               <div className="mt-4 h-72">
                 <ResponsiveContainer minWidth={0}>
