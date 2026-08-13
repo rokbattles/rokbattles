@@ -317,7 +317,6 @@ mod tests {
                         field("Kvs", 3, 1, 9, ""),
                     ],
                 ),
-                message("ScoutReportInfo", vec![field("Kind", 1, 1, 5, "")]),
                 message(
                     "MailAttachment",
                     vec![

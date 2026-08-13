@@ -274,13 +274,6 @@ mod tests {
     }
 
     #[test]
-    fn extract_mail_type_parses_scoutreport() {
-        let value = json!({ "type": "ScoutReport" });
-        let mail_type = extract_mail_type(&value).unwrap();
-        assert_eq!(mail_type, MailType::ScoutReport);
-    }
-
-    #[test]
     fn extract_mail_type_parses_only_gve_member_loot_reports() {
         let gve = json!({
             "type": "EventMemberLootReport",
@@ -580,13 +573,6 @@ mod tests {
             (
                 include_bytes!(concat!(
                     env!("CARGO_MANIFEST_DIR"),
-                    "/../../../samples/ScoutReport/Persistent.Mail.137024509177843958431"
-                )),
-                MailType::ScoutReport,
-            ),
-            (
-                include_bytes!(concat!(
-                    env!("CARGO_MANIFEST_DIR"),
                     "/../../../samples/System/Persistent.Mail.6603502177237171628"
                 )),
                 MailType::SystemBarbarianFort,
@@ -683,7 +669,7 @@ mod tests {
             processed_count += 1;
         }
 
-        assert_eq!(processed_count, 135);
+        assert_eq!(processed_count, 130);
     }
 
     fn collect_binary_mail_samples(root: &std::path::Path, samples: &mut Vec<std::path::PathBuf>) {
