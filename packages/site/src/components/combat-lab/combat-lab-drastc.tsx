@@ -8,7 +8,7 @@ import { Heading, Subheading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 import type { CombatLabPreviewDrastc as DrastcData } from "@/lib/combat-lab/preview-types";
 
-export function CombatLabPreviewDrastc({ score }: { score: DrastcData }) {
+export function CombatLabDrastc({ score }: { score: DrastcData }) {
   const t = useExtracted();
   const locale = useLocale();
   const numberFormatter = new Intl.NumberFormat(locale);

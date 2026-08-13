@@ -1,15 +1,37 @@
 import { getLocale } from "next-intl/server";
-import { CombatLabContent } from "@/components/combat-lab/combat-lab-content";
-import { CombatLabLayout } from "@/components/combat-lab/combat-lab-layout";
-import { getLegendaryCommanderOptions } from "@/lib/combat-lab/commanders";
+import { CombatLab } from "@/components/combat-lab/combat-lab";
+import { getLegendaryCommanderOptions, isLegendaryCommanderId } from "@/lib/combat-lab/commanders";
+import { fetchCombatLabPreview } from "@/lib/combat-lab/preview-api";
 
-export default async function Page() {
+const defaultPrimaryCommanderId = 509;
+const defaultSecondaryCommanderId = 6;
+
+export default async function CombatLabPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ primary?: string; secondary?: string }>;
+}) {
+  const params = await searchParams;
+  const requestedPrimary = legendaryCommanderId(params.primary) ?? defaultPrimaryCommanderId;
+  const requestedSecondary = legendaryCommanderId(params.secondary) ?? defaultSecondaryCommanderId;
+  const primary = requestedPrimary;
+  const secondary =
+    requestedSecondary === primary
+      ? primary === defaultSecondaryCommanderId
+        ? defaultPrimaryCommanderId
+        : defaultSecondaryCommanderId
+      : requestedSecondary;
   const locale = await getLocale();
-  const commanderOptions = getLegendaryCommanderOptions(locale);
+  const [data, commanderOptions] = await Promise.all([
+    fetchCombatLabPreview({ primary, secondary, locale }),
+    getLegendaryCommanderOptions(locale),
+  ]);
+  return <CombatLab commanderOptions={commanderOptions} data={data} />;
+}
 
-  return (
-    <CombatLabLayout active="explore">
-      <CombatLabContent commanderOptions={commanderOptions} />
-    </CombatLabLayout>
-  );
+function legendaryCommanderId(value: string | undefined): number | null {
+  const number = Number(value);
+  return Number.isSafeInteger(number) && number > 0 && isLegendaryCommanderId(number)
+    ? number
+    : null;
 }

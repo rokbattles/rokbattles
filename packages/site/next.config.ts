@@ -65,6 +65,11 @@ const config: NextConfig = {
         permanent: false,
       },
       {
+        source: "/combat-lab/new",
+        destination: "/combat-lab",
+        permanent: false,
+      },
+      {
         source: "/loot-explorer",
         destination: "/loot-explorer/barbarians",
         permanent: false,

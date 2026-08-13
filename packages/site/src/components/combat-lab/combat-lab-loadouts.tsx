@@ -10,21 +10,19 @@ import type {
   CombatLabPreviewLoadouts as LoadoutData,
 } from "@/lib/combat-lab/preview-types";
 
-const CombatLabPreviewSkills = dynamic(
+const CombatLabSkills = dynamic(
   () =>
-    import("@/components/combat-lab/new/combat-lab-preview-skills").then(
-      (module) => module.CombatLabPreviewSkills
-    ),
+    import("@/components/combat-lab/combat-lab-skills").then((module) => module.CombatLabSkills),
   {
     loading: () => <SkillsSkeleton />,
     ssr: false,
   }
 );
 
-const CombatLabPreviewFormationChart = dynamic(
+const CombatLabFormationChart = dynamic(
   () =>
-    import("@/components/combat-lab/new/combat-lab-preview-charts").then(
-      (module) => module.CombatLabPreviewFormationChart
+    import("@/components/combat-lab/combat-lab-charts").then(
+      (module) => module.CombatLabFormationChart
     ),
   {
     loading: () => <FormationChartSkeleton />,
@@ -32,10 +30,10 @@ const CombatLabPreviewFormationChart = dynamic(
   }
 );
 
-const CombatLabPreviewArmamentChart = dynamic(
+const CombatLabArmamentChart = dynamic(
   () =>
-    import("@/components/combat-lab/new/combat-lab-preview-charts").then(
-      (module) => module.CombatLabPreviewArmamentChart
+    import("@/components/combat-lab/combat-lab-charts").then(
+      (module) => module.CombatLabArmamentChart
     ),
   {
     loading: () => (
@@ -45,10 +43,10 @@ const CombatLabPreviewArmamentChart = dynamic(
   }
 );
 
-const CombatLabPreviewEquipmentChart = dynamic(
+const CombatLabEquipmentChart = dynamic(
   () =>
-    import("@/components/combat-lab/new/combat-lab-preview-charts").then(
-      (module) => module.CombatLabPreviewEquipmentChart
+    import("@/components/combat-lab/combat-lab-charts").then(
+      (module) => module.CombatLabEquipmentChart
     ),
   {
     loading: () => (
@@ -95,7 +93,7 @@ function SkillsSkeleton() {
   );
 }
 
-export function CombatLabPreviewLoadouts({
+export function CombatLabLoadouts({
   formationUsage,
   loadouts,
   primaryCommanderName,
@@ -135,13 +133,13 @@ export function CombatLabPreviewLoadouts({
       </Heading>
 
       <div className="grid gap-5 xl:grid-cols-2">
-        <CombatLabPreviewSkills
+        <CombatLabSkills
           primaryCommanderName={primaryCommanderName}
           rangeKey={rangeKey}
           secondaryCommanderName={secondaryCommanderName}
           skills={loadouts?.skills}
         />
-        <CombatLabPreviewFormationChart points={formationUsage} rangeKey={rangeKey} />
+        <CombatLabFormationChart points={formationUsage} rangeKey={rangeKey} />
         {armamentSlotOrder.map((slotId) => {
           const matchingSlot = armamentSlots.find((item) => item.slot === slotId);
           const slot = {
@@ -150,7 +148,7 @@ export function CombatLabPreviewLoadouts({
           };
           return (
             <Panel key={slotId} title={t("Armament: {slot}", { slot: armamentSlotNames[slotId] })}>
-              <CombatLabPreviewArmamentChart rangeKey={rangeKey} slot={slot} />
+              <CombatLabArmamentChart rangeKey={rangeKey} slot={slot} />
             </Panel>
           );
         })}
@@ -166,7 +164,7 @@ export function CombatLabPreviewLoadouts({
               key={slotId}
               title={t("Equipment: {slot}", { slot: equipmentSlotNames[slotId] })}
             >
-              <CombatLabPreviewEquipmentChart
+              <CombatLabEquipmentChart
                 accessoryPairings={
                   slotId === 7 ? loadouts?.equipment?.accessoryPairings : undefined
                 }

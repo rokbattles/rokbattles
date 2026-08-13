@@ -3,7 +3,10 @@
 import { parseAsStringLiteral, useQueryStates } from "nuqs";
 import { Suspense } from "react";
 import { CombatLabRankingsLoading } from "@/components/combat-lab/combat-lab-rankings-loading";
-import { CombatLabRankingsResults } from "@/components/combat-lab/combat-lab-rankings-results";
+import {
+  CombatLabRankingsFrame,
+  CombatLabRankingsResults,
+} from "@/components/combat-lab/combat-lab-rankings-results";
 import { useClientReady } from "@/hooks/use-client-ready";
 import {
   type CombatLabRankingDirection,
@@ -32,11 +35,22 @@ export function CombatLabRankingsContent() {
   };
 
   if (!clientReady) {
-    return <CombatLabRankingsLoading />;
+    return (
+      <CombatLabRankingsFrame>
+        <CombatLabRankingsLoading />
+      </CombatLabRankingsFrame>
+    );
   }
 
   return (
-    <Suspense key={`${sorting.sort}:${sorting.direction}`} fallback={<CombatLabRankingsLoading />}>
+    <Suspense
+      key={`${sorting.sort}:${sorting.direction}`}
+      fallback={
+        <CombatLabRankingsFrame>
+          <CombatLabRankingsLoading />
+        </CombatLabRankingsFrame>
+      }
+    >
       <CombatLabRankingsResults
         sort={sorting.sort}
         direction={sorting.direction}
