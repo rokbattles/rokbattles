@@ -16,7 +16,6 @@ processors = [
     "dep:rokbattles-mail-processor-duelbattle2",
     "dep:rokbattles-mail-processor-eventmemberlootreport",
     "dep:rokbattles-mail-processor-rss",
-    "dep:rokbattles-mail-processor-scoutreport",
     "dep:rokbattles-mail-sdk",
     "dep:rokbattles-mail-processor-system-barbarianfort",
     "dep:rokbattles-mail-processor-system-kahartreasure",
@@ -33,7 +32,6 @@ rokbattles-mail-processor-battle = { path = "../rokbattles-mail-processor-battle
 rokbattles-mail-processor-duelbattle2 = { path = "../rokbattles-mail-processor-duelbattle2", optional = true }
 rokbattles-mail-processor-eventmemberlootreport = { path = "../rokbattles-mail-processor-eventmemberlootreport", optional = true }
 rokbattles-mail-processor-rss = { path = "../rokbattles-mail-processor-rss", optional = true }
-rokbattles-mail-processor-scoutreport = { path = "../rokbattles-mail-processor-scoutreport", optional = true }
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk", optional = true }
 rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort", optional = true }
 rokbattles-mail-processor-system-kahartreasure = { path = "../rokbattles-mail-processor-system-kahartreasure", optional = true }

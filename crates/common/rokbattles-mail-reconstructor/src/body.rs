@@ -36,10 +36,6 @@ impl MailReconstructor {
             "EventMemberLootReport" => self.reconstruct_event_member_loot(body),
             "System" => self.reconstruct_system(body),
             "Alliance" => self.reconstruct_alliance(body),
-            "ScoutReport" => {
-                let content = decode_message(body, "ScoutReportInfo", &self.schema.descriptors)?;
-                Ok(json!({ "content": content }))
-            }
             _ => Err(ReconstructionError::UnsupportedMailType(mail_type.to_string())),
         }
     }
@@ -365,12 +361,6 @@ mod tests {
         body
     }
 
-    fn scout_body(reconstructor: &MailReconstructor) -> Vec<u8> {
-        let mut body = Vec::new();
-        push_varint(&mut body, field(reconstructor, "ScoutReportInfo", "Kind"), 1);
-        body
-    }
-
     #[test]
     fn merges_split_attack_body() {
         let reconstructor = MailReconstructor::synthetic();
@@ -399,7 +389,6 @@ mod tests {
             ("Alliance", system_body(&reconstructor, 61, 0)),
             ("Alliance", system_body(&reconstructor, 62, 0)),
             ("Alliance", system_body(&reconstructor, 57, 1)),
-            ("ScoutReport", scout_body(&reconstructor)),
         ];
 
         for (mail_type, body) in cases {

@@ -27,7 +27,6 @@ pub struct Storage {
     alliance_aoobattleinfo: Collection<Document>,
     alliance_aooindividualresults: Collection<Document>,
     alliance_aooregistration: Collection<Document>,
-    scoutreport: Collection<Document>,
 }
 
 impl Storage {
@@ -50,7 +49,6 @@ impl Storage {
                 .collection(MailType::AllianceAOOIndividualResults.collection_name()),
             alliance_aooregistration: db
                 .collection(MailType::AllianceAOORegistration.collection_name()),
-            scoutreport: db.collection(MailType::ScoutReport.collection_name()),
         }
     }
 
@@ -69,8 +67,7 @@ impl Storage {
         self.alliance_aoobattleresults.create_index(mail_id_index.clone()).await?;
         self.alliance_aoobattleinfo.create_index(mail_id_index.clone()).await?;
         self.alliance_aooindividualresults.create_index(mail_id_index.clone()).await?;
-        self.alliance_aooregistration.create_index(mail_id_index.clone()).await?;
-        self.scoutreport.create_index(mail_id_index).await?;
+        self.alliance_aooregistration.create_index(mail_id_index).await?;
 
         Ok(())
     }
@@ -106,7 +103,6 @@ impl Storage {
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
             MailType::AllianceAOORegistration => &self.alliance_aooregistration,
-            MailType::ScoutReport => &self.scoutreport,
         };
 
         let update = processed_update_pipeline(source_checksum, source_size, doc);

@@ -4499,14 +4499,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rokbattles-mail-processor-scoutreport"
-version = "1.6.1"
-dependencies = [
- "rokbattles-mail-sdk",
- "serde_json",
-]
-
-[[package]]
 name = "rokbattles-mail-processor-system-barbarianfort"
 version = "1.6.1"
 dependencies = [
@@ -4549,7 +4541,6 @@ dependencies = [
  "rokbattles-mail-processor-duelbattle2",
  "rokbattles-mail-processor-eventmemberlootreport",
  "rokbattles-mail-processor-rss",
- "rokbattles-mail-processor-scoutreport",
  "rokbattles-mail-processor-system-barbarianfort",
  "rokbattles-mail-processor-system-kahartreasure",
  "rokbattles-mail-sdk",
