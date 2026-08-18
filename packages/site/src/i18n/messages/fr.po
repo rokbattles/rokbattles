@@ -313,8 +313,8 @@ msgid "lKv8ex"
 msgstr "Défaut"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "K994jQ"
-msgstr "Vous ne pouvez lier qu'un maximum de trois gouverneurs."
+msgid "6Hth5y"
+msgstr "Vous ne pouvez lier qu'un maximum de {value} gouverneurs."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "pf6kFc"
@@ -334,7 +334,7 @@ msgid "GNDCcc"
 msgstr "Gouverneur ID"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "U9mCsP"
+msgid "79SjmN"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -350,7 +350,7 @@ msgid "JMZWnS"
 msgstr "Lier un gouverneur"
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "HOHINg"
+msgid "WfeFuo"
 msgstr ""
 
 #: src/components/account-binds/binds-list.tsx

@@ -7,6 +7,7 @@ import { BindsList } from "@/components/account-binds/binds-list";
 import { Text } from "@/components/ui/text";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { setDefaultBind, unlinkBind } from "@/lib/account-binds/api";
+import { MAX_GOVERNOR_BINDS } from "@/lib/account-binds/constants";
 import type { CurrentUser } from "@/lib/types/current-user";
 
 type AccountBindsContentProps = {
@@ -26,7 +27,7 @@ export function AccountBindsContent({ initialUser }: AccountBindsContentProps) {
 
   const resolvedUser = user ?? initialUser;
   const claimedBinds = resolvedUser.claimedGovernors ?? [];
-  const canClaimMore = claimedBinds.length < 3;
+  const canClaimMore = claimedBinds.length < MAX_GOVERNOR_BINDS;
 
   const handleClaimed = useCallback(async () => {
     await refresh();

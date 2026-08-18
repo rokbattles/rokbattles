@@ -25,7 +25,11 @@ use crate::{
 mod store;
 mod types;
 
-const MAX_GOVERNOR_BINDS: u64 = 3;
+const MAX_GOVERNOR_BINDS: u64 = 10;
+
+fn can_claim_more_governors(claim_count: u64) -> bool {
+    claim_count < MAX_GOVERNOR_BINDS
+}
 
 /// Claim a governor ID for the authenticated user.
 pub async fn post(
@@ -42,7 +46,7 @@ pub async fn post(
 
     let summary =
         summarize_user_claims(claims, &session.user.discord_id, MAX_GOVERNOR_BINDS).await?;
-    if summary.claim_count >= MAX_GOVERNOR_BINDS {
+    if !can_claim_more_governors(summary.claim_count) {
         return Err(ApiError::conflict("Claim limit reached"));
     }
 
@@ -112,4 +116,19 @@ pub async fn delete(
     }
 
     Ok((StatusCode::NO_CONTENT, [("Cache-Control", "no-store")]))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::can_claim_more_governors;
+
+    #[test]
+    fn allows_claim_when_nine_governors_are_claimed() {
+        assert!(can_claim_more_governors(9));
+    }
+
+    #[test]
+    fn rejects_claim_when_ten_governors_are_claimed() {
+        assert!(!can_claim_more_governors(10));
+    }
 }
