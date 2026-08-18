@@ -304,7 +304,7 @@ msgid "lKv8ex"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "K994jQ"
+msgid "6Hth5y"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -325,7 +325,7 @@ msgid "GNDCcc"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "U9mCsP"
+msgid "79SjmN"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -341,7 +341,7 @@ msgid "JMZWnS"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "HOHINg"
+msgid "WfeFuo"
 msgstr ""
 
 #: src/components/account-binds/binds-list.tsx

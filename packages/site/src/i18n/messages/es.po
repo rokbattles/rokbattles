@@ -304,7 +304,7 @@ msgid "lKv8ex"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "K994jQ"
+msgid "6Hth5y"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -325,7 +325,7 @@ msgid "GNDCcc"
 msgstr "ID del gobernador"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "U9mCsP"
+msgid "79SjmN"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -341,8 +341,8 @@ msgid "JMZWnS"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "HOHINg"
-msgstr "Vincule un gobernador a su cuenta ingresando el ID del Gobernador de Rise Of Kingdoms. Puede reclamar hasta tres."
+msgid "WfeFuo"
+msgstr "Vincule un gobernador a su cuenta ingresando el ID del Gobernador de Rise Of Kingdoms. Puede reclamar hasta {value}."
 
 #: src/components/account-binds/binds-list.tsx
 msgid "QXdDDh"

@@ -304,8 +304,8 @@ msgid "lKv8ex"
 msgstr "Default"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "K994jQ"
-msgstr "You can only bind up to three governors."
+msgid "6Hth5y"
+msgstr "You can only bind up to {value} governors."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "pf6kFc"
@@ -325,8 +325,8 @@ msgid "GNDCcc"
 msgstr "Governor ID"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "U9mCsP"
-msgstr "You have reached the maximum of three binds."
+msgid "79SjmN"
+msgstr "You have reached the maximum of {value} binds."
 
 #: src/components/account-binds/binds-claim-form.tsx
 msgid "dbfVtv"
@@ -341,8 +341,8 @@ msgid "JMZWnS"
 msgstr "Bind a governor"
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "HOHINg"
-msgstr "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to three."
+msgid "WfeFuo"
+msgstr "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to {value}."
 
 #: src/components/account-binds/binds-list.tsx
 msgid "QXdDDh"

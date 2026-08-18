@@ -304,7 +304,7 @@ msgid "lKv8ex"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "K994jQ"
+msgid "6Hth5y"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -325,7 +325,7 @@ msgid "GNDCcc"
 msgstr "지도자 ID"
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "U9mCsP"
+msgid "79SjmN"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
@@ -341,8 +341,8 @@ msgid "JMZWnS"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "HOHINg"
-msgstr "라이즈 오브 킹덤즈의 지도자 ID를 입력하여 계정에 연결하세요. 최대 3명까지 등록할 수 있습니다."
+msgid "WfeFuo"
+msgstr "라이즈 오브 킹덤즈의 지도자 ID를 입력하여 계정에 연결하세요. 최대 {value}명까지 등록할 수 있습니다."
 
 #: src/components/account-binds/binds-list.tsx
 msgid "QXdDDh"

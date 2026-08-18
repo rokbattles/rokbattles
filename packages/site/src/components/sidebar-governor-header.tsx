@@ -21,6 +21,7 @@ import {
   DropdownMenu,
 } from "@/components/ui/dropdown";
 import { SidebarHeader, SidebarItem, SidebarLabel } from "@/components/ui/sidebar";
+import { MAX_GOVERNOR_BINDS } from "@/lib/account-binds/constants";
 import type { CurrentUser } from "@/lib/types/current-user";
 import { GovernorContext } from "@/providers/governor-context";
 
@@ -43,7 +44,7 @@ export function SidebarGovernorHeader({ user, handleLogout }: SidebarGovernorHea
     ? (activeGovernor.governorName ?? activeGovernor.governorId.toString())
     : t("Select Governor");
   const displayAvatar = activeGovernor?.governorAvatar ?? null;
-  const canClaimMore = user.claimedGovernors.length < 3;
+  const canClaimMore = user.claimedGovernors.length < MAX_GOVERNOR_BINDS;
 
   return (
     <>

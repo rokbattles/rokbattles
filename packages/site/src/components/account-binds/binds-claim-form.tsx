@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Description, ErrorMessage, Field, FieldGroup, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { claimBind } from "@/lib/account-binds/api";
+import { MAX_GOVERNOR_BINDS } from "@/lib/account-binds/constants";
 
 type ClaimBindFormProps = {
   canClaimMore: boolean;
@@ -23,7 +24,11 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
     event.preventDefault();
 
     if (!canClaimMore) {
-      setErrorMessage(t("You can only bind up to three governors."));
+      setErrorMessage(
+        t("You can only bind up to {value} governors.", {
+          value: MAX_GOVERNOR_BINDS.toString(),
+        })
+      );
       return;
     }
 
@@ -82,7 +87,11 @@ export function BindsClaimForm({ canClaimMore, onClaimed }: ClaimBindFormProps) 
           {errorMessage ? (
             <ErrorMessage>{errorMessage}</ErrorMessage>
           ) : !canClaimMore ? (
-            <Description>{t("You have reached the maximum of three binds.")}</Description>
+            <Description>
+              {t("You have reached the maximum of {value} binds.", {
+                value: MAX_GOVERNOR_BINDS.toString(),
+              })}
+            </Description>
           ) : undefined}
         </Field>
       </FieldGroup>
