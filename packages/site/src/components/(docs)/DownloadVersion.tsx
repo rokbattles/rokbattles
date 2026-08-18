@@ -26,10 +26,10 @@ function getDownloadUrl(type: DownloadVersionType, version: string) {
   const baseUrl = `https://github.com/rokbattles/rokbattles/releases/download/${version}`;
 
   const artifactByType: Record<DownloadVersionType, string> = {
-    "darwin-aarch64": "ROK.Battles_aarch64.app.tar.gz",
-    "darwin-aarch64-app": "ROK.Battles_aarch64.app.tar.gz",
-    "darwin-x86_64": "ROK.Battles_x64.app.tar.gz",
-    "darwin-x86_64-app": "ROK.Battles_x64.app.tar.gz",
+    "darwin-aarch64": `ROK.Battles_${version}_aarch64.dmg`,
+    "darwin-aarch64-app": `ROK.Battles_${version}_aarch64.app.tar.gz`,
+    "darwin-x86_64": `ROK.Battles_${version}_x64.dmg`,
+    "darwin-x86_64-app": `ROK.Battles_${version}_x64.app.tar.gz`,
     "linux-aarch64": `ROK.Battles_${version}_aarch64.AppImage`,
     "linux-aarch64-appimage": `ROK.Battles_${version}_aarch64.AppImage`,
     "linux-aarch64-deb": `ROK.Battles_${version}_arm64.deb`,
