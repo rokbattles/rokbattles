@@ -92,6 +92,15 @@ const config: NextConfig = {
   async headers() {
     return [
       {
+        source: "/rokbattles.mobileconfig",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/x-apple-aspen-config",
+          },
+        ],
+      },
+      {
         source: "/:path*{/}?",
         headers: [
           {
