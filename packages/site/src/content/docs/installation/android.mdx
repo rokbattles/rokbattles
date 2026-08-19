@@ -1,0 +1,49 @@
+---
+title: Android
+---
+
+ROK Battles uses Intra to capture supported reports while you play Rise of Kingdoms on your Android device.
+
+## Install and configure Intra
+
+1. Install [Intra from Google Play](https://play.google.com/store/apps/details?id=app.intra).
+2. Open Intra and tap the gear icon in the upper-right corner.
+3. Tap Select DNS over HTTPS Server, then select Custom server URL.
+4. Copy the URL below, paste it into the Custom server URL field, then tap OK.
+
+```
+https://dns.rokbattles.com/intra
+```
+
+### Optional but recommended: exclude other apps
+
+Intra's Excluded apps setting lets selected apps bypass Intra. Limiting Intra to Rise of Kingdoms prevents your other apps from sending DNS requests through ROK Battles.
+
+1. From Intra's settings, tap Excluded apps.
+2. Select every listed app except Rise of Kingdoms. If your version provides a Select all option, use it and then unselect Rise of Kingdoms; otherwise, select the other apps individually.
+3. Make sure Rise of Kingdoms is not selected, then tap OK.
+
+This is an app-based bypass rather than domain-based split DNS. Apps installed later are not excluded automatically, so return to this setting if you want to exclude a newly installed app.
+
+### Connect
+
+1. Return to Intra's main screen and turn Intra on.
+2. If Android asks for permission to set up a VPN connection, tap OK.
+
+That's it! Leave Intra running, return to Rise of Kingdoms, and keep playing normally. ROK Battles should capture supported reports automatically.
+
+## Other VPNs
+
+Intra uses Android's VPN feature to process DNS requests. Android allows only one VPN connection at a time, so disconnect any other VPN before turning on Intra.
+
+## DNS and privacy
+
+When a DNS request unrelated to ROK Battles reaches the Android endpoint, it is forwarded to Cloudflare's 1.1.1.1 DNS service. Apps selected under Excluded apps bypass Intra and continue using your device's normal DNS settings.
+
+* [Learn more about 1.1.1.1](https://one.one.one.one/dns/)
+* [Cloudflare Privacy Policy](https://www.cloudflare.com/privacypolicy/)
+
+## Stop or remove
+
+* To stop temporarily, open Intra and turn it off from the main screen.
+* To remove the configuration completely, uninstall Intra.
