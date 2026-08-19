@@ -50,6 +50,11 @@ const config: NextConfig = {
     ],
   },
   output: "standalone",
+  // Work around https://github.com/vercel/next.js/issues/90567, fixed by
+  // https://github.com/vercel/next.js/pull/92010.
+  outputFileTracingIncludes: {
+    "/**": ["../../node_modules/.pnpm/@swc+helpers@*/node_modules/@swc/helpers/esm/**/*"],
+  },
   productionBrowserSourceMaps: false,
   reactStrictMode: !isProdEnv,
   async redirects() {
