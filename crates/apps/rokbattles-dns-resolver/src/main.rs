@@ -6,8 +6,13 @@ static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 use std::path::PathBuf;
 
-use rokbattles_dns_resolver::{Config, DoHForwarder, Resolver, router};
+use rokbattles_dns_resolver::{
+    CLOUDFLARE_DOH_FALLBACK_URL, CLOUDFLARE_DOH_PRIMARY_URL, Config, DoHForwarder,
+    ROCGATE_HOSTNAME, Resolver, router,
+};
 use tracing::info;
+
+const BIND_ADDRESS: &str = "0.0.0.0:8053";
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -23,17 +28,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     info!(
-        bind_addr = %config.bind_addr,
-        target_hostname = %config.target_hostname,
-        relay_ipv4 = %config.relay_ipv4,
-        intra_upstream_doh_url = %config.intra_upstream_doh_url,
+        bind_address = BIND_ADDRESS,
+        target_hostname = ROCGATE_HOSTNAME,
+        gateway = ?config.gateway,
+        cloudflare_doh_primary = CLOUDFLARE_DOH_PRIMARY_URL,
+        cloudflare_doh_fallback = CLOUDFLARE_DOH_FALLBACK_URL,
         "starting DNS-over-HTTPS resolver"
     );
-    let resolver = Resolver::new(config.target_hostname, config.relay_ipv4);
-    let forwarder = DoHForwarder::new(config.intra_upstream_doh_url)?;
+    let resolver = Resolver::new(config.gateway)?;
+    let forwarder = DoHForwarder::new()?;
     let app = router(resolver, forwarder);
 
-    let listener = tokio::net::TcpListener::bind(config.bind_addr).await?;
+    let listener = tokio::net::TcpListener::bind(BIND_ADDRESS).await?;
     axum::serve(listener, app).await?;
 
     Ok(())

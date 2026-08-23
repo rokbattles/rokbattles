@@ -1,8 +1,8 @@
-//! DNS-over-HTTPS resolution for a TCP relay.
+//! DNS-over-HTTPS resolution for the TCP gateway fleet.
 //!
-//! The iOS endpoint is non-recursive and only answers for one configured
-//! hostname. The separate Intra endpoint answers that hostname locally and
-//! forwards other queries to a configured upstream DoH resolver.
+//! The iOS endpoint is non-recursive and only answers for
+//! `rocgate.lilithgame.com`. The separate Intra endpoint answers that hostname
+//! locally and forwards other queries to Cloudflare DNS-over-HTTPS.
 
 #![forbid(unsafe_code)]
 
@@ -15,6 +15,9 @@ mod http;
 mod resolver;
 
 pub use config::{Config, ConfigError};
-pub use forwarder::{DoHForwarder, ForwardError};
+pub use forwarder::{
+    CLOUDFLARE_DOH_FALLBACK_URL, CLOUDFLARE_DOH_PRIMARY_URL, DoHForwarder, ForwardError,
+    MAX_CONCURRENT_UPSTREAM_QUERIES,
+};
 pub use http::router;
-pub use resolver::{ResolveError, Resolver};
+pub use resolver::{ROCGATE_HOSTNAME, ResolveError, Resolver, ResolverConfigError};

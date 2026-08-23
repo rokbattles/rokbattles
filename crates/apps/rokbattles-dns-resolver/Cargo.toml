@@ -12,7 +12,7 @@ hickory-proto = { workspace = true, features = ["std"] }
 reqwest = { workspace = true, features = ["rustls-tls-native-roots"] }
 serde = { workspace = true, features = ["derive"] }
 thiserror = { workspace = true }
-tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "time"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "sync", "time"] }
 tracing = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
