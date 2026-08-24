@@ -4622,6 +4622,7 @@ dependencies = [
  "flate2",
  "rokbattles-mail-decoder",
  "rokbattles-mail-encoder",
+ "rokbattles-mail-processor-system-barbarianfort",
  "rokbattles-mail-registry",
  "serde",
  "serde_json",
