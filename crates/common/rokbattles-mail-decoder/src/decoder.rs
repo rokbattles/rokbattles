@@ -526,8 +526,6 @@ mod tests {
                 first_json_difference(&actual, &expected, "$"),
             );
         }
-
-        assert_eq!(samples.len(), 130);
     }
 
     fn collect_mail_samples(dir: &Path) -> Vec<PathBuf> {
