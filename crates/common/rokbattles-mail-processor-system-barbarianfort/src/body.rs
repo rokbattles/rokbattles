@@ -85,6 +85,7 @@ fn extract_content_params(
     sub_param: u64,
     target_name: &str,
 ) -> Option<ContentParams> {
+    let content = content.replace('\u{a0}', " ");
     BODY_TEMPLATES.iter().find_map(|template| {
         match_template(template.trim(), content.trim(), sub_param, target_name)
     })

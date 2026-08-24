@@ -1,0 +1,62 @@
+{
+  "addition": "",
+  "attachments": [
+    {
+      "id": 1,
+      "loot": [
+        {
+          "SubType": 7006,
+          "Type": 2,
+          "Value": 22
+        },
+        {
+          "SubType": 130,
+          "Type": 2,
+          "Value": 11
+        },
+        {
+          "SubType": 58,
+          "Type": 2,
+          "Value": 3
+        }
+      ],
+      "status": 1
+    }
+  ],
+  "body": {
+    "content": "Félicitations ! Le fort barbare niveau Campement de maraudeurs à X:481 Y:361 a été détruit par votre puissant assaut. Vous avez infligé 0 % des dégâts totaux et avez donc reçu les trophées de <color=#00980e>niveau 1</color> suivants :",
+    "position": {
+      "X": 2885.595947265625,
+      "Y": 2163.0029296875,
+      "Z": 0
+    },
+    "subParam": 3,
+    "subTitle": "Vous avez vaincu un campement de maraudeurs",
+    "subType": 11,
+    "targetName": "Niveau1",
+    "title": "Battez un campement de maraudeurs"
+  },
+  "box": "Report",
+  "flaglist": [],
+  "holdTag": 0,
+  "id": "62854071172414985228",
+  "mailScene": 0,
+  "preMailId": "",
+  "receiver": "player_176817297",
+  "receiverInfo": {
+    "Abbr": "",
+    "Name": ""
+  },
+  "reportMerge": 0,
+  "sender": "system",
+  "senderInfo": {
+    "Abbr": "",
+    "Name": "system"
+  },
+  "senderTradeTime": 0,
+  "serverId": 1686,
+  "time": 1724149852378646,
+  "title": "",
+  "type": "System",
+  "unread": true
+}
