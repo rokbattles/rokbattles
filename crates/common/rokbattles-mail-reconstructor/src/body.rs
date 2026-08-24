@@ -132,11 +132,24 @@ impl MailReconstructor {
                 Ok(json!({
                     "id": root.get("Id").cloned().unwrap_or(Value::from(0)),
                     "status": root.get("Status").cloned().unwrap_or(Value::from(0)),
-                    "loot": root.get("Data").cloned().unwrap_or(Value::Array(Vec::new())),
+                    "loot": reconstruct_loot(root),
                 }))
             })
             .collect()
     }
+}
+
+fn reconstruct_loot(attachment: &Map<String, Value>) -> Value {
+    let mut loot = attachment.get("Data").cloned().unwrap_or_else(|| Value::Array(Vec::new()));
+    if let Value::Array(rewards) = &mut loot {
+        rewards.retain(|reward| !is_placeholder_item_reward(reward));
+    }
+    loot
+}
+
+fn is_placeholder_item_reward(reward: &Value) -> bool {
+    reward.get("Type").and_then(Value::as_i64) == Some(2)
+        && reward.get("SubType").and_then(Value::as_i64) == Some(0)
 }
 
 fn barbarian_fort_content(
@@ -397,6 +410,26 @@ mod tests {
         body
     }
 
+    fn loot(reconstructor: &MailReconstructor, reward_type: u64, sub_type: u64) -> Vec<u8> {
+        let mut loot = Vec::new();
+        push_varint(&mut loot, field(reconstructor, "Loot", "Type"), reward_type);
+        push_varint(&mut loot, field(reconstructor, "Loot", "SubType"), sub_type);
+        push_varint(&mut loot, field(reconstructor, "Loot", "Value"), 1);
+        loot
+    }
+
+    fn attachment(reconstructor: &MailReconstructor, rewards: &[(u64, u64)]) -> Vec<u8> {
+        let mut attachment = Vec::new();
+        for &(reward_type, sub_type) in rewards {
+            push_bytes(
+                &mut attachment,
+                field(reconstructor, "MailAttachment", "Data"),
+                &loot(reconstructor, reward_type, sub_type),
+            );
+        }
+        attachment
+    }
+
     #[test]
     fn merges_split_attack_body() {
         let reconstructor = MailReconstructor::synthetic();
@@ -432,6 +465,24 @@ mod tests {
                 .reconstruct_body(mail_type, &body, &[])
                 .unwrap_or_else(|error| panic!("{mail_type} should reconstruct: {error}"));
         }
+    }
+
+    #[test]
+    fn reconstruct_attachments_filters_only_placeholder_item_rewards() {
+        let reconstructor = MailReconstructor::synthetic();
+        let attachment = attachment(&reconstructor, &[(2, 0), (1, 0), (2, 1)]);
+
+        let reconstructed = reconstructor
+            .reconstruct_attachments(&[&attachment])
+            .expect("attachment should reconstruct");
+
+        assert_eq!(
+            reconstructed[0]["loot"],
+            json!([
+                { "Type": 1, "SubType": 0, "Value": 1 },
+                { "Type": 2, "SubType": 1, "Value": 1 }
+            ])
+        );
     }
 
     #[test]
