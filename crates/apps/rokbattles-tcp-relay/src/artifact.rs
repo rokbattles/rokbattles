@@ -113,10 +113,13 @@ impl RuntimeArtifact {
                     "mail carrier must contain exactly one MailEntity field",
                 ));
             };
+            let left_count_field =
+                message.optional_field("LeftCount", FieldType::Int32)?.map(|field| field.number);
             carriers.insert(
                 api_id,
                 CarrierSchema {
                     entity_field: entity_field.number,
+                    left_count_field,
                     shape: MessageShape::from_descriptor(message)?,
                 },
             );
@@ -134,6 +137,7 @@ impl RuntimeArtifact {
                 api_id,
                 CarrierSchema {
                     entity_field: 1,
+                    left_count_field: matches!(api_id, 7901 | 7921).then_some(2),
                     shape: MessageShape {
                         fields: HashMap::from([
                             (1, message_field),
@@ -263,6 +267,29 @@ impl DescriptorMessage {
         }
         Ok(field)
     }
+
+    fn optional_field(
+        &self,
+        name: &str,
+        field_type: FieldType,
+    ) -> Result<Option<&DescriptorField>, ArtifactError> {
+        let fields = self
+            .fields
+            .iter()
+            .filter(|field| field.name.eq_ignore_ascii_case(name))
+            .collect::<Vec<_>>();
+        let field = match fields.as_slice() {
+            [] => return Ok(None),
+            [field] => field,
+            _ => {
+                return Err(ArtifactError::Invalid("optional descriptor field is duplicated"));
+            }
+        };
+        if field.field_type != field_type.code() {
+            return Err(ArtifactError::Invalid("descriptor field has an incompatible type"));
+        }
+        Ok(Some(field))
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -366,6 +393,7 @@ pub(crate) struct CompressionSchema {
 #[derive(Debug)]
 pub(crate) struct CarrierSchema {
     pub(crate) entity_field: u32,
+    pub(crate) left_count_field: Option<u32>,
     pub(crate) shape: MessageShape,
 }
 
