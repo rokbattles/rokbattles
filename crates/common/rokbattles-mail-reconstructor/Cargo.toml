@@ -18,6 +18,7 @@ doctest = false
 
 [dev-dependencies]
 rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort" }
 
 [lints]
 workspace = true

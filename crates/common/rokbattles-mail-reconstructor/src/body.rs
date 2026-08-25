@@ -90,15 +90,18 @@ impl MailReconstructor {
             let level = npc_type.saturating_sub(100).max(1);
             let tier = kvs.get("order").and_then(Value::as_i64).unwrap_or_default();
             let damage = kvs.get("damage_rate").and_then(Value::as_f64).unwrap_or_default();
+            let position =
+                kvs.get("pos").cloned().unwrap_or_else(|| json!({"X": 0, "Y": 0, "Z": 0}));
             output.insert("targetName".to_string(), Value::String(format!("Level{level}")));
-            output.insert(
-                "position".to_string(),
-                kvs.get("pos").cloned().unwrap_or_else(|| json!({"X": 0, "Y": 0, "Z": 0})),
-            );
+            output.insert("position".to_string(), position.clone());
             output.insert(
                 "content".to_string(),
-                Value::String(format!(
-                    "You dealt {damage}% of the total damage and received Tier {tier} rewards."
+                Value::String(barbarian_fort_content(
+                    sub_param.as_i64().unwrap_or_default(),
+                    level,
+                    damage,
+                    tier,
+                    &position,
                 )),
             );
         }
@@ -129,11 +132,57 @@ impl MailReconstructor {
                 Ok(json!({
                     "id": root.get("Id").cloned().unwrap_or(Value::from(0)),
                     "status": root.get("Status").cloned().unwrap_or(Value::from(0)),
-                    "loot": root.get("Data").cloned().unwrap_or(Value::Array(Vec::new())),
+                    "loot": reconstruct_loot(root),
                 }))
             })
             .collect()
     }
+}
+
+fn reconstruct_loot(attachment: &Map<String, Value>) -> Value {
+    let mut loot = attachment.get("Data").cloned().unwrap_or_else(|| Value::Array(Vec::new()));
+    if let Value::Array(rewards) = &mut loot {
+        rewards.retain(|reward| !is_placeholder_item_reward(reward));
+    }
+    loot
+}
+
+fn is_placeholder_item_reward(reward: &Value) -> bool {
+    reward.get("Type").and_then(Value::as_i64) == Some(2)
+        && reward.get("SubType").and_then(Value::as_i64) == Some(0)
+}
+
+fn barbarian_fort_content(
+    sub_param: i64,
+    level: i64,
+    damage: f64,
+    tier: i64,
+    position: &Value,
+) -> String {
+    let x = game_map_coordinate(position, "X");
+    let y = game_map_coordinate(position, "Y");
+    let location = format!("X:{x} Y:{y}");
+    match sub_param {
+        1 => format!(
+            "Congratulations! The Level {level} barbarian fort at {location} has been destroyed by your mighty onslaught.\n\nYou dealt {damage}% of the total damage and as a result have received the following <color=#00980e>Tier {tier}</color> trophies:"
+        ),
+        3 => format!(
+            "Congratulations! The Marauder Encampment at {location} has been destroyed by your mighty onslaught. You dealt {damage}% of the total damage and as a result have received the following <color=#00980e>Tier {tier}</color> trophies:"
+        ),
+        4 => format!(
+            "Congratulations! The level {level} Motte at {location} has been destroyed by your mighty onslaught. You dealt {damage}% of the total damage and as a result received <color=#00980e>level {tier}</color> plunder:"
+        ),
+        _ => format!("You dealt {damage}% of the total damage and received Tier {tier} rewards."),
+    }
+}
+
+fn game_map_coordinate(position: &Value, axis: &str) -> i64 {
+    position
+        .get(axis)
+        .and_then(Value::as_f64)
+        .filter(|value| value.is_finite())
+        .map(|value| (value / 6.0).round() as i64)
+        .unwrap_or_default()
 }
 
 fn merge_attack_bodies(
@@ -361,6 +410,26 @@ mod tests {
         body
     }
 
+    fn loot(reconstructor: &MailReconstructor, reward_type: u64, sub_type: u64) -> Vec<u8> {
+        let mut loot = Vec::new();
+        push_varint(&mut loot, field(reconstructor, "Loot", "Type"), reward_type);
+        push_varint(&mut loot, field(reconstructor, "Loot", "SubType"), sub_type);
+        push_varint(&mut loot, field(reconstructor, "Loot", "Value"), 1);
+        loot
+    }
+
+    fn attachment(reconstructor: &MailReconstructor, rewards: &[(u64, u64)]) -> Vec<u8> {
+        let mut attachment = Vec::new();
+        for &(reward_type, sub_type) in rewards {
+            push_bytes(
+                &mut attachment,
+                field(reconstructor, "MailAttachment", "Data"),
+                &loot(reconstructor, reward_type, sub_type),
+            );
+        }
+        attachment
+    }
+
     #[test]
     fn merges_split_attack_body() {
         let reconstructor = MailReconstructor::synthetic();
@@ -396,6 +465,49 @@ mod tests {
                 .reconstruct_body(mail_type, &body, &[])
                 .unwrap_or_else(|error| panic!("{mail_type} should reconstruct: {error}"));
         }
+    }
+
+    #[test]
+    fn reconstruct_attachments_filters_only_placeholder_item_rewards() {
+        let reconstructor = MailReconstructor::synthetic();
+        let attachment = attachment(&reconstructor, &[(2, 0), (1, 0), (2, 1)]);
+
+        let reconstructed = reconstructor
+            .reconstruct_attachments(&[&attachment])
+            .expect("attachment should reconstruct");
+
+        assert_eq!(
+            reconstructed[0]["loot"],
+            json!([
+                { "Type": 1, "SubType": 0, "Value": 1 },
+                { "Type": 2, "SubType": 1, "Value": 1 }
+            ])
+        );
+    }
+
+    #[test]
+    fn reconstructed_barbarian_fort_body_preserves_packet_content_values() {
+        let reconstructor = MailReconstructor::synthetic();
+        let body = reconstructor
+            .reconstruct_body("System", &system_body(&reconstructor, 11, 1), &[])
+            .expect("barbarian fort body should reconstruct");
+        let input = json!({
+            "id": "mail-1",
+            "time": 1,
+            "receiver": "player_1",
+            "serverId": 1,
+            "body": body,
+            "attachments": [],
+        });
+
+        let processed = rokbattles_mail_processor_system_barbarianfort::process(&input)
+            .expect("reconstructed barbarian fort should process");
+        let processed = serde_json::to_value(processed).expect("processed mail should serialize");
+
+        assert_eq!(
+            processed["body"]["content"],
+            json!({"percentage": 15.0, "tier": 3, "level": 7})
+        );
     }
 
     #[test]

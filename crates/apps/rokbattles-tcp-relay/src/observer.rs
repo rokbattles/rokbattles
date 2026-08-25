@@ -133,6 +133,7 @@ impl StreamObserver {
             }
             let mut processor = ServerStreamProcessor::new(&artifact);
             let mut context = MailContext::default();
+            let mut pending = MailBatchAccumulator::default();
             while task_state.load(Ordering::Acquire) == ACTIVE {
                 let Some(bytes) = receiver.recv().await else {
                     break;
@@ -150,12 +151,14 @@ impl StreamObserver {
                                         server_id: Some(server_id),
                                     };
                                 }
-                                StreamEvent::Mails { server_id, entries } => {
+                                StreamEvent::Mails { server_id, entries, remaining } => {
                                     let Some(sender) = &upload_sender else {
                                         continue;
                                     };
                                     learn_server_id(&mut context, server_id);
-                                    if let Err(reason) = submit_batches(sender, &context, entries) {
+                                    if let Err(reason) =
+                                        pending.push(sender, &context, entries, remaining)
+                                    {
                                         disable_once(&task_state, client_addr, reason);
                                         return;
                                     }
@@ -168,6 +171,11 @@ impl StreamObserver {
                         break;
                     }
                 }
+            }
+            if let Some(sender) = &upload_sender
+                && let Err(reason) = pending.flush(sender, &context)
+            {
+                disable_once(&task_state, client_addr, reason);
             }
         });
         Self { sender: Some(sender), state, task, upload_task, client_addr }
@@ -228,31 +236,52 @@ fn learn_server_id(context: &mut MailContext, candidate: Option<i32>) {
     context.server_id = candidate.filter(|server_id| *server_id != 0);
 }
 
-fn submit_batches(
-    sender: &mpsc::Sender<MailBatch>,
-    context: &MailContext,
+#[derive(Debug, Default)]
+struct MailBatchAccumulator {
     entries: Vec<Vec<u8>>,
-) -> Result<(), DisableReason> {
-    let mut batch = Vec::new();
-    let mut bytes = 0usize;
-    for entry in entries {
-        if entry.len() > MAX_UPLOAD_BATCH_BYTES {
-            return Err(DisableReason::UploadEntryTooLarge);
+    bytes: usize,
+}
+
+impl MailBatchAccumulator {
+    fn push(
+        &mut self,
+        sender: &mpsc::Sender<MailBatch>,
+        context: &MailContext,
+        entries: Vec<Vec<u8>>,
+        remaining: Option<usize>,
+    ) -> Result<(), DisableReason> {
+        for entry in entries {
+            if entry.len() > MAX_UPLOAD_BATCH_BYTES {
+                return Err(DisableReason::UploadEntryTooLarge);
+            }
+            if !self.entries.is_empty()
+                && (self.entries.len() >= MAX_UPLOAD_BATCH_ENTRIES
+                    || self.bytes.saturating_add(entry.len()) > MAX_UPLOAD_BATCH_BYTES)
+            {
+                self.flush(sender, context)?;
+            }
+            self.bytes = self.bytes.saturating_add(entry.len());
+            self.entries.push(entry);
         }
-        if !batch.is_empty()
-            && (batch.len() >= MAX_UPLOAD_BATCH_ENTRIES
-                || bytes.saturating_add(entry.len()) > MAX_UPLOAD_BATCH_BYTES)
-        {
-            try_submit(sender, context, std::mem::take(&mut batch))?;
-            bytes = 0;
+        if remaining.is_none_or(|remaining| remaining == 0) {
+            self.flush(sender, context)?;
         }
-        bytes = bytes.saturating_add(entry.len());
-        batch.push(entry);
+        Ok(())
     }
-    if !batch.is_empty() {
-        try_submit(sender, context, batch)?;
+
+    fn flush(
+        &mut self,
+        sender: &mpsc::Sender<MailBatch>,
+        context: &MailContext,
+    ) -> Result<(), DisableReason> {
+        if self.entries.is_empty() {
+            return Ok(());
+        }
+        let entries = std::mem::take(&mut self.entries);
+        try_submit(sender, context, entries)?;
+        self.bytes = 0;
+        Ok(())
     }
-    Ok(())
 }
 
 fn try_submit(
@@ -363,8 +392,9 @@ mod tests {
         let (sender, mut receiver) = mpsc::channel(2);
         let context = MailContext { player_id: Some(123), server_id: Some(1804) };
         let entries = (0..MAX_UPLOAD_BATCH_ENTRIES + 1).map(|_| vec![1]).collect();
+        let mut pending = MailBatchAccumulator::default();
 
-        submit_batches(&sender, &context, entries).expect("batches should enqueue");
+        pending.push(&sender, &context, entries, Some(0)).expect("batches should enqueue");
         let first = receiver.recv().await.expect("first batch should exist");
         let second = receiver.recv().await.expect("second batch should exist");
 
@@ -375,33 +405,37 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn upload_queue_can_buffer_initial_mail_sync() {
+    async fn paginated_initial_sync_is_coalesced_into_bounded_batches() {
         let (sender, mut receiver) = mpsc::channel(UPLOAD_QUEUE_BATCHES);
         let context = MailContext::default();
-        let mut remaining = 500;
+        let mut pending = MailBatchAccumulator::default();
+        let mut remaining = 974;
 
         while remaining > 0 {
             let entry_count = remaining.min(30);
-            submit_batches(&sender, &context, vec![vec![1]; entry_count])
-                .expect("initial mail sync should fit in the upload queue");
             remaining -= entry_count;
+            pending
+                .push(&sender, &context, vec![vec![1]; entry_count], Some(remaining))
+                .expect("initial mail sync should fit in the upload queue");
         }
         drop(sender);
 
-        let mut queued_entries = 0;
+        let mut batch_sizes = Vec::new();
         while let Some(batch) = receiver.recv().await {
-            queued_entries += batch.entries.len();
+            batch_sizes.push(batch.entries.len());
         }
 
-        assert_eq!(queued_entries, 500);
+        assert_eq!(batch_sizes, [512, 462]);
     }
 
     #[test]
     fn saturated_upload_queue_is_reported_without_waiting() {
         let (sender, _receiver) = mpsc::channel(1);
         let entries = (0..MAX_UPLOAD_BATCH_ENTRIES + 1).map(|_| vec![1]).collect();
+        let mut pending = MailBatchAccumulator::default();
 
-        let error = submit_batches(&sender, &MailContext::default(), entries)
+        let error = pending
+            .push(&sender, &MailContext::default(), entries, Some(0))
             .expect_err("second batch should exceed queue capacity");
 
         assert_eq!(error, DisableReason::UploadQueueFull);

@@ -59,4 +59,20 @@ mod tests {
         assert_eq!(processed_json["rewards"].as_array().map(Vec::len), Some(5));
         assert_eq!(processed_json["rewards"][0], json!({"type": 2, "sub_type": 58, "value": 18}));
     }
+
+    #[test]
+    fn process_roundtrip_extracts_french_marauder_content() {
+        let sample_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../samples/System/Persistent.Mail.62854071172414985228.json");
+        let raw = fs::read_to_string(sample_path).expect("read sample");
+        let value: Value = serde_json::from_str(&raw).expect("parse sample");
+
+        let processed = process(&value).expect("process sample");
+        let processed_json = serde_json::to_value(processed).expect("serialize processed");
+
+        assert_eq!(
+            processed_json["body"]["content"],
+            json!({ "percentage": 0.0, "tier": 1, "level": 1 })
+        );
+    }
 }

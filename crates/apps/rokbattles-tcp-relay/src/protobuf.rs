@@ -46,6 +46,7 @@ pub(crate) struct EffectiveMessage<'a> {
 pub(crate) struct MailCandidates {
     pub(crate) entries: Vec<Vec<u8>>,
     pub(crate) server_id: Option<i32>,
+    pub(crate) remaining: Option<usize>,
 }
 
 pub(crate) fn parse_handshake(
@@ -96,10 +97,21 @@ pub(crate) fn mail_candidates(
     let carrier = artifact.carriers.get(&api_id).ok_or(ProtocolError::UnexpectedWrappedMessage)?;
     let mut entries = Vec::new();
     let mut server_id = None;
+    let mut remaining = None;
     let mut cursor = FieldCursor::new(payload);
     while let Some(field) = cursor.next()? {
         if !carrier.shape.accepts(field.number, field.wire) {
             return Err(ProtocolError::WrongWireType);
+        }
+        if Some(field.number) == carrier.left_count_field {
+            let FieldValue::Varint(value) = field.value else {
+                return Err(ProtocolError::WrongWireType);
+            };
+            remaining = Some(
+                usize::try_from(decode_int32(value)?)
+                    .map_err(|_error| ProtocolError::IntegerOutOfRange)?,
+            );
+            continue;
         }
         if field.number != carrier.entity_field {
             continue;
@@ -113,7 +125,7 @@ pub(crate) fn mail_candidates(
         }
         entries.push(candidate.to_vec());
     }
-    Ok(MailCandidates { entries, server_id })
+    Ok(MailCandidates { entries, server_id, remaining })
 }
 
 pub(crate) fn parse_login(
@@ -319,6 +331,18 @@ mod tests {
             mail_candidates(&payload, &artifact, 7909).expect("mail carrier should parse");
 
         assert_eq!(candidates.server_id, None);
+    }
+
+    #[test]
+    fn mail_candidates_extracts_remaining_page_count() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let entity = [0x0a, 0x01, b'1'];
+        let payload = [vec![0x0a, entity.len() as u8], entity.to_vec(), vec![0x10, 0x0e]].concat();
+
+        let candidates =
+            mail_candidates(&payload, &artifact, 7921).expect("mail carrier should parse");
+
+        assert_eq!(candidates.remaining, Some(14));
     }
 
     #[test]

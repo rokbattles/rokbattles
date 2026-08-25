@@ -11,7 +11,7 @@ pub(crate) const MAX_FRAME_BODY_BYTES: usize = 25 * 1024 * 1024;
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) enum StreamEvent {
     Login { player_id: i64, server_id: i32 },
-    Mails { server_id: Option<i32>, entries: Vec<Vec<u8>> },
+    Mails { server_id: Option<i32>, entries: Vec<Vec<u8>>, remaining: Option<usize> },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, thiserror::Error)]
@@ -151,10 +151,13 @@ impl<'a> ServerStreamProcessor<'a> {
                 Some(StreamEvent::Login { player_id, server_id })
             } else if self.artifact.carriers.contains_key(&message.api_id) {
                 let candidates = mail_candidates(&message.payload, self.artifact, message.api_id)?;
-                (!candidates.entries.is_empty()).then_some(StreamEvent::Mails {
-                    server_id: candidates.server_id,
-                    entries: candidates.entries,
-                })
+                (!candidates.entries.is_empty() || candidates.remaining.is_some()).then_some(
+                    StreamEvent::Mails {
+                        server_id: candidates.server_id,
+                        entries: candidates.entries,
+                        remaining: candidates.remaining,
+                    },
+                )
             } else {
                 None
             }
@@ -436,6 +439,22 @@ mod tests {
         let events = processor.push(&stream).expect("login frame should parse");
 
         assert_eq!(events, [StreamEvent::Login { player_id: 123_456, server_id: 1804 }]);
+    }
+
+    #[test]
+    fn processor_emits_empty_terminal_mail_page() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let mut processor = ServerStreamProcessor::new(&artifact);
+        let mut cipher = StreamCipher::new(server_secret(626_273_431));
+        let mut stream = frame(HANDSHAKE_BODY);
+        stream.extend(encrypted_frame(&mut cipher, &msg(7921, &varint_field(2, 0))));
+
+        let events = processor.push(&stream).expect("terminal mail page should parse");
+
+        assert_eq!(
+            events,
+            [StreamEvent::Mails { server_id: None, entries: Vec::new(), remaining: Some(0) }]
+        );
     }
 
     #[test]

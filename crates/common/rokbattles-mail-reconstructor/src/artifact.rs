@@ -326,7 +326,14 @@ mod tests {
                     ],
                 ),
                 message("ReportInfo", Vec::new()),
-                message("Loot", Vec::new()),
+                message(
+                    "Loot",
+                    vec![
+                        field("Type", 1, 1, 5, ""),
+                        field("SubType", 2, 1, 5, ""),
+                        field("Value", 3, 1, 3, ""),
+                    ],
+                ),
             ]
             .into_iter()
             .collect(),
