@@ -1,47 +1,47 @@
-//! Environment-driven configuration for the DNS-over-HTTPS resolver.
+//! Environment-driven gateway configuration for the DNS-over-HTTPS resolver.
 
-use std::{
-    env,
-    net::{Ipv4Addr, SocketAddr},
-};
+use std::{collections::HashSet, env, net::Ipv4Addr};
 
-use hickory_proto::rr::Name;
-use reqwest::Url;
+use crate::resolver::is_public_unicast;
 
-const DEFAULT_BIND_ADDR: &str = "0.0.0.0:8053";
-
-/// Runtime configuration loaded from environment variables.
+/// Runtime configuration loaded from the `GATEWAY` environment variable.
 #[derive(Debug, PartialEq, Eq)]
 pub struct Config {
-    /// Address on which the HTTP server listens.
-    pub bind_addr: SocketAddr,
-    /// The only hostname for which the resolver returns the relay address.
-    pub target_hostname: String,
-    /// IPv4 address returned for the target hostname.
-    pub relay_ipv4: Ipv4Addr,
-    /// DoH resolver used for non-target queries received from Intra.
-    pub intra_upstream_doh_url: Url,
+    /// Ordered public IPv4 addresses returned for the game hostname.
+    pub gateway: Vec<Ipv4Addr>,
 }
 
-/// Errors returned when resolver configuration is missing or invalid.
+/// Errors returned when gateway configuration is missing or invalid.
 #[derive(Debug, thiserror::Error, PartialEq, Eq)]
 pub enum ConfigError {
-    /// A required environment variable was not set.
-    #[error("missing required env var: {key}")]
-    Missing { key: &'static str },
-    /// An environment variable could not be parsed.
-    #[error("invalid value for {key}: {value}")]
-    Invalid { key: &'static str, value: String },
+    /// The required gateway list was not set.
+    #[error("missing required env var: GATEWAY")]
+    Missing,
+    /// The list or one of its comma-separated fields was empty.
+    #[error("GATEWAY must contain only non-empty comma-separated IPv4 addresses")]
+    EmptyAddress,
+    /// One field was not an IPv4 address.
+    #[error("invalid IPv4 address in GATEWAY: {value}")]
+    InvalidAddress { value: String },
+    /// Client-facing gateway answers must be publicly routable unicast.
+    #[error("gateway IPv4 address is not public unicast: {address}")]
+    NonPublic { address: Ipv4Addr },
+    /// Repeating an address does not add a gateway node.
+    #[error("duplicate gateway IPv4 address: {address}")]
+    Duplicate { address: Ipv4Addr },
+    /// The finite environment value could not be reserved safely.
+    #[error("GATEWAY is too large for available memory")]
+    Allocation,
 }
 
 impl Config {
-    /// Load configuration from the process environment.
+    /// Load the gateway fleet from `GATEWAY`.
     ///
     /// # Errors
     ///
-    /// Returns [`ConfigError`] when `TARGET_HOSTNAME`, `RELAY_IPV4`, or
-    /// `INTRA_UPSTREAM_DOH_URL` is absent, or when a configured hostname,
-    /// address, or URL is invalid.
+    /// Returns [`ConfigError`] when `GATEWAY` is absent, empty, contains a
+    /// duplicate, cannot be reserved, or contains an invalid or
+    /// non-public-unicast IPv4 address.
     pub fn from_env() -> Result<Self, ConfigError> {
         Self::from_lookup(|key| env::var(key).ok())
     }
@@ -50,226 +50,105 @@ impl Config {
     where
         F: Fn(&str) -> Option<String>,
     {
-        let bind_addr = parse(
-            "BIND_ADDR",
-            lookup("BIND_ADDR").unwrap_or_else(|| DEFAULT_BIND_ADDR.to_string()),
-        )?;
-        let target_hostname = parse_hostname(
-            "TARGET_HOSTNAME",
-            lookup("TARGET_HOSTNAME").ok_or(ConfigError::Missing { key: "TARGET_HOSTNAME" })?,
-        )?;
-        let relay_ipv4 = parse(
-            "RELAY_IPV4",
-            lookup("RELAY_IPV4").ok_or(ConfigError::Missing { key: "RELAY_IPV4" })?,
-        )?;
-        let intra_upstream_doh_url = parse_upstream_url(
-            "INTRA_UPSTREAM_DOH_URL",
-            lookup("INTRA_UPSTREAM_DOH_URL")
-                .ok_or(ConfigError::Missing { key: "INTRA_UPSTREAM_DOH_URL" })?,
-        )?;
-
-        Ok(Self { bind_addr, target_hostname, relay_ipv4, intra_upstream_doh_url })
+        let value = lookup("GATEWAY").ok_or(ConfigError::Missing)?;
+        Ok(Self { gateway: parse_gateway_ipv4s(&value)? })
     }
 }
 
-fn parse<T>(key: &'static str, value: String) -> Result<T, ConfigError>
-where
-    T: std::str::FromStr,
-{
-    value.parse().map_err(|_| ConfigError::Invalid { key, value })
-}
-
-fn parse_hostname(key: &'static str, value: String) -> Result<String, ConfigError> {
-    match Name::from_ascii(&value) {
-        Ok(name) if name.num_labels() > 0 => {
-            Ok(name.to_ascii().trim_end_matches('.').to_ascii_lowercase())
+fn parse_gateway_ipv4s(value: &str) -> Result<Vec<Ipv4Addr>, ConfigError> {
+    let field_count = value.bytes().filter(|byte| *byte == b',').count().saturating_add(1);
+    let mut addresses = Vec::new();
+    let mut seen = HashSet::new();
+    addresses.try_reserve(field_count).map_err(|_| ConfigError::Allocation)?;
+    seen.try_reserve(field_count).map_err(|_| ConfigError::Allocation)?;
+    for field in value.split(',').map(str::trim) {
+        if field.is_empty() {
+            return Err(ConfigError::EmptyAddress);
         }
-        Ok(_) | Err(_) => Err(ConfigError::Invalid { key, value }),
+        let address =
+            field.parse().map_err(|_| ConfigError::InvalidAddress { value: field.to_string() })?;
+        if !is_public_unicast(address) {
+            return Err(ConfigError::NonPublic { address });
+        }
+        if !seen.insert(address) {
+            return Err(ConfigError::Duplicate { address });
+        }
+        addresses.push(address);
     }
-}
-
-fn parse_upstream_url(key: &'static str, value: String) -> Result<Url, ConfigError> {
-    match Url::parse(&value) {
-        Ok(url) if url.scheme() == "https" && url.host_str().is_some() => Ok(url),
-        Ok(_) | Err(_) => Err(ConfigError::Invalid { key, value }),
+    if addresses.is_empty() {
+        return Err(ConfigError::EmptyAddress);
     }
+    Ok(addresses)
 }
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-
     use super::*;
 
-    const TEST_UPSTREAM_DOH_URL: &str = "https://dns.example.net/dns-query";
-
-    fn lookup(vars: HashMap<&'static str, &'static str>) -> impl Fn(&str) -> Option<String> {
-        move |key| vars.get(key).map(|value| (*value).to_string())
-    }
-
-    fn lookup_with_upstream(
-        mut vars: HashMap<&'static str, &'static str>,
-    ) -> impl Fn(&str) -> Option<String> {
-        vars.entry("INTRA_UPSTREAM_DOH_URL").or_insert(TEST_UPSTREAM_DOH_URL);
-        lookup(vars)
+    fn lookup(value: Option<&str>) -> impl Fn(&str) -> Option<String> {
+        let value = value.map(str::to_string);
+        move |key| (key == "GATEWAY").then(|| value.clone()).flatten()
     }
 
     #[test]
-    fn optional_values_should_use_development_defaults() {
-        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect("configuration should be valid");
+    fn gateway_should_be_required() {
+        let error = Config::from_lookup(lookup(None)).expect_err("gateway should be absent");
 
-        assert_eq!(
-            config,
-            Config {
-                bind_addr: "0.0.0.0:8053".parse().expect("fixture should be valid"),
-                target_hostname: "example.com".to_string(),
-                relay_ipv4: Ipv4Addr::new(203, 0, 113, 10),
-                intra_upstream_doh_url: Url::parse(TEST_UPSTREAM_DOH_URL)
-                    .expect("upstream URL fixture should be valid"),
-            }
-        );
+        assert_eq!(error, ConfigError::Missing);
     }
 
     #[test]
-    fn target_hostname_should_be_required() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([(
-            "RELAY_IPV4",
-            "203.0.113.10",
-        )])))
-        .expect_err("target hostname should be absent");
+    fn gateway_should_load_trimmed_addresses_in_order() {
+        let config = Config::from_lookup(lookup(Some("93.184.216.34, 1.1.1.1")))
+            .expect("configuration should be valid");
 
-        assert_eq!(error, ConfigError::Missing { key: "TARGET_HOSTNAME" });
+        assert_eq!(config.gateway, [Ipv4Addr::new(93, 184, 216, 34), Ipv4Addr::new(1, 1, 1, 1)]);
     }
 
     #[test]
-    fn relay_ipv4_should_be_required() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([(
-            "TARGET_HOSTNAME",
-            "example.com",
-        )])))
-        .expect_err("relay address should be absent");
+    fn gateway_should_not_have_an_application_node_count_limit() {
+        let value = (11..=32)
+            .map(|first_octet| format!("{first_octet}.0.0.1"))
+            .collect::<Vec<_>>()
+            .join(",");
+        let config = Config::from_lookup(move |key| (key == "GATEWAY").then(|| value.clone()))
+            .expect("configuration should accept more than the former eight-node limit");
 
-        assert_eq!(error, ConfigError::Missing { key: "RELAY_IPV4" });
+        assert_eq!(config.gateway.len(), 22);
     }
 
     #[test]
-    fn target_hostname_should_be_normalized() {
-        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "ExAmPlE.CoM."),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect("configuration should be valid");
+    fn duplicate_gateway_address_should_be_rejected() {
+        let address = Ipv4Addr::new(93, 184, 216, 34);
+        let error = Config::from_lookup(lookup(Some("93.184.216.34,93.184.216.34")))
+            .expect_err("duplicate gateway should be rejected");
 
-        assert_eq!(config.target_hostname, "example.com");
+        assert_eq!(error, ConfigError::Duplicate { address });
     }
 
     #[test]
-    fn invalid_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "not a hostname"),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect_err("target hostname should be invalid");
+    fn empty_gateway_address_should_be_rejected() {
+        let error = Config::from_lookup(lookup(Some("93.184.216.34,,1.1.1.1")))
+            .expect_err("empty gateway address should be rejected");
 
-        assert_eq!(
-            error,
-            ConfigError::Invalid { key: "TARGET_HOSTNAME", value: "not a hostname".to_string() }
-        );
+        assert_eq!(error, ConfigError::EmptyAddress);
     }
 
     #[test]
-    fn empty_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", ""),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect_err("target hostname should be empty");
+    fn non_ipv4_gateway_address_should_be_rejected() {
+        let value = "2001:db8::1";
+        let error = Config::from_lookup(lookup(Some(value)))
+            .expect_err("gateway should contain only IPv4 addresses");
 
-        assert_eq!(error, ConfigError::Invalid { key: "TARGET_HOSTNAME", value: String::new() });
+        assert_eq!(error, ConfigError::InvalidAddress { value: value.to_string() });
     }
 
     #[test]
-    fn root_target_hostname_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "."),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect_err("target hostname should be the DNS root");
+    fn non_public_gateway_address_should_be_rejected() {
+        let address = Ipv4Addr::LOCALHOST;
+        let error = Config::from_lookup(lookup(Some("127.0.0.1")))
+            .expect_err("gateway should be public unicast");
 
-        assert_eq!(error, ConfigError::Invalid { key: "TARGET_HOSTNAME", value: ".".to_string() });
-    }
-
-    #[test]
-    fn invalid_bind_addr_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-            ("BIND_ADDR", "localhost"),
-        ])))
-        .expect_err("bind address should be invalid");
-
-        assert_eq!(
-            error,
-            ConfigError::Invalid { key: "BIND_ADDR", value: "localhost".to_string() }
-        );
-    }
-
-    #[test]
-    fn invalid_relay_ipv4_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "2001:db8::1"),
-        ])))
-        .expect_err("relay address should not be IPv4");
-
-        assert_eq!(
-            error,
-            ConfigError::Invalid { key: "RELAY_IPV4", value: "2001:db8::1".to_string() }
-        );
-    }
-
-    #[test]
-    fn required_intra_upstream_should_be_loaded() {
-        let config = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-            ("INTRA_UPSTREAM_DOH_URL", "https://dns.example.net/custom-query"),
-        ])))
-        .expect("configuration should be valid");
-
-        assert_eq!(config.intra_upstream_doh_url.as_str(), "https://dns.example.net/custom-query");
-    }
-
-    #[test]
-    fn non_https_intra_upstream_should_be_rejected() {
-        let error = Config::from_lookup(lookup_with_upstream(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-            ("INTRA_UPSTREAM_DOH_URL", "http://dns.example.net/dns-query"),
-        ])))
-        .expect_err("upstream URL should require HTTPS");
-
-        assert_eq!(
-            error,
-            ConfigError::Invalid {
-                key: "INTRA_UPSTREAM_DOH_URL",
-                value: "http://dns.example.net/dns-query".to_string(),
-            }
-        );
-    }
-
-    #[test]
-    fn intra_upstream_should_be_required() {
-        let error = Config::from_lookup(lookup(HashMap::from([
-            ("TARGET_HOSTNAME", "example.com"),
-            ("RELAY_IPV4", "203.0.113.10"),
-        ])))
-        .expect_err("upstream URL should be absent");
-
-        assert_eq!(error, ConfigError::Missing { key: "INTRA_UPSTREAM_DOH_URL" });
+        assert_eq!(error, ConfigError::NonPublic { address });
     }
 }

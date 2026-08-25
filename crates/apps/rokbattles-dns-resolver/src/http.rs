@@ -13,12 +13,13 @@ use axum::{
 };
 use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde::Deserialize;
-use tracing::warn;
 
 use crate::{
     DNS_MEDIA_TYPE, DoHForwarder, MAX_DNS_MESSAGE_BYTES, ResolveError, Resolver,
     resolver::IntraResolution,
 };
+
+const MAX_ENCODED_DNS_MESSAGE_BYTES: usize = MAX_DNS_MESSAGE_BYTES.div_ceil(3) * 4;
 
 #[derive(Debug, Deserialize)]
 struct DnsQuery {
@@ -113,10 +114,7 @@ async fn resolve_for_intra(state: &AppState, wire_request: &[u8]) -> Result<Resp
             IntraResolution::Local(response) => response,
             IntraResolution::Forward => match state.forwarder.forward(wire_request).await {
                 Ok(response) => response,
-                Err(error) => {
-                    warn!(%error, "upstream DoH query failed");
-                    state.resolver.servfail(wire_request).map_err(map_resolve_error)?
-                }
+                Err(_) => state.resolver.servfail(wire_request).map_err(map_resolve_error)?,
             },
         };
     Ok(dns_response(wire_response))
@@ -144,6 +142,9 @@ fn map_resolve_error(error: ResolveError) -> HttpError {
 }
 
 fn decode_dns_parameter(encoded: &str) -> Result<Vec<u8>, HttpError> {
+    if encoded.len() > MAX_ENCODED_DNS_MESSAGE_BYTES {
+        return Err(HttpError::MessageTooLarge);
+    }
     let wire_request =
         URL_SAFE_NO_PAD.decode(encoded).map_err(|_| HttpError::InvalidDnsParameter)?;
     if wire_request.len() > MAX_DNS_MESSAGE_BYTES {
@@ -175,15 +176,17 @@ mod tests {
     use tower::ServiceExt;
 
     use super::*;
+    use crate::ROCGATE_HOSTNAME;
 
-    const TARGET_HOSTNAME: &str = "example.com";
-    const RELAY_IPV4: Ipv4Addr = Ipv4Addr::new(203, 0, 113, 10);
+    const GATEWAY_IPV4_A: Ipv4Addr = Ipv4Addr::new(93, 184, 216, 34);
+    const GATEWAY_IPV4_B: Ipv4Addr = Ipv4Addr::new(1, 1, 1, 1);
     const UPSTREAM_IPV4: Ipv4Addr = Ipv4Addr::new(198, 51, 100, 42);
 
     #[derive(Clone)]
     struct MockState {
         requests: Sender<ForwardedRequest>,
         delay: Duration,
+        failure_status: Option<StatusCode>,
     }
 
     #[derive(Debug)]
@@ -207,6 +210,14 @@ mod tests {
 
     impl MockUpstream {
         async fn start(delay: Duration) -> Self {
+            Self::start_with_status(delay, None).await
+        }
+
+        async fn start_failing(status: StatusCode) -> Self {
+            Self::start_with_status(Duration::ZERO, Some(status)).await
+        }
+
+        async fn start_with_status(delay: Duration, failure_status: Option<StatusCode>) -> Self {
             let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
                 .await
                 .expect("mock upstream should bind");
@@ -216,7 +227,7 @@ mod tests {
             let (request_tx, requests) = mpsc::channel();
             let app = Router::new()
                 .route("/dns-query", post(mock_upstream_query))
-                .with_state(MockState { requests: request_tx, delay });
+                .with_state(MockState { requests: request_tx, delay, failure_status });
             let task = tokio::spawn(async move {
                 axum::serve(listener, app).await.expect("mock upstream should serve");
             });
@@ -225,16 +236,35 @@ mod tests {
     }
 
     fn app() -> Router {
-        app_with_upstream(
-            Url::parse("http://127.0.0.1:9/dns-query").expect("fixture URL should be valid"),
-            Duration::from_secs(1),
+        let unavailable =
+            Url::parse("http://127.0.0.1:9/dns-query").expect("fixture URL should be valid");
+        app_with_upstreams([unavailable.clone(), unavailable], Duration::from_secs(1))
+    }
+
+    fn app_with_upstreams(upstream_urls: [Url; 2], timeout: Duration) -> Router {
+        app_with_limits(
+            upstream_urls,
+            timeout,
+            timeout.saturating_add(timeout),
+            crate::MAX_CONCURRENT_UPSTREAM_QUERIES,
         )
     }
 
-    fn app_with_upstream(upstream_url: Url, timeout: Duration) -> Router {
-        let resolver = Resolver::new(TARGET_HOSTNAME, RELAY_IPV4);
-        let forwarder = DoHForwarder::with_test_timeout(upstream_url, timeout)
-            .expect("forwarder fixture should build");
+    fn app_with_limits(
+        upstream_urls: [Url; 2],
+        endpoint_timeout: Duration,
+        total_timeout: Duration,
+        max_concurrent_queries: usize,
+    ) -> Router {
+        let resolver = Resolver::new(vec![GATEWAY_IPV4_A, GATEWAY_IPV4_B])
+            .expect("resolver fixture should be valid");
+        let forwarder = DoHForwarder::with_test_limits(
+            upstream_urls,
+            endpoint_timeout,
+            total_timeout,
+            max_concurrent_queries,
+        )
+        .expect("forwarder fixture should build");
         router(resolver, forwarder)
     }
 
@@ -304,6 +334,9 @@ mod tests {
             })
             .expect("test should retain mock request receiver");
         tokio::time::sleep(state.delay).await;
+        if let Some(status) = state.failure_status {
+            return status.into_response();
+        }
 
         let request = Message::from_vec(&body).expect("forwarded request should be valid DNS");
         let mut response = Message::response(request.metadata.id, request.metadata.op_code);
@@ -321,44 +354,60 @@ mod tests {
 
     #[tokio::test]
     async fn ios_post_query_should_return_dns_wire_format_response() {
-        let response = send_post(app(), "/query", dns_query(TARGET_HOSTNAME), DNS_MEDIA_TYPE).await;
+        let response =
+            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAME), DNS_MEDIA_TYPE).await;
         let status = response.status();
         let content_type = response.headers().get(CONTENT_TYPE).cloned();
         let message = decode_dns_response(response).await;
 
         assert_eq!(
             (status, content_type.as_ref(), message.answers.len()),
-            (StatusCode::OK, Some(&HeaderValue::from_static(DNS_MEDIA_TYPE)), 1)
+            (StatusCode::OK, Some(&HeaderValue::from_static(DNS_MEDIA_TYPE)), 2)
         );
     }
 
     #[tokio::test]
     async fn ios_get_query_should_return_dns_wire_format_response() {
-        let response = send_get(app(), "/query", &dns_query(TARGET_HOSTNAME)).await;
+        let response = send_get(app(), "/query", &dns_query(ROCGATE_HOSTNAME)).await;
         let message = decode_dns_response(response).await;
 
-        assert_eq!(message.answers.len(), 1);
+        assert_eq!(message.answers.len(), 2);
+    }
+
+    #[tokio::test]
+    async fn cloned_http_router_should_share_gateway_rotation() {
+        let app = app();
+        let first = decode_dns_response(
+            send_get(app.clone(), "/query", &dns_query(ROCGATE_HOSTNAME)).await,
+        )
+        .await;
+        let second =
+            decode_dns_response(send_get(app, "/query", &dns_query(ROCGATE_HOSTNAME)).await).await;
+
+        assert_eq!(first.answers[0].data, RData::A(A(GATEWAY_IPV4_A)));
+        assert_eq!(second.answers[0].data, RData::A(A(GATEWAY_IPV4_B)));
     }
 
     #[tokio::test]
     async fn intra_post_target_query_should_return_local_answer() {
-        let response = send_post(app(), "/intra", dns_query(TARGET_HOSTNAME), DNS_MEDIA_TYPE).await;
+        let response =
+            send_post(app(), "/intra", dns_query(ROCGATE_HOSTNAME), DNS_MEDIA_TYPE).await;
         let message = decode_dns_response(response).await;
 
         assert_eq!(
             message.answers.first().map(|answer| &answer.data),
-            Some(&RData::A(A(RELAY_IPV4)))
+            Some(&RData::A(A(GATEWAY_IPV4_A)))
         );
     }
 
     #[tokio::test]
     async fn intra_get_target_query_should_return_local_answer() {
-        let response = send_get(app(), "/intra", &dns_query(TARGET_HOSTNAME)).await;
+        let response = send_get(app(), "/intra", &dns_query(ROCGATE_HOSTNAME)).await;
         let message = decode_dns_response(response).await;
 
         assert_eq!(
             message.answers.first().map(|answer| &answer.data),
-            Some(&RData::A(A(RELAY_IPV4)))
+            Some(&RData::A(A(GATEWAY_IPV4_A)))
         );
     }
 
@@ -367,7 +416,7 @@ mod tests {
         let response = send_post(
             app(),
             "/intra",
-            dns_query_for(TARGET_HOSTNAME, RecordType::AAAA),
+            dns_query_for(ROCGATE_HOSTNAME, RecordType::AAAA),
             DNS_MEDIA_TYPE,
         )
         .await;
@@ -381,17 +430,18 @@ mod tests {
 
     #[tokio::test]
     async fn intra_non_target_query_should_be_forwarded_to_upstream_doh() {
-        let upstream = MockUpstream::start(Duration::ZERO).await;
-        let query = dns_query("www.example.net");
+        let primary = MockUpstream::start(Duration::ZERO).await;
+        let fallback = MockUpstream::start(Duration::ZERO).await;
+        let query = dns_query("www.cloudflare.com");
         let response = send_post(
-            app_with_upstream(upstream.url.clone(), Duration::from_secs(1)),
+            app_with_upstreams([primary.url.clone(), fallback.url.clone()], Duration::from_secs(1)),
             "/intra",
             query.clone(),
             DNS_MEDIA_TYPE,
         )
         .await;
         let message = decode_dns_response(response).await;
-        let forwarded = upstream.requests.recv().expect("upstream should receive one request");
+        let forwarded = primary.requests.recv().expect("primary should receive one request");
 
         assert_eq!(
             (
@@ -399,13 +449,63 @@ mod tests {
                 forwarded.body,
                 forwarded.content_type,
                 forwarded.accept,
+                matches!(fallback.requests.try_recv(), Err(TryRecvError::Empty)),
             ),
             (
                 Some(&RData::A(A(UPSTREAM_IPV4))),
                 query,
                 Some(HeaderValue::from_static(DNS_MEDIA_TYPE)),
                 Some(HeaderValue::from_static(DNS_MEDIA_TYPE)),
+                true,
             )
+        );
+    }
+
+    #[tokio::test]
+    async fn intra_query_should_fail_over_when_primary_doh_is_unavailable() {
+        let fallback = MockUpstream::start(Duration::ZERO).await;
+        let unavailable =
+            Url::parse("http://127.0.0.1:9/dns-query").expect("fixture URL should be valid");
+        let query = dns_query("www.cloudflare.com");
+        let response = send_post(
+            app_with_upstreams([unavailable, fallback.url.clone()], Duration::from_secs(1)),
+            "/intra",
+            query.clone(),
+            DNS_MEDIA_TYPE,
+        )
+        .await;
+        let message = decode_dns_response(response).await;
+        let forwarded = fallback.requests.recv().expect("fallback should receive the retry");
+
+        assert_eq!(
+            (message.answers.first().map(|answer| &answer.data), forwarded.body),
+            (Some(&RData::A(A(UPSTREAM_IPV4))), query)
+        );
+    }
+
+    #[tokio::test]
+    async fn intra_query_should_fail_over_when_primary_doh_response_is_invalid() {
+        let primary = MockUpstream::start_failing(StatusCode::BAD_GATEWAY).await;
+        let fallback = MockUpstream::start(Duration::ZERO).await;
+        let query = dns_query("www.cloudflare.com");
+        let response = send_post(
+            app_with_upstreams([primary.url.clone(), fallback.url.clone()], Duration::from_secs(1)),
+            "/intra",
+            query.clone(),
+            DNS_MEDIA_TYPE,
+        )
+        .await;
+        let message = decode_dns_response(response).await;
+        let primary_request = primary.requests.recv().expect("primary should receive the query");
+        let fallback_request = fallback.requests.recv().expect("fallback should receive the retry");
+
+        assert_eq!(
+            (
+                message.answers.first().map(|answer| &answer.data),
+                primary_request.body,
+                fallback_request.body,
+            ),
+            (Some(&RData::A(A(UPSTREAM_IPV4))), query.clone(), query)
         );
     }
 
@@ -413,9 +513,12 @@ mod tests {
     async fn intra_upstream_timeout_should_return_dns_servfail() {
         let upstream = MockUpstream::start(Duration::from_millis(200)).await;
         let response = send_post(
-            app_with_upstream(upstream.url.clone(), Duration::from_millis(20)),
+            app_with_upstreams(
+                [upstream.url.clone(), upstream.url.clone()],
+                Duration::from_millis(20),
+            ),
             "/intra",
-            dns_query("www.example.net"),
+            dns_query("www.cloudflare.com"),
             DNS_MEDIA_TYPE,
         )
         .await;
@@ -435,12 +538,57 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn saturated_upstream_capacity_should_shed_without_starting_an_exchange() {
+        let primary = MockUpstream::start(Duration::from_millis(200)).await;
+        let fallback = MockUpstream::start(Duration::ZERO).await;
+        let app = app_with_limits(
+            [primary.url.clone(), fallback.url.clone()],
+            Duration::from_secs(1),
+            Duration::from_secs(1),
+            1,
+        );
+        let query = dns_query("www.cloudflare.com");
+        let first = tokio::spawn(send_post(app.clone(), "/intra", query.clone(), DNS_MEDIA_TYPE));
+
+        tokio::time::timeout(Duration::from_secs(1), async {
+            loop {
+                match primary.requests.try_recv() {
+                    Ok(_) => break,
+                    Err(TryRecvError::Empty) => tokio::task::yield_now().await,
+                    Err(TryRecvError::Disconnected) => {
+                        panic!("primary request channel should remain connected")
+                    }
+                }
+            }
+        })
+        .await
+        .expect("first query should reach the primary");
+
+        let shed = send_post(app, "/intra", query, DNS_MEDIA_TYPE).await;
+        let shed_message = decode_dns_response(shed).await;
+        let first_message =
+            decode_dns_response(first.await.expect("first query should complete")).await;
+
+        assert_eq!(
+            (
+                shed_message.metadata.response_code,
+                first_message.metadata.response_code,
+                matches!(fallback.requests.try_recv(), Err(TryRecvError::Empty)),
+            ),
+            (ResponseCode::ServFail, ResponseCode::NoError, true)
+        );
+    }
+
+    #[tokio::test]
     async fn ios_non_target_query_should_remain_refused_without_forwarding() {
         let upstream = MockUpstream::start(Duration::ZERO).await;
         let response = send_post(
-            app_with_upstream(upstream.url.clone(), Duration::from_secs(1)),
+            app_with_upstreams(
+                [upstream.url.clone(), upstream.url.clone()],
+                Duration::from_secs(1),
+            ),
             "/query",
-            dns_query("www.example.net"),
+            dns_query("www.cloudflare.com"),
             DNS_MEDIA_TYPE,
         )
         .await;
@@ -480,14 +628,14 @@ mod tests {
     #[tokio::test]
     async fn post_without_dns_media_type_should_be_rejected() {
         let response =
-            send_post(app(), "/query", dns_query(TARGET_HOSTNAME), "application/octet-stream")
+            send_post(app(), "/query", dns_query(ROCGATE_HOSTNAME), "application/octet-stream")
                 .await;
 
         assert_eq!(response.status(), StatusCode::UNSUPPORTED_MEDIA_TYPE);
     }
 
     #[test]
-    fn oversized_decoded_get_message_should_be_rejected() {
+    fn oversized_encoded_get_message_should_be_rejected_before_decoding() {
         let encoded = URL_SAFE_NO_PAD.encode(vec![0; MAX_DNS_MESSAGE_BYTES + 1]);
         let error =
             decode_dns_parameter(&encoded).expect_err("decoded message should exceed DNS limit");
