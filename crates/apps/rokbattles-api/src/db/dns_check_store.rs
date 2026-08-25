@@ -23,7 +23,7 @@ pub struct DnsCheckStore {
 
 impl DnsCheckStore {
     pub fn new(db: mongodb::Database) -> Self {
-        Self { proofs: db.collection("dnsCheckProofs") }
+        Self { proofs: db.collection("g_rok_dns_proofs") }
     }
 
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
