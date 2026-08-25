@@ -10,6 +10,7 @@ pub struct Config {
     pub discord_client_id: String,
     pub discord_client_secret: String,
     pub discord_redirect_uri: String,
+    pub dns_check_secret: String,
     pub sentry_dsn: Option<String>,
 }
 
@@ -35,6 +36,7 @@ impl Config {
         let discord_client_id = required(&lookup, "DISCORD_CLIENT_ID")?;
         let discord_client_secret = required(&lookup, "DISCORD_CLIENT_SECRET")?;
         let discord_redirect_uri = required(&lookup, "DISCORD_REDIRECT_URI")?;
+        let dns_check_secret = required_non_empty(&lookup, "DNS_CHECK_SECRET")?;
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
 
         Ok(Self {
@@ -43,6 +45,7 @@ impl Config {
             discord_client_id,
             discord_client_secret,
             discord_redirect_uri,
+            dns_check_secret,
             sentry_dsn,
         })
     }
@@ -53,6 +56,15 @@ where
     F: Fn(&str) -> Option<String>,
 {
     lookup(key).ok_or(ConfigError::Missing { key })
+}
+
+fn required_non_empty<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    required(lookup, key).and_then(|value| {
+        (!value.trim().is_empty()).then_some(value).ok_or(ConfigError::Missing { key })
+    })
 }
 
 #[cfg(test)]
@@ -72,6 +84,7 @@ mod tests {
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
+            ("DNS_CHECK_SECRET", "dns-check-secret"),
         ])))
         .expect("config");
 
@@ -80,6 +93,7 @@ mod tests {
         assert_eq!(cfg.discord_client_id, "discord-client-id");
         assert_eq!(cfg.discord_client_secret, "discord-client-secret");
         assert_eq!(cfg.discord_redirect_uri, "https://example.com/proxy/v1/auth/discord/callback");
+        assert_eq!(cfg.dns_check_secret, "dns-check-secret");
         assert_eq!(cfg.sentry_dsn, None);
     }
 
@@ -90,6 +104,7 @@ mod tests {
             ("DISCORD_CLIENT_ID", "discord-client-id"),
             ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
             ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
+            ("DNS_CHECK_SECRET", "dns-check-secret"),
             ("SENTRY_DSN", "https://example@sentry.io/123"),
         ])))
         .expect("config");
@@ -134,5 +149,17 @@ mod tests {
         ])))
         .expect_err("missing discord redirect uri");
         assert_eq!(err, ConfigError::Missing { key: "DISCORD_REDIRECT_URI" });
+    }
+
+    #[test]
+    fn requires_dns_check_secret() {
+        let err = Config::from_lookup(lookup(HashMap::from([
+            ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
+            ("DISCORD_CLIENT_ID", "discord-client-id"),
+            ("DISCORD_CLIENT_SECRET", "discord-client-secret"),
+            ("DISCORD_REDIRECT_URI", "https://example.com/proxy/v1/auth/discord/callback"),
+        ])))
+        .expect_err("missing DNS check secret");
+        assert_eq!(err, ConfigError::Missing { key: "DNS_CHECK_SECRET" });
     }
 }
