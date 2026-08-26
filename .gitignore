@@ -15,8 +15,6 @@ samples/game/
 crates/apps/rokbattles-tcp-relay/artifacts/
 crates/apps/rokbattles-ingress/artifacts/
 .source
-
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -24,12 +22,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-# Vite
 dist-ssr
 *.local
-
-# Editor and OS files
 .vscode/*
 !.vscode/extensions.json
 .DS_Store
@@ -38,3 +32,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.wrangler
