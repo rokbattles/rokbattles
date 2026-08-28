@@ -96,8 +96,7 @@ pub async fn get(
 
 fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
     let hint_home_partial_index = should_hint_home_partial_index(request);
-    let hint = hint_home_partial_index
-        .then(|| Hint::Keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 }));
+    let hint = battle_list_index_hint(request);
     let max = request.before_cursor.filter(|_| hint_home_partial_index).map(|before_cursor| {
         doc! {
             "metadata.mail_time": before_cursor,
@@ -120,8 +119,60 @@ fn build_battle_list_find_options(request: &ReportsRequest) -> FindOptions {
         .build()
 }
 
+fn battle_list_index_hint(request: &ReportsRequest) -> Option<Hint> {
+    if should_hint_home_partial_index(request) {
+        return Some(Hint::Keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 }));
+    }
+
+    if request.player_id.is_some()
+        || request.sender_primary_commander_id.is_some()
+        || request.sender_secondary_commander_id.is_some()
+        || request.opponent_primary_commander_id.is_some()
+        || request.opponent_secondary_commander_id.is_some()
+    {
+        return None;
+    }
+
+    match request.garrison_side {
+        ReportsFilterSide::Sender => {
+            return Some(Hint::Keys(doc! {
+                "metadata.mail_time": -1,
+                "sender.alliance_building_id": 1,
+            }));
+        }
+        ReportsFilterSide::Opponent => {
+            return Some(Hint::Keys(doc! {
+                "metadata.mail_time": -1,
+                "opponents.alliance_building_id": 1,
+            }));
+        }
+        ReportsFilterSide::Both => return None,
+        ReportsFilterSide::None => {}
+    }
+
+    match request.rally_side {
+        ReportsFilterSide::Sender => {
+            return Some(Hint::Keys(doc! {
+                "metadata.mail_time": -1,
+                "sender.rally": 1,
+            }));
+        }
+        ReportsFilterSide::Opponent | ReportsFilterSide::Both => return None,
+        ReportsFilterSide::None => {}
+    }
+
+    matches!(request.filter_type, Some(ReportsFilterType::Kvk)).then(|| {
+        Hint::Keys(doc! {
+            "metadata.mail_time": -1,
+            "metadata.kvk": 1,
+            "opponents.player_id": 1,
+        })
+    })
+}
+
 fn should_hint_home_partial_index(request: &ReportsRequest) -> bool {
     matches!(request.filter_type, Some(ReportsFilterType::Home))
+        && request.player_id.is_none()
         && request.sender_primary_commander_id.is_none()
         && request.sender_secondary_commander_id.is_none()
         && request.opponent_primary_commander_id.is_none()
@@ -246,6 +297,79 @@ mod tests {
         assert!(options.hint.is_none());
         assert!(options.max.is_none());
         assert!(options.min.is_none());
+    }
+
+    #[test]
+    fn kvk_list_options_hint_the_human_kvk_index() {
+        assert_filter_uses_hint(
+            "type",
+            "kvk",
+            doc! {
+                "metadata.mail_time": -1,
+                "metadata.kvk": 1,
+                "opponents.player_id": 1,
+            },
+        );
+    }
+
+    #[test]
+    fn sender_rally_list_options_hint_the_sender_rally_index() {
+        assert_filter_uses_hint(
+            "rs",
+            "sender",
+            doc! { "metadata.mail_time": -1, "sender.rally": 1 },
+        );
+    }
+
+    #[test]
+    fn sender_garrison_list_options_hint_the_sender_garrison_index() {
+        assert_filter_uses_hint(
+            "gs",
+            "sender",
+            doc! { "metadata.mail_time": -1, "sender.alliance_building_id": 1 },
+        );
+    }
+
+    #[test]
+    fn opponent_garrison_list_options_hint_the_opponent_garrison_index() {
+        assert_filter_uses_hint(
+            "gs",
+            "opponent",
+            doc! { "metadata.mail_time": -1, "opponents.alliance_building_id": 1 },
+        );
+    }
+
+    #[test]
+    fn specialized_list_options_allow_player_index() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "kvk".to_string()),
+            ("pid".to_string(), "123".to_string()),
+        ]))
+        .expect("valid KVK player filter");
+
+        assert!(build_battle_list_find_options(&request).hint.is_none());
+    }
+
+    #[test]
+    fn kvk_opponent_rally_options_allow_existing_rally_index() {
+        let request = parse_reports_request(&HashMap::from([
+            ("type".to_string(), "kvk".to_string()),
+            ("rs".to_string(), "opponent".to_string()),
+        ]))
+        .expect("valid KVK opponent rally filter");
+
+        assert!(build_battle_list_find_options(&request).hint.is_none());
+    }
+
+    fn assert_filter_uses_hint(parameter: &str, value: &str, expected: mongodb::bson::Document) {
+        let request =
+            parse_reports_request(&HashMap::from([(parameter.to_string(), value.to_string())]))
+                .expect("valid report filter");
+
+        assert!(matches!(
+            build_battle_list_find_options(&request).hint,
+            Some(Hint::Keys(keys)) if keys == expected
+        ));
     }
 
     #[test]

@@ -1,6 +1,7 @@
 use std::collections::BTreeSet;
 
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_api::db::exclude_test_client_filter;
 
 use super::model::{PairingKey, Strategy};
 
@@ -154,15 +155,16 @@ fn build_entries_pipeline(
     pair_filters: Vec<Bson>,
     cutoff_mail_time: i64,
 ) -> Vec<Document> {
+    let mut initial_match = exclude_test_client_filter();
+    initial_match.extend(doc! {
+        "metadata.kvk": true,
+        "metadata.mail_time": { "$gte": cutoff_mail_time },
+        "opponents.player_id": { "$gt": 0 },
+        "$or": pair_filters,
+    });
+
     vec![
-        doc! {
-            "$match": {
-                "metadata.kvk": true,
-                "metadata.mail_time": { "$gte": cutoff_mail_time },
-                "opponents": { "$elemMatch": { "player_id": { "$gt": 0 } } },
-                "$or": pair_filters,
-            }
-        },
+        doc! { "$match": initial_match },
         doc! {
             "$set": {
                 "_sender_strategy": sender_strategy_expr(),
@@ -832,13 +834,20 @@ mod tests {
             .expect("leading match");
 
         assert_eq!(matcher.get_bool("metadata.kvk"), Ok(true));
+        assert_eq!(matcher.get_document("sender.app_id"), Ok(&doc! { "$ne": 10_088_010_i64 }));
+        assert_eq!(
+            matcher
+                .get_document("opponents.player_id")
+                .and_then(|player_id| player_id.get_i32("$gt")),
+            Ok(0)
+        );
         assert_eq!(
             matcher
                 .get_document("metadata.mail_time")
                 .and_then(|mail_time| mail_time.get_i64("$gte")),
             Ok(cutoff_mail_time)
         );
-        assert!(matcher.get_document("opponents").is_ok());
+        assert!(!matcher.contains_key("opponents"));
         assert!(matcher.get_array("$or").is_ok());
     }
 

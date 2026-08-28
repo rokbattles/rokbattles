@@ -224,7 +224,11 @@ async fn read_performance_partition(
         .aggregate(performance_pipeline(legendary_ids, start_ms, end_ms))
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 }))
+        .hint(Hint::Keys(doc! {
+            "metadata.mail_time": -1,
+            "metadata.kvk": 1,
+            "opponents.player_id": 1,
+        }))
         .await?;
     let mut writer = BulkWriter::new(output);
     let mut roots = BTreeMap::<PairingKey, PairingRoot>::new();
@@ -289,7 +293,11 @@ async fn read_loadout_partition(
         ))
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 }))
+        .hint(Hint::Keys(doc! {
+            "metadata.mail_time": -1,
+            "metadata.kvk": 1,
+            "opponents.player_id": 1,
+        }))
         .await?;
     let mut writer = BulkWriter::new(context.output);
     let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();

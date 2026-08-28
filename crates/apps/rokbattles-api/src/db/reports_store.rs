@@ -6,6 +6,14 @@ use mongodb::{
     options::IndexOptions,
 };
 
+/// App ID used by the internal test client.
+pub const TEST_CLIENT_APP_ID: i64 = 10_088_010;
+
+/// Exclude reports that match the internal test client.
+pub fn exclude_test_client_filter() -> Document {
+    doc! { "sender.app_id": { "$ne": TEST_CLIENT_APP_ID } }
+}
+
 /// Mongo collections
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
@@ -126,19 +134,34 @@ impl ReportsStore {
                     "metadata.mail_time": -1,
                 })
                 .build(),
-            IndexModel::builder()
-                .keys(doc! {
-                    "metadata.kvk": 1,
-                    "opponents.commanders.primary.id": 1,
-                    "opponents.commanders.secondary.id": 1,
-                    "opponents.player_id": 1,
-                })
-                .build(),
+            // IndexModel::builder()
+            //     .keys(doc! {
+            //         "metadata.kvk": 1,
+            //         "opponents.commanders.primary.id": 1,
+            //         "opponents.commanders.secondary.id": 1,
+            //         "opponents.player_id": 1,
+            //     })
+            //     .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_role": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_time": -1,
+                    "metadata.kvk": 1,
+                    "opponents.player_id": 1,
+                })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "metadata.kvk": true,
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 })
@@ -188,24 +211,57 @@ impl ReportsStore {
                     "metadata.mail_time": -1,
                 })
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! {
+            //         "metadata.mail_role": 1,
+            //         "sender.session": 1,
+            //         "metadata.mail_time": -1,
+            //     })
+            //     .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! {
-                    "metadata.mail_role": 1,
-                    "sender.session": 1,
-                    "metadata.mail_time": -1,
-                })
-                .build(),
-            IndexModel::builder()
-                .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "sender.rally": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "sender.rally": true,
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.rally": 1, "metadata.mail_time": -1 })
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "sender.alliance_building_id": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! { "sender.alliance_building_id": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "sender.alliance_building_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "sender.alliance_building_id": { "$gt": 0 },
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "opponents.alliance_building_id": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! { "opponents.alliance_building_id": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "opponents.alliance_building_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "opponents.alliance_building_id": { "$gt": 0 },
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
         ];
 
@@ -545,5 +601,20 @@ mod tests {
         assert_eq!(documents.keys, doc! { "k": 1, "p": 1, "s": 1, "g": -1, "m": 1, "q": 1 });
         assert_eq!(documents.options.and_then(|options| options.unique), Some(true));
         assert_eq!(generations.keys, doc! { "g": 1 });
+    }
+
+    #[test]
+    fn user_visible_battle_reports_exclude_only_the_test_client() {
+        let filter = exclude_test_client_filter();
+        assert_eq!(filter, doc! { "sender.app_id": { "$ne": 10_088_010_i64 } });
+        assert!(!filter_matches_sender_app_id(&filter, TEST_CLIENT_APP_ID));
+        assert!(filter_matches_sender_app_id(&filter, 2_104_267));
+    }
+
+    fn filter_matches_sender_app_id(filter: &Document, app_id: i64) -> bool {
+        filter
+            .get_document("sender.app_id")
+            .and_then(|condition| condition.get_i64("$ne"))
+            .is_ok_and(|excluded_app_id| app_id != excluded_app_id)
     }
 }

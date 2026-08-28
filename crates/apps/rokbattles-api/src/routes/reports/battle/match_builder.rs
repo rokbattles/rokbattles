@@ -4,10 +4,12 @@ use super::query::{
     ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType, ReportsGarrisonBuildingType,
     ReportsRequest,
 };
+use crate::db::exclude_test_client_filter;
 
 /// Build the MongoDB `$match` object for battle report list queries.
 pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
-    let mut match_pipeline: Vec<Document> = vec![doc! { "opponents.player_id": { "$gt": 0 } }];
+    let mut match_pipeline: Vec<Document> =
+        vec![exclude_test_client_filter(), doc! { "opponents.player_id": { "$gt": 0 } }];
 
     if let Some(before_cursor) = request.before_cursor {
         match_pipeline.push(doc! { "metadata.mail_time": { "$gt": before_cursor } });
@@ -143,11 +145,7 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     }
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 
-    if match_pipeline.len() == 1 {
-        match_pipeline.into_iter().next().unwrap_or_default()
-    } else {
-        doc! { "$and": match_pipeline }
-    }
+    doc! { "$and": match_pipeline }
 }
 
 fn build_server_season_condition(base: &str) -> Document {
@@ -195,42 +193,39 @@ fn build_garrison_field_condition(
     garrison_type: Option<ReportsGarrisonBuildingType>,
 ) -> Document {
     let mut condition = Document::new();
-    let value = match garrison_type {
+    condition.insert(path, garrison_building_condition(garrison_type));
+    condition
+}
+
+fn garrison_building_condition(garrison_type: Option<ReportsGarrisonBuildingType>) -> Bson {
+    match garrison_type {
         Some(ReportsGarrisonBuildingType::Flag) => Bson::Int32(1),
         Some(ReportsGarrisonBuildingType::Fortress) => Bson::Int32(3),
-        Some(ReportsGarrisonBuildingType::Other) => Bson::Document(
-            doc! { "$exists": true, "$nin": [Bson::Int32(1), Bson::Int32(3), Bson::Null] },
-        ),
-        None => Bson::Document(doc! { "$exists": true, "$ne": Bson::Null }),
-    };
-    condition.insert(path, value);
-    condition
+        Some(ReportsGarrisonBuildingType::Other) => {
+            Bson::Document(doc! { "$gt": 0, "$nin": [Bson::Int32(1), Bson::Int32(3)] })
+        }
+        None => Bson::Document(doc! { "$gt": 0 }),
+    }
 }
 
 fn build_opponent_garrison_condition(
     garrison_type: Option<ReportsGarrisonBuildingType>,
 ) -> Document {
-    let elem_match = match garrison_type {
-        Some(ReportsGarrisonBuildingType::Flag) => {
-            doc! { "player_id": { "$gt": 0 }, "alliance_building_id": 1 }
-        }
-        Some(ReportsGarrisonBuildingType::Fortress) => {
-            doc! { "player_id": { "$gt": 0 }, "alliance_building_id": 3 }
-        }
-        Some(ReportsGarrisonBuildingType::Other) => doc! {
-            "player_id": { "$gt": 0 },
-            "alliance_building_id": { "$exists": true, "$nin": [Bson::Int32(1), Bson::Int32(3), Bson::Null] }
-        },
-        None => doc! {
-            "player_id": { "$gt": 0 },
-            "alliance_building_id": { "$exists": true, "$ne": Bson::Null }
-        },
-    };
+    let mut elem_match = doc! { "player_id": { "$gt": 0 } };
+    elem_match.insert("alliance_building_id", garrison_building_condition(garrison_type));
 
     doc! {
-        "opponents": {
-            "$elemMatch": elem_match,
-        }
+        "$and": [
+            build_garrison_field_condition(
+                "opponents.alliance_building_id",
+                garrison_type,
+            ),
+            {
+                "opponents": {
+                    "$elemMatch": elem_match,
+                }
+            },
+        ]
     }
 }
 
@@ -255,6 +250,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [
@@ -290,6 +286,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [
@@ -427,6 +424,49 @@ mod tests {
                     "rally": true,
                 }
             }
+        })));
+    }
+
+    #[test]
+    fn sender_garrison_filter_uses_positive_numeric_building_ids() {
+        let request =
+            parse_reports_request(&HashMap::from([("gs".to_string(), "sender".to_string())]))
+                .expect("valid sender garrison filter");
+
+        assert!(
+            match_conditions(&build_reports_match(&request))
+                .contains(&Bson::Document(doc! { "sender.alliance_building_id": { "$gt": 0 } },))
+        );
+    }
+
+    #[test]
+    fn opponent_garrison_filter_exposes_partial_index_predicate() {
+        let request = parse_reports_request(&HashMap::from([
+            ("gs".to_string(), "opponent".to_string()),
+            ("gb".to_string(), "other".to_string()),
+        ]))
+        .expect("valid opponent garrison filter");
+
+        assert!(match_conditions(&build_reports_match(&request)).contains(&Bson::Document(doc! {
+            "$and": [
+                {
+                    "opponents.alliance_building_id": {
+                        "$gt": 0,
+                        "$nin": [1, 3],
+                    }
+                },
+                {
+                    "opponents": {
+                        "$elemMatch": {
+                            "player_id": { "$gt": 0 },
+                            "alliance_building_id": {
+                                "$gt": 0,
+                                "$nin": [1, 3],
+                            }
+                        }
+                    }
+                },
+            ]
         })));
     }
 

@@ -4,7 +4,7 @@ use mongodb::{
     options::FindOneOptions,
 };
 
-use crate::error::ApiError;
+use crate::{db::exclude_test_client_filter, error::ApiError};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GovernorSnapshot {
@@ -18,7 +18,12 @@ pub async fn find_latest_sender_snapshot(
     governor_id: i64,
 ) -> Result<Option<GovernorSnapshot>, ApiError> {
     let latest_mail = battle_reports
-        .find_one(doc! { "sender.player_id": governor_id })
+        .find_one(doc! {
+            "$and": [
+                exclude_test_client_filter(),
+                { "sender.player_id": governor_id },
+            ]
+        })
         .with_options(
             FindOneOptions::builder()
                 .sort(doc! { "metadata.mail_time": -1 })
