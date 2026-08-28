@@ -992,6 +992,190 @@ relics:
     sprite:
       - img_HeroMuseumItem_43.png
 
+  44:
+    name:
+      ar: "عقد على جلد خروف"
+      de: "Lammlederpakt"
+      en: "Lambskin Pact"
+      es: "Pacto de cordero"
+      fr: "Pacte en peau d'agneau"
+      id: "Pakta Perkamen"
+      it: "Patto di pelle d'agnello"
+      ja: "羊皮紙の契約書"
+      ko: "양피지 계약서"
+      ms: "Pakatan Kulit Bebiri"
+      pl: "Pakt na jagnięcej skórze"
+      pt: "Pacto da Pele de Cordeiro"
+      ru: "Пакт на овчинном пергаменте"
+      th: "พันธสัญญาหนังแกะ"
+      tr: "Kuzu Derisi Paktı"
+      vi: "Hiệp Ước Trên Tấm Da Cừu"
+      zh_CN: "羊皮卷契约书"
+      zh_TW: "羊皮卷契約書"
+    sprite:
+      - img_HeroMuseumItem_46.png
+
+  45:
+    name:
+      ar: "خوذة رومانية"
+      de: "Römische Galea"
+      en: "Roman Galea"
+      es: "Galea romana"
+      fr: "Galea romaine"
+      id: "Helm Romawi"
+      it: "Galea romana"
+      ja: "ローマの兜"
+      ko: "임페리얼 투구"
+      ms: "Galea Rom"
+      pl: "Rzymska galea"
+      pt: "Gálea Romana"
+      ru: "Галеа"
+      th: "ผ้าพันแผลโรมัน"
+      tr: "Roma Miğferi"
+      vi: "Mũ Sắt La Mã"
+      zh_CN: "罗马盔冠"
+      zh_TW: "羅馬盔冠"
+    sprite:
+      - img_HeroMuseumItem_45.png
+
+  46:
+    name:
+      ar: "قلادة تيفيناغ"
+      de: "Tifinagh-Halskette"
+      en: "Tifinagh Necklace"
+      es: "Collar de tifinag"
+      fr: "Collier tifinagh"
+      id: "Kalung Tifinagh"
+      it: "Collana di Tifinagh"
+      ja: "ティフィナグ文字の首飾り"
+      ko: "티피나그 문자 목걸이"
+      ms: "Kalung Tifinagh"
+      pl: "Naszyjnik Tifinagh"
+      pt: "Colar Tifinagh"
+      ru: "Ожерелье, отмеченное тифинагом"
+      th: "สร้อยคอทิฟินาค"
+      tr: "Tifinagh Kolyesi"
+      vi: "Vòng Cổ Tifinagh"
+      zh_CN: "提非纳字母项链"
+      zh_TW: "提非納字母項鍊"
+    sprite:
+      - img_HeroMuseumItem_44.png
+
+  47:
+    name:
+      ar: "تمثال برونزي لسَرجون"
+      de: "Bronzebüste von Sargon"
+      en: "Sargon Bronze Bust"
+      es: "Busto de bronce de Sargón"
+      fr: "Buste en bronze de Sargon"
+      id: "Patung Dada Perunggu Sargon"
+      it: "Busto bronzeo di Sargon"
+      ja: "サルゴンの青銅頭像"
+      ko: "사르곤 청동 두상"
+      ms: "Arca Gangsa Sargon"
+      pl: "Popiersie Sargona z brązu"
+      pt: "Busto de Bronze de Sargão"
+      ru: "Бронзовая голова Саргона"
+      th: "เศียรสำริดแห่งซาร์กอน"
+      tr: "Sargon'un Bronz Büstü"
+      vi: "Tượng Đồng Sargon"
+      zh_CN: "萨尔贡青铜头像"
+      zh_TW: "薩爾貢青銅頭像"
+    sprite:
+      - img_HeroMuseumItem_47.png
+
+  48:
+    name:
+      ar: "عملة ذهبية نبيلة"
+      de: "Goldene Edelmünze"
+      en: "Gold Noble Coin"
+      es: "Moneda de noble de oro"
+      fr: "Noble d'or"
+      id: "Koin Bangsawan Emas"
+      it: "Moneta nobile d'oro"
+      ja: "貴族の金貨"
+      ko: "귀족 금화"
+      ms: "Syiling Emas Bangsawan"
+      pl: "Złota moneta szlachecka"
+      pt: "Moeda Nobre de Ouro"
+      ru: "Золотая монета Нобль"
+      th: "เหรียญทองโนเบิล"
+      tr: "Altın Soylu Sikkesi"
+      vi: "Xu Vàng Cao Quý"
+      zh_CN: "贵族金币"
+      zh_TW: "貴族金幣"
+    sprite:
+      - img_HeroMuseumItem_48.png
+
+  49:
+    name:
+      ar: "سوار إيسيني ذهبي"
+      de: "Gold-Torque des Icener-Reichs"
+      en: "Iceni Gold Torq"
+      es: "Torc de los iceni"
+      fr: "Torque en or des Icènes"
+      id: "Torc Emas Iceni"
+      it: "Torque d'oro degli Iceni"
+      ja: "イケニ族の黄金の首飾り"
+      ko: "이세니 금제 토크"
+      ms: "Kalung Emas Iceni"
+      pl: "Złota obręcz na szyję Iceni"
+      pt: "Torque de Ouro de Iceni"
+      ru: "Золотая гривна иценов"
+      th: "ห่วงคอทองคำไอซีนี"
+      tr: "Iceni Altın Gerdanlığı"
+      vi: "Vòng Cổ Vàng Iceni"
+      zh_CN: "艾西尼金颈环"
+      zh_TW: "艾西尼金頸環"
+    sprite:
+      - img_HeroMuseumItem_51.png
+
+  50:
+    name:
+      ar: "قلادة من خرز معجون الزجاج"
+      de: "Halskette aus Glaspasteperlen"
+      en: "Glass Paste Bead Necklace"
+      es: "Collar de cuentas de pasta de vidrio"
+      fr: "Collier de perles en pâte de verre"
+      id: "Kalung Manik Pasta Kaca"
+      it: "Collana di perle in pasta di vetro"
+      ja: "ガラス珠のネックレス"
+      ko: "유리구슬 목걸이"
+      ms: "Kalung Manik Kaca"
+      pl: "Naszyjnik z koralików z pasty szklanej"
+      pt: "Colar de Contas de vidro"
+      ru: "Ожерелье из стеклянных бусин"
+      th: "สร้อยคอลูกปัดแก้ว"
+      tr: "Cam Boncuklu Kolye"
+      vi: "Vòng Cổ Hạt Thủy Tinh"
+      zh_CN: "玻璃膏珠项链"
+      zh_TW: "玻璃膏珠項鍊"
+    sprite:
+      - img_HeroMuseumItem_50.png
+
+  51:
+    name:
+      ar: "قوس يوانرونغ المتكرر"
+      de: "Yuanrong-Repetierarmbrust"
+      en: "Yuanrong Repeating Crossbow"
+      es: "Ballesta repetitiva Yuanrong"
+      fr: "Arbalète Chu Ko Nu"
+      id: "Busur Silang Beruntun Yuanrong"
+      it: "Balestra a ripetizione Yuanrong"
+      ja: "元戎の弩機"
+      ko: "원융 쇠뇌"
+      ms: "Busur Silang Bertubi Yuanrong"
+      pl: "Powtarzalna kusza Yuanrong"
+      pt: "Besta de Repetição Yuanrong"
+      ru: "Перезаряжаемый арбалет Юаньжун"
+      th: "หน้าไม้กลหยวนหรง"
+      tr: "Yuanrong Seri Atışlı Arbaleti"
+      vi: "Nỏ Liên Châu Chủ Tướng"
+      zh_CN: "元戎弩机"
+      zh_TW: "元戎弩機"
+    sprite:
+      - img_HeroMuseumItem_49.png
+
   10001:
     name:
       ar: "الأعمال المُجمّعة لتساو تساو"

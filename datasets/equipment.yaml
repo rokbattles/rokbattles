@@ -7410,6 +7410,46 @@ equipment:
               441: 30
               445: 30
 
+    20168:
+      name:
+        ar: "العنبر الخالد"
+        de: "Zeitloser Bernstein"
+        en: "Timeless Amber"
+        es: "Ámbar eterno"
+        fr: "Ambre éternel"
+        id: "Amber Abadi"
+        it: "Ambra senza tempo"
+        ja: "万象の琥珀"
+        ko: "만상의 보석"
+        ms: "Ambar Abadi"
+        pl: "Ponadczasowy bursztyn"
+        pt: "Âmbar Atemporal"
+        ru: "Янтарь вечности"
+        th: "อำพันนิรันดร์"
+        tr: "Zamansız Kehribar"
+        vi: "Hổ Phách Vĩnh Cửu"
+        zh_CN: "万象之珀"
+        zh_TW: "萬象之珀"
+      rarity: legendary
+      sprite:
+        - img_icon_item_equip_12_4.png
+      costs:
+        craft:
+          gold: 50000000
+          items:
+            21168: 1
+            442: 120
+        refine:
+          gold: 50000000
+          items:
+            21168: 1
+            442: 60
+        iconic:
+          1:
+            gold: 20000000
+            items:
+              446: 1
+
     20201:
       name:
         ar: "قطعة أثرية - راية الرَمَّاح"

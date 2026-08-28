@@ -22994,6 +22994,338 @@ commanders:
       - img_icon_HeroProfile_BGOrange.png
       - img_icon_HeroProfile_196.png
 
+  619:
+    name:
+      ar: "إيفان الرابع"
+      de: "Iwan IV."
+      en: "Ivan IV"
+      es: "Iván IV"
+      fr: "Ivan IV"
+      id: "Ivan IV"
+      it: "Ivan IV"
+      ja: "イヴァン4世"
+      ko: "이반 4세"
+      ms: "Ivan IV"
+      pl: "Iwan IV"
+      pt: "Ivan IV"
+      ru: "Иван IV"
+      th: "อีวานที่ 4"
+      tr: "IV. İvan"
+      vi: "Ivan IV"
+      zh_CN: "伊凡四世"
+      zh_TW: "伊凡四世"
+    nickname:
+      ar: "إيفان الرهيب"
+      de: "Iwan der Schreckliche"
+      en: "Ivan the Terrible"
+      es: "Iván el Terrible"
+      fr: "Ivan le Terrible"
+      id: "Ivan yang Mengerikan"
+      it: "Ivan il Terribile"
+      ja: "雷帝"
+      ko: "뇌제"
+      ms: "Ivan yang Digeruni"
+      pl: "Ivan Groźny"
+      pt: "Ivan, o Terrível"
+      ru: "Иван Грозный"
+      th: "อีวานผู้เหี้ยมโหด"
+      tr: "Korkunç İvan"
+      vi: "Ivan Bạo Chúa"
+      zh_CN: "雷帝"
+      zh_TW: "雷帝"
+    prime: false
+    rarity: legendary
+    talents:
+      - cavalry
+      - versatility
+      - combo
+    skills:
+      - slot: 1
+        id: 437
+        name:
+          ar: "عرش عاجي"
+          de: "Elfenbeinthron"
+          en: "Ivory Throne"
+          es: "Trono de marfil"
+          fr: "Trône d'ivoire"
+          id: "Singgasana Gading"
+          it: "Trono d'avorio"
+          ja: "恩威の杖"
+          ko: "권력의 상징"
+          ms: "Takhta Gading"
+          pl: "Tron z kości słoniowej"
+          pt: "Trono de Mármore"
+          ru: "Костяной трон"
+          th: "บัลลังก์งาช้าง"
+          tr: "Fil Dişi Taht"
+          vi: "Ngai Ngà"
+          zh_CN: "恩威之杖"
+          zh_TW: "恩威之杖"
+        sprite:
+          - img_HeroSkill633.png
+      - slot: 2
+        id: 1832
+        name:
+          ar: "سرج مطلي بالذهب"
+          de: "Vergoldeter Sattel"
+          en: "Gilded Saddle"
+          es: "Silla de montar dorada"
+          fr: "Selle dorée"
+          id: "Pelana Emas"
+          it: "Sella dorata"
+          ja: "朱金の御鞍"
+          ko: "금빛 안장"
+          ms: "Pelana Bersadur Emas"
+          pl: "Pozłacane siodło"
+          pt: "Sela Dourada"
+          ru: "Золотое седло"
+          th: "อานม้าเลี่ยมทอง"
+          tr: "Yaldızlı Eyer"
+          vi: "Yên Ngựa Mạ Vàng"
+          zh_CN: "红金御鞍"
+          zh_TW: "紅金御鞍"
+        sprite:
+          - img_HeroSkill634.png
+      - slot: 3
+        id: 1833
+        name:
+          ar: "انتصار في مولودي"
+          de: "Sieg bei Molodi"
+          en: "Victory at Molodi"
+          es: "Victoria en Molodi"
+          fr: "Victoire à Molodi"
+          id: "Kemenangan di Molodi"
+          it: "Vittoria di Molodi"
+          ja: "モロディの大勝"
+          ko: "몰로디 대첩"
+          ms: "Kemenangan di Molodi"
+          pl: "Zwycięstwo pod Mołodi"
+          pt: "Vitória em Molodi"
+          ru: "Победа при Молодях"
+          th: "ชัยชนะที่โมโลดี"
+          tr: "Molodi Zaferi"
+          vi: "Chiến Thắng Tại Molodi"
+          zh_CN: "摩洛迪大捷"
+          zh_TW: "摩洛迪大捷"
+        sprite:
+          - img_HeroSkill635.png
+      - slot: 4
+        id: 1834
+        name:
+          ar: "عمليات الحرس الخاص"
+          de: "Operationen der Opritschniki"
+          en: "Oprichniki Operations"
+          es: "Operación oprichniki"
+          fr: "Opritchnina"
+          id: "Operasi Oprichniki"
+          it: "Operazioni degli Opričniki"
+          ja: "オプリーチニキ"
+          ko: "오프리치니크"
+          ms: "Operasi Oprichniki"
+          pl: "Działania Opryczników"
+          pt: "Operações Oprichniki"
+          ru: "Деятельность опричников"
+          th: "ปฏิบัติการโอพริชนิกิ"
+          tr: "Oprichniki Harekâtı"
+          vi: "Chiến Dịch Oprichniki"
+          zh_CN: "特辖黑骑"
+          zh_TW: "特轄黑騎"
+        sprite:
+          - img_HeroSkill636.png
+      - slot: 5
+        id: 1835
+        name:
+          ar: "القيصر الأول"
+          de: "Der erste Zar"
+          en: "The First Tsar"
+          es: "El primer zar"
+          fr: "Le premier tsar"
+          id: "Tsar Pertama"
+          it: "Primo Zar"
+          ja: "ツァーリの戴冠"
+          ko: "차르 등극"
+          ms: "Tsar Pertama"
+          pl: "Pierwszy car"
+          pt: "O Primeiro Tsar"
+          ru: "Первый царь"
+          th: "ซาร์พระองค์แรก"
+          tr: "İlk Çar"
+          vi: "Tsar Đầu Tiên"
+          zh_CN: "沙皇加冕"
+          zh_TW: "沙皇加冕"
+        sprite:
+          - img_WakeUpHeroSkill122.png
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_202.png
+
+  620:
+    name:
+      ar: "ويليام مارشال"
+      de: "William Marshal"
+      en: "William Marshal"
+      es: "Guillermo el Mariscal"
+      fr: "Guillaume le Maréchal"
+      id: "William Marshal"
+      it: "William Marshal"
+      ja: "ウィリアム・マーシャル"
+      ko: "윌리엄 마셜"
+      ms: "William Marshal"
+      pl: "Wilhelm Marshal"
+      pt: "William Marshal"
+      ru: "Уильям Маршал"
+      th: "วิลเลียม มาร์แชล"
+      tr: "William Marshal"
+      vi: "William Marshal"
+      zh_CN: "威廉·马歇尔"
+      zh_TW: "威廉・馬歇爾"
+    nickname:
+      ar: "فارس لا يُضاهى"
+      de: "Unvergleichlicher Ritter"
+      en: "Incomparable Knight"
+      es: "Caballero incomparable"
+      fr: "Chevalier incomparable"
+      id: "Kesatria Tanpa Tanding"
+      it: "Cavaliere incomparabile"
+      ja: "イングランドの鉄壁"
+      ko: "잉글랜드의 방패"
+      ms: "Kesateria Tiada Tandingan"
+      pl: "Niezrównany rycerz"
+      pt: "Cavaleiro Incomparável"
+      ru: "Величайший рыцарь"
+      th: "อัศวินไร้เทียมทาน"
+      tr: "Eşsiz Şövalye"
+      vi: "Hiệp Sĩ Vô Song"
+      zh_CN: "英格兰铁壁"
+      zh_TW: "英格蘭鐵壁"
+    prime: false
+    rarity: legendary
+    talents:
+      - cavalry
+      - conquering
+      - combo
+    skills:
+      - slot: 1
+        id: 438
+        name:
+          ar: "البطل المتوّج"
+          de: "Regierender Meister"
+          en: "Reigning Champion"
+          es: "Campeón reinante"
+          fr: "Champion dominant"
+          id: "Juara Bertahan"
+          it: "Campione in carica"
+          ja: "トーナメント制覇"
+          ko: "대회 최강자"
+          ms: "Juara Bertahan"
+          pl: "Panujący mistrz"
+          pt: "Campeão Reinante"
+          ru: "Правящий чемпион"
+          th: "แชมป์ผู้ครองบัลลังก์"
+          tr: "Hüküm Süren Şampiyon"
+          vi: "Nhà Vô Địch Đương Nhiệm"
+          zh_CN: "武场夺冠"
+          zh_TW: "武場奪冠"
+        sprite:
+          - img_HeroSkill637.png
+      - slot: 2
+        id: 1836
+        name:
+          ar: "أسطورة لومان"
+          de: "Le-Mans-Legende"
+          en: "Le Mans Legend"
+          es: "Leyenda de Le Mans"
+          fr: "Légende du Mans"
+          id: "Legenda Le Mans"
+          it: "Leggenda di Le Mans"
+          ja: "ル・マンの戦意"
+          ko: "르망의 전의"
+          ms: "Legenda Le Mans"
+          pl: "Legenda Le Mans"
+          pt: "A Lenda de Le Mans"
+          ru: "Легенда Ле-Мана"
+          th: "ตำนานแห่งเลอม็อง"
+          tr: "Le Mans Efsanesi"
+          vi: "Huyền Thoại Le Mans"
+          zh_CN: "勒芒战意"
+          zh_TW: "勒芒戰意"
+        sprite:
+          - img_HeroSkill638.png
+      - slot: 3
+        id: 1837
+        name:
+          ar: "وصي الملك"
+          de: "Regent des Königs"
+          en: "The King's Regent"
+          es: "El regente del rey"
+          fr: "Le régent du roi"
+          id: "Wali Penguasa Raja"
+          it: "Reggente del Re"
+          ja: "イングランドの摂政"
+          ko: "잉글랜드 섭정"
+          ms: "Pemangku Raja"
+          pl: "Regent króla"
+          pt: "O Regente do Rei"
+          ru: "Регент короля"
+          th: "ผู้สำเร็จราชการ"
+          tr: "Kral Naibi"
+          vi: "Nhiếp Chính Vương"
+          zh_CN: "英格兰摄政"
+          zh_TW: "英格蘭攝政"
+        sprite:
+          - img_HeroSkill639.png
+      - slot: 4
+        id: 1838
+        name:
+          ar: "إيرل مارشال"
+          de: "Earl Marshal"
+          en: "Earl Marshal"
+          es: "Conde mariscal"
+          fr: "Comte-maréchal"
+          id: "Earl Marshal"
+          it: "Earl Marshal"
+          ja: "大憲章の守護"
+          ko: "법치의 기틀"
+          ms: "Earl Marshal"
+          pl: "Hrabia Marshal"
+          pt: "Conde Marshal"
+          ru: "Граф-маршал"
+          th: "เอิร์ลมาร์แชล"
+          tr: "Mareşal Kont"
+          vi: "Bá Tước Thống Chế"
+          zh_CN: "定宪安邦"
+          zh_TW: "定憲安邦"
+        sprite:
+          - img_HeroSkill640.png
+      - slot: 5
+        id: 1839
+        name:
+          ar: "فارس الهيكل"
+          de: "Tempelritter"
+          en: "Knight Templar"
+          es: "Caballero templario"
+          fr: "Chevalier templier"
+          id: "Kesatria Templar"
+          it: "Cavaliere templare"
+          ja: "聖堂騎士"
+          ko: "성전 기사"
+          ms: "Kesateria Templar"
+          pl: "Templariusz"
+          pt: "Cavaleiro Templário"
+          ru: "Рыцарь-храмовник"
+          th: "อัศวินเทมพลาร์"
+          tr: "Tapınak Şövalyesi"
+          vi: "Hiệp Sĩ Dòng Đền"
+          zh_CN: "圣殿骑士"
+          zh_TW: "聖殿騎士"
+        sprite:
+          - img_WakeUpHeroSkill123.png
+    sprite:
+      - img_icon_HeroProfile_BGMask.png
+      - img_icon_HeroProfile_BGOrange.png
+      - img_icon_HeroProfile_203.png
+
   627:
     name:
       ar: "يحيى بن خالد"
