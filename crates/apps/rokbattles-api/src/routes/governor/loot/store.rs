@@ -7,7 +7,8 @@ use mongodb::{
 use serde::Deserialize;
 
 use crate::{
-    error::ApiError, routes::governor::store_utils::fetch_collection_documents, state::AppState,
+    db::exclude_test_client_filter, error::ApiError,
+    routes::governor::store_utils::fetch_collection_documents, state::AppState,
 };
 
 const SYSTEM_BARBARIAN_FORT_SUB_TYPE: i32 = 11;
@@ -141,6 +142,7 @@ pub(crate) async fn fetch_barbarian_battle_mails(
 
     let filter = doc! {
         "$and": [
+            exclude_test_client_filter(),
             { "metadata.mail_receiver": mail_receiver },
             {
                 "opponents": {
@@ -176,6 +178,7 @@ pub(crate) async fn fetch_marauder_battle_mails(
 
     let filter = doc! {
         "$and": [
+            exclude_test_client_filter(),
             { "metadata.mail_receiver": mail_receiver },
             {
                 "opponents": {

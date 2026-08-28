@@ -11,4 +11,4 @@ pub use auth_store::{
 pub use game_localization_store::{
     GameLocalizationStore, GameLocalizationStoreError, GameTranslation,
 };
-pub use reports_store::ReportsStore;
+pub use reports_store::{ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter};

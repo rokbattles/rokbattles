@@ -6,6 +6,14 @@ use mongodb::{
     options::IndexOptions,
 };
 
+/// App ID used by the internal test client.
+pub const TEST_CLIENT_APP_ID: i64 = 10_088_010;
+
+/// Exclude reports that match the internal test client.
+pub fn exclude_test_client_filter() -> Document {
+    doc! { "sender.app_id": { "$ne": TEST_CLIENT_APP_ID } }
+}
+
 /// Mongo collections
 #[derive(Debug, Clone)]
 pub struct ReportsStore {
@@ -545,5 +553,20 @@ mod tests {
         assert_eq!(documents.keys, doc! { "k": 1, "p": 1, "s": 1, "g": -1, "m": 1, "q": 1 });
         assert_eq!(documents.options.and_then(|options| options.unique), Some(true));
         assert_eq!(generations.keys, doc! { "g": 1 });
+    }
+
+    #[test]
+    fn user_visible_battle_reports_exclude_only_the_test_client() {
+        let filter = exclude_test_client_filter();
+        assert_eq!(filter, doc! { "sender.app_id": { "$ne": 10_088_010_i64 } });
+        assert!(!filter_matches_sender_app_id(&filter, TEST_CLIENT_APP_ID));
+        assert!(filter_matches_sender_app_id(&filter, 2_104_267));
+    }
+
+    fn filter_matches_sender_app_id(filter: &Document, app_id: i64) -> bool {
+        filter
+            .get_document("sender.app_id")
+            .and_then(|condition| condition.get_i64("$ne"))
+            .is_ok_and(|excluded_app_id| app_id != excluded_app_id)
     }
 }

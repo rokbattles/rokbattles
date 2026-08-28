@@ -4,10 +4,12 @@ use super::query::{
     ReportsFilterSide, ReportsFilterSubtype, ReportsFilterType, ReportsGarrisonBuildingType,
     ReportsRequest,
 };
+use crate::db::exclude_test_client_filter;
 
 /// Build the MongoDB `$match` object for battle report list queries.
 pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
-    let mut match_pipeline: Vec<Document> = vec![doc! { "opponents.player_id": { "$gt": 0 } }];
+    let mut match_pipeline: Vec<Document> =
+        vec![exclude_test_client_filter(), doc! { "opponents.player_id": { "$gt": 0 } }];
 
     if let Some(before_cursor) = request.before_cursor {
         match_pipeline.push(doc! { "metadata.mail_time": { "$gt": before_cursor } });
@@ -145,11 +147,7 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
     }
     append_compound_condition(&mut match_pipeline, garrison_conditions);
 
-    if match_pipeline.len() == 1 {
-        match_pipeline.into_iter().next().unwrap_or_default()
-    } else {
-        doc! { "$and": match_pipeline }
-    }
+    doc! { "$and": match_pipeline }
 }
 
 fn build_ark_session_condition(mode: Option<&str>, submode: Option<&str>) -> Document {
@@ -251,6 +249,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [
@@ -286,6 +285,7 @@ mod tests {
             filter,
             doc! {
                 "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
                     { "opponents.player_id": { "$gt": 0 } },
                     {
                         "$and": [

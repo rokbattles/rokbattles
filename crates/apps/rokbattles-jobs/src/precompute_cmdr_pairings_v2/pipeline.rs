@@ -1,4 +1,5 @@
 use mongodb::bson::{Bson, Document, doc};
+use rokbattles_api::db::exclude_test_client_filter;
 
 const DAY_MS: i64 = 24 * 60 * 60 * 1_000;
 const PERFORMANCE_CHUNK_MS: i64 = 32 * DAY_MS;
@@ -150,32 +151,33 @@ fn pairing_entries_pipeline(
         ),
     );
 
-    vec![
-        doc! {
-            "$match": {
-                "metadata.kvk": true,
-                "metadata.mail_time": {
-                    "$gte": start_ms.saturating_mul(1_000),
-                    "$lt": end_ms.saturating_mul(1_000),
-                },
-                "opponents": { "$elemMatch": { "player_id": { "$gt": 0_i64 } } },
-                "$or": [
-                    {
-                        "sender.commanders.primary.id": { "$in": ids.clone() },
-                        "sender.commanders.secondary.id": { "$in": ids.clone() },
-                    },
-                    {
-                        "opponents": {
-                            "$elemMatch": {
-                                "player_id": { "$gt": 0_i64 },
-                                "commanders.primary.id": { "$in": ids.clone() },
-                                "commanders.secondary.id": { "$in": ids },
-                            }
-                        }
-                    },
-                ],
-            }
+    let mut initial_match = exclude_test_client_filter();
+    initial_match.extend(doc! {
+        "metadata.kvk": true,
+        "metadata.mail_time": {
+            "$gte": start_ms.saturating_mul(1_000),
+            "$lt": end_ms.saturating_mul(1_000),
         },
+        "opponents": { "$elemMatch": { "player_id": { "$gt": 0_i64 } } },
+        "$or": [
+            {
+                "sender.commanders.primary.id": { "$in": ids.clone() },
+                "sender.commanders.secondary.id": { "$in": ids.clone() },
+            },
+            {
+                "opponents": {
+                    "$elemMatch": {
+                        "player_id": { "$gt": 0_i64 },
+                        "commanders.primary.id": { "$in": ids.clone() },
+                        "commanders.secondary.id": { "$in": ids },
+                    }
+                }
+            },
+        ],
+    });
+
+    vec![
+        doc! { "$match": initial_match },
         doc! { "$set": { "_senderScenario": sender_scenario_expr() } },
         doc! { "$unwind": "$opponents" },
         doc! { "$match": { "opponents.player_id": { "$gt": 0_i64 } } },
@@ -499,6 +501,9 @@ mod tests {
     fn performance_pipeline_groups_once_by_day_instead_of_expanding_time_ranges() {
         let pipeline = performance_pipeline(&[1, 2], 0, 100);
         let rendered = format!("{pipeline:?}");
+
+        let matcher = pipeline[0].get_document("$match").expect("leading match");
+        assert_eq!(matcher.get_document("sender.app_id"), Ok(&doc! { "$ne": 10_088_010_i64 }));
 
         assert!(!rendered.contains("range"));
         assert_eq!(rendered.matches("$unwind").count(), 3);
