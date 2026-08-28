@@ -94,12 +94,10 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
 
     if let Some(filter_subtype) = request.filter_subtype {
         let condition = match filter_subtype {
-            ReportsFilterSubtype::KvkSeason1 => doc! { "sender.server_season": "1" },
-            ReportsFilterSubtype::KvkSeason2 => doc! { "sender.server_season": "2" },
-            ReportsFilterSubtype::KvkSeason3 => doc! { "sender.server_season": "3" },
-            ReportsFilterSubtype::KvkSeasonOfConquest => {
-                doc! { "sender.server_season": "100" }
-            }
+            ReportsFilterSubtype::KvkSeason1 => build_server_season_condition("1"),
+            ReportsFilterSubtype::KvkSeason2 => build_server_season_condition("2"),
+            ReportsFilterSubtype::KvkSeason3 => build_server_season_condition("3"),
+            ReportsFilterSubtype::KvkSeasonOfConquest => build_server_season_condition("100"),
             ReportsFilterSubtype::ArkGoldenBattleground => {
                 build_ark_session_condition(Some("ab"), Some(""))
             }
@@ -149,6 +147,12 @@ pub(crate) fn build_reports_match(request: &ReportsRequest) -> Document {
         match_pipeline.into_iter().next().unwrap_or_default()
     } else {
         doc! { "$and": match_pipeline }
+    }
+}
+
+fn build_server_season_condition(base: &str) -> Document {
+    doc! {
+        "sender.server_season": { "$regex": format!(r"^{base}(?:\..*)?$") }
     }
 }
 
@@ -299,19 +303,35 @@ mod tests {
     }
 
     #[test]
-    fn kvk_subtype_matches_sender_server_season() {
-        let request = parse_reports_request(&HashMap::from([
-            ("type".to_string(), "kvk".to_string()),
-            ("subtype".to_string(), "100".to_string()),
-        ]))
-        .expect("valid KVK subtype");
+    fn kvk_subtypes_match_base_and_dot_suffixed_server_seasons() {
+        for subtype in ["1", "2", "3", "100"] {
+            let request = parse_reports_request(&HashMap::from([
+                ("type".to_string(), "kvk".to_string()),
+                ("subtype".to_string(), subtype.to_string()),
+            ]))
+            .expect("valid KVK subtype");
+
+            let filter = build_reports_match(&request);
+
+            assert!(match_conditions(&filter).contains(&Bson::Document(doc! {
+                "sender.server_season": { "$regex": format!(r"^{subtype}(?:\..*)?$") }
+            })));
+        }
+    }
+
+    #[test]
+    fn kvk_filter_without_subtype_does_not_restrict_server_season() {
+        let request =
+            parse_reports_request(&HashMap::from([("type".to_string(), "kvk".to_string())]))
+                .expect("valid KVK filter");
 
         let filter = build_reports_match(&request);
 
-        assert!(
-            match_conditions(&filter)
-                .contains(&Bson::Document(doc! { "sender.server_season": "100" }))
-        );
+        assert!(match_conditions(&filter).iter().all(|condition| {
+            condition
+                .as_document()
+                .is_none_or(|condition| !condition.contains_key("sender.server_season"))
+        }));
     }
 
     #[test]
