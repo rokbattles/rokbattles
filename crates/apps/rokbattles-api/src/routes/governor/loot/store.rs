@@ -264,7 +264,7 @@ pub(crate) async fn fetch_baulur_mails(
         .build();
     let mut clauses = vec![
         doc! { "metadata.mail_receiver": mail_receiver },
-        doc! { "participants": { "$elemMatch": { "player_id": governor_id } } },
+        doc! { "participants.player_id": governor_id },
         time_match.clone(),
     ];
     if let Some(npc_types) = npc_types {
@@ -322,7 +322,7 @@ pub(crate) async fn fetch_karuak_ceremony_mails(
         "$and": [
             { "metadata.mail_receiver": mail_receiver },
             { "boss.id": boss_id },
-            { "participants": { "$elemMatch": { "player_id": governor_id } } },
+            { "participants.player_id": governor_id },
             time_match.clone(),
         ]
     };

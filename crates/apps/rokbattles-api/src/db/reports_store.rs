@@ -134,19 +134,34 @@ impl ReportsStore {
                     "metadata.mail_time": -1,
                 })
                 .build(),
-            IndexModel::builder()
-                .keys(doc! {
-                    "metadata.kvk": 1,
-                    "opponents.commanders.primary.id": 1,
-                    "opponents.commanders.secondary.id": 1,
-                    "opponents.player_id": 1,
-                })
-                .build(),
+            // IndexModel::builder()
+            //     .keys(doc! {
+            //         "metadata.kvk": 1,
+            //         "opponents.commanders.primary.id": 1,
+            //         "opponents.commanders.secondary.id": 1,
+            //         "opponents.player_id": 1,
+            //     })
+            //     .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_role": 1, "metadata.mail_time": -1 })
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.kvk": 1, "metadata.mail_time": -1 })
+                .build(),
+            IndexModel::builder()
+                .keys(doc! {
+                    "metadata.mail_time": -1,
+                    "metadata.kvk": 1,
+                    "opponents.player_id": 1,
+                })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "metadata.kvk": true,
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "metadata.mail_time": -1, "metadata.kvk": 1 })
@@ -196,24 +211,57 @@ impl ReportsStore {
                     "metadata.mail_time": -1,
                 })
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! {
+            //         "metadata.mail_role": 1,
+            //         "sender.session": 1,
+            //         "metadata.mail_time": -1,
+            //     })
+            //     .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! {
-                    "metadata.mail_role": 1,
-                    "sender.session": 1,
-                    "metadata.mail_time": -1,
-                })
-                .build(),
-            IndexModel::builder()
-                .keys(doc! { "sender.rally": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "sender.rally": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "sender.rally": true,
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
             IndexModel::builder()
                 .keys(doc! { "opponents.rally": 1, "metadata.mail_time": -1 })
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "sender.alliance_building_id": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! { "sender.alliance_building_id": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "sender.alliance_building_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "sender.alliance_building_id": { "$gt": 0 },
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
+            // IndexModel::builder()
+            //     .keys(doc! { "opponents.alliance_building_id": 1, "metadata.mail_time": -1 })
+            //     .build(),
             IndexModel::builder()
-                .keys(doc! { "opponents.alliance_building_id": 1, "metadata.mail_time": -1 })
+                .keys(doc! { "metadata.mail_time": -1, "opponents.alliance_building_id": 1 })
+                .options(
+                    IndexOptions::builder()
+                        .partial_filter_expression(doc! {
+                            "opponents.alliance_building_id": { "$gt": 0 },
+                            "opponents.player_id": { "$gt": 0 },
+                        })
+                        .build(),
+                )
                 .build(),
         ];
 

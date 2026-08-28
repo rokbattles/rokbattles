@@ -1,7 +1,8 @@
 use futures::StreamExt;
 use mongodb::{
     Collection,
-    bson::{Bson, Document},
+    bson::{Bson, Document, doc},
+    options::Hint,
 };
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
 use rokbattles_drastc::{DrastcReferenceRanges, ReferenceRange};
@@ -21,7 +22,15 @@ pub(super) async fn read_pairings_and_reference_ranges(
     cutoff_mail_time: i64,
 ) -> Result<PairingsAggregation, JobsError> {
     let pipeline = build_pairings_pipeline(legendary_ids, cutoff_mail_time);
-    let mut cursor = source.aggregate(pipeline).allow_disk_use(true).await?;
+    let mut cursor = source
+        .aggregate(pipeline)
+        .allow_disk_use(true)
+        .hint(Hint::Keys(doc! {
+            "metadata.mail_time": -1,
+            "metadata.kvk": 1,
+            "opponents.player_id": 1,
+        }))
+        .await?;
     let mut aggregation = PairingsAggregation::default();
 
     while let Some(next) = cursor.next().await {

@@ -158,7 +158,7 @@ fn pairing_entries_pipeline(
             "$gte": start_ms.saturating_mul(1_000),
             "$lt": end_ms.saturating_mul(1_000),
         },
-        "opponents": { "$elemMatch": { "player_id": { "$gt": 0_i64 } } },
+        "opponents.player_id": { "$gt": 0_i64 },
         "$or": [
             {
                 "sender.commanders.primary.id": { "$in": ids.clone() },
@@ -504,6 +504,13 @@ mod tests {
 
         let matcher = pipeline[0].get_document("$match").expect("leading match");
         assert_eq!(matcher.get_document("sender.app_id"), Ok(&doc! { "$ne": 10_088_010_i64 }));
+        assert_eq!(
+            matcher
+                .get_document("opponents.player_id")
+                .and_then(|player_id| player_id.get_i64("$gt")),
+            Ok(0)
+        );
+        assert!(!matcher.contains_key("opponents"));
 
         assert!(!rendered.contains("range"));
         assert_eq!(rendered.matches("$unwind").count(), 3);
