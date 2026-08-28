@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore};
+use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore, SOC_RAGE_TABLE};
 
 use super::{
     model::{PairingKey, PairingRawTotals},
@@ -20,6 +20,7 @@ pub(super) fn build_drastc_scores_from_aggregates(
         };
 
         let mut model = DrastcModel::new();
+        model.set_rage_table(SOC_RAGE_TABLE);
         model.set_reference_ranges(reference_ranges);
         model.set_theoretical(key.primary_commander_id as u32, key.secondary_commander_id as u32);
         model.push(raw.to_drastc_record());
@@ -39,7 +40,9 @@ pub(super) fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey
             u32::try_from(key.primary_commander_id)
                 .ok()
                 .zip(u32::try_from(key.secondary_commander_id).ok())
-                .is_some_and(|(primary, secondary)| DrastcModel::is_supported(primary, secondary))
+                .is_some_and(|(primary, secondary)| {
+                    DrastcModel::is_supported(SOC_RAGE_TABLE, primary, secondary)
+                })
         })
         .collect()
 }

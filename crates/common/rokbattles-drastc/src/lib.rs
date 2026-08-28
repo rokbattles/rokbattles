@@ -13,7 +13,9 @@ use aggregate::BattleAggregate;
 pub use confidence::DrastcConfidence;
 pub use reference::{DrastcReferenceRanges, ReferenceRange};
 use serde::Serialize;
-pub use theoretical::TheoreticalValues;
+pub use theoretical::{
+    PRESOC_RAGE_TABLE, RagePairing, RageTable, SOC_RAGE_TABLE, TheoreticalValues,
+};
 use theoretical::{is_supported_pairing, theoretical_for_pairing};
 use weights::weighted_overall;
 
@@ -56,7 +58,8 @@ pub struct BattleRecord {
 #[derive(Debug, Default)]
 pub struct DrastcModel {
     aggregate: BattleAggregate,
-    theoretical: TheoreticalValues,
+    rage_table: RageTable,
+    commander_pairing: Option<(u32, u32)>,
     reference_ranges: Option<DrastcReferenceRanges>,
 }
 
@@ -71,16 +74,26 @@ impl DrastcModel {
         self.aggregate.push(record);
     }
 
-    /// Set theoretical Rage/Assist values by pairing.
-    ///
-    /// Unknown Rage pairings default to zero; Assist sums known commander values.
-    pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
-        self.theoretical = theoretical_for_pairing(primary_commander_id, secondary_commander_id);
+    /// Select the Rage table used to score and validate commander pairings.
+    pub fn set_rage_table(&mut self, rage_table: RageTable) {
+        self.rage_table = rage_table;
     }
 
-    /// Return true when the commander pairing exists in the Rage support table.
-    pub fn is_supported(primary_commander_id: u32, secondary_commander_id: u32) -> bool {
-        is_supported_pairing(primary_commander_id, secondary_commander_id)
+    /// Set theoretical Rage/Assist values by pairing.
+    ///
+    /// Unknown pairings in the selected Rage table default to zero. Assist values
+    /// are independent of the selected Rage table and sum known commander values.
+    pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
+        self.commander_pairing = Some((primary_commander_id, secondary_commander_id));
+    }
+
+    /// Return true when the commander pairing exists in the supplied Rage table.
+    pub fn is_supported(
+        rage_table: RageTable,
+        primary_commander_id: u32,
+        secondary_commander_id: u32,
+    ) -> bool {
+        is_supported_pairing(rage_table, primary_commander_id, secondary_commander_id)
     }
 
     /// Return the number of battle samples in the model.
@@ -101,10 +114,14 @@ impl DrastcModel {
 
         let references = self.reference_ranges?;
         let metrics = self.aggregate.metrics();
+        let theoretical =
+            self.commander_pairing.map_or_else(TheoreticalValues::default, |pairing| {
+                theoretical_for_pairing(self.rage_table, pairing.0, pairing.1)
+            });
 
         let damage = references.damage.score_curved(metrics.damage_per_second, 0.55);
-        let rage = self.theoretical.rage_score();
-        let assist = self.theoretical.assist_score();
+        let rage = theoretical.rage_score();
+        let assist = theoretical.assist_score();
         let sustainability =
             references.sustainability.score_curved(metrics.sustainability_per_second, 0.55);
         let trade = references.trade.score(metrics.trade_ratio);
@@ -202,6 +219,7 @@ mod tests {
 
     fn model_with_references() -> DrastcModel {
         let mut model = DrastcModel::new();
+        model.set_rage_table(SOC_RAGE_TABLE);
         model.set_reference_ranges(reference_ranges());
         model
     }
@@ -246,17 +264,57 @@ mod tests {
 
     #[test]
     fn is_supported_returns_true_for_pairing_in_rage_table() {
-        assert!(DrastcModel::is_supported(579, 575));
+        assert!(DrastcModel::is_supported(SOC_RAGE_TABLE, 579, 575));
     }
 
     #[test]
     fn is_supported_returns_false_for_pairing_not_in_rage_table() {
-        assert!(!DrastcModel::is_supported(575, 540));
+        assert!(!DrastcModel::is_supported(SOC_RAGE_TABLE, 575, 540));
     }
 
     #[test]
     fn is_supported_returns_false_for_unknown_ids() {
-        assert!(!DrastcModel::is_supported(1, 2));
+        assert!(!DrastcModel::is_supported(SOC_RAGE_TABLE, 1, 2));
+    }
+
+    #[test]
+    fn is_supported_uses_the_explicit_rage_table() {
+        assert!(DrastcModel::is_supported(PRESOC_RAGE_TABLE, 141, 6));
+        assert!(!DrastcModel::is_supported(SOC_RAGE_TABLE, 141, 6));
+    }
+
+    #[test]
+    fn presoc_rage_uses_epic_sun_tzu_and_legendary_pelagius() {
+        assert!(DrastcModel::is_supported(PRESOC_RAGE_TABLE, 3, 99));
+        assert!(DrastcModel::is_supported(PRESOC_RAGE_TABLE, 9, 618));
+        assert!(!DrastcModel::is_supported(PRESOC_RAGE_TABLE, 595, 99));
+        assert!(!DrastcModel::is_supported(PRESOC_RAGE_TABLE, 9, 18));
+    }
+
+    #[test]
+    fn evaluate_uses_selected_presoc_rage_table() {
+        let mut model = model_with_references();
+        model.set_theoretical(141, 6);
+        model.set_rage_table(PRESOC_RAGE_TABLE);
+        model.push(record(200.0, 100.0));
+
+        let score = model.evaluate().expect("score");
+
+        assert_eq!(score.breakdown.rage.value, 8.5);
+        assert_eq!(score.breakdown.assist.value, 0.73125);
+    }
+
+    #[test]
+    fn evaluate_accepts_a_custom_static_rage_table() {
+        const CUSTOM_RAGE_TABLE: RageTable = &[RagePairing::new(1, 2, 6.0)];
+        let mut model = model_with_references();
+        model.set_rage_table(CUSTOM_RAGE_TABLE);
+        model.set_theoretical(1, 2);
+        model.push(record(200.0, 100.0));
+
+        let score = model.evaluate().expect("score");
+
+        assert_eq!(score.breakdown.rage.value, 6.0);
     }
 
     #[test]
