@@ -146,6 +146,7 @@ mod tests {
 
     use rokbattles_drastc::{
         BattleRecord, DrastcConfidence, DrastcModel, DrastcReferenceRanges, ReferenceRange,
+        SOC_RAGE_TABLE,
     };
 
     use super::*;
@@ -233,6 +234,7 @@ mod tests {
     #[test]
     fn build_precomputed_document_embeds_drastc_score_when_present() {
         let mut model = DrastcModel::new();
+        model.set_rage_table(SOC_RAGE_TABLE);
         model.set_reference_ranges(DrastcReferenceRanges {
             damage: ReferenceRange::new(1, 0.0, 4.0),
             sustainability: ReferenceRange::new(1, -2.0, 2.0),
