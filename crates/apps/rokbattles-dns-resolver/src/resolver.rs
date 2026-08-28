@@ -23,6 +23,8 @@ const DNS_TTL_SECONDS: u32 = 60;
 const COMPRESSED_A_ANSWER_BYTES: usize = 16;
 /// The game hostname synthesized by every resolver instance.
 pub const ROCGATE_HOSTNAME: &str = "rocgate.lilithgame.com";
+/// The private suffix used for cache-resistant resolver checks.
+pub const DNS_CHECK_DOMAIN: &str = "probe.rokbattles.com";
 
 /// A non-recursive resolver that synthesizes configured gateway A records.
 #[derive(Debug, Clone)]
@@ -59,14 +61,16 @@ pub enum ResolveError {
     Encode(#[from] hickory_proto::ProtoError),
 }
 
-pub(crate) enum IntraResolution {
+pub(crate) enum HttpResolution {
     Local(Vec<u8>),
-    Forward,
+    Probe { response: Vec<u8>, nonce: String },
+    NonTarget,
 }
 
 enum Resolution {
     Local(Message),
-    NonTarget(Message),
+    Probe { response: Message, nonce: String },
+    NonTarget,
 }
 
 impl Resolver {
@@ -107,27 +111,33 @@ impl Resolver {
     /// Returns [`ResolveError::Decode`] for malformed requests and
     /// [`ResolveError::Encode`] if the response cannot be serialized.
     pub fn resolve(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
-        let request = Message::from_vec(wire_request)?;
-        let response = match self.resolve_message(&request, wire_request.len()) {
-            Resolution::Local(response) => response,
-            Resolution::NonTarget(mut response) => {
-                response.metadata.response_code = ResponseCode::Refused;
-                response
+        match self.resolve_for_http(wire_request)? {
+            HttpResolution::Local(response) | HttpResolution::Probe { response, .. } => {
+                Ok(response)
             }
-        };
-
-        Ok(response.to_vec()?)
+            HttpResolution::NonTarget => self.refused(wire_request),
+        }
     }
 
-    pub(crate) fn resolve_for_intra(
+    pub(crate) fn resolve_for_http(
         &self,
         wire_request: &[u8],
-    ) -> Result<IntraResolution, ResolveError> {
+    ) -> Result<HttpResolution, ResolveError> {
         let request = Message::from_vec(wire_request)?;
         match self.resolve_message(&request, wire_request.len()) {
-            Resolution::Local(response) => Ok(IntraResolution::Local(response.to_vec()?)),
-            Resolution::NonTarget(_) => Ok(IntraResolution::Forward),
+            Resolution::Local(response) => Ok(HttpResolution::Local(response.to_vec()?)),
+            Resolution::Probe { response, nonce } => {
+                Ok(HttpResolution::Probe { response: response.to_vec()?, nonce })
+            }
+            Resolution::NonTarget => Ok(HttpResolution::NonTarget),
         }
+    }
+
+    pub(crate) fn refused(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
+        let request = Message::from_vec(wire_request)?;
+        let mut response = response_for(&request);
+        response.metadata.response_code = ResponseCode::Refused;
+        Ok(response.to_vec()?)
     }
 
     pub(crate) fn servfail(&self, wire_request: &[u8]) -> Result<Vec<u8>, ResolveError> {
@@ -151,8 +161,17 @@ impl Resolver {
         }
 
         let query = &request.queries[0];
-        if query.query_class() != DNSClass::IN || !self.is_target(query.name()) {
-            return Resolution::NonTarget(response);
+        if query.query_class() != DNSClass::IN {
+            return Resolution::NonTarget;
+        }
+
+        if let Some(nonce) = dns_check_nonce(query.name()) {
+            response.metadata.response_code = ResponseCode::NXDomain;
+            return Resolution::Probe { response, nonce };
+        }
+
+        if !self.is_target(query.name()) {
+            return Resolution::NonTarget;
         }
 
         if query.query_type() == RecordType::A {
@@ -177,6 +196,18 @@ impl Resolver {
     fn is_target(&self, name: &hickory_proto::rr::Name) -> bool {
         name.to_ascii().trim_end_matches('.').eq_ignore_ascii_case(ROCGATE_HOSTNAME)
     }
+}
+
+fn dns_check_nonce(name: &hickory_proto::rr::Name) -> Option<String> {
+    let ascii = name.to_ascii();
+    let normalized = ascii.trim_end_matches('.');
+    let (nonce, domain) = normalized.split_once('.')?;
+    if !domain.eq_ignore_ascii_case(DNS_CHECK_DOMAIN) {
+        return None;
+    }
+    (nonce.len() == 32
+        && nonce.bytes().all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase()))
+    .then(|| nonce.to_string())
 }
 
 pub(crate) fn is_public_unicast(address: Ipv4Addr) -> bool {
@@ -378,6 +409,48 @@ mod tests {
             (message.metadata.response_code, message.answers.is_empty()),
             (ResponseCode::NoError, true)
         );
+    }
+
+    #[test]
+    fn unique_dns_check_query_should_return_nxdomain_and_expose_nonce_to_http_layer() {
+        let nonce = "0123456789abcdef0123456789abcdef";
+        let request = query(&format!("{nonce}.{DNS_CHECK_DOMAIN}"), RecordType::A);
+        let wire_request = request.to_vec().expect("query fixture should encode");
+        let resolution =
+            resolver().resolve_for_http(&wire_request).expect("probe query should resolve locally");
+
+        let HttpResolution::Probe { response, nonce: reported_nonce } = resolution else {
+            panic!("probe query should be classified separately");
+        };
+        let response = Message::from_vec(&response).expect("probe response should decode");
+        assert_eq!(
+            (response.metadata.response_code, response.answers.is_empty(), reported_nonce),
+            (ResponseCode::NXDomain, true, nonce.to_string())
+        );
+    }
+
+    #[test]
+    fn malformed_dns_check_nonce_should_remain_a_non_target() {
+        for nonce in
+            ["short", "0123456789abcdef0123456789abcdeg", "0123456789ABCDEF0123456789ABCDEF"]
+        {
+            let message =
+                resolve(&resolver(), &query(&format!("{nonce}.{DNS_CHECK_DOMAIN}"), RecordType::A));
+
+            assert_eq!(message.metadata.response_code, ResponseCode::Refused);
+        }
+    }
+
+    #[test]
+    fn dns_check_domain_matching_should_be_case_insensitive() {
+        let nonce = "0123456789abcdef0123456789abcdef";
+        let request = query(&format!("{nonce}.PrObE.RoKbAtTlEs.CoM"), RecordType::AAAA);
+        let wire_request = request.to_vec().expect("query fixture should encode");
+
+        assert!(matches!(
+            resolver().resolve_for_http(&wire_request),
+            Ok(HttpResolution::Probe { .. })
+        ));
     }
 
     #[test]

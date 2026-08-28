@@ -6,6 +6,7 @@ use crate::state::AppState;
 
 mod auth;
 mod combat_lab;
+mod dns_check;
 mod game;
 mod governor;
 mod health;
@@ -29,6 +30,7 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
+        .nest("/dns-check", dns_check::router())
         .route("/global/combat-lab", get(combat_lab::get_pairing))
         .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))

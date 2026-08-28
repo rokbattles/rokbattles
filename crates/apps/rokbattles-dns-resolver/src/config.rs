@@ -4,11 +4,15 @@ use std::{collections::HashSet, env, net::Ipv4Addr};
 
 use crate::resolver::is_public_unicast;
 
-/// Runtime configuration loaded from the `GATEWAY` environment variable.
+/// Runtime configuration loaded from environment variables.
 #[derive(Debug, PartialEq, Eq)]
 pub struct Config {
     /// Ordered public IPv4 addresses returned for the game hostname.
     pub gateway: Vec<Ipv4Addr>,
+    /// Authenticated API endpoint that records successful DNS canaries.
+    pub dns_check_callback_url: String,
+    /// Shared secret used only for resolver-to-API canary callbacks.
+    pub dns_check_secret: String,
 }
 
 /// Errors returned when gateway configuration is missing or invalid.
@@ -17,6 +21,12 @@ pub enum ConfigError {
     /// The required gateway list was not set.
     #[error("missing required env var: GATEWAY")]
     Missing,
+    /// Another required value was not set.
+    #[error("missing required env var: {key}")]
+    MissingValue { key: &'static str },
+    /// A required value was present but empty.
+    #[error("env var must not be empty: {key}")]
+    Empty { key: &'static str },
     /// The list or one of its comma-separated fields was empty.
     #[error("GATEWAY must contain only non-empty comma-separated IPv4 addresses")]
     EmptyAddress,
@@ -51,8 +61,21 @@ impl Config {
         F: Fn(&str) -> Option<String>,
     {
         let value = lookup("GATEWAY").ok_or(ConfigError::Missing)?;
-        Ok(Self { gateway: parse_gateway_ipv4s(&value)? })
+        let dns_check_callback_url = required(&lookup, "DNS_CHECK_CALLBACK_URL")?;
+        let dns_check_secret = required(&lookup, "DNS_CHECK_SECRET")?;
+        Ok(Self { gateway: parse_gateway_ipv4s(&value)?, dns_check_callback_url, dns_check_secret })
     }
+}
+
+fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
+where
+    F: Fn(&str) -> Option<String>,
+{
+    let value = lookup(key).ok_or(ConfigError::MissingValue { key })?;
+    if value.trim().is_empty() {
+        return Err(ConfigError::Empty { key });
+    }
+    Ok(value)
 }
 
 fn parse_gateway_ipv4s(value: &str) -> Result<Vec<Ipv4Addr>, ConfigError> {
@@ -85,9 +108,16 @@ fn parse_gateway_ipv4s(value: &str) -> Result<Vec<Ipv4Addr>, ConfigError> {
 mod tests {
     use super::*;
 
-    fn lookup(value: Option<&str>) -> impl Fn(&str) -> Option<String> {
-        let value = value.map(str::to_string);
-        move |key| (key == "GATEWAY").then(|| value.clone()).flatten()
+    fn lookup(gateway: Option<&str>) -> impl Fn(&str) -> Option<String> {
+        let gateway = gateway.map(str::to_string);
+        move |key| match key {
+            "GATEWAY" => gateway.clone(),
+            "DNS_CHECK_CALLBACK_URL" => {
+                Some("https://rokbattles.com/proxy/v1/dns-check/mark".into())
+            }
+            "DNS_CHECK_SECRET" => Some("test-secret".into()),
+            _ => None,
+        }
     }
 
     #[test]
@@ -103,6 +133,8 @@ mod tests {
             .expect("configuration should be valid");
 
         assert_eq!(config.gateway, [Ipv4Addr::new(93, 184, 216, 34), Ipv4Addr::new(1, 1, 1, 1)]);
+        assert_eq!(config.dns_check_callback_url, "https://rokbattles.com/proxy/v1/dns-check/mark");
+        assert_eq!(config.dns_check_secret, "test-secret");
     }
 
     #[test]
@@ -111,8 +143,13 @@ mod tests {
             .map(|first_octet| format!("{first_octet}.0.0.1"))
             .collect::<Vec<_>>()
             .join(",");
-        let config = Config::from_lookup(move |key| (key == "GATEWAY").then(|| value.clone()))
-            .expect("configuration should accept more than the former eight-node limit");
+        let config = Config::from_lookup(move |key| match key {
+            "GATEWAY" => Some(value.clone()),
+            "DNS_CHECK_CALLBACK_URL" => Some("https://example.com/mark".into()),
+            "DNS_CHECK_SECRET" => Some("test-secret".into()),
+            _ => None,
+        })
+        .expect("configuration should accept more than the former eight-node limit");
 
         assert_eq!(config.gateway.len(), 22);
     }
@@ -150,5 +187,23 @@ mod tests {
             .expect_err("gateway should be public unicast");
 
         assert_eq!(error, ConfigError::NonPublic { address });
+    }
+
+    #[test]
+    fn dns_check_callback_and_secret_should_be_required() {
+        let missing_callback = Config::from_lookup(|key| match key {
+            "GATEWAY" => Some("93.184.216.34".into()),
+            _ => None,
+        })
+        .expect_err("callback should be required");
+        assert_eq!(missing_callback, ConfigError::MissingValue { key: "DNS_CHECK_CALLBACK_URL" });
+
+        let missing_secret = Config::from_lookup(|key| match key {
+            "GATEWAY" => Some("93.184.216.34".into()),
+            "DNS_CHECK_CALLBACK_URL" => Some("https://example.com/mark".into()),
+            _ => None,
+        })
+        .expect_err("secret should be required");
+        assert_eq!(missing_secret, ConfigError::MissingValue { key: "DNS_CHECK_SECRET" });
     }
 }

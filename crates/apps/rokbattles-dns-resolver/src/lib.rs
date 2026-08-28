@@ -10,14 +10,18 @@ pub(crate) const DNS_MEDIA_TYPE: &str = "application/dns-message";
 pub(crate) const MAX_DNS_MESSAGE_BYTES: usize = 65_535;
 
 mod config;
+mod dns_check;
 mod forwarder;
 mod http;
 mod resolver;
 
 pub use config::{Config, ConfigError};
+pub use dns_check::{DnsCheckReporter, DnsCheckReporterError};
 pub use forwarder::{
     CLOUDFLARE_DOH_FALLBACK_URL, CLOUDFLARE_DOH_PRIMARY_URL, DoHForwarder, ForwardError,
     MAX_CONCURRENT_UPSTREAM_QUERIES,
 };
 pub use http::router;
-pub use resolver::{ROCGATE_HOSTNAME, ResolveError, Resolver, ResolverConfigError};
+pub use resolver::{
+    DNS_CHECK_DOMAIN, ROCGATE_HOSTNAME, ResolveError, Resolver, ResolverConfigError,
+};

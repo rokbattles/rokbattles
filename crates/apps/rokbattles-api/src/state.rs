@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::db::{AuthRepository, GameLocalizationStore, ReportsStore};
+use crate::db::{AuthRepository, DnsCheckStore, GameLocalizationStore, ReportsStore};
 
 /// Discord OAuth settings used by auth routes.
 #[derive(Clone)]
@@ -16,6 +16,8 @@ pub struct AppState {
     pub auth_store: Arc<dyn AuthRepository>,
     pub game_localizations: GameLocalizationStore,
     pub reports_store: ReportsStore,
+    pub dns_check_store: DnsCheckStore,
+    pub dns_check_secret: String,
     pub discord_oauth: DiscordOAuthConfig,
 }
 
@@ -25,8 +27,17 @@ impl AppState {
         auth_store: Arc<dyn AuthRepository>,
         game_localizations: GameLocalizationStore,
         reports_store: ReportsStore,
+        dns_check_store: DnsCheckStore,
+        dns_check_secret: String,
         discord_oauth: DiscordOAuthConfig,
     ) -> Self {
-        Self { auth_store, game_localizations, reports_store, discord_oauth }
+        Self {
+            auth_store,
+            game_localizations,
+            reports_store,
+            dns_check_store,
+            dns_check_secret,
+            discord_oauth,
+        }
     }
 }

@@ -6,7 +6,7 @@ use axum::{
     extract::{Query, State},
     http::{
         HeaderMap, StatusCode,
-        header::{CONTENT_TYPE, HeaderValue},
+        header::{ACCESS_CONTROL_ALLOW_ORIGIN, CACHE_CONTROL, CONTENT_TYPE, HeaderValue},
     },
     response::{IntoResponse, Response},
     routing::get,
@@ -15,8 +15,8 @@ use base64::{Engine as _, engine::general_purpose::URL_SAFE_NO_PAD};
 use serde::Deserialize;
 
 use crate::{
-    DNS_MEDIA_TYPE, DoHForwarder, MAX_DNS_MESSAGE_BYTES, ResolveError, Resolver,
-    resolver::IntraResolution,
+    DNS_MEDIA_TYPE, DnsCheckReporter, DoHForwarder, MAX_DNS_MESSAGE_BYTES, ResolveError, Resolver,
+    resolver::HttpResolution,
 };
 
 const MAX_ENCODED_DNS_MESSAGE_BYTES: usize = MAX_DNS_MESSAGE_BYTES.div_ceil(3) * 4;
@@ -30,6 +30,7 @@ struct DnsQuery {
 struct AppState {
     resolver: Resolver,
     forwarder: DoHForwarder,
+    reporter: DnsCheckReporter,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -58,13 +59,21 @@ impl IntoResponse for HttpError {
     }
 }
 
-/// Build the HTTP router for the iOS `/query` and Intra `/intra` endpoints.
-pub fn router(resolver: Resolver, forwarder: DoHForwarder) -> Router {
+/// Build the HTTP router for resolver health, iOS `/query`, and Intra `/intra`.
+pub fn router(resolver: Resolver, forwarder: DoHForwarder, reporter: DnsCheckReporter) -> Router {
     Router::new()
+        .route("/healthz", get(health))
         .route("/query", get(get_dns_query).post(post_dns_query))
         .route("/intra", get(get_intra_query).post(post_intra_query))
-        .with_state(AppState { resolver, forwarder })
+        .with_state(AppState { resolver, forwarder, reporter })
         .layer(axum::extract::DefaultBodyLimit::max(MAX_DNS_MESSAGE_BYTES))
+}
+
+async fn health() -> Response {
+    let mut response = StatusCode::NO_CONTENT.into_response();
+    response.headers_mut().insert(ACCESS_CONTROL_ALLOW_ORIGIN, HeaderValue::from_static("*"));
+    response.headers_mut().insert(CACHE_CONTROL, HeaderValue::from_static("no-store"));
+    response
 }
 
 async fn get_dns_query(
@@ -72,7 +81,7 @@ async fn get_dns_query(
     Query(query): Query<DnsQuery>,
 ) -> Result<Response, HttpError> {
     let wire_request = decode_dns_parameter(&query.dns)?;
-    resolve(&state.resolver, &wire_request)
+    resolve(&state, &wire_request).await
 }
 
 async fn post_dns_query(
@@ -82,7 +91,7 @@ async fn post_dns_query(
 ) -> Result<Response, HttpError> {
     require_dns_media_type(&headers)?;
 
-    resolve(&state.resolver, &body)
+    resolve(&state, &body).await
 }
 
 async fn get_intra_query(
@@ -103,21 +112,41 @@ async fn post_intra_query(
     resolve_for_intra(&state, &body).await
 }
 
-fn resolve(resolver: &Resolver, wire_request: &[u8]) -> Result<Response, HttpError> {
-    let wire_response = resolver.resolve(wire_request).map_err(map_resolve_error)?;
+async fn resolve(state: &AppState, wire_request: &[u8]) -> Result<Response, HttpError> {
+    let wire_response =
+        match state.resolver.resolve_for_http(wire_request).map_err(map_resolve_error)? {
+            HttpResolution::Local(response) => response,
+            HttpResolution::Probe { response, nonce } => {
+                report_probe(&state.reporter, &nonce).await;
+                response
+            }
+            HttpResolution::NonTarget => {
+                state.resolver.refused(wire_request).map_err(map_resolve_error)?
+            }
+        };
     Ok(dns_response(wire_response))
 }
 
 async fn resolve_for_intra(state: &AppState, wire_request: &[u8]) -> Result<Response, HttpError> {
     let wire_response =
-        match state.resolver.resolve_for_intra(wire_request).map_err(map_resolve_error)? {
-            IntraResolution::Local(response) => response,
-            IntraResolution::Forward => match state.forwarder.forward(wire_request).await {
+        match state.resolver.resolve_for_http(wire_request).map_err(map_resolve_error)? {
+            HttpResolution::Local(response) => response,
+            HttpResolution::Probe { response, nonce } => {
+                report_probe(&state.reporter, &nonce).await;
+                response
+            }
+            HttpResolution::NonTarget => match state.forwarder.forward(wire_request).await {
                 Ok(response) => response,
                 Err(_) => state.resolver.servfail(wire_request).map_err(map_resolve_error)?,
             },
         };
     Ok(dns_response(wire_response))
+}
+
+async fn report_probe(reporter: &DnsCheckReporter, nonce: &str) {
+    if let Err(error) = reporter.report(nonce).await {
+        tracing::warn!(%error, "failed to record DNS check probe");
+    }
 }
 
 fn dns_response(wire_response: Vec<u8>) -> Response {
@@ -162,9 +191,13 @@ mod tests {
     };
 
     use axum::{
+        Json,
         body::{Body, to_bytes},
         extract::State,
-        http::{Method, Request, header::ACCEPT},
+        http::{
+            Method, Request,
+            header::{ACCEPT, AUTHORIZATION},
+        },
         routing::post,
     };
     use hickory_proto::{
@@ -200,6 +233,47 @@ mod tests {
         url: Url,
         requests: Receiver<ForwardedRequest>,
         task: JoinHandle<()>,
+    }
+
+    struct MockCallback {
+        url: Url,
+        requests: Receiver<(String, Option<HeaderValue>)>,
+        task: JoinHandle<()>,
+    }
+
+    impl Drop for MockCallback {
+        fn drop(&mut self) {
+            self.task.abort();
+        }
+    }
+
+    #[derive(Clone)]
+    struct MockCallbackState {
+        requests: Sender<(String, Option<HeaderValue>)>,
+    }
+
+    #[derive(Deserialize)]
+    struct MockMarkRequest {
+        nonce: String,
+    }
+
+    impl MockCallback {
+        async fn start() -> Self {
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
+                .await
+                .expect("mock callback should bind");
+            let address = listener.local_addr().expect("mock address should be available");
+            let url = Url::parse(&format!("http://{address}/mark"))
+                .expect("mock callback URL should be valid");
+            let (request_tx, requests) = mpsc::channel();
+            let app = Router::new()
+                .route("/mark", post(mock_mark_probe))
+                .with_state(MockCallbackState { requests: request_tx });
+            let task = tokio::spawn(async move {
+                axum::serve(listener, app).await.expect("mock callback should serve");
+            });
+            Self { url, requests, task }
+        }
     }
 
     impl Drop for MockUpstream {
@@ -265,7 +339,24 @@ mod tests {
             max_concurrent_queries,
         )
         .expect("forwarder fixture should build");
-        router(resolver, forwarder)
+        let reporter = DnsCheckReporter::new("http://127.0.0.1:9/mark", "test-secret")
+            .expect("reporter fixture should build");
+        router(resolver, forwarder, reporter)
+    }
+
+    fn app_with_reporter(reporter: DnsCheckReporter) -> Router {
+        let unavailable =
+            Url::parse("http://127.0.0.1:9/dns-query").expect("fixture URL should be valid");
+        let resolver = Resolver::new(vec![GATEWAY_IPV4_A, GATEWAY_IPV4_B])
+            .expect("resolver fixture should be valid");
+        let forwarder = DoHForwarder::with_test_limits(
+            [unavailable.clone(), unavailable],
+            Duration::from_secs(1),
+            Duration::from_secs(2),
+            crate::MAX_CONCURRENT_UPSTREAM_QUERIES,
+        )
+        .expect("forwarder fixture should build");
+        router(resolver, forwarder, reporter)
     }
 
     fn dns_query(name: &str) -> Vec<u8> {
@@ -352,6 +443,18 @@ mod tests {
         dns_response(response.to_vec().expect("mock response should encode"))
     }
 
+    async fn mock_mark_probe(
+        State(state): State<MockCallbackState>,
+        headers: HeaderMap,
+        Json(request): Json<MockMarkRequest>,
+    ) -> StatusCode {
+        state
+            .requests
+            .send((request.nonce, headers.get(AUTHORIZATION).cloned()))
+            .expect("test should retain mock request receiver");
+        StatusCode::NO_CONTENT
+    }
+
     #[tokio::test]
     async fn ios_post_query_should_return_dns_wire_format_response() {
         let response =
@@ -364,6 +467,56 @@ mod tests {
             (status, content_type.as_ref(), message.answers.len()),
             (StatusCode::OK, Some(&HeaderValue::from_static(DNS_MEDIA_TYPE)), 2)
         );
+    }
+
+    #[tokio::test]
+    async fn health_should_be_publicly_readable_and_not_cached() {
+        let response = app()
+            .oneshot(
+                Request::builder()
+                    .uri("/healthz")
+                    .body(Body::empty())
+                    .expect("request fixture should build"),
+            )
+            .await
+            .expect("router should respond");
+
+        assert_eq!(
+            (
+                response.status(),
+                response.headers().get(ACCESS_CONTROL_ALLOW_ORIGIN),
+                response.headers().get(CACHE_CONTROL),
+            ),
+            (
+                StatusCode::NO_CONTENT,
+                Some(&HeaderValue::from_static("*")),
+                Some(&HeaderValue::from_static("no-store")),
+            )
+        );
+    }
+
+    #[tokio::test]
+    async fn apple_and_intra_probe_queries_should_record_proof_and_return_nxdomain() {
+        let callback = MockCallback::start().await;
+        let reporter = DnsCheckReporter::new(callback.url.as_str(), "test-secret")
+            .expect("reporter fixture should build");
+        let app = app_with_reporter(reporter);
+        let nonce = "0123456789abcdef0123456789abcdef";
+        let query = dns_query(&format!("{nonce}.{}", crate::DNS_CHECK_DOMAIN));
+
+        for path in ["/query", "/intra"] {
+            let response = send_post(app.clone(), path, query.clone(), DNS_MEDIA_TYPE).await;
+            let message = decode_dns_response(response).await;
+            let recorded = callback.requests.recv().expect("callback should receive proof");
+
+            assert_eq!(
+                (message.metadata.response_code, recorded),
+                (
+                    ResponseCode::NXDomain,
+                    (nonce.to_string(), Some(HeaderValue::from_static("Bearer test-secret")),),
+                )
+            );
+        }
     }
 
     #[tokio::test]
