@@ -7,24 +7,18 @@ use super::model::{PairingKey, Strategy};
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
-pub(super) fn build_pairings_pipeline(
-    legendary_ids: &[i64],
-    cutoff_mail_time: i64,
-) -> Vec<Document> {
+pub(super) fn build_drastc_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
     let mut pipeline = build_pairing_entries_pipeline(legendary_ids, cutoff_mail_time);
     pipeline.extend([
+        doc! { "$match": { "strategy": Strategy::OpenField.as_str() } },
         raw_totals_group_stage(doc! {
             "primary_commander_id": "$primary_commander_id",
             "secondary_commander_id": "$secondary_commander_id",
-            "strategy": "$strategy",
-            "formation": "$formation",
         }),
-        strategy_totals_group_stage(),
         reference_eligibility_stage(),
         reference_metric_stage(),
         reference_window_stage(),
-        pairing_output_group_stage(),
-        pairing_output_project_stage(),
+        drastc_output_project_stage(),
     ]);
     pipeline
 }
@@ -62,7 +56,6 @@ fn build_pairing_entries_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) 
         perspective_entry(
             "$sender.commanders.primary.id",
             "$sender.commanders.secondary.id",
-            "$sender.commanders.primary.formation",
             "$_sender_strategy",
             "opponents.battle_results.sender",
             "opponents.battle_results.opponent",
@@ -73,7 +66,6 @@ fn build_pairing_entries_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) 
         perspective_entry(
             "$opponents.commanders.primary.id",
             "$opponents.commanders.secondary.id",
-            "$opponents.commanders.primary.formation",
             opponent_strategy_expr(),
             "opponents.battle_results.opponent",
             "opponents.battle_results.sender",
@@ -306,13 +298,8 @@ fn raw_totals_group_stage(id: Document) -> Document {
             "total_battles": { "$sum": 1 },
             "kill_points_gained": { "$sum": "$kill_points_gained" },
             "kill_points_lost": { "$sum": "$kill_points_lost" },
-            "trade_percentage_total": { "$sum": "$trade_percentage" },
-            "battle_duration_total": { "$sum": "$battle_duration" },
             "severely_wounded_inflicted": { "$sum": "$severely_wounded_inflicted" },
             "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
-            "damage_total": { "$sum": "$damage_total" },
-            "sps_total": { "$sum": "$sps_total" },
-            "tps_total": { "$sum": "$tps_total" },
             "healing_total": { "$sum": "$healing_total" },
             "opponent_dead": { "$sum": "$opponent_dead" },
             "opponent_slightly_wounded": { "$sum": "$opponent_slightly_wounded" },
@@ -326,53 +313,11 @@ fn raw_totals_group_stage(id: Document) -> Document {
     }
 }
 
-fn strategy_totals_group_stage() -> Document {
-    doc! {
-        "$group": {
-            "_id": {
-                "primary_commander_id": "$_id.primary_commander_id",
-                "secondary_commander_id": "$_id.secondary_commander_id",
-                "strategy": "$_id.strategy",
-            },
-            "total_battles": { "$sum": "$total_battles" },
-            "kill_points_gained": { "$sum": "$kill_points_gained" },
-            "kill_points_lost": { "$sum": "$kill_points_lost" },
-            "trade_percentage_total": { "$sum": "$trade_percentage_total" },
-            "battle_duration_total": { "$sum": "$battle_duration_total" },
-            "severely_wounded_inflicted": { "$sum": "$severely_wounded_inflicted" },
-            "severely_wounded_taken": { "$sum": "$severely_wounded_taken" },
-            "damage_total": { "$sum": "$damage_total" },
-            "sps_total": { "$sum": "$sps_total" },
-            "tps_total": { "$sum": "$tps_total" },
-            "healing_total": { "$sum": "$healing_total" },
-            "opponent_dead": { "$sum": "$opponent_dead" },
-            "opponent_slightly_wounded": { "$sum": "$opponent_slightly_wounded" },
-            "sender_dead": { "$sum": "$sender_dead" },
-            "sender_slightly_wounded": { "$sum": "$sender_slightly_wounded" },
-            "normalized_duration_seconds_total": {
-                "$sum": "$normalized_duration_seconds_total",
-            },
-            "decisive_battles": { "$sum": "$decisive_battles" },
-            "wins": { "$sum": "$wins" },
-            "positive_trades": { "$sum": "$positive_trades" },
-            "formations": {
-                "$push": {
-                    "id": "$_id.formation",
-                    "count": "$total_battles",
-                }
-            },
-        }
-    }
-}
-
 fn reference_eligibility_stage() -> Document {
     doc! {
         "$set": {
             "_reference_eligible": {
-                "$and": [
-                    { "$eq": ["$_id.strategy", Strategy::OpenField.as_str()] },
-                    { "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES] },
-                ]
+                "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES]
             }
         }
     }
@@ -486,55 +431,13 @@ fn reference_window_stage() -> Document {
     }
 }
 
-fn pairing_output_group_stage() -> Document {
-    doc! {
-        "$group": {
-            "_id": {
-                "primary_commander_id": "$_id.primary_commander_id",
-                "secondary_commander_id": "$_id.secondary_commander_id",
-            },
-            "strategies": {
-                "$push": strategy_aggregate_document(),
-            },
-            "drastc_observed": {
-                "$max": {
-                    "$cond": [
-                        { "$eq": ["$_id.strategy", Strategy::OpenField.as_str()] },
-                        raw_totals_aggregate_document(),
-                        Bson::Null,
-                    ]
-                }
-            },
-            "reference_samples": { "$first": "$_reference_samples" },
-            "reference_damage": { "$first": "$_reference_damage_percentiles" },
-            "reference_sustainability": {
-                "$first": "$_reference_sustainability_percentiles",
-            },
-            "reference_consistency": { "$first": "$_reference_consistency_percentiles" },
-            "reference_trade": { "$first": "$_reference_trade_percentiles" },
-        }
-    }
-}
-
-fn strategy_aggregate_document() -> Document {
-    let mut document = raw_totals_aggregate_document();
-    document.insert("strategy", "$_id.strategy");
-    document.insert("formations", "$formations");
-    document
-}
-
 fn raw_totals_aggregate_document() -> Document {
     doc! {
         "total_battles": "$total_battles",
         "kill_points_gained": "$kill_points_gained",
         "kill_points_lost": "$kill_points_lost",
-        "trade_percentage_total": "$trade_percentage_total",
-        "battle_duration_total": "$battle_duration_total",
         "severely_wounded_inflicted": "$severely_wounded_inflicted",
         "severely_wounded_taken": "$severely_wounded_taken",
-        "damage_total": "$damage_total",
-        "sps_total": "$sps_total",
-        "tps_total": "$tps_total",
         "healing_total": "$healing_total",
         "opponent_dead": "$opponent_dead",
         "opponent_slightly_wounded": "$opponent_slightly_wounded",
@@ -547,20 +450,19 @@ fn raw_totals_aggregate_document() -> Document {
     }
 }
 
-fn pairing_output_project_stage() -> Document {
+fn drastc_output_project_stage() -> Document {
     doc! {
         "$project": {
             "_id": 0,
             "primary_commander_id": "$_id.primary_commander_id",
             "secondary_commander_id": "$_id.secondary_commander_id",
-            "strategies": 1,
-            "drastc_observed": 1,
+            "observed": raw_totals_aggregate_document(),
             "reference_ranges": {
-                "samples": "$reference_samples",
-                "damage": "$reference_damage",
-                "sustainability": "$reference_sustainability",
-                "consistency": "$reference_consistency",
-                "trade": "$reference_trade",
+                "samples": "$_reference_samples",
+                "damage": "$_reference_damage_percentiles",
+                "sustainability": "$_reference_sustainability_percentiles",
+                "consistency": "$_reference_consistency_percentiles",
+                "trade": "$_reference_trade_percentiles",
             },
         }
     }
@@ -633,7 +535,6 @@ fn conditional_entry(condition: Document, entry: Document) -> Document {
 fn perspective_entry(
     primary_expr: &'static str,
     secondary_expr: &'static str,
-    formation_expr: &'static str,
     strategy_expr: impl Into<Bson>,
     self_results_path: &'static str,
     enemy_results_path: &'static str,
@@ -654,22 +555,11 @@ fn perspective_entry(
     doc! {
         "primary_commander_id": primary_expr,
         "secondary_commander_id": secondary_expr,
-        "formation": { "$ifNull": [formation_expr, 0_i64] },
         "strategy": strategy_expr.into(),
-        "kill_points_gained": kill_points_gained.clone(),
-        "kill_points_lost": kill_points_lost.clone(),
-        "trade_percentage": trade_percentage_expr(kill_points_gained, kill_points_lost),
-        "battle_duration": battle_duration.clone(),
+        "kill_points_gained": kill_points_gained,
+        "kill_points_lost": kill_points_lost,
         "severely_wounded_inflicted": opponent_severely_wounded.clone(),
         "severely_wounded_taken": sender_severely_wounded.clone(),
-        "damage_total": {
-            "$add": [
-                opponent_slightly_wounded.clone(),
-                opponent_severely_wounded.clone(),
-            ]
-        },
-        "sps_total": opponent_severely_wounded.clone(),
-        "tps_total": sender_severely_wounded.clone(),
         "healing_total": numeric_field(self_results_path, "heal"),
         "opponent_dead": opponent_dead,
         "opponent_slightly_wounded": opponent_slightly_wounded,
@@ -711,32 +601,6 @@ fn perspective_entry(
 
 fn numeric_field(path: &str, field: &str) -> Document {
     doc! { "$ifNull": [format!("${path}.{field}"), 0] }
-}
-
-fn trade_percentage_expr(kill_points_gained: Document, kill_points_lost: Document) -> Document {
-    doc! {
-        "$cond": [
-            { "$eq": [kill_points_gained.clone(), kill_points_lost.clone()] },
-            100.0,
-            {
-                "$cond": [
-                    { "$lte": [kill_points_lost.clone(), 0] },
-                    0.0,
-                    {
-                        "$round": [
-                            {
-                                "$multiply": [
-                                    { "$divide": [kill_points_gained, kill_points_lost] },
-                                    100.0,
-                                ]
-                            },
-                            0,
-                        ]
-                    },
-                ]
-            },
-        ]
-    }
 }
 
 fn battle_duration_expr() -> Document {
@@ -814,10 +678,7 @@ mod tests {
             doc! {
                 "$set": {
                     "_reference_eligible": {
-                        "$and": [
-                            { "$eq": ["$_id.strategy", "open_field"] },
-                            { "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES] },
-                        ]
+                        "$gte": ["$total_battles", MIN_REFERENCE_RANGE_PAIRING_BATTLES]
                     }
                 }
             }
@@ -825,9 +686,9 @@ mod tests {
     }
 
     #[test]
-    fn build_pairings_pipeline_starts_with_indexable_kvk_filter() {
+    fn build_drastc_pipeline_starts_with_indexable_kvk_filter() {
         let cutoff_mail_time = 1_755_000_000_000_000_i64;
-        let pipeline = build_pairings_pipeline(&[509, 6], cutoff_mail_time);
+        let pipeline = build_drastc_pipeline(&[509, 6], cutoff_mail_time);
         let matcher = pipeline
             .first()
             .and_then(|stage| stage.get_document("$match").ok())
@@ -852,11 +713,11 @@ mod tests {
     }
 
     #[test]
-    fn build_pairings_pipeline_streams_pairing_documents_without_facets() {
-        let pipeline = build_pairings_pipeline(&[509, 6], 1_755_000_000_000_000_i64);
+    fn build_drastc_pipeline_streams_pairing_documents_without_facets() {
+        let pipeline = build_drastc_pipeline(&[509, 6], 1_755_000_000_000_000_i64);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
 
-        assert_eq!(group_count, 3);
+        assert_eq!(group_count, 1);
         assert!(!pipeline.iter().any(|stage| stage.contains_key("$facet")));
         assert!(pipeline.iter().any(|stage| stage.contains_key("$setWindowFields")));
     }
@@ -906,16 +767,12 @@ mod tests {
         ] {
             assert!(output.get_document(field).is_ok());
         }
-        let group = pairing_output_group_stage();
-        let condition = group
-            .get_document("$group")
-            .and_then(|group| group.get_document("drastc_observed"))
-            .and_then(|drastc| drastc.get_document("$max"))
-            .and_then(|maximum| maximum.get_array("$cond"))
-            .expect("DRASTC condition");
-        assert_eq!(
-            condition.first(),
-            Some(&Bson::Document(doc! { "$eq": ["$_id.strategy", "open_field"] }))
+        let project = drastc_output_project_stage();
+        assert!(
+            project
+                .get_document("$project")
+                .and_then(|project| project.get_document("observed"))
+                .is_ok()
         );
     }
 
@@ -1077,19 +934,5 @@ mod tests {
                 }
             }
         );
-    }
-
-    #[test]
-    fn perspective_entry_maps_missing_formation_to_zero() {
-        let entry = perspective_entry(
-            "$primary",
-            "$secondary",
-            "$formation",
-            "$strategy",
-            "self_results",
-            "enemy_results",
-        );
-
-        assert_eq!(entry.get_document("formation"), Ok(&doc! { "$ifNull": ["$formation", 0_i64] }));
     }
 }

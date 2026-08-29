@@ -21,7 +21,9 @@ pub fn router() -> Router<Arc<AppState>> {
 }
 
 fn v2_router() -> Router<Arc<AppState>> {
-    Router::new().route("/global/combat-lab", get(combat_lab::v2::get_pairing))
+    Router::new()
+        .route("/global/combat-lab", get(combat_lab::get_pairing))
+        .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
 }
 
 fn v1_router() -> Router<Arc<AppState>> {
@@ -29,8 +31,6 @@ fn v1_router() -> Router<Arc<AppState>> {
         .nest("/game", game::router())
         .nest("/governor", governor::router())
         .nest("/auth", auth::router())
-        .route("/global/combat-lab", get(combat_lab::get_pairing))
-        .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
         .route("/global/loot-explorer/barbarians", get(loot_explorer::get_barbarians))
         .route("/global/loot-explorer/barbarian-forts", get(loot_explorer::get_barbarian_forts))
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))
