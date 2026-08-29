@@ -46,7 +46,7 @@ async function fetchCombatLabRankings(options: {
     sort: options.sort,
     direction: options.direction,
   });
-  const response = await fetch(`/proxy/v1/global/combat-lab/rankings?${params}`, {
+  const response = await fetch(`/proxy/v2/global/combat-lab/rankings?${params}`, {
     cache: "no-store",
   });
 

@@ -26,7 +26,7 @@ use self::{
     model::{MonthLoadouts, PairingKey, PairingRoot, PerformancePoint, RawTotals, range_cutoffs},
     pipeline::{loadout_pipeline, performance_pipeline},
 };
-use crate::{error::JobsError, precompute_cmdr_pairings::legendary_commander_ids};
+use crate::{commander_catalog::legendary_commander_ids, error::JobsError};
 
 const PERFORMANCE_KIND: i64 = 1;
 const LOADOUT_KIND: i64 = 2;
@@ -148,7 +148,7 @@ async fn read_stored_drastc(
     reports_store: &ReportsStore,
 ) -> Result<BTreeMap<PairingKey, PairingRoot>, JobsError> {
     let mut cursor = reports_store
-        .precomputed_commander_pairings_collection()
+        .precomputed_drastc_collection()
         .find(doc! {})
         .projection(doc! {
             "_id": 0,
