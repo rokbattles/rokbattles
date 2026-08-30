@@ -16,9 +16,15 @@ use super::{
         BattleReportSupportSkill, BattleReportSupportSkills, BattleReportTimeline,
     },
 };
+use crate::db::exclude_test_client_filter;
 
 pub(super) fn build_battle_detail_filter(report_id: &str) -> Document {
-    doc! { "metadata.mail_id": report_id }
+    doc! {
+        "$and": [
+            exclude_test_client_filter(),
+            { "metadata.mail_id": report_id },
+        ]
+    }
 }
 
 pub(super) fn build_battle_detail_projection() -> Document {
@@ -474,7 +480,15 @@ mod tests {
     #[test]
     fn builds_filter_from_report_id() {
         let filter = build_battle_detail_filter("mail-123");
-        assert_eq!(filter.get_str("metadata.mail_id").ok(), Some("mail-123"));
+        assert_eq!(
+            filter,
+            doc! {
+                "$and": [
+                    { "sender.app_id": { "$ne": 10_088_010_i64 } },
+                    { "metadata.mail_id": "mail-123" },
+                ]
+            }
+        );
     }
 
     #[test]

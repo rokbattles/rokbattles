@@ -7,7 +7,7 @@ use mongodb::{
     Collection,
     bson::{Bson, DateTime, Document, doc},
 };
-use rokbattles_api::db::ReportsStore;
+use rokbattles_api::db::{ReportsStore, exclude_test_client_filter};
 use rokbattles_bson::{bson_to_i32_exact as bson_to_i32, bson_to_i64_exact as bson_to_i64};
 
 use crate::error::JobsError;
@@ -55,16 +55,19 @@ async fn read_observed_barbarian_reports(
     source: &Collection<Document>,
     target_by_kind: &BTreeMap<i32, TargetMetadata>,
 ) -> Result<(BTreeMap<TargetKey, LevelStats>, BarbarianPrecomputeStats), JobsError> {
-    let mut cursor = source
-        .find(doc! {
-            "opponents": {
-                "$elemMatch": {
-                    "player_id": -2,
-                    "npc.type": { "$in": target_by_kind.keys().copied().collect::<Vec<_>>() },
-                    "npc.b_type": { "$in": [BARBARIAN_B_TYPE, MARAUDER_B_TYPE] },
-                },
+    let mut filter = exclude_test_client_filter();
+    filter.insert(
+        "opponents",
+        doc! {
+            "$elemMatch": {
+                "player_id": -2,
+                "npc.type": { "$in": target_by_kind.keys().copied().collect::<Vec<_>>() },
+                "npc.b_type": { "$in": [BARBARIAN_B_TYPE, MARAUDER_B_TYPE] },
             },
-        })
+        },
+    );
+    let mut cursor = source
+        .find(filter)
         .projection(doc! {
             "_id": 0,
             "opponents.player_id": 1,

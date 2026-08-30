@@ -235,7 +235,7 @@ stratagems:
       ru: "Когда один из ваших отрядов получает усиление от союзного отряда, ваш отряд получает на 15% меньше урона в течение следующих 5 сек. Каждый ваш отряд может применять этот эффект раз в 15 сек."
       th: "ทุกครั้งที่หนึ่งในกองทหารของคุณได้รับบัฟจากกองทหารที่เป็นมิตรหรือพันธมิตร กองทหารของคุณจะได้รับความเสียหายน้อยลง 15% ในอีก 5 วินาทีถัดไป แต่ละกองทหารของคุณสามารถใช้เอฟเฟกต์นี้หนึ่งครั้งทุก 15 วินาที"
       tr: "Kıtalarından birisi dost veya müttefik bir kıtadan bir güç aldıktan sonra 5 saniye boyunca %15 daha az hasar alır. Kıtalarından her biri bu etkiyi 15 saniyede bir tetikleyebilir."
-      vi: "Mỗi khi một trong các đội quân của bạn nhận được hiệu ứng bổ trợ từ đội quân của bạn hoặc đồng đội, đội quân nhận ít hơn 15% sát thương trong 5 giây tiếp theo. Mỗi đội quân có thể kích hoạt hiệu ứng này 15 giây một lần."
+      vi: "Mỗi khi một trong các đội quân của bạn nhận được bùa lợi từ đội quân của bạn hoặc đồng đội, đội quân nhận ít hơn 15% sát thương trong 5 giây tiếp theo. Mỗi đội quân có thể kích hoạt hiệu ứng này 15 giây một lần."
       zh_CN: "部队获得来自其他己方或友方部队的增益效果时，受到的所有伤害降低15%，持续5秒，每15秒最多触发一次。"
       zh_TW: "部隊獲得來自其他己方或友方部隊的增益效果時，受到的所有傷害降低15%，持續5秒，每15秒最多觸發一次。"
 

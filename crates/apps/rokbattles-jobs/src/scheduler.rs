@@ -11,8 +11,8 @@ use crate::{
     error::JobsError, precompute_barbarian::precompute_barbarian_data,
     precompute_barbarianfort::precompute_barbarian_fort_data,
     precompute_baulur::precompute_baulur_data,
-    precompute_cmdr_pairings::precompute_commander_pairings_data,
     precompute_cmdr_pairings_v2::precompute_commander_pairings_v2_data,
+    precompute_drastc::precompute_drastc_data,
     precompute_kahar_treasure::precompute_kahar_treasure_data,
     precompute_karuak_ceremony::precompute_karuak_ceremony_data,
     refresh_binds::refresh_claimed_governor_bindings,
@@ -31,9 +31,9 @@ pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
-pub const PRECOMPUTE_COMMANDER_PAIRINGS_CRON: &str = "0 0 */8 * * *";
-/// Every 8 hours, offset four hours from the existing commander pairing job.
-pub const PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON: &str = "0 0 4,12,20 * * *";
+pub const PRECOMPUTE_DRASTC_CRON: &str = "0 0 */8 * * *";
+/// Every 8 hours
+pub const PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON: &str = "0 0 */8 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
 pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler, JobsError> {
@@ -45,7 +45,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     let baulur_lock = Arc::new(Mutex::new(()));
     let kahar_treasure_lock = Arc::new(Mutex::new(()));
     let karuak_ceremony_lock = Arc::new(Mutex::new(()));
-    let commander_pairings_lock = Arc::new(Mutex::new(()));
+    let drastc_lock = Arc::new(Mutex::new(()));
     let commander_pairings_v2_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
@@ -191,26 +191,26 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
 
     add_locked_job(
         &scheduler,
-        PRECOMPUTE_COMMANDER_PAIRINGS_CRON,
+        PRECOMPUTE_DRASTC_CRON,
         Arc::clone(&reports_store),
-        commander_pairings_lock,
-        "commander pairings precompute is already running; skipping this tick",
+        drastc_lock,
+        "DRASTC precompute is already running; skipping this tick",
         |reports_store| async move {
-            match precompute_commander_pairings_data(&reports_store).await {
+            match precompute_drastc_data(&reports_store).await {
                 Ok(stats) => {
                     info!(
                         legendary_commanders = stats.legendary_commanders,
                         observed_pairings = stats.observed_pairings,
-                        supported_drastc_pairings = stats.supported_drastc_pairings,
-                        scored_drastc_pairings = stats.scored_drastc_pairings,
+                        supported_pairings = stats.supported_pairings,
+                        scored_pairings = stats.scored_pairings,
                         confidence_scored_pairings = stats.confidence_scored_pairings,
-                        battle_entries_counted = stats.battle_entries_counted,
                         documents_written = stats.documents_written,
-                        "precomputed commander pairings data"
+                        documents_stored = stats.documents_stored,
+                        "precomputed DRASTC data"
                     );
                 }
                 Err(error) => {
-                    error!(%error, "failed to precompute commander pairings data");
+                    error!(%error, "failed to precompute DRASTC data");
                 }
             }
         },
@@ -284,7 +284,7 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_COMMANDER_PAIRINGS_CRON, PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON,
+        PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, PRECOMPUTE_DRASTC_CRON,
         PRECOMPUTE_KAHAR_TREASURE_CRON, PRECOMPUTE_KARUAK_CEREMONY_CRON, REFRESH_BINDS_CRON,
     };
 
@@ -314,13 +314,13 @@ mod tests {
     }
 
     #[test]
-    fn precompute_commander_pairings_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_CRON, "0 0 */8 * * *");
+    fn precompute_drastc_cron_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_DRASTC_CRON, "0 0 */8 * * *");
     }
 
     #[test]
-    fn compact_commander_pairings_cron_runs_at_four_twelve_and_twenty_utc() {
-        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, "0 0 4,12,20 * * *");
+    fn compact_commander_pairings_cron_is_synchronized_with_drastc() {
+        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, PRECOMPUTE_DRASTC_CRON);
     }
 
     #[test]

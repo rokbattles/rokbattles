@@ -23,4 +23,6 @@ pub enum JobsError {
     MissingLegendaryCommanders,
     #[error("invalid Combat Lab data: {0}")]
     InvalidCombatLabData(String),
+    #[error("invalid materialized DRASTC data: {0}")]
+    InvalidDrastcData(String),
 }

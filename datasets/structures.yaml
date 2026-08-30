@@ -25,7 +25,7 @@ structures:
     911: 411
     914: 314
     919: 319
-    921: 224
+    921: 921
     1004: 224
     1011: 511
     1104: 224
@@ -749,6 +749,9 @@ structures:
         511:
           sprite:
             - img_iconT4Altar.png
+        921:
+          sprite:
+            - img_iconT4Altar.png
         10001:
           sprite:
             - img_iconT4Altar.png
@@ -875,6 +878,9 @@ structures:
           sprite:
             - img_iconT4Altar.png
         511:
+          sprite:
+            - img_iconT4Altar.png
+        921:
           sprite:
             - img_iconT4Altar.png
         10001:
@@ -1005,6 +1011,9 @@ structures:
         511:
           sprite:
             - img_iconT4Altar.png
+        921:
+          sprite:
+            - img_iconT4Altar.png
         10001:
           sprite:
             - img_iconT4Altar.png
@@ -1131,6 +1140,9 @@ structures:
           sprite:
             - img_iconT4Altar.png
         511:
+          sprite:
+            - img_iconT4Altar.png
+        921:
           sprite:
             - img_iconT4Altar.png
         10001:
@@ -1261,6 +1273,9 @@ structures:
         511:
           sprite:
             - img_iconT5Altar.png
+        921:
+          sprite:
+            - img_iconT5Altar.png
         10001:
           sprite:
             - img_iconT5Altar.png
@@ -1387,6 +1402,9 @@ structures:
           sprite:
             - img_iconT5Altar.png
         511:
+          sprite:
+            - img_iconT5Altar.png
+        921:
           sprite:
             - img_iconT5Altar.png
         10001:
@@ -1591,3 +1609,14 @@ structures:
     129:
       sprite:
         - img_InvasionKingdom_iconAlliMain.png
+      override:
+        921:
+          sprite:
+            - img_iconT1Altar.png
+
+    130:
+      sprite: []
+      override:
+        921:
+          sprite:
+            - img_iconT1Relic.png

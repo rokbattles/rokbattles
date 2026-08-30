@@ -6,6 +6,7 @@ use mongodb::{
 };
 
 use crate::{
+    db::exclude_test_client_filter,
     error::ApiError,
     routes::governor::{
         date_range::GovernorDateRange,
@@ -27,7 +28,27 @@ pub(crate) async fn fetch_pairings_mails(
     exclude_activities: &[PairingsActivity],
     exclude_battles: &[PairingsBattleType],
 ) -> Result<Vec<Document>, ApiError> {
+    let filter = build_pairings_mail_filter(
+        governor_id,
+        range,
+        primary_commander_id,
+        exclude_activities,
+        exclude_battles,
+    );
+    let options = FindOptions::builder().projection(pairings_projection()).build();
+
+    fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
+}
+
+fn build_pairings_mail_filter(
+    governor_id: i64,
+    range: &GovernorDateRange,
+    primary_commander_id: Option<i64>,
+    exclude_activities: &[PairingsActivity],
+    exclude_battles: &[PairingsBattleType],
+) -> Document {
     let mut and_filters = vec![
+        exclude_test_client_filter(),
         doc! { "sender.player_id": governor_id },
         doc! { "opponents.player_id": { "$gt": 0 } },
         build_mail_time_match(range.start_millis, range.end_millis),
@@ -41,10 +62,7 @@ pub(crate) async fn fetch_pairings_mails(
         and_filters.push(exclusion_filter);
     }
 
-    let filter = doc! { "$and": and_filters };
-    let options = FindOptions::builder().projection(pairings_projection()).build();
-
-    fetch_collection_documents(state.reports_store.battle_collection(), filter, options).await
+    doc! { "$and": and_filters }
 }
 
 fn pairings_projection() -> Document {
@@ -93,6 +111,26 @@ fn build_exclusion_filter(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn pairings_filter_excludes_test_client_reports() {
+        let range = GovernorDateRange {
+            start_millis: 1_000,
+            end_millis: 2_000,
+            start: "1970-01-01".to_string(),
+            end: "1970-01-01".to_string(),
+        };
+
+        let filter = build_pairings_mail_filter(42, &range, None, &[], &[]);
+        let conditions = filter.get_array("$and").expect("pairings conditions");
+
+        assert_eq!(
+            conditions.first(),
+            Some(&mongodb::bson::Bson::Document(
+                doc! { "sender.app_id": { "$ne": 10_088_010_i64 } }
+            ))
+        );
+    }
 
     #[test]
     fn exclusion_filter_is_absent_when_everything_is_included() {

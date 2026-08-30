@@ -5,7 +5,7 @@ use mongodb::{
     Collection,
     bson::{Document, doc},
 };
-use rokbattles_api::db::ReportsStore;
+use rokbattles_api::db::{ReportsStore, exclude_test_client_filter};
 use rokbattles_bson::{bson_integer_to_i64, nested_string, nested_value};
 
 use crate::error::JobsError;
@@ -83,7 +83,10 @@ async fn fetch_latest_sender_snapshots(
     let pipeline = vec![
         doc! {
             "$match": {
-                "sender.player_id": { "$in": governor_ids }
+                "$and": [
+                    exclude_test_client_filter(),
+                    { "sender.player_id": { "$in": governor_ids } },
+                ]
             }
         },
         doc! {
