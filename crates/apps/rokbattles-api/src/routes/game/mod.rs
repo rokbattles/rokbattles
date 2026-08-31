@@ -12,7 +12,7 @@ use serde::Deserialize;
 
 use crate::{db::GameTranslation, error::ApiError, state::AppState};
 
-const DEFAULT_VERSION: &str = "1.1.9.19";
+const DEFAULT_VERSION: &str = "1.1.11.25";
 const DEFAULT_LANGUAGE: &str = "en";
 
 type TranslationResponse = BTreeMap<String, Option<String>>;
