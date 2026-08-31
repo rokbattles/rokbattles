@@ -6,7 +6,7 @@ use mongodb::{
 };
 use serde::Deserialize;
 
-/// One column declared by an ExcelData sheet.
+/// One queryable field.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct GameExcelDataColumn {
     pub name: String,
@@ -14,7 +14,7 @@ pub struct GameExcelDataColumn {
     pub value_type: String,
 }
 
-/// Schema metadata for one versioned ExcelData sheet.
+/// Fields available for a versioned query.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct GameExcelDataSheet {
     pub version: String,
@@ -22,16 +22,16 @@ pub struct GameExcelDataSheet {
     pub columns: Vec<GameExcelDataColumn>,
 }
 
-/// Errors returned by ExcelData storage operations.
+/// Game-query errors.
 #[derive(Debug, thiserror::Error)]
 pub enum GameExcelDataStoreError {
     #[error("database error: {0}")]
     Database(#[from] mongodb::error::Error),
-    #[error("invalid ExcelData document: {0}")]
+    #[error("invalid game-data document: {0}")]
     InvalidDocument(String),
 }
 
-/// Storage interface used by the ExcelData route.
+/// Versioned game-query operations.
 pub trait GameExcelDataRepository: Send + Sync {
     fn find_sheet<'a>(
         &'a self,
@@ -52,7 +52,7 @@ pub trait GameExcelDataRepository: Send + Sync {
     ) -> BoxFuture<'a, Result<Vec<Document>, GameExcelDataStoreError>>;
 }
 
-/// MongoDB-backed ExcelData repository.
+/// Versioned game-query service.
 #[derive(Debug, Clone)]
 pub struct GameExcelDataStore {
     sheets: Collection<Document>,
@@ -60,7 +60,7 @@ pub struct GameExcelDataStore {
 }
 
 impl GameExcelDataStore {
-    /// Create a repository backed by the ExcelData sheet and row collections.
+    /// Create a game-query service.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
             sheets: db.collection("g_rok_game_excel_sheets"),
@@ -68,7 +68,7 @@ impl GameExcelDataStore {
         }
     }
 
-    /// Ensure versioned sheet and row lookups are unique and indexed.
+    /// Prepare the service for requests.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         self.sheets
             .create_index(
