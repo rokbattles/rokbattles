@@ -9,73 +9,73 @@ use serde::Deserialize;
 
 use super::DEFAULT_VERSION;
 use crate::{
-    db::{GameExcelDataRepository, GameExcelDataSheet},
+    db::{GameQueryRepository, GameQuerySheet},
     error::ApiError,
     state::AppState,
 };
 
 #[derive(Debug, Default, Deserialize)]
-pub(super) struct ExcelDataGetInput {
+pub(super) struct GetInput {
     sheet: Option<String>,
     ver: Option<String>,
 }
 
 #[derive(Debug, Default, Deserialize)]
-pub(super) struct ExcelDataPostInput {
+pub(super) struct PostInput {
     #[serde(alias = "sheet")]
     key: Option<String>,
     #[serde(alias = "version")]
     ver: Option<String>,
     #[serde(default)]
-    fields: Vec<ExcelDataFieldInput>,
+    fields: Vec<FieldInput>,
 }
 
 #[derive(Debug, Deserialize)]
-struct ExcelDataFieldInput {
+struct FieldInput {
     field: String,
     op: String,
     value: serde_json::Value,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum ExcelDataOperator {
+enum Operator {
     Eq,
     Ne,
 }
 
 #[derive(Debug, PartialEq)]
-struct ExcelDataField {
+struct Field {
     field: String,
-    op: ExcelDataOperator,
+    op: Operator,
     value: Bson,
 }
 
 #[derive(Debug, PartialEq)]
-struct ExcelDataRequest {
+struct Request {
     sheet: String,
     version: String,
-    fields: Vec<ExcelDataField>,
+    fields: Vec<Field>,
 }
 
 pub(super) async fn get(
     State(state): State<std::sync::Arc<AppState>>,
-    Query(input): Query<ExcelDataGetInput>,
+    Query(input): Query<GetInput>,
 ) -> Result<Json<Vec<Document>>, ApiError> {
     let request = parse_get_request(input)?;
-    query(&state.game_excel_data, request).await.map(Json)
+    query(&state.game_query, request).await.map(Json)
 }
 
 pub(super) async fn post(
     State(state): State<std::sync::Arc<AppState>>,
-    Json(input): Json<ExcelDataPostInput>,
+    Json(input): Json<PostInput>,
 ) -> Result<Json<Vec<Document>>, ApiError> {
     let request = parse_post_request(input)?;
-    query(&state.game_excel_data, request).await.map(Json)
+    query(&state.game_query, request).await.map(Json)
 }
 
 async fn query(
-    repository: &impl GameExcelDataRepository,
-    request: ExcelDataRequest,
+    repository: &impl GameQueryRepository,
+    request: Request,
 ) -> Result<Vec<Document>, ApiError> {
     let metadata =
         repository.find_sheet(&request.version, &request.sheet).await.map_err(internal_error)?;
@@ -93,15 +93,15 @@ async fn query(
         .map_err(internal_error)
 }
 
-fn parse_get_request(input: ExcelDataGetInput) -> Result<ExcelDataRequest, ApiError> {
+fn parse_get_request(input: GetInput) -> Result<Request, ApiError> {
     let sheet = required_value(input.sheet, "sheet")?;
-    Ok(ExcelDataRequest { sheet, version: version_or_default(input.ver), fields: Vec::new() })
+    Ok(Request { sheet, version: version_or_default(input.ver), fields: Vec::new() })
 }
 
-fn parse_post_request(input: ExcelDataPostInput) -> Result<ExcelDataRequest, ApiError> {
+fn parse_post_request(input: PostInput) -> Result<Request, ApiError> {
     let sheet = required_value(input.key, "key")?;
     let fields = input.fields.into_iter().map(parse_field).collect::<Result<Vec<_>, _>>()?;
-    Ok(ExcelDataRequest { sheet, version: version_or_default(input.ver), fields })
+    Ok(Request { sheet, version: version_or_default(input.ver), fields })
 }
 
 fn required_value(value: Option<String>, name: &str) -> Result<String, ApiError> {
@@ -115,24 +115,21 @@ fn version_or_default(version: Option<String>) -> String {
     version.unwrap_or_else(|| DEFAULT_VERSION.to_string())
 }
 
-fn parse_field(input: ExcelDataFieldInput) -> Result<ExcelDataField, ApiError> {
+fn parse_field(input: FieldInput) -> Result<Field, ApiError> {
     let field = required_value(Some(input.field), "field")?;
     let op = match input.op.trim().to_ascii_lowercase().as_str() {
-        "eq" => ExcelDataOperator::Eq,
-        "ne" => ExcelDataOperator::Ne,
+        "eq" => Operator::Eq,
+        "ne" => Operator::Ne,
         operator => {
             return Err(ApiError::bad_request(format!("unsupported operator: {operator}")));
         }
     };
     let value = to_bson(&input.value)
         .map_err(|error| ApiError::bad_request(format!("invalid filter value: {error}")))?;
-    Ok(ExcelDataField { field, op, value })
+    Ok(Field { field, op, value })
 }
 
-fn validate_fields(
-    metadata: &GameExcelDataSheet,
-    fields: &[ExcelDataField],
-) -> Result<(), ApiError> {
+fn validate_fields(metadata: &GameQuerySheet, fields: &[Field]) -> Result<(), ApiError> {
     let known_fields =
         metadata.columns.iter().map(|column| column.name.as_str()).collect::<BTreeSet<_>>();
     for field in fields {
@@ -146,7 +143,7 @@ fn validate_fields(
     Ok(())
 }
 
-fn build_predicates(fields: &[ExcelDataField]) -> Document {
+fn build_predicates(fields: &[Field]) -> Document {
     if fields.is_empty() {
         return Document::new();
     }
@@ -156,8 +153,8 @@ fn build_predicates(fields: &[ExcelDataField]) -> Document {
         .map(|field| {
             let path = format!("data.{}", field.field);
             let predicate = match field.op {
-                ExcelDataOperator::Eq => doc! { path: field.value.clone() },
-                ExcelDataOperator::Ne => doc! { path: { "$ne": field.value.clone() } },
+                Operator::Eq => doc! { path: field.value.clone() },
+                Operator::Ne => doc! { path: { "$ne": field.value.clone() } },
             };
             Bson::Document(predicate)
         })
@@ -176,10 +173,10 @@ mod tests {
     use futures::{FutureExt, future::BoxFuture};
 
     use super::*;
-    use crate::db::{GameExcelDataColumn, GameExcelDataStoreError};
+    use crate::db::{GameQueryColumn, GameQueryStoreError};
 
     struct MockRepository {
-        sheet: Option<GameExcelDataSheet>,
+        sheet: Option<GameQuerySheet>,
         version_exists: bool,
         rows: Vec<Document>,
         predicates: Mutex<Option<Document>>,
@@ -188,15 +185,15 @@ mod tests {
     impl MockRepository {
         fn with_sheet() -> Self {
             Self {
-                sheet: Some(GameExcelDataSheet {
+                sheet: Some(GameQuerySheet {
                     version: DEFAULT_VERSION.to_string(),
                     sheet: "alliance_armory_const".to_string(),
                     columns: vec![
-                        GameExcelDataColumn {
+                        GameQueryColumn {
                             name: "ID".to_string(),
                             value_type: "integer".to_string(),
                         },
-                        GameExcelDataColumn {
+                        GameQueryColumn {
                             name: "Key".to_string(),
                             value_type: "string".to_string(),
                         },
@@ -209,19 +206,19 @@ mod tests {
         }
     }
 
-    impl GameExcelDataRepository for MockRepository {
+    impl GameQueryRepository for MockRepository {
         fn find_sheet<'a>(
             &'a self,
             _version: &'a str,
             _sheet: &'a str,
-        ) -> BoxFuture<'a, Result<Option<GameExcelDataSheet>, GameExcelDataStoreError>> {
+        ) -> BoxFuture<'a, Result<Option<GameQuerySheet>, GameQueryStoreError>> {
             async move { Ok(self.sheet.clone()) }.boxed()
         }
 
         fn version_exists<'a>(
             &'a self,
             _version: &'a str,
-        ) -> BoxFuture<'a, Result<bool, GameExcelDataStoreError>> {
+        ) -> BoxFuture<'a, Result<bool, GameQueryStoreError>> {
             async move { Ok(self.version_exists) }.boxed()
         }
 
@@ -230,7 +227,7 @@ mod tests {
             _version: &'a str,
             _sheet: &'a str,
             predicates: Document,
-        ) -> BoxFuture<'a, Result<Vec<Document>, GameExcelDataStoreError>> {
+        ) -> BoxFuture<'a, Result<Vec<Document>, GameQueryStoreError>> {
             async move {
                 *self.predicates.lock().expect("mutex should not be poisoned") = Some(predicates);
                 Ok(self.rows.clone())
@@ -241,11 +238,10 @@ mod tests {
 
     #[test]
     fn get_request_requires_sheet_and_uses_default_version() {
-        let error =
-            parse_get_request(ExcelDataGetInput::default()).expect_err("sheet should be required");
+        let error = parse_get_request(GetInput::default()).expect_err("sheet should be required");
         assert!(matches!(error, ApiError::BadRequest(message) if message == "sheet is required"));
 
-        let request = parse_get_request(ExcelDataGetInput {
+        let request = parse_get_request(GetInput {
             sheet: Some("alliance_armory_const".to_string()),
             ver: None,
         })
@@ -255,16 +251,16 @@ mod tests {
 
     #[test]
     fn post_request_accepts_eq_and_ne_filters() {
-        let request = parse_post_request(ExcelDataPostInput {
+        let request = parse_post_request(PostInput {
             key: Some("alliance_armory_const".to_string()),
             ver: Some("1.2.0".to_string()),
             fields: vec![
-                ExcelDataFieldInput {
+                FieldInput {
                     field: "ID".to_string(),
                     op: "eq".to_string(),
                     value: serde_json::json!(1),
                 },
-                ExcelDataFieldInput {
+                FieldInput {
                     field: "Key".to_string(),
                     op: "NE".to_string(),
                     value: serde_json::json!("DONATE_SCORE_2"),
@@ -274,20 +270,20 @@ mod tests {
         .expect("request should be valid");
 
         assert_eq!(request.version, "1.2.0");
-        assert_eq!(request.fields[0].op, ExcelDataOperator::Eq);
-        assert_eq!(request.fields[1].op, ExcelDataOperator::Ne);
+        assert_eq!(request.fields[0].op, Operator::Eq);
+        assert_eq!(request.fields[1].op, Operator::Ne);
     }
 
     #[test]
     fn post_request_rejects_unknown_operator() {
-        let error = parse_post_request(ExcelDataPostInput {
+        let error = parse_post_request(PostInput {
             key: Some("alliance_armory_const".to_string()),
-            fields: vec![ExcelDataFieldInput {
+            fields: vec![FieldInput {
                 field: "ID".to_string(),
                 op: "gt".to_string(),
                 value: serde_json::json!(1),
             }],
-            ..ExcelDataPostInput::default()
+            ..PostInput::default()
         })
         .expect_err("operator should be rejected");
 
@@ -299,12 +295,12 @@ mod tests {
     #[tokio::test]
     async fn query_returns_rows_and_builds_anded_predicates() {
         let repository = MockRepository::with_sheet();
-        let request = ExcelDataRequest {
+        let request = Request {
             sheet: "alliance_armory_const".to_string(),
             version: DEFAULT_VERSION.to_string(),
-            fields: vec![ExcelDataField {
+            fields: vec![Field {
                 field: "ID".to_string(),
-                op: ExcelDataOperator::Ne,
+                op: Operator::Ne,
                 value: Bson::Int32(2),
             }],
         };
@@ -321,12 +317,12 @@ mod tests {
     #[tokio::test]
     async fn query_rejects_unknown_field() {
         let repository = MockRepository::with_sheet();
-        let request = ExcelDataRequest {
+        let request = Request {
             sheet: "alliance_armory_const".to_string(),
             version: DEFAULT_VERSION.to_string(),
-            fields: vec![ExcelDataField {
+            fields: vec![Field {
                 field: "Unknown".to_string(),
-                op: ExcelDataOperator::Eq,
+                op: Operator::Eq,
                 value: Bson::Int32(1),
             }],
         };
@@ -346,7 +342,7 @@ mod tests {
             rows: Vec::new(),
             predicates: Mutex::new(None),
         };
-        let request = ExcelDataRequest {
+        let request = Request {
             sheet: "missing".to_string(),
             version: DEFAULT_VERSION.to_string(),
             fields: Vec::new(),
@@ -367,7 +363,7 @@ mod tests {
             rows: Vec::new(),
             predicates: Mutex::new(None),
         };
-        let request = ExcelDataRequest {
+        let request = Request {
             sheet: "alliance_armory_const".to_string(),
             version: "9.9.9".to_string(),
             fields: Vec::new(),

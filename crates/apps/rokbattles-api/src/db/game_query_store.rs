@@ -8,7 +8,7 @@ use serde::Deserialize;
 
 /// One queryable field.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-pub struct GameExcelDataColumn {
+pub struct GameQueryColumn {
     pub name: String,
     #[serde(rename = "type")]
     pub value_type: String,
@@ -16,15 +16,15 @@ pub struct GameExcelDataColumn {
 
 /// Fields available for a versioned query.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
-pub struct GameExcelDataSheet {
+pub struct GameQuerySheet {
     pub version: String,
     pub sheet: String,
-    pub columns: Vec<GameExcelDataColumn>,
+    pub columns: Vec<GameQueryColumn>,
 }
 
 /// Game-query errors.
 #[derive(Debug, thiserror::Error)]
-pub enum GameExcelDataStoreError {
+pub enum GameQueryStoreError {
     #[error("database error: {0}")]
     Database(#[from] mongodb::error::Error),
     #[error("invalid game-data document: {0}")]
@@ -32,34 +32,34 @@ pub enum GameExcelDataStoreError {
 }
 
 /// Versioned game-query operations.
-pub trait GameExcelDataRepository: Send + Sync {
+pub trait GameQueryRepository: Send + Sync {
     fn find_sheet<'a>(
         &'a self,
         version: &'a str,
         sheet: &'a str,
-    ) -> BoxFuture<'a, Result<Option<GameExcelDataSheet>, GameExcelDataStoreError>>;
+    ) -> BoxFuture<'a, Result<Option<GameQuerySheet>, GameQueryStoreError>>;
 
     fn version_exists<'a>(
         &'a self,
         version: &'a str,
-    ) -> BoxFuture<'a, Result<bool, GameExcelDataStoreError>>;
+    ) -> BoxFuture<'a, Result<bool, GameQueryStoreError>>;
 
     fn find_rows<'a>(
         &'a self,
         version: &'a str,
         sheet: &'a str,
         predicates: Document,
-    ) -> BoxFuture<'a, Result<Vec<Document>, GameExcelDataStoreError>>;
+    ) -> BoxFuture<'a, Result<Vec<Document>, GameQueryStoreError>>;
 }
 
 /// Versioned game-query service.
 #[derive(Debug, Clone)]
-pub struct GameExcelDataStore {
+pub struct GameQueryStore {
     sheets: Collection<Document>,
     rows: Collection<Document>,
 }
 
-impl GameExcelDataStore {
+impl GameQueryStore {
     /// Create a game-query service.
     pub fn new(db: mongodb::Database) -> Self {
         Self {
@@ -90,12 +90,12 @@ impl GameExcelDataStore {
     }
 }
 
-impl GameExcelDataRepository for GameExcelDataStore {
+impl GameQueryRepository for GameQueryStore {
     fn find_sheet<'a>(
         &'a self,
         version: &'a str,
         sheet: &'a str,
-    ) -> BoxFuture<'a, Result<Option<GameExcelDataSheet>, GameExcelDataStoreError>> {
+    ) -> BoxFuture<'a, Result<Option<GameQuerySheet>, GameQueryStoreError>> {
         async move {
             let document = self
                 .sheets
@@ -110,7 +110,7 @@ impl GameExcelDataRepository for GameExcelDataStore {
     fn version_exists<'a>(
         &'a self,
         version: &'a str,
-    ) -> BoxFuture<'a, Result<bool, GameExcelDataStoreError>> {
+    ) -> BoxFuture<'a, Result<bool, GameQueryStoreError>> {
         async move {
             Ok(self
                 .sheets
@@ -127,7 +127,7 @@ impl GameExcelDataRepository for GameExcelDataStore {
         version: &'a str,
         sheet: &'a str,
         predicates: Document,
-    ) -> BoxFuture<'a, Result<Vec<Document>, GameExcelDataStoreError>> {
+    ) -> BoxFuture<'a, Result<Vec<Document>, GameQueryStoreError>> {
         async move {
             let mut filter = doc! { "version": version, "sheet": sheet };
             filter.extend(predicates);
@@ -144,20 +144,17 @@ impl GameExcelDataRepository for GameExcelDataStore {
     }
 }
 
-fn map_sheet(document: Document) -> Result<GameExcelDataSheet, GameExcelDataStoreError> {
-    from_document(document)
-        .map_err(|error| GameExcelDataStoreError::InvalidDocument(error.to_string()))
+fn map_sheet(document: Document) -> Result<GameQuerySheet, GameQueryStoreError> {
+    from_document(document).map_err(|error| GameQueryStoreError::InvalidDocument(error.to_string()))
 }
 
-fn map_row(mut document: Document) -> Result<Document, GameExcelDataStoreError> {
+fn map_row(mut document: Document) -> Result<Document, GameQueryStoreError> {
     document
         .remove("data")
-        .ok_or_else(|| GameExcelDataStoreError::InvalidDocument("data is required".to_string()))?
+        .ok_or_else(|| GameQueryStoreError::InvalidDocument("data is required".to_string()))?
         .as_document()
         .cloned()
-        .ok_or_else(|| {
-            GameExcelDataStoreError::InvalidDocument("data must be a document".to_string())
-        })
+        .ok_or_else(|| GameQueryStoreError::InvalidDocument("data must be a document".to_string()))
 }
 
 #[cfg(test)]

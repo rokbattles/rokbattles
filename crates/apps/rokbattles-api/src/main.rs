@@ -10,7 +10,7 @@ use mongodb::options::ClientOptions;
 use rokbattles_api::{
     build_router,
     config::Config,
-    db::{GameExcelDataStore, GameLocalizationStore, MongoAuthStore, ReportsStore},
+    db::{GameLocalizationStore, GameQueryStore, MongoAuthStore, ReportsStore},
     state::{AppState, DiscordOAuthConfig},
 };
 use tracing::info;
@@ -55,8 +55,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let game_localizations = GameLocalizationStore::new(database.clone());
     game_localizations.ensure_indexes().await?;
 
-    let game_excel_data = GameExcelDataStore::new(database.clone());
-    game_excel_data.ensure_indexes().await?;
+    let game_query = GameQueryStore::new(database.clone());
+    game_query.ensure_indexes().await?;
 
     let auth_store = Arc::new(MongoAuthStore::new(database));
     auth_store.ensure_indexes().await?;
@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
     let state = Arc::new(AppState::new(
         auth_store,
-        game_excel_data,
+        game_query,
         game_localizations,
         reports_store,
         discord_oauth,
