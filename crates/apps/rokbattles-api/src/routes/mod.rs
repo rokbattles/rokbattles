@@ -11,6 +11,7 @@ mod governor;
 mod health;
 mod loot_explorer;
 mod reports;
+mod territory_planner;
 
 /// Build the top-level API router.
 pub fn router() -> Router<Arc<AppState>> {
@@ -36,6 +37,8 @@ fn v1_router() -> Router<Arc<AppState>> {
         .route("/global/loot-explorer/baulurs", get(loot_explorer::get_baulurs))
         .route("/global/loot-explorer/karuak-ceremony", get(loot_explorer::get_karuak_ceremony))
         .route("/global/loot-explorer/kahars-treasure", get(loot_explorer::get_kahar_treasure))
+        .route("/global/territory-planner/list", get(territory_planner::list))
+        .route("/global/territory-planner/map/{map}", get(territory_planner::get_map))
         .route("/report/battle/{id}", get(reports::battle::get_by_id))
         .route("/report/duelbattle2/{id}", get(reports::duelbattle2::get_by_id))
         .route("/reports/battle", get(reports::battle::get))
