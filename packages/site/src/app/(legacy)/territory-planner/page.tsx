@@ -2,7 +2,8 @@ import { TerritoryPlanner } from "@/components/territory-planner/territory-plann
 import type { TerritoryMapListResponse } from "@/lib/territory/types";
 
 export default async function TerritoryPlannerPage() {
-  const response = await fetch("/proxy/v1/global/territory-planner/list", {
+  const apiUrl = process.env.API_URL || "http://localhost:8001";
+  const response = await fetch(`${apiUrl.replace(/\/$/, "")}/v1/global/territory-planner/list`, {
     cache: "no-store",
   });
   if (!response.ok) {
