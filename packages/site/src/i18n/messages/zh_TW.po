@@ -867,6 +867,7 @@ msgid "wduJme"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
 msgid "bSCV9J"
 msgstr ""
 
@@ -1100,11 +1101,13 @@ msgstr ""
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
 #: src/components/reports/reports-filter-dialog.tsx
+#: src/components/territory-planner/planner-settings-drawer.tsx
 msgid "47FYwb"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
+#: src/components/territory-planner/planner-settings-drawer.tsx
 msgid "jvo0vs"
 msgstr ""
 
@@ -1581,6 +1584,7 @@ msgstr "已複製"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
+#: src/components/territory-planner/territory-planner.tsx
 msgid "OKhRC6"
 msgstr ""
 
@@ -1677,6 +1681,11 @@ msgstr ""
 
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
+msgstr ""
+
+#: src/components/platform-layout.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgid "NCnvW0"
 msgstr ""
 
 #: src/components/platform-layout.tsx
@@ -1991,6 +2000,355 @@ msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
 msgid "xXbJso"
+msgstr ""
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "c3MqCM"
+msgstr ""
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "vfBCdN"
+msgstr ""
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "dTN5Q_"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "RuDx5_"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "efq633"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "AqqORv"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "l9iQOz"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "N2HbmZ"
+msgstr ""
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "2YIRK6"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "D-ZFS_"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "n3m1xt"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "5Tw3Ta"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "1W4okO"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "YCtAVD"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "k2tJ9k"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "tihmF3"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "KIm2E5"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "D3idYv"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "4dLJ2n"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "j5ASqk"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "1A0HiQ"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "azUqAZ"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "lN9YOn"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "NdufDy"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "_KvwGz"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "s3IOQQ"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "JpsXCp"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "PrwHjk"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "7s5xbv"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "B8F_S_"
+msgstr ""
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "2_2yg-"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgid "v5_T25"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "qEXtNB"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "uau2JL"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "8PV5tF"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "S_mBkY"
+msgstr ""
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "NyxynW"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "T86Fnb"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "JM6RlW"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "HJCupX"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "h9dtUs"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "AzTP1q"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "zuqMfZ"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "DwFieO"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "zmMjEn"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "6xfci4"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "-znnlM"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "iO9Xom"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "RNqPQL"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "3S5CZQ"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "ayBb4B"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "Ys0dmO"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "MEA0uN"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "gW7-rG"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "xWjJGr"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "wZsBSy"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "Ed112w"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "v8GMOg"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "-w6K47"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "OLb6AJ"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "430I4C"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "GwqiOt"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "ZOQ7HO"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "MP-xJh"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "orJzQH"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "kQAf2d"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "i1-AIw"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "4198KF"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "xaTgym"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "MPTvtH"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "j3P9qu"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "O93KLR"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "hg8Lv0"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "BiPM7e"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "bM2qoT"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "mo0a1h"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "dB5nyw"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "e5RJ5j"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "oeX-OS"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "eAqXUV"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "Tb3UEK"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "RQT3pQ"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "jFqmEK"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "KB_X0M"
+msgstr ""
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "yFnkCB"
 msgstr ""
 
 #: src/hooks/use-ark-match-detail.ts
