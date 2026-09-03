@@ -4,73 +4,88 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: next-intl\n"
-"X-Crowdin-SourceKey: msgstr\n"
+"X-Message-Key: msgctxt\n"
 
 #: src/app/(legacy)/account/ark/[matchId]/page.tsx
-msgid "WDt8Y9"
+msgctxt "WDt8Y9"
+msgid "Ark Match"
 msgstr ""
 
 #: src/app/(legacy)/account/ark/page.tsx
-msgid "P2Qqmh"
+msgctxt "P2Qqmh"
+msgid "Ark Match History"
 msgstr ""
 
 #: src/app/(legacy)/account/pairings/page.tsx
 #: src/components/platform-layout.tsx
-msgid "N42bBd"
+msgctxt "N42bBd"
+msgid "My Pairings"
 msgstr ""
 
 #: src/app/(legacy)/account/resources/page.tsx
 #: src/components/platform-layout.tsx
-msgid "gMtUZq"
+msgctxt "gMtUZq"
+msgid "My Resources"
 msgstr ""
 
 #: src/app/(legacy)/account/settings/layout.tsx
 #: src/components/sidebar-governor-header.tsx
-msgid "NQgbYA"
+msgctxt "NQgbYA"
+msgid "Account Settings"
 msgstr "Konto-Einstellungen"
 
 #: src/app/(legacy)/account/settings/page.tsx
-msgid "hJZwTS"
+msgctxt "hJZwTS"
+msgid "Email address"
 msgstr ""
 
 #: src/app/(legacy)/account/settings/page.tsx
-msgid "rmEwjk"
+msgctxt "rmEwjk"
+msgid "Your email address is synced from Discord."
 msgstr ""
 
 #: src/app/(legacy)/olympian-arena/[id]/page.tsx
-msgid "xVCzuX"
+msgctxt "xVCzuX"
+msgid "Explore Duels"
 msgstr ""
 
 #: src/app/(legacy)/olympian-arena/page.tsx
-msgid "78PvoX"
+msgctxt "78PvoX"
+msgid "Olympian Arena Reports"
 msgstr ""
 
 #: src/app/(legacy)/olympian-arena/page.tsx
 #: src/app/(legacy)/page.tsx
 #: src/components/account/account-reports-content.tsx
-msgid "F2qQa8"
+msgctxt "F2qQa8"
+msgid "Live feed (UTC)"
 msgstr ""
 
 #: src/app/(legacy)/page.tsx
 #: src/components/platform-layout.tsx
-msgid "xmv5Of"
+msgctxt "xmv5Of"
+msgid "Battle Reports"
 msgstr "Kampfberichte"
 
 #: src/app/(legacy)/page.tsx
 #: src/components/account/account-reports-content.tsx
-msgid "9Obw6C"
+msgctxt "9Obw6C"
+msgid "Filter"
 msgstr ""
 
 #: src/app/(legacy)/report/[id]/page.tsx
-msgid "1gqsiW"
+msgctxt "1gqsiW"
+msgid "Battle Report"
 msgstr "Kampfbericht."
 
 #: src/app/(legacy)/report/[id]/page.tsx
-msgid "irMluf"
+msgctxt "irMluf"
+msgid "Back to My Reports"
 msgstr ""
 
 #: src/app/(legacy)/report/[id]/page.tsx
-msgid "8PEDrB"
+msgctxt "8PEDrB"
+msgid "Explore Battles"
 msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
@@ -78,144 +93,176 @@ msgstr ""
 #: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/participant-cell.tsx
-msgid "5hGibV"
+msgctxt "5hGibV"
+msgid "Unknown commander"
 msgstr ""
 
 #: src/components/account-ark/ark-commander-pairing-cell.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/reports/participant-cell.tsx
-msgid "-sdDeh"
+msgctxt "-sdDeh"
+msgid "{name} icon"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-error-state.tsx
-msgid "Xe3O7i"
+msgctxt "Xe3O7i"
+msgid "Failed to load Ark match details."
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/report/report-overview-column.tsx
-msgid "PW-sL4"
+msgctxt "PW-sL4"
+msgid "N/A"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "gkoU0i"
+msgctxt "gkoU0i"
+msgid "Individual Results"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "FsjcN7"
+msgctxt "FsjcN7"
+msgid "Ark of Osiris Score"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "JPFyHU"
+msgctxt "JPFyHU"
+msgid "Kill Score"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "g_Nwxg"
+msgctxt "g_Nwxg"
+msgid "Occupation Score"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "5YClsN"
+msgctxt "5YClsN"
+msgid "Provisions Score"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "nCGWau"
+msgctxt "nCGWau"
+msgid "Battles Won"
 msgstr "Gewonnene Kämpfe"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "Hw0iax"
+msgctxt "Hw0iax"
+msgid "Battles Lost"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "BXfxPW"
+msgctxt "BXfxPW"
+msgid "Win Percentage"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "Sl01xK"
+msgctxt "Sl01xK"
+msgid "Kills"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "sz3C4k"
+msgctxt "sz3C4k"
+msgid "Severely Wounded"
 msgstr "schwer verletzt"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "mJwM5A"
+msgctxt "mJwM5A"
+msgid "Units Healed"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "itiyNN"
+msgctxt "itiyNN"
+msgid "Speedups (minutes)"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "lcP4aP"
+msgctxt "lcP4aP"
+msgid "Teleports"
 msgstr "Teleportierungen"
 
 #: src/components/account-ark/ark-match-detail-individual-results-section.tsx
-msgid "5g03Dq"
+msgctxt "5g03Dq"
+msgid "Structures Entered"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-loading-state.tsx
-msgid "ksU1u5"
+msgctxt "ksU1u5"
+msgid "Loading Ark match details..."
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-not-found-state.tsx
-msgid "gwll_b"
+msgctxt "gwll_b"
+msgid "Ark match not found."
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "9uOFF3"
+msgctxt "9uOFF3"
+msgid "Overview"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "VP5-CR"
+msgctxt "VP5-CR"
+msgid "Rank"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "oLkLww"
+msgctxt "oLkLww"
+msgid "Score"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "b5C-CG"
+msgctxt "b5C-CG"
+msgid "Total Battles"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "GY2gN9"
+msgctxt "GY2gN9"
+msgid "Kill Points Gain"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-overview-section.tsx
-msgid "9otZoU"
+msgctxt "9otZoU"
+msgid "Kill Points Loss"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-msgid "fq2V8a"
+msgctxt "fq2V8a"
+msgid "Pairings Performance"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-msgid "Tm8lLF"
+msgctxt "Tm8lLF"
+msgid "No pairings found for this match."
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "02koas"
+msgctxt "02koas"
+msgid "#"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "goGXET"
+msgctxt "goGXET"
+msgid "Pairing"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
-msgid "ZtK0ZT"
+msgctxt "ZtK0ZT"
+msgid "Battles (win/total)"
 msgstr ""
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "Y3Z7jw"
+msgctxt "Y3Z7jw"
+msgid "Kill Count"
 msgstr "Kill-Anzahl"
 
 #: src/components/account-ark/ark-match-detail-pairings-section.tsx
@@ -225,239 +272,290 @@ msgstr "Kill-Anzahl"
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "RCtKQ2"
+msgctxt "RCtKQ2"
+msgid "Kill Points"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-empty-state.tsx
-msgid "7fThOd"
+msgctxt "7fThOd"
+msgid "No Ark match history found."
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-error-state.tsx
-msgid "6IRh9u"
+msgctxt "6IRh9u"
+msgid "Failed to load Ark match history."
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-loading-state.tsx
-msgid "raC1gL"
+msgctxt "raC1gL"
+msgid "Loading Ark match history..."
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "T4H9Lz"
+msgctxt "T4H9Lz"
+msgid "Seth"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "lsSmtD"
+msgctxt "lsSmtD"
+msgid "Iset"
 msgstr "Isis"
 
 #: src/components/account-ark/ark-match-history-row.tsx
 #: src/components/commander-loadout-row.tsx
 #: src/components/report/report-overview-column.tsx
-msgid "5jeq8P"
+msgctxt "5jeq8P"
+msgid "Unknown"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
-msgid "lgBBrD"
+msgctxt "lgBBrD"
+msgid "View Ark match details"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-row.tsx
-msgid "iVlule"
+msgctxt "iVlule"
+msgid "Unknown alliance"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "ug01Mk"
+msgctxt "ug01Mk"
+msgid "Time"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "H-vBOj"
+msgctxt "H-vBOj"
+msgid "Winner"
 msgstr ""
 
 #: src/components/account-ark/ark-match-history-table.tsx
-msgid "-a-2ug"
+msgctxt "-a-2ug"
+msgid "Members"
 msgstr ""
 
 #: src/components/account-binds/account-binds-content.tsx
-msgid "XongGf"
+msgctxt "XongGf"
+msgid "Unable to set default bind. Please try again."
 msgstr ""
 
 #: src/components/account-binds/account-binds-content.tsx
-msgid "1VWYm7"
+msgctxt "1VWYm7"
+msgid "Unable to unlink bind. Please try again."
 msgstr ""
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
-msgid "wL7VAE"
+msgctxt "wL7VAE"
+msgid "Actions"
 msgstr ""
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
-msgid "E2APuV"
+msgctxt "E2APuV"
+msgid "Set default bind"
 msgstr ""
 
 #: src/components/account-binds/bind-actions-dropdown.tsx
-msgid "7L4R8L"
+msgctxt "7L4R8L"
+msgid "Unlink bind"
 msgstr ""
 
 #: src/components/account-binds/bind-list-item.tsx
-msgid "lKv8ex"
+msgctxt "lKv8ex"
+msgid "Default"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "6Hth5y"
+msgctxt "6Hth5y"
+msgid "You can only bind up to {value} governors."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "pf6kFc"
+msgctxt "pf6kFc"
+msgid "Enter a governor ID."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "I_clsA"
+msgctxt "I_clsA"
+msgid "Enter a valid governor ID."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "JUJHzc"
+msgctxt "JUJHzc"
+msgid "Something went wrong while binding. Please try again."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "GNDCcc"
+msgctxt "GNDCcc"
+msgid "Governor ID"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "79SjmN"
+msgctxt "79SjmN"
+msgid "You have reached the maximum of {value} binds."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "dbfVtv"
+msgctxt "dbfVtv"
+msgid "Binding..."
 msgstr ""
 
 #: src/components/account-binds/binds-claim-form.tsx
-msgid "FRzSFh"
+msgctxt "FRzSFh"
+msgid "Bind governor"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "JMZWnS"
+msgctxt "JMZWnS"
+msgid "Bind a governor"
 msgstr ""
 
 #: src/components/account-binds/binds-claim-section.tsx
-msgid "WfeFuo"
+msgctxt "WfeFuo"
+msgid "Link a governor to your account by entering the Governor ID from Rise of Kingdoms. You can claim up to {value}."
 msgstr ""
 
 #: src/components/account-binds/binds-list.tsx
-msgid "QXdDDh"
+msgctxt "QXdDDh"
+msgid "Binds"
 msgstr ""
 
 #: src/components/account-binds/binds-list.tsx
-msgid "m9rp75"
+msgctxt "m9rp75"
+msgid "No binds yet."
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "r3YbHp"
+msgctxt "r3YbHp"
+msgid "Barbarians"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "owXGag"
+msgctxt "owXGag"
+msgid "Barbarian Forts"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "l7kWPA"
+msgctxt "l7kWPA"
+msgid "Baulurs"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "xRJGes"
+msgctxt "xRJGes"
+msgid "Karuak Ceremony"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "c5aU-N"
+msgctxt "c5aU-N"
+msgid "Kahar's Treasure"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
 #: src/components/platform-layout.tsx
-msgid "yF_GXb"
+msgctxt "yF_GXb"
+msgid "My Loot"
 msgstr ""
 
 #: src/components/account-loot/account-loot-layout.tsx
-msgid "zwmya7"
+msgctxt "zwmya7"
+msgid "Explore loot that you have received from Barbarians, Barbarian Forts, Baulurs, Karuak Ceremony, and Kahar's Treasure."
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
-msgid "HAlOn1"
+msgctxt "HAlOn1"
+msgid "Name"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
-msgid "_0TOL5"
+msgctxt "_0TOL5"
+msgid "Amount"
 msgstr ""
 
 #: src/components/account-loot/loot-breakdown-table.tsx
 #: src/components/loot-explorer/loot-table.tsx
-msgid "d_fRcX"
+msgctxt "d_fRcX"
+msgid "Seen"
 msgstr ""
 
 #: src/components/account-loot/loot-error-state.tsx
-msgid "XD64_m"
+msgctxt "XD64_m"
+msgid "Failed to load loot."
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "bzSrZ6"
+msgctxt "bzSrZ6"
+msgid "Level {level}"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "R4HO71"
+msgctxt "R4HO71"
+msgid "Marauder Encampments"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "PuC-Mi"
+msgctxt "PuC-Mi"
+msgid "Ironhand Baulur"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "1j7NiE"
+msgctxt "1j7NiE"
+msgid "Miser Khaolak"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "SdCxJX"
+msgctxt "SdCxJX"
+msgid "Bladefist Andaal"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "8_6Wn2"
+msgctxt "8_6Wn2"
+msgid "Bearkeeper Lukor"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "M3-BHu"
+msgctxt "M3-BHu"
+msgid "Bruteshield Murdos"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "HxOf0f"
+msgctxt "HxOf0f"
+msgid "Warmender Pache"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "tbfLQx"
+msgctxt "tbfLQx"
+msgid "Solon Por"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "4pFR10"
+msgctxt "4pFR10"
+msgid "Marauders"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
@@ -466,731 +564,903 @@ msgstr ""
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "yaMHMB"
+msgctxt "yaMHMB"
+msgid "Results"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
-msgid "r8aMgv"
+msgctxt "r8aMgv"
+msgid "AP used"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "DPD1Vq"
+msgctxt "DPD1Vq"
+msgid "Honor gained"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "6tNcY-"
+msgctxt "6tNcY-"
+msgid "XP gained"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
-msgid "JU88Di"
+msgctxt "JU88Di"
+msgid "Loading loot..."
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
-msgid "WOPo3b"
+msgctxt "WOPo3b"
+msgid "Unknown reward {type}/{subType}"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
-msgid "QtM1tY"
+msgctxt "QtM1tY"
+msgid "Loot breakdown"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-content.tsx
-msgid "PF57EA"
+msgctxt "PF57EA"
+msgid "No loot in this date range."
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
-msgid "zQvVDJ"
+msgctxt "zQvVDJ"
+msgid "All"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
-msgid "QfERSU"
+msgctxt "QfERSU"
+msgid "NPC"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
-msgid "y1Qr81"
+msgctxt "y1Qr81"
+msgid "Level"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "n5QvJy"
+msgctxt "n5QvJy"
+msgid "Start date"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/account-resources/resources-filters-client.tsx
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "Humfno"
+msgctxt "Humfno"
+msgid "End date"
 msgstr ""
 
 #: src/components/account-loot/personal-loot-filters.tsx
 #: src/components/loot-explorer/loot-explorer-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "EWw_tK"
+msgctxt "EWw_tK"
+msgid "Apply"
 msgstr ""
 
 #: src/components/account-resources/account-resources-content.tsx
-msgid "e4-7ni"
+msgctxt "e4-7ni"
+msgid "See daily gathered resources, gems, and crystals from RSS reports."
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "-U6ozc"
+msgctxt "-U6ozc"
+msgid "Type"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
-msgid "x9zwkN"
+msgctxt "x9zwkN"
+msgid "Gain"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
-msgid "saDFoR"
+msgctxt "saDFoR"
+msgid "Bonus"
 msgstr ""
 
 #: src/components/account-resources/resources-breakdown-table.tsx
-msgid "MJ2jZQ"
+msgctxt "MJ2jZQ"
+msgid "Total"
 msgstr ""
 
 #: src/components/account-resources/resources-error-state.tsx
-msgid "QTvbTs"
+msgctxt "QTvbTs"
+msgid "Failed to load resources."
 msgstr ""
 
 #: src/components/account-resources/resources-report-section.tsx
-msgid "sdkaef"
+msgctxt "sdkaef"
+msgid "No reports in this date range."
 msgstr ""
 
 #: src/components/account-resources/resources-table-section.tsx
-msgid "F1tgWX"
+msgctxt "F1tgWX"
+msgid "Resource breakdown"
 msgstr ""
 
 #: src/components/account-resources/resources-table-section.tsx
-msgid "9pjHcG"
+msgctxt "9pjHcG"
+msgid "No resources in this date range."
 msgstr ""
 
 #: src/components/account/account-reports-content.tsx
-msgid "2YkOMs"
+msgctxt "2YkOMs"
+msgid "My Battle Reports"
 msgstr ""
 
 #: src/components/account/account-settings-nav.tsx
-msgid "1iEPTM"
+msgctxt "1iEPTM"
+msgid "General"
 msgstr ""
 
 #: src/components/account/account-settings-nav.tsx
 #: src/components/combat-lab/combat-lab.tsx
-msgid "q5TmbN"
+msgctxt "q5TmbN"
+msgid "Governors"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "3UfoyS"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-#: src/components/combat-lab/combat-lab.tsx
-msgid "a8wkKu"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-#: src/components/combat-lab/combat-lab.tsx
-msgid "nHRTeq"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-msgid "6nP3O3"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-msgid "bHc-kK"
-msgstr ""
-
-#: src/components/combat-lab/combat-lab-charts.tsx
-msgid "4LmEJw"
+msgctxt "3UfoyS"
+msgid "Damage dealt"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab.tsx
-msgid "RwXuHc"
+msgctxt "a8wkKu"
+msgid "Severely wounded inflicted"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "bi2p6K"
+#: src/components/combat-lab/combat-lab.tsx
+msgctxt "nHRTeq"
+msgid "Severely wounded taken"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "FL6lKX"
+msgctxt "6nP3O3"
+msgid "Healing"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "pQyHNd"
+msgctxt "bHc-kK"
+msgid "Kill points"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "yoc4SI"
+msgctxt "4LmEJw"
+msgid "Battle tempo"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "et90bv"
+#: src/components/combat-lab/combat-lab.tsx
+msgctxt "RwXuHc"
+msgid "Trade percentage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "P0CCi6"
+msgctxt "bi2p6K"
+msgid "Gained"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "gTB0E8"
+msgctxt "FL6lKX"
+msgid "Lost"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "n-kv74"
+msgctxt "pQyHNd"
+msgid "Formation {id}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "n96a21"
+msgctxt "yoc4SI"
+msgid "Formation"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "kBCJ1h"
+msgctxt "et90bv"
+msgid "Formation usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "LGFrbW"
+msgctxt "P0CCi6"
+msgid "Unknown formation"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "zI4pec"
+msgctxt "gTB0E8"
+msgid "Special"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "sWUO6d"
+msgctxt "n-kv74"
+msgid "Rare"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "A8WChX"
+msgctxt "n96a21"
+msgid "Common"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "Lf9G-H"
+msgctxt "kBCJ1h"
+msgid "Special + Common"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "EQ64I9"
+msgctxt "LGFrbW"
+msgid "Rare + Common"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "YYAOkZ"
+msgctxt "zI4pec"
+msgid "Common + Common"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "Q5MUc_"
+msgctxt "sWUO6d"
+msgid "Buff {id}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "f3OK0O"
+msgctxt "A8WChX"
+msgid "Inscription usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "5GHMUY"
+msgctxt "Lf9G-H"
+msgid "Inscription"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "EQ64I9"
+msgid "Buff rolls"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "YYAOkZ"
+msgid "No buff rolls observed."
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "Q5MUc_"
+msgid "Average roll"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "f3OK0O"
+msgid "Buff"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-charts.tsx
+msgctxt "5GHMUY"
+msgid "Max roll usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "wbsq7O"
+msgctxt "wbsq7O"
+msgid "Usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "FFUeRn"
+msgctxt "FFUeRn"
+msgid "Iconic"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "bLl42R"
+msgctxt "bLl42R"
+msgid "Item {id}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "1fK0HA"
+msgctxt "1fK0HA"
+msgid "No iconic"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "OpOCgf"
+msgctxt "OpOCgf"
+msgid "No special talent"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "JA1cOg"
+msgctxt "JA1cOg"
+msgid "Other pieces"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "GAykkl"
+msgctxt "GAykkl"
+msgid "Special talent"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "HsQkt_"
+msgctxt "HsQkt_"
+msgid "Other pairings"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "lQnI9c"
+msgctxt "lQnI9c"
+msgid "Piece usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/report/report-equipment-section.tsx
-msgid "r80fiF"
+msgctxt "r80fiF"
+msgid "Equipment"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "OuXBmU"
+msgctxt "OuXBmU"
+msgid "Iconic level distribution among legendary equipment"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "WIUHfr"
+msgctxt "WIUHfr"
+msgid "legendary"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "jNS_xO"
+msgctxt "jNS_xO"
+msgid "No legendary pieces observed."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "yFbpA7"
+msgctxt "yFbpA7"
+msgid "Iconic levels"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "Aujn2T"
+msgctxt "Aujn2T"
+msgid "Count"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "M6AncG"
+msgctxt "M6AncG"
+msgid "Special talent usage across equipment"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "a3iU9_"
+msgctxt "a3iU9_"
+msgid "special talent"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "8KYwzg"
+msgctxt "8KYwzg"
+msgid "No talent data observed."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "JSmL_0"
+msgctxt "JSmL_0"
+msgid "Most common order-agnostic accessory pairings"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "-cr1mW"
+msgctxt "-cr1mW"
+msgid "pairings"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "yWTdUP"
+msgctxt "yWTdUP"
+msgid "No complete accessory pairings observed."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "SiC_-B"
+msgctxt "SiC_-B"
+msgid "Accessory pairings"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-charts.tsx
-msgid "DHR_nV"
+msgctxt "DHR_nV"
+msgid "{count, plural, one {# piece of equipment was excluded from iconic levels because it was not legendary.} other {# pieces of equipment were excluded from iconic levels because they were not legendary.}}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "T807D4"
+msgctxt "T807D4"
+msgid "Damage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "zOo6e-"
+msgctxt "zOo6e-"
+msgid "Rage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "For9ib"
+msgctxt "For9ib"
+msgid "Assist"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "14P-1u"
+msgctxt "14P-1u"
+msgid "Sustainability"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "90axO4"
+msgctxt "90axO4"
+msgid "Trade"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "Mxwl9f"
+msgctxt "Mxwl9f"
+msgid "Consistency"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "5lfH9K"
+msgctxt "5lfH9K"
+msgid "DRASTC"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "AAkx6U"
+msgctxt "AAkx6U"
+msgid "Overall score"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "GudWSn"
+msgctxt "GudWSn"
+msgid "Based on {battles} battle reports and {governors} governors."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-drastc.tsx
-msgid "uqe58g"
+msgctxt "uqe58g"
+msgid "Breakdown"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-empty-state.tsx
-msgid "wOFJFO"
+msgctxt "wOFJFO"
+msgid "No data available"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
 #: src/components/platform-layout.tsx
-msgid "H2meTq"
+msgctxt "H2meTq"
+msgid "Combat Lab"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
-msgid "b_RM_N"
+msgctxt "b_RM_N"
+msgid "Explore commander pairing performance with DRASTC scoring when available. Data refreshes every 8 hours."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
-msgid "WvzQkE"
+msgctxt "WvzQkE"
+msgid "Combat Lab sections"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
-msgid "7JlauX"
+msgctxt "7JlauX"
+msgid "Explore"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
-msgid "2zwpJn"
+msgctxt "2zwpJn"
+msgid "Rankings"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "SxCvYA"
+msgctxt "SxCvYA"
+msgid "Scroll"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "wduJme"
+msgctxt "wduJme"
+msgid "Instrument"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "bSCV9J"
+msgctxt "bSCV9J"
+msgid "Flag"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "v8Ts9G"
+msgctxt "v8Ts9G"
+msgid "Emblem"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "z5UrIH"
+msgctxt "z5UrIH"
+msgid "Build breakdown"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "9qO4Xm"
+msgctxt "9qO4Xm"
+msgid "Armament: {slot}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
-msgid "VcxUDs"
+msgctxt "VcxUDs"
+msgid "Equipment: {slot}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-rankings-results.tsx
-msgid "ZdCdo5"
+msgctxt "ZdCdo5"
+msgid "Last updated: {date}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "EJSVsO"
+msgctxt "EJSVsO"
+msgid "Skills"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "coLB3O"
+msgctxt "coLB3O"
+msgid "Skills usage"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "OaYD5P"
+msgctxt "OaYD5P"
+msgid "Skills 1 & 2"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "eE8qNh"
+msgctxt "eE8qNh"
+msgid "Skills 3 & 4"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "u8s8SM"
+msgctxt "u8s8SM"
+msgid "Heatmap of four-skill level combinations from 1111 to 5555"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "NWOFoC"
+msgctxt "NWOFoC"
+msgid "Fewer"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "I5NMJ8"
+msgctxt "I5NMJ8"
+msgid "More"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "Pc5PiL"
+msgctxt "Pc5PiL"
+msgid "Expertise status"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "u6M31h"
+msgctxt "u6M31h"
+msgid "Expertised"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-skills.tsx
-msgid "pulVrz"
+msgctxt "pulVrz"
+msgid "Not expertised"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "rwIPgH"
+msgctxt "rwIPgH"
+msgid "1 year"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "AwuN57"
+msgctxt "AwuN57"
+msgid "6 months"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "p1dNds"
+msgctxt "p1dNds"
+msgid "1 month"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "FrAoo9"
+msgctxt "FrAoo9"
+msgid "7 days"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "w0fenY"
+msgctxt "w0fenY"
+msgid "Open field"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "hAEZYZ"
+msgctxt "hAEZYZ"
+msgid "Swarming"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/report/report-participant-card.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "RJ-ZIh"
+msgctxt "RJ-ZIh"
+msgid "Rally"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "2pQ4w5"
+msgctxt "2pQ4w5"
+msgid "Garrison"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "ngkY8S"
+msgctxt "ngkY8S"
+msgid "Change pairing"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "spcNSp"
+msgctxt "spcNSp"
+msgid "Updated at {date}"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "74vgSJ"
+msgctxt "74vgSJ"
+msgid "Time range"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "5m4j06"
+msgctxt "5m4j06"
+msgid "Scenario"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "lJifFN"
+msgctxt "lJifFN"
+msgid "Changing the filters will not change the DRASTC results."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "Xm3-B9"
+msgctxt "Xm3-B9"
+msgid "DRASTC uses the most recent year of open-field battle reports."
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "FGfOI7"
+msgctxt "FGfOI7"
+msgid "Combat breakdown"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "H3G-_A"
+msgctxt "H3G-_A"
+msgid "Battle reports"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "T6fLvD"
+msgctxt "T6fLvD"
+msgid "Kill points gained"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "4dEukv"
+msgctxt "4dEukv"
+msgid "Kill points lost"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "PI-sR4"
+msgctxt "PI-sR4"
+msgid "Avg. battle duration"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "pTywiR"
+msgctxt "pTywiR"
+msgid "Damage per second (DPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "X5d0pn"
+msgctxt "X5d0pn"
+msgid "Sevs per second (SPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "LgMoVb"
+msgctxt "LgMoVb"
+msgid "Sevs taken per second (TPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "gl_xty"
+msgctxt "gl_xty"
+msgid "Healing per second (HPS)"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "7SRayd"
+msgctxt "7SRayd"
+msgid "Combat performance"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab.tsx
-msgid "UG5qoS"
+msgctxt "UG5qoS"
+msgid "No data"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "Jf0YjS"
+msgctxt "Jf0YjS"
+msgid "Choose two different commanders and click Save to load their data."
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "Yz9XkF"
+msgctxt "Yz9XkF"
+msgid "Close pairing picker"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "elLGqS"
+msgctxt "elLGqS"
+msgid "Pairing order"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "t2Wr8I"
+msgctxt "t2Wr8I"
+msgid "Primary"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "xGZhB5"
+msgctxt "xGZhB5"
+msgid "Swap primary and secondary commanders"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "6FQuCT"
+msgctxt "6FQuCT"
+msgid "Secondary"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "Fk-EU1"
+msgctxt "Fk-EU1"
+msgid "Search by commander"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "HAThIv"
+msgctxt "HAThIv"
+msgid "Filter commander categories"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "Xsca71"
+msgctxt "Xsca71"
+msgid "Choose the primary commander"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "RHG18V"
+msgctxt "RHG18V"
+msgid "Choose the secondary commander"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "F4gyn3"
+msgctxt "F4gyn3"
+msgid "Clear filters"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "yBz8Vn"
+msgctxt "yBz8Vn"
+msgid "commander"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "F0RHBC"
+msgctxt "F0RHBC"
+msgid "commanders"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "AV8fRu"
+msgctxt "AV8fRu"
+msgid "No legendary commanders match"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgid "1Y2wA2"
+msgctxt "1Y2wA2"
+msgid "Try removing a talent or changing your search."
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "47FYwb"
+msgctxt "47FYwb"
+msgid "Cancel"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "jvo0vs"
+msgctxt "jvo0vs"
+msgid "Save"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "wx9Vu9"
+msgctxt "wx9Vu9"
+msgid "Very low"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "477I0g"
+msgctxt "477I0g"
+msgid "Low"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "OlIql8"
+msgctxt "OlIql8"
+msgid "Moderate"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "AxMhQr"
+msgctxt "AxMhQr"
+msgid "High"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "p_rUwJ"
+msgctxt "p_rUwJ"
+msgid "Very high"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "EoQTj0"
+msgctxt "EoQTj0"
+msgid "Confidence"
 msgstr ""
 
 #: src/components/combat-lab/confidence-score.tsx
-msgid "riw_yc"
+msgctxt "riw_yc"
+msgid "Beta"
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "wB_wXs"
+msgctxt "wB_wXs"
+msgid "Credits"
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "rzNYK-"
+msgctxt "rzNYK-"
+msgid "A scoring model created by ROK Battles, The King's Codex, and AQ/HQ. Designed by Davor and implemented by ROK Battles, the model is available through the <bold>ROK Battles: Combat Lab</bold> and the Discord communities for <bold>The King's Codex</bold> and <bold>AQ/HQ</bold>."
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "fgvwel"
+msgctxt "fgvwel"
+msgid "The King's Codex"
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "_I0-w2"
+msgctxt "_I0-w2"
+msgid "AQ/HQ"
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "fM6jjI"
+msgctxt "fM6jjI"
+msgid "Learn more about DRASTC"
 msgstr ""
 
 #: src/components/combat-lab/drastc-credits.tsx
-msgid "TdTXXf"
+msgctxt "TdTXXf"
+msgid "Learn more"
 msgstr ""
 
 #: src/components/commander-loadout-row.tsx
-msgid "XoCgY-"
+msgctxt "XoCgY-"
+msgid "Lvl {level}"
 msgstr ""
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
-msgid "sjzLbX"
+msgctxt "sjzLbX"
+msgid "Accept"
 msgstr ""
 
 #: src/components/cookie-consent-banner.tsx
 #: src/components/cookie-consent-dialog.tsx
-msgid "VzIOKf"
+msgctxt "VzIOKf"
+msgid "Reject"
 msgstr ""
 
 #: src/components/cookie-consent-dialog.tsx
-msgid "KS0bwV"
+msgctxt "KS0bwV"
+msgid "Cookie settings"
 msgstr ""
 
 #: src/components/language-selector.tsx
-msgid "eVlu1R"
+msgctxt "eVlu1R"
+msgid "Select language"
 msgstr ""
 
 #: src/components/language-selector.tsx
-msgid "y1Z3or"
+msgctxt "y1Z3or"
+msgid "Language"
 msgstr ""
 
 #: src/components/language-selector.tsx
-msgid "QmFCUz"
+msgctxt "QmFCUz"
+msgid "Languages besides English may be incomplete. Untranslated text falls back to English."
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -1198,7 +1468,8 @@ msgstr ""
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "sNAPQj"
+msgctxt "sNAPQj"
+msgid "Loading loot explorer data..."
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
@@ -1206,419 +1477,517 @@ msgstr ""
 #: src/components/loot-explorer/fort-explorer.tsx
 #: src/components/loot-explorer/kahar-treasure-explorer.tsx
 #: src/components/loot-explorer/karuak-ceremony-explorer.tsx
-msgid "yedWVm"
+msgctxt "yedWVm"
+msgid "Failed to load loot explorer data."
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "qmJC1g"
+msgctxt "qmJC1g"
+msgid "Barbarian Wolf Tamers/Pack Striders"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "S5oZQH"
+msgctxt "S5oZQH"
+msgid "Barbarian Bone Archers/Heavy Archers"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "9k2_Bx"
+msgctxt "9k2_Bx"
+msgid "Barbarian Beast Riders/Blitz Hunters"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
-msgid "s3oHvg"
+msgctxt "s3oHvg"
+msgid "English Soldiers"
 msgstr ""
 
 #: src/components/loot-explorer/barbarian-explorer.tsx
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "oAxAzA"
+msgctxt "oAxAzA"
+msgid "{name} level {level}"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "AAa9de"
+msgctxt "AAa9de"
+msgid "Under 1% damage"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "81t6Of"
+msgctxt "81t6Of"
+msgid "1%-100% damage"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "_GFlnd"
+msgctxt "_GFlnd"
+msgid "Damage pool {pool}"
 msgstr ""
 
 #: src/components/loot-explorer/baulur-explorer.tsx
-msgid "lNsQLY"
+msgctxt "lNsQLY"
+msgid "This has been seen {count, plural, one {# time} other {# times}}."
 msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "NO4JXW"
+msgctxt "NO4JXW"
+msgid "Mottes"
 msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "QQMpmH"
+msgctxt "QQMpmH"
+msgid "Reward Tier {tier}"
 msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "0NLWkd"
+msgctxt "0NLWkd"
+msgid "This reward tier has been seen {count, plural, one {# time} other {# times}}, requiring damage {damage}."
 msgstr ""
 
 #: src/components/loot-explorer/fort-explorer.tsx
-msgid "pFZfPa"
+msgctxt "pFZfPa"
+msgid "n/a"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
 #: src/components/platform-layout.tsx
-msgid "75KFvG"
+msgctxt "75KFvG"
+msgid "Loot Explorer"
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-layout.tsx
-msgid "ntBJl8"
+msgctxt "ntBJl8"
+msgid "Explore loot data from every report ROK Battles collects and processes. Data refreshes every 8 hours."
 msgstr ""
 
 #: src/components/loot-explorer/loot-explorer-summary.tsx
-msgid "0ICwq5"
+msgctxt "0ICwq5"
+msgid "Last updated"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
-msgid "hjy3ZV"
+msgctxt "hjy3ZV"
+msgid "No drops have been observed for this selection."
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
-msgid "5ujeDa"
+msgctxt "5ujeDa"
+msgid "Item"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
-msgid "qVGRIE"
+msgctxt "qVGRIE"
+msgid "Quantity"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
-msgid "iiGDPW"
+msgctxt "iiGDPW"
+msgid "Drop Rate"
 msgstr ""
 
 #: src/components/loot-explorer/loot-table.tsx
-msgid "Naokt5"
+msgctxt "Naokt5"
+msgid "Item {type}:{subType}"
 msgstr ""
 
 #: src/components/my-pairings/loadout-armament-list.tsx
 #: src/components/report/report-armament-section.tsx
-msgid "lFZWlP"
+msgctxt "lFZWlP"
+msgid "Armament {id}"
 msgstr ""
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
-msgid "-RhnH-"
+msgctxt "-RhnH-"
+msgid "Empty"
 msgstr ""
 
 #: src/components/my-pairings/loadout-equipment-slot.tsx
 #: src/components/report/report-equipment-slot.tsx
-msgid "f8EGjq"
+msgctxt "f8EGjq"
+msgid "Special talent {troopType}"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "vxHX7Q"
+msgctxt "vxHX7Q"
+msgid "All loadouts"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "5OhW-B"
+msgctxt "5OhW-B"
+msgid "Loadout {index}"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/reports/reports-table.tsx
-msgid "9bVtCz"
+msgctxt "9bVtCz"
+msgid "Battles"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "B4KaVd"
+msgctxt "B4KaVd"
+msgid "Total battle reports recorded for this loadout."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "xh4gLq"
+msgctxt "xh4gLq"
+msgid "Total kill points earned while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "nGp3S1"
+msgctxt "nGp3S1"
+msgid "Opponent Kill Points"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "rD9xWZ"
+msgctxt "rD9xWZ"
+msgid "Total kill points earned by opponents against this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "04DUsx"
+msgctxt "04DUsx"
+msgid "Severely Wounded (Taken)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "SDG3OT"
+msgctxt "SDG3OT"
+msgid "Number of troops that became severely wounded while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "87sFXA"
+msgctxt "87sFXA"
+msgid "Severely Wounded (Inflicted)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "OZfiOO"
+msgctxt "OZfiOO"
+msgid "Number of opponent troops this pairing caused to become severely wounded."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "8RNVtf"
+msgctxt "8RNVtf"
+msgid "Avg. Battle Duration"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "adRA-N"
+msgctxt "adRA-N"
+msgid "Average battle duration for this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "j80Jf5"
+msgctxt "j80Jf5"
+msgid "Avg. Trade Percentage"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "rsO25J"
+msgctxt "rsO25J"
+msgid "Each battle's kill points gained divided by kill points lost, then averaged across battles."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "WkJcLb"
+msgctxt "WkJcLb"
+msgid "Weighted Trade Percentage"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "pckGja"
+msgctxt "pckGja"
+msgid "Total kill points gained divided by total kill points lost."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "jVC9W_"
+msgctxt "jVC9W_"
+msgid "Damage Per Second (DPS)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "cgKoQG"
+msgctxt "cgKoQG"
+msgid "Average damage inflicted per second while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "lsS3Jr"
+msgctxt "lsS3Jr"
+msgid "Sevs Per Second (SPS)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "-6NJWI"
+msgctxt "-6NJWI"
+msgid "Average severely wounded troops inflicted per second while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "CY224M"
+msgctxt "CY224M"
+msgid "Sevs Taken Per Second (TPS)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "siJBnS"
+msgctxt "siJBnS"
+msgid "Average severely wounded troops taken per second while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "5LIA_9"
+msgctxt "5LIA_9"
+msgid "Healing Per Second (HPS)"
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "6pYaNr"
+msgctxt "6pYaNr"
+msgid "Average healing performed per second while using this pairing."
 msgstr ""
 
 #: src/components/my-pairings/my-pairings-content.tsx
-msgid "y-cvIx"
+msgctxt "y-cvIx"
+msgid "Analyze performance across commander pairings, loadouts, and matchups"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "8Na2J4"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "ejEGdx"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "mJFWRb"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-#: src/components/reports/reports-filter-dialog.tsx
-msgid "Mro8Zx"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "cHoIky"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "StqoPN"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "as39fN"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "244wra"
-msgstr ""
-
-#: src/components/my-pairings/pairings-filters.tsx
-msgid "CieiKz"
+msgctxt "8Na2J4"
+msgid "Ark of Osiris"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "450Fty"
+msgctxt "ejEGdx"
+msgid "Home"
 msgstr ""
 
 #: src/components/my-pairings/pairings-filters.tsx
-msgid "XuzWOu"
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "mJFWRb"
+msgid "KVK"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "Mro8Zx"
+msgid "Supreme Strife"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "cHoIky"
+msgid "Open Field"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "StqoPN"
+msgid "Loadout granularity"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "as39fN"
+msgid "Simplified"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "244wra"
+msgid "Exact"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "CieiKz"
+msgid "Exclude activities"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "450Fty"
+msgid "None"
+msgstr ""
+
+#: src/components/my-pairings/pairings-filters.tsx
+msgctxt "XuzWOu"
+msgid "Exclude battles"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "ouEHpA"
+msgctxt "ouEHpA"
+msgid "Loadout breakdown"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "dshKLk"
+msgctxt "dshKLk"
+msgid "Loading pairings..."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "DCzVxS"
+msgctxt "DCzVxS"
+msgid "Select a pairing to get started."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "mNV3qS"
+msgctxt "mNV3qS"
+msgid "Loading loadout breakdown..."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "yiwezx"
+msgctxt "yiwezx"
+msgid "Select a loadout to view the breakdown."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "HPFDiG"
+msgctxt "HPFDiG"
+msgid "Opponent pairings"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "OBAkIS"
+msgctxt "OBAkIS"
+msgid "Loading enemy matchups..."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "bey2Db"
+msgctxt "bey2Db"
+msgid "No enemy pairings found for this selection."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "cSiC2v"
+msgctxt "cSiC2v"
+msgid "Opponent pairing"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "-yzdej"
+msgctxt "-yzdej"
+msgid "DPS"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "nyW1oU"
+msgctxt "nyW1oU"
+msgid "SPS"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "hZ3HBi"
+msgctxt "hZ3HBi"
+msgid "TPS"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
-msgid "8czqas"
+msgctxt "8czqas"
+msgid "HPS"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "qyJtWy"
+msgctxt "qyJtWy"
+msgid "Show less"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadout-breakdown.tsx
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "aWpBzj"
+msgctxt "aWpBzj"
+msgid "Show more"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "898qG3"
+msgctxt "898qG3"
+msgid "Loadouts"
 msgstr "Ausrüstungssets"
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "sU47wG"
+msgctxt "sU47wG"
+msgid "Scroll sideways to view more loadouts."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "Jt86J1"
+msgctxt "Jt86J1"
+msgid "Loading loadouts..."
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "byP6IC"
+msgctxt "byP6IC"
+msgid "Selected"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "MqtNsY"
+msgctxt "MqtNsY"
+msgid "Inscriptions"
 msgstr ""
 
 #: src/components/my-pairings/pairings-loadouts.tsx
-msgid "g-gbNs"
+msgctxt "g-gbNs"
+msgid "Armament buffs"
 msgstr ""
 
 #: src/components/olympian-arena/duel-empty-state.tsx
-msgid "NT6UmB"
+msgctxt "NT6UmB"
+msgid "No reports were found for this duel."
 msgstr ""
 
 #: src/components/olympian-arena/duel-loading-state.tsx
-msgid "U5Mxzi"
+msgctxt "U5Mxzi"
+msgid "Loading duel report..."
 msgstr ""
 
 #: src/components/olympian-arena/duel-participant-card.tsx
 #: src/components/report/report-participant-card.tsx
-msgid "DqkPqe"
+msgctxt "DqkPqe"
+msgid "Commanders"
 msgstr ""
 
 #: src/components/olympian-arena/duel-participant-card.tsx
-msgid "cKnhhK"
+msgctxt "cKnhhK"
+msgid "Troop Buffs"
 msgstr "Truppenbuffs"
 
 #: src/components/olympian-arena/duel-report-entry-card.tsx
-msgid "CuNYjA"
+msgctxt "CuNYjA"
+msgid "Duel summary"
 msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx
-msgid "m0-hvd"
+msgctxt "m0-hvd"
+msgid "Duel Report"
 msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
-msgid "p556q3"
+msgctxt "p556q3"
+msgid "Copied"
 msgstr "Kopiert"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
 #: src/components/territory-planner/territory-planner.tsx
-msgid "OKhRC6"
+msgctxt "OKhRC6"
+msgid "Share"
 msgstr ""
 
 #: src/components/olympian-arena/duel-report-view.tsx
-msgid "eukQnl"
+msgctxt "eukQnl"
+msgid "We could not load this duel."
 msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
-msgid "A1ykkc"
+msgctxt "A1ykkc"
+msgid "Units"
 msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "NxzeNU"
+msgctxt "NxzeNU"
+msgid "Dead"
 msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx
 #: src/components/report/report-battle-results-chart.tsx
-msgid "CtBzuU"
+msgctxt "CtBzuU"
+msgid "Severely wounded"
 msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx
-msgid "NboP8s"
+msgctxt "NboP8s"
+msgid "Wounded"
 msgstr "Die Verwundeten"
 
 #: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YoPSLI"
+msgctxt "YoPSLI"
+msgid "Healed"
 msgstr ""
 
 #: src/components/olympian-arena/duel-results-chart.tsx
-msgid "YXoHk0"
+msgctxt "YXoHk0"
+msgid "Power"
 msgstr ""
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
@@ -1627,7 +1996,8 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/reports/reports-overview-drawer.tsx
 #: src/components/reports/reports-table.tsx
-msgid "nbwXXN"
+msgctxt "nbwXXN"
+msgid "Sender"
 msgstr ""
 
 #: src/components/olympian-arena/duel-summary-tooltip.tsx
@@ -1635,720 +2005,894 @@ msgstr ""
 #: src/components/report/report-battle-summary-tooltip.tsx
 #: src/components/reports/reports-filter-dialog.tsx
 #: src/components/reports/reports-table.tsx
-msgid "Mdj7Fr"
+msgctxt "Mdj7Fr"
+msgid "Opponent"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "c-sY33"
+msgctxt "c-sY33"
+msgid "Trade %"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
-msgid "aXdZke"
+msgctxt "aXdZke"
+msgid "Win Streak"
 msgstr "Siegesserie"
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "k9hDFZ"
+msgctxt "k9hDFZ"
+msgid "Previous page"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "JJNc3c"
+msgctxt "JJNc3c"
+msgid "Previous"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "rBj9Ib"
+msgctxt "rBj9Ib"
+msgid "Next page"
 msgstr ""
 
 #: src/components/olympian-arena/olympian-arena-table.tsx
 #: src/components/reports/reports-table.tsx
-msgid "9-Ddtu"
+msgctxt "9-Ddtu"
+msgid "Next"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "Q7dLbA"
+msgctxt "Q7dLbA"
+msgid "Light mode"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "hMUQH5"
+msgctxt "hMUQH5"
+msgid "Dark mode"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "Pe0ogR"
+msgctxt "Pe0ogR"
+msgid "Theme"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "sqvUg2"
+msgctxt "sqvUg2"
+msgid "Olympian Arena"
 msgstr ""
 
 #: src/components/platform-layout.tsx
 #: src/components/territory-planner/territory-planner.tsx
-msgid "NCnvW0"
+msgctxt "NCnvW0"
+msgid "Territory Planner"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "dr0ueW"
+msgctxt "dr0ueW"
+msgid "My Data"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "NFE4yO"
+msgctxt "NFE4yO"
+msgid "My Battles"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "odeufe"
+msgctxt "odeufe"
+msgid "My Ark Matches"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "7oFrM6"
+msgctxt "7oFrM6"
+msgid "Legal"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "HqRNN8"
+msgctxt "HqRNN8"
+msgid "Support"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "2IFGap"
+msgctxt "2IFGap"
+msgid "Donate"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "QnWNmB"
+msgctxt "QnWNmB"
+msgid "Desktop App"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "EQpyb8"
+msgctxt "EQpyb8"
+msgid "Toggle theme"
 msgstr ""
 
 #: src/components/platform-layout.tsx
-msgid "SQJto2"
+msgctxt "SQJto2"
+msgid "Sign in"
 msgstr ""
 
 #: src/components/report/report-armament-section.tsx
-msgid "e36Xiv"
+msgctxt "e36Xiv"
+msgid "Armament Info"
 msgstr "Aufrüstungsinfo"
 
 #: src/components/report/report-artifact-section.tsx
-msgid "eW5eoW"
+msgctxt "eW5eoW"
+msgid "Artifacts"
 msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "ka8VLG"
+msgctxt "ka8VLG"
+msgid "Remaining"
 msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx
-msgid "UAaBlE"
+msgctxt "UAaBlE"
+msgid "Heal"
 msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx
-msgid "xtXDYN"
+msgctxt "xtXDYN"
+msgid "Slightly wounded"
 msgstr ""
 
 #: src/components/report/report-battle-results-chart.tsx
-msgid "sTixnc"
+msgctxt "sTixnc"
+msgid "Acclaim"
 msgstr ""
 
 #: src/components/report/report-commander-row.tsx
-msgid "YeBMpE"
+msgctxt "YeBMpE"
+msgid "Formation {formation}"
 msgstr ""
 
 #: src/components/report/report-empty-state.tsx
-msgid "198xPO"
+msgctxt "198xPO"
+msgid "No battles were found for this hash."
 msgstr ""
 
 #: src/components/report/report-entry-card.tsx
-msgid "Naj3md"
+msgctxt "Naj3md"
+msgid "Unknown period"
 msgstr ""
 
 #: src/components/report/report-entry-card.tsx
-msgid "BYmpT_"
+msgctxt "BYmpT_"
+msgid "UTC "
 msgstr ""
 
 #: src/components/report/report-entry-card.tsx
-msgid "eKTCWw"
+msgctxt "eKTCWw"
+msgid "Battle summary"
 msgstr ""
 
 #: src/components/report/report-equipment-slot.tsx
-msgid "JqXZrY"
+msgctxt "JqXZrY"
+msgid "Equipment {id}"
 msgstr ""
 
 #: src/components/report/report-loading-state.tsx
-msgid "KfYBwG"
+msgctxt "KfYBwG"
+msgid "Loading report..."
 msgstr ""
 
 #: src/components/report/report-overview-card.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "eQhi5P"
+msgctxt "eQhi5P"
+msgid "Data summary"
 msgstr ""
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "ABZ08_"
+msgctxt "ABZ08_"
+msgid "All Enemies"
 msgstr ""
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "kzHEVE"
+msgctxt "kzHEVE"
+msgid "Troop Units"
 msgstr ""
 
 #: src/components/report/report-overview-column.tsx
 #: src/components/reports/reports-overview-summary-card.tsx
-msgid "1ISgLB"
+msgctxt "1ISgLB"
+msgid "Slightly Wounded"
 msgstr "leicht verletzt"
 
 #: src/components/report/report-relic-section.tsx
-msgid "Ft8yjo"
+msgctxt "Ft8yjo"
+msgid "Relics"
 msgstr ""
 
 #: src/components/report/report-relic-slot.tsx
-msgid "ZW4lge"
+msgctxt "ZW4lge"
+msgid "Relic {id}"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "It0Aey"
+msgctxt "It0Aey"
+msgid "Severely wounded unit power (past 3h)"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "4WlFf6"
+msgctxt "4WlFf6"
+msgid "Attack bonus"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "ikRAP_"
+msgctxt "ikRAP_"
+msgid "Extra severe wounds inflicted"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "25igcI"
+msgctxt "25igcI"
+msgid "Times triggered"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "ro9pK3"
+msgctxt "ro9pK3"
+msgid "Enemy units killed"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "FvbXnS"
+msgctxt "FvbXnS"
+msgid "Slightly wounded units healed"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "nmf4aA"
+msgctxt "nmf4aA"
+msgid "Unit deaths"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "3TI3iv"
+msgctxt "3TI3iv"
+msgid "Severe wounds prevented"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "eK3Owk"
+msgctxt "eK3Owk"
+msgid "Tier 5 units in the Hall of Heroes"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "5aSP17"
+msgctxt "5aSP17"
+msgid "Damage bonus"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "DCHsxk"
+msgctxt "DCHsxk"
+msgid "Stratagems"
 msgstr ""
 
 #: src/components/report/report-stratagem-section.tsx
-msgid "Hszv-5"
+msgctxt "Hszv-5"
+msgid "{percentage}% applied"
 msgstr ""
 
 #: src/components/report/report-view.tsx
-msgid "x5Tz6M"
+msgctxt "x5Tz6M"
+msgid "Report"
 msgstr ""
 
 #: src/components/reports/reports-empty-state-row.tsx
-msgid "43CUrU"
+msgctxt "43CUrU"
+msgid "No reports found."
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "bUd0tj"
+msgctxt "bUd0tj"
+msgid "Either side"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "zSOvI0"
+msgctxt "zSOvI0"
+msgid "Filters"
 msgstr "Filter"
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "RavlSl"
+msgctxt "RavlSl"
+msgid "Filter battle reports by governor, commanders, and battle roles."
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "dfPU6h"
+msgctxt "dfPU6h"
+msgid "Governor"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "rS3oIg"
+msgctxt "rS3oIg"
+msgid "Primary Commander"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "ToO3_h"
+msgctxt "ToO3_h"
+msgid "Any"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "SHldaq"
+msgctxt "SHldaq"
+msgid "Secondary Commander"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "-XTzdP"
+msgctxt "-XTzdP"
+msgid "Battle"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "H9srBH"
+msgctxt "H9srBH"
+msgid "Ark of Osiris/Osiris League"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "e3PeBT"
+msgctxt "e3PeBT"
+msgid "Subtype"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "2AAtTC"
+msgctxt "2AAtTC"
+msgid "Season 1"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "jbrAjx"
+msgctxt "jbrAjx"
+msgid "Season 2"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "Ygh1LR"
+msgctxt "Ygh1LR"
+msgid "Season 3"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "wudsnZ"
+msgctxt "wudsnZ"
+msgid "Season of Conquest"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "gvEP4o"
+msgctxt "gvEP4o"
+msgid "Golden Battleground"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "BQ9UYa"
+msgctxt "BQ9UYa"
+msgid "Silver Battleground"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "XE8i_T"
+msgctxt "XE8i_T"
+msgid "Osiris League"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "Qf8fwC"
+msgctxt "Qf8fwC"
+msgid "Practice Match"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "Hin97m"
+msgctxt "Hin97m"
+msgid "Custom Match"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "VqILpx"
+msgctxt "VqILpx"
+msgid "Garrison Building"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "ptYapO"
+msgctxt "ptYapO"
+msgid "Alliance Flag"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "iScUrx"
+msgctxt "iScUrx"
+msgid "Alliance Fortress"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "_VnDMl"
+msgctxt "_VnDMl"
+msgid "Other"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx
-msgid "jm_spn"
+msgctxt "jm_spn"
+msgid "Reset"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "QRVQkf"
+msgctxt "QRVQkf"
+msgid "Battle overview"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "EWfXcY"
+msgctxt "EWfXcY"
+msgid "A quick glance at the battle report before opening it."
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "lY8J2h"
+msgctxt "lY8J2h"
+msgid "Battle timeline"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "rbrahO"
+msgctxt "rbrahO"
+msgid "Close"
 msgstr ""
 
 #: src/components/reports/reports-overview-drawer.tsx
-msgid "bvIiB8"
+msgctxt "bvIiB8"
+msgid "See full report"
 msgstr ""
 
 #: src/components/reports/reports-skeleton-rows.tsx
-msgid "tQtRWX"
+msgctxt "tQtRWX"
+msgid "Loading reports..."
 msgstr ""
 
 #: src/components/reports/reports-table.tsx
-msgid "IuFETn"
+msgctxt "IuFETn"
+msgid "Duration"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
-msgid "JoFtLa"
+msgctxt "JoFtLa"
+msgid "Select Governor"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
-msgid "p5J4xw"
+msgctxt "p5J4xw"
+msgid "Claim governor"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
-msgid "hquG55"
+msgctxt "hquG55"
+msgid "Cookie Settings"
 msgstr ""
 
 #: src/components/sidebar-governor-header.tsx
-msgid "xXbJso"
+msgctxt "xXbJso"
+msgid "Sign out"
 msgstr ""
 
 #: src/components/territory-planner/construction-cost.tsx
-msgid "c3MqCM"
+msgctxt "c3MqCM"
+msgid "No construction cost is available"
 msgstr ""
 
 #: src/components/territory-planner/construction-cost.tsx
-msgid "vfBCdN"
+msgctxt "vfBCdN"
+msgid "No cost"
 msgstr ""
 
 #: src/components/territory-planner/construction-cost.tsx
-msgid "dTN5Q_"
+msgctxt "dTN5Q_"
+msgid "Construction cost"
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
-msgid "RuDx5_"
+msgctxt "RuDx5_"
+msgid "X: - Y: -"
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "efq633"
+msgctxt "efq633"
+msgid "X: {x} Y: {y}"
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
-msgid "AqqORv"
+msgctxt "AqqORv"
+msgid "Interactive territory planning map. Drag to pan, choose Draw to add a line, or choose Select and Shift-click to select multiple items. Press Delete or Backspace to remove selected items."
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
-msgid "l9iQOz"
+msgctxt "l9iQOz"
+msgid "Fit map"
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
-msgid "N2HbmZ"
+msgctxt "N2HbmZ"
+msgid "Fit"
 msgstr ""
 
 #: src/components/territory-planner/planner-canvas.tsx
-msgid "2YIRK6"
+msgctxt "2YIRK6"
+msgid "{loaded}/{total} chunks"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "D-ZFS_"
+msgctxt "D-ZFS_"
+msgid "Red"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "n3m1xt"
+msgctxt "n3m1xt"
+msgid "Orange"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "5Tw3Ta"
+msgctxt "5Tw3Ta"
+msgid "Yellow"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "1W4okO"
+msgctxt "1W4okO"
+msgid "Green"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "YCtAVD"
+msgctxt "YCtAVD"
+msgid "Cyan"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "k2tJ9k"
+msgctxt "k2tJ9k"
+msgid "Blue"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "tihmF3"
+msgctxt "tihmF3"
+msgid "Purple"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "KIm2E5"
+msgctxt "KIm2E5"
+msgid "Pink"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "D3idYv"
+msgctxt "D3idYv"
+msgid "Settings"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "4dLJ2n"
+msgctxt "4dLJ2n"
+msgid "Close settings"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "j5ASqk"
+msgctxt "j5ASqk"
+msgid "Collision overlay"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "1A0HiQ"
+msgctxt "1A0HiQ"
+msgid "Resource overlay"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "azUqAZ"
+msgctxt "azUqAZ"
+msgid "Show villages"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "lN9YOn"
+msgctxt "lN9YOn"
+msgid "Show caves"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "NdufDy"
+msgctxt "NdufDy"
+msgid "Alliances"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "_KvwGz"
+msgctxt "_KvwGz"
+msgid "{name} territory color"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "s3IOQQ"
+msgctxt "s3IOQQ"
+msgid "Edit {name}"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "JpsXCp"
+msgctxt "JpsXCp"
+msgid "Delete {name}"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "PrwHjk"
+msgctxt "PrwHjk"
+msgid "Alliance name"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "7s5xbv"
+msgctxt "7s5xbv"
+msgid "Territory color"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "B8F_S_"
+msgctxt "B8F_S_"
+msgid "{color} territory color"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgid "2_2yg-"
+msgctxt "2_2yg-"
+msgid "Add"
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
 #: src/components/territory-planner/territory-planner.tsx
-msgid "v5_T25"
+msgctxt "v5_T25"
+msgid "Alliance credits"
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "qEXtNB"
+msgctxt "qEXtNB"
+msgid "Territory breakdown"
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "uau2JL"
+msgctxt "uau2JL"
+msgid "No territory buildings for this alliance."
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "8PV5tF"
+msgctxt "8PV5tF"
+msgid "{building} {number}"
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "S_mBkY"
+msgctxt "S_mBkY"
+msgid "Covered alliance resource plots"
 msgstr ""
 
 #: src/components/territory-planner/territory-breakdown.tsx
-msgid "NyxynW"
+msgctxt "NyxynW"
+msgid "Locate {building} {number} on map"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "T86Fnb"
+msgctxt "T86Fnb"
+msgid "Alliance 1"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "JM6RlW"
+msgctxt "JM6RlW"
+msgid "The map data could not be loaded."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "HJCupX"
+msgctxt "HJCupX"
+msgid "Shareable plan URL copied to the clipboard."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "h9dtUs"
+msgctxt "h9dtUs"
+msgid "The shareable plan is now in the address bar."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "AzTP1q"
+msgctxt "AzTP1q"
+msgid "No maps are available."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "zuqMfZ"
+msgctxt "zuqMfZ"
+msgid "Map"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "DwFieO"
+msgctxt "DwFieO"
+msgid "Building tools"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "zmMjEn"
+msgctxt "zmMjEn"
+msgid "Alliance"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "6xfci4"
+msgctxt "6xfci4"
+msgid "Planner settings"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "-znnlM"
+msgctxt "-znnlM"
+msgid "Loading map geometry..."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "iO9Xom"
+msgctxt "iO9Xom"
+msgid "Map geometry is unavailable."
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "RNqPQL"
+msgctxt "RNqPQL"
+msgid "Scroll to zoom"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "3S5CZQ"
+msgctxt "3S5CZQ"
+msgid "Drag to pan"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "ayBb4B"
+msgctxt "ayBb4B"
+msgid "Shift + click to multi-select"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "Ys0dmO"
+msgctxt "Ys0dmO"
+msgid "Delete / Backspace to delete selected items"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "MEA0uN"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "gW7-rG"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgid "xWjJGr"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "wZsBSy"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgid "Ed112w"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-#: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "v8GMOg"
+msgctxt "MEA0uN"
+msgid "Territory limits & costs"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "-w6K47"
+msgctxt "gW7-rG"
+msgid "Center Fortress"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "xWjJGr"
+msgid "Fortresses"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "OLb6AJ"
+msgctxt "wZsBSy"
+msgid "Horse"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "Ed112w"
+msgid "Flags"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "430I4C"
+msgctxt "v8GMOg"
+msgid "Crystal"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "GwqiOt"
+msgctxt "-w6K47"
+msgid "Food"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "ZOQ7HO"
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgctxt "OLb6AJ"
+msgid "Wood"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "MP-xJh"
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgctxt "430I4C"
+msgid "Stone"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
-msgid "orJzQH"
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgctxt "GwqiOt"
+msgid "Gold"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "ZOQ7HO"
+msgid "{count, plural, one {# planned building has} other {# planned buildings have}} no construction-cost entry."
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "MP-xJh"
+msgid "Territory RSS production"
+msgstr ""
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "orJzQH"
+msgid "{amount}/h"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "kQAf2d"
+msgctxt "kQAf2d"
+msgid "Select"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "i1-AIw"
+msgctxt "i1-AIw"
+msgid "Draw"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "4198KF"
+msgctxt "4198KF"
+msgid "Fortress"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "xaTgym"
+msgctxt "xaTgym"
+msgid "Home 1"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "MPTvtH"
+msgctxt "MPTvtH"
+msgid "Home 2"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "j3P9qu"
+msgctxt "j3P9qu"
+msgid "Home 3"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "O93KLR"
+msgctxt "O93KLR"
+msgid "Home 4"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "hg8Lv0"
+msgctxt "hg8Lv0"
+msgid "The Endless War"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "BiPM7e"
+msgctxt "BiPM7e"
+msgid "A Distant Journey"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "bM2qoT"
+msgctxt "bM2qoT"
+msgid "Light and Darkness"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "mo0a1h"
+msgctxt "mo0a1h"
+msgid "Heroic Anthem"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "dB5nyw"
+msgctxt "dB5nyw"
+msgid "King of the Nile"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "e5RJ5j"
+msgctxt "e5RJ5j"
+msgid "Siege of Orleans"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "oeX-OS"
+msgctxt "oeX-OS"
+msgid "Warriors Unbound"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "eAqXUV"
+msgctxt "eAqXUV"
+msgid "Storm of Stratagems"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "Tb3UEK"
+msgctxt "Tb3UEK"
+msgid "Tides of War"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "RQT3pQ"
+msgctxt "RQT3pQ"
+msgid "Alliance Invictus"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "jFqmEK"
+msgctxt "jFqmEK"
+msgid "Keener Blades"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "KB_X0M"
+msgctxt "KB_X0M"
+msgid "King of All Britain"
 msgstr ""
 
 #: src/components/territory-planner/use-territory-planner-labels.ts
-msgid "yFnkCB"
+msgctxt "yFnkCB"
+msgid "Song of Troy"
 msgstr ""
 
 #: src/hooks/use-ark-match-detail.ts
@@ -2357,5 +2901,6 @@ msgstr ""
 #: src/hooks/use-olympian-arena-duels.ts
 #: src/hooks/use-report.ts
 #: src/hooks/use-reports-page.ts
-msgid "JUgfbD"
+msgctxt "JUgfbD"
+msgid "Failed to fetch data"
 msgstr ""
