@@ -11,6 +11,7 @@ allowBuilds:
 
 overrides:
   "next>sharp": "-"
+  fast-uri: 3.1.6
 
 shellEmulator: true
 
