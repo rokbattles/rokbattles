@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+/* BaseUI recommendations: https://base-ui.com/react/overview/quick-start */
+#root {
+  isolation: isolate;
+}
+
+body {
+  position: relative;
+}

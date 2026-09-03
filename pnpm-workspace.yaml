@@ -8,6 +8,7 @@ allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: true
   sharp: false
+  workerd: true
 
 overrides:
   "next>sharp": "-"
