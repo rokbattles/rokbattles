@@ -1,0 +1,137 @@
+"use client";
+
+import { MapPinIcon } from "@heroicons/react/20/solid";
+import { useExtracted } from "next-intl";
+import { memo } from "react";
+import { BuildingIcon } from "@/components/territory-planner/building-icon";
+import { ConstructionCost } from "@/components/territory-planner/construction-cost";
+import { ResourceIcon } from "@/components/territory-planner/resource-icon";
+import { useCompactNumberFormatter } from "@/components/territory-planner/use-compact-number-formatter";
+import { useTerritoryPlannerLabels } from "@/components/territory-planner/use-territory-planner-labels";
+import { Button } from "@/components/ui/button";
+import { Subheading } from "@/components/ui/heading";
+import type { buildingCostBreakdown } from "@/lib/territory/costs";
+import { countResourcesCoveredByBuilding, type TerritoryOwnership } from "@/lib/territory/geometry";
+import { realToGamePoint } from "@/lib/territory/presentation";
+import type {
+  CostResourceKind,
+  PlannedBuilding,
+  ResourceKind,
+  ResourcePoint,
+} from "@/lib/territory/types";
+
+const RESOURCE_KINDS: ResourceKind[] = ["food", "wood", "stone", "coin", "crystal"];
+
+type TerritoryBreakdownProps = {
+  entries: ReturnType<typeof buildingCostBreakdown>;
+  resources: ResourcePoint[];
+  territoryOwnership: TerritoryOwnership;
+  onLocate: (building: PlannedBuilding) => void;
+};
+
+export const TerritoryBreakdown = memo(function TerritoryBreakdown({
+  entries,
+  resources,
+  territoryOwnership,
+  onLocate,
+}: TerritoryBreakdownProps) {
+  const t = useExtracted();
+  const numberFormatter = useCompactNumberFormatter();
+  const { resourceLabel, toolLabel } = useTerritoryPlannerLabels();
+  const costLabels: Record<CostResourceKind, string> = {
+    credits: t("Alliance credits"),
+    crystal: resourceLabel("crystal"),
+    food: resourceLabel("food"),
+    wood: resourceLabel("wood"),
+    stone: resourceLabel("stone"),
+    gold: resourceLabel("coin"),
+  };
+
+  return (
+    <section
+      aria-labelledby="territory-breakdown-heading"
+      className="min-h-0 min-w-0 overflow-hidden"
+    >
+      <Subheading id="territory-breakdown-heading">{t("Territory breakdown")}</Subheading>
+      {entries.length === 0 ? (
+        <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+          {t("No territory buildings for this alliance.")}
+        </p>
+      ) : (
+        <ol className="mt-3 h-[40rem] max-h-[70svh] divide-y divide-zinc-950/10 overflow-y-scroll overscroll-contain pe-3 [contain:strict] [scrollbar-gutter:stable] dark:divide-white/10">
+          {entries.map(({ building, number, cost }) => {
+            const position = realToGamePoint(building);
+            const covered = countResourcesCoveredByBuilding(
+              territoryOwnership,
+              building,
+              resources
+            );
+            const captured = RESOURCE_KINDS.filter((kind) => covered[kind] > 0);
+            const buildingLabel = toolLabel(building.kind);
+            return (
+              <li
+                className="grid gap-3 py-3 sm:grid-cols-[minmax(10rem,0.75fr)_minmax(0,1.5fr)_auto] sm:items-center"
+                key={building.id}
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <BuildingIcon className="size-10" kind={building.kind} />
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-sm text-zinc-950 dark:text-white">
+                      {t("{building} {number}", {
+                        building: buildingLabel,
+                        number: number.toString(),
+                      })}
+                    </p>
+                    <p className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                      {t("X: {x} Y: {y}", {
+                        x: position.x.toString(),
+                        y: position.y.toString(),
+                      })}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="min-w-0 space-y-1.5">
+                  <ConstructionCost
+                    cost={cost}
+                    labels={costLabels}
+                    numberFormatter={numberFormatter}
+                  />
+                  {captured.length > 0 ? (
+                    <ul
+                      aria-label={t("Covered alliance resource plots")}
+                      className="flex flex-wrap gap-x-3 gap-y-1"
+                    >
+                      {captured.map((kind) => (
+                        <li
+                          className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-300"
+                          key={kind}
+                        >
+                          <ResourceIcon kind={kind} />
+                          <span>{resourceLabel(kind)}</span>
+                          <span className="font-medium tabular-nums">x{covered[kind]}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+
+                <Button
+                  aria-label={t("Locate {building} {number} on map", {
+                    building: buildingLabel,
+                    number: number.toString(),
+                  })}
+                  className="me-1 justify-self-start rounded-md sm:justify-self-end"
+                  onClick={() => onLocate(building)}
+                  plain
+                >
+                  <MapPinIcon />
+                </Button>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+    </section>
+  );
+});

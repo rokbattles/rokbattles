@@ -19,6 +19,8 @@ const styles = {
     "data-disabled:opacity-50",
     // Icon
     "*:data-[slot=icon]:-mx-0.5 *:data-[slot=icon]:my-0.5 *:data-[slot=icon]:size-5 *:data-[slot=icon]:shrink-0 *:data-[slot=icon]:self-center *:data-[slot=icon]:text-(--btn-icon) sm:*:data-[slot=icon]:my-1 sm:*:data-[slot=icon]:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-hover:[--btn-icon:ButtonText]",
+    // Sprites
+    "*:data-[slot=sprite]:-mx-0.5 *:data-[slot=sprite]:size-6 *:data-[slot=sprite]:shrink-0 *:data-[slot=sprite]:self-center",
   ],
   solid: [
     // Optical border, implemented as the button background to avoid corner artifacts

@@ -1,0 +1,1055 @@
+"use client";
+
+import { useExtracted } from "next-intl";
+import { useCallback, useEffect, useEffectEvent, useMemo, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  BUILDING_SPRITE_CROPS,
+  BUILDING_SPRITES,
+  LANDMARK_SPRITES,
+  RESOURCE_SPRITES,
+  type SpriteCrop,
+} from "@/lib/territory/assets";
+import type { TerritoryDataSource, WorldBounds } from "@/lib/territory/data-source";
+import {
+  buildingRules,
+  buildTerritoryOverviewFromCells,
+  buildTerritoryOverviewsFromOwnership,
+  structureTerritoryCells,
+  type TerritoryOverview,
+  type TerritoryState,
+  territoryBounds,
+  transformedTriangle,
+} from "@/lib/territory/geometry";
+import { realToGameCoordinate } from "@/lib/territory/presentation";
+import { findDrawingAtPoint } from "@/lib/territory/selection";
+import type {
+  Alliance,
+  BuildingKind,
+  DrawingPoint,
+  LandmarkKind,
+  MapStructure,
+  PlannedBuilding,
+  PlannedDrawing,
+  PlannerTool,
+  ProvinceRestrictionGrid,
+  ResourceKind,
+  SpatialChunk,
+} from "@/lib/territory/types";
+
+type View = { centerX: number; centerY: number; scale: number };
+type Point = { x: number; y: number };
+
+export type PlannerCanvasLocationRequest = {
+  requestId: number;
+  x: number;
+  y: number;
+};
+
+type PlannerCanvasProps = {
+  dataSource: TerritoryDataSource;
+  buildings: PlannedBuilding[];
+  drawings: PlannedDrawing[];
+  alliances: Alliance[];
+  activeAllianceId: string;
+  selectedItemIds: ReadonlySet<string>;
+  tool: PlannerTool;
+  showBoundary: boolean;
+  showCaves: boolean;
+  showResources: boolean;
+  showVillages: boolean;
+  structures: readonly MapStructure[];
+  territoryState: TerritoryState;
+  dataVersion: number;
+  locationRequest: PlannerCanvasLocationRequest | null;
+  isPlacementLegal: (kind: BuildingKind, x: number, y: number) => boolean;
+  onDraw: (allianceId: string, points: DrawingPoint[]) => void;
+  onDeleteSelection: () => void;
+  onPlace: (kind: BuildingKind, x: number, y: number) => void;
+  onSelect: (id: string | null, additive: boolean) => void;
+  onViewportChange: (bounds: WorldBounds) => void;
+};
+
+const RESOURCE_KINDS: ResourceKind[] = ["food", "wood", "stone", "coin", "crystal"];
+const LANDMARK_KINDS: LandmarkKind[] = ["village", "cave"];
+const MAP_DETAIL_SCALE = 1.25;
+const RESOURCE_MARKER_SCALE = MAP_DETAIL_SCALE * 0.6;
+const MARKER_SIZE_MULTIPLIER = 1.5;
+const OVERVIEW_BUILDING_SIZE_MULTIPLIER = 2.5;
+
+const chunkPaths = new WeakMap<SpatialChunk, Path2D>();
+const provincePaths = new WeakMap<ProvinceRestrictionGrid, { flag: Path2D; fortress: Path2D }>();
+const territoryPaths = new WeakMap<TerritoryOverview, { fill: Path2D; boundary: Path2D }>();
+
+function buildTerritoryPaths(overview: TerritoryOverview): { fill: Path2D; boundary: Path2D } {
+  const cached = territoryPaths.get(overview);
+  if (cached) return cached;
+  const paths = { fill: new Path2D(), boundary: new Path2D() };
+  for (const rectangle of overview.fillRects) {
+    paths.fill.rect(
+      rectangle.minX,
+      rectangle.minY,
+      rectangle.maxX - rectangle.minX,
+      rectangle.maxY - rectangle.minY
+    );
+  }
+  for (const segment of overview.boundarySegments) {
+    paths.boundary.moveTo(segment.x1, segment.y1);
+    paths.boundary.lineTo(segment.x2, segment.y2);
+  }
+  territoryPaths.set(overview, paths);
+  return paths;
+}
+
+function territoryPaint(color: string) {
+  const match = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(color);
+  const channels = match
+    ? [Number.parseInt(match[1], 16), Number.parseInt(match[2], 16), Number.parseInt(match[3], 16)]
+    : [37, 99, 235];
+  const [red, green, blue] = channels;
+  const border = [red, green, blue].map((channel) => Math.round(channel * 0.72));
+  return {
+    detailFill: `rgba(${red}, ${green}, ${blue}, 0.34)`,
+    overviewFill: `rgba(${red}, ${green}, ${blue}, 0.46)`,
+    border: `rgba(${border[0]}, ${border[1]}, ${border[2]}, 0.96)`,
+  };
+}
+
+function createBoundaryPattern(context: CanvasRenderingContext2D): CanvasPattern | null {
+  const tile = document.createElement("canvas");
+  tile.width = 24;
+  tile.height = 24;
+  const tileContext = tile.getContext("2d");
+  if (!tileContext) return null;
+  tileContext.strokeStyle = "#ff1f0f";
+  tileContext.lineWidth = 8;
+  tileContext.beginPath();
+  tileContext.moveTo(-6, 24);
+  tileContext.lineTo(24, -6);
+  tileContext.moveTo(6, 30);
+  tileContext.lineTo(30, 6);
+  tileContext.stroke();
+  return context.createPattern(tile, "repeat");
+}
+
+function createProvincePattern(context: CanvasRenderingContext2D): CanvasPattern | null {
+  const tile = document.createElement("canvas");
+  tile.width = 20;
+  tile.height = 20;
+  const tileContext = tile.getContext("2d");
+  if (!tileContext) return null;
+  tileContext.strokeStyle = "#f59e0b";
+  tileContext.lineWidth = 3;
+  tileContext.beginPath();
+  tileContext.moveTo(-5, 20);
+  tileContext.lineTo(20, -5);
+  tileContext.moveTo(5, 25);
+  tileContext.lineTo(25, 5);
+  tileContext.stroke();
+  return context.createPattern(tile, "repeat");
+}
+
+function buildProvincePaths(grid: ProvinceRestrictionGrid): { flag: Path2D; fortress: Path2D } {
+  const cached = provincePaths.get(grid);
+  if (cached) return cached;
+  const paths = { flag: new Path2D(), fortress: new Path2D() };
+  for (let row = 0; row < grid.height; row += 1) {
+    for (let column = 0; column < grid.width; column += 1) {
+      const provinceId = grid.cells[row * grid.width + column];
+      const x = column * grid.cellSize;
+      const y = row * grid.cellSize;
+      if (grid.flagBlocked.has(provinceId)) {
+        paths.flag.rect(x, y, grid.cellSize, grid.cellSize);
+      }
+      if (grid.fortressBlocked.has(provinceId)) {
+        paths.fortress.rect(x, y, grid.cellSize, grid.cellSize);
+      }
+    }
+  }
+  provincePaths.set(grid, paths);
+  return paths;
+}
+
+function pointerPosition(event: React.PointerEvent<HTMLCanvasElement>): Point {
+  const rectangle = event.currentTarget.getBoundingClientRect();
+  return { x: event.clientX - rectangle.left, y: event.clientY - rectangle.top };
+}
+
+function drawingPath(
+  points: DrawingPoint[],
+  worldToScreen: (x: number, y: number) => Point
+): Path2D {
+  const path = new Path2D();
+  if (points.length === 0) return path;
+  const first = worldToScreen(points[0].x, points[0].y);
+  path.moveTo(first.x, first.y);
+  if (points.length === 2) {
+    const last = worldToScreen(points[1].x, points[1].y);
+    path.lineTo(last.x, last.y);
+    return path;
+  }
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const point = worldToScreen(points[index].x, points[index].y);
+    const next = worldToScreen(points[index + 1].x, points[index + 1].y);
+    path.quadraticCurveTo(point.x, point.y, (point.x + next.x) / 2, (point.y + next.y) / 2);
+  }
+  const last = worldToScreen(points.at(-1)?.x ?? points[0].x, points.at(-1)?.y ?? points[0].y);
+  path.lineTo(last.x, last.y);
+  return path;
+}
+
+function strokeDrawing(
+  context: CanvasRenderingContext2D,
+  points: DrawingPoint[],
+  color: string,
+  worldToScreen: (x: number, y: number) => Point,
+  selected = false
+) {
+  if (points.length < 2) return;
+  const path = drawingPath(points, worldToScreen);
+  context.save();
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.strokeStyle = selected ? "rgba(255, 255, 255, 0.95)" : "rgba(24, 24, 27, 0.72)";
+  context.lineWidth = selected ? 8 : 6;
+  context.stroke(path);
+  context.strokeStyle = color;
+  context.lineWidth = selected ? 5 : 3.5;
+  context.stroke(path);
+  context.restore();
+}
+
+function drawContainedImage(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  center: Point,
+  maxWidth: number,
+  maxHeight: number,
+  crop?: SpriteCrop
+) {
+  if (!image.complete || image.naturalWidth === 0 || image.naturalHeight === 0) return;
+  const source = crop ?? { x: 0, y: 0, width: image.naturalWidth, height: image.naturalHeight };
+  const scale = Math.min(maxWidth / source.width, maxHeight / source.height);
+  const width = source.width * scale;
+  const height = source.height * scale;
+  context.drawImage(
+    image,
+    source.x,
+    source.y,
+    source.width,
+    source.height,
+    center.x - width / 2,
+    center.y - height / 2,
+    width,
+    height
+  );
+}
+
+export function PlannerCanvas({
+  dataSource,
+  buildings,
+  drawings,
+  alliances,
+  activeAllianceId,
+  selectedItemIds,
+  tool,
+  showBoundary,
+  showCaves,
+  showResources,
+  showVillages,
+  structures,
+  territoryState,
+  dataVersion,
+  locationRequest,
+  isPlacementLegal,
+  onDraw,
+  onDeleteSelection,
+  onPlace,
+  onSelect,
+  onViewportChange,
+}: PlannerCanvasProps) {
+  const t = useExtracted();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const buildingImagesRef = useRef(new Map<BuildingKind, HTMLImageElement>());
+  const landmarkImagesRef = useRef(new Map<LandmarkKind, HTMLImageElement>());
+  const resourceImagesRef = useRef(new Map<ResourceKind, HTMLImageElement>());
+  const sizeRef = useRef({ width: 1, height: 1, dpr: 1 });
+  const viewRef = useRef<View>({ centerX: 0, centerY: 0, scale: 1 });
+  const hoverRef = useRef<Point | null>(null);
+  const coordinateRef = useRef<HTMLSpanElement>(null);
+  const pointerRef = useRef<{ id: number; x: number; y: number; dragged: boolean } | null>(null);
+  const drawingRef = useRef<{
+    pointerId: number;
+    allianceId: string;
+    color: string;
+    points: DrawingPoint[];
+    lastScreenPoint: Point;
+  } | null>(null);
+  const animationRef = useRef(0);
+  const drawRef = useRef<() => void>(() => undefined);
+  const initializedRef = useRef(false);
+  const boundaryPatternRef = useRef<CanvasPattern | null>(null);
+  const provincePatternRef = useRef<CanvasPattern | null>(null);
+  const territoryOverviewByAlliance = useMemo(
+    () => buildTerritoryOverviewsFromOwnership(territoryState.ownership),
+    [territoryState.ownership]
+  );
+  const structureBoundaryOverviews = useMemo(() => {
+    const cellsByOwner = new Map<string, ReturnType<typeof structureTerritoryCells>>();
+    for (const structure of structures) {
+      const ownerId = territoryState.structureOwners.get(structure.id) ?? "";
+      const cells = cellsByOwner.get(ownerId) ?? [];
+      cells.push(...structureTerritoryCells(structure));
+      cellsByOwner.set(ownerId, cells);
+    }
+    return new Map(
+      [...cellsByOwner].map(([ownerId, cells]) => [ownerId, buildTerritoryOverviewFromCells(cells)])
+    );
+  }, [structures, territoryState.structureOwners]);
+  const passTeleportBoundaryOverview = useMemo(() => {
+    const cells = structures.flatMap((structure) =>
+      structure.teleportRadiusInCells === null
+        ? []
+        : structureTerritoryCells({
+            ...structure,
+            territoryRadiusInCells: structure.teleportRadiusInCells,
+          })
+    );
+    return cells.length > 0 ? buildTerritoryOverviewFromCells(cells) : null;
+  }, [structures]);
+
+  const bounds = dataSource.config.imageBounds;
+  const activeAlliance =
+    alliances.find((alliance) => alliance.id === activeAllianceId) ?? alliances[0];
+
+  const requestDraw = useCallback(() => {
+    if (!animationRef.current) {
+      animationRef.current = requestAnimationFrame(() => drawRef.current());
+    }
+  }, []);
+
+  const visibleBounds = useCallback((): WorldBounds => {
+    const { width, height } = sizeRef.current;
+    const view = viewRef.current;
+    return {
+      minX: view.centerX - width / view.scale / 2,
+      maxX: view.centerX + width / view.scale / 2,
+      minY: view.centerY - height / view.scale / 2,
+      maxY: view.centerY + height / view.scale / 2,
+    };
+  }, []);
+
+  const worldToScreen = useCallback((x: number, y: number): Point => {
+    const view = viewRef.current;
+    const { width, height } = sizeRef.current;
+    return {
+      x: (x - view.centerX) * view.scale + width / 2,
+      y: (view.centerY - y) * view.scale + height / 2,
+    };
+  }, []);
+
+  const screenToWorld = useCallback((x: number, y: number): Point => {
+    const view = viewRef.current;
+    const { width, height } = sizeRef.current;
+    return {
+      x: (x - width / 2) / view.scale + view.centerX,
+      y: view.centerY - (y - height / 2) / view.scale,
+    };
+  }, []);
+
+  const constrainView = useCallback(() => {
+    const { width, height } = sizeRef.current;
+    const view = viewRef.current;
+    const mapWidth = bounds.maxX - bounds.minX;
+    const mapHeight = bounds.maxY - bounds.minY;
+    const fitScale = Math.min(width / mapWidth, height / mapHeight) * 0.96;
+    if (view.scale <= fitScale * (1 + Number.EPSILON)) {
+      view.centerX = (bounds.minX + bounds.maxX) / 2;
+      view.centerY = (bounds.minY + bounds.maxY) / 2;
+      return;
+    }
+    const halfWidth = width / view.scale / 2;
+    const halfHeight = height / view.scale / 2;
+    const gutter = 64 / view.scale;
+    const minCenterX = bounds.minX + halfWidth - gutter;
+    const maxCenterX = bounds.maxX - halfWidth + gutter;
+    const minCenterY = bounds.minY + halfHeight - gutter;
+    const maxCenterY = bounds.maxY - halfHeight + gutter;
+    view.centerX =
+      minCenterX > maxCenterX
+        ? (bounds.minX + bounds.maxX) / 2
+        : Math.max(minCenterX, Math.min(maxCenterX, view.centerX));
+    view.centerY =
+      minCenterY > maxCenterY
+        ? (bounds.minY + bounds.maxY) / 2
+        : Math.max(minCenterY, Math.min(maxCenterY, view.centerY));
+  }, [bounds.maxX, bounds.maxY, bounds.minX, bounds.minY]);
+
+  const fitView = useCallback(() => {
+    const { width, height } = sizeRef.current;
+    if (width <= 1 || height <= 1) return;
+    const mapWidth = bounds.maxX - bounds.minX;
+    const mapHeight = bounds.maxY - bounds.minY;
+    const scale = Math.min(width / mapWidth, height / mapHeight) * 0.96;
+    viewRef.current = {
+      centerX: (bounds.minX + bounds.maxX) / 2,
+      centerY: (bounds.minY + bounds.maxY) / 2,
+      scale,
+    };
+    initializedRef.current = true;
+    requestDraw();
+    onViewportChange(visibleBounds());
+  }, [
+    bounds.maxX,
+    bounds.maxY,
+    bounds.minX,
+    bounds.minY,
+    onViewportChange,
+    requestDraw,
+    visibleBounds,
+  ]);
+
+  const buildChunkPath = useCallback(
+    (chunk: SpatialChunk): Path2D => {
+      const cached = chunkPaths.get(chunk);
+      if (cached) return cached;
+      const path = new Path2D();
+      for (const instance of chunk.instances) {
+        const definition = dataSource.definitions[instance.mesh];
+        if (!definition) continue;
+        for (let index = 0; index < definition.indices.length; index += 3) {
+          const [ax, ay, bx, by, cx, cy] = transformedTriangle(definition, instance, index);
+          path.moveTo(ax, ay);
+          path.lineTo(bx, by);
+          path.lineTo(cx, cy);
+          path.closePath();
+        }
+      }
+      chunkPaths.set(chunk, path);
+      return path;
+    },
+    [dataSource.definitions]
+  );
+
+  const draw = useCallback(() => {
+    animationRef.current = 0;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const { width, height, dpr } = sizeRef.current;
+    const view = viewRef.current;
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    context.clearRect(0, 0, width, height);
+    context.fillStyle = "#263d3a";
+    context.fillRect(0, 0, width, height);
+
+    const image = imageRef.current;
+    if (image?.complete && image.naturalWidth > 0) {
+      const topLeft = worldToScreen(bounds.minX, bounds.maxY);
+      const bottomRight = worldToScreen(bounds.maxX, bounds.minY);
+      context.imageSmoothingEnabled = view.scale < 1;
+      context.drawImage(
+        image,
+        topLeft.x,
+        topLeft.y,
+        bottomRight.x - topLeft.x,
+        bottomRight.y - topLeft.y
+      );
+    }
+
+    const viewport = visibleBounds();
+    const chunks = dataSource.chunksWithin(viewport);
+    let boundaryPathsPending = false;
+    if (showBoundary) {
+      const pathBuildDeadline = performance.now() + 6;
+      context.save();
+      context.setTransform(
+        dpr * view.scale,
+        0,
+        0,
+        -dpr * view.scale,
+        dpr * (width / 2 - view.centerX * view.scale),
+        dpr * (height / 2 + view.centerY * view.scale)
+      );
+      context.beginPath();
+      context.rect(bounds.minX, bounds.minY, bounds.maxX - bounds.minX, bounds.maxY - bounds.minY);
+      context.clip();
+      const provinceGrid = dataSource.provinceGrid;
+      if (provinceGrid) {
+        const paths = buildProvincePaths(provinceGrid);
+        const path =
+          tool === "select" || tool === "draw" || tool === "flag" ? paths.flag : paths.fortress;
+        context.fillStyle = "rgba(180, 83, 9, 0.11)";
+        context.fill(path);
+        provincePatternRef.current ??= createProvincePattern(context);
+        if (provincePatternRef.current) {
+          provincePatternRef.current.setTransform(
+            new DOMMatrix().scale(1 / view.scale, 1 / view.scale)
+          );
+          context.fillStyle = provincePatternRef.current;
+          context.globalAlpha = 0.18;
+          context.fill(path);
+          context.globalAlpha = 1;
+        }
+      }
+      context.fillStyle = "rgba(127, 0, 0, 0.06)";
+      for (const chunk of chunks) {
+        let path = chunkPaths.get(chunk);
+        if (!path && performance.now() < pathBuildDeadline) path = buildChunkPath(chunk);
+        if (path) {
+          context.fill(path);
+          boundaryPatternRef.current ??= createBoundaryPattern(context);
+          if (boundaryPatternRef.current) {
+            boundaryPatternRef.current.setTransform(
+              new DOMMatrix().scale(1 / view.scale, 1 / view.scale)
+            );
+            context.fillStyle = boundaryPatternRef.current;
+            context.globalAlpha = 0.22;
+            context.fill(path);
+            context.globalAlpha = 1;
+            context.fillStyle = "rgba(127, 0, 0, 0.06)";
+          }
+        } else boundaryPathsPending = true;
+      }
+      context.restore();
+    }
+
+    if (showResources && view.scale >= RESOURCE_MARKER_SCALE) {
+      for (const chunk of chunks) {
+        for (const resource of chunk.resources) {
+          const point = worldToScreen(resource.x, resource.y);
+          const image = resourceImagesRef.current.get(resource.kind);
+          if (image) {
+            const size = Math.max(12, Math.min(18, view.scale * 48)) * MARKER_SIZE_MULTIPLIER;
+            drawContainedImage(context, image, point, size, size);
+          }
+        }
+      }
+    }
+
+    if (showVillages || showCaves) {
+      for (const chunk of chunks) {
+        for (const landmark of chunk.landmarks) {
+          if (landmark.kind === "village" ? !showVillages : !showCaves) continue;
+          const image = landmarkImagesRef.current.get(landmark.kind);
+          if (!image) continue;
+          const point = worldToScreen(landmark.x, landmark.y);
+          const size = Math.max(4, Math.min(30, view.scale * 42));
+          drawContainedImage(context, image, point, size, size);
+        }
+      }
+    }
+
+    const allianceById = new Map(alliances.map((alliance) => [alliance.id, alliance]));
+    const paintByAllianceId = new Map(
+      alliances.map((alliance) => [alliance.id, territoryPaint(alliance.color)])
+    );
+    const detailedTerritory = view.scale >= MAP_DETAIL_SCALE;
+    context.save();
+    context.setTransform(
+      dpr * view.scale,
+      0,
+      0,
+      -dpr * view.scale,
+      dpr * (width / 2 - view.centerX * view.scale),
+      dpr * (height / 2 + view.centerY * view.scale)
+    );
+    context.lineCap = "square";
+    context.lineJoin = "miter";
+    context.lineWidth = 2.25 / view.scale;
+    for (const alliance of alliances) {
+      const overview = territoryOverviewByAlliance.get(alliance.id);
+      if (!overview) continue;
+      const paths = buildTerritoryPaths(overview);
+      const paint = paintByAllianceId.get(alliance.id) ?? territoryPaint("#2563eb");
+      context.fillStyle = detailedTerritory ? paint.detailFill : paint.overviewFill;
+      context.fill(paths.fill);
+      context.strokeStyle = paint.border;
+      context.stroke(paths.boundary);
+      if (detailedTerritory) {
+        context.save();
+        context.clip(paths.fill);
+        for (const building of buildings) {
+          if (building.allianceId !== alliance.id) continue;
+          const bounds = territoryBounds(building);
+          context.strokeStyle = paint.border;
+          context.lineWidth = 1.5 / view.scale;
+          context.strokeRect(
+            bounds.minX,
+            bounds.minY,
+            bounds.maxX - bounds.minX,
+            bounds.maxY - bounds.minY
+          );
+        }
+        context.restore();
+      }
+    }
+    if (showBoundary && view.scale >= MAP_DETAIL_SCALE * 0.35) {
+      if (passTeleportBoundaryOverview) {
+        context.setLineDash([2 / view.scale, 5 / view.scale]);
+        context.lineWidth = 1.1 / view.scale;
+        context.strokeStyle = "rgba(113, 113, 122, 0.68)";
+        context.stroke(buildTerritoryPaths(passTeleportBoundaryOverview).boundary);
+      }
+      context.setLineDash([6 / view.scale, 4 / view.scale]);
+      context.lineWidth = 1.6 / view.scale;
+      for (const [ownerId, overview] of structureBoundaryOverviews) {
+        context.strokeStyle = ownerId
+          ? (paintByAllianceId.get(ownerId)?.border ?? "rgba(39, 39, 42, 0.95)")
+          : "rgba(39, 39, 42, 0.78)";
+        context.stroke(buildTerritoryPaths(overview).boundary);
+      }
+      context.setLineDash([]);
+    }
+    context.restore();
+
+    for (const drawing of drawings) {
+      strokeDrawing(
+        context,
+        drawing.points,
+        allianceById.get(drawing.allianceId)?.color ?? "#2563eb",
+        worldToScreen,
+        selectedItemIds.has(drawing.id)
+      );
+    }
+    const activeDrawing = drawingRef.current;
+    if (activeDrawing) {
+      strokeDrawing(context, activeDrawing.points, activeDrawing.color, worldToScreen);
+    }
+
+    for (const building of buildings) {
+      const center = worldToScreen(building.x, building.y);
+      const selected = selectedItemIds.has(building.id);
+      if (!detailedTerritory && building.kind === "flag") {
+        if (selected) {
+          context.beginPath();
+          context.arc(center.x, center.y, 8, 0, Math.PI * 2);
+          context.strokeStyle = "white";
+          context.lineWidth = 2;
+          context.stroke();
+        }
+        continue;
+      }
+      const markerImage = buildingImagesRef.current.get(building.kind);
+      const markerScale = detailedTerritory
+        ? 1
+        : Math.max(0.3, view.scale / MAP_DETAIL_SCALE) * OVERVIEW_BUILDING_SIZE_MULTIPLIER;
+      if (markerImage) {
+        const maximum =
+          building.kind === "flag" ? { width: 24, height: 34 } : { width: 42, height: 36 };
+        context.save();
+        context.shadowColor = "rgba(0, 0, 0, 0.65)";
+        context.shadowBlur = Math.max(1, 3 * markerScale);
+        drawContainedImage(
+          context,
+          markerImage,
+          center,
+          maximum.width * markerScale,
+          maximum.height * markerScale,
+          BUILDING_SPRITE_CROPS[building.kind]
+        );
+        context.restore();
+      }
+      if (selected) {
+        context.beginPath();
+        const selectionRadius = (building.kind === "flag" ? 18 : 22) * markerScale;
+        context.arc(center.x, center.y, Math.max(7, selectionRadius), 0, Math.PI * 2);
+        context.strokeStyle = "white";
+        context.lineWidth = 2;
+        context.stroke();
+      }
+    }
+
+    const hover = hoverRef.current;
+    if (hover && tool !== "select" && tool !== "draw") {
+      const legal = isPlacementLegal(tool, hover.x, hover.y);
+      const rule = buildingRules[tool];
+      const half = rule.territorySide / 2;
+      const topLeft = worldToScreen(hover.x - half, hover.y + half);
+      const bottomRight = worldToScreen(hover.x + half, hover.y - half);
+      context.fillStyle = legal ? "rgba(34, 197, 94, 0.22)" : "rgba(239, 68, 68, 0.25)";
+      context.strokeStyle = legal ? "#22c55e" : "#ef4444";
+      context.lineWidth = 2;
+      context.setLineDash([6, 4]);
+      context.fillRect(topLeft.x, topLeft.y, bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+      context.strokeRect(
+        topLeft.x,
+        topLeft.y,
+        bottomRight.x - topLeft.x,
+        bottomRight.y - topLeft.y
+      );
+      context.setLineDash([]);
+    }
+    if (boundaryPathsPending) requestDraw();
+  }, [
+    alliances,
+    bounds.maxX,
+    bounds.maxY,
+    bounds.minX,
+    bounds.minY,
+    buildChunkPath,
+    buildings,
+    dataSource,
+    drawings,
+    isPlacementLegal,
+    passTeleportBoundaryOverview,
+    requestDraw,
+    selectedItemIds,
+    showBoundary,
+    showCaves,
+    showResources,
+    showVillages,
+    structureBoundaryOverviews,
+    territoryOverviewByAlliance,
+    tool,
+    visibleBounds,
+    worldToScreen,
+  ]);
+
+  useEffect(() => {
+    drawRef.current = draw;
+    requestDraw();
+  }, [draw, requestDraw]);
+
+  useEffect(() => {
+    if (dataVersion >= 0) requestDraw();
+  }, [dataVersion, requestDraw]);
+
+  const zoom = useCallback(
+    (factor: number, screenX?: number, screenY?: number) => {
+      const { width, height } = sizeRef.current;
+      const x = screenX ?? width / 2;
+      const y = screenY ?? height / 2;
+      const before = screenToWorld(x, y);
+      const fitScale =
+        Math.min(width / (bounds.maxX - bounds.minX), height / (bounds.maxY - bounds.minY)) * 0.96;
+      viewRef.current.scale = Math.max(fitScale, Math.min(8, viewRef.current.scale * factor));
+      const after = screenToWorld(x, y);
+      viewRef.current.centerX += before.x - after.x;
+      viewRef.current.centerY += before.y - after.y;
+      constrainView();
+      requestDraw();
+      onViewportChange(visibleBounds());
+    },
+    [
+      bounds.maxX,
+      bounds.maxY,
+      bounds.minX,
+      bounds.minY,
+      constrainView,
+      onViewportChange,
+      requestDraw,
+      screenToWorld,
+      visibleBounds,
+    ]
+  );
+
+  useEffect(() => {
+    if (!locationRequest) return;
+    const frame = requestAnimationFrame(() => {
+      const canvas = canvasRef.current;
+      const { width, height } = sizeRef.current;
+      if (!canvas || width <= 1 || height <= 1) return;
+      viewRef.current = {
+        centerX: locationRequest.x,
+        centerY: locationRequest.y,
+        scale: Math.max(viewRef.current.scale, MAP_DETAIL_SCALE * 1.6),
+      };
+      constrainView();
+      canvas.focus({ preventScroll: true });
+      requestDraw();
+      onViewportChange(visibleBounds());
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [constrainView, locationRequest, onViewportChange, requestDraw, visibleBounds]);
+
+  const fitLoadedMap = useEffectEvent(() => fitView());
+
+  useEffect(() => {
+    const image = dataSource.image;
+    imageRef.current = image;
+    initializedRef.current = false;
+    const frame = requestAnimationFrame(fitLoadedMap);
+    return () => {
+      cancelAnimationFrame(frame);
+      if (imageRef.current === image) imageRef.current = null;
+    };
+  }, [dataSource]);
+
+  useEffect(() => {
+    const images = new Set<HTMLImageElement>();
+    const imagesBySource = new Map<string, HTMLImageElement>();
+    const loadImage = (source: string) => {
+      const loaded = imagesBySource.get(source);
+      if (loaded) return loaded;
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+      image.decoding = "async";
+      image.onload = requestDraw;
+      image.src = source;
+      imagesBySource.set(source, image);
+      images.add(image);
+      return image;
+    };
+    for (const [kind, source] of Object.entries(BUILDING_SPRITES) as Array<
+      [BuildingKind, string]
+    >) {
+      buildingImagesRef.current.set(kind, loadImage(source));
+    }
+    for (const kind of RESOURCE_KINDS) {
+      resourceImagesRef.current.set(kind, loadImage(RESOURCE_SPRITES[kind]));
+    }
+    for (const kind of LANDMARK_KINDS) {
+      landmarkImagesRef.current.set(kind, loadImage(LANDMARK_SPRITES[kind]));
+    }
+    return () => {
+      for (const image of images) image.onload = null;
+      buildingImagesRef.current.clear();
+      landmarkImagesRef.current.clear();
+      resourceImagesRef.current.clear();
+    };
+  }, [requestDraw]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const width = Math.max(1, Math.floor(entry.contentRect.width));
+      const height = Math.max(1, Math.floor(entry.contentRect.height));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const previousSize = sizeRef.current;
+      const previousFitScale =
+        Math.min(
+          previousSize.width / (bounds.maxX - bounds.minX),
+          previousSize.height / (bounds.maxY - bounds.minY)
+        ) * 0.96;
+      const wasFitted =
+        initializedRef.current && viewRef.current.scale <= previousFitScale * (1 + Number.EPSILON);
+      sizeRef.current = { width, height, dpr };
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      if (!initializedRef.current || wasFitted) fitView();
+      else constrainView();
+      requestDraw();
+    });
+    observer.observe(canvas);
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      const rectangle = canvas.getBoundingClientRect();
+      zoom(
+        Math.exp(-event.deltaY * 0.0015),
+        event.clientX - rectangle.left,
+        event.clientY - rectangle.top
+      );
+    };
+    canvas.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      observer.disconnect();
+      canvas.removeEventListener("wheel", onWheel);
+    };
+  }, [
+    bounds.maxX,
+    bounds.maxY,
+    bounds.minX,
+    bounds.minY,
+    constrainView,
+    fitView,
+    requestDraw,
+    zoom,
+  ]);
+
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = 0;
+    },
+    []
+  );
+
+  const updateCoordinateHud = (screenPoint: Point) => {
+    const world = screenToWorld(screenPoint.x, screenPoint.y);
+    if (
+      world.x < bounds.minX ||
+      world.x > bounds.maxX ||
+      world.y < bounds.minY ||
+      world.y > bounds.maxY
+    ) {
+      if (coordinateRef.current) coordinateRef.current.textContent = t("X: - Y: -");
+      return;
+    }
+    const maxCoordinate = realToGameCoordinate(dataSource.config.nativeMapSize);
+    const x = Math.max(0, Math.min(maxCoordinate, realToGameCoordinate(world.x)));
+    const y = Math.max(0, Math.min(maxCoordinate, realToGameCoordinate(world.y)));
+    if (coordinateRef.current) {
+      coordinateRef.current.textContent = t("X: {x} Y: {y}", {
+        x: x.toString(),
+        y: y.toString(),
+      });
+    }
+  };
+
+  const clearHover = () => {
+    hoverRef.current = null;
+    if (coordinateRef.current) coordinateRef.current.textContent = t("X: - Y: -");
+    requestDraw();
+  };
+
+  const cancelPointer = () => {
+    pointerRef.current = null;
+    drawingRef.current = null;
+    clearHover();
+  };
+
+  return (
+    <div className="relative size-full min-h-[32rem] overflow-hidden rounded-md bg-zinc-800 shadow-inner">
+      <canvas
+        ref={canvasRef}
+        aria-label={t(
+          "Interactive territory planning map. Drag to pan, choose Draw to add a line, or choose Select and Shift-click to select multiple items. Press Delete or Backspace to remove selected items."
+        )}
+        className={`size-full touch-none ${tool === "select" ? "cursor-grab active:cursor-grabbing" : "cursor-crosshair"}`}
+        role="img"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Delete" || event.key === "Backspace") {
+            event.preventDefault();
+            if (selectedItemIds.size > 0) onDeleteSelection();
+            return;
+          }
+          if (event.key === "+" || event.key === "=") zoom(1.25);
+          if (event.key === "-") zoom(0.8);
+          if (event.key === "0") fitView();
+          if (event.key === "Escape") cancelPointer();
+        }}
+        onPointerDown={(event) => {
+          event.currentTarget.focus({ preventScroll: true });
+          const point = pointerPosition(event);
+          updateCoordinateHud(point);
+          if (tool === "draw") {
+            const world = screenToWorld(point.x, point.y);
+            if (
+              world.x < bounds.minX ||
+              world.x > bounds.maxX ||
+              world.y < bounds.minY ||
+              world.y > bounds.maxY
+            ) {
+              return;
+            }
+            event.currentTarget.setPointerCapture(event.pointerId);
+            drawingRef.current = {
+              pointerId: event.pointerId,
+              allianceId: activeAlliance.id,
+              color: activeAlliance.color,
+              points: [{ x: Math.round(world.x), y: Math.round(world.y) }],
+              lastScreenPoint: point,
+            };
+            requestDraw();
+            return;
+          }
+          event.currentTarget.setPointerCapture(event.pointerId);
+          pointerRef.current = { id: event.pointerId, x: point.x, y: point.y, dragged: false };
+        }}
+        onPointerMove={(event) => {
+          const point = pointerPosition(event);
+          const drawing = drawingRef.current;
+          if (drawing?.pointerId === event.pointerId) {
+            updateCoordinateHud(point);
+            if (
+              Math.hypot(
+                point.x - drawing.lastScreenPoint.x,
+                point.y - drawing.lastScreenPoint.y
+              ) >= 4 &&
+              drawing.points.length < 2_000
+            ) {
+              const world = screenToWorld(point.x, point.y);
+              drawing.points.push({
+                x: Math.round(Math.max(bounds.minX, Math.min(bounds.maxX, world.x))),
+                y: Math.round(Math.max(bounds.minY, Math.min(bounds.maxY, world.y))),
+              });
+              drawing.lastScreenPoint = point;
+              requestDraw();
+            }
+            return;
+          }
+          const pointer = pointerRef.current;
+          if (pointer?.id === event.pointerId) {
+            const dx = point.x - pointer.x;
+            const dy = point.y - pointer.y;
+            if (Math.abs(dx) + Math.abs(dy) > 1) pointer.dragged = true;
+            viewRef.current.centerX -= dx / viewRef.current.scale;
+            viewRef.current.centerY += dy / viewRef.current.scale;
+            constrainView();
+            pointer.x = point.x;
+            pointer.y = point.y;
+            onViewportChange(visibleBounds());
+          }
+          updateCoordinateHud(point);
+          const world = screenToWorld(point.x, point.y);
+          hoverRef.current = {
+            x: Math.floor(world.x / 18) * 18 + 9,
+            y: Math.floor(world.y / 18) * 18 + 9,
+          };
+          requestDraw();
+        }}
+        onPointerUp={(event) => {
+          const point = pointerPosition(event);
+          updateCoordinateHud(point);
+          const drawing = drawingRef.current;
+          if (drawing?.pointerId === event.pointerId) {
+            drawingRef.current = null;
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+              event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+            if (drawing.points.length >= 2) onDraw(drawing.allianceId, drawing.points);
+            requestDraw();
+            return;
+          }
+          const pointer = pointerRef.current;
+          pointerRef.current = null;
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+          if (pointer?.dragged) return;
+          const world = screenToWorld(point.x, point.y);
+          if (tool !== "select" && tool !== "draw") {
+            const snapped = {
+              x: Math.floor(world.x / 18) * 18 + 9,
+              y: Math.floor(world.y / 18) * 18 + 9,
+            };
+            onPlace(tool, snapped.x, snapped.y);
+            return;
+          }
+          const hitRadius = 14 / viewRef.current.scale;
+          let selected: PlannedBuilding | undefined;
+          let bestDistance = Number.POSITIVE_INFINITY;
+          for (const building of buildings) {
+            const distance = Math.hypot(building.x - world.x, building.y - world.y);
+            if (distance <= hitRadius && distance < bestDistance) {
+              selected = building;
+              bestDistance = distance;
+            }
+          }
+          const selectedId =
+            selected?.id ?? findDrawingAtPoint(drawings, world, 10 / viewRef.current.scale);
+          onSelect(selectedId, event.shiftKey);
+        }}
+        onPointerCancel={cancelPointer}
+        onPointerLeave={clearHover}
+      />
+      <div className="absolute right-3 top-3 flex flex-col gap-1">
+        <Button aria-label={t("Fit map")} color="white" onClick={fitView}>
+          {t("Fit")}
+        </Button>
+      </div>
+      <div className="pointer-events-none absolute bottom-3 left-3 rounded-sm bg-zinc-950/75 px-2 py-1 text-xs text-white">
+        <span ref={coordinateRef}>{t("X: - Y: -")}</span> &middot;{" "}
+        {t("{loaded}/{total} chunks", {
+          loaded: dataSource.chunks.size.toString(),
+          total: dataSource.config.spatial.chunks.length.toString(),
+        })}
+      </div>
+    </div>
+  );
+}

@@ -7,6 +7,7 @@ import {
   FlagIcon,
   GiftIcon,
   HeartIcon,
+  MapIcon,
   MoonIcon,
   QuestionMarkCircleIcon,
   ScaleIcon,
@@ -116,6 +117,13 @@ export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
               <SidebarItem href="/combat-lab" current={pathname.startsWith("/combat-lab")}>
                 <ChartPieIcon />
                 <SidebarLabel>{t("Combat Lab")}</SidebarLabel>
+              </SidebarItem>
+              <SidebarItem
+                href="/territory-planner"
+                current={pathname.startsWith("/territory-planner")}
+              >
+                <MapIcon />
+                <SidebarLabel>{t("Territory Planner")}</SidebarLabel>
               </SidebarItem>
             </SidebarSection>
             {showGovernorSection && (

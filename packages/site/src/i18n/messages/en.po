@@ -867,6 +867,7 @@ msgid "wduJme"
 msgstr "Instrument"
 
 #: src/components/combat-lab/combat-lab-loadouts.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
 msgid "bSCV9J"
 msgstr "Flag"
 
@@ -1100,11 +1101,13 @@ msgstr "Try removing a talent or changing your search."
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
 #: src/components/reports/reports-filter-dialog.tsx
+#: src/components/territory-planner/planner-settings-drawer.tsx
 msgid "47FYwb"
 msgstr "Cancel"
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 #: src/components/language-selector.tsx
+#: src/components/territory-planner/planner-settings-drawer.tsx
 msgid "jvo0vs"
 msgstr "Save"
 
@@ -1581,6 +1584,7 @@ msgstr "Copied"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
+#: src/components/territory-planner/territory-planner.tsx
 msgid "OKhRC6"
 msgstr "Share"
 
@@ -1678,6 +1682,11 @@ msgstr "Theme"
 #: src/components/platform-layout.tsx
 msgid "sqvUg2"
 msgstr "Olympian Arena"
+
+#: src/components/platform-layout.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgid "NCnvW0"
+msgstr "Territory Planner"
 
 #: src/components/platform-layout.tsx
 msgid "dr0ueW"
@@ -1992,6 +2001,355 @@ msgstr "Cookie Settings"
 #: src/components/sidebar-governor-header.tsx
 msgid "xXbJso"
 msgstr "Sign out"
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "c3MqCM"
+msgstr "No construction cost is available"
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "vfBCdN"
+msgstr "No cost"
+
+#: src/components/territory-planner/construction-cost.tsx
+msgid "dTN5Q_"
+msgstr "Construction cost"
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "RuDx5_"
+msgstr "X: - Y: -"
+
+#: src/components/territory-planner/planner-canvas.tsx
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "efq633"
+msgstr "X: {x} Y: {y}"
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "AqqORv"
+msgstr "Interactive territory planning map. Drag to pan, choose Draw to add a line, or choose Select and Shift-click to select multiple items. Press Delete or Backspace to remove selected items."
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "l9iQOz"
+msgstr "Fit map"
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "N2HbmZ"
+msgstr "Fit"
+
+#: src/components/territory-planner/planner-canvas.tsx
+msgid "2YIRK6"
+msgstr "{loaded}/{total} chunks"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "D-ZFS_"
+msgstr "Red"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "n3m1xt"
+msgstr "Orange"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "5Tw3Ta"
+msgstr "Yellow"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "1W4okO"
+msgstr "Green"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "YCtAVD"
+msgstr "Cyan"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "k2tJ9k"
+msgstr "Blue"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "tihmF3"
+msgstr "Purple"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "KIm2E5"
+msgstr "Pink"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "D3idYv"
+msgstr "Settings"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "4dLJ2n"
+msgstr "Close settings"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "j5ASqk"
+msgstr "Collision overlay"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "1A0HiQ"
+msgstr "Resource overlay"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "azUqAZ"
+msgstr "Show villages"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "lN9YOn"
+msgstr "Show caves"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "NdufDy"
+msgstr "Alliances"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "_KvwGz"
+msgstr "{name} territory color"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "s3IOQQ"
+msgstr "Edit {name}"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "JpsXCp"
+msgstr "Delete {name}"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "PrwHjk"
+msgstr "Alliance name"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "7s5xbv"
+msgstr "Territory color"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "B8F_S_"
+msgstr "{color} territory color"
+
+#: src/components/territory-planner/planner-settings-drawer.tsx
+msgid "2_2yg-"
+msgstr "Add"
+
+#: src/components/territory-planner/territory-breakdown.tsx
+#: src/components/territory-planner/territory-planner.tsx
+msgid "v5_T25"
+msgstr "Alliance credits"
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "qEXtNB"
+msgstr "Territory breakdown"
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "uau2JL"
+msgstr "No territory buildings for this alliance."
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "8PV5tF"
+msgstr "{building} {number}"
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "S_mBkY"
+msgstr "Covered alliance resource plots"
+
+#: src/components/territory-planner/territory-breakdown.tsx
+msgid "NyxynW"
+msgstr "Locate {building} {number} on map"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "T86Fnb"
+msgstr "Alliance 1"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "JM6RlW"
+msgstr "The map data could not be loaded."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "HJCupX"
+msgstr "Shareable plan URL copied to the clipboard."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "h9dtUs"
+msgstr "The shareable plan is now in the address bar."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "AzTP1q"
+msgstr "No maps are available."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "zuqMfZ"
+msgstr "Map"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "DwFieO"
+msgstr "Building tools"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "zmMjEn"
+msgstr "Alliance"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "6xfci4"
+msgstr "Planner settings"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "-znnlM"
+msgstr "Loading map geometry..."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "iO9Xom"
+msgstr "Map geometry is unavailable."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "RNqPQL"
+msgstr "Scroll to zoom"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "3S5CZQ"
+msgstr "Drag to pan"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "ayBb4B"
+msgstr "Shift + click to multi-select"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "Ys0dmO"
+msgstr "Delete / Backspace to delete selected items"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "MEA0uN"
+msgstr "Territory limits & costs"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "gW7-rG"
+msgstr "Center Fortress"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "xWjJGr"
+msgstr "Fortresses"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "wZsBSy"
+msgstr "Horse"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "Ed112w"
+msgstr "Flags"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "v8GMOg"
+msgstr "Crystal"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "-w6K47"
+msgstr "Food"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "OLb6AJ"
+msgstr "Wood"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "430I4C"
+msgstr "Stone"
+
+#: src/components/territory-planner/territory-planner.tsx
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "GwqiOt"
+msgstr "Gold"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "ZOQ7HO"
+msgstr "{count, plural, one {# planned building has} other {# planned buildings have}} no construction-cost entry."
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "MP-xJh"
+msgstr "Territory RSS production"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgid "orJzQH"
+msgstr "{amount}/h"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "kQAf2d"
+msgstr "Select"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "i1-AIw"
+msgstr "Draw"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "4198KF"
+msgstr "Fortress"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "xaTgym"
+msgstr "Home 1"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "MPTvtH"
+msgstr "Home 2"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "j3P9qu"
+msgstr "Home 3"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "O93KLR"
+msgstr "Home 4"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "hg8Lv0"
+msgstr "The Endless War"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "BiPM7e"
+msgstr "A Distant Journey"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "bM2qoT"
+msgstr "Light and Darkness"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "mo0a1h"
+msgstr "Heroic Anthem"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "dB5nyw"
+msgstr "King of the Nile"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "e5RJ5j"
+msgstr "Siege of Orleans"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "oeX-OS"
+msgstr "Warriors Unbound"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "eAqXUV"
+msgstr "Storm of Stratagems"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "Tb3UEK"
+msgstr "Tides of War"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "RQT3pQ"
+msgstr "Alliance Invictus"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "jFqmEK"
+msgstr "Keener Blades"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "KB_X0M"
+msgstr "King of All Britain"
+
+#: src/components/territory-planner/use-territory-planner-labels.ts
+msgid "yFnkCB"
+msgstr "Song of Troy"
 
 #: src/hooks/use-ark-match-detail.ts
 #: src/hooks/use-ark-match-history.ts

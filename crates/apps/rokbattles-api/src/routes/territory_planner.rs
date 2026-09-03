@@ -12,7 +12,7 @@ use serde::Serialize;
 
 use crate::{db::TerritoryPlannerMapSummary, error::ApiError, state::AppState};
 
-const CACHE_CONTROL: [(&str, &str); 1] = [("Cache-Control", "public, max-age=300")];
+const CACHE_CONTROL: [(&str, &str); 1] = [("Cache-Control", "public, max-age=3600")];
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -20,7 +20,7 @@ struct TerritoryPlannerListResponse {
     maps: Vec<TerritoryPlannerMapSummary>,
 }
 
-/// Return the lightweight Territory Planner map catalog.
+/// Return the Territory Planner map catalog.
 pub async fn list(State(state): State<Arc<AppState>>) -> Result<impl IntoResponse, ApiError> {
     let maps = state
         .territory_planner
