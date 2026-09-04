@@ -24,7 +24,7 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
         .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
     let compressed = compress_raw_mail(input.original_bytes, input.zstd_level)?;
 
-    let mut document = doc! {
+    let document = doc! {
         "metadata": {
             "userAgent": input.user_agent,
             "checksum": input.checksum,
@@ -45,18 +45,6 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
         "updatedAt": input.now,
     };
 
-    if let Some(entity) = input.network_entity {
-        document.insert(
-            "network",
-            doc! {
-                "entity": Bson::Binary(Binary {
-                    subtype: BinarySubtype::Generic,
-                    bytes: compress_raw_mail(entity, input.zstd_level)?,
-                }),
-            },
-        );
-    }
-
     Ok(document)
 }
 
@@ -64,7 +52,6 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
 #[derive(Debug, Clone, Copy)]
 pub struct RawMailDocumentInput<'a> {
     pub original_bytes: &'a [u8],
-    pub network_entity: Option<&'a [u8]>,
     pub user_agent: &'a str,
     pub checksum: &'a str,
     pub mail: &'a RawMailMetadata,
@@ -207,7 +194,6 @@ mod tests {
         };
         let doc = build_raw_mail_doc(RawMailDocumentInput {
             original_bytes: b"raw-binary",
-            network_entity: None,
             user_agent: "ROKBattles/0.1.0",
             checksum: "checksum",
             mail: &mail,
@@ -233,36 +219,6 @@ mod tests {
         assert!(matches!(doc.get_document("mail").unwrap().get("binary"), Some(Bson::Binary(_))));
         assert!(!doc.contains_key("network"));
         assert_eq!(doc.get_str("status").unwrap(), "pending");
-    }
-
-    #[test]
-    fn builds_relay_document_with_compressed_network_entity() {
-        let now = DateTime::now();
-        let mail = RawMailMetadata {
-            id: "12345".to_string(),
-            time: 1772127772844751,
-            receiver: "player_71738515".to_string(),
-        };
-        let network_entity = b"raw network MailEntity";
-        let doc = build_raw_mail_doc(RawMailDocumentInput {
-            original_bytes: b"reconstructed-binary",
-            network_entity: Some(network_entity),
-            user_agent: "ROKBattles/0.1.0 (Relay)",
-            checksum: "checksum",
-            mail: &mail,
-            status: "pending",
-            now,
-            zstd_level: 3,
-        })
-        .expect("doc");
-
-        let compressed_entity = doc
-            .get_document("network")
-            .expect("network document")
-            .get_binary_generic("entity")
-            .expect("network entity");
-
-        assert_eq!(decompress(compressed_entity), network_entity);
     }
 
     #[test]
