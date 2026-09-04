@@ -170,11 +170,12 @@ export function PlannerSettingsDrawer({
             }}
           >
             <Field>
-              <Label htmlFor="planner-alliance-name">{t("Alliance name")}</Label>
+              <Label htmlFor="planner-alliance-tag">{t("Alliance tag")}</Label>
               <Input
                 className="mt-2 [&_input]:rounded-md"
-                id="planner-alliance-name"
-                placeholder={t("Alliance name")}
+                id="planner-alliance-tag"
+                placeholder={t("Alliance tag")}
+                maxLength={4}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />

@@ -2598,8 +2598,8 @@ msgid "Delete {name}"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
-msgctxt "PrwHjk"
-msgid "Alliance name"
+msgctxt "G-eSlG"
+msgid "Alliance tag"
 msgstr ""
 
 #: src/components/territory-planner/planner-settings-drawer.tsx
@@ -2646,11 +2646,6 @@ msgstr ""
 #: src/components/territory-planner/territory-breakdown.tsx
 msgctxt "NyxynW"
 msgid "Locate {building} {number} on map"
-msgstr ""
-
-#: src/components/territory-planner/territory-planner.tsx
-msgctxt "T86Fnb"
-msgid "Alliance 1"
 msgstr ""
 
 #: src/components/territory-planner/territory-planner.tsx
