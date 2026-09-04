@@ -111,9 +111,7 @@ export function TerritoryPlanner({ maps }: { maps: TerritoryMapIndexRow[] }) {
   const t = useExtracted();
   const numberFormatter = useCompactNumberFormatter();
   const { mapLabel, resourceLabel, toolLabel } = useTerritoryPlannerLabels();
-  const [document, setDocument] = useState<PlannerDocument>(() =>
-    initialDocument(maps, t("Alliance 1"))
-  );
+  const [document, setDocument] = useState<PlannerDocument>(() => initialDocument(maps, "ROKB"));
   const [loadedDataSource, setLoadedDataSource] = useState<TerritoryDataSource | null>(null);
   const [dataVersion, setDataVersion] = useState(0);
   const [loading, setLoading] = useState(true);
