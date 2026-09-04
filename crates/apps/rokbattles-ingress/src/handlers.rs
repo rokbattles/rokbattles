@@ -111,16 +111,9 @@ pub async fn upload(
         )));
     }
 
-    let action = store_compressed_raw_mail(
-        &state,
-        &buffer,
-        None,
-        &decoded,
-        &mail_id,
-        &mail_type,
-        &user_agent,
-    )
-    .await?;
+    let action =
+        store_compressed_raw_mail(&state, &buffer, &decoded, &mail_id, &mail_type, &user_agent)
+            .await?;
 
     let (status, label) = match action {
         UploadAction::Insert => (StatusCode::CREATED, "stored"),
@@ -206,9 +199,7 @@ pub async fn upload_relay(
     for (index, entry) in entries.into_iter().enumerate() {
         let result = match state.mail_reconstructor.reconstruct(&entry, context) {
             Ok(mail) => {
-                match store_reconstructed_mail(&state, &mail.bytes, &entry, &mail.id, &user_agent)
-                    .await
-                {
+                match store_reconstructed_mail(&state, &mail.bytes, &mail.id, &user_agent).await {
                     Ok(action) => RelayMailResult {
                         index,
                         status: action_label(action).to_string(),
@@ -242,7 +233,6 @@ pub async fn upload_relay(
 async fn store_reconstructed_mail(
     state: &AppState,
     bytes: &[u8],
-    network_entity: &[u8],
     mail_id: &str,
     user_agent: &str,
 ) -> Result<UploadAction, ApiError> {
@@ -254,16 +244,7 @@ async fn store_reconstructed_mail(
         return Err(ApiError::bad_request("reconstructed mail id mismatch"));
     }
     let mail_type = extract_mail_type(&decoded)?;
-    store_compressed_raw_mail(
-        state,
-        bytes,
-        Some(network_entity),
-        &decoded,
-        mail_id,
-        &mail_type,
-        user_agent,
-    )
-    .await
+    store_compressed_raw_mail(state, bytes, &decoded, mail_id, &mail_type, user_agent).await
 }
 
 fn action_label(action: UploadAction) -> &'static str {
@@ -300,7 +281,6 @@ fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
 async fn store_compressed_raw_mail(
     state: &AppState,
     buffer: &[u8],
-    network_entity: Option<&[u8]>,
     decoded: &Value,
     mail_id: &str,
     mail_type: &str,
@@ -318,17 +298,6 @@ async fn store_compressed_raw_mail(
     let action = decide_compressed_raw_action(existing.as_ref(), &checksum, buffer.len());
 
     if matches!(action, UploadAction::Skip) {
-        if let (Some(entity), Some(existing)) = (network_entity, existing.as_ref())
-            && existing.checksum.as_deref() == Some(checksum.as_str())
-            && !existing.has_network_entity
-        {
-            let compressed_entity = raw_mail::compress_raw_mail(entity, state.config.zstd_level)?;
-            state
-                .storage
-                .store_network_entity_if_missing(mail_id, compressed_entity)
-                .await
-                .map_err(|error| ApiError::database(error.to_string()))?;
-        }
         return Ok(action);
     }
 
@@ -340,7 +309,6 @@ async fn store_compressed_raw_mail(
     };
     let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
         original_bytes: buffer,
-        network_entity,
         user_agent,
         checksum: &checksum,
         mail: &mail,
@@ -796,11 +764,7 @@ mod tests {
         checksum: &str,
         size: Option<usize>,
     ) -> crate::storage::ExistingCompressedRawMail {
-        crate::storage::ExistingCompressedRawMail {
-            checksum: Some(checksum.to_string()),
-            size,
-            has_network_entity: false,
-        }
+        crate::storage::ExistingCompressedRawMail { checksum: Some(checksum.to_string()), size }
     }
 
     #[test]
