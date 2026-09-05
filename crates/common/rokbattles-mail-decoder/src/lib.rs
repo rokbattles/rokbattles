@@ -1,24 +1,60 @@
 #![forbid(unsafe_code)]
 
-//! Decoder for `Persistent.Mail` files.
+//! Decodes `Persistent.Mail` files into [`serde_json::Value`].
 //!
-//! A complete file contains a fixed nine-byte header followed by one tagged
-//! value. The header starts with `0xff` and stores a little-endian
-//! 64-bit checksum in bytes 1 through 8. The checksum uses a wrapping DJB2
-//! recurrence over the complete file while treating its checksum bytes as zero.
+//! Use [`decode`] to validate a file's header and checksum and decode its contents.
+//! Use [`decode_value`] for a value without a file header, or [`validate_file`] to
+//! check a file's header and checksum without decoding the payload.
 //!
-//! Supported value tags are:
+//! # Examples
 //!
-//! - `0x01`: boolean (`u8`)
-//! - `0x03`: big-endian IEEE-754 `f64`
-//! - `0x04`: UTF-8 string with a little-endian `u32` byte length
-//! - `0x05`: table contents ending with the explicit `0xff` terminator
+//! A headerless table containing the string key `"ok"` and a boolean value:
 //!
-//! Tables are read completely before classification. String-keyed tables become
-//! JSON objects, numeric keys `1..N` become JSON arrays, other numeric keys
-//! become decimal JSON object keys, and unkeyed sequences remain arrays. Empty
-//! tables are represented as `[]`. Mixed or duplicate keys are rejected to avoid
-//! silently losing information in JSON.
+//! ```
+//! use rokbattles_mail_decoder::decode_value;
+//! use serde_json::json;
+//!
+//! let bytes = b"\x05\x04\x02\x00\x00\x00ok\x01\x01\xff";
+//! assert_eq!(decode_value(bytes)?, json!({ "ok": true }));
+//! # Ok::<(), rokbattles_mail_decoder::DecodeError>(())
+//! ```
+//!
+//! # File format
+//!
+//! A file contains a nine-byte header followed by exactly one tagged value. The
+//! first byte is `0xff`; bytes 1 through 8 hold a little-endian `u64` checksum.
+//! The checksum starts at `5_381` and applies `hash = hash * 33 + byte`, modulo
+//! `2^64`, to the entire file, treating the eight checksum bytes as zero.
+//!
+//! Each value begins with one of these tags:
+//!
+//! | Tag | Following bytes |
+//! | --- | --- |
+//! | `0x01` | One byte: zero is `false`, any other value is `true`. |
+//! | `0x03` | A big-endian IEEE 754 `f64`. NaN and infinities are rejected. |
+//! | `0x04` | A little-endian `u32` byte length, then that many UTF-8 bytes. |
+//! | `0x05` | Tagged values followed by a `0xff` table terminator. |
+//!
+//! Whole numbers are converted to JSON integers when the integer converts back
+//! to the same `f64`; other finite numbers remain floating point. Both `0.0` and
+//! `-0.0` become integer zero. There is no supported tag for JSON `null`.
+//!
+//! # Tables
+//!
+//! Tables have no separate tags for objects and arrays. The decoder reads their
+//! contents and chooses a JSON representation using these rules:
+//!
+//! - An empty table or a table with an odd number of items becomes an array.
+//! - For an even number of items, consecutive items are treated as key/value
+//!   pairs if every key is a string or number. Otherwise, all items remain in
+//!   an array in their original order.
+//! - String keys produce an object. Numeric keys that are exactly `1..=N`,
+//!   where `N` is the number of pairs, produce an array sorted by key. Other
+//!   numeric keys produce an object using their JSON number text as keys.
+//!
+//! Key/value tables with mixed string and numeric keys or duplicate keys are
+//! rejected to avoid losing entries during conversion. Tables may nest up to
+//! 128 levels, counting the outermost table as one level.
 
 mod common;
 mod decoder;
