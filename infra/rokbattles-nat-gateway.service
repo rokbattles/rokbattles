@@ -1,0 +1,32 @@
+[Unit]
+Description=ROKBattles NAT gateway
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/rokbattles-nat-gateway
+EnvironmentFile=/etc/rokbattles/nat-gateway.env
+Environment=STATE_DIRECTORY=/var/lib/rokbattles-nat-gateway
+ExecStart=/usr/local/bin/rokbattles-nat-gateway
+Restart=on-failure
+RestartSec=3
+UMask=0077
+LimitCORE=0
+MemoryMax=768M
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_SETUID CAP_SETGID
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+ReadWritePaths=/var/lib/rokbattles-nat-gateway /proc/sys/net/ipv4/ip_forward
+
+[Install]
+WantedBy=multi-user.target

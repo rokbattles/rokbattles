@@ -1,0 +1,22 @@
+[package]
+name = "rokbattles-nat-gateway"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+bytes.workspace = true
+libc.workspace = true
+serde_json.workspace = true
+rokbattles-gateway-protocol = { path = "../../common/rokbattles-gateway-protocol" }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time", "signal"] }
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber = { workspace = true, features = ["env-filter"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true
