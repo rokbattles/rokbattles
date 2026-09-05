@@ -855,6 +855,14 @@ export function PlannerCanvas({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    // Restoring a lost drawing surface clears its pixels without changing its size,
+    // so neither ResizeObserver nor a completed map load will necessarily repaint it.
+    const onContextRestored = () => {
+      boundaryPatternRef.current = null;
+      provincePatternRef.current = null;
+      requestDraw();
+    };
+    canvas.addEventListener("contextrestored", onContextRestored);
     const observer = new ResizeObserver(([entry]) => {
       const width = Math.max(1, Math.floor(entry.contentRect.width));
       const height = Math.max(1, Math.floor(entry.contentRect.height));
@@ -887,6 +895,7 @@ export function PlannerCanvas({
     canvas.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       observer.disconnect();
+      canvas.removeEventListener("contextrestored", onContextRestored);
       canvas.removeEventListener("wheel", onWheel);
     };
   }, [
