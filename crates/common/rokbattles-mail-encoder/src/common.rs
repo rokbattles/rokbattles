@@ -1,4 +1,4 @@
-//! Shared constants and error types for encoding.
+//! Wire-format constants and encoding errors.
 
 use thiserror::Error;
 
@@ -14,28 +14,41 @@ pub(crate) const CHECKSUM_SEED: u64 = 0x1505;
 
 pub(crate) const MAX_DEPTH: usize = 128;
 
-/// Errors returned by [`crate::encode`].
+/// An error encountered while encoding a `Persistent.Mail` file.
+///
+/// Returned by [`crate::encode`]. Encoding stops at the first error and discards
+/// the partially written file.
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum EncodeError {
-    /// A null value appeared where it could not be omitted.
+    /// The root value or an array element is null.
+    ///
+    /// Null object fields are omitted before their values are encoded.
     #[error("null cannot be represented by the persistent mail format")]
     NullValue,
-    /// A number could not be represented as a finite `f64`.
+    /// A JSON number cannot be converted to a finite `f64`.
+    ///
+    /// Loss of integer precision alone does not produce this error.
     #[error("number cannot be represented as a finite f64")]
     UnrepresentableNumber,
-    /// A string exceeded the format's `u32` byte-length field.
+    /// A string value or object key exceeds `u32::MAX` UTF-8 bytes.
     #[error("string exceeds the persistent mail limit")]
     StringTooLong,
-    /// An array was too large to assign a representable numeric key.
+    /// An array element's one-based index cannot be converted to `u64`.
+    ///
+    /// This checks the integer index before it is written as `f64`; it does
+    /// not check whether that floating-point conversion preserves precision.
     #[error("array exceeds the persistent mail limit")]
     ArrayTooLong,
-    /// A table exceeded the encoder's defensive nesting limit.
+    /// An object or array would exceed the table nesting limit.
     #[error("table nesting exceeds max depth of {limit}")]
     DepthLimitExceeded {
-        /// Maximum supported table nesting depth.
+        /// The maximum number of nested tables (128), including the outermost table.
         limit: usize,
     },
-    /// The fixed header was not present after initialization.
+    /// The output buffer has no complete checksum field to fill in.
+    ///
+    /// This indicates an internal invariant was violated: [`crate::encode`]
+    /// reserves the header before appending any values.
     #[error("persistent mail file header was not initialized")]
     HeaderNotInitialized,
 }
