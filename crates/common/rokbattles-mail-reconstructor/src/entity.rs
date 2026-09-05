@@ -1,9 +1,16 @@
+//! Borrowed decoding of the MailEntity protobuf envelope.
+//!
+//! Text and byte fields borrow the entry buffer; nested bodies stay encoded until
+//! category reconstruction. Missing fields retain their initialized defaults,
+//! repeated bodies append in wire order, and singular fields use the last value.
+
 use crate::{
     ReconstructionError,
     artifact::MailSchema,
     protobuf::{FieldValue, fields},
 };
 
+/// Envelope values and encoded nested messages awaiting body reconstruction.
 #[derive(Debug)]
 pub(crate) struct MailEntity<'a> {
     pub mail_id: &'a str,
@@ -34,6 +41,10 @@ pub(crate) struct MailEntity<'a> {
 }
 
 impl<'a> MailEntity<'a> {
+    /// Decodes known fields and requires a nonempty type and primary body.
+    ///
+    /// Mail ID and server fallback checks happen during final assembly. Unknown
+    /// fields are ignored after their wire values have been read.
     pub(crate) fn decode(data: &'a [u8], schema: &MailSchema) -> Result<Self, ReconstructionError> {
         let mut entity = Self {
             mail_id: "",
@@ -161,6 +172,8 @@ fn varint(value: FieldValue<'_>) -> Result<u64, ReconstructionError> {
     }
 }
 
+// These conversions preserve signed bit patterns rather than applying ZigZag.
+// The i32 path accepts only values that first fit in u32.
 fn to_i32(value: u64) -> Result<i32, ReconstructionError> {
     let narrowed = u32::try_from(value).map_err(|_error| ReconstructionError::IntegerOutOfRange)?;
     Ok(i32::from_ne_bytes(narrowed.to_ne_bytes()))

@@ -1,3 +1,10 @@
+//! Descriptor-driven protobuf body decoding into JSON values.
+//!
+//! Field names retain artifact spelling. Unknown wire fields are skipped, repeated
+//! values append in wire order, and later singular values replace earlier ones.
+//! Bytes become base64 strings, enums remain numbers, and nonfinite floats fail.
+//! Missing nested messages are omitted instead of recursively creating defaults.
+
 use base64::{Engine, engine::general_purpose::STANDARD};
 use serde_json::{Map, Number, Value};
 
@@ -9,6 +16,9 @@ use crate::{
 
 const LABEL_REPEATED: u8 = 3;
 
+/// Decodes a named message, initializing scalar and repeated field defaults.
+///
+/// Descriptor references are resolved as nested messages are encountered.
 pub(crate) fn decode_message(
     data: &[u8],
     name: &str,
@@ -54,9 +64,11 @@ fn defaults(descriptor: &DynamicMessage) -> Map<String, Value> {
         .collect()
 }
 
+/// Supplies zero or empty scalar values; message fields have no default here.
 fn scalar_default(field_type: u8) -> Option<Value> {
     match field_type {
         1 | 2 => Number::from_f64(0.0).map(Value::Number),
+        // An absent bool uses numeric zero here; a present bool decodes to JSON bool.
         3..=8 | 13..=18 => Some(Value::Number(0.into())),
         9 | 12 => Some(Value::String(String::new())),
         11 => None,
@@ -69,6 +81,7 @@ fn decode_repeated(
     field: &DynamicField,
     descriptors: &DescriptorPool,
 ) -> Result<Vec<Value>, ReconstructionError> {
+    // Numeric repeated fields may arrive packed or as individual occurrences.
     if let FieldValue::Bytes(packed) = value
         && is_packable(field.field_type)
     {
@@ -82,6 +95,7 @@ fn decode_value(
     field: &DynamicField,
     descriptors: &DescriptorPool,
 ) -> Result<Value, ReconstructionError> {
+    // These are protobuf descriptor type codes, distinct from wire type tags.
     match field.field_type {
         1 => match value {
             FieldValue::Fixed64(bits) => finite_number(f64::from_bits(bits)),
@@ -167,6 +181,7 @@ fn decode_value(
     }
 }
 
+/// Decodes a tagless sequence using the repeated field's scalar type.
 fn decode_packed(data: &[u8], field_type: u8) -> Result<Vec<Value>, ReconstructionError> {
     match field_type {
         1 | 6 | 16 => {

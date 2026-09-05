@@ -1,3 +1,9 @@
+//! Shared decompression and persistent JSON value conventions.
+//!
+//! Lua tables use arrays for empty tables and may arrive as alternating one-based
+//! indices and values. Normalization applies these conventions recursively and
+//! removes null object members; it is not a lossless JSON transformation.
+
 use std::io::Read;
 
 use flate2::read::ZlibDecoder;
@@ -5,6 +11,9 @@ use serde_json::{Value, json};
 
 use crate::ReconstructionError;
 
+/// Inflates zlib bytes and requires the declared length to match exactly.
+///
+/// Missing, negative, or above-limit declarations fail before decompression.
 pub(crate) fn inflate_mail_body(
     compressed: &[u8],
     original_length: Option<i32>,
@@ -14,6 +23,8 @@ pub(crate) fn inflate_mail_body(
         .and_then(|length| usize::try_from(length).ok())
         .filter(|length| *length <= max)
         .ok_or(ReconstructionError::InvalidInflatedLength)?;
+    // Reading one byte past the cap makes oversized output a length mismatch
+    // without retaining the rest of the decompressed stream.
     let mut decoder = ZlibDecoder::new(compressed).take((max + 1) as u64);
     let mut inflated = Vec::with_capacity(expected);
     decoder.read_to_end(&mut inflated).map_err(ReconstructionError::Inflate)?;
@@ -26,6 +37,9 @@ pub(crate) fn inflate_mail_body(
     Ok(inflated)
 }
 
+/// Keeps JSON objects; other inputs become a name with an empty alliance tag.
+///
+/// Even valid JSON scalars and arrays use the original text as the name.
 pub(crate) fn decode_info(value: &str) -> Value {
     match serde_json::from_str::<Value>(value) {
         Ok(Value::Object(object)) => Value::Object(object),
@@ -33,6 +47,10 @@ pub(crate) fn decode_info(value: &str) -> Value {
     }
 }
 
+/// Converts comma-separated names to true-valued keys without trimming them.
+///
+/// Empty input becomes an array; nonempty input becomes an object, ignoring
+/// empty segments and collapsing duplicate names.
 pub(crate) fn decode_flags(value: &str) -> Value {
     if value.is_empty() {
         return Value::Array(Vec::new());
@@ -45,12 +63,17 @@ pub(crate) fn decode_flags(value: &str) -> Value {
     Value::Object(flags)
 }
 
+/// Removes null object members, maps empty objects to arrays, and collapses
+/// arrays shaped like `[1, value, 2, value, ...]` into their values.
+///
+/// Empty arrays and null array elements are retained.
 pub(crate) fn normalize_lua_table(value: &mut Value) {
     match value {
         Value::Array(values) => {
             for value in values.iter_mut() {
                 normalize_lua_table(value);
             }
+            // Require the full one-based sequence before discarding index slots.
             let is_indexed_table = !values.is_empty()
                 && values.len().is_multiple_of(2)
                 && values
