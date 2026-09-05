@@ -1,3 +1,10 @@
+//! Category adapters from network bodies to persistent mail JSON.
+//!
+//! Battle bodies contain JSON; the other adapters decode artifact-described
+//! protobuf messages. Adapters rename fields and supply the display values and
+//! table shapes expected in persistent files. Registry filtering happens only
+//! after the envelope and attachments have also been reconstructed.
+
 use serde_json::{Map, Value, json};
 
 use crate::{
@@ -10,6 +17,7 @@ use crate::{
 };
 
 impl MailReconstructor {
+    /// Selects a body adapter using the normalized, case-sensitive mail type.
     pub(crate) fn reconstruct_body(
         &self,
         mail_type: &str,
@@ -56,6 +64,7 @@ impl MailReconstructor {
     }
 
     fn reconstruct_event_member_loot(&self, body: &[u8]) -> Result<Value, ReconstructionError> {
+        // Memeber is the protocol descriptor spelling.
         let decoded = decode_message(body, "EventMemeberLootInfo", &self.schema.descriptors)?;
         let root = object(&decoded, "EventMemeberLootInfo")?;
         let subtitle_param = root.get("SubTitleParam").and_then(Value::as_str).unwrap_or_default();
@@ -87,6 +96,7 @@ impl MailReconstructor {
         if sub_type.as_i64() == Some(11) {
             let kvs = object(&kvs, "MailSys.Kvs")?;
             let npc_type = kvs.get("npc_type").and_then(Value::as_i64).unwrap_or_default();
+            // Fort NPC identifiers encode the level relative to 100.
             let level = npc_type.saturating_sub(100).max(1);
             let tier = kvs.get("order").and_then(Value::as_i64).unwrap_or_default();
             let damage = kvs.get("damage_rate").and_then(Value::as_f64).unwrap_or_default();
@@ -119,6 +129,7 @@ impl MailReconstructor {
         }))
     }
 
+    /// Decodes attachments in input order and adapts their reward lists.
     pub(crate) fn reconstruct_attachments(
         &self,
         attachments: &[&[u8]],
@@ -139,6 +150,7 @@ impl MailReconstructor {
     }
 }
 
+/// Keeps reward order while removing item placeholders with subtype zero.
 fn reconstruct_loot(attachment: &Map<String, Value>) -> Value {
     let mut loot = attachment.get("Data").cloned().unwrap_or_else(|| Value::Array(Vec::new()));
     if let Value::Array(rewards) = &mut loot {
@@ -152,6 +164,10 @@ fn is_placeholder_item_reward(reward: &Value) -> bool {
         && reward.get("SubType").and_then(Value::as_i64) == Some(0)
 }
 
+/// Builds English reward text containing the values used by the fort processor.
+///
+/// Parameters 1, 3, and 4 have format-specific templates; others use a generic
+/// sentence. Damage is already a percentage and is inserted without rescaling.
 fn barbarian_fort_content(
     sub_param: i64,
     level: i64,
@@ -176,6 +192,9 @@ fn barbarian_fort_content(
     }
 }
 
+/// Converts world coordinates to rounded map coordinates for display text.
+///
+/// The structured position retains its original values.
 fn game_map_coordinate(position: &Value, axis: &str) -> i64 {
     position
         .get(axis)
@@ -185,6 +204,10 @@ fn game_map_coordinate(position: &Value, axis: &str) -> i64 {
         .unwrap_or_default()
 }
 
+/// Inserts split JSON attacks into the primary body's existing Attacks object.
+///
+/// No Attacks object is required when there are no split records. Duplicate
+/// names replace earlier attacks, including entries already in the primary body.
 fn merge_attack_bodies(
     body: &mut Value,
     attacks: &[&[u8]],
@@ -226,6 +249,10 @@ fn object<'a>(
     value.as_object().ok_or(ReconstructionError::InvalidBodyShape(name))
 }
 
+/// Parses embedded Kvs JSON and normalizes its Lua table representation.
+///
+/// Missing, non-string, or empty input yields an empty object. A supplied JSON
+/// value is normalized, so the text `{}` becomes an empty array.
 fn parse_kvs(value: Option<&Value>) -> Result<Value, ReconstructionError> {
     let text = value.and_then(Value::as_str).unwrap_or_default();
     if text.is_empty() {
@@ -236,6 +263,10 @@ fn parse_kvs(value: Option<&Value>) -> Result<Value, ReconstructionError> {
     Ok(value)
 }
 
+/// Adapts participant rows in source order, assigning one-based display indices.
+///
+/// Canyon reports retain damage and order fields; event reports receive empty
+/// extra loot and a zero season instead.
 fn format_report_infos(
     value: Option<&Value>,
     include_damage: bool,
@@ -287,6 +318,7 @@ fn format_report_infos(
         .collect()
 }
 
+/// Renames X/Y to x/y without changing units, defaulting missing axes to zero.
 fn rename_position(value: Option<&Value>) -> Value {
     let Some(position) = value.and_then(Value::as_object) else {
         return json!({ "x": 0, "y": 0 });
@@ -297,6 +329,9 @@ fn rename_position(value: Option<&Value>) -> Value {
     })
 }
 
+/// Maps groups of 20 subtitle parameter values to the five known boss names.
+///
+/// Unparseable or unrecognized values produce an unknown-boss subtitle.
 fn gve_boss_subtitle(parameter: &str) -> String {
     let index = parameter.parse::<u64>().ok().map(|value| value / 20).unwrap_or_default();
     let name = match index {

@@ -1,3 +1,8 @@
+//! Public reconstruction API and assembly of the persistent mail envelope.
+//!
+//! Body adapters own category-specific transformations. This module supplies
+//! connection fallbacks, preserves envelope fields, and encodes the assembled mail.
+
 use std::path::Path;
 
 use rokbattles_mail_registry::detect_mail_type;
@@ -13,12 +18,17 @@ use crate::{
 const MAX_MAIL_BYTES: usize = 25 * 1024 * 1024;
 const UNREAD_STATUS: u64 = 0;
 
-/// Per-connection values used when the mail entry omits equivalent fields.
+/// Connection metadata available when reconstructing a mail entry.
+///
+/// Only `server_id` is currently used as a fallback; `player_id` does not
+/// replace the entry's receiver or receiver information.
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct ReconstructionContext {
-    /// Server ID observed during login.
+    /// Server ID observed during login, used when the entry omits it or sends zero.
+    ///
+    /// A context value of zero is accepted as supplied.
     pub server_id: Option<i32>,
-    /// Player ID observed during login.
+    /// Player ID observed during login; currently unused during reconstruction.
     pub player_id: Option<i64>,
 }
 
@@ -27,13 +37,22 @@ pub struct ReconstructionContext {
 pub struct ReconstructedMail {
     /// Persistent mail ID.
     pub id: String,
-    /// Persistent mail type recognized by the processor registry.
+    /// Canonical category returned by the mail registry.
+    ///
+    /// May be more specific than the stored root type, such as a System or
+    /// Alliance subcategory.
     pub mail_type: String,
-    /// Complete in-memory `Persistent.Mail.<id>` file bytes.
+    /// Complete encoded bytes for a `Persistent.Mail.<id>` file.
+    ///
+    /// The caller is responsible for storing or forwarding these bytes.
     pub bytes: Vec<u8>,
 }
 
-/// Runtime mail reconstructor backed by a validated protocol artifact.
+/// Reusable mail reconstructor backed by runtime protocol descriptors.
+///
+/// Loading validates the envelope descriptors and retains body descriptors for
+/// later decoding. Calls to [`Self::reconstruct`] borrow this state and return
+/// independent, owned results.
 #[derive(Debug)]
 pub struct MailReconstructor {
     pub(crate) schema: MailSchema,
@@ -41,12 +60,18 @@ pub struct MailReconstructor {
 }
 
 impl MailReconstructor {
-    /// Load and validate the runtime protocol artifact.
+    /// Loads a version 1 JSON protocol artifact from `path`.
+    ///
+    /// Reads at most 32 MiB plus one byte to detect oversized files. Required
+    /// `MailEntity` and `MailReportAttack` fields are resolved by name and checked
+    /// for the expected descriptor type. Body descriptors are looked up when
+    /// their mail category is reconstructed.
     ///
     /// # Errors
     ///
-    /// Returns an error if the artifact cannot be read or does not contain the
-    /// expected mail descriptors.
+    /// Returns an error if the file cannot be read, exceeds 32 MiB, fails JSON
+    /// deserialization, uses an unsupported schema version, or has missing,
+    /// duplicated, or incompatible required descriptors.
     pub fn load(path: impl AsRef<Path>) -> Result<Self, ReconstructionError> {
         Ok(Self { schema: MailSchema::load(path.as_ref())?, max_mail_bytes: MAX_MAIL_BYTES })
     }
@@ -56,13 +81,23 @@ impl MailReconstructor {
         Self { schema: crate::artifact::synthetic_schema(), max_mail_bytes: MAX_MAIL_BYTES }
     }
 
-    /// Reconstruct one raw protobuf `MailEntity`.
+    /// Reconstructs one raw protobuf `MailEntity` into persistent file bytes.
+    ///
+    /// `entry` must contain just the protobuf message, without transport framing.
+    /// A compression tag of 1 selects zlib decoding of the primary body and
+    /// requires an exact declared output length. Other tags leave the body as
+    /// supplied. The entry and declared inflated body are limited to 25 MiB.
+    ///
+    /// A nonzero entry server ID takes precedence over `context.server_id`.
+    /// Mail ID, mail type, and primary body must be nonempty. Reconstruction
+    /// returns no partial result and does not run a mail processor.
     ///
     /// # Errors
     ///
-    /// Returns an error when the entry is malformed, exceeds the configured
-    /// bound, needs unavailable connection context, or belongs to a mail type
-    /// whose transformation has not yet been verified.
+    /// Returns an error for oversized entries, invalid wire fields or body
+    /// data, failed decompression, missing required values or descriptors,
+    /// unsupported categories, or values the persistent encoder cannot encode.
+    /// See [`ReconstructionError`] for individual failure cases.
     pub fn reconstruct(
         &self,
         entry: &[u8],
@@ -85,6 +120,7 @@ impl MailReconstructor {
         } else {
             entity.body.to_vec()
         };
+        // The network Battle2 label uses the persistent Battle representation.
         let normalized_type =
             if entity.mail_type == "Battle2" { "Battle" } else { entity.mail_type.as_str() };
         let body = self.reconstruct_body(normalized_type, &body_bytes, &entity.attack_bodies)?;
@@ -111,6 +147,8 @@ impl MailReconstructor {
         value.insert("serverId".to_string(), Value::Number(i64::from(server_id).into()));
         value.insert("attachments".to_string(), Value::Array(attachments));
         value.insert("prevBox".to_string(), Value::String(entity.previous_box.to_string()));
+        // Addition is opaque bytes on the wire but a string in persistent mail.
+        // Invalid UTF-8 is replaced here; envelope string fields reject it.
         value.insert(
             "addition".to_string(),
             Value::String(String::from_utf8_lossy(entity.addition).into_owned()),
@@ -126,6 +164,8 @@ impl MailReconstructor {
         value.insert("starMark".to_string(), Value::Number(i64::from(entity.star_level).into()));
 
         let value = Value::Object(value);
+        // Broad System and Alliance labels need a supported body subtype.
+        // Detection selects a category; it does not validate processor inputs.
         let mail_type = detect_mail_type(&value)
             .ok_or_else(|| ReconstructionError::UnsupportedMailType(normalized_type.to_string()))?;
         let bytes = rokbattles_mail_encoder::encode(&value)

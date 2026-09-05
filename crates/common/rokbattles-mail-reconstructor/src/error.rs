@@ -1,3 +1,5 @@
+//! Failures from artifact loading, network decoding, body adaptation, and encoding.
+
 use std::path::PathBuf;
 
 /// Errors produced while loading an artifact or reconstructing an entry.
@@ -12,7 +14,7 @@ pub enum ReconstructionError {
         #[source]
         source: std::io::Error,
     },
-    /// The artifact exceeded its startup bound.
+    /// The artifact exceeded the 32 MiB input limit.
     #[error("runtime artifact {} exceeds the {max}-byte limit", path.display())]
     ArtifactTooLarge {
         /// Artifact path.
@@ -20,7 +22,7 @@ pub enum ReconstructionError {
         /// Maximum accepted bytes.
         max: u64,
     },
-    /// The artifact was not valid JSON.
+    /// The artifact could not be deserialized into the expected JSON structure.
     #[error("runtime artifact contains invalid JSON: {0}")]
     InvalidArtifactJson(#[source] serde_json::Error),
     /// The artifact schema version is unsupported.
@@ -34,25 +36,25 @@ pub enum ReconstructionError {
     /// A required artifact relationship was missing or incompatible.
     #[error("invalid runtime artifact: {0}")]
     InvalidArtifact(&'static str),
-    /// The protobuf entry was malformed.
+    /// A wire field was malformed, unsupported, or incompatible with its descriptor.
     #[error("invalid mail protobuf: {0}")]
     InvalidProtobuf(&'static str),
     /// A protobuf integer did not fit its destination type.
     #[error("mail protobuf integer is out of range")]
     IntegerOutOfRange,
-    /// A required protobuf field was absent.
+    /// A required protobuf value was absent or a required envelope value was empty.
     #[error("mail protobuf is missing required field {0}")]
     MissingField(&'static str),
-    /// The entry exceeded the accepted mail bound.
+    /// The encoded entry exceeded the accepted input size limit.
     #[error("mail entry exceeds the {max}-byte limit")]
     MailTooLarge {
         /// Maximum accepted mail bytes.
         max: usize,
     },
-    /// The mail type has not yet received a verified reconstruction.
+    /// No body adapter or registry category recognized the mail type and body.
     #[error("mail type is not yet supported for reconstruction: {0}")]
     UnsupportedMailType(String),
-    /// Neither the entry nor its connection context supplied a server ID.
+    /// The entry server ID was missing or zero, and context supplied no fallback.
     #[error("mail entry and connection context are both missing a server ID")]
     MissingServerId,
     /// The compressed body did not declare a usable output length.
@@ -66,10 +68,10 @@ pub enum ReconstructionError {
     InflatedLengthMismatch {
         /// Declared byte length.
         expected: usize,
-        /// Actual byte length.
+        /// Bytes read before decompression stopped, capped at the limit plus one.
         actual: usize,
     },
-    /// The primary body was not valid JSON.
+    /// The primary body or an embedded Kvs string was not valid JSON.
     #[error("mail body contains invalid JSON: {0}")]
     InvalidBodyJson(#[source] serde_json::Error),
     /// An attack body was not valid JSON.
