@@ -1,39 +1,67 @@
+//! Maps metrics onto reference bounds and applies optional score curves.
+
 use serde::Serialize;
 
 use crate::{CategoryScore, MIN_REFERENCE_RANGE};
 
-/// Percentile reference ranges used by percentile-based DRASTC categories.
+/// Externally calculated bounds for the four battle-derived categories.
+///
+/// Each range must use the same metric and units as its corresponding category.
+/// Rage and Assist use fixed bounds and do not read these ranges.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DrastcReferenceRanges {
-    /// Damage reference range.
+    /// Bounds for inflicted casualties per second.
     pub damage: ReferenceRange,
-    /// Sustainability reference range.
+    /// Bounds for healing minus received casualties per second; may be negative.
     pub sustainability: ReferenceRange,
-    /// Trade reference range.
+    /// Bounds for the sender-to-opponent kill-point ratio.
     pub trade: ReferenceRange,
-    /// Consistency reference range.
+    /// Bounds for the mean of the available win and positive-trade rates.
     pub consistency: ReferenceRange,
 }
 
-/// P10/P90 benchmark range for one DRASTC metric.
+/// P10/P90 benchmark bounds and reference sample count for one metric.
+///
+/// Linear scoring maps `p10` to 0 and `p90` to 10, clamping values outside the
+/// interval. Damage and Sustainability apply a power curve afterward. These
+/// bounds locate a metric between two benchmarks; the score is not a percentile
+/// rank within the original population.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ReferenceRange {
     sample_count: usize,
-    /// P10 reference value.
+    /// Lower benchmark, conventionally the population's 10th percentile.
     pub p10: f64,
-    /// P90 reference value.
+    /// Upper benchmark, conventionally the population's 90th percentile.
     pub p90: f64,
 }
 
 impl ReferenceRange {
-    /// Create a reference range from precomputed values.
+    /// Creates a range from a reference sample count and precomputed bounds.
+    ///
+    /// Supply finite bounds with `p10 <= p90`. This constructor stores its inputs
+    /// unchanged; it does not sort samples, compute percentiles, or validate bounds.
+    ///
+    /// A zero sample count or non-finite metric scores zero. Otherwise, bounds
+    /// within `1e-9` of each other yield a linear score of 5, regardless of the
+    /// metric. Damage and Sustainability still apply their curve to that score.
+    /// The sample count does not otherwise affect normalization.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rokbattles_drastc::ReferenceRange;
+    ///
+    /// let damage = ReferenceRange::new(200, 1.2, 2.8);
+    /// assert_eq!(damage.sample_count(), 200);
+    /// assert_eq!(damage.p10, 1.2);
+    /// ```
     pub const fn new(sample_count: usize, p10: f64, p90: f64) -> Self {
         Self { sample_count, p10, p90 }
     }
 
-    /// Number of samples used for this range.
+    /// Returns the reference population size supplied at construction.
     pub const fn sample_count(self) -> usize {
         self.sample_count
     }
@@ -47,6 +75,7 @@ impl ReferenceRange {
         let score = if linear_score <= 0.0 || !exponent.is_finite() || exponent <= 0.0 {
             linear_score
         } else {
+            // Exponents below one raise interior scores while preserving 0 and 10.
             10.0 * (linear_score / 10.0).powf(exponent)
         };
 
@@ -57,6 +86,7 @@ impl ReferenceRange {
         if self.sample_count == 0 || !value.is_finite() {
             0.0
         } else if (self.p90 - self.p10).abs() <= MIN_REFERENCE_RANGE {
+            // A collapsed range has no usable spread; use its midpoint score.
             5.0
         } else {
             (10.0 * ((value - self.p10) / (self.p90 - self.p10))).clamp(0.0, 10.0)

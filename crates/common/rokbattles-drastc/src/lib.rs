@@ -1,6 +1,84 @@
 #![forbid(unsafe_code)]
 
-//! DRASTC scoring model by Davor (TKC) and ROK Battles
+//! Scores commander pairings from aggregated battle data using DRASTC.
+//!
+//! DRASTC combines Damage, Rage, Assist, Sustainability, Trade, and Consistency.
+//! The scoring model is by Davor (TKC) and ROK Battles.
+//!
+//! Add [`BattleRecord`] totals to a [`DrastcModel`], supply externally calculated
+//! [`DrastcReferenceRanges`], and call [`DrastcModel::evaluate`]. Select a
+//! [`RageTable`] and commander pairing to include theoretical Rage and Assist.
+//! The caller chooses which battles belong in the sample and reference population;
+//! this crate does not load reports, filter battles, or calculate percentiles.
+//!
+//! # Scoring
+//!
+//! Records are summed before calculating rates. Casualties include dead,
+//! severely wounded, and slightly wounded units with equal weight. Per-second
+//! metrics use the combined duration, floored at one second.
+//!
+//! | Category | Input | Overall weight |
+//! | --- | --- | --- |
+//! | Damage | Inflicted casualties per second | 25% |
+//! | Rage | The ordered pairing's theoretical average skill cycle | 15% |
+//! | Assist | Sum of the two commanders' static support values | 10% |
+//! | Sustainability | Healing minus received casualties, per second | 20% |
+//! | Trade | Sender kill points divided by opponent kill points | 20% |
+//! | Consistency | Mean of the available win and positive-trade rates | 10% |
+//!
+//! Damage, Sustainability, Trade, and Consistency use the supplied P10/P90
+//! bounds. Linear scores are clamped to `0..=10`; Damage and Sustainability
+//! then apply `10 * (score / 10)^0.55`. Rage and Assist use fixed bounds and
+//! the same exponent. The overall score sums the six weighted scores, keeping
+//! the weights of categories that score zero.
+//!
+//! Trade has two special cases at a tolerance of `1e-9`: if both kill-point
+//! totals are at or below the tolerance, the ratio is 1; if only the opponent's
+//! total is, the ratio is 0. Consistency uses wins divided by decisive battles
+//! and positive trades divided by all samples, omitting a rate with no samples.
+//!
+//! [`DrastcConfidence`] separately describes sample size and governor
+//! concentration. It does not change the performance score.
+//!
+//! # Examples
+//!
+//! Configure an evaluation with illustrative reference bounds:
+//!
+//! ```
+//! use rokbattles_drastc::{
+//!     BattleRecord, DrastcModel, DrastcReferenceRanges, ReferenceRange, SOC_RAGE_TABLE,
+//! };
+//!
+//! let mut model = DrastcModel::new();
+//! model.set_rage_table(SOC_RAGE_TABLE);
+//! model.set_theoretical(579, 575);
+//! model.set_reference_ranges(DrastcReferenceRanges {
+//!     damage: ReferenceRange::new(100, 0.0, 4.0),
+//!     sustainability: ReferenceRange::new(100, -2.0, 2.0),
+//!     trade: ReferenceRange::new(100, 0.0, 2.0),
+//!     consistency: ReferenceRange::new(100, 0.0, 1.0),
+//! });
+//! model.push(BattleRecord {
+//!     sample_count: 1,
+//!     total_duration_seconds: 100.0,
+//!     kill_points: 200.0,
+//!     opponent_kill_points: 100.0,
+//!     opponent_dead: 10.0,
+//!     opponent_severely_wounded: 20.0,
+//!     opponent_slightly_wounded: 70.0,
+//!     sender_dead: 0.0,
+//!     sender_severely_wounded: 10.0,
+//!     sender_slightly_wounded: 30.0,
+//!     sender_healing: 5.0,
+//!     decisive_battles: 1,
+//!     wins: 1,
+//!     positive_trades: 1,
+//! });
+//!
+//! let score = model.evaluate().expect("samples and references are present");
+//! assert_eq!(score.samples, 1);
+//! assert_eq!(score.breakdown.damage.value, 1.0);
+//! ```
 
 mod aggregate;
 mod confidence;
@@ -21,16 +99,27 @@ use weights::weighted_overall;
 
 pub(crate) const MIN_REFERENCE_RANGE: f64 = 0.000_000_001;
 
-/// Aggregated battle samples used by the DRASTC model.
+/// Totals for one or more battles from the sender's perspective.
+///
+/// Supply totals rather than per-battle averages. `sender_*` fields describe
+/// the side being scored; `opponent_*` fields describe the other side. The
+/// caller classifies decisive battles, wins, and positive trades before pushing
+/// a record; the model does not infer them from casualty or kill-point totals.
+///
+/// On ingestion, negative and non-finite floating-point fields contribute zero.
+/// Wins are capped at `decisive_battles`, and positive trades at `sample_count`,
+/// separately for each record. Other relationships between fields are not
+/// validated. Keep cumulative integer counts within `u64` and floating-point
+/// totals finite.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct BattleRecord {
-    /// Number of battle samples.
+    /// Number of battles represented by these totals.
     pub sample_count: u64,
     /// Total battle duration in seconds.
     pub total_duration_seconds: f64,
-    /// Perspective-side kill points.
+    /// Total kill points earned by the sender.
     pub kill_points: f64,
-    /// Opposing-side kill points.
+    /// Total kill points earned by the opponent.
     pub opponent_kill_points: f64,
     /// Dead units inflicted on the opposing side.
     pub opponent_dead: f64,
@@ -44,17 +133,21 @@ pub struct BattleRecord {
     pub sender_severely_wounded: f64,
     /// Slightly wounded units received by the perspective side.
     pub sender_slightly_wounded: f64,
-    /// Healing done by the perspective side.
+    /// Total units healed by the sender.
     pub sender_healing: f64,
     /// Number of battles with a non-tied lethal casualty outcome.
     pub decisive_battles: u64,
     /// Number of decisive battles won by the perspective side.
     pub wins: u64,
-    /// Number of battles with positive kill-point trades.
+    /// Number of battles in which the sender earned more kill points than the opponent.
     pub positive_trades: u64,
 }
 
-/// DRASTC evaluator.
+/// Accumulates battle totals and evaluates a commander pairing.
+///
+/// An empty model has no samples, reference ranges, or commander pairing, and
+/// uses an empty Rage table. See the [crate example](crate#examples) for setup.
+/// Evaluation reads the accumulated totals without consuming or resetting them.
 #[derive(Debug, Default)]
 pub struct DrastcModel {
     aggregate: BattleAggregate,
@@ -64,30 +157,42 @@ pub struct DrastcModel {
 }
 
 impl DrastcModel {
-    /// Create an empty model.
+    /// Creates an empty model with the same settings as [`Default::default`].
     pub fn new() -> Self {
         Self::default()
     }
 
-    /// Add aggregated battle samples to the model.
+    /// Adds a record's totals to the model using the rules on [`BattleRecord`].
+    ///
+    /// Records are not retained or deduplicated. A record with zero samples still
+    /// contributes its other fields, so its totals should also be zero.
     pub fn push(&mut self, record: BattleRecord) {
         self.aggregate.push(record);
     }
 
-    /// Select the Rage table used to score and validate commander pairings.
+    /// Selects the Rage table used by subsequent evaluations.
+    ///
+    /// The stored pairing is looked up when [`evaluate`](Self::evaluate) runs,
+    /// so this can be called before or after [`set_theoretical`](Self::set_theoretical).
+    /// Assist values are independent of this table.
     pub fn set_rage_table(&mut self, rage_table: RageTable) {
         self.rage_table = rage_table;
     }
 
-    /// Set theoretical Rage/Assist values by pairing.
+    /// Selects the ordered commander pairing used for theoretical Rage and Assist.
     ///
-    /// Unknown pairings in the selected Rage table default to zero. Assist values
-    /// are independent of the selected Rage table and sum known commander values.
+    /// A pairing absent from the selected Rage table has a zero Rage score.
+    /// Assist sums the known commander values, treating unknown IDs as zero.
+    /// This stores the IDs without checking support; use [`is_supported`](Self::is_supported)
+    /// if the caller needs to reject an unlisted pairing.
     pub fn set_theoretical(&mut self, primary_commander_id: u32, secondary_commander_id: u32) {
         self.commander_pairing = Some((primary_commander_id, secondary_commander_id));
     }
 
-    /// Return true when the commander pairing exists in the supplied Rage table.
+    /// Returns whether the exact ordered pairing appears in `rage_table`.
+    ///
+    /// Swapping the IDs can change the result. This checks table membership,
+    /// not whether the entry's cycle value is valid or has Assist data.
     pub fn is_supported(
         rage_table: RageTable,
         primary_commander_id: u32,
@@ -96,17 +201,29 @@ impl DrastcModel {
         is_supported_pairing(rage_table, primary_commander_id, secondary_commander_id)
     }
 
-    /// Return the number of battle samples in the model.
+    /// Returns the sum of the records' sample counts, capped at `usize::MAX`.
+    ///
+    /// This counts represented battles, not calls to [`push`](Self::push).
     pub fn sample_count(&self) -> usize {
         usize::try_from(self.aggregate.sample_count()).unwrap_or(usize::MAX)
     }
 
-    /// Use externally calculated reference ranges for percentile-based scoring.
+    /// Sets the precomputed bounds for the four battle-derived categories.
+    ///
+    /// Values are stored without validation. See [`ReferenceRange::new`] for
+    /// the expected inputs and the behavior of empty or collapsed ranges.
     pub fn set_reference_ranges(&mut self, reference_ranges: DrastcReferenceRanges) {
         self.reference_ranges = Some(reference_ranges);
     }
 
-    /// Evaluate all records
+    /// Scores the accumulated totals using the current references and pairing.
+    ///
+    /// Returns `None` if the total sample count is zero or reference ranges have
+    /// not been set. Individual ranges with zero samples still permit evaluation
+    /// but score their category at zero. Without a selected pairing, Rage and
+    /// Assist are zero; an unlisted pairing only forces Rage to zero.
+    ///
+    /// See the [scoring formulas](crate#scoring) for category inputs and weights.
     pub fn evaluate(&self) -> Option<DrastcScore> {
         if self.aggregate.sample_count() == 0 {
             return None;
@@ -135,7 +252,7 @@ impl DrastcModel {
     }
 }
 
-/// Final DRASTC output.
+/// A DRASTC evaluation with its sample count and category breakdown.
 #[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DrastcScore {
@@ -151,29 +268,34 @@ pub struct DrastcScore {
 #[derive(Debug, Clone, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DrastcCategories {
-    /// Damage score.
+    /// Inflicted casualties per second, scored against the Damage reference range.
     pub damage: CategoryScore,
-    /// Rage score.
+    /// Theoretical skill cycle, scored with shorter cycles receiving higher scores.
     pub rage: CategoryScore,
-    /// Assist/support score.
+    /// Combined static support value, scored against fixed bounds of 0 and 100.
     pub assist: CategoryScore,
-    /// Sustainability score.
+    /// Healing minus received casualties per second; the raw value can be negative.
     pub sustainability: CategoryScore,
-    /// Trade efficiency score.
+    /// Aggregate kill-point ratio, including the zero-denominator rules in the crate docs.
     pub trade: CategoryScore,
-    /// Consistency score.
+    /// Mean of the available win and positive-trade rates.
     pub consistency: CategoryScore,
 }
 
-/// One category's metric value, reference range, and normalized score.
+/// One category's metric value, reference bounds, and normalized score.
+///
+/// Rage uses reversed bounds (10 and 4) because shorter cycles score higher.
+/// Missing or invalid theoretical inputs produce all-zero fields. For the
+/// battle-derived categories, the original metric and bounds are retained even
+/// when the resulting score is zero.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CategoryScore {
-    /// Raw metric value.
+    /// Metric before normalization, in the units described by [`DrastcCategories`].
     pub value: f64,
-    /// P10 reference value.
+    /// Lower-scoring reference bound: supplied P10, or the category's fixed bound.
     pub p10: f64,
-    /// P90 reference value.
+    /// Higher-scoring reference bound: supplied P90, or the category's fixed bound.
     pub p90: f64,
     /// Normalized score on a 0-10 scale.
     pub score: f64,
