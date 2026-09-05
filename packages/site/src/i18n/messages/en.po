@@ -1945,7 +1945,6 @@ msgstr "Copied"
 
 #: src/components/olympian-arena/duel-report-view.tsx
 #: src/components/report/report-view.tsx
-#: src/components/territory-planner/territory-planner.tsx
 msgctxt "OKhRC6"
 msgid "Share"
 msgstr "Share"
@@ -2648,6 +2647,16 @@ msgctxt "NyxynW"
 msgid "Locate {building} {number} on map"
 msgstr "Locate {building} {number} on map"
 
+#: src/components/territory-planner/territory-export-button.tsx
+msgctxt "YHmxQm"
+msgid "The plan could not be exported. Please try again."
+msgstr "The plan could not be exported. Please try again."
+
+#: src/components/territory-planner/territory-export-button.tsx
+msgctxt "SVwJTM"
+msgid "Export"
+msgstr "Export"
+
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "JM6RlW"
 msgid "The map data could not be loaded."
@@ -2672,6 +2681,11 @@ msgstr "No maps are available."
 msgctxt "zuqMfZ"
 msgid "Map"
 msgstr "Map"
+
+#: src/components/territory-planner/territory-planner.tsx
+msgctxt "P8QaSQ"
+msgid "Copy URL"
+msgstr "Copy URL"
 
 #: src/components/territory-planner/territory-planner.tsx
 msgctxt "DwFieO"

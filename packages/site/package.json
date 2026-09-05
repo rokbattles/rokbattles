@@ -28,6 +28,7 @@
     "react-dom": "^19.2.8",
     "react-markdown": "^10.1.0",
     "recharts": "^3.10.1",
+    "write-excel-file": "^4.1.1",
     "zod": "^4.5.4"
   },
   "devDependencies": {
