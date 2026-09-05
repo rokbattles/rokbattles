@@ -1,6 +1,38 @@
 #![forbid(unsafe_code)]
 
-//! Parses SystemBarbarianFort mail reports.
+//! Extracts structured sections from decoded System barbarian fort reward mail.
+//!
+//! Pass the decoded root object to [`process`]. The caller selects the mail
+//! category; this crate does not decode binary files or validate the root `type`
+//! label. Field names are case-sensitive.
+//!
+//! # Sections
+//!
+//! | Section | Shape | Contents |
+//! | --- | --- | --- |
+//! | `metadata` | object | Root `id`, `time`, `receiver`, and `serverId` under the standard SDK field names. |
+//! | `rewards` | array | Flattened `attachments[].loot[]` entries. |
+//! | `body` | object | Position, target name, subtype, and optional details parsed from localized body text. |
+//!
+//! The body requires `position`, `targetName`, `subType`, and `subParam`.
+//! Recognized localized templates add `body.content` with damage percentage,
+//! reward tier, and target level. Missing or unrecognized text simply omits that
+//! nested object; it does not discard the structured body fields or rewards.
+//! Attachments and each attachment's loot array are required, but may be empty.
+//!
+//! # Examples
+//!
+//! Process an already-decoded JSON report:
+//!
+//! ```no_run
+//! use rokbattles_mail_processor_system_barbarianfort::process;
+//! use serde_json::Value;
+//!
+//! let input: Value = serde_json::from_slice(&std::fs::read("mail.json")?)?;
+//! let output = process(&input)?;
+//! println!("{}", serde_json::to_string_pretty(&output)?);
+//! # Ok::<(), Box<dyn std::error::Error>>(())
+//! ```
 
 mod body;
 mod content;
@@ -12,7 +44,22 @@ pub use rokbattles_mail_sdk::{ExtractError, Section};
 use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Runs the SystemBarbarianFort parser.
+/// Extracts the sections described in the [crate documentation](crate#sections).
+///
+/// Borrows `input` and returns owned section data. The SDK runs independent
+/// section extractors on scoped threads; no partial output is returned on error.
+///
+/// # Errors
+///
+/// Returns [`ProcessError::ExtractorFailed`] with the section name and original
+/// [`ExtractError`] when a required value is absent or invalid. Optional fields
+/// use the format-specific defaults described above; other invalid values fail
+/// extraction. Worker and section-name failures follow the SDK's
+/// [`Processor::process`] behavior.
+///
+/// # Panics
+///
+/// Has the thread-spawning and panic-propagation behavior of [`Processor::process`].
 pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process(input)
 }

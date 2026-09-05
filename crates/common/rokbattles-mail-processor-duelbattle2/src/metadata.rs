@@ -1,9 +1,13 @@
-//! Metadata parser for DuelBattle2 mail.
+//! Copies common root metadata into the `metadata` object section.
+//!
+//! Requires string `id` and `receiver` fields and unsigned integer `time` and
+//! `serverId` fields. The SDK renames them to `mail_id`, `mail_receiver`,
+//! `mail_time`, and `server_id` without converting timestamp units.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, extract_base_metadata};
 use serde_json::Value;
 
-/// Pulls top-level metadata out of a DuelBattle2 mail.
+/// Extracts the `metadata` section using the field rules in this module.
 #[derive(Debug, Default)]
 pub struct MetadataExtractor;
 

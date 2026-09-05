@@ -1,4 +1,9 @@
-//! Shared player helpers for DuelBattle2 sections.
+//! Reads shared identity, avatars, and buffs for the attacking and defending players.
+//!
+//! Both player objects live under `body.detail`. Identity and alliance fields are
+//! required, as is `Heroes.Buffs`; an empty buff array is valid. Avatar objects may
+//! arrive as JSON strings. Other strings are kept verbatim as avatar values,
+//! including the top-level string `"null"`; null object members are normalized.
 
 pub(crate) use rokbattles_mail_sdk::{
     ExtractError, Section, require_array, require_bool_field, require_child_object,
@@ -6,7 +11,7 @@ pub(crate) use rokbattles_mail_sdk::{
 };
 use serde_json::{Map, Value, json};
 
-/// Finds a player object under the requested parent field.
+/// Borrows `body.detail[parent]`, requiring an object at each level.
 pub(crate) fn locate_player<'a>(
     input: &'a Value,
     parent: &'static str,
@@ -17,7 +22,7 @@ pub(crate) fn locate_player<'a>(
     require_child_object(detail, parent)
 }
 
-/// Pulls the common player fields out of a player object.
+/// Extracts the common player fields out of a player object.
 pub(crate) fn extract_player_section_from_map(
     player: &Map<String, Value>,
 ) -> Result<Section, ExtractError> {
@@ -37,7 +42,7 @@ pub(crate) fn extract_player_section_from_map(
     Ok(section)
 }
 
-/// Pulls the buff list out of a player object.
+/// Extracts the buff list out of a player object.
 pub(crate) fn extract_player_buffs(
     player: &Map<String, Value>,
 ) -> Result<Vec<Value>, ExtractError> {
@@ -58,6 +63,8 @@ pub(crate) fn extract_player_buffs(
     Ok(entries)
 }
 
+// Only decoded objects are unpacked. Other strings, including "null", remain
+// the top-level avatar value; nested avatar members have separate normalization.
 fn parse_player_avatar(object: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let value =
         object.get("PlayerAvatar").ok_or(ExtractError::MissingField { field: "PlayerAvatar" })?;

@@ -1,4 +1,9 @@
-//! Participants parser for BarCanyonKillBoss mail.
+//! Builds the participant array from `body.content.infos` in input order.
+//!
+//! Each row requires identity, numeric damage share, an avatar field, and a loot
+//! array. Loot fields are renamed without merging duplicate entries. Avatar
+//! objects may be embedded as JSON strings; other strings remain avatar values.
+//! The literal string `"null"` is normalized both at the root and inside avatars.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Map, Value, json};
@@ -7,7 +12,7 @@ use crate::content::{
     require_content, require_number_field, require_string_field, require_u64_field,
 };
 
-/// Pulls participant details out of BarCanyonKillBoss mail content.
+/// Extracts participant details out of BarCanyonKillBoss mail content.
 #[derive(Debug, Default)]
 pub struct ParticipantsExtractor;
 
@@ -79,6 +84,8 @@ fn extract_loot(info: &Map<String, Value>) -> Result<Value, ExtractError> {
     Ok(Value::Array(loot))
 }
 
+// Avatar strings can hold either a URL or an encoded object. Failed object
+// parsing falls back to the original string rather than rejecting a plain URL.
 fn parse_avatar(info: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let value = info.get("avatar").ok_or(ExtractError::MissingField { field: "avatar" })?;
 

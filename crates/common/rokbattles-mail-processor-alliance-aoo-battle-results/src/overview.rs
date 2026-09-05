@@ -1,4 +1,9 @@
-//! Overview parser for AllianceAOOBattleResults mail.
+//! Extracts alliance scores and optional MVPs from six `body.kvs.max*` objects.
+//!
+//! Output categories cover Ark, occupation, severely wounded, provisions, healing,
+//! and kill scores. Each object requires numeric `AsScore`. An absent `PlyScore`
+//! yields a null MVP; if present, it must be an object with `PlyId`, `Name`, and
+//! `Score`. In particular, explicit null does not count as an absent MVP object.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
@@ -8,7 +13,7 @@ use crate::content::{
     require_u64_field,
 };
 
-/// Pulls category overview records from the `body.kvs.max*` blocks.
+/// Extracts category overview records from the `body.kvs.max*` blocks.
 #[derive(Debug, Default)]
 pub struct OverviewExtractor;
 
@@ -48,6 +53,7 @@ impl Extractor for OverviewExtractor {
 fn extract_category(kvs: &Map<String, Value>, field: &'static str) -> Result<Value, ExtractError> {
     let category = require_child_object(kvs, field)?;
     let alliance_score = require_number_field(category, "AsScore")?;
+    // Only an absent key means no MVP; a present null or empty object is invalid.
     let mvp = match category.get("PlyScore") {
         None => Value::Null,
         Some(ply_score) => {

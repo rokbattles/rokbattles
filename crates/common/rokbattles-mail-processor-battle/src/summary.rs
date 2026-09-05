@@ -1,11 +1,15 @@
-//! Summary parser for Battle mail.
+//! Maps aggregate `SOv` and `OOv` counters into sender and opponent summaries.
+//!
+//! Missing or null overviews become objects with all fields set to null. A present
+//! overview must supply its counters; an empty object is not treated as absent.
+//! `Hurt` is read as a signed integer so negative source values are preserved.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_i64_field};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_u64_field};
 
-/// Pulls the sender and opponent battle summaries.
+/// Extracts the sender and opponent battle summaries.
 #[derive(Debug, Default)]
 pub struct SummaryExtractor;
 

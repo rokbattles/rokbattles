@@ -1,4 +1,9 @@
-//! Overview parser for AllianceAOOIndividualResults mail.
+//! Builds ranking details and optional wild-battle totals from `body.kvs`.
+//!
+//! `TotalScoreRank.Rank` is required. Its optional `Info` supplies the player and
+//! score, otherwise those fields are null. Totals come from
+//! `FightReport.Stat.WildBattleStat`; absence at an optional level yields null
+//! totals. `Stat` also accepts an empty array, but other wrong shapes fail.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::{Value, json};
@@ -8,7 +13,7 @@ use crate::content::{
     require_string_field, require_u64_field,
 };
 
-/// Pulls the top score entry and aggregate totals from `body.kvs`.
+/// Extracts the top score entry and aggregate totals from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct OverviewExtractor;
 
@@ -39,6 +44,8 @@ impl Extractor for OverviewExtractor {
             ),
             None => (Value::Null, Value::Null, Value::Null),
         };
+        // Missing stats mean unknown totals. A present WildBattleStat must still
+        // contain all counters, while [] is accepted only for the empty Stat table.
         let total_results = match optional_child_object(kvs, "FightReport")? {
             Some(fight_report) => match optional_child_object_or_empty_array(fight_report, "Stat")?
             {

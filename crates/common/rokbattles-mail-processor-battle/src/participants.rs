@@ -1,4 +1,9 @@
-//! Participant helpers for Battle mail.
+//! Converts keyed rally or garrison participants into rows sorted by signed ID.
+//!
+//! Missing, null, and empty-array tables all become empty participant arrays.
+//! Other inputs must be objects keyed by integers. Row `PId` stays signed;
+//! missing alliance abbreviations become empty strings and missing commander
+//! fields become null. The table key and player ID remain separate output fields.
 
 use rokbattles_mail_sdk::{
     ExtractError, optional_string_field, optional_u64_field, require_i64_field,
@@ -32,8 +37,7 @@ pub(crate) fn extract_participants(
         let participant_id = parse_participant_id(participant_id, field)?;
         let player_id = require_i64_field(participant, "PId")?;
         let player_name = require_string_field(participant, "PName")?;
-        // Some reports leave out alliance abbreviations for participants.
-        // Use an empty string in that case.
+        // Keep the legacy empty-string representation for an unreported alliance tag.
         let alliance_abbr = optional_string_field(participant, "Abbr")?.unwrap_or_default();
         let primary_id = optional_u64_field(participant, "HId")?;
         let primary_level = optional_u64_field(participant, "HLv")?;
@@ -51,6 +55,7 @@ pub(crate) fn extract_participants(
         }));
     }
 
+    // Signed numeric ordering preserves negative participant IDs and avoids string ordering.
     entries.sort_by_key(|entry| entry["participant_id"].as_i64().unwrap_or_default());
     Ok(Value::Array(entries))
 }

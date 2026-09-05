@@ -1,4 +1,8 @@
-//! Sender parser for Battle mail.
+//! Builds sender identity from `body.content.SelfChar` and participants from `STs`.
+//!
+//! Shared player helpers provide character, commander, and optional mode-specific
+//! data. Participant rows are attached as an array, including when no participants
+//! were recorded. Sender follows `SelfChar`, not an inferred attacker role.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -9,7 +13,7 @@ use crate::{
     player::extract_player_fields,
 };
 
-/// Pulls sender details out of the `SelfChar` payload.
+/// Extracts sender details out of the `SelfChar` payload.
 #[derive(Debug, Default)]
 pub struct SenderExtractor;
 

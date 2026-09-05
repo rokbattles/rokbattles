@@ -1,4 +1,10 @@
-//! Results parser for AllianceAOOIndividualResults mail.
+//! Copies individual match counters from optional `body.kvs.FightReport`.
+//!
+//! An absent or null report yields all-null output fields. With a present report,
+//! all extracted counters are required except `HealingScore`, whose absence or
+//! null value becomes zero. `WinRate` is a percentage and `SpeedUpTime` is copied
+//! to `speedups` in minutes; neither is rescaled. Ark, occupation, and provisions
+//! scores come from `FlagScore`, `BuildingScore`, and `GatherScore`.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_object};
 use serde_json::Value;
@@ -7,7 +13,7 @@ use crate::content::{
     optional_child_object, optional_u64_field_or_zero, require_child_object, require_u64_field,
 };
 
-/// Pulls high-level individual match results from `body.kvs.FightReport`.
+/// Extracts high-level individual match results from `body.kvs.FightReport`.
 #[derive(Debug, Default)]
 pub struct ResultsExtractor;
 
@@ -31,6 +37,8 @@ impl Extractor for ResultsExtractor {
 
         let mut section = Section::new();
 
+        // A missing report yields nulls; a present report must satisfy the field
+        // readers. transpose() preserves that distinction instead of hiding errors.
         let total_score = fight_report
             .map(|value| require_u64_field(value, "TotalScore").map(Value::from))
             .transpose()?
@@ -71,6 +79,8 @@ impl Extractor for ResultsExtractor {
             .map(|value| require_u64_field(value, "GatherScore").map(Value::from))
             .transpose()?
             .unwrap_or(Value::Null);
+        // HealingScore alone defaults to zero inside a present report. The outer
+        // default remains null when the entire report is absent.
         let healing_score = fight_report
             .map(|value| optional_u64_field_or_zero(value, "HealingScore"))
             .transpose()?
@@ -115,7 +125,6 @@ impl Extractor for ResultsExtractor {
         section.insert("units_healed", units_healed);
         // Arks captured
         section.insert("flag_count", flag_count);
-        // Teleports used
         section.insert("teleports", teleports);
         // Minutes used
         section.insert("speedups", speedups);

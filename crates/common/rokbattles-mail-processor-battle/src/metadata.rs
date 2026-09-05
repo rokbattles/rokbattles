@@ -1,4 +1,8 @@
-//! Metadata parser for Battle mail.
+//! Builds common mail metadata and Battle-specific report context.
+//!
+//! Adds `Id`, `Role`, KvK classification, and optional `RoomId`, `Schema`, and
+//! `LLScriptSchema` values from `body.content`. Absent optional values become null.
+//! The root metadata retains its timestamp units.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, extract_base_metadata, optional_bool_field,
@@ -11,7 +15,7 @@ use crate::{
     player::extract_kingdom_id,
 };
 
-/// Pulls top-level metadata out of a Battle mail.
+/// Extracts the `metadata` section using the field rules in this module.
 #[derive(Debug, Default)]
 pub struct MetadataExtractor;
 
@@ -48,12 +52,12 @@ impl Extractor for MetadataExtractor {
     }
 }
 
-/// Figures out whether the report came from KvK.
+/// Resolves KvK status using role, explicit season flag, then kingdom mismatch.
 ///
-/// Checked in this order:
-/// 1. `Role == "dungeon"` always returns `false`.
-/// 2. `content.isConquerSeason` when present.
-/// 3. `serverId != sender kingdom id` (`COSId`).
+/// Exact role `"dungeon"` returns false without inspecting sender or season data.
+/// Other roles require `SelfChar`, even with an explicit `isConquerSeason` flag.
+/// A missing/null flag falls back to comparing known `COSId` with `serverId`;
+/// an unknown kingdom yields false.
 fn resolve_kvk(
     mail_role: &str,
     content: &Map<String, Value>,

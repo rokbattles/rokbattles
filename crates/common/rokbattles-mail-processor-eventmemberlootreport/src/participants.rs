@@ -1,14 +1,20 @@
-//! Member and loot parser for GVE member loot reports.
+//! Builds GVE participant rows from `body.content.infos` in input order.
+//!
+//! Each row requires `playerId`, `name`, `avatar`, and `loots`. Loot entries require
+//! unsigned `Type`, `SubType`, and `Value`. Avatar URLs, objects, and JSON-encoded
+//! objects are accepted; missing members and literal `"null"` become JSON null.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Map, Value, json};
 
 use crate::content::{require_content, require_string_field, require_u64_field};
 
+/// Extracts the `participants` section using the rules in this module.
 #[derive(Debug, Default)]
 pub struct ParticipantsExtractor;
 
 impl ParticipantsExtractor {
+    /// Creates a stateless extractor.
     pub fn new() -> Self {
         Self
     }
@@ -67,6 +73,8 @@ fn extract_loot(info: &Map<String, Value>) -> Result<Vec<Value>, ExtractError> {
         .collect()
 }
 
+// Avatar strings can hold either a URL or an encoded object. Failed object
+// parsing falls back to the original string rather than rejecting a plain URL.
 fn parse_avatar(info: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let avatar = info.get("avatar").ok_or(ExtractError::MissingField { field: "avatar" })?;
     match avatar {
