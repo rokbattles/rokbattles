@@ -1,20 +1,80 @@
-//! Shared mail type detection, metadata, and optional processor dispatch.
+//! Identifies supported mail categories and maps them to labels and collections.
+//!
+//! Use [`detect_mail_type`] to classify a decoded JSON payload, then use
+//! [`MailType`] for its canonical label or MongoDB collection name. Detection
+//! inspects an object root and selected discriminator fields; it does not
+//! validate the complete payload expected by a processor.
+//!
+//! # Detection
+//!
+//! Most categories match the root `type` string, ignoring ASCII case. System
+//! and Alliance mail use broader game labels, so their category also depends
+//! on fields in `body`:
+//!
+//! | Root `type` | Body fields | Category |
+//! | --- | --- | --- |
+//! | `System` | `subType = 11`, `subParam = 1`, `3`, or `4` | [`MailType::SystemBarbarianFort`] |
+//! | `System` | `subType = 29`, `subParam = 11` | [`MailType::SystemKaharTreasure`] |
+//! | `Alliance` | `type = 14`, `param = 1`, or `type = 60` | [`MailType::AllianceAOOBattleResults`] |
+//! | `Alliance` | `type = 61` | [`MailType::AllianceAOOBattleInfo`] |
+//! | `Alliance` | `type = 15`, `param = 1`, or `type = 62` | [`MailType::AllianceAOOIndividualResults`] |
+//!
+//! These numeric fields accept JSON unsigned integers or strings parsed as
+//! `u64`. Alliance body types 60–62 do not require `param`. Mailbox fields such
+//! as `box` and `prevBox` do not affect detection, so archived mail follows the
+//! same rules.
+//!
+//! `EventMemberLootReport` also requires `body.content.EventName` to be `GVE`,
+//! ignoring ASCII case. Other event names are unsupported. The canonical
+//! System and Alliance labels returned by [`MailType::as_str`] can also appear
+//! directly in the root `type`; those labels do not require subtype checks.
+//!
+//! # Examples
+//!
+//! Detection maps the game's broad label to a category used by the application:
+//!
+//! ```
+//! use rokbattles_mail_registry::{MailType, detect_mail_type, raw_mail_type};
+//! use serde_json::json;
+//!
+//! let mail = json!({
+//!     "type": "System",
+//!     "body": { "subType": 29, "subParam": 11 }
+//! });
+//! assert_eq!(raw_mail_type(&mail), Some("System"));
+//! let category = detect_mail_type(&mail).expect("recognized subtype");
+//! assert_eq!(category, MailType::SystemKaharTreasure);
+//! assert_eq!(category.as_str(), "SystemKaharTreasure");
+//! assert_eq!(category.collection_name(), "mails_system_kahartreasure");
+//! ```
+//!
+//! # Features
+//!
+//! The default build provides detection and metadata without processor
+//! dependencies. Enable `processors` to expose `process_mail`, which forwards
+//! the payload to the processor selected by the caller's [`MailType`]. The
+//! registered categories are the same with or without this feature.
 
 use std::fmt;
 
 use serde_json::{Map, Value};
 
-/// Internal system barbarian fort mail type label.
+/// Canonical registry label for [`MailType::SystemBarbarianFort`].
 pub const MAIL_TYPE_SYSTEM_BARBARIAN_FORT: &str = "SystemBarbarianFort";
-/// Internal system Kahar treasure mail type label.
+/// Canonical registry label for [`MailType::SystemKaharTreasure`].
 pub const MAIL_TYPE_SYSTEM_KAHAR_TREASURE: &str = "SystemKaharTreasure";
-/// Internal Ark of Osiris battle results mail type label.
+/// Canonical registry label for [`MailType::AllianceAOOBattleResults`].
 pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResults";
-/// Internal Ark of Osiris battle info mail type label.
+/// Canonical registry label for [`MailType::AllianceAOOBattleInfo`].
 pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
-/// Internal Ark of Osiris individual results mail type label.
+/// Canonical registry label for [`MailType::AllianceAOOIndividualResults`].
 pub const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
-/// Supported processable mail categories.
+/// A registered mail category with a canonical label and collection name.
+///
+/// Labels identify application categories and may differ from the game's root
+/// `type` string. Parse a known category label with [`Self::from_label`], or
+/// inspect a payload with [`detect_mail_type`]. [`Display`](fmt::Display)
+/// writes the same canonical label as [`Self::as_str`].
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MailType {
     /// Battle reports.
@@ -40,7 +100,9 @@ pub enum MailType {
 }
 
 impl MailType {
-    /// All processable mail types.
+    /// All categories registered for processing, in registry order.
+    ///
+    /// Available even when the `processors` feature is disabled.
     pub const ALL: [Self; 10] = [
         Self::Battle,
         Self::DuelBattle2,
@@ -54,7 +116,20 @@ impl MailType {
         Self::AllianceAOOIndividualResults,
     ];
 
-    /// Parse a mail type label.
+    /// Parses an exact, case-sensitive canonical label.
+    ///
+    /// Returns `None` for unknown labels, including the broad game labels
+    /// `System` and `Alliance`. Does not trim whitespace or inspect a payload.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rokbattles_mail_registry::MailType;
+    ///
+    /// assert_eq!(MailType::from_label("Battle"), Some(MailType::Battle));
+    /// assert_eq!(MailType::from_label("battle"), None);
+    /// assert_eq!(MailType::from_label("System"), None);
+    /// ```
     #[must_use]
     pub fn from_label(value: &str) -> Option<Self> {
         match value {
@@ -72,13 +147,19 @@ impl MailType {
         }
     }
 
-    /// Parse a mail type label case-insensitively.
+    /// Parses a canonical label, ignoring ASCII case.
+    ///
+    /// Uses the same labels as [`Self::from_label`] and returns `None` for an
+    /// unknown label. Whitespace is not trimmed.
     #[must_use]
     pub fn from_label_ignore_ascii_case(value: &str) -> Option<Self> {
         Self::ALL.into_iter().find(|mail_type| mail_type.as_str().eq_ignore_ascii_case(value))
     }
 
-    /// Return the mail type label.
+    /// Returns the canonical label accepted by [`Self::from_label`].
+    ///
+    /// System and Alliance subcategories use registry labels rather than the
+    /// broad `System` or `Alliance` labels present in game mail.
     #[must_use]
     pub fn as_str(self) -> &'static str {
         match self {
@@ -95,7 +176,9 @@ impl MailType {
         }
     }
 
-    /// Return the MongoDB collection name for this mail type.
+    /// Returns the MongoDB collection name assigned to this category.
+    ///
+    /// This is metadata only; the registry does not access the database.
     #[must_use]
     pub fn collection_name(self) -> &'static str {
         match self {
@@ -119,10 +202,11 @@ impl fmt::Display for MailType {
     }
 }
 
-/// Normalize a decoded mail payload to the object value processors should use.
+/// Returns `value` unchanged if its root is a JSON object.
 ///
-/// A valid decoded mail payload has an object root. Other shapes are rejected
-/// so malformed data cannot enter processor code.
+/// Returns `None` for every other shape, including an array containing a single
+/// object. This checks only the root shape; it neither unwraps containers nor
+/// validates fields inside the object. The result borrows from `value`.
 #[must_use]
 pub fn normalize_mail_root(value: &Value) -> Option<&Value> {
     match value {
@@ -131,25 +215,43 @@ pub fn normalize_mail_root(value: &Value) -> Option<&Value> {
     }
 }
 
-/// Extract the raw mail type string from a decoded mail payload.
+/// Borrows the root `type` string from a decoded JSON object.
+///
+/// Returns `None` if the root is not an object or `type` is missing or not a
+/// string. The text is returned unchanged, including unknown labels and their
+/// original casing. Use [`detect_mail_type`] to resolve a supported category.
 #[must_use]
 pub fn raw_mail_type(value: &Value) -> Option<&str> {
     let root = normalize_mail_root(value)?;
     root.get("type").and_then(Value::as_str)
 }
 
-/// Extract the raw mail type as a displayable string from a decoded mail payload.
+/// Copies the root `type` string or renders a numeric `type` as JSON number text.
+///
+/// Returns `None` for a non-object root, a missing field, or any field type
+/// other than string or number. Useful for displaying unrecognized mail types;
+/// accepting a number here does not make it valid for [`detect_mail_type`].
 #[must_use]
 pub fn raw_mail_type_string(value: &Value) -> Option<String> {
     let root = normalize_mail_root(value)?;
     root.get("type").and_then(value_to_string)
 }
 
-/// Detect the processable mail type for a normalized root object.
+/// Detects a registered category from a decoded root object.
+///
+/// Requires a string `type` and applies the [detection rules](crate#detection).
+/// Returns `None` for unknown labels or unmatched System, Alliance, or GVE
+/// discriminator fields. Root field names are case-sensitive; recognized label
+/// values and the GVE event name are compared ignoring ASCII case.
+///
+/// A successful match identifies a processor category, not a fully valid mail.
+/// Canonical System and Alliance category labels are accepted directly without
+/// inspecting their bodies.
 #[must_use]
 pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType> {
     let mail_type = root.get("type").and_then(Value::as_str)?;
 
+    // Resolve the game's broad labels before trying the registry's canonical labels.
     if mail_type.eq_ignore_ascii_case("System") {
         if is_system_kahar_treasure_mail(root) {
             return Some(MailType::SystemKaharTreasure);
@@ -163,6 +265,8 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
     {
         return Some(alliance_aoo_type);
     }
+    // Return the content check directly so non-GVE reports cannot pass through
+    // the canonical-label fallback below.
     if mail_type.eq_ignore_ascii_case("EventMemberLootReport") {
         return is_gve_event_member_loot_report(root).then_some(MailType::EventMemberLootReport);
     }
@@ -170,20 +274,31 @@ pub fn detect_mail_type_from_root(root: &Map<String, Value>) -> Option<MailType>
     MailType::from_label_ignore_ascii_case(mail_type)
 }
 
-/// Detect the processable mail type for a decoded mail payload.
+/// Detects a registered category from a decoded JSON payload.
+///
+/// Returns `None` if the root is not an object or its category is not recognized.
+/// Delegates to [`detect_mail_type_from_root`] after checking the root shape.
+/// See the [crate example](crate#examples) for subtype detection.
 #[must_use]
 pub fn detect_mail_type(value: &Value) -> Option<MailType> {
     let root = normalize_mail_root(value)?.as_object()?;
     detect_mail_type_from_root(root)
 }
 
-/// Return true when the label is one of the processable mail types.
+/// Returns whether `mail_type` is an exact canonical registry label.
+///
+/// Equivalent to [`MailType::from_label`] returning `Some`. This check is
+/// case-sensitive and does not validate a payload: `EventMemberLootReport`
+/// is a recognized label even when a particular report is not a GVE report.
 #[must_use]
 pub fn is_processable_mail_type(mail_type: &str) -> bool {
     MailType::from_label(mail_type).is_some()
 }
 
-/// Return true when the label is supported by the platform.
+/// Returns the same result as [`is_processable_mail_type`].
+///
+/// Support here means case-sensitive registry membership, independent of
+/// whether this build enables processor dispatch.
 #[must_use]
 pub fn is_supported_mail_type(mail_type: &str) -> bool {
     is_processable_mail_type(mail_type)
@@ -226,6 +341,8 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> 
     let body_type = body.get("type").and_then(value_as_u64)?;
     let body_param = body.get("param").and_then(value_as_u64);
 
+    // Types 14 and 15 need param 1 to identify AoO mail; types 60–62 are
+    // sufficient on their own.
     match body_type {
         14 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOBattleResults),
         15 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOIndividualResults),
@@ -236,6 +353,8 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> 
     }
 }
 
+// Discriminators may arrive as integers or decimal strings. Floating-point
+// JSON numbers are not coerced to integers here.
 fn value_as_u64(value: &Value) -> Option<u64> {
     match value {
         Value::Number(number) => number.as_u64(),
@@ -252,7 +371,20 @@ fn value_to_string(value: &Value) -> Option<String> {
     }
 }
 
-/// Process a decoded mail root with the registered processor for `mail_type`.
+/// Processes `input` with the processor registered for `mail_type`.
+///
+/// Available with the `processors` feature. The category is supplied by the
+/// caller; this function does not detect it or normalize `input`. Pass the
+/// decoded object root, typically after calling [`detect_mail_type`].
+///
+/// Returns the selected processor's structured mail output. The processor
+/// interprets and validates the fields it needs.
+///
+/// # Errors
+///
+/// Returns the selected processor's [`rokbattles_mail_sdk::ProcessError`]
+/// unchanged if processing fails. The exact required fields and validation
+/// rules depend on the selected category.
 #[cfg(feature = "processors")]
 pub fn process_mail(
     mail_type: MailType,
