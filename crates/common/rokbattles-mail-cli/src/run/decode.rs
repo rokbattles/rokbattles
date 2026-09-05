@@ -1,3 +1,8 @@
+//! Per-file decoding followed by optional registry processing.
+//!
+//! The decoded representation is saved independently of processor recognition,
+//! so unrecognized mail remains available for inspection.
+
 use std::{fs, path::Path};
 
 use serde_json::Value;
@@ -5,6 +10,9 @@ use serde_json::Value;
 use super::{paths::output_path, process::write_processed_json};
 use crate::{MailCliError, fs_utils::write_json_value};
 
+/// Reads one persistent file, writes decoded JSON, then attempts processor output.
+///
+/// Any error stops the operation without undoing writes already completed.
 pub(super) fn decode_file(
     input: &Path,
     output_dir: &Path,
@@ -14,6 +22,7 @@ pub(super) fn decode_file(
         fs::read(input).map_err(|source| MailCliError::Io { source, path: input.to_path_buf() })?;
     let value = rokbattles_mail_decoder::decode(&buffer)
         .map_err(|source| MailCliError::Decode { source, path: input.to_path_buf() })?;
+    // Keep decoded data available even when category extraction fails.
     write_json(output_dir, input, &value, pretty)?;
     write_processed_json(output_dir, input, &value, pretty)?;
     Ok(())

@@ -1,10 +1,15 @@
+//! Path-aware failures from directory traversal, decoding, processing, and output.
+
 use std::path::PathBuf;
 
 use rokbattles_mail_decoder::DecodeError;
 use rokbattles_mail_sdk::ProcessError;
 use thiserror::Error;
 
-/// Errors returned by the `rokbattles-mail-cli` library.
+/// Errors returned by [`crate::run`], retaining the relevant input or output path.
+///
+/// The binary prints the display message followed by its source error chain.
+/// A failure does not imply that no output was written earlier in the run.
 #[derive(Debug, Error)]
 pub enum MailCliError {
     /// The input path was expected to be a directory.
@@ -13,7 +18,7 @@ pub enum MailCliError {
         /// Path that failed validation.
         path: PathBuf,
     },
-    /// A filesystem read or write failed.
+    /// Directory access, input reading, or output creation or writing failed.
     #[error("I/O error for {}: {source}", path.display())]
     Io {
         /// Underlying I/O error.
@@ -31,7 +36,7 @@ pub enum MailCliError {
         /// Path to the buffer that was being decoded.
         path: PathBuf,
     },
-    /// Serializing decoded JSON failed.
+    /// Serializing decoded JSON or processor output failed.
     #[error("JSON serialization failed for {}: {source}", path.display())]
     Json {
         /// Underlying serializer error.
@@ -46,10 +51,10 @@ pub enum MailCliError {
         /// Underlying processor error.
         #[source]
         source: ProcessError,
-        /// Path tied to the processing failure.
+        /// Input file whose decoded value was passed to the processor.
         path: PathBuf,
     },
-    /// The input path did not include a usable file name.
+    /// The input filename was missing or could not be represented as UTF-8.
     #[error("missing file name for path: {}", path.display())]
     MissingFileName {
         /// Path that failed validation.

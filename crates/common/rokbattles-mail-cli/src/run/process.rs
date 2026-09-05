@@ -1,3 +1,8 @@
+//! Registry dispatch and serialization of category-specific processor output.
+//!
+//! Only object roots with a recognized category are processed. Other shapes and
+//! unknown categories are skipped successfully, without creating or deleting files.
+
 use std::path::Path;
 
 use rokbattles_mail_registry::{detect_mail_type, normalize_mail_root, process_mail};
@@ -6,12 +11,18 @@ use serde_json::Value;
 use super::paths::processed_output_path;
 use crate::{MailCliError, fs_utils::write_json_file};
 
+/// Writes processor output when the decoded value matches a registered category.
+///
+/// Recognition does not guarantee valid processor input: extraction errors are
+/// returned with the source file path. Serialization and write errors instead
+/// identify the destination file.
 pub(super) fn write_processed_json(
     output_dir: &Path,
     input_path: &Path,
     value: &Value,
     pretty: bool,
 ) -> Result<(), MailCliError> {
+    // Root normalization only accepts objects; it does not unwrap arrays.
     let Some(processed_input) = normalize_mail_root(value) else {
         return Ok(());
     };

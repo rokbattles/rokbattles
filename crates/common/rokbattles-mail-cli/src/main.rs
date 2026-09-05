@@ -1,6 +1,10 @@
 #![forbid(unsafe_code)]
 
-//! Command-line entrypoint for decoding mail buffers into JSON.
+//! Argument parsing and error reporting for the mail CLI.
+//!
+//! Resolves binary defaults into a library Config, then delegates decoding and
+//! processing to the library. Successful runs produce files without printing a
+//! summary. Runtime failures print their source chain and exit with status 1.
 
 use std::{error::Error, path::PathBuf};
 
@@ -34,6 +38,7 @@ fn main() {
     }
 }
 
+/// Prints the path-aware top-level error followed by each underlying cause.
 fn report_error(error: &MailCliError) {
     eprintln!("{error}");
     let mut source: Option<&(dyn Error + 'static)> = error.source();

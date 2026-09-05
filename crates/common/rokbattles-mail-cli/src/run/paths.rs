@@ -1,3 +1,5 @@
+//! Input selection and names for decoded and processed JSON files.
+
 use std::path::{Path, PathBuf};
 
 use crate::{
@@ -5,14 +7,18 @@ use crate::{
     fs_utils::{collect_sorted_files, is_json_file, output_path_with_suffix},
 };
 
+/// Selects immediate files in sorted order, excluding JSON extensions.
 pub(super) fn collect_input_files(dir: &Path) -> Result<Vec<PathBuf>, MailCliError> {
+    // Both output variants end in .json, allowing subsequent runs in place.
     collect_sorted_files(dir, |path| !is_json_file(path))
 }
 
+/// Appends `.json` to the complete input filename in the output directory.
 pub(super) fn output_path(output_dir: &Path, input_path: &Path) -> Result<PathBuf, MailCliError> {
     output_path_with_suffix(output_dir, input_path, "", "json")
 }
 
+/// Appends `-processed.json` to the complete input filename.
 pub(super) fn processed_output_path(
     output_dir: &Path,
     input_path: &Path,
