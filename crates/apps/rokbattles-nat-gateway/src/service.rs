@@ -119,6 +119,28 @@ pub fn drop_privileges(uid: u32, gid: u32) -> io::Result<()> {
     check(unsafe { libc::setresgid(gid, gid, gid) })?;
     // SAFETY: setresuid drops all saved root IDs and their effective capabilities.
     check(unsafe { libc::setresuid(uid, uid, uid) })?;
+    // An ambient startup capability also enters the inheritable set. Changing
+    // UID clears effective, permitted and ambient capabilities, but leaves that
+    // inheritable set behind. Clear all sets before reading network payloads.
+    #[repr(C)]
+    struct CapabilityHeader {
+        version: u32,
+        pid: i32,
+    }
+    #[repr(C)]
+    struct CapabilityData {
+        effective: u32,
+        permitted: u32,
+        inheritable: u32,
+    }
+    let header = CapabilityHeader { version: 0x2008_0522, pid: 0 };
+    let data = [const { CapabilityData { effective: 0, permitted: 0, inheritable: 0 } }; 2];
+    // SAFETY: Linux capability ABI v3 takes a header and two capability words.
+    // Both pointers remain valid for the syscall, which only changes this thread.
+    let result = unsafe { libc::syscall(libc::SYS_capset, &header, data.as_ptr()) };
+    if result == -1 {
+        return Err(io::Error::last_os_error());
+    }
     // SAFETY: prctl disables process dumps and same-UID ptrace access.
     check(unsafe { libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) })?;
     let status = fs::read_to_string("/proc/self/status")?;

@@ -17,6 +17,8 @@ LimitCORE=0
 MemoryMax=768M
 NoNewPrivileges=yes
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_SETUID CAP_SETGID
+# Preserve the UID transition capability across systemd's sandbox setup.
+AmbientCapabilities=CAP_SETUID
 PrivateTmp=yes
 PrivateDevices=yes
 ProtectSystem=strict
