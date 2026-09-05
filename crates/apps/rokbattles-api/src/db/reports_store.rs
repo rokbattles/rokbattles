@@ -22,7 +22,6 @@ pub struct ReportsStore {
     mails_alliance_aoobattleresults: Collection<Document>,
     mails_alliance_aoobattleinfo: Collection<Document>,
     mails_alliance_aooindividualresults: Collection<Document>,
-    mails_alliance_aooregistration: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_system_kahartreasure: Collection<Document>,
     mails_eventmemberlootreport: Collection<Document>,
@@ -48,7 +47,6 @@ impl ReportsStore {
             mails_alliance_aoobattleinfo: db.collection("mails_alliance_aoobattleinfo"),
             mails_alliance_aooindividualresults: db
                 .collection("mails_alliance_aooindividualresults"),
-            mails_alliance_aooregistration: db.collection("mails_alliance_aooregistration"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
             mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
             mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
@@ -303,11 +301,8 @@ impl ReportsStore {
         for model in ark_secondary_models.clone() {
             self.mails_alliance_aoobattleinfo.create_index(model).await?;
         }
-        for model in ark_secondary_models.clone() {
-            self.mails_alliance_aooindividualresults.create_index(model).await?;
-        }
         for model in ark_secondary_models {
-            self.mails_alliance_aooregistration.create_index(model).await?;
+            self.mails_alliance_aooindividualresults.create_index(model).await?;
         }
 
         let barbarian_fort_models = vec![
@@ -516,11 +511,6 @@ impl ReportsStore {
     /// Access Ark of Osiris individual results mails.
     pub fn alliance_aooindividualresults_collection(&self) -> &Collection<Document> {
         &self.mails_alliance_aooindividualresults
-    }
-
-    /// Access Ark of Osiris registration mails.
-    pub fn alliance_aooregistration_collection(&self) -> &Collection<Document> {
-        &self.mails_alliance_aooregistration
     }
 
     /// Access the system barbarian fort mail collection.

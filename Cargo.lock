@@ -4744,14 +4744,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rokbattles-mail-processor-alliance-aoo-registration"
-version = "1.6.1"
-dependencies = [
- "rokbattles-mail-sdk",
- "serde_json",
-]
-
-[[package]]
 name = "rokbattles-mail-processor-barcanyonkillboss"
 version = "1.6.1"
 dependencies = [
@@ -4829,7 +4821,6 @@ dependencies = [
  "rokbattles-mail-processor-alliance-aoo-battle-info",
  "rokbattles-mail-processor-alliance-aoo-battle-results",
  "rokbattles-mail-processor-alliance-aoo-individual-results",
- "rokbattles-mail-processor-alliance-aoo-registration",
  "rokbattles-mail-processor-barcanyonkillboss",
  "rokbattles-mail-processor-battle",
  "rokbattles-mail-processor-duelbattle2",

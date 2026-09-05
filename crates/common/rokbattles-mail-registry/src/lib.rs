@@ -14,8 +14,6 @@ pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS: &str = "AllianceAOOBattleResult
 pub const MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO: &str = "AllianceAOOBattleInfo";
 /// Internal Ark of Osiris individual results mail type label.
 pub const MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS: &str = "AllianceAOOIndividualResults";
-/// Internal Ark of Osiris registration mail type label.
-pub const MAIL_TYPE_ALLIANCE_AOO_REGISTRATION: &str = "AllianceAOORegistration";
 /// Supported processable mail categories.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MailType {
@@ -39,13 +37,11 @@ pub enum MailType {
     AllianceAOOBattleInfo,
     /// Ark of Osiris individual results.
     AllianceAOOIndividualResults,
-    /// Ark of Osiris registration.
-    AllianceAOORegistration,
 }
 
 impl MailType {
     /// All processable mail types.
-    pub const ALL: [Self; 11] = [
+    pub const ALL: [Self; 10] = [
         Self::Battle,
         Self::DuelBattle2,
         Self::BarCanyonKillBoss,
@@ -56,7 +52,6 @@ impl MailType {
         Self::AllianceAOOBattleResults,
         Self::AllianceAOOBattleInfo,
         Self::AllianceAOOIndividualResults,
-        Self::AllianceAOORegistration,
     ];
 
     /// Parse a mail type label.
@@ -73,7 +68,6 @@ impl MailType {
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS => Some(Self::AllianceAOOBattleResults),
             MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO => Some(Self::AllianceAOOBattleInfo),
             MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS => Some(Self::AllianceAOOIndividualResults),
-            MAIL_TYPE_ALLIANCE_AOO_REGISTRATION => Some(Self::AllianceAOORegistration),
             _ => None,
         }
     }
@@ -98,7 +92,6 @@ impl MailType {
             Self::AllianceAOOBattleResults => MAIL_TYPE_ALLIANCE_AOO_BATTLE_RESULTS,
             Self::AllianceAOOBattleInfo => MAIL_TYPE_ALLIANCE_AOO_BATTLE_INFO,
             Self::AllianceAOOIndividualResults => MAIL_TYPE_ALLIANCE_AOO_INDIVIDUAL_RESULTS,
-            Self::AllianceAOORegistration => MAIL_TYPE_ALLIANCE_AOO_REGISTRATION,
         }
     }
 
@@ -116,7 +109,6 @@ impl MailType {
             Self::AllianceAOOBattleResults => "mails_alliance_aoobattleresults",
             Self::AllianceAOOBattleInfo => "mails_alliance_aoobattleinfo",
             Self::AllianceAOOIndividualResults => "mails_alliance_aooindividualresults",
-            Self::AllianceAOORegistration => "mails_alliance_aooregistration",
         }
     }
 }
@@ -235,7 +227,6 @@ fn detect_alliance_aoo_mail_type(root: &Map<String, Value>) -> Option<MailType> 
     let body_param = body.get("param").and_then(value_as_u64);
 
     match body_type {
-        57 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOORegistration),
         14 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOBattleResults),
         15 if matches!(body_param, Some(1)) => Some(MailType::AllianceAOOIndividualResults),
         60 => Some(MailType::AllianceAOOBattleResults),
@@ -289,9 +280,6 @@ pub fn process_mail(
         }
         MailType::AllianceAOOIndividualResults => {
             rokbattles_mail_processor_alliance_aoo_individual_results::process(input)
-        }
-        MailType::AllianceAOORegistration => {
-            rokbattles_mail_processor_alliance_aoo_registration::process(input)
         }
     }
 }
@@ -419,12 +407,6 @@ mod tests {
 
     #[test]
     fn detect_mail_type_matches_alliance_aoo_variants() {
-        let registration = json!({
-            "type": "Alliance",
-            "body": { "type": 57, "param": 1 }
-        });
-        assert_eq!(detect_mail_type(&registration), Some(MailType::AllianceAOORegistration));
-
         let custom_battle_results = json!({
             "type": "Alliance",
             "body": { "type": 14, "param": 1 }
@@ -564,10 +546,6 @@ mod tests {
         assert_eq!(
             MailType::AllianceAOOIndividualResults.collection_name(),
             "mails_alliance_aooindividualresults"
-        );
-        assert_eq!(
-            MailType::AllianceAOORegistration.collection_name(),
-            "mails_alliance_aooregistration"
         );
     }
 
