@@ -1,4 +1,9 @@
-//! Strict `Persistent.Mail` decoder.
+//! File validation and decoding of tagged values.
+//!
+//! Both decoding entry points use the same cursor after any file header has
+//! been checked. `Decoder` reads tags and scalar values, tracking byte offsets
+//! and table nesting. It collects each table's items before passing them to
+//! `value::classify_table`, where their JSON representation is chosen.
 
 use serde_json::{Number, Value};
 
@@ -10,12 +15,20 @@ use crate::{
     value::classify_table,
 };
 
-/// Validate the fixed file header and checksum without decoding its value.
+/// Validates a `Persistent.Mail` file's header and checksum.
+///
+/// Checks the nine-byte header and computes the checksum over all of `buffer`.
+/// Success does not imply that the payload is a valid value: even a file with
+/// no payload can pass this check. Use [`decode`] to validate the contents too.
 ///
 /// # Errors
 ///
-/// Returns an error when the header is short, its marker is invalid, or its
-/// checksum does not match the complete file buffer.
+/// Returns [`DecodeError::HeaderTooShort`] if `buffer` has fewer than nine
+/// bytes, [`DecodeError::InvalidFileMarker`] if its first byte is not `0xff`,
+/// or [`DecodeError::ChecksumMismatch`] if the stored checksum does not match.
+/// These checks run in that order.
+///
+/// See [`decode`] for an example of reading a complete file.
 pub fn validate_file(buffer: &[u8]) -> Result<(), DecodeError> {
     if buffer.len() < FILE_HEADER_LEN {
         return Err(DecodeError::HeaderTooShort {
@@ -36,27 +49,62 @@ pub fn validate_file(buffer: &[u8]) -> Result<(), DecodeError> {
     Ok(())
 }
 
-/// Decode a complete `Persistent.Mail` file, including header validation.
+/// Decodes a complete `Persistent.Mail` file into a JSON value.
+///
+/// Validates the header and checksum before decoding exactly one value from
+/// the payload. The returned value owns its strings and containers. See the
+/// [crate documentation](crate) for the file format and table conversion rules.
 ///
 /// # Errors
 ///
-/// Returns an error for an invalid header/checksum, malformed values,
-/// unsupported tags, unterminated tables, or trailing bytes.
+/// Returns an error if [`validate_file`] fails or if the payload meets any of
+/// the [error conditions for `decode_value`](decode_value#errors). Byte offsets
+/// in errors are measured from the start of `buffer`, including the header.
+///
+/// # Examples
+///
+/// ```no_run
+/// use rokbattles_mail_decoder::decode;
+///
+/// let bytes = std::fs::read("Persistent.Mail.485440176891031331")?;
+/// let value = decode(&bytes)?;
+/// println!("{value}");
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
 pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     validate_file(buffer)?;
     decode_value_at(&buffer[FILE_HEADER_LEN..], FILE_HEADER_LEN)
 }
 
-/// Decode exactly one headerless `Persistent.Mail` value.
+/// Decodes exactly one headerless `Persistent.Mail` value into a JSON value.
 ///
-/// This is intended for format tooling and focused tests. Production callers
-/// reading `Persistent.Mail` files should use [`decode`] so the file checksum
-/// is enforced.
+/// `buffer` must start with a value tag and contain no bytes after that value.
+/// The returned value owns its strings and containers. Use [`decode`] when
+/// `buffer` contains a complete file with a header and checksum.
 ///
 /// # Errors
 ///
-/// Returns an error for malformed values, unsupported tags, unterminated
-/// tables, or trailing bytes.
+/// Returns an error for truncated values, invalid string lengths or UTF-8,
+/// unsupported tags, non-finite numbers, missing table terminators, or trailing
+/// bytes. Also rejects tables nested more than 128 levels deep and key/value
+/// tables with mixed or duplicate keys. See the [table conversion rules](crate#tables).
+///
+/// Byte offsets in errors are measured from the start of `buffer`.
+///
+/// # Examples
+///
+/// ```
+/// use rokbattles_mail_decoder::{DecodeError, decode_value};
+/// use serde_json::json;
+///
+/// assert_eq!(decode_value(b"\x04\x05\x00\x00\x00hello")?, json!("hello"));
+/// assert_eq!(decode_value(&[0x05, 0xff])?, json!([]));
+/// assert_eq!(
+///     decode_value(&[0x01, 0x01, 0x00]),
+///     Err(DecodeError::TrailingBytes { remaining: 1 }),
+/// );
+/// # Ok::<(), DecodeError>(())
+/// ```
 pub fn decode_value(buffer: &[u8]) -> Result<Value, DecodeError> {
     decode_value_at(buffer, 0)
 }
@@ -84,8 +132,8 @@ fn file_checksum(buffer: &[u8]) -> u64 {
         );
     };
 
-    // The checksum treats header bytes 1 through 8 as zero, so consuming that field is equivalent
-    // to multiplying the current hash by 33^8.
+    // Each zero byte advances DJB2 by a factor of 33. Multiplying by 33^8 skips the
+    // checksum field without copying the file to zero those bytes.
     let header_hash = CHECKSUM_SEED
         .wrapping_mul(CHECKSUM_MULTIPLIER)
         .wrapping_add(u64::from(marker))
@@ -95,6 +143,7 @@ fn file_checksum(buffer: &[u8]) -> u64 {
 
 struct Decoder<'a> {
     buffer: &'a [u8],
+    // Preserve file-relative error offsets when `buffer` is only the payload.
     base_offset: usize,
     pos: usize,
     depth: usize,
@@ -133,6 +182,7 @@ impl<'a> Decoder<'a> {
             return Err(DecodeError::DepthLimitExceeded { limit: MAX_DEPTH });
         }
 
+        // Restore the enclosing depth even if a nested value fails to decode.
         self.depth += 1;
         let result = self.read_table_contents(table_offset);
         self.depth -= 1;
@@ -152,6 +202,7 @@ impl<'a> Decoder<'a> {
             }
         };
 
+        // Key errors take precedence over a missing terminator when all items were readable.
         let classified = classify_table(items, table_offset)?;
         if !terminated {
             return Err(DecodeError::MissingTableTerminator { offset: table_offset });
@@ -222,7 +273,10 @@ fn number_value(value: f64) -> Result<Value, DecodeError> {
     Ok(Value::Number(normalize_number(value)))
 }
 
+// Callers reject non-finite values before normalization. Integer numbers also let
+// table classification recognize array indices through `Number::as_u64`.
 fn normalize_number(value: f64) -> Number {
+    // Collapse both signs of zero to the same JSON number and table key.
     if value == 0.0 {
         return Number::from(0);
     }
@@ -247,6 +301,7 @@ fn to_u64_exact(value: f64) -> Option<u64> {
     if value < 0.0 || value > u64::MAX as f64 {
         return None;
     }
+    // Check the round trip because a float-to-integer cast alone can lose precision.
     let int = value as u64;
     ((int as f64) == value).then_some(int)
 }
@@ -581,6 +636,8 @@ mod tests {
                         (Some(actual), Some(expected)) => actual == expected,
                         _ => match (actual.as_f64(), expected.as_f64()) {
                             (Some(actual), Some(expected)) => {
+                                // Allow one representable step between binary values and the
+                                // sample JSON, while comparing integer values exactly above.
                                 ordered_float_bits(actual).abs_diff(ordered_float_bits(expected))
                                     <= 1
                             }
@@ -593,6 +650,8 @@ mod tests {
         }
     }
 
+    // Put negative and positive floats in one monotonic order so bit distance
+    // measures adjacent representable values across either sign.
     fn ordered_float_bits(value: f64) -> u64 {
         let bits = value.to_bits();
         if bits & (1_u64 << 63) == 0 { bits | (1_u64 << 63) } else { !bits }

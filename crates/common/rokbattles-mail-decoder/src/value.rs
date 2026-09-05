@@ -1,4 +1,8 @@
-//! Helpers for classifying `Persistent.Mail` table contents.
+//! Converts decoded table items into JSON arrays or objects.
+//!
+//! The wire format supplies a sequence of values without identifying keys.
+//! Classification therefore depends on the whole sequence: item count first,
+//! then the types of the values in potential key positions.
 
 use std::collections::BTreeMap;
 
@@ -25,10 +29,13 @@ pub(crate) fn classify_table(
         match &pair[0] {
             Value::String(_) => has_string_keys = true,
             Value::Number(_) => has_number_keys = true,
+            // A non-key value makes the entire table a sequence, even if earlier
+            // positions looked like keys of conflicting types.
             _ => return Ok(sequential(items)),
         }
     }
 
+    // Converting both key types to strings could merge distinct keys, such as 1 and "1".
     if has_string_keys && has_number_keys {
         return Err(DecodeError::MixedTableKeyTypes { offset: table_offset });
     }
@@ -68,6 +75,8 @@ fn string_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, D
 
 fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
     let pair_count = items.len() / 2;
+    // N distinct integer keys within 1..=N cover every array position. Their order
+    // in the file does not matter; duplicates must fall through to object validation.
     let is_sequential = {
         let mut keys = vec![false; pair_count];
         items.as_chunks::<2>().0.iter().all(|pair| {
@@ -79,6 +88,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
     };
 
     if is_sequential {
+        // Numeric ordering maps the file's one-based keys to zero-based array positions.
         let mut values = BTreeMap::new();
         for (key, value) in owned_pairs(items) {
             let Some(key) = key.as_u64().and_then(|key| usize::try_from(key).ok()) else {
@@ -94,6 +104,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
         let Value::Number(key) = key else {
             unreachable!("table key types were classified before conversion");
         };
+        // Detect duplicates after rendering, since these strings become the JSON keys.
         let key = key.to_string();
         match map.entry(key) {
             Entry::Vacant(entry) => {
@@ -110,6 +121,8 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
     Ok(Value::Object(map))
 }
 
+// Classification guarantees an even item count. Moving each pair avoids cloning
+// decoded strings and nested containers during conversion.
 fn owned_pairs(items: Vec<Value>) -> impl Iterator<Item = (Value, Value)> {
     let mut items = items.into_iter();
     std::iter::from_fn(move || {
