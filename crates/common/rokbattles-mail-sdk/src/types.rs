@@ -1,14 +1,22 @@
-//! Output types shared by the processors.
+//! Owned sections and their serialized representation.
+//!
+//! BTreeMaps give section names and object fields a stable sorted order. Arrays
+//! keep their input order. Serialization exposes these containers directly.
 
 use std::collections::BTreeMap;
 
 use serde::Serialize;
 use serde_json::{Map, Value};
 
-/// Data for one processed section.
+/// An owned JSON object or array produced by an extractor.
+///
+/// [`Self::new`] and [`Self::from_fields`] create objects; [`Self::from_array`]
+/// creates an array. Use [`Self::try_fields`] and [`Self::array`] when the shape
+/// is unknown. Serialization writes the contained object or array directly,
+/// without a variant tag or `data` wrapper.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Section {
-    /// Backing data for the section, either fields or an array payload.
+    /// The section shape is fixed at construction.
     data: SectionData,
 }
 
@@ -19,27 +27,30 @@ enum SectionData {
 }
 
 impl Section {
-    /// Creates an empty object-backed section.
+    /// Creates an empty object section, as does [`Default::default`].
     #[must_use]
     pub fn new() -> Self {
         Self { data: SectionData::Object(BTreeMap::new()) }
     }
 
-    /// Creates a section backed by an array payload.
+    /// Takes ownership of an array, preserving element order.
     #[must_use]
     pub fn from_array(values: Vec<Value>) -> Self {
         Self { data: SectionData::Array(values) }
     }
 
-    /// Creates an object-backed section from existing fields.
+    /// Takes ownership of object fields and stores them in sorted key order.
     #[must_use]
     pub fn from_fields(fields: Map<String, Value>) -> Self {
         Self { data: SectionData::Object(fields.into_iter().collect()) }
     }
 
-    /// Inserts a value into an object-backed section.
+    /// Inserts a field into an object section.
+    ///
+    /// Replaces an existing value and returns it, or returns `None` for a new key.
     ///
     /// # Panics
+    ///
     /// Panics if the section is backed by an array.
     pub fn insert(&mut self, key: impl Into<String>, value: Value) -> Option<Value> {
         match &mut self.data {
@@ -48,7 +59,7 @@ impl Section {
         }
     }
 
-    /// Returns the fields when the section is object-backed.
+    /// Borrows the sorted fields of an object section, or returns `None` for an array.
     #[must_use]
     pub fn try_fields(&self) -> Option<&BTreeMap<String, Value>> {
         match &self.data {
@@ -57,16 +68,19 @@ impl Section {
         }
     }
 
-    /// Returns the fields for an object-backed section.
+    /// Borrows the sorted fields of an object section.
+    ///
+    /// Use [`Self::try_fields`] when the section might contain an array.
     ///
     /// # Panics
+    ///
     /// Panics if the section is backed by an array.
     #[must_use]
     pub fn fields(&self) -> &BTreeMap<String, Value> {
         self.try_fields().expect("attempted to read fields from an array section")
     }
 
-    /// Returns the array payload for an array-backed section.
+    /// Borrows the array elements, or returns `None` for an object section.
     #[must_use]
     pub fn array(&self) -> Option<&[Value]> {
         match &self.data {
@@ -87,6 +101,7 @@ impl Serialize for Section {
     where
         S: serde::Serializer,
     {
+        // Keep the internal enum out of the serialized schema.
         match &self.data {
             SectionData::Object(fields) => fields.serialize(serializer),
             SectionData::Array(values) => values.serialize(serializer),
@@ -94,11 +109,26 @@ impl Serialize for Section {
     }
 }
 
-/// The full processed mail, keyed by section name.
+/// Named sections serialized as a JSON object.
+///
+/// The section map is stored in sorted key order and serializes without a
+/// `sections` wrapper. Each value uses its section's object or array shape.
+///
+/// # Examples
+///
+/// ```
+/// use rokbattles_mail_sdk::{ProcessedMail, Section};
+/// use serde_json::json;
+///
+/// let mut mail = ProcessedMail::new();
+/// mail.insert("opponents", Section::from_array(vec![json!({ "id": 1 })]));
+/// assert_eq!(serde_json::to_value(mail)?, json!({ "opponents": [{ "id": 1 }] }));
+/// # Ok::<(), serde_json::Error>(())
+/// ```
 #[derive(Debug, Clone, PartialEq, Serialize, Default)]
 #[serde(transparent)]
 pub struct ProcessedMail {
-    /// Sections keyed by extractor name.
+    /// Sections keyed by their output names.
     sections: BTreeMap<String, Section>,
 }
 
@@ -109,12 +139,15 @@ impl ProcessedMail {
         Self { sections: BTreeMap::new() }
     }
 
-    /// Inserts a section.
+    /// Inserts a section, returning the previous section if the name already exists.
+    ///
+    /// This method replaces duplicates; [`crate::Processor`] enforces unique
+    /// extractor section names when assembling output.
     pub fn insert(&mut self, key: impl Into<String>, section: Section) -> Option<Section> {
         self.sections.insert(key.into(), section)
     }
 
-    /// Returns the processed sections.
+    /// Borrows the sections in sorted name order.
     #[must_use]
     pub fn sections(&self) -> &BTreeMap<String, Section> {
         &self.sections
