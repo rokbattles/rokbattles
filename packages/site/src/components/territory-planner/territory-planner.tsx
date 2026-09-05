@@ -17,6 +17,7 @@ import {
 import { PlannerSettingsDrawer } from "@/components/territory-planner/planner-settings-drawer";
 import { ResourceMetric } from "@/components/territory-planner/resource-metric";
 import { TerritoryBreakdown } from "@/components/territory-planner/territory-breakdown";
+import { TerritoryExportButton } from "@/components/territory-planner/territory-export-button";
 import { useCompactNumberFormatter } from "@/components/territory-planner/use-compact-number-formatter";
 import { useTerritoryPlannerLabels } from "@/components/territory-planner/use-territory-planner-labels";
 import { Button } from "@/components/ui/button";
@@ -520,9 +521,10 @@ export function TerritoryPlanner({ maps }: { maps: TerritoryMapIndexRow[] }) {
               </ListboxOption>
             ))}
           </Listbox>
-          <Button className="rounded-md" color="blue" onClick={share}>
-            <ClipboardDocumentIcon /> {t("Share")}
+          <Button className="rounded-md" onClick={share}>
+            <ClipboardDocumentIcon /> {t("Copy URL")}
           </Button>
+          <TerritoryExportButton document={document} />
           <span aria-live="polite" className="sr-only" role="status">
             {shareStatus}
           </span>
