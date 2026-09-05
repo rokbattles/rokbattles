@@ -1,3 +1,5 @@
+//! Directory-level orchestration for decoding and optional category processing.
+
 use std::fs;
 
 use crate::{Config, MailCliError, RunSummary};
@@ -9,13 +11,29 @@ mod process;
 use decode::decode_file;
 use paths::collect_input_files;
 
-/// Decode each mail buffer in the input directory into JSON.
+/// Decodes selected input files and writes JSON for recognized mail categories.
+///
+/// Validates the input directory, creates the output directory, and collects
+/// immediate non-JSON files in sorted path order. Each file is read in full and
+/// completed before moving to the next. See the [crate documentation](crate)
+/// for output naming and selection rules.
+///
+/// Existing outputs are overwritten. A file's decoded JSON is written before
+/// its processor runs, so processing failures leave that decoded output in place.
+/// Returns a count of completed inputs only after the entire run succeeds.
+///
+/// # Errors
+///
+/// Returns the first directory, read, decode, processor, serialization, or write
+/// error. Output naming also fails for filenames that cannot be represented as
+/// UTF-8. Earlier writes are retained; later inputs are not attempted.
 pub fn run(config: &Config) -> Result<RunSummary, MailCliError> {
     crate::fs_utils::ensure_directory(&config.input_dir)?;
 
     fs::create_dir_all(&config.output_dir)
         .map_err(|source| MailCliError::Io { source, path: config.output_dir.clone() })?;
 
+    // Collect once so writes into the input directory cannot extend this run.
     let input_files = collect_input_files(&config.input_dir)?;
     let mut decoded_files = 0;
 
