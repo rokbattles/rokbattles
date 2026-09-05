@@ -1,4 +1,8 @@
-//! Sender parser for DuelBattle2 mail.
+//! Builds the `sender` section from `body.detail.AtkPlayer`.
+//!
+//! Shared player helpers provide identity and avatars; commander and buff helpers
+//! add both commanders and the buff list. This is the attacking side regardless
+//! of which player receives the mail.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -8,7 +12,7 @@ use crate::{
     player::{extract_player_buffs, extract_player_section_from_map, locate_player},
 };
 
-/// Pulls sender details from the attacking player data.
+/// Extracts sender details from the attacking player data.
 #[derive(Debug, Default)]
 pub struct SenderExtractor;
 

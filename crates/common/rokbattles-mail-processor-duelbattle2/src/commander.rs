@@ -1,11 +1,15 @@
-//! Commander helpers for DuelBattle2 mail.
+//! Extracts both commanders from a player's `Heroes` object.
+//!
+//! `MainHero` and `AssistHero` are required objects with IDs, levels, stars,
+//! awakening booleans, and skill arrays. Skill rows retain their input order and
+//! rename `SkillId` to `id`. There is no placeholder for a missing commander.
 
 use rokbattles_mail_sdk::{ExtractError, require_array};
 use serde_json::{Map, Value, json};
 
 use crate::player::{require_bool_field, require_child_object, require_u64_field};
 
-/// Pulls the primary and secondary commander data from a player object.
+/// Extracts the primary and secondary commander data from a player object.
 pub(crate) fn extract_player_commanders(
     player: &Map<String, Value>,
 ) -> Result<(Value, Value), ExtractError> {

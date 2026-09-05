@@ -1,9 +1,14 @@
-//! Rewards parser for AllianceAOOBattleInfo mail.
+//! Flattens attachment loot into the `rewards` array section.
+//!
+//! The root `attachments` field and every attachment's `loot` field must be arrays.
+//! Each entry requires unsigned `Type`, `SubType`, and `Value`, renamed to `type`,
+//! `sub_type`, and `value`. Empty arrays are valid. Attachment order and loot order
+//! are preserved, with no deduplication or summing of matching items.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_array, require_u64_field};
 use serde_json::{Map, Value, json};
 
-/// Pulls reward entries out of AllianceAOOBattleInfo attachments.
+/// Extracts reward entries out of AllianceAOOBattleInfo attachments.
 #[derive(Debug, Default)]
 pub struct RewardsExtractor;
 

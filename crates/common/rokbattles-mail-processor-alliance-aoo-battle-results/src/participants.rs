@@ -1,11 +1,15 @@
-//! Participants parser for AllianceAOOBattleResults mail.
+//! Maps `body.kvs.plyRanks` into participant score rows in input order.
+//!
+//! Each row requires a name and numeric total, building, gathering, kill, and Ark
+//! scores. Number representations are preserved. The source rows provide names,
+//! so this extractor does not infer player IDs or rank positions.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_array};
 use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_number_field, require_string_field};
 
-/// Pulls individual score lines from `body.kvs.plyRanks`.
+/// Extracts individual score lines from `body.kvs.plyRanks`.
 #[derive(Debug, Default)]
 pub struct ParticipantsExtractor;
 

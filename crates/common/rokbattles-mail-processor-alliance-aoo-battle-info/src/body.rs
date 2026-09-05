@@ -1,11 +1,15 @@
-//! Body parser for AllianceAOOBattleInfo mail.
+//! Maps `body.kvs.fightlist` rows into the `body.fights` array.
+//!
+//! Each row requires integer `Idx` and `Time` plus boolean `Win`. The extractor
+//! renames these fields without sorting fights or changing timestamp units. An
+//! empty list is valid; a missing list or non-object row fails extraction.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, require_array, require_bool_field, require_u64_field,
 };
 use serde_json::{Value, json};
 
-/// Pulls fight schedule rows from `body.kvs.fightlist`.
+/// Extracts fight schedule rows from `body.kvs.fightlist`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 

@@ -1,4 +1,12 @@
-//! Opponent parser for Battle mail.
+//! Builds one opponent row per entry in `body.content.Attacks`.
+//!
+//! Each attack is extracted on its own scoped thread within the SDK section worker.
+//! Rows are sorted by the leading numeric portion of the attack key, then by the
+//! full key. The original key is retained in output so suffixed attacks stay distinct.
+//!
+//! Rows combine character details, attack ticks and position, participants, NPC
+//! loot, per-side results, and effects. Missing result blocks become all-null
+//! objects; missing NPC loot remains null rather than an empty recorded drop list.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, optional_i64_field, optional_u64_field, require_array,
@@ -13,7 +21,7 @@ use crate::{
     player::extract_player_fields,
 };
 
-/// Pulls opponent details out of each attack entry.
+/// Extracts opponent details out of each attack entry.
 #[derive(Debug, Default)]
 pub struct OpponentsExtractor;
 
@@ -52,6 +60,8 @@ impl Extractor for OpponentsExtractor {
             Ok::<(), ExtractError>(())
         })?;
 
+        // Worker completion order and lexicographic JSON keys do not define attack order.
+        // Keep the full key as a tie-breaker when attacks share a numeric prefix.
         results.sort_by(|(attack_id_a, attack_key_a, _), (attack_id_b, attack_key_b, _)| {
             attack_id_a.cmp(attack_id_b).then_with(|| attack_key_a.cmp(attack_key_b))
         });
@@ -67,7 +77,10 @@ fn require_attacks(content: &Map<String, Value>) -> Result<&Map<String, Value>, 
     value.as_object().ok_or(ExtractError::InvalidFieldType { field: "Attacks", expected: "object" })
 }
 
-/// Parses the attack id from the attack map key.
+/// Parses the leading ASCII digits of an attack key for numeric ordering.
+///
+/// Suffixes are allowed and retained separately; a key without leading digits
+/// or with an overflowing prefix fails extraction.
 fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
     let end = attack_id
         .char_indices()
@@ -118,16 +131,17 @@ fn extract_attack_entry(
     Ok((attack_id, attack_key, Value::Object(fields)))
 }
 
-/// Reads the attack start and end ticks from `Bts` and `Ets`.
+/// Copies attack-local `Bts` and `Ets` into start and end ticks.
 ///
-/// They stay on each opponent entry so the timing stays next to the attack data.
+/// These fields come from the attack object, not the report-level timestamp
+/// fields with the same names. No unit conversion or range ordering is applied.
 fn extract_attack_tick_bounds(attack: &Map<String, Value>) -> Result<(u64, u64), ExtractError> {
     let start_tick = require_u64_field(attack, "Bts")?;
     let end_tick = require_u64_field(attack, "Ets")?;
     Ok((start_tick, end_tick))
 }
 
-/// Pulls NPC-related data from the attack entry and opponent payload.
+/// Extracts NPC-related data from the attack entry and opponent payload.
 fn extract_npc(
     attack: &Map<String, Value>,
     opponent: &Map<String, Value>,
@@ -148,7 +162,9 @@ fn extract_npc(
     }))
 }
 
-/// Pulls battle results from the attack payload.
+/// Maps `Damage` to sender results and `Kill` to opponent results.
+///
+/// These are reported per-side counters, not values recomputed from summaries.
 fn extract_battle_results(attack: &Map<String, Value>) -> Result<Value, ExtractError> {
     let sender = extract_battle_result_optional(attack.get("Damage"), "Damage")?;
     let opponent = extract_battle_result_optional(attack.get("Kill"), "Kill")?;
@@ -159,7 +175,8 @@ fn extract_battle_results(attack: &Map<String, Value>) -> Result<Value, ExtractE
 fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, ExtractError> {
     let reinforcements_join = require_u64_field(overview, "AddCnt")?;
     let reinforcements_leave = require_u64_field(overview, "RetreatCnt")?;
-    // Older reports sometimes omit `KillScore`; default it to 0.
+    // Preserve the legacy zero default for a missing or null KillScore. A wholly
+    // absent result block takes the separate all-null path below.
     let kill_points = optional_u64_field(overview, "KillScore")?.unwrap_or(0);
     let acclaim = optional_u64_field(overview, "Contribute")?;
     let severely_wounded = require_u64_field(overview, "BadHurt")?;
@@ -172,10 +189,10 @@ fn extract_battle_result(overview: &Map<String, Value>) -> Result<Value, Extract
     let watchtower_max = require_u64_field(overview, "GtMax")?;
     let watchtower = require_u64_field(overview, "Gt")?;
     let power = require_i64_field(overview, "Power")?;
-    // Some reports leave out attack or skill power; default both to 0.
+    // Missing power components default to zero, while signed values remain signed.
     let attack_power = optional_i64_field(overview, "AtkPower")?.unwrap_or(0);
     let skill_power = optional_i64_field(overview, "SkillPower")?.unwrap_or(0);
-    // Merits and reduction counters are also optional in some reports.
+    // Missing newer counters stay null so absence is distinguishable from zero.
     let merits = optional_u64_field(overview, "WarExploits")?;
     let death_reduction = optional_u64_field(overview, "DeadReduceCnt")?;
     let severe_wound_reduction = optional_u64_field(overview, "BadReduceCnt")?;

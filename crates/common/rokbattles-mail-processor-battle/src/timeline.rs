@@ -1,4 +1,9 @@
-//! Timeline parser for Battle mail.
+//! Builds report timing, troop samples, and reinforcement events from content.
+//!
+//! `Bts`, `Ets`, `Btk`, and `Samples` are required; their units and order remain
+//! unchanged. Missing or null `Events` becomes an empty array. Each event's tick
+//! and type are checked before events without `AssistUnits` are skipped. Output
+//! events keep all types that have assist data, not only join/leave events.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, optional_u64_field, require_array, require_i64_field,
@@ -11,7 +16,7 @@ use crate::{
     player::parse_avatar,
 };
 
-/// Pulls timeline snapshots from Battle mail.
+/// Extracts timeline snapshots from Battle mail.
 #[derive(Debug, Default)]
 pub struct TimelineExtractor;
 
@@ -43,10 +48,8 @@ impl Extractor for TimelineExtractor {
             entries.push(json!({ "tick": tick, "count": count }));
         }
 
-        // Event type (`Et`) mappings:
-        // - 18: reinforcements join
-        // - 26: reinforcements leave (`Cnt` may be missing when march count hits 0)
-        // Some reports omit events entirely; treat missing or null as empty.
+        // Events are optional even when troop samples are present. Et 18 marks joins
+        // and 26 marks departures, but other types with AssistUnits are retained too.
         let events = match content.get("Events") {
             None | Some(Value::Null) => &[],
             Some(value) => require_array(value, "Events")?,
@@ -72,6 +75,8 @@ impl Extractor for TimelineExtractor {
             };
             let player_id = require_i64_field(assist_units, "PId")?;
             let player_name = require_string_field(assist_units, "PName")?;
+            // Departure events may omit the count when the march reaches zero;
+            // preserve that absence as null instead of inventing a measurement.
             let count = optional_u64_field(assist_units, "Cnt")?;
             let event_id = optional_u64_field(assist_units, "TId")?;
             let (avatar_url, frame_url) = parse_avatar(assist_units)?;

@@ -1,4 +1,14 @@
-//! Shared player helpers for Battle mail.
+//! Normalizes shared `SelfChar` and attack `CIdt` character fields.
+//!
+//! Identity, alliance, castle coordinates, and the avatar field are required.
+//! Player IDs stay signed. Commander and mode-specific fields are generally
+//! optional; absent castle level and tracking key use legacy defaults of zero and
+//! an empty string. Other optional scalar fields usually remain null.
+//!
+//! Primary and secondary commander fields use separate wire-key sets. Optional
+//! skills and relics distinguish missing data (null) from an empty list. App IDs,
+//! avatars, support skills, and auxiliary skills each have their own compatibility
+//! rules below; they are not handled by a general coercion pass.
 
 use rokbattles_mail_sdk::{
     ExtractError, optional_bool_field, optional_string_field, optional_u64_field, require_array,
@@ -18,7 +28,7 @@ use crate::content::{require_child_object, require_string_field, require_u64_fie
 // - 9602340: chinese client (tw)
 const APP_ID_INTERNATIONAL: u64 = 2_104_267;
 
-/// Pulls the common player fields from a Battle character object.
+/// Extracts the common player fields from a Battle character object.
 pub(crate) fn extract_player_fields(
     player: &Map<String, Value>,
 ) -> Result<Map<String, Value>, ExtractError> {
@@ -120,7 +130,10 @@ pub(crate) fn extract_kingdom_id(player: &Map<String, Value>) -> Result<Option<u
     optional_u64_field(player, "COSId")
 }
 
-/// Splits `AppUid` into `app_id` and `app_uid`.
+/// Splits a prefixed `AppUid`, or assigns the international app ID to a bare UID.
+///
+/// Missing, null, or blank input yields two absent values. Numeric input must
+/// be unsigned; strings are trimmed as a whole before either form is parsed.
 fn extract_app_identity(
     player: &Map<String, Value>,
 ) -> Result<(Option<u64>, Option<u64>), ExtractError> {
@@ -168,7 +181,7 @@ fn read_app_uid(player: &Map<String, Value>) -> Result<Option<String>, ExtractEr
     }
 }
 
-/// Pulls Supreme Strife (`Titan`) details for the player.
+/// Extracts Supreme Strife (`Titan`) details for the player.
 fn extract_supreme_strife(player: &Map<String, Value>) -> Result<Value, ExtractError> {
     let value = match player.get("Titan") {
         None | Some(Value::Null) => return Ok(null_supreme_strife()),
@@ -203,6 +216,7 @@ fn extract_commanders(player: &Map<String, Value>) -> Result<Value, ExtractError
     Ok(json!({ "primary": primary, "secondary": secondary }))
 }
 
+// The wire keys differ by commander slot; only the primary slot has armaments.
 struct CommanderFieldSet {
     id: &'static str,
     level: &'static str,
@@ -303,6 +317,7 @@ fn optional_relics_field(
     };
 
     let values = require_array(value, field)?;
+    // The output exposes only the first relic ID; later source elements are ignored.
     let Some(id) = values.first() else {
         return Ok(Value::Array(Vec::new()));
     };
@@ -338,6 +353,7 @@ fn optional_armaments_field(
         entries.push(json!({ "id": id, "affix": affix, "buffs": buffs }));
     }
 
+    // Numeric sorting avoids placing an armament key such as "10" before "2".
     entries.sort_by_key(|entry| entry["id"].as_u64().unwrap_or_default());
     Ok(Value::Array(entries))
 }
@@ -356,6 +372,7 @@ fn extract_support_skills(player: &Map<String, Value>) -> Result<Value, ExtractE
     };
 
     let enable = optional_bool_field(cass, "ENABLE")?.unwrap_or(false);
+    // Disabled support skills are ignored, including any malformed stored skill list.
     let skills = if enable { extract_support_skill_entries(cass)? } else { Vec::new() };
 
     Ok(json!({
@@ -390,6 +407,7 @@ fn extract_support_skill_entries(cass: &Map<String, Value>) -> Result<Vec<Value>
 }
 
 fn extract_auxiliary_skills(player: &Map<String, Value>) -> Result<Value, ExtractError> {
+    // The decoder uses [] for empty tables, so this optional object accepts that shape.
     let cahah = match player.get("CAHAH") {
         None | Some(Value::Null) => return Ok(Value::Array(Vec::new())),
         Some(Value::Object(cahah)) => cahah,
@@ -425,7 +443,11 @@ fn extract_auxiliary_skills(player: &Map<String, Value>) -> Result<Value, Extrac
     Ok(Value::Array(skills))
 }
 
-/// Parses the avatar field into avatar and frame URLs.
+/// Reads the required avatar field as a URL, object, encoded object, or null.
+///
+/// Strings other than the literal `"null"` are tried as JSON objects first,
+/// then kept unchanged as avatar values. Object members are copied without URL
+/// validation; missing members and literal `"null"` values become JSON null.
 pub(crate) fn parse_avatar(player: &Map<String, Value>) -> Result<(Value, Value), ExtractError> {
     let value = player.get("Avatar").ok_or(ExtractError::MissingField { field: "Avatar" })?;
 

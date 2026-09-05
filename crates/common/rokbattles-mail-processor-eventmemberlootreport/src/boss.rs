@@ -1,4 +1,8 @@
-//! GVE alliance boss identification from localized report subtitles.
+//! Identifies a GVE boss from known localized names in `body.content.subTitle`.
+//!
+//! Names are matched as case-sensitive substrings, including historical aliases.
+//! The first matching boss in table order supplies the output `id`. Unknown
+//! subtitles return an extraction error rather than inventing a fallback ID.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -10,6 +14,7 @@ struct Boss {
     localized_names: &'static [&'static str],
 }
 
+// Table order resolves ambiguous subtitles; aliases include both current and historical names.
 const BOSSES: &[Boss] = &[
     Boss {
         id: 30001,
@@ -161,10 +166,12 @@ const BOSSES: &[Boss] = &[
     },
 ];
 
+/// Extracts the `boss` section using the rules in this module.
 #[derive(Debug, Default)]
 pub struct BossExtractor;
 
 impl BossExtractor {
+    /// Creates a stateless extractor.
     pub fn new() -> Self {
         Self
     }
@@ -178,6 +185,7 @@ impl Extractor for BossExtractor {
     fn extract(&self, input: &Value) -> Result<Section, ExtractError> {
         let content = require_content(input)?;
         let subtitle = require_string_field(content, "subTitle")?;
+        // Match a name within localized sentence text, retaining case and punctuation.
         let boss = BOSSES
             .iter()
             .find(|boss| boss.localized_names.iter().any(|name| subtitle.contains(name)))

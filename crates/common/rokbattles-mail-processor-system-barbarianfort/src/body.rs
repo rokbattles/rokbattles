@@ -1,4 +1,9 @@
-//! Body parser for SystemBarbarianFort mail.
+//! Extracts structured fort details and optionally interprets localized text.
+//!
+//! Position, target name, and numeric subtype fields are required. A recognized
+//! `content` template adds percentage, tier, and level; text that is missing,
+//! non-string, or unmatched leaves that output field absent. Percentage remains
+//! on the displayed scale (for example, 25 means 25%), without range clamping.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Number, Value};
@@ -11,7 +16,7 @@ use crate::{
     templates::BODY_TEMPLATES,
 };
 
-/// Pulls position and target details out of the SystemBarbarianFort body.
+/// Extracts position and target details out of the SystemBarbarianFort body.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 
@@ -35,6 +40,8 @@ impl Extractor for BodyExtractor {
         let target_name = require_string_field(body, "targetName")?;
         let sub_type = require_u64_field(body, "subType")?;
         let sub_param = require_u64_field(body, "subParam")?;
+        // Localized text is optional enrichment. A template mismatch must not
+        // invalidate the structured coordinates, target, and reward data.
         let content_params = body
             .get("content")
             .and_then(Value::as_str)
@@ -85,6 +92,7 @@ fn extract_content_params(
     sub_param: u64,
     target_name: &str,
 ) -> Option<ContentParams> {
+    // Some localized bodies use non-breaking spaces where templates use ordinary spaces.
     let content = content.replace('\u{a0}', " ");
     BODY_TEMPLATES.iter().find_map(|template| {
         match_template(template.trim(), content.trim(), sub_param, target_name)
@@ -112,6 +120,8 @@ fn match_template(
                 remaining = &remaining[literal.len()..];
             }
             TemplateToken::Placeholder(name) => {
+                // Capture up to the next literal so localized placeholder order
+                // can vary without changing the field mapping below.
                 let next_literal = tokens[index + 1..].iter().find_map(|token| match token {
                     TemplateToken::Literal(literal) if !literal.is_empty() => Some(*literal),
                     TemplateToken::Literal(_) | TemplateToken::Placeholder(_) => None,
@@ -144,6 +154,8 @@ fn match_template(
         return None;
     }
 
+    // Some templates supply a target name rather than a numeric level. Try its
+    // digits next, then use level 11 for subParam 3 when neither source has one.
     let level =
         level.or_else(|| parse_level(target_name)).or_else(|| (sub_param == 3).then_some(11))?;
 
@@ -177,6 +189,7 @@ fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
     tokens
 }
 
+// Locales can put % before or after the value. Strip the marker, not the scale.
 fn parse_damage_percentage(value: &str) -> Option<Number> {
     let mut trimmed = value.trim();
     if let Some(value) = trimmed.strip_prefix('%') {

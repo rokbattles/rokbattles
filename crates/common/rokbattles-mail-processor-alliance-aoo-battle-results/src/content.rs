@@ -1,4 +1,7 @@
-//! Helpers for walking AllianceAOOBattleResults mail content.
+//! Borrows the required `body.kvs` object and shares SDK field readers.
+//!
+//! The alliance, participant, body, and overview extractors independently read
+//! this object from the original input.
 
 pub(crate) use rokbattles_mail_sdk::{
     ExtractError, require_bool_field, require_child_object, require_number_field, require_object,
