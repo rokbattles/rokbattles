@@ -1,4 +1,9 @@
-//! `Persistent.Mail` value and file encoding.
+//! Builds a file header and recursively writes tagged values.
+//!
+//! `encode` owns the output buffer and fills in its checksum after all values
+//! have been written. The recursive helpers append to that buffer, passing the
+//! number of enclosing tables as `depth`. A failed write may leave partial
+//! bytes in the buffer, which `encode` discards when returning the error.
 
 use serde_json::Value;
 
@@ -7,19 +12,37 @@ use crate::common::{
     TAG_F64, TAG_STRING, TAG_TABLE,
 };
 
-/// Encode a JSON value as a complete `Persistent.Mail` file.
+/// Encodes a JSON value as a complete `Persistent.Mail` file.
 ///
-/// Object fields whose value is `null` are omitted because the persistent
-/// format has no null value tag.
-/// Empty objects and arrays have the same on-disk representation because the
-/// format does not distinguish between empty table kinds.
+/// Returns an owned buffer containing the header, checksum, and one tagged
+/// value. The input is left unchanged, and no file is written to disk.
+///
+/// Null object fields are omitted, empty objects and arrays have the same
+/// representation, and numbers are converted to `f64`, which can round large
+/// integers. See the [conversion rules](crate#tables-and-conversion) for details.
 ///
 /// # Errors
 ///
-/// Returns an error if the value contains an unrepresentable number, a null
-/// outside an object field, an oversized string, or excessive nesting.
+/// Returns an error for a null root or array element, a number that cannot be
+/// converted to a finite `f64`, or a string or object key longer than
+/// `u32::MAX` bytes. Also rejects array indices that cannot be converted to
+/// `u64` and objects or arrays nested more than 128 levels deep. No partial
+/// output is returned on error. See [`EncodeError`] for the individual cases.
+///
+/// # Examples
+///
+/// ```no_run
+/// use rokbattles_mail_encoder::encode;
+/// use serde_json::json;
+///
+/// let value = json!({ "id": "123", "unread": false });
+/// let bytes = encode(&value)?;
+/// std::fs::write("Persistent.Mail.123", bytes)?;
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
 pub fn encode(value: &Value) -> Result<Vec<u8>, EncodeError> {
     let mut output = Vec::new();
+    // Reserve the checksum field so the payload begins at its final file offset.
     output.push(FILE_MARKER);
     output.extend_from_slice(&0_u64.to_le_bytes());
     encode_value(value, &mut output, 0)?;
@@ -39,6 +62,8 @@ fn encode_value(value: &Value, output: &mut Vec<u8>, depth: usize) -> Result<(),
             Ok(())
         }
         Value::Number(value) => {
+            // The format has one numeric tag. Conversion may round JSON integers;
+            // only failed conversions and non-finite results are rejected.
             let value = value.as_f64().ok_or(EncodeError::UnrepresentableNumber)?;
             if !value.is_finite() {
                 return Err(EncodeError::UnrepresentableNumber);
@@ -50,6 +75,8 @@ fn encode_value(value: &Value, output: &mut Vec<u8>, depth: usize) -> Result<(),
         Value::String(value) => encode_string(value, output),
         Value::Array(values) => {
             begin_table(output, depth)?;
+            // Explicit one-based keys let the decoder recover array positions
+            // without mistaking the elements themselves for key/value pairs.
             for (index, value) in values.iter().enumerate() {
                 let key = u64::try_from(index.saturating_add(1))
                     .map_err(|_error| EncodeError::ArrayTooLong)?;
@@ -62,6 +89,8 @@ fn encode_value(value: &Value, output: &mut Vec<u8>, depth: usize) -> Result<(),
         Value::Object(values) => {
             begin_table(output, depth)?;
             for (key, value) in values {
+                // Omit the key too: writing it before skipping null would leave
+                // an unmatched key in the table.
                 if value.is_null() {
                     continue;
                 }
@@ -75,6 +104,7 @@ fn encode_value(value: &Value, output: &mut Vec<u8>, depth: usize) -> Result<(),
 }
 
 fn begin_table(output: &mut Vec<u8>, depth: usize) -> Result<(), EncodeError> {
+    // `depth` counts enclosing tables, so opening a table here adds one level.
     if depth >= MAX_DEPTH {
         return Err(EncodeError::DepthLimitExceeded { limit: MAX_DEPTH });
     }
@@ -83,6 +113,7 @@ fn begin_table(output: &mut Vec<u8>, depth: usize) -> Result<(), EncodeError> {
 }
 
 fn encode_string(value: &str, output: &mut Vec<u8>) -> Result<(), EncodeError> {
+    // The length prefix counts UTF-8 bytes, not Unicode characters.
     let length = u32::try_from(value.len()).map_err(|_error| EncodeError::StringTooLong)?;
     output.push(TAG_STRING);
     output.extend_from_slice(&length.to_le_bytes());
@@ -96,6 +127,9 @@ fn encode_number_key(value: u64, output: &mut Vec<u8>) {
 }
 
 fn file_checksum(buffer: &[u8]) -> u64 {
+    // `encode` supplies the fixed marker and header. Hash the marker followed
+    // by eight zero bytes; each zero advances DJB2 by a factor of 33. This also
+    // makes the result independent of any checksum already stored in `buffer`.
     let payload = buffer.get(FILE_HEADER_LEN..).unwrap_or_default();
     let header_hash = CHECKSUM_SEED
         .wrapping_mul(33)
