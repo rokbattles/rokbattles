@@ -4863,23 +4863,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rokbattles-tcp-relay"
-version = "1.6.1"
-dependencies = [
- "bytes",
- "dotenvy",
- "flate2",
- "mimalloc",
- "reqwest 0.12.28",
- "serde",
- "serde_json",
- "thiserror 2.0.20",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "rustc-demangle"
 version = "0.1.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
