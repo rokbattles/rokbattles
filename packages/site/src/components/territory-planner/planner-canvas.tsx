@@ -12,10 +12,13 @@ import {
 } from "@/lib/territory/assets";
 import type { TerritoryDataSource, WorldBounds } from "@/lib/territory/data-source";
 import {
+  alignBuildingPoint,
   buildingRules,
   buildTerritoryOverviewFromCells,
   buildTerritoryOverviewsFromOwnership,
+  snapTerritoryPoint,
   structureTerritoryCells,
+  TERRITORY_UNIT,
   type TerritoryOverview,
   type TerritoryState,
   territoryBounds,
@@ -665,10 +668,9 @@ export function PlannerCanvas({
     const hover = hoverRef.current;
     if (hover && tool !== "select" && tool !== "draw") {
       const legal = isPlacementLegal(tool, hover.x, hover.y);
-      const rule = buildingRules[tool];
-      const half = rule.territorySide / 2;
-      const topLeft = worldToScreen(hover.x - half, hover.y + half);
-      const bottomRight = worldToScreen(hover.x + half, hover.y - half);
+      const footprint = territoryBounds({ kind: tool, x: hover.x, y: hover.y });
+      const topLeft = worldToScreen(footprint.minX, footprint.maxY);
+      const bottomRight = worldToScreen(footprint.maxX, footprint.minY);
       context.fillStyle = legal ? "rgba(34, 197, 94, 0.22)" : "rgba(239, 68, 68, 0.25)";
       context.strokeStyle = legal ? "#22c55e" : "#ef4444";
       context.lineWidth = 2;
@@ -681,6 +683,44 @@ export function PlannerCanvas({
         bottomRight.y - topLeft.y
       );
       context.setLineDash([]);
+      const cellCenter = snapTerritoryPoint(hover.x, hover.y);
+      const cellTopLeft = worldToScreen(
+        cellCenter.x - TERRITORY_UNIT / 2,
+        cellCenter.y + TERRITORY_UNIT / 2
+      );
+      const cellBottomRight = worldToScreen(
+        cellCenter.x + TERRITORY_UNIT / 2,
+        cellCenter.y - TERRITORY_UNIT / 2
+      );
+      context.strokeStyle = legal ? "rgba(255, 255, 255, 0.9)" : "rgba(254, 202, 202, 0.9)";
+      context.lineWidth = 1;
+      context.strokeRect(
+        cellTopLeft.x,
+        cellTopLeft.y,
+        cellBottomRight.x - cellTopLeft.x,
+        cellBottomRight.y - cellTopLeft.y
+      );
+      const anchor = worldToScreen(hover.x, hover.y);
+      context.beginPath();
+      context.arc(
+        anchor.x,
+        anchor.y,
+        buildingRules[tool].baseClearance * view.scale,
+        0,
+        Math.PI * 2
+      );
+      context.fillStyle = legal ? "rgba(34, 197, 94, 0.2)" : "rgba(239, 68, 68, 0.24)";
+      context.fill();
+      context.strokeStyle = legal ? "#22c55e" : "#ef4444";
+      context.lineWidth = 1;
+      context.stroke();
+      context.beginPath();
+      context.arc(anchor.x, anchor.y, 2, 0, Math.PI * 2);
+      context.fillStyle = legal ? "#22c55e" : "#ef4444";
+      context.fill();
+      context.strokeStyle = "white";
+      context.lineWidth = 1;
+      context.stroke();
     }
     if (boundaryPathsPending) requestDraw();
   }, [
@@ -987,10 +1027,7 @@ export function PlannerCanvas({
           }
           updateCoordinateHud(point);
           const world = screenToWorld(point.x, point.y);
-          hoverRef.current = {
-            x: Math.floor(world.x / 18) * 18 + 9,
-            y: Math.floor(world.y / 18) * 18 + 9,
-          };
+          hoverRef.current = alignBuildingPoint(world.x, world.y);
           requestDraw();
         }}
         onPointerUp={(event) => {
@@ -1014,11 +1051,8 @@ export function PlannerCanvas({
           if (pointer?.dragged) return;
           const world = screenToWorld(point.x, point.y);
           if (tool !== "select" && tool !== "draw") {
-            const snapped = {
-              x: Math.floor(world.x / 18) * 18 + 9,
-              y: Math.floor(world.y / 18) * 18 + 9,
-            };
-            onPlace(tool, snapped.x, snapped.y);
+            const aligned = alignBuildingPoint(world.x, world.y);
+            onPlace(tool, aligned.x, aligned.y);
             return;
           }
           const hitRadius = 14 / viewRef.current.scale;

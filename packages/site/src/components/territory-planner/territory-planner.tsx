@@ -30,6 +30,7 @@ import {
 import { TerritoryDataSource, type WorldBounds } from "@/lib/territory/data-source";
 import { decodePlan, encodePlan, normalizePlannerDocument } from "@/lib/territory/document";
 import {
+  alignBuildingPoint,
   boundaryCollision,
   buildingRules,
   buildTerritoryState,
@@ -41,7 +42,6 @@ import {
   isProvinceRestricted,
   mapStructureCollision,
   plannedBuildingCollision,
-  snapTerritoryPoint,
 } from "@/lib/territory/geometry";
 import { LOST_KINGDOM_TERRITORY_COLORS } from "@/lib/territory/presentation";
 import { deleteSelectedPlannerItems, updatePlannerSelection } from "@/lib/territory/selection";
@@ -258,13 +258,13 @@ export function TerritoryPlanner({ maps }: { maps: TerritoryMapIndexRow[] }) {
         source.buildings
       );
       if (progress.built >= progress.limit) return false;
-      const { x, y } = snapTerritoryPoint(rawX, rawY);
+      const { x, y } = alignBuildingPoint(rawX, rawY);
       const imageBounds = source.config.imageBounds;
       if (
         x < imageBounds.minX ||
-        x > imageBounds.maxX ||
+        x >= imageBounds.maxX ||
         y < imageBounds.minY ||
-        y > imageBounds.maxY
+        y >= imageBounds.maxY
       ) {
         return false;
       }
@@ -308,7 +308,7 @@ export function TerritoryPlanner({ maps }: { maps: TerritoryMapIndexRow[] }) {
     async (kind: BuildingKind, rawX: number, rawY: number) => {
       const source = sourceRef.current;
       if (!source) return;
-      const { x, y } = snapTerritoryPoint(rawX, rawY);
+      const { x, y } = alignBuildingPoint(rawX, rawY);
       const clearance = buildingRules[kind].baseClearance;
       try {
         await source.ensureBounds(

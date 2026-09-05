@@ -10,6 +10,7 @@ import type {
 } from "./types";
 
 export const TERRITORY_UNIT = 18;
+export const BUILD_POSITION_ALIGNMENT = 0.01;
 
 export type TerritoryFillRect = {
   minX: number;
@@ -81,6 +82,15 @@ export function snapTerritoryPoint(x: number, y: number): { x: number; y: number
   return { x: snapTerritoryCoordinate(x), y: snapTerritoryCoordinate(y) };
 }
 
+export function alignBuildingCoordinate(value: number): number {
+  const aligned = Math.floor(value / BUILD_POSITION_ALIGNMENT + 0.5) * BUILD_POSITION_ALIGNMENT;
+  return Number(aligned.toFixed(2));
+}
+
+export function alignBuildingPoint(x: number, y: number): { x: number; y: number } {
+  return { x: alignBuildingCoordinate(x), y: alignBuildingCoordinate(y) };
+}
+
 export function provinceIdAt(
   grid: ProvinceRestrictionGrid | null,
   x: number,
@@ -107,12 +117,13 @@ export function isProvinceRestricted(
 }
 
 export function territoryBounds(building: Pick<PlannedBuilding, "kind" | "x" | "y">) {
+  const center = snapTerritoryPoint(building.x, building.y);
   const half = buildingRules[building.kind].territorySide / 2;
   return {
-    minX: building.x - half,
-    minY: building.y - half,
-    maxX: building.x + half,
-    maxY: building.y + half,
+    minX: center.x - half,
+    minY: center.y - half,
+    maxX: center.x + half,
+    maxY: center.y + half,
   };
 }
 
@@ -156,14 +167,12 @@ export function structureTerritoryCells(
 export function territoryCells(
   building: Pick<PlannedBuilding, "kind" | "x" | "y">
 ): TerritoryCell[] {
-  const bounds = territoryBounds(building);
-  const minColumn = Math.round(bounds.minX / TERRITORY_UNIT);
-  const maxColumn = Math.round(bounds.maxX / TERRITORY_UNIT);
-  const minRow = Math.round(bounds.minY / TERRITORY_UNIT);
-  const maxRow = Math.round(bounds.maxY / TERRITORY_UNIT);
+  const centerColumn = Math.floor(building.x / TERRITORY_UNIT);
+  const centerRow = Math.floor(building.y / TERRITORY_UNIT);
+  const radius = (buildingRules[building.kind].territorySide / TERRITORY_UNIT - 1) / 2;
   const cells: TerritoryCell[] = [];
-  for (let row = minRow; row < maxRow; row += 1) {
-    for (let column = minColumn; column < maxColumn; column += 1) {
+  for (let row = centerRow - radius; row <= centerRow + radius; row += 1) {
+    for (let column = centerColumn - radius; column <= centerColumn + radius; column += 1) {
       cells.push({ column, row });
     }
   }
