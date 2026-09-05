@@ -1,6 +1,6 @@
 //! V2 raw binary mail storage helpers.
 
-use std::io::Cursor;
+use std::io::{Cursor, Read};
 
 use mongodb::bson::{Binary, Bson, DateTime, Document, doc, spec::BinarySubtype};
 use serde_json::Value;
@@ -99,6 +99,38 @@ pub fn compress_raw_mail(bytes: &[u8], zstd_level: i32) -> Result<Vec<u8>, ApiEr
         .map_err(|error| ApiError::internal(error.to_string()))
 }
 
+/// Decompress a stored raw mail while enforcing its recorded and configured sizes.
+pub fn decompress_raw_mail(
+    compressed: &[u8],
+    expected_size: usize,
+    max_size: usize,
+) -> Result<Vec<u8>, ApiError> {
+    if expected_size > max_size {
+        return Err(ApiError::internal("stored mail exceeds the configured upload limit"));
+    }
+
+    let read_limit = u64::try_from(expected_size)
+        .ok()
+        .and_then(|size| size.checked_add(1))
+        .ok_or_else(|| ApiError::internal("stored mail size is out of range"))?;
+    let decoder = zstd::stream::read::Decoder::new(Cursor::new(compressed))
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+    let mut bytes = Vec::with_capacity(expected_size);
+    decoder
+        .take(read_limit)
+        .read_to_end(&mut bytes)
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if bytes.len() != expected_size {
+        return Err(ApiError::internal(format!(
+            "stored mail size mismatch: expected {expected_size} bytes, decoded {}",
+            bytes.len()
+        )));
+    }
+
+    Ok(bytes)
+}
+
 fn extract_receiver_identity(object: &serde_json::Map<String, Value>) -> Result<String, ApiError> {
     object
         .get("receiver")
@@ -149,6 +181,24 @@ mod tests {
         let compressed = compress_raw_mail(raw, 3).expect("compress");
 
         assert_eq!(decompress(&compressed), raw);
+    }
+
+    #[test]
+    fn bounded_decompression_roundtrips() {
+        let raw = b"small mail payload";
+        let compressed = compress_raw_mail(raw, 3).expect("compress");
+
+        assert_eq!(
+            decompress_raw_mail(&compressed, raw.len(), raw.len()).expect("decompress"),
+            raw
+        );
+    }
+
+    #[test]
+    fn bounded_decompression_rejects_oversized_stored_mail() {
+        let compressed = compress_raw_mail(b"mail", 3).expect("compress");
+
+        assert!(decompress_raw_mail(&compressed, 4, 3).is_err());
     }
 
     #[test]

@@ -12,11 +12,12 @@ pub struct Storage {
     compressed_raw: Collection<Document>,
 }
 
-/// V2 raw binary mail metadata needed to decide whether an upload is larger.
+/// V2 raw binary mail metadata needed to compare a duplicate upload.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ExistingCompressedRawMail {
     pub checksum: Option<String>,
     pub size: Option<usize>,
+    pub algorithm: Option<String>,
 }
 
 impl Storage {
@@ -32,7 +33,7 @@ impl Storage {
         Ok(())
     }
 
-    /// Load V2 checksum and uncompressed size metadata, if this mail was already uploaded.
+    /// Load V2 comparison metadata, if this mail was already uploaded.
     pub async fn find_existing_compressed_raw(
         &self,
         mail_id: &str,
@@ -43,9 +44,24 @@ impl Storage {
             .projection(doc! {
                 "metadata.checksum": 1,
                 "metadata.size": 1,
+                "metadata.algo": 1,
             })
             .await?;
         Ok(doc.and_then(parse_existing_compressed_raw))
+    }
+
+    /// Load the compressed binary for an existing V2 mail.
+    pub async fn find_compressed_raw_binary(
+        &self,
+        mail_id: &str,
+        checksum: Option<&str>,
+    ) -> mongodb::error::Result<Option<Vec<u8>>> {
+        let doc = self
+            .compressed_raw
+            .find_one(compressed_raw_version_filter(mail_id, checksum))
+            .projection(doc! { "mail.binary": 1 })
+            .await?;
+        Ok(doc.and_then(parse_compressed_raw_binary))
     }
 
     /// Insert a new V2 raw compressed mail document.
@@ -54,18 +70,17 @@ impl Storage {
         Ok(())
     }
 
-    /// Replace an existing V2 document only when its checksum differs and stored size is smaller.
+    /// Replace the V2 document only if it is still the version the caller compared.
     pub async fn update_compressed_raw(
         &self,
         mail_id: &str,
-        checksum: &str,
-        size: i64,
+        existing_checksum: Option<&str>,
         mut doc: Document,
-    ) -> mongodb::error::Result<()> {
+    ) -> mongodb::error::Result<bool> {
         doc.remove("createdAt");
-        let filter = compressed_raw_update_filter(mail_id, checksum, size);
-        self.compressed_raw.update_one(filter, doc! { "$set": doc }).await?;
-        Ok(())
+        let filter = compressed_raw_version_filter(mail_id, existing_checksum);
+        let result = self.compressed_raw.update_one(filter, doc! { "$set": doc }).await?;
+        Ok(result.modified_count == 1)
     }
 }
 
@@ -88,19 +103,38 @@ fn parse_existing_compressed_raw(doc: Document) -> Option<ExistingCompressedRawM
             _ => None,
         })
         .and_then(|size| usize::try_from(size).ok());
-    Some(ExistingCompressedRawMail { checksum, size })
+    let algorithm = metadata.and_then(|metadata| metadata.get_str("algo").ok()).map(str::to_string);
+    Some(ExistingCompressedRawMail { checksum, size, algorithm })
 }
 
-fn compressed_raw_update_filter(mail_id: &str, checksum: &str, size: i64) -> Document {
-    doc! {
-        "mail.id": mail_id,
-        "metadata.checksum": { "$ne": checksum },
-        "metadata.size": { "$lt": size },
+fn parse_compressed_raw_binary(mut doc: Document) -> Option<Vec<u8>> {
+    let mut mail = match doc.remove("mail")? {
+        Bson::Document(mail) => mail,
+        _ => return None,
+    };
+    match mail.remove("binary")? {
+        Bson::Binary(binary) => Some(binary.bytes),
+        _ => None,
+    }
+}
+
+fn compressed_raw_version_filter(mail_id: &str, checksum: Option<&str>) -> Document {
+    match checksum {
+        Some(checksum) => doc! {
+            "mail.id": mail_id,
+            "metadata.checksum": checksum,
+        },
+        None => doc! {
+            "mail.id": mail_id,
+            "metadata.checksum": { "$exists": false },
+        },
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use mongodb::bson::{Binary, spec::BinarySubtype};
+
     use super::*;
 
     #[test]
@@ -116,12 +150,17 @@ mod tests {
             "metadata": {
                 "checksum": "abc123",
                 "size": 42_i64,
+                "algo": "zstd",
             },
         };
         let existing = parse_existing_compressed_raw(doc).expect("existing compressed mail");
         assert_eq!(
             existing,
-            ExistingCompressedRawMail { checksum: Some("abc123".to_string()), size: Some(42) }
+            ExistingCompressedRawMail {
+                checksum: Some("abc123".to_string()),
+                size: Some(42),
+                algorithm: Some("zstd".to_string()),
+            }
         );
     }
 
@@ -140,14 +179,39 @@ mod tests {
     }
 
     #[test]
-    fn compressed_raw_update_filter_requires_different_checksum_and_smaller_stored_size() {
-        let filter = compressed_raw_update_filter("mail-1", "new", 100);
+    fn parses_compressed_raw_binary() {
+        let doc = doc! {
+            "mail": {
+                "binary": Bson::Binary(Binary {
+                    subtype: BinarySubtype::Generic,
+                    bytes: vec![1, 2, 3],
+                }),
+            },
+        };
+
+        assert_eq!(parse_compressed_raw_binary(doc), Some(vec![1, 2, 3]));
+    }
+
+    #[test]
+    fn compressed_raw_version_filter_matches_known_checksum() {
+        let filter = compressed_raw_version_filter("mail-1", Some("old"));
         assert_eq!(
             filter,
             doc! {
                 "mail.id": "mail-1",
-                "metadata.checksum": { "$ne": "new" },
-                "metadata.size": { "$lt": 100_i64 },
+                "metadata.checksum": "old",
+            }
+        );
+    }
+
+    #[test]
+    fn compressed_raw_version_filter_matches_missing_checksum() {
+        let filter = compressed_raw_version_filter("mail-1", None);
+        assert_eq!(
+            filter,
+            doc! {
+                "mail.id": "mail-1",
+                "metadata.checksum": { "$exists": false },
             }
         );
     }
