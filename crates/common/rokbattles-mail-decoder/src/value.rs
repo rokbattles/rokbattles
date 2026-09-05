@@ -55,6 +55,10 @@ fn sequential(items: Vec<Value>) -> ClassifiedTable {
 fn string_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, DecodeError> {
     let mut map = Map::with_capacity(items.len() / 2);
     for (key, value) in owned_pairs(items) {
+        #[expect(
+            clippy::unreachable,
+            reason = "table key types were classified before conversion."
+        )]
         let Value::String(key) = key else {
             unreachable!("table key types were classified before conversion");
         };
@@ -83,7 +87,9 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
             let Some(key) = pair[0].as_u64().and_then(|key| usize::try_from(key).ok()) else {
                 return false;
             };
-            key > 0 && key <= pair_count && !std::mem::replace(&mut keys[key - 1], true)
+            key.checked_sub(1)
+                .and_then(|index| keys.get_mut(index))
+                .is_some_and(|seen| !std::mem::replace(seen, true))
         })
     };
 
@@ -91,6 +97,10 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
         // Numeric ordering maps the file's one-based keys to zero-based array positions.
         let mut values = BTreeMap::new();
         for (key, value) in owned_pairs(items) {
+            #[expect(
+                clippy::unreachable,
+                reason = "sequential numeric keys were validated before conversion."
+            )]
             let Some(key) = key.as_u64().and_then(|key| usize::try_from(key).ok()) else {
                 unreachable!("sequential numeric keys were validated before conversion");
             };
@@ -101,6 +111,10 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
 
     let mut map = Map::with_capacity(pair_count);
     for (key, value) in owned_pairs(items) {
+        #[expect(
+            clippy::unreachable,
+            reason = "table key types were classified before conversion."
+        )]
         let Value::Number(key) = key else {
             unreachable!("table key types were classified before conversion");
         };
@@ -127,6 +141,7 @@ fn owned_pairs(items: Vec<Value>) -> impl Iterator<Item = (Value, Value)> {
     let mut items = items.into_iter();
     std::iter::from_fn(move || {
         let key = items.next()?;
+        #[expect(clippy::unreachable, reason = "pair iterator requires an even item count.")]
         let Some(value) = items.next() else {
             unreachable!("pair iterator requires an even item count");
         };

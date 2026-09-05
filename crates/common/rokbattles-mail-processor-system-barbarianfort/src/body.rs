@@ -114,23 +114,20 @@ fn match_template(
     for (index, token) in tokens.iter().enumerate() {
         match token {
             TemplateToken::Literal(literal) => {
-                if !remaining.starts_with(literal) {
-                    return None;
-                }
-                remaining = &remaining[literal.len()..];
+                remaining = remaining.strip_prefix(*literal)?;
             }
             TemplateToken::Placeholder(name) => {
                 // Capture up to the next literal so localized placeholder order
                 // can vary without changing the field mapping below.
-                let next_literal = tokens[index + 1..].iter().find_map(|token| match token {
+                let next_literal = tokens.iter().skip(index + 1).find_map(|token| match token {
                     TemplateToken::Literal(literal) if !literal.is_empty() => Some(*literal),
                     TemplateToken::Literal(_) | TemplateToken::Placeholder(_) => None,
                 });
                 let capture = match next_literal {
                     Some(literal) => {
                         let end = remaining.find(literal)?;
-                        let capture = &remaining[..end];
-                        remaining = &remaining[end..];
+                        let (capture, rest) = remaining.split_at_checked(end)?;
+                        remaining = rest;
                         capture
                     }
                     None => {
@@ -166,20 +163,16 @@ fn tokenize_template(template: &str) -> Vec<TemplateToken<'_>> {
     let mut tokens = Vec::new();
     let mut remaining = template;
 
-    while let Some(start) = remaining.find('{') {
-        let literal = &remaining[..start];
+    while let Some((literal, after_start)) = remaining.split_once('{') {
+        let Some((name, rest)) = after_start.split_once('}') else {
+            // An unmatched opening brace is literal text.
+            break;
+        };
         if !literal.is_empty() {
             tokens.push(TemplateToken::Literal(literal));
         }
-
-        let after_start = &remaining[start + 1..];
-        let Some(end) = after_start.find('}') else {
-            tokens.push(TemplateToken::Literal(&remaining[start..]));
-            return tokens;
-        };
-
-        tokens.push(TemplateToken::Placeholder(&after_start[..end]));
-        remaining = &after_start[end + 1..];
+        tokens.push(TemplateToken::Placeholder(name));
+        remaining = rest;
     }
 
     if !remaining.is_empty() {
@@ -215,9 +208,9 @@ fn parse_level(value: &str) -> Option<u64> {
     }
 
     let start = trimmed.find(|character: char| character.is_ascii_digit())?;
-    let digits = &trimmed[start..];
+    let digits = trimmed.get(start..)?;
     let end = digits.find(|character: char| !character.is_ascii_digit()).unwrap_or(digits.len());
-    digits[..end].parse::<u64>().ok()
+    digits.get(..end)?.parse::<u64>().ok()
 }
 
 #[cfg(test)]
@@ -228,6 +221,23 @@ mod tests {
     use serde_json::{Value, json};
 
     use super::*;
+
+    #[test]
+    fn template_matching_handles_unicode_and_unmatched_braces() {
+        let params =
+            match_template("城{p2}級：{p3}％、階{p4}。未完{", "城12級：25％、階3。未完{", 0, "")
+                .expect("localized template with a literal opening brace");
+        assert_eq!(
+            params,
+            ContentParams {
+                percentage: Number::from_f64(25.0).expect("finite number"),
+                tier: 3,
+                level: 12,
+            }
+        );
+        assert_eq!(parse_level("城12級"), Some(12));
+        assert_eq!(parse_level("城級"), None);
+    }
 
     #[test]
     fn body_extractor_reads_fields() {

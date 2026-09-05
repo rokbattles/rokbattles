@@ -104,6 +104,7 @@ mod tests {
         assert_eq!(percentile(&values, 0.90), 4.6);
     }
 
+    #[expect(clippy::cast_sign_loss, reason = "Clamped percentile ranks are nonnegative.")]
     fn percentile(sorted_values: &[f64], percentile: f64) -> f64 {
         match sorted_values {
             [] => 0.0,

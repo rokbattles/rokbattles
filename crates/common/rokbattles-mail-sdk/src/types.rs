@@ -52,6 +52,10 @@ impl Section {
     /// # Panics
     ///
     /// Panics if the section is backed by an array.
+    #[expect(
+        clippy::panic,
+        reason = "Preserves the documented panic for inserting into an array section."
+    )]
     pub fn insert(&mut self, key: impl Into<String>, value: Value) -> Option<Value> {
         match &mut self.data {
             SectionData::Object(fields) => fields.insert(key.into(), value),
