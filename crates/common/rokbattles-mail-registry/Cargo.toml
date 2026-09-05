@@ -10,7 +10,6 @@ processors = [
     "dep:rokbattles-mail-processor-alliance-aoo-battle-info",
     "dep:rokbattles-mail-processor-alliance-aoo-battle-results",
     "dep:rokbattles-mail-processor-alliance-aoo-individual-results",
-    "dep:rokbattles-mail-processor-alliance-aoo-registration",
     "dep:rokbattles-mail-processor-barcanyonkillboss",
     "dep:rokbattles-mail-processor-battle",
     "dep:rokbattles-mail-processor-duelbattle2",
@@ -26,7 +25,6 @@ serde_json = { workspace = true }
 rokbattles-mail-processor-alliance-aoo-battle-info = { path = "../rokbattles-mail-processor-alliance-aoo-battle-info", optional = true }
 rokbattles-mail-processor-alliance-aoo-battle-results = { path = "../rokbattles-mail-processor-alliance-aoo-battle-results", optional = true }
 rokbattles-mail-processor-alliance-aoo-individual-results = { path = "../rokbattles-mail-processor-alliance-aoo-individual-results", optional = true }
-rokbattles-mail-processor-alliance-aoo-registration = { path = "../rokbattles-mail-processor-alliance-aoo-registration", optional = true }
 rokbattles-mail-processor-barcanyonkillboss = { path = "../rokbattles-mail-processor-barcanyonkillboss", optional = true }
 rokbattles-mail-processor-battle = { path = "../rokbattles-mail-processor-battle", optional = true }
 rokbattles-mail-processor-duelbattle2 = { path = "../rokbattles-mail-processor-duelbattle2", optional = true }

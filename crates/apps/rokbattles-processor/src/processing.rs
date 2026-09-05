@@ -605,13 +605,6 @@ mod tests {
                 )),
                 MailType::AllianceAOOIndividualResults,
             ),
-            (
-                include_bytes!(concat!(
-                    env!("CARGO_MANIFEST_DIR"),
-                    "/../../../samples/Alliance/Persistent.Mail.108518435177768053226"
-                )),
-                MailType::AllianceAOORegistration,
-            ),
         ];
 
         for (bytes, expected_type) in samples {
