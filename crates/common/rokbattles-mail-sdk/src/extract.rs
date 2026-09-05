@@ -1,24 +1,34 @@
-//! Shared JSON extraction helpers.
+//! Typed reads from decoded JSON objects.
+//!
+//! Required reads distinguish absent keys from invalid values. Optional reads
+//! treat missing keys and null as absent. Borrowed maps and slices reference
+//! the original input; returned strings and JSON numbers are owned.
 
 use serde_json::{Map, Value};
 
 use crate::{ExtractError, Section};
 
-/// Common top-level metadata pulled from a decoded mail object.
+/// Common mail metadata copied from the root object.
+///
+/// [`extract_base_metadata`] reads `id`, `time`, `receiver`, and `serverId`.
+/// Values are renamed for output without converting timestamp units or IDs.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BaseMetadata {
-    /// Mail identifier.
+    /// The root `id` string.
     pub mail_id: String,
-    /// Mail timestamp.
+    /// The root `time` integer, with its original units unchanged.
     pub mail_time: u64,
-    /// Mail receiver.
+    /// The root `receiver` string.
     pub mail_receiver: String,
-    /// Mail server.
+    /// The root `serverId` integer.
     pub server_id: u64,
 }
 
 impl BaseMetadata {
-    /// Turns the metadata into the standard `metadata` section.
+    /// Consumes the metadata and returns an object section with its output fields.
+    ///
+    /// The keys are `mail_id`, `mail_time`, `mail_receiver`, and `server_id`.
+    /// The caller or extractor assigns the section name, usually `metadata`.
     #[must_use]
     pub fn into_section(self) -> Section {
         let mut section = Section::new();
@@ -30,12 +40,21 @@ impl BaseMetadata {
     }
 }
 
-/// Returns the JSON object map or an extraction error.
+/// Borrows the object map inside `value`.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::NotObject`] if `value` is not an object.
 pub fn require_object(value: &Value) -> Result<&Map<String, Value>, ExtractError> {
     value.as_object().ok_or(ExtractError::NotObject)
 }
 
-/// Reads a required object field from a JSON map.
+/// Borrows the object stored at `field`.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] if the key is absent, or
+/// [`ExtractError::InvalidFieldType`] if its value is not an object, including null.
 pub fn require_child_object<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
@@ -44,19 +63,34 @@ pub fn require_child_object<'a>(
     value.as_object().ok_or(ExtractError::InvalidFieldType { field, expected: "object" })
 }
 
-/// Reads a required string field from a decoded mail object.
+/// Copies a required string from an object root.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::NotObject`] for a non-object root. Otherwise,
+/// returns the errors described by [`require_string_field`].
 pub fn require_string(input: &Value, field: &'static str) -> Result<String, ExtractError> {
     let object = require_object(input)?;
     require_string_field(object, field)
 }
 
-/// Reads a required unsigned integer field from a decoded mail object.
+/// Reads a required `u64` from an object root.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::NotObject`] for a non-object root. Otherwise,
+/// returns the errors described by [`require_u64_field`].
 pub fn require_u64(input: &Value, field: &'static str) -> Result<u64, ExtractError> {
     let object = require_object(input)?;
     require_u64_field(object, field)
 }
 
-/// Reads a required string field from a JSON map.
+/// Copies the string at `field`.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] for a non-string value, including null.
 pub fn require_string_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -68,7 +102,15 @@ pub fn require_string_field(
         .ok_or(ExtractError::InvalidFieldType { field, expected: "string" })
 }
 
-/// Reads a required unsigned integer field from a JSON map.
+/// Reads an integer JSON number representable as `u64`.
+///
+/// Strings and floating-point numbers are rejected, even if they represent
+/// a whole number. Use [`require_u64_or_string_field`] to accept numeric strings.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] if its value cannot be read as `u64`.
 pub fn require_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -77,7 +119,15 @@ pub fn require_u64_field(
     value.as_u64().ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
-/// Reads a required signed integer field from a JSON map.
+/// Reads an integer JSON number representable as `i64`.
+///
+/// Accepts signed and unsigned integer representations within `i64` bounds.
+/// Strings and floating-point numbers are rejected.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] for the wrong type or an out-of-range integer.
 pub fn require_i64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -87,7 +137,15 @@ pub fn require_i64_field(
         .ok_or(ExtractError::InvalidFieldType { field, expected: "signed 64-bit integer" })
 }
 
-/// Reads a required unsigned integer field that may be encoded as a numeric string.
+/// Reads a `u64` from an integer JSON number or a decimal string.
+///
+/// Strings use Rust's `u64` parser without trimming whitespace. Floating-point
+/// JSON numbers and fractional strings such as `"8.5"` are rejected.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] if conversion or string parsing fails.
 pub fn require_u64_or_string_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -97,7 +155,14 @@ pub fn require_u64_or_string_field(
         .ok_or(ExtractError::InvalidFieldType { field, expected: "unsigned integer" })
 }
 
-/// Reads a required boolean field from a JSON map.
+/// Reads the boolean at `field`.
+///
+/// Numeric and string representations of booleans are not converted.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] for a non-boolean value, including null.
 pub fn require_bool_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -106,7 +171,15 @@ pub fn require_bool_field(
     value.as_bool().ok_or(ExtractError::InvalidFieldType { field, expected: "boolean" })
 }
 
-/// Reads a required numeric field and keeps its JSON representation intact.
+/// Clones the JSON number at `field`, preserving its representation.
+///
+/// The result remains a [`Value::Number`]; no integer or floating-point cast
+/// is performed.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::MissingField`] for an absent key, or
+/// [`ExtractError::InvalidFieldType`] for a non-number value, including null.
 pub fn require_number_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -119,7 +192,12 @@ pub fn require_number_field(
     }
 }
 
-/// Reads an optional string field from a JSON map.
+/// Copies the string at `field`, returning `None` for a missing key or null.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a present, non-null
+/// value that is not a string.
 pub fn optional_string_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -131,7 +209,15 @@ pub fn optional_string_field(
     }
 }
 
-/// Reads an optional unsigned integer field from a JSON map.
+/// Reads an optional integer JSON number representable as `u64`.
+///
+/// A missing key or null returns `None`. Strings and floating-point numbers
+/// are rejected, as in [`require_u64_field`].
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] if a non-null value cannot
+/// be read as `u64`.
 pub fn optional_u64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -145,7 +231,15 @@ pub fn optional_u64_field(
     }
 }
 
-/// Reads an optional signed integer field from a JSON map.
+/// Reads an optional integer JSON number representable as `i64`.
+///
+/// A missing key or null returns `None`. Conversion follows
+/// [`require_i64_field`], including its range checks.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a present, non-null
+/// value with the wrong type or an out-of-range integer.
 pub fn optional_i64_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -158,7 +252,15 @@ pub fn optional_i64_field(
     }
 }
 
-/// Reads an optional unsigned integer field that may be encoded as a numeric string.
+/// Reads an optional `u64` from an integer JSON number or decimal string.
+///
+/// A missing key or null returns `None`. Conversion follows
+/// [`require_u64_or_string_field`].
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] if a present, non-null
+/// value cannot be converted or parsed as `u64`.
 pub fn optional_u64_or_string_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -171,7 +273,13 @@ pub fn optional_u64_or_string_field(
     }
 }
 
-/// Reads an optional unsigned integer field and defaults to zero when absent.
+/// Reads an optional `u64`, returning zero for a missing key or null.
+///
+/// Uses [`optional_u64_field`]; invalid values are not replaced with zero.
+///
+/// # Errors
+///
+/// Returns the errors from [`optional_u64_field`].
 pub fn optional_u64_field_or_zero(
     object: &Map<String, Value>,
     field: &'static str,
@@ -179,7 +287,14 @@ pub fn optional_u64_field_or_zero(
     Ok(optional_u64_field(object, field)?.unwrap_or_default())
 }
 
-/// Reads an optional boolean field from a JSON map.
+/// Reads a boolean, returning `None` for a missing key or null.
+///
+/// Numeric and string representations of booleans are not converted.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a present, non-null
+/// value that is not a boolean.
 pub fn optional_bool_field(
     object: &Map<String, Value>,
     field: &'static str,
@@ -193,7 +308,14 @@ pub fn optional_bool_field(
     }
 }
 
-/// Reads an optional number field and defaults to zero when it is missing.
+/// Clones a JSON number, returning integer zero for a missing key or null.
+///
+/// Present numbers keep their JSON representation. Numeric strings are rejected.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a present, non-null
+/// value that is not a number.
 pub fn optional_number_field_or_zero(
     object: &Map<String, Value>,
     field: &'static str,
@@ -205,7 +327,12 @@ pub fn optional_number_field_or_zero(
     }
 }
 
-/// Reads an optional object field from a JSON map.
+/// Borrows a child object, returning `None` for a missing key or null.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a present, non-null
+/// value that is not an object. This includes empty arrays.
 pub fn optional_child_object<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
@@ -219,13 +346,23 @@ pub fn optional_child_object<'a>(
     }
 }
 
-/// Reads an optional object field, treating an empty array as absent.
+/// Borrows a child object, treating a missing key, null, or `[]` as absent.
+///
+/// Use this for optional mail tables: the decoder represents an empty table
+/// as `[]`, even when the processor otherwise expects object fields. An empty
+/// object still returns `Some`.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] for a nonempty array or
+/// a non-null scalar value.
 pub fn optional_child_object_or_empty_array<'a>(
     object: &'a Map<String, Value>,
     field: &'static str,
 ) -> Result<Option<&'a Map<String, Value>>, ExtractError> {
     match object.get(field) {
         None | Some(Value::Null) => Ok(None),
+        // Empty mail tables carry no object/array distinction after decoding.
         Some(Value::Array(values)) if values.is_empty() => Ok(None),
         Some(value) => value
             .as_object()
@@ -246,7 +383,18 @@ fn value_to_u64(value: &Value) -> Option<u64> {
     }
 }
 
-/// Reads the top-level metadata fields most mail types share.
+/// Copies the required `id`, `time`, `receiver`, and `serverId` root fields.
+///
+/// The ID and receiver must be strings; time and server ID must be integer
+/// JSON numbers representable as `u64`. Numeric strings are not accepted.
+/// Fields are checked in the order listed. See [`BaseMetadata::into_section`]
+/// for the output names.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::NotObject`] for a non-object root,
+/// [`ExtractError::MissingField`] for the first absent key, or
+/// [`ExtractError::InvalidFieldType`] for the first invalid value.
 pub fn extract_base_metadata(input: &Value) -> Result<BaseMetadata, ExtractError> {
     Ok(BaseMetadata {
         mail_id: require_string(input, "id")?,
@@ -256,7 +404,14 @@ pub fn extract_base_metadata(input: &Value) -> Result<BaseMetadata, ExtractError
     })
 }
 
-/// Reads the values from a decoded JSON array.
+/// Borrows all elements of an array value, including an empty array.
+///
+/// `field` is used only as an error label; this function checks `value`
+/// directly rather than looking up a key.
+///
+/// # Errors
+///
+/// Returns [`ExtractError::InvalidFieldType`] if `value` is not an array.
 pub fn require_array<'a>(
     value: &'a Value,
     field: &'static str,
