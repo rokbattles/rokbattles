@@ -36,3 +36,6 @@ rokbattles-mail-processor-system-kahartreasure = { path = "../rokbattles-mail-pr
 
 [lib]
 doctest = false
+
+[lints]
+workspace = true

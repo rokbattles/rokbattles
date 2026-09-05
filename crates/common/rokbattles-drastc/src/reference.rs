@@ -100,10 +100,11 @@ mod tests {
     fn percentile_interpolates_sorted_values() {
         let values = [1.0, 2.0, 3.0, 4.0, 5.0];
 
-        assert_eq!(percentile(&values, 0.10), 1.4);
-        assert_eq!(percentile(&values, 0.90), 4.6);
+        assert!((percentile(&values, 0.10) - 1.4).abs() < 1e-12);
+        assert!((percentile(&values, 0.90) - 4.6).abs() < 1e-12);
     }
 
+    #[expect(clippy::cast_sign_loss, reason = "Clamped percentile ranks are nonnegative.")]
     fn percentile(sorted_values: &[f64], percentile: f64) -> f64 {
         match sorted_values {
             [] => 0.0,

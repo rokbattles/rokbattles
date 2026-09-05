@@ -30,17 +30,18 @@ use crate::{
 ///
 /// See [`decode`] for an example of reading a complete file.
 pub fn validate_file(buffer: &[u8]) -> Result<(), DecodeError> {
-    if buffer.len() < FILE_HEADER_LEN {
+    let Some((&marker, checksum)) = buffer.get(..FILE_HEADER_LEN).and_then(<[u8]>::split_first)
+    else {
         return Err(DecodeError::HeaderTooShort {
             required: FILE_HEADER_LEN,
             actual: buffer.len(),
         });
-    }
-    if buffer[0] != FILE_MARKER {
-        return Err(DecodeError::InvalidFileMarker { expected: FILE_MARKER, found: buffer[0] });
+    };
+    if marker != FILE_MARKER {
+        return Err(DecodeError::InvalidFileMarker { expected: FILE_MARKER, found: marker });
     }
 
-    let stored = u64::from_le_bytes(bytes8(&buffer[1..FILE_HEADER_LEN])?);
+    let stored = u64::from_le_bytes(bytes8(checksum)?);
     let computed = file_checksum(buffer);
     if stored != computed {
         return Err(DecodeError::ChecksumMismatch { stored, computed });
@@ -73,7 +74,10 @@ pub fn validate_file(buffer: &[u8]) -> Result<(), DecodeError> {
 /// ```
 pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
     validate_file(buffer)?;
-    decode_value_at(&buffer[FILE_HEADER_LEN..], FILE_HEADER_LEN)
+    let payload = buffer
+        .get(FILE_HEADER_LEN..)
+        .ok_or(DecodeError::HeaderTooShort { required: FILE_HEADER_LEN, actual: buffer.len() })?;
+    decode_value_at(payload, FILE_HEADER_LEN)
 }
 
 /// Decodes exactly one headerless `Persistent.Mail` value into a JSON value.
@@ -222,7 +226,7 @@ impl<'a> Decoder<'a> {
         let bytes = self.read_exact(length)?;
         std::str::from_utf8(bytes)
             .map(str::to_owned)
-            .map_err(|_| DecodeError::InvalidUtf8 { offset: start })
+            .map_err(|_utf8_error| DecodeError::InvalidUtf8 { offset: start })
     }
 
     fn read_u32_le(&mut self) -> Result<u32, DecodeError> {
@@ -242,13 +246,12 @@ impl<'a> Decoder<'a> {
 
     fn read_exact(&mut self, len: usize) -> Result<&'a [u8], DecodeError> {
         let end = self.pos.saturating_add(len);
-        if end > self.buffer.len() {
-            return Err(DecodeError::UnexpectedEof { needed: len, remaining: self.remaining() });
-        }
-
-        let start = self.pos;
+        let bytes = self
+            .buffer
+            .get(self.pos..end)
+            .ok_or(DecodeError::UnexpectedEof { needed: len, remaining: self.remaining() })?;
         self.pos = end;
-        Ok(&self.buffer[start..end])
+        Ok(bytes)
     }
 
     fn peek_u8(&self) -> Option<u8> {
@@ -258,45 +261,44 @@ impl<'a> Decoder<'a> {
 
 fn bytes4(bytes: &[u8]) -> Result<[u8; 4], DecodeError> {
     <[u8; 4]>::try_from(bytes)
-        .map_err(|_| DecodeError::UnexpectedEof { needed: 4, remaining: bytes.len() })
+        .map_err(|_length_error| DecodeError::UnexpectedEof { needed: 4, remaining: bytes.len() })
 }
 
 fn bytes8(bytes: &[u8]) -> Result<[u8; 8], DecodeError> {
     <[u8; 8]>::try_from(bytes)
-        .map_err(|_| DecodeError::UnexpectedEof { needed: 8, remaining: bytes.len() })
+        .map_err(|_length_error| DecodeError::UnexpectedEof { needed: 8, remaining: bytes.len() })
 }
 
 fn number_value(value: f64) -> Result<Value, DecodeError> {
     if !value.is_finite() {
         return Err(DecodeError::NonFiniteNumber { value });
     }
-    Ok(Value::Number(normalize_number(value)))
+    normalize_number(value).map(Value::Number)
 }
 
 // Callers reject non-finite values before normalization. Integer numbers also let
 // table classification recognize array indices through `Number::as_u64`.
-fn normalize_number(value: f64) -> Number {
+fn normalize_number(value: f64) -> Result<Number, DecodeError> {
     // Collapse both signs of zero to the same JSON number and table key.
     if value == 0.0 {
-        return Number::from(0);
+        return Ok(Number::from(0));
     }
 
     if value.fract() == 0.0 {
         if value.is_sign_positive() {
             if let Some(int) = to_u64_exact(value) {
-                return Number::from(int);
+                return Ok(Number::from(int));
             }
         } else if let Some(int) = to_i64_exact(value) {
-            return Number::from(int);
+            return Ok(Number::from(int));
         }
     }
 
-    let Some(number) = Number::from_f64(value) else {
-        unreachable!("finite f64 is a JSON number");
-    };
-    number
+    Number::from_f64(value).ok_or(DecodeError::NonFiniteNumber { value })
 }
 
+#[expect(clippy::cast_sign_loss, reason = "Negative values are rejected before casting.")]
+#[expect(clippy::float_cmp, reason = "Integer normalization requires an exact round trip.")]
 fn to_u64_exact(value: f64) -> Option<u64> {
     if value < 0.0 || value > u64::MAX as f64 {
         return None;
@@ -306,6 +308,7 @@ fn to_u64_exact(value: f64) -> Option<u64> {
     ((int as f64) == value).then_some(int)
 }
 
+#[expect(clippy::float_cmp, reason = "Integer normalization requires an exact round trip.")]
 fn to_i64_exact(value: f64) -> Option<i64> {
     if value < i64::MIN as f64 || value > i64::MAX as f64 {
         return None;

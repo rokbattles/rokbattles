@@ -51,10 +51,11 @@ impl Extractor for OpponentsExtractor {
             }
 
             for handle in handles {
-                let result = handle.join().map_err(|_| ExtractError::InvalidFieldType {
-                    field: "Attacks",
-                    expected: "non-panicking extraction",
-                })?;
+                let result =
+                    handle.join().map_err(|_panic_payload| ExtractError::InvalidFieldType {
+                        field: "Attacks",
+                        expected: "non-panicking extraction",
+                    })?;
                 results.push(result?);
             }
             Ok::<(), ExtractError>(())
@@ -82,18 +83,8 @@ fn require_attacks(content: &Map<String, Value>) -> Result<&Map<String, Value>, 
 /// Suffixes are allowed and retained separately; a key without leading digits
 /// or with an overflowing prefix fails extraction.
 fn parse_attack_id(attack_id: &str) -> Result<u64, ExtractError> {
-    let end = attack_id
-        .char_indices()
-        .find(|&(_, ch)| !ch.is_ascii_digit())
-        .map(|(idx, _)| idx)
-        .unwrap_or_else(|| attack_id.len());
-    if end == 0 {
-        return Err(ExtractError::InvalidFieldType {
-            field: "Attacks",
-            expected: "numeric object key",
-        });
-    }
-    attack_id[..end].parse::<u64>().map_err(|_| ExtractError::InvalidFieldType {
+    let prefix = attack_id.split(|ch: char| !ch.is_ascii_digit()).next().unwrap_or_default();
+    prefix.parse::<u64>().map_err(|_parse_error| ExtractError::InvalidFieldType {
         field: "Attacks",
         expected: "numeric object key",
     })
@@ -528,6 +519,20 @@ mod tests {
         assert_eq!(parse_attack_id("79272307").unwrap(), 79272307);
         assert_eq!(parse_attack_id("79272307_1").unwrap(), 79272307);
         assert_eq!(parse_attack_id("79272307_extra").unwrap(), 79272307);
+        assert_eq!(parse_attack_id("79272307敵").unwrap(), 79272307);
+    }
+
+    #[test]
+    fn parse_attack_id_rejects_missing_or_overflowing_prefixes() {
+        for key in ["", "敵79272307", "-1", "18446744073709551616"] {
+            assert_eq!(
+                parse_attack_id(key),
+                Err(ExtractError::InvalidFieldType {
+                    field: "Attacks",
+                    expected: "numeric object key",
+                }),
+            );
+        }
     }
 
     #[test]

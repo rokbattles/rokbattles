@@ -478,7 +478,7 @@ mod tests {
         let object = value.as_object().expect("object");
 
         assert_eq!(require_i64_field(object, "negative"), Ok(-7));
-        assert!(require_i64_field(object, "positive").is_err());
+        require_i64_field(object, "positive").expect_err("out-of-range unsigned value");
     }
 
     #[test]
@@ -488,7 +488,7 @@ mod tests {
 
         assert_eq!(require_u64_or_string_field(object, "number"), Ok(7));
         assert_eq!(require_u64_or_string_field(object, "string"), Ok(8));
-        assert!(require_u64_or_string_field(object, "invalid").is_err());
+        require_u64_or_string_field(object, "invalid").expect_err("non-integer string");
     }
 
     #[test]
