@@ -1,3 +1,5 @@
+//! Scores sample coverage independently of battle performance.
+
 use serde::Serialize;
 
 const EFFECTIVE_GOVERNOR_TARGET: f64 = 200.0;
@@ -5,22 +7,53 @@ const BATTLE_TARGET: f64 = 5_000.0;
 const GOVERNOR_WEIGHT: f64 = 0.70;
 const BATTLE_WEIGHT: f64 = 0.30;
 
-/// Confidence in a DRASTC score's open-field battle sample.
+/// A sample-coverage score based on battle count and governor concentration.
+///
+/// This is a heuristic on a 0–10 scale, not a statistical confidence interval
+/// or a probability that a performance score is correct. It is calculated
+/// separately from [`crate::DrastcModel`] and does not alter category weights.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DrastcConfidence {
-    /// Confidence score on a 0-10 scale.
+    /// Combined governor-coverage and battle-count score on a 0–10 scale.
     pub score: f64,
-    /// Number of distinct identified governors in the sample.
+    /// Number of distinct identified governors, as supplied by the caller.
     pub unique_governors: u64,
-    /// Concentration-adjusted number of governors represented by the sample.
+    /// Effective governor count, `total_battles^2 / sum(governor_battles^2)`.
+    /// Equal contributions give the actual governor count; concentrated
+    /// contributions reduce it when the supplied totals are consistent.
     pub effective_governors: f64,
 }
 
 impl DrastcConfidence {
-    /// Calculate confidence from an open-field governor battle distribution.
+    /// Calculates sample coverage from a governor battle-count distribution.
     ///
-    /// `governor_battles_squared_sum` is the sum of each governor's squared battle count.
+    /// Supply `total_battles = sum(n_i)`, `unique_governors` as the number of
+    /// contributing governors, and `governor_battles_squared_sum = sum(n_i^2)`,
+    /// where `n_i` is one governor's battle count. These inputs must describe
+    /// the same sample; their consistency is not checked.
+    ///
+    /// Effective governors and battle count each produce a factor
+    /// `1 - 10^(-value / target)`, using targets of 200 governors and 5,000
+    /// battles. The result is `10 * governor_factor^0.7 * battle_factor^0.3`.
+    /// Each factor reaches 0.9 at its target and approaches 1 as coverage grows.
+    ///
+    /// Returns zero score and effective governors if either count is zero or
+    /// the squared sum is non-finite or non-positive. `unique_governors` is
+    /// always returned unchanged and is not otherwise used in the formula.
+    ///
+    /// # Examples
+    ///
+    /// Two governors contributing 50 battles each have an effective count of two:
+    ///
+    /// ```
+    /// use rokbattles_drastc::DrastcConfidence;
+    ///
+    /// let confidence = DrastcConfidence::from_governor_distribution(
+    ///     100, 2, 50.0_f64.powi(2) + 50.0_f64.powi(2),
+    /// );
+    /// assert_eq!(confidence.effective_governors, 2.0);
+    /// ```
     pub fn from_governor_distribution(
         total_battles: u64,
         unique_governors: u64,
@@ -35,10 +68,13 @@ impl DrastcConfidence {
         }
 
         let total_battles_f64 = total_battles as f64;
+        // Inverting the sum of squared contribution shares discounts samples
+        // dominated by a few governors, even when many IDs appear in the data.
         let effective_governors =
             total_battles_f64 * total_battles_f64 / governor_battles_squared_sum;
         let governor_factor = exponential_factor(effective_governors, EFFECTIVE_GOVERNOR_TARGET);
         let battle_factor = exponential_factor(total_battles_f64, BATTLE_TARGET);
+        // The geometric combination requires both coverage factors to contribute.
         let score =
             10.0 * governor_factor.powf(GOVERNOR_WEIGHT) * battle_factor.powf(BATTLE_WEIGHT);
 

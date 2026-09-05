@@ -1,9 +1,19 @@
+//! Static commander inputs and their fixed scoring curves.
+//!
+//! Rage depends on an ordered pairing in the selected table. Assist sums two
+//! independent commander lookups. Unknown entries contribute zero; no battle
+//! measurements are used to derive either category here.
+
 use crate::CategoryScore;
 
-/// Static Rage entries used by a DRASTC model.
+/// Static entries mapping ordered commander pairs to average skill cycles.
+///
+/// Models start with an empty table. Select a built-in table or supply a custom
+/// static slice through [`crate::DrastcModel::set_rage_table`]. Lookup uses the
+/// first matching entry; the reverse pairing must have its own entry.
 pub type RageTable = &'static [RagePairing];
 
-/// Season of Conquest Rage values.
+/// Built-in average skill cycles for Season of Conquest pairings.
 pub const SOC_RAGE_TABLE: RageTable = &[
     RagePairing::new(575, 579, 8.0),
     RagePairing::new(579, 575, 8.0),
@@ -64,7 +74,7 @@ pub const SOC_RAGE_TABLE: RageTable = &[
     RagePairing::new(459, 616, 7.5),
 ];
 
-/// Pre-Season of Conquest Rage values.
+/// Built-in average skill cycles for pre-Season of Conquest pairings.
 pub const PRESOC_RAGE_TABLE: RageTable = &[
     RagePairing::new(141, 6, 8.5),
     RagePairing::new(141, 99, 9.7),
@@ -86,6 +96,7 @@ pub const PRESOC_RAGE_TABLE: RageTable = &[
     RagePairing::new(64, 618, 8.0),
 ];
 
+// Assist belongs to individual commanders and is shared by both Rage tables.
 const ASSIST_TABLE: &[AssistCommander] = &[
     AssistCommander::new(575, 8.0),
     AssistCommander::new(99, 50.2),
@@ -142,12 +153,18 @@ const ASSIST_TABLE: &[AssistCommander] = &[
     AssistCommander::new(179, 30.0),
 ];
 
-/// Static Rage/Assist inputs for a pairing.
+/// Raw theoretical inputs used to derive Rage and Assist scores.
+///
+/// A model looks these up from its selected pairing at evaluation time. Rage
+/// maps cycles from 10 down to 4 onto scores from 0 to 10. Assist maps values
+/// from 0 to 100 onto the same score range. Both clamp before applying the
+/// exponent `0.55`; non-positive or non-finite inputs produce all-zero category
+/// fields. [`Default::default`] supplies zero for both inputs.
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct TheoreticalValues {
-    /// Theoretical average skill cycle.
+    /// Theoretical average skill cycle; shorter cycles receive higher Rage scores.
     pub avg_cycle: f64,
-    /// Raw assist/support value on a 0-100 scale.
+    /// Combined raw support value, normalized against 0–100 and capped when scored.
     pub assist_raw: f64,
 }
 
@@ -158,12 +175,25 @@ pub struct RagePairing {
     pub primary_commander_id: u32,
     /// Secondary commander ID.
     pub secondary_commander_id: u32,
-    /// Theoretical average skill cycle for this ordered pairing.
+    /// Raw average skill cycle for this ordered pairing; shorter cycles score higher.
     pub avg_cycle: f64,
 }
 
 impl RagePairing {
-    /// Create a static Rage-table entry.
+    /// Creates an ordered pairing entry without validating IDs or cycle length.
+    ///
+    /// Non-positive or non-finite cycles receive a zero Rage score. Table
+    /// membership still makes the pairing supported, regardless of its cycle.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use rokbattles_drastc::{DrastcModel, RagePairing, RageTable};
+    ///
+    /// const CUSTOM: RageTable = &[RagePairing::new(1, 2, 6.0)];
+    /// assert!(DrastcModel::is_supported(CUSTOM, 1, 2));
+    /// assert!(!DrastcModel::is_supported(CUSTOM, 2, 1));
+    /// ```
     pub const fn new(
         primary_commander_id: u32,
         secondary_commander_id: u32,
@@ -191,7 +221,10 @@ impl AssistCommander {
 }
 
 impl TheoreticalValues {
-    /// Create theoretical Rage/Assist inputs.
+    /// Creates raw inputs without validating or clamping either value.
+    ///
+    /// This value does not configure a model; [`crate::DrastcModel::set_theoretical`]
+    /// selects commander IDs for lookup instead.
     pub const fn new(avg_cycle: f64, assist_raw: f64) -> Self {
         Self { avg_cycle, assist_raw }
     }
@@ -232,6 +265,8 @@ pub(crate) fn theoretical_for_pairing(
         .iter()
         .find(|pairing| pairing.matches(primary_commander_id, secondary_commander_id))
         .map_or(0.0, |pairing| pairing.avg_cycle);
+    // Assist is independent of Rage membership: a known commander contributes
+    // even when this ordered pairing has no Rage entry.
     let assist_raw = assist_raw_for_commander(primary_commander_id)
         + assist_raw_for_commander(secondary_commander_id);
 
@@ -247,6 +282,7 @@ pub(crate) fn is_supported_pairing(
 }
 
 fn rage_score(avg_cycle: f64) -> f64 {
+    // Reverse the scale: a cycle of 4 reaches the top, and 10 reaches the bottom.
     let scaled = ((10.0 - avg_cycle) / 6.0).clamp(0.0, 1.0);
     10.0 * scaled.powf(0.55)
 }
