@@ -4588,6 +4588,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "rokbattles-container"
+version = "1.6.1"
+dependencies = [
+ "crc32fast",
+ "js-sys",
+ "serde_json",
+ "thiserror 2.0.20",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "rokbattles-desktop"
 version = "1.6.1"
 dependencies = [

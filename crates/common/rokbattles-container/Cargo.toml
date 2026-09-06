@@ -1,0 +1,24 @@
+[package]
+name = "rokbattles-container"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[features]
+default = ["read", "write"]
+read = ["dep:crc32fast", "dep:serde_json"]
+write = ["dep:crc32fast", "dep:serde_json"]
+wasm-read = ["read", "dep:wasm-bindgen", "dep:js-sys"]
+
+[dependencies]
+thiserror.workspace = true
+crc32fast = { workspace = true, optional = true }
+serde_json = { workspace = true, optional = true }
+wasm-bindgen = { workspace = true, optional = true }
+js-sys = { workspace = true, optional = true }
+
+[lints]
+workspace = true
