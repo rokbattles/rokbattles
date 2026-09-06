@@ -113,7 +113,7 @@ export class TerritoryDataSource {
       this.costs[API_BUILDING_KIND[apiKind]] = tiers;
     }
     for (const [x, y] of config.spatial.chunks) {
-      this.chunkPaths.set(key(x, y), `chunks/${x}_${y}.rtp`);
+      this.chunkPaths.set(key(x, y), `chunks/${x}_${y}.bin`);
     }
   }
 
@@ -129,16 +129,16 @@ export class TerritoryDataSource {
     const baseUrl = getTerritoryDataBaseUrl(config.slug);
     const imageUrl = getGameMapUrl(config.imageFile);
     const [definitionsBuffer, provinceBuffer, image] = await Promise.all([
-      fetchBuffer(`${baseUrl}mesh.rtp`, signal),
+      fetchBuffer(`${baseUrl}mesh.bin`, signal),
       config.spatial.province
-        ? fetchBuffer(`${baseUrl}province.rtp`, signal)
+        ? fetchBuffer(`${baseUrl}province.bin`, signal)
         : Promise.resolve(null),
       loadImage(imageUrl, signal),
     ]);
     return new TerritoryDataSource(
       config,
-      decodeMeshDefinitions(definitionsBuffer),
-      provinceBuffer ? decodeProvinceGrid(provinceBuffer) : null,
+      await decodeMeshDefinitions(definitionsBuffer),
+      provinceBuffer ? await decodeProvinceGrid(provinceBuffer) : null,
       baseUrl,
       image
     );
@@ -153,8 +153,8 @@ export class TerritoryDataSource {
     const existing = this.chunkPromises.get(chunkKey);
     if (existing) return existing;
     const promise = fetchBuffer(`${this.baseUrl}${path}`, signal)
-      .then((buffer) => {
-        const chunk = decodeSpatialChunk(buffer);
+      .then(async (buffer) => {
+        const chunk = await decodeSpatialChunk(buffer);
         this.chunks.set(chunkKey, chunk);
         return chunk;
       })
