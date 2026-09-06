@@ -11,10 +11,13 @@ crate-type = ["rlib", "cdylib"]
 default = ["read", "write"]
 read = ["dep:crc32fast", "dep:serde_json"]
 write = ["dep:crc32fast", "dep:serde_json"]
-wasm-read = ["read", "dep:wasm-bindgen", "dep:js-sys"]
+schemas = ["read", "dep:serde"]
+wasm-read = ["schemas", "dep:wasm-bindgen", "dep:js-sys", "dep:serde-wasm-bindgen"]
 
 [dependencies]
 thiserror.workspace = true
+serde = { workspace = true, optional = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true, optional = true }
 crc32fast = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 wasm-bindgen = { workspace = true, optional = true }

@@ -7,7 +7,9 @@
 //! Enable `read` for the Rust reader, `write` for the writers, or `wasm-read`
 //! for JavaScript bindings to the same reader. The default features are `read`
 //! and `write`. Built-in schemas support bytes, UTF-8 text, and JSON; callers
-//! supply the serialization and decoding logic for application schemas.
+//! supply the serialization and decoding logic for application schemas. Enable
+//! `schemas` for territory planner schemas 401–403; `wasm-read` includes it.
+//! Reserved schemas 1–3 do not require `schemas`.
 //!
 //! Masking is reversible using the public seed. CRC32 detects accidental
 //! payload corruption; neither mechanism authenticates the file or restricts
@@ -35,6 +37,8 @@ mod error;
 mod mask;
 #[cfg(feature = "read")]
 mod read;
+#[cfg(feature = "schemas")]
+pub mod schemas;
 #[cfg(feature = "wasm-read")]
 pub mod wasm;
 #[cfg(feature = "write")]

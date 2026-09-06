@@ -23,7 +23,7 @@ pub struct Envelope<'a> {
     pub payload: &'a [u8],
 }
 
-/// A value decoded using one of the built-in schemas.
+/// A value decoded using one of the enabled schemas.
 #[derive(Debug, PartialEq)]
 #[non_exhaustive]
 pub enum Value {
@@ -33,6 +33,15 @@ pub enum Value {
     Text(String),
     /// Parsed JSON (schema 3).
     Json(serde_json::Value),
+    /// Territory mesh definitions (schema 401).
+    #[cfg(feature = "schemas")]
+    TerritoryMesh(Vec<crate::schemas::territory::MeshDefinition>),
+    /// Territory spatial chunk (schema 402).
+    #[cfg(feature = "schemas")]
+    TerritoryChunk(crate::schemas::territory::SpatialChunk),
+    /// Territory province grid (schema 403).
+    #[cfg(feature = "schemas")]
+    TerritoryProvince(crate::schemas::territory::ProvinceGrid),
 }
 
 /// Header metadata and a schema-decoded value.
@@ -75,7 +84,7 @@ impl Reader {
         Ok(Envelope { header, payload })
     }
 
-    /// Unmasks a file in place and decodes its built-in payload schema.
+    /// Unmasks a file in place and decodes its enabled payload schema.
     ///
     /// The decoded value owns its data. Use [`Self::read_envelope`] to borrow
     /// the payload instead. The input remains unmasked after a successful read.
@@ -83,14 +92,15 @@ impl Reader {
     /// # Errors
     ///
     /// Returns envelope validation errors, [`Error::UnknownSchema`] for an
-    /// unsupported schema, or an error for invalid UTF-8 or JSON. As with
+    /// unsupported schema, or an error for invalid payload fields or exceeded
+    /// schema limits. As with
     /// [`Self::read_envelope`], errors after unmasking leave the input modified;
     /// reload the original file before retrying.
     pub fn decode(&self, bytes: &mut [u8]) -> Result<Decoded, Error> {
         self.decode_expected(bytes, None)
     }
 
-    /// Decodes a file, optionally requiring a particular built-in schema.
+    /// Decodes a file, optionally requiring a particular enabled schema.
     ///
     /// Passing `None` has the same behavior as [`Self::decode`].
     ///
@@ -115,6 +125,9 @@ impl Reader {
             schema::BYTES => Value::Bytes(envelope.payload.to_vec()),
             schema::TEXT => Value::Text(std::str::from_utf8(envelope.payload)?.to_owned()),
             schema::JSON => Value::Json(serde_json::from_slice(envelope.payload)?),
+            #[cfg(feature = "schemas")]
+            id => crate::schemas::territory::decode(id, envelope.payload)?,
+            #[cfg(not(feature = "schemas"))]
             id => return Err(Error::UnknownSchema(id)),
         };
         Ok(Decoded { header: envelope.header, value })
@@ -315,6 +328,19 @@ mod tests {
             Reader::default().decode(&mut file.clone()),
             Err(Error::UnknownSchema(256))
         ));
+    }
+
+    #[cfg(all(feature = "write", not(feature = "schemas")))]
+    #[test]
+    fn application_schemas_remain_raw_without_the_feature() {
+        let file = write_envelope(401, &[1, 0], 42).expect("write");
+        assert!(matches!(
+            Reader::default().decode(&mut file.clone()),
+            Err(Error::UnknownSchema(401))
+        ));
+        let mut raw = file;
+        let envelope = Reader::default().read_envelope(&mut raw).expect("envelope");
+        assert_eq!(envelope.payload, &[1, 0]);
     }
 
     #[cfg(feature = "write")]

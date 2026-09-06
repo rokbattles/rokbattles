@@ -1,7 +1,7 @@
 //! JavaScript bindings for the Rust reader.
 //!
 //! Exported classes own Rust allocations. JavaScript callers release them with
-//! `free()` after use. Decoded byte arrays and JSON values are JavaScript-owned
+//! `free()` after use. Decoded values are JavaScript-owned
 //! copies and remain valid after releasing the result wrapper.
 
 use wasm_bindgen::prelude::*;
@@ -9,10 +9,7 @@ use wasm_bindgen::prelude::*;
 use crate::{Error, HEADER_LEN, ReadLimits, Reader, schema};
 
 #[wasm_bindgen(typescript_custom_section)]
-const VALUE_TYPES: &str = "
-export type JsonValue = null | boolean | number | bigint | string | JsonValue[] | { [key: string]: JsonValue };
-export type ContainerValue = Uint8Array | JsonValue;
-";
+const VALUE_TYPES: &str = include_str!("wasm-types.ts");
 
 /// Reader for browsers and Node.js, exported as the JavaScript class `Reader`.
 #[wasm_bindgen(js_name = Reader)]
@@ -40,7 +37,9 @@ impl DecodedValue {
     ///
     /// Bytes become `Uint8Array`, text becomes `string`, and JSON becomes
     /// JavaScript objects and arrays. JSON integers become `BigInt`, including
-    /// small integers; floating-point values become `Number`.
+    /// small integers; floating-point values become `Number`. Territory schema
+    /// values use JavaScript numbers and objects, with province cells exported
+    /// as `Uint8Array` and blocked province IDs as arrays.
     #[wasm_bindgen(getter, unchecked_return_type = "ContainerValue")]
     pub fn value(&self) -> JsValue {
         self.value.clone()
@@ -76,6 +75,7 @@ impl WasmReader {
     /// Throws a JavaScript `Error` on invalid input, an unexpected schema, or
     /// failure to construct the decoded JavaScript value. A supplied schema ID
     /// must be an integer in `1..=u16::MAX`; `null` and `undefined` omit the check.
+    #[wasm_bindgen(skip_typescript)]
     pub fn decode(
         &self,
         bytes: &js_sys::Uint8Array,
@@ -102,7 +102,18 @@ impl WasmReader {
                 let json = serde_json::from_slice(decoded.payload).map_err(Error::from)?;
                 json_to_js(json)?
             }
-            id => return Err(Error::UnknownSchema(id).into()),
+            id => {
+                let value = crate::schemas::territory::decode(id, decoded.payload)?;
+                let serializer =
+                    serde_wasm_bindgen::Serializer::new().serialize_missing_as_null(true);
+                use serde::Serialize;
+                match value {
+                    crate::Value::TerritoryMesh(value) => value.serialize(&serializer)?,
+                    crate::Value::TerritoryChunk(value) => value.serialize(&serializer)?,
+                    crate::Value::TerritoryProvince(value) => value.serialize(&serializer)?,
+                    _ => return Err(Error::UnknownSchema(id).into()),
+                }
+            }
         };
         Ok(DecodedValue { schema_id: decoded.header.schema_id, value })
     }
