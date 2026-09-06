@@ -3,7 +3,7 @@
 use crate::{
     RuntimeArtifact,
     artifact::LOGIN_API_ID,
-    protobuf::{ProtocolError, effective_message, mail_candidates, parse_handshake, parse_login},
+    protobuf::{ProtocolError, mail_candidates, parse_handshake, parse_login, visit_messages},
 };
 
 /// Maximum body length accepted from a short or extended frame prefix.
@@ -117,9 +117,7 @@ impl<'a> ServerStreamProcessor<'a> {
                     return Ok(events);
                 };
                 if remaining == 0 {
-                    if let Some(event) = self.complete_frame()? {
-                        events.push(event);
-                    }
+                    events.extend(self.complete_frame()?);
                     continue;
                 }
             }
@@ -139,10 +137,8 @@ impl<'a> ServerStreamProcessor<'a> {
             position = end;
             let next_remaining = remaining.saturating_sub(take);
             self.remaining = Some(next_remaining);
-            if next_remaining == 0
-                && let Some(event) = self.complete_frame()?
-            {
-                events.push(event);
+            if next_remaining == 0 {
+                events.extend(self.complete_frame()?);
             }
         }
         Ok(events)
@@ -176,34 +172,41 @@ impl<'a> ServerStreamProcessor<'a> {
         Ok(())
     }
 
-    fn complete_frame(&mut self) -> Result<Option<StreamEvent>, StreamError> {
+    fn complete_frame(&mut self) -> Result<Vec<StreamEvent>, StreamError> {
         self.remaining = None;
-        let event = if self.frame_index == 0 {
+        let mut events = Vec::new();
+        if self.frame_index == 0 {
             let (key1, _key2) = parse_handshake(&self.body, self.artifact)
                 .map_err(|_error| StreamError::UnsupportedHandshake)?;
             self.cipher = Some(StreamCipher::new(server_secret(key1)));
-            None
         } else {
-            let message = effective_message(&self.body, self.artifact)?;
-            if message.api_id == LOGIN_API_ID {
-                let (player_id, server_id) = parse_login(&message.payload, self.artifact)?;
-                Some(StreamEvent::Login { player_id, server_id })
-            } else if self.artifact.carriers.contains_key(&message.api_id) {
-                let candidates = mail_candidates(&message.payload, self.artifact, message.api_id)?;
-                (!candidates.entries.is_empty() || candidates.remaining.is_some()).then_some(
-                    StreamEvent::Mails {
-                        server_id: candidates.server_id,
-                        entries: candidates.entries,
-                        remaining: candidates.remaining,
-                    },
-                )
-            } else {
-                None
-            }
-        };
+            let mut entry_budget = crate::protobuf::MAX_MAIL_ENTRIES;
+            visit_messages(&self.body, self.artifact, |message| {
+                if message.api_id == LOGIN_API_ID {
+                    let (player_id, server_id) = parse_login(&message.payload, self.artifact)?;
+                    events.push(StreamEvent::Login { player_id, server_id });
+                } else if self.artifact.carriers.contains_key(&message.api_id) {
+                    let candidates = mail_candidates(
+                        &message.payload,
+                        self.artifact,
+                        message.api_id,
+                        entry_budget,
+                    )?;
+                    entry_budget -= candidates.entries.len();
+                    if !candidates.entries.is_empty() || candidates.remaining.is_some() {
+                        events.push(StreamEvent::Mails {
+                            server_id: candidates.server_id,
+                            entries: candidates.entries,
+                            remaining: candidates.remaining,
+                        });
+                    }
+                }
+                Ok(())
+            })?;
+        }
         self.frame_index = self.frame_index.saturating_add(1);
         self.body.clear();
-        Ok(event)
+        Ok(events)
     }
 }
 
@@ -492,6 +495,117 @@ mod tests {
                 .sum::<usize>(),
             5
         );
+    }
+
+    #[test]
+    fn compound_frame_preserves_login_and_five_distinct_reports_before_other_messages() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let entries: Vec<_> = (0..5)
+            .map(|index| {
+                [bytes_field(1, format!("report-{index}").as_bytes()), bytes_field(9, b"Battle")]
+                    .concat()
+            })
+            .collect();
+        let mut compound = bytes_field(
+            1,
+            &msg(LOGIN_API_ID, &[varint_field(1, 42), varint_field(2, 1804)].concat()),
+        );
+        for entry in &entries {
+            compound.extend(bytes_field(1, &msg(7909, &bytes_field(1, entry))));
+        }
+        compound.extend(bytes_field(1, &msg(54, &[])));
+        let mut cipher = StreamCipher::new(server_secret(626_273_431));
+        let mut stream = frame(HANDSHAKE_BODY);
+        stream.extend(encrypted_frame(
+            &mut cipher,
+            &msg(crate::artifact::COMPRESSED_API_ID, &compressed_payload(&compound)),
+        ));
+        for chunk_size in [1, 7, stream.len()] {
+            let mut processor = ServerStreamProcessor::new(&artifact);
+            let events: Vec<_> = stream
+                .chunks(chunk_size)
+                .flat_map(|chunk| processor.push(chunk).expect("compound should decode"))
+                .collect();
+            assert!(matches!(
+                events.first(),
+                Some(StreamEvent::Login { player_id: 42, server_id: 1804 })
+            ));
+            let observed: Vec<_> = events
+                .into_iter()
+                .filter_map(|event| match event {
+                    StreamEvent::Mails { entries, .. } => Some(entries),
+                    _ => None,
+                })
+                .flatten()
+                .collect();
+            assert_eq!(observed, entries);
+        }
+    }
+
+    #[test]
+    fn compound_rejects_excess_members_and_malformed_later_messages() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let valid = bytes_field(1, &msg(7909, &carrier_payload(1)));
+        for compound in [
+            [valid.clone(), bytes_field(1, &[0])].concat(),
+            [valid.clone(), varint_field(1, 0)].concat(),
+            valid.repeat(crate::protobuf::MAX_COMPOUND_MESSAGES + 1),
+        ] {
+            let mut processor = ServerStreamProcessor::new(&artifact);
+            let mut cipher = StreamCipher::new(server_secret(626_273_431));
+            let mut stream = frame(HANDSHAKE_BODY);
+            stream.extend(encrypted_frame(
+                &mut cipher,
+                &msg(crate::artifact::COMPRESSED_API_ID, &compressed_payload(&compound)),
+            ));
+            assert!(
+                processor.push(&stream).is_err(),
+                "invalid compound must not return partial mail events"
+            );
+        }
+    }
+
+    #[test]
+    fn mail_entry_budget_applies_across_carriers_and_resets_each_frame() {
+        let artifact = RuntimeArtifact::test_fixture();
+        let half = bytes_field(1, &[]).repeat(crate::protobuf::MAX_MAIL_ENTRIES / 2);
+        let member = bytes_field(1, &msg(7921, &half));
+        let at_limit = member.repeat(2);
+        for (compound, accepted) in [
+            (at_limit.clone(), true),
+            ([at_limit, bytes_field(1, &msg(7921, &bytes_field(1, &[])))].concat(), false),
+            (
+                bytes_field(
+                    1,
+                    &msg(7921, &bytes_field(1, &[]).repeat(crate::protobuf::MAX_MAIL_ENTRIES + 1)),
+                ),
+                false,
+            ),
+        ] {
+            let mut processor = ServerStreamProcessor::new(&artifact);
+            let mut cipher = StreamCipher::new(server_secret(626_273_431));
+            processor.push(&frame(HANDSHAKE_BODY)).expect("handshake should decode");
+            for _ in 0..2 {
+                let body = msg(crate::artifact::COMPRESSED_API_ID, &compressed_payload(&compound));
+                let result = processor.push(&encrypted_frame(&mut cipher, &body));
+                if accepted {
+                    let events = result.expect("exact entry limit should decode each frame");
+                    assert_eq!(
+                        events
+                            .iter()
+                            .map(|event| match event {
+                                StreamEvent::Mails { entries, .. } => entries.len(),
+                                _ => 0,
+                            })
+                            .sum::<usize>(),
+                        crate::protobuf::MAX_MAIL_ENTRIES
+                    );
+                } else {
+                    assert_eq!(result, Err(StreamError::Protocol));
+                    break;
+                }
+            }
+        }
     }
 
     #[test]

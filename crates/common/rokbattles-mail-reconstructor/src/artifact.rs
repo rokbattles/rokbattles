@@ -15,7 +15,7 @@ use serde::Deserialize;
 
 use crate::ReconstructionError;
 
-const CURRENT_SCHEMA_VERSION: u32 = 1;
+const CURRENT_SCHEMA_VERSION: u32 = 2;
 const MAX_ARTIFACT_BYTES: u64 = 32 * 1024 * 1024;
 
 /// Resolved envelope and split-attack field numbers, plus body descriptors.
@@ -60,7 +60,8 @@ impl MailSchema {
     fn from_slice(raw: &[u8]) -> Result<Self, ReconstructionError> {
         let artifact: ArtifactFile =
             serde_json::from_slice(raw).map_err(ReconstructionError::InvalidArtifactJson)?;
-        if artifact.schema_version != CURRENT_SCHEMA_VERSION {
+        // Version 2 adds source provenance without changing descriptor fields.
+        if !matches!(artifact.schema_version, 1 | CURRENT_SCHEMA_VERSION) {
             return Err(ReconstructionError::UnsupportedArtifactVersion {
                 actual: artifact.schema_version,
                 expected: CURRENT_SCHEMA_VERSION,
@@ -408,12 +409,12 @@ mod tests {
 
     #[test]
     fn rejects_unsupported_schema_version() {
-        let artifact = br#"{"schema_version":2,"descriptors":{"messages":[]}}"#;
+        let artifact = br#"{"schema_version":3,"descriptors":{"messages":[]}}"#;
 
         assert!(matches!(
             MailSchema::from_slice(artifact),
             Err(ReconstructionError::UnsupportedArtifactVersion {
-                actual: 2,
+                actual: 3,
                 expected: CURRENT_SCHEMA_VERSION
             })
         ));

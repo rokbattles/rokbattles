@@ -7,6 +7,11 @@ use flate2::read::ZlibDecoder;
 use crate::artifact::{COMPRESSED_API_ID, CompressionSchema, RuntimeArtifact, ZMSG_API_ID};
 
 pub(crate) const MAX_INFLATED_BYTES: usize = 25 * 1024 * 1024;
+// Tiny compound members must not amplify one bounded frame into millions of
+// allocations or callbacks. This is a per-frame work bound, not a session quota.
+pub(crate) const MAX_COMPOUND_MESSAGES: usize = 4096;
+// Bound Vec metadata amplification from tiny repeated entities within one frame.
+pub(crate) const MAX_MAIL_ENTRIES: usize = 4096;
 
 #[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
 pub(crate) enum ProtocolError {
@@ -34,6 +39,10 @@ pub(crate) enum ProtocolError {
     Inflate,
     #[error("compressed wrapper contained an unexpected message")]
     UnexpectedWrappedMessage,
+    #[error("compound message contains too many members")]
+    TooManyMessages,
+    #[error("frame contains too many mail entries")]
+    TooManyMailEntries,
 }
 
 #[derive(Debug)]
@@ -62,30 +71,39 @@ pub(crate) fn parse_handshake(
     Ok((key1, key2))
 }
 
-pub(crate) fn effective_message<'a>(
-    body: &'a [u8],
+pub(crate) fn visit_messages(
+    body: &[u8],
     artifact: &RuntimeArtifact,
-) -> Result<EffectiveMessage<'a>, ProtocolError> {
+    mut visit: impl FnMut(EffectiveMessage<'_>) -> Result<(), ProtocolError>,
+) -> Result<(), ProtocolError> {
     let outer = parse_msg(body, artifact)?;
     match outer.api_id {
         COMPRESSED_API_ID => {
             let inflated = inflate_wrapper(&outer.payload, artifact.protocol.compressed)?;
-            let report_data = required_bytes(&inflated, artifact.protocol.report_data_field)?;
-            let inner = parse_msg(report_data, artifact)?;
-            Ok(EffectiveMessage {
-                api_id: inner.api_id,
-                payload: Cow::Owned(inner.payload.into_owned()),
-            })
+            // CompressedMsg contains CompoundMsg, whose Messages field is
+            // repeated. Visit every member in wire order; taking the last bytes
+            // field silently loses earlier login and mail messages.
+            let mut cursor = FieldCursor::new(&inflated);
+            let mut count = 0;
+            while let Some(field) = cursor.next()? {
+                if field.number == artifact.protocol.compound_messages_field {
+                    count += 1;
+                    if count > MAX_COMPOUND_MESSAGES {
+                        return Err(ProtocolError::TooManyMessages);
+                    }
+                    let FieldValue::LengthDelimited(body) = field.value else {
+                        return Err(ProtocolError::WrongWireType);
+                    };
+                    visit(parse_msg(body, artifact)?)?;
+                }
+            }
+            Ok(())
         }
         ZMSG_API_ID => {
             let inflated = inflate_wrapper(&outer.payload, artifact.protocol.zmsg)?;
-            let inner = parse_msg(&inflated, artifact)?;
-            Ok(EffectiveMessage {
-                api_id: inner.api_id,
-                payload: Cow::Owned(inner.payload.into_owned()),
-            })
+            visit(parse_msg(&inflated, artifact)?)
         }
-        api_id => Ok(EffectiveMessage { api_id, payload: outer.payload }),
+        _ => visit(outer),
     }
 }
 
@@ -93,6 +111,7 @@ pub(crate) fn mail_candidates(
     payload: &[u8],
     artifact: &RuntimeArtifact,
     api_id: u32,
+    entry_budget: usize,
 ) -> Result<MailCandidates, ProtocolError> {
     let carrier = artifact.carriers.get(&api_id).ok_or(ProtocolError::UnexpectedWrappedMessage)?;
     let mut entries = Vec::new();
@@ -119,6 +138,9 @@ pub(crate) fn mail_candidates(
         let FieldValue::LengthDelimited(candidate) = field.value else {
             return Err(ProtocolError::WrongWireType);
         };
+        if entries.len() >= entry_budget.min(MAX_MAIL_ENTRIES) {
+            return Err(ProtocolError::TooManyMailEntries);
+        }
         let candidate_server_id = validate_mail_entity(candidate, artifact)?;
         if server_id.is_none() {
             server_id = candidate_server_id.filter(|server_id| *server_id != 0);
@@ -315,8 +337,8 @@ mod tests {
         let entity = [0x0a, 0x01, b'1', 0x68, 0x8c, 0x7d];
         let payload = [vec![0x0a, entity.len() as u8], entity.to_vec()].concat();
 
-        let candidates =
-            mail_candidates(&payload, &artifact, 7909).expect("mail carrier should parse");
+        let candidates = mail_candidates(&payload, &artifact, 7909, MAX_MAIL_ENTRIES)
+            .expect("mail carrier should parse");
 
         assert_eq!(candidates.server_id, Some(16_012));
     }
@@ -327,8 +349,8 @@ mod tests {
         let entity = [0x0a, 0x01, b'1', 0x68, 0x00];
         let payload = [vec![0x0a, entity.len() as u8], entity.to_vec()].concat();
 
-        let candidates =
-            mail_candidates(&payload, &artifact, 7909).expect("mail carrier should parse");
+        let candidates = mail_candidates(&payload, &artifact, 7909, MAX_MAIL_ENTRIES)
+            .expect("mail carrier should parse");
 
         assert_eq!(candidates.server_id, None);
     }
@@ -339,8 +361,8 @@ mod tests {
         let entity = [0x0a, 0x01, b'1'];
         let payload = [vec![0x0a, entity.len() as u8], entity.to_vec(), vec![0x10, 0x0e]].concat();
 
-        let candidates =
-            mail_candidates(&payload, &artifact, 7921).expect("mail carrier should parse");
+        let candidates = mail_candidates(&payload, &artifact, 7921, MAX_MAIL_ENTRIES)
+            .expect("mail carrier should parse");
 
         assert_eq!(candidates.remaining, Some(14));
     }

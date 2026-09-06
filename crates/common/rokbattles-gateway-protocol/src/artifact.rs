@@ -9,7 +9,7 @@ use std::{
 
 use serde::Deserialize;
 
-const CURRENT_SCHEMA_VERSION: u32 = 1;
+const CURRENT_SCHEMA_VERSION: u32 = 2;
 const MAX_ARTIFACT_BYTES: u64 = 32 * 1024 * 1024;
 const ARTIFACT_PATH: &str = "artifacts/artifacts.json";
 
@@ -69,7 +69,9 @@ impl RuntimeArtifact {
     }
 
     fn from_file(file: RuntimeArtifactFile) -> Result<Self, ArtifactError> {
-        if file.schema_version != CURRENT_SCHEMA_VERSION {
+        // Version 2 adds generation provenance; runtime descriptors keep the
+        // same representation as version 1.
+        if !matches!(file.schema_version, 1 | CURRENT_SCHEMA_VERSION) {
             return Err(ArtifactError::UnsupportedSchemaVersion {
                 actual: file.schema_version,
                 expected: CURRENT_SCHEMA_VERSION,
@@ -82,7 +84,11 @@ impl RuntimeArtifact {
         let login = messages.for_api(&file.api_map, LOGIN_API_ID, "LoginAck")?;
         let compressed = messages.for_api(&file.api_map, COMPRESSED_API_ID, "CompressedMsg")?;
         let zmsg = messages.for_api(&file.api_map, ZMSG_API_ID, "ZMsg")?;
-        let report_ack = messages.required("ReportAck")?;
+        let compound = messages.for_api(&file.api_map, 61437, "CompoundMsg")?;
+        let compound_messages = compound.required_field("Messages", FieldType::Bytes)?;
+        if compound_messages.label != 3 {
+            return Err(ArtifactError::Invalid("CompoundMsg.Messages must be repeated"));
+        }
         let mail_entity = messages.required("MailEntity")?;
 
         let protocol = ProtocolSchema {
@@ -101,7 +107,7 @@ impl RuntimeArtifact {
                 length_field: zmsg.required_field("Len", FieldType::Int32)?.number,
                 payload_field: zmsg.required_field("ZData", FieldType::Bytes)?.number,
             },
-            report_data_field: report_ack.required_field("Data", FieldType::Bytes)?.number,
+            compound_messages_field: compound_messages.number,
             mail_entity: MessageShape::from_descriptor(mail_entity)?,
         };
 
@@ -168,7 +174,7 @@ impl RuntimeArtifact {
                 mail_server_id_field: 13,
                 compressed: CompressionSchema { length_field: 1, payload_field: 2 },
                 zmsg: CompressionSchema { length_field: 1, payload_field: 2 },
-                report_data_field: 1,
+                compound_messages_field: 1,
                 mail_entity: MessageShape {
                     fields: HashMap::from([
                         (1, WireRule { primary: 2, packed: false }),
@@ -390,7 +396,7 @@ pub(crate) struct ProtocolSchema {
     pub(crate) mail_server_id_field: u32,
     pub(crate) compressed: CompressionSchema,
     pub(crate) zmsg: CompressionSchema,
-    pub(crate) report_data_field: u32,
+    pub(crate) compound_messages_field: u32,
     pub(crate) mail_entity: MessageShape,
 }
 
@@ -469,7 +475,10 @@ mod tests {
 
         assert!(matches!(
             error,
-            ArtifactError::UnsupportedSchemaVersion { actual: 99, expected: 1 }
+            ArtifactError::UnsupportedSchemaVersion {
+                actual: 99,
+                expected: CURRENT_SCHEMA_VERSION
+            }
         ));
     }
 
