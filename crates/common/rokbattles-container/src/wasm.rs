@@ -11,7 +11,7 @@ use crate::{Error, HEADER_LEN, ReadLimits, Reader, Value};
 #[wasm_bindgen(typescript_custom_section)]
 const VALUE_TYPES: &str = "
 export type JsonValue = null | boolean | number | bigint | string | JsonValue[] | { [key: string]: JsonValue };
-export type RtpValue = Uint8Array | JsonValue;
+export type ContainerValue = Uint8Array | JsonValue;
 ";
 
 /// Reader for browsers and Node.js, exported as the JavaScript class `Reader`.
@@ -41,7 +41,7 @@ impl DecodedValue {
     /// Bytes become `Uint8Array`, text becomes `string`, and JSON becomes
     /// JavaScript objects and arrays. JSON integers become `BigInt`, including
     /// small integers; floating-point values become `Number`.
-    #[wasm_bindgen(getter, unchecked_return_type = "RtpValue")]
+    #[wasm_bindgen(getter, unchecked_return_type = "ContainerValue")]
     pub fn value(&self) -> JsValue {
         self.value.clone()
     }
@@ -85,10 +85,7 @@ impl WasmReader {
             optional_integer(&expected_schema, "expected_schema", 1, u32::from(u16::MAX))?
                 .map(u16::try_from)
                 .transpose()?;
-        if u64::from(bytes.length()) > u64::from(self.max_payload_len) + HEADER_LEN as u64 {
-            return Err(JsError::from(Error::PayloadTooLarge));
-        }
-        let input = bytes.to_vec();
+        let input = self.copy_input(bytes)?;
         let decoded = self.reader.decode_expected(&input, expected_schema)?;
         let value = match decoded.value {
             Value::Bytes(bytes) => js_sys::Uint8Array::from(bytes.as_slice()).into(),
@@ -96,6 +93,47 @@ impl WasmReader {
             Value::Json(json) => json_to_js(json)?,
         };
         Ok(DecodedValue { schema_id: decoded.header.schema_id, value })
+    }
+
+    /// Validates and unmasks a file without interpreting its payload schema.
+    ///
+    /// The result's `value` is a JavaScript-owned `Uint8Array`. Callers decode
+    /// its fields according to `schemaId` and release the wrapper with `free()`.
+    ///
+    /// # Errors
+    ///
+    /// Throws on invalid framing, checksum failure, an oversized payload, or
+    /// a schema mismatch. The required schema must be an integer in `1..=65535`.
+    #[wasm_bindgen(js_name = readEnvelope)]
+    pub fn read_envelope(
+        &self,
+        bytes: &js_sys::Uint8Array,
+        #[wasm_bindgen(unchecked_param_type = "number")] expected_schema: JsValue,
+    ) -> Result<DecodedValue, JsError> {
+        let expected =
+            optional_integer(&expected_schema, "expected_schema", 1, u32::from(u16::MAX))?
+                .ok_or_else(|| JsError::new("expected_schema is required"))?;
+        let expected = u16::try_from(expected)?;
+        let input = self.copy_input(bytes)?;
+        let envelope = self.reader.read_envelope(&input)?;
+        if envelope.header.schema_id != expected {
+            return Err(
+                Error::SchemaMismatch { expected, actual: envelope.header.schema_id }.into()
+            );
+        }
+        Ok(DecodedValue {
+            schema_id: envelope.header.schema_id,
+            value: js_sys::Uint8Array::from(envelope.payload.as_slice()).into(),
+        })
+    }
+}
+
+impl WasmReader {
+    fn copy_input(&self, bytes: &js_sys::Uint8Array) -> Result<Vec<u8>, JsError> {
+        if u64::from(bytes.length()) > u64::from(self.max_payload_len) + HEADER_LEN as u64 {
+            return Err(Error::PayloadTooLarge.into());
+        }
+        Ok(bytes.to_vec())
     }
 }
 
