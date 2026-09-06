@@ -16,11 +16,11 @@ impl Default for ReadLimits {
 
 /// A validated envelope with its mask removed, before schema decoding.
 #[derive(Debug)]
-pub struct Envelope {
+pub struct Envelope<'a> {
     /// Validated header metadata.
     pub header: Header,
     /// Unmasked, checksum-verified bytes.
-    pub payload: Vec<u8>,
+    pub payload: &'a [u8],
 }
 
 /// A value decoded using one of the built-in schemas.
@@ -56,17 +56,92 @@ impl Reader {
         Self { limits }
     }
 
-    /// Validates and unmasks one complete file, including its payload checksum.
+    /// Validates a file and unmasks its payload in the supplied buffer.
     ///
-    /// Unknown nonzero schema IDs are allowed here for application codecs.
-    /// The returned payload owns a copy of the input bytes with both masking
-    /// stages reversed. The checksum covers the payload, not the header.
+    /// Returns a checksum-verified payload borrowed from `bytes`, without
+    /// allocating or copying it. Nonzero application schema IDs are accepted.
+    /// The header bytes are left unchanged; the checksum covers only the payload.
     ///
     /// # Errors
     ///
     /// Rejects invalid headers, unsupported versions or flags, oversized input,
-    /// length mismatches, and checksum failures.
-    pub fn read_envelope(&self, bytes: &[u8]) -> Result<Envelope, Error> {
+    /// length mismatches, and checksum failures. Header and framing errors leave
+    /// the buffer unchanged. A checksum failure leaves the payload
+    /// modified; discard it or reload the original file before retrying.
+    pub fn read_envelope<'a>(&self, bytes: &'a mut [u8]) -> Result<Envelope<'a>, Error> {
+        let header = self.read_header(bytes)?;
+        let payload = bytes.get_mut(HEADER_LEN..).ok_or(Error::TruncatedHeader)?;
+        decode_payload(payload, header)?;
+        Ok(Envelope { header, payload })
+    }
+
+    /// Unmasks a file in place and decodes its built-in payload schema.
+    ///
+    /// The decoded value owns its data. Use [`Self::read_envelope`] to borrow
+    /// the payload instead. The input remains unmasked after a successful read.
+    ///
+    /// # Errors
+    ///
+    /// Returns envelope validation errors, [`Error::UnknownSchema`] for an
+    /// unsupported schema, or an error for invalid UTF-8 or JSON. As with
+    /// [`Self::read_envelope`], errors after unmasking leave the input modified;
+    /// reload the original file before retrying.
+    pub fn decode(&self, bytes: &mut [u8]) -> Result<Decoded, Error> {
+        self.decode_expected(bytes, None)
+    }
+
+    /// Decodes a file, optionally requiring a particular built-in schema.
+    ///
+    /// Passing `None` has the same behavior as [`Self::decode`].
+    ///
+    /// # Errors
+    ///
+    /// Returns [`Self::decode`]'s errors or [`Error::SchemaMismatch`] if the
+    /// validated envelope has a different ID. The schema check precedes payload
+    /// interpretation, after unmasking. A schema mismatch leaves the input
+    /// unmasked; reload the original file before retrying.
+    pub fn decode_expected(
+        &self,
+        bytes: &mut [u8],
+        expected: Option<u16>,
+    ) -> Result<Decoded, Error> {
+        let envelope = self.read_envelope(bytes)?;
+        if let Some(expected) = expected
+            && expected != envelope.header.schema_id
+        {
+            return Err(Error::SchemaMismatch { expected, actual: envelope.header.schema_id });
+        }
+        let value = match envelope.header.schema_id {
+            schema::BYTES => Value::Bytes(envelope.payload.to_vec()),
+            schema::TEXT => Value::Text(std::str::from_utf8(envelope.payload)?.to_owned()),
+            schema::JSON => Value::Json(serde_json::from_slice(envelope.payload)?),
+            id => return Err(Error::UnknownSchema(id)),
+        };
+        Ok(Decoded { header: envelope.header, value })
+    }
+
+    /// Decodes a file with a caller-supplied schema decoder.
+    ///
+    /// The callback receives the schema ID from the header and must reject IDs
+    /// it does not support. It must validate the payload's fields, enforce any
+    /// allocation limits, and consume the complete payload.
+    ///
+    /// # Errors
+    ///
+    /// Returns envelope validation errors or the callback's error. Validation
+    /// failures prevent the callback from running. Input mutation follows
+    /// [`Self::read_envelope`]; a callback error leaves the input unmasked.
+    pub fn decode_with<T>(
+        &self,
+        bytes: &mut [u8],
+        decoder: impl FnOnce(u16, &[u8]) -> Result<T, Error>,
+    ) -> Result<Decoded<T>, Error> {
+        let envelope = self.read_envelope(bytes)?;
+        let value = decoder(envelope.header.schema_id, envelope.payload)?;
+        Ok(Decoded { header: envelope.header, value })
+    }
+
+    fn read_header(&self, bytes: &[u8]) -> Result<Header, Error> {
         let (raw, encoded) =
             bytes.split_first_chunk::<HEADER_LEN>().ok_or(Error::TruncatedHeader)?;
         let &[
@@ -117,68 +192,16 @@ impl Reader {
         if u32::try_from(encoded.len()).ok() != Some(header.payload_len) {
             return Err(Error::LengthMismatch);
         }
-        let mut payload = encoded.to_vec();
-        mask::decode(&mut payload, header.seed);
-        if crc32fast::hash(&payload) != header.crc32 {
-            return Err(Error::ChecksumMismatch);
-        }
-        Ok(Envelope { header, payload })
+        Ok(header)
     }
+}
 
-    /// Decodes a file using the built-in schema identified by its header.
-    ///
-    /// # Errors
-    ///
-    /// Returns envelope validation errors, [`Error::UnknownSchema`] for an
-    /// unsupported schema, or an error for invalid UTF-8 or JSON.
-    pub fn decode(&self, bytes: &[u8]) -> Result<Decoded, Error> {
-        self.decode_expected(bytes, None)
+fn decode_payload(payload: &mut [u8], header: Header) -> Result<(), Error> {
+    mask::decode(payload, header.seed);
+    if crc32fast::hash(payload) != header.crc32 {
+        return Err(Error::ChecksumMismatch);
     }
-
-    /// Decodes a file, optionally requiring a particular built-in schema.
-    ///
-    /// Passing `None` has the same behavior as [`Self::decode`].
-    ///
-    /// # Errors
-    ///
-    /// Returns [`Self::decode`]'s errors or [`Error::SchemaMismatch`] if the
-    /// validated envelope has a different ID. The schema check precedes payload
-    /// interpretation.
-    pub fn decode_expected(&self, bytes: &[u8], expected: Option<u16>) -> Result<Decoded, Error> {
-        let envelope = self.read_envelope(bytes)?;
-        if let Some(expected) = expected
-            && expected != envelope.header.schema_id
-        {
-            return Err(Error::SchemaMismatch { expected, actual: envelope.header.schema_id });
-        }
-        let value = match envelope.header.schema_id {
-            schema::BYTES => Value::Bytes(envelope.payload),
-            schema::TEXT => Value::Text(std::str::from_utf8(&envelope.payload)?.to_owned()),
-            schema::JSON => Value::Json(serde_json::from_slice(&envelope.payload)?),
-            id => return Err(Error::UnknownSchema(id)),
-        };
-        Ok(Decoded { header: envelope.header, value })
-    }
-
-    /// Decodes a file with a caller-supplied schema decoder.
-    ///
-    /// The callback receives the schema ID from the header and must reject IDs
-    /// it does not support. It must validate the payload's fields, enforce any
-    /// allocation limits, and consume the complete payload.
-    ///
-    /// # Errors
-    ///
-    /// Returns envelope validation errors or the callback's error. Validation
-    /// failures prevent the callback from running.
-    pub fn decode_with<T>(
-        &self,
-        bytes: &[u8],
-        decoder: impl FnOnce(u16, &[u8]) -> Result<T, Error>,
-    ) -> Result<Decoded<T>, Error> {
-        let envelope = self.read_envelope(bytes)?;
-        let value = decoder(envelope.header.schema_id, &envelope.payload)?;
-        Ok(Decoded { header: envelope.header, value })
-    }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -191,7 +214,7 @@ mod tests {
     #[test]
     fn decodes_known_wire_values() {
         for &(schema_id, payload, file) in VECTORS {
-            let decoded = Reader::default().decode(file).expect("decode");
+            let decoded = Reader::default().decode(&mut file.to_vec()).expect("decode");
             let expected = match schema_id {
                 schema::BYTES => Value::Bytes(payload.to_vec()),
                 schema::TEXT => {
@@ -206,12 +229,44 @@ mod tests {
     }
 
     #[test]
+    fn in_place_payload_borrows_the_original_buffer() {
+        for &(schema_id, payload, file) in VECTORS {
+            let mut bytes = file.to_vec();
+            let payload_ptr = bytes.get(HEADER_LEN..).expect("payload").as_ptr();
+            let decoded = Reader::default().read_envelope(&mut bytes).expect("decode");
+            assert_eq!(decoded.header.schema_id, schema_id);
+            assert_eq!(decoded.payload, payload);
+            assert_eq!(decoded.payload.as_ptr(), payload_ptr);
+            assert_eq!(bytes.get(..HEADER_LEN), file.get(..HEADER_LEN));
+        }
+    }
+
+    #[test]
+    fn in_place_header_errors_leave_input_unchanged() {
+        let file = VECTORS.first().expect("vector").2;
+        for (offset, value) in [(0, b'X'), (4, 2), (5, 1), (6, 0), (12, 1)] {
+            let mut bytes = file.to_vec();
+            *bytes.get_mut(offset).expect("header byte") = value;
+            let original = bytes.clone();
+            let expected =
+                Reader::default().decode(&mut bytes.clone()).expect_err("invalid header");
+            let error = Reader::default().read_envelope(&mut bytes).expect_err("invalid header");
+            assert_eq!(error.to_string(), expected.to_string());
+            assert_eq!(bytes, original);
+        }
+    }
+
+    #[test]
     fn rejects_every_truncation() {
         for &(_, _, file) in VECTORS {
             for length in 0..file.len() {
                 Reader::default()
-                    .decode(file.get(..length).expect("prefix"))
+                    .decode(&mut file.get(..length).expect("prefix").to_vec())
                     .expect_err("truncated");
+                let prefix = file.get(..length).expect("prefix");
+                let mut bytes = prefix.to_vec();
+                Reader::default().read_envelope(&mut bytes).expect_err("truncated");
+                assert_eq!(bytes, prefix);
             }
         }
     }
@@ -223,7 +278,11 @@ mod tests {
                 let mut corrupted = file.to_vec();
                 *corrupted.get_mut(index).expect("payload byte") ^= 1;
                 assert!(matches!(
-                    Reader::default().decode(&corrupted),
+                    Reader::default().decode(&mut corrupted.clone()),
+                    Err(Error::ChecksumMismatch)
+                ));
+                assert!(matches!(
+                    Reader::default().read_envelope(&mut corrupted),
                     Err(Error::ChecksumMismatch)
                 ));
             }
@@ -235,7 +294,7 @@ mod tests {
     fn custom_rust_decoder_dispatches_using_the_header() {
         let file = write_envelope(256, &(-1234_i32).to_le_bytes(), 1).expect("write");
         let decoded = Reader::default()
-            .decode_with(&file, |id, payload| {
+            .decode_with(&mut file.clone(), |id, payload| {
                 if id != 256 {
                     return Err(Error::UnknownSchema(id));
                 }
@@ -252,17 +311,34 @@ mod tests {
     #[test]
     fn unknown_schema_is_not_guessed() {
         let file = write_envelope(256, b"hello", 0).expect("write");
-        assert!(matches!(Reader::default().decode(&file), Err(Error::UnknownSchema(256))));
+        assert!(matches!(
+            Reader::default().decode(&mut file.clone()),
+            Err(Error::UnknownSchema(256))
+        ));
     }
 
     #[cfg(feature = "write")]
     #[test]
     fn expected_schema_prevents_interpreting_a_different_payload() {
-        let file = write_text("hello", 1).expect("write");
+        let mut file = write_text("hello", 1).expect("write");
         assert!(matches!(
-            Reader::default().decode_expected(&file, Some(schema::JSON)),
+            Reader::default().decode_expected(&mut file, Some(schema::JSON)),
             Err(Error::SchemaMismatch { expected: 3, actual: 2 })
         ));
+        assert_eq!(file.get(HEADER_LEN..).expect("payload"), b"hello");
+    }
+
+    #[cfg(feature = "write")]
+    #[test]
+    fn callback_errors_leave_payload_unmasked() {
+        let mut file = write_envelope(401, b"hello", 1).expect("write");
+        let result = Reader::default().decode_with(&mut file, |id, payload| {
+            assert_eq!(id, 401);
+            assert_eq!(payload, b"hello");
+            Err::<(), _>(Error::InvalidPayload("rejected".into()))
+        });
+        assert!(matches!(result, Err(Error::InvalidPayload(_))));
+        assert_eq!(file.get(HEADER_LEN..).expect("payload"), b"hello");
     }
 
     #[cfg(feature = "write")]
@@ -270,15 +346,33 @@ mod tests {
     fn limits_reject_payload_before_decoding() {
         let file = write_bytes(&[0; 10], 1).expect("write");
         let reader = Reader::new(ReadLimits { max_payload_len: 9 });
-        assert!(matches!(reader.decode(&file), Err(Error::PayloadTooLarge)));
-        Reader::new(ReadLimits { max_payload_len: 10 }).decode(&file).expect("exact limit");
+        assert!(matches!(reader.decode(&mut file.clone()), Err(Error::PayloadTooLarge)));
+        let mut bytes = file.clone();
+        assert!(matches!(reader.read_envelope(&mut bytes), Err(Error::PayloadTooLarge)));
+        assert_eq!(bytes, file);
+        Reader::new(ReadLimits { max_payload_len: 10 })
+            .decode(&mut file.clone())
+            .expect("exact limit");
+    }
+
+    #[cfg(feature = "write")]
+    #[test]
+    fn in_place_accepts_empty_custom_payloads() {
+        for seed in [0, 42, u32::MAX] {
+            let mut file = write_envelope(401, &[], seed).expect("write");
+            let decoded = Reader::new(ReadLimits { max_payload_len: 0 })
+                .read_envelope(&mut file)
+                .expect("empty payload");
+            assert_eq!(decoded.header.schema_id, 401);
+            assert!(decoded.payload.is_empty());
+        }
     }
 
     #[cfg(feature = "write")]
     #[test]
     fn invalid_utf8_is_rejected_even_with_a_valid_checksum() {
         let file = write_envelope(schema::TEXT, &[0xff], 1).expect("write");
-        assert!(matches!(Reader::default().decode(&file), Err(Error::InvalidUtf8(_))));
+        assert!(matches!(Reader::default().decode(&mut file.clone()), Err(Error::InvalidUtf8(_))));
     }
 
     #[cfg(feature = "write")]
@@ -287,7 +381,7 @@ mod tests {
         let deeply_nested = [b"[".repeat(200), b"0".to_vec(), b"]".repeat(200)].concat();
         for json in [b"{}{}".to_vec(), deeply_nested, b"NaN".to_vec(), vec![0xff]] {
             let file = write_envelope(schema::JSON, &json, 0).expect("write");
-            assert!(matches!(Reader::default().decode(&file), Err(Error::Json(_))));
+            assert!(matches!(Reader::default().decode(&mut file.clone()), Err(Error::Json(_))));
         }
     }
 
@@ -297,7 +391,10 @@ mod tests {
         let file = write_bytes(b"hello", 0).expect("write");
         assert_eq!(file.get(5), Some(&0));
         assert_ne!(file.get(20..).expect("payload"), b"hello");
-        assert_eq!(Reader::default().read_envelope(&file).expect("read").payload, b"hello");
+        assert_eq!(
+            Reader::default().read_envelope(&mut file.clone()).expect("read").payload,
+            b"hello"
+        );
     }
 
     #[cfg(feature = "write")]
@@ -307,7 +404,7 @@ mod tests {
         for flags in 1..=u8::MAX {
             *file.get_mut(5).expect("flags byte") = flags;
             assert!(
-                matches!(Reader::default().decode(&file), Err(Error::UnsupportedFlags(actual)) if actual == flags)
+                matches!(Reader::default().decode(&mut file.clone()), Err(Error::UnsupportedFlags(actual)) if actual == flags)
             );
         }
     }
@@ -317,7 +414,10 @@ mod tests {
     fn plaintext_cannot_bypass_the_mandatory_mask() {
         let mut file = write_bytes(b"hello", 0).expect("write");
         file.get_mut(20..).expect("payload").copy_from_slice(b"hello");
-        assert!(matches!(Reader::default().decode(&file), Err(Error::ChecksumMismatch)));
+        assert!(matches!(
+            Reader::default().decode(&mut file.clone()),
+            Err(Error::ChecksumMismatch)
+        ));
     }
 
     #[cfg(feature = "write")]
@@ -337,12 +437,12 @@ mod tests {
             let mut file = original.clone();
             *file.get_mut(offset).expect("header byte") = byte;
             assert_eq!(
-                Reader::default().decode(&file).expect_err("invalid file").to_string(),
+                Reader::default().decode(&mut file.clone()).expect_err("invalid file").to_string(),
                 expected
             );
         }
         let mut trailing = original;
         trailing.push(0);
-        assert!(matches!(Reader::default().decode(&trailing), Err(Error::LengthMismatch)));
+        assert!(matches!(Reader::default().decode(&mut trailing), Err(Error::LengthMismatch)));
     }
 }

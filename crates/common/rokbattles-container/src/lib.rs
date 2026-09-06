@@ -20,8 +20,8 @@
 //! ```
 //! # #[cfg(all(feature = "read", feature = "write"))] {
 //! use rokbattles_container::{Reader, Value, write_text};
-//! let bytes = write_text("Hello, kingdom!", 42)?;
-//! let decoded = Reader::default().decode(&bytes)?;
+//! let mut bytes = write_text("Hello, kingdom!", 42)?;
+//! let decoded = Reader::default().decode(&mut bytes)?;
 //! assert_eq!(decoded.value, Value::Text("Hello, kingdom!".into()));
 //! # }
 //! # Ok::<(), rokbattles_container::Error>(())

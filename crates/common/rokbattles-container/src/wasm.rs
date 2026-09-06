@@ -6,7 +6,7 @@
 
 use wasm_bindgen::prelude::*;
 
-use crate::{Error, HEADER_LEN, ReadLimits, Reader, Value};
+use crate::{Error, HEADER_LEN, ReadLimits, Reader, schema};
 
 #[wasm_bindgen(typescript_custom_section)]
 const VALUE_TYPES: &str = "
@@ -85,12 +85,24 @@ impl WasmReader {
             optional_integer(&expected_schema, "expected_schema", 1, u32::from(u16::MAX))?
                 .map(u16::try_from)
                 .transpose()?;
-        let input = self.copy_input(bytes)?;
-        let decoded = self.reader.decode_expected(&input, expected_schema)?;
-        let value = match decoded.value {
-            Value::Bytes(bytes) => js_sys::Uint8Array::from(bytes.as_slice()).into(),
-            Value::Text(text) => JsValue::from_str(&text),
-            Value::Json(json) => json_to_js(json)?,
+        let mut input = self.copy_input(bytes)?;
+        let decoded = self.reader.read_envelope(&mut input)?;
+        if let Some(expected) = expected_schema
+            && expected != decoded.header.schema_id
+        {
+            return Err(Error::SchemaMismatch { expected, actual: decoded.header.schema_id }.into());
+        }
+        let value = match decoded.header.schema_id {
+            schema::BYTES => js_sys::Uint8Array::from(decoded.payload).into(),
+            schema::TEXT => {
+                let text = std::str::from_utf8(decoded.payload).map_err(Error::from)?;
+                JsValue::from_str(text)
+            }
+            schema::JSON => {
+                let json = serde_json::from_slice(decoded.payload).map_err(Error::from)?;
+                json_to_js(json)?
+            }
+            id => return Err(Error::UnknownSchema(id).into()),
         };
         Ok(DecodedValue { schema_id: decoded.header.schema_id, value })
     }
@@ -114,8 +126,8 @@ impl WasmReader {
             optional_integer(&expected_schema, "expected_schema", 1, u32::from(u16::MAX))?
                 .ok_or_else(|| JsError::new("expected_schema is required"))?;
         let expected = u16::try_from(expected)?;
-        let input = self.copy_input(bytes)?;
-        let envelope = self.reader.read_envelope(&input)?;
+        let mut input = self.copy_input(bytes)?;
+        let envelope = self.reader.read_envelope(&mut input)?;
         if envelope.header.schema_id != expected {
             return Err(
                 Error::SchemaMismatch { expected, actual: envelope.header.schema_id }.into()
@@ -123,7 +135,7 @@ impl WasmReader {
         }
         Ok(DecodedValue {
             schema_id: envelope.header.schema_id,
-            value: js_sys::Uint8Array::from(envelope.payload.as_slice()).into(),
+            value: js_sys::Uint8Array::from(envelope.payload).into(),
         })
     }
 }

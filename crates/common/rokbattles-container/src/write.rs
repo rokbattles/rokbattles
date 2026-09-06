@@ -88,7 +88,7 @@ mod tests {
         ];
         for (encoded, expected) in cases {
             assert_eq!(
-                Reader::default().decode(&encoded.expect("write")).expect("read").value,
+                Reader::default().decode(&mut encoded.expect("write")).expect("read").value,
                 expected
             );
         }
