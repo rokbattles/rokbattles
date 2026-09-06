@@ -47,6 +47,10 @@ tokio-cron-scheduler = "0.15.1"
 hickory-proto = { version = "0.26.1", default-features = false }
 tower = "0.5.3"
 criterion = "0.8.2"
+crc32fast = "1.5.1"
+wasm-bindgen = "=0.2.127"
+js-sys = "0.3.104"
+serde-wasm-bindgen = "0.6.5"
 
 [profile.release]
 opt-level = "z"
