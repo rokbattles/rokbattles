@@ -2,11 +2,9 @@ use crate::{Error, HEADER_LEN, MAGIC, VERSION, mask, schema};
 
 /// Writes serialized payload bytes with a nonzero schema ID.
 ///
-/// Always applies XOR then layered masking with the supplied seed, including zero.
-/// Flags are reserved and written as zero.
-///
-/// The caller must serialize the payload according to `schema_id`; this
-/// function writes the envelope without interpreting those bytes.
+/// The caller serializes the payload according to `schema_id`. This function
+/// adds the header and applies XOR followed by layered masking. Seed zero is
+/// valid; reserved flags are always zero.
 ///
 /// # Errors
 ///
@@ -22,7 +20,7 @@ pub fn write_envelope(schema_id: u16, payload: &[u8], seed: u32) -> Result<Vec<u
     bytes.try_reserve_exact(capacity).map_err(|_allocation| Error::PayloadTooLarge)?;
     bytes.extend_from_slice(&MAGIC);
     bytes.push(VERSION);
-    bytes.push(0); // Flags are reserved for future functionality.
+    bytes.push(0); // Reserved flags.
     bytes.extend_from_slice(&schema_id.to_le_bytes());
     bytes.extend_from_slice(&seed.to_le_bytes());
     bytes.extend_from_slice(&length.to_le_bytes());

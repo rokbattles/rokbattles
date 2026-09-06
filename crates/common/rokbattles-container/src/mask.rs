@@ -37,6 +37,14 @@ fn layered(payload: &mut [u8], seed: u32, decode: bool) {
     // Reset at the stage boundary, then carry state across blocks. Changing
     // either boundary changes the wire format, including partial final blocks.
     let mut state = if seed == 0 { 0x6d2b_79f5 } else { seed };
+    #[cfg(feature = "read")]
+    let payload = if decode {
+        let (processed, next_state) = rokbattles_container_simd::decode_blocks(payload, state);
+        state = next_state;
+        payload.split_at_mut(processed).1
+    } else {
+        payload
+    };
     for block in payload.chunks_mut(32) {
         let mut keys = [0_u32; 32];
         for key in keys.iter_mut().take(block.len()) {

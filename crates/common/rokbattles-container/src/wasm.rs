@@ -1,8 +1,7 @@
 //! JavaScript bindings for the Rust reader.
 //!
-//! Exported classes own Rust allocations. JavaScript callers release them with
-//! `free()` after use. Decoded values are JavaScript-owned
-//! copies and remain valid after releasing the result wrapper.
+//! Call `free()` on readers and result wrappers to release their Rust allocations.
+//! Decoded values belong to JavaScript and remain valid after the wrapper is freed.
 
 use wasm_bindgen::prelude::*;
 
@@ -35,11 +34,12 @@ impl DecodedValue {
 
     /// Returns the decoded JavaScript value.
     ///
-    /// Bytes become `Uint8Array`, text becomes `string`, and JSON becomes
-    /// JavaScript objects and arrays. JSON integers become `BigInt`, including
-    /// small integers; floating-point values become `Number`. Territory schema
-    /// values use JavaScript numbers and objects, with province cells exported
-    /// as `Uint8Array` and blocked province IDs as arrays.
+    /// Byte payloads become `Uint8Array`; text becomes `string`. JSON preserves
+    /// objects, arrays, and primitive values. All JSON integers become `BigInt`;
+    /// floating-point values become `Number`.
+    ///
+    /// Territory schemas use JavaScript objects and numbers. Province cells
+    /// become `Uint8Array`, and blocked province IDs become arrays.
     #[wasm_bindgen(getter, unchecked_return_type = "ContainerValue")]
     pub fn value(&self) -> JsValue {
         self.value.clone()
