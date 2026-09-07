@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.25.0@sha256:0adf442eae370b6087e08edc7c50b552d80ddf261576f4ebd6421006b2461f12
+# syntax=docker/dockerfile:1.27.0@sha256:bde3983e9c939224420ddaf6b784cc30e09b035a4dea01f581230c50809f372e
 FROM rust:1.98.0-alpine@sha256:a10e64dd139b7387337c7fbe8aca31b959b57b2fd4c8ae20a02cf1d6ea424dce AS container-wasm
 RUN apk add --no-cache build-base openssl-dev pkgconfig
 RUN --mount=type=bind,source=.,target=/src \
@@ -8,7 +8,7 @@ RUN --mount=type=bind,source=.,target=/src \
     CARGO_TARGET_DIR=/target CONTAINER_WASM_OUT_DIR=/out \
     sh /src/packages/site/scripts/build-container.sh
 
-FROM node:24-alpine@sha256:a0b9bf06e4e6193cf7a0f58816cc935ff8c2a908f81e6f1a95432d679c54fbfd AS base
+FROM node:26-alpine@sha256:2d984a15c9b54fd0aeb608b8e0d0d83529eb34d2966db27a1fb4f1edc3d298a3 AS base
 WORKDIR /app
 
 FROM base AS builder
@@ -17,7 +17,7 @@ ENV API_URL=${API_URL}
 RUN apk add --no-cache git libc6-compat
 COPY --link pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY --link packages/site/package.json ./packages/site/package.json
-RUN corepack enable pnpm
+RUN npm install --global corepack@0.36.0 && corepack enable pnpm
 RUN --mount=type=cache,id=rokbattles-pnpm-store,target=/pnpm/store \
     pnpm config set store-dir /pnpm/store && \
     pnpm install --frozen-lockfile
