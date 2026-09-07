@@ -1,6 +1,6 @@
 use crate::{Error, HEADER_LEN, Header, MAGIC, VERSION, mask, schema};
 
-/// Bounds enforced before copying, unmasking, or decoding a payload.
+/// Input limits checked before copying or unmasking the payload.
 #[derive(Debug, Clone, Copy)]
 pub struct ReadLimits {
     /// Maximum payload bytes, excluding the header; defaults to 16 MiB.
@@ -75,8 +75,8 @@ impl Reader {
     ///
     /// Rejects invalid headers, unsupported versions or flags, oversized input,
     /// length mismatches, and checksum failures. Header and framing errors leave
-    /// the buffer unchanged. A checksum failure leaves the payload
-    /// modified; discard it or reload the original file before retrying.
+    /// the buffer unchanged. A checksum failure leaves the payload modified;
+    /// reload the original file before retrying.
     pub fn read_envelope<'a>(&self, bytes: &'a mut [u8]) -> Result<Envelope<'a>, Error> {
         let header = self.read_header(bytes)?;
         let payload = bytes.get_mut(HEADER_LEN..).ok_or(Error::TruncatedHeader)?;
@@ -92,10 +92,9 @@ impl Reader {
     /// # Errors
     ///
     /// Returns envelope validation errors, [`Error::UnknownSchema`] for an
-    /// unsupported schema, or an error for invalid payload fields or exceeded
-    /// schema limits. As with
-    /// [`Self::read_envelope`], errors after unmasking leave the input modified;
-    /// reload the original file before retrying.
+    /// unsupported schema, or an error for invalid fields or exceeded schema
+    /// limits. Errors after unmasking leave the input modified; reload the
+    /// original file before retrying.
     pub fn decode(&self, bytes: &mut [u8]) -> Result<Decoded, Error> {
         self.decode_expected(bytes, None)
     }
@@ -106,10 +105,10 @@ impl Reader {
     ///
     /// # Errors
     ///
-    /// Returns [`Self::decode`]'s errors or [`Error::SchemaMismatch`] if the
-    /// validated envelope has a different ID. The schema check precedes payload
-    /// interpretation, after unmasking. A schema mismatch leaves the input
-    /// unmasked; reload the original file before retrying.
+    /// Returns errors from [`Self::decode`] or [`Error::SchemaMismatch`] if the
+    /// header has a different ID. The schema check runs after unmasking and
+    /// before payload interpretation. A mismatch leaves the input unmasked;
+    /// reload the original file before retrying.
     pub fn decode_expected(
         &self,
         bytes: &mut [u8],

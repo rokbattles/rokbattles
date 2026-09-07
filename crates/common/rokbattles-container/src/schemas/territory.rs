@@ -1,12 +1,12 @@
-//! Territory planner payloads for mesh definitions, spatial chunks, and provinces.
+//! Territory planner mesh definitions, spatial chunks, and province grids.
 //!
-//! Decoded collections are bounded independently of the encoded file size:
-//! at most 64 MiB of vector elements and string bytes per payload. This includes
-//! expanded province cells, preventing short run-length streams from requesting
-//! unbounded allocations. Other collections share a 65,536-element limit to bound
-//! the number of JavaScript objects created during WASM serialization. These
-//! limits apply to both readers; JavaScript heap usage also depends on the engine.
-//! Integers use canonical u32 varints, with zigzag encoding for i32 coordinates.
+//! Payloads use canonical base-128 `u32` varints, zigzag-encoded `i32` values,
+//! and scaled coordinates. Decoders reject invalid tags, overflow, and trailing bytes.
+//!
+//! Each payload can allocate up to 64 MiB of vector elements and string bytes,
+//! including expanded province cells. Other collections share a 65,536-element
+//! limit to bound JavaScript object creation. These limits apply to Rust and
+//! WASM readers; JavaScript heap usage also depends on the engine.
 
 use serde::Serialize;
 
@@ -43,7 +43,8 @@ pub struct MeshDefinition {
 pub struct MeshInstance {
     /// Referenced mesh definition ID.
     pub mesh: u32,
-    /// Six affine coefficients in the payload's original order.
+    /// Coefficients `[a, b, c, d, tx, ty]` mapping local `(x, y)` to
+    /// `(a*x + b*y + tx, c*x + d*y + ty)` in world coordinates.
     pub affine: [f64; 6],
 }
 
@@ -149,9 +150,9 @@ pub struct MapStructure {
     pub label: String,
     /// Occupied collision area.
     pub collision: Collision,
-    /// Claimed territory radius.
+    /// Claimed territory radius in cells.
     pub territory_radius_in_cells: u32,
-    /// Optional teleport restriction radius; absent becomes JavaScript `null`.
+    /// Teleport restriction radius in cells; `None` becomes JavaScript `null`.
     pub teleport_radius_in_cells: Option<u32>,
     /// Whether an alliance can claim this structure.
     pub claimable: bool,
@@ -286,7 +287,7 @@ impl PayloadReader<'_> {
 
     fn count(&mut self, minimum_bytes: usize) -> Result<usize, Error> {
         let count = usize::try_from(self.uint()?).map_err(|_error| Error::PayloadTooLarge)?;
-        // Check the wire bound before allocating, even when the output budget fits.
+        // Every entry needs at least this many bytes, regardless of the allocation limit.
         if count > self.bytes.len() / minimum_bytes {
             return Err(invalid("territory count exceeds remaining payload"));
         }

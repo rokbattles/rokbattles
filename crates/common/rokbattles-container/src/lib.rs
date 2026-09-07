@@ -1,15 +1,17 @@
-//! Reads and writes ROKB containers with schema-specific payloads.
+//! Reads and writes ROKB `.bin` files with schema-specific payloads.
 //!
-//! Files use the `.bin` extension. Each file contains a 20-byte header followed by one masked payload. The
-//! header identifies the schema, seed, payload length, and checksum. Readers
-//! validate the envelope before interpreting the payload.
+//! Each file contains a 20-byte header followed by a masked payload. The header
+//! records the schema ID, seed, payload length, and checksum. Readers validate
+//! the envelope before decoding the payload.
 //!
-//! Enable `read` for the Rust reader, `write` for the writers, or `wasm-read`
-//! for JavaScript bindings to the same reader. The default features are `read`
-//! and `write`. Built-in schemas support bytes, UTF-8 text, and JSON; callers
-//! supply the serialization and decoding logic for application schemas. Enable
-//! `schemas` for territory planner schemas 401–403; `wasm-read` includes it.
-//! Reserved schemas 1–3 do not require `schemas`.
+//! The default features, `read` and `write`, support bytes, UTF-8 text, and JSON
+//! under reserved schema IDs 1–3. The `schemas` feature adds territory planner
+//! decoders for IDs 401–403. Other layouts use caller-supplied serialization
+//! and decoding. The `wasm-read` feature includes `schemas` and exposes the
+//! reader to JavaScript.
+//!
+//! Readers select AVX2 or NEON when available and otherwise use scalar
+//! decoding. All implementations read the same wire format.
 //!
 //! Masking is reversible using the public seed. CRC32 detects accidental
 //! payload corruption; neither mechanism authenticates the file or restricts

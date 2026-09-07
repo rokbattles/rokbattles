@@ -2,7 +2,7 @@
 #[derive(Debug, thiserror::Error)]
 #[non_exhaustive]
 pub enum Error {
-    /// The input cannot contain a complete header.
+    /// The input is shorter than the header.
     #[error("ROKB header is truncated")]
     TruncatedHeader,
     /// The magic does not identify a ROKB file.
@@ -20,7 +20,7 @@ pub enum Error {
     /// The selected decoder does not support this schema ID.
     #[error("unknown ROKB schema {0}")]
     UnknownSchema(u16),
-    /// The caller expected a different payload type.
+    /// The header schema ID differs from the required ID.
     #[error("expected ROKB schema {expected}, got {actual}")]
     SchemaMismatch {
         /// The required schema ID.
@@ -31,13 +31,13 @@ pub enum Error {
     /// Declared length differs from the bytes following the header.
     #[error("ROKB payload length mismatch")]
     LengthMismatch,
-    /// The configured limit, wire length, or host allocation size was exceeded.
+    /// An input or schema limit was exceeded, or an allocation failed.
     #[error("ROKB payload exceeds the size limit")]
     PayloadTooLarge,
     /// The checksum did not match the unmasked payload.
     #[error("ROKB payload checksum failed")]
     ChecksumMismatch,
-    /// A text payload contains invalid UTF-8.
+    /// Payload text contains invalid UTF-8.
     #[error("invalid ROKB UTF-8 text: {0}")]
     InvalidUtf8(#[from] std::str::Utf8Error),
     /// A JSON payload cannot be read or written.

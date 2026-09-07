@@ -9,12 +9,13 @@ crate-type = ["rlib", "cdylib"]
 
 [features]
 default = ["read", "write"]
-read = ["dep:crc32fast", "dep:serde_json"]
+read = ["dep:crc32fast", "dep:serde_json", "dep:rokbattles-container-simd"]
 write = ["dep:crc32fast", "dep:serde_json"]
 schemas = ["read", "dep:serde"]
 wasm-read = ["schemas", "dep:wasm-bindgen", "dep:js-sys", "dep:serde-wasm-bindgen"]
 
 [dependencies]
+rokbattles-container-simd = { path = "../rokbattles-container-simd", optional = true }
 thiserror.workspace = true
 serde = { workspace = true, optional = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true, optional = true }
@@ -25,3 +26,11 @@ js-sys = { workspace = true, optional = true }
 
 [lints]
 workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+
+[[bench]]
+name = "container"
+harness = false
+required-features = ["read", "write"]
