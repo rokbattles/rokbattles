@@ -12,8 +12,8 @@ RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
     --mount=type=cache,id=rokbattles-cargo-target-x86_64-musl,target=/target,sharing=locked \
     cd /src && \
-    CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-ingress && \
-    cp /target/x86_64-unknown-linux-musl/release/rokbattles-ingress /app/rokbattles-ingress && \
+    CARGO_TARGET_DIR=/target cargo build --profile server --locked --target x86_64-unknown-linux-musl -p rokbattles-ingress && \
+    cp /target/x86_64-unknown-linux-musl/server/rokbattles-ingress /app/rokbattles-ingress && \
     mkdir -p /app/artifacts && \
     cp /src/crates/apps/rokbattles-ingress/artifacts/artifacts.json /app/artifacts/artifacts.json
 
