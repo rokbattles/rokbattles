@@ -1,4 +1,7 @@
-//! Opponent parser for DuelBattle2 mail.
+//! Builds the `opponent` section from `body.detail.DefPlayer`.
+//!
+//! Uses the same identity, commander, and buff rules as the attacking side. Side
+//! selection follows the payload's attack/defense roles, not the mail receiver.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::Value;
@@ -8,7 +11,7 @@ use crate::{
     player::{extract_player_buffs, extract_player_section_from_map, locate_player},
 };
 
-/// Pulls opponent details from the defending player data.
+/// Extracts opponent details from the defending player data.
 #[derive(Debug, Default)]
 pub struct OpponentExtractor;
 

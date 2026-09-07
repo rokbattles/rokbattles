@@ -22,7 +22,6 @@ pub struct ReportsStore {
     mails_alliance_aoobattleresults: Collection<Document>,
     mails_alliance_aoobattleinfo: Collection<Document>,
     mails_alliance_aooindividualresults: Collection<Document>,
-    mails_alliance_aooregistration: Collection<Document>,
     mails_system_barbarianfort: Collection<Document>,
     mails_system_kahartreasure: Collection<Document>,
     mails_eventmemberlootreport: Collection<Document>,
@@ -35,7 +34,9 @@ pub struct ReportsStore {
     g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_karuakceremony: Collection<Document>,
     g_rok_prec_drastc: Collection<Document>,
+    g_rok_prec_drastc_presoc: Collection<Document>,
     g_rok_prec_cmdr_pairings_v2: Collection<Document>,
+    g_rok_prec_cmdr_pairings_v2_presoc: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -48,7 +49,6 @@ impl ReportsStore {
             mails_alliance_aoobattleinfo: db.collection("mails_alliance_aoobattleinfo"),
             mails_alliance_aooindividualresults: db
                 .collection("mails_alliance_aooindividualresults"),
-            mails_alliance_aooregistration: db.collection("mails_alliance_aooregistration"),
             mails_system_barbarianfort: db.collection("mails_system_barbarianfort"),
             mails_system_kahartreasure: db.collection("mails_system_kahartreasure"),
             mails_eventmemberlootreport: db.collection("mails_eventmemberlootreport"),
@@ -61,7 +61,9 @@ impl ReportsStore {
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
             g_rok_prec_drastc: db.collection("g_rok_prec_drastc"),
+            g_rok_prec_drastc_presoc: db.collection("g_rok_prec_drastc_presoc"),
             g_rok_prec_cmdr_pairings_v2: db.collection("g_rok_prec_cmdr_pairings_v2"),
+            g_rok_prec_cmdr_pairings_v2_presoc: db.collection("g_rok_prec_cmdr_pairings_v2_presoc"),
         }
     }
 
@@ -303,11 +305,8 @@ impl ReportsStore {
         for model in ark_secondary_models.clone() {
             self.mails_alliance_aoobattleinfo.create_index(model).await?;
         }
-        for model in ark_secondary_models.clone() {
-            self.mails_alliance_aooindividualresults.create_index(model).await?;
-        }
         for model in ark_secondary_models {
-            self.mails_alliance_aooregistration.create_index(model).await?;
+            self.mails_alliance_aooindividualresults.create_index(model).await?;
         }
 
         let barbarian_fort_models = vec![
@@ -518,11 +517,6 @@ impl ReportsStore {
         &self.mails_alliance_aooindividualresults
     }
 
-    /// Access Ark of Osiris registration mails.
-    pub fn alliance_aooregistration_collection(&self) -> &Collection<Document> {
-        &self.mails_alliance_aooregistration
-    }
-
     /// Access the system barbarian fort mail collection.
     pub fn system_barbarian_fort_collection(&self) -> &Collection<Document> {
         &self.mails_system_barbarianfort
@@ -581,6 +575,16 @@ impl ReportsStore {
     /// Access materialized DRASTC scores for Combat Lab.
     pub fn precomputed_drastc_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_drastc
+    }
+
+    /// Access materialized pre-SoC DRASTC scores for Combat Lab.
+    pub fn precomputed_drastc_presoc_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_drastc_presoc
+    }
+
+    /// Access compact, chunked pre-SoC Combat Lab commander pairing aggregates.
+    pub fn precomputed_commander_pairings_v2_presoc_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_cmdr_pairings_v2_presoc
     }
 
     /// Access compact, chunked Combat Lab commander pairing aggregates.

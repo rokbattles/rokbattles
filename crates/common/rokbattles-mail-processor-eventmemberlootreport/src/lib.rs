@@ -1,6 +1,37 @@
 #![forbid(unsafe_code)]
 
-//! Parses GVE EventMemberLootReport mail.
+//! Extracts structured sections from decoded GVE EventMemberLootReport mail.
+//!
+//! Pass the decoded root object to [`process`]. The caller selects the mail
+//! category; this crate does not decode binary files or validate the root `type`
+//! label. Field names are case-sensitive.
+//!
+//! # Sections
+//!
+//! | Section | Shape | Contents |
+//! | --- | --- | --- |
+//! | `metadata` | object | Root `id`, `time`, `receiver`, and `serverId` under the standard SDK field names. |
+//! | `boss` | object | A stable boss ID inferred from `body.content.subTitle`. |
+//! | `participants` | array | Player identity, avatars, and loot from `body.content.infos`. |
+//!
+//! The boss extractor matches known localized names as case-sensitive substrings
+//! of the subtitle. An unknown subtitle fails extraction. Participants and their
+//! loot retain their input order. The registry checks `EventName == "GVE"` when
+//! routing mail; this processor does not repeat that category check.
+//!
+//! # Examples
+//!
+//! Process an already-decoded JSON report:
+//!
+//! ```no_run
+//! use rokbattles_mail_processor_eventmemberlootreport::process;
+//! use serde_json::Value;
+//!
+//! let input: Value = serde_json::from_slice(&std::fs::read("mail.json")?)?;
+//! let output = process(&input)?;
+//! println!("{}", serde_json::to_string_pretty(&output)?);
+//! # Ok::<(), Box<dyn std::error::Error>>(())
+//! ```
 
 mod boss;
 mod content;
@@ -11,7 +42,22 @@ pub use rokbattles_mail_sdk::{ExtractError, Section};
 use rokbattles_mail_sdk::{ProcessError, ProcessedMail, Processor};
 use serde_json::Value;
 
-/// Runs the GVE member loot report parser.
+/// Extracts the sections described in the [crate documentation](crate#sections).
+///
+/// Borrows `input` and returns owned section data. The SDK runs independent
+/// section extractors on scoped threads; no partial output is returned on error.
+///
+/// # Errors
+///
+/// Returns [`ProcessError::ExtractorFailed`] with the section name and original
+/// [`ExtractError`] when a required value is absent or invalid. Optional fields
+/// use the format-specific defaults described above; other invalid values fail
+/// extraction. Worker and section-name failures follow the SDK's
+/// [`Processor::process`] behavior.
+///
+/// # Panics
+///
+/// Has the thread-spawning and panic-propagation behavior of [`Processor::process`].
 pub fn process(input: &Value) -> Result<ProcessedMail, ProcessError> {
     processor().process(input)
 }

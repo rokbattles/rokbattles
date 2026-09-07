@@ -1,3 +1,8 @@
+//! Sums input records and derives the four battle-based metrics.
+//!
+//! Only totals are retained. Sanitizing each input before addition prevents a
+//! negative or non-finite field from cancelling valid contributions.
+
 use crate::{
     BattleRecord,
     metrics::{casualties, consistency_rate_from_parts, finite_non_negative, trade_ratio},
@@ -43,6 +48,7 @@ impl BattleAggregate {
         );
         self.sender_healing += finite_non_negative(record.sender_healing);
         self.decisive_battles += record.decisive_battles;
+        // Cap each record before summing so excess wins cannot offset another record's losses.
         self.wins += record.wins.min(record.decisive_battles);
         self.positive_trades += record.positive_trades.min(record.sample_count);
     }
@@ -52,6 +58,8 @@ impl BattleAggregate {
     }
 
     pub(crate) fn metrics(&self) -> Metrics {
+        // Divide combined totals once; averaging record rates would weight small
+        // and large batches equally. The one-second floor also covers zero duration.
         let duration = self.total_duration_seconds.max(1.0);
         let win_rate = if self.decisive_battles == 0 {
             0.0
@@ -63,6 +71,7 @@ impl BattleAggregate {
         } else {
             self.positive_trades as f64 / self.sample_count as f64
         };
+        // No decisive battles means the win rate is absent, not a measured zero.
         let consistency_rate = consistency_rate_from_parts(
             (self.decisive_battles > 0).then_some(win_rate),
             (self.sample_count > 0).then_some(positive_trade_rate),

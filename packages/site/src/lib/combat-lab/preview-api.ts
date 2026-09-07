@@ -9,6 +9,7 @@ import {
   combatLabPreviewRangeKeys,
   combatLabPreviewScenarioKeys,
 } from "@/lib/combat-lab/preview-types";
+import type { CombatLabSeason } from "@/lib/combat-lab/season";
 import { calculateTradePercentage } from "@/lib/combat-lab/trade-percentage";
 import { getCommanderName } from "@/lib/commander";
 
@@ -45,15 +46,19 @@ export async function fetchCombatLabPreview(options: {
   primary: number;
   secondary: number;
   locale?: string;
+  season: CombatLabSeason;
 }): Promise<CombatLabPreviewData> {
   const params = new URLSearchParams({
     primary: options.primary.toString(),
     secondary: options.secondary.toString(),
   });
   const apiUrl = process.env.API_URL || "http://localhost:8001";
-  const response = await fetch(`${apiUrl.replace(/\/$/, "")}/v2/global/combat-lab?${params}`, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `${apiUrl.replace(/\/$/, "")}/v2/global/combat-lab${options.season === "presoc" ? "/presoc" : ""}?${params}`,
+    {
+      cache: "no-store",
+    }
+  );
   if (response.status === 404) notFound();
   if (!response.ok) {
     throw new Error(`Could not load Combat Lab data (${response.status})`);

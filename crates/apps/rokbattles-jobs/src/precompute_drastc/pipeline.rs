@@ -4,11 +4,16 @@ use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
 use super::model::{PairingKey, Strategy};
+use crate::combat_lab_season::CombatLabSeason;
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
-pub(super) fn build_drastc_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
-    let mut pipeline = build_pairing_entries_pipeline(legendary_ids, cutoff_mail_time);
+pub(super) fn build_drastc_pipeline(
+    commander_ids: &[i64],
+    cutoff_mail_time: i64,
+    season: CombatLabSeason,
+) -> Vec<Document> {
+    let mut pipeline = build_pairing_entries_pipeline(commander_ids, cutoff_mail_time);
     pipeline.extend([
         doc! { "$match": { "strategy": Strategy::OpenField.as_str() } },
         raw_totals_group_stage(doc! {
@@ -20,32 +25,32 @@ pub(super) fn build_drastc_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64
         reference_window_stage(),
         drastc_output_project_stage(),
     ]);
-    pipeline
+    season.scope_pipeline(pipeline)
 }
 
-fn build_pairing_entries_pipeline(legendary_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
-    let legendary_id_values = legendary_id_bson_array(legendary_ids);
+fn build_pairing_entries_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
+    let commander_id_values = commander_id_bson_array(commander_ids);
     let sender_condition = ids_match_condition(
         "$sender.commanders.primary.id",
         "$sender.commanders.secondary.id",
-        &legendary_id_values,
+        &commander_id_values,
     );
     let opponent_condition = ids_match_condition(
         "$opponents.commanders.primary.id",
         "$opponents.commanders.secondary.id",
-        &legendary_id_values,
+        &commander_id_values,
     );
     let pair_filters = vec![
         Bson::Document(doc! {
-            "sender.commanders.primary.id": { "$in": legendary_id_values.clone() },
-            "sender.commanders.secondary.id": { "$in": legendary_id_values.clone() },
+            "sender.commanders.primary.id": { "$in": commander_id_values.clone() },
+            "sender.commanders.secondary.id": { "$in": commander_id_values.clone() },
         }),
         Bson::Document(doc! {
             "opponents": {
                 "$elemMatch": {
                     "player_id": { "$gt": 0 },
-                    "commanders.primary.id": { "$in": legendary_id_values.clone() },
-                    "commanders.secondary.id": { "$in": legendary_id_values },
+                    "commanders.primary.id": { "$in": commander_id_values.clone() },
+                    "commanders.secondary.id": { "$in": commander_id_values },
                 }
             }
         }),
@@ -504,19 +509,19 @@ fn aggregate_consistency_rate_expr() -> Document {
     }
 }
 
-fn legendary_id_bson_array(legendary_ids: &[i64]) -> Vec<Bson> {
-    legendary_ids.iter().map(|id| Bson::Int64(*id)).collect()
+fn commander_id_bson_array(commander_ids: &[i64]) -> Vec<Bson> {
+    commander_ids.iter().map(|id| Bson::Int64(*id)).collect()
 }
 
 fn ids_match_condition(
     primary_expr: &'static str,
     secondary_expr: &'static str,
-    legendary_ids: &[Bson],
+    commander_ids: &[Bson],
 ) -> Document {
     doc! {
         "$and": [
-            { "$in": [primary_expr, legendary_ids.to_vec()] },
-            { "$in": [secondary_expr, legendary_ids.to_vec()] },
+            { "$in": [primary_expr, commander_ids.to_vec()] },
+            { "$in": [secondary_expr, commander_ids.to_vec()] },
             { "$ne": [primary_expr, secondary_expr] },
         ]
     }
@@ -688,7 +693,7 @@ mod tests {
     #[test]
     fn build_drastc_pipeline_starts_with_indexable_kvk_filter() {
         let cutoff_mail_time = 1_755_000_000_000_000_i64;
-        let pipeline = build_drastc_pipeline(&[509, 6], cutoff_mail_time);
+        let pipeline = build_drastc_pipeline(&[509, 6], cutoff_mail_time, CombatLabSeason::Soc);
         let matcher = pipeline
             .first()
             .and_then(|stage| stage.get_document("$match").ok())
@@ -714,7 +719,8 @@ mod tests {
 
     #[test]
     fn build_drastc_pipeline_streams_pairing_documents_without_facets() {
-        let pipeline = build_drastc_pipeline(&[509, 6], 1_755_000_000_000_000_i64);
+        let pipeline =
+            build_drastc_pipeline(&[509, 6], 1_755_000_000_000_000_i64, CombatLabSeason::Soc);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
 
         assert_eq!(group_count, 1);
@@ -934,5 +940,25 @@ mod tests {
                 }
             }
         );
+    }
+
+    #[test]
+    fn presoc_aggregation_filters_sender_season_before_extracting_pairings() {
+        let pipeline = build_drastc_pipeline(&[3, 6], 100, CombatLabSeason::PreSoc);
+        assert_eq!(
+            pipeline[0],
+            doc! {
+                "$match": { "sender.server_season": { "$in": [
+                    "1", "2",
+                    mongodb::bson::Regex { pattern: r"^1\..*$".into(), options: String::new() },
+                    mongodb::bson::Regex { pattern: r"^2\..*$".into(), options: String::new() },
+                ] } }
+            }
+        );
+        assert_eq!(
+            pipeline[1].get_document("$match").expect("report match").get_bool("metadata.kvk"),
+            Ok(true)
+        );
+        assert!(format!("{pipeline:?}").contains("$setWindowFields"));
     }
 }

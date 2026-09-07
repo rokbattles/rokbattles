@@ -1,4 +1,9 @@
-//! Battle modifier and effect-statistic parsing.
+//! Normalizes per-attack KvK modifier sources and effect statistics for both sides.
+//!
+//! `Self*` inputs map to sender effects and `Ops*` inputs to opponent effects.
+//! Missing or null arrays become empty, including nested IDs and stats. Present
+//! entries require their identifying fields. A stat's `V` value is copied as-is,
+//! including null or nonnumeric JSON, so its source-specific meaning is preserved.
 
 use rokbattles_mail_sdk::{ExtractError, require_array, require_string_field, require_u64_field};
 use serde_json::{Map, Value, json};
@@ -82,6 +87,7 @@ fn extract_stat_values(value: Option<&Value>) -> Result<Vec<Value>, ExtractError
                 .as_object()
                 .ok_or(ExtractError::InvalidFieldType { field: "Stats", expected: "object" })?;
             let key = require_string_field(stat, "K")?;
+            // V is source-defined data, not necessarily a number; keep its JSON shape.
             let value = stat.get("V").ok_or(ExtractError::MissingField { field: "V" })?;
 
             Ok(json!({ "key": key, "value": value }))

@@ -1,0 +1,19 @@
+[package]
+name = "rokbattles-gateway-protocol"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+bytes.workspace = true
+flate2 = { workspace = true, features = ["zlib-rs"] }
+reqwest = { workspace = true, features = ["json", "multipart", "rustls-tls-native-roots"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "net", "io-util", "time"] }
+
+[lints]
+workspace = true

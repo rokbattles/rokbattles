@@ -12,7 +12,7 @@ packages/site/legal/
 *.tsbuildinfo
 next-env.d.ts
 samples/game/
-crates/apps/rokbattles-tcp-relay/artifacts/
+crates/apps/rokbattles-nat-gateway/artifacts/
 crates/apps/rokbattles-ingress/artifacts/
 .source
 logs

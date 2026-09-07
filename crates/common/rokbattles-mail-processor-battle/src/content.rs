@@ -1,4 +1,7 @@
-//! Helpers for walking Battle mail content.
+//! Borrows the required `body.content` object and shares SDK field readers.
+//!
+//! Each extractor reads the same decoded input independently. These helpers do
+//! not detect the mail type or unwrap arrays around the root object.
 
 pub(crate) use rokbattles_mail_sdk::{
     ExtractError, require_child_object, require_object, require_string_field, require_u64_field,

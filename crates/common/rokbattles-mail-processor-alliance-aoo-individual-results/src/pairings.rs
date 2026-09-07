@@ -1,4 +1,8 @@
-//! Pairings parser for AllianceAOOIndividualResults mail.
+//! Maps `body.kvs.FightReport.Stat.HerosStat` into commander pairing rows.
+//!
+//! A missing or null report, stat table, or pairing list produces an empty array;
+//! `Stat = []` is also treated as absent. Present rows require both commander IDs
+//! and their battle counters. Input order is preserved; pairings are not merged.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section, require_array, require_object};
 use serde_json::{Value, json};
@@ -8,7 +12,7 @@ use crate::content::{
     require_u64_field,
 };
 
-/// Pulls hero pairing stats from `body.kvs.FightReport.Stat.HerosStat`.
+/// Extracts hero pairing stats from `body.kvs.FightReport.Stat.HerosStat`.
 #[derive(Debug, Default)]
 pub struct PairingsExtractor;
 
@@ -28,6 +32,8 @@ impl Extractor for PairingsExtractor {
         let root = require_object(input)?;
         let body = require_child_object(root, "body")?;
         let kvs = require_child_object(body, "kvs")?;
+        // Sparse reports can omit FightReport or encode its empty Stat table as [].
+        // Both mean no recorded pairings, not a row with zero counters.
         let heroes_stat = match optional_child_object(kvs, "FightReport")? {
             Some(fight_report) => match optional_child_object_or_empty_array(fight_report, "Stat")?
             {

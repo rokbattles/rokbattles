@@ -1,6 +1,6 @@
 //! V2 raw binary mail storage helpers.
 
-use std::io::Cursor;
+use std::io::{Cursor, Read};
 
 use mongodb::bson::{Binary, Bson, DateTime, Document, doc, spec::BinarySubtype};
 use serde_json::Value;
@@ -24,7 +24,7 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
         .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
     let compressed = compress_raw_mail(input.original_bytes, input.zstd_level)?;
 
-    let mut document = doc! {
+    let document = doc! {
         "metadata": {
             "userAgent": input.user_agent,
             "checksum": input.checksum,
@@ -45,18 +45,6 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
         "updatedAt": input.now,
     };
 
-    if let Some(entity) = input.network_entity {
-        document.insert(
-            "network",
-            doc! {
-                "entity": Bson::Binary(Binary {
-                    subtype: BinarySubtype::Generic,
-                    bytes: compress_raw_mail(entity, input.zstd_level)?,
-                }),
-            },
-        );
-    }
-
     Ok(document)
 }
 
@@ -64,7 +52,6 @@ pub fn build_raw_mail_doc(input: RawMailDocumentInput<'_>) -> Result<Document, A
 #[derive(Debug, Clone, Copy)]
 pub struct RawMailDocumentInput<'a> {
     pub original_bytes: &'a [u8],
-    pub network_entity: Option<&'a [u8]>,
     pub user_agent: &'a str,
     pub checksum: &'a str,
     pub mail: &'a RawMailMetadata,
@@ -110,6 +97,38 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
 pub fn compress_raw_mail(bytes: &[u8], zstd_level: i32) -> Result<Vec<u8>, ApiError> {
     zstd::stream::encode_all(Cursor::new(bytes), zstd_level)
         .map_err(|error| ApiError::internal(error.to_string()))
+}
+
+/// Decompress a stored raw mail while enforcing its recorded and configured sizes.
+pub fn decompress_raw_mail(
+    compressed: &[u8],
+    expected_size: usize,
+    max_size: usize,
+) -> Result<Vec<u8>, ApiError> {
+    if expected_size > max_size {
+        return Err(ApiError::internal("stored mail exceeds the configured upload limit"));
+    }
+
+    let read_limit = u64::try_from(expected_size)
+        .ok()
+        .and_then(|size| size.checked_add(1))
+        .ok_or_else(|| ApiError::internal("stored mail size is out of range"))?;
+    let decoder = zstd::stream::read::Decoder::new(Cursor::new(compressed))
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+    let mut bytes = Vec::with_capacity(expected_size);
+    decoder
+        .take(read_limit)
+        .read_to_end(&mut bytes)
+        .map_err(|error| ApiError::internal(error.to_string()))?;
+
+    if bytes.len() != expected_size {
+        return Err(ApiError::internal(format!(
+            "stored mail size mismatch: expected {expected_size} bytes, decoded {}",
+            bytes.len()
+        )));
+    }
+
+    Ok(bytes)
 }
 
 fn extract_receiver_identity(object: &serde_json::Map<String, Value>) -> Result<String, ApiError> {
@@ -165,6 +184,24 @@ mod tests {
     }
 
     #[test]
+    fn bounded_decompression_roundtrips() {
+        let raw = b"small mail payload";
+        let compressed = compress_raw_mail(raw, 3).expect("compress");
+
+        assert_eq!(
+            decompress_raw_mail(&compressed, raw.len(), raw.len()).expect("decompress"),
+            raw
+        );
+    }
+
+    #[test]
+    fn bounded_decompression_rejects_oversized_stored_mail() {
+        let compressed = compress_raw_mail(b"mail", 3).expect("compress");
+
+        assert!(decompress_raw_mail(&compressed, 4, 3).is_err());
+    }
+
+    #[test]
     fn extracts_v2_metadata_from_decoded_mail() {
         let decoded = json!({
             "id": "12345",
@@ -207,7 +244,6 @@ mod tests {
         };
         let doc = build_raw_mail_doc(RawMailDocumentInput {
             original_bytes: b"raw-binary",
-            network_entity: None,
             user_agent: "ROKBattles/0.1.0",
             checksum: "checksum",
             mail: &mail,
@@ -236,36 +272,6 @@ mod tests {
     }
 
     #[test]
-    fn builds_relay_document_with_compressed_network_entity() {
-        let now = DateTime::now();
-        let mail = RawMailMetadata {
-            id: "12345".to_string(),
-            time: 1772127772844751,
-            receiver: "player_71738515".to_string(),
-        };
-        let network_entity = b"raw network MailEntity";
-        let doc = build_raw_mail_doc(RawMailDocumentInput {
-            original_bytes: b"reconstructed-binary",
-            network_entity: Some(network_entity),
-            user_agent: "ROKBattles/0.1.0 (Relay)",
-            checksum: "checksum",
-            mail: &mail,
-            status: "pending",
-            now,
-            zstd_level: 3,
-        })
-        .expect("doc");
-
-        let compressed_entity = doc
-            .get_document("network")
-            .expect("network document")
-            .get_binary_generic("entity")
-            .expect("network entity");
-
-        assert_eq!(decompress(compressed_entity), network_entity);
-    }
-
-    #[test]
     fn selected_samples_decode_and_raw_compression_roundtrips() {
         let samples = [
             "../../../samples/Rss/Persistent.Mail.118801516499340535",
@@ -276,7 +282,7 @@ mod tests {
         for sample in samples {
             let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(sample);
             let bytes = std::fs::read(path).expect("read sample");
-            let decoded = rokbattles_mail_decoder::decode(&bytes).expect("decode sample");
+            let decoded = rokbattles_mail_codec::decode(&bytes).expect("decode sample");
             extract_raw_mail_metadata(&decoded).expect("extract metadata");
 
             let compressed = compress_raw_mail(&bytes, 3).expect("compress sample");

@@ -15,7 +15,6 @@ use futures::{StreamExt, stream};
 use mongodb::{
     Collection,
     bson::{Bson, DateTime, Document, doc},
-    options::Hint,
 };
 use rokbattles_api::db::ReportsStore;
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
@@ -26,7 +25,10 @@ use self::{
     model::{MonthLoadouts, PairingKey, PairingRoot, PerformancePoint, RawTotals, range_cutoffs},
     pipeline::{loadout_pipeline, performance_pipeline},
 };
-use crate::{commander_catalog::legendary_commander_ids, error::JobsError};
+use crate::{
+    combat_lab_season::CombatLabSeason, commander_catalog::combat_lab_commander_ids,
+    error::JobsError,
+};
 
 const PERFORMANCE_KIND: i64 = 1;
 const LOADOUT_KIND: i64 = 2;
@@ -41,7 +43,7 @@ const DAILY_LOADOUT_DAYS: i64 = 8;
 /// Counts and timings from one compact Combat Lab refresh.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct CommanderPairingsV2PrecomputeStats {
-    pub legendary_commanders: usize,
+    pub supported_commanders: usize,
     pub pairings: usize,
     pub performance_points: usize,
     pub loadout_snapshots: usize,
@@ -56,15 +58,30 @@ pub struct CommanderPairingsV2PrecomputeStats {
 pub async fn precompute_commander_pairings_v2_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::Soc).await
+}
+
+/// Refresh Season 1/2 Combat Lab data using only pre-SoC scores and reports.
+pub async fn precompute_commander_pairings_v2_presoc_data(
+    reports_store: &ReportsStore,
+) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::PreSoc).await
+}
+
+async fn precompute_for_season(
+    reports_store: &ReportsStore,
+    season: CombatLabSeason,
+) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
     let started = Instant::now();
     let generation = DateTime::now();
     let now_ms = generation.timestamp_millis();
     let cutoffs = range_cutoffs(now_ms);
     let daily_loadout_cutoff = now_ms - DAILY_LOADOUT_DAYS * model::DAY_MS;
-    let legendary_ids = legendary_commander_ids()?;
+    let commander_ids = combat_lab_commander_ids(season)?;
     let catalogs = Catalogs::load()?;
-    let output = reports_store.precomputed_commander_pairings_v2_collection();
-    let mut roots = read_stored_drastc(reports_store).await?;
+    let output = season.pairings_collection(reports_store);
+    season.ensure_pairings_indexes(&output).await?;
+    let mut roots = read_stored_drastc(&season.drastc_collection(reports_store)).await?;
     let performance_partitions = time_partitions(cutoffs[0], now_ms, PERFORMANCE_CHUNK_MS);
     let mut documents_written = 0_usize;
     let mut max_document_bytes = 0_usize;
@@ -75,10 +92,9 @@ pub async fn precompute_commander_pairings_v2_data(
         .map(|(start_ms, end_ms)| {
             read_performance_partition(
                 reports_store.battle_collection(),
-                output,
-                &legendary_ids,
-                start_ms,
-                end_ms,
+                &output,
+                performance_pipeline(&commander_ids, start_ms, end_ms, season),
+                season,
                 generation,
                 &cutoffs,
             )
@@ -99,8 +115,9 @@ pub async fn precompute_commander_pairings_v2_data(
     let loadout_partitions = time_partitions(cutoffs[0], now_ms, LOADOUT_CHUNK_MS);
     let loadout_context = LoadoutPartitionContext {
         source: reports_store.battle_collection(),
-        output,
-        legendary_ids: &legendary_ids,
+        output: &output,
+        commander_ids: &commander_ids,
+        season,
         daily_cutoff_ms: daily_loadout_cutoff,
         generation,
         catalogs: &catalogs,
@@ -119,7 +136,7 @@ pub async fn precompute_commander_pairings_v2_data(
     let loadout_seconds = loadout_started.elapsed().as_secs();
 
     let pairings = roots.len();
-    let mut writer = BulkWriter::new(output);
+    let mut writer = BulkWriter::new(&output);
     for (key, root) in roots {
         writer.push(root_document(key, root, generation)?).await?;
     }
@@ -132,7 +149,7 @@ pub async fn precompute_commander_pairings_v2_data(
     output.delete_many(doc! { "g": { "$ne": generation } }).await?;
 
     Ok(CommanderPairingsV2PrecomputeStats {
-        legendary_commanders: legendary_ids.len(),
+        supported_commanders: commander_ids.len(),
         pairings,
         performance_points,
         loadout_snapshots,
@@ -145,10 +162,9 @@ pub async fn precompute_commander_pairings_v2_data(
 }
 
 async fn read_stored_drastc(
-    reports_store: &ReportsStore,
+    source: &Collection<Document>,
 ) -> Result<BTreeMap<PairingKey, PairingRoot>, JobsError> {
-    let mut cursor = reports_store
-        .precomputed_drastc_collection()
+    let mut cursor = source
         .find(doc! {})
         .projection(doc! {
             "_id": 0,
@@ -214,21 +230,16 @@ struct PerformancePartition {
 async fn read_performance_partition(
     source: &Collection<Document>,
     output: &Collection<Document>,
-    legendary_ids: &[i64],
-    start_ms: i64,
-    end_ms: i64,
+    pipeline: Vec<Document>,
+    season: CombatLabSeason,
     generation: DateTime,
     cutoffs: &[i64; 4],
 ) -> Result<PerformancePartition, JobsError> {
     let mut cursor = source
-        .aggregate(performance_pipeline(legendary_ids, start_ms, end_ms))
+        .aggregate(pipeline)
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(output);
     let mut roots = BTreeMap::<PairingKey, PairingRoot>::new();
@@ -272,7 +283,8 @@ struct LoadoutPartition {
 struct LoadoutPartitionContext<'a> {
     source: &'a Collection<Document>,
     output: &'a Collection<Document>,
-    legendary_ids: &'a [i64],
+    commander_ids: &'a [i64],
+    season: CombatLabSeason,
     daily_cutoff_ms: i64,
     generation: DateTime,
     catalogs: &'a Catalogs,
@@ -286,18 +298,15 @@ async fn read_loadout_partition(
     let mut cursor = context
         .source
         .aggregate(loadout_pipeline(
-            context.legendary_ids,
+            context.commander_ids,
             start_ms,
             end_ms,
             context.daily_cutoff_ms,
+            context.season,
         ))
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(context.season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(context.output);
     let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();
@@ -390,17 +399,21 @@ async fn write_chunk_records(
 ) -> Result<(), JobsError> {
     let mut part = first_part;
     let mut current = Vec::new();
+    // The metadata fields (including part) have fixed-width BSON values. The empty
+    // document also accounts for the array's length prefix and terminating byte.
+    let empty_size =
+        encoded_size(&chunk_document(kind, pairing, month, generation, part, Vec::new()))?;
+    let mut current_size = empty_size;
 
     for record in records {
-        current.push(record);
-        let candidate = chunk_document(kind, pairing, month, generation, part, current.clone());
-        if encoded_size(&candidate)? > SAFE_BSON_BYTES {
-            let record = current.pop().expect("record was just pushed");
-            if current.is_empty() {
-                return Err(JobsError::InvalidCombatLabData(
-                    "one packed Combat Lab record exceeds the safe BSON limit".to_owned(),
-                ));
-            }
+        let record_size = encoded_record_size(&record)?;
+        // Index zero needs one byte even when the record starts a new chunk.
+        if empty_size + record_size + 1 > SAFE_BSON_BYTES {
+            return Err(JobsError::InvalidCombatLabData(
+                "one packed Combat Lab record exceeds the safe BSON limit".to_owned(),
+            ));
+        }
+        if current_size + record_size + array_index_digits(current.len()) > SAFE_BSON_BYTES {
             writer
                 .push(chunk_document(
                     kind,
@@ -412,14 +425,33 @@ async fn write_chunk_records(
                 ))
                 .await?;
             part += 1;
-            current.push(record);
+            current_size = empty_size;
         }
+        current_size += record_size + array_index_digits(current.len());
+        current.push(record);
     }
 
     if !current.is_empty() {
         writer.push(chunk_document(kind, pairing, month, generation, part, current)).await?;
     }
     Ok(())
+}
+
+fn encoded_record_size(record: &Bson) -> Result<usize, JobsError> {
+    #[derive(serde::Serialize)]
+    struct Element<'a> {
+        #[serde(rename = "")]
+        value: &'a Bson,
+    }
+
+    // Encode only this borrowed value. Remove the wrapper's four-byte length and
+    // terminator, retaining the element's type tag and key terminator. Array index
+    // digits are added separately, since the index resets when a chunk fills up.
+    Ok(mongodb::bson::to_vec(&Element { value: record })?.len() - 5)
+}
+
+fn array_index_digits(index: usize) -> usize {
+    index.checked_ilog10().unwrap_or(0) as usize + 1
 }
 
 fn chunk_document(

@@ -1,4 +1,9 @@
-//! Localized system barbarian fort mail body templates.
+//! Localized templates used to recover fort reward details from body text.
+//!
+//! Game template families are kept together below. Literal text and markup must
+//! match after outer whitespace and input non-breaking-space normalization. The
+//! matcher captures `p2` as level, `p3` as damage percentage, and `p4` as reward
+//! tier; other placeholders delimit text but are not included in the output.
 
 pub(crate) const BODY_TEMPLATES: &[&str] = &[
     // BARBARIAN_CONTENT_2

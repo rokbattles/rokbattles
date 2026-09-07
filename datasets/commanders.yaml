@@ -40,6 +40,7 @@ commanders:
       zh_TW: "無冕之王"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -205,6 +206,7 @@ commanders:
       zh_TW: "天縱之才"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - infantry
       - garrison
@@ -370,6 +372,7 @@ commanders:
       zh_TW: "紅鬍子"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -535,6 +538,7 @@ commanders:
       zh_TW: "唯一聖主"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - infantry
       - garrison
@@ -701,6 +705,7 @@ commanders:
       zh_TW: "變革之弓"
     prime: false
     rarity: legendary
+    kvk_limit: 1
     talents:
       - archer
       - garrison
@@ -866,6 +871,7 @@ commanders:
       zh_TW: "亂世梟雄"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - cavalry
       - peacekeeping
@@ -1032,6 +1038,7 @@ commanders:
       zh_TW: "獅心王"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - infantry
       - garrison
@@ -1198,6 +1205,7 @@ commanders:
       zh_TW: "鐮倉戰神"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - cavalry
       - peacekeeping
@@ -1363,6 +1371,7 @@ commanders:
       zh_TW: "不朽戰錘"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - infantry
       - garrison
@@ -1528,6 +1537,7 @@ commanders:
       zh_TW: "神聖領主"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - archer
       - versatility
@@ -1694,6 +1704,7 @@ commanders:
       zh_TW: "條頓堡的解放者"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - archer
       - garrison
@@ -1859,6 +1870,7 @@ commanders:
       zh_TW: "武士道之魂"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - archer
       - garrison
@@ -2024,6 +2036,7 @@ commanders:
       zh_TW: "戰火雙刃"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -2189,6 +2202,7 @@ commanders:
       zh_TW: "奧爾良少女"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -2354,6 +2368,7 @@ commanders:
       zh_TW: "儒將之風"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - infantry
       - garrison
@@ -2519,6 +2534,7 @@ commanders:
       zh_TW: "凱爾特玫瑰"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - peacekeeping
@@ -2684,6 +2700,7 @@ commanders:
       zh_TW: "不羈的復興者"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - cavalry
       - garrison
@@ -2849,6 +2866,7 @@ commanders:
       zh_TW: "人民之盾"
     prime: false
     rarity: advanced
+    kvk_limit: 0
     talents:
       - infantry
       - versatility
@@ -2992,6 +3010,7 @@ commanders:
       zh_TW: "暗影蝰蛇"
     prime: false
     rarity: advanced
+    kvk_limit: 0
     talents:
       - archer
       - peacekeeping
@@ -3135,6 +3154,7 @@ commanders:
       zh_TW: "雄鷹之翼"
     prime: false
     rarity: advanced
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -3278,6 +3298,7 @@ commanders:
       zh_TW: "浴火戰矛"
     prime: false
     rarity: advanced
+    kvk_limit: 0
     talents:
       - cavalry
       - versatility
@@ -3421,6 +3442,7 @@ commanders:
       zh_TW: "迦太基守護者"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -3586,6 +3608,7 @@ commanders:
       zh_TW: "埃及豔后"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -3752,6 +3775,7 @@ commanders:
       zh_TW: "西西里女王"
     prime: false
     rarity: elite
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -3895,6 +3919,7 @@ commanders:
       zh_TW: "軍團變革者"
     prime: false
     rarity: elite
+    kvk_limit: 0
     talents:
       - leadership
       - gathering
@@ -4038,6 +4063,7 @@ commanders:
       zh_TW: "落日之美人"
     prime: false
     rarity: elite
+    kvk_limit: 0
     talents:
       - archer
       - versatility
@@ -4181,6 +4207,7 @@ commanders:
       zh_TW: "湖上騎士"
     prime: false
     rarity: elite
+    kvk_limit: 0
     talents:
       - cavalry
       - versatility
@@ -4324,6 +4351,7 @@ commanders:
       zh_TW: "蠻族咆哮者"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - peacekeeping
@@ -4489,6 +4517,7 @@ commanders:
       zh_TW: "死亡蜜酒"
     prime: false
     rarity: elite
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -4632,6 +4661,7 @@ commanders:
       zh_TW: "最後的羅馬人"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - cavalry
       - peacekeeping
@@ -4797,6 +4827,7 @@ commanders:
       zh_TW: "天選之豹"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - cavalry
       - conquering
@@ -4962,6 +4993,7 @@ commanders:
       zh_TW: "帝國先驅"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -5127,6 +5159,7 @@ commanders:
       zh_TW: "納賽爾國王"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - cavalry
       - conquering
@@ -5292,6 +5325,7 @@ commanders:
       zh_TW: "伊斯坦布爾征服者"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -5457,6 +5491,7 @@ commanders:
       zh_TW: "巾幗英雄"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - peacekeeping
@@ -5622,6 +5657,7 @@ commanders:
       zh_TW: "千古女帝"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - leadership
       - garrison
@@ -5788,6 +5824,7 @@ commanders:
       zh_TW: "成吉思汗"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - cavalry
       - versatility
@@ -5954,6 +5991,7 @@ commanders:
       zh_TW: "歐洲之父"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - leadership
       - conquering
@@ -6120,6 +6158,7 @@ commanders:
       zh_TW: "征服之王"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - infantry
       - versatility
@@ -6285,6 +6324,7 @@ commanders:
       zh_TW: "麥西亞領主"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - peacekeeping
@@ -6451,6 +6491,7 @@ commanders:
       zh_TW: "馬薩革泰統治者"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - archer
       - conquering
@@ -6617,6 +6658,7 @@ commanders:
       zh_TW: "黑太子"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - archer
       - versatility
@@ -6783,6 +6825,7 @@ commanders:
       zh_TW: "新羅之主"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -6949,6 +6992,7 @@ commanders:
       zh_TW: "上帝之鞭"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -7115,6 +7159,7 @@ commanders:
       zh_TW: "甲斐之虎"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - cavalry
       - versatility
@@ -7281,6 +7326,7 @@ commanders:
       zh_TW: "安土桃山之淚"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -7447,6 +7493,7 @@ commanders:
       zh_TW: "上帝的贈禮"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - garrison
@@ -7612,6 +7659,7 @@ commanders:
       zh_TW: "美髯公"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -7778,6 +7826,7 @@ commanders:
       zh_TW: "萬人之敵"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -7944,6 +7993,7 @@ commanders:
       zh_TW: "眾神的寵兒"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -8109,6 +8159,7 @@ commanders:
       zh_TW: "卡里亞女王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - garrison
@@ -8275,6 +8326,7 @@ commanders:
       zh_TW: "猩紅避役"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - archer
       - peacekeeping
@@ -8440,6 +8492,7 @@ commanders:
       zh_TW: "忠武公"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - garrison
@@ -8606,6 +8659,7 @@ commanders:
       zh_TW: "孔雀聖主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -8794,6 +8848,7 @@ commanders:
       zh_TW: "征服者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -8959,6 +9014,7 @@ commanders:
       zh_TW: "諾曼底攝政女王"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -9125,6 +9181,7 @@ commanders:
       zh_TW: "無情者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -9291,6 +9348,7 @@ commanders:
       zh_TW: "帕爾米拉女王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - garrison
@@ -9456,6 +9514,7 @@ commanders:
       zh_TW: "最強的鬼神"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -9621,6 +9680,7 @@ commanders:
       zh_TW: "策謀的舞姬"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - peacekeeping
@@ -9786,6 +9846,7 @@ commanders:
       zh_TW: "波斯帝國締造者"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - archer
       - versatility
@@ -9952,6 +10013,7 @@ commanders:
       zh_TW: "巴比倫復興者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - conquering
@@ -10117,6 +10179,7 @@ commanders:
       zh_TW: "阿茲特克雄鷹"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - peacekeeping
@@ -10282,6 +10345,7 @@ commanders:
       zh_TW: "最佳元首"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - versatility
@@ -10447,6 +10511,7 @@ commanders:
       zh_TW: "聖潔君主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - garrison
@@ -10613,6 +10678,7 @@ commanders:
       zh_TW: "西楚霸王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -10779,6 +10845,7 @@ commanders:
       zh_TW: "卡特加特勇士"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - infantry
       - conquering
@@ -10944,6 +11011,7 @@ commanders:
       zh_TW: "北海傳奇"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - leadership
       - conquering
@@ -11109,6 +11177,7 @@ commanders:
       zh_TW: "衛社之臣"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - infantry
       - versatility
@@ -11274,6 +11343,7 @@ commanders:
       zh_TW: "永耀之日"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -11440,6 +11510,7 @@ commanders:
       zh_TW: "天神之怒"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - conquering
@@ -11605,6 +11676,7 @@ commanders:
       zh_TW: "努比亞甘達刻"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - garrison
@@ -11771,6 +11843,7 @@ commanders:
       zh_TW: "格魯吉亞之心"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -11936,6 +12009,7 @@ commanders:
       zh_TW: "德川之鹿"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - versatility
@@ -12102,6 +12176,7 @@ commanders:
       zh_TW: "卡努尼"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - conquering
@@ -12268,6 +12343,7 @@ commanders:
       zh_TW: "布列塔尼之鷹"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - cavalry
       - versatility
@@ -12434,6 +12510,7 @@ commanders:
       zh_TW: "涅瓦河的英雄"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -12600,6 +12677,7 @@ commanders:
       zh_TW: "羅馬護國公"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - garrison
@@ -12766,6 +12844,7 @@ commanders:
       zh_TW: "札馬的軍神"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -12932,6 +13011,7 @@ commanders:
       zh_TW: "托特神喜愛之人"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - archer
       - versatility
@@ -13098,6 +13178,7 @@ commanders:
       zh_TW: "和平之人"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - archer
       - garrison
@@ -13263,6 +13344,7 @@ commanders:
       zh_TW: "蘭開斯特之王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - conquering
@@ -13429,6 +13511,7 @@ commanders:
       zh_TW: "愛西尼女王"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -13595,6 +13678,7 @@ commanders:
       zh_TW: "聖盃領主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - garrison
@@ -13760,6 +13844,7 @@ commanders:
       zh_TW: "天佑聖女"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -13926,6 +14011,7 @@ commanders:
       zh_TW: "安達魯斯總督"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -14091,6 +14177,7 @@ commanders:
       zh_TW: "阿卡德大帝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -14257,6 +14344,7 @@ commanders:
       zh_TW: "北歐女王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -14423,6 +14511,7 @@ commanders:
       zh_TW: "蒙兀兒開創者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -14589,6 +14678,7 @@ commanders:
       zh_TW: "拜占庭革新之王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - garrison
@@ -14755,6 +14845,7 @@ commanders:
       zh_TW: "迦太基女王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - garrison
@@ -14920,6 +15011,7 @@ commanders:
       zh_TW: "臥龍先生"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -15086,6 +15178,7 @@ commanders:
       zh_TW: "伊庇魯斯之王"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - infantry
       - versatility
@@ -15252,6 +15345,7 @@ commanders:
       zh_TW: "雅典之父"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - infantry
       - garrison
@@ -15417,6 +15511,7 @@ commanders:
       zh_TW: "冠軍侯"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -15582,6 +15677,7 @@ commanders:
       zh_TW: "不眠皇帝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -15747,6 +15843,7 @@ commanders:
       zh_TW: "拉科尼亞之鷹"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - garrison
@@ -15913,6 +16010,7 @@ commanders:
       zh_TW: "漢武帝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -16079,6 +16177,7 @@ commanders:
       zh_TW: "新亞述國王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - conquering
@@ -16245,6 +16344,7 @@ commanders:
       zh_TW: "日耳曼狼王"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -16411,6 +16511,7 @@ commanders:
       zh_TW: "保護的海石"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - garrison
@@ -16576,6 +16677,7 @@ commanders:
       zh_TW: "改變戰爭的人"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -16742,6 +16844,7 @@ commanders:
       zh_TW: "四相合一"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -16907,6 +17010,7 @@ commanders:
       zh_TW: "原野之花"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - garrison
@@ -17073,6 +17177,7 @@ commanders:
       zh_TW: "帝國日月"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -17239,6 +17344,7 @@ commanders:
       zh_TW: "天空之藍"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -17405,6 +17511,7 @@ commanders:
       zh_TW: "珍珠小枝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -17571,6 +17678,7 @@ commanders:
       zh_TW: "武愍公"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - garrison
@@ -17737,6 +17845,7 @@ commanders:
       zh_TW: "全勝將軍"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -17903,6 +18012,7 @@ commanders:
       zh_TW: "奧丁之力"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -18068,6 +18178,7 @@ commanders:
       zh_TW: "破曉先驅"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - versatility
@@ -18234,6 +18345,7 @@ commanders:
       zh_TW: "摩爾達維亞大公"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -18400,6 +18512,7 @@ commanders:
       zh_TW: "正義騎士"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -18565,6 +18678,7 @@ commanders:
       zh_TW: "冒煙青蛙"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - archer
       - conquering
@@ -18731,6 +18845,7 @@ commanders:
       zh_TW: "六天夫人"
     prime: false
     rarity: epic
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -18896,6 +19011,7 @@ commanders:
       zh_TW: "東照大權現"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - garrison
@@ -19062,6 +19178,7 @@ commanders:
       zh_TW: "薩珊晨輝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - conquering
@@ -19228,6 +19345,7 @@ commanders:
       zh_TW: "始皇帝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -19393,6 +19511,7 @@ commanders:
       zh_TW: "匈牙利偉大君主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - garrison
@@ -19558,6 +19677,7 @@ commanders:
       zh_TW: "權謀女王"
     prime: false
     rarity: epic
+    kvk_limit: 2
     talents:
       - engineering
       - versatility
@@ -19723,6 +19843,7 @@ commanders:
       zh_TW: "帝國權臣"
     prime: false
     rarity: epic
+    kvk_limit: 2
     talents:
       - engineering
       - versatility
@@ -19888,6 +20009,7 @@ commanders:
       zh_TW: "忠武佐命"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -20054,6 +20176,7 @@ commanders:
       zh_TW: "天選之王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -20220,6 +20343,7 @@ commanders:
       zh_TW: "殺神"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -20386,6 +20510,7 @@ commanders:
       zh_TW: "東方凱撒"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -20551,6 +20676,7 @@ commanders:
       zh_TW: "數學之父"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - engineering
       - versatility
@@ -20717,6 +20843,7 @@ commanders:
       zh_TW: "紅皇后"
     prime: false
     rarity: legendary
+    kvk_limit: 2
     talents:
       - engineering
       - versatility
@@ -20882,6 +21009,7 @@ commanders:
       zh_TW: "皮亞斯特王"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -21048,6 +21176,7 @@ commanders:
       zh_TW: "矮子丕平"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - integration
       - gathering
@@ -21214,6 +21343,7 @@ commanders:
       zh_TW: "希臘第一勇士"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -21379,6 +21509,7 @@ commanders:
       zh_TW: "護城者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - versatility
@@ -21545,6 +21676,7 @@ commanders:
       zh_TW: "建國者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - garrison
@@ -21711,6 +21843,7 @@ commanders:
       zh_TW: "落星將相"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -21876,6 +22009,7 @@ commanders:
       zh_TW: "兵家之師"
     prime: true
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - versatility
@@ -22041,6 +22175,7 @@ commanders:
       zh_TW: "無骨者"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - infantry
       - conquering
@@ -22207,6 +22342,7 @@ commanders:
       zh_TW: "塞爾柱雄主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - versatility
@@ -22373,6 +22509,7 @@ commanders:
       zh_TW: "千島共主"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - archer
       - garrison
@@ -22539,6 +22676,7 @@ commanders:
       zh_TW: "高盧之王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - leadership
       - versatility
@@ -22705,6 +22843,7 @@ commanders:
       zh_TW: "榮光女王"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - engineering
       - versatility
@@ -22870,6 +23009,7 @@ commanders:
       zh_TW: "不羈的復興者"
     prime: false
     rarity: legendary
+    kvk_limit: 0
     talents:
       - cavalry
       - garrison
@@ -23035,6 +23175,7 @@ commanders:
       zh_TW: "雷帝"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - versatility
@@ -23201,6 +23342,7 @@ commanders:
       zh_TW: "英格蘭鐵壁"
     prime: false
     rarity: legendary
+    kvk_limit: 3
     talents:
       - cavalry
       - conquering
@@ -23367,6 +23509,7 @@ commanders:
       zh_TW: "執璽宰輔"
     prime: false
     rarity: legendary
+    kvk_limit: 1
     talents:
       - integration
       - gathering

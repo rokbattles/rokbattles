@@ -2,7 +2,9 @@
 
 mod auth_store;
 mod game_localization_store;
+mod game_query_store;
 mod reports_store;
+mod territory_planner_store;
 
 pub use auth_store::{
     AuthRepository, AuthStoreError, DiscordUserUpsert, MongoAuthStore, NewSessionRecord,
@@ -11,4 +13,10 @@ pub use auth_store::{
 pub use game_localization_store::{
     GameLocalizationStore, GameLocalizationStoreError, GameTranslation,
 };
+pub use game_query_store::{
+    GameQueryColumn, GameQueryRepository, GameQuerySheet, GameQueryStore, GameQueryStoreError,
+};
 pub use reports_store::{ReportsStore, TEST_CLIENT_APP_ID, exclude_test_client_filter};
+pub use territory_planner_store::{
+    TerritoryPlannerConfig, TerritoryPlannerMapSummary, TerritoryPlannerStore,
+};

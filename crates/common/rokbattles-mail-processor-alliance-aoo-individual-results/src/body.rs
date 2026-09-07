@@ -1,4 +1,8 @@
-//! Body parser for AllianceAOOIndividualResults mail.
+//! Builds match flags from `body.type`, `body.param`, and `body.kvs`.
+//!
+//! Type is required and parameter is optional; both accept unsigned integers or
+//! numeric strings. Capitalized `IsWin` is required, while missing or null `Idx`
+//! becomes a null team. The extractor does not validate the selected mail subtype.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, optional_u64_or_string_field, require_object,
@@ -8,7 +12,7 @@ use serde_json::Value;
 
 use crate::content::{optional_u64_field, require_bool_field, require_child_object};
 
-/// Pulls match-level flags from `body.kvs`.
+/// Extracts match-level flags from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 

@@ -9,3 +9,6 @@ serde = { workspace = true, features = ["derive"] }
 
 [lib]
 doctest = false
+
+[lints]
+workspace = true

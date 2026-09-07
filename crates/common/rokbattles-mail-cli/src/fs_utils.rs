@@ -1,3 +1,8 @@
+//! Filesystem helpers for deterministic selection and JSON output.
+//!
+//! Path-aware errors distinguish source access from destination serialization and
+//! write failures. Output helpers expect the destination directory to exist.
+
 use std::{
     ffi::OsStr,
     fs,
@@ -9,12 +14,14 @@ use serde_json::Value;
 
 use crate::MailCliError;
 
+/// Tests the final extension for `json`, ignoring ASCII case.
 pub(crate) fn is_json_file(path: &Path) -> bool {
     path.extension()
         .and_then(|ext| ext.to_str())
         .is_some_and(|ext| ext.eq_ignore_ascii_case("json"))
 }
 
+/// Requires a directory; metadata lookup failures remain I/O errors.
 pub(crate) fn ensure_directory(path: &Path) -> Result<(), MailCliError> {
     let metadata = fs::metadata(path)
         .map_err(|source| MailCliError::Io { source, path: path.to_path_buf() })?;
@@ -25,6 +32,10 @@ pub(crate) fn ensure_directory(path: &Path) -> Result<(), MailCliError> {
     }
 }
 
+/// Collects matching immediate files and sorts their paths.
+///
+/// `Path::is_file` follows symlinks and excludes paths whose metadata cannot
+/// be read. Directory iteration errors are returned.
 pub(crate) fn collect_sorted_files<F>(
     dir: &Path,
     mut predicate: F,
@@ -47,6 +58,10 @@ where
     Ok(files)
 }
 
+/// Serializes to memory, then creates or overwrites the destination file.
+///
+/// Serialization errors leave the destination untouched. Writes are direct,
+/// so an I/O failure may leave an existing file truncated or partially written.
 pub(crate) fn write_json_file<T: Serialize>(
     output_path: &Path,
     value: &T,
@@ -59,6 +74,7 @@ pub(crate) fn write_json_file<T: Serialize>(
         .map_err(|source| MailCliError::Io { source, path: output_path.to_path_buf() })
 }
 
+/// Writes a decoded JSON value using the same format as processor output.
 pub(crate) fn write_json_value(
     output_path: &Path,
     value: &Value,
@@ -67,6 +83,10 @@ pub(crate) fn write_json_value(
     write_json_file(output_path, value, pretty)
 }
 
+/// Builds a destination name from the entire UTF-8 input filename.
+///
+/// Appends the suffix and extension rather than replacing an existing extension.
+/// Missing or non-UTF-8 filenames return `MissingFileName`.
 pub(crate) fn output_path_with_suffix(
     output_dir: &Path,
     input_path: &Path,

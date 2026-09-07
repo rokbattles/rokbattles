@@ -1,3 +1,9 @@
+//! Runtime descriptor loading and envelope field-number resolution.
+//!
+//! The JSON artifact contains a schema version and message descriptors. Envelope
+//! fields are resolved once at load time; body and attachment descriptors remain
+//! indexed for decoding on demand. Names lose leading dots, but retain namespaces.
+
 use std::{
     collections::HashMap,
     fs::File,
@@ -9,9 +15,10 @@ use serde::Deserialize;
 
 use crate::ReconstructionError;
 
-const CURRENT_SCHEMA_VERSION: u32 = 1;
+const CURRENT_SCHEMA_VERSION: u32 = 2;
 const MAX_ARTIFACT_BYTES: u64 = 32 * 1024 * 1024;
 
+/// Resolved envelope and split-attack field numbers, plus body descriptors.
 #[derive(Debug)]
 pub(crate) struct MailSchema {
     pub descriptors: DescriptorPool,
@@ -53,7 +60,8 @@ impl MailSchema {
     fn from_slice(raw: &[u8]) -> Result<Self, ReconstructionError> {
         let artifact: ArtifactFile =
             serde_json::from_slice(raw).map_err(ReconstructionError::InvalidArtifactJson)?;
-        if artifact.schema_version != CURRENT_SCHEMA_VERSION {
+        // Version 2 adds source provenance without changing descriptor fields.
+        if !matches!(artifact.schema_version, 1 | CURRENT_SCHEMA_VERSION) {
             return Err(ReconstructionError::UnsupportedArtifactVersion {
                 actual: artifact.schema_version,
                 expected: CURRENT_SCHEMA_VERSION,
@@ -87,6 +95,7 @@ impl MailSchema {
             server_id: mail.required_field("ServerId", FieldType::Int32)?,
             attachments: mail.required_field("Attachments", FieldType::Message)?,
             previous_box: mail.required_field("PrevBox", FieldType::String)?,
+            // The descriptor spells this field Addtion; preserve that spelling.
             addition: mail.required_field("Addtion", FieldType::Bytes)?,
             original_length: mail.required_field("OriLen", FieldType::Int32)?,
             compression_tag: mail.required_field("Tag", FieldType::Int32)?,
@@ -103,6 +112,7 @@ impl MailSchema {
     }
 }
 
+/// Message descriptors indexed by name with leading dots removed.
 #[derive(Debug)]
 pub(crate) struct DescriptorPool {
     messages: HashMap<String, DynamicMessage>,
@@ -142,11 +152,13 @@ impl DescriptorPool {
     }
 }
 
+/// Fields retained in artifact order for generic body decoding.
 #[derive(Debug)]
 pub(crate) struct DynamicMessage {
     pub fields: Vec<DynamicField>,
 }
 
+/// A field's JSON name, wire number, and protobuf descriptor type metadata.
 #[derive(Debug)]
 pub(crate) struct DynamicField {
     pub name: String,
@@ -160,6 +172,7 @@ fn read_bounded(path: &Path) -> Result<Vec<u8>, ReconstructionError> {
     let file = File::open(path)
         .map_err(|source| ReconstructionError::ReadArtifact { path: path.to_path_buf(), source })?;
     let mut bytes = Vec::new();
+    // One extra byte distinguishes an oversized artifact from an exact fit.
     file.take(MAX_ARTIFACT_BYTES + 1)
         .read_to_end(&mut bytes)
         .map_err(|source| ReconstructionError::ReadArtifact { path: path.to_path_buf(), source })?;
@@ -209,6 +222,7 @@ impl DescriptorMessage {
         name: &'static str,
         field_type: FieldType,
     ) -> Result<u32, ReconstructionError> {
+        // Require one case-insensitive match so casing cannot hide duplicates.
         let matching = self
             .fields
             .iter()
@@ -395,12 +409,12 @@ mod tests {
 
     #[test]
     fn rejects_unsupported_schema_version() {
-        let artifact = br#"{"schema_version":2,"descriptors":{"messages":[]}}"#;
+        let artifact = br#"{"schema_version":3,"descriptors":{"messages":[]}}"#;
 
         assert!(matches!(
             MailSchema::from_slice(artifact),
             Err(ReconstructionError::UnsupportedArtifactVersion {
-                actual: 2,
+                actual: 3,
                 expected: CURRENT_SCHEMA_VERSION
             })
         ));

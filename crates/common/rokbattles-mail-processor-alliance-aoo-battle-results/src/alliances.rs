@@ -1,4 +1,8 @@
-//! Alliance parser for AllianceAOOBattleResults mail.
+//! Maps `body.kvs.asInfos` into an alliance array in input order.
+//!
+//! Alliance ID, membership counts, score, and side flag are required. Abbreviation,
+//! name, logo, power, server ID, and team index may be missing or null and are
+//! written as null. Present optional values still have their types checked.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, optional_string_field, optional_u64_field, require_array,
@@ -7,7 +11,7 @@ use serde_json::{Value, json};
 
 use crate::content::{require_body_kvs, require_bool_field, require_u64_field};
 
-/// Pulls alliance-level match stats from `body.kvs.asInfos`.
+/// Extracts alliance-level match stats from `body.kvs.asInfos`.
 #[derive(Debug, Default)]
 pub struct AlliancesExtractor;
 

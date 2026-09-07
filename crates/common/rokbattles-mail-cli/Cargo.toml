@@ -6,7 +6,7 @@ version.workspace = true
 
 [dependencies]
 clap = { workspace = true, features = ["derive"] }
-rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../rokbattles-mail-registry", features = ["processors"] }
 rokbattles-mail-sdk = { path = "../rokbattles-mail-sdk" }
 serde = { workspace = true }
@@ -18,3 +18,6 @@ tempfile = { workspace = true }
 
 [lib]
 doctest = false
+
+[lints]
+workspace = true

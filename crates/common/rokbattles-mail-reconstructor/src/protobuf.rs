@@ -1,5 +1,12 @@
+//! Schema-independent protobuf wire-field iteration.
+//!
+//! Supports varints, fixed-width values, and borrowed length-delimited slices.
+//! Descriptor-specific type checks happen in entity and dynamic decoding. Callers
+//! propagate the first cursor error; the iterator does not fuse after a failure.
+
 use crate::ReconstructionError;
 
+/// A raw wire value before interpretation by its message descriptor.
 #[derive(Debug, Clone, Copy)]
 pub(crate) enum FieldValue<'a> {
     Varint(u64),
@@ -8,16 +15,19 @@ pub(crate) enum FieldValue<'a> {
     Fixed32(u32),
 }
 
+/// A field number paired with its decoded wire value.
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Field<'a> {
     pub number: u32,
     pub value: FieldValue<'a>,
 }
 
+/// Visits fields in wire order, borrowing byte values from `data`.
 pub(crate) fn fields(data: &[u8]) -> FieldCursor<'_> {
     FieldCursor { data, position: 0 }
 }
 
+/// Cursor into one message; nested messages get separate cursors.
 pub(crate) struct FieldCursor<'a> {
     data: &'a [u8],
     position: usize,
@@ -42,6 +52,7 @@ impl<'a> FieldCursor<'a> {
         if number == 0 {
             return Err(ReconstructionError::InvalidProtobuf("field number cannot be zero"));
         }
+        // The low three tag bits select the wire representation, not its schema type.
         let value = match tag & 0x07 {
             0 => FieldValue::Varint(self.read_varint()?),
             1 => FieldValue::Fixed64(u64::from_le_bytes(self.read_array()?)),

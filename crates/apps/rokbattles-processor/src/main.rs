@@ -7,6 +7,7 @@
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 mod config;
+mod cpu_pool;
 mod error;
 mod processing;
 mod storage;

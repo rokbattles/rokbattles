@@ -8,11 +8,14 @@ use tokio_cron_scheduler::{Job, JobScheduler};
 use tracing::{error, info, warn};
 
 use crate::{
-    error::JobsError, precompute_barbarian::precompute_barbarian_data,
+    error::JobsError,
+    precompute_barbarian::precompute_barbarian_data,
     precompute_barbarianfort::precompute_barbarian_fort_data,
     precompute_baulur::precompute_baulur_data,
-    precompute_cmdr_pairings_v2::precompute_commander_pairings_v2_data,
-    precompute_drastc::precompute_drastc_data,
+    precompute_cmdr_pairings_v2::{
+        precompute_commander_pairings_v2_data, precompute_commander_pairings_v2_presoc_data,
+    },
+    precompute_drastc::{precompute_drastc_data, precompute_drastc_presoc_data},
     precompute_kahar_treasure::precompute_kahar_treasure_data,
     precompute_karuak_ceremony::precompute_karuak_ceremony_data,
     refresh_binds::refresh_claimed_governor_bindings,
@@ -31,28 +34,20 @@ pub const PRECOMPUTE_KAHAR_TREASURE_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
 pub const PRECOMPUTE_KARUAK_CEREMONY_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
-pub const PRECOMPUTE_DRASTC_CRON: &str = "0 0 */8 * * *";
+pub const PRECOMPUTE_SOC_CRON: &str = "0 0 */8 * * *";
 /// Every 8 hours
-pub const PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON: &str = "0 0 */8 * * *";
+pub const PRECOMPUTE_PRESOC_CRON: &str = "0 0 */8 * * *";
 
 /// Create the scheduler with the governor bind refresh job registered.
 pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler, JobsError> {
     let scheduler = JobScheduler::new().await?;
     let reports_store = Arc::new(reports_store);
-    let refresh_lock = Arc::new(Mutex::new(()));
-    let barbarian_lock = Arc::new(Mutex::new(()));
-    let barbarian_fort_lock = Arc::new(Mutex::new(()));
-    let baulur_lock = Arc::new(Mutex::new(()));
-    let kahar_treasure_lock = Arc::new(Mutex::new(()));
-    let karuak_ceremony_lock = Arc::new(Mutex::new(()));
-    let drastc_lock = Arc::new(Mutex::new(()));
-    let commander_pairings_v2_lock = Arc::new(Mutex::new(()));
 
     add_locked_job(
         &scheduler,
         REFRESH_BINDS_CRON,
         Arc::clone(&reports_store),
-        refresh_lock,
+        Arc::new(Mutex::new(())),
         "governor bind refresh is already running; skipping this tick",
         |reports_store| async move {
             match refresh_claimed_governor_bindings(&reports_store).await {
@@ -77,7 +72,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         &scheduler,
         PRECOMPUTE_KARUAK_CEREMONY_CRON,
         Arc::clone(&reports_store),
-        karuak_ceremony_lock,
+        Arc::new(Mutex::new(())),
         "Karuak Ceremony precompute is already running; skipping this tick",
         |reports_store| async move {
             match precompute_karuak_ceremony_data(&reports_store).await {
@@ -97,7 +92,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         &scheduler,
         PRECOMPUTE_BARBARIAN_CRON,
         Arc::clone(&reports_store),
-        barbarian_lock,
+        Arc::new(Mutex::new(())),
         "barbarian precompute is already running; skipping this tick",
         |reports_store| async move {
             match precompute_barbarian_data(&reports_store).await {
@@ -121,7 +116,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         &scheduler,
         PRECOMPUTE_BARBARIAN_FORT_CRON,
         Arc::clone(&reports_store),
-        barbarian_fort_lock,
+        Arc::new(Mutex::new(())),
         "barbarian fort precompute is already running; skipping this tick",
         |reports_store| async move {
             match precompute_barbarian_fort_data(&reports_store).await {
@@ -145,7 +140,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         &scheduler,
         PRECOMPUTE_BAULUR_CRON,
         Arc::clone(&reports_store),
-        baulur_lock,
+        Arc::new(Mutex::new(())),
         "Baulur precompute is already running; skipping this tick",
         |reports_store| async move {
             match precompute_baulur_data(&reports_store).await {
@@ -169,7 +164,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         &scheduler,
         PRECOMPUTE_KAHAR_TREASURE_CRON,
         Arc::clone(&reports_store),
-        kahar_treasure_lock,
+        Arc::new(Mutex::new(())),
         "Kahar treasure precompute is already running; skipping this tick",
         |reports_store| async move {
             match precompute_kahar_treasure_data(&reports_store).await {
@@ -189,28 +184,25 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
     )
     .await?;
 
+    // Keep the dependent jobs in one locked cycle so pairing roots use this cycle's scores.
     add_locked_job(
         &scheduler,
-        PRECOMPUTE_DRASTC_CRON,
+        PRECOMPUTE_SOC_CRON,
         Arc::clone(&reports_store),
-        drastc_lock,
-        "DRASTC precompute is already running; skipping this tick",
+        Arc::new(Mutex::new(())),
+        "SoC DRASTC and commander pairings are already running; skipping this tick",
         |reports_store| async move {
             match precompute_drastc_data(&reports_store).await {
-                Ok(stats) => {
-                    info!(
-                        legendary_commanders = stats.legendary_commanders,
-                        observed_pairings = stats.observed_pairings,
-                        supported_pairings = stats.supported_pairings,
-                        scored_pairings = stats.scored_pairings,
-                        confidence_scored_pairings = stats.confidence_scored_pairings,
-                        documents_written = stats.documents_written,
-                        documents_stored = stats.documents_stored,
-                        "precomputed DRASTC data"
-                    );
-                }
+                Ok(stats) => info!(?stats, "precomputed SoC DRASTC data"),
                 Err(error) => {
-                    error!(%error, "failed to precompute DRASTC data");
+                    error!(%error, "failed to precompute SoC DRASTC; skipping dependent pairings");
+                    return;
+                }
+            }
+            match precompute_commander_pairings_v2_data(&reports_store).await {
+                Ok(stats) => info!(?stats, "precomputed SoC compact commander pairings data"),
+                Err(error) => {
+                    error!(%error, "failed to precompute SoC compact commander pairings data")
                 }
             }
         },
@@ -219,27 +211,21 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
 
     add_locked_job(
         &scheduler,
-        PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON,
+        PRECOMPUTE_PRESOC_CRON,
         reports_store,
-        commander_pairings_v2_lock,
-        "compact commander pairings precompute is already running; skipping this tick",
+        Arc::new(Mutex::new(())),
+        "pre-SoC DRASTC and commander pairings are already running; skipping this tick",
         |reports_store| async move {
-            match precompute_commander_pairings_v2_data(&reports_store).await {
-                Ok(stats) => info!(
-                    legendary_commanders = stats.legendary_commanders,
-                    pairings = stats.pairings,
-                    performance_points = stats.performance_points,
-                    loadout_snapshots = stats.loadout_snapshots,
-                    documents_written = stats.documents_written,
-                    max_document_bytes = stats.max_document_bytes,
-                    performance_seconds = stats.performance_seconds,
-                    loadout_seconds = stats.loadout_seconds,
-                    total_seconds = stats.total_seconds,
-                    "precomputed compact commander pairings data"
-                ),
+            match precompute_drastc_presoc_data(&reports_store).await {
+                Ok(stats) => info!(?stats, "precomputed pre-SoC DRASTC data"),
                 Err(error) => {
-                    error!(%error, "failed to precompute compact commander pairings data")
+                    error!(%error, "failed to precompute pre-SoC DRASTC; skipping dependent pairings");
+                    return;
                 }
+            }
+            match precompute_commander_pairings_v2_presoc_data(&reports_store).await {
+                Ok(stats) => info!(?stats, "precomputed pre-SoC compact commander pairings data"),
+                Err(error) => error!(%error, "failed to precompute pre-SoC compact commander pairings data"),
             }
         },
     )
@@ -284,8 +270,8 @@ where
 mod tests {
     use super::{
         PRECOMPUTE_BARBARIAN_CRON, PRECOMPUTE_BARBARIAN_FORT_CRON, PRECOMPUTE_BAULUR_CRON,
-        PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, PRECOMPUTE_DRASTC_CRON,
-        PRECOMPUTE_KAHAR_TREASURE_CRON, PRECOMPUTE_KARUAK_CEREMONY_CRON, REFRESH_BINDS_CRON,
+        PRECOMPUTE_KAHAR_TREASURE_CRON, PRECOMPUTE_KARUAK_CEREMONY_CRON, PRECOMPUTE_SOC_CRON,
+        REFRESH_BINDS_CRON,
     };
 
     #[test]
@@ -314,17 +300,17 @@ mod tests {
     }
 
     #[test]
-    fn precompute_drastc_cron_runs_every_eight_hours_utc() {
-        assert_eq!(PRECOMPUTE_DRASTC_CRON, "0 0 */8 * * *");
-    }
-
-    #[test]
-    fn compact_commander_pairings_cron_is_synchronized_with_drastc() {
-        assert_eq!(PRECOMPUTE_COMMANDER_PAIRINGS_V2_CRON, PRECOMPUTE_DRASTC_CRON);
+    fn soc_refresh_cycle_runs_every_eight_hours_utc() {
+        assert_eq!(PRECOMPUTE_SOC_CRON, "0 0 */8 * * *");
     }
 
     #[test]
     fn precompute_karuak_ceremony_cron_runs_every_eight_hours_utc() {
         assert_eq!(PRECOMPUTE_KARUAK_CEREMONY_CRON, "0 0 */8 * * *");
+    }
+
+    #[test]
+    fn presoc_refresh_cycle_runs_every_eight_hours_utc() {
+        assert_eq!(super::PRECOMPUTE_PRESOC_CRON, "0 0 */8 * * *");
     }
 }

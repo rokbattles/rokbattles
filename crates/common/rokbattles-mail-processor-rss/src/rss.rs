@@ -1,4 +1,9 @@
-//! RSS parser for RSS mail content.
+//! Maps resource-gathering fields from `body.content` into the `rss` section.
+//!
+//! `ResType`, `ResValue`, `talentAdd`, `Time`, and `Level` become `rss_type`,
+//! `rss_value`, `rss_bonus`, `time`, and `level`. Position keys change from `X`/`Y`
+//! to `x`/`y`. Numeric values are copied without unit conversion or integer casts.
+//! Missing or null `ResCollectCrystal` becomes zero; a non-number still fails.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
@@ -7,7 +12,7 @@ use crate::content::{
     optional_number_field_or_zero, require_child_object, require_content, require_number_field,
 };
 
-/// Pulls resource report fields from `body.content`.
+/// Extracts resource report fields from `body.content`.
 #[derive(Debug, Default)]
 pub struct RssExtractor;
 

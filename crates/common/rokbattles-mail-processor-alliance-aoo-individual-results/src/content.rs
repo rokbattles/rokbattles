@@ -1,4 +1,7 @@
-//! Helpers for walking AllianceAOOIndividualResults mail content.
+//! Adapts optional SDK integer reads to JSON values for individual-result sections.
+//!
+//! Missing or null values become JSON null or zero, depending on the helper.
+//! Wrong types and out-of-range values still fail rather than using a default.
 
 pub(crate) use rokbattles_mail_sdk::{
     ExtractError, optional_child_object, optional_child_object_or_empty_array,

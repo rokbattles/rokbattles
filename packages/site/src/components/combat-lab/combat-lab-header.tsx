@@ -2,8 +2,11 @@
 
 import { cn } from "cnfast";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useExtracted } from "next-intl";
+import { Listbox, ListboxOption } from "@/components/ui/listbox";
 import { Text } from "@/components/ui/text";
+import { type CombatLabSeason, combatLabPath, combatLabSeason } from "@/lib/combat-lab/season";
 
 type CombatLabHeaderProps = {
   active: "explore" | "rankings";
@@ -11,12 +14,19 @@ type CombatLabHeaderProps = {
 };
 
 const sections = [
-  { key: "explore", href: "/combat-lab" },
-  { key: "rankings", href: "/combat-lab/rankings" },
+  { key: "explore", suffix: "" },
+  { key: "rankings", suffix: "/rankings" },
 ] as const;
 
 export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
   const t = useExtracted();
+  const season = combatLabSeason(usePathname());
+  const router = useRouter();
+  const labels = { soc: t("Season of Conquest"), presoc: t("Pre-Season of Conquest") };
+  const changeSeason = (next: CombatLabSeason) => {
+    const path = `${combatLabPath(next)}${active === "rankings" ? "/rankings" : ""}`;
+    router.push(path);
+  };
 
   return (
     <header className="relative -mx-6 -mt-6 overflow-hidden border-zinc-950/10 border-b bg-zinc-950 text-white lg:-mx-10 lg:-mt-10 lg:rounded-t-lg dark:border-white/10">
@@ -32,8 +42,19 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
         </div>
         <nav
           aria-label={t("Combat Lab sections")}
-          className="mt-5 flex flex-wrap gap-2 border-white/10 border-b pb-3"
+          className="mt-5 flex flex-wrap items-center gap-2 border-white/10 border-b pb-3"
         >
+          <div className="dark w-full sm:w-64">
+            <Listbox<CombatLabSeason>
+              aria-label={t("Combat Lab season")}
+              value={season}
+              onChange={changeSeason}
+              renderValue={(value) => (value === "presoc" ? labels.presoc : labels.soc)}
+            >
+              <ListboxOption value="soc">{labels.soc}</ListboxOption>
+              <ListboxOption value="presoc">{labels.presoc}</ListboxOption>
+            </Listbox>
+          </div>
           {sections.map((section) => {
             const current = active === section.key;
             const label = section.key === "explore" ? t("Explore") : t("Rankings");
@@ -46,7 +67,7 @@ export function CombatLabHeader({ active, children }: CombatLabHeaderProps) {
                     ? "bg-white text-zinc-950 shadow-sm"
                     : "text-zinc-300 hover:bg-white/10 hover:text-white"
                 )}
-                href={section.href}
+                href={`${combatLabPath(season)}${section.suffix}`}
                 key={section.key}
               >
                 {label}

@@ -5,7 +5,7 @@ rust-version.workspace = true
 version.workspace = true
 
 [dependencies]
-tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync", "time"] }
 mongodb = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
@@ -15,7 +15,7 @@ futures = { workspace = true, features = ["std"] }
 zstd = { workspace = true }
 sha2 = { workspace = true }
 dotenvy = { workspace = true }
-rokbattles-mail-decoder = { path = "../../common/rokbattles-mail-decoder" }
+rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry", features = ["processors"] }
 rokbattles-mail-sdk = { path = "../../common/rokbattles-mail-sdk" }
 sentry = { workspace = true, features = ["backtrace", "contexts", "debug-images", "panic", "reqwest", "rustls"] }

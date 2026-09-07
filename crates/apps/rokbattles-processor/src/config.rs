@@ -1,6 +1,6 @@
 //! Environment-driven configuration for the processor.
 
-use std::{env, time::Duration};
+use std::{env, num::NonZeroUsize, time::Duration};
 
 /// Runtime configuration loaded from environment variables.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -9,6 +9,7 @@ pub struct Config {
     pub sentry_dsn: Option<String>,
     pub batch_size: i64,
     pub concurrency: usize,
+    pub cpu_concurrency: NonZeroUsize,
     pub idle_sleep: Duration,
 }
 
@@ -35,13 +36,28 @@ impl Config {
         let sentry_dsn = lookup("SENTRY_DSN").filter(|value| !value.is_empty());
         let batch_size = parse_i64("PROCESSOR_BATCH_SIZE", lookup("PROCESSOR_BATCH_SIZE"), 500)?;
         let concurrency = parse_usize("PROCESSOR_CONCURRENCY", lookup("PROCESSOR_CONCURRENCY"), 8)?;
+        let cpu_concurrency = parse_cpu_concurrency(lookup("PROCESSOR_CPU_CONCURRENCY"))?;
         let idle_sleep = parse_duration_secs(
             "PROCESSOR_IDLE_SLEEP_SECS",
             lookup("PROCESSOR_IDLE_SLEEP_SECS"),
             15,
         )?;
-        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, idle_sleep })
+        Ok(Self { mongo_uri, sentry_dsn, batch_size, concurrency, cpu_concurrency, idle_sleep })
     }
+}
+
+fn default_cpu_concurrency() -> usize {
+    // Limit simultaneous decode allocations by default, even on large hosts.
+    std::thread::available_parallelism().map_or(1, |cpus| cpus.get().min(2))
+}
+
+fn parse_cpu_concurrency(value: Option<String>) -> Result<NonZeroUsize, ConfigError> {
+    let key = "PROCESSOR_CPU_CONCURRENCY";
+    let parsed = parse_usize(key, value, default_cpu_concurrency())?;
+    if parsed > tokio::sync::Semaphore::MAX_PERMITS {
+        return Err(ConfigError::Invalid { key, value: parsed.to_string() });
+    }
+    NonZeroUsize::new(parsed).ok_or_else(|| ConfigError::Invalid { key, value: parsed.to_string() })
 }
 
 fn required<F>(lookup: &F, key: &'static str) -> Result<String, ConfigError>
@@ -117,6 +133,7 @@ mod tests {
                 sentry_dsn: None,
                 batch_size: 500,
                 concurrency: 8,
+                cpu_concurrency: NonZeroUsize::new(default_cpu_concurrency()).unwrap(),
                 idle_sleep: Duration::from_secs(15),
             }
         );
@@ -161,11 +178,13 @@ mod tests {
             ("MONGODB_URI", "mongodb://localhost:27017/rokbattles"),
             ("PROCESSOR_BATCH_SIZE", "25"),
             ("PROCESSOR_CONCURRENCY", "4"),
+            ("PROCESSOR_CPU_CONCURRENCY", "2"),
             ("PROCESSOR_IDLE_SLEEP_SECS", "2"),
         ])))
         .expect("config");
         assert_eq!(cfg.batch_size, 25);
         assert_eq!(cfg.concurrency, 4);
+        assert_eq!(cfg.cpu_concurrency.get(), 2);
         assert_eq!(cfg.idle_sleep, Duration::from_secs(2));
     }
 
@@ -175,6 +194,20 @@ mod tests {
         assert!(parse_i64("I64", Some("-1".into()), 1).is_err());
         assert!(parse_usize("USIZE", Some("bad".into()), 1).is_err());
         assert!(parse_duration_secs("DURATION", Some("bad".into()), 1).is_err());
+    }
+
+    #[test]
+    fn rejects_invalid_cpu_concurrency() {
+        for value in ["0".to_string(), "-1".to_string(), "bad".to_string(), usize::MAX.to_string()]
+        {
+            let error = Config::from_lookup(|key| match key {
+                "MONGODB_URI" => Some("mongodb://localhost/rokbattles".into()),
+                "PROCESSOR_CPU_CONCURRENCY" => Some(value.clone()),
+                _ => None,
+            })
+            .unwrap_err();
+            assert!(matches!(error, ConfigError::Invalid { key: "PROCESSOR_CPU_CONCURRENCY", .. }));
+        }
     }
 
     #[test]

@@ -11,6 +11,10 @@ pub enum ProcessorError {
     Mongo(#[from] mongodb::error::Error),
     #[error("mongo uri must include a default database")]
     MissingDatabase,
+    #[error("CPU preparation pool closed: {0}")]
+    PreparationPoolClosed(#[from] tokio::sync::AcquireError),
+    #[error("CPU preparation task failed: {0}")]
+    PreparationTask(#[from] tokio::task::JoinError),
     #[error("missing required field: {0}")]
     MissingField(&'static str),
     #[error("processed mail is missing its metadata section")]
@@ -26,7 +30,7 @@ pub enum ProcessorError {
     #[error("invalid mail payload: {0}")]
     InvalidMailPayload(String),
     #[error("binary mail decode failed: {0}")]
-    BinaryDecode(#[from] rokbattles_mail_decoder::DecodeError),
+    BinaryDecode(#[from] rokbattles_mail_codec::DecodeError),
     #[error("zstd decode failed: {0}")]
     Decompress(#[from] std::io::Error),
     #[error("unsupported mail type: {0}")]

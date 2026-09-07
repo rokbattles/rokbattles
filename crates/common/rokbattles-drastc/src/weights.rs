@@ -1,5 +1,8 @@
+//! Combines the six normalized categories into the overall score.
+
 use crate::DrastcCategories;
 
+// Weights sum to one. Zero-scoring categories keep their weight in the total.
 const WEIGHTS_TABLE: &[WeightedCategory] = &[
     WeightedCategory::new(Category::Damage, 0.25),
     WeightedCategory::new(Category::Rage, 0.15),

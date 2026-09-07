@@ -1,4 +1,7 @@
-//! NPC parser for BarCanyonKillBoss mail.
+//! Copies `npcType`, `npcLevel`, and `pos` into an `npc` object.
+//!
+//! Type and level must be unsigned integers; coordinates may be any JSON numbers.
+//! NPC IDs are preserved as supplied rather than mapped to a fixed set of bosses.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value};
@@ -7,7 +10,7 @@ use crate::content::{
     require_child_object, require_content, require_number_field, require_u64_field,
 };
 
-/// Pulls NPC details out of BarCanyonKillBoss mail content.
+/// Extracts NPC details out of BarCanyonKillBoss mail content.
 #[derive(Debug, Default)]
 pub struct NpcExtractor;
 

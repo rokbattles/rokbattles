@@ -26,7 +26,6 @@ pub struct Storage {
     alliance_aoobattleresults: Collection<Document>,
     alliance_aoobattleinfo: Collection<Document>,
     alliance_aooindividualresults: Collection<Document>,
-    alliance_aooregistration: Collection<Document>,
 }
 
 impl Storage {
@@ -47,8 +46,6 @@ impl Storage {
                 .collection(MailType::AllianceAOOBattleInfo.collection_name()),
             alliance_aooindividualresults: db
                 .collection(MailType::AllianceAOOIndividualResults.collection_name()),
-            alliance_aooregistration: db
-                .collection(MailType::AllianceAOORegistration.collection_name()),
         }
     }
 
@@ -66,8 +63,7 @@ impl Storage {
         self.system_kahartreasure.create_index(mail_id_index.clone()).await?;
         self.alliance_aoobattleresults.create_index(mail_id_index.clone()).await?;
         self.alliance_aoobattleinfo.create_index(mail_id_index.clone()).await?;
-        self.alliance_aooindividualresults.create_index(mail_id_index.clone()).await?;
-        self.alliance_aooregistration.create_index(mail_id_index).await?;
+        self.alliance_aooindividualresults.create_index(mail_id_index).await?;
 
         Ok(())
     }
@@ -102,7 +98,6 @@ impl Storage {
             MailType::AllianceAOOBattleResults => &self.alliance_aoobattleresults,
             MailType::AllianceAOOBattleInfo => &self.alliance_aoobattleinfo,
             MailType::AllianceAOOIndividualResults => &self.alliance_aooindividualresults,
-            MailType::AllianceAOORegistration => &self.alliance_aooregistration,
         };
 
         let update = processed_update_pipeline(source_checksum, source_size, doc);

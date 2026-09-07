@@ -1,8 +1,7 @@
 use futures::StreamExt;
 use mongodb::{
     Collection,
-    bson::{Bson, Document, doc},
-    options::Hint,
+    bson::{Bson, Document},
 };
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
 use rokbattles_drastc::{DrastcReferenceRanges, ReferenceRange};
@@ -11,19 +10,18 @@ use super::{
     model::{DrastcAggregation, PairingKey, PairingRawTotals},
     pipeline::build_drastc_pipeline,
 };
-use crate::error::JobsError;
+use crate::{combat_lab_season::CombatLabSeason, error::JobsError};
 
 pub(super) async fn read_drastc_aggregation(
     source: &Collection<Document>,
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     cutoff_mail_time: i64,
+    season: CombatLabSeason,
 ) -> Result<DrastcAggregation, JobsError> {
     let mut cursor = source
-        .aggregate(build_drastc_pipeline(legendary_ids, cutoff_mail_time))
+        .aggregate(build_drastc_pipeline(commander_ids, cutoff_mail_time, season))
         .allow_disk_use(true)
-        .hint(Hint::Keys(
-            doc! { "metadata.mail_time": -1, "metadata.kvk": 1, "opponents.player_id": 1 },
-        ))
+        .hint(season.source_hint())
         .await?;
     let mut aggregation = DrastcAggregation::default();
     while let Some(next) = cursor.next().await {

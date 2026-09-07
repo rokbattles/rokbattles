@@ -11,6 +11,7 @@ use axum::{
 };
 use futures::TryStreamExt;
 use mongodb::{
+    Collection,
     bson::{Bson, DateTime, Document, doc},
     options::{FindOneOptions, FindOptions},
 };
@@ -77,13 +78,32 @@ pub async fn get_pairing(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let primary = parse_required_i64(&params, "primary")?;
-    let secondary = parse_required_i64(&params, "secondary")?;
+    pairing_response(state.reports_store.precomputed_commander_pairings_v2_collection(), &params)
+        .await
+}
+
+/// Return one completed pre-SoC Combat Lab generation.
+pub async fn get_pairing_presoc(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<HashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    pairing_response(
+        state.reports_store.precomputed_commander_pairings_v2_presoc_collection(),
+        &params,
+    )
+    .await
+}
+
+async fn pairing_response(
+    collection: &Collection<Document>,
+    params: &HashMap<String, String>,
+) -> Result<impl IntoResponse + use<>, ApiError> {
+    let primary = parse_required_i64(params, "primary")?;
+    let secondary = parse_required_i64(params, "secondary")?;
     if primary == secondary {
         return Err(ApiError::bad_request("Commanders must be different"));
     }
 
-    let collection = state.reports_store.precomputed_commander_pairings_v2_collection();
     let root_options =
         FindOneOptions::builder().projection(doc! { "_id": 0 }).sort(doc! { "g": -1 }).build();
     let Some(root) = collection
@@ -147,11 +167,23 @@ pub async fn get_rankings(
     State(state): State<Arc<AppState>>,
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<impl IntoResponse, ApiError> {
-    let request = parse_rankings_request(&params)?;
-    let collection = state
-        .reports_store
-        .precomputed_drastc_collection()
-        .clone_with_type::<RawCombatLabRankingDocument>();
+    rankings_response(state.reports_store.precomputed_drastc_collection(), &params).await
+}
+
+/// Return pre-SoC DRASTC rankings.
+pub async fn get_rankings_presoc(
+    State(state): State<Arc<AppState>>,
+    Query(params): Query<HashMap<String, String>>,
+) -> Result<impl IntoResponse, ApiError> {
+    rankings_response(state.reports_store.precomputed_drastc_presoc_collection(), &params).await
+}
+
+async fn rankings_response(
+    collection: &Collection<Document>,
+    params: &HashMap<String, String>,
+) -> Result<impl IntoResponse + use<>, ApiError> {
+    let request = parse_rankings_request(params)?;
+    let collection = collection.clone_with_type::<RawCombatLabRankingDocument>();
     let cursor = collection
         .find(doc! {})
         .with_options(rankings_find_options(request))

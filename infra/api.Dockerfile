@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.25.0@sha256:0adf442eae370b6087e08edc7c50b552d80ddf261576f4ebd6421006b2461f12
+# syntax=docker/dockerfile:1.27.0@sha256:bde3983e9c939224420ddaf6b784cc30e09b035a4dea01f581230c50809f372e
 FROM rust:1.98.0-alpine@sha256:a10e64dd139b7387337c7fbe8aca31b959b57b2fd4c8ae20a02cf1d6ea424dce AS builder
 ENV CARGO_INCREMENTAL=0
 WORKDIR /app
@@ -12,8 +12,8 @@ RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
     --mount=type=cache,id=rokbattles-cargo-target-x86_64-musl,target=/target,sharing=locked \
     cd /src && \
-    CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-api && \
-    cp /target/x86_64-unknown-linux-musl/release/rokbattles-api /app/rokbattles-api
+    CARGO_TARGET_DIR=/target cargo build --profile server --locked --target x86_64-unknown-linux-musl -p rokbattles-api && \
+    cp /target/x86_64-unknown-linux-musl/server/rokbattles-api /app/rokbattles-api
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
 RUN apk add --no-cache ca-certificates tzdata

@@ -10,14 +10,14 @@ flate2 = { workspace = true, features = ["zlib-rs"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
-rokbattles-mail-encoder = { path = "../rokbattles-mail-encoder" }
+rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["write"] }
 rokbattles-mail-registry = { path = "../rokbattles-mail-registry" }
 
 [lib]
 doctest = false
 
 [dev-dependencies]
-rokbattles-mail-decoder = { path = "../rokbattles-mail-decoder" }
+rokbattles-mail-codec = { path = "../rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-processor-system-barbarianfort = { path = "../rokbattles-mail-processor-system-barbarianfort" }
 
 [lints]

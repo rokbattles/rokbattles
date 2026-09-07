@@ -7,14 +7,14 @@ use mongodb::{
     options::IndexOptions,
 };
 
-/// One localized value returned from the game localization collection.
+/// One translated value.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GameTranslation {
     pub key: String,
     pub value: Option<String>,
 }
 
-/// Errors returned by game-localization storage operations.
+/// Translation lookup errors.
 #[derive(Debug, thiserror::Error)]
 pub enum GameLocalizationStoreError {
     #[error("database error: {0}")]
@@ -23,19 +23,19 @@ pub enum GameLocalizationStoreError {
     InvalidDocument(String),
 }
 
-/// MongoDB-backed game-localization repository.
+/// Versioned translation lookup service.
 #[derive(Debug, Clone)]
 pub struct GameLocalizationStore {
     localizations: Collection<Document>,
 }
 
 impl GameLocalizationStore {
-    /// Create a repository backed by `g_rok_game_lc`.
+    /// Create a translation lookup service.
     pub fn new(db: mongodb::Database) -> Self {
         Self { localizations: db.collection("g_rok_game_lc") }
     }
 
-    /// Ensure version-and-key lookups are unique and indexed.
+    /// Prepare the service for requests.
     pub async fn ensure_indexes(&self) -> mongodb::error::Result<()> {
         self.localizations
             .create_index(

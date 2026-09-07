@@ -1,19 +1,33 @@
+//! Settings and completion counts shared by the binary and library callers.
+
 use std::path::PathBuf;
 
-/// Settings for decoding a directory of mail buffers.
+/// Settings for decoding files and writing any recognized processor output.
+///
+/// Library callers supply both directories explicitly. The binary resolves its
+/// optional output directory before constructing this value.
 #[derive(Debug, Clone)]
 pub struct Config {
-    /// Directory that contains the input mail buffers.
+    /// Existing directory containing persistent mail files.
+    ///
+    /// Only immediate files are considered; JSON files are skipped.
     pub input_dir: PathBuf,
-    /// Directory where decoded JSON files should be written.
+    /// Destination for decoded and processed JSON, created if necessary.
+    ///
+    /// May be the input directory. Existing outputs with matching names are overwritten.
     pub output_dir: PathBuf,
-    /// Whether to pretty-print the JSON output.
+    /// Whether both output representations use indented rather than compact JSON.
     pub pretty: bool,
 }
 
-/// Result summary for a decode run.
+/// Completion summary returned after every selected input succeeds.
+///
+/// An empty directory, or one containing only skipped entries, yields zero.
+/// Failed runs return an error without a partial summary.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct RunSummary {
-    /// Number of files that were decoded and written.
+    /// Number of input files completed, including files with no recognized category.
+    ///
+    /// Counts each input once, regardless of whether it produced one or two outputs.
     pub decoded_files: usize,
 }

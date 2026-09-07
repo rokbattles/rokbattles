@@ -1,4 +1,8 @@
-//! Body parser for AllianceAOOBattleResults mail.
+//! Builds match flags and own-alliance identity from `body` and `body.kvs`.
+//!
+//! Body `type` is required and `param` is optional; both accept integers or numeric
+//! strings. `BattleType`, lowercase `isWin`, and `myAsId` are required in `kvs`.
+//! An absent parameter becomes null; subtype routing remains the caller's job.
 
 use rokbattles_mail_sdk::{
     ExtractError, Extractor, Section, optional_u64_or_string_field, require_u64_or_string_field,
@@ -10,7 +14,7 @@ use crate::content::{
     require_string_field, require_u64_field,
 };
 
-/// Pulls top-level battle result flags from `body.kvs`.
+/// Extracts top-level battle result flags from `body.kvs`.
 #[derive(Debug, Default)]
 pub struct BodyExtractor;
 

@@ -1,11 +1,15 @@
-//! Battle results parser for DuelBattle2 mail.
+//! Copies per-side counters from `AtkPlayer` and `DefPlayer` into `battle_results`.
+//!
+//! `IsWin` is copied as a boolean. Unsigned kill, power-loss, troop, casualty, and
+//! returned-unit counters are renamed without recomputing the outcome. Output
+//! `power` comes from `LosePower`, and `heal` comes from `UnitReturn`.
 
 use rokbattles_mail_sdk::{ExtractError, Extractor, Section};
 use serde_json::{Map, Value, json};
 
 use crate::player::{locate_player, require_bool_field, require_u64_field};
 
-/// Pulls sender and opponent battle results from the player payloads.
+/// Extracts sender and opponent battle results from the player payloads.
 #[derive(Debug, Default)]
 pub struct BattleResultsExtractor;
 

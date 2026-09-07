@@ -16,6 +16,7 @@ use serde_json::Value;
 use crate::{
     clamav::{ScanStatus, scan_zstream},
     error::ApiError,
+    mail_update::mutable_metadata_differs,
     raw_mail::{self, RawMailDocumentInput},
     state::AppState,
 };
@@ -71,7 +72,7 @@ pub async fn health() -> StatusCode {
     StatusCode::OK
 }
 
-/// Store a mail report when it is new or newer than the saved copy.
+/// Store a mail report when it is new or has updated mutable metadata.
 pub async fn upload(
     State(state): State<Arc<AppState>>,
     headers: HeaderMap,
@@ -94,7 +95,7 @@ pub async fn upload(
         }
     }
 
-    let decoded = rokbattles_mail_decoder::decode(&buffer)
+    let decoded = rokbattles_mail_codec::decode(&buffer)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;
 
     let mail_type = extract_mail_type(&decoded)?;
@@ -111,16 +112,9 @@ pub async fn upload(
         )));
     }
 
-    let action = store_compressed_raw_mail(
-        &state,
-        &buffer,
-        None,
-        &decoded,
-        &mail_id,
-        &mail_type,
-        &user_agent,
-    )
-    .await?;
+    let action =
+        store_compressed_raw_mail(&state, &buffer, &decoded, &mail_id, &mail_type, &user_agent)
+            .await?;
 
     let (status, label) = match action {
         UploadAction::Insert => (StatusCode::CREATED, "stored"),
@@ -206,9 +200,7 @@ pub async fn upload_relay(
     for (index, entry) in entries.into_iter().enumerate() {
         let result = match state.mail_reconstructor.reconstruct(&entry, context) {
             Ok(mail) => {
-                match store_reconstructed_mail(&state, &mail.bytes, &entry, &mail.id, &user_agent)
-                    .await
-                {
+                match store_reconstructed_mail(&state, &mail.bytes, &mail.id, &user_agent).await {
                     Ok(action) => RelayMailResult {
                         index,
                         status: action_label(action).to_string(),
@@ -242,11 +234,10 @@ pub async fn upload_relay(
 async fn store_reconstructed_mail(
     state: &AppState,
     bytes: &[u8],
-    network_entity: &[u8],
     mail_id: &str,
     user_agent: &str,
 ) -> Result<UploadAction, ApiError> {
-    let decoded = rokbattles_mail_decoder::decode(bytes)
+    let decoded = rokbattles_mail_codec::decode(bytes)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;
     let decoded_id =
         extract_mail_id(&decoded).ok_or_else(|| ApiError::bad_request("missing mail id"))?;
@@ -254,16 +245,7 @@ async fn store_reconstructed_mail(
         return Err(ApiError::bad_request("reconstructed mail id mismatch"));
     }
     let mail_type = extract_mail_type(&decoded)?;
-    store_compressed_raw_mail(
-        state,
-        bytes,
-        Some(network_entity),
-        &decoded,
-        mail_id,
-        &mail_type,
-        user_agent,
-    )
-    .await
+    store_compressed_raw_mail(state, bytes, &decoded, mail_id, &mail_type, user_agent).await
 }
 
 fn action_label(action: UploadAction) -> &'static str {
@@ -300,35 +282,56 @@ fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
 async fn store_compressed_raw_mail(
     state: &AppState,
     buffer: &[u8],
-    network_entity: Option<&[u8]>,
     decoded: &Value,
     mail_id: &str,
     mail_type: &str,
     user_agent: &str,
 ) -> Result<UploadAction, ApiError> {
     let checksum = raw_mail::sha256_hex(buffer);
-    let binary_size = i64::try_from(buffer.len())
-        .map_err(|_| ApiError::internal("mail binary is too large to store size"))?;
     let existing = state
         .storage
         .find_existing_compressed_raw(mail_id)
         .await
         .map_err(|error| ApiError::database(error.to_string()))?;
 
-    let action = decide_compressed_raw_action(existing.as_ref(), &checksum, buffer.len());
+    let metadata_differs = match existing.as_ref() {
+        Some(existing) if existing.checksum.as_deref() != Some(checksum.as_str()) => {
+            let Some(compressed) = state
+                .storage
+                .find_compressed_raw_binary(mail_id, existing.checksum.as_deref())
+                .await
+                .map_err(|error| ApiError::database(error.to_string()))?
+            else {
+                return Ok(UploadAction::Skip);
+            };
+            let expected_size =
+                existing.size.ok_or_else(|| ApiError::internal("stored mail size is missing"))?;
+            if existing.algorithm.as_deref() != Some("zstd") {
+                return Err(ApiError::internal("stored mail compression is unsupported"));
+            }
+            let existing_bytes = raw_mail::decompress_raw_mail(
+                &compressed,
+                expected_size,
+                state.config.max_upload_bytes,
+            )?;
+            if existing
+                .checksum
+                .as_deref()
+                .is_some_and(|expected| raw_mail::sha256_hex(&existing_bytes) != expected)
+            {
+                return Err(ApiError::internal("stored mail checksum does not match its binary"));
+            }
+            let existing_decoded =
+                rokbattles_mail_codec::decode(&existing_bytes).map_err(|error| {
+                    ApiError::internal(format!("stored mail decode failed: {error}"))
+                })?;
+            mutable_metadata_differs(&existing_decoded, decoded)?
+        }
+        _ => false,
+    };
+    let action = decide_compressed_raw_action(existing.as_ref(), &checksum, metadata_differs);
 
     if matches!(action, UploadAction::Skip) {
-        if let (Some(entity), Some(existing)) = (network_entity, existing.as_ref())
-            && existing.checksum.as_deref() == Some(checksum.as_str())
-            && !existing.has_network_entity
-        {
-            let compressed_entity = raw_mail::compress_raw_mail(entity, state.config.zstd_level)?;
-            state
-                .storage
-                .store_network_entity_if_missing(mail_id, compressed_entity)
-                .await
-                .map_err(|error| ApiError::database(error.to_string()))?;
-        }
         return Ok(action);
     }
 
@@ -340,7 +343,6 @@ async fn store_compressed_raw_mail(
     };
     let doc = raw_mail::build_raw_mail_doc(RawMailDocumentInput {
         original_bytes: buffer,
-        network_entity,
         user_agent,
         checksum: &checksum,
         mail: &mail,
@@ -355,11 +357,20 @@ async fn store_compressed_raw_mail(
             .insert_compressed_raw(doc)
             .await
             .map_err(|error| ApiError::database(error.to_string()))?,
-        UploadAction::Update => state
-            .storage
-            .update_compressed_raw(mail_id, &checksum, binary_size, doc)
-            .await
-            .map_err(|error| ApiError::database(error.to_string()))?,
+        UploadAction::Update => {
+            let updated = state
+                .storage
+                .update_compressed_raw(
+                    mail_id,
+                    existing.as_ref().and_then(|mail| mail.checksum.as_deref()),
+                    doc,
+                )
+                .await
+                .map_err(|error| ApiError::database(error.to_string()))?;
+            if !updated {
+                return Ok(UploadAction::Skip);
+            }
+        }
         UploadAction::Skip => {}
     }
 
@@ -524,14 +535,12 @@ fn is_probably_json(bytes: &[u8]) -> bool {
 fn decide_compressed_raw_action(
     existing: Option<&crate::storage::ExistingCompressedRawMail>,
     checksum: &str,
-    size: usize,
+    metadata_differs: bool,
 ) -> UploadAction {
     match existing {
         None => UploadAction::Insert,
         Some(existing) if existing.checksum.as_deref() == Some(checksum) => UploadAction::Skip,
-        Some(existing) if existing.size.is_some_and(|existing_size| size > existing_size) => {
-            UploadAction::Update
-        }
+        Some(_) if metadata_differs => UploadAction::Update,
         Some(_) => UploadAction::Skip,
     }
 }
@@ -792,41 +801,38 @@ mod tests {
         assert_eq!(extract_mail_id(&decoded).as_deref(), Some("meta-1"));
     }
 
-    fn existing_compressed_raw(
-        checksum: &str,
-        size: Option<usize>,
-    ) -> crate::storage::ExistingCompressedRawMail {
+    fn existing_compressed_raw(checksum: &str) -> crate::storage::ExistingCompressedRawMail {
         crate::storage::ExistingCompressedRawMail {
             checksum: Some(checksum.to_string()),
-            size,
-            has_network_entity: false,
+            size: Some(100),
+            algorithm: Some("zstd".to_string()),
         }
     }
 
     #[test]
     fn compressed_raw_action_inserts_when_missing() {
-        let action = decide_compressed_raw_action(None, "new", 100);
+        let action = decide_compressed_raw_action(None, "new", false);
         assert!(matches!(action, UploadAction::Insert));
     }
 
     #[test]
     fn compressed_raw_action_skips_matching_checksum() {
-        let existing = existing_compressed_raw("same", Some(50));
-        let action = decide_compressed_raw_action(Some(&existing), "same", 100);
+        let existing = existing_compressed_raw("same");
+        let action = decide_compressed_raw_action(Some(&existing), "same", true);
         assert!(matches!(action, UploadAction::Skip));
     }
 
     #[test]
-    fn compressed_raw_action_updates_different_larger_binary() {
-        let existing = existing_compressed_raw("old", Some(99));
-        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+    fn compressed_raw_action_updates_different_checksum_and_metadata() {
+        let existing = existing_compressed_raw("old");
+        let action = decide_compressed_raw_action(Some(&existing), "new", true);
         assert!(matches!(action, UploadAction::Update));
     }
 
     #[test]
-    fn compressed_raw_action_skips_different_equal_size_binary() {
-        let existing = existing_compressed_raw("old", Some(100));
-        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
+    fn compressed_raw_action_skips_different_checksum_without_metadata_change() {
+        let existing = existing_compressed_raw("old");
+        let action = decide_compressed_raw_action(Some(&existing), "new", false);
         assert!(matches!(action, UploadAction::Skip));
     }
 
@@ -837,20 +843,6 @@ mod tests {
 
         assert!(authorize_relay(&headers, "secret").is_ok());
         assert!(matches!(authorize_relay(&headers, "different"), Err(ApiError::Unauthorized)));
-    }
-
-    #[test]
-    fn compressed_raw_action_skips_different_smaller_binary() {
-        let existing = existing_compressed_raw("old", Some(101));
-        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
-        assert!(matches!(action, UploadAction::Skip));
-    }
-
-    #[test]
-    fn compressed_raw_action_skips_when_stored_size_is_missing() {
-        let existing = existing_compressed_raw("old", None);
-        let action = decide_compressed_raw_action(Some(&existing), "new", 100);
-        assert!(matches!(action, UploadAction::Skip));
     }
 
     #[test]
