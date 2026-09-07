@@ -4,8 +4,6 @@
 //! Classification therefore depends on the whole sequence: item count first,
 //! then the types of the values in potential key positions.
 
-use std::collections::BTreeMap;
-
 use serde_json::{Map, Value, map::Entry};
 
 use crate::DecodeError;
@@ -95,7 +93,7 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
 
     if is_sequential {
         // Numeric ordering maps the file's one-based keys to zero-based array positions.
-        let mut values = BTreeMap::new();
+        let mut values = vec![Value::Null; pair_count];
         for (key, value) in owned_pairs(items) {
             #[expect(
                 clippy::unreachable,
@@ -104,9 +102,15 @@ fn numeric_keyed_table(items: Vec<Value>, table_offset: usize) -> Result<Value, 
             let Some(key) = key.as_u64().and_then(|key| usize::try_from(key).ok()) else {
                 unreachable!("sequential numeric keys were validated before conversion");
             };
-            values.insert(key, value);
+            #[expect(
+                clippy::indexing_slicing,
+                reason = "sequential numeric keys were validated to be within 1..=pair_count."
+            )]
+            {
+                values[key - 1] = value;
+            }
         }
-        return Ok(Value::Array(values.into_values().collect()));
+        return Ok(Value::Array(values));
     }
 
     let mut map = Map::with_capacity(pair_count);
@@ -165,12 +169,55 @@ mod tests {
     }
 
     #[test]
+    fn sequential_numeric_keys_preserve_null_and_nested_values() {
+        let values = json!([3, {"nested": [true, "value"]}, 1, null, 2, [false, 42]]);
+        let classified =
+            classify_table(values.as_array().expect("array").clone(), 0).expect("classify table");
+
+        assert_eq!(classified.value, json!([null, [false, 42], {"nested": [true, "value"]}]));
+    }
+
+    #[test]
+    fn large_reversed_numeric_table_uses_numeric_order() {
+        let values = (1..=10_000).rev().flat_map(|key| [json!(key), json!(key * 3)]).collect();
+        let classified = classify_table(values, 0).expect("classify table");
+        let expected = Value::Array((1..=10_000).map(|key| json!(key * 3)).collect());
+
+        assert_eq!(classified.value, expected);
+    }
+
+    #[test]
+    fn non_sequential_numeric_keys_remain_objects() {
+        for (values, expected) in [
+            (json!([3, "third", 1, "first"]), json!({"1": "first", "3": "third"})),
+            (json!([0, "zero", 1, "first"]), json!({"0": "zero", "1": "first"})),
+            (json!([-1, "negative"]), json!({"-1": "negative"})),
+            (json!([1.5, "fractional"]), json!({"1.5": "fractional"})),
+            (json!([u64::MAX, "large"]), json!({"18446744073709551615": "large"})),
+        ] {
+            let classified = classify_table(values.as_array().expect("array").clone(), 0)
+                .expect("classify table");
+
+            assert_eq!(classified.value, expected);
+        }
+    }
+
+    #[test]
     fn duplicate_numeric_keys_are_rejected() {
         let values = json!([2, "first", 2, "second"]);
         let error = classify_table(values.as_array().expect("array").clone(), 7)
             .expect_err("duplicate should fail");
 
         assert_eq!(error, DecodeError::DuplicateTableKey { offset: 7, key: "2".to_string() });
+    }
+
+    #[test]
+    fn duplicate_numeric_key_with_null_value_is_rejected() {
+        let values = json!([1, null, 2, "second", 1, "duplicate"]);
+        let error = classify_table(values.as_array().expect("array").clone(), 7)
+            .expect_err("duplicate should fail");
+
+        assert_eq!(error, DecodeError::DuplicateTableKey { offset: 7, key: "1".to_string() });
     }
 
     #[test]
