@@ -7,9 +7,12 @@
 
 use serde_json::Value;
 
-use crate::common::{
-    CHECKSUM_SEED, EncodeError, FILE_HEADER_LEN, FILE_MARKER, MAX_DEPTH, TABLE_END, TAG_BOOL,
-    TAG_F64, TAG_STRING, TAG_TABLE,
+use crate::{
+    EncodeError,
+    common::{
+        FILE_HEADER_LEN, FILE_MARKER, MAX_DEPTH, TABLE_END, TAG_BOOL, TAG_F64, TAG_STRING,
+        TAG_TABLE, file_checksum,
+    },
 };
 
 /// Encodes a JSON value as a complete `Persistent.Mail` file.
@@ -32,7 +35,7 @@ use crate::common::{
 /// # Examples
 ///
 /// ```no_run
-/// use rokbattles_mail_encoder::encode;
+/// use rokbattles_mail_codec::encode;
 /// use serde_json::json;
 ///
 /// let value = json!({ "id": "123", "unread": false });
@@ -126,24 +129,13 @@ fn encode_number_key(value: u64, output: &mut Vec<u8>) {
     output.extend_from_slice(&(value as f64).to_be_bytes());
 }
 
-fn file_checksum(buffer: &[u8]) -> u64 {
-    // `encode` supplies the fixed marker and header. Hash the marker followed
-    // by eight zero bytes; each zero advances DJB2 by a factor of 33. This also
-    // makes the result independent of any checksum already stored in `buffer`.
-    let payload = buffer.get(FILE_HEADER_LEN..).unwrap_or_default();
-    let header_hash = CHECKSUM_SEED
-        .wrapping_mul(33)
-        .wrapping_add(u64::from(FILE_MARKER))
-        .wrapping_mul(33_u64.pow(8));
-    rokbattles_djb2_simd::checksum(header_hash, payload)
-}
-
 #[cfg(test)]
 mod tests {
     use serde_json::json;
 
     use super::*;
 
+    #[cfg(feature = "read")]
     #[test]
     fn encoded_file_roundtrips_through_production_decoder() {
         let value = json!({
@@ -161,19 +153,20 @@ mod tests {
 
         let encoded = encode(&value).expect("value should encode");
 
-        assert_eq!(rokbattles_mail_decoder::decode(&encoded).expect("file should decode"), value);
+        assert_eq!(crate::decode(&encoded).expect("file should decode"), value);
     }
 
+    #[cfg(feature = "read")]
     #[test]
     fn decoded_real_fixture_can_be_reencoded_without_value_loss() {
         let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("../../../samples/Battle/Persistent.Mail.10121648172261838131");
         let original = std::fs::read(path).expect("fixture should read");
-        let value = rokbattles_mail_decoder::decode(&original).expect("fixture should decode");
+        let value = crate::decode(&original).expect("fixture should decode");
 
         let encoded = encode(&value).expect("fixture should encode");
 
-        assert_eq!(rokbattles_mail_decoder::decode(&encoded).expect("file should decode"), value);
+        assert_eq!(crate::decode(&encoded).expect("file should decode"), value);
     }
 
     #[test]
@@ -194,10 +187,7 @@ mod tests {
         }))
         .expect("object should encode");
 
-        assert_eq!(
-            rokbattles_mail_decoder::decode(&encoded).expect("file should decode"),
-            json!({ "kept": true })
-        );
+        assert_eq!(encoded, encode(&json!({ "kept": true })).expect("object should encode"));
     }
 
     #[test]

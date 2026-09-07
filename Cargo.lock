@@ -4594,7 +4594,7 @@ dependencies = [
  "anyhow",
  "notify",
  "reqwest 0.12.28",
- "rokbattles-mail-decoder",
+ "rokbattles-mail-codec",
  "rokbattles-mail-registry",
  "serde",
  "serde_json",
@@ -4664,7 +4664,7 @@ dependencies = [
  "flate2",
  "mimalloc",
  "mongodb",
- "rokbattles-mail-decoder",
+ "rokbattles-mail-codec",
  "rokbattles-mail-reconstructor",
  "rokbattles-mail-registry",
  "sentry",
@@ -4704,7 +4704,7 @@ name = "rokbattles-mail-cli"
 version = "1.6.1"
 dependencies = [
  "clap",
- "rokbattles-mail-decoder",
+ "rokbattles-mail-codec",
  "rokbattles-mail-registry",
  "rokbattles-mail-sdk",
  "serde",
@@ -4714,20 +4714,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "rokbattles-mail-decoder"
+name = "rokbattles-mail-codec"
 version = "1.6.1"
 dependencies = [
  "rokbattles-djb2-simd",
- "serde_json",
- "thiserror 2.0.20",
-]
-
-[[package]]
-name = "rokbattles-mail-encoder"
-version = "1.6.1"
-dependencies = [
- "rokbattles-djb2-simd",
- "rokbattles-mail-decoder",
  "serde_json",
  "thiserror 2.0.20",
 ]
@@ -4818,8 +4808,7 @@ version = "1.6.1"
 dependencies = [
  "base64 0.22.1",
  "flate2",
- "rokbattles-mail-decoder",
- "rokbattles-mail-encoder",
+ "rokbattles-mail-codec",
  "rokbattles-mail-processor-system-barbarianfort",
  "rokbattles-mail-registry",
  "serde",
@@ -4878,7 +4867,7 @@ dependencies = [
  "futures",
  "mimalloc",
  "mongodb",
- "rokbattles-mail-decoder",
+ "rokbattles-mail-codec",
  "rokbattles-mail-registry",
  "rokbattles-mail-sdk",
  "sentry",

@@ -8,7 +8,7 @@ use std::collections::BTreeMap;
 
 use serde_json::{Map, Value, map::Entry};
 
-use crate::common::DecodeError;
+use crate::DecodeError;
 
 #[derive(Debug)]
 pub(crate) struct ClassifiedTable {

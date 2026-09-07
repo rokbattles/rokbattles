@@ -26,7 +26,7 @@ pub enum ProcessorError {
     #[error("invalid mail payload: {0}")]
     InvalidMailPayload(String),
     #[error("binary mail decode failed: {0}")]
-    BinaryDecode(#[from] rokbattles_mail_decoder::DecodeError),
+    BinaryDecode(#[from] rokbattles_mail_codec::DecodeError),
     #[error("zstd decode failed: {0}")]
     Decompress(#[from] std::io::Error),
     #[error("unsupported mail type: {0}")]

@@ -85,5 +85,5 @@ pub enum ReconstructionError {
     InvalidBodyShape(&'static str),
     /// The reconstructed value could not be represented as a Persistent.Mail file.
     #[error("failed to encode persistent mail: {0}")]
-    PersistentEncoding(#[source] rokbattles_mail_encoder::EncodeError),
+    PersistentEncoding(#[source] rokbattles_mail_codec::EncodeError),
 }

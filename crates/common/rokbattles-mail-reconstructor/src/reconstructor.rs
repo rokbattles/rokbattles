@@ -168,7 +168,7 @@ impl MailReconstructor {
         // Detection selects a category; it does not validate processor inputs.
         let mail_type = detect_mail_type(&value)
             .ok_or_else(|| ReconstructionError::UnsupportedMailType(normalized_type.to_string()))?;
-        let bytes = rokbattles_mail_encoder::encode(&value)
+        let bytes = rokbattles_mail_codec::encode(&value)
             .map_err(ReconstructionError::PersistentEncoding)?;
 
         Ok(ReconstructedMail { id, mail_type: mail_type.to_string(), bytes })
@@ -227,7 +227,7 @@ mod tests {
     }
 
     fn decode_reconstructed(mail: &ReconstructedMail) -> Value {
-        rokbattles_mail_decoder::decode(&mail.bytes).expect("reconstructed file should decode")
+        rokbattles_mail_codec::decode(&mail.bytes).expect("reconstructed file should decode")
     }
 
     #[test]

@@ -1,0 +1,18 @@
+[package]
+name = "rokbattles-mail-codec"
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[features]
+default = []
+read = ["dep:rokbattles-djb2-simd", "dep:serde_json", "dep:thiserror"]
+write = ["dep:rokbattles-djb2-simd", "dep:serde_json", "dep:thiserror"]
+
+[dependencies]
+rokbattles-djb2-simd = { path = "../rokbattles-djb2-simd", optional = true }
+serde_json = { workspace = true, optional = true }
+thiserror = { workspace = true, optional = true }
+
+[lints]
+workspace = true

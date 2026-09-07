@@ -9,7 +9,7 @@ axum = { workspace = true, features = ["http1", "json", "multipart", "tokio", "t
 bytes = { workspace = true }
 dotenvy = { workspace = true }
 flate2 = { workspace = true, features = ["zlib"] }
-rokbattles-mail-decoder = { path = "../../common/rokbattles-mail-decoder" }
+rokbattles-mail-codec = { path = "../../common/rokbattles-mail-codec", features = ["read"] }
 rokbattles-mail-registry = { path = "../../common/rokbattles-mail-registry" }
 rokbattles-mail-reconstructor = { path = "../../common/rokbattles-mail-reconstructor" }
 mongodb = { workspace = true }
