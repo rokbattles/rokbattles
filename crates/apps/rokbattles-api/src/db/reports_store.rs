@@ -34,7 +34,9 @@ pub struct ReportsStore {
     g_rok_prec_kahartreasure: Collection<Document>,
     g_rok_prec_karuakceremony: Collection<Document>,
     g_rok_prec_drastc: Collection<Document>,
+    g_rok_prec_drastc_presoc: Collection<Document>,
     g_rok_prec_cmdr_pairings_v2: Collection<Document>,
+    g_rok_prec_cmdr_pairings_v2_presoc: Collection<Document>,
 }
 
 impl ReportsStore {
@@ -59,7 +61,9 @@ impl ReportsStore {
             g_rok_prec_kahartreasure: db.collection("g_rok_prec_kahartreasure"),
             g_rok_prec_karuakceremony: db.collection("g_rok_prec_karuakceremony"),
             g_rok_prec_drastc: db.collection("g_rok_prec_drastc"),
+            g_rok_prec_drastc_presoc: db.collection("g_rok_prec_drastc_presoc"),
             g_rok_prec_cmdr_pairings_v2: db.collection("g_rok_prec_cmdr_pairings_v2"),
+            g_rok_prec_cmdr_pairings_v2_presoc: db.collection("g_rok_prec_cmdr_pairings_v2_presoc"),
         }
     }
 
@@ -571,6 +575,16 @@ impl ReportsStore {
     /// Access materialized DRASTC scores for Combat Lab.
     pub fn precomputed_drastc_collection(&self) -> &Collection<Document> {
         &self.g_rok_prec_drastc
+    }
+
+    /// Access materialized pre-SoC DRASTC scores for Combat Lab.
+    pub fn precomputed_drastc_presoc_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_drastc_presoc
+    }
+
+    /// Access compact, chunked pre-SoC Combat Lab commander pairing aggregates.
+    pub fn precomputed_commander_pairings_v2_presoc_collection(&self) -> &Collection<Document> {
+        &self.g_rok_prec_cmdr_pairings_v2_presoc
     }
 
     /// Access compact, chunked Combat Lab commander pairing aggregates.
