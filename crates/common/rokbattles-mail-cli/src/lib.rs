@@ -2,7 +2,7 @@
 
 //! Decodes a directory of persistent mail files and processes recognized mail.
 //!
-//! [`run`] reads each selected file with [`rokbattles_mail_decoder::decode`] and
+//! [`run`] reads each selected file with [`rokbattles_mail_codec::decode`] and
 //! writes its decoded JSON. For object roots recognized by the mail registry,
 //! it also writes the category processor's output to a separate JSON file.
 //! Unknown categories and non-object roots still receive decoded output.

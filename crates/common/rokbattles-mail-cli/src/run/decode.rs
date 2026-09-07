@@ -20,7 +20,7 @@ pub(super) fn decode_file(
 ) -> Result<(), MailCliError> {
     let buffer =
         fs::read(input).map_err(|source| MailCliError::Io { source, path: input.to_path_buf() })?;
-    let value = rokbattles_mail_decoder::decode(&buffer)
+    let value = rokbattles_mail_codec::decode(&buffer)
         .map_err(|source| MailCliError::Decode { source, path: input.to_path_buf() })?;
     // Keep decoded data available even when category extraction fails.
     write_json(output_dir, input, &value, pretty)?;

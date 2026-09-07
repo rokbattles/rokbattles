@@ -228,7 +228,7 @@ fn decode_mail_binary(raw: &RawMail) -> Result<Value, ProcessorError> {
         });
     }
 
-    Ok(rokbattles_mail_decoder::decode(&bytes)?)
+    Ok(rokbattles_mail_codec::decode(&bytes)?)
 }
 
 fn observed_version(doc: &Document) -> ObservedVersion {
@@ -632,7 +632,7 @@ mod tests {
         for input in samples {
             let bytes = std::fs::read(&input)
                 .unwrap_or_else(|error| panic!("failed to read {}: {error}", input.display()));
-            let decoded = rokbattles_mail_decoder::decode(&bytes)
+            let decoded = rokbattles_mail_codec::decode(&bytes)
                 .unwrap_or_else(|error| panic!("failed to decode {}: {error}", input.display()));
             let Some(root) = normalize_mail_root(&decoded) else {
                 panic!("non-object root for {}", input.display());

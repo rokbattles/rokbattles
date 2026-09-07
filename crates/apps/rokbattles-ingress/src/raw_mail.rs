@@ -282,7 +282,7 @@ mod tests {
         for sample in samples {
             let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(sample);
             let bytes = std::fs::read(path).expect("read sample");
-            let decoded = rokbattles_mail_decoder::decode(&bytes).expect("decode sample");
+            let decoded = rokbattles_mail_codec::decode(&bytes).expect("decode sample");
             extract_raw_mail_metadata(&decoded).expect("extract metadata");
 
             let compressed = compress_raw_mail(&bytes, 3).expect("compress sample");

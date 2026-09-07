@@ -3,7 +3,7 @@
 //! Load a runtime protocol artifact with [`MailReconstructor::load`], then reuse
 //! the reconstructor for individual `MailEntity` payloads. Reconstruction decodes
 //! the envelope, inflates compressed bodies, adapts each supported mail format,
-//! and passes the resulting JSON value to [`rokbattles_mail_encoder::encode`].
+//! and passes the resulting JSON value to [`rokbattles_mail_codec::encode`].
 //! The returned bytes can be stored as `Persistent.Mail.<id>`; this crate does
 //! not write files or parse network framing.
 //!

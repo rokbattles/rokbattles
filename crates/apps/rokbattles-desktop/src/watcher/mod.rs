@@ -237,7 +237,7 @@ pub fn spawn_watcher(app: &AppHandle) -> WatcherTask {
                     }
                 };
 
-                let decoded = match rokbattles_mail_decoder::decode(&bytes) {
+                let decoded = match rokbattles_mail_codec::decode(&bytes) {
                     Ok(m) => m,
                     Err(e) => {
                         emit_log(&app, format!("Decode failed for {}: {}", file_name, e));

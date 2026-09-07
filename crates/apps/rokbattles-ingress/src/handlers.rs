@@ -95,7 +95,7 @@ pub async fn upload(
         }
     }
 
-    let decoded = rokbattles_mail_decoder::decode(&buffer)
+    let decoded = rokbattles_mail_codec::decode(&buffer)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;
 
     let mail_type = extract_mail_type(&decoded)?;
@@ -237,7 +237,7 @@ async fn store_reconstructed_mail(
     mail_id: &str,
     user_agent: &str,
 ) -> Result<UploadAction, ApiError> {
-    let decoded = rokbattles_mail_decoder::decode(bytes)
+    let decoded = rokbattles_mail_codec::decode(bytes)
         .map_err(|error| ApiError::decode_failed(error.to_string()))?;
     let decoded_id =
         extract_mail_id(&decoded).ok_or_else(|| ApiError::bad_request("missing mail id"))?;
@@ -322,7 +322,7 @@ async fn store_compressed_raw_mail(
                 return Err(ApiError::internal("stored mail checksum does not match its binary"));
             }
             let existing_decoded =
-                rokbattles_mail_decoder::decode(&existing_bytes).map_err(|error| {
+                rokbattles_mail_codec::decode(&existing_bytes).map_err(|error| {
                     ApiError::internal(format!("stored mail decode failed: {error}"))
                 })?;
             mutable_metadata_differs(&existing_decoded, decoded)?

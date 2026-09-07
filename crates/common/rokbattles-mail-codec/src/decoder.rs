@@ -8,9 +8,10 @@
 use serde_json::{Number, Value};
 
 use crate::{
+    DecodeError,
     common::{
-        CHECKSUM_SEED, DecodeError, FILE_HEADER_LEN, FILE_MARKER, MAX_DEPTH, TABLE_END, TAG_BOOL,
-        TAG_F64, TAG_STRING, TAG_TABLE,
+        FILE_HEADER_LEN, FILE_MARKER, MAX_DEPTH, TABLE_END, TAG_BOOL, TAG_F64, TAG_STRING,
+        TAG_TABLE, file_checksum,
     },
     value::classify_table,
 };
@@ -65,7 +66,7 @@ pub fn validate_file(buffer: &[u8]) -> Result<(), DecodeError> {
 /// # Examples
 ///
 /// ```no_run
-/// use rokbattles_mail_decoder::decode;
+/// use rokbattles_mail_codec::decode;
 ///
 /// let bytes = std::fs::read("Persistent.Mail.485440176891031331")?;
 /// let value = decode(&bytes)?;
@@ -98,7 +99,7 @@ pub fn decode(buffer: &[u8]) -> Result<Value, DecodeError> {
 /// # Examples
 ///
 /// ```
-/// use rokbattles_mail_decoder::{DecodeError, decode_value};
+/// use rokbattles_mail_codec::{DecodeError, decode_value};
 /// use serde_json::json;
 ///
 /// assert_eq!(decode_value(b"\x04\x05\x00\x00\x00hello")?, json!("hello"));
@@ -120,29 +121,6 @@ fn decode_value_at(buffer: &[u8], base_offset: usize) -> Result<Value, DecodeErr
         return Err(DecodeError::TrailingBytes { remaining: decoder.remaining() });
     }
     Ok(value)
-}
-
-fn file_checksum(buffer: &[u8]) -> u64 {
-    const CHECKSUM_MULTIPLIER: u64 = 33;
-    const ZEROED_CHECKSUM_BYTES_FACTOR: u64 = CHECKSUM_MULTIPLIER.pow(8);
-
-    let Some((&marker, rest)) = buffer.split_first() else {
-        return CHECKSUM_SEED;
-    };
-    let Some(payload) = rest.get(FILE_HEADER_LEN - 1..) else {
-        return rest.iter().fold(
-            CHECKSUM_SEED.wrapping_mul(CHECKSUM_MULTIPLIER).wrapping_add(u64::from(marker)),
-            |hash, _| hash.wrapping_mul(CHECKSUM_MULTIPLIER),
-        );
-    };
-
-    // Each zero byte advances DJB2 by a factor of 33. Multiplying by 33^8 skips the
-    // checksum field without copying the file to zero those bytes.
-    let header_hash = CHECKSUM_SEED
-        .wrapping_mul(CHECKSUM_MULTIPLIER)
-        .wrapping_add(u64::from(marker))
-        .wrapping_mul(ZEROED_CHECKSUM_BYTES_FACTOR);
-    rokbattles_djb2_simd::checksum(header_hash, payload)
 }
 
 struct Decoder<'a> {

@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-use rokbattles_mail_decoder::DecodeError;
+use rokbattles_mail_codec::DecodeError;
 use rokbattles_mail_sdk::ProcessError;
 use thiserror::Error;
 
