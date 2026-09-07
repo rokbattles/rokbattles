@@ -11,15 +11,16 @@ use super::{
     model::{DrastcAggregation, PairingKey, PairingRawTotals},
     pipeline::build_drastc_pipeline,
 };
-use crate::error::JobsError;
+use crate::{combat_lab_season::CombatLabSeason, error::JobsError};
 
 pub(super) async fn read_drastc_aggregation(
     source: &Collection<Document>,
     commander_ids: &[i64],
     cutoff_mail_time: i64,
+    season: CombatLabSeason,
 ) -> Result<DrastcAggregation, JobsError> {
     let mut cursor = source
-        .aggregate(build_drastc_pipeline(commander_ids, cutoff_mail_time))
+        .aggregate(build_drastc_pipeline(commander_ids, cutoff_mail_time, season))
         .allow_disk_use(true)
         .hint(Hint::Keys(
             doc! { "metadata.mail_time": -1, "metadata.kvk": 1, "opponents.player_id": 1 },

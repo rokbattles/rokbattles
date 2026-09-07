@@ -13,14 +13,15 @@ use super::{
     model::{PairingKey, Strategy},
     pipeline::build_supported_pairing_entries_pipeline,
 };
-use crate::error::JobsError;
+use crate::{combat_lab_season::CombatLabSeason, error::JobsError};
 
 pub(super) async fn read_pairing_confidences(
     source: &Collection<Document>,
     supported_pairings: &[PairingKey],
     cutoff_mail_time: i64,
+    season: CombatLabSeason,
 ) -> Result<BTreeMap<PairingKey, DrastcConfidence>, JobsError> {
-    let pipeline = build_confidence_pipeline(supported_pairings, cutoff_mail_time);
+    let pipeline = build_confidence_pipeline(supported_pairings, cutoff_mail_time, season);
     let mut cursor = source
         .aggregate(pipeline)
         .allow_disk_use(true)
@@ -44,6 +45,7 @@ pub(super) async fn read_pairing_confidences(
 pub(super) fn build_confidence_pipeline(
     supported_pairings: &[PairingKey],
     cutoff_mail_time: i64,
+    season: CombatLabSeason,
 ) -> Vec<Document> {
     let mut pipeline =
         build_supported_pairing_entries_pipeline(supported_pairings, cutoff_mail_time);
@@ -91,7 +93,7 @@ pub(super) fn build_confidence_pipeline(
             }
         },
     ]);
-    pipeline
+    season.scope_pipeline(pipeline)
 }
 
 fn map_confidence_document(document: &Document) -> Option<(PairingKey, DrastcConfidence)> {
@@ -126,7 +128,8 @@ mod tests {
     fn confidence_pipeline_groups_open_field_battles_by_governor_then_pairing() {
         let pairing = PairingKey { primary_commander_id: 595, secondary_commander_id: 596 };
         let cutoff_mail_time = 1_755_000_000_000_000_i64;
-        let pipeline = build_confidence_pipeline(&[pairing], cutoff_mail_time);
+        let pipeline =
+            build_confidence_pipeline(&[pairing], cutoff_mail_time, CombatLabSeason::Soc);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
         let pairing_match = pipeline
             .iter()
@@ -161,5 +164,21 @@ mod tests {
         assert_eq!(key, PairingKey { primary_commander_id: 595, secondary_commander_id: 596 });
         assert_eq!(confidence.unique_governors, 816);
         assert!((confidence.effective_governors - 28.41).abs() < 0.005);
+    }
+
+    #[test]
+    fn presoc_confidence_uses_the_same_report_season_scope_as_scores() {
+        let pairing = PairingKey { primary_commander_id: 3, secondary_commander_id: 6 };
+        let pipeline = build_confidence_pipeline(&[pairing], 100, CombatLabSeason::PreSoc);
+        assert_eq!(
+            pipeline[0],
+            doc! {
+                "$match": { "sender.server_season": { "$regex": r"^[12](?:\..*)?$" } }
+            }
+        );
+        assert_eq!(
+            pipeline[1].get_document("$match").expect("report match").get_bool("metadata.kvk"),
+            Ok(true)
+        );
     }
 }

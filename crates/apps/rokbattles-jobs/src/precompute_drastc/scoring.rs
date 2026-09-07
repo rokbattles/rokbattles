@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore, SOC_RAGE_TABLE};
+use rokbattles_drastc::{DrastcModel, DrastcReferenceRanges, DrastcScore, RageTable};
 
 use super::model::{PairingKey, PairingRawTotals};
 
@@ -8,6 +8,7 @@ pub(super) fn build_drastc_scores_from_aggregates(
     observed: &BTreeMap<PairingKey, PairingRawTotals>,
     supported_pairings: &[PairingKey],
     reference_ranges: DrastcReferenceRanges,
+    rage_table: RageTable,
 ) -> BTreeMap<PairingKey, DrastcScore> {
     let mut scores = BTreeMap::new();
 
@@ -17,7 +18,7 @@ pub(super) fn build_drastc_scores_from_aggregates(
         };
 
         let mut model = DrastcModel::new();
-        model.set_rage_table(SOC_RAGE_TABLE);
+        model.set_rage_table(rage_table);
         model.set_reference_ranges(reference_ranges);
         model.set_theoretical(key.primary_commander_id as u32, key.secondary_commander_id as u32);
         model.push(raw.to_drastc_record());
@@ -30,14 +31,17 @@ pub(super) fn build_drastc_scores_from_aggregates(
     scores
 }
 
-pub(super) fn supported_drastc_pairings(commander_ids: &[i64]) -> Vec<PairingKey> {
+pub(super) fn supported_drastc_pairings(
+    commander_ids: &[i64],
+    rage_table: RageTable,
+) -> Vec<PairingKey> {
     ordered_pairing_keys(commander_ids)
         .filter(|key| {
             u32::try_from(key.primary_commander_id)
                 .ok()
                 .zip(u32::try_from(key.secondary_commander_id).ok())
                 .is_some_and(|(primary, secondary)| {
-                    DrastcModel::is_supported(SOC_RAGE_TABLE, primary, secondary)
+                    DrastcModel::is_supported(rage_table, primary, secondary)
                 })
         })
         .collect()
@@ -53,13 +57,15 @@ fn ordered_pairing_keys(commander_ids: &[i64]) -> impl Iterator<Item = PairingKe
 
 #[cfg(test)]
 mod tests {
-    use rokbattles_drastc::{DrastcReferenceRanges, ReferenceRange};
+    use rokbattles_drastc::{
+        DrastcReferenceRanges, PRESOC_RAGE_TABLE, ReferenceRange, SOC_RAGE_TABLE,
+    };
 
     use super::*;
 
     #[test]
     fn supported_drastc_pairings_returns_only_model_supported_pairings() {
-        let keys = supported_drastc_pairings(&[575, 579, 540]);
+        let keys = supported_drastc_pairings(&[575, 579, 540], SOC_RAGE_TABLE);
 
         assert!(
             keys.contains(&PairingKey { primary_commander_id: 579, secondary_commander_id: 575 })
@@ -98,11 +104,46 @@ mod tests {
             consistency: ReferenceRange::new(10, 0.0, 1.0),
         };
 
-        let scores = build_drastc_scores_from_aggregates(&observed, &[key], ranges);
+        let scores = build_drastc_scores_from_aggregates(&observed, &[key], ranges, SOC_RAGE_TABLE);
 
         let score = scores.get(&key).expect("drastc score");
         assert_eq!(score.samples, 2);
         assert_eq!(score.breakdown.rage.value, 8.0);
         assert_eq!(score.breakdown.assist.value, 14.24);
+    }
+
+    #[test]
+    fn presoc_table_pairings_are_eligible_and_use_presoc_rage_values() {
+        use crate::{
+            combat_lab_season::CombatLabSeason, commander_catalog::combat_lab_commander_ids,
+        };
+        let ids = combat_lab_commander_ids(CombatLabSeason::PreSoc).expect("pre-SoC commanders");
+        let keys = supported_drastc_pairings(&ids, PRESOC_RAGE_TABLE);
+        assert_eq!(keys.len(), PRESOC_RAGE_TABLE.len());
+        let key = PairingKey { primary_commander_id: 3, secondary_commander_id: 6 };
+        assert!(keys.contains(&key));
+        assert!(!supported_drastc_pairings(&ids, SOC_RAGE_TABLE).contains(&key));
+        let observed = BTreeMap::from([(
+            key,
+            PairingRawTotals {
+                total_battles: 10,
+                kill_points_gained: 100,
+                kill_points_lost: 50,
+                normalized_duration_seconds_total: 100.0,
+                ..Default::default()
+            },
+        )]);
+        let scores = build_drastc_scores_from_aggregates(
+            &observed,
+            &keys,
+            DrastcReferenceRanges {
+                damage: ReferenceRange::new(10, 0.0, 4.0),
+                sustainability: ReferenceRange::new(10, -2.0, 2.0),
+                trade: ReferenceRange::new(10, 0.0, 2.0),
+                consistency: ReferenceRange::new(10, 0.0, 1.0),
+            },
+            PRESOC_RAGE_TABLE,
+        );
+        assert_eq!(scores.get(&key).expect("Sun Tzu/YSG score").breakdown.rage.value, 7.5);
     }
 }
