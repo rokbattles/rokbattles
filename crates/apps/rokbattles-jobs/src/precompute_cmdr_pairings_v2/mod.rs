@@ -15,7 +15,6 @@ use futures::{StreamExt, stream};
 use mongodb::{
     Collection,
     bson::{Bson, DateTime, Document, doc},
-    options::Hint,
 };
 use rokbattles_api::db::ReportsStore;
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
@@ -95,6 +94,7 @@ async fn precompute_for_season(
                 reports_store.battle_collection(),
                 &output,
                 performance_pipeline(&commander_ids, start_ms, end_ms, season),
+                season,
                 generation,
                 &cutoffs,
             )
@@ -231,6 +231,7 @@ async fn read_performance_partition(
     source: &Collection<Document>,
     output: &Collection<Document>,
     pipeline: Vec<Document>,
+    season: CombatLabSeason,
     generation: DateTime,
     cutoffs: &[i64; 4],
 ) -> Result<PerformancePartition, JobsError> {
@@ -238,11 +239,7 @@ async fn read_performance_partition(
         .aggregate(pipeline)
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(output);
     let mut roots = BTreeMap::<PairingKey, PairingRoot>::new();
@@ -309,11 +306,7 @@ async fn read_loadout_partition(
         ))
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(context.season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(context.output);
     let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();

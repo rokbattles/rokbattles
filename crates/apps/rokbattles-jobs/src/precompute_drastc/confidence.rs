@@ -4,7 +4,6 @@ use futures::StreamExt;
 use mongodb::{
     Collection,
     bson::{Document, doc},
-    options::Hint,
 };
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
 use rokbattles_drastc::DrastcConfidence;
@@ -22,15 +21,8 @@ pub(super) async fn read_pairing_confidences(
     season: CombatLabSeason,
 ) -> Result<BTreeMap<PairingKey, DrastcConfidence>, JobsError> {
     let pipeline = build_confidence_pipeline(supported_pairings, cutoff_mail_time, season);
-    let mut cursor = source
-        .aggregate(pipeline)
-        .allow_disk_use(true)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
-        .await?;
+    let mut cursor =
+        source.aggregate(pipeline).allow_disk_use(true).hint(season.source_hint()).await?;
     let mut confidences = BTreeMap::new();
 
     while let Some(next) = cursor.next().await {
@@ -173,7 +165,11 @@ mod tests {
         assert_eq!(
             pipeline[0],
             doc! {
-                "$match": { "sender.server_season": { "$regex": r"^[12](?:\..*)?$" } }
+                "$match": { "sender.server_season": { "$in": [
+                    "1", "2",
+                    mongodb::bson::Regex { pattern: r"^1\..*$".into(), options: String::new() },
+                    mongodb::bson::Regex { pattern: r"^2\..*$".into(), options: String::new() },
+                ] } }
             }
         );
         assert_eq!(

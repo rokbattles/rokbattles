@@ -1,8 +1,7 @@
 use futures::StreamExt;
 use mongodb::{
     Collection,
-    bson::{Bson, Document, doc},
-    options::Hint,
+    bson::{Bson, Document},
 };
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
 use rokbattles_drastc::{DrastcReferenceRanges, ReferenceRange};
@@ -22,9 +21,7 @@ pub(super) async fn read_drastc_aggregation(
     let mut cursor = source
         .aggregate(build_drastc_pipeline(commander_ids, cutoff_mail_time, season))
         .allow_disk_use(true)
-        .hint(Hint::Keys(
-            doc! { "metadata.mail_time": -1, "metadata.kvk": 1, "opponents.player_id": 1 },
-        ))
+        .hint(season.source_hint())
         .await?;
     let mut aggregation = DrastcAggregation::default();
     while let Some(next) = cursor.next().await {

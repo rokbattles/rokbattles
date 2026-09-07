@@ -948,7 +948,11 @@ mod tests {
         assert_eq!(
             pipeline[0],
             doc! {
-                "$match": { "sender.server_season": { "$regex": r"^[12](?:\..*)?$" } }
+                "$match": { "sender.server_season": { "$in": [
+                    "1", "2",
+                    mongodb::bson::Regex { pattern: r"^1\..*$".into(), options: String::new() },
+                    mongodb::bson::Regex { pattern: r"^2\..*$".into(), options: String::new() },
+                ] } }
             }
         );
         assert_eq!(
