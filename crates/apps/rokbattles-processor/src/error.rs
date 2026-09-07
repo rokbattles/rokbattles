@@ -11,6 +11,10 @@ pub enum ProcessorError {
     Mongo(#[from] mongodb::error::Error),
     #[error("mongo uri must include a default database")]
     MissingDatabase,
+    #[error("CPU preparation pool closed: {0}")]
+    PreparationPoolClosed(#[from] tokio::sync::AcquireError),
+    #[error("CPU preparation task failed: {0}")]
+    PreparationTask(#[from] tokio::task::JoinError),
     #[error("missing required field: {0}")]
     MissingField(&'static str),
     #[error("processed mail is missing its metadata section")]
