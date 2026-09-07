@@ -15,7 +15,7 @@ use serde_json::Value;
 use sha2::{Digest, Sha256};
 use tracing::{debug, error, info};
 
-use crate::{config::Config, error::ProcessorError, storage::Storage};
+use crate::{config::Config, cpu_pool::CpuPool, error::ProcessorError, storage::Storage};
 
 #[derive(Debug)]
 struct RawMail {
@@ -26,6 +26,17 @@ struct RawMail {
     size: i64,
     algorithm: String,
     binary: Vec<u8>,
+}
+
+#[derive(Debug)]
+struct PreparedMail {
+    id: ObjectId,
+    mail_id: String,
+    status: String,
+    checksum: String,
+    size: i64,
+    mail_type: MailType,
+    document: Document,
 }
 
 #[derive(Debug)]
@@ -42,8 +53,9 @@ enum ProcessOutcome {
 
 /// Run the processor loop forever.
 pub async fn process_loop(storage: Storage, config: Config) -> Result<(), ProcessorError> {
+    let cpu_pool = CpuPool::new(config.cpu_concurrency);
     loop {
-        match process_batch(&storage, &config).await {
+        match process_batch(&storage, &config, &cpu_pool).await {
             Ok(0) => tokio::time::sleep(config.idle_sleep).await,
             Ok(_) => {}
             Err(error) => {
@@ -54,7 +66,11 @@ pub async fn process_loop(storage: Storage, config: Config) -> Result<(), Proces
     }
 }
 
-async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, ProcessorError> {
+async fn process_batch(
+    storage: &Storage,
+    config: &Config,
+    cpu_pool: &CpuPool,
+) -> Result<usize, ProcessorError> {
     let cursor = storage.find_pending(config.batch_size).await?;
     let processed = Arc::new(AtomicUsize::new(0));
 
@@ -70,7 +86,7 @@ async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, Proc
                     .map(str::to_string);
                 let raw_id = doc.get_object_id("_id").ok();
                 let observed = observed_version(&doc);
-                match process_document(&storage, doc).await {
+                match process_document(&storage, cpu_pool, doc).await {
                     Err(error) => {
                         if should_mark_error(&error)
                             && let Some(raw_id) = raw_id
@@ -123,23 +139,44 @@ async fn process_batch(storage: &Storage, config: &Config) -> Result<usize, Proc
 
 async fn process_document(
     storage: &Storage,
+    cpu_pool: &CpuPool,
     doc: Document,
 ) -> Result<ProcessOutcome, ProcessorError> {
-    let raw = parse_raw_mail(doc)?;
-    let (mail_type, processed_doc) = prepare_processed_document(&raw)?;
+    let prepared = cpu_pool.run(move || prepare_document(doc)).await?;
 
     storage
-        .upsert_processed(mail_type, &raw.mail_id, &raw.checksum, raw.size, processed_doc)
+        .upsert_processed(
+            prepared.mail_type,
+            &prepared.mail_id,
+            &prepared.checksum,
+            prepared.size,
+            prepared.document,
+        )
         .await?;
 
     let now = DateTime::now();
-    if !storage.mark_processed(&raw.id, &raw.checksum, raw.size, now).await? {
-        debug!(mail_id = %raw.mail_id, "mail changed while it was being processed");
+    if !storage.mark_processed(&prepared.id, &prepared.checksum, prepared.size, now).await? {
+        debug!(mail_id = %prepared.mail_id, "mail changed while it was being processed");
         return Ok(ProcessOutcome::Stale);
     }
-    debug!(mail_id = %raw.mail_id, status = %raw.status, mail_type = %mail_type, "processed mail");
+    debug!(mail_id = %prepared.mail_id, status = %prepared.status, mail_type = %prepared.mail_type, "processed mail");
 
     Ok(ProcessOutcome::Processed)
+}
+
+fn prepare_document(doc: Document) -> Result<PreparedMail, ProcessorError> {
+    let raw = parse_raw_mail(doc)?;
+    let (mail_type, document) = prepare_processed_document(&raw)?;
+    // Compressed input and decode intermediates are dropped on the CPU worker.
+    Ok(PreparedMail {
+        id: raw.id,
+        mail_id: raw.mail_id,
+        status: raw.status,
+        checksum: raw.checksum,
+        size: raw.size,
+        mail_type,
+        document,
+    })
 }
 
 fn prepare_processed_document(raw: &RawMail) -> Result<(MailType, Document), ProcessorError> {
@@ -621,8 +658,9 @@ mod tests {
         }
     }
 
-    #[test]
-    fn all_processable_binary_samples_match_processed_fixtures() {
+    #[tokio::test]
+    async fn all_processable_binary_samples_match_processed_fixtures() {
+        let pool = CpuPool::new(std::num::NonZeroUsize::new(2).unwrap());
         let samples_root =
             std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../samples");
         let mut samples = Vec::new();
@@ -658,7 +696,52 @@ mod tests {
                 "processed output differs for {}",
                 input.display()
             );
+
+            let raw = raw_mail_from_bytes(&bytes);
+            let (_, expected_bson) = prepare_processed_document(&raw).unwrap();
+            let document = document_from_raw(&raw);
+            let prepared = pool.run(move || prepare_document(document)).await.unwrap();
+            assert_eq!(prepared.mail_type, mail_type);
+            assert_eq!(prepared.document, expected_bson, "BSON differs for {}", input.display());
+            assert_eq!(prepared.id, raw.id);
+            assert_eq!(prepared.mail_id, raw.mail_id);
+            assert_eq!(prepared.checksum, raw.checksum);
+            assert_eq!(prepared.size, raw.size);
+            assert_eq!(prepared.status, raw.status);
         }
+    }
+
+    fn document_from_raw(raw: &RawMail) -> Document {
+        doc! {
+            "_id": raw.id,
+            "status": &raw.status,
+            "metadata": { "checksum": &raw.checksum, "size": raw.size, "algo": &raw.algorithm },
+            "mail": { "id": &raw.mail_id, "binary": Binary {
+                subtype: BinarySubtype::Generic, bytes: raw.binary.clone(),
+            } },
+        }
+    }
+
+    #[tokio::test]
+    async fn blocking_preparation_preserves_invalid_mail_errors() {
+        let pool = CpuPool::new(std::num::NonZeroUsize::new(1).unwrap());
+        let mut raw = raw_mail_from_bytes(b"invalid");
+        raw.checksum = "wrong".into();
+        let document = document_from_raw(&raw);
+        let error = pool.run(move || prepare_document(document)).await.unwrap_err();
+        assert!(matches!(error, ProcessorError::ChecksumMismatch { .. }));
+        assert!(should_mark_error(&error));
+
+        let error = pool.run(|| prepare_document(doc! {})).await.unwrap_err();
+        assert!(matches!(error, ProcessorError::MissingField("_id")));
+        assert!(should_mark_error(&error));
+    }
+
+    #[tokio::test]
+    async fn preparation_task_failure_does_not_mark_mail_as_invalid() {
+        let pool = CpuPool::new(std::num::NonZeroUsize::new(1).unwrap());
+        let error = pool.run::<()>(|| panic!("test preparation panic")).await.unwrap_err();
+        assert!(!should_mark_error(&error));
     }
 
     fn collect_binary_mail_samples(root: &std::path::Path, samples: &mut Vec<std::path::PathBuf>) {
