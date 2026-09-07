@@ -27,7 +27,7 @@ pub(super) unsafe fn decode_blocks(payload: &mut [u8], mut state: u32) -> (usize
             unsafe { vst1q_u32(row.as_mut_ptr(), states) };
         }
         for (lane, block) in batch.as_chunks_mut::<32>().0.iter_mut().enumerate() {
-            let keys = std::array::from_fn(|index| schedule[index][lane]);
+            let keys = std::array::from_fn(|index| schedule[index][lane].to_le());
             // Rows 32..63 hold choices for indices 31..1. Replay them in reverse.
             for index in 1..32 {
                 block.swap(index, schedule[63 - index][lane] as usize % (index + 1));
@@ -42,46 +42,27 @@ pub(super) unsafe fn decode_blocks(payload: &mut [u8], mut state: u32) -> (usize
 
 #[target_feature(enable = "neon")]
 unsafe fn transform(block: &mut [u8; 32], keys: &[u32; 32]) {
-    let mut add = [0_u8; 32];
-    let mut xor = [0_u8; 32];
-    let mut rotation = [0_u8; 32];
-    for (((add, xor), rotation), key) in add.iter_mut().zip(&mut xor).zip(&mut rotation).zip(keys) {
-        let bytes = key.to_le_bytes();
-        *add = bytes[0];
-        *xor = bytes[1];
-        *rotation = bytes[2] & 7;
-    }
-    let mut previous = [0_u8; 32];
-    // Capture feedback before either half is modified, including the byte that
-    // crosses the 16-byte vector boundary. Feedback resets only every 32 bytes.
-    previous[1..].copy_from_slice(&block[..31]);
-    for ((((block, add), xor), rotation), previous) in block
-        .as_chunks_mut::<16>()
-        .0
-        .iter_mut()
-        .zip(add.as_chunks::<16>().0)
-        .zip(xor.as_chunks::<16>().0)
-        .zip(rotation.as_chunks::<16>().0)
-        .zip(previous.as_chunks::<16>().0)
-    {
-        // SAFETY: Each input contains 16 initialized bytes, and NEON is enabled.
-        // The intrinsic permits an unaligned address.
+    let mut previous = vdupq_n_u8(0);
+    for (block, keys) in block.as_chunks_mut::<16>().0.iter_mut().zip(keys.as_chunks::<16>().0) {
+        // Each little-endian key contains addition, XOR, rotation, and an unused byte.
+        // The load separates these fields into four vectors, keeping the keys in order.
+        // SAFETY: `keys` contains the 64 initialized bytes read by `vld4q_u8`;
+        // the intrinsic permits an unaligned address. NEON is enabled.
+        let fields = unsafe { vld4q_u8(keys.as_ptr().cast()) };
+        // SAFETY: `block` contains the 16 initialized bytes read by `vld1q_u8`;
+        // the intrinsic permits an unaligned address.
         let encoded = unsafe { vld1q_u8(block.as_ptr()) };
-        // SAFETY: The XOR chunk contains 16 initialized bytes.
-        let xors = unsafe { vld1q_u8(xor.as_ptr()) };
-        // SAFETY: The feedback chunk contains 16 initialized bytes.
-        let feedback = unsafe { vld1q_u8(previous.as_ptr()) };
-        // SAFETY: The rotation chunk contains 16 initialized bytes.
-        let rotations = unsafe { vld1q_u8(rotation.as_ptr()) };
-        // SAFETY: The addition chunk contains 16 initialized bytes.
-        let additions = unsafe { vld1q_u8(add.as_ptr()) };
-        let value = veorq_u8(veorq_u8(encoded, xors), feedback);
-        let rotations = vreinterpretq_s8_u8(rotations);
+        // Each byte uses the preceding encoded byte as feedback. The first half
+        // starts with zero; the second starts with the first half's last encoded byte.
+        let feedback = vextq_u8::<15>(previous, encoded);
+        previous = encoded;
+        let value = veorq_u8(veorq_u8(encoded, fields.1), feedback);
+        let rotations = vreinterpretq_s8_u8(vandq_u8(fields.2, vdupq_n_u8(7)));
         // Signed counts select the shift direction. For a zero rotation, the
         // right part is unchanged and the left shift by eight contributes zero.
         let right = vshlq_u8(value, vnegq_s8(rotations));
         let left = vshlq_u8(value, vsubq_s8(vdupq_n_s8(8), rotations));
-        let value = vsubq_u8(vorrq_u8(right, left), additions);
+        let value = vsubq_u8(vorrq_u8(right, left), fields.0);
         // SAFETY: The destination contains writable storage for all 16 bytes.
         unsafe { vst1q_u8(block.as_mut_ptr(), value) };
     }
