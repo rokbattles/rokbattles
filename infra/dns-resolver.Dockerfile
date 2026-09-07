@@ -12,8 +12,8 @@ RUN --mount=type=bind,source=.,target=/src \
     --mount=type=cache,id=rokbattles-cargo-git,target=/usr/local/cargo/git \
     --mount=type=cache,id=rokbattles-cargo-target-x86_64-musl,target=/target,sharing=locked \
     cd /src && \
-    CARGO_TARGET_DIR=/target cargo build --release --locked --target x86_64-unknown-linux-musl -p rokbattles-dns-resolver && \
-    cp /target/x86_64-unknown-linux-musl/release/rokbattles-dns-resolver /app/rokbattles-dns-resolver
+    CARGO_TARGET_DIR=/target cargo build --profile server --locked --target x86_64-unknown-linux-musl -p rokbattles-dns-resolver && \
+    cp /target/x86_64-unknown-linux-musl/server/rokbattles-dns-resolver /app/rokbattles-dns-resolver
 
 FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS files
 RUN apk add --no-cache ca-certificates tzdata

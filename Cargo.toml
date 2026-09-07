@@ -59,6 +59,14 @@ codegen-units = 1
 panic = "abort"
 strip = "symbols"
 
+[profile.size]
+inherits = "release"
+opt-level = 3
+
+[profile.server]
+inherits = "release"
+opt-level = 2
+
 [workspace.lints.clippy]
 string_slice = "warn"
 indexing_slicing = "warn"
