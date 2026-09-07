@@ -199,7 +199,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
             match precompute_drastc_data(&reports_store).await {
                 Ok(stats) => {
                     info!(
-                        legendary_commanders = stats.legendary_commanders,
+                        supported_commanders = stats.supported_commanders,
                         observed_pairings = stats.observed_pairings,
                         supported_pairings = stats.supported_pairings,
                         scored_pairings = stats.scored_pairings,
@@ -226,7 +226,7 @@ pub async fn build_scheduler(reports_store: ReportsStore) -> Result<JobScheduler
         |reports_store| async move {
             match precompute_commander_pairings_v2_data(&reports_store).await {
                 Ok(stats) => info!(
-                    legendary_commanders = stats.legendary_commanders,
+                    supported_commanders = stats.supported_commanders,
                     pairings = stats.pairings,
                     performance_points = stats.performance_points,
                     loadout_snapshots = stats.loadout_snapshots,

@@ -19,8 +19,8 @@ pub enum JobsError {
     Yaml(#[from] yaml_serde::Error),
     #[error("MONGODB_URI must include a default database")]
     MissingDatabase,
-    #[error("Commander dataset contains no legendary commanders")]
-    MissingLegendaryCommanders,
+    #[error("Commander dataset contains no legendary or epic commanders")]
+    MissingCombatLabCommanders,
     #[error("invalid Combat Lab data: {0}")]
     InvalidCombatLabData(String),
     #[error("invalid materialized DRASTC data: {0}")]

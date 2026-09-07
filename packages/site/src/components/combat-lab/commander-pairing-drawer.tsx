@@ -285,7 +285,7 @@ export function CommanderPairingDrawer({
               data-testid="commander-results-empty"
             >
               <p className="font-semibold text-sm text-zinc-950 dark:text-white">
-                {t("No legendary commanders match")}
+                {t("No commanders match")}
               </p>
               <p className="mt-1 text-sm/6 text-zinc-500 dark:text-zinc-400">
                 {t("Try removing a talent or changing your search.")}

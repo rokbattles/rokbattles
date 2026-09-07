@@ -1,4 +1,4 @@
-//! Precompute DRASTC scores for legendary open-field commander pairings.
+//! Precompute DRASTC scores for supported open-field commander pairings.
 
 mod confidence;
 mod mapper;
@@ -20,7 +20,7 @@ use self::{
     output::build_drastc_document,
     scoring::{build_drastc_scores_from_aggregates, supported_drastc_pairings},
 };
-use crate::{commander_catalog::legendary_commander_ids, error::JobsError};
+use crate::{commander_catalog::combat_lab_commander_ids, error::JobsError};
 
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
 const RANKING_WINDOW_DAYS: i64 = 365;
@@ -29,7 +29,7 @@ const MILLIS_PER_DAY: i64 = 24 * 60 * 60 * 1_000;
 /// Counts from one DRASTC precompute run.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct DrastcPrecomputeStats {
-    pub legendary_commanders: usize,
+    pub supported_commanders: usize,
     pub observed_pairings: usize,
     pub supported_pairings: usize,
     pub scored_pairings: usize,
@@ -44,14 +44,14 @@ pub async fn precompute_drastc_data(
 ) -> Result<DrastcPrecomputeStats, JobsError> {
     let refreshed_at = DateTime::now();
     let cutoff_mail_time = ranking_cutoff_mail_time(refreshed_at);
-    let legendary_ids = legendary_commander_ids()?;
+    let commander_ids = combat_lab_commander_ids()?;
     let aggregation = read_drastc_aggregation(
         reports_store.battle_collection(),
-        &legendary_ids,
+        &commander_ids,
         cutoff_mail_time,
     )
     .await?;
-    let supported_pairings = supported_drastc_pairings(&legendary_ids);
+    let supported_pairings = supported_drastc_pairings(&commander_ids);
     let scores = build_drastc_scores_from_aggregates(
         &aggregation.observed,
         &supported_pairings,
@@ -77,7 +77,7 @@ pub async fn precompute_drastc_data(
     let documents_stored = validate_materialized_data(output, documents_written).await?;
 
     Ok(DrastcPrecomputeStats {
-        legendary_commanders: legendary_ids.len(),
+        supported_commanders: commander_ids.len(),
         observed_pairings: aggregation.observed.len(),
         supported_pairings: supported_pairings.len(),
         scored_pairings: scores.len(),

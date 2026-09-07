@@ -15,11 +15,11 @@ use crate::error::JobsError;
 
 pub(super) async fn read_drastc_aggregation(
     source: &Collection<Document>,
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     cutoff_mail_time: i64,
 ) -> Result<DrastcAggregation, JobsError> {
     let mut cursor = source
-        .aggregate(build_drastc_pipeline(legendary_ids, cutoff_mail_time))
+        .aggregate(build_drastc_pipeline(commander_ids, cutoff_mail_time))
         .allow_disk_use(true)
         .hint(Hint::Keys(
             doc! { "metadata.mail_time": -1, "metadata.kvk": 1, "opponents.player_id": 1 },

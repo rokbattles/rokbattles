@@ -6,11 +6,11 @@ export type CombatLabCommanderOption = {
   talents: string[];
 };
 
-export function getLegendaryCommanderOptions(locale?: string): CombatLabCommanderOption[] {
+export function getCombatLabCommanderOptions(locale?: string): CombatLabCommanderOption[] {
   const options: CombatLabCommanderOption[] = [];
 
   for (const [id, commander] of Object.entries(commanderMap)) {
-    if (commander.rarity !== "legendary") {
+    if (!isCombatLabCommanderId(Number(id))) {
       continue;
     }
 
@@ -26,6 +26,7 @@ export function getLegendaryCommanderOptions(locale?: string): CombatLabCommande
   return options.sort((left, right) => left.name.localeCompare(right.name));
 }
 
-export function isLegendaryCommanderId(id: number) {
-  return commanderMap[String(id) as keyof typeof commanderMap]?.rarity === "legendary";
+export function isCombatLabCommanderId(id: number) {
+  const rarity = commanderMap[String(id) as keyof typeof commanderMap]?.rarity;
+  return rarity === "legendary" || rarity === "epic";
 }

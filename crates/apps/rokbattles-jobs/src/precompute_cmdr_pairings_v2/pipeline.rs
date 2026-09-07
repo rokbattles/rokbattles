@@ -7,12 +7,12 @@ const LOADOUT_CHUNK_MS: i64 = 126 * DAY_MS;
 const WEEK_MS: i64 = 7 * DAY_MS;
 
 pub(super) fn performance_pipeline(
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     start_ms: i64,
     end_ms: i64,
 ) -> Vec<Document> {
     let mut pipeline =
-        pairing_entries_pipeline(legendary_ids, start_ms, end_ms, EntryShape::Performance);
+        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Performance);
     pipeline.extend([
         scenario_and_date_stage(PERFORMANCE_CHUNK_MS),
         doc! { "$unwind": "$c" },
@@ -48,13 +48,13 @@ pub(super) fn performance_pipeline(
 }
 
 pub(super) fn loadout_pipeline(
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     start_ms: i64,
     end_ms: i64,
     daily_cutoff_ms: i64,
 ) -> Vec<Document> {
     let mut pipeline =
-        pairing_entries_pipeline(legendary_ids, start_ms, end_ms, EntryShape::Loadout);
+        pairing_entries_pipeline(commander_ids, start_ms, end_ms, EntryShape::Loadout);
     pipeline.extend([
         doc! { "$match": { "u": { "$gt": 0_i64 } } },
         loadout_scenario_and_date_stage(daily_cutoff_ms),
@@ -106,12 +106,12 @@ enum EntryShape {
 }
 
 fn pairing_entries_pipeline(
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     start_ms: i64,
     end_ms: i64,
     shape: EntryShape,
 ) -> Vec<Document> {
-    let ids = legendary_ids.iter().copied().map(Bson::Int64).collect::<Vec<_>>();
+    let ids = commander_ids.iter().copied().map(Bson::Int64).collect::<Vec<_>>();
     let sender_condition = commander_condition(
         "$sender.commanders.primary.id",
         "$sender.commanders.secondary.id",

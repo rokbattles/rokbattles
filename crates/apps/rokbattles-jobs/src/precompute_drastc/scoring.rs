@@ -30,8 +30,8 @@ pub(super) fn build_drastc_scores_from_aggregates(
     scores
 }
 
-pub(super) fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey> {
-    ordered_pairing_keys(legendary_ids)
+pub(super) fn supported_drastc_pairings(commander_ids: &[i64]) -> Vec<PairingKey> {
+    ordered_pairing_keys(commander_ids)
         .filter(|key| {
             u32::try_from(key.primary_commander_id)
                 .ok()
@@ -43,9 +43,9 @@ pub(super) fn supported_drastc_pairings(legendary_ids: &[i64]) -> Vec<PairingKey
         .collect()
 }
 
-fn ordered_pairing_keys(legendary_ids: &[i64]) -> impl Iterator<Item = PairingKey> + '_ {
-    legendary_ids.iter().flat_map(|primary| {
-        legendary_ids.iter().filter(move |secondary| primary != *secondary).map(move |secondary| {
+fn ordered_pairing_keys(commander_ids: &[i64]) -> impl Iterator<Item = PairingKey> + '_ {
+    commander_ids.iter().flat_map(|primary| {
+        commander_ids.iter().filter(move |secondary| primary != *secondary).map(move |secondary| {
             PairingKey { primary_commander_id: *primary, secondary_commander_id: *secondary }
         })
     })
