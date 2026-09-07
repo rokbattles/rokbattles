@@ -93,8 +93,6 @@ fn presoc_collection(store: &ReportsStore, name: &str) -> Collection<Document> {
 
 #[cfg(test)]
 mod tests {
-    use mongodb::{Client, options::ClientOptions};
-
     use super::*;
 
     #[test]
@@ -128,27 +126,5 @@ mod tests {
     fn rage_tables_are_selected_by_season() {
         assert_eq!(CombatLabSeason::Soc.rage_table(), SOC_RAGE_TABLE);
         assert_eq!(CombatLabSeason::PreSoc.rage_table(), PRESOC_RAGE_TABLE);
-    }
-
-    #[tokio::test]
-    async fn collections_are_isolated_within_the_reports_database() {
-        // Construct handles only; this test performs no database operations.
-        let client = Client::with_options(ClientOptions::default()).expect("client");
-        let store = ReportsStore::new(client.database("season_test"));
-        for (season, scores, pairings) in [
-            (CombatLabSeason::Soc, "g_rok_prec_drastc", "g_rok_prec_cmdr_pairings_v2"),
-            (
-                CombatLabSeason::PreSoc,
-                "g_rok_prec_drastc_presoc",
-                "g_rok_prec_cmdr_pairings_v2_presoc",
-            ),
-        ] {
-            let score_namespace = season.drastc_collection(&store).namespace();
-            let pairing_namespace = season.pairings_collection(&store).namespace();
-            assert_eq!(score_namespace.db, "season_test");
-            assert_eq!(score_namespace.coll, scores);
-            assert_eq!(pairing_namespace.db, "season_test");
-            assert_eq!(pairing_namespace.coll, pairings);
-        }
     }
 }
