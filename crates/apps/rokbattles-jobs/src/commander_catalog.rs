@@ -6,33 +6,33 @@ use crate::error::JobsError;
 
 const COMMANDERS_YAML: &str = include_str!("../../../../datasets/commanders.yaml");
 
-pub(crate) fn legendary_commander_ids() -> Result<Vec<i64>, JobsError> {
+pub(crate) fn combat_lab_commander_ids() -> Result<Vec<i64>, JobsError> {
     let mut ids = BTreeSet::new();
     let mut current_id = None;
-    let mut current_is_legendary = false;
+    let mut current_is_supported = false;
 
     for line in COMMANDERS_YAML.lines() {
         if let Some(id) = parse_top_level_commander_id(line) {
-            if current_is_legendary && let Some(previous_id) = current_id {
+            if current_is_supported && let Some(previous_id) = current_id {
                 ids.insert(previous_id);
             }
 
             current_id = Some(id);
-            current_is_legendary = false;
+            current_is_supported = false;
             continue;
         }
 
-        if line.trim() == "rarity: legendary" {
-            current_is_legendary = true;
+        if matches!(line.trim(), "rarity: legendary" | "rarity: epic") {
+            current_is_supported = true;
         }
     }
 
-    if current_is_legendary && let Some(previous_id) = current_id {
+    if current_is_supported && let Some(previous_id) = current_id {
         ids.insert(previous_id);
     }
 
     if ids.is_empty() {
-        return Err(JobsError::MissingLegendaryCommanders);
+        return Err(JobsError::MissingCombatLabCommanders);
     }
 
     Ok(ids.into_iter().collect())
@@ -53,13 +53,17 @@ mod tests {
     use super::*;
 
     #[test]
-    fn legendary_commander_ids_reads_expected_dataset_values() {
-        let ids = legendary_commander_ids().expect("legendary IDs");
+    fn combat_lab_commander_ids_reads_expected_dataset_values() {
+        let ids = combat_lab_commander_ids().expect("Combat Lab IDs");
 
         assert!(ids.contains(&509));
         assert!(ids.contains(&6));
         assert!(ids.contains(&179));
         assert!(ids.contains(&187));
-        assert!(!ids.contains(&12));
+        assert!(ids.contains(&3));
+        assert!(ids.contains(&12));
+        assert!(ids.contains(&537));
+        assert!(!ids.contains(&22));
+        assert!(!ids.contains(&33));
     }
 }

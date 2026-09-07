@@ -1337,9 +1337,9 @@ msgid "commanders"
 msgstr "commanders"
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgctxt "AV8fRu"
-msgid "No legendary commanders match"
-msgstr "No legendary commanders match"
+msgctxt "pALI0S"
+msgid "No commanders match"
+msgstr "No commanders match"
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
 msgctxt "1Y2wA2"

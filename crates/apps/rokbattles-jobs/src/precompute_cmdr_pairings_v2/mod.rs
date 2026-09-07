@@ -26,7 +26,7 @@ use self::{
     model::{MonthLoadouts, PairingKey, PairingRoot, PerformancePoint, RawTotals, range_cutoffs},
     pipeline::{loadout_pipeline, performance_pipeline},
 };
-use crate::{commander_catalog::legendary_commander_ids, error::JobsError};
+use crate::{commander_catalog::combat_lab_commander_ids, error::JobsError};
 
 const PERFORMANCE_KIND: i64 = 1;
 const LOADOUT_KIND: i64 = 2;
@@ -41,7 +41,7 @@ const DAILY_LOADOUT_DAYS: i64 = 8;
 /// Counts and timings from one compact Combat Lab refresh.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct CommanderPairingsV2PrecomputeStats {
-    pub legendary_commanders: usize,
+    pub supported_commanders: usize,
     pub pairings: usize,
     pub performance_points: usize,
     pub loadout_snapshots: usize,
@@ -61,7 +61,7 @@ pub async fn precompute_commander_pairings_v2_data(
     let now_ms = generation.timestamp_millis();
     let cutoffs = range_cutoffs(now_ms);
     let daily_loadout_cutoff = now_ms - DAILY_LOADOUT_DAYS * model::DAY_MS;
-    let legendary_ids = legendary_commander_ids()?;
+    let commander_ids = combat_lab_commander_ids()?;
     let catalogs = Catalogs::load()?;
     let output = reports_store.precomputed_commander_pairings_v2_collection();
     let mut roots = read_stored_drastc(reports_store).await?;
@@ -76,7 +76,7 @@ pub async fn precompute_commander_pairings_v2_data(
             read_performance_partition(
                 reports_store.battle_collection(),
                 output,
-                &legendary_ids,
+                &commander_ids,
                 start_ms,
                 end_ms,
                 generation,
@@ -100,7 +100,7 @@ pub async fn precompute_commander_pairings_v2_data(
     let loadout_context = LoadoutPartitionContext {
         source: reports_store.battle_collection(),
         output,
-        legendary_ids: &legendary_ids,
+        commander_ids: &commander_ids,
         daily_cutoff_ms: daily_loadout_cutoff,
         generation,
         catalogs: &catalogs,
@@ -132,7 +132,7 @@ pub async fn precompute_commander_pairings_v2_data(
     output.delete_many(doc! { "g": { "$ne": generation } }).await?;
 
     Ok(CommanderPairingsV2PrecomputeStats {
-        legendary_commanders: legendary_ids.len(),
+        supported_commanders: commander_ids.len(),
         pairings,
         performance_points,
         loadout_snapshots,
@@ -214,14 +214,14 @@ struct PerformancePartition {
 async fn read_performance_partition(
     source: &Collection<Document>,
     output: &Collection<Document>,
-    legendary_ids: &[i64],
+    commander_ids: &[i64],
     start_ms: i64,
     end_ms: i64,
     generation: DateTime,
     cutoffs: &[i64; 4],
 ) -> Result<PerformancePartition, JobsError> {
     let mut cursor = source
-        .aggregate(performance_pipeline(legendary_ids, start_ms, end_ms))
+        .aggregate(performance_pipeline(commander_ids, start_ms, end_ms))
         .allow_disk_use(true)
         .batch_size(1_000)
         .hint(Hint::Keys(doc! {
@@ -272,7 +272,7 @@ struct LoadoutPartition {
 struct LoadoutPartitionContext<'a> {
     source: &'a Collection<Document>,
     output: &'a Collection<Document>,
-    legendary_ids: &'a [i64],
+    commander_ids: &'a [i64],
     daily_cutoff_ms: i64,
     generation: DateTime,
     catalogs: &'a Catalogs,
@@ -286,7 +286,7 @@ async fn read_loadout_partition(
     let mut cursor = context
         .source
         .aggregate(loadout_pipeline(
-            context.legendary_ids,
+            context.commander_ids,
             start_ms,
             end_ms,
             context.daily_cutoff_ms,

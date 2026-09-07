@@ -1346,8 +1346,8 @@ msgid "commanders"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
-msgctxt "AV8fRu"
-msgid "No legendary commanders match"
+msgctxt "pALI0S"
+msgid "No commanders match"
 msgstr ""
 
 #: src/components/combat-lab/commander-pairing-drawer.tsx
