@@ -1032,6 +1032,17 @@ msgid "No data available"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "wudsnZ"
+msgid "Season of Conquest"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-header.tsx
+msgctxt "hi-PJC"
+msgid "Pre-Season of Conquest"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-header.tsx
 #: src/components/platform-layout.tsx
 msgctxt "H2meTq"
 msgid "Combat Lab"
@@ -1045,6 +1056,11 @@ msgstr ""
 #: src/components/combat-lab/combat-lab-header.tsx
 msgctxt "WvzQkE"
 msgid "Combat Lab sections"
+msgstr ""
+
+#: src/components/combat-lab/combat-lab-header.tsx
+msgctxt "DmQBb7"
+msgid "Combat Lab season"
 msgstr ""
 
 #: src/components/combat-lab/combat-lab-header.tsx
@@ -2357,11 +2373,6 @@ msgstr ""
 #: src/components/reports/reports-filter-dialog.tsx
 msgctxt "Ygh1LR"
 msgid "Season 3"
-msgstr ""
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "wudsnZ"
-msgid "Season of Conquest"
 msgstr ""
 
 #: src/components/reports/reports-filter-dialog.tsx

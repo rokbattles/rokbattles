@@ -44,7 +44,12 @@ type PlatformLayoutProps = {
   initialUser?: CurrentUser | null;
 };
 
-const fullWidthRoutes = new Set(["/combat-lab", "/combat-lab/rankings"]);
+const fullWidthRoutes = new Set([
+  "/combat-lab",
+  "/combat-lab/rankings",
+  "/combat-lab/presoc",
+  "/combat-lab/presoc/rankings",
+]);
 
 export function PlatformLayout({ children, initialUser }: PlatformLayoutProps) {
   const t = useExtracted();

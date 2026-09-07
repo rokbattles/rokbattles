@@ -1023,6 +1023,17 @@ msgid "No data available"
 msgstr "No data available"
 
 #: src/components/combat-lab/combat-lab-header.tsx
+#: src/components/reports/reports-filter-dialog.tsx
+msgctxt "wudsnZ"
+msgid "Season of Conquest"
+msgstr "Season of Conquest"
+
+#: src/components/combat-lab/combat-lab-header.tsx
+msgctxt "hi-PJC"
+msgid "Pre-Season of Conquest"
+msgstr "Pre-Season of Conquest"
+
+#: src/components/combat-lab/combat-lab-header.tsx
 #: src/components/platform-layout.tsx
 msgctxt "H2meTq"
 msgid "Combat Lab"
@@ -1037,6 +1048,11 @@ msgstr "Explore commander pairing performance with DRASTC scoring when available
 msgctxt "WvzQkE"
 msgid "Combat Lab sections"
 msgstr "Combat Lab sections"
+
+#: src/components/combat-lab/combat-lab-header.tsx
+msgctxt "DmQBb7"
+msgid "Combat Lab season"
+msgstr "Combat Lab season"
 
 #: src/components/combat-lab/combat-lab-header.tsx
 msgctxt "7JlauX"
@@ -2349,11 +2365,6 @@ msgstr "Season 2"
 msgctxt "Ygh1LR"
 msgid "Season 3"
 msgstr "Season 3"
-
-#: src/components/reports/reports-filter-dialog.tsx
-msgctxt "wudsnZ"
-msgid "Season of Conquest"
-msgstr "Season of Conquest"
 
 #: src/components/reports/reports-filter-dialog.tsx
 msgctxt "gvEP4o"
