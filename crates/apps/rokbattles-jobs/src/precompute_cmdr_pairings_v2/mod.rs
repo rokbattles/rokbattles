@@ -15,7 +15,6 @@ use futures::{StreamExt, stream};
 use mongodb::{
     Collection,
     bson::{Bson, DateTime, Document, doc},
-    options::Hint,
 };
 use rokbattles_api::db::ReportsStore;
 use rokbattles_bson::{bson_to_f64, bson_to_i64};
@@ -26,7 +25,10 @@ use self::{
     model::{MonthLoadouts, PairingKey, PairingRoot, PerformancePoint, RawTotals, range_cutoffs},
     pipeline::{loadout_pipeline, performance_pipeline},
 };
-use crate::{commander_catalog::combat_lab_commander_ids, error::JobsError};
+use crate::{
+    combat_lab_season::CombatLabSeason, commander_catalog::combat_lab_commander_ids,
+    error::JobsError,
+};
 
 const PERFORMANCE_KIND: i64 = 1;
 const LOADOUT_KIND: i64 = 2;
@@ -56,15 +58,30 @@ pub struct CommanderPairingsV2PrecomputeStats {
 pub async fn precompute_commander_pairings_v2_data(
     reports_store: &ReportsStore,
 ) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::Soc).await
+}
+
+/// Refresh Season 1/2 Combat Lab data using only pre-SoC scores and reports.
+pub async fn precompute_commander_pairings_v2_presoc_data(
+    reports_store: &ReportsStore,
+) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::PreSoc).await
+}
+
+async fn precompute_for_season(
+    reports_store: &ReportsStore,
+    season: CombatLabSeason,
+) -> Result<CommanderPairingsV2PrecomputeStats, JobsError> {
     let started = Instant::now();
     let generation = DateTime::now();
     let now_ms = generation.timestamp_millis();
     let cutoffs = range_cutoffs(now_ms);
     let daily_loadout_cutoff = now_ms - DAILY_LOADOUT_DAYS * model::DAY_MS;
-    let commander_ids = combat_lab_commander_ids()?;
+    let commander_ids = combat_lab_commander_ids(season)?;
     let catalogs = Catalogs::load()?;
-    let output = reports_store.precomputed_commander_pairings_v2_collection();
-    let mut roots = read_stored_drastc(reports_store).await?;
+    let output = season.pairings_collection(reports_store);
+    season.ensure_pairings_indexes(&output).await?;
+    let mut roots = read_stored_drastc(&season.drastc_collection(reports_store)).await?;
     let performance_partitions = time_partitions(cutoffs[0], now_ms, PERFORMANCE_CHUNK_MS);
     let mut documents_written = 0_usize;
     let mut max_document_bytes = 0_usize;
@@ -75,10 +92,9 @@ pub async fn precompute_commander_pairings_v2_data(
         .map(|(start_ms, end_ms)| {
             read_performance_partition(
                 reports_store.battle_collection(),
-                output,
-                &commander_ids,
-                start_ms,
-                end_ms,
+                &output,
+                performance_pipeline(&commander_ids, start_ms, end_ms, season),
+                season,
                 generation,
                 &cutoffs,
             )
@@ -99,8 +115,9 @@ pub async fn precompute_commander_pairings_v2_data(
     let loadout_partitions = time_partitions(cutoffs[0], now_ms, LOADOUT_CHUNK_MS);
     let loadout_context = LoadoutPartitionContext {
         source: reports_store.battle_collection(),
-        output,
+        output: &output,
         commander_ids: &commander_ids,
+        season,
         daily_cutoff_ms: daily_loadout_cutoff,
         generation,
         catalogs: &catalogs,
@@ -119,7 +136,7 @@ pub async fn precompute_commander_pairings_v2_data(
     let loadout_seconds = loadout_started.elapsed().as_secs();
 
     let pairings = roots.len();
-    let mut writer = BulkWriter::new(output);
+    let mut writer = BulkWriter::new(&output);
     for (key, root) in roots {
         writer.push(root_document(key, root, generation)?).await?;
     }
@@ -145,10 +162,9 @@ pub async fn precompute_commander_pairings_v2_data(
 }
 
 async fn read_stored_drastc(
-    reports_store: &ReportsStore,
+    source: &Collection<Document>,
 ) -> Result<BTreeMap<PairingKey, PairingRoot>, JobsError> {
-    let mut cursor = reports_store
-        .precomputed_drastc_collection()
+    let mut cursor = source
         .find(doc! {})
         .projection(doc! {
             "_id": 0,
@@ -214,21 +230,16 @@ struct PerformancePartition {
 async fn read_performance_partition(
     source: &Collection<Document>,
     output: &Collection<Document>,
-    commander_ids: &[i64],
-    start_ms: i64,
-    end_ms: i64,
+    pipeline: Vec<Document>,
+    season: CombatLabSeason,
     generation: DateTime,
     cutoffs: &[i64; 4],
 ) -> Result<PerformancePartition, JobsError> {
     let mut cursor = source
-        .aggregate(performance_pipeline(commander_ids, start_ms, end_ms))
+        .aggregate(pipeline)
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(output);
     let mut roots = BTreeMap::<PairingKey, PairingRoot>::new();
@@ -273,6 +284,7 @@ struct LoadoutPartitionContext<'a> {
     source: &'a Collection<Document>,
     output: &'a Collection<Document>,
     commander_ids: &'a [i64],
+    season: CombatLabSeason,
     daily_cutoff_ms: i64,
     generation: DateTime,
     catalogs: &'a Catalogs,
@@ -290,14 +302,11 @@ async fn read_loadout_partition(
             start_ms,
             end_ms,
             context.daily_cutoff_ms,
+            context.season,
         ))
         .allow_disk_use(true)
         .batch_size(1_000)
-        .hint(Hint::Keys(doc! {
-            "metadata.mail_time": -1,
-            "metadata.kvk": 1,
-            "opponents.player_id": 1,
-        }))
+        .hint(context.season.source_hint())
         .await?;
     let mut writer = BulkWriter::new(context.output);
     let mut governor_last_seen = HashMap::<(PairingKey, i64, i64), i64>::new();

@@ -4,10 +4,15 @@ use mongodb::bson::{Bson, Document, doc};
 use rokbattles_api::db::exclude_test_client_filter;
 
 use super::model::{PairingKey, Strategy};
+use crate::combat_lab_season::CombatLabSeason;
 
 const MIN_REFERENCE_RANGE_PAIRING_BATTLES: i64 = 5_000;
 
-pub(super) fn build_drastc_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
+pub(super) fn build_drastc_pipeline(
+    commander_ids: &[i64],
+    cutoff_mail_time: i64,
+    season: CombatLabSeason,
+) -> Vec<Document> {
     let mut pipeline = build_pairing_entries_pipeline(commander_ids, cutoff_mail_time);
     pipeline.extend([
         doc! { "$match": { "strategy": Strategy::OpenField.as_str() } },
@@ -20,7 +25,7 @@ pub(super) fn build_drastc_pipeline(commander_ids: &[i64], cutoff_mail_time: i64
         reference_window_stage(),
         drastc_output_project_stage(),
     ]);
-    pipeline
+    season.scope_pipeline(pipeline)
 }
 
 fn build_pairing_entries_pipeline(commander_ids: &[i64], cutoff_mail_time: i64) -> Vec<Document> {
@@ -688,7 +693,7 @@ mod tests {
     #[test]
     fn build_drastc_pipeline_starts_with_indexable_kvk_filter() {
         let cutoff_mail_time = 1_755_000_000_000_000_i64;
-        let pipeline = build_drastc_pipeline(&[509, 6], cutoff_mail_time);
+        let pipeline = build_drastc_pipeline(&[509, 6], cutoff_mail_time, CombatLabSeason::Soc);
         let matcher = pipeline
             .first()
             .and_then(|stage| stage.get_document("$match").ok())
@@ -714,7 +719,8 @@ mod tests {
 
     #[test]
     fn build_drastc_pipeline_streams_pairing_documents_without_facets() {
-        let pipeline = build_drastc_pipeline(&[509, 6], 1_755_000_000_000_000_i64);
+        let pipeline =
+            build_drastc_pipeline(&[509, 6], 1_755_000_000_000_000_i64, CombatLabSeason::Soc);
         let group_count = pipeline.iter().filter(|stage| stage.contains_key("$group")).count();
 
         assert_eq!(group_count, 1);
@@ -934,5 +940,25 @@ mod tests {
                 }
             }
         );
+    }
+
+    #[test]
+    fn presoc_aggregation_filters_sender_season_before_extracting_pairings() {
+        let pipeline = build_drastc_pipeline(&[3, 6], 100, CombatLabSeason::PreSoc);
+        assert_eq!(
+            pipeline[0],
+            doc! {
+                "$match": { "sender.server_season": { "$in": [
+                    "1", "2",
+                    mongodb::bson::Regex { pattern: r"^1\..*$".into(), options: String::new() },
+                    mongodb::bson::Regex { pattern: r"^2\..*$".into(), options: String::new() },
+                ] } }
+            }
+        );
+        assert_eq!(
+            pipeline[1].get_document("$match").expect("report match").get_bool("metadata.kvk"),
+            Ok(true)
+        );
+        assert!(format!("{pipeline:?}").contains("$setWindowFields"));
     }
 }

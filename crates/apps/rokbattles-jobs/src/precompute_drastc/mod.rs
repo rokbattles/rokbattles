@@ -20,7 +20,10 @@ use self::{
     output::build_drastc_document,
     scoring::{build_drastc_scores_from_aggregates, supported_drastc_pairings},
 };
-use crate::{commander_catalog::combat_lab_commander_ids, error::JobsError};
+use crate::{
+    combat_lab_season::CombatLabSeason, commander_catalog::combat_lab_commander_ids,
+    error::JobsError,
+};
 
 const BULK_WRITE_BATCH_SIZE: usize = 1_000;
 const RANKING_WINDOW_DAYS: i64 = 365;
@@ -42,25 +45,44 @@ pub struct DrastcPrecomputeStats {
 pub async fn precompute_drastc_data(
     reports_store: &ReportsStore,
 ) -> Result<DrastcPrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::Soc).await
+}
+
+/// Refresh Season 1/2 scores using the pre-SoC rage table and isolated storage.
+pub async fn precompute_drastc_presoc_data(
+    reports_store: &ReportsStore,
+) -> Result<DrastcPrecomputeStats, JobsError> {
+    precompute_for_season(reports_store, CombatLabSeason::PreSoc).await
+}
+
+async fn precompute_for_season(
+    reports_store: &ReportsStore,
+    season: CombatLabSeason,
+) -> Result<DrastcPrecomputeStats, JobsError> {
+    let output = season.drastc_collection(reports_store);
+    season.ensure_drastc_index(&output).await?;
     let refreshed_at = DateTime::now();
     let cutoff_mail_time = ranking_cutoff_mail_time(refreshed_at);
-    let commander_ids = combat_lab_commander_ids()?;
+    let commander_ids = combat_lab_commander_ids(season)?;
     let aggregation = read_drastc_aggregation(
         reports_store.battle_collection(),
         &commander_ids,
         cutoff_mail_time,
+        season,
     )
     .await?;
-    let supported_pairings = supported_drastc_pairings(&commander_ids);
+    let supported_pairings = supported_drastc_pairings(&commander_ids, season.rage_table());
     let scores = build_drastc_scores_from_aggregates(
         &aggregation.observed,
         &supported_pairings,
         aggregation.reference_ranges,
+        season.rage_table(),
     );
     let confidences = read_pairing_confidences(
         reports_store.battle_collection(),
         &supported_pairings,
         cutoff_mail_time,
+        season,
     )
     .await?;
     let documents = scores
@@ -71,10 +93,9 @@ pub async fn precompute_drastc_data(
             })
         })
         .collect();
-    let output = reports_store.precomputed_drastc_collection();
-    let documents_written = write_documents(output, documents).await?;
+    let documents_written = write_documents(&output, documents).await?;
     output.delete_many(doc! { "refreshed_at": { "$ne": refreshed_at } }).await?;
-    let documents_stored = validate_materialized_data(output, documents_written).await?;
+    let documents_stored = validate_materialized_data(&output, documents_written).await?;
 
     Ok(DrastcPrecomputeStats {
         supported_commanders: commander_ids.len(),

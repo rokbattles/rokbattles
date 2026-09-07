@@ -4705,6 +4705,7 @@ dependencies = [
  "futures",
  "mimalloc",
  "mongodb",
+ "regex",
  "rokbattles-api",
  "rokbattles-bson",
  "rokbattles-drastc",
