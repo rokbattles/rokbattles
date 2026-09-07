@@ -399,17 +399,21 @@ async fn write_chunk_records(
 ) -> Result<(), JobsError> {
     let mut part = first_part;
     let mut current = Vec::new();
+    // The metadata fields (including part) have fixed-width BSON values. The empty
+    // document also accounts for the array's length prefix and terminating byte.
+    let empty_size =
+        encoded_size(&chunk_document(kind, pairing, month, generation, part, Vec::new()))?;
+    let mut current_size = empty_size;
 
     for record in records {
-        current.push(record);
-        let candidate = chunk_document(kind, pairing, month, generation, part, current.clone());
-        if encoded_size(&candidate)? > SAFE_BSON_BYTES {
-            let record = current.pop().expect("record was just pushed");
-            if current.is_empty() {
-                return Err(JobsError::InvalidCombatLabData(
-                    "one packed Combat Lab record exceeds the safe BSON limit".to_owned(),
-                ));
-            }
+        let record_size = encoded_record_size(&record)?;
+        // Index zero needs one byte even when the record starts a new chunk.
+        if empty_size + record_size + 1 > SAFE_BSON_BYTES {
+            return Err(JobsError::InvalidCombatLabData(
+                "one packed Combat Lab record exceeds the safe BSON limit".to_owned(),
+            ));
+        }
+        if current_size + record_size + array_index_digits(current.len()) > SAFE_BSON_BYTES {
             writer
                 .push(chunk_document(
                     kind,
@@ -421,14 +425,33 @@ async fn write_chunk_records(
                 ))
                 .await?;
             part += 1;
-            current.push(record);
+            current_size = empty_size;
         }
+        current_size += record_size + array_index_digits(current.len());
+        current.push(record);
     }
 
     if !current.is_empty() {
         writer.push(chunk_document(kind, pairing, month, generation, part, current)).await?;
     }
     Ok(())
+}
+
+fn encoded_record_size(record: &Bson) -> Result<usize, JobsError> {
+    #[derive(serde::Serialize)]
+    struct Element<'a> {
+        #[serde(rename = "")]
+        value: &'a Bson,
+    }
+
+    // Encode only this borrowed value. Remove the wrapper's four-byte length and
+    // terminator, retaining the element's type tag and key terminator. Array index
+    // digits are added separately, since the index resets when a chunk fills up.
+    Ok(mongodb::bson::to_vec(&Element { value: record })?.len() - 5)
+}
+
+fn array_index_digits(index: usize) -> usize {
+    index.checked_ilog10().unwrap_or(0) as usize + 1
 }
 
 fn chunk_document(
