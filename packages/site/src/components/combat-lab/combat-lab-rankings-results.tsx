@@ -12,21 +12,24 @@ import {
   type CombatLabRankingSort,
   loadCombatLabRankingsResult,
 } from "@/lib/combat-lab/rankings-api";
+import type { CombatLabSeason } from "@/lib/combat-lab/season";
 
 type CombatLabRankingsResultsProps = {
+  season: CombatLabSeason;
   sort: CombatLabRankingSort;
   direction: CombatLabRankingDirection;
   onSort: (sort: CombatLabRankingSort) => void;
 };
 
 export function CombatLabRankingsResults({
+  season,
   sort,
   direction,
   onSort,
 }: CombatLabRankingsResultsProps) {
   const t = useExtracted();
   const locale = useLocale();
-  const result = use(loadCombatLabRankingsResult({ sort, direction }));
+  const result = use(loadCombatLabRankingsResult({ season, sort, direction }));
 
   if (result.status === "error") {
     return (
@@ -50,6 +53,7 @@ export function CombatLabRankingsResults({
       }
     >
       <CombatLabRankingsTable
+        season={season}
         items={result.items}
         sort={sort}
         direction={direction}

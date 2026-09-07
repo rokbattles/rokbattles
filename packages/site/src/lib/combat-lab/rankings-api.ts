@@ -1,3 +1,5 @@
+import type { CombatLabSeason } from "@/lib/combat-lab/season";
+
 export const combatLabRankingSorts = [
   "overall",
   "damage",
@@ -39,6 +41,7 @@ export type CombatLabRankingsResult =
 const rankingsResultCache = new Map<string, Promise<CombatLabRankingsResult>>();
 
 async function fetchCombatLabRankings(options: {
+  season: CombatLabSeason;
   sort: CombatLabRankingSort;
   direction: CombatLabRankingDirection;
 }): Promise<CombatLabRankingsResponse> {
@@ -46,9 +49,12 @@ async function fetchCombatLabRankings(options: {
     sort: options.sort,
     direction: options.direction,
   });
-  const response = await fetch(`/proxy/v2/global/combat-lab/rankings?${params}`, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `/proxy/v2/global/combat-lab/rankings${options.season === "presoc" ? "/presoc" : ""}?${params}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!response.ok) {
     throw new Error(`Failed to load Combat Lab rankings: ${response.status}`);
@@ -58,10 +64,11 @@ async function fetchCombatLabRankings(options: {
 }
 
 export function loadCombatLabRankingsResult(options: {
+  season: CombatLabSeason;
   sort: CombatLabRankingSort;
   direction: CombatLabRankingDirection;
 }): Promise<CombatLabRankingsResult> {
-  const cacheKey = `${options.sort}:${options.direction}`;
+  const cacheKey = `${options.season}:${options.sort}:${options.direction}`;
   const cached = rankingsResultCache.get(cacheKey);
 
   if (cached) {

@@ -1,3 +1,4 @@
+import type { CombatLabSeason } from "@/lib/combat-lab/season";
 import { commanderMap, getCommanderName } from "@/lib/commander";
 
 export type CombatLabCommanderOption = {
@@ -6,11 +7,14 @@ export type CombatLabCommanderOption = {
   talents: string[];
 };
 
-export function getCombatLabCommanderOptions(locale?: string): CombatLabCommanderOption[] {
+export function getCombatLabCommanderOptions(
+  locale?: string,
+  season: CombatLabSeason = "soc"
+): CombatLabCommanderOption[] {
   const options: CombatLabCommanderOption[] = [];
 
   for (const [id, commander] of Object.entries(commanderMap)) {
-    if (!isCombatLabCommanderId(Number(id))) {
+    if (!isCombatLabCommanderId(Number(id), season)) {
       continue;
     }
 
@@ -26,7 +30,10 @@ export function getCombatLabCommanderOptions(locale?: string): CombatLabCommande
   return options.sort((left, right) => left.name.localeCompare(right.name));
 }
 
-export function isCombatLabCommanderId(id: number) {
-  const rarity = commanderMap[String(id) as keyof typeof commanderMap]?.rarity;
-  return rarity === "legendary" || rarity === "epic";
+export function isCombatLabCommanderId(id: number, season: CombatLabSeason = "soc") {
+  const commander = commanderMap[String(id) as keyof typeof commanderMap];
+  return (
+    (commander?.rarity === "legendary" || commander?.rarity === "epic") &&
+    (season === "soc" || commander.kvk_limit < 3)
+  );
 }

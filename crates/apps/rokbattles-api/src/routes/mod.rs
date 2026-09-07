@@ -25,6 +25,8 @@ fn v2_router() -> Router<Arc<AppState>> {
     Router::new()
         .route("/global/combat-lab", get(combat_lab::get_pairing))
         .route("/global/combat-lab/rankings", get(combat_lab::get_rankings))
+        .route("/global/combat-lab/presoc", get(combat_lab::get_pairing_presoc))
+        .route("/global/combat-lab/rankings/presoc", get(combat_lab::get_rankings_presoc))
 }
 
 fn v1_router() -> Router<Arc<AppState>> {

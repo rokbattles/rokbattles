@@ -19,6 +19,7 @@ import type {
   CombatLabRankingDirection,
   CombatLabRankingSort,
 } from "@/lib/combat-lab/rankings-api";
+import { type CombatLabSeason, combatLabPath } from "@/lib/combat-lab/season";
 import { getCommanderName } from "@/lib/commander";
 
 const overallColumn = { key: "overall", label: "DRASTC" } as const;
@@ -36,6 +37,7 @@ const breakdownColumns: Array<{
 ];
 
 type CombatLabRankingsTableProps = {
+  season: CombatLabSeason;
   items: CombatLabRanking[];
   sort: CombatLabRankingSort;
   direction: CombatLabRankingDirection;
@@ -43,6 +45,7 @@ type CombatLabRankingsTableProps = {
 };
 
 export function CombatLabRankingsTable({
+  season,
   items,
   sort,
   direction,
@@ -88,7 +91,7 @@ export function CombatLabRankingsTable({
         {items.map((item, index) => {
           const primaryName = getCommanderName(item.primaryCommanderId, locale) ?? "Unknown";
           const secondaryName = getCommanderName(item.secondaryCommanderId, locale) ?? "Unknown";
-          const href = `/combat-lab?primary=${item.primaryCommanderId}&secondary=${item.secondaryCommanderId}`;
+          const href = `${combatLabPath(season)}?primary=${item.primaryCommanderId}&secondary=${item.secondaryCommanderId}`;
 
           return (
             <TableRow

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { parseAsStringLiteral, useQueryStates } from "nuqs";
 import { Suspense } from "react";
 import { CombatLabRankingsLoading } from "@/components/combat-lab/combat-lab-rankings-loading";
@@ -14,8 +15,10 @@ import {
   combatLabRankingDirections,
   combatLabRankingSorts,
 } from "@/lib/combat-lab/rankings-api";
+import { combatLabSeason } from "@/lib/combat-lab/season";
 
 export function CombatLabRankingsContent() {
+  const season = combatLabSeason(usePathname());
   const clientReady = useClientReady();
   const [sorting, setSorting] = useQueryStates(
     {
@@ -44,7 +47,7 @@ export function CombatLabRankingsContent() {
 
   return (
     <Suspense
-      key={`${sorting.sort}:${sorting.direction}`}
+      key={`${season}:${sorting.sort}:${sorting.direction}`}
       fallback={
         <CombatLabRankingsFrame>
           <CombatLabRankingsLoading />
@@ -52,6 +55,7 @@ export function CombatLabRankingsContent() {
       }
     >
       <CombatLabRankingsResults
+        season={season}
         sort={sorting.sort}
         direction={sorting.direction}
         onSort={handleSort}
