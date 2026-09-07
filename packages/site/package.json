@@ -8,7 +8,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "sync:legal": "sh ./scripts/sync-legal-docs.sh",
     "generate:datasets": "node ./scripts/generate-datasets.mjs",
-    "generate:messages": "node ./scripts/generate-messages.mjs"
+    "generate:messages": "node ./scripts/generate-messages.mjs",
+    "generate:wasm": "sh ./scripts/build-container.sh"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
